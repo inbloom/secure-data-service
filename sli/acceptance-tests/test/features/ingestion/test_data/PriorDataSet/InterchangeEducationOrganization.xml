@@ -1,0 +1,5238 @@
+<?xml version="1.0"?>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+  <EducationOrganization>
+    <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>STANDARD-SEA ID code</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>STANDARD-SEA</NameOfInstitution>
+    <ShortNameOfInstitution>STANDARD-SEA shortName</ShortNameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>State Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(655)555-0802</TelephoneNumber>
+    </Telephone>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>148</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>149</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>150</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>151</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>152</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+</EducationOrganization>
+  <Course>
+    <CourseTitle>Kindergarten</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>1</ID>
+    </CourseCode>
+    <CourseLevel>Honors</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Other</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Kindergarten</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>ELA</SubjectArea>
+    <CourseDescription>this is a course for Kindergarten</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>LEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Education and Training</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>1</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>First grade</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>2</ID>
+    </CourseCode>
+    <CourseLevel>Basic or remedial</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Other</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>First grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>ELA</SubjectArea>
+    <CourseDescription>this is a course for First grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>SEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>2</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Second grade</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>3</ID>
+    </CourseCode>
+    <CourseLevel>Basic or remedial</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Honors</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Second grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Writing</SubjectArea>
+    <CourseDescription>this is a course for Second grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>SEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>3</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Third grade</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>4</ID>
+    </CourseCode>
+    <CourseLevel>General or regular</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Remedial</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Third grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Reading</SubjectArea>
+    <CourseDescription>this is a course for Third grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>SEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>4</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Fourth grade</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>5</ID>
+    </CourseCode>
+    <CourseLevel>General or regular</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Remedial</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Fourth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>ELA</SubjectArea>
+    <CourseDescription>this is a course for Fourth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Weighted</CourseGPAApplicability>
+    <CourseDefinedBy>SEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>5</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Fifth grade</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>6</ID>
+    </CourseCode>
+    <CourseLevel>General or regular</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Magnet</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Fifth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>ELA</SubjectArea>
+    <CourseDescription>this is a course for Fifth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>SEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Education and Training</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>6</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Sixth grade Mathematics</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>7</ID>
+    </CourseCode>
+    <CourseLevel>Basic or remedial</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Basic</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Sixth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>English</SubjectArea>
+    <CourseDescription>this is a course for Sixth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>School</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>7</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Sixth grade Science</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>8</ID>
+    </CourseCode>
+    <CourseLevel>Basic or remedial</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Core Subject</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Sixth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Critical Reading</SubjectArea>
+    <CourseDescription>this is a course for Sixth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Weighted</CourseGPAApplicability>
+    <CourseDefinedBy>National Organization</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>8</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Sixth grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>9</ID>
+    </CourseCode>
+    <CourseLevel>Enriched or advanced</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Remedial</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Sixth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Mathematics</SubjectArea>
+    <CourseDescription>this is a course for Sixth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>LEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>9</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Sixth grade History</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>10</ID>
+    </CourseCode>
+    <CourseLevel>Honors</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>General</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Sixth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>English</SubjectArea>
+    <CourseDescription>this is a course for Sixth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>School</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Education and Training</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>10</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Seventh grade Mathematics</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>11</ID>
+    </CourseCode>
+    <CourseLevel>Honors</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Honors</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Seventh grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Mathematics</SubjectArea>
+    <CourseDescription>this is a course for Seventh grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Weighted</CourseGPAApplicability>
+    <CourseDefinedBy>School</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>11</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Seventh grade Science</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>12</ID>
+    </CourseCode>
+    <CourseLevel>Enriched or advanced</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Remedial</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Seventh grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Life and Physical Sciences</SubjectArea>
+    <CourseDescription>this is a course for Seventh grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>SEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>12</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Seventh grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>13</ID>
+    </CourseCode>
+    <CourseLevel>Enriched or advanced</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Other</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Seventh grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Science</SubjectArea>
+    <CourseDescription>this is a course for Seventh grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>LEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>13</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Seventh grade History</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>14</ID>
+    </CourseCode>
+    <CourseLevel>Honors</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Basic</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Seventh grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Life and Physical Sciences</SubjectArea>
+    <CourseDescription>this is a course for Seventh grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>SEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>14</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Eighth grade Mathematics</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>15</ID>
+    </CourseCode>
+    <CourseLevel>Honors</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Remedial</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Eighth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Agriculture, Food, and Natural Resources</SubjectArea>
+    <CourseDescription>this is a course for Eighth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>SEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Education and Training</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>15</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Eighth grade Science</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>16</ID>
+    </CourseCode>
+    <CourseLevel>Basic or remedial</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Remedial</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Eighth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Social Studies</SubjectArea>
+    <CourseDescription>this is a course for Eighth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Weighted</CourseGPAApplicability>
+    <CourseDefinedBy>National Organization</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>16</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Eighth grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>17</ID>
+    </CourseCode>
+    <CourseLevel>General or regular</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Basic</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Eighth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>ELA</SubjectArea>
+    <CourseDescription>this is a course for Eighth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Weighted</CourseGPAApplicability>
+    <CourseDefinedBy>National Organization</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>17</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Eighth grade History</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>18</ID>
+    </CourseCode>
+    <CourseLevel>Honors</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Remedial</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Eighth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Reading</SubjectArea>
+    <CourseDescription>this is a course for Eighth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>National Organization</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>18</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Ninth grade Mathematics</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>19</ID>
+    </CourseCode>
+    <CourseLevel>Basic or remedial</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Correspondence</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Ninth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Reading</SubjectArea>
+    <CourseDescription>this is a course for Ninth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>National Organization</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>19</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Ninth grade Science</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>20</ID>
+    </CourseCode>
+    <CourseLevel>General or regular</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>General</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Ninth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Business and Marketing</SubjectArea>
+    <CourseDescription>this is a course for Ninth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>National Organization</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>20</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Ninth grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>21</ID>
+    </CourseCode>
+    <CourseLevel>Honors</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Magnet</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Ninth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Reading</SubjectArea>
+    <CourseDescription>this is a course for Ninth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>LEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>21</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Ninth grade History</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>22</ID>
+    </CourseCode>
+    <CourseLevel>Honors</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Other</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Ninth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
+    <CourseDescription>this is a course for Ninth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>LEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>22</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Tenth grade Mathematics</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>23</ID>
+    </CourseCode>
+    <CourseLevel>Honors</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Core Subject</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Tenth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Communication and Audio/Visual Technology</SubjectArea>
+    <CourseDescription>this is a course for Tenth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>School</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>23</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Tenth grade Science</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>24</ID>
+    </CourseCode>
+    <CourseLevel>Honors</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>General</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Tenth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>English Language and Literature</SubjectArea>
+    <CourseDescription>this is a course for Tenth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>SEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>24</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Tenth grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>25</ID>
+    </CourseCode>
+    <CourseLevel>Enriched or advanced</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>General</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Tenth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Communication and Audio/Visual Technology</SubjectArea>
+    <CourseDescription>this is a course for Tenth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Weighted</CourseGPAApplicability>
+    <CourseDefinedBy>SEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>25</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Tenth grade History</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>26</ID>
+    </CourseCode>
+    <CourseLevel>Enriched or advanced</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Other</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Tenth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Social Sciences and History</SubjectArea>
+    <CourseDescription>this is a course for Tenth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>National Organization</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Education and Training</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>26</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Eleventh grade Mathematics</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>27</ID>
+    </CourseCode>
+    <CourseLevel>Honors</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>General</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Eleventh grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Computer and Information Sciences</SubjectArea>
+    <CourseDescription>this is a course for Eleventh grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>National Organization</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Education and Training</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>27</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Eleventh grade Science</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>28</ID>
+    </CourseCode>
+    <CourseLevel>Basic or remedial</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Basic</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Eleventh grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Communication and Audio/Visual Technology</SubjectArea>
+    <CourseDescription>this is a course for Eleventh grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Weighted</CourseGPAApplicability>
+    <CourseDefinedBy>School</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>28</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Eleventh grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>29</ID>
+    </CourseCode>
+    <CourseLevel>Honors</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Remedial</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Eleventh grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Health Care Sciences</SubjectArea>
+    <CourseDescription>this is a course for Eleventh grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>LEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>29</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Eleventh grade History</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>30</ID>
+    </CourseCode>
+    <CourseLevel>Basic or remedial</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Remedial</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Eleventh grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Health Care Sciences</SubjectArea>
+    <CourseDescription>this is a course for Eleventh grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>LEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Education and Training</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>30</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Twelfth grade Mathematics</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>31</ID>
+    </CourseCode>
+    <CourseLevel>Honors</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Basic</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>ELA</SubjectArea>
+    <CourseDescription>this is a course for Twelfth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>National Organization</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>31</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Twelfth grade Science</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>32</ID>
+    </CourseCode>
+    <CourseLevel>Basic or remedial</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Basic</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Agriculture, Food, and Natural Resources</SubjectArea>
+    <CourseDescription>this is a course for Twelfth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>SEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>32</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Twelfth grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>33</ID>
+    </CourseCode>
+    <CourseLevel>Honors</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Correspondence</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>ELA</SubjectArea>
+    <CourseDescription>this is a course for Twelfth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>LEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>33</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Twelfth grade History</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>34</ID>
+    </CourseCode>
+    <CourseLevel>Enriched or advanced</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Core Subject</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Writing</SubjectArea>
+    <CourseDescription>this is a course for Twelfth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>School</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>34</UniqueCourseId>
+  </Course>
+  <Program>
+    <ProgramId>148</ProgramId>
+    <ProgramType>Magnet/Special Program Emphasis</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:148</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>149</ProgramId>
+    <ProgramType>Migrant Education</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:149</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>150</ProgramId>
+    <ProgramType>High School Equivalency Program (HSEP)</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:150</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>151</ProgramId>
+    <ProgramType>Athletics</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:151</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>152</ProgramId>
+    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:152</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>124</ProgramId>
+    <ProgramType>Community Service Program</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:124</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>125</ProgramId>
+    <ProgramType>Substance Abuse Education/Prevention</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:125</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>126</ProgramId>
+    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:126</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>127</ProgramId>
+    <ProgramType>International Baccalaureate</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:127</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>128</ProgramId>
+    <ProgramType>Head Start</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:128</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>129</ProgramId>
+    <ProgramType>Optional Flexible School Day Program (OFSDP)</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:129</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>130</ProgramId>
+    <ProgramType>Regular Education</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:130</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>131</ProgramId>
+    <ProgramType>Immigrant Education</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:131</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>132</ProgramId>
+    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:132</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>133</ProgramId>
+    <ProgramType>Teacher Professional Development/Mentoring</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:133</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>134</ProgramId>
+    <ProgramType>Athletics</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:134</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>135</ProgramId>
+    <ProgramType>Special Education</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:135</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>136</ProgramId>
+    <ProgramType>Athletics</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:136</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>137</ProgramId>
+    <ProgramType>Immigrant Education</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:137</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>138</ProgramId>
+    <ProgramType>Athletics</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:138</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>139</ProgramId>
+    <ProgramType>Regular Education</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:139</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>140</ProgramId>
+    <ProgramType>Regular Education</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:140</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>141</ProgramId>
+    <ProgramType>Community/Junior College Education Program</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:141</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>142</ProgramId>
+    <ProgramType>Special Education</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:142</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>143</ProgramId>
+    <ProgramType>Title I Part A</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:143</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>144</ProgramId>
+    <ProgramType>International Baccalaureate</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:144</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>145</ProgramId>
+    <ProgramType>Special Education</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:145</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>146</ProgramId>
+    <ProgramType>Optional Flexible School Day Program (OFSDP)</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:146</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>147</ProgramId>
+    <ProgramType>College Preparatory</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:147</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>1</ProgramId>
+    <ProgramType>Library/Media Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:1</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>2</ProgramId>
+    <ProgramType>Extended Day/Child Care Services</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:2</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>3</ProgramId>
+    <ProgramType>Cocurricular Programs</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:3</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>4</ProgramId>
+    <ProgramType>Community Service Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:4</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>5</ProgramId>
+    <ProgramType>Even Start</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:5</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>6</ProgramId>
+    <ProgramType>Community Service Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:6</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>7</ProgramId>
+    <ProgramType>Magnet/Special Program Emphasis</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:7</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>8</ProgramId>
+    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:8</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>9</ProgramId>
+    <ProgramType>Immigrant Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:9</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>10</ProgramId>
+    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:10</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>11</ProgramId>
+    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:11</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>12</ProgramId>
+    <ProgramType>Athletics</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:12</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>13</ProgramId>
+    <ProgramType>Community/Junior College Education Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:13</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>14</ProgramId>
+    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:14</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>15</ProgramId>
+    <ProgramType>Career and Technical Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:15</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>16</ProgramId>
+    <ProgramType>Counseling Services</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:16</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>17</ProgramId>
+    <ProgramType>Community/Junior College Education Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:17</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>18</ProgramId>
+    <ProgramType>Migrant Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:18</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>19</ProgramId>
+    <ProgramType>Library/Media Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:19</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>20</ProgramId>
+    <ProgramType>Library/Media Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:20</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>21</ProgramId>
+    <ProgramType>Cocurricular Programs</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:21</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>22</ProgramId>
+    <ProgramType>Alternative Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:22</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>23</ProgramId>
+    <ProgramType>Career and Technical Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:23</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>24</ProgramId>
+    <ProgramType>Neglected and Delinquent Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:24</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>25</ProgramId>
+    <ProgramType>Magnet/Special Program Emphasis</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:25</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>26</ProgramId>
+    <ProgramType>Title I Part A</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:26</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>27</ProgramId>
+    <ProgramType>Optional Flexible School Day Program (OFSDP)</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:27</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>28</ProgramId>
+    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:28</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>29</ProgramId>
+    <ProgramType>Title I Part A</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:29</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>30</ProgramId>
+    <ProgramType>High School Equivalency Program (HSEP)</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:30</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>31</ProgramId>
+    <ProgramType>Teacher Professional Development/Mentoring</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:31</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>32</ProgramId>
+    <ProgramType>Other</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:32</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>33</ProgramId>
+    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:33</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>34</ProgramId>
+    <ProgramType>Bilingual</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:34</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>35</ProgramId>
+    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:35</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>36</ProgramId>
+    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:36</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>37</ProgramId>
+    <ProgramType>Health Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:37</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>38</ProgramId>
+    <ProgramType>Alternative Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:38</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>39</ProgramId>
+    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:39</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>40</ProgramId>
+    <ProgramType>Migrant Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:40</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>41</ProgramId>
+    <ProgramType>Regular Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:41</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>42</ProgramId>
+    <ProgramType>Optional Flexible School Day Program (OFSDP)</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:42</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>43</ProgramId>
+    <ProgramType>Health Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:43</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>44</ProgramId>
+    <ProgramType>Service Learning</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:44</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>45</ProgramId>
+    <ProgramType>Service Learning</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:45</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>46</ProgramId>
+    <ProgramType>Counseling Services</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:46</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>47</ProgramId>
+    <ProgramType>Career and Technical Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:47</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>48</ProgramId>
+    <ProgramType>Community/Junior College Education Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:48</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>49</ProgramId>
+    <ProgramType>Cocurricular Programs</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:49</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>50</ProgramId>
+    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:50</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>51</ProgramId>
+    <ProgramType>Neglected and Delinquent Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:51</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>52</ProgramId>
+    <ProgramType>Health Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:52</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>53</ProgramId>
+    <ProgramType>Vocational Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:53</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>54</ProgramId>
+    <ProgramType>Migrant Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:54</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>55</ProgramId>
+    <ProgramType>International Baccalaureate</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:55</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>56</ProgramId>
+    <ProgramType>Service Learning</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:56</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>57</ProgramId>
+    <ProgramType>Even Start</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:57</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>58</ProgramId>
+    <ProgramType>Magnet/Special Program Emphasis</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:58</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>59</ProgramId>
+    <ProgramType>Compensatory Services for Disadvantaged Students</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:59</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>60</ProgramId>
+    <ProgramType>Bilingual Summer</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:60</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>61</ProgramId>
+    <ProgramType>Service Learning</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:61</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>62</ProgramId>
+    <ProgramType>Compensatory Services for Disadvantaged Students</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:62</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>63</ProgramId>
+    <ProgramType>Bilingual Summer</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:63</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>64</ProgramId>
+    <ProgramType>International Baccalaureate</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:64</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>65</ProgramId>
+    <ProgramType>Athletics</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:65</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>66</ProgramId>
+    <ProgramType>College Preparatory</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:66</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>67</ProgramId>
+    <ProgramType>IDEA</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:67</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>68</ProgramId>
+    <ProgramType>Adult/Continuing Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:68</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>69</ProgramId>
+    <ProgramType>Adult/Continuing Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:69</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>70</ProgramId>
+    <ProgramType>High School Equivalency Program (HSEP)</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:70</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>71</ProgramId>
+    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:71</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>72</ProgramId>
+    <ProgramType>Service Learning</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:72</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>73</ProgramId>
+    <ProgramType>Technical Preparatory</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:73</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>74</ProgramId>
+    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:74</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>75</ProgramId>
+    <ProgramType>Neglected and Delinquent Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:75</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>76</ProgramId>
+    <ProgramType>Substance Abuse Education/Prevention</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:76</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>77</ProgramId>
+    <ProgramType>Teacher Professional Development/Mentoring</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:77</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>78</ProgramId>
+    <ProgramType>Health Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:78</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>79</ProgramId>
+    <ProgramType>Alternative Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:79</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>80</ProgramId>
+    <ProgramType>Indian Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:80</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>81</ProgramId>
+    <ProgramType>Remedial Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:81</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>82</ProgramId>
+    <ProgramType>IDEA</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:82</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>83</ProgramId>
+    <ProgramType>Migrant Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:83</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>84</ProgramId>
+    <ProgramType>Career and Technical Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:84</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>85</ProgramId>
+    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:85</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>86</ProgramId>
+    <ProgramType>Title I Part A</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:86</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>87</ProgramId>
+    <ProgramType>Vocational Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:87</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>88</ProgramId>
+    <ProgramType>IDEA</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:88</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>89</ProgramId>
+    <ProgramType>Bilingual</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:89</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>90</ProgramId>
+    <ProgramType>Cocurricular Programs</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:90</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>91</ProgramId>
+    <ProgramType>Other</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:91</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>92</ProgramId>
+    <ProgramType>Bilingual</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:92</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>93</ProgramId>
+    <ProgramType>Health Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:93</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>94</ProgramId>
+    <ProgramType>Service Learning</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:94</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>95</ProgramId>
+    <ProgramType>Cocurricular Programs</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:95</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>96</ProgramId>
+    <ProgramType>Head Start</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:96</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>97</ProgramId>
+    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:97</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>98</ProgramId>
+    <ProgramType>International Baccalaureate</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:98</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>99</ProgramId>
+    <ProgramType>Bilingual</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:99</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>100</ProgramId>
+    <ProgramType>Title I Part A</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:100</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>101</ProgramId>
+    <ProgramType>Even Start</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:101</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>102</ProgramId>
+    <ProgramType>Regular Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:102</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>103</ProgramId>
+    <ProgramType>Community Service Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:103</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>104</ProgramId>
+    <ProgramType>Service Learning</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:104</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>105</ProgramId>
+    <ProgramType>Optional Flexible School Day Program (OFSDP)</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:105</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>106</ProgramId>
+    <ProgramType>Adult/Continuing Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:106</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>107</ProgramId>
+    <ProgramType>Teacher Professional Development/Mentoring</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:107</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>108</ProgramId>
+    <ProgramType>Remedial Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:108</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>109</ProgramId>
+    <ProgramType>Regular Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:109</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>110</ProgramId>
+    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:110</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>111</ProgramId>
+    <ProgramType>Extended Day/Child Care Services</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:111</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>112</ProgramId>
+    <ProgramType>Cocurricular Programs</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:112</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>113</ProgramId>
+    <ProgramType>Bilingual</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:113</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>114</ProgramId>
+    <ProgramType>Library/Media Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:114</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>115</ProgramId>
+    <ProgramType>Adult/Continuing Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:115</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>116</ProgramId>
+    <ProgramType>Career and Technical Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:116</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>117</ProgramId>
+    <ProgramType>Even Start</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:117</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>118</ProgramId>
+    <ProgramType>International Baccalaureate</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:118</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>119</ProgramId>
+    <ProgramType>English as a Second Language (ESL)</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:119</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>120</ProgramId>
+    <ProgramType>Technical Preparatory</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:120</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>121</ProgramId>
+    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:121</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>122</ProgramId>
+    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:122</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>123</ProgramId>
+    <ProgramType>Regular Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:123</CodeValue>
+    </Services>
+  </Program>
+  <EducationOrganization>
+    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>IL-DAYBREAK</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>IL-DAYBREAK</NameOfInstitution>
+    <ShortNameOfInstitution>IL-DAYBREAK LEA</ShortNameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>827 Braeburn Lane</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(828) 555-5493</TelephoneNumber>
+    </Telephone>
+    <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
+    <OperationalStatus>Changed Agency</OperationalStatus>
+    <AccountabilityRatings>
+      <RatingTitle>2009 rating: IL-DAYBREAK</RatingTitle>
+      <Rating>Low Advanced</Rating>
+      <RatingDate>2009-02-01</RatingDate>
+      <SchoolYear>2009-2010</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2010 rating: IL-DAYBREAK</RatingTitle>
+      <Rating>High Satisfactory</Rating>
+      <RatingDate>2010-11-27</RatingDate>
+      <SchoolYear>2010-2011</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2011 rating: IL-DAYBREAK</RatingTitle>
+      <Rating>High Satisfactory</Rating>
+      <RatingDate>2011-08-25</RatingDate>
+      <SchoolYear>2011-2012</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2012 rating: IL-DAYBREAK</RatingTitle>
+      <Rating>High Satisfactory</Rating>
+      <RatingDate>2012-06-23</RatingDate>
+      <SchoolYear>2012-2013</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>124</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>125</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>126</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>127</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>128</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>129</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>130</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>131</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>132</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <LEACategory>Independent</LEACategory>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>10</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>10</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>10</NameOfInstitution>
+    <ShortNameOfInstitution>10 LEA</ShortNameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>265 West Blvd</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(733) 555-1520</TelephoneNumber>
+    </Telephone>
+    <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
+    <OperationalStatus>Active</OperationalStatus>
+    <AccountabilityRatings>
+      <RatingTitle>2009 rating: 10</RatingTitle>
+      <Rating>High Satisfactory</Rating>
+      <RatingDate>2009-07-05</RatingDate>
+      <SchoolYear>2009-2010</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2010 rating: 10</RatingTitle>
+      <Rating>Mid Satisfactory</Rating>
+      <RatingDate>2010-05-16</RatingDate>
+      <SchoolYear>2010-2011</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2011 rating: 10</RatingTitle>
+      <Rating>Low Satisfactory</Rating>
+      <RatingDate>2011-07-25</RatingDate>
+      <SchoolYear>2011-2012</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2012 rating: 10</RatingTitle>
+      <Rating>Low Advanced</Rating>
+      <RatingDate>2012-02-09</RatingDate>
+      <SchoolYear>2012-2013</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>133</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>134</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>135</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>136</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>137</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>138</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <LEACategory>Independent</LEACategory>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>11</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>11</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>11</NameOfInstitution>
+    <ShortNameOfInstitution>11 LEA</ShortNameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>921 Marks Ct</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(583) 555-3864</TelephoneNumber>
+    </Telephone>
+    <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
+    <OperationalStatus>Reopened</OperationalStatus>
+    <AccountabilityRatings>
+      <RatingTitle>2009 rating: 11</RatingTitle>
+      <Rating>High Unsatisfactory</Rating>
+      <RatingDate>2009-03-13</RatingDate>
+      <SchoolYear>2009-2010</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2010 rating: 11</RatingTitle>
+      <Rating>Low Unsatisfactory</Rating>
+      <RatingDate>2010-11-06</RatingDate>
+      <SchoolYear>2010-2011</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2011 rating: 11</RatingTitle>
+      <Rating>High Advanced</Rating>
+      <RatingDate>2011-02-28</RatingDate>
+      <SchoolYear>2011-2012</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2012 rating: 11</RatingTitle>
+      <Rating>Mid Satisfactory</Rating>
+      <RatingDate>2012-09-18</RatingDate>
+      <SchoolYear>2012-2013</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>139</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>140</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>141</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>142</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>143</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>144</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>145</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>146</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>147</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <LEACategory>Independent</LEACategory>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>South Daybreak Elementary</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>1</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>2</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>3</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>5</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>7</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>8</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>9</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>10</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>11</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Kindergarten</GradeLevel>
+      <GradeLevel>First grade</GradeLevel>
+      <GradeLevel>Second grade</GradeLevel>
+      <GradeLevel>Third grade</GradeLevel>
+      <GradeLevel>Fourth grade</GradeLevel>
+      <GradeLevel>Fifth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Elementary School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>DAEP</SchoolType>
+    <CharterStatus>Open Enrollment</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I targeted eligible school - no program</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>No students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Private School</AdministrativeFundingControl>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>2</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>2</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>2</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>11</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>12</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>13</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>14</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>15</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>16</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>17</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>18</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>19</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>20</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>21</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>22</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>23</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>24</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>25</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>26</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Kindergarten</GradeLevel>
+      <GradeLevel>First grade</GradeLevel>
+      <GradeLevel>Second grade</GradeLevel>
+      <GradeLevel>Third grade</GradeLevel>
+      <GradeLevel>Fourth grade</GradeLevel>
+      <GradeLevel>Fifth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Elementary School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>Alternative</SchoolType>
+    <CharterStatus>Not a Charter School</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I targeted school</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>3</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>3</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>3</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>11</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>27</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>28</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>29</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>30</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>31</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>32</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>33</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>34</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>35</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>36</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Kindergarten</GradeLevel>
+      <GradeLevel>First grade</GradeLevel>
+      <GradeLevel>Second grade</GradeLevel>
+      <GradeLevel>Third grade</GradeLevel>
+      <GradeLevel>Fourth grade</GradeLevel>
+      <GradeLevel>Fifth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Elementary School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>DAEP</SchoolType>
+    <CharterStatus>Not a Charter School</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>No students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>4</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>4</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>4</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>11</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>37</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>38</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>39</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>40</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>41</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>42</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>43</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>44</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>45</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>46</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>47</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>48</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>49</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Kindergarten</GradeLevel>
+      <GradeLevel>First grade</GradeLevel>
+      <GradeLevel>Second grade</GradeLevel>
+      <GradeLevel>Third grade</GradeLevel>
+      <GradeLevel>Fourth grade</GradeLevel>
+      <GradeLevel>Fifth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Elementary School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>JJAEP</SchoolType>
+    <CharterStatus>School Charter</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I school wide eligible school - no program</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>No students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>East Daybreak Junior High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>East Daybreak Junior High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>50</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>51</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>52</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>53</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>54</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>55</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>56</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>57</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>58</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>59</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>60</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>61</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>62</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>63</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>64</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>65</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>66</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>67</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>68</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Sixth grade</GradeLevel>
+      <GradeLevel>Seventh grade</GradeLevel>
+      <GradeLevel>Eighth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Middle School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>DAEP</SchoolType>
+    <CharterStatus>School Charter</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I school wide eligible - Title I targeted program</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>No students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Private School</AdministrativeFundingControl>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>6</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>6</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>6</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>10</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>69</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>70</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>71</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>72</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>73</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>74</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>75</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>76</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>77</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>78</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>79</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>80</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>81</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>82</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>83</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>84</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Sixth grade</GradeLevel>
+      <GradeLevel>Seventh grade</GradeLevel>
+      <GradeLevel>Eighth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Middle School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>JJAEP</SchoolType>
+    <CharterStatus>Open Enrollment</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I school wide eligible - Title I targeted program</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>Daybreak Central High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>Daybreak Central High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>85</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>86</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>87</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>88</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>89</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>90</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>91</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>92</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>93</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>94</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>95</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>96</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>97</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>98</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>99</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>100</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>101</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>102</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Ninth grade</GradeLevel>
+      <GradeLevel>Tenth grade</GradeLevel>
+      <GradeLevel>Eleventh grade</GradeLevel>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>High School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>JJAEP</SchoolType>
+    <CharterStatus>School Charter</CharterStatus>
+    <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>Eastside High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>Eastside High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>Eastside High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>103</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>104</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>105</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>106</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>107</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>108</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>109</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>110</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>111</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>112</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>113</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>114</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>115</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>116</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>117</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>118</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>119</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>120</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>121</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>122</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>123</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Ninth grade</GradeLevel>
+      <GradeLevel>Tenth grade</GradeLevel>
+      <GradeLevel>Eleventh grade</GradeLevel>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>High School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>Special Education</SchoolType>
+    <CharterStatus>Not a Charter School</CharterStatus>
+    <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Private School</AdministrativeFundingControl>
+</EducationOrganization>
+  <CompetencyLevelDescriptor>
+      <CodeValue>Incompetent</CodeValue>
+      <Description>Student does not understand anything</Description>
+      <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+  <CompetencyLevelDescriptor>
+      <CodeValue>Barely Competent</CodeValue>
+      <Description>Student understands some basic</Description>
+      <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+  <CompetencyLevelDescriptor>
+      <CodeValue>Competent</CodeValue>
+      <Description>Student understands basic and some intermediate material</Description>
+      <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+  <CompetencyLevelDescriptor>
+      <CodeValue>Very Competent</CodeValue>
+      <Description>Student understands everything in subject</Description>
+      <PerformanceBaseConversion>Advanced</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+</InterchangeEducationOrganization>
