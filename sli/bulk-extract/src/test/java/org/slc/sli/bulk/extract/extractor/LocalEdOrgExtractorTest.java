@@ -66,6 +66,7 @@ public class LocalEdOrgExtractorTest {
     private ExtractorFactory mockFactory;
     private ExtractFileMap mockExtractMap;
     private EntityExtract mockExtract;
+    private EntityDatedExtract mockDatedExtract;
     private StaffEdorgAssignmentExtractor mockSeaExtractor;
     private SessionExtractor mockSessionExtractor;
     private GradingPeriodExtractor mockGradingPeriodExtractor;
@@ -82,6 +83,7 @@ public class LocalEdOrgExtractorTest {
         mockFactory = Mockito.mock(ExtractorFactory.class);
         mockExtractMap = Mockito.mock(ExtractFileMap.class);
         mockExtract = Mockito.mock(EntityExtract.class);
+        mockDatedExtract = Mockito.mock(EntityDatedExtract.class);
         extractor.setLeaToExtractMap(mockExtractMap);
         extractor.setFactory(mockFactory);
         extractor.setRepository(repo);
@@ -124,7 +126,7 @@ public class LocalEdOrgExtractorTest {
                         Mockito.any(Repository.class), Mockito.any(EntityToEdOrgCache.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockExtract);
         Mockito.when(
                 mockFactory.buildStudentSchoolAssociationExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
-                        Mockito.any(Repository.class), Mockito.any(EntityToEdOrgCache.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockSsa);
+                        Mockito.any(Repository.class), Mockito.any(EntityToEdOrgDateCache.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockSsa);
 
         Mockito.when(
                 mockFactory.buildStaffAssociationExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
@@ -140,7 +142,7 @@ public class LocalEdOrgExtractorTest {
 
         Mockito.when(
                 mockFactory.buildStudentAssessmentExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
-                        Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockExtract);
+                        Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockDatedExtract);
 
         Mockito.when(
                 mockFactory.buildYearlyTranscriptExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
