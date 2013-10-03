@@ -113,7 +113,7 @@ public class LocalEdOrgExtractor {
         genericExtractor.extractEntities(student.getEntityCache());
 
         // Discipline
-        EntityExtract discipline = factory.buildDisciplineExtractor(entityExtractor, leaToExtractFileMap, repository, edorgCache, student.getStudentDatedCache());
+        EntityExtract discipline = factory.buildDisciplineExtractor(entityExtractor, leaToExtractFileMap, repository, edorgCache, student.getEntityCache());
         discipline.extractEntities(student.getDiCache());
 
         // Yearly Transcript

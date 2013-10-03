@@ -215,5 +215,4 @@ public class ParameterConstants {
 
     public static final String DATE = "date";
     public static final String INCIDENT_DATE = "incidentDate";
-    public static final String DISCIPLINE_DATE = "disciplineDate";
 }
