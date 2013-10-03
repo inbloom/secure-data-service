@@ -28,14 +28,33 @@ import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 public class PublicDataFactory {
 
     /**
-     * Builds a AllPublicDataExtractor instance.
+     * Builds a DirectPublicDataExtract instance.
+     * @param extractor the extractor
+     * @return the new PublicDataExtractor instance
+     */
+    public PublicDataExtractor buildDirectPublicDataExtract(EntityExtractor extractor) {
+        return new DirectPublicDataExtractor(extractor);
+    }
+
+    /**
+     * Builds a UnfilteredPublicDataExtractor instance.
      *
      * @param extractor the extractor
      *
-     * @return the new AllPublicDataExtractor instance
+     * @return the new UnfilteredPublicDataExtractor instance
      */
-    public PublicDataExtractor buildAllPublicDataExtractor(EntityExtractor extractor) {
-        return new AllPublicDataExtractor(extractor);
+    public PublicDataExtractor buildUnfilteredPublicDataExtractor(EntityExtractor extractor) {
+        return new UnfilteredPublicDataExtractor(extractor);
+    }
+
+    /**
+     * Builds an DirectAndIndependentPublicDataExtractor instance.
+     * @param extractor the extractor
+     *
+     * @return an DirectAndIndependentPublicDataExtractor instance
+     */
+    public PublicDataExtractor buildIndependentPublicDataExtractor(EntityExtractor extractor) {
+        return new DirectAndIndependentPublicDataExtractor(extractor);
     }
 
     /**
@@ -43,9 +62,11 @@ public class PublicDataFactory {
      * @param extractor the extractor
      * @return all PublicDataExtractor instances
      */
-    public List<PublicDataExtractor> buildPublicDataExtracts(EntityExtractor extractor) {
+    public List<PublicDataExtractor> buildAllPublicDataExtracts(EntityExtractor extractor) {
         List<PublicDataExtractor> list = new ArrayList<PublicDataExtractor>();
-        list.add(buildAllPublicDataExtractor(extractor));
+        list.add(buildDirectPublicDataExtract(extractor));
+        list.add(buildUnfilteredPublicDataExtractor(extractor));
+        list.add(buildIndependentPublicDataExtractor(extractor));
         return list;
 
     }
