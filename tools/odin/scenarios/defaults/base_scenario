@@ -73,9 +73,9 @@ ASSESSMENT_ITEMS_IN_OBJECTIVE_ASSESSMENT: false
 EXCEPTION_ONLY_ATTENDANCE: true
 WRITE_SECTION_ATTENDANCE: false
 DAILY_ATTENDANCE_PERCENTAGES: {
-  "elementary": {"absent": 4, "tardy": 1},
-  "middle": {"absent": 6, "tardy": 2},
-  "high": {"absent": 8, "tardy": 3}
+  "elementary": {"present": 96, "absent": 4, "tardy": 1, "excused": 1, "unexcused": 1, "early_dep": 0, "iss": 0, "oss": 0},
+  "middle": {"present": 94, "absent": 6, "tardy": 2, "excused": 3, "unexcused": 2, "early_dep": 1, "iss": 1, "oss": 2},
+  "high": {"present": 92, "absent": 8, "tardy": 3, "excused": 5, "unexcused": 3, "early_dep": 2, "iss": 2, "oss": 4}
 }
 
 # Gradebook Entry information

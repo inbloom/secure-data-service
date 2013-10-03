@@ -97,7 +97,9 @@ public class ExtractorHelper{
             if(lineages != null) {
                 for (String edOrg : lineages) {
                     DateTime existingDate = studentEdOrgs.get(edOrg);
-                    if(studentEdOrgs.containsKey(edOrg) && (expirationDate == null || (existingDate != null && existingDate.isAfter(expirationDate)))) {
+                    if(studentEdOrgs.containsKey(edOrg) && (expirationDate == null || existingDate == null)) {
+                        finalExpirationDate = null;
+                    } else if(studentEdOrgs.containsKey(edOrg) &&  existingDate.isAfter(expirationDate)) {
                         finalExpirationDate = studentEdOrgs.get(edOrg);
                     }
                     studentEdOrgs.put(edOrg, finalExpirationDate);

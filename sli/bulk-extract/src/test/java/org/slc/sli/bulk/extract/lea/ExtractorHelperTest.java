@@ -269,9 +269,9 @@ public class ExtractorHelperTest {
 
         result = helper.fetchAllEdOrgsForStudent(student);
         Assert.assertEquals(7, result.size());
-        Assert.assertEquals(DateTime.parse("2048-05-09", FMT), result.get("Kropotkin"));
-        Assert.assertEquals(DateTime.parse("2048-05-09", FMT), result.get("Proudhon"));
-        Assert.assertEquals(DateTime.parse("2048-05-09", FMT), result.get("Bakunin"));
+        Assert.assertEquals(null, result.get("Kropotkin"));
+        Assert.assertEquals(null, result.get("Proudhon"));
+        Assert.assertEquals(null, result.get("Bakunin"));
         Assert.assertEquals(DateTime.parse("2048-05-09", FMT), result.get("school3"));
         Assert.assertEquals(DateTime.parse("1848-05-21", FMT), result.get("school1"));
         Assert.assertEquals(null, result.get("school2"));

@@ -137,11 +137,13 @@ public class ParameterConstants {
     public static final String ASSESSMENT_ITEM = "assessmentItem";
     public static final String ASSESSMENT_PERIOD_DESCRIPTOR_ID = "assessmentPeriodDescriptorId";
     public static final String ASSESSMENT_FAMILY_REFERENCE = "assessmentFamilyReference";
+    public static final String ADMINISTRATION_DATE = "administrationDate";
     public static final String COURSE_ID = "courseId";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR_ID = "competencyLevelDescriptorId";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPE_ID = "competencyLevelDescriptorTypeId";
     public static final String DISCIPLINE_INCIDENT_ID = "disciplineIncidentId";
     public static final String DISCIPLINE_ACTION_ID = "disciplineActionId";
+    public static final String ENTRY_DATE = "entryDate";
     public static final String GRADEBOOK_ENTRY_ID = "gradebookEntryId";
     public static final String GRADUATION_PLAN_ID = "graduationPlanId";
     public static final String GRADING_PERIOD_ID = "gradingPeriodId";

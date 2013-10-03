@@ -7,6 +7,7 @@
             <AttendanceEventIdentity>
                 <SchoolYear>2001-2002</SchoolYear>
                 <EventDate>2001-12-25</EventDate>
+                <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>AE Orphan 1</StudentUniqueStateId>
