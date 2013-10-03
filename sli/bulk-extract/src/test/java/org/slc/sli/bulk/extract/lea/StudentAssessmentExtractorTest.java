@@ -17,10 +17,8 @@
 package org.slc.sli.bulk.extract.lea;
 
 
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -29,20 +27,15 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentAssessmentExtractorTest {
     
     private StudentAssessmentExtractor extractor;
@@ -57,7 +50,7 @@ public class StudentAssessmentExtractorTest {
     private ExtractFile mockFile;
     
     @Mock
-    private EntityToEdOrgDateCache mockStudentCache;
+    private EntityToEdOrgCache mockStudentCache;
     
     @Mock
     private Entity mockEntity;
@@ -72,14 +65,9 @@ public class StudentAssessmentExtractorTest {
         MockitoAnnotations.initMocks(this);
         extractor = new StudentAssessmentExtractor(mockExtractor, mockMap, mockRepo, mockHelper);
         entityBody = new HashMap<String, Object>();
-        entityBody.put("administrationDate", "2009-12-21");
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
-        Mockito.when(mockEntity.getType()).thenReturn(EntityNames.STUDENT_ASSESSMENT);
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
-
-        Map<String, DateTime> edOrgDate = new HashMap<String, DateTime>();
-        edOrgDate.put("LEA", DateTime.now());
-        Mockito.when(mockStudentCache.getEntriesById("student")).thenReturn(edOrgDate);
+        Mockito.when(mockStudentCache.getEntriesById("student")).thenReturn(new HashSet<String>(Arrays.asList("LEA")));
     }
     
     
@@ -102,28 +90,6 @@ public class StudentAssessmentExtractorTest {
         entityBody.put(ParameterConstants.STUDENT_ID, "student");
         extractor.extractEntities(mockStudentCache);
         Mockito.verify(mockExtractor, Mockito.times(3)).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
-                Mockito.eq(EntityNames.STUDENT_ASSESSMENT));
-    }
-
-    @Test
-    public void testWriteSomeEntities() {
-        Entity saEntity = Mockito.mock(Entity.class);
-        Map<String, Object> saEntityBody = new HashMap<String, Object>();
-        saEntityBody.put("administrationDate", "3000-12-21");
-        saEntityBody.put(ParameterConstants.STUDENT_ID, "student");
-        Mockito.when(saEntity.getBody()).thenReturn(saEntityBody);
-        Mockito.when(saEntity.getType()).thenReturn(EntityNames.STUDENT_ASSESSMENT);
-
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STUDENT_ASSESSMENT), Mockito.eq(new NeutralQuery())))
-                .thenReturn(
-                        Arrays.asList(mockEntity, saEntity).iterator());
-        entityBody.put(ParameterConstants.STUDENT_ID, "student");
-
-        extractor.extractEntities(mockStudentCache);
-
-        Mockito.verify(mockExtractor, Mockito.times(1)).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
-                Mockito.eq(EntityNames.STUDENT_ASSESSMENT));
-        Mockito.verify(mockExtractor, Mockito.times(0)).extractEntity(Mockito.eq(saEntity), Mockito.eq(mockFile),
                 Mockito.eq(EntityNames.STUDENT_ASSESSMENT));
     }
     
