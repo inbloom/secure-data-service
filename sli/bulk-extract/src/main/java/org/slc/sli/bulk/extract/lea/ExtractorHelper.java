@@ -19,7 +19,6 @@ package org.slc.sli.bulk.extract.lea;
 import java.util.*;
 
 import com.google.common.collect.HashMultimap;
-import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
@@ -45,7 +44,6 @@ public class ExtractorHelper{
      * @param student
      * @return
      */
-    //F316: Old pipeline - remove this
     @SuppressWarnings("unchecked")
     public Set<String>fetchCurrentSchoolsForStudent(Entity student) {
         if (dateHelper == null) {
@@ -68,45 +66,6 @@ public class ExtractorHelper{
             }
         }
         return studentSchools;
-    }
-
-    /**
-     * Fetches the associated edOrgs with their expiration date for a student
-     * @param student
-     * @return
-     */
-    public Map<String, DateTime> fetchAllEdOrgsForStudent(Entity student) {
-        if (dateHelper == null) {
-            dateHelper = new DateHelper();
-        }
-
-        Map<String, DateTime> studentEdOrgs = new HashMap<String, DateTime>();
-        Map<String, List<Map<String, Object>>> data = student.getDenormalizedData();
-        if (!data.containsKey("schools")) {
-            return studentEdOrgs;
-        }
-
-        List<Map<String, Object>> schools = data.get("schools");
-        for (Map<String, Object> school : schools) {
-
-            String id = (String)school.get("_id");
-            DateTime expirationDate = dateHelper.getDate(school, "exitWithdrawDate");
-            DateTime finalExpirationDate = expirationDate;
-
-            List<String> lineages = edOrgExtractHelper.getEdOrgLineages().get(id);
-            if(lineages != null) {
-                for (String edOrg : lineages) {
-                    DateTime existingDate = studentEdOrgs.get(edOrg);
-                    if(studentEdOrgs.containsKey(edOrg) && (expirationDate == null || existingDate == null)) {
-                        finalExpirationDate = null;
-                    } else if(studentEdOrgs.containsKey(edOrg) &&  existingDate.isAfter(expirationDate)) {
-                        finalExpirationDate = studentEdOrgs.get(edOrg);
-                    }
-                    studentEdOrgs.put(edOrg, finalExpirationDate);
-                }
-            }
-        }
-        return studentEdOrgs;
     }
     
     public void setDateHelper(DateHelper helper) {

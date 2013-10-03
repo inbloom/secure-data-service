@@ -16,43 +16,33 @@
 
 package org.slc.sli.bulk.extract.pub;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.PublicEntityDefinition;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
- * Test UnfilteredPublicDataExtractor
+ * PublicData Extractor which extracts all entities of belonging to a tenant.
  * @author tshewchuk
  */
-public class AllPublicDataExtractorTest {
+public class UnfilteredPublicDataExtractor implements PublicDataExtractor{
 
-    private AllPublicDataExtractor publicDataExtractor;
-
-    @Mock
     private EntityExtractor extractor;
 
-    @Mock
-    private ExtractFile file;
-
-    @Before
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        publicDataExtractor = new AllPublicDataExtractor(extractor);
+    /**
+     * Constructor.
+     *
+     * @param extractor - the entity extractor
+     */
+    public UnfilteredPublicDataExtractor(EntityExtractor extractor) {
+        this.extractor = extractor;
     }
 
-    @Test
-    public void testExtract() {
-        publicDataExtractor.extract(file);
-        for (PublicEntityDefinition definition : PublicEntityDefinition.values()) {
-            Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, definition.getEntityName());
+    @Override
+    public void extract(ExtractFile file) {
+        for (PublicEntityDefinition entity : PublicEntityDefinition.unFilteredEntities()) {
+            extractor.extractEntities(file, entity.getEntityName());
         }
-    }
-
-
+     }
 }

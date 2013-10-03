@@ -65,7 +65,7 @@ class ApplicationAuthorizationsController < ApplicationController
     
     @debug = ""
 
-    @edorg_tree_html = "<ul>\n" + render_html(nil, ROOT_ID, 0) + "</ul>\n"
+    @edorg_tree_html = "<ul>\n" + render_html(nil, ROOT_ID, 0, {}) + "</ul>\n"
 
   end
   
@@ -87,6 +87,7 @@ class ApplicationAuthorizationsController < ApplicationController
 
     # Use this in the template to enable buttons
     @isSEAAdmin = is_sea_admin?
+    @isLEAAdmin = is_lea_admin?
 
     # Invert apps map to get set of enabled apps by edOrg for filtering
     @edorg_apps = {}
@@ -141,8 +142,8 @@ class ApplicationAuthorizationsController < ApplicationController
 
     # Only allow update by SEA admin.  Should not really trigger this since the
     # buttons are grayed out and non-SEAadmin use is not invited to get here
-    unless is_sea_admin?
-      logger.warn {'User is not sea admin and cannot update application authorizations'}
+    unless is_sea_admin? || is_lea_admin?
+      logger.warn {'User is not SEA or LEA admin and cannot update application authorizations'}
       raise ActiveResource::ForbiddenAccess, caller
     end
 
@@ -190,6 +191,7 @@ class ApplicationAuthorizationsController < ApplicationController
 
     @edinf = {}
     root_ids = []
+    userEdOrg = session[:edOrgId]
     
     # Get all edOrgs, include only needed fields
     allEdOrgs = EducationOrganization.findAllInChunks({"includeFields" => "parentEducationAgencyReference,nameOfInstitution,stateOrganizationId,organizationCategories"})
@@ -229,13 +231,26 @@ class ApplicationAuthorizationsController < ApplicationController
     end
 
     # Create fake root edOrg and parent all top level nodes to it
-    root_edorg = { :id => ROOT_ID, :parents => [], :children => root_ids,
+    if is_sea_admin?
+      root_children = root_ids
+    else
+      root_children = [ userEdOrg ]
+    end
+    
+    root_edorg = { :id => ROOT_ID, :parents => [], :children => root_children,
                    :enabled => true, :authorized => true, :name => "All EdOrgs", 
                    :edOrg => { :id => ROOT_ID, :parentEducationAgencyReference  => [], }
                  }
     @edinf[ROOT_ID] = root_edorg
-    root_ids.each do |id|
-      @edinf[id][:parents] = [ ROOT_ID ]
+
+    # Allow SEA admin to see everything, including edOrgs not parented
+    # up to SEA.  LEA admin just his own edorg
+    if is_sea_admin?
+      root_ids.each do |id|
+        @edinf[id][:parents] = [ ROOT_ID ]
+      end
+    else
+      @edinf[userEdOrg][:parents] = [ ROOT_ID ]
     end
 
     # Compile counts across whole tree and build "by-type" category nodes
@@ -330,7 +345,7 @@ class ApplicationAuthorizationsController < ApplicationController
   # threshold.
   # Example <li>:
   #    <li class="collapsed"><input type="checkbox" id="edorg_1">EdOrg 1
-  def render_html(parent_id, id, level)
+  def render_html(parent_id, id, level, seen)
     # <LI> part
     indent = "  " * level
     result = indent + "<li"
@@ -348,9 +363,20 @@ class ApplicationAuthorizationsController < ApplicationController
     # real node will appear first as the user scans the tree from top
     # to bottom.
     parents = eo[:parents]
-    is_repeat_subtree = parents.length > 1 && parent_id != parents[parents.length-1]
+    is_repeat_subtree = parents.length > 1 && parent_id != parents.last && seen.has_key?(parents.last)
     if is_repeat_subtree
-      canonical_parent_name = @edinf[parents[parents.length-1]][:name]
+      anc_id = parents.last
+      ppath = []
+      while !is_empty(anc_id) && anc_id != ROOT_ID
+        ppath.unshift(@edinf[anc_id][:name])
+        new_parents = @edinf[anc_id][:parents]
+        if new_parents.empty?
+          anc_id = nil
+        else
+          anc_id = new_parents.last
+        end
+      end
+      path_to_root = ppath.join(" &rarr; ")
     end
 
     nchildren = eo[:children].length
@@ -380,7 +406,7 @@ class ApplicationAuthorizationsController < ApplicationController
     result += "<i>" if !eo[:enabled]
     result += "(&rArr; see " if is_repeat_subtree
     result += eo[:name]
-    result += ", under \"" + canonical_parent_name + "\" above)" if is_repeat_subtree
+    result += ", under \"" + path_to_root + "\" above)" if is_repeat_subtree
     result += "</i>" if !eo[:enabled]
     # Add counts.  Note that eo[:nchild] is the number of direct child EdOrgs not the number of child display nodes
     nchild = eo[:nchild]
@@ -402,7 +428,8 @@ class ApplicationAuthorizationsController < ApplicationController
     if !is_repeat_subtree && nchildren > 0
       result += indent + "<ul>\n"
       eo[:children].each do |cid|
-        result += render_html(parent_to_use, cid, level + 1)
+        seen[id] = true
+        result += render_html(parent_to_use, cid, level + 1, seen)
       end
       result += indent + "</ul>\n"
     end

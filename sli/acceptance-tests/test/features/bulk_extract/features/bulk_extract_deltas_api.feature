@@ -134,8 +134,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    When I decrypt and save the full extract
     And I verify that an extract tar file was created for the tenant "Midgar"
     And there is a metadata file in the extract
-    #Re-enable this after US5903
-   #Then each record in the full extract is present and matches the delta extract
+   Then each record in the full extract is present and matches the delta extract
 
 
 Scenario: SEA - Ingest additional entities in preparation for subsequent update and delete tests
