@@ -90,16 +90,15 @@ public class ExtractorHelper{
 
             String id = (String)school.get("_id");
             DateTime expirationDate = dateHelper.getDate(school, "exitWithdrawDate");
-            DateTime finalExpirationDate = expirationDate;
 
             List<String> lineages = edOrgExtractHelper.getEdOrgLineages().get(id);
             if(lineages != null) {
                 for (String edOrg : lineages) {
                     DateTime existingDate = studentEdOrgs.get(edOrg);
                     if(studentEdOrgs.containsKey(edOrg) && (expirationDate == null || (existingDate != null && existingDate.isAfter(expirationDate)))) {
-                        finalExpirationDate = studentEdOrgs.get(edOrg);
+                        expirationDate = studentEdOrgs.get(edOrg);
                     }
-                    studentEdOrgs.put(edOrg, finalExpirationDate);
+                    studentEdOrgs.put(edOrg, expirationDate);
                 }
             }
         }
