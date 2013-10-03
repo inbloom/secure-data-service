@@ -200,7 +200,7 @@ public class ApplicationAuthorizationResourceTest {
         EntityBody body = new EntityBody();
         body.put("authorized", false);
         body.put("applicationId", app.getEntityId());
-        res.updateAuthorization(app.getEntityId(),body, null);
+        res.updateAuthorization(app.getEntityId(),body);
         
         //Re-query auth
         resp = (ResponseImpl) res.getAuthorization(app.getEntityId(), null);
