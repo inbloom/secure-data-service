@@ -143,7 +143,7 @@ And I am asked 'Do you really want this application to access the district's dat
 When I click on Ok
 And the app "inBloom Dashboards" Status becomes "Approved"
 And it is colored "green"
-And there are "202" edOrgs for the "inBloom Dashboards" application in the production applicationAuthorization collection
+And there are "10" edOrgs for the "inBloom Dashboards" application in the production applicationAuthorization collection
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 #Authorize the Databrowser
@@ -156,7 +156,7 @@ When I click on Ok
 And I switch to the iframe
 And the app "inBloom Data Browser" Status becomes "Approved"
 And it is colored "green"
-And there are "202" edOrgs for the "inBloom Data Browser" application in the production applicationAuthorization collection
+And there are "10" edOrgs for the "inBloom Data Browser" application in the production applicationAuthorization collection
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 #Authorize the New Installed App
@@ -169,7 +169,7 @@ When I click on Ok
 And I switch to the iframe
 And the app "Bulk Extract 2 End" Status becomes "Approved"
 And it is colored "green"
-And there are "38" edOrgs for the "Bulk Extract 2 End" application in the production applicationAuthorization collection
+And there are "5" edOrgs for the "Bulk Extract 2 End" application in the production applicationAuthorization collection
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 
@@ -283,7 +283,7 @@ Scenario: App developer enables Bulk Extract App
     When I click on Save
     And I exit out of the iframe
     And I click on log out
-    And "BulkExtractApp2" is enabled for "38" production education organizations
+    And "BulkExtractApp2" is enabled for "5" production education organizations
 
 Scenario: App developer creates new non Bulk Extract App
     When I navigate to the Portal home page
@@ -331,7 +331,7 @@ Scenario: App developer enables non Bulk Extract App
     When I click on Save
     And I exit out of the iframe
     And I click on log out
-    And "NotABulkExtractApp" is enabled for "202" production education organizations
+    And "NotABulkExtractApp" is enabled for "10" production education organizations
 
 @wip @ThisStepIsNotYetNeededSinceAutoApproveAppsIsStillTrueInRC
 Scenario: SLC Operator Approves Application Registration
@@ -375,7 +375,7 @@ And I am asked 'Do you really want this application to access the district's dat
 When I click on Ok
 And the app "NotABulkExtractApp" Status becomes "Approved"
 And it is colored "green"
-And there are "202" edOrgs for the "NotABulkExtractApp" application in the production applicationAuthorization collection
+And there are "10" edOrgs for the "NotABulkExtractApp" application in the production applicationAuthorization collection
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 #Authorize the Databrowser
@@ -388,7 +388,7 @@ When I click on Ok
 And I switch to the iframe
 And the app "BulkExtractApp2" Status becomes "Approved"
 And it is colored "green"
-And there are "38" edOrgs for the "BulkExtractApp2" application in the production applicationAuthorization collection
+And there are "5" edOrgs for the "BulkExtractApp2" application in the production applicationAuthorization collection
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 

@@ -46,40 +46,40 @@ Scenario: Parent has access to non-transitive associations through cohorts, prog
   And format "application/json"
   And I am using api version "v1" 
   # Cohorts
-  When I validate the current allowed association entities via API "/v1/cohorts/b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id/staffCohortAssociations":
+  When I validate the current allowed association entities via API "/v1/cohorts/1c1a4ac5bebc9b67806805935edce7d6e1f269ea_id/staffCohortAssociations":
     | id                                          |
-    | a17d936ca77e391ace5d14645a4b9b78f6dbd387_id |
-    | 56318bd0507551f3eff40aea265f3ce1e47ec3cc_id |
+    | ee3d3035994b88d465553f38a265fff4597946d2_id |
+    | 2a3ab64f732cc121f8091dc3eeeb88815ba2737e_id |
 
-  When I validate the allowed association entities via API "/v1/cohorts/b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id/staffCohortAssociations/staff":
+  When I validate the allowed association entities via API "/v1/cohorts/1c1a4ac5bebc9b67806805935edce7d6e1f269ea_id/staffCohortAssociations/staff":
     | id                                          |
-    | 0941af6d37f33cc9d690bd662894f851ee1bfd1e_id |
-    | 4255c28503a1c96ed9a9127d1a21f992e636acd6_id |
+    | c64062927d0a93b6cf92a55bf812ffb2e613683a_id |
+    | 143760f37839b2608d2c929ef26d30c900f6a434_id |
 
-  When I validate the current allowed association entities via API "/v1/cohorts/b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id/studentCohortAssociations":
+  When I validate the current allowed association entities via API "/v1/cohorts/1c1a4ac5bebc9b67806805935edce7d6e1f269ea_id/studentCohortAssociations":
     | id                                                                                     |
-    | 067198fd6da91e1aa8d67e28e850f224d6851713_idc787af32ad98c7e7062619db99d233c32582d30a_id |
-    | 080556ee7c69149d6143f309a758eec019ddfe11_idfd64bae1c7acb7605792ceba0cbbb83fe094aac7_id |
-    | 326ca2d4fb11537d47479faa889526e86bee40ce_ida28607d8ab0b0b10bff12e90cba0fe9c13fdf566_id |
-    | 18ebe03219dff01738c82645635997dbcb05205a_id18645899d59f4e3df0b0954dda091dfa6ea2525f_id |
-    | 4d34e135d7af05424055c3798c8810d2330624f0_id4fef17fd717e91fb274353963f3a9a9619098141_id |
-    | 126a8ceaaef2032ce0e8e3b1ea17ccd03cf869e2_ida9272a850a6868f9ccbeeb0a3c694e4e84a1b32d_id |
-    | 7547f7c49431c8ea6a13e9381fd2dd3f22899278_id9853ba0a825be56d39dc9a81c035a1d8bb0686a3_id |
-    | f24dad74523e919dcf96759b4f382df490bc9699_idf0262787bbbafd0dd085603491029197d8538e70_id |
-    | 820642b49c9ca236d49c0384b98e9e6549047c34_id2e35b11bbbda60eb3bea9281e3bcca8f82d128a5_id |
-    | f5d19abf71b888312e3807ae867a6c2c75196fbd_idac8dcc1402ede5702f5f5d817f78ba1fae7bcd3a_id |
-  When I validate the allowed association entities via API "/v1/cohorts/b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id/studentCohortAssociations/students":
+    | 067198fd6da91e1aa8d67e28e850f224d6851713_id3ae975b387f2af8761a354abb13dacd04a6b748b_id |
+    | 153e8258f62c711861d4bbc51653ee5fcea8e8ac_id2fe033d1cb9309210ab2476e30103d1981ae825c_id |
+    | 392e181f62b546cdb4a76d79c7073521b5a0977a_id7cc79892880649d3d7ec8302cb68354ff182f449_id |
+    | 1d19aac952e77145ee45df1259ff8cf90ed92c7d_id7cec3926e128533a42eaf48a92c9025281a546d8_id |
+    | 0f587feb5881220ffdf25a7f5ef48c1947516c62_idb2e5101f18beb0ef378b3d861da9a5f16f4e8033_id |
+    | 18ebe03219dff01738c82645635997dbcb05205a_id3ae48b74499c9528b48608662a969565fd9ddf8d_id |
+    | 6d535e95cd376a40fa6348807b47867e37a4b0bd_ida98397a04a99fef0ccffdf39bd1e01be917e22a3_id |
+    | 820642b49c9ca236d49c0384b98e9e6549047c34_id2cd4bbb1267e705161cd6ce94f938be79519e6a7_id |
+    | fd4dc88802e121be5b03923edb6b41ce0aae244b_id5d3542db1f72b4bf35e7706c8bef67ffa73485a6_id |
+    | 080556ee7c69149d6143f309a758eec019ddfe11_id354b0cb4b2d653049866db53da43b11650e65dfe_id |
+  When I validate the allowed association entities via API "/v1/cohorts/1c1a4ac5bebc9b67806805935edce7d6e1f269ea_id/studentCohortAssociations/students":
     | id                                          |
     | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
     | 080556ee7c69149d6143f309a758eec019ddfe11_id |
-    | 326ca2d4fb11537d47479faa889526e86bee40ce_id |
+    | 153e8258f62c711861d4bbc51653ee5fcea8e8ac_id |
+    | 392e181f62b546cdb4a76d79c7073521b5a0977a_id |
+    | 1d19aac952e77145ee45df1259ff8cf90ed92c7d_id |
+    | 0f587feb5881220ffdf25a7f5ef48c1947516c62_id |
     | 18ebe03219dff01738c82645635997dbcb05205a_id |
-    | 4d34e135d7af05424055c3798c8810d2330624f0_id |
-    | 126a8ceaaef2032ce0e8e3b1ea17ccd03cf869e2_id |
-    | 7547f7c49431c8ea6a13e9381fd2dd3f22899278_id |
-    | f24dad74523e919dcf96759b4f382df490bc9699_id |
+    | 6d535e95cd376a40fa6348807b47867e37a4b0bd_id |
     | 820642b49c9ca236d49c0384b98e9e6549047c34_id |
-    | f5d19abf71b888312e3807ae867a6c2c75196fbd_id |
+    | fd4dc88802e121be5b03923edb6b41ce0aae244b_id |
   # Programs
   When I validate the allowed association entities via API "/v1/programs/9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id/staffProgramAssociations":
     | id                                          |
@@ -99,14 +99,14 @@ Scenario: Parent has access to non-transitive associations through cohorts, prog
     | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
   When I validate there are "32" allowed association entities via API "/v1/programs/9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id/studentProgramAssociations", some of them are:
     | id                                          |
-    | a3a744519926ebf85bd1f669cd381ab3f02a8f83_id41e50d1c9c487ce16b391523118a1e6c7f97b4b6_id |
-    | e4a3b2430710b17b9accb3b1f89a3082f3e60548_id1e7af41db1131632febcae69d8de62280e84da6b_id |
-    | ca4ec31c7161966112d32034b76e3d9b80a02651_idd40773f3d054bcb1723c584d7ef3b411e877ccfd_id |
+    | fb494e4d89e436d93a594c88e79c264bb5d42552_id846a6f3cf26e9a2de06e9e61527412a51b9dab36_id |
+    | 6b41180a6ba41031f50f3b50c97ef5f9387666c3_id4bdb741c7d92960f57b52e099aed26a4f2decb31_id |
+    | b12b0329505f88916ab28511989030ab2351b794_id2c91bd6f569c699d4fdc4d40c1f85d22c459e931_id |
   When I validate there are "32" allowed association entities via API "/v1/programs/9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id/studentProgramAssociations/students", some of them are:
     | id                                          |
-    | a3a744519926ebf85bd1f669cd381ab3f02a8f83_id |
-    | e4a3b2430710b17b9accb3b1f89a3082f3e60548_id |
-    | ca4ec31c7161966112d32034b76e3d9b80a02651_id |
+    | fb494e4d89e436d93a594c88e79c264bb5d42552_id |
+    | 6b41180a6ba41031f50f3b50c97ef5f9387666c3_id |
+    | b12b0329505f88916ab28511989030ab2351b794_id |
   # Sections 
   When I validate the allowed association entities via API "/v1/sections/eb8663fe6856b49684a778446a0a1ad33238a86d_id/gradebookEntries":
     | id                                                                                     |
@@ -263,10 +263,10 @@ Scenario: Verify parent access/deny through associations and expired entities
   When I validate that I am denied access to restricted endpoints via API:
     | uri                                                                                        | rc  |
    #| Associations through expired cohorts should return                                         | 403 |
-    | /v1/cohorts/72c0402e82f3a67db019d7736d423cc4a214db87_id/staffCohortAssociations            | 403 |
-    | /v1/cohorts/72c0402e82f3a67db019d7736d423cc4a214db87_id/staffCohortAssociations/staff      | 403 |
-    | /v1/cohorts/72c0402e82f3a67db019d7736d423cc4a214db87_id/studentCohortAssociations          | 403 |
-    | /v1/cohorts/72c0402e82f3a67db019d7736d423cc4a214db87_id/studentCohortAssociations/students | 403 |
+    | /v1/cohorts/3a71a56a498a68d71bc4755567a7e40b9d3700dc_id/staffCohortAssociations            | 403 |
+    | /v1/cohorts/3a71a56a498a68d71bc4755567a7e40b9d3700dc_id/staffCohortAssociations/staff      | 403 |
+    | /v1/cohorts/3a71a56a498a68d71bc4755567a7e40b9d3700dc_id/studentCohortAssociations          | 403 |
+    | /v1/cohorts/3a71a56a498a68d71bc4755567a7e40b9d3700dc_id/studentCohortAssociations/students | 403 |
    #| Associations through cohorts that do not exist should return                               | 404 |
     | /v1/cohorts/this_cohort_dne                                                                | 404 |
 
