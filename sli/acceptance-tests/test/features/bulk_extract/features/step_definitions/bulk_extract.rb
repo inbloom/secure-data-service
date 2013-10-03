@@ -1038,7 +1038,6 @@ When /I check that the studentAssessment extract for "(.*?)" has the correct num
   [
   {"$project":{"schools":1}}
   ,{"$unwind":"$schools"}
-  ,{"$match":{ "$or":[     {"schools.exitWithdrawDate":{"$exists":true, "$gt": "#{DateTime.now.strftime('%Y-%m-%d')}"}} ,{"schools.exitWithdrawDate":{"$exists":false}}    ]}}
   ,{"$project":{"_id":1, "schools._id":1}}
   ,{"$group":{"_id":"$schools._id", "students":{"$addToSet":"$_id"}}}
   ]
