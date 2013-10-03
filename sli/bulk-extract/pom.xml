@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>sli</artifactId>
 		<groupId>org.slc.sli</groupId>
-		<version>1.11.86.186</version>
+		<version>1.11.86.230</version>
 	</parent>
 
 	<artifactId>bulk-extract</artifactId>
