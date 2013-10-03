@@ -165,10 +165,6 @@ public class StudentExtractor implements EntityExtract {
         return studentDatedCache;
     }
 
-    public void setStudentDatedCache(EntityToEdOrgDateCache studentDatedCache) {
-        this.studentDatedCache = studentDatedCache;
-    }
-
     public EntityToEdOrgDateCache getDiDateCache() {
         return diDateCache;
     }
