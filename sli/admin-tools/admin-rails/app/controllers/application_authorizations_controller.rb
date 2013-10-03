@@ -16,7 +16,6 @@ limitations under the License.
 
 =end
 
-
 class ApplicationAuthorizationsController < ApplicationController
   before_filter :check_rights
 
@@ -64,19 +63,9 @@ class ApplicationAuthorizationsController < ApplicationController
       roots_info += cid + ": " + @edinf[cid].to_s + "\n"
     end
     
-#-#     @debug = "edorgId=" + edOrgId \
-#-#               + "\n" + "params:\n" + params.to_s() \
-#-#               + "\n" + "@app is:\n" + @app.to_s() \
-#-#               + "\n" + "@app.authorized_ed_orgs=" + @app.authorized_ed_orgs.to_s() \
-#-#               + "\n" + "@appAuth.appid:" + @appAuth.appId.to_s() \
-#-#               + "\n" + "@appAuth.edorgs:" + @appAuth.edorgs.to_s() \
-#-#               + "\n" + "@edinf.keys.length: " + @edinf.keys.length.to_s() \
-#-#               + "\n" + "Roots children:\n" + roots_info \
-#-#               + "\n" + "@edinf[ROOT_ID]:\n" + @edinf[ROOT_ID].to_s \
-#-#               + ""
     @debug = ""
 
-    @edorg_tree_html = "<ul>\n" + render_html(ROOT_ID, 0) + "</ul>\n"
+    @edorg_tree_html = "<ul>\n" + render_html(nil, ROOT_ID, 0) + "</ul>\n"
 
   end
   
@@ -275,21 +264,22 @@ class ApplicationAuthorizationsController < ApplicationController
 
     # Compile counts across whole tree and build "by-type" category nodes
     @id_counter = 0
-    count_children(ROOT_ID, {})
+    build_tree(ROOT_ID, {})
     
   end
 
   # Traverse graph and count children and descendants and put into @edinf map
   # Sets :nchild and :ndesc in the node with given ID
   # Replaces :children array with array of nodes by type
-  def count_children(id, seen)
+
+  def build_tree(id, seen)
     # Trap cycles
     if seen.has_key?(id)
       raise "CYCLE in EdOrg hierarchy includes EdOrg id '" + id + "'"
     else
       seen[id] = true
     end
-    
+
     nchild = @edinf[id][:children].length
     @edinf[id][:nchild] = nchild
     ndesc = nchild
@@ -300,7 +290,7 @@ class ApplicationAuthorizationsController < ApplicationController
     @edinf[id][:children].sort!( & compare_name )
 
     @edinf[id][:children].each do |cid|
-      count_children(cid, seen.clone)
+      build_tree(cid, seen.clone)
       ndesc += @edinf[cid][:ndesc]
       ctype = get_edorg_type(cid)
       if by_type.has_key?(ctype)
@@ -364,13 +354,29 @@ class ApplicationAuthorizationsController < ApplicationController
   # threshold.
   # Example <li>:
   #    <li class="collapsed"><input type="checkbox" id="edorg_1">EdOrg 1
-  def render_html(id, level)
+  def render_html(parent_id, id, level)
     # <LI> part
     indent = "  " * level
     result = indent + "<li"
     maxchild = 10
     expand_level = 3
     eo = @edinf[id]
+
+    # Detect repeat subtrees: if a node has multiple parents (and is
+    # thus reachable by multiple paths from parents to children),
+    # consider all but the last ID in the parents list as "aliases".
+    # Using the last ID, as opposed to the first, will have the effect
+    # of the "real" node being rendered first in the recursion, so
+    # that, in turn, we can label the "alias" nodes with a notice to
+    # consult the real node "above" it.  This in turn means that the
+    # real node will appear first as the user scans the tree from top
+    # to bottom.
+    parents = eo[:parents]
+    is_repeat_subtree = parents.length > 1 && parent_id != parents[parents.length-1]
+    if is_repeat_subtree
+      canonical_parent_name = @edinf[parents[parents.length-1]][:name]
+    end
+
     nchildren = eo[:children].length
     # Auto-collapse nodes with "large" (per maxchild) number of children, or if they
     # are deeply nexted (per expand_level), but don't collapse a single child,
@@ -381,21 +387,24 @@ class ApplicationAuthorizationsController < ApplicationController
 
     # <input>
     is_category = id.start_with?(CATEGORY_NODE_PREFIX) || id == ROOT_ID
-    if eo[:enabled]
+    if !is_repeat_subtree && eo[:enabled]
       result += "<input type=\"checkbox\""
       if !id.start_with?(CATEGORY_NODE_PREFIX) && !is_empty(id)
         result += " id=\"" + id + "\""
       end
       result += " checked" if eo[:authorized]
-      result += ">"
+      result += "> "
     end
 
     # Text of the node.  Italicize if not enabled
     result += "<span"
     result += " class=\"categorynode\"" if is_category
+    result += " class=\"repeatsubtree\"" if is_repeat_subtree
     result += ">"
     result += "<i>" if !eo[:enabled]
+    result += "(&rArr; see " if is_repeat_subtree
     result += eo[:name]
+    result += ", under \"" + canonical_parent_name + "\" above)" if is_repeat_subtree
     result += "</i>" if !eo[:enabled]
     # Add counts.  Note that eo[:nchild] is the number of direct child EdOrgs not the number of child display nodes
     nchild = eo[:nchild]
@@ -411,10 +420,13 @@ class ApplicationAuthorizationsController < ApplicationController
     result += "</span>\n"
     
     # Children
-    if nchildren > 0
+    # For purpose of telling child whose parent is rendering it (i.e. to
+    # detect repeat sub-trees) use a "real" edOrg node, not a category node
+    parent_to_use = if is_category then parent_id  else id end
+    if !is_repeat_subtree && nchildren > 0
       result += indent + "<ul>\n"
       eo[:children].each do |cid|
-        result += render_html(cid, level + 1)
+        result += render_html(parent_to_use, cid, level + 1)
       end
       result += indent + "</ul>\n"
     end
