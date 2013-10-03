@@ -5,7 +5,7 @@ Given I am using the odin working directory
 @rc
 Scenario: Generate an API data set with hybrid edOrgs for API testing using Odin generate tool
   When I generate the "hybrid_edorgs" data set in the "generated" directory
-  When I convert school "IL-CHARTER-SCHOOL" to a charter school in "InterchangeEducationOrganization.xml" with parent refs
+  When I update edOrg "IL-CHARTER-SCHOOL" in "InterchangeEducationOrganization.xml" with updated parent refs
   |  ParentReference |
   | STANDARD-SEA     |
   When I convert edorg "4" to a "Education Service Center" in "InterchangeEducationOrganization.xml"

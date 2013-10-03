@@ -42,6 +42,8 @@ GEM
     json (1.6.2)
     jwt (0.1.5)
       multi_json (>= 1.0)
+    macaddr (1.6.1)
+      systemu (~> 2.5.0)
     mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -124,6 +126,7 @@ GEM
     statsample-bivariate-extension (1.1.0)
       distribution (~> 0.6)
     stomp (1.2.6)
+    systemu (2.5.2)
     text-table (1.2.2)
     treetop (1.4.10)
       polyglot
@@ -146,6 +149,7 @@ DEPENDENCIES
   headless
   java_properties
   json (= 1.6.2)
+  macaddr
   mongo (= 1.8.2)
   mustache
   net-ldap

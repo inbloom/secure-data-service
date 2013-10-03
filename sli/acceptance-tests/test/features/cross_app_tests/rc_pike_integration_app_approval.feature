@@ -459,9 +459,9 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
    #Get a session to trigger a bulk extract
    Given the pre-existing bulk extrac testing app key has been created
    When I navigate to the API authorization endpoint with my client ID
-   When I select "Charter School Test Realm" and click go
+   When I select "Daybreak Test Realm" and click go
    And I was redirected to the "Simple" IDP Login page
-   When I submit the credentials "charteradmin" "charteradmin1234" for the "Simple" login page
+   When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
    Then I should receive a json response containing my authorization code
    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
    Then I should receive a json response containing my authorization token
@@ -527,15 +527,19 @@ Scenario: App makes an api call to retrieve a SEA public data bulk extract
    And the extract contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
-      |  educationOrganization                 |
       |  learningObjective                     |
       |  learningStandard                      |
-      |  program                               |
-      |  studentCompetencyObjective            |
-      |  calendarDate                          |
       |  competencyLevelDescriptor             |
-      |  graduationPlan                        |
+      |  studentCompetencyObjective            |
+      |  program                               |
+      |  calendarDate                          |
       |  course                                |
+      |  courseOffering                        |
+      |  educationOrganization                 |
+      |  graduationPlan                        |
+      |  session                               |
+      |  calendarDate                          |
+      |  school                                |
 
 Scenario: App makes an api call to retrieve a bulk extract delta
 #Get a session to trigger a bulk extract

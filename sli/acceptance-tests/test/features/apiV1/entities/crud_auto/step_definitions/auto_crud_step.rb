@@ -129,7 +129,7 @@ Then /^I perform CRUD for each resource available$/ do
     end
     post_resource resource
     get_resource resource
-    
+
     @fields[@updates['field']] = @updates['value']
     steps %Q{
     When I navigate to PUT \"/v1#{resource}/#{@newId}\"

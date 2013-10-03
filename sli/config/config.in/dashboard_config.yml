@@ -15,11 +15,11 @@ default:
 
         # Only used in dashboard
         ## portal.footer.url: https://{portal_host}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
-        portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.footer.url: https://pike-portal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
 
         # Only used in dashboard
         ## portal.header.url: https://{portal_host}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
-        portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.header.url: https://pike-portal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
 
         # Only used in dashboard
         log.level: warn

@@ -56,13 +56,13 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | educationOrganization                 |
       | grade                                 |
       | gradebookEntry                        |
-#      | gradingPeriod                         |  #  Only in LEA extracts
+      #      | gradingPeriod                         |  #  Only in LEA extracts
       | graduationPlan                        |
       | parent                                |
       | reportCard                            |
       | school                                |
       | section                               |
-#      | session                               |  #  Only in LEA extracts
+      #      | session                               |  #  Only in LEA extracts
       | staff                                 |
       | staffCohortAssociation                |
       | staffEducationOrganizationAssociation |
@@ -112,13 +112,13 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | educationOrganization                 |
       | grade                                 |
       | gradebookEntry                        |
-#      | gradingPeriod                         |  #  Only in LEA extracts
+      #      | gradingPeriod                         |  #  Only in LEA extracts
       | graduationPlan                        |
       | parent                                |
       | reportCard                            |
       | school                                |
       | section                               |
-#      | session                               |  #  Only in LEA extracts
+      #      | session                               |  #  Only in LEA extracts
       | staff                                 |
       | staffCohortAssociation                |
       | staffEducationOrganizationAssociation |

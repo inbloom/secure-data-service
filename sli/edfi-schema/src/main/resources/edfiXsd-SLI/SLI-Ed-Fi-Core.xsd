@@ -293,7 +293,7 @@
 				Changed types of StudentReference, SchoolReference, SessionReference and SectionReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>attendanceEvent</sli:recordType>
-				<sli:naturalKeys>StudentReference,SchoolReference,SchoolYear,EventDate</sli:naturalKeys>
+				<sli:naturalKeys>StudentReference,SchoolReference,SchoolYear,EventDate,AttendanceEventCategory</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -1635,6 +1635,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="AttendanceEventCategory" type="SLC-AttendanceEventCategoryType">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>event</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 			<xs:element name="StudentReference" type="SLC-StudentReferenceType">
 				<xs:annotation>
 					<xs:appinfo>

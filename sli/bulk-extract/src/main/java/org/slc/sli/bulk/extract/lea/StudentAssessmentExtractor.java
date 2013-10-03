@@ -20,8 +20,11 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
@@ -34,7 +37,7 @@ import org.slc.sli.domain.Repository;
  * @author rlatta
  *
  */
-public class StudentAssessmentExtractor implements EntityExtract {
+public class StudentAssessmentExtractor implements EntityDatedExtract {
     private EntityExtractor extractor;
     private ExtractFileMap map;
     private Repository<Entity> repo;
@@ -51,17 +54,20 @@ public class StudentAssessmentExtractor implements EntityExtract {
      * @see org.slc.sli.bulk.extract.lea.EntityExtract#extractEntities(org.slc.sli.bulk.extract.lea.EntityToLeaCache)
      */
     @Override
-    public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
+    public void extractEntities(EntityToEdOrgDateCache entityToEdOrgDateCache) {
         edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STUDENT_ASSESSMENT, this.getClass().getName());
         Iterator<Entity> assessments = repo.findEach(EntityNames.STUDENT_ASSESSMENT, new NeutralQuery());
         while (assessments.hasNext()) {
             Entity assessment = assessments.next();
             String studentId = (String) assessment.getBody().get(ParameterConstants.STUDENT_ID);
-            Set<String> studentEdOrg = entityToEdorgCache.getEntriesById(studentId);
-            for (String stidentEdOrg : studentEdOrg) {
-                extractor.extractEntity(assessment, map.getExtractFileForEdOrg(stidentEdOrg), EntityNames.STUDENT_ASSESSMENT);
+            Map<String, DateTime> studentEdOrgDate = entityToEdOrgDateCache.getEntriesById(studentId);
+
+            for (Map.Entry<String, DateTime> entry: studentEdOrgDate.entrySet()) {
+                DateTime upToDate = entry.getValue();
+                if(EntityDateHelper.shouldExtract(assessment, upToDate)) {
+                    extractor.extractEntity(assessment, map.getExtractFileForEdOrg(entry.getKey()), EntityNames.STUDENT_ASSESSMENT);
+                }
             }
-            
         }
         
     }

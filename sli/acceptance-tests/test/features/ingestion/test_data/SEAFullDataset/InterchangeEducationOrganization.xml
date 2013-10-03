@@ -43,30 +43,6 @@
     <LEACategory>Independent</LEACategory>
   </EducationOrganization>
   <EducationOrganization>
-    <StateOrganizationId>IL-DAYBREAK-DIS</StateOrganizationId>
-    <NameOfInstitution>Daybreak School District 4528</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>Local Education Agency</OrganizationCategory>
-    </OrganizationCategories>
-    <ParentEducationAgencyReference>
-  <EducationalOrgIdentity>
-    <StateOrganizationId>IL</StateOrganizationId>
-  </EducationalOrgIdentity>
-</ParentEducationAgencyReference>
-    <Address>
-      <StreetNumberName>456 Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>00000</PostalCode>
-    </Address>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>ACC-TEST-PROG-2</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <LEACategory>Independent</LEACategory>
-  </EducationOrganization>
-  <EducationOrganization>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>South Daybreak Elementary</ID>
@@ -140,6 +116,40 @@
       <SchoolCategory>Junior High School</SchoolCategory>
     </SchoolCategories>
   </EducationOrganization>
+  <EducationOrganization>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+            <ID>Daybreak Central High</ID>
+        </EducationOrgIdentificationCode>
+        <NameOfInstitution>Daybreak Central High</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>School</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address AddressType="Physical">
+            <StreetNumberName>111 Ave C</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>10098</PostalCode>
+            <NameOfCounty>Wake</NameOfCounty>
+        </Address>
+        <Telephone InstitutionTelephoneNumberType="Main">
+            <TelephoneNumber>(917)-555-0216</TelephoneNumber>
+        </Telephone>
+        <GradesOffered>
+            <GradeLevel>Ninth grade</GradeLevel>
+            <GradeLevel>Tenth grade</GradeLevel>
+            <GradeLevel>Eleventh grade</GradeLevel>
+            <GradeLevel>Twelfth grade</GradeLevel>
+        </GradesOffered>
+        <SchoolCategories>
+            <SchoolCategory>High School</SchoolCategory>
+        </SchoolCategories>
+    </EducationOrganization>
   <Course>
     <CourseTitle>3rd Grade Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -156,7 +166,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>IL</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>3rd-Grade-Homeroom-1</UniqueCourseId>

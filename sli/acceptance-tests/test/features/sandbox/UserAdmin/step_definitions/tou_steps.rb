@@ -1,7 +1,7 @@
 require 'ldapstorage'
 require_relative '../../../admintools/step_definitions/reset_change_password.rb'
 
-$user_email = "jraynor@#{Socket.gethostname}"
+$user_email = "jraynor@#{get_mac_address('_')}"
 $ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
                         PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
                         PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
