@@ -389,7 +389,18 @@ class ApplicationAuthorizationsController < ApplicationController
     parents = eo[:parents]
     is_repeat_subtree = parents.length > 1 && parent_id != parents.last && seen.has_key?(parents.last)
     if is_repeat_subtree
-      canonical_parent_name = @edinf[parents.last][:name]
+      anc_id = parents.last
+      ppath = []
+      while !is_empty(anc_id) && anc_id != ROOT_ID
+        ppath.unshift(@edinf[anc_id][:name])
+        new_parents = @edinf[anc_id][:parents]
+        if new_parents.empty?
+          anc_id = nil
+        else
+          anc_id = new_parents.last
+        end
+      end
+      path_to_root = ppath.join(" &rarr; ")
     end
 
     nchildren = eo[:children].length
@@ -419,7 +430,7 @@ class ApplicationAuthorizationsController < ApplicationController
     result += "<i>" if !eo[:enabled]
     result += "(&rArr; see " if is_repeat_subtree
     result += eo[:name]
-    result += ", under \"" + canonical_parent_name + "\" above)" if is_repeat_subtree
+    result += ", under \"" + path_to_root + "\" above)" if is_repeat_subtree
     result += "</i>" if !eo[:enabled]
     # Add counts.  Note that eo[:nchild] is the number of direct child EdOrgs not the number of child display nodes
     nchild = eo[:nchild]
