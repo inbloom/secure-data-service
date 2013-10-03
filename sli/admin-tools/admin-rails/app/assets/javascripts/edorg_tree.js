@@ -15,6 +15,30 @@ $(document).ready(function() {
           descendants: null
         }
     });
+
+    $('.daredevel-tree input[type=checkbox]').click(function () {
+
+        var hierarchicalMode = false;
+        if ($('#hierarchical_mode').is(':checked')) {
+            hierarchicalMode = true;
+        }
+
+        if (hierarchicalMode) {
+            var $this = $(this);
+            var $parent = $(this).parent();
+            if ($this.is(':checked')) {
+                console.log("was checked");
+                console.log($parent);
+                $parent.find('input[type=checkbox]').prop('checked', true);
+            } else {
+                console.log('was unchecked');
+                console.log($parent);
+                $parent.find('input[type=checkbox]').prop('checked', false);
+            }
+        }
+    });
+
+
     $('.jquery').each(function() {
         eval($(this).html());
     });
