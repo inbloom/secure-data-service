@@ -18,21 +18,21 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <PostalCode>00000</PostalCode>
     </Address>
     <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(209)555-2434</TelephoneNumber>
+      <TelephoneNumber>(385)555-1328</TelephoneNumber>
     </Telephone>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>256</ProgramId>
+        <ProgramId>249</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>257</ProgramId>
+        <ProgramId>250</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>258</ProgramId>
+        <ProgramId>251</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
 </EducationOrganization>
@@ -2757,27 +2757,27 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <UniqueCourseId>34</UniqueCourseId>
   </Course>
   <Program>
-    <ProgramId>256</ProgramId>
-    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramId>249</ProgramId>
+    <ProgramType>Bilingual Summer</ProgramType>
     <ProgramSponsor>State Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:256</CodeValue>
+      <CodeValue>srv:249</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>257</ProgramId>
-    <ProgramType>Bilingual</ProgramType>
+    <ProgramId>250</ProgramId>
+    <ProgramType>Community Service Program</ProgramType>
     <ProgramSponsor>State Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:257</CodeValue>
+      <CodeValue>srv:250</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>258</ProgramId>
-    <ProgramType>Even Start</ProgramType>
+    <ProgramId>251</ProgramId>
+    <ProgramType>Library/Media Services Program</ProgramType>
     <ProgramSponsor>State Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:258</CodeValue>
+      <CodeValue>srv:251</CodeValue>
     </Services>
   </Program>
   <Program>
@@ -3066,62 +3066,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
       <CodeValue>srv:248</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>249</ProgramId>
-    <ProgramType>Library/Media Services Program</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:249</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>250</ProgramId>
-    <ProgramType>Other</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:250</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>251</ProgramId>
-    <ProgramType>Even Start</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:251</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>252</ProgramId>
-    <ProgramType>International Baccalaureate</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:252</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>253</ProgramId>
-    <ProgramType>Library/Media Services Program</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:253</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>254</ProgramId>
-    <ProgramType>Library/Media Services Program</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:254</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>255</ProgramId>
-    <ProgramType>Cocurricular Programs</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:255</CodeValue>
     </Services>
   </Program>
   <Program>
@@ -4847,17 +4791,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
     <OperationalStatus>Changed Agency</OperationalStatus>
     <AccountabilityRatings>
-      <RatingTitle>2009 rating: IL-DAYBREAK</RatingTitle>
-      <Rating>Low Advanced</Rating>
-      <RatingDate>2009-02-01</RatingDate>
-      <SchoolYear>2009-2010</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
       <RatingTitle>2010 rating: IL-DAYBREAK</RatingTitle>
-      <Rating>High Satisfactory</Rating>
-      <RatingDate>2010-11-27</RatingDate>
+      <Rating>Low Advanced</Rating>
+      <RatingDate>2010-02-01</RatingDate>
       <SchoolYear>2010-2011</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
@@ -4865,7 +4801,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AccountabilityRatings>
       <RatingTitle>2011 rating: IL-DAYBREAK</RatingTitle>
       <Rating>High Satisfactory</Rating>
-      <RatingDate>2011-08-25</RatingDate>
+      <RatingDate>2011-11-27</RatingDate>
       <SchoolYear>2011-2012</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
@@ -4873,8 +4809,16 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AccountabilityRatings>
       <RatingTitle>2012 rating: IL-DAYBREAK</RatingTitle>
       <Rating>High Satisfactory</Rating>
-      <RatingDate>2012-06-23</RatingDate>
+      <RatingDate>2012-08-25</RatingDate>
       <SchoolYear>2012-2013</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2013 rating: IL-DAYBREAK</RatingTitle>
+      <Rating>High Satisfactory</Rating>
+      <RatingDate>2013-06-23</RatingDate>
+      <SchoolYear>2013-2014</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
     </AccountabilityRatings>
@@ -4957,34 +4901,34 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
     <OperationalStatus>Active</OperationalStatus>
     <AccountabilityRatings>
-      <RatingTitle>2009 rating: 14</RatingTitle>
-      <Rating>High Satisfactory</Rating>
-      <RatingDate>2009-08-05</RatingDate>
-      <SchoolYear>2009-2010</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
       <RatingTitle>2010 rating: 14</RatingTitle>
-      <Rating>High Advanced</Rating>
-      <RatingDate>2010-11-11</RatingDate>
+      <Rating>High Satisfactory</Rating>
+      <RatingDate>2010-08-05</RatingDate>
       <SchoolYear>2010-2011</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
     </AccountabilityRatings>
     <AccountabilityRatings>
       <RatingTitle>2011 rating: 14</RatingTitle>
-      <Rating>Low Unsatisfactory</Rating>
-      <RatingDate>2011-07-21</RatingDate>
+      <Rating>High Advanced</Rating>
+      <RatingDate>2011-11-11</RatingDate>
       <SchoolYear>2011-2012</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
     </AccountabilityRatings>
     <AccountabilityRatings>
       <RatingTitle>2012 rating: 14</RatingTitle>
-      <Rating>Low Satisfactory</Rating>
-      <RatingDate>2012-06-25</RatingDate>
+      <Rating>Low Unsatisfactory</Rating>
+      <RatingDate>2012-07-21</RatingDate>
       <SchoolYear>2012-2013</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2013 rating: 14</RatingTitle>
+      <Rating>Low Satisfactory</Rating>
+      <RatingDate>2013-06-25</RatingDate>
+      <SchoolYear>2013-2014</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
     </AccountabilityRatings>
@@ -5067,34 +5011,34 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
     <OperationalStatus>New</OperationalStatus>
     <AccountabilityRatings>
-      <RatingTitle>2009 rating: 15</RatingTitle>
-      <Rating>High Satisfactory</Rating>
-      <RatingDate>2009-11-16</RatingDate>
-      <SchoolYear>2009-2010</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
       <RatingTitle>2010 rating: 15</RatingTitle>
-      <Rating>Low Advanced</Rating>
-      <RatingDate>2010-10-08</RatingDate>
+      <Rating>High Satisfactory</Rating>
+      <RatingDate>2010-11-16</RatingDate>
       <SchoolYear>2010-2011</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
     </AccountabilityRatings>
     <AccountabilityRatings>
       <RatingTitle>2011 rating: 15</RatingTitle>
-      <Rating>High Satisfactory</Rating>
-      <RatingDate>2011-04-13</RatingDate>
+      <Rating>Low Advanced</Rating>
+      <RatingDate>2011-10-08</RatingDate>
       <SchoolYear>2011-2012</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
     </AccountabilityRatings>
     <AccountabilityRatings>
       <RatingTitle>2012 rating: 15</RatingTitle>
-      <Rating>High Advanced</Rating>
-      <RatingDate>2012-07-16</RatingDate>
+      <Rating>High Satisfactory</Rating>
+      <RatingDate>2012-04-13</RatingDate>
       <SchoolYear>2012-2013</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2013 rating: 15</RatingTitle>
+      <Rating>High Advanced</Rating>
+      <RatingDate>2013-07-16</RatingDate>
+      <SchoolYear>2013-2014</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
     </AccountabilityRatings>
@@ -5162,34 +5106,34 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
     <OperationalStatus>Added</OperationalStatus>
     <AccountabilityRatings>
-      <RatingTitle>2009 rating: 16</RatingTitle>
-      <Rating>High Satisfactory</Rating>
-      <RatingDate>2009-02-11</RatingDate>
-      <SchoolYear>2009-2010</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
       <RatingTitle>2010 rating: 16</RatingTitle>
       <Rating>High Satisfactory</Rating>
-      <RatingDate>2010-05-15</RatingDate>
+      <RatingDate>2010-02-11</RatingDate>
       <SchoolYear>2010-2011</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
     </AccountabilityRatings>
     <AccountabilityRatings>
       <RatingTitle>2011 rating: 16</RatingTitle>
-      <Rating>High Advanced</Rating>
-      <RatingDate>2011-01-06</RatingDate>
+      <Rating>High Satisfactory</Rating>
+      <RatingDate>2011-05-15</RatingDate>
       <SchoolYear>2011-2012</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
     </AccountabilityRatings>
     <AccountabilityRatings>
       <RatingTitle>2012 rating: 16</RatingTitle>
-      <Rating>Mid Satisfactory</Rating>
-      <RatingDate>2012-03-28</RatingDate>
+      <Rating>High Advanced</Rating>
+      <RatingDate>2012-01-06</RatingDate>
       <SchoolYear>2012-2013</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2013 rating: 16</RatingTitle>
+      <Rating>Mid Satisfactory</Rating>
+      <RatingDate>2013-03-28</RatingDate>
+      <SchoolYear>2013-2014</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
     </AccountabilityRatings>
@@ -5236,101 +5180,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>248</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <LEACategory>Independent</LEACategory>
-</EducationOrganization>
-  <EducationOrganization>
-    <StateOrganizationId>17</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>17</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>17</NameOfInstitution>
-    <ShortNameOfInstitution>17 LEA</ShortNameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>Local Education Agency</OrganizationCategory>
-    </OrganizationCategories>
-    <ParentEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </ParentEducationAgencyReference>
-    <Address>
-      <StreetNumberName>623 North Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>60601</PostalCode>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(278) 555-9247</TelephoneNumber>
-    </Telephone>
-    <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
-    <OperationalStatus>Active</OperationalStatus>
-    <AccountabilityRatings>
-      <RatingTitle>2009 rating: 17</RatingTitle>
-      <Rating>High Satisfactory</Rating>
-      <RatingDate>2009-09-11</RatingDate>
-      <SchoolYear>2009-2010</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2010 rating: 17</RatingTitle>
-      <Rating>High Advanced</Rating>
-      <RatingDate>2010-04-07</RatingDate>
-      <SchoolYear>2010-2011</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2011 rating: 17</RatingTitle>
-      <Rating>High Advanced</Rating>
-      <RatingDate>2011-07-28</RatingDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2012 rating: 17</RatingTitle>
-      <Rating>High Satisfactory</Rating>
-      <RatingDate>2012-10-31</RatingDate>
-      <SchoolYear>2012-2013</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>249</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>250</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>251</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>252</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>253</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>254</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>255</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
@@ -5428,8 +5277,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolType>Vocational</SchoolType>
     <CharterStatus>Not a Charter School</CharterStatus>
     <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
-    <MagnetSpecialProgramEmphasisSchool>No students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
+    <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
 </EducationOrganization>
   <EducationOrganization>
     <StateOrganizationId>2</StateOrganizationId>
@@ -5442,7 +5291,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </OrganizationCategories>
     <ParentEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>17</StateOrganizationId>
+        <StateOrganizationId>16</StateOrganizationId>
       </EducationalOrgIdentity>
     </ParentEducationAgencyReference>
     <Address>
@@ -5541,11 +5390,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <SchoolType>Special Education</SchoolType>
-    <CharterStatus>School Charter</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
-    <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
+    <SchoolType>JJAEP</SchoolType>
+    <CharterStatus>College/University Charter</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I targeted eligible school - no program</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>No students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
 </EducationOrganization>
   <EducationOrganization>
     <StateOrganizationId>3</StateOrganizationId>
@@ -5632,10 +5481,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <SchoolType>Vocational</SchoolType>
-    <CharterStatus>School Charter</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I targeted eligible school - no program</TitleIPartASchoolDesignation>
-    <MagnetSpecialProgramEmphasisSchool>No students participate</MagnetSpecialProgramEmphasisSchool>
+    <SchoolType>DAEP</SchoolType>
+    <CharterStatus>College/University Charter</CharterStatus>
+    <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
     <AdministrativeFundingControl>Other</AdministrativeFundingControl>
 </EducationOrganization>
   <EducationOrganization>
@@ -5649,7 +5498,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </OrganizationCategories>
     <ParentEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>16</StateOrganizationId>
+        <StateOrganizationId>15</StateOrganizationId>
       </EducationalOrgIdentity>
     </ParentEducationAgencyReference>
     <Address>
@@ -5738,11 +5587,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <SchoolType>Alternative</SchoolType>
+    <SchoolType>Vocational</SchoolType>
     <CharterStatus>College/University Charter</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
+    <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
     <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
+    <AdministrativeFundingControl>Private School</AdministrativeFundingControl>
 </EducationOrganization>
   <EducationOrganization>
     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -5871,11 +5720,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>Middle School</SchoolCategory>
     </SchoolCategories>
-    <SchoolType>Regular</SchoolType>
-    <CharterStatus>Not a Charter School</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I school wide eligible - Title I targeted program</TitleIPartASchoolDesignation>
+    <SchoolType>Vocational</SchoolType>
+    <CharterStatus>Open Enrollment</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I targeted eligible school - no program</TitleIPartASchoolDesignation>
     <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Private School</AdministrativeFundingControl>
+    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
 </EducationOrganization>
   <EducationOrganization>
     <StateOrganizationId>6</StateOrganizationId>
@@ -5888,7 +5737,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </OrganizationCategories>
     <ParentEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>16</StateOrganizationId>
+        <StateOrganizationId>15</StateOrganizationId>
       </EducationalOrgIdentity>
     </ParentEducationAgencyReference>
     <Address>
@@ -5989,9 +5838,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>Middle School</SchoolCategory>
     </SchoolCategories>
-    <SchoolType>Vocational</SchoolType>
+    <SchoolType>Alternative</SchoolType>
     <CharterStatus>School Charter</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I school wide eligible - Title I targeted program</TitleIPartASchoolDesignation>
+    <TitleIPartASchoolDesignation>Title I school wide eligible school - no program</TitleIPartASchoolDesignation>
     <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
     <AdministrativeFundingControl>Private School</AdministrativeFundingControl>
 </EducationOrganization>
@@ -6118,11 +5967,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>High School</SchoolCategory>
     </SchoolCategories>
-    <SchoolType>Special Education</SchoolType>
-    <CharterStatus>School Charter</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I targeted school</TitleIPartASchoolDesignation>
+    <SchoolType>JJAEP</SchoolType>
+    <CharterStatus>Open Enrollment</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
     <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
+    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
 </EducationOrganization>
   <EducationOrganization>
     <StateOrganizationId>Eastside High</StateOrganizationId>
@@ -6262,10 +6111,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>High School</SchoolCategory>
     </SchoolCategories>
-    <SchoolType>DAEP</SchoolType>
-    <CharterStatus>College/University Charter</CharterStatus>
+    <SchoolType>Regular</SchoolType>
+    <CharterStatus>Open Enrollment</CharterStatus>
     <TitleIPartASchoolDesignation>Title I targeted school</TitleIPartASchoolDesignation>
-    <MagnetSpecialProgramEmphasisSchool>No students participate</MagnetSpecialProgramEmphasisSchool>
+    <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
     <AdministrativeFundingControl>Other</AdministrativeFundingControl>
 </EducationOrganization>
   <EducationOrganization>
@@ -6279,7 +6128,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </OrganizationCategories>
     <ParentEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>14</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </ParentEducationAgencyReference>
     <Address>
@@ -6421,11 +6270,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>High School</SchoolCategory>
     </SchoolCategories>
-    <SchoolType>DAEP</SchoolType>
-    <CharterStatus>Open Enrollment</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I targeted eligible school - no program</TitleIPartASchoolDesignation>
+    <SchoolType>Regular</SchoolType>
+    <CharterStatus>Not a Charter School</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
     <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Private School</AdministrativeFundingControl>
+    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
 </EducationOrganization>
   <EducationOrganization>
     <StateOrganizationId>Westside High</StateOrganizationId>
@@ -6575,9 +6424,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>High School</SchoolCategory>
     </SchoolCategories>
-    <SchoolType>Alternative</SchoolType>
-    <CharterStatus>College/University Charter</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I targeted school</TitleIPartASchoolDesignation>
+    <SchoolType>Vocational</SchoolType>
+    <CharterStatus>Open Enrollment</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
     <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
     <AdministrativeFundingControl>Other</AdministrativeFundingControl>
 </EducationOrganization>
@@ -6714,9 +6563,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>High School</SchoolCategory>
     </SchoolCategories>
-    <SchoolType>Regular</SchoolType>
-    <CharterStatus>College/University Charter</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I targeted eligible school - no program</TitleIPartASchoolDesignation>
+    <SchoolType>DAEP</SchoolType>
+    <CharterStatus>Open Enrollment</CharterStatus>
+    <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
     <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
     <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
 </EducationOrganization>
@@ -6863,10 +6712,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>High School</SchoolCategory>
     </SchoolCategories>
-    <SchoolType>Alternative</SchoolType>
-    <CharterStatus>Open Enrollment</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I school wide eligible - Title I targeted program</TitleIPartASchoolDesignation>
-    <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
+    <SchoolType>DAEP</SchoolType>
+    <CharterStatus>School Charter</CharterStatus>
+    <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
     <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
 </EducationOrganization>
   <CompetencyLevelDescriptor>
