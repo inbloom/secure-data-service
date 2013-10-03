@@ -21,7 +21,7 @@ class ApplicationAuthorizationsController < ApplicationController
   before_filter :check_rights
 
   ROOT_ID = "root"
-  FAKE_PREFIX = "fake_"
+  CATEGORY_NODE_PREFIX = "cat_"
   
   #
   # Edit app authorizations
@@ -273,16 +273,23 @@ class ApplicationAuthorizationsController < ApplicationController
       @edinf[id][:parents] = [ ROOT_ID ]
     end
 
-    # Compile counts across whole tree and build fake by-type nodes
+    # Compile counts across whole tree and build "by-type" category nodes
     @id_counter = 0
-    count_children(ROOT_ID)
+    count_children(ROOT_ID, {})
     
   end
 
   # Traverse graph and count children and descendants and put into @edinf map
   # Sets :nchild and :ndesc in the node with given ID
   # Replaces :children array with array of nodes by type
-  def count_children(id)
+  def count_children(id, seen)
+    # Trap cycles
+    if seen.has_key?(id)
+      raise "CYCLE in EdOrg hierarchy includes EdOrg id '" + id + "'"
+    else
+      seen[id] = true
+    end
+    
     nchild = @edinf[id][:children].length
     @edinf[id][:nchild] = nchild
     ndesc = nchild
@@ -293,7 +300,7 @@ class ApplicationAuthorizationsController < ApplicationController
     @edinf[id][:children].sort!( & compare_name )
 
     @edinf[id][:children].each do |cid|
-      count_children(cid)
+      count_children(cid, seen.clone)
       ndesc += @edinf[cid][:ndesc]
       ctype = get_edorg_type(cid)
       if by_type.has_key?(ctype)
@@ -304,7 +311,7 @@ class ApplicationAuthorizationsController < ApplicationController
         by_type[ctype][:enabled] = by_type[ctype][:enabled] && @edinf[cid][:enabled]
         by_type[ctype][:authorized] = by_type[ctype][:authorized] && @edinf[cid][:authorized]
       else
-        new_id = FAKE_PREFIX + @id_counter.to_s
+        new_id = CATEGORY_NODE_PREFIX + @id_counter.to_s
         @id_counter += 1
         by_type[ctype] = { :id => new_id, :name => ctype, :parents => [ id ], :children => [ cid ], :nchild => 1, :ndesc => @edinf[cid][:ndesc] + 1,
                            :enabled => @edinf[cid][:enabled], :authorized => @edinf[cid][:authorized]
@@ -350,7 +357,7 @@ class ApplicationAuthorizationsController < ApplicationController
   # Render a <li> element for the node, and if children exist, render
   # a <ul> with <li>'s for the children.
   # Each <li> will have a checkbox with the edOrg ID, with "checked"
-  # set if the edOrg is currently selected (or if it is a "fake" node
+  # set if the edOrg is currently selected (or if it is a "category" node
   # and all it's children are selected).  The <li> will be given
   # a class="collapsed" if it should be collapsed initially.  This
   # will be determined by number of children being fewer than some
@@ -373,10 +380,10 @@ class ApplicationAuthorizationsController < ApplicationController
     result += ">"
 
     # <input>
-    is_fake = id.start_with?(FAKE_PREFIX)
+    is_category = id.start_with?(CATEGORY_NODE_PREFIX) || id == ROOT_ID
     if eo[:enabled]
       result += "<input type=\"checkbox\""
-      if !id.start_with?(FAKE_PREFIX) && !is_empty(id)
+      if !id.start_with?(CATEGORY_NODE_PREFIX) && !is_empty(id)
         result += " id=\"" + id + "\""
       end
       result += " checked" if eo[:authorized]
@@ -384,6 +391,9 @@ class ApplicationAuthorizationsController < ApplicationController
     end
 
     # Text of the node.  Italicize if not enabled
+    result += "<span"
+    result += " class=\"categorynode\"" if is_category
+    result += ">"
     result += "<i>" if !eo[:enabled]
     result += eo[:name]
     result += "</i>" if !eo[:enabled]
@@ -398,7 +408,7 @@ class ApplicationAuthorizationsController < ApplicationController
       end
       result += "<span class=\"treecounts\"> (" + countstr + ")</span>"
     end
-    result += "\n"
+    result += "</span>\n"
     
     # Children
     if nchildren > 0
