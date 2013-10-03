@@ -23,26 +23,29 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
 /**
- * PublicData Extractor which extracts all entities of belonging to a tenant.
- * @author tshewchuk
+ * PublicData Extractor that extracts entities which have a field that directly references and EdOrg.
+ * @author ablum
  */
-public class UnfilteredPublicDataExtractor implements PublicDataExtractor{
+public class DirectPublicDataExtractor implements PublicDataExtractor {
 
     private EntityExtractor extractor;
 
     /**
      * Constructor.
-     *
-     * @param extractor - the entity extractor
+     * @param extractor the entity extractor
      */
-    public UnfilteredPublicDataExtractor(EntityExtractor extractor) {
+    public DirectPublicDataExtractor(EntityExtractor extractor) {
         this.extractor = extractor;
     }
 
     @Override
     public void extract(ExtractFile file) {
-        for (PublicEntityDefinition entity : PublicEntityDefinition.unFilteredEntities()) {
-            extractor.extractEntities(file, entity.getEntityName());
+        for (PublicEntityDefinition definition : PublicEntityDefinition.directReferencedEntities()) {
+            NeutralQuery query = new NeutralQuery(new NeutralCriteria(definition.getEdOrgRefField(),
+                    NeutralCriteria.OPERATOR_EQUAL, file.getEdorg(), false));
+            extractor.setExtractionQuery(query);
+            extractor.extractEntities(file, definition.getEntityName());
         }
-     }
+        extractor.setExtractionQuery(new NeutralQuery());
+    }
 }
