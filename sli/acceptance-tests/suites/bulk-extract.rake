@@ -66,6 +66,13 @@ task :bulkExtractSuperdocTest do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
+desc "Verify students and staff with expired associations to edorgs and schools are extracted correctly"
+task :bulkExtractPriorTest => [:realmInit] do
+#  Rake::Task["bulkExtractTriggerTest"].execute if TRIGGER_NEW_EXTRACT
+  runTests("test/features/bulk_extract/features/bulk_extract_prior_data.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
 desc "Trigger bulk extract and retrieve the extract through the API"
 task :bulkExtractIntegrationTest do
   #Rake::Task["bulkExtractSetup"].execute if TRIGGER_NEW_EXTRACT

@@ -1784,12 +1784,13 @@ Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, 
     table.hashes.map do |entity|
         id = entity['id']
         json_entities = json_map[id]
-        field, value = entity['condition'].split('=').map{|s| s.strip}
         if ((entity['condition'].nil? || entity['condition'].empty?) && !look_for)
             assert(json_entities.nil?, "Entity with id #{id} should not exist, but it does")
             next
+        else
+            assert(!json_entities.nil?, "Does not contain an entity with id: #{id}")
         end
-        assert(!json_entities.nil?, "Does not contain an entity with id: #{id}")
+        field, value = entity['condition'].split('=').map{|s| s.strip}
         success = false
         json_entities.each {|e|
             success = find_value_in_map(e, field, value)
