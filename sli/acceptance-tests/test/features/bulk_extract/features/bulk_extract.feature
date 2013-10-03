@@ -66,3 +66,5 @@ Scenario: Trigger a bulk extract on ingested data
       |  session                               |
       |  gradingPeriod                         |
       |  school                                |
+      |  section                               |
+      |  cohort                               |

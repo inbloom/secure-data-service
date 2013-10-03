@@ -540,6 +540,8 @@ Scenario: App makes an api call to retrieve a SEA public data bulk extract
       |  session                               |
       |  calendarDate                          |
       |  school                                |
+      |  cohort                                |
+      |  section                               |
 
 Scenario: App makes an api call to retrieve a bulk extract delta
 #Get a session to trigger a bulk extract

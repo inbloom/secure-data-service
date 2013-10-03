@@ -71,6 +71,8 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
     |  session                               |
     |  gradingPeriod                         |
     |  school                                |
+    |  section                               |
+    |  cohort                                |
 
 
 Scenario: Un-Authorized user cannot use the endpoint

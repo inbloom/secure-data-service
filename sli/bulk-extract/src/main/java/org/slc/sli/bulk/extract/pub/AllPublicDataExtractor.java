@@ -16,9 +16,13 @@
 
 package org.slc.sli.bulk.extract.pub;
 
+import com.google.common.base.Predicate;
+import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.PublicEntityDefinition;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
@@ -43,7 +47,28 @@ public class AllPublicDataExtractor implements PublicDataExtractor {
     public void extract(ExtractFile file) {
         extractor.setExtractionQuery(new NeutralQuery());
         for (PublicEntityDefinition entity : PublicEntityDefinition.values()) {
-            extractor.extractEntities(file, entity.getEntityName());
+            extractor.extractEntities(file, entity.getEntityName(), new Predicate<Entity>() {
+                @Override
+                public boolean apply(Entity input) {
+                    boolean shouldExtract = true;
+                    if (!isPublicEntity(input.getType())) {
+                        shouldExtract = false;
+                    }
+
+                    return shouldExtract;
+                }
+            });
         }
      }
+
+    private boolean isPublicEntity(String entityName) {
+
+        for (PublicEntityDefinition entityType : PublicEntityDefinition.values()) {
+            if (entityType.name().equals(entityName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

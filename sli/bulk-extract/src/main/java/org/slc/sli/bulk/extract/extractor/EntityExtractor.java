@@ -67,9 +67,9 @@ public class EntityExtractor{
      *          Archive File
      * @param collectionName
      *          Name of the entity to be extracted
+     * @param filter
      */
-    public void extractEntities(ExtractFile archiveFile, String collectionName) {
-
+    public void extractEntities(ExtractFile archiveFile, String collectionName, Predicate<Entity> filter) {
         audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
                 " Entity extraction", LogLevelType.TYPE_INFO,
                 BEMessageCode.BE_SE_CODE_0024, collectionName));
@@ -84,15 +84,13 @@ public class EntityExtractor{
 
             while (cursor.hasNext()) {
                 Entity entity = cursor.next();
-
-                write(entity, archiveFile, collectionRecord, null);
+                write(entity, archiveFile, collectionRecord, filter);
 
             }
 
             LOG.info("Finished extracting " + collectionRecord.toString());
         }
     }
-    
     /**
      * Writes a single entity to an extract file.
      * 

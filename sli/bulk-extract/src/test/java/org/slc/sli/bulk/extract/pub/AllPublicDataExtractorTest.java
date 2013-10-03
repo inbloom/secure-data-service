@@ -26,6 +26,8 @@ import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.PublicEntityDefinition;
 
+import com.google.common.base.Predicate;
+
 /**
  * Test UnfilteredPublicDataExtractor
  * @author tshewchuk
@@ -50,7 +52,7 @@ public class AllPublicDataExtractorTest {
     public void testExtract() {
         publicDataExtractor.extract(file);
         for (PublicEntityDefinition definition : PublicEntityDefinition.values()) {
-            Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, definition.getEntityName());
+            Mockito.verify(extractor, Mockito.times(1)).extractEntities(Mockito.eq(file), Mockito.eq(definition.getEntityName()), Mockito.any(Predicate.class));
         }
     }
 
