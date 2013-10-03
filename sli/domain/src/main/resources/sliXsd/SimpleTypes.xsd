@@ -1998,6 +1998,7 @@
 		</xs:annotation>
 		<xs:restriction base="xs:token">
 			<xs:enumeration value="In Attendance"/>
+			<xs:enumeration value="Absence"/>
 			<xs:enumeration value="Excused Absence"/>
 			<xs:enumeration value="Unexcused Absence"/>
 			<xs:enumeration value="Tardy"/>

@@ -751,11 +751,20 @@ def contains_all(api_result, should_exists, opt_count=0)
 
   @result = JSON.parse(api_result.body)
   response_ids = Set.new(@result.collect{|res| res["id"]})
-
+  response_ids.each do |rid|
+    puts "| " + rid.to_s + " |"
+  end
   missing_ids = should_exists.subtract(response_ids.intersection(should_exists))
   missing_ids.each { |missed|
       print "#{startRed}Looking for Entity: #{missed}#{colorReset}\n"
   }
+
+  unless missing_ids.empty?
+    puts "Response ids :"
+    response_ids.each do |rid|
+      puts "| " + rid.to_s + " |"
+    end
+  end
 
   missing_ids.empty? && response_ids.size >= opt_count 
 end

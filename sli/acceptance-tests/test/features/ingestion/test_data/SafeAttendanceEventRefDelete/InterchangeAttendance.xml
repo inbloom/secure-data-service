@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 <InterchangeStudentAttendance xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAttendance.xsd">
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/AttendanceEventCategory">
     <Action ActionType="DELETE" Cascade="false" Force="false">
 
         <AttendanceEventReference>
             <AttendanceEventIdentity>
                 <SchoolYear>2001-2002</SchoolYear>
                 <EventDate>2001-09-13</EventDate>
+                <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>1</StudentUniqueStateId>

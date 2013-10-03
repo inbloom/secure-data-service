@@ -16,7 +16,7 @@ Scenario: Parents has access to entities via API endpoints
     | staff                                    | 4255c28503a1c96ed9a9127d1a21f992e636acd6_id |
     | staff                                    | 143760f37839b2608d2c929ef26d30c900f6a434_id |
     | staff                                    | 8b6a31734ed43040f8a171d5d85e39176c543f22_id |
-    | staffCohortAssociations                  | a17d936ca77e391ace5d14645a4b9b78f6dbd387_id |
+    | staffCohortAssociations                  | ee3d3035994b88d465553f38a265fff4597946d2_id |
     | staffProgramAssociations                 | 8c163998fbc8ab004b7cf95e33fc5f6d14e87982_id |
     | staffEducationOrgAssignmentAssociations  | b1877c4d0d8e081e87f8af9a933c6d46aea5d9ad_id |
     | teacherSectionAssociations               | eb8663fe6856b49684a778446a0a1ad33238a86d_idc2e898df96ee2cb40e24e1986a2d1cbdf053184f_id |
@@ -53,10 +53,11 @@ Scenario: Parent has access to non-transitive associations
     | 067198fd6da91e1aa8d67e28e850f224d6851713_ide16cd0618778dd1f72935f6ecb54519db428a97f_id |
     | 067198fd6da91e1aa8d67e28e850f224d6851713_idbee47dcc9085b8a8193dbaa7cc2d39730d19b059_id |
     | 067198fd6da91e1aa8d67e28e850f224d6851713_idef2480c472f48a31dfa1980d4a25e3fe2466d1d9_id |
-    | 067198fd6da91e1aa8d67e28e850f224d6851713_id1564ad795bbfa929b2deb7b06386ad60f50c84fc_id |
+    | 067198fd6da91e1aa8d67e28e850f224d6851713_id15841d8ee9f6c3f2e60b9087255e5fab536ebd37_id |
+    | 067198fd6da91e1aa8d67e28e850f224d6851713_id6417d8a91387ee974e410e05a47457413aa82700_id |
   When I validate the allowed association entities via API "/v1/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentCohortAssociations":
     | id                                                                                     |
-    | 067198fd6da91e1aa8d67e28e850f224d6851713_idc787af32ad98c7e7062619db99d233c32582d30a_id |
+    | 067198fd6da91e1aa8d67e28e850f224d6851713_id3ae975b387f2af8761a354abb13dacd04a6b748b_id |
     | 067198fd6da91e1aa8d67e28e850f224d6851713_id35a7d3e403fa4702ee6db8cac8719eebf28a3e7e_id |
   When I validate the allowed association entities via API "/v1/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentSchoolAssociations":
     | id                                          |

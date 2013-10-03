@@ -29,7 +29,7 @@ Then I should see following map of entry counts in the corresponding collections
      | session                     | 8     |
      | attendance                  | 72    |
    And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter                                 | searchValue   |
+     | collectionName              | expectedRecordCount | searchParameter           | searchValue   |
     | attendance                  | 72                  | body.schoolYear            | 2011-2012     |
     | attendance                  | 10                  | body.attendanceEvent.event | Tardy         |
     | attendance                  | 69                  | body.attendanceEvent.event | In Attendance |
