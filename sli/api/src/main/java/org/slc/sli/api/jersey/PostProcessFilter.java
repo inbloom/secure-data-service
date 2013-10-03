@@ -28,6 +28,7 @@ import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerResponse;
 import com.sun.jersey.spi.container.ContainerResponseFilter;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
@@ -85,6 +86,9 @@ public class PostProcessFilter implements ContainerResponseFilter {
     @Value("${sli.api.performance.tracking}")
     private String apiPerformanceTracking;
 
+    @Value("${sli.api.maxResponseHeaderXexecutedPath:2048}")
+    private int maxResponseHeaderXexecutedPath;
+
     @Value("${api.server.url}")
     private String apiServerUrl;
 
@@ -117,8 +121,15 @@ public class PostProcessFilter implements ContainerResponseFilter {
         if (null != request.getRequestUri().getQuery()) {
             queryString = "?" + request.getRequestUri().getQuery();
         }
+        String executedPath = request.getPath() + queryString;
+
+        // Truncate the executed path to avoid issues with response header length being too long for the servlet container
+        if (executedPath != null && executedPath.length() > maxResponseHeaderXexecutedPath) {
+            executedPath = executedPath.substring(0, Math.min(executedPath.length(), maxResponseHeaderXexecutedPath));
+        }
+
         response.getHttpHeaders().add("X-RequestedPath", request.getProperties().get("requestedPath"));
-        response.getHttpHeaders().add("X-ExecutedPath", request.getPath() + queryString);
+        response.getHttpHeaders().add("X-ExecutedPath", executedPath);
 
         //        Map<String,Object> body = (Map<String, Object>) response.getEntity();
         //        body.put("requestedPath", request.getProperties().get("requestedPath"));

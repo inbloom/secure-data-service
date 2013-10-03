@@ -233,11 +233,11 @@ default:
 
         # Only used in dashboard
         ## portal.footer.url: https://{portal_host}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
-        portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.footer.url: https://pike-portal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
 
         # Only used in dashboard
         ## portal.header.url: https://{portal_header}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
-        portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.header.url: https://pike-portal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
 
         # Only used in dashboard
         dashboard.log.level: warn
@@ -801,9 +801,9 @@ devjuggernauts:
         ## security.server.url: http://{dashboard_host:port}
         security.server.url: https://devjuggernauts.slidev.org/
         ## portal.footer.url: https://{portal_host}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
-        portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.footer.url: https://pike-portal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
         ## portal.header.url: https://{portal_header}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
-        portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.header.url: https://pike-portal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: debug
         oauth.client.id: CD02AAA8361D240617C98DFFA6B83C01
         oauth.client.secret: 10FA774C06CBF589F5E4B4EA810C1B8FFEA04B3141AEE305069F33096E59CBD1D3B8560F9210293D5FD53D33B8746C1D57A2D2D65D536975E960723B26A2E6B1
@@ -1123,9 +1123,9 @@ local-acceptance-tests:
         ## security.server.url: http://localhost:8080/
         security.server.url: http://local.slidev.org:8080/
         ## portal.footer.url: https://{portal_host}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
-        portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.footer.url: https://pike-portal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
         ## portal.header.url: https://{portal_header}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
-        portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.header.url: https://pike-portal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: warn
         # K2e7Dwhq55
         oauth.client.id: 4FFF0D5C8DA3B7F62159DEAFAEEBF20A
