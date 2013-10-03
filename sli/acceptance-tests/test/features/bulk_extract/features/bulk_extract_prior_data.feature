@@ -148,7 +148,7 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_idcbaa5d1f7d53bfa6fd10ccab7839c3f8a1d1eadd_id |
     And I verify this "studentCohortAssociation" file should not contain:
       | id                                                                                     |
-      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id1dfa9cb66bde7e76175a6b40e3db69855e1544a2_id |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_idc61a12bdb9bbb3c686ba5e9a41cfcd51a99961be_id |
     And I verify this "studentDisciplineIncidentAssociation" file should not contain:
       | id                                                                                     |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_idcca92762298c5d74995e5ddb90c0ae31221dfe71_id |
