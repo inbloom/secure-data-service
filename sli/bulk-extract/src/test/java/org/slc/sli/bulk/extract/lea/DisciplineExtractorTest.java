@@ -80,8 +80,8 @@ public class DisciplineExtractorTest {
         Mockito.when(repo.findEach(Mockito.eq("disciplineAction"), Mockito.any(NeutralQuery.class))).thenReturn(list.listIterator(0));
 
         //return 2 disciplineIncidents
-        Entity e = createDisciplineIncident("2000-02-01");
-        Entity e2 = createDisciplineIncident("2011-02-01");
+        Entity e = createDisciplineIncident();
+        Entity e2 = createDisciplineIncident();
         Mockito.when(repo.findEach(Mockito.eq("disciplineIncident"), Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(e, e2).listIterator(0));
 
         disc = new DisciplineExtractor(ex, leaMap, repo, studentCache, edorgCache);
@@ -90,23 +90,22 @@ public class DisciplineExtractorTest {
     @Test
     public void testExtractDisciplineIncident() {
 
-        EntityToEdOrgDateCache diCache = new EntityToEdOrgDateCache();
-        diCache.addEntry("marker", LEA2, DateTime.parse("2010-02-12", DateHelper.getDateTimeFormat()));
-        diCache.addEntry(DI_ID, LEA2, DateTime.parse("2010-02-12", DateHelper.getDateTimeFormat()));
+        EntityToEdOrgCache diCache = new EntityToEdOrgCache();
+        diCache.addEntry("marker", LEA2);
+        diCache.addEntry(DI_ID, LEA2);
         disc.extractEntities(diCache);
-        Mockito.verify(ex, Mockito.times(1)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq("disciplineIncident"));
+        Mockito.verify(ex, Mockito.times(2)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq("disciplineIncident"));
         Mockito.verify(ex, Mockito.times(1)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq("disciplineAction"));
     }
 
 
-    private Entity createDisciplineIncident(String date) {
+    private Entity createDisciplineIncident() {
         Entity e = Mockito.mock(Entity.class);
 
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("schoolId", LEA);
-        body.put(ParameterConstants.INCIDENT_DATE, date);
+        body.put(ParameterConstants.INCIDENT_DATE, "2000-02-01");
         Mockito.when(e.getBody()).thenReturn(body);
-        Mockito.when(e.getEntityId()).thenReturn(DI_ID);
         Mockito.when(e.getType()).thenReturn(EntityNames.DISCIPLINE_INCIDENT);
         return e;
     }
