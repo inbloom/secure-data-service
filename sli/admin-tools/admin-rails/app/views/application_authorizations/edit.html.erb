@@ -1,4 +1,3 @@
-
 <h1>Edit Application Authorizations</h1>
 <h2>Education Organizations for: <%= @edOrg.nameOfInstitution %></h2>
 <h3>Application: <%= @app_description %></h3>
@@ -13,6 +12,14 @@
     <div>
       <%= @edorg_tree_html.html_safe %>
     </div>
+
+    <%=form_for @appAuth,  :action => :update do |f|%>
+        <%= f.hidden_field :appId, :value => @appAuth.appId %>
+        <%= f.hidden_field :edorgs, :value => '' %>
+        <%= f.submit 'Update' %>
+    <% end %>
+
+
     <%= @debug %>
   </div>
 </div>

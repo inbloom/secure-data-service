@@ -139,8 +139,6 @@ class ApplicationAuthorizationsController < ApplicationController
   # PUT /application_authorizations/1.json
   def update
 
-    load_apps()
-
     # Only allow update by SEA admin.  Should not really trigger this since the
     # buttons are grayed out and non-SEAadmin use is not invited to get here
     unless is_sea_admin?
@@ -149,40 +147,18 @@ class ApplicationAuthorizationsController < ApplicationController
     end
 
     # Top level edOrg to expand
-    edorg = params[:application_authorization][:edorg]
+    edorg = session[:edOrgId]
+    # EdOrgs selected using Tree Control
+    edorgs = params[:application_authorization][:edorgs]
+    edorgs.strip!
+    all_edorgs = edorgs.split(/,/)
 
     # ID of app
     appId = params[:application_authorization][:appId]
+    updates = {"appId" =>  appId, "authorized" => true, :edorgs => all_edorgs}
+    @application_authorization = ApplicationAuthorization.find(params[:id])
+    success = @application_authorization.update_attributes(updates)
 
-    # Will affect a different set of affected edOrgs depending on whether app is Bulk Extract or not
-    isBulkExtract = @apps_map[appId].isBulkExtract
-
-    # Get all descendants of edorg and grant or revoke all of them for this app
-    if isBulkExtract
-      all_edorgs = EducationOrganization.get_edorg_children(edorg).map { |edOrg| edOrg.id }
-      all_edorgs.push(edorg)
-    else
-      all_edorgs = EducationOrganization.get_edorg_descendants(edorg)
-    end
-
-    # Action is approve/deny based on waht button was used
-    approve = true
-    if(params[:commit] == "Deny")
-      approve = false
-    end
-
-    # Loop through affected edorgs and update authorizations
-    success = true
-    updates = {"appId" =>  appId, "authorized" => approve}
-    all_edorgs.sort().each do |affected_edorg|
-      ApplicationAuthorization.cur_edorg = affected_edorg
-      @application_authorization = ApplicationAuthorization.find(params[:id], :params => {:edorg => affected_edorg})
-      updates[:edorgs] = [affected_edorg]
-      success = success && @application_authorization.update_attributes(updates)
-      raise "error" if ! success
-      break if ! success
-    end
-    
     # Redirect to response page
     ApplicationAuthorization.cur_edorg = edorg
     respond_to do |format|

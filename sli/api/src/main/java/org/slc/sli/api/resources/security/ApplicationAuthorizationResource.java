@@ -163,12 +163,12 @@ public class ApplicationAuthorizationResource {
     @PUT
     @Path("{appId}")
     @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
-    public Response updateAuthorization(@PathParam("appId") String appId, EntityBody auth, @QueryParam("edorg") String edorg) {
+    public Response updateAuthorization(@PathParam("appId") String appId, EntityBody auth) {
         if (!auth.containsKey("authorized")) {
             return Response.status(Status.BAD_REQUEST).build();
         }
 
-        String myEdorg = validateEdOrg(edorg);
+        //String myEdorg = validateEdOrg(edorg);
         List<String> edOrgsToAuthorize = (List<String>) auth.get("edorgs");//(TA10857)
         if( edOrgsToAuthorize == null) {
             edOrgsToAuthorize = Collections.emptyList();
@@ -185,27 +185,16 @@ public class ApplicationAuthorizationResource {
                     //We don't have an appauth entry for this app, so create one
                     EntityBody body = new EntityBody();
                     body.put("applicationId", appId);
-                    Set<String> edorgs = new HashSet<String>();
-                    edorgs.add(myEdorg);
-                    edorgs.addAll(edOrgsToAuthorize);
-                    body.put("edorgs", new ArrayList<String>(edorgs));
+                    body.put("edorgs", new ArrayList<String>(edOrgsToAuthorize));
                     service.create(body);
-                    logSecurityEvent(appId, null, edorgs);
+                    logSecurityEvent(appId, null, edOrgsToAuthorize);
                 }
                 return Response.status(Status.NO_CONTENT).build();
             }
         } else {
             List<String> edorgs = (List<String>) existingAuth.get("edorgs");
-            Set<String> edorgsCopy = new HashSet<String>(edorgs);
-            if (((Boolean) auth.get("authorized")).booleanValue()) {
-                edorgsCopy.add(myEdorg);
-                edorgsCopy.addAll(edOrgsToAuthorize);
-            } else {
-                edorgsCopy.remove(myEdorg);
-                edorgsCopy.removeAll(edOrgsToAuthorize);
-            }
-            logSecurityEvent(appId, edorgs, edorgsCopy);
-            existingAuth.put("edorgs", new ArrayList<String>(edorgsCopy));
+            logSecurityEvent(appId, edorgs, edOrgsToAuthorize);
+            existingAuth.put("edorgs", edOrgsToAuthorize);
             service.update((String) existingAuth.get("id"), existingAuth);
             return Response.status(Status.NO_CONTENT).build();
         }
