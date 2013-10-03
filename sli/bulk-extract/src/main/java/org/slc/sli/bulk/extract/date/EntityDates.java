@@ -32,6 +32,7 @@ public class EntityDates {
         ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_PROGRAM_ASSOCIATION, ParameterConstants.BEGIN_DATE);
         ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_COHORT_ASSOCIATION, ParameterConstants.BEGIN_DATE);
         ENTITY_DATE_FIELDS.put(EntityNames.DISCIPLINE_INCIDENT, ParameterConstants.INCIDENT_DATE);
+        ENTITY_DATE_FIELDS.put(EntityNames.DISCIPLINE_ACTION, ParameterConstants.DISCIPLINE_DATE);
 
         Map<String, String> diFields = new HashMap<String, String>();
         diFields.put(EntityNames.DISCIPLINE_INCIDENT, ParameterConstants.DISCIPLINE_INCIDENT_ID);

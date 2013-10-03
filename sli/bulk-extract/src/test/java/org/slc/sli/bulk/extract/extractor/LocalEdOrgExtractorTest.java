@@ -198,7 +198,7 @@ public class LocalEdOrgExtractorTest {
                         Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(calendarDateExtractor);
 
         Mockito.when(mockFactory.buildDisciplineExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class), Mockito.any(Repository.class),
-                Mockito.any(EntityToEdOrgCache.class), Mockito.any(EntityToEdOrgCache.class))).thenReturn(discipline);
+                Mockito.any(EntityToEdOrgCache.class), Mockito.any(EntityToEdOrgDateCache.class))).thenReturn(discipline);
 
     }
 
