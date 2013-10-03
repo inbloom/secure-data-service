@@ -39,7 +39,7 @@ public class ExtractorFactory {
                 new EntityToEdOrgCache(), edOrgExtractHelper);
     }
     
-    public EntityDatedExtract buildStudentAssessmentExtractor(EntityExtractor extractor, ExtractFileMap map,
+    public EntityExtract buildStudentAssessmentExtractor(EntityExtractor extractor, ExtractFileMap map,
             Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         return new StudentAssessmentExtractor(extractor, map, repo, edOrgExtractHelper);
     }
@@ -74,7 +74,7 @@ public class ExtractorFactory {
     }
     
     public StudentSchoolAssociationExtractor buildStudentSchoolAssociationExtractor(EntityExtractor extractor, ExtractFileMap map,
-            Repository<Entity> repo, EntityToEdOrgDateCache studentCache, EdOrgExtractHelper edOrgExtractHelper) {
+            Repository<Entity> repo, EntityToEdOrgCache studentCache, EdOrgExtractHelper edOrgExtractHelper) {
         return new StudentSchoolAssociationExtractor(extractor, map, repo, studentCache, edOrgExtractHelper);
     }
     
@@ -145,7 +145,7 @@ public class ExtractorFactory {
         return new GraduationPlanExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public EntityDatedExtract buildDisciplineExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgCache edorgCache, EntityToEdOrgDateCache entityCache) {
+    public EntityExtract buildDisciplineExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgCache edorgCache, EntityToEdOrgCache entityCache) {
         return new DisciplineExtractor(entityExtractor, extractFileMap, repository, entityCache, edorgCache);
     }
 }

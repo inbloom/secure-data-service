@@ -61,8 +61,3 @@ Scenario: Trigger a bulk extract on ingested data
       |  educationOrganization                 |
       |  learningObjective                     |
       |  studentCompetencyObjective            |
-      |  course                                |
-      |  courseOffering                        |
-      |  session                               |
-      |  gradingPeriod                         |
-      |  school                                |

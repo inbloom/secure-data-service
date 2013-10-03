@@ -16,34 +16,41 @@
 
 package org.slc.sli.bulk.extract.pub;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.PublicEntityDefinition;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 
 /**
- * PublicData Extractor which extracts all entities of belonging to a tenant.
- * @author tshewchuk
+ * Test DirectPublicExtractor
+ * @author ablum
  */
-public class AllPublicDataExtractor implements PublicDataExtractor {
+public class DirectPublicExtractorTest {
 
+    @Mock
     private EntityExtractor extractor;
+    @Mock
+    private ExtractFile file;
 
-    /**
-     * Constructor.
-     *
-     * @param extractor - the entity extractor
-     */
-    public AllPublicDataExtractor(EntityExtractor extractor) {
-        this.extractor = extractor;
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+        Mockito.when(file.getEdorg()).thenReturn("SEA");
     }
 
-    @Override
-    public void extract(ExtractFile file) {
-        extractor.setExtractionQuery(new NeutralQuery());
-        for (PublicEntityDefinition entity : PublicEntityDefinition.values()) {
-            extractor.extractEntities(file, entity.getEntityName());
+    @Test
+    public void testExtractEducationOrganization() {
+        new DirectPublicDataExtractor(extractor).extract(file);
+
+        for (PublicEntityDefinition definition : PublicEntityDefinition.directReferencedEntities()) {
+            Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, definition.getEntityName());
         }
-     }
+
+
+    }
+
 }

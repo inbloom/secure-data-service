@@ -20,11 +20,8 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
-import org.joda.time.DateTime;
-import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
@@ -37,7 +34,7 @@ import org.slc.sli.domain.Repository;
  * @author rlatta
  *
  */
-public class StudentAssessmentExtractor implements EntityDatedExtract {
+public class StudentAssessmentExtractor implements EntityExtract {
     private EntityExtractor extractor;
     private ExtractFileMap map;
     private Repository<Entity> repo;
@@ -54,20 +51,17 @@ public class StudentAssessmentExtractor implements EntityDatedExtract {
      * @see org.slc.sli.bulk.extract.lea.EntityExtract#extractEntities(org.slc.sli.bulk.extract.lea.EntityToLeaCache)
      */
     @Override
-    public void extractEntities(EntityToEdOrgDateCache entityToEdOrgDateCache) {
+    public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
         edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STUDENT_ASSESSMENT, this.getClass().getName());
         Iterator<Entity> assessments = repo.findEach(EntityNames.STUDENT_ASSESSMENT, new NeutralQuery());
         while (assessments.hasNext()) {
             Entity assessment = assessments.next();
             String studentId = (String) assessment.getBody().get(ParameterConstants.STUDENT_ID);
-            Map<String, DateTime> studentEdOrgDate = entityToEdOrgDateCache.getEntriesById(studentId);
-
-            for (Map.Entry<String, DateTime> entry: studentEdOrgDate.entrySet()) {
-                DateTime upToDate = entry.getValue();
-                if(EntityDateHelper.shouldExtract(assessment, upToDate)) {
-                    extractor.extractEntity(assessment, map.getExtractFileForEdOrg(entry.getKey()), EntityNames.STUDENT_ASSESSMENT);
-                }
+            Set<String> studentEdOrg = entityToEdorgCache.getEntriesById(studentId);
+            for (String stidentEdOrg : studentEdOrg) {
+                extractor.extractEntity(assessment, map.getExtractFileForEdOrg(stidentEdOrg), EntityNames.STUDENT_ASSESSMENT);
             }
+            
         }
         
     }

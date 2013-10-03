@@ -19,11 +19,10 @@
  */
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
-import com.google.common.base.Predicate;
-import org.joda.time.DateTime;
-import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
@@ -36,21 +35,16 @@ import org.slc.sli.domain.Repository;
  *
  */
 public class StudentExtractor implements EntityExtract {
-    private static final List<String> DATED_SUBDOCS = Arrays.asList(EntityNames.STUDENT_PROGRAM_ASSOCIATION,
-            EntityNames.STUDENT_COHORT_ASSOCIATION);
     private ExtractFileMap map;
     private EntityExtractor extractor;
     private Repository<Entity> repo;
     private EntityToEdOrgCache studentCache;
-    private EntityToEdOrgDateCache studentDatedCache;
     private EntityToEdOrgCache parentCache;
     private EdOrgExtractHelper edOrgExtractHelper;
 
     private ExtractorHelper helper;
 
     private EntityToEdOrgCache diCache = new EntityToEdOrgCache();
-
-    private EntityToEdOrgDateCache diDateCache = new EntityToEdOrgDateCache();
 
     public StudentExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
                             ExtractorHelper helper, EntityToEdOrgCache studentCache, EntityToEdOrgCache parentCache,
@@ -62,7 +56,6 @@ public class StudentExtractor implements EntityExtract {
         this.studentCache = studentCache;
         this.parentCache = parentCache;
         this.edOrgExtractHelper = edOrgExtractHelper;
-        this.studentDatedCache = new EntityToEdOrgDateCache();
     }
 
     /* (non-Javadoc)
@@ -71,39 +64,22 @@ public class StudentExtractor implements EntityExtract {
     @Override
     public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
         edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STUDENT, this.getClass().getName());
-
         Iterator<Entity> cursor = repo.findEach("student", new NeutralQuery());
-
         while (cursor.hasNext()) {
             Entity e = cursor.next();
             Set<String> schools = helper.fetchCurrentSchoolsForStudent(e);
-            buildStudentDatedCache(e);
-            final Map<String, DateTime> datedEdOrgs = studentDatedCache.getEntriesById(e.getEntityId());
             Iterable<String> parents = helper.fetchCurrentParentsFromStudent(e);
-            for (final String edOrg : map.getEdOrgs()) {
-                if (datedEdOrgs.containsKey(edOrg)) {
+            for (String edOrg : map.getEdOrgs()) {
+                if (schools.contains(edOrg)) {
                     // Write
-                    extractor.extractEntity(e, map.getExtractFileForEdOrg(edOrg), "student", new Predicate<Entity>() {
-                        @Override
-                        public boolean apply(Entity input) {
-                            boolean shouldExtract = true;
-                            if (DATED_SUBDOCS.contains(input.getType())) {
-                                DateTime upToDate = datedEdOrgs.get(edOrg);
-                                shouldExtract = EntityDateHelper.shouldExtract(input, upToDate);
-                            }
-
-                            return shouldExtract;
-                        }
-                    });
+                    extractor.extractEntity(e, map.getExtractFileForEdOrg(edOrg), "student");
+                    
+                    // Update studentCache
+                    studentCache.addEntry(e.getEntityId(), edOrg);
 
                     for (String parent : parents) {
                         parentCache.addEntry(parent, edOrg);
                     }
-                }
-                //F316 OLD PIPELINE - REMOVE OLD CACHE
-                if (schools.contains(edOrg)) {
-                    // Update studentCache
-                    studentCache.addEntry(e.getEntityId(), edOrg);
                 }
             }
 
@@ -114,35 +90,18 @@ public class StudentExtractor implements EntityExtract {
                     String did = (String) sdia.getBody().get("disciplineIncidentId");
                     Set<String> edOrgs = studentCache.getEntriesById(e.getEntityId());
 
-                    //TODO: F316 OLD piple, remove after F316 is done
                     if(edOrgs != null) {
-
                         for(String edOrg : edOrgs) {
                             diCache.addEntry(did, edOrg);
                         }
-
                     } else {
                         diCache.addEntry(did, "marker");    // adding a marker that this DI is referenced by a student
                     }
 
-                    Map<String, DateTime> edOrgsDate = studentDatedCache.getEntriesById(e.getEntityId());
-
-                    for(Map.Entry<String, DateTime> entry : edOrgsDate.entrySet()) {
-                        diDateCache.addEntry(did, entry.getKey(), entry.getValue());
-                    }
                 }
             }
         }
         
-    }
-
-    private void buildStudentDatedCache(Entity student) {
-        Map<String, DateTime> edOrgDate = helper.fetchAllEdOrgsForStudent(student);
-        for(String edOrg : map.getEdOrgs()) {
-            if(edOrgDate.containsKey(edOrg)) {
-                studentDatedCache.addEntry(student.getEntityId(), edOrg, edOrgDate.get(edOrg));
-            }
-        }
     }
     
     public void setEntityCache(EntityToEdOrgCache cache) {
@@ -159,17 +118,5 @@ public class StudentExtractor implements EntityExtract {
 
     public EntityToEdOrgCache getDiCache() {
         return diCache;
-    }
-
-    public EntityToEdOrgDateCache getStudentDatedCache() {
-        return studentDatedCache;
-    }
-
-    public void setStudentDatedCache(EntityToEdOrgDateCache studentDatedCache) {
-        this.studentDatedCache = studentDatedCache;
-    }
-
-    public EntityToEdOrgDateCache getDiDateCache() {
-        return diDateCache;
     }
 }
