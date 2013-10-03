@@ -40,7 +40,7 @@ public class EntityDateHelper {
         return isBeforeOrEqual(begin, upToDate);
     }
 
-    protected static String retrieveDate(Entity entity) {
+    public static String retrieveDate(Entity entity) {
         String date = "";
 
         if (EntityDates.ENTITY_DATE_FIELDS.containsKey(entity.getType())) {
@@ -51,7 +51,7 @@ public class EntityDateHelper {
         return date;
     }
 
-    protected static boolean isBeforeOrEqual(String begin, DateTime upToDate) {
+    public static boolean isBeforeOrEqual(String begin, DateTime upToDate) {
         DateTime beginDate = DateTime.parse(begin, DateHelper.getDateTimeFormat());
         return !beginDate.isAfter(upToDate);
     }

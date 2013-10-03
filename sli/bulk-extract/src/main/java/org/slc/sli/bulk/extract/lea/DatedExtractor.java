@@ -13,23 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.bulk.extract.date;
+package org.slc.sli.bulk.extract.lea;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.slc.sli.bulk.extract.date.EntityDateHelper;
 
 /**
  * @author ablum
  */
-public class EntityDates {
-    public static final Map<String, String> ENTITY_DATE_FIELDS = new HashMap<String, String>();
-    public static final Map<String, String> ENTITY_PATH_FIELDS = new HashMap<String, String>();
+public class DatedExtractor {
+    private EntityDateHelper entityDateHelper;
 
-    static {
-        ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_PROGRAM_ASSOCIATION, ParameterConstants.BEGIN_DATE);
-        ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_COHORT_ASSOCIATION, ParameterConstants.BEGIN_DATE);
-    }
 }
