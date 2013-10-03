@@ -190,6 +190,12 @@ task :bulkExtractAttendanceCategoriesTests do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
+desc "API Bulk Extract non current student data Tests"
+task :bulkExtractPriorTest do
+  runTests("test/features/bulk_extract/features/bulk_extract_prior_data.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
 desc "Run the full suite of Bulk Extract Tests"
 task :bulkExtractAllEdOrgsTests => [:realmInit] do
   CLEAN_EXTRACT_LOC = true
