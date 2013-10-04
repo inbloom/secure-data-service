@@ -16,7 +16,8 @@
 
     <%=form_for @appAuth,  :action => :update do |f|%>
         <%= f.hidden_field :appId, :value => @appAuth.appId %>
-        <%= f.hidden_field :edorgs, :value => '' %>
+        <%= f.hidden_field :edorgsAdded,   :value => '' %>
+        <%= f.hidden_field :edorgsRemoved, :value => '' %>
         <%= f.submit 'Update' %>
     <% end %>
 

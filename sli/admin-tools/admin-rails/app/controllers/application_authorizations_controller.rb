@@ -149,13 +149,22 @@ class ApplicationAuthorizationsController < ApplicationController
     # Top level edOrg to expand
     edorg = session[:edOrgId]
     # EdOrgs selected using Tree Control
-    edorgs = params[:application_authorization][:edorgs]
-    edorgs.strip!
-    all_edorgs = edorgs.split(/,/)
+    added = params[:application_authorization][:edorgsAdded]
+    added.strip!
+    addedEdOrgs = added.split(/,/)
+
+    removed = params[:application_authorization][:edorgsRemoved]
+    removed.strip!
+    removedEdOrgs = removed.split(/,/)
 
     # ID of app
     appId = params[:application_authorization][:appId]
-    updates = {"appId" =>  appId, "authorized" => true, :edorgs => all_edorgs}
+
+    updates = {"appId" =>  appId, "authorized" => true, :edorgs => addedEdOrgs}
+    @application_authorization = ApplicationAuthorization.find(params[:id])
+    success = @application_authorization.update_attributes(updates)
+
+    updates = {"appId" =>  appId, "authorized" => false, :edorgs => removedEdOrgs}
     @application_authorization = ApplicationAuthorization.find(params[:id])
     success = @application_authorization.update_attributes(updates)
 

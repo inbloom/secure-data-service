@@ -168,7 +168,6 @@ public class ApplicationAuthorizationResource {
             return Response.status(Status.BAD_REQUEST).build();
         }
 
-        //String myEdorg = validateEdOrg(edorg);
         List<String> edOrgsToAuthorize = (List<String>) auth.get("edorgs");//(TA10857)
         if( edOrgsToAuthorize == null) {
             edOrgsToAuthorize = Collections.emptyList();
@@ -185,7 +184,7 @@ public class ApplicationAuthorizationResource {
                     //We don't have an appauth entry for this app, so create one
                     EntityBody body = new EntityBody();
                     body.put("applicationId", appId);
-                    body.put("edorgs", new ArrayList<String>(edOrgsToAuthorize));
+                    body.put("edorgs", edOrgsToAuthorize);
                     service.create(body);
                     logSecurityEvent(appId, null, edOrgsToAuthorize);
                 }
@@ -193,8 +192,14 @@ public class ApplicationAuthorizationResource {
             }
         } else {
             List<String> edorgs = (List<String>) existingAuth.get("edorgs");
-            logSecurityEvent(appId, edorgs, edOrgsToAuthorize);
-            existingAuth.put("edorgs", edOrgsToAuthorize);
+            Set<String> edorgsCopy = new HashSet<String>(edorgs);
+            if (((Boolean) auth.get("authorized")).booleanValue()) {
+                edorgsCopy.addAll(edOrgsToAuthorize);
+            } else {
+                edorgsCopy.removeAll(edOrgsToAuthorize);
+            }
+            logSecurityEvent(appId, edorgs, edorgsCopy);
+            existingAuth.put("edorgs", new ArrayList<String>(edorgsCopy));
             service.update((String) existingAuth.get("id"), existingAuth);
             return Response.status(Status.NO_CONTENT).build();
         }

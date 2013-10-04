@@ -1,6 +1,20 @@
+var oldSelectedIds = [];
+
+function getSelectedEdOrgs() {
+    var selectedIds = [];
+    $("div#edorgTree input.edorgId:checked").each ( function () {
+            var selectedId = $(this).attr('id');
+            if( selectedId != undefined) {
+                selectedIds.push(selectedId);
+            }
+        }
+    );
+    return selectedIds;
+}
 
 // Init the edorg tree
 $(document).ready(function() {
+    oldSelectedIds = getSelectedEdOrgs();
     // alert("edorg_tree");
     $('#edorgTree div').tree({
         dnd: false,
@@ -38,23 +52,21 @@ $(document).ready(function() {
         }
     });
 
-
     $('.jquery').each(function() {
         eval($(this).html());
     });
     $('.button').button();
 
     $("div#edorgTree input[type=submit]").bind ('click', function () {
-            var selectedIds = [];
-            $("div#edorgTree input:checked").each ( function () {
-                  var selectedId = $(this).attr('id');
-                  if( selectedId != undefined && selectedId != 'root') {
-                      selectedIds.push(selectedId);
-                  }
-                }
-            );
-            var selected = selectedIds.join(",");
-            $( "input#application_authorization_edorgs" ).val( selected );
+            var newSelectedIds = getSelectedEdOrgs();
+            var removed = $(oldSelectedIds).not(newSelectedIds).get();
+            var added   = $(newSelectedIds).not(oldSelectedIds).get();
+            removed     = removed.join(',');
+            added       = added.join(',');
+            var log     = ['Added Authorization For [', added , ']. ', 'Removed Authorization For [', removed, '].'].join('');
+            console.log(log);
+            $( "input#application_authorization_edorgsAdded" ).val( added );
+            $( "input#application_authorization_edorgsRemoved" ).val( removed );
         }
     );
 });
