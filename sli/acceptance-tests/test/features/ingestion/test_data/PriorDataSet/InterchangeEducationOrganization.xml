@@ -18,21 +18,26 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <PostalCode>00000</PostalCode>
     </Address>
     <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(385)555-1328</TelephoneNumber>
+      <TelephoneNumber>(152)555-8556</TelephoneNumber>
     </Telephone>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>249</ProgramId>
+        <ProgramId>268</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>250</ProgramId>
+        <ProgramId>269</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>251</ProgramId>
+        <ProgramId>270</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>271</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
 </EducationOrganization>
@@ -2757,315 +2762,163 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <UniqueCourseId>34</UniqueCourseId>
   </Course>
   <Program>
-    <ProgramId>249</ProgramId>
-    <ProgramType>Bilingual Summer</ProgramType>
-    <ProgramSponsor>State Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:249</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>250</ProgramId>
+    <ProgramId>268</ProgramId>
     <ProgramType>Community Service Program</ProgramType>
     <ProgramSponsor>State Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:250</CodeValue>
+      <CodeValue>srv:268</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>251</ProgramId>
-    <ProgramType>Library/Media Services Program</ProgramType>
+    <ProgramId>269</ProgramId>
+    <ProgramType>Athletics</ProgramType>
     <ProgramSponsor>State Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:251</CodeValue>
+      <CodeValue>srv:269</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>213</ProgramId>
-    <ProgramType>Neglected and Delinquent Program</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:213</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>214</ProgramId>
-    <ProgramType>Head Start</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:214</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>215</ProgramId>
-    <ProgramType>Other</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:215</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>216</ProgramId>
+    <ProgramId>270</ProgramId>
     <ProgramType>Service Learning</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:216</CodeValue>
+      <CodeValue>srv:270</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>217</ProgramId>
-    <ProgramType>Library/Media Services Program</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:217</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>218</ProgramId>
-    <ProgramType>Migrant Education</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:218</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>219</ProgramId>
+    <ProgramId>271</ProgramId>
     <ProgramType>Alternative Education</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:219</CodeValue>
+      <CodeValue>srv:271</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>220</ProgramId>
+    <ProgramId>252</ProgramId>
     <ProgramType>Title I Part A</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:220</CodeValue>
+      <CodeValue>srv:252</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>221</ProgramId>
-    <ProgramType>International Baccalaureate</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:221</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>222</ProgramId>
-    <ProgramType>Community Service Program</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:222</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>223</ProgramId>
-    <ProgramType>Other</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:223</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>224</ProgramId>
-    <ProgramType>Cocurricular Programs</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:224</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>225</ProgramId>
-    <ProgramType>Community/Junior College Education Program</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:225</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>226</ProgramId>
-    <ProgramType>Even Start</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:226</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>227</ProgramId>
-    <ProgramType>Migrant Education</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:227</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>228</ProgramId>
-    <ProgramType>Regular Education</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:228</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>229</ProgramId>
-    <ProgramType>Adult/Continuing Education</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:229</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>230</ProgramId>
-    <ProgramType>Indian Education</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:230</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>231</ProgramId>
-    <ProgramType>Even Start</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:231</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>232</ProgramId>
-    <ProgramType>Cocurricular Programs</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:232</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>233</ProgramId>
-    <ProgramType>Community Service Program</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:233</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>234</ProgramId>
-    <ProgramType>Vocational Education</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:234</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>235</ProgramId>
+    <ProgramId>253</ProgramId>
     <ProgramType>Health Services Program</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:235</CodeValue>
+      <CodeValue>srv:253</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>236</ProgramId>
+    <ProgramId>254</ProgramId>
+    <ProgramType>International Baccalaureate</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:254</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>255</ProgramId>
+    <ProgramType>Community Service Program</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:255</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>256</ProgramId>
+    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:256</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>257</ProgramId>
+    <ProgramType>Extended Day/Child Care Services</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:257</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>258</ProgramId>
     <ProgramType>Bilingual Summer</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:236</CodeValue>
+      <CodeValue>srv:258</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>237</ProgramId>
-    <ProgramType>Community/Junior College Education Program</ProgramType>
+    <ProgramId>259</ProgramId>
+    <ProgramType>Other</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:237</CodeValue>
+      <CodeValue>srv:259</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>238</ProgramId>
-    <ProgramType>Technical Preparatory</ProgramType>
+    <ProgramId>260</ProgramId>
+    <ProgramType>Even Start</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:238</CodeValue>
+      <CodeValue>srv:260</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>239</ProgramId>
-    <ProgramType>Health Services Program</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:239</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>240</ProgramId>
-    <ProgramType>Head Start</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:240</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>241</ProgramId>
-    <ProgramType>English as a Second Language (ESL)</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:241</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>242</ProgramId>
-    <ProgramType>Service Learning</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:242</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>243</ProgramId>
-    <ProgramType>Library/Media Services Program</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:243</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>244</ProgramId>
-    <ProgramType>Teacher Professional Development/Mentoring</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:244</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>245</ProgramId>
-    <ProgramType>Title I Part A</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:245</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>246</ProgramId>
-    <ProgramType>Health Services Program</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:246</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>247</ProgramId>
+    <ProgramId>261</ProgramId>
     <ProgramType>International Baccalaureate</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:247</CodeValue>
+      <CodeValue>srv:261</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>248</ProgramId>
-    <ProgramType>Community Service Program</ProgramType>
+    <ProgramId>262</ProgramId>
+    <ProgramType>Library/Media Services Program</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:248</CodeValue>
+      <CodeValue>srv:262</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>263</ProgramId>
+    <ProgramType>Library/Media Services Program</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:263</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>264</ProgramId>
+    <ProgramType>Cocurricular Programs</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:264</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>265</ProgramId>
+    <ProgramType>Community/Junior College Education Program</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:265</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>266</ProgramId>
+    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:266</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>267</ProgramId>
+    <ProgramType>Bilingual</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:267</CodeValue>
     </Services>
   </Program>
   <Program>
@@ -3582,7 +3435,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>65</ProgramId>
-    <ProgramType>Athletics</ProgramType>
+    <ProgramType>Adult/Continuing Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:65</CodeValue>
@@ -3590,7 +3443,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>66</ProgramId>
-    <ProgramType>College Preparatory</ProgramType>
+    <ProgramType>Even Start</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:66</CodeValue>
@@ -3598,7 +3451,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>67</ProgramId>
-    <ProgramType>IDEA</ProgramType>
+    <ProgramType>Remedial Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:67</CodeValue>
@@ -3606,7 +3459,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>68</ProgramId>
-    <ProgramType>Adult/Continuing Education</ProgramType>
+    <ProgramType>Bilingual Summer</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:68</CodeValue>
@@ -3702,7 +3555,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>80</ProgramId>
-    <ProgramType>Indian Education</ProgramType>
+    <ProgramType>Remedial Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:80</CodeValue>
@@ -3710,7 +3563,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>81</ProgramId>
-    <ProgramType>Remedial Education</ProgramType>
+    <ProgramType>IDEA</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:81</CodeValue>
@@ -3718,7 +3571,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>82</ProgramId>
-    <ProgramType>IDEA</ProgramType>
+    <ProgramType>Migrant Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:82</CodeValue>
@@ -3726,7 +3579,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>83</ProgramId>
-    <ProgramType>Migrant Education</ProgramType>
+    <ProgramType>Career and Technical Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:83</CodeValue>
@@ -3734,7 +3587,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>84</ProgramId>
-    <ProgramType>Career and Technical Education</ProgramType>
+    <ProgramType>Substance Abuse Education/Prevention</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:84</CodeValue>
@@ -3838,7 +3691,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>97</ProgramId>
-    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramType>Bilingual</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:97</CodeValue>
@@ -3846,7 +3699,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>98</ProgramId>
-    <ProgramType>International Baccalaureate</ProgramType>
+    <ProgramType>Title I Part A</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:98</CodeValue>
@@ -3854,7 +3707,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>99</ProgramId>
-    <ProgramType>Bilingual</ProgramType>
+    <ProgramType>Even Start</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:99</CodeValue>
@@ -3862,7 +3715,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>100</ProgramId>
-    <ProgramType>Title I Part A</ProgramType>
+    <ProgramType>Regular Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:100</CodeValue>
@@ -3870,7 +3723,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>101</ProgramId>
-    <ProgramType>Even Start</ProgramType>
+    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:101</CodeValue>
@@ -3878,7 +3731,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>102</ProgramId>
-    <ProgramType>Regular Education</ProgramType>
+    <ProgramType>Section 504 Placement</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:102</CodeValue>
@@ -3886,7 +3739,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>103</ProgramId>
-    <ProgramType>Community Service Program</ProgramType>
+    <ProgramType>Remedial Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:103</CodeValue>
@@ -3894,7 +3747,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>104</ProgramId>
-    <ProgramType>Service Learning</ProgramType>
+    <ProgramType>Cocurricular Programs</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:104</CodeValue>
@@ -3902,7 +3755,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>105</ProgramId>
-    <ProgramType>Optional Flexible School Day Program (OFSDP)</ProgramType>
+    <ProgramType>Community Service Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:105</CodeValue>
@@ -3910,7 +3763,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>106</ProgramId>
-    <ProgramType>Adult/Continuing Education</ProgramType>
+    <ProgramType>Service Learning</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:106</CodeValue>
@@ -3918,7 +3771,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>107</ProgramId>
-    <ProgramType>Teacher Professional Development/Mentoring</ProgramType>
+    <ProgramType>Optional Flexible School Day Program (OFSDP)</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:107</CodeValue>
@@ -3926,7 +3779,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>108</ProgramId>
-    <ProgramType>Remedial Education</ProgramType>
+    <ProgramType>Adult/Continuing Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:108</CodeValue>
@@ -3934,7 +3787,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>109</ProgramId>
-    <ProgramType>Regular Education</ProgramType>
+    <ProgramType>Teacher Professional Development/Mentoring</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:109</CodeValue>
@@ -3942,7 +3795,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>110</ProgramId>
-    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramType>Remedial Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:110</CodeValue>
@@ -3950,7 +3803,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>111</ProgramId>
-    <ProgramType>Extended Day/Child Care Services</ProgramType>
+    <ProgramType>Regular Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:111</CodeValue>
@@ -3958,7 +3811,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>112</ProgramId>
-    <ProgramType>Cocurricular Programs</ProgramType>
+    <ProgramType>Section 504 Placement</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:112</CodeValue>
@@ -3966,7 +3819,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>113</ProgramId>
-    <ProgramType>Bilingual</ProgramType>
+    <ProgramType>Extended Day/Child Care Services</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:113</CodeValue>
@@ -3974,7 +3827,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>114</ProgramId>
-    <ProgramType>Library/Media Services Program</ProgramType>
+    <ProgramType>Cocurricular Programs</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:114</CodeValue>
@@ -3982,7 +3835,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>115</ProgramId>
-    <ProgramType>Adult/Continuing Education</ProgramType>
+    <ProgramType>Library/Media Services Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:115</CodeValue>
@@ -3990,7 +3843,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>116</ProgramId>
-    <ProgramType>Career and Technical Education</ProgramType>
+    <ProgramType>Adult/Continuing Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:116</CodeValue>
@@ -3998,7 +3851,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>117</ProgramId>
-    <ProgramType>Even Start</ProgramType>
+    <ProgramType>Career and Technical Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:117</CodeValue>
@@ -4006,7 +3859,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>118</ProgramId>
-    <ProgramType>International Baccalaureate</ProgramType>
+    <ProgramType>Even Start</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:118</CodeValue>
@@ -4014,7 +3867,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>119</ProgramId>
-    <ProgramType>English as a Second Language (ESL)</ProgramType>
+    <ProgramType>International Baccalaureate</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:119</CodeValue>
@@ -4022,7 +3875,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>120</ProgramId>
-    <ProgramType>Technical Preparatory</ProgramType>
+    <ProgramType>English as a Second Language (ESL)</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:120</CodeValue>
@@ -4030,7 +3883,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>121</ProgramId>
-    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramType>Technical Preparatory</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:121</CodeValue>
@@ -4046,7 +3899,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>123</ProgramId>
-    <ProgramType>Regular Education</ProgramType>
+    <ProgramType>Section 504 Placement</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:123</CodeValue>
@@ -4054,7 +3907,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>124</ProgramId>
-    <ProgramType>Substance Abuse Education/Prevention</ProgramType>
+    <ProgramType>Regular Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:124</CodeValue>
@@ -4062,7 +3915,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>125</ProgramId>
-    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramType>Even Start</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:125</CodeValue>
@@ -4070,7 +3923,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>126</ProgramId>
-    <ProgramType>International Baccalaureate</ProgramType>
+    <ProgramType>Other</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:126</CodeValue>
@@ -4078,7 +3931,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>127</ProgramId>
-    <ProgramType>Head Start</ProgramType>
+    <ProgramType>Counseling Services</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:127</CodeValue>
@@ -4086,7 +3939,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>128</ProgramId>
-    <ProgramType>Optional Flexible School Day Program (OFSDP)</ProgramType>
+    <ProgramType>Community Service Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:128</CodeValue>
@@ -4094,7 +3947,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>129</ProgramId>
-    <ProgramType>Regular Education</ProgramType>
+    <ProgramType>Substance Abuse Education/Prevention</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:129</CodeValue>
@@ -4102,7 +3955,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>130</ProgramId>
-    <ProgramType>Immigrant Education</ProgramType>
+    <ProgramType>Section 504 Placement</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:130</CodeValue>
@@ -4110,7 +3963,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>131</ProgramId>
-    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
+    <ProgramType>International Baccalaureate</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:131</CodeValue>
@@ -4118,7 +3971,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>132</ProgramId>
-    <ProgramType>Migrant Education</ProgramType>
+    <ProgramType>Head Start</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:132</CodeValue>
@@ -4126,7 +3979,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>133</ProgramId>
-    <ProgramType>Teacher Professional Development/Mentoring</ProgramType>
+    <ProgramType>Optional Flexible School Day Program (OFSDP)</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:133</CodeValue>
@@ -4134,7 +3987,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>134</ProgramId>
-    <ProgramType>Athletics</ProgramType>
+    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:134</CodeValue>
@@ -4142,7 +3995,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>135</ProgramId>
-    <ProgramType>Special Education</ProgramType>
+    <ProgramType>Migrant Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:135</CodeValue>
@@ -4150,7 +4003,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>136</ProgramId>
-    <ProgramType>Athletics</ProgramType>
+    <ProgramType>Teacher Professional Development/Mentoring</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:136</CodeValue>
@@ -4158,7 +4011,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>137</ProgramId>
-    <ProgramType>Immigrant Education</ProgramType>
+    <ProgramType>Athletics</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:137</CodeValue>
@@ -4166,7 +4019,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>138</ProgramId>
-    <ProgramType>Athletics</ProgramType>
+    <ProgramType>Special Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:138</CodeValue>
@@ -4174,7 +4027,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>139</ProgramId>
-    <ProgramType>Health Services Program</ProgramType>
+    <ProgramType>Athletics</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:139</CodeValue>
@@ -4182,7 +4035,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>140</ProgramId>
-    <ProgramType>Regular Education</ProgramType>
+    <ProgramType>Immigrant Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:140</CodeValue>
@@ -4190,7 +4043,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>141</ProgramId>
-    <ProgramType>Regular Education</ProgramType>
+    <ProgramType>Athletics</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:141</CodeValue>
@@ -4198,7 +4051,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>142</ProgramId>
-    <ProgramType>Community/Junior College Education Program</ProgramType>
+    <ProgramType>Health Services Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:142</CodeValue>
@@ -4206,7 +4059,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>143</ProgramId>
-    <ProgramType>Special Education</ProgramType>
+    <ProgramType>Regular Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:143</CodeValue>
@@ -4214,7 +4067,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>144</ProgramId>
-    <ProgramType>Title I Part A</ProgramType>
+    <ProgramType>Regular Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:144</CodeValue>
@@ -4222,7 +4075,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>145</ProgramId>
-    <ProgramType>International Baccalaureate</ProgramType>
+    <ProgramType>Community/Junior College Education Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:145</CodeValue>
@@ -4238,7 +4091,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>147</ProgramId>
-    <ProgramType>Optional Flexible School Day Program (OFSDP)</ProgramType>
+    <ProgramType>Title I Part A</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:147</CodeValue>
@@ -4246,7 +4099,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>148</ProgramId>
-    <ProgramType>Migrant Education</ProgramType>
+    <ProgramType>International Baccalaureate</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:148</CodeValue>
@@ -4254,7 +4107,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>149</ProgramId>
-    <ProgramType>High School Equivalency Program (HSEP)</ProgramType>
+    <ProgramType>Special Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:149</CodeValue>
@@ -4262,7 +4115,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>150</ProgramId>
-    <ProgramType>Athletics</ProgramType>
+    <ProgramType>Optional Flexible School Day Program (OFSDP)</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:150</CodeValue>
@@ -4270,7 +4123,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>151</ProgramId>
-    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramType>College Preparatory</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:151</CodeValue>
@@ -4278,7 +4131,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>152</ProgramId>
-    <ProgramType>Adult/Continuing Education</ProgramType>
+    <ProgramType>Magnet/Special Program Emphasis</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:152</CodeValue>
@@ -4286,7 +4139,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>153</ProgramId>
-    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramType>Migrant Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:153</CodeValue>
@@ -4294,7 +4147,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>154</ProgramId>
-    <ProgramType>Extended Day/Child Care Services</ProgramType>
+    <ProgramType>High School Equivalency Program (HSEP)</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:154</CodeValue>
@@ -4302,7 +4155,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>155</ProgramId>
-    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
+    <ProgramType>Adult/Continuing Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:155</CodeValue>
@@ -4310,7 +4163,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>156</ProgramId>
-    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramType>Gifted and Talented</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:156</CodeValue>
@@ -4318,7 +4171,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>157</ProgramId>
-    <ProgramType>Technical Preparatory</ProgramType>
+    <ProgramType>Extended Day/Child Care Services</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:157</CodeValue>
@@ -4326,7 +4179,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>158</ProgramId>
-    <ProgramType>Adult/Continuing Education</ProgramType>
+    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:158</CodeValue>
@@ -4334,7 +4187,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>159</ProgramId>
-    <ProgramType>Technical Preparatory</ProgramType>
+    <ProgramType>Section 504 Placement</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:159</CodeValue>
@@ -4342,7 +4195,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>160</ProgramId>
-    <ProgramType>Bilingual</ProgramType>
+    <ProgramType>Technical Preparatory</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:160</CodeValue>
@@ -4350,7 +4203,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>161</ProgramId>
-    <ProgramType>Athletics</ProgramType>
+    <ProgramType>Adult/Continuing Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:161</CodeValue>
@@ -4358,7 +4211,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>162</ProgramId>
-    <ProgramType>Remedial Education</ProgramType>
+    <ProgramType>Technical Preparatory</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:162</CodeValue>
@@ -4366,7 +4219,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>163</ProgramId>
-    <ProgramType>Compensatory Services for Disadvantaged Students</ProgramType>
+    <ProgramType>Bilingual</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:163</CodeValue>
@@ -4374,7 +4227,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>164</ProgramId>
-    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramType>Athletics</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:164</CodeValue>
@@ -4382,7 +4235,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>165</ProgramId>
-    <ProgramType>Health Services Program</ProgramType>
+    <ProgramType>Remedial Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:165</CodeValue>
@@ -4390,7 +4243,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>166</ProgramId>
-    <ProgramType>Title I Part A</ProgramType>
+    <ProgramType>Compensatory Services for Disadvantaged Students</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:166</CodeValue>
@@ -4398,7 +4251,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>167</ProgramId>
-    <ProgramType>Magnet/Special Program Emphasis</ProgramType>
+    <ProgramType>Section 504 Placement</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:167</CodeValue>
@@ -4406,7 +4259,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>168</ProgramId>
-    <ProgramType>Cocurricular Programs</ProgramType>
+    <ProgramType>Health Services Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:168</CodeValue>
@@ -4414,7 +4267,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>169</ProgramId>
-    <ProgramType>Other</ProgramType>
+    <ProgramType>Title I Part A</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:169</CodeValue>
@@ -4422,7 +4275,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>170</ProgramId>
-    <ProgramType>Athletics</ProgramType>
+    <ProgramType>Magnet/Special Program Emphasis</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:170</CodeValue>
@@ -4430,7 +4283,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>171</ProgramId>
-    <ProgramType>Section 504 Placement</ProgramType>
+    <ProgramType>Cocurricular Programs</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:171</CodeValue>
@@ -4438,7 +4291,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>172</ProgramId>
-    <ProgramType>Vocational Education</ProgramType>
+    <ProgramType>Other</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:172</CodeValue>
@@ -4446,7 +4299,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>173</ProgramId>
-    <ProgramType>Vocational Education</ProgramType>
+    <ProgramType>Athletics</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:173</CodeValue>
@@ -4454,7 +4307,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>174</ProgramId>
-    <ProgramType>Migrant Education</ProgramType>
+    <ProgramType>Career and Technical Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:174</CodeValue>
@@ -4462,7 +4315,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>175</ProgramId>
-    <ProgramType>College Preparatory</ProgramType>
+    <ProgramType>Section 504 Placement</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:175</CodeValue>
@@ -4470,7 +4323,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>176</ProgramId>
-    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
+    <ProgramType>Vocational Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:176</CodeValue>
@@ -4478,7 +4331,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>177</ProgramId>
-    <ProgramType>Other</ProgramType>
+    <ProgramType>Vocational Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:177</CodeValue>
@@ -4486,7 +4339,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>178</ProgramId>
-    <ProgramType>Magnet/Special Program Emphasis</ProgramType>
+    <ProgramType>Migrant Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:178</CodeValue>
@@ -4494,7 +4347,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>179</ProgramId>
-    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
+    <ProgramType>College Preparatory</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:179</CodeValue>
@@ -4502,7 +4355,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>180</ProgramId>
-    <ProgramType>Other</ProgramType>
+    <ProgramType>Student Retention/Dropout Prevention</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:180</CodeValue>
@@ -4510,7 +4363,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>181</ProgramId>
-    <ProgramType>Career and Technical Education</ProgramType>
+    <ProgramType>Other</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:181</CodeValue>
@@ -4518,7 +4371,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>182</ProgramId>
-    <ProgramType>Teacher Professional Development/Mentoring</ProgramType>
+    <ProgramType>Career and Technical Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:182</CodeValue>
@@ -4526,7 +4379,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>183</ProgramId>
-    <ProgramType>Neglected and Delinquent Program</ProgramType>
+    <ProgramType>Teacher Professional Development/Mentoring</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:183</CodeValue>
@@ -4534,7 +4387,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>184</ProgramId>
-    <ProgramType>Adult/Continuing Education</ProgramType>
+    <ProgramType>Neglected and Delinquent Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:184</CodeValue>
@@ -4542,7 +4395,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>185</ProgramId>
-    <ProgramType>Career and Technical Education</ProgramType>
+    <ProgramType>Adult/Continuing Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:185</CodeValue>
@@ -4550,7 +4403,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>186</ProgramId>
-    <ProgramType>Compensatory Services for Disadvantaged Students</ProgramType>
+    <ProgramType>Career and Technical Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:186</CodeValue>
@@ -4558,7 +4411,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>187</ProgramId>
-    <ProgramType>Other</ProgramType>
+    <ProgramType>Compensatory Services for Disadvantaged Students</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:187</CodeValue>
@@ -4566,7 +4419,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>188</ProgramId>
-    <ProgramType>Community/Junior College Education Program</ProgramType>
+    <ProgramType>Other</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:188</CodeValue>
@@ -4574,7 +4427,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>189</ProgramId>
-    <ProgramType>Indian Education</ProgramType>
+    <ProgramType>Community/Junior College Education Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:189</CodeValue>
@@ -4582,7 +4435,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>190</ProgramId>
-    <ProgramType>Special Education</ProgramType>
+    <ProgramType>Indian Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:190</CodeValue>
@@ -4590,7 +4443,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>191</ProgramId>
-    <ProgramType>Substance Abuse Education/Prevention</ProgramType>
+    <ProgramType>Special Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:191</CodeValue>
@@ -4598,7 +4451,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>192</ProgramId>
-    <ProgramType>Health Services Program</ProgramType>
+    <ProgramType>Section 504 Placement</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:192</CodeValue>
@@ -4606,7 +4459,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>193</ProgramId>
-    <ProgramType>Substance Abuse Education/Prevention</ProgramType>
+    <ProgramType>High School Equivalency Program (HSEP)</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:193</CodeValue>
@@ -4614,7 +4467,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>194</ProgramId>
-    <ProgramType>Indian Education</ProgramType>
+    <ProgramType>Library/Media Services Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:194</CodeValue>
@@ -4622,7 +4475,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>195</ProgramId>
-    <ProgramType>Library/Media Services Program</ProgramType>
+    <ProgramType>Substance Abuse Education/Prevention</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:195</CodeValue>
@@ -4630,7 +4483,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>196</ProgramId>
-    <ProgramType>Community/Junior College Education Program</ProgramType>
+    <ProgramType>Health Services Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:196</CodeValue>
@@ -4638,7 +4491,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>197</ProgramId>
-    <ProgramType>Special Education</ProgramType>
+    <ProgramType>Substance Abuse Education/Prevention</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:197</CodeValue>
@@ -4646,7 +4499,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>198</ProgramId>
-    <ProgramType>Immigrant Education</ProgramType>
+    <ProgramType>Indian Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:198</CodeValue>
@@ -4662,7 +4515,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>200</ProgramId>
-    <ProgramType>Neglected and Delinquent Program</ProgramType>
+    <ProgramType>Community/Junior College Education Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:200</CodeValue>
@@ -4670,7 +4523,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>201</ProgramId>
-    <ProgramType>Bilingual Summer</ProgramType>
+    <ProgramType>Special Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:201</CodeValue>
@@ -4678,7 +4531,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>202</ProgramId>
-    <ProgramType>Indian Education</ProgramType>
+    <ProgramType>Immigrant Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:202</CodeValue>
@@ -4686,7 +4539,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>203</ProgramId>
-    <ProgramType>College Preparatory</ProgramType>
+    <ProgramType>Bilingual Summer</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:203</CodeValue>
@@ -4694,7 +4547,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>204</ProgramId>
-    <ProgramType>International Baccalaureate</ProgramType>
+    <ProgramType>Indian Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:204</CodeValue>
@@ -4702,7 +4555,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>205</ProgramId>
-    <ProgramType>Other</ProgramType>
+    <ProgramType>College Preparatory</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:205</CodeValue>
@@ -4710,7 +4563,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>206</ProgramId>
-    <ProgramType>Counseling Services</ProgramType>
+    <ProgramType>International Baccalaureate</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:206</CodeValue>
@@ -4718,7 +4571,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>207</ProgramId>
-    <ProgramType>IDEA</ProgramType>
+    <ProgramType>Other</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:207</CodeValue>
@@ -4726,7 +4579,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>208</ProgramId>
-    <ProgramType>College Preparatory</ProgramType>
+    <ProgramType>Counseling Services</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:208</CodeValue>
@@ -4734,7 +4587,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>209</ProgramId>
-    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramType>IDEA</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:209</CodeValue>
@@ -4742,7 +4595,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>210</ProgramId>
-    <ProgramType>Career and Technical Education</ProgramType>
+    <ProgramType>College Preparatory</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:210</CodeValue>
@@ -4750,7 +4603,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>211</ProgramId>
-    <ProgramType>Title I Part A</ProgramType>
+    <ProgramType>Gifted and Talented</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:211</CodeValue>
@@ -4758,10 +4611,322 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <Program>
     <ProgramId>212</ProgramId>
-    <ProgramType>College Preparatory</ProgramType>
+    <ProgramType>Career and Technical Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
       <CodeValue>srv:212</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>213</ProgramId>
+    <ProgramType>Title I Part A</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:213</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>214</ProgramId>
+    <ProgramType>College Preparatory</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:214</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>215</ProgramId>
+    <ProgramType>English as a Second Language (ESL)</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:215</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>216</ProgramId>
+    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:216</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>217</ProgramId>
+    <ProgramType>Neglected and Delinquent Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:217</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>218</ProgramId>
+    <ProgramType>Head Start</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:218</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>219</ProgramId>
+    <ProgramType>Other</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:219</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>220</ProgramId>
+    <ProgramType>Service Learning</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:220</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>221</ProgramId>
+    <ProgramType>Library/Media Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:221</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>222</ProgramId>
+    <ProgramType>Migrant Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:222</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>223</ProgramId>
+    <ProgramType>Alternative Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:223</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>224</ProgramId>
+    <ProgramType>Title I Part A</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:224</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>225</ProgramId>
+    <ProgramType>International Baccalaureate</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:225</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>226</ProgramId>
+    <ProgramType>Community Service Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:226</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>227</ProgramId>
+    <ProgramType>Other</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:227</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>228</ProgramId>
+    <ProgramType>Cocurricular Programs</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:228</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>229</ProgramId>
+    <ProgramType>Community/Junior College Education Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:229</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>230</ProgramId>
+    <ProgramType>Even Start</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:230</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>231</ProgramId>
+    <ProgramType>Migrant Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:231</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>232</ProgramId>
+    <ProgramType>Regular Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:232</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>233</ProgramId>
+    <ProgramType>Adult/Continuing Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:233</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>234</ProgramId>
+    <ProgramType>Indian Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:234</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>235</ProgramId>
+    <ProgramType>Even Start</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:235</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>236</ProgramId>
+    <ProgramType>Cocurricular Programs</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:236</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>237</ProgramId>
+    <ProgramType>Career and Technical Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:237</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>238</ProgramId>
+    <ProgramType>Bilingual</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:238</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>239</ProgramId>
+    <ProgramType>Community Service Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:239</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>240</ProgramId>
+    <ProgramType>Vocational Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:240</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>241</ProgramId>
+    <ProgramType>Health Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:241</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>242</ProgramId>
+    <ProgramType>Bilingual Summer</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:242</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>243</ProgramId>
+    <ProgramType>Community/Junior College Education Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:243</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>244</ProgramId>
+    <ProgramType>Technical Preparatory</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:244</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>245</ProgramId>
+    <ProgramType>Health Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:245</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>246</ProgramId>
+    <ProgramType>Immigrant Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:246</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>247</ProgramId>
+    <ProgramType>Bilingual</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:247</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>248</ProgramId>
+    <ProgramType>Head Start</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:248</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>249</ProgramId>
+    <ProgramType>English as a Second Language (ESL)</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:249</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>250</ProgramId>
+    <ProgramType>Service Learning</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:250</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>251</ProgramId>
+    <ProgramType>Library/Media Services Program</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:251</CodeValue>
     </Services>
   </Program>
   <EducationOrganization>
@@ -4824,257 +4989,37 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </AccountabilityRatings>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>213</ProgramId>
+        <ProgramId>252</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>214</ProgramId>
+        <ProgramId>253</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>215</ProgramId>
+        <ProgramId>254</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>216</ProgramId>
+        <ProgramId>255</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>217</ProgramId>
+        <ProgramId>256</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>218</ProgramId>
+        <ProgramId>257</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>219</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>220</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>221</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>222</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <LEACategory>Independent</LEACategory>
-</EducationOrganization>
-  <EducationOrganization>
-    <StateOrganizationId>14</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>14</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>14</NameOfInstitution>
-    <ShortNameOfInstitution>14 LEA</ShortNameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>Local Education Agency</OrganizationCategory>
-    </OrganizationCategories>
-    <ParentEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </ParentEducationAgencyReference>
-    <Address>
-      <StreetNumberName>619 Cherry Rd</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>60601</PostalCode>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(668) 555-1232</TelephoneNumber>
-    </Telephone>
-    <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
-    <OperationalStatus>Active</OperationalStatus>
-    <AccountabilityRatings>
-      <RatingTitle>2010 rating: 14</RatingTitle>
-      <Rating>High Satisfactory</Rating>
-      <RatingDate>2010-08-05</RatingDate>
-      <SchoolYear>2010-2011</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2011 rating: 14</RatingTitle>
-      <Rating>High Advanced</Rating>
-      <RatingDate>2011-11-11</RatingDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2012 rating: 14</RatingTitle>
-      <Rating>Low Unsatisfactory</Rating>
-      <RatingDate>2012-07-21</RatingDate>
-      <SchoolYear>2012-2013</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2013 rating: 14</RatingTitle>
-      <Rating>Low Satisfactory</Rating>
-      <RatingDate>2013-06-25</RatingDate>
-      <SchoolYear>2013-2014</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>223</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>224</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>225</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>226</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>227</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>228</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>229</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>230</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>231</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>232</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <LEACategory>Independent</LEACategory>
-</EducationOrganization>
-  <EducationOrganization>
-    <StateOrganizationId>15</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>15</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>15</NameOfInstitution>
-    <ShortNameOfInstitution>15 LEA</ShortNameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>Local Education Agency</OrganizationCategory>
-    </OrganizationCategories>
-    <ParentEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </ParentEducationAgencyReference>
-    <Address>
-      <StreetNumberName>456 Oak Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>60601</PostalCode>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(199) 555-6229</TelephoneNumber>
-    </Telephone>
-    <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
-    <OperationalStatus>New</OperationalStatus>
-    <AccountabilityRatings>
-      <RatingTitle>2010 rating: 15</RatingTitle>
-      <Rating>High Satisfactory</Rating>
-      <RatingDate>2010-11-16</RatingDate>
-      <SchoolYear>2010-2011</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2011 rating: 15</RatingTitle>
-      <Rating>Low Advanced</Rating>
-      <RatingDate>2011-10-08</RatingDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2012 rating: 15</RatingTitle>
-      <Rating>High Satisfactory</Rating>
-      <RatingDate>2012-04-13</RatingDate>
-      <SchoolYear>2012-2013</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2013 rating: 15</RatingTitle>
-      <Rating>High Advanced</Rating>
-      <RatingDate>2013-07-16</RatingDate>
-      <SchoolYear>2013-2014</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>233</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>234</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>235</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>236</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>237</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>238</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>239</ProgramId>
+        <ProgramId>258</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
@@ -5139,47 +5084,47 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </AccountabilityRatings>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>240</ProgramId>
+        <ProgramId>259</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>241</ProgramId>
+        <ProgramId>260</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>242</ProgramId>
+        <ProgramId>261</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>243</ProgramId>
+        <ProgramId>262</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>244</ProgramId>
+        <ProgramId>263</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>245</ProgramId>
+        <ProgramId>264</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>246</ProgramId>
+        <ProgramId>265</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>247</ProgramId>
+        <ProgramId>266</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>248</ProgramId>
+        <ProgramId>267</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
@@ -5274,11 +5219,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <SchoolType>Vocational</SchoolType>
+    <SchoolType>Special Education</SchoolType>
     <CharterStatus>Not a Charter School</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
+    <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
     <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
+    <AdministrativeFundingControl>Private School</AdministrativeFundingControl>
 </EducationOrganization>
   <EducationOrganization>
     <StateOrganizationId>2</StateOrganizationId>
@@ -5390,10 +5335,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <SchoolType>JJAEP</SchoolType>
-    <CharterStatus>College/University Charter</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I targeted eligible school - no program</TitleIPartASchoolDesignation>
-    <MagnetSpecialProgramEmphasisSchool>No students participate</MagnetSpecialProgramEmphasisSchool>
+    <SchoolType>Vocational</SchoolType>
+    <CharterStatus>School Charter</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I school wide eligible - Title I targeted program</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
     <AdministrativeFundingControl>Other</AdministrativeFundingControl>
 </EducationOrganization>
   <EducationOrganization>
@@ -5482,10 +5427,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
     <SchoolType>DAEP</SchoolType>
-    <CharterStatus>College/University Charter</CharterStatus>
-    <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
+    <CharterStatus>Open Enrollment</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I school wide eligible - Title I targeted program</TitleIPartASchoolDesignation>
     <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
+    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
 </EducationOrganization>
   <EducationOrganization>
     <StateOrganizationId>4</StateOrganizationId>
@@ -5498,7 +5443,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </OrganizationCategories>
     <ParentEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>15</StateOrganizationId>
+        <StateOrganizationId>16</StateOrganizationId>
       </EducationalOrgIdentity>
     </ParentEducationAgencyReference>
     <Address>
@@ -5587,24 +5532,24 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <SchoolType>Vocational</SchoolType>
-    <CharterStatus>College/University Charter</CharterStatus>
+    <SchoolType>JJAEP</SchoolType>
+    <CharterStatus>School Charter</CharterStatus>
     <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
-    <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Private School</AdministrativeFundingControl>
+    <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
 </EducationOrganization>
   <EducationOrganization>
-    <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    <StateOrganizationId>5</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>East Daybreak Junior High</ID>
+      <ID>5</ID>
     </EducationOrgIdentificationCode>
-    <NameOfInstitution>East Daybreak Junior High</NameOfInstitution>
+    <NameOfInstitution>5</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
     <ParentEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+        <StateOrganizationId>16</StateOrganizationId>
       </EducationalOrgIdentity>
     </ParentEducationAgencyReference>
     <Address>
@@ -5692,6 +5637,47 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>64</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Kindergarten</GradeLevel>
+      <GradeLevel>First grade</GradeLevel>
+      <GradeLevel>Second grade</GradeLevel>
+      <GradeLevel>Third grade</GradeLevel>
+      <GradeLevel>Fourth grade</GradeLevel>
+      <GradeLevel>Fifth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Elementary School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>Special Education</SchoolType>
+    <CharterStatus>College/University Charter</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>No students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Private School</AdministrativeFundingControl>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>East Daybreak Junior High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>East Daybreak Junior High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>65</ProgramId>
@@ -5712,44 +5698,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>68</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <GradesOffered>
-      <GradeLevel>Sixth grade</GradeLevel>
-      <GradeLevel>Seventh grade</GradeLevel>
-      <GradeLevel>Eighth grade</GradeLevel>
-    </GradesOffered>
-    <SchoolCategories>
-      <SchoolCategory>Middle School</SchoolCategory>
-    </SchoolCategories>
-    <SchoolType>Vocational</SchoolType>
-    <CharterStatus>Open Enrollment</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I targeted eligible school - no program</TitleIPartASchoolDesignation>
-    <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-</EducationOrganization>
-  <EducationOrganization>
-    <StateOrganizationId>6</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>6</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>6</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>School</OrganizationCategory>
-    </OrganizationCategories>
-    <ParentEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>15</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </ParentEducationAgencyReference>
-    <Address>
-      <StreetNumberName>111 Ave A</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>11011</PostalCode>
-      <NameOfCounty>Wake</NameOfCounty>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
-    </Telephone>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>69</ProgramId>
@@ -5805,6 +5753,44 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>79</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Sixth grade</GradeLevel>
+      <GradeLevel>Seventh grade</GradeLevel>
+      <GradeLevel>Eighth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Middle School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>Regular</SchoolType>
+    <CharterStatus>College/University Charter</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I targeted school</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>7</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>7</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>7</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>80</ProgramId>
@@ -5830,44 +5816,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>84</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <GradesOffered>
-      <GradeLevel>Sixth grade</GradeLevel>
-      <GradeLevel>Seventh grade</GradeLevel>
-      <GradeLevel>Eighth grade</GradeLevel>
-    </GradesOffered>
-    <SchoolCategories>
-      <SchoolCategory>Middle School</SchoolCategory>
-    </SchoolCategories>
-    <SchoolType>Alternative</SchoolType>
-    <CharterStatus>School Charter</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I school wide eligible school - no program</TitleIPartASchoolDesignation>
-    <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Private School</AdministrativeFundingControl>
-</EducationOrganization>
-  <EducationOrganization>
-    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>Daybreak Central High</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>Daybreak Central High</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>School</OrganizationCategory>
-    </OrganizationCategories>
-    <ParentEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </ParentEducationAgencyReference>
-    <Address>
-      <StreetNumberName>111 Ave A</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>11011</PostalCode>
-      <NameOfCounty>Wake</NameOfCounty>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
-    </Telephone>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>85</ProgramId>
@@ -5928,6 +5876,44 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>96</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Sixth grade</GradeLevel>
+      <GradeLevel>Seventh grade</GradeLevel>
+      <GradeLevel>Eighth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Middle School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>Alternative</SchoolType>
+    <CharterStatus>Open Enrollment</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I Part A Targeted Assistance School</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>8</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>8</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>8</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>97</ProgramId>
@@ -5958,45 +5944,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>102</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <GradesOffered>
-      <GradeLevel>Ninth grade</GradeLevel>
-      <GradeLevel>Tenth grade</GradeLevel>
-      <GradeLevel>Eleventh grade</GradeLevel>
-      <GradeLevel>Twelfth grade</GradeLevel>
-    </GradesOffered>
-    <SchoolCategories>
-      <SchoolCategory>High School</SchoolCategory>
-    </SchoolCategories>
-    <SchoolType>JJAEP</SchoolType>
-    <CharterStatus>Open Enrollment</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
-    <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-</EducationOrganization>
-  <EducationOrganization>
-    <StateOrganizationId>Eastside High</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>Eastside High</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>Eastside High</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>School</OrganizationCategory>
-    </OrganizationCategories>
-    <ParentEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </ParentEducationAgencyReference>
-    <Address>
-      <StreetNumberName>111 Ave A</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>11011</PostalCode>
-      <NameOfCounty>Wake</NameOfCounty>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
-    </Telephone>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>103</ProgramId>
@@ -6057,6 +6004,44 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>114</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Sixth grade</GradeLevel>
+      <GradeLevel>Seventh grade</GradeLevel>
+      <GradeLevel>Eighth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Middle School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>Regular</SchoolType>
+    <CharterStatus>School Charter</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>Daybreak Central High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>Daybreak Central High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>115</ProgramId>
@@ -6102,45 +6087,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>123</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <GradesOffered>
-      <GradeLevel>Ninth grade</GradeLevel>
-      <GradeLevel>Tenth grade</GradeLevel>
-      <GradeLevel>Eleventh grade</GradeLevel>
-      <GradeLevel>Twelfth grade</GradeLevel>
-    </GradesOffered>
-    <SchoolCategories>
-      <SchoolCategory>High School</SchoolCategory>
-    </SchoolCategories>
-    <SchoolType>Regular</SchoolType>
-    <CharterStatus>Open Enrollment</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I targeted school</TitleIPartASchoolDesignation>
-    <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
-</EducationOrganization>
-  <EducationOrganization>
-    <StateOrganizationId>Sunset Central High</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>Sunset Central High</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>Sunset Central High</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>School</OrganizationCategory>
-    </OrganizationCategories>
-    <ParentEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </ParentEducationAgencyReference>
-    <Address>
-      <StreetNumberName>111 Ave A</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>11011</PostalCode>
-      <NameOfCounty>Wake</NameOfCounty>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
-    </Telephone>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>124</ProgramId>
@@ -6191,6 +6137,45 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>133</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Ninth grade</GradeLevel>
+      <GradeLevel>Tenth grade</GradeLevel>
+      <GradeLevel>Eleventh grade</GradeLevel>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>High School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>Regular</SchoolType>
+    <CharterStatus>Not a Charter School</CharterStatus>
+    <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>Eastside High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>Eastside High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>Eastside High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>134</ProgramId>
@@ -6261,45 +6246,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>147</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <GradesOffered>
-      <GradeLevel>Ninth grade</GradeLevel>
-      <GradeLevel>Tenth grade</GradeLevel>
-      <GradeLevel>Eleventh grade</GradeLevel>
-      <GradeLevel>Twelfth grade</GradeLevel>
-    </GradesOffered>
-    <SchoolCategories>
-      <SchoolCategory>High School</SchoolCategory>
-    </SchoolCategories>
-    <SchoolType>Regular</SchoolType>
-    <CharterStatus>Not a Charter School</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
-    <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
-</EducationOrganization>
-  <EducationOrganization>
-    <StateOrganizationId>Westside High</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>Westside High</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>Westside High</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>School</OrganizationCategory>
-    </OrganizationCategories>
-    <ParentEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>14</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </ParentEducationAgencyReference>
-    <Address>
-      <StreetNumberName>111 Ave A</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>11011</PostalCode>
-      <NameOfCounty>Wake</NameOfCounty>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
-    </Telephone>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>148</ProgramId>
@@ -6335,6 +6281,45 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>154</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Ninth grade</GradeLevel>
+      <GradeLevel>Tenth grade</GradeLevel>
+      <GradeLevel>Eleventh grade</GradeLevel>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>High School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>Alternative</SchoolType>
+    <CharterStatus>School Charter</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I school wide eligible school - no program</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>No students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Private School</AdministrativeFundingControl>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>Sunset Central High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>Sunset Central High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>Sunset Central High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>155</ProgramId>
@@ -6415,45 +6400,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>170</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <GradesOffered>
-      <GradeLevel>Ninth grade</GradeLevel>
-      <GradeLevel>Tenth grade</GradeLevel>
-      <GradeLevel>Eleventh grade</GradeLevel>
-      <GradeLevel>Twelfth grade</GradeLevel>
-    </GradesOffered>
-    <SchoolCategories>
-      <SchoolCategory>High School</SchoolCategory>
-    </SchoolCategories>
-    <SchoolType>Vocational</SchoolType>
-    <CharterStatus>Open Enrollment</CharterStatus>
-    <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
-    <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
-</EducationOrganization>
-  <EducationOrganization>
-    <StateOrganizationId>11</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>11</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>11</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>School</OrganizationCategory>
-    </OrganizationCategories>
-    <ParentEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>14</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </ParentEducationAgencyReference>
-    <Address>
-      <StreetNumberName>111 Ave A</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>11011</PostalCode>
-      <NameOfCounty>Wake</NameOfCounty>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
-    </Telephone>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>171</ProgramId>
@@ -6499,6 +6445,45 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>179</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Ninth grade</GradeLevel>
+      <GradeLevel>Tenth grade</GradeLevel>
+      <GradeLevel>Eleventh grade</GradeLevel>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>High School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>JJAEP</SchoolType>
+    <CharterStatus>College/University Charter</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>Westside High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>Westside High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>Westside High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>180</ProgramId>
@@ -6554,45 +6539,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>190</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <GradesOffered>
-      <GradeLevel>Ninth grade</GradeLevel>
-      <GradeLevel>Tenth grade</GradeLevel>
-      <GradeLevel>Eleventh grade</GradeLevel>
-      <GradeLevel>Twelfth grade</GradeLevel>
-    </GradesOffered>
-    <SchoolCategories>
-      <SchoolCategory>High School</SchoolCategory>
-    </SchoolCategories>
-    <SchoolType>DAEP</SchoolType>
-    <CharterStatus>Open Enrollment</CharterStatus>
-    <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
-    <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-</EducationOrganization>
-  <EducationOrganization>
-    <StateOrganizationId>12</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>12</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>12</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>School</OrganizationCategory>
-    </OrganizationCategories>
-    <ParentEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>14</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </ParentEducationAgencyReference>
-    <Address>
-      <StreetNumberName>111 Ave A</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>11011</PostalCode>
-      <NameOfCounty>Wake</NameOfCounty>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
-    </Telephone>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>191</ProgramId>
@@ -6653,6 +6599,45 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>202</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Ninth grade</GradeLevel>
+      <GradeLevel>Tenth grade</GradeLevel>
+      <GradeLevel>Eleventh grade</GradeLevel>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>High School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>Vocational</SchoolType>
+    <CharterStatus>Not a Charter School</CharterStatus>
+    <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>No students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Private School</AdministrativeFundingControl>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>13</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>13</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>13</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>203</ProgramId>
@@ -6703,6 +6688,76 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>212</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>213</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>214</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>215</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>216</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>217</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>218</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>219</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>220</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>221</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>222</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>223</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>224</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>225</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>226</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
     <GradesOffered>
       <GradeLevel>Ninth grade</GradeLevel>
       <GradeLevel>Tenth grade</GradeLevel>
@@ -6712,11 +6767,175 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>High School</SchoolCategory>
     </SchoolCategories>
-    <SchoolType>DAEP</SchoolType>
-    <CharterStatus>School Charter</CharterStatus>
-    <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
+    <SchoolType>Alternative</SchoolType>
+    <CharterStatus>Not a Charter School</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I targeted school</TitleIPartASchoolDesignation>
     <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
-    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
+    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
+</EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>14</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>14</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>14</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>227</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>228</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>229</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>230</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>231</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>232</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>233</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>234</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>235</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>236</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>237</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>238</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>239</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>240</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>241</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>242</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>243</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>244</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>245</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>246</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>247</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>248</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>249</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>250</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>251</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Ninth grade</GradeLevel>
+      <GradeLevel>Tenth grade</GradeLevel>
+      <GradeLevel>Eleventh grade</GradeLevel>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>High School</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>Vocational</SchoolType>
+    <CharterStatus>Not a Charter School</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I Part A Targeted Assistance School</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Private School</AdministrativeFundingControl>
 </EducationOrganization>
   <CompetencyLevelDescriptor>
       <CodeValue>Incompetent</CodeValue>
