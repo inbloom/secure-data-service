@@ -146,30 +146,30 @@ Feature: An edorg's extract file should contain student data from previous enrol
   #Even data from edorg 3 that began on the student's final day with edorg 1 should be included
     And I verify this "studentProgramAssociation" file should contain:
       | id                                                                                     | condition |
-      | 067198fd6da91e1aa8d67e28e850f224d6851713_id00d49d7745ce3cda27c572722ff0b1a444994f0e_id | entityType = studentProgramAssociation |
-      | 067198fd6da91e1aa8d67e28e850f224d6851713_id7dd356a77a6655418bca535fe5466d5b2121ced7_id | entityType = studentProgramAssociation |
-      | 067198fd6da91e1aa8d67e28e850f224d6851713_id1b5659d53006bd6f8149c9b9c9facc4bb81ad882_id | entityType = studentProgramAssociation |
-      | 067198fd6da91e1aa8d67e28e850f224d6851713_id769ed3b8b1d61f91c801bce0208f68c6430c8730_id | entityType = studentProgramAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_ide34acabe3e308a140d76b7bd2da54011be117110_id | entityType = studentProgramAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id56c2e2108230cfdd4fc0602921f4ee724ff8b1a2_id | entityType = studentProgramAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_ide2285301a2915907a047b8343f0522de2300031b_id | entityType = studentProgramAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id16ec8cd2cdf977761aa6105868be5339c12e19bc_id | entityType = studentProgramAssociation |
     And I verify this "studentCohortAssociation" file should contain:
       | id                                                                                     | condition |
-      | 067198fd6da91e1aa8d67e28e850f224d6851713_idb12389748d8bccb346d465914b2d91d0005581fc_id | entityType = studentCohortAssociation |
-      | 067198fd6da91e1aa8d67e28e850f224d6851713_id12b5335d92a7addbd9ae76b8d52955e7a032e25e_id | entityType = studentCohortAssociation |
-      | 067198fd6da91e1aa8d67e28e850f224d6851713_id4f10bcb60aef1f6d9d9848f93c6673042689dc94_id | entityType = studentCohortAssociation |
-      | 067198fd6da91e1aa8d67e28e850f224d6851713_id8d772bd9018bf3e181c719c51261cd8fafb71b76_id | entityType = studentCohortAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id388413bdbb0059dd85a0451fe1c6ea8c5475d4d1_id | entityType = studentCohortAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id293b5f08004c4385b121091e2cd72a1a33e39392_id | entityType = studentCohortAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_idfe9b9e96676d530866cf5b742ea265d76f0d8a24_id | entityType = studentCohortAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id7de288576a0f32b99789d8f3a6cb773200794aa8_id | entityType = studentCohortAssociation |
     And I verify this "studentDisciplineIncidentAssociation" file should contain:
       | id   | condition |
-      | 067198fd6da91e1aa8d67e28e850f224d6851713_ide9a308c1b89f083c73d3e9e80f319b0d2bb955e1_id | entityType = studentDisciplineIncidentAssociation |
-      | 067198fd6da91e1aa8d67e28e850f224d6851713_ida938c5c9dc67f25d2d31f7d04f61ea342d611154_id | entityType = studentDisciplineIncidentAssociation |
-      | 067198fd6da91e1aa8d67e28e850f224d6851713_id466d1e3aad124f2f4c223e75c102f75a15d23eb9_id | entityType = studentDisciplineIncidentAssociation |
-      | 067198fd6da91e1aa8d67e28e850f224d6851713_id6eb54f8a415281c5e7654d1538287011aafa1a9d_id | entityType = studentDisciplineIncidentAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_idd178f903e8fc7f13da40eff90fe04289f8d60180_id | entityType = studentDisciplineIncidentAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id7c81a5b5c57d1eacf611875aa87c44e57e2d4422_id | entityType = studentDisciplineIncidentAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id7776723a42cad712a6771a01aec0d7bb4b4c4ec9_id | entityType = studentDisciplineIncidentAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id126ec69e8441ecd01db21b4a68b74026e7cfb1b9_id | entityType = studentDisciplineIncidentAssociation |
   #This extract should not contain content for anything that began after edorg 1's end date with the student
   #Given proper data, everything from edorg 4 shouldn't be included
     And I verify this "studentProgramAssociation" file should not contain:
       | id                                                                                     |
-      | 067198fd6da91e1aa8d67e28e850f224d6851713_id3ff9e2e6a970e85eca11b130a61b1532847c7e47_id |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id3401ad622b20c8502b936844cf68293b27c1957e_id |
     And I verify this "studentCohortAssociation" file should not contain:
       | id                                                                                     |
-      | 067198fd6da91e1aa8d67e28e850f224d6851713_id767bb8420bf91d5f148b06630792394719d3545e_id |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_idb675acc4cb309496b14c25e7c3d74d07b60d68ae_id |
     And I verify this "studentDisciplineIncidentAssociation" file should not contain:
       | id                                                                                     |
-      | 067198fd6da91e1aa8d67e28e850f224d6851713_id21f97eb4744ac207d5e694ef08af730dca3da045_id |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id488486ca968826efacf5c1941c04e3ab30b83dc9_id |
