@@ -37,7 +37,7 @@ import org.slc.sli.domain.Repository;
  */
 public class StudentExtractor implements EntityExtract {
     private static final List<String> DATED_SUBDOCS = Arrays.asList(EntityNames.STUDENT_PROGRAM_ASSOCIATION,
-            EntityNames.STUDENT_COHORT_ASSOCIATION);
+            EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION);
     private ExtractFileMap map;
     private EntityExtractor extractor;
     private Repository<Entity> repo;

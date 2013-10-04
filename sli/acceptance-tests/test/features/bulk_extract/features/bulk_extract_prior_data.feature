@@ -1,6 +1,7 @@
 @RALLY_US5904
 Feature: An edorg's extract file should contain student data from previous enrollments with other schools
 
+  @wip
   Scenario: Setup the database and trigger an extract
     Given I clean the bulk extract file system and database
     And I am using local data store
@@ -9,14 +10,15 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I successfully ingest "PriorDataSet.zip"
     And all edorgs in "Midgar" are authorized for "SDK Sample"
     And I trigger an extract for tenant "Midgar"
-
+  @wip
   Scenario: The extract for an edorg should contain data for a student from a previously enrolled school
+    Given I clean the bulk extract file system and database
+    And I trigger an extract for tenant "Midgar"
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "897755cae2f689c2d565a35a48ea69d5dd3928d6_id"
     And I verify that an extract tar file was created for the tenant "Midgar"
     Then the extract contains a file for each of the following entities:
       | entityType                            |
       | attendance                            |
-      | cohort                                |
       | course                                |
       | courseOffering                        |
       | courseTranscript                      |
@@ -30,7 +32,6 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | parent                                |
       | reportCard                            |
       | school                                |
-      | section                               |
 #      | session                               |  #  Only in LEA extracts
       | staff                                 |
       | staffCohortAssociation                |
@@ -65,6 +66,18 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "studentDisciplineIncidentAssociation" file should contain:
       | id                                                                                     | condition |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id92709ce1b529f9825bd4ab623f292c12c083df8e_id | entityType = studentDisciplineIncidentAssociation |
+    And I verify this "disciplineAction" file should contain:
+      | id                                                                                     | condition |
+      | c3210dcba5a65f44d37a88528989e39cdbcc6e09_id | entityType = disciplineAction |
+    And I verify this "studentAssessment" file should contain:
+      | id                                                                                     | condition |
+      | abf6b39f8c841a247c3e4731a821ea8b86f1c5d1_id | entityType = studentAssessment |
+    And I verify this "studentSchoolAssociation" file should contain:
+      | id                                                                                     | condition |
+      | 89c3228f05f5d88d785b4788babbf12c02c9f3f4_id | entityType = studentSchoolAssociation |
+    And I verify this "parent" file should contain:
+      | id                                                                                     | condition |
+      | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id | entityType = parent |
 
   Scenario: The extract for an edorg should not contain data for a former student that's dated after the student has left
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
@@ -72,7 +85,6 @@ Feature: An edorg's extract file should contain student data from previous enrol
     Then the extract contains a file for each of the following entities:
       | entityType                            |
       | attendance                            |
-      | cohort                                |
       | course                                |
       | courseOffering                        |
       | courseTranscript                      |
@@ -86,7 +98,6 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | parent                                |
       | reportCard                            |
       | school                                |
-      | section                               |
 #      | session                               |  #  Only in LEA extracts
       | staff                                 |
       | staffCohortAssociation                |
@@ -121,6 +132,7 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "studentDisciplineIncidentAssociation" file should not contain:
       | id                                                                                     | condition |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id2b0fbf2af85b9e850e533ded46d26d77aeaa2e75_id |           |
+
 
 ##########################################################################
 #    TIMELINE OF ENROLLMENT OF STUDENT 1 FOR EDGE CASES
