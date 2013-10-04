@@ -6,19 +6,11 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I am using local data store
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And all collections are empty
-    And I post "PriorStudentStaffDataSet.zip" file as the payload of the ingestion job
-    When zip file is scp to ingestion landing zone
-    And a batch job for file "PriorStudentStaffDataSet.zip" is completed in database
-
-    Then I should see following map of entry counts in the corresponding collections:
-      | collectionName                           |              count|
-      | student                                  |                104|
-    And I should not see an error log file created
-    And I should not see a warning log file created
+    And I successfully ingest "PriorDataSet.zip"
+    And all edorgs in "Midgar" are authorized for "SDK Sample"
+    And I trigger an extract for tenant "Midgar"
 
   Scenario: The extract for an edorg should contain data for a student from a previously enrolled school
-    Given all edorgs in "Midgar" are authorized for "SDK Sample"
-    And I trigger an extract for tenant "Midgar"
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "897755cae2f689c2d565a35a48ea69d5dd3928d6_id"
     And I verify that an extract tar file was created for the tenant "Midgar"
     Then the extract contains a file for each of the following entities:
