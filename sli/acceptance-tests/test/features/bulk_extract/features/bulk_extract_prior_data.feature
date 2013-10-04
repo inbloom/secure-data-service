@@ -1,7 +1,6 @@
 @RALLY_US5904
 Feature: An edorg's extract file should contain student data from previous enrollments with other schools
 
-  @wip
   Scenario: Setup the database and trigger an extract
     Given I clean the bulk extract file system and database
     And I am using local data store
@@ -10,10 +9,8 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I successfully ingest "PriorDataSet.zip"
     And all edorgs in "Midgar" are authorized for "SDK Sample"
     And I trigger an extract for tenant "Midgar"
-  @wip
+
   Scenario: The extract for an edorg should contain data for a student from a previously enrolled school
-    Given I clean the bulk extract file system and database
-    And I trigger an extract for tenant "Midgar"
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "897755cae2f689c2d565a35a48ea69d5dd3928d6_id"
     And I verify that an extract tar file was created for the tenant "Midgar"
     Then the extract contains a file for each of the following entities:
