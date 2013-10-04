@@ -75,6 +75,10 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "parent" file should contain:
       | id                                                                                     | condition |
       | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id | entityType = parent |
+    And I verify this "disciplineIncident" file should contain:
+      | id                                                                                     | condition |
+      | 5c2d1d70eed68e801d551631eb82636fc9e9a6dc_id | entityType = disciplineIncident |
+
 
   Scenario: The extract for an edorg should not contain data for a former student that's dated after the student has left
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
@@ -129,6 +133,22 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "studentDisciplineIncidentAssociation" file should not contain:
       | id                                                                                     | condition |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id2b0fbf2af85b9e850e533ded46d26d77aeaa2e75_id |           |
+
+    And I verify this "disciplineAction" file should not contain:
+      | id                                                                                     | condition |
+      | e3d4fe2fdb6af50c87446e9050b74e0d7903f5cb_id |  |
+    And I verify this "studentAssessment" file should not contain:
+      | id                                                                                     | condition |
+      | b2542b105c09130bc7d3f81b471d1f0f0e481fd8_id | |
+    And I verify this "studentSchoolAssociation" file should not contain:
+      | id                                                                                     | condition |
+      | c5a10351b0957620192a7b1c0e3e6fd686173579_id | |
+    And I verify this "parent" file should contain:
+      | id                                                                                     | condition |
+      | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id | entityType = parent |
+    And I verify this "disciplineIncident" file should not contain:
+      | id                                                                                     | condition |
+      | ad0101e8b3efe4d35317175167c9fee11d746b58_id |  |
 
 
 ##########################################################################
