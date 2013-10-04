@@ -58,13 +58,13 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id3382e80b35990e1ea89cdde30339fb0c4b79793d_id | entityType = studentParentAssociation |
     And I verify this "studentProgramAssociation" file should contain:
       | id                                                                                     | condition |
-      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id22f33fc1c35430a40cbff324358dbcc57ac8d9cb_id | entityType = studentProgramAssociation |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id6d3f9afe4b7a6fe871bf92aa46d6ee9cca56f6e5_id | entityType = studentProgramAssociation |
     And I verify this "studentCohortAssociation" file should contain:
       | id                                                                                     | condition |
-      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id0c745c971386ffb33d148e88219df99d6fa0eca9_id | entityType = studentCohortAssociation |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_idb8cb9f9619c552284b43208290b8e2455137eeed_id | entityType = studentCohortAssociation |
     And I verify this "studentDisciplineIncidentAssociation" file should contain:
       | id                                                                                     | condition |
-      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id448869af001f3b7d05783e44e8e769bdf0884fa3_id | entityType = studentDisciplineIncidentAssociation |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id92709ce1b529f9825bd4ab623f292c12c083df8e_id | entityType = studentDisciplineIncidentAssociation |
 
   Scenario: The extract for an edorg should not contain data for a former student that's dated after the student has left
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
@@ -113,14 +113,14 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | id                                                                                     | condition |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id3382e80b35990e1ea89cdde30339fb0c4b79793d_id | entityType = studentParentAssociation |
     And I verify this "studentProgramAssociation" file should not contain:
-      | id                                                                                     |
-      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id5ca1a24362d92486c5e515ff972e9ec46d7f20c8_id |
+      | id                                                                                     | condition |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id58e9a8ae4486e96051b33876b20a8f2cac745408_id |           |
     And I verify this "studentCohortAssociation" file should not contain:
-      | id                                                                                     |
-      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_idc61a12bdb9bbb3c686ba5e9a41cfcd51a99961be_id |
+      | id                                                                                     | condition |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_idcee230069953f0b915305f33ff9f061bfc832509_id |           |
     And I verify this "studentDisciplineIncidentAssociation" file should not contain:
-      | id                                                                                     |
-      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id90b24024a84266fafecdd3001c5b3acd2202d183_id |
+      | id                                                                                     | condition |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id2b0fbf2af85b9e850e533ded46d26d77aeaa2e75_id |           |
 
 ##########################################################################
 #    TIMELINE OF ENROLLMENT OF STUDENT 1 FOR EDGE CASES
