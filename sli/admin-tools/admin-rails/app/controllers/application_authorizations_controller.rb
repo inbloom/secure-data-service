@@ -372,6 +372,7 @@ class ApplicationAuthorizationsController < ApplicationController
     # to bottom.
     parents = eo[:parents]
     is_repeat_subtree = parents.length > 1 && parent_id != parents.last && seen.has_key?(parents.last)
+    is_anchored = parents.length > 1 && parent_id == parents.last && seen.has_key?(parents.last)
     if is_repeat_subtree
       anc_id = parents.last
       ppath = []
@@ -415,7 +416,8 @@ class ApplicationAuthorizationsController < ApplicationController
     result += " class=\"repeatsubtree\"" if is_repeat_subtree
     result += ">"
     result += "<i>" if !eo[:enabled]
-    result += "(&rArr; see " if is_repeat_subtree
+    result += "(&rArr; <a href=\"#" + parents.last + "\">see</a> " if is_repeat_subtree
+    result += "<a name=\"" + id + "\"></a>" if is_anchored
     result += eo[:name]
     result += ", under \"" + path_to_root + "\" above)" if is_repeat_subtree
     result += "</i>" if !eo[:enabled]
