@@ -140,8 +140,7 @@ class ApplicationAuthorizationsController < ApplicationController
   # PUT /application_authorizations/1.json
   def update
 
-    # Only allow update by SEA admin.  Should not really trigger this since the
-    # buttons are grayed out and non-SEAadmin use is not invited to get here
+    # Only allow update by SEA  or LEA admin.
     unless is_sea_admin? || is_lea_admin?
       logger.warn {'User is not SEA or LEA admin and cannot update application authorizations'}
       raise ActiveResource::ForbiddenAccess, caller
@@ -391,6 +390,9 @@ class ApplicationAuthorizationsController < ApplicationController
     is_category = id.start_with?(CATEGORY_NODE_PREFIX) || id == ROOT_ID
     if !is_repeat_subtree && eo[:enabled]
       result += "<input type=\"checkbox\""
+      if !is_category
+        result += " class=\"edorgId\""
+      end
       if !id.start_with?(CATEGORY_NODE_PREFIX) && !is_empty(id)
         result += " id=\"" + id + "\""
       end
