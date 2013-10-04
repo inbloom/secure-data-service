@@ -28,7 +28,6 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    |  parent                                |
    |  reportCard                            |
    |  school                                |
-   |  section                               |
    |  session                               |
    |  staff                                 |
    |  staffCohortAssociation                |

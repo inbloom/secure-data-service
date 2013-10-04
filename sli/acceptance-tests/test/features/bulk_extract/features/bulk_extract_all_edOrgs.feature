@@ -21,7 +21,6 @@ Feature: After Small Sample DS is ingested and BE is run, I want to ensure that 
     And I check that the student extract for "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" has the correct number of records
     And I check that the attendance extract for "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" has the correct number of records
     And I check that the parent extract for "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" has the correct number of records
-    And I check that the section extract for "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" has the correct number of records
     And I check that the session extract for "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" has the correct number of records
     And I check that the staffEdorgAssignment extract for "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" has the correct number of records   
     And I check that the teacherSchoolAssociation extract for "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" has the correct number of records

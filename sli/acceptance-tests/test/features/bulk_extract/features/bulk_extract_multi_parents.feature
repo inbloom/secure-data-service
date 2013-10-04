@@ -75,7 +75,6 @@ Feature: As an API user, I want to be able to get a list of links available to t
       |  entityType                            |
       |attendance                              |
       |grade                                   |
-      |section                                 |
       |studentCohortAssociation                |
       |studentSectionAssociation               |
       |course                                  |
@@ -129,7 +128,6 @@ Feature: As an API user, I want to be able to get a list of links available to t
       |parent                                  |
       |reportCard                              |
       |school                                  |
-      |section                                 |
       |session                                 |
       |staff                                   |
       |staffEducationOrganizationAssociation   |

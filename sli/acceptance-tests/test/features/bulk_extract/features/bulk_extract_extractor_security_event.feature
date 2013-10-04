@@ -37,7 +37,7 @@ Feature: Security events are logged when bulk extract is run
     And I trigger a bulk extract
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName              | count |
-      | securityEvent               | 69   |
+      | securityEvent               | 67   |
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
       | securityEvent   | 1                   | body.logMessage         | Beginning bulk extract execution                                             | string          |
@@ -60,7 +60,6 @@ Feature: Security events are logged when bulk extract is run
       | securityEvent   | 2                   | body.logMessage         | Extracting courseOffering for LEA extract                                    | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting gradingPeriod for LEA extract                                     | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting parent for LEA extract                                            | string          |
-      | securityEvent   | 2                   | body.logMessage         | Extracting section for LEA extract                                           | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting session for LEA extract                                           | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting staff for LEA extract                                             | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting staffCohortAssociation for LEA extract                            | string          |

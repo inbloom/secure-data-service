@@ -486,7 +486,6 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
       |  parent                                |
       |  reportCard                            |
       |  school                                |
-      |  section                               |
      #no sessions associated to charter school in data set
      #|  session                               |
       |  staff                                 |

@@ -13,7 +13,6 @@ Scenario Outline: Verify simple entities were correctly extracted for LEA
 	| grade                                 | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  |   19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| gradebookEntry                        | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  |   19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| reportCard                            | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  |   19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-	| section                               | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  |   19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| student                               | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  |   19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| studentAcademicRecord                 | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  |   19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| studentAssessment                     | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  |   19cca28d-7357-4044-8df9-caad4b1c8ee4 |
