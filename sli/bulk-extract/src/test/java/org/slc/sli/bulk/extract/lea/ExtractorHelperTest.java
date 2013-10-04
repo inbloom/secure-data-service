@@ -199,11 +199,13 @@ public class ExtractorHelperTest {
         helper.setDateHelper(null);
         Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
         Map<String, Object> school = new HashMap<String, Object>();
-        school.put("exitWithdrawDate", "1848-05-21");
+        school.put(ParameterConstants.ENTRY_DATE, "1847-06-01");
+        school.put(ParameterConstants.EXIT_WITHDRAW_DATE, "1848-05-21");
         school.put("_id", "school1");
 
         Map<String, Object> school2 = new HashMap<String, Object>();
-        school2.put("exitWithdrawDate", "1945-05-09");
+        school2.put(ParameterConstants.ENTRY_DATE, "1944-05-01");
+        school2.put(ParameterConstants.EXIT_WITHDRAW_DATE, "1945-05-09");
         school2.put("_id", "school2");
 
         denormalized.put("schools", Arrays.asList(school, school2));
@@ -217,7 +219,8 @@ public class ExtractorHelperTest {
 
         Map<String, Object> school3 = new HashMap<String, Object>();
         school3.put("_id", "school3");
-        school3.put("exitWithdrawDate", "2048-05-09");
+        school3.put(ParameterConstants.ENTRY_DATE, "2001-05-01");
+        school3.put(ParameterConstants.EXIT_WITHDRAW_DATE, "2048-05-09");
         denormalized.put("schools", Arrays.asList(school, school2, school3));
 
         result = helper.fetchAllEdOrgsForStudent(student);
@@ -243,11 +246,13 @@ public class ExtractorHelperTest {
         helper.setDateHelper(null);
         Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
         Map<String, Object> school = new HashMap<String, Object>();
-        school.put("exitWithdrawDate", "1848-05-21");
+        school.put(ParameterConstants.ENTRY_DATE, "1847-05-21");
+        school.put(ParameterConstants.EXIT_WITHDRAW_DATE, "1848-05-21");
         school.put("_id", "school1");
 
         Map<String, Object> school2 = new HashMap<String, Object>();
         school2.put("_id", "school2");
+        school2.put(ParameterConstants.ENTRY_DATE, "2001-10-01");
 
         denormalized.put("schools", Arrays.asList(school, school2));
 
@@ -260,11 +265,13 @@ public class ExtractorHelperTest {
 
         Map<String, Object> school3 = new HashMap<String, Object>();
         school3.put("_id", "school3");
-        school3.put("exitWithdrawDate", "2048-05-09");
+        school3.put(ParameterConstants.ENTRY_DATE, "2001-05-01");
+        school3.put(ParameterConstants.EXIT_WITHDRAW_DATE, "2048-05-09");
         denormalized.put("schools", Arrays.asList(school, school2, school3));
 
         Map<String, Object> school4 = new HashMap<String, Object>();
         school4.put("_id", "school4");
+        school4.put(ParameterConstants.ENTRY_DATE, "2010-05-01");
         denormalized.put("schools", Arrays.asList(school, school2, school3, school4));
 
         result = helper.fetchAllEdOrgsForStudent(student);
@@ -277,5 +284,34 @@ public class ExtractorHelperTest {
         Assert.assertEquals(null, result.get("school2"));
         Assert.assertEquals(null, result.get("school4"));
 
+    }
+
+    @Test
+    public void testFutureEntryDate() {
+        Map<String, List<String>> lineages = ImmutableMap.of(
+                "school1", (List<String>)Arrays.asList("school1"),
+                "school2", (List<String>)Arrays.asList("school2", "Proudhon", "Kropotkin"),
+                "school3", (List<String>)Arrays.asList("school3", "Proudhon", "Bakunin", "Kropotkin")
+        );
+        Mockito.when(edOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
+
+        helper.setDateHelper(null);
+        Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
+        Map<String, Object> school1 = new HashMap<String, Object>();
+        school1.put(ParameterConstants.ENTRY_DATE, "3000-06-01");
+        school1.put("_id", "school1");
+
+        Map<String, Object> school2 = new HashMap<String, Object>();
+        school2.put(ParameterConstants.ENTRY_DATE, "3000-05-01");
+        school2.put(ParameterConstants.EXIT_WITHDRAW_DATE, "3001-05-09");
+        school2.put("_id", "school2");
+
+        denormalized.put("schools", Arrays.asList(school1, school2));
+
+        Entity student = Mockito.mock(Entity.class);
+        Mockito.when(student.getDenormalizedData()).thenReturn(denormalized);
+
+        Map<String, DateTime> result = helper.fetchAllEdOrgsForStudent(student);
+        Assert.assertEquals(0, result.size());
     }
 }

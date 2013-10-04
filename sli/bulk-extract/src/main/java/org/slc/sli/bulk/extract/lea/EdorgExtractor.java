@@ -53,7 +53,7 @@ public class EdorgExtractor implements EntityExtract {
             NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id",
                     NeutralCriteria.CRITERIA_IN, new ArrayList<String>(entityToEdorgCache.getEntriesById(edOrg))));
             extractor.setExtractionQuery(query);
-            extractor.extractEntities(extractFile, "educationOrganization");
+            extractor.extractEntities(extractFile, "educationOrganization", null);
         }
     }
 

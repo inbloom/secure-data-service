@@ -37,7 +37,9 @@ public enum PublicEntityDefinition {
     LEARNING_STANDARD("learningStandard"),
     COMPETENCY_LEVEL_DESCRIPTOR("competencyLevelDescriptor"),
     STUDENT_COMPETENCY_OBJECTIVE("studentCompetencyObjective"),
-    PROGRAM("program");
+    PROGRAM("program"),
+    SECTION("section"),
+    COHORT("cohort");
 
     private final String entityName;
 
@@ -52,4 +54,5 @@ public enum PublicEntityDefinition {
     public String getEntityName() {
         return entityName;
     }
+
 }

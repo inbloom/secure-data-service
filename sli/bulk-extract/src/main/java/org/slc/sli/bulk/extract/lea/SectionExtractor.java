@@ -23,7 +23,6 @@ import java.util.Set;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -38,7 +37,7 @@ import com.google.common.base.Predicate;
 public class SectionExtractor implements EntityExtract {
     private static final Logger LOG = LoggerFactory.getLogger(LocalEdOrgExtractor.class);
 
-	
+
     private final EntityExtractor entityExtractor;
     private final ExtractFileMap leaToExtractFileMap;
     private final Repository<Entity> repository;
@@ -62,7 +61,6 @@ public class SectionExtractor implements EntityExtract {
     @SuppressWarnings("unchecked")
     @Override
     public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
-        edOrgExtractHelper.logSecurityEvent(leaToExtractFileMap.getEdOrgs(), EntityNames.SECTION, this.getClass().getName());
         Iterator<Entity> sections = this.repository.findEach("section", new NeutralQuery());
 
         while (sections.hasNext()) {
@@ -117,7 +115,8 @@ public class SectionExtractor implements EntityExtract {
 
     @SuppressWarnings("unchecked")
     private void extract(Entity section, final String edOrg, Predicate<Entity> filter) {
-        this.entityExtractor.extractEntity(section, this.leaToExtractFileMap.getExtractFileForEdOrg(edOrg), "section", filter);
+        //Extract only the section's sub doc entities
+        this.entityExtractor.extractEmbeddedEntities(section, this.leaToExtractFileMap.getExtractFileForEdOrg(edOrg), "section", filter);
         this.courseOfferingCache.addEntry((String) section.getBody().get("courseOfferingId"), edOrg);
 
         List<Entity> ssas = section.getEmbeddedData().get("studentSectionAssociation");

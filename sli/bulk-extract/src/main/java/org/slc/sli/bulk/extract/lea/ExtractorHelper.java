@@ -88,21 +88,22 @@ public class ExtractorHelper{
 
         List<Map<String, Object>> schools = data.get("schools");
         for (Map<String, Object> school : schools) {
+            if(!dateHelper.getDate(school, ParameterConstants.ENTRY_DATE).isAfter(DateTime.now())) {
+                String id = (String)school.get("_id");
+                DateTime expirationDateFromData = dateHelper.getDate(school, ParameterConstants.EXIT_WITHDRAW_DATE);
 
-            String id = (String)school.get("_id");
-            DateTime expirationDate = dateHelper.getDate(school, "exitWithdrawDate");
-            DateTime finalExpirationDate = expirationDate;
-
-            List<String> lineages = edOrgExtractHelper.getEdOrgLineages().get(id);
-            if(lineages != null) {
-                for (String edOrg : lineages) {
-                    DateTime existingDate = studentEdOrgs.get(edOrg);
-                    if(studentEdOrgs.containsKey(edOrg) && (expirationDate == null || existingDate == null)) {
-                        finalExpirationDate = null;
-                    } else if(studentEdOrgs.containsKey(edOrg) &&  existingDate.isAfter(expirationDate)) {
-                        finalExpirationDate = studentEdOrgs.get(edOrg);
+                List<String> lineages = edOrgExtractHelper.getEdOrgLineages().get(id);
+                if(lineages != null) {
+                    for (String edOrg : lineages) {
+                        DateTime existingExpirationDate = studentEdOrgs.get(edOrg);
+                        DateTime finalExpirationDate = expirationDateFromData;
+                        if(studentEdOrgs.containsKey(edOrg) && (expirationDateFromData == null || existingExpirationDate == null)) {
+                            finalExpirationDate = null;
+                        } else if(studentEdOrgs.containsKey(edOrg) &&  existingExpirationDate.isAfter(expirationDateFromData)) {
+                            finalExpirationDate = studentEdOrgs.get(edOrg);
+                        }
+                        studentEdOrgs.put(edOrg, finalExpirationDate);
                     }
-                    studentEdOrgs.put(edOrg, finalExpirationDate);
                 }
             }
         }

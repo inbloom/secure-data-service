@@ -165,10 +165,6 @@ public class LocalEdOrgExtractorTest {
                 mockFactory.buildStaffCohortAssociationExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
                         Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockExtract);
 
-        Mockito.when(
-                mockFactory.buildCohortExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
-                        Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockExtract);
-
         Mockito.when(mockFactory.buildSectionExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),Mockito.any(Repository.class),
                 Mockito.any(EntityToEdOrgCache.class), Mockito.any(EntityToEdOrgCache.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(sectionExtractor);
 
@@ -246,7 +242,7 @@ public class LocalEdOrgExtractorTest {
         Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(childQuery))).thenReturn(new ArrayList<Entity>());
 
     	extractor.execute("Midgar", tenantDir, new DateTime(), "sea");
-        Mockito.verify(entityExtractor, Mockito.times(3)).extractEntities(Mockito.any(ExtractFile.class), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION));
+        Mockito.verify(entityExtractor, Mockito.times(3)).extractEntities(Mockito.any(ExtractFile.class), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), null);
         Mockito.verify(entityExtractor, Mockito.times(3)).setExtractionQuery(Mockito.any(NeutralQuery.class));
 
     }

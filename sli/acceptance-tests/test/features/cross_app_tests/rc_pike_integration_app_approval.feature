@@ -417,7 +417,6 @@ And the operator triggers a delta for the production tenant
       # |  assessment                            |
       |  attendance                            |
       |  calendarDate                          |
-      |  cohort                                |
       |  course                                |
       |  courseTranscript                      |
       |  courseOffering                        |
@@ -487,7 +486,6 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
       |  parent                                |
       |  reportCard                            |
       |  school                                |
-      |  section                               |
      #no sessions associated to charter school in data set
      #|  session                               |
       |  staff                                 |
@@ -540,6 +538,8 @@ Scenario: App makes an api call to retrieve a SEA public data bulk extract
       |  session                               |
       |  calendarDate                          |
       |  school                                |
+      |  cohort                                |
+      |  section                               |
 
 Scenario: App makes an api call to retrieve a bulk extract delta
 #Get a session to trigger a bulk extract
