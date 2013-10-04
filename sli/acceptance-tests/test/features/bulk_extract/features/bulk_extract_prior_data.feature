@@ -11,8 +11,8 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And a batch job for file "PriorStudentStaffDataSet.zip" is completed in database
 
     Then I should see following map of entry counts in the corresponding collections:
-      | collectionName                           |              count|
-      | student                                  |                104|
+      | collectionName                           |              count |
+      | student                                  |                204 |
     And I should not see an error log file created
     And I should not see a warning log file created
 
@@ -66,13 +66,13 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id3382e80b35990e1ea89cdde30339fb0c4b79793d_id | entityType = studentParentAssociation |
     And I verify this "studentProgramAssociation" file should contain:
       | id                                                                                     | condition |
-      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id22f33fc1c35430a40cbff324358dbcc57ac8d9cb_id | entityType = studentProgramAssociation |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id828007d7d2100fd4a71d1ec806f5f5a89cbf6b5c_id | entityType = studentProgramAssociation |
     And I verify this "studentCohortAssociation" file should contain:
       | id                                                                                     | condition |
-      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id0c745c971386ffb33d148e88219df99d6fa0eca9_id | entityType = studentCohortAssociation |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id9b71634c74c12dafa14ff0f7e10408996e3340a1_id | entityType = studentCohortAssociation |
     And I verify this "studentDisciplineIncidentAssociation" file should contain:
       | id                                                                                     | condition |
-      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id448869af001f3b7d05783e44e8e769bdf0884fa3_id | entityType = studentDisciplineIncidentAssociation |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_ida5c847ebd944460e70be7b630300f97a7703f0ff_id | entityType = studentDisciplineIncidentAssociation |
 
   Scenario: The extract for an edorg should not contain data for a former student that's dated after the student has left
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
@@ -122,13 +122,13 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id3382e80b35990e1ea89cdde30339fb0c4b79793d_id | entityType = studentParentAssociation |
     And I verify this "studentProgramAssociation" file should not contain:
       | id                                                                                     |
-      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id5ca1a24362d92486c5e515ff972e9ec46d7f20c8_id |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_iddc83ee63554ca845f0a498b4250efcafea43e863_id |
     And I verify this "studentCohortAssociation" file should not contain:
       | id                                                                                     |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_idc61a12bdb9bbb3c686ba5e9a41cfcd51a99961be_id |
     And I verify this "studentDisciplineIncidentAssociation" file should not contain:
       | id                                                                                     |
-      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id90b24024a84266fafecdd3001c5b3acd2202d183_id |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id4a7ac4e3d78d283ffd3925a565e95acac17b243c_id |
 
 ##########################################################################
 #    TIMELINE OF ENROLLMENT OF STUDENT 1 FOR EDGE CASES
