@@ -199,8 +199,8 @@
 					<xs:element name="AssessmentIdentificationCode" type="AssessmentIdentificationCode" maxOccurs="unbounded"/>
 					<xs:element name="AssessmentCategory" type="AssessmentCategoryType" minOccurs="0"/>
 					<xs:element name="AcademicSubject" type="SLC-AcademicSubjectType" minOccurs="0"/>
-					<xs:element name="GradeLevelAssessed" type="GradeLevelType" minOccurs="0"/>
-					<xs:element name="LowestGradeLevelAssessed" type="GradeLevelType" minOccurs="0"/>
+					<xs:element name="GradeLevelAssessed" type="SLC-GradeLevelType" minOccurs="0"/>
+					<xs:element name="LowestGradeLevelAssessed" type="SLC-GradeLevelType" minOccurs="0"/>
 					<xs:element name="AssessmentPerformanceLevel" type="AssessmentPerformanceLevel" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="ContentStandard" type="SLC-ContentStandardType" minOccurs="0"/>
 					<xs:element name="AssessmentForm" type="AssessmentForm" minOccurs="0"/>
@@ -232,8 +232,8 @@
 					<xs:element name="AssessmentFamilyIdentificationCode" type="AssessmentIdentificationCode" maxOccurs="unbounded"/>
 					<xs:element name="AssessmentCategory" type="AssessmentCategoryType" minOccurs="0"/>
 					<xs:element name="AcademicSubject" type="SLC-AcademicSubjectType" minOccurs="0"/>
-					<xs:element name="GradeLevelAssessed" type="GradeLevelType" minOccurs="0"/>
-					<xs:element name="LowestGradeLevelAssessed" type="GradeLevelType" minOccurs="0"/>
+					<xs:element name="GradeLevelAssessed" type="SLC-GradeLevelType" minOccurs="0"/>
+					<xs:element name="LowestGradeLevelAssessed" type="SLC-GradeLevelType" minOccurs="0"/>
 					<xs:element name="ContentStandard" type="SLC-ContentStandardType" minOccurs="0"/>
 					<xs:element name="Version" type="Version" minOccurs="0"/>
 					<xs:element name="RevisionDate" type="xs:date" minOccurs="0"/>
@@ -324,7 +324,7 @@
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
 					<xs:element name="BellScheduleName" type="BellScheduleName"/>
-					<xs:element name="GradeLevels" type="GradeLevelsType"/>
+					<xs:element name="GradeLevels" type="SLC-GradeLevelsType"/>
 					<xs:element name="WeeksInCycle">
 						<xs:simpleType>
 							<xs:restriction base="xs:int">
@@ -423,7 +423,7 @@
 					<xs:element name="CourseCode" type="CourseCode" maxOccurs="unbounded"/>
 					<xs:element name="CourseLevel" type="CourseLevelType" minOccurs="0"/>
 					<xs:element name="CourseLevelCharacteristics" type="CourseLevelCharacteristicsType" minOccurs="0"/>
-					<xs:element name="GradesOffered" type="GradeLevelsType" minOccurs="0"/>
+					<xs:element name="GradesOffered" type="SLC-GradeLevelsType" minOccurs="0"/>
 					<xs:element name="SubjectArea" type="SLC-AcademicSubjectType" minOccurs="0"/>
 					<xs:element name="CourseDescription" type="Description" minOccurs="0"/>
 					<xs:element name="DateCourseAdopted" type="xs:date" minOccurs="0"/>
@@ -479,7 +479,7 @@
 					<xs:element name="CreditsAttempted" type="Credits" minOccurs="0"/>
 					<xs:element name="CreditsEarned" type="Credits"/>
 					<xs:element name="AdditionalCreditsEarned" type="AdditionalCredits" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="GradeLevelWhenTaken" type="GradeLevelType" minOccurs="0"/>
+					<xs:element name="GradeLevelWhenTaken" type="SLC-GradeLevelType" minOccurs="0"/>
 					<xs:element name="MethodCreditEarned" type="MethodCreditEarnedType" minOccurs="0"/>
 					<xs:element name="FinalLetterGradeEarned" minOccurs="0">
 						<xs:simpleType>
@@ -581,7 +581,7 @@
 					<xs:element name="AccountabilityRatings" type="AccountabilityRating" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="ProgramReference" type="SLC-ProgramReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="LEACategory" type="LEACategoryType" minOccurs="0"/>
-					<xs:element name="GradesOffered" type="GradeLevelsType" minOccurs="0"/>
+					<xs:element name="GradesOffered" type="SLC-GradeLevelsType" minOccurs="0"/>
 					<xs:element name="SchoolCategories" type="SLC-SchoolCategoriesType" minOccurs="0"/>
 					<xs:element name="SchoolType" type="SchoolType" minOccurs="0"/>
 					<xs:element name="CharterStatus" type="CharterStatusType" minOccurs="0"/>
@@ -694,7 +694,7 @@
 					<xs:element name="IndividualPlan" type="xs:boolean" minOccurs="0"/>
 					<xs:element name="TotalCreditsRequired" type="Credits"/>
 					<xs:element name="CreditsBySubject" type="CreditsBySubject" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="CreditsByCourse" type="CreditsByCourse" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="CreditsByCourse" type="SLC-CreditsByCourse" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
@@ -716,7 +716,7 @@
 					<xs:element name="Objective" type="Objective"/>
 					<xs:element name="Description" type="Description" minOccurs="0"/>
 					<xs:element name="AcademicSubject" type="SLC-AcademicSubjectType"/>
-					<xs:element name="ObjectiveGradeLevel" type="GradeLevelType"/>
+					<xs:element name="ObjectiveGradeLevel" type="SLC-GradeLevelType"/>
 					<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType" minOccurs="0"/>
 				</xs:sequence>
@@ -737,7 +737,7 @@
 					<xs:element name="LearningStandardId" type="LearningStandardId"/>
 					<xs:element name="Description" type="Description"/>
 					<xs:element name="ContentStandard" type="SLC-ContentStandardType"/>
-					<xs:element name="GradeLevel" type="GradeLevelType"/>
+					<xs:element name="GradeLevel" type="SLC-GradeLevelType"/>
 					<xs:element name="SubjectArea" type="SLC-AcademicSubjectType"/>
 					<xs:element name="CourseTitle" type="CourseTitle" minOccurs="0"/>
 				</xs:sequence>
@@ -1053,7 +1053,7 @@
 					<xs:element name="RetestIndicator" type="RetestIndicatorType" minOccurs="0"/>
 					<xs:element name="ReasonNotTested" type="ReasonNotTestedType" minOccurs="0"/>
 					<xs:element name="ScoreResults" type="ScoreResult" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="GradeLevelWhenAssessed" type="GradeLevelType" minOccurs="0"/>
+					<xs:element name="GradeLevelWhenAssessed" type="SLC-GradeLevelType" minOccurs="0"/>
 					<xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
 					<xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType"/>
@@ -1125,7 +1125,7 @@
 					<xs:element name="StudentCompetencyObjectiveId" type="IdentificationCode"/>
 					<xs:element name="Objective" type="Objective"/>
 					<xs:element name="Description" type="Description" minOccurs="0"/>
-					<xs:element name="ObjectiveGradeLevel" type="GradeLevelType"/>
+					<xs:element name="ObjectiveGradeLevel" type="SLC-GradeLevelType"/>
 					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
@@ -1363,7 +1363,7 @@
 					<xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType"/>
 					<xs:element name="SchoolYear" type="SchoolYearType" minOccurs="0"/>
 					<xs:element name="EntryDate" type="xs:date"/>
-					<xs:element name="EntryGradeLevel" type="GradeLevelType"/>
+					<xs:element name="EntryGradeLevel" type="SLC-GradeLevelType"/>
 					<xs:element name="EntryType" type="EntryType" minOccurs="0"/>
 					<xs:element name="RepeatGradeIndicator" type="xs:boolean" minOccurs="0"/>
 					<xs:element name="ClassOf" type="SchoolYearType" minOccurs="0"/>
@@ -1409,7 +1409,7 @@
 					<xs:element name="TeacherReference" type="SLC-StaffReferenceType"/>
 					<xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType"/>
 					<xs:element name="ProgramAssignment" type="ProgramAssignmentType"/>
-					<xs:element name="InstructionalGradeLevels" type="GradeLevelsType"/>
+					<xs:element name="InstructionalGradeLevels" type="SLC-GradeLevelsType"/>
 					<xs:element name="AcademicSubjects" type="AcademicSubjectsType"/>
 				</xs:sequence>
 			</xs:extension>
@@ -1525,7 +1525,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="GradeLevelAssessed" type="GradeLevelType" minOccurs="0">
+			<xs:element name="GradeLevelAssessed" type="SLC-GradeLevelType" minOccurs="0">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>gradeLevelAssessed</sli:keyFieldName>
@@ -1907,6 +1907,28 @@
 			<xs:element name="CourseTranscriptIdentity" type="SLC-CourseTranscriptIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="SLC-CreditsByCourse">
+		<xs:annotation>
+			<xs:documentation>The total credits required to graduation by taking a specific course, or by taking one or more from a set of courses.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CourseCode" type="CourseCode" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The code that identifies the organization of subject matter and related learning experiences provided for the instruction of students.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Credits" type="Credits">
+				<xs:annotation>
+					<xs:documentation>The value of credits or units of value awarded for the completion of a course.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GradeLevel" type="SLC-GradeLevelType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The grade level when the student is planned to take the course.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="SLC-DiplomaIdentityType">
 		<xs:annotation>
 			<xs:documentation>New SLC identity type for Diploma, using natural keys DiplomaAwardDate, DiplomaType and an embedded EducationalOrgReference.</xs:documentation>
@@ -2117,6 +2139,48 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="SLC-GradeLevelsType">
+		<xs:annotation>
+			<xs:documentation>The enumerated collection for specifying one or more grade levels.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="GradeLevel" type="SLC-GradeLevelType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The specification of the grade level.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="SLC-GradeLevelType">
+		<xs:annotation>
+			<xs:documentation>The enumeration items for the set of grade levels.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Adult Education"/>
+			<xs:enumeration value="Early Education"/>
+			<xs:enumeration value="Eighth grade"/>
+			<xs:enumeration value="Eleventh grade"/>
+			<xs:enumeration value="Fifth grade"/>
+			<xs:enumeration value="First grade"/>
+			<xs:enumeration value="Fourth grade"/>
+			<xs:enumeration value="Grade 13"/>
+			<xs:enumeration value="High School"/>
+			<xs:enumeration value="Infant/toddler"/>
+			<xs:enumeration value="Kindergarten"/>
+			<xs:enumeration value="Ninth grade"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Postsecondary"/>
+			<xs:enumeration value="Preschool/Prekindergarten"/>
+			<xs:enumeration value="Second grade"/>
+			<xs:enumeration value="Seventh grade"/>
+			<xs:enumeration value="Sixth grade"/>
+			<xs:enumeration value="Tenth grade"/>
+			<xs:enumeration value="Third grade"/>
+			<xs:enumeration value="Transitional Kindergarten"/>
+			<xs:enumeration value="Twelfth grade"/>
+			<xs:enumeration value="Ungraded"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="SLC-GradeReferenceType">
 		<xs:annotation>
 			<xs:documentation>New SLC natural reference type for Grade.</xs:documentation>
@@ -2221,7 +2285,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ObjectiveGradeLevel" type="GradeLevelType">
+			<xs:element name="ObjectiveGradeLevel" type="SLC-GradeLevelType">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>objectiveGradeLevel</sli:keyFieldName>
