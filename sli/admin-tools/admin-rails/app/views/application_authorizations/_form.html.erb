@@ -10,12 +10,23 @@
       <%=
           isApproved = @app_auth.authorized
 	  isEnabled = @edorg_apps.has_key?(@cur_edorg) && @edorg_apps[@cur_edorg].has_key?(@app_auth.appId)
-          if isApproved
-            content_tag(:td, "Approved", :id => "approvedStatus")
+  	  app = @apps_map[@app_auth.appId]
+	  if @app_counts[@app_auth.appId].nil?
+	    count = 0
+	  else
+	    count = @app_counts[@app_auth.appId]
+	  end
+	  if app.allowed_for_all_edorgs
+	    all_str = ", auto-authorized"
+	  else
+	    all_str = ""
+          end
+          if count > 0 || app.allowed_for_all_edorgs
+            content_tag(:td, count.to_s + " EdOrg(s)" + all_str, :id => "approvedStatus")
           elsif isEnabled
-            content_tag(:td, "Not Approved", :id => "notApprovedStatus")
+            content_tag(:td, "Not Approved" + all_str, :id => "notApprovedStatus")
           else
-            content_tag(:td, "Not Enabled By Developer", :id => "notEnabledStatus")
+            content_tag(:td, "Not Enabled By Developer" + all_str, :id => "notEnabledStatus")
           end
       %>
       <td><%=

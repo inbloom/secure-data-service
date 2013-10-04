@@ -188,6 +188,16 @@ class ApplicationAuthorizationsController < ApplicationController
     @apps_map = {}
     allApps = App.findAllInChunks({})
     allApps.each { |app| @apps_map[app.id] = app }
+
+    # Get counts of apps ... have to look up each individually
+    @app_counts = {}
+    allAuth = ApplicationAuthorization.findAllInChunks({})
+    allAuth.each do |auth|
+      auth2 = ApplicationAuthorization.find(auth.id)
+      if !auth2.edorgs.nil?
+        @app_counts[auth.id] = auth2.edorgs.length
+      end
+    end
   end
 
   # Load up all the edOrgs.  Creates:

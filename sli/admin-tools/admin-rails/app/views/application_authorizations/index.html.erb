@@ -31,7 +31,7 @@
     <th>Name</th>
     <th>Version</th>
     <th>Vendor</th>
-    <th>Status</th>
+    <th>Approval Status</th>
     <th> </th>
   </tr>
   </thead>
@@ -43,9 +43,7 @@
        # such apps at the bottom
        appA = @apps_map[a.appId]
        appB = @apps_map[b.appId]
-       if a.authorized && !b.authorized
-         -1 #Authorized on top
-       elsif !a.authorized && b.authorized
+       if !a.authorized && b.authorized
          1 
        elsif (appA == nil && appB != nil)
          -1
