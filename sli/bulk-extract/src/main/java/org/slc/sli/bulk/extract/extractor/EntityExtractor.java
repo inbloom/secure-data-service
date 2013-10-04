@@ -107,7 +107,14 @@ public class EntityExtractor{
         extractEntity(entity, archiveFile, collectionName, null);
     }
 
-    public void extractEmbeddedEntity(Entity entity, ExtractFile archiveFile, String collectionName, Predicate<Entity> filter) {
+    /**
+     * Writes embedded docs in the entity to an extract file
+     * @param entity the entity for which the embedded docs have to be extracted
+     * @param archiveFile the extract file
+     * @param collectionName the name of the collection
+     * @param filter the filter to be applied on each of the embedded docs
+     */
+    public void extractEmbeddedEntities(Entity entity, ExtractFile archiveFile, String collectionName, Predicate<Entity> filter) {
         if (archiveFile != null) {
             writeEmbeddedDocs(entity.getEmbeddedData(), archiveFile, new CollectionWrittenRecord(collectionName), filter);
         }

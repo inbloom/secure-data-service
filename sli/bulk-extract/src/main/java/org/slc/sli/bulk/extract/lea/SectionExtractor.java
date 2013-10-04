@@ -23,7 +23,6 @@ import java.util.Set;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -117,7 +116,7 @@ public class SectionExtractor implements EntityExtract {
     @SuppressWarnings("unchecked")
     private void extract(Entity section, final String edOrg, Predicate<Entity> filter) {
         //Extract only the section's sub doc entities
-        this.entityExtractor.extractEmbeddedEntity(section, this.leaToExtractFileMap.getExtractFileForEdOrg(edOrg), "section", filter);
+        this.entityExtractor.extractEmbeddedEntities(section, this.leaToExtractFileMap.getExtractFileForEdOrg(edOrg), "section", filter);
         this.courseOfferingCache.addEntry((String) section.getBody().get("courseOfferingId"), edOrg);
 
         List<Entity> ssas = section.getEmbeddedData().get("studentSectionAssociation");
