@@ -453,8 +453,10 @@ class ApplicationAuthorizationsController < ApplicationController
   # Convert array to map
   def array_to_hash(a)
     result = {}
-    a.each do|elt|
-      result[elt] = true
+    if !a.nil?
+      a.each do|elt|
+        result[elt] = true
+      end
     end
     return result
   end
