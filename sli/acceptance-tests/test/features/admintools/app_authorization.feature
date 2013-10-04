@@ -53,7 +53,7 @@ Scenario: SEA Admin Approves bulk extract application
 	 #11 edorgs related to SEA, but only 4 direct children
      And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 5                   | body.logMessage       | Application granted access to EdOrg data! |
+      | securityEvent       | 38                  | body.logMessage       | Application granted access to EdOrg data! |
      #TODO - check edOrgs directly
      And the app "SDK Sample" Status becomes "Approved"
      And it is colored "green"
@@ -80,7 +80,7 @@ Scenario: SEA Admin Denies bulk extract application (dependant on above scenario
       #11 edorgs related to SEA, but only 4 direct children
       And I check to find if record is in sli db collection:
        | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
-       | securityEvent       | 5                   | body.logMessage       | EdOrg data access has been revoked!   |
+       | securityEvent       | 38                  | body.logMessage       | EdOrg data access has been revoked!   |
       #TODO - check edOrgs directly
       And the app "SDK Sample" Status becomes "Not Approved"
       And it is colored "red"
@@ -102,7 +102,7 @@ Scenario: SEA Admin Approves non-bulk extract application
 	 #11 edorgs related to SEA, but only 4 direct children
      And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 11                  | body.logMessage       | Application granted access to EdOrg data! |
+      | securityEvent       | 200                 | body.logMessage       | Application granted access to EdOrg data! |
      #TODO - check edOrgs directly
      And the app "Testing App" Status becomes "Approved"
      And it is colored "green"
@@ -129,7 +129,7 @@ Scenario: SEA Admin Denies non-bulk extract application (dependant on above scen
       #11 edorgs related to SEA, but only 4 direct children
       And I check to find if record is in sli db collection:
        | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
-       | securityEvent       | 11                  | body.logMessage       | EdOrg data access has been revoked!   |
+       | securityEvent       | 200                 | body.logMessage       | EdOrg data access has been revoked!   |
       #TODO - check edOrgs directly
       And the app "SDK Sample" Status becomes "Not Approved"
       And it is colored "red"
