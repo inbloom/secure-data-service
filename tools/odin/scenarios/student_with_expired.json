@@ -65,7 +65,7 @@
         "role": "Student",
         "type": "High School",
         "association": "Daybreak Central High",
-        "grade": "Ninth grade",
+        "grade": "Eighth grade",
         "begin": "2011-08-26",
         "end": "2012-05-22"
       },
@@ -73,7 +73,7 @@
         "role": "Student",
         "type": "High School",
         "association": "Sunset Central High",
-        "grade": "Tenth grade",
+        "grade": "Ninth grade",
         "begin": "2012-08-26",
         "end": "2018-05-22"
       }

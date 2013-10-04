@@ -7,28 +7,28 @@
         "role": "Leader",
         "type": "High School",
         "association": "Daybreak Central High",
-        "begin": "2009-01-01",
-        "end": "2009-12-25"
+        "begin": "2009-08-26",
+        "end": "2011-07-22"
       },
       {
         "role": "Leader",
         "type": "High School",
         "association": "Eastside High",
-        "begin": "2010-09-01",
-        "end": "2014-05-22"
+        "begin": "2010-08-26",
+        "end": "2013-05-22"
       },
       {
         "role": "Leader",
         "type": "High School",
         "association": "Sunset Central High",
-        "begin": "2011-09-05",
+        "begin": "2011-07-22",
         "end": "2013-05-22"
       },
       {
         "role": "Leader",
         "type": "High School",
         "association": "Westside High",
-        "begin": "2011-09-06",
+        "begin": "2011-07-23",
         "end": "2013-05-23"
       },
       {
@@ -36,7 +36,7 @@
         "type": "High School",
         "association": "Daybreak Central High",
         "begin": "2012-08-26",
-        "end": "2011-09-05"
+        "end": "2018-05-22"
       }
     ]
   },
@@ -46,18 +46,8 @@
     "edOrgs": [
       {
         "role": "Educator",
-        "type": "High School",
-        "association": "Daybreak Central High"
-      },
-      {
-        "role": "Educator",
-        "type": "High School",
-        "association": "Sunset Central High"
-      },
-      {
-        "role": "IT Administrator",
-        "type": "High School",
-        "association": "Eastside High"
+        "type": "Middle School",
+        "association": "East Daybreak Junior High"
       }
     ]
   },
@@ -69,32 +59,6 @@
         "role": "Educator",
         "type": "Elementary School",
         "association": "South Daybreak Elementary"
-      },
-      {
-        "role": "Educator",
-        "type": "High School",
-        "association": "Eastside High"
-      },
-      {
-        "role": "IT Administrator",
-        "type": "High School",
-        "association": "Daybreak Central High"
-      }
-    ]
-  },
-  {
-    "userId": "sbantu",
-    "name": "Susan Bantu",
-    "edOrgs": [
-      {
-        "role": "Educator",
-        "type": "Middle School",
-        "association": "East Daybreak Junior High"
-      },
-      {
-        "role": "IT Administrator",
-        "type": "High School",
-        "association": "Sunset Central High"
       }
     ]
   },
@@ -110,6 +74,17 @@
     ]
   },
   {
+    "userId": "msmith",
+    "name": "Mary Smith",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "Elementary School",
+        "association": "South Daybreak Elementary"
+      }
+    ]
+  },
+  {
     "userId": "ckoch",
     "name": "Christopher Koch",
     "edOrgs": [
@@ -117,6 +92,39 @@
         "role": "Leader",
         "type": "State Education Agency",
         "association": "STANDARD-SEA"
+      }
+    ]
+  },
+  {
+    "userId": "rrogers",
+    "name": "Rick Rogers",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "State Education Agency",
+        "association": "STANDARD-SEA"
+      }
+    ]
+  },
+  {
+    "userId": "mjohnson",
+    "name": "Michael Johnson",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "State Education Agency",
+        "association": "STANDARD-SEA"
+      }
+    ]
+  },
+  {
+    "userId": "jjackson",
+    "name": "Jack Jackson",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "Local Education Agency",
+        "association": "IL-DAYBREAK"
       }
     ]
   }
