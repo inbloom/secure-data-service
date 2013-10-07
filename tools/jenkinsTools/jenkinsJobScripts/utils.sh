@@ -102,6 +102,16 @@ unDeployAdmin()
   bundle install --path $WORKSPACE/../vendors/
   #bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
   bundle exec thin stop -C config/thin.yml
+
+  ln=`/tmp/pid/thin-admin.pid`
+
+  if [ "$ln" -ne "0"]
+  then
+    echo "admin is still running, killing"
+    pid=`cat /tmp/pid/thin-admin.pid`
+    sudo kill $pid
+  fi
+  echo "Admin is shutdown"
 }
 
 deployAdminSB()
