@@ -77,7 +77,7 @@ noTableScanAndCleanTomcat()
 adminUnitTests()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
-  bundle install --deployment
+  bundle install --path $WORKSPACE/../vendors/
   bundle exec rake ci:setup:testunit test
 }
 
@@ -91,7 +91,7 @@ databrowserUnitTests()
 deployAdmin()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
-  bundle install --deployment
+  bundle install --path $WORKSPACE/../vendors/
   #bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
   bundle exec thin start -C config/thin.yml
 }
@@ -99,7 +99,7 @@ deployAdmin()
 unDeployAdmin()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
-  bundle install --deployment
+  bundle install --path $WORKSPACE/../vendors/
   #bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
   bundle exec thin stop -C config/thin.yml
 }
