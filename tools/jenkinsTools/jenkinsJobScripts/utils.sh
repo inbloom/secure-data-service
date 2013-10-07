@@ -103,9 +103,9 @@ unDeployAdmin()
   #bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
   bundle exec thin stop -C config/thin.yml
 
-  ln=`/tmp/pid/thin-admin.pid`
+  ln=`ls /tmp/pid/ | wc -l`
 
-  if [ "$ln" -ne "0"]
+  if [ "$ln" -ne "0" ]
   then
     echo "admin is still running, killing"
     pid=`cat /tmp/pid/thin-admin.pid`
