@@ -94,7 +94,7 @@ deployAdmin()
   bundle install --path $WORKSPACE/../vendors/
   #bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
   bundle exec thin start -C config/thin.yml
-  sudo lsof -n -i4TCP:3001
+  lsof -n -i4TCP:3001
 }
 
 unDeployAdmin()
