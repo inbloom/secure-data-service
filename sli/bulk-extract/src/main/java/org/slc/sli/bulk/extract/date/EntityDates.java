@@ -35,6 +35,7 @@ public class EntityDates {
         ENTITY_DATE_FIELDS.put(EntityNames.DISCIPLINE_ACTION, ParameterConstants.DISCIPLINE_DATE);
         ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_ASSESSMENT, ParameterConstants.ADMINISTRATION_DATE);
         ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, ParameterConstants.ENTRY_DATE);
+        ENTITY_DATE_FIELDS.put("yearlyTranscript", ParameterConstants.SCHOOL_YEAR);
 
         Map<String, String> diFields = new HashMap<String, String>();
         diFields.put(EntityNames.DISCIPLINE_INCIDENT, ParameterConstants.DISCIPLINE_INCIDENT_ID);
