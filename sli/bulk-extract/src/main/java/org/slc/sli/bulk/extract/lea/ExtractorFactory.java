@@ -44,7 +44,7 @@ public class ExtractorFactory {
         return new StudentAssessmentExtractor(extractor, map, repo, edOrgExtractHelper);
     }
     
-    public EntityExtract buildYearlyTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map,
+    public EntityDatedExtract buildYearlyTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map,
             Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         return new YearlyTranscriptExtractor(extractor, map, repo, edOrgExtractHelper, new EntityToEdOrgCache());
     }

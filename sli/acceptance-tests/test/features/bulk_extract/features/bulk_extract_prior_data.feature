@@ -87,15 +87,18 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "disciplineIncident" file should contain:
       | id                                          | condition                       |
       | 5c2d1d70eed68e801d551631eb82636fc9e9a6dc_id | entityType = disciplineIncident |
-    #And I verify this "grade" file should contain:
-      #| id                                                                                     | condition          |
-      #| e325f180753f2f170b2826a26112f1be229cdf63_idd17b5f2c25d83632142b68f96eae69c7c73ccdf4_id | entityType = grade |
-    #And I verify this "reportCard" file should contain:
-      #| id                                                                                     | condition               |
-      #| e325f180753f2f170b2826a26112f1be229cdf63_ida74c24bab9a9ef60755b46422a8d480239498581_id | entityType = reportCard |
-    #And I verify this "studentAcademicRecord" file should contain:
-      #| id                                                                                     | condition                          |
-      #| e325f180753f2f170b2826a26112f1be229cdf63_ide536c2b89ee393a7767b597601b581fd9bbfe4e0_id | entityType = studentAcademicRecord |
+    And I verify this "grade" file should contain:
+      | id                                                                                     | condition          |
+      | e325f180753f2f170b2826a26112f1be229cdf63_idd17b5f2c25d83632142b68f96eae69c7c73ccdf4_id | entityType = grade |
+    And I verify this "reportCard" file should contain:
+      | id                                                                                     | condition               |
+      | e325f180753f2f170b2826a26112f1be229cdf63_ida74c24bab9a9ef60755b46422a8d480239498581_id | entityType = reportCard |
+    And I verify this "studentAcademicRecord" file should contain:
+      | id                                                                                     | condition                          |
+      | e325f180753f2f170b2826a26112f1be229cdf63_ide536c2b89ee393a7767b597601b581fd9bbfe4e0_id | entityType = studentAcademicRecord |
+    #And I verify this "attendance" file should contain:
+      #| id                                          | condition               |
+      #| 5b2d2eeec0b545269d634aaa760ed6f61f8c5021_id | entityType = attendance |
 
   Scenario: The extract for an edorg should not contain data for a former student that's dated after the student has left
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
@@ -165,15 +168,18 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "disciplineIncident" file should not contain:
       | id                                          |
       | ad0101e8b3efe4d35317175167c9fee11d746b58_id |
-    #And I verify this "grade" file should not contain:
-      #| id                                                                                     |
-      #| e1ddd4b5c0c531a734135ecd461b33cab842c18c_idc215fa1253b26479fea38c153679913544bf3ad0_id |
-    #And I verify this "reportCard" file should not contain:
-      #| id                                                                                     |
-      #| e1ddd4b5c0c531a734135ecd461b33cab842c18c_idfa02e1c8575067c8b43bfaee7da6108ffb4da31d_id |
-    #And I verify this "studentAcademicRecord" file should not contain:
-      #| id                                                                                     |
-      #| e1ddd4b5c0c531a734135ecd461b33cab842c18c_id074f8af9afa35d4bb10ea7cd17794174563c7509_id |
+    And I verify this "grade" file should not contain:
+      | id                                                                                     |
+      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_idc215fa1253b26479fea38c153679913544bf3ad0_id |
+    And I verify this "reportCard" file should not contain:
+      | id                                                                                     |
+      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_idfa02e1c8575067c8b43bfaee7da6108ffb4da31d_id |
+    And I verify this "studentAcademicRecord" file should not contain:
+      | id                                                                                     |
+      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id074f8af9afa35d4bb10ea7cd17794174563c7509_id |
+    #And I verify this "attendance" file should not contain:
+      #| id                                          |
+      #| 49e65583c8c5f3e97db81807d5beeb028433053d_id |
 
 ##########################################################################
 #    TIMELINE OF ENROLLMENT OF MATT SOLLARS FOR EDGE CASES
@@ -245,17 +251,22 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | 5154384148dbad6bc84a4b20b1c312e99fb3c004_id | entityType = studentAssessment |
       | 4c7a3fb655b56351f244c3d87bad76fd07b8478f_id | entityType = studentAssessment |
       | 02cbe22e355aea8e59f976247bae5389c491176d_id | entityType = studentAssessment |
-    #And I verify this "grade" file should contain:
-      #| id                                                                                     | condition          |
-      #| 429dc90b61707fa474005db798cec3f46807fa69_idab729c89eb9aa10765955b0da2f6c9bd4e1a2bb6_id | entityType = grade |
-      #| 429dc90b61707fa474005db798cec3f46807fa69_id6e4d4b52f5caa38f1ae6063fca428908f2c1575d_id | entityType = grade |
-      #| 429dc90b61707fa474005db798cec3f46807fa69_id3b746ce9c454a4ef2bb8b29c9672bbf1e75a704c_id | entityType = grade |
-    #And I verify this "reportCard" file should contain:
-      #| id                                                                                     | condition               |
-      #| 429dc90b61707fa474005db798cec3f46807fa69_id42fd81249cbc0c15bb99024e300b4d6f801d9a0f_id | entityType = reportCard |
-    #And I verify this "studentAcademicRecord" file should contain:
-      #| id                                                                                     | condition                          |
-      #| 429dc90b61707fa474005db798cec3f46807fa69_id1a62a16dd757629cf502eeeaa9fd4494a0fff115_id | entityType = studentAcademicRecord |
+    And I verify this "grade" file should contain:
+      | id                                                                                     | condition          |
+      | 429dc90b61707fa474005db798cec3f46807fa69_idab729c89eb9aa10765955b0da2f6c9bd4e1a2bb6_id | entityType = grade |
+      | 429dc90b61707fa474005db798cec3f46807fa69_id6e4d4b52f5caa38f1ae6063fca428908f2c1575d_id | entityType = grade |
+      | 429dc90b61707fa474005db798cec3f46807fa69_id3b746ce9c454a4ef2bb8b29c9672bbf1e75a704c_id | entityType = grade |
+    And I verify this "reportCard" file should contain:
+      | id                                                                                     | condition               |
+      | 429dc90b61707fa474005db798cec3f46807fa69_id42fd81249cbc0c15bb99024e300b4d6f801d9a0f_id | entityType = reportCard |
+    And I verify this "studentAcademicRecord" file should contain:
+      | id                                                                                     | condition                          |
+      | 429dc90b61707fa474005db798cec3f46807fa69_id1a62a16dd757629cf502eeeaa9fd4494a0fff115_id | entityType = studentAcademicRecord |
+    #And I verify this "attendance" file should contain:
+      #| id                                          | condition               |
+      #| a4e76009f29433910dabda3f5d79b9fd4be3f8a9_id | entityType = attendance |
+      #| 8ccecad63cb003d3e93d1ce4808204d33ad8859f_id | entityType = attendance |
+      #| 28e5438c90b728ff4599f83c1fa36fdbabc0dbff_id | entityType = attendance |
   #This extract should not contain content for anything that began after edorg 1's end date with the student
   #Given proper data, everything from edorg 4 shouldn't be included
     And I verify this "studentProgramAssociation" file should not contain:
@@ -279,13 +290,16 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "disciplineIncident" file should not contain:
       | id                                          |
       | bbd04e4949e29924c6520123c832209dcac9b8c0_id |
-    #And I verify this "grade" file should not contain:
-      #| id                                                                                     |
-      #| b28bc3be4667c80070094a24e1f7bc3a9b9a2893_id0d1ec4954d2640bf3ae2eb758f6c8c86d820dbb1_id |
-    #And I verify this "reportCard" file should not contain:
-      #| id                                                                                     |
-      #| b28bc3be4667c80070094a24e1f7bc3a9b9a2893_id5d7185b665b99461cb92d18f09635d1212eda10b_id |
-    #And I verify this "studentAcademicRecord" file should not contain:
-      #| id                                                                                     |
-      #| b28bc3be4667c80070094a24e1f7bc3a9b9a2893_id9f850bb17e294c429148d0b353f9e0db6c17338c_id |
+    And I verify this "grade" file should not contain:
+      | id                                                                                     |
+      | b28bc3be4667c80070094a24e1f7bc3a9b9a2893_id0d1ec4954d2640bf3ae2eb758f6c8c86d820dbb1_id |
+    And I verify this "reportCard" file should not contain:
+      | id                                                                                     |
+      | b28bc3be4667c80070094a24e1f7bc3a9b9a2893_id5d7185b665b99461cb92d18f09635d1212eda10b_id |
+    And I verify this "studentAcademicRecord" file should not contain:
+      | id                                                                                     |
+      | b28bc3be4667c80070094a24e1f7bc3a9b9a2893_id9f850bb17e294c429148d0b353f9e0db6c17338c_id |
+    #And I verify this "attendance" file should not contain:
+      #| id                                          |
+      #| d1c52a1dac17a9a5cde037ca618ccac8b4e368ee_id |
 

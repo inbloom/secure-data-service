@@ -42,7 +42,8 @@ public class EntityDateHelper {
     private static DateRetriever pathDateRetriever;
 
     private static final List<String> YEAR_BASED_ENTITIES = Arrays.asList(EntityNames.ATTENDANCE, EntityNames.GRADE, EntityNames.REPORT_CARD,
-                                                                          EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.COURSE_TRANSCRIPT);
+                                                                          EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.COURSE_TRANSCRIPT,
+                                                                          "yearlyTranscript");
 
     public static boolean shouldExtract(Entity entity, DateTime upToDate) {
         DateTime finalUpToDate = (upToDate == null) ? DateTime.now() : upToDate;
