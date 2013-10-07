@@ -15,20 +15,22 @@
  */
 package org.slc.sli.bulk.extract.date;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import junit.framework.Assert;
+
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author ablum
@@ -56,7 +58,7 @@ public class EntityDateHelperTest {
     }
 
     @Test
-    public void testshouldExtract() {
+    public void testshouldExtractBeginDate() {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(ParameterConstants.BEGIN_DATE, "2001-01-01");
         Entity studentProgramAssociation = new MongoEntity(EntityNames.STUDENT_PROGRAM_ASSOCIATION, body);
@@ -65,4 +67,16 @@ public class EntityDateHelperTest {
         Assert.assertEquals(true, EntityDateHelper.shouldExtract(studentProgramAssociation, null));
         Assert.assertEquals(false, EntityDateHelper.shouldExtract(studentProgramAssociation, DateTime.parse("2000-01-01", DateHelper.getDateTimeFormat())));
     }
+
+    @Test
+    public void testshouldExtractSchoolYearWithSimpleDateRetriever() {
+        Map<String, Object> attendanceBody = new HashMap<String, Object>();
+        attendanceBody.put(ParameterConstants.SCHOOL_YEAR, "2009-2010");
+        Entity attendance = new MongoEntity(EntityNames.ATTENDANCE, attendanceBody);
+
+        Assert.assertEquals(true, EntityDateHelper.shouldExtract(attendance, DateTime.parse("2010-05-23", DateHelper.getDateTimeFormat())));
+        Assert.assertEquals(true, EntityDateHelper.shouldExtract(attendance, null));
+        Assert.assertEquals(false, EntityDateHelper.shouldExtract(attendance, DateTime.parse("2009-05-24", DateHelper.getDateTimeFormat())));
+    }
+
 }
