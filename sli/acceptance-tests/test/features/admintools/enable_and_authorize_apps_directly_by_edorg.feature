@@ -63,6 +63,8 @@ Background:
           | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
           | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
          And there are "200" educationalOrganizations in the targetEdOrgList
+         # Then The following edOrgs are authorized for the application "Mobile App" in tenant "Midgar"
+			# |edorgs|
          And I see an application "Royal Oak" in the table
          And in Status it says "200 EdOrg(s)"
         Given the sli securityEvent collection is empty
@@ -84,6 +86,10 @@ Background:
          And I authorize the educationalOrganization "Illinois State Board of Education"
          And I click Update
         Then there are "1" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+        Then The following edOrgs are authorized for the application "Royal Oak" in tenant "Midgar"
+			|edorgs|
+ 	        |IL |
+        #And I wait for user input
          And I check to find if record is in sli db collection:
           | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
           | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
