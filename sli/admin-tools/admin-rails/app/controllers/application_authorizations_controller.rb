@@ -520,7 +520,6 @@ class ApplicationAuthorizationsController < ApplicationController
   # Get edOrgs in user's scope (descendants of user's edOrg). This is optimized just
   # to get a map of the IDs for the purpose of filtering the "index" list
   def get_edorgs_in_scope()
-    raise "foo"
     edinf = {}
     userEdOrg = session[:edOrgId]
     
