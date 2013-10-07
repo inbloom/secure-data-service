@@ -306,14 +306,17 @@ class ApplicationAuthorizationsController < ApplicationController
         by_type[ctype][:children].push(cid)
         by_type[ctype][:nchild] += 1
         by_type[ctype][:ndesc] += @edinf[cid][:ndesc] + 1
-        # Aggregate the enabled/authorized status
-        by_type[ctype][:enabled] = by_type[ctype][:enabled] && @edinf[cid][:enabled]
-        by_type[ctype][:authorized] = by_type[ctype][:authorized] && @edinf[cid][:authorized]
+        # Aggregate the enabled/authorized status.  Enabled aggregates on an "or" basis,
+        # and authorized aggregates on an "and" basis, and only for enabled children
+        by_type[ctype][:enabled] = by_type[ctype][:enabled] || @edinf[cid][:enabled]
+        if @edinf[cid][:enabled]
+          by_type[ctype][:authorized] = by_type[ctype][:authorized]  && @edinf[cid][:authorized]
+        end
       else
         new_id = CATEGORY_NODE_PREFIX + @id_counter.to_s
         @id_counter += 1
         by_type[ctype] = { :id => new_id, :name => ctype, :parents => [ id ], :children => [ cid ], :nchild => 1, :ndesc => @edinf[cid][:ndesc] + 1,
-                           :enabled => @edinf[cid][:enabled], :authorized => @edinf[cid][:authorized]
+                           :enabled => @edinf[cid][:enabled], :authorized => !@edinf[cid][:enabled] || @edinf[cid][:authorized]
                          }
       end
     end
@@ -321,14 +324,28 @@ class ApplicationAuthorizationsController < ApplicationController
     # Save accumulated descendant info for whole edorg
     @edinf[id][:ndesc] = ndesc
 
-    # Replace children array with arrays of children by type
+    # Replace children array with arrays of children by type.
+    # Also aggregate authorized status of children
     new_children = []
+
+    # Aggregate the enabled/authorized status.  Enabled aggregates on an "or" basis,
+    # and authorized aggregates on an "and" basis, and only for enabled children
+    agg_enabled = true
+    agg_authorized = true
     by_type.each do |ctype, cinf|
       new_children.push(cinf[:id])
       @edinf[cinf[:id]] = cinf
+      agg_enabled = agg_enabled || cinf[:enabled]
+      if cinf[:enabled]
+        agg_authorized = agg_authorized && cinf[:authorized]
+      end
     end
     @edinf[id][:children] = new_children
-    
+    is_category = id.start_with?(CATEGORY_NODE_PREFIX) || id == ROOT_ID
+    if is_category
+      @edinf[id][:enabled] = agg_enabled
+      @edinf[id][:authorized] = agg_authorized
+    end
   end
 
   # Format app description
@@ -429,6 +446,8 @@ class ApplicationAuthorizationsController < ApplicationController
     result += "(&rArr; <a href=\"#" + parents.last + "\">see</a> " if is_repeat_subtree
     result += "<a name=\"" + id + "\"></a>" if is_anchored
     result += eo[:name]
+    # result += " [" + eo[:id][0,8] + "]"
+    # result += " (" + eo[:enabled].to_s + " / " + eo[:authorized].to_s + ")"
     result += ", under \"" + path_to_root + "\" above)" if is_repeat_subtree
     result += "</i>" if !eo[:enabled]
     # Add counts.  Note that eo[:nchild] is the number of direct child EdOrgs not the number of child display nodes
