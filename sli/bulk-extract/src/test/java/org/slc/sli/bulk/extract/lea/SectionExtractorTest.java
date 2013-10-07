@@ -74,7 +74,7 @@ public class SectionExtractorTest {
         Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
 
         se.extractEntities(null);
-        Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
+        Mockito.verify(ex, Mockito.times(3)).extractEmbeddedEntities(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
     }
 
     @Test
@@ -83,7 +83,7 @@ public class SectionExtractorTest {
         Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
 
         se.extractEntities(null);
-        Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
+        Mockito.verify(ex, Mockito.times(3)).extractEmbeddedEntities(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
     }
 
     @Test
@@ -93,7 +93,7 @@ public class SectionExtractorTest {
         Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
 
         se.extractEntities(null);
-        Mockito.verify(ex, Mockito.times(5)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
+        Mockito.verify(ex, Mockito.times(5)).extractEmbeddedEntities(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
 
         Assert.assertTrue("Course offerings must contain expected id" ,se.getCourseOfferingCache().getEntityIds().contains(COURSE_OFFERINGS.get(2)));
         Assert.assertTrue("StudentSectionAssociations must contain expected id", se.getSsaCache().getEntityIds().contains(SSA.get(0)));

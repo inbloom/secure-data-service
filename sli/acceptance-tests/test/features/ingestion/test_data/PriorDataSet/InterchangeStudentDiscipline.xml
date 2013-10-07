@@ -3934,7 +3934,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </DisciplineIncident>
   <DisciplineIncident>
     <IncidentIdentifier>70#0</IncidentIdentifier>
-    <IncidentDate>2010-10-25</IncidentDate>
+    <IncidentDate>2011-09-05</IncidentDate>
     <IncidentTime>14:04:47</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <ReporterDescription>Staff</ReporterDescription>
@@ -3963,7 +3963,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </DisciplineIncident>
   <DisciplineIncident>
     <IncidentIdentifier>70#1</IncidentIdentifier>
-    <IncidentDate>2011-03-31</IncidentDate>
+    <IncidentDate>2011-09-06</IncidentDate>
     <IncidentTime>13:49:25</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <ReporterDescription>Parent</ReporterDescription>
@@ -4019,7 +4019,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </DisciplineIncident>
   <DisciplineIncident>
     <IncidentIdentifier>71#1</IncidentIdentifier>
-    <IncidentDate>2010-12-06</IncidentDate>
+    <IncidentDate>2011-09-06</IncidentDate>
     <IncidentTime>11:34:58</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <ReporterDescription>Parent</ReporterDescription>

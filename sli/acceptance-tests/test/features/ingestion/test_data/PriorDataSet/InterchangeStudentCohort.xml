@@ -4851,7 +4851,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2011-08-31</BeginDate>
+    <BeginDate>2011-09-05</BeginDate>
     <EndDate>2011-11-29</EndDate>
   </StudentCohortAssociation>
   <StudentCohortAssociation>
@@ -5896,7 +5896,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2011-08-31</BeginDate>
+    <BeginDate>2011-09-06</BeginDate>
     <EndDate>2011-11-29</EndDate>
   </StudentCohortAssociation>
   <StudentCohortAssociation>

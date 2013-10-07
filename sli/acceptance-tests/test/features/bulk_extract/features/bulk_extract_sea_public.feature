@@ -42,6 +42,8 @@ Scenario: As an bulk extract user, I want to be able to get the state public ent
       |  gradingPeriod                         |
       |  calendarDate                          |
       |  school                                |
+      |  cohort                                |
+      |  section                               |
 
 Scenario Outline: Extract should have all public tenant data for certain entities
     When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
@@ -62,8 +64,9 @@ Scenario Outline: Extract should have all public tenant data for certain entitie
       |  educationOrganization                 |
       |  graduationPlan                        |
       |  session                               |
-      |  calendarDate                          |
       |  school                                |
+      |  section                               |
+      |  cohort                                |
 
 Scenario: As a valid user get SEA public data extract using BEEP
     Given in my list of rights I have BULK_EXTRACT
@@ -89,6 +92,8 @@ Scenario: As a valid user get SEA public data extract using BEEP
       |  gradingPeriod                         |
       |  calendarDate                          |
       |  school                                |
+      |  cohort                                |
+      |  section                               |
 
 Scenario Outline: Extract received through the API should have all the valid tenant public data
     When I know where the extracted tar is for tenant "Midgar"
@@ -110,6 +115,8 @@ Scenario Outline: Extract received through the API should have all the valid ten
       |  session                               |
       |  calendarDate                          |
       |  school                                |
+      |  cohort                                |
+      |  section                               |
 
 
 Scenario: As a valid user get SEA public data delta extract using BEEP
@@ -200,6 +207,8 @@ Scenario: Where the public entity has no edOrg reference, verify the entity is s
       |  session                               |
       |  gradingPeriod                         |
       |  calendarDate                          |
+      |  cohort                                |
+      |  section                               |
 
 Scenario: No SEA is available for the tenant
    Given the extraction zone is empty

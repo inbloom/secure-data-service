@@ -701,7 +701,6 @@ When /I check that the parent extract for "(.*?)" has the correct number of reco
   [
   {"$project":{"schools":1,"studentParentAssociation":1}}
   ,{"$unwind":"$schools"},{"$unwind":"$studentParentAssociation"}
-  ,{"$match":{}}
   ,{"$project":{"schools._id":1, "studentParentAssociation.body.parentId":1}}
   ,{"$group":{"_id":"$schools._id", "parents":{"$addToSet":"$studentParentAssociation.body.parentId"}}}
   ]
@@ -1038,7 +1037,6 @@ When /I check that the studentAssessment extract for "(.*?)" has the correct num
   [
   {"$project":{"schools":1}}
   ,{"$unwind":"$schools"}
-  ,{"$match":{ "$or":[     {"schools.exitWithdrawDate":{"$exists":true, "$gt": "#{DateTime.now.strftime('%Y-%m-%d')}"}} ,{"schools.exitWithdrawDate":{"$exists":false}}    ]}}
   ,{"$project":{"_id":1, "schools._id":1}}
   ,{"$group":{"_id":"$schools._id", "students":{"$addToSet":"$_id"}}}
   ]
@@ -1866,12 +1864,12 @@ Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, 
     table.hashes.map do |entity|
         id = entity['id']
         json_entities = json_map[id]
-        field, value = entity['condition'].split('=').map{|s| s.strip}
         if ((entity['condition'].nil? || entity['condition'].empty?) && !look_for)
             assert(json_entities.nil?, "Entity with id #{id} should not exist, but it does")
             next
         end
         assert(!json_entities.nil?, "Does not contain an entity with id: #{id}")
+        field, value = entity['condition'].split('=').map{|s| s.strip}
         success = false
         json_entities.each {|e|
             success = find_value_in_map(e, field, value)

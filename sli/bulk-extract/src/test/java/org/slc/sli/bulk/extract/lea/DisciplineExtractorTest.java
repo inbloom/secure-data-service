@@ -94,7 +94,7 @@ public class DisciplineExtractorTest {
         diCache.addEntry("marker", LEA2, DateTime.parse("2010-02-12", DateHelper.getDateTimeFormat()));
         diCache.addEntry(DI_ID, LEA2, DateTime.parse("2010-02-12", DateHelper.getDateTimeFormat()));
         disc.extractEntities(diCache);
-        Mockito.verify(ex, Mockito.times(1)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq("disciplineIncident"));
+        Mockito.verify(ex, Mockito.times(2)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq("disciplineIncident"));
         Mockito.verify(ex, Mockito.times(1)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq("disciplineAction"));
     }
 

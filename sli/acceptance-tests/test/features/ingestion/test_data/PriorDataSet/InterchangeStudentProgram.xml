@@ -1642,7 +1642,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         
         <Description>Reading Intervention</Description>
       </Services>
-    <BeginDate>2011-08-31</BeginDate>
+    <BeginDate>2011-09-05</BeginDate>
     <EndDate>2012-05-28</EndDate>
       <ReasonExited>Reached maximum age</ReasonExited>
     <EducationOrganizationReference>
@@ -1767,7 +1767,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         
         <Description>Reading Intervention</Description>
       </Services>
-    <BeginDate>2012-09-06</BeginDate>
+    <BeginDate>2011-09-06</BeginDate>
     <EndDate>2013-06-03</EndDate>
       <ReasonExited>Discontinued schooling</ReasonExited>
     <EducationOrganizationReference>
