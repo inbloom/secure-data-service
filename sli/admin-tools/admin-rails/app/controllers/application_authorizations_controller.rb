@@ -89,6 +89,29 @@ class ApplicationAuthorizationsController < ApplicationController
     @isSEAAdmin = is_sea_admin?
     @isLEAAdmin = is_lea_admin?
 
+    # Get counts of apps ... have to look up each individually
+    # For non-SEA admin apply a filter of the edOrgs in scope for the user
+    @app_counts = {}
+    if !@isSEAAdmin
+      edorgs_in_scope = get_edorgs_in_scope()
+    end
+    
+    allAuth = ApplicationAuthorization.findAllInChunks({})
+    allAuth.each do |auth|
+      auth2 = ApplicationAuthorization.find(auth.id)
+      if !auth2.edorgs.nil?
+        if @isSEAAdmin
+          count = auth2.edorgs.length
+        else
+          count = 0
+          auth2.edorgs.each do |id|
+            count +=1 if edorgs_in_scope.has_key?(id)
+          end
+        end
+        @app_counts[auth.id] = count
+      end
+    end
+
     # Invert apps map to get set of enabled apps by edOrg for filtering
     @edorg_apps = {}
     @apps_map.each do |appId, app|
@@ -188,16 +211,6 @@ class ApplicationAuthorizationsController < ApplicationController
     @apps_map = {}
     allApps = App.findAllInChunks({})
     allApps.each { |app| @apps_map[app.id] = app }
-
-    # Get counts of apps ... have to look up each individually
-    @app_counts = {}
-    allAuth = ApplicationAuthorization.findAllInChunks({})
-    allAuth.each do |auth|
-      auth2 = ApplicationAuthorization.find(auth.id)
-      if !auth2.edorgs.nil?
-        @app_counts[auth.id] = auth2.edorgs.length
-      end
-    end
   end
 
   # Load up all the edOrgs.  Creates:
@@ -504,4 +517,51 @@ class ApplicationAuthorizationsController < ApplicationController
     return cats.sort.join("/")
   end
    
+  # Get edOrgs in user's scope (descendants of user's edOrg). This is optimized just
+  # to get a map of the IDs for the purpose of filtering the "index" list
+  def get_edorgs_in_scope()
+    raise "foo"
+    edinf = {}
+    userEdOrg = session[:edOrgId]
+    
+    # Get all edOrgs, include only needed fields
+    allEdOrgs = EducationOrganization.findAllInChunks({"includeFields" => "parentEducationAgencyReference"})
+    allEdOrgs.each do |eo|
+      edinf[eo.id] = { :id => eo.id, :children => [], }
+      parents = eo.parentEducationAgencyReference
+      if parents.nil?
+        parents = []
+      else
+        # Handle arrays of arrays due to migration script issues
+        parents = parents.flatten(1)
+      end
+      edinf[eo.id][:parents] = parents
+    end
+
+    # Init immediate children of each edorg by inverting parent relationship
+    edinf.keys.each do |id|
+      edinf[id][:parents].each do |pid|
+        if !edinf.has_key?(pid)
+          # Dangling reference to nonexistent parent
+          raise "Edorg '" + id + "' parents to nonexistent '" + pid.to_s() + "'"
+        else
+          edinf[pid][:children].push(id)
+        end
+      end
+    end
+
+    # Now traverse it
+    result = {}
+    get_edorgs_in_scope_recursive(edinf, userEdOrg, result)
+    return result
+  end
+
+  # Recursive traversal to get edOrg IDs in scope of user
+  def get_edorgs_in_scope_recursive(edinf, id, result)
+    result[id] = true
+    edinf[id][:children].each do |cid|
+      get_edorgs_in_scope_recursive(edinf, cid, result)
+    end
+  end
+    
 end
