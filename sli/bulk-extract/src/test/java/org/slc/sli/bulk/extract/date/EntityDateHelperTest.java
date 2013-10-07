@@ -15,20 +15,22 @@
  */
 package org.slc.sli.bulk.extract.date;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import junit.framework.Assert;
+
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author ablum
@@ -44,19 +46,17 @@ public class EntityDateHelperTest {
         Entity studentProgramAssociation = new MongoEntity(EntityNames.STUDENT_PROGRAM_ASSOCIATION, body);
 
         Assert.assertEquals("01-01-01", EntityDateHelper.retrieveDate(studentProgramAssociation));
-
     }
 
     @Test
-    public void testIsBeforeOrEqual() {
-        Assert.assertEquals(true, EntityDateHelper.isBeforeOrEqual("2001-01-01", DateTime.parse("2001-01-01", DateHelper.getDateTimeFormat())));
-        Assert.assertEquals(true, EntityDateHelper.isBeforeOrEqual("2000-01-01", DateTime.parse("2001-01-01", DateHelper.getDateTimeFormat())));
-        Assert.assertEquals(false, EntityDateHelper.isBeforeOrEqual("2002-01-01", DateTime.parse("2001-01-01", DateHelper.getDateTimeFormat())));
-
+    public void testIsBeforeOrEqualDate() {
+        Assert.assertEquals(true, EntityDateHelper.isBeforeOrEqualDate("2001-01-01", DateTime.parse("2001-01-01", DateHelper.getDateTimeFormat())));
+        Assert.assertEquals(true, EntityDateHelper.isBeforeOrEqualDate("2000-01-01", DateTime.parse("2001-01-01", DateHelper.getDateTimeFormat())));
+        Assert.assertEquals(false, EntityDateHelper.isBeforeOrEqualDate("2002-01-01", DateTime.parse("2001-01-01", DateHelper.getDateTimeFormat())));
     }
 
     @Test
-    public void testshouldExtract() {
+    public void testshouldExtractBeginDate() {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(ParameterConstants.BEGIN_DATE, "2001-01-01");
         Entity studentProgramAssociation = new MongoEntity(EntityNames.STUDENT_PROGRAM_ASSOCIATION, body);
@@ -65,4 +65,23 @@ public class EntityDateHelperTest {
         Assert.assertEquals(true, EntityDateHelper.shouldExtract(studentProgramAssociation, null));
         Assert.assertEquals(false, EntityDateHelper.shouldExtract(studentProgramAssociation, DateTime.parse("2000-01-01", DateHelper.getDateTimeFormat())));
     }
+
+    @Test
+    public void testisBeforeOrEqualYear() {
+        Assert.assertTrue(EntityDateHelper.isBeforeOrEqualYear("2007-2008", "2009"));
+        Assert.assertTrue(EntityDateHelper.isBeforeOrEqualYear("2008-2009", "2009"));
+        Assert.assertFalse(EntityDateHelper.isBeforeOrEqualYear("2009-2010", "2009"));
+    }
+
+    @Test
+    public void testshouldExtractSchoolYear() {
+        Map<String, Object> attendanceBody = new HashMap<String, Object>();
+        attendanceBody.put(ParameterConstants.SCHOOL_YEAR, "2009-2010");
+        Entity attendance = new MongoEntity(EntityNames.ATTENDANCE, attendanceBody);
+
+        Assert.assertTrue(EntityDateHelper.shouldExtract(attendance, DateTime.parse("2010-05-23", DateHelper.getDateTimeFormat())));
+        Assert.assertTrue(EntityDateHelper.shouldExtract(attendance, null));
+        Assert.assertFalse(EntityDateHelper.shouldExtract(attendance, DateTime.parse("2009-05-24", DateHelper.getDateTimeFormat())));
+    }
+
 }

@@ -69,7 +69,7 @@ public class YearlyTranscriptExtractorTest {
         MockitoAnnotations.initMocks(this);
         extractor = new YearlyTranscriptExtractor(mockExtractor, mockMap, mockRepo, mockEdOrgExtractHelper, mockStudentAcademicRecordCache);
         entityBody = new HashMap<String, Object>();
-        entityBody.put(ParameterConstants.SCHOOL_YEAR, "2011-01-01");
+        entityBody.put(ParameterConstants.SCHOOL_YEAR, "2010-2011");
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
         Mockito.when(mockEntity.getType()).thenReturn("yearlyTranscript");
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
@@ -84,7 +84,7 @@ public class YearlyTranscriptExtractorTest {
         Mockito.when(mockRepo.findEach(Mockito.eq("yearlyTranscript"), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         entityBody.put(ParameterConstants.STUDENT_ID, "student");
-        entityBody.put(ParameterConstants.SCHOOL_YEAR, "2011-01-05");
+        entityBody.put(ParameterConstants.SCHOOL_YEAR, "2012-2013");
         extractor.extractEntities(mockStudentCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("yearlyTranscript"));
