@@ -1,32 +1,9 @@
 @RALLY_US5904
 Feature: An edorg's extract file should contain student data from previous enrollments with other schools
 
-  Scenario: Generate with expired data set using Odin generate tool
-    Given I am using the odin working directory
-    When I generate the with expired data set in the generated directory
-    And I zip generated data under filename OdinSampleDataSet.zip to the new OdinSampleDataSet directory
-    And I copy generated data to the new OdinSampleDataSet directory
-    Then I should see generated file <File>
-      | File  |
-      |ControlFile.ctl|
-      |InterchangeAssessmentMetadata.xml|
-      |InterchangeAttendance.xml|
-      |InterchangeEducationOrgCalendar.xml|
-      |InterchangeEducationOrganization.xml|
-      |InterchangeMasterSchedule.xml|
-      |InterchangeStaffAssociation.xml|
-      |InterchangeStudentAssessment.xml|
-      |InterchangeStudentCohort.xml|
-      |InterchangeStudentDiscipline.xml|
-      |InterchangeStudentEnrollment.xml|
-      |InterchangeStudentGrades.xml|
-      |InterchangeStudentParent.xml|
-      |InterchangeStudentProgram.xml|
-      |OdinSampleDataSet.zip|
-
   Scenario: Setup the database and trigger an extract
     Given I clean the bulk extract file system and database
-    And I am using odin data store
+    And I am using local data store
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And all collections are empty
     And I successfully ingest "PriorDataSet.zip"
@@ -101,6 +78,7 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "disciplineIncident" file should contain:
       | id                                                                                     | condition |
       | 5c2d1d70eed68e801d551631eb82636fc9e9a6dc_id | entityType = disciplineIncident |
+
 
   Scenario: The extract for an edorg should not contain data for a former student that's dated after the student has left
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
