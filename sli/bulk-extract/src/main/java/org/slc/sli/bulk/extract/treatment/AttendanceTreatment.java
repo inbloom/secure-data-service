@@ -17,6 +17,7 @@ package org.slc.sli.bulk.extract.treatment;
 
 import java.util.Map;
 
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.migration.strategy.impl.AttendanceStrategyHelper;
 import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
@@ -36,6 +37,7 @@ public class AttendanceTreatment implements Treatment {
         // It can get treated multiple times for different LEAs and Apps.
         if (entity.getBody().containsKey("schoolYearAttendance")) {
             LOG.debug("Treatment has already been applied to attendance entity: {}", new Object[] { entity.getEntityId() });
+            entity.getBody().remove(ParameterConstants.SCHOOL_YEAR);
             return entity;
         }
         Map<String,Object> treated = AttendanceStrategyHelper.wrap(entity.getBody());

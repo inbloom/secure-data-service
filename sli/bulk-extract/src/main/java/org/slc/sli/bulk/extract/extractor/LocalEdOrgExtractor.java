@@ -98,7 +98,7 @@ public class LocalEdOrgExtractor {
         student.extractEntities(null);
 
         EntityExtract genericExtractor = factory.buildAttendanceExtractor(entityExtractor, leaToExtractFileMap,
-                repository, student.getEntityCache(), helper);
+                repository, student.getStudentDatedCache(), helper);
         genericExtractor.extractEntities(null);
 
         StudentSchoolAssociationExtractor studentSchoolAssociation = factory.buildStudentSchoolAssociationExtractor(entityExtractor,

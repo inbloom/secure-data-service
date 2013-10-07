@@ -69,7 +69,7 @@ public class ExtractorFactory {
     }
 
     public EntityExtract buildAttendanceExtractor(EntityExtractor extractor, ExtractFileMap map,
-            Repository<Entity> repo, EntityToEdOrgCache studentCache, EdOrgExtractHelper edOrgExtractHelper) {
+            Repository<Entity> repo, EntityToEdOrgDateCache studentCache, EdOrgExtractHelper edOrgExtractHelper) {
         return new AttendanceExtractor(extractor, map, repo, new ExtractorHelper(), studentCache, edOrgExtractHelper);
     }
     

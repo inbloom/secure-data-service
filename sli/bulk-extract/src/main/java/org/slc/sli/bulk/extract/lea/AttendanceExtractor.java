@@ -17,11 +17,15 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -31,11 +35,11 @@ public class AttendanceExtractor implements EntityExtract {
     private ExtractFileMap map;
     private Repository<Entity> repo;
     private ExtractorHelper helper;
-    private EntityToEdOrgCache studentCache;
+    private EntityToEdOrgDateCache studentCache;
     private EdOrgExtractHelper edOrgExtractHelper;
     
     public AttendanceExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
-            ExtractorHelper extractorHelper, EntityToEdOrgCache studentCache, EdOrgExtractHelper edOrgExtractHelper) {
+            ExtractorHelper extractorHelper, EntityToEdOrgDateCache studentCache, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
@@ -50,12 +54,19 @@ public class AttendanceExtractor implements EntityExtract {
         Iterator<Entity> attendances = repo.findEach("attendance", new NeutralQuery());
         while (attendances.hasNext()) {
             Entity attendance = attendances.next();
-            Set<String> edorgs = studentCache.getEntriesById((String) attendance.getBody().get("studentId"));
-            for (String edorg : edorgs) {
-                extractor.extractEntity(attendance, map.getExtractFileForEdOrg(edorg), "attendance");
+
+            Map<String, DateTime> studentEdOrgDate = studentCache.getEntriesById((String) attendance.getBody().get("studentId"));
+            String schoolYear = (String) attendance.getBody().get(ParameterConstants.SCHOOL_YEAR);
+
+            for (Map.Entry<String, DateTime> entry: studentEdOrgDate.entrySet()) {
+                attendance.getBody().put(ParameterConstants.SCHOOL_YEAR, schoolYear);
+                DateTime upToDate = entry.getValue();
+                if(EntityDateHelper.shouldExtract(attendance, upToDate)) {
+                    extractor.extractEntity(attendance, map.getExtractFileForEdOrg(entry.getKey()), EntityNames.ATTENDANCE);
+                }
             }
         }
         
     }
-    
+
 }
