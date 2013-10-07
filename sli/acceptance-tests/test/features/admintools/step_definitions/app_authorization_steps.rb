@@ -271,21 +271,61 @@ Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the applicationAu
    db = @conn.db("sli")
    coll = db.collection("application")
    record = coll.find_one("body.name" => application)
-   puts record.to_s
+   #puts record.to_s
    appId = record["_id"]
-   puts appId.to_s
+   #puts appId.to_s
    db = @conn[convertTenantIdToDbName(tenant)]
    coll = db.collection("applicationAuthorization")
    record = coll.find_one("body.applicationId" => appId.to_s)
-   puts record.to_s
+   #puts record.to_s
    body = record["body"]
-   puts body.to_s
+   #puts body.to_s
    edorgsArray = body["edorgs"]
-   puts edorgsArray.to_s
+   #puts edorgsArray.to_s
    edorgsArrayCount = edorgsArray.count
-   puts edorgsArrayCount
+   #puts edorgsArrayCount
    assert(edorgsArrayCount == expected_count.to_i, "Education organization count mismatch in applicationAuthorization collection. Expected #{expected_count}, actual #{edorgsArrayCount}")
    enable_NOTABLESCAN()
+end
+
+When /^I click Update$/ do
+  @driver.find_element(:css, 'input:enabled[type="submit"]').click
+end
+
+Then /^I authorize the educationalOrganization "(.*?)"$/ do |edOrgName|
+  disable_NOTABLESCAN()
+  db = @conn[convertTenantIdToDbName("Midgar")]
+  coll = db.collection("educationOrganization")
+  record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
+  #puts record.to_s
+  edOrgId = record["_id"]
+  #puts edOrgId.to_s
+  app = @driver.find_element(:id, edOrgId.to_s).click
+  enable_NOTABLESCAN()
+end
+
+Then /^I de-authorize the educationalOrganization "(.*?)"$/ do |edOrgName|
+  step "I authorize the educationalOrganization \"#{edOrgName}\""
+end
+
+Then /^there are "(.*?)" educationalOrganizations in the targetEdOrgList$/ do |expected_count|
+  disable_NOTABLESCAN()
+  db = @conn.db("sli")
+  coll = db.collection("securityEvent")
+  record = coll.find_one()
+  #puts record.to_s
+  body = record["body"]
+  #puts body.to_s
+  targetEdOrgList = body["targetEdOrgList"]
+  #puts targetEdOrgList.to_s
+  targetEdOrgListCount = targetEdOrgList.count
+  #puts targetEdOrgListCount
+  assert(targetEdOrgListCount == expected_count.to_i, "targetEdOrgList count mismatch in securityEvent collection. Expected #{expected_count}, actual #{targetEdOrgListCount}")
+  enable_NOTABLESCAN()
+end
+
+When /^I deselect hierarchical mode$/ do
+  app = @driver.find_element(:id, "hierarchical_mode").click
 end
 
 

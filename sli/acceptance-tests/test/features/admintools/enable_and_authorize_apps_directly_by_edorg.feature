@@ -47,21 +47,58 @@ Background:
         And I click on Save
         Then "Royal Oak" is enabled for "200" education organizations
 
-    Scenario: SEA Admin Approves extract application
+    Scenario: SEA Admin Approves application
         When I hit the Admin Application Authorization Tool
          And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
          And I see an application "Royal Oak" in the table
          And in Status it says "Not Approved"
          And the sli securityEvent collection is empty
-    	 And I click on the "Approve" button next to it
-        Then I am asked 'Do you really want this application to access the district's data'
-    	When I click on Ok
-    	Then the application is authorized to use data of "Illinois State Board of Education"
-    	 Then there are "200" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+
+         #All edOrgs from SEA downwards
+    	 And I click on the "Edit Authorizations" button next to it
+    	 And I authorize the educationalOrganization "Illinois State Board of Education"
+    	 And I click Update
+    	Then there are "200" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
          And I check to find if record is in sli db collection:
           | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-          | securityEvent       | 200                 | body.logMessage       | Application granted access to EdOrg data! |
-         And the app "Royal Oak" Status becomes "Approved"
-         And it is colored "green"
-         And the Approve button next to it is disabled
-         And the Deny button next to it is enabled
+          | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+         And there are "200" educationalOrganizations in the targetEdOrgList
+         And I see an application "Royal Oak" in the table
+         And in Status it says "200 EdOrg(s)"
+        Given the sli securityEvent collection is empty
+        When I click on the "Edit Authorizations" button next to it
+         And I de-authorize the educationalOrganization "Illinois State Board of Education"
+         And I click Update
+        Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+         And I check to find if record is in sli db collection:
+            | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+            | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+         And there are "200" educationalOrganizations in the targetEdOrgList
+         And I see an application "Royal Oak" in the table
+         And in Status it says "Not Approved"
+
+        #SEA only
+        Then I click on the "Edit Authorizations" button next to it
+         And the sli securityEvent collection is empty
+         And I deselect hierarchical mode
+         And I authorize the educationalOrganization "Illinois State Board of Education"
+         And I click Update
+        Then there are "1" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+         And I check to find if record is in sli db collection:
+          | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+          | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+         And there are "1" educationalOrganizations in the targetEdOrgList
+         And I see an application "Royal Oak" in the table
+         And in Status it says "1 EdOrg(s)"
+        Given the sli securityEvent collection is empty
+        When I click on the "Edit Authorizations" button next to it
+         And I deselect hierarchical mode
+         And I de-authorize the educationalOrganization "Illinois State Board of Education"
+         And I click Update
+        Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+         And I check to find if record is in sli db collection:
+            | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+            | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+         And there are "1" educationalOrganizations in the targetEdOrgList
+         And I see an application "Royal Oak" in the table
+         And in Status it says "Not Approved"
