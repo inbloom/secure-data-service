@@ -99,8 +99,9 @@ deployAdmin()
 unDeployAdmin()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
+  bundle install --deployment
   #bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
-  sudo bundle exec thin stop -C config/thin.yml
+  bundle exec thin stop -C config/thin.yml
 }
 
 deployAdminSB()
