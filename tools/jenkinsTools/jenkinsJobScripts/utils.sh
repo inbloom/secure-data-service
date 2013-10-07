@@ -92,7 +92,16 @@ deployAdmin()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
   bundle install --deployment
-  bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
+  #bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
+  bundle exec thin start -C config/thin.yml
+}
+
+unDeployAdmin()
+{
+  cd $WORKSPACE/sli/admin-tools/admin-rails
+  bundle install --deployment
+  #bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
+  bundle exec thin stop -C config/thin.yml
 }
 
 deployAdminSB()
