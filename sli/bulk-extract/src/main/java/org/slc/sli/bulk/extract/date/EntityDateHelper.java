@@ -15,34 +15,44 @@
  */
 package org.slc.sli.bulk.extract.date;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.joda.time.DateTime;
-import org.slc.sli.common.util.datetime.DateHelper;
-import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.util.datetime.DateHelper;
+import org.slc.sli.domain.Entity;
+
 /**
  * @author ablum tke
  */
 @Component
 public class EntityDateHelper {
+
     private static final Logger LOG = LoggerFactory.getLogger(EntityDateHelper.class);
 
     private static DateRetriever simpleDateRetriever;
 
     private static DateRetriever pathDateRetriever;
 
-    public static boolean shouldExtract(Entity entity, DateTime upToDate) {
-        String begin = retrieveDate(entity);
+    private static final List<String> YEAR_BASED_ENTITIES = Arrays.asList(EntityNames.ATTENDANCE, EntityNames.GRADE, EntityNames.REPORT_CARD,
+                                                                          EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.COURSE_TRANSCRIPT);
 
-        if (upToDate == null) {
-            return isBeforeOrEqual(begin, DateTime.now());
-        } else {
-            return isBeforeOrEqual(begin, upToDate);
-        }
+    public static boolean shouldExtract(Entity entity, DateTime upToDate) {
+        DateTime finalUpToDate = (upToDate == null) ? DateTime.now() : upToDate;
+        String entityDate = retrieveDate(entity);
+
+            if (YEAR_BASED_ENTITIES.contains(entity.getType())) {
+                return isNotAfterYear(finalUpToDate.year().getAsString(), entityDate);
+            } else {
+                return isBeforeOrEqual(entityDate, finalUpToDate);
+            }
     }
 
     protected static String retrieveDate(Entity entity) {
@@ -61,6 +71,12 @@ public class EntityDateHelper {
         return !beginDate.isAfter(upToDate);
     }
 
+    protected static boolean isNotAfterYear(String upToYear, String yearSpan) {
+        String fromYear = yearSpan.split("-")[0];
+        String toYear = yearSpan.split("-")[1];
+        return ((upToYear.compareTo(toYear) >= 0) && (upToYear.compareTo(fromYear) > 0));
+    }
+
     @Autowired(required = true)
     @Qualifier("simpleDateRetriever")
     public void setSimpleDateRetriever(DateRetriever simpleDateRetriever) {
@@ -72,4 +88,5 @@ public class EntityDateHelper {
     public void setPathDateRetriever(DateRetriever pathDateRetriever) {
         EntityDateHelper.pathDateRetriever = pathDateRetriever;
     }
+
 }
