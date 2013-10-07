@@ -95,9 +95,9 @@ And I switch to the iframe
 Then I am redirected to the Admin Application Authorization Tool
 #Authorize the Dashboard
 And I see an application "inBloom Dashboards" in the table
-And in Status it says "Not Approved"
+And in Status it says "0 EdOrg(s), auto-authorized"
 And I click on the "Edit Authorizations" button next to it
-And I authorize the educationalOrganization "Standard State Education Agency"
+And I authorize the educationalOrganization "STANDARD-SEA"
 And I click Update
 Then there are "199" edOrgs for the "inBloom Dashboards" application in the applicationAuthorization collection for the production tenant
 And I check to find if record is in sli db collection:
@@ -105,13 +105,13 @@ And I check to find if record is in sli db collection:
   | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
 And there are "199" educationalOrganizations in the targetEdOrgList
 And I see an application "inBloom Dashboards" in the table
-And in Status it says "199 EdOrg(s)"
+And in Status it says "199 EdOrg(s), auto-authorized"
 
 #Authorize the Databrowser
 And I see an application "inBloom Data Browser" in the table
-And in Status it says "Not Approved"
+And in Status it says "0 EdOrg(s), auto-authorized"
 And I click on the "Edit Authorizations" button next to it
-And I authorize the educationalOrganization "Standard State Education Agency"
+And I authorize the educationalOrganization "STANDARD-SEA"
 And I click Update
 Then there are "199" edOrgs for the "inBloom Data Browser" application in the applicationAuthorization collection for the production tenant
 And I check to find if record is in sli db collection:
@@ -119,7 +119,7 @@ And I check to find if record is in sli db collection:
   | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
 And there are "199" educationalOrganizations in the targetEdOrgList
 And I see an application "inBloom Data Browser" in the table
-And in Status it says "199 EdOrg(s)"
+And in Status it says "199 EdOrg(s), auto-authorized"
 #Authorized the new Web-App
 And I exit out of the iframe
 And I click on log out

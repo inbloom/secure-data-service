@@ -39,8 +39,7 @@ class RealmManagementController < ApplicationController
     if @realms.nil? or @realms.empty?
       redirect_to new_realm_management_path and return
     end
-    edorg_entity = EducationOrganization.get("?stateOrganizationId=#{userRealm}")
-    puts edorg_entity.inspect 
+    edorg_entity = EducationOrganization.get("", headers = {:stateOrganizationId => userRealm})
     if edorg_entity != nil && !edorg_entity.empty?
       @edorg = edorg_entity["nameOfInstitution"] + " (#{session[:edOrg]})"
     else
