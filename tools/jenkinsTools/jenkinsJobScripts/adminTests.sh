@@ -12,6 +12,8 @@ startSearchIndexer
 
 adminUnitTests
 
+unDeployAdmin
+
 deployAdmin
 
 processApps $APPSTODEPLOY
