@@ -33,6 +33,12 @@ Then /^I am redirected to the Admin Application Authorization Tool$/ do
   assertWithWait("Failed to navigate to the Admintools App Registration page")  {@driver.page_source.index("application_authorizations") != nil}
 end
 
+Then /^I am redirected to the Admin Application Authorization Edit Page$/ do
+  actualUrl = @driver.current_url
+  expectedRegex = "/application_authorizations/.*/edit"
+  assertWithWait("Failed to navigate to the Admintools App Authorization Edit page: URL '" + actualUrl + "' does match '" + expectedRegex + "'")  {actualUrl.match(expectedRegex) != nil}
+end
+
 Then /^I see a label in the middle "([^"]*)"/ do |arg1|
   #We're changing how the ID is referenced, so the label for the time-being isn't going to be accurate
   #assert(@driver.page_source.index(arg1) != nil)
@@ -132,6 +138,7 @@ Given /^in Status it says "([^"]*)"$/ do |arg1|
   assert(actualStatus == arg1, "Expected status of #{@appName} to be #{arg1} instead it's #{actualStatus.inspect}")
 end
 
+# TODO: assert fail if no button is matched and then clicked
 Given /^I click on the "([^"]*)" button next to it$/ do |arg1|
   inputs = @appRow.find_elements(:xpath, ".//td/form/input")
   inputs.each do |cur|
@@ -178,6 +185,13 @@ Then /^the app "([^"]*)" Status becomes "([^"]*)"$/ do |app, arg1|
   @row = getApp(app)
   assert(@row.displayed?, "#{app} should be present and visible")
   assertWithWait("Status should have switched to #{arg1}"){  @row.find_element(:xpath, ".//td[4]").text == arg1} 
+end
+
+Then /^the app "([^"]*)" Status matches "([^"]*)"$/ do |app, regex|
+  @row = @appRow = getApp(app)
+  assert(@row.displayed?, "#{app} should be present and visible")
+  text = @row.find_element(:xpath, ".//td[4]").text
+  assertWithWait("Status text '" + text + "' should match regex '#{regex}'"){  text.match(regex)} 
 end
 
 Then /^it is colored "([^"]*)"$/ do |arg1|
@@ -302,6 +316,20 @@ Then /^I authorize the educationalOrganization "(.*?)"$/ do |edOrgName|
   #puts edOrgId.to_s
   app = @driver.find_element(:id, edOrgId.to_s).click
   enable_NOTABLESCAN()
+end
+
+Then /^the checkbox with HTML id "([^"]*?)" is (checked|unchecked)$/ do |id,status|
+  elt = @driver.find_element(:css, 'input#' + id + '[type="checkbox"]')
+  assert(elt, "Checkbox with id '" + id + "' not found")
+  selected = elt.selected?
+  assert(status == "checked" && selected || status == "unchecked" && !selected, "Expected checkbox id '" + id + "' to be " + status + ", but WebDriver.isSelected gives '" + selected.to_s() + "'")
+end
+
+When /^I (check|uncheck) the checkbox with HTML id "([^"]*?)"$/ do |action,id|
+  elt = @driver.find_element(:css, 'input#' + id + '[type="checkbox"]')
+  assert(elt, "Checkbox with id '" + id + "' not found")
+  assert(action == "check" && !elt.selected? || action == "uncheck" && elt.selected?, "Cannot " + action + " checkbox with id '" + id + "' whose checked status is " + elt.selected?.to_s())
+  elt.click()
 end
 
 Then /^I de-authorize the educationalOrganization "(.*?)"$/ do |edOrgName|
