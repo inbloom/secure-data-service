@@ -1867,8 +1867,9 @@ Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, 
         if ((entity['condition'].nil? || entity['condition'].empty?) && !look_for)
             assert(json_entities.nil?, "Entity with id #{id} should not exist, but it does")
             next
+        else
+            assert(!json_entities.nil?, "Does not contain an entity with id: #{id}")
         end
-        assert(!json_entities.nil?, "Does not contain an entity with id: #{id}")
         field, value = entity['condition'].split('=').map{|s| s.strip}
         success = false
         json_entities.each {|e|
