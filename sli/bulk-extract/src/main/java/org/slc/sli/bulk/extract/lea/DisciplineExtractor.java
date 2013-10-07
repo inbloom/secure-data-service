@@ -64,6 +64,11 @@ public class DisciplineExtractor implements EntityDatedExtract {
                     }
                 }
 
+                if (edOrgs.isEmpty()) {
+                    String schoolId = (String) input.getBody().get("schoolId");
+                    edOrgs.addAll(edorgCache.ancestorEdorgs(schoolId));
+                }
+
                 return edOrgs;
             }
         });

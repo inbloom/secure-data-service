@@ -97,11 +97,6 @@ public class ExtractorFactory {
         return new ExtractFile(directory, archiveName, appPublicKeys, securityEventUtil);
     }
     
-    public EntityExtract buildCohortExtractor(EntityExtractor extractor, ExtractFileMap map,
-            Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
-        return new CohortExtractor(extractor, map, repo, edOrgExtractHelper);
-    }
-
     public EntityExtract buildStaffCohortAssociationExtractor(EntityExtractor extractor, ExtractFileMap map,
             Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         return new StaffCohortAssociationExtractor(extractor, map, repo, edOrgExtractHelper);

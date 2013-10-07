@@ -127,8 +127,7 @@ public class LocalEdOrgExtractor {
         // Section
         SectionExtractor sectionExtractor = factory.buildSectionExtractor(entityExtractor,leaToExtractFileMap,repository, student.getEntityCache(), edorgCache, helper);
         sectionExtractor.extractEntities(null);
-        LOG.info("Extracted several sections");
-        
+
         genericExtractor = factory.buildStudentCompetencyExtractor(entityExtractor, leaToExtractFileMap, repository);
         genericExtractor.extractEntities(sectionExtractor.getSsaCache());
 
@@ -155,9 +154,6 @@ public class LocalEdOrgExtractor {
 
         genericExtractor = factory.buildStaffCohortAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
-
-        genericExtractor = factory.buildCohortExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        genericExtractor.extractEntities(edorgCache);
 
         CourseOfferingExtractor courseOfferingExtractor = factory.buildCourseOfferingExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         courseOfferingExtractor.extractEntities(edorgCache, sectionExtractor.getCourseOfferingCache());

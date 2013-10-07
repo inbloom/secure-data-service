@@ -417,7 +417,6 @@ And the operator triggers a delta for the production tenant
       # |  assessment                            |
       |  attendance                            |
       |  calendarDate                          |
-      |  cohort                                |
       |  course                                |
       |  courseTranscript                      |
       |  courseOffering                        |
@@ -433,7 +432,6 @@ And the operator triggers a delta for the production tenant
       # |  program                               |
       |  reportCard                            |
       |  school                                |
-      |  section                               |
       |  session                               |
       |  staff                                 |
       |  staffCohortAssociation                |
@@ -473,7 +471,6 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
    And the extract contains a file for each of the following entities:
       |  entityType                            |
       |  attendance                            |
-      |  cohort                                |
       |  course                                |
       |  courseOffering                        |
       |  courseTranscript                      |
@@ -487,7 +484,6 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
       |  parent                                |
       |  reportCard                            |
       |  school                                |
-      |  section                               |
      #no sessions associated to charter school in data set
      #|  session                               |
       |  staff                                 |
@@ -540,6 +536,8 @@ Scenario: App makes an api call to retrieve a SEA public data bulk extract
       |  session                               |
       |  calendarDate                          |
       |  school                                |
+      |  cohort                                |
+      |  section                               |
 
 Scenario: App makes an api call to retrieve a bulk extract delta
 #Get a session to trigger a bulk extract
