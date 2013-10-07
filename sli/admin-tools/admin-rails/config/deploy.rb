@@ -22,9 +22,9 @@ require 'capistrano/ext/multistage'
 set :stages, %w(integration, deployment)
 set :application, "Identity Management Admin Tool"
 
-set :working_dir, ENV['WORKSPACE'] + "sli/admin-tools/admin-rails"
+set :working_dir, "sli/admin-tools/admin-rails"
 
-#set :repository,  "git@github.com:inbloomdev/datastore.git"
+set :repository,  "git@github.com:inbloomdev/datastore.git"
 set :bundle_gemfile, "sli/admin-tools/admin-rails/Gemfile"
 
 set :user, "rails"
@@ -42,7 +42,7 @@ set :scm, :git
 namespace :deploy do
   namespace :assets do
     task :precompile, :roles => :web, :except => { :no_release => true } do
-      run "cd #{working_dir} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile"
+      run "cd #{latest_release}/#{working_dir} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile"
     end
   end
   desc "Start the Thin processes"
@@ -80,17 +80,17 @@ namespace :deploy do
     # mkdir -p is making sure that the directories are there for some SCM's that don't
     # save empty folders
     run <<-CMD
-      rm -rf #{working_dir}/log #{working_dir}/public/system #{working_dir}/tmp/pids &&
-      mkdir -p #{working_dir}/public &&
-      mkdir -p #{working_dir}/tmp &&
-      ln -s #{shared_path}/log #{working_dir}/log &&
-      ln -s #{shared_path}/system #{working_dir}/public/system &&
-      ln -s #{shared_path}/pids #{working_dir}/tmp/pids
+      rm -rf #{latest_release}/#{working_dir}/log #{latest_release}/#{working_dir}/public/system #{latest_release}/#{working_dir}/tmp/pids &&
+      mkdir -p #{latest_release}/#{working_dir}/public &&
+      mkdir -p #{latest_release}/#{working_dir}/tmp &&
+      ln -s #{shared_path}/log #{latest_release}/#{working_dir}/log &&
+      ln -s #{shared_path}/system #{latest_release}/#{working_dir}/public/system &&
+      ln -s #{shared_path}/pids #{latest_release}/#{working_dir}/tmp/pids
     CMD
 
     if fetch(:normalize_asset_timestamps, true)
       stamp = Time.now.utc.strftime("%Y%m%d%H%M.%S")
-      asset_paths = fetch(:public_children, %w(images stylesheets javascripts)).map { |p| "#{working_dir}/public/#{p}" }.join(" ")
+      asset_paths = fetch(:public_children, %w(images stylesheets javascripts)).map { |p| "#{latest_release}/#{working_dir}/public/#{p}" }.join(" ")
       run "find #{asset_paths} -exec touch -t #{stamp} {} ';'; true", :env => { "TZ" => "UTC" }
     end
     cleanup
