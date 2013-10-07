@@ -89,6 +89,10 @@ public class SearchResourceService {
 
     private static final int SEARCH_RESULT_LIMIT = 250;
 
+    //in order to reduce extremely long API calls, we will limit the number of entities any one call can return
+    // NOTE: this must agree with the limit set in UriInfoToApiQueryConverter
+    private static final int HARD_ENTITY_COUNT_LIMIT = 20000;
+
     @Autowired
     DefaultResourceService defaultResourceService;
 
