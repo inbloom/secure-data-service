@@ -96,27 +96,30 @@ Then I am redirected to the Admin Application Authorization Tool
 #Authorize the Dashboard
 And I see an application "inBloom Dashboards" in the table
 And in Status it says "Not Approved"
-And I click on the "Approve" button next to it
-And I am asked 'Do you really want this application to access the district's data'
-When I click on Ok
-Then the application is authorized to use data of "Daybreak School District 4529"
-And the app "inBloom Dashboards" Status becomes "Approved"
-And it is colored "green"
-And the Approve button next to it is disabled
-And the Deny button next to it is enabled
+And I click on the "Edit Authorizations" button next to it
+And I authorize the educationalOrganization "Standard State Education Agency"
+And I click Update
+Then there are "199" edOrgs for the "inBloom Dashboards" application in the applicationAuthorization collection for the production tenant
+And I check to find if record is in sli db collection:
+  | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+  | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+And there are "199" educationalOrganizations in the targetEdOrgList
+And I see an application "inBloom Dashboards" in the table
+And in Status it says "199 EdOrg(s)"
+
 #Authorize the Databrowser
 And I see an application "inBloom Data Browser" in the table
 And in Status it says "Not Approved"
-And I click on the "Approve" button next to it
-And I am asked 'Do you really want this application to access the district's data'
-When I click on Ok
-# switch back to iframe because of the page reload
-And I switch to the iframe
-Then the application is authorized to use data of "Daybreak School District 4529"
-And the app "inBloom Data Browser" Status becomes "Approved"
-And it is colored "green"
-And the Approve button next to it is disabled
-And the Deny button next to it is enabled
+And I click on the "Edit Authorizations" button next to it
+And I authorize the educationalOrganization "Standard State Education Agency"
+And I click Update
+Then there are "199" edOrgs for the "inBloom Data Browser" application in the applicationAuthorization collection for the production tenant
+And I check to find if record is in sli db collection:
+  | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+  | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+And there are "199" educationalOrganizations in the targetEdOrgList
+And I see an application "inBloom Data Browser" in the table
+And in Status it says "199 EdOrg(s)"
 #Authorized the new Web-App
 And I exit out of the iframe
 And I click on log out
