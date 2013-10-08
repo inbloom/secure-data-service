@@ -68,9 +68,10 @@ public class EntityDateHelperTest {
 
     @Test
     public void testisBeforeOrEqualYear() {
-        Assert.assertTrue(EntityDateHelper.isBeforeOrEqualYear("2007-2008", "2009"));
-        Assert.assertTrue(EntityDateHelper.isBeforeOrEqualYear("2008-2009", "2009"));
-        Assert.assertFalse(EntityDateHelper.isBeforeOrEqualYear("2009-2010", "2009"));
+        Assert.assertTrue(EntityDateHelper.isBeforeOrEqualYear("2007-2008", 2009));
+        Assert.assertTrue(EntityDateHelper.isBeforeOrEqualYear("2008-2009", 2009));
+        Assert.assertFalse(EntityDateHelper.isBeforeOrEqualYear("2009-2010", 2009));
+        Assert.assertFalse(EntityDateHelper.isBeforeOrEqualYear("2010-2011", 2009));
     }
 
     @Test
@@ -79,9 +80,11 @@ public class EntityDateHelperTest {
         attendanceBody.put(ParameterConstants.SCHOOL_YEAR, "2009-2010");
         Entity attendance = new MongoEntity(EntityNames.ATTENDANCE, attendanceBody);
 
+        Assert.assertTrue(EntityDateHelper.shouldExtract(attendance, DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat())));
         Assert.assertTrue(EntityDateHelper.shouldExtract(attendance, DateTime.parse("2010-05-23", DateHelper.getDateTimeFormat())));
         Assert.assertTrue(EntityDateHelper.shouldExtract(attendance, null));
         Assert.assertFalse(EntityDateHelper.shouldExtract(attendance, DateTime.parse("2009-05-24", DateHelper.getDateTimeFormat())));
+        Assert.assertFalse(EntityDateHelper.shouldExtract(attendance, DateTime.parse("2008-05-24", DateHelper.getDateTimeFormat())));
     }
 
 }

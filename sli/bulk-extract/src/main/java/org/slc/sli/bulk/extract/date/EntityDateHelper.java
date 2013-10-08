@@ -49,7 +49,7 @@ public class EntityDateHelper {
         String entityDate = retrieveDate(entity);
 
             if (YEAR_BASED_ENTITIES.contains(entity.getType())) {
-                return isBeforeOrEqualYear(entityDate, finalUpToDate.year().getAsString());
+                return isBeforeOrEqualYear(entityDate, finalUpToDate.year().get());
             } else {
                 return isBeforeOrEqualDate(entityDate, finalUpToDate);
             }
@@ -71,10 +71,10 @@ public class EntityDateHelper {
         return !beginDate.isAfter(upToDate);
     }
 
-    protected static boolean isBeforeOrEqualYear(String yearSpan, String upToYear) {
-        String fromYear = yearSpan.split("-")[0];
-        String toYear = yearSpan.split("-")[1];
-        return ((upToYear.compareTo(toYear) >= 0) && (upToYear.compareTo(fromYear) > 0));
+    protected static boolean isBeforeOrEqualYear(String yearSpan, int upToYear) {
+        int fromYear = Integer.parseInt(yearSpan.split("-")[0]);
+        int toYear = Integer.parseInt(yearSpan.split("-")[1]);
+        return ((upToYear >= toYear) && (upToYear > fromYear));
     }
 
     @Autowired(required = true)
