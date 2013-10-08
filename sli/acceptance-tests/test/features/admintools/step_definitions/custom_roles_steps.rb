@@ -248,8 +248,9 @@ end
 Then /^the group "([^"]*)" no longer appears on the page$/ do |arg1|
   lower_timeout_for_same_page_validation
   retryOnFailure() do
-    groups = @driver.find_elements(:xpath, "//div[text()='#{arg1}']")
-    assert(groups.size == 0, "Found group named #{arg1} on page")
+    source = @driver.page_source
+    #removing group causes count of 'Educator' string to drop from 4 to 2
+    assert(source.scan(arg1).length == 2, "Found group named #{arg1} on page")
   end
   reset_timeouts_to_default
 end
