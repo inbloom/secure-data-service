@@ -48,12 +48,12 @@ public class EntityDateHelper {
     public static boolean shouldExtract(Entity entity, DateTime upToDate) {
         String entityDate = retrieveDate(entity);
 
-        return compareDates(upToDate, entityDate, entity.getType());
+        return isPastOrCurrentDate(entityDate, upToDate, entity.getType());
     }
 
     public static boolean shouldExtract(String entityDate, DateTime upToDate, String entityType) {
 
-        return compareDates(upToDate, entityDate, entityType);
+        return isPastOrCurrentDate(entityDate, upToDate, entityType);
     }
 
     public static String retrieveDate(Entity entity) {
@@ -78,7 +78,7 @@ public class EntityDateHelper {
         return ((upToYear.compareTo(toYear) >= 0) && (upToYear.compareTo(fromYear) > 0));
     }
 
-    private static boolean compareDates(DateTime upToDate, String entityDate, String type) {
+    private static boolean isPastOrCurrentDate(String entityDate, DateTime upToDate, String type) {
         DateTime finalUpToDate = (upToDate == null) ? DateTime.now() : upToDate;
 
         if (YEAR_BASED_ENTITIES.contains(type)) {
