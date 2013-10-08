@@ -46,17 +46,17 @@ public class EntityDateHelper {
                                                                           "yearlyTranscript");
 
     public static boolean shouldExtract(Entity entity, DateTime upToDate) {
-        DateTime finalUpToDate = (upToDate == null) ? DateTime.now() : upToDate;
         String entityDate = retrieveDate(entity);
 
-            if (YEAR_BASED_ENTITIES.contains(entity.getType())) {
-                return isBeforeOrEqualYear(entityDate, finalUpToDate.year().getAsString());
-            } else {
-                return isBeforeOrEqualDate(entityDate, finalUpToDate);
-            }
+        return compareDates(upToDate, entityDate, entity.getType());
     }
 
-    protected static String retrieveDate(Entity entity) {
+    public static boolean shouldExtract(String entityDate, DateTime upToDate, String entityType) {
+
+        return compareDates(upToDate, entityDate, entityType);
+    }
+
+    public static String retrieveDate(Entity entity) {
         String date = "";
 
         if (EntityDates.ENTITY_DATE_FIELDS.containsKey(entity.getType())) {
@@ -76,6 +76,16 @@ public class EntityDateHelper {
         String fromYear = yearSpan.split("-")[0];
         String toYear = yearSpan.split("-")[1];
         return ((upToYear.compareTo(toYear) >= 0) && (upToYear.compareTo(fromYear) > 0));
+    }
+
+    private static boolean compareDates(DateTime upToDate, String entityDate, String type) {
+        DateTime finalUpToDate = (upToDate == null) ? DateTime.now() : upToDate;
+
+        if (YEAR_BASED_ENTITIES.contains(type)) {
+            return isBeforeOrEqualYear(entityDate, finalUpToDate.year().getAsString());
+        } else {
+            return isBeforeOrEqualDate(entityDate, finalUpToDate);
+        }
     }
 
     @Autowired(required = true)

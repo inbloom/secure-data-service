@@ -56,12 +56,11 @@ public class AttendanceExtractor implements EntityExtract {
             Entity attendance = attendances.next();
 
             Map<String, DateTime> studentEdOrgDate = studentCache.getEntriesById((String) attendance.getBody().get("studentId"));
-            String schoolYear = (String) attendance.getBody().get(ParameterConstants.SCHOOL_YEAR);
+            String schoolYear = EntityDateHelper.retrieveDate(attendance);
 
             for (Map.Entry<String, DateTime> entry: studentEdOrgDate.entrySet()) {
-                attendance.getBody().put(ParameterConstants.SCHOOL_YEAR, schoolYear);
                 DateTime upToDate = entry.getValue();
-                if(EntityDateHelper.shouldExtract(attendance, upToDate)) {
+                if(EntityDateHelper.shouldExtract(schoolYear, upToDate, EntityNames.ATTENDANCE)) {
                     extractor.extractEntity(attendance, map.getExtractFileForEdOrg(entry.getKey()), EntityNames.ATTENDANCE);
                 }
             }
