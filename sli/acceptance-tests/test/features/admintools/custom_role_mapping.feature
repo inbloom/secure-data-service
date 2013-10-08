@@ -186,6 +186,7 @@ Scenario: Developer modifies roles in their tenant without affecting other tenan
 When I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I remove the group "Educator"
+And I wait for user input
 Then the group "Educator" no longer appears on the page
 And the user "linda.kim" in tenant "developer-email" can access the API with rights "none"
 And the user "linda.kim" in tenant "sandboxadministrator" can access the API with rights "IT Administrator"
