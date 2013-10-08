@@ -42,20 +42,20 @@ public class EntityDateHelper {
     private static DateRetriever pathDateRetriever;
 
     private static final List<String> YEAR_BASED_ENTITIES = Arrays.asList(EntityNames.ATTENDANCE, EntityNames.GRADE, EntityNames.REPORT_CARD,
-                                                                          EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.COURSE_TRANSCRIPT);
+                                                                          EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.COURSE_TRANSCRIPT,
+                                                                          "yearlyTranscript");
 
     public static boolean shouldExtract(Entity entity, DateTime upToDate) {
-        DateTime finalUpToDate = (upToDate == null) ? DateTime.now() : upToDate;
         String entityDate = retrieveDate(entity);
 
-            if (YEAR_BASED_ENTITIES.contains(entity.getType())) {
-                return isBeforeOrEqualYear(entityDate, finalUpToDate.year().get());
-            } else {
-                return isBeforeOrEqualDate(entityDate, finalUpToDate);
-            }
+        return compareDates(upToDate, entityDate, entity.getType());
     }
 
-    protected static String retrieveDate(Entity entity) {
+    public static boolean shouldExtract(String entityDate, DateTime upToDate, String entityType) {
+        return compareDates(upToDate, entityDate, entityType);
+    }
+
+    public static String retrieveDate(Entity entity) {
         String date = "";
 
         if (EntityDates.ENTITY_DATE_FIELDS.containsKey(entity.getType())) {
@@ -75,6 +75,16 @@ public class EntityDateHelper {
         int fromYear = Integer.parseInt(yearSpan.split("-")[0]);
         int toYear = Integer.parseInt(yearSpan.split("-")[1]);
         return ((upToYear >= toYear) && (upToYear > fromYear));
+    }
+
+    private static boolean compareDates(DateTime upToDate, String entityDate, String type) {
+        DateTime finalUpToDate = (upToDate == null) ? DateTime.now() : upToDate;
+
+        if (YEAR_BASED_ENTITIES.contains(type)) {
+            return isBeforeOrEqualYear(entityDate, finalUpToDate.year().get());
+        } else {
+            return isBeforeOrEqualDate(entityDate, finalUpToDate);
+        }
     }
 
     @Autowired(required = true)

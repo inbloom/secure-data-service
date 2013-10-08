@@ -113,7 +113,7 @@ public class LocalEdOrgExtractor {
         student.extractEntities(null);
 
         EntityExtract genericExtractor = factory.buildAttendanceExtractor(entityExtractor, leaToExtractFileMap,
-                repository, student.getEntityCache(), helper);
+                repository, student.getStudentDatedCache(), helper);
         genericExtractor.extractEntities(null);
 
         StudentSchoolAssociationExtractor studentSchoolAssociation = factory.buildStudentSchoolAssociationExtractor(entityExtractor,
@@ -132,9 +132,9 @@ public class LocalEdOrgExtractor {
         discipline.extractEntities(student.getDiDateCache());
 
         // Yearly Transcript
-        genericExtractor = factory.buildYearlyTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        genericExtractor.extractEntities(student.getEntityCache());
-        EntityToEdOrgCache studentAcademicRecordCache = ((YearlyTranscriptExtractor)genericExtractor).getStudentAcademicRecordCache();
+        EntityDatedExtract yearlyTranscript = factory.buildYearlyTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
+        yearlyTranscript.extractEntities(student.getStudentDatedCache());
+        EntityToEdOrgCache studentAcademicRecordCache = ((YearlyTranscriptExtractor)yearlyTranscript).getStudentAcademicRecordCache();
 
         genericExtractor = factory.buildParentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(student.getParentCache());

@@ -266,4 +266,26 @@ def getApp(name)
   return nil
 end
 
+Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the applicationAuthorization collection for the "(.*?)" tenant$/ do |expected_count, application, tenant|
+   disable_NOTABLESCAN()
+   db = @conn.db("sli")
+   coll = db.collection("application")
+   record = coll.find_one("body.name" => application)
+   puts record.to_s
+   appId = record["_id"]
+   puts appId.to_s
+   db = @conn[convertTenantIdToDbName(tenant)]
+   coll = db.collection("applicationAuthorization")
+   record = coll.find_one("body.applicationId" => appId.to_s)
+   puts record.to_s
+   body = record["body"]
+   puts body.to_s
+   edorgsArray = body["edorgs"]
+   puts edorgsArray.to_s
+   edorgsArrayCount = edorgsArray.count
+   puts edorgsArrayCount
+   assert(edorgsArrayCount == expected_count.to_i, "Education organization count mismatch in applicationAuthorization collection. Expected #{expected_count}, actual #{edorgsArrayCount}")
+   enable_NOTABLESCAN()
+end
+
 
