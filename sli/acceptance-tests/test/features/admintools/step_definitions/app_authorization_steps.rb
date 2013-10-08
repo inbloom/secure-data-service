@@ -181,6 +181,7 @@ end
 
 Given /^I see an application "([^"]*)" in the table$/ do |arg1|
   @appName = arg1
+  @appRow = getApp(@appName)
   apps = @driver.find_elements(:xpath, ".//tbody/tr/td[text()='#{arg1}']/..")
   apps.each do |cur|
     puts("The app is #{cur.inspect} and #{cur.text}")
