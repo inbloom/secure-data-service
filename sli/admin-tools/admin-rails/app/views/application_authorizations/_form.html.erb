@@ -16,17 +16,12 @@
 	  else
 	    count = @app_counts[@app_auth.appId]
 	  end
-	  if app.allowed_for_all_edorgs
-	    all_str = ", auto-authorized"
-	  else
-	    all_str = ""
-          end
-          if count > 0 || app.allowed_for_all_edorgs
-            content_tag(:td, count.to_s + " EdOrg(s)" + all_str, :id => "approvedStatus")
+          if count > 0
+            content_tag(:td, count.to_s + " EdOrg(s)", :id => "approvedStatus")
           elsif isEnabled
-            content_tag(:td, "Not Approved" + all_str, :id => "notApprovedStatus")
+            content_tag(:td, "Not Approved", :id => "notApprovedStatus")
           else
-            content_tag(:td, "Not Enabled By Developer" + all_str, :id => "notEnabledStatus")
+            content_tag(:td, "Not Enabled By Developer", :id => "notEnabledStatus")
           end
       %>
       <td><%=
