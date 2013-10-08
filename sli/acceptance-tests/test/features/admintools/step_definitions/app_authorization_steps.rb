@@ -119,25 +119,27 @@ Then /^the unauthorized are colored red$/ do
   end
 end
 
-Then /^are sorted by 'Status'$/ do
+ Then /^are sorted by '([^']+)'$/ do |columnName|
   tableHeadings = @appsTable.find_elements(:xpath, ".//thead/tr/th")
-  index = 0
+  index = -1
   tableHeadings.each do |arg|
-    index = tableHeadings.index(arg) + 1 if arg.text == "Status"    
+    index = tableHeadings.index(arg) + 1 if arg.text == columnName
   end
+  assert(index >= 0, "Cannot find column name '" + columnName + "'")
   rows = @appsTable.find_elements(:xpath, ".//tbody/tr")
   inApprovedSection = true
+  last_td = nil
   rows.each do |curRow| 
-    td = curRow.find_element(:xpath, "//td[#{index}]")
-    assert(inApprovedSection || (!inApprovedSection && td.text != "Approved"), "Encountered an app with a 'Approved' status after one with a 'Not Approved' status")
-    if td.text == "Not Approved"
-      inApprovedSection = false
+    td = curRow.find_element(:xpath, "//td[#{index}]").text
+    if !last_td.nil?
+      assert(td.casecmp(last_td) >= 0, "Values in column '" + columnName + "' not sorted as expected: '" + td + "' < '" + last_td + "'")
     end
+    last_td = td
   end
 end
 
 Then /^I see the Name, Version, Vendor and Status of the apps$/ do
-  expectedHeadings = ["Name", "Version", "Vendor", "Status", ""]
+  expectedHeadings = ["Name", "Version", "Vendor", "Approval Status", ""]
   tableHeadings = @appsTable.find_elements(:xpath, ".//tr/th")
   actualHeadings = []
   tableHeadings.each do |heading|

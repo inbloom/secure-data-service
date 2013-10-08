@@ -43,17 +43,9 @@
        # such apps at the bottom
        appA = @apps_map[a.appId]
        appB = @apps_map[b.appId]
-       if !a.authorized && b.authorized
-         1 
-       elsif (appA == nil && appB != nil)
-         -1
-       elsif (appA != nil && appB == nil)
-         1
-       elsif (appA == nil && appB == nil)
-         0
-       else
-         appA.name <=> appB.name
-       end
+       appAName = if appA.nil? then "" else appA.name end
+       appBName = if appB.nil? then "" else appB.name end
+       appAName.casecmp(appBName)
      }
     %>
     <% @application_authorizations[edorg].each do |app_auth| %>

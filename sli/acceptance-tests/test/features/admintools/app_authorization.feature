@@ -15,7 +15,7 @@ As an SEA, I want to be able to allow specific applications access to my data
 	And I see the list of all available apps on SLI
 	And the authorized apps for my district are colored green
 	And the unauthorized are colored red
-	And are sorted by 'Status'
+	And are sorted by 'Name'
 	And I see the Name, Version, Vendor and Status of the apps
 
 Scenario: Non SLI-hosted valid user tries to access the Application Authorization Tool
