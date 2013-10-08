@@ -228,8 +228,12 @@ class ApplicationAuthorizationsController < ApplicationController
     allEdOrgs = EducationOrganization.findAllInChunks({"includeFields" => "parentEducationAgencyReference,nameOfInstitution,stateOrganizationId,organizationCategories"})
     allEdOrgs.each do |eo|
 
+      # Enable edorgs if the "allowed_for_all_edorgs" flag is set for the application OR
+      # the edorg is listed in the application's "authorized" (actually enabled) list
+      puts "REMOVE ME @app.allowed_for_all_edorgs : " + @app.allowed_for_all_edorgs.to_s
+      app_enabled = @app.allowed_for_all_edorgs || @enabled_ed_orgs.has_key?(eo.id)
       @edinf[eo.id] = { :edOrg => eo, :id => eo.id, :name => eo.nameOfInstitution, :children => [],
-                        :enabled => @enabled_ed_orgs.has_key?(eo.id), :authorized => @authorized_ed_orgs.has_key?(eo.id)
+                        :enabled => app_enabled, :authorized => @authorized_ed_orgs.has_key?(eo.id)
                       }
 
       parents = eo.parentEducationAgencyReference
