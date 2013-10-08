@@ -42,6 +42,17 @@ When /^I make my app an installed app$/ do
   @driver.find_element(:css, 'input[id="app_installed"]').click
 end
 
+Then /^I authorize the educationalOrganization "(.*?)" in the production tenant$/ do |edOrgName|
+  disable_NOTABLESCAN()
+  db = @conn[convertTenantIdToDbName(PropLoader.getProps['tenant'])]
+  coll = db.collection("educationOrganization")
+  record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
+  #puts record.to_s
+  edOrgId = record["_id"]
+  #puts edOrgId.to_s
+  app = @driver.find_element(:id, edOrgId.to_s).click
+  enable_NOTABLESCAN()
+end
 
 Then /^my new apps client ID is present$/ do
   @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click

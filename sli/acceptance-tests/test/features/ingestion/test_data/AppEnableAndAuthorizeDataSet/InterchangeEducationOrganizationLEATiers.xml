@@ -2,19 +2,6 @@
 <InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                   xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
     <EducationOrganization>
-        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-        <NameOfInstitution>STANDARD-SEA</NameOfInstitution>
-        <OrganizationCategories>
-            <OrganizationCategory>State Education Agency</OrganizationCategory>
-        </OrganizationCategories>
-        <Address>
-            <StreetNumberName>123 Street</StreetNumberName>
-            <City>Chicago</City>
-            <StateAbbreviation>IL</StateAbbreviation>
-            <PostalCode>00000</PostalCode>
-        </Address>
-    </EducationOrganization>
-    <EducationOrganization>
         <StateOrganizationId>LEA-TIER-1</StateOrganizationId>
         <NameOfInstitution>LEA Tier 1</NameOfInstitution>
         <OrganizationCategories>
