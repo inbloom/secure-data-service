@@ -10,6 +10,8 @@ startSearchIndexer
 
 unDeployAdmin
 
+profileSwap
+
 deployAdminSB
 
 deployDatabrowser

@@ -6,6 +6,8 @@ resetDatabases
 
 profileSwapAndPropGenSB
 
+unDeployAdmin
+profileSwap
 deployAdminSB
 
 deployDatabrowser
