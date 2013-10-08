@@ -113,7 +113,7 @@ unDeployAdmin()
     echo "admin is still running, killing"
     pid=`cat /tmp/pid/thin-admin.pid`
     sudo kill $pid
-    rm /tmp/pid/*
+    rm /tmp/pid/thin-admin.pid
   fi
   echo "Admin is shutdown"
 }
