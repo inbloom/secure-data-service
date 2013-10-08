@@ -460,9 +460,11 @@ class ApplicationAuthorizationsController < ApplicationController
     result += " class=\"repeatsubtree\"" if is_repeat_subtree
     result += ">"
     result += "<i>" if !eo[:enabled]
-    result += "(&rArr; <a href=\"#" + parents.last + "\">see</a> " if is_repeat_subtree
+    result += "(&rArr; see <a style=\"color: #0000ff; text-decoration:underline\" href=\"#" + parents.last + "\">" if is_repeat_subtree
     result += "<a name=\"" + id + "\"></a>" if is_anchored
     result += eo[:name]
+    result += "</a>" if is_repeat_subtree
+    # Uncomment below for debugging
     # result += " [" + eo[:id][0,8] + "]"
     # result += " (" + eo[:enabled].to_s + " / " + eo[:authorized].to_s + ")"
     result += ", under \"" + path_to_root + "\" above)" if is_repeat_subtree
