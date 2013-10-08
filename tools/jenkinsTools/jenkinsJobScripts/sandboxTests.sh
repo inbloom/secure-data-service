@@ -8,6 +8,8 @@ profileSwapAndPropGenSB
 
 startSearchIndexer
 
+unDeployAdmin
+
 deployAdminSB
 
 deployDatabrowser
