@@ -122,7 +122,7 @@ deployAdminSB()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
   bundle install --path $WORKSPACE/../vendors/
-  bundle exec thin stop -C config/thin.yml -e team_sb
+  bundle exec thin start -C config/thin.yml -e team_sb
 }
 
 deployDatabrowser()
