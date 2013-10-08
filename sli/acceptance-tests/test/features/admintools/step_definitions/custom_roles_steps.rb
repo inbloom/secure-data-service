@@ -246,12 +246,9 @@ When /^I remove the group "([^"]*)"$/ do |arg1|
 end
 
 Then /^the group "([^"]*)" no longer appears on the page$/ do |arg1|
-  lower_timeout_for_same_page_validation
-  retryOnFailure() do
-    groups = @driver.find_elements(:xpath, "//div[text()='#{arg1}']")
-    assert(groups.size == 0, "Found group named #{arg1} on page")
-  end
-  reset_timeouts_to_default
+    source = @driver.page_source
+    #removing group causes count of 'Educator' string to drop from 4 to 2
+    assert(source.scan(arg1).length == 2, "Found group named #{arg1} on page")
 end
 
 When /^I edit the rights for the group <Group> to include the duplicate right <Right>$/ do |table|
@@ -347,6 +344,7 @@ end
 Then /^the group "(.*?)" has the admin role box checked$/ do |title|
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
   checkbox = group.find_element(:class, "isAdmin")
+  puts checkbox.to_s
   puts("The group is #{group.text} and checked is #{checkbox.attribute("checked").inspect}")
   assert(checkbox.attribute("checked") == "true", "The admin checkbox for group #{title} is not checked")
 end
