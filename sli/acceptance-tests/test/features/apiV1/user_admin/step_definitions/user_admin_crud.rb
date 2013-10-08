@@ -77,7 +77,7 @@ end
 
 Given /^I navigate to "(.*?)" "(.*?)"$/ do |action, link|
 # puts @new_update_user
-  @new_update_user = append_hostname(@new_update_user)
+  @new_update_user = append_mac_address(@new_update_user)
  # puts "\n\r"
  # puts @new_update_user
   @append_host=true
@@ -124,7 +124,7 @@ Given /^I create a new "(.*?)" "(.*?)" with tenant "(.*?)" and edorg "(.*?)"$/ d
   user["edorg"] = edorg
   user["homeDir"] = "/"
   user["password"] = "Mark Abernathy is my hero"
-  user = append_hostname(user)
+  user = append_mac_address(user)
   puts "User: #{JSON.pretty_generate user}" if $SLI_DEBUG
   restHttpDelete("/users/#{user['uid']}")
   @format = "application/json"
@@ -163,7 +163,7 @@ end
 
 Then /^I (should|should not) see user "(.*?)"$/ do |should, uid|
   should_find = should.downcase == "should"
-  uid = append_hostname(uid)
+  uid = append_mac_address(uid)
   @format = "application/json"
   step "I navigate to GET \"/users\""
   users = @result
@@ -191,7 +191,7 @@ Then /^one of the accounts has "([^"]*)", "([^"]*)", "([^"]*)"$/ do |fullName, u
   if(!((fullName=="" && uid=="" && email=="")||@number==0))
     #append host name to new user that will be created
     if @append_host==true && uid!=""
-      uid=uid+"_"+Socket.gethostname
+      uid=uid+"_"+get_mac_address('_')
     end
     contains_specified_user = false
     @user_with_wanted_admin_role.each {|user|
@@ -316,7 +316,7 @@ Then /^I delete the test user "(.*?)"$/ do |user|
 
 test_user = Hash.new
 test_user.merge!({"uid" => user })
-remove_user(append_hostname(test_user))
+remove_user(append_mac_address(test_user))
 end
 
 When /^I attempt to delete the user "(.*?)"$/ do |user|
@@ -356,16 +356,16 @@ def print_administrator_comma_separated
   }
 end
 
-def append_hostname(user )
+def append_mac_address(user )
   if user.is_a? Hash
     oldUid = user["uid"]
     if (oldUid != nil)
-      newUid = oldUid+"_"+Socket.gethostname
+      newUid = oldUid+"_"+get_mac_address('_')
       user.merge!({"uid" => newUid})
     end
     return user
   else
-    return user + "_" + Socket.gethostname
+    return user + "_" + get_mac_address('_')
   end
 end
 
@@ -392,6 +392,6 @@ def build_user(uid, groups, tenant, edorg)
       "edorg" => edorg,
       "homeDir" => "/dev/null"
   }
-  append_hostname(new_user)
+  append_mac_address(new_user)
 end
 
