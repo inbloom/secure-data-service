@@ -246,13 +246,9 @@ When /^I remove the group "([^"]*)"$/ do |arg1|
 end
 
 Then /^the group "([^"]*)" no longer appears on the page$/ do |arg1|
-  lower_timeout_for_same_page_validation
-  retryOnFailure() do
     source = @driver.page_source
     #removing group causes count of 'Educator' string to drop from 4 to 2
     assert(source.scan(arg1).length == 2, "Found group named #{arg1} on page")
-  end
-  reset_timeouts_to_default
 end
 
 When /^I edit the rights for the group <Group> to include the duplicate right <Right>$/ do |table|
