@@ -95,7 +95,7 @@ And I switch to the iframe
 Then I am redirected to the Admin Application Authorization Tool
 #Authorize the Dashboard
 And I see an application "inBloom Dashboards" in the table
-And in Status it says "0 EdOrg(s), auto-authorized"
+And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
 And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
 And I click Update
@@ -109,7 +109,7 @@ And in Status it says "199 EdOrg(s), auto-authorized"
 
 #Authorize the Databrowser
 And I see an application "inBloom Data Browser" in the table
-And in Status it says "0 EdOrg(s), auto-authorized"
+And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
 And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
 And I click Update
