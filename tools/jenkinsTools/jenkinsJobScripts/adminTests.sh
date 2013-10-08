@@ -14,6 +14,8 @@ adminUnitTests
 
 unDeployAdmin
 
+profileSwap
+
 deployAdmin
 
 processApps $APPSTODEPLOY
