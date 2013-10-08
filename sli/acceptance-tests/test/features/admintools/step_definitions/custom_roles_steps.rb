@@ -344,6 +344,7 @@ end
 Then /^the group "(.*?)" has the admin role box checked$/ do |title|
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
   checkbox = group.find_element(:class, "isAdmin")
+  puts checkbox.to_s
   puts("The group is #{group.text} and checked is #{checkbox.attribute("checked").inspect}")
   assert(checkbox.attribute("checked") == "true", "The admin checkbox for group #{title} is not checked")
 end
