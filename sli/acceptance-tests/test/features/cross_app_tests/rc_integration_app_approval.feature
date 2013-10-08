@@ -99,7 +99,7 @@ And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
 And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
 And I click Update
-Then there are "199" edOrgs for the "inBloom Dashboards" application in the applicationAuthorization collection for the production tenant
+Then there are "199" edOrgs for the "inBloom Dashboards" application in the production applicationAuthorization collection
 And I check to find if record is in sli db collection:
   | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
   | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
@@ -113,7 +113,7 @@ And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
 And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
 And I click Update
-Then there are "199" edOrgs for the "inBloom Data Browser" application in the applicationAuthorization collection for the production tenant
+Then there are "199" edOrgs for the "inBloom Data Browser" application in the production applicationAuthorization collection
 And I check to find if record is in sli db collection:
   | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
   | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
