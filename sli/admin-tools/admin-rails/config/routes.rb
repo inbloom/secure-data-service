@@ -68,6 +68,7 @@ SLIAdmin::Application.routes.draw do
 
   match '/logout', :to => 'sessions#destroy'
   match '/callback', :to => 'application#callback'
+  match '/error', :to => 'application#error'
 
   resources :user_account_registrations
   resources :user_account_validation
