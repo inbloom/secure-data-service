@@ -98,10 +98,10 @@ public class SearchResourceService {
     private EdOrgHelper edOrgHelper;
 
     @Value("${sli.search.maxUnfilteredResults:15000}")
-    private long maxUnfilteredSearchResultCount;
+    private int maxUnfilteredSearchResultCount;
 
     @Value("${sli.search.maxFilteredResults:250}")
-    private long maxFilteredSearchResultCount;
+    private int maxFilteredSearchResultCount;
 
     @Autowired
     private ContextValidator contextValidator;
@@ -226,8 +226,8 @@ public class SearchResourceService {
 
         // get the offset and limit requested
         int limit = apiQuery.getLimit();
-        if ((limit == 0) || (limit > Constraints.HARD_ENTITY_COUNT_LIMIT)) {
-            limit = Constraints.HARD_ENTITY_COUNT_LIMIT;
+        if ((limit == 0) || (limit > maxFilteredSearchResultCount)) {
+            limit = maxFilteredSearchResultCount;
         }
         if (limit > maxFilteredSearchResultCount) {
             throw new PreConditionFailedException("Invalid condition, limit [" + limit
@@ -301,7 +301,6 @@ public class SearchResourceService {
      * ApiQuery from the query URI, sets query criteria and security context
      * criteria.
      *
-     * @param resourcesToSearch
      * @param queryUri
      * @return
      */
@@ -341,7 +340,6 @@ public class SearchResourceService {
      * context. Original list may by cross-collection. Retains the original
      * order of entities.
      *
-     * @param entities
      * @param offset
      *            -
      * @param limit
@@ -525,7 +523,7 @@ public class SearchResourceService {
                 schoolIds)));
     }
 
-    public void setMaxUnfilteredSearchResultCount(long maxUnfilteredSearchResultCount) {
+    public void setMaxUnfilteredSearchResultCount(int maxUnfilteredSearchResultCount) {
         this.maxUnfilteredSearchResultCount = maxUnfilteredSearchResultCount;
     }
 
