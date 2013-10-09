@@ -33,9 +33,12 @@ import javax.ws.rs.core.Response;
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
+import org.slc.sli.api.constants.Constraints;
 import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -78,6 +81,8 @@ import org.slc.sli.modeling.uml.ClassType;
 @Component("defaultResourceService")
 public class DefaultResourceService implements ResourceService {
 
+    private static final Log LOG = LogFactory.getFactory().getInstance(DefaultResourceService.class);
+
     @Autowired
     private LogicalEntity logicalEntity;
 
@@ -97,8 +102,6 @@ public class DefaultResourceService implements ResourceService {
     private ApiSchemaAdapter adapter;
     private Map<String, String> endDates = new HashMap<String, String>();
 
-
-    public static final int MAX_MULTIPLE_UUIDS = 100;
 
     private static final String POST = "POST";
     private static final String GET = "GET";
@@ -138,9 +141,10 @@ public class DefaultResourceService implements ResourceService {
             public ServiceResponse run(final Resource resource, EntityDefinition definition) {
                 final int idLength = idList.split(",").length;
 
-                if (idLength > MAX_MULTIPLE_UUIDS) {
+                if (idLength > Constraints.MAX_MULTIPLE_UUIDS) {
                     String errorMessage = "Too many GUIDs: " + idLength + " (input) vs "
-                            + MAX_MULTIPLE_UUIDS + " (allowed)";
+                            + Constraints.MAX_MULTIPLE_UUIDS + " (allowed)";
+                    LOG.error(errorMessage);
                     throw new PreConditionFailedException(errorMessage);
                 }
 

@@ -68,6 +68,7 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.Constraints;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.domain.Entity;
@@ -87,12 +88,6 @@ public class SearchResourceService {
     // Minimum limit on results to retrieve from Elasticsearch each trip
     private static final int MINIMUM_ES_LIMIT_PER_QUERY = 10;
 
-    private static final int SEARCH_RESULT_LIMIT = 250;
-
-    //in order to reduce extremely long API calls, we will limit the number of entities any one call can return
-    // NOTE: this must agree with the limit set in UriInfoToApiQueryConverter
-    private static final int HARD_ENTITY_COUNT_LIMIT = 20000;
-    
     @Autowired
     DefaultResourceService defaultResourceService;
 
@@ -224,7 +219,6 @@ public class SearchResourceService {
      * Takes an ApiQuery and retrieve results. Includes logic for pagination and
      * calls methods to filter by security context.
      *
-     * @param definition
      * @param apiQuery
      * @return
      */
@@ -232,8 +226,8 @@ public class SearchResourceService {
 
         // get the offset and limit requested
         int limit = apiQuery.getLimit();
-        if ((limit == 0) || (limit == HARD_ENTITY_COUNT_LIMIT)) {
-            limit = SEARCH_RESULT_LIMIT;
+        if ((limit == 0) || (limit > Constraints.HARD_ENTITY_COUNT_LIMIT)) {
+            limit = Constraints.HARD_ENTITY_COUNT_LIMIT;
         }
         if (limit > maxFilteredSearchResultCount) {
             throw new PreConditionFailedException("Invalid condition, limit [" + limit
