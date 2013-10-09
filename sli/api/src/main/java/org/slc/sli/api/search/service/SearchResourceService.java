@@ -230,7 +230,8 @@ public class SearchResourceService {
 
         // get the offset and limit requested
         int limit = apiQuery.getLimit();
-        if (limit == 0) {
+        // Use local max value if the more obvious HARD_ENTITY_COUNT_LIMIT or 0 was specified.
+        if (limit == 0 || limit == Constraints.HARD_ENTITY_COUNT_LIMIT) {
             limit = maxFilteredSearchResultCount;
         }
         if (limit > maxFilteredSearchResultCount) {
