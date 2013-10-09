@@ -37,6 +37,8 @@ import com.google.common.collect.Table;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.collect.Lists;
 import org.elasticsearch.common.settings.ImmutableSettings;
@@ -82,6 +84,8 @@ import org.slc.sli.domain.NeutralQuery;
 
 @Component
 public class SearchResourceService {
+
+    private static final Log LOG = LogFactory.getFactory().getInstance(SearchResourceService.class);
 
     private static final String CONTEXT_SCHOOL_ID = "context.schoolId";
 
@@ -226,12 +230,14 @@ public class SearchResourceService {
 
         // get the offset and limit requested
         int limit = apiQuery.getLimit();
-        if ((limit == 0) || (limit > maxFilteredSearchResultCount)) {
+        if (limit == 0) {
             limit = maxFilteredSearchResultCount;
         }
         if (limit > maxFilteredSearchResultCount) {
-            throw new PreConditionFailedException("Invalid condition, limit [" + limit
-                    + "] cannot be greater than maxFilteredResults [" + maxFilteredSearchResultCount + "] on search");
+            String errorMessage = "Invalid condition, limit [" + limit
+                    + "] cannot be greater than maxFilteredResults [" + maxFilteredSearchResultCount + "] on search";
+            LOG.error(errorMessage);
+            throw new PreConditionFailedException(errorMessage);
         }
 
         int offset = apiQuery.getOffset();
