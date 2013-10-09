@@ -19,9 +19,7 @@ package org.slc.sli.bulk.extract.lea;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -64,13 +62,10 @@ public class CourseTranscriptExtractorTest {
     private EntityToEdOrgCache mockEdorgCache;
 
     @Mock
-    private EntityToEdOrgCache mockStudentCache;
+    private EntityToEdOrgDateCache mockStudentDateCache;
 
     @Mock
-    private EntityToEdOrgCache mockStudentAcademicRecordCache;
-
-    @Mock
-    private EntityToEdOrgDateCache mockDatedCache;
+    private EntityToEdOrgDateCache mockStudentAcademicRecordCache;
 
     @Mock
     private Entity mockEntity;
@@ -102,10 +97,6 @@ public class CourseTranscriptExtractorTest {
         mockEdorgCache.addEntry("LEA", "edorgId1");
         mockEdorgCache.addEntry("LEA", "edorgId2");
 
-        mockDatedCache = new EntityToEdOrgDateCache();
-        mockDatedCache.addEntry("LEA", "edorgId1", DateTime.parse("2009-05-01", DateHelper.getDateTimeFormat()));
-        mockDatedCache.addEntry("LEA", "edorgId2", DateTime.parse("2010-05-01", DateHelper.getDateTimeFormat()));
-
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
     }
 
@@ -115,11 +106,11 @@ public class CourseTranscriptExtractorTest {
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, Arrays.asList("edorgId1"));
         CourseTranscriptExtractor realExtractor = new CourseTranscriptExtractor(mockExtractor, mockMap, mockRepo,
-                mockEdorgCache, mockStudentCache, mockStudentAcademicRecordCache);
+                mockEdorgCache, mockStudentDateCache);
         extractor = Mockito.spy(realExtractor);
         Mockito.doReturn(true).when(extractor).shouldExtract(Mockito.eq(mockEntity), Mockito.any(DateTime.class));
 
-        extractor.extractEntities(mockDatedCache);
+        extractor.extractEntities(mockStudentAcademicRecordCache);
 
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("courseTranscript"));
@@ -127,19 +118,19 @@ public class CourseTranscriptExtractorTest {
 
     @Test
     public void testStudentReferenced() {
-        Set<String> leas = new HashSet<String>();
-        leas.add("LEA");
-        Mockito.when(mockStudentCache.getEntriesById("student1")).thenReturn(leas);
+        Map<String, DateTime> leas = new HashMap<String, DateTime>();
+        leas.put("LEA", DateTime.parse("2009-05-01", DateHelper.getDateTimeFormat()));
+        Mockito.when(mockStudentDateCache.getEntriesById("student1")).thenReturn(leas);
 
         Mockito.when(mockRepo.findEach(Mockito.eq("courseTranscript"), Mockito.eq(new Query())))
             .thenReturn(Arrays.asList(mockEntity).iterator());
         entityBody.put(ParameterConstants.STUDENT_ID, "student1");
         CourseTranscriptExtractor realExtractor = new CourseTranscriptExtractor(mockExtractor, mockMap, mockRepo,
-                mockEdorgCache, mockStudentCache, mockStudentAcademicRecordCache);
+                mockEdorgCache, mockStudentDateCache);
         extractor = Mockito.spy(realExtractor);
         Mockito.doReturn(true).when(extractor).shouldExtract(Mockito.eq(mockEntity), Mockito.any(DateTime.class));
 
-        extractor.extractEntities(mockDatedCache);
+        extractor.extractEntities(mockStudentAcademicRecordCache);
 
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("courseTranscript"));
@@ -147,18 +138,18 @@ public class CourseTranscriptExtractorTest {
 
     @Test
     public void testStudentAcademicReferencedReferenced() {
-        Set<String> leas = new HashSet<String>();
-        leas.add("LEA");
+        Map<String, DateTime> leas = new HashMap<String, DateTime>();
+        leas.put("LEA", DateTime.parse("2009-05-01", DateHelper.getDateTimeFormat()));
         Mockito.when(mockStudentAcademicRecordCache.getEntriesById("sar1")).thenReturn(leas);
 
         Mockito.when(mockRepo.findEach(Mockito.eq("courseTranscript"), Mockito.eq(new Query())))
             .thenReturn(Arrays.asList(mockEntity).iterator());
         CourseTranscriptExtractor realExtractor = new CourseTranscriptExtractor(mockExtractor, mockMap, mockRepo,
-                mockEdorgCache, mockStudentCache, mockStudentAcademicRecordCache);
+                mockEdorgCache, mockStudentDateCache);
         extractor = Mockito.spy(realExtractor);
         Mockito.doReturn(true).when(extractor).shouldExtract(Mockito.eq(mockEntity), Mockito.any(DateTime.class));
 
-        extractor.extractEntities(mockDatedCache);
+        extractor.extractEntities(mockStudentAcademicRecordCache);
 
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("courseTranscript"));
@@ -170,11 +161,11 @@ public class CourseTranscriptExtractorTest {
                 .thenReturn(Arrays.asList(mockEntity, mockEntity, mockEntity).iterator());
         entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, Arrays.asList("edorgId1"));
         CourseTranscriptExtractor realExtractor = new CourseTranscriptExtractor(mockExtractor, mockMap, mockRepo,
-                mockEdorgCache, mockStudentCache, mockStudentAcademicRecordCache);
+                mockEdorgCache, mockStudentDateCache);
         extractor = Mockito.spy(realExtractor);
         Mockito.doReturn(true).when(extractor).shouldExtract(Mockito.eq(mockEntity), Mockito.any(DateTime.class));
 
-        extractor.extractEntities(mockDatedCache);
+        extractor.extractEntities(mockStudentAcademicRecordCache);
 
         Mockito.verify(mockExtractor, Mockito.times(3)).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("courseTranscript"));
@@ -187,16 +178,16 @@ public class CourseTranscriptExtractorTest {
         entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, Arrays.asList("edorgId1"));
 
         entityBody.put(ParameterConstants.STUDENT_ID, "student1");
-        Set<String> leas = new HashSet<String>();
-        leas.add("LEA");
+        Map<String, DateTime> leas = new HashMap<String, DateTime>();
+        leas.put("LEA", DateTime.parse("2009-05-01", DateHelper.getDateTimeFormat()));
         Mockito.when(mockStudentAcademicRecordCache.getEntriesById("sar1")).thenReturn(leas);
-        Mockito.when(mockStudentCache.getEntriesById("student1")).thenReturn(leas);
+        Mockito.when(mockStudentDateCache.getEntriesById("student1")).thenReturn(leas);
         CourseTranscriptExtractor realExtractor = new CourseTranscriptExtractor(mockExtractor, mockMap, mockRepo,
-                mockEdorgCache, mockStudentCache, mockStudentAcademicRecordCache);
+                mockEdorgCache, mockStudentDateCache);
         extractor = Mockito.spy(realExtractor);
         Mockito.doReturn(true).when(extractor).shouldExtract(Mockito.eq(mockEntity), Mockito.any(DateTime.class));
 
-        extractor.extractEntities(mockDatedCache);
+        extractor.extractEntities(mockStudentAcademicRecordCache);
 
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("courseTranscript"));
@@ -209,11 +200,11 @@ public class CourseTranscriptExtractorTest {
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(null);
         entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, Arrays.asList("edorgId1"));
         CourseTranscriptExtractor realExtractor = new CourseTranscriptExtractor(mockExtractor, mockMap, mockRepo,
-                mockEdorgCache, mockStudentCache, mockStudentAcademicRecordCache);
+                mockEdorgCache, mockStudentDateCache);
         extractor = Mockito.spy(realExtractor);
         Mockito.doReturn(true).when(extractor).shouldExtract(Mockito.eq(mockEntity), Mockito.any(DateTime.class));
 
-        extractor.extractEntities(mockDatedCache);
+        extractor.extractEntities(mockStudentAcademicRecordCache);
 
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("courseTranscript"));
@@ -226,11 +217,11 @@ public class CourseTranscriptExtractorTest {
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA-1")).thenReturn(mockFile);
         CourseTranscriptExtractor realExtractor = new CourseTranscriptExtractor(mockExtractor, mockMap, mockRepo,
-                mockEdorgCache, mockStudentCache, mockStudentAcademicRecordCache);
+                mockEdorgCache, mockStudentDateCache);
         extractor = Mockito.spy(realExtractor);
         Mockito.doReturn(true).when(extractor).shouldExtract(Mockito.eq(mockEntity), Mockito.any(DateTime.class));
 
-        extractor.extractEntities(mockDatedCache);
+        extractor.extractEntities(mockStudentAcademicRecordCache);
 
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("courseTranscript"));
@@ -242,11 +233,11 @@ public class CourseTranscriptExtractorTest {
                 .thenReturn(Arrays.asList(mockEntity, mockEntity, mockEntity).iterator());
         entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, Arrays.asList("edorgId1"));
         CourseTranscriptExtractor realExtractor = new CourseTranscriptExtractor(mockExtractor, mockMap, mockRepo,
-                mockEdorgCache, mockStudentCache, mockStudentAcademicRecordCache);
+                mockEdorgCache, mockStudentDateCache);
         extractor = Mockito.spy(realExtractor);
         Mockito.doReturn(false).when(extractor).shouldExtract(Mockito.eq(mockEntity), Mockito.any(DateTime.class));
 
-        extractor.extractEntities(mockDatedCache);
+        extractor.extractEntities(mockStudentAcademicRecordCache);
 
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("courseTranscript"));

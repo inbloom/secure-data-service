@@ -41,6 +41,7 @@ import org.slc.sli.bulk.extract.lea.EdorgExtractor;
 import org.slc.sli.bulk.extract.lea.EntityDatedExtract;
 import org.slc.sli.bulk.extract.lea.EntityExtract;
 import org.slc.sli.bulk.extract.lea.EntityToEdOrgCache;
+import org.slc.sli.bulk.extract.lea.EntityToEdOrgDateCache;
 import org.slc.sli.bulk.extract.lea.ExtractFileMap;
 import org.slc.sli.bulk.extract.lea.ExtractorFactory;
 import org.slc.sli.bulk.extract.lea.GraduationPlanExtractor;
@@ -134,7 +135,7 @@ public class LocalEdOrgExtractor {
         // Yearly Transcript
         EntityDatedExtract yearlyTranscript = factory.buildYearlyTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         yearlyTranscript.extractEntities(student.getStudentDatedCache());
-        EntityToEdOrgCache studentAcademicRecordCache = ((YearlyTranscriptExtractor)yearlyTranscript).getStudentAcademicRecordCache();
+        EntityToEdOrgDateCache studentAcademicRecordDateCache = ((YearlyTranscriptExtractor) yearlyTranscript).getStudentAcademicRecordDateCache();
 
         genericExtractor = factory.buildParentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(student.getParentCache());
@@ -177,8 +178,8 @@ public class LocalEdOrgExtractor {
         courseExtractor.extractEntities(edorgCache, courseOfferingExtractor.getCourseCache());
 
         EntityDatedExtract courseTranscriptExtractor = factory.buildCourseTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository,
-                edorgCache, courseOfferingExtractor.getCourseCache(), studentAcademicRecordCache);
-        courseTranscriptExtractor.extractEntities(student.getStudentDatedCache());
+                edorgCache, student.getStudentDatedCache());
+        courseTranscriptExtractor.extractEntities(studentAcademicRecordDateCache);
 
         GraduationPlanExtractor graduationPlanExtractor = factory.buildGraduationPlanExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         graduationPlanExtractor.extractEntities(edorgCache, studentSchoolAssociation.getGraduationPlanCache());

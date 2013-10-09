@@ -46,7 +46,7 @@ public class ExtractorFactory {
 
     public EntityDatedExtract buildYearlyTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map,
             Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
-        return new YearlyTranscriptExtractor(extractor, map, repo, edOrgExtractHelper, new EntityToEdOrgCache());
+        return new YearlyTranscriptExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
     public EntityExtract buildParentExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
@@ -122,8 +122,8 @@ public class ExtractorFactory {
     }
 
     public CourseTranscriptExtractor buildCourseTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
-            EntityToEdOrgCache edorgCache, EntityToEdOrgCache studentCache, EntityToEdOrgCache studentAcademicRecordCache) {
-        return new CourseTranscriptExtractor(extractor, map, repo, edorgCache, studentCache, studentAcademicRecordCache);
+            EntityToEdOrgCache edorgCache, EntityToEdOrgDateCache studentDatedCache) {
+        return new CourseTranscriptExtractor(extractor, map, repo, edorgCache, studentDatedCache);
     }
 
     public EntityExtract buildStudentGradebookEntryExtractor(EntityExtractor extractor, ExtractFileMap map,

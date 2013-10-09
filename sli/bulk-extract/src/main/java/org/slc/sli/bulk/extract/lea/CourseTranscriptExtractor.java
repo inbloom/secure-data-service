@@ -37,50 +37,49 @@ public class CourseTranscriptExtractor implements EntityDatedExtract {
     private ExtractFileMap map;
     private Repository<Entity> repo;
     private EntityToEdOrgCache edorgCache;
-    private EntityToEdOrgCache studentCache;
-    private EntityToEdOrgCache studentAcademicRecordCache;
+    private EntityToEdOrgDateCache studentDatedCache;
 
     public CourseTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
-            EntityToEdOrgCache edorgCache, EntityToEdOrgCache studentCache, EntityToEdOrgCache studentAcademicRecordCache) {
+            EntityToEdOrgCache edorgCache, EntityToEdOrgDateCache studentDatedCache) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         this.edorgCache = edorgCache;
-        this.studentCache = studentCache;
-        this.studentAcademicRecordCache = studentAcademicRecordCache;
+        this.studentDatedCache = studentDatedCache;
     }
 
     @Override
-    public void extractEntities(EntityToEdOrgDateCache datedCache) {
+    public void extractEntities(EntityToEdOrgDateCache studentAcademicRecordDateCache) {
         Iterator<Entity> cursor = repo.findEach(EntityNames.COURSE_TRANSCRIPT, new Query());
         while (cursor.hasNext()) {
-            Entity e = cursor.next();
-            List<String> edorgReferences = (List<String>)e.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE);
-            String studentId = (String)e.getBody().get(ParameterConstants.STUDENT_ID);
-            String studentAcademicRecordReference = (String)e.getBody().get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID);
+            Entity courseTranscript = cursor.next();
+            List<String> edorgReferences = (List<String>) courseTranscript.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE);
+            String studentId = (String) courseTranscript.getBody().get(ParameterConstants.STUDENT_ID);
+            String studentAcademicRecordReference = (String) courseTranscript.getBody().get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID);
 
             //add directly references edorgs
             Set<String>leaSet = new HashSet<String>();
-            if(edorgReferences!=null){
-                for ( String edorg : edorgReferences ){
+            if(edorgReferences != null){
+                for (String edorg : edorgReferences) {
                     leaSet.addAll(edorgCache.ancestorEdorgs(edorg));
                 }
             }
 
             //add the students leas
-            leaSet.addAll(studentCache.getEntriesById(studentId));
+            leaSet.addAll(studentDatedCache.getEntriesById(studentId).keySet());
 
             //add the studentAcademicReferences
-            if(studentAcademicRecordReference!=null) {
-                leaSet.addAll(studentAcademicRecordCache.getEntriesById(studentAcademicRecordReference));
+            if(studentAcademicRecordReference != null) {
+                leaSet.addAll(studentAcademicRecordDateCache.getEntriesById(studentAcademicRecordReference).keySet());
             }
 
             //extract this entity for all of the referenced LEAs
-            Map<String, DateTime> studentEdOrgDate = datedCache.getEntriesById((String) e.getBody().get("studentId"));
+            Map<String, DateTime> studentEdOrgDate = studentAcademicRecordDateCache.getEntriesById(
+                    (String) courseTranscript.getBody().get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID));
             for (String lea : leaSet) {
                 DateTime upToDate = studentEdOrgDate.get(lea);
-                if (shouldExtract(e, upToDate)) {
-                    extractor.extractEntity(e, map.getExtractFileForEdOrg(lea), EntityNames.COURSE_TRANSCRIPT);
+                if (shouldExtract(courseTranscript, upToDate)) {
+                    extractor.extractEntity(courseTranscript, map.getExtractFileForEdOrg(lea), EntityNames.COURSE_TRANSCRIPT);
                 }
             }
         }

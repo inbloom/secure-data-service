@@ -177,11 +177,11 @@ public class LocalEdOrgExtractorTest {
                 mockFactory.buildParentExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
                         Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockExtract);
         Mockito.when(
-        		mockFactory.buildSessionExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
-        				Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockSessionExtractor);
+                mockFactory.buildSessionExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
+                        Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockSessionExtractor);
         Mockito.when(
-        		mockFactory.buildGradingPeriodExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
-        				Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockExtract);
+                mockFactory.buildGradingPeriodExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
+                        Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockExtract);
 
         Mockito.when(
                 mockFactory.buildStaffProgramAssociationExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
@@ -204,7 +204,7 @@ public class LocalEdOrgExtractorTest {
 
         Mockito.when(
                 mockFactory.buildCourseTranscriptExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class), Mockito.any(Repository.class),
-                        Mockito.any(EntityToEdOrgCache.class), Mockito.any(EntityToEdOrgCache.class), Mockito.any(EntityToEdOrgCache.class))).thenReturn(courseTranscriptExtract);
+                        Mockito.any(EntityToEdOrgCache.class), Mockito.any(EntityToEdOrgDateCache.class))).thenReturn(courseTranscriptExtract);
 
         Mockito.when(
                 mockFactory.buildStudentGradebookEntryExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
