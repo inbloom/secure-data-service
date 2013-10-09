@@ -16,12 +16,13 @@
 
 package org.slc.sli.bulk.extract.lea;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.joda.time.DateTime;
+
 import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
@@ -37,46 +38,44 @@ public class YearlyTranscriptExtractor implements EntityDatedExtract {
     private ExtractFileMap map;
     private Repository<Entity> repo;
     private EdOrgExtractHelper edOrgExtractHelper;
-    private EntityToEdOrgCache studentAcademicRecordCache;
-    
+    private EntityToEdOrgDateCache studentAcademicRecordDateCache;
+
     public YearlyTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
-            EdOrgExtractHelper edOrgExtractHelper, EntityToEdOrgCache studentAcademicRecordCache) {
+            EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         this.edOrgExtractHelper = edOrgExtractHelper;
-        this.studentAcademicRecordCache = studentAcademicRecordCache;    
+        this.studentAcademicRecordDateCache = new EntityToEdOrgDateCache();
     }
 
     @Override
-    public void extractEntities(EntityToEdOrgDateCache entityToEdOrgDateCache) {
-        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), ContainerEntityNames.YEARLY_TRANSCRIPT, this.getClass().getName());
-        Iterator<Entity> yearlyTranscripts = repo.findEach(ContainerEntityNames.YEARLY_TRANSCRIPT, new NeutralQuery());
-        
+    public void extractEntities(EntityToEdOrgDateCache studentDatedCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), "yearlyTranscript", this.getClass().getName());
+        Iterator<Entity> yearlyTranscripts = repo.findEach("yearlyTranscript", new NeutralQuery());
+
         while (yearlyTranscripts.hasNext()) {
             Entity yearlyTranscript = yearlyTranscripts.next();
             String studentId = (String) yearlyTranscript.getBody().get(ParameterConstants.STUDENT_ID);
-            final Map<String, DateTime> studentEdOrgs = entityToEdOrgDateCache.getEntriesById(studentId);
-            Set<String> studentAcademicRecords = fetchStudentAcademicRecordsFromYearlyTranscript(yearlyTranscript);
+            final Map<String, DateTime> studentEdOrgs = studentDatedCache.getEntriesById(studentId);
+            List<String> studentAcademicRecords = fetchStudentAcademicRecordsFromYearlyTranscript(yearlyTranscript);
             for (Map.Entry<String, DateTime> studentEdOrg : studentEdOrgs.entrySet()) {
                 if (shouldExtract(yearlyTranscript, studentEdOrg.getValue())) {
                     extractor.extractEntity(yearlyTranscript, map.getExtractFileForEdOrg(studentEdOrg.getKey()), ContainerEntityNames.YEARLY_TRANSCRIPT);
-
-                    for (String studentAcademicRecord : studentAcademicRecords) {
-                        studentAcademicRecordCache.addEntry(studentAcademicRecord, studentEdOrg.getKey());
+                    for (String sarId : studentAcademicRecords) {
                     }
                 }
             }
         }
     }
-    
+
     /**
      * returns all parents of the student
      * @param student
      * @return
      */
-    private Set<String> fetchStudentAcademicRecordsFromYearlyTranscript(Entity yearlyTranscript) {
-        Set<String> records = new TreeSet<String>();
+    private List<String> fetchStudentAcademicRecordsFromYearlyTranscript(Entity yearlyTranscript) {
+        List<String> records = new ArrayList<String>();
         if (yearlyTranscript.getEmbeddedData().containsKey(EntityNames.STUDENT_ACADEMIC_RECORD)) {
             for (Entity sar : yearlyTranscript.getEmbeddedData().get(EntityNames.STUDENT_ACADEMIC_RECORD)) {
                 records.add(sar.getEntityId());
@@ -88,12 +87,12 @@ public class YearlyTranscriptExtractor implements EntityDatedExtract {
     protected boolean shouldExtract(Entity input, DateTime upToDate) {
         return EntityDateHelper.shouldExtract(input, upToDate);
     }
-    
+
     /**
      * Get the cache of studentAcademicRecordIds to a list of LEA IDs that these records were extracted to
      * @return
      */
-    public EntityToEdOrgCache getStudentAcademicRecordCache(){
-        return studentAcademicRecordCache;
+    public EntityToEdOrgDateCache getStudentAcademicRecordDateCache(){
+        return studentAcademicRecordDateCache;
     }
 }

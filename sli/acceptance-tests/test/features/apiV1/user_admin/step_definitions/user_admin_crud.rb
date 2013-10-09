@@ -191,7 +191,7 @@ Then /^one of the accounts has "([^"]*)", "([^"]*)", "([^"]*)"$/ do |fullName, u
   if(!((fullName=="" && uid=="" && email=="")||@number==0))
     #append host name to new user that will be created
     if @append_host==true && uid!=""
-      uid=uid+"_"+get_mac_address('_')
+      uid = append_mac_address(uid)
     end
     contains_specified_user = false
     @user_with_wanted_admin_role.each {|user|
