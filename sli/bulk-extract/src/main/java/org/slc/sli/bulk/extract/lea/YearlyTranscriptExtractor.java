@@ -59,10 +59,9 @@ public class YearlyTranscriptExtractor implements EntityDatedExtract {
             final Map<String, DateTime> studentEdOrgs = studentDatedCache.getEntriesById(studentId);
             List<String> studentAcademicRecords = fetchStudentAcademicRecordsFromYearlyTranscript(yearlyTranscript);
             for (String edOrg : studentEdOrgs.keySet()) {
-                DateTime upToDate= studentEdOrgs.get(edOrg);
+                DateTime upToDate = studentEdOrgs.get(edOrg);
                 if (shouldExtract(yearlyTranscript, upToDate)) {
                     extractor.extractEntity(yearlyTranscript, map.getExtractFileForEdOrg(edOrg), "yearlyTranscript");
-
                     for (String sarId : studentAcademicRecords) {
                         studentAcademicRecordDateCache.addEntry(sarId, edOrg, upToDate);
                     }

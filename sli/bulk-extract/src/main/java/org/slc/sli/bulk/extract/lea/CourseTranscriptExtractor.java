@@ -59,25 +59,31 @@ public class CourseTranscriptExtractor implements EntityDatedExtract {
 
             //add directly references edorgs
             Set<String>leaSet = new HashSet<String>();
-            if(edorgReferences != null){
+            if (edorgReferences != null){
                 for (String edorg : edorgReferences) {
                     leaSet.addAll(edorgCache.ancestorEdorgs(edorg));
                 }
             }
 
             //add the students leas
-            leaSet.addAll(studentDatedCache.getEntriesById(studentId).keySet());
+            Map<String, DateTime> studentEdOrgDate = studentDatedCache.getEntriesById(studentId);
+            for (Map.Entry<String, DateTime> entry: studentEdOrgDate.entrySet()) {
+                DateTime upToDate = entry.getValue();
+                if (shouldExtract(courseTranscript, upToDate)) {
+                    leaSet.add(entry.getKey());
+                }
+            }
 
             //add the studentAcademicReferences
-            if(studentAcademicRecordReference != null) {
+            if (studentAcademicRecordReference != null) {
                 leaSet.addAll(studentAcademicRecordDateCache.getEntriesById(studentAcademicRecordReference).keySet());
             }
 
             //extract this entity for all of the referenced LEAs
-            Map<String, DateTime> studentEdOrgDate = studentAcademicRecordDateCache.getEntriesById(
+            Map<String, DateTime> sarEdOrgDate = studentAcademicRecordDateCache.getEntriesById(
                     (String) courseTranscript.getBody().get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID));
             for (String lea : leaSet) {
-                DateTime upToDate = studentEdOrgDate.get(lea);
+                DateTime upToDate = sarEdOrgDate.get(lea);
                 if (shouldExtract(courseTranscript, upToDate)) {
                     extractor.extractEntity(courseTranscript, map.getExtractFileForEdOrg(lea), EntityNames.COURSE_TRANSCRIPT);
                 }

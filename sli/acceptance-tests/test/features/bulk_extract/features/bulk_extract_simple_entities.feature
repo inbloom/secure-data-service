@@ -60,7 +60,7 @@ Scenario Outline: Verify simple entities were correctly extracted for low-level 
     #| calendarDate                         | dbCount | | jstevenson | IT Administrator | IL-Daybreak | Midgar| South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
     | course                                | 30      | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
     | courseOffering                        | 29      | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-    | courseTranscript                      | 85      | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
+    | courseTranscript                      | 25      | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
     # discipline{Incident,Action} should be excluded from the extract due to no records match
     #| disciplineIncident                    | dbCount | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
     #| disciplineAction                      | dbCount | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
