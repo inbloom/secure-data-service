@@ -25,6 +25,7 @@ import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
+import org.slc.sli.common.constants.ContainerEntityNames;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -49,26 +50,24 @@ public class YearlyTranscriptExtractor implements EntityDatedExtract {
 
     @Override
     public void extractEntities(EntityToEdOrgDateCache entityToEdOrgDateCache) {
-        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), "yearlyTranscript", this.getClass().getName());
-        Iterator<Entity> yearlyTranscripts = repo.findEach("yearlyTranscript", new NeutralQuery());
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), ContainerEntityNames.YEARLY_TRANSCRIPT, this.getClass().getName());
+        Iterator<Entity> yearlyTranscripts = repo.findEach(ContainerEntityNames.YEARLY_TRANSCRIPT, new NeutralQuery());
         
         while (yearlyTranscripts.hasNext()) {
             Entity yearlyTranscript = yearlyTranscripts.next();
             String studentId = (String) yearlyTranscript.getBody().get(ParameterConstants.STUDENT_ID);
             final Map<String, DateTime> studentEdOrgs = entityToEdOrgDateCache.getEntriesById(studentId);
             Set<String> studentAcademicRecords = fetchStudentAcademicRecordsFromYearlyTranscript(yearlyTranscript);
-            for (String edOrg : studentEdOrgs.keySet()) {
-                DateTime upToDate= studentEdOrgs.get(edOrg);
-                if (shouldExtract(yearlyTranscript, upToDate)) {
-                    extractor.extractEntity(yearlyTranscript, map.getExtractFileForEdOrg(edOrg), "yearlyTranscript");
+            for (Map.Entry<String, DateTime> studentEdOrg : studentEdOrgs.entrySet()) {
+                if (shouldExtract(yearlyTranscript, studentEdOrg.getValue())) {
+                    extractor.extractEntity(yearlyTranscript, map.getExtractFileForEdOrg(studentEdOrg.getKey()), ContainerEntityNames.YEARLY_TRANSCRIPT);
 
                     for (String studentAcademicRecord : studentAcademicRecords) {
-                        studentAcademicRecordCache.addEntry(studentAcademicRecord, edOrg);
+                        studentAcademicRecordCache.addEntry(studentAcademicRecord, studentEdOrg.getKey());
                     }
                 }
             }
         }
-        
     }
     
     /**

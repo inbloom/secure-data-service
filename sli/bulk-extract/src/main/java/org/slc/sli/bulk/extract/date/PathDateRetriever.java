@@ -35,7 +35,7 @@ import java.util.Map;
 public class PathDateRetriever implements DateRetriever{
 
     @Autowired
-    @Qualifier("validationRepo")
+    @Qualifier("secondaryRepo")
     private Repository<Entity> repo;
 
     @Autowired
