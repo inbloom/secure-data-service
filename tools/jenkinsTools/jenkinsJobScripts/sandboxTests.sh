@@ -14,7 +14,6 @@ profileSwap
 
 deployAdminSB
 
-unDeployDatabrowser
 deployDatabrowser
 
 processApps $APPSTODEPLOY
@@ -30,6 +29,5 @@ EXITCODE=$?
 
 mongo --eval "db.adminCommand( { setParameter: 1, notablescan: false } )"
 unDeployAdmin
-unDeployDatabrowser
 
 exit $EXITCODE

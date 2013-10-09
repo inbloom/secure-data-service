@@ -10,7 +10,6 @@ unDeployAdmin
 profileSwap
 deployAdmin
 
-unDeployDatabrowser
 deployDatabrowser
 
 startSearchIndexer
@@ -28,5 +27,4 @@ EXITCODE=$?
 
 mongo --eval "db.adminCommand( { setParameter: 1, notablescan: false } )"
 unDeployAdmin
-unDeployDatabrowser
 exit $EXITCODE

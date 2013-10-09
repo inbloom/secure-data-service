@@ -106,7 +106,7 @@ unDeployAdmin()
   bundle install --path $WORKSPACE/../vendors/
   bundle exec thin stop -C config/thin.yml
 
-  ln=`ls /tmp/pid/thin-admin.pid | wc -l`
+  ln=`ls /tmp/pid/ | wc -l`
 
   if [ "$ln" -ne "0" ]
   then
@@ -125,29 +125,11 @@ deployAdminSB()
   bundle exec thin start -C config/thin.yml -e team_sb
 }
 
-unDeployDatabrowser()
-{
-  cd $WORKSPACE/sli/databrowser
-  bundle install --path $WORKSPACE/../vendors/
-  bundle exec thin stop -C config/thin.yml
-
-  ln=`ls /tmp/pid/thin-prowler.pid | wc -l`
-
-  if [ "$ln" -ne "0" ]
-  then
-    echo "admin is still running, killing"
-    pid=`cat /tmp/pid/thin-prowler.pid`
-    sudo kill $pid
-    rm /tmp/pid/thin-admin.pid
-  fi
-  echo "Databrowser is shutdown"
-}
-
 deployDatabrowser()
 {
   cd $WORKSPACE/sli/databrowser
-  bundle install --path $WORKSPACE/../vendors/
-  bundle exec thin start -C config/thin.yml -e team
+  bundle install --deployment
+  bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
 }
 
 buildApi()
