@@ -149,10 +149,13 @@ class ApplicationAuthorizationsController < ApplicationController
         @application_authorizations[edorg] = ApplicationAuthorization.find(:all, :params => {'edorg' => edorg})
       }
     else
-      @edorgs = [session[:edOrgId]]
+      eo = session[:edOrgId]
+      raise "No edOrgId in session -- are realms set up?" if !eo
+      @edorgs = [eo]
       ApplicationAuthorization.cur_edorg = @edorgs[0]
       @application_authorizations[@edorgs[0]] = ApplicationAuthorization.all
     end
+
     # Get EDORGS for the authId
     respond_to do |format|
       format.html # index.html.erb
