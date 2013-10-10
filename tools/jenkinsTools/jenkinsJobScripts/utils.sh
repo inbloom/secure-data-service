@@ -79,6 +79,7 @@ adminUnitTests()
   cd $WORKSPACE/sli/admin-tools/admin-rails
   bundle install --deployment
   bundle exec rake ci:setup:testunit test
+  exit $?
 }
 
 databrowserUnitTests()
@@ -86,6 +87,7 @@ databrowserUnitTests()
   cd $WORKSPACE/sli/databrowser
   bundle install --deployment
   bundle exec rake ci:setup:testunit test
+  exit $?
 }
 
 deployAdmin()
