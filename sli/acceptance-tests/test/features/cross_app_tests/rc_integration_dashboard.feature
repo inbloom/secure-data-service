@@ -134,7 +134,7 @@ And the Attendance History in grid "1" has the following entries:
 |2011-2012    |East Daybreak Junior High  |8            |0          |0              |0        |0          |0      |
 And I click on log out
 
-@wip
+
 Scenario: State Level IT Admin Logs into dashboard from portal
 When I select "Daybreak Test Realm" and click go
 And I was redirected to the "Simple" IDP Login page
