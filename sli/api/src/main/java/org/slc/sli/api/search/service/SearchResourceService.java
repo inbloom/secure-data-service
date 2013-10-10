@@ -85,7 +85,7 @@ import org.slc.sli.domain.NeutralQuery;
 @Component
 public class SearchResourceService {
 
-    private static Logger LOG = LoggerFactory.getLogger(SearchResourceService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SearchResourceService.class);
 
     private static final String CONTEXT_SCHOOL_ID = "context.schoolId";
 
