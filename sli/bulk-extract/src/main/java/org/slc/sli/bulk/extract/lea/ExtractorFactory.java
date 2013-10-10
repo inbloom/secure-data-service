@@ -121,17 +121,17 @@ public class ExtractorFactory {
         return new CourseOfferingExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public CourseTranscriptExtractor buildCourseTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
+    public EntityDatedExtract buildCourseTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
             EntityToEdOrgCache edorgCache, EntityToEdOrgDateCache studentDatedCache) {
         return new CourseTranscriptExtractor(extractor, map, repo, edorgCache, studentDatedCache);
     }
 
-    public EntityExtract buildStudentGradebookEntryExtractor(EntityExtractor extractor, ExtractFileMap map,
+    public EntityDatedExtract buildStudentGradebookEntryExtractor(EntityExtractor extractor, ExtractFileMap map,
             Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         return new StudentGradebookEntryExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public EntityExtract buildStudentCompetencyExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository) {
+    public EntityDatedExtract buildStudentCompetencyExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository) {
     	return new StudentCompetencyExtractor(entityExtractor, extractFileMap, repository);
     }
 

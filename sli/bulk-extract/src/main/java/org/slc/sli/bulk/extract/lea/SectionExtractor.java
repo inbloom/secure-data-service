@@ -22,6 +22,11 @@ import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.date.EntityDateHelper;
+import com.google.common.base.Predicate;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
@@ -30,41 +35,36 @@ import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Predicate;
 
 /**
  * @author dkornishev
  */
-public class SectionExtractor implements EntityExtract {
-    private static final Logger LOG = LoggerFactory.getLogger(LocalEdOrgExtractor.class);
+public class SectionExtractor implements EntityDatedExtract {
 
+    private static final Logger LOG = LoggerFactory.getLogger(LocalEdOrgExtractor.class);
 
     private final EntityExtractor entityExtractor;
     private final ExtractFileMap leaToExtractFileMap;
     private final Repository<Entity> repository;
-    private final EntityToEdOrgDateCache studentCache;
+    private final EntityToEdOrgDateCache studentDatedCache;
     private final EntityToEdOrgCache edorgCache;
     private final EntityToEdOrgCache courseOfferingCache = new EntityToEdOrgCache();
-    private final EntityToEdOrgCache ssaCache = new EntityToEdOrgCache();
+    private final EntityToEdOrgDateCache studentSectionAssociationDateCache = new EntityToEdOrgDateCache();
     private final EdOrgExtractHelper edOrgExtractHelper;
 
 
     public SectionExtractor(EntityExtractor entityExtractor, ExtractFileMap leaToExtractFileMap, Repository<Entity> repository, EntityToEdOrgDateCache studentCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper) {
-
         this.entityExtractor = entityExtractor;
         this.leaToExtractFileMap = leaToExtractFileMap;
         this.repository = repository;
-        this.studentCache = studentCache;
         this.edorgCache = edorgCache;
         this.edOrgExtractHelper = edOrgExtractHelper;
+        this.studentDatedCache = studentCache;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
+    public void extractEntities(final EntityToEdOrgDateCache gradebookEntryCache) {
         Iterator<Entity> sections = this.repository.findEach("section", new NeutralQuery());
 
         while (sections.hasNext()) {
@@ -81,7 +81,6 @@ public class SectionExtractor implements EntityExtract {
                         @Override
                         public boolean apply(Entity input) {
                             boolean shouldExtract = false;
-
                             if (input.getType().equals(EntityNames.TEACHER_SECTION_ASSOCIATION) || input.getType().equals(EntityNames.GRADEBOOK_ENTRY))    {
                                 shouldExtract = true;
                             }
@@ -89,7 +88,6 @@ public class SectionExtractor implements EntityExtract {
                         }
                     });
                 }
-
             }
 
             //Extract studentSectionAssociation based on the edOrgs of the student
@@ -97,14 +95,14 @@ public class SectionExtractor implements EntityExtract {
             if (ssas != null) {
                 for (Entity ssa : ssas) {
                     String studentId = (String) ssa.getBody().get(ParameterConstants.STUDENT_ID);
-                    Map<String, DateTime> studentEdOrgs = studentCache.getEntriesById(studentId);
+                    Map<String, DateTime> studentEdOrgs = studentDatedCache.getEntriesById(studentId);
 
                     for (Map.Entry<String, DateTime> studentEdOrg : studentEdOrgs.entrySet()) {
                         if (EntityDateHelper.shouldExtract(ssa, studentEdOrg.getValue())) {
                             entityExtractor.extractEntity(ssa, this.leaToExtractFileMap.getExtractFileForEdOrg(studentEdOrg.getKey()), EntityNames.STUDENT_SECTION_ASSOCIATION);
 
                             this.courseOfferingCache.addEntry((String) section.getBody().get("courseOfferingId"), studentEdOrg.getKey());
-                            this.ssaCache.addEntry(ssa.getEntityId(), studentEdOrg.getKey());
+                            this.studentSectionAssociationDateCache.addEntry(ssa.getEntityId(), studentEdOrg.getKey(), studentEdOrg.getValue());
                         }
                     }
                 }
@@ -116,7 +114,8 @@ public class SectionExtractor implements EntityExtract {
         return courseOfferingCache;
     }
 
-    public EntityToEdOrgCache getSsaCache() {
-        return ssaCache;
+    public EntityToEdOrgDateCache getStudentSectionAssociationDateCache() {
+        return studentSectionAssociationDateCache;
     }
+
 }
