@@ -44,7 +44,7 @@ public class ExtractorFactory {
         return new StudentAssessmentExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public EntityDatedExtract buildYearlyTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map,
+    public YearlyTranscriptExtractor buildYearlyTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map,
             Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         return new YearlyTranscriptExtractor(extractor, map, repo, edOrgExtractHelper);
     }
@@ -79,15 +79,15 @@ public class ExtractorFactory {
     }
 
     public SessionExtractor buildSessionExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
-    	return new SessionExtractor(extractor, map, repo, new ExtractorHelper(), new EntityToEdOrgCache(), edOrgExtractHelper);
+        return new SessionExtractor(extractor, map, repo, new ExtractorHelper(), new EntityToEdOrgCache(), edOrgExtractHelper);
     }
 
     public CalendarDateExtractor buildCalendarDateExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
-    	return new CalendarDateExtractor(extractor, map, repo, new ExtractorHelper(), new EntityToEdOrgCache(), edOrgExtractHelper);
+        return new CalendarDateExtractor(extractor, map, repo, new ExtractorHelper(), new EntityToEdOrgCache(), edOrgExtractHelper);
     }
 
     public EntityExtract buildGradingPeriodExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
-    	return new GradingPeriodExtractor(extractor, map, repo, edOrgExtractHelper);
+        return new GradingPeriodExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
     public ExtractFile buildLEAExtractFile(String path, String edOrg, String archiveName,
@@ -132,7 +132,7 @@ public class ExtractorFactory {
     }
 
     public EntityDatedExtract buildStudentCompetencyExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository) {
-    	return new StudentCompetencyExtractor(entityExtractor, extractFileMap, repository);
+        return new StudentCompetencyExtractor(entityExtractor, extractFileMap, repository);
     }
 
     public GraduationPlanExtractor buildGraduationPlanExtractor(EntityExtractor extractor, ExtractFileMap map,

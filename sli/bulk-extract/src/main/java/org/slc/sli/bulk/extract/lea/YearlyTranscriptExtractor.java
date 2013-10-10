@@ -16,10 +16,10 @@
 
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.joda.time.DateTime;
 
@@ -58,7 +58,7 @@ public class YearlyTranscriptExtractor implements EntityDatedExtract {
             Entity yearlyTranscript = yearlyTranscripts.next();
             String studentId = (String) yearlyTranscript.getBody().get(ParameterConstants.STUDENT_ID);
             final Map<String, DateTime> studentEdOrgs = studentDatedCache.getEntriesById(studentId);
-            List<String> studentAcademicRecords = fetchStudentAcademicRecordsFromYearlyTranscript(yearlyTranscript);
+            Set<String> studentAcademicRecords = fetchStudentAcademicRecordsFromYearlyTranscript(yearlyTranscript);
             for (Map.Entry<String, DateTime> studentEdOrg : studentEdOrgs.entrySet()) {
                 if (shouldExtract(yearlyTranscript, studentEdOrg.getValue())) {
                     extractor.extractEntity(yearlyTranscript, map.getExtractFileForEdOrg(studentEdOrg.getKey()), ContainerEntityNames.YEARLY_TRANSCRIPT);
@@ -75,8 +75,8 @@ public class YearlyTranscriptExtractor implements EntityDatedExtract {
      * @param student
      * @return
      */
-    private List<String> fetchStudentAcademicRecordsFromYearlyTranscript(Entity yearlyTranscript) {
-        List<String> records = new ArrayList<String>();
+    private Set<String> fetchStudentAcademicRecordsFromYearlyTranscript(Entity yearlyTranscript) {
+        Set<String> records = new TreeSet<String>();
         if (yearlyTranscript.getEmbeddedData().containsKey(EntityNames.STUDENT_ACADEMIC_RECORD)) {
             for (Entity sar : yearlyTranscript.getEmbeddedData().get(EntityNames.STUDENT_ACADEMIC_RECORD)) {
                 records.add(sar.getEntityId());
