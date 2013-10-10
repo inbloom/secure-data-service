@@ -173,10 +173,12 @@ class ApplicationAuthorizationsController < ApplicationController
     edorg = session[:edOrgId]
     # EdOrgs selected using Tree Control
     added = params[:application_authorization][:edorgsAdded]
+    added = "" if added.nil?
     added.strip!
     addedEdOrgs = added.split(/,/)
 
     removed = params[:application_authorization][:edorgsRemoved]
+    removed = "" if removed.nil?
     removed.strip!
     removedEdOrgs = removed.split(/,/)
 
@@ -564,6 +566,7 @@ class ApplicationAuthorizationsController < ApplicationController
   # Recursive traversal to get edOrg IDs in scope of user
   def get_edorgs_in_scope_recursive(edinf, id, result)
     result[id] = true
+    return if !edinf.has_key?(id)
     edinf[id][:children].each do |cid|
       get_edorgs_in_scope_recursive(edinf, cid, result)
     end
