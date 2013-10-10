@@ -26,6 +26,7 @@ import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
+import org.slc.sli.common.constants.ContainerEntityNames;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -58,17 +59,14 @@ public class YearlyTranscriptExtractor implements EntityDatedExtract {
             String studentId = (String) yearlyTranscript.getBody().get(ParameterConstants.STUDENT_ID);
             final Map<String, DateTime> studentEdOrgs = studentDatedCache.getEntriesById(studentId);
             List<String> studentAcademicRecords = fetchStudentAcademicRecordsFromYearlyTranscript(yearlyTranscript);
-            for (String edOrg : studentEdOrgs.keySet()) {
-                DateTime upToDate = studentEdOrgs.get(edOrg);
-                if (shouldExtract(yearlyTranscript, upToDate)) {
-                    extractor.extractEntity(yearlyTranscript, map.getExtractFileForEdOrg(edOrg), "yearlyTranscript");
+            for (Map.Entry<String, DateTime> studentEdOrg : studentEdOrgs.entrySet()) {
+                if (shouldExtract(yearlyTranscript, studentEdOrg.getValue())) {
+                    extractor.extractEntity(yearlyTranscript, map.getExtractFileForEdOrg(studentEdOrg.getKey()), ContainerEntityNames.YEARLY_TRANSCRIPT);
                     for (String sarId : studentAcademicRecords) {
-                        studentAcademicRecordDateCache.addEntry(sarId, edOrg, upToDate);
                     }
                 }
             }
         }
-
     }
 
     /**

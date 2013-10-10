@@ -127,7 +127,7 @@ public class ExtractorFactory {
         return new CourseTranscriptExtractor(extractor, map, repo, edorgCache, studentDatedCache);
     }
 
-    public EntityExtract buildStudentGradebookEntryExtractor(EntityExtractor extractor, ExtractFileMap map,
+    public EntityDatedExtract buildStudentGradebookEntryExtractor(EntityExtractor extractor, ExtractFileMap map,
             Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         return new StudentGradebookEntryExtractor(extractor, map, repo, edOrgExtractHelper);
     }

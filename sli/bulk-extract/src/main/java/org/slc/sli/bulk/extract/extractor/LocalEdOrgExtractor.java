@@ -124,9 +124,9 @@ public class LocalEdOrgExtractor {
         EntityDatedExtract studentAssessmentExtractor = factory.buildStudentAssessmentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         studentAssessmentExtractor.extractEntities(student.getStudentDatedCache());
 
-        genericExtractor = factory.buildStudentGradebookEntryExtractor(entityExtractor, leaToExtractFileMap,
+        EntityDatedExtract studentGradebookExtractor = factory.buildStudentGradebookEntryExtractor(entityExtractor, leaToExtractFileMap,
                 repository, helper);
-        genericExtractor.extractEntities(student.getEntityCache());
+        studentGradebookExtractor.extractEntities(student.getStudentDatedCache());
 
         // Discipline
         EntityDatedExtract discipline = factory.buildDisciplineExtractor(entityExtractor, leaToExtractFileMap, repository, edorgCache, student.getStudentDatedCache());

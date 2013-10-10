@@ -18,6 +18,7 @@ package org.slc.sli.bulk.extract.date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slc.sli.common.constants.ContainerEntityNames;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 
@@ -37,10 +38,11 @@ public class EntityDates {
         ENTITY_DATE_FIELDS.put(EntityNames.DISCIPLINE_ACTION, ParameterConstants.DISCIPLINE_DATE);
         ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_ASSESSMENT, ParameterConstants.ADMINISTRATION_DATE);
         ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, ParameterConstants.ENTRY_DATE);
-        ENTITY_DATE_FIELDS.put("yearlyTranscript", ParameterConstants.SCHOOL_YEAR);
+        ENTITY_DATE_FIELDS.put(ContainerEntityNames.YEARLY_TRANSCRIPT, ParameterConstants.SCHOOL_YEAR);
         ENTITY_DATE_FIELDS.put(EntityNames.ATTENDANCE, ParameterConstants.SCHOOL_YEAR);
         ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_ACADEMIC_RECORD, ParameterConstants.SCHOOL_YEAR);
         ENTITY_DATE_FIELDS.put(EntityNames.SESSION, ParameterConstants.BEGIN_DATE);
+        ENTITY_DATE_FIELDS.put(EntityNames.GRADEBOOK_ENTRY, ParameterConstants.DATE_ASSIGNED);
 
         Map<String, String> diFields = new HashMap<String, String>();
         diFields.put(EntityNames.DISCIPLINE_INCIDENT, ParameterConstants.DISCIPLINE_INCIDENT_ID);
@@ -66,6 +68,9 @@ public class EntityDates {
         coFields.put(EntityNames.SESSION, ParameterConstants.SESSION_ID);
         ENTITY_PATH_FIELDS.put(EntityNames.COURSE_OFFERING, coFields);
 
+        Map<String, String> sgbFields = new HashMap<String, String>();
+        sgbFields.put(EntityNames.GRADEBOOK_ENTRY, ParameterConstants.GRADEBOOK_ENTRY_ID);
+        ENTITY_PATH_FIELDS.put(EntityNames.STUDENT_GRADEBOOK_ENTRY, sgbFields);
     }
 
 }

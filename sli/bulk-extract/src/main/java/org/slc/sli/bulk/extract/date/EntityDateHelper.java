@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.slc.sli.common.constants.ContainerEntityNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class EntityDateHelper {
 
     private static final List<String> YEAR_BASED_ENTITIES = Arrays.asList(EntityNames.ATTENDANCE, EntityNames.GRADE, EntityNames.REPORT_CARD,
                                                                           EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.COURSE_TRANSCRIPT,
-                                                                          "yearlyTranscript");
+                                                                          ContainerEntityNames.YEARLY_TRANSCRIPT);
 
     public static boolean shouldExtract(Entity entity, DateTime upToDate) {
         String entityDate = retrieveDate(entity);
