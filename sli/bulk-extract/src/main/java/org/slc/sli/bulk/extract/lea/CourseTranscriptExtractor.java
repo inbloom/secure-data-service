@@ -80,8 +80,7 @@ public class CourseTranscriptExtractor implements EntityDatedExtract {
             }
 
             //extract this entity for all of the referenced LEAs
-            Map<String, DateTime> sarEdOrgDate = studentAcademicRecordDateCache.getEntriesById(
-                    (String) courseTranscript.getBody().get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID));
+            Map<String, DateTime> sarEdOrgDate = studentAcademicRecordDateCache.getEntriesById(studentAcademicRecordReference);
             for (String lea : leaSet) {
                 DateTime upToDate = sarEdOrgDate.get(lea);
                 if (shouldExtract(courseTranscript, upToDate)) {

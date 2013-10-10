@@ -133,19 +133,19 @@ public class LocalEdOrgExtractor {
         discipline.extractEntities(student.getDiDateCache());
 
         // Yearly Transcript
-        EntityDatedExtract yearlyTranscript = factory.buildYearlyTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
+        YearlyTranscriptExtractor yearlyTranscript = factory.buildYearlyTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         yearlyTranscript.extractEntities(student.getStudentDatedCache());
-        EntityToEdOrgDateCache studentAcademicRecordDateCache = ((YearlyTranscriptExtractor) yearlyTranscript).getStudentAcademicRecordDateCache();
+        EntityToEdOrgDateCache studentAcademicRecordDateCache = yearlyTranscript.getStudentAcademicRecordDateCache();
 
         genericExtractor = factory.buildParentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(student.getParentCache());
 
         // Section
-        EntityDatedExtract sectionExtractor = factory.buildSectionExtractor(entityExtractor,leaToExtractFileMap,repository, edorgCache, helper);
+        SectionExtractor sectionExtractor = factory.buildSectionExtractor(entityExtractor,leaToExtractFileMap,repository, edorgCache, helper);
         sectionExtractor.extractEntities(student.getStudentDatedCache());
 
         EntityDatedExtract studentCompetencyExtractor = factory.buildStudentCompetencyExtractor(entityExtractor, leaToExtractFileMap, repository);
-        studentCompetencyExtractor.extractEntities(((SectionExtractor) sectionExtractor).getStudentSectionAssociationDateCache());
+        studentCompetencyExtractor.extractEntities(sectionExtractor.getStudentSectionAssociationDateCache());
 
         // Staff
         StaffEdorgAssignmentExtractor seaExtractor = factory.buildStaffAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
@@ -171,7 +171,7 @@ public class LocalEdOrgExtractor {
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
 
         CourseOfferingExtractor courseOfferingExtractor = factory.buildCourseOfferingExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        courseOfferingExtractor.extractEntities(edorgCache, ((SectionExtractor) sectionExtractor).getCourseOfferingCache());
+        courseOfferingExtractor.extractEntities(edorgCache, sectionExtractor.getCourseOfferingCache());
 
         CourseExtractor courseExtractor = factory.buildCourseExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         courseExtractor.extractEntities(edorgCache, courseOfferingExtractor.getCourseCache());
