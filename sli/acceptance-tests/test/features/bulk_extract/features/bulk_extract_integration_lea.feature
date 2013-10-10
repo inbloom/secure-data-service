@@ -20,8 +20,8 @@
       |  attendance                            | 74 | a9605e685b48f1762236070db165cfe50961c058_id |
       |  calendarDate                          |  4 | 8b126c91f26c86d7204ebb670da8eed5dc958482_id |
       #|  competencyLevelDescriptor             |   |         |
-      |  course                                |   95| c2af0428d5c803fb3e908fdea10ae624c2f5abe4_id |
-      |  courseOffering                        |   95| 42d2d4e0616ed8a94894aa78be9f15e5cafa3eb7_id |
+      |  course                                |   96| c2af0428d5c803fb3e908fdea10ae624c2f5abe4_id |
+      |  courseOffering                        |   96| 42d2d4e0616ed8a94894aa78be9f15e5cafa3eb7_id |
       |  courseTranscript                      |  196| f93d8f8678c4bcbebe1c8b118d12cda004025304_id |
       |  disciplineIncident                    | 2  | aa752ad920bcf00b341236b230eac76e5a80ef3b_id   |
       |  disciplineAction                      | 2  | 481fc191703cb530e38e8d6bfda6eab6bf86512d_id  |
@@ -51,7 +51,7 @@
       |  studentProgramAssociation             | 6 | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id2139ed90ad4b4a9e7d66f47a996fb343a07cde39_id |
       |  studentGradebookEntry                 | 312 | b444b2aabe4eed054c6f1258d44ae4d8721ae855_id |
       |  studentSchoolAssociation              | 168 | 849a010012a384e4ba33c6bb5014a4707e7072c9_id |
-      |  studentSectionAssociation             | 294 | 42d78c37610b0110d8cf80d7afb4e556884550e1_ide371ef980b66ae592795248d685d60a16e73e726_id |
+      |  studentSectionAssociation             | 298 | 42d78c37610b0110d8cf80d7afb4e556884550e1_ide371ef980b66ae592795248d685d60a16e73e726_id |
       |  studentParentAssociation              | 9 | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id5ba0c1c2a60e24e0b01a66d6d68892f16ba29b01_id |
       |  teacher                               | 3 | ac8ff205a6cbb248c761083ac692802a0709e4b1_id |
       |  teacherSchoolAssociation              | 3  | 7c6f6301ed520d8d0606ed525044143e900d456b_id |

@@ -41,6 +41,7 @@ public class EntityDates {
         ENTITY_DATE_FIELDS.put(ContainerEntityNames.YEARLY_TRANSCRIPT, ParameterConstants.SCHOOL_YEAR);
         ENTITY_DATE_FIELDS.put(EntityNames.ATTENDANCE, ParameterConstants.SCHOOL_YEAR);
         ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_ACADEMIC_RECORD, ParameterConstants.SCHOOL_YEAR);
+        ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.BEGIN_DATE);
 
         Map<String, String> diFields = new HashMap<String, String>();
         diFields.put(EntityNames.DISCIPLINE_INCIDENT, ParameterConstants.DISCIPLINE_INCIDENT_ID);

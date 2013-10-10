@@ -102,7 +102,7 @@ public class ExtractorFactory {
         return new StaffCohortAssociationExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public SectionExtractor buildSectionExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgCache entityCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper) {
+    public SectionExtractor buildSectionExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgDateCache entityCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper) {
         return new SectionExtractor(entityExtractor, extractFileMap, repository, entityCache, edorgCache, edOrgExtractHelper);
     }
 

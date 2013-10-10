@@ -20,9 +20,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -41,14 +45,14 @@ public class SectionExtractor implements EntityExtract {
     private final EntityExtractor entityExtractor;
     private final ExtractFileMap leaToExtractFileMap;
     private final Repository<Entity> repository;
-    private final EntityToEdOrgCache studentCache;
+    private final EntityToEdOrgDateCache studentCache;
     private final EntityToEdOrgCache edorgCache;
     private final EntityToEdOrgCache courseOfferingCache = new EntityToEdOrgCache();
     private final EntityToEdOrgCache ssaCache = new EntityToEdOrgCache();
     private final EdOrgExtractHelper edOrgExtractHelper;
 
 
-    public SectionExtractor(EntityExtractor entityExtractor, ExtractFileMap leaToExtractFileMap, Repository<Entity> repository, EntityToEdOrgCache studentCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper) {
+    public SectionExtractor(EntityExtractor entityExtractor, ExtractFileMap leaToExtractFileMap, Repository<Entity> repository, EntityToEdOrgDateCache studentCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper) {
 
         this.entityExtractor = entityExtractor;
         this.leaToExtractFileMap = leaToExtractFileMap;
@@ -65,71 +69,44 @@ public class SectionExtractor implements EntityExtract {
 
         while (sections.hasNext()) {
             Entity section = sections.next();
+
+            //Extract teacherSectionAssociations based on the schoolId of the Section
             String schoolId = (String) section.getBody().get("schoolId");
             final Set<String> allEdOrgs = this.edorgCache.ancestorEdorgs(schoolId);
 
             if (null != allEdOrgs && allEdOrgs.size() != 0) {  // Edorgs way
                 for(final String edOrg: allEdOrgs) {
-                    extract(section, edOrg, new Predicate<Entity>() {
+                    this.entityExtractor.extractEmbeddedEntities(section, this.leaToExtractFileMap.getExtractFileForEdOrg(edOrg), EntityNames.SECTION,
+                            new Predicate<Entity>() {
                         @Override
                         public boolean apply(Entity input) {
-                            boolean shouldExtract = true;
-                            String studentId = (String) input.getBody().get("studentId");
-                            if (studentId != null) {    // Validate that referenced student is visible to given lea
-                                shouldExtract = studentCache.getEntriesById(studentId).contains(edOrg);
-                            }
+                            boolean shouldExtract = false;
 
+                            if (input.getType().equals(EntityNames.TEACHER_SECTION_ASSOCIATION) || input.getType().equals(EntityNames.GRADEBOOK_ENTRY))    {
+                                shouldExtract = true;
+                            }
                             return shouldExtract;
                         }
                     });
                 }
 
-            } else {    // Student way
-                List<Entity> assocs = section.getEmbeddedData().get("studentSectionAssociation");
-
-                if (null != assocs) {
-
-                    for (Entity assoc : assocs) {
-                        Map<String, Object> body =  assoc.getBody();
-                        final String studentId = (String) body.get("studentId");
-                        Set<String> edOrgs = this.studentCache.getEntriesById(studentId);
-                        for (String org : edOrgs) {
-                            Predicate<Entity> filter = new Predicate<Entity>() {
-                                @Override
-                                public boolean apply(Entity input) {
-                                    Map<String, Object> body = input.getBody();
-                                    return body.keySet().contains("studentId") && studentId.equals(body.get("studentId"));
-                                }
-                            };
-
-                            extract(section, org, filter);
-                        }
-                    }
-                }
-
             }
 
+            //Extract studentSectionAssociation based on the edOrgs of the student
+            List<Entity> ssas = section.getEmbeddedData().get(EntityNames.STUDENT_SECTION_ASSOCIATION);
+            if (ssas != null) {
+                for (Entity ssa : ssas) {
+                    String studentId = (String) ssa.getBody().get(ParameterConstants.STUDENT_ID);
+                    Map<String, DateTime> studentEdOrgs = studentCache.getEntriesById(studentId);
 
-        }
-    }
+                    for (Map.Entry<String, DateTime> studentEdOrg : studentEdOrgs.entrySet()) {
+                        if (EntityDateHelper.shouldExtract(ssa, studentEdOrg.getValue())) {
+                            entityExtractor.extractEntity(ssa, this.leaToExtractFileMap.getExtractFileForEdOrg(studentEdOrg.getKey()), EntityNames.STUDENT_SECTION_ASSOCIATION);
 
-    @SuppressWarnings("unchecked")
-    private void extract(Entity section, final String edOrg, Predicate<Entity> filter) {
-        //Extract only the section's sub doc entities
-        this.entityExtractor.extractEmbeddedEntities(section, this.leaToExtractFileMap.getExtractFileForEdOrg(edOrg), "section", filter);
-        this.courseOfferingCache.addEntry((String) section.getBody().get("courseOfferingId"), edOrg);
-
-        List<Entity> ssas = section.getEmbeddedData().get("studentSectionAssociation");
-
-        LOG.info("SSAs is {}", ssas);
-        LOG.info("Embedded data is {}", section.getEmbeddedData());
-        if (null != ssas) {
-        	LOG.info("SSAs size is {}", ssas.size());
-            for (Entity ssa : ssas) {
-                if (filter.apply(ssa)) {
-                	LOG.info("ssa Body is {} and entityId is {}", ssa.getBody(), ssa.getEntityId());
-                    this.ssaCache.addEntry((String) ssa.getEntityId(), edOrg);
-                    LOG.info("Now the SSA cache size is {}", this.ssaCache.getEntityIds().size());
+                            this.courseOfferingCache.addEntry((String) section.getBody().get("courseOfferingId"), studentEdOrg.getKey());
+                            this.ssaCache.addEntry(ssa.getEntityId(), studentEdOrg.getKey());
+                        }
+                    }
                 }
             }
         }

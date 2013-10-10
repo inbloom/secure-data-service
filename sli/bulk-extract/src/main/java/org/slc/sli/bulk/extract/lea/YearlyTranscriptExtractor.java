@@ -63,6 +63,7 @@ public class YearlyTranscriptExtractor implements EntityDatedExtract {
                 if (shouldExtract(yearlyTranscript, studentEdOrg.getValue())) {
                     extractor.extractEntity(yearlyTranscript, map.getExtractFileForEdOrg(studentEdOrg.getKey()), ContainerEntityNames.YEARLY_TRANSCRIPT);
                     for (String sarId : studentAcademicRecords) {
+                        studentAcademicRecordDateCache.addEntry(sarId, studentEdOrg.getKey(), studentEdOrg.getValue());
                     }
                 }
             }

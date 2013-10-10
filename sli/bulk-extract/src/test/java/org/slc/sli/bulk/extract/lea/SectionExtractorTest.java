@@ -18,15 +18,21 @@ package org.slc.sli.bulk.extract.lea;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import junit.framework.Assert;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.*;
 
@@ -34,6 +40,8 @@ import java.util.*;
  * User: dkornishev
  */
 @SuppressWarnings("unchecked")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SectionExtractorTest {
 
     private static final List<String> EDORGS = Arrays.asList("nature", "chaos", "sorcery");
@@ -57,8 +65,8 @@ public class SectionExtractorTest {
         // init map
         ExtractFileMap leaMap = new ExtractFileMap(map);
 
-        EntityToEdOrgCache studentCache = new EntityToEdOrgCache();
-        studentCache.addEntry(STUDENTS.get(1), LEA);
+        EntityToEdOrgDateCache studentCache = new EntityToEdOrgDateCache();
+        studentCache.addEntry(STUDENTS.get(1), LEA,  DateTime.now());
 
         EntityToEdOrgCache edorgCache = new EntityToEdOrgCache();
         edorgCache.addEntry(LEA, EDORGS.get(0));
@@ -69,7 +77,7 @@ public class SectionExtractorTest {
     }
 
     @Test
-    public void testEdorgBasedExtract() throws Exception {
+    public void testEdorgBasedEntitiesExtract() throws Exception {
         List<Entity> list = Arrays.asList(AccessibleVia.EDORG.generate(), AccessibleVia.EDORG.generate(), AccessibleVia.EDORG.generate(), AccessibleVia.NONE.generate());
         Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
 
@@ -78,12 +86,14 @@ public class SectionExtractorTest {
     }
 
     @Test
-    public void testStudentBasedExtract() throws Exception {
+    public void testStudentBasedEntitiesExtract() throws Exception {
         List<Entity> list = Arrays.asList(AccessibleVia.STUDENT.generate(), AccessibleVia.STUDENT.generate(), AccessibleVia.STUDENT.generate(), AccessibleVia.NONE.generate());
         Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
 
         se.extractEntities(null);
-        Mockito.verify(ex, Mockito.times(3)).extractEmbeddedEntities(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
+        Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class));
+        Mockito.verify(ex, Mockito.never()).extractEmbeddedEntities(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
+
     }
 
     @Test
@@ -93,7 +103,8 @@ public class SectionExtractorTest {
         Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
 
         se.extractEntities(null);
-        Mockito.verify(ex, Mockito.times(5)).extractEmbeddedEntities(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
+        Mockito.verify(ex, Mockito.times(2)).extractEmbeddedEntities(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
+        Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class));
 
         Assert.assertTrue("Course offerings must contain expected id" ,se.getCourseOfferingCache().getEntityIds().contains(COURSE_OFFERINGS.get(2)));
         Assert.assertTrue("StudentSectionAssociations must contain expected id", se.getSsaCache().getEntityIds().contains(SSA.get(0)));
@@ -124,8 +135,10 @@ public class SectionExtractorTest {
                 List<Entity> list = new ArrayList<Entity>();
                 Entity ssaEntity = Mockito.mock(Entity.class);
                 Mockito.when(ssaEntity.getEntityId()).thenReturn(SSA.get(0));
+                Mockito.when(ssaEntity.getType()).thenReturn(EntityNames.STUDENT_SECTION_ASSOCIATION);
                 Map<String, Object> body = new HashMap<String, Object>();
                 body.put("studentId", STUDENTS.get(1));
+                body.put(ParameterConstants.BEGIN_DATE, "2010-10-10");
                 Mockito.when(ssaEntity.getBody()).thenReturn(body);
                 list.add(ssaEntity);
 
