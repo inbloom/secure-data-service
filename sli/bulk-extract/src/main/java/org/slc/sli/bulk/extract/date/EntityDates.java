@@ -40,6 +40,7 @@ public class EntityDates {
         ENTITY_DATE_FIELDS.put("yearlyTranscript", ParameterConstants.SCHOOL_YEAR);
         ENTITY_DATE_FIELDS.put(EntityNames.ATTENDANCE, ParameterConstants.SCHOOL_YEAR);
         ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_ACADEMIC_RECORD, ParameterConstants.SCHOOL_YEAR);
+        ENTITY_DATE_FIELDS.put(EntityNames.SESSION, ParameterConstants.BEGIN_DATE);
 
         Map<String, String> diFields = new HashMap<String, String>();
         diFields.put(EntityNames.DISCIPLINE_INCIDENT, ParameterConstants.DISCIPLINE_INCIDENT_ID);
@@ -48,6 +49,22 @@ public class EntityDates {
         Map<String, String> ctFields = new HashMap<String, String>();
         ctFields.put(EntityNames.STUDENT_ACADEMIC_RECORD, ParameterConstants.STUDENT_ACADEMIC_RECORD_ID);
         ENTITY_PATH_FIELDS.put(EntityNames.COURSE_TRANSCRIPT, ctFields);
+
+        Map<String, String> scFields = new HashMap<String, String>();
+        scFields.put(EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID);
+        ENTITY_PATH_FIELDS.put(EntityNames.STUDENT_COMPETENCY, scFields);
+
+        Map<String, String> ssaFields = new HashMap<String, String>();
+        ssaFields.put(EntityNames.SECTION, ParameterConstants.SECTION_ID);
+        ENTITY_PATH_FIELDS.put(EntityNames.STUDENT_SECTION_ASSOCIATION, ssaFields);
+
+        Map<String, String> sectionFields = new HashMap<String, String>();
+        sectionFields.put(EntityNames.COURSE_OFFERING, ParameterConstants.COURSE_OFFERING_ID);
+        ENTITY_PATH_FIELDS.put(EntityNames.SECTION, sectionFields);
+
+        Map<String, String> coFields = new HashMap<String, String>();
+        coFields.put(EntityNames.SESSION, ParameterConstants.SESSION_ID);
+        ENTITY_PATH_FIELDS.put(EntityNames.COURSE_OFFERING, coFields);
 
     }
 

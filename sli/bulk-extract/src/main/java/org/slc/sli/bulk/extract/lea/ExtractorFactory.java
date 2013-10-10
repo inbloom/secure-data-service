@@ -102,8 +102,9 @@ public class ExtractorFactory {
         return new StaffCohortAssociationExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public SectionExtractor buildSectionExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgCache entityCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper) {
-        return new SectionExtractor(entityExtractor, extractFileMap, repository, entityCache, edorgCache, edOrgExtractHelper);
+    public SectionExtractor buildSectionExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap,
+            Repository<Entity> repository, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper) {
+        return new SectionExtractor(entityExtractor, extractFileMap, repository, edorgCache, edOrgExtractHelper);
     }
 
     public EntityExtract buildStaffProgramAssociationExtractor(EntityExtractor extractor, ExtractFileMap map,
@@ -121,7 +122,7 @@ public class ExtractorFactory {
         return new CourseOfferingExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public CourseTranscriptExtractor buildCourseTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
+    public EntityDatedExtract buildCourseTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
             EntityToEdOrgCache edorgCache, EntityToEdOrgDateCache studentDatedCache) {
         return new CourseTranscriptExtractor(extractor, map, repo, edorgCache, studentDatedCache);
     }
@@ -131,7 +132,7 @@ public class ExtractorFactory {
         return new StudentGradebookEntryExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public EntityExtract buildStudentCompetencyExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository) {
+    public EntityDatedExtract buildStudentCompetencyExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository) {
     	return new StudentCompetencyExtractor(entityExtractor, extractFileMap, repository);
     }
 
