@@ -37,8 +37,8 @@ import com.google.common.collect.Table;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.collect.Lists;
 import org.elasticsearch.common.settings.ImmutableSettings;
@@ -85,7 +85,7 @@ import org.slc.sli.domain.NeutralQuery;
 @Component
 public class SearchResourceService {
 
-    private static final Log LOG = LogFactory.getFactory().getInstance(SearchResourceService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SearchResourceService.class);
 
     private static final String CONTEXT_SCHOOL_ID = "context.schoolId";
 
@@ -264,7 +264,7 @@ public class SearchResourceService {
 
             // call BasicService to query the elastic search repo
             entityBodies = (List<EntityBody>) getService().listBasedOnContextualRoles(apiQuery);
-            debug("Got {} entities back", entityBodies.size());
+            LOG.debug("Got {} entities back", entityBodies.size());
             int lastSize = entityBodies.size();
             finalEntities.addAll(filterResultsBySecurity(entityBodies, offset, limit));
 
@@ -376,7 +376,7 @@ public class SearchResourceService {
                  * Skip validation for global entities.
                  */
                 if (contextValidator.isGlobalEntity(type)) {
-                    debug("search: skipping validation --> global entity: {}", type);
+                    LOG.debug("search: skipping validation --> global entity: {}", type);
                     Map<String, EntityBody> row = entitiesByType.row(type);
                     Set<String> accessible = row.keySet();
                     for (String id : accessible) {
@@ -385,7 +385,7 @@ public class SearchResourceService {
                         }
                     }
                 } else {
-                    debug("search: validating entity: {}", type);
+                    LOG.debug("search: validating entity: {}", type);
                     Map<String, EntityBody> row = entitiesByType.row(type);
                     Set<String> accessible = filterOutInaccessibleIds(type, row.keySet());
                     for (String id : accessible) {
@@ -474,7 +474,7 @@ public class SearchResourceService {
      * Apply default query pattern for ElasticSearch. Query strategy -
      * start-of-word match on each query token
      *
-     * @param criterias
+     * @param criteria
      */
     private static void applyDefaultPattern(NeutralCriteria criteria) {
         String queryString = ((String) criteria.getValue()).trim().toLowerCase();
@@ -553,11 +553,11 @@ public class SearchResourceService {
         @PostConstruct
         public void init() {
             if (embeddedEnabled) {
-                info("Starting embedded ElasticSearch node");
+                LOG.info("Starting embedded ElasticSearch node");
 
                 String tmpDir = System.getProperty("java.io.tmpdir");
                 File elasticsearchDir = new File(tmpDir, ES_DIR);
-                debug(String.format("ES data tmp dir is %s", elasticsearchDir.getAbsolutePath()));
+                LOG.debug(String.format("ES data tmp dir is %s", elasticsearchDir.getAbsolutePath()));
 
                 if (elasticsearchDir.exists()) {
                     deleteDirectory(elasticsearchDir);
@@ -588,10 +588,10 @@ public class SearchResourceService {
             try {
                 FileUtils.forceDelete(folder);
                 if (folder.exists()) {
-                    warn("Unable to delete data directory for embedded elasticsearch");
+                    LOG.warn("Unable to delete data directory for embedded elasticsearch");
                 }
             } catch (Exception e) {
-                error("Unable to delete data directory for embedded elasticsearch", e);
+                LOG.error("Unable to delete data directory for embedded elasticsearch", e);
             }
         }
     }
