@@ -33,8 +33,8 @@ import javax.ws.rs.core.Response;
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
@@ -81,7 +81,7 @@ import org.slc.sli.modeling.uml.ClassType;
 @Component("defaultResourceService")
 public class DefaultResourceService implements ResourceService {
 
-    private static final Log LOG = LogFactory.getFactory().getInstance(DefaultResourceService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultResourceService.class);
 
     @Autowired
     private LogicalEntity logicalEntity;
