@@ -141,6 +141,7 @@ public class ParameterConstants {
     public static final String COURSE_ID = "courseId";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR_ID = "competencyLevelDescriptorId";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPE_ID = "competencyLevelDescriptorTypeId";
+    public static final String DATE_ASSIGNED = "dateAssigned";
     public static final String DISCIPLINE_INCIDENT_ID = "disciplineIncidentId";
     public static final String DISCIPLINE_ACTION_ID = "disciplineActionId";
     public static final String ENTRY_DATE = "entryDate";

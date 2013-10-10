@@ -1008,7 +1008,17 @@ When /I check that the studentGradebookEntry extract for "(.*?)" has the correct
   @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
   entity = 'studentGradebookEntry'
   date = DateTime.now.strftime('%Y-%m-%d')
-  studentSchools = get_student_schools(CURRENT_STUDENT_QUERY)
+
+  query     = <<-jsonDelimiter
+  [
+  {"$project":{"schools":1}}
+  ,{"$unwind":"$schools"}
+  ,{"$project":{"_id":1, "schools._id":1}}
+  ,{"$group":{"_id":"$schools._id", "students":{"$addToSet":"$_id"}}}
+  ]
+  jsonDelimiter
+
+  studentSchools = get_student_schools(query)
   gradebookEntryForEdOrgStudent =  @tenantDb.collection('studentGradebookEntry').find({'body.studentId' => {'$in' => studentSchools[edOrgId]}})
 
   zipFile  = "#{@unpackDir}/#{entity}.json.gz"
