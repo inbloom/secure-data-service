@@ -79,7 +79,7 @@ adminUnitTests()
   cd $WORKSPACE/sli/admin-tools/admin-rails
   bundle install --deployment
   bundle exec rake ci:setup:testunit test
-  exit $?
+  #exit $?
 }
 
 databrowserUnitTests()
