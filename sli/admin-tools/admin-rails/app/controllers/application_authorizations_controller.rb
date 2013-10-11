@@ -65,7 +65,7 @@ class ApplicationAuthorizationsController < ApplicationController
     
     @debug = ""
 
-    @edorg_tree_html = "<ul>\n" + render_html(nil, ROOT_ID, 0, {}) + "</ul>\n"
+    @edorg_tree_html = "<ul>\n" + render_html(nil, ROOT_ID, 0) + "</ul>\n"
 
   end
   
@@ -144,7 +144,7 @@ class ApplicationAuthorizationsController < ApplicationController
     if legacy_sea_delegation_support && is_sea_admin?
       my_delegations = AdminDelegation.all
       @edorgs = (my_delegations.select{|delegation| delegation.appApprovalEnabled}).map{|cur| cur.localEdOrgId}
-      @edorgs = @edorgs.sort{|a,b| a <=> b}
+      @edorgs = @edorgs.sort{|a,b| a.casecmp(b)}
       @edorgs.each { |edorg|
         @application_authorizations[edorg] = ApplicationAuthorization.find(:all, :params => {'edorg' => edorg})
       }
@@ -317,8 +317,12 @@ class ApplicationAuthorizationsController < ApplicationController
     by_type = {}
 
     # Sort children by name
-    compare_name = ->(a,b) { @edinf[a][:name] <=> @edinf[b][:name] }
+    compare_name = ->(a,b) { @edinf[a][:name].casecmp(@edinf[b][:name]) }
     @edinf[id][:children].sort!( & compare_name )
+
+    # Also sort parents by name so that we can identify the "canonical" parent
+    # predictably and in a way that matches the rendering traversal
+    @edinf[id][:parents].sort!( & compare_name )
 
     @edinf[id][:children].each do |cid|
       build_tree(cid, seen.clone)
@@ -402,7 +406,7 @@ class ApplicationAuthorizationsController < ApplicationController
   # threshold.
   # Example <li>:
   #    <li class="collapsed"><input type="checkbox" id="edorg_1">EdOrg 1
-  def render_html(parent_id, id, level, seen)
+  def render_html(parent_id, id, level)
     # <LI> part
     indent = "  " * level
     result = indent + "<li"
@@ -412,18 +416,18 @@ class ApplicationAuthorizationsController < ApplicationController
 
     # Detect repeat subtrees: if a node has multiple parents (and is
     # thus reachable by multiple paths from parents to children),
-    # consider all but the last ID in the parents list as "aliases".
-    # Using the last ID, as opposed to the first, will have the effect
+    # consider all but the first ID in the parents list as "aliases".
+    # Using the first ID as the "canonical" copy will have the effect
     # of the "real" node being rendered first in the recursion, so
     # that, in turn, we can label the "alias" nodes with a notice to
     # consult the real node "above" it.  This in turn means that the
-    # real node will appear first as the user scans the tree from top
-    # to bottom.
+    # real node will appear first in a depth first traversal, i.e.,
+    # as the user scans a fully expanded tree from top to bottom.
     parents = eo[:parents]
-    is_repeat_subtree = parents.length > 1 && parent_id != parents.last && seen.has_key?(parents.last)
-    is_anchored = parents.length > 1 && parent_id == parents.last && seen.has_key?(parents.last)
+    is_repeat_subtree = parents.length > 1 && parent_id != parents[0]
+    is_anchored = parents.length > 1 && parent_id == parents[0]
     if is_repeat_subtree
-      anc_id = parents.last
+      anc_id = parents[0]
       ppath = []
       while !is_empty(anc_id) && anc_id != ROOT_ID
         ppath.unshift(@edinf[anc_id][:name])
@@ -431,7 +435,7 @@ class ApplicationAuthorizationsController < ApplicationController
         if new_parents.empty?
           anc_id = nil
         else
-          anc_id = new_parents.last
+          anc_id = new_parents[0]
         end
       end
       path_to_root = ppath.join(" &rarr; ")
@@ -465,13 +469,17 @@ class ApplicationAuthorizationsController < ApplicationController
     result += " class=\"repeatsubtree\"" if is_repeat_subtree
     result += ">"
     result += "<i>" if !eo[:enabled]
-    result += "(&rArr; see <a style=\"color: #0000ff; text-decoration:underline\" href=\"#" + parents.last + "\">" if is_repeat_subtree
+    result += "(&rArr; see <a style=\"color: #0000ff; text-decoration:underline\" href=\"#" + id + "\">" if is_repeat_subtree
     result += "<a name=\"" + id + "\"></a>" if is_anchored
     result += eo[:name]
     result += "</a>" if is_repeat_subtree
-    # Uncomment below for debugging
+    
+    # Uncomment below for debugging: add ID, show enabled/authorized status, show subtree status
     # result += " [" + eo[:id][0,8] + "]"
-    # result += " (" + eo[:enabled].to_s + " / " + eo[:authorized].to_s + ")"
+    # result += " enabled=" + eo[:enabled].to_s + " authorized=" + eo[:authorized].to_s
+    # result += " is_anchored=" + is_anchored.to_s + " is_repeat_subtree=" + is_repeat_subtree.to_s
+    # result += " parents[0]=[" + parents[0][0,8] + "]" if !parents.empty?
+    
     result += ", under \"" + path_to_root + "\" above)" if is_repeat_subtree
     result += "</i>" if !eo[:enabled]
     # Add counts.  Note that eo[:nchild] is the number of direct child EdOrgs not the number of child display nodes
@@ -494,8 +502,7 @@ class ApplicationAuthorizationsController < ApplicationController
     if !is_repeat_subtree && nchildren > 0
       result += indent + "<ul>\n"
       eo[:children].each do |cid|
-        seen[id] = true
-        result += render_html(parent_to_use, cid, level + 1, seen)
+        result += render_html(parent_to_use, cid, level + 1)
       end
       result += indent + "</ul>\n"
     end
