@@ -112,7 +112,7 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | id                                          | condition                      |
       | 91d9aa5d5da9dd0e2ae46791a6cc6882aec9a59a_id | entityType = studentCompetency |
     And I verify this "studentSectionAssociation" file should contain:
-      | id | condition |
+      | id                                                                                     | condition                              |
       | 49e048fa9d77126a719d5719cfc08c36170981b1_idd5df60e5ffe544f23eb3167542fc582215e6a7a2_id | entityType = studentSectionAssociation |
 
   Scenario: The extract for an edorg should not contain data for a former student that's dated after the student has left
@@ -199,14 +199,16 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | id                                          |
       | 0bc385d7a20aa1a9df92627cd841d545d3052b3b_id |
     And I verify this "studentGradebookEntry" file should not contain:
+      | id                                          |
       | 28e83915fb2ed72fd074efdcb24f6b1a778a5f57_id |
     And I verify this "gradebookEntry" file should not contain:
+      | id                                                                                     |
       | f6b0227d1704b24efb2dae4a21e2d530fb384cca_idde48b510ed6ec71962f2483e1ad33511308db485_id |
     And I verify this "studentCompetency" file should not contain:
       | id                                          |
       | 3c2a56c1531ee76299aec831d2f41dc5bc6ec987_id |
     And I verify this "studentSectionAssociation" file should not contain:
-      | id                                          |
+      | id                                                                                     |
       | c44eb520d29bad5d60237f6addc22f769b3448aa_idaf30e6685a85c716c26d5e559bde27017f57f304_id |
 
 ##########################################################################
@@ -359,14 +361,16 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | id                                          |
       | b848986b74335a114ebee017c4f70659f96850db_id |
     And I verify this "studentGradebookEntry" file should not contain:
+      | id                                          |
       | 8c14cc6999e43fd6b90d41a30cbb245cb212b508_id |
     And I verify this "gradebookEntry" file should not contain:
+      | id                                                                                     |
       | 7df01fe133b2605d0007dd1fecf9c8f8bc6afbee_id591ed4c7b19326e3ffa2c680b4a469ff413d65f4_id |
     And I verify this "studentCompetency" file should not contain:
       | id                                          |
       | ee9b1b72d1ca9692ff56bb2221a9f136c860d050_id |
     And I verify this "studentSectionAssociation" file should not contain:
-      | id                                          |
+      | id                                                                                     |
       | 7df01fe133b2605d0007dd1fecf9c8f8bc6afbee_id07bec3af9633c4bdde1a240e8b003abac7e4fc47_id |
       | 96ad14342c72b986ff6fe42556edb552abd239ca_idf146ce1a9ecb6f7852c9b48f36fee2d0f1bfcd0c_id |
 
