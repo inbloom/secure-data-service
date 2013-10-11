@@ -2358,7 +2358,7 @@ def bulkExtractTrigger(trigger_script, jar_file, properties_file, keystore_file,
   command = command + options
   puts "Running: #{command}"
   result = `#{command}`
-  puts result
+  puts result if $SLI_DEBUG
   assert($?.exitstatus == 0, "Nonzero exit code from bulk extract: #{$?.exitstatus}")
 end
 

@@ -1,4 +1,4 @@
-@RALLY_US5904 @RALLY_US5908 @RALLY_US5907
+@RALLY_US5904 @RALLY_US5908 @RALLY_US5907 @RALLY_US5909
 Feature: An edorg's extract file should contain student data from previous enrollments with other schools
 
   Scenario: Setup the database and trigger an extract
@@ -102,6 +102,9 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "courseTranscript" file should contain:
       | id                                          | condition                     |
       | 9d80fafba1ac36587a60002bc83df1ebe13c7c36_id | entityType = courseTranscript |
+    And I verify this "studentCompetency" file should contain:
+      | id | condition |
+      | 91d9aa5d5da9dd0e2ae46791a6cc6882aec9a59a_id | entityType = studentCompetency |
 
   Scenario: The extract for an edorg should not contain data for a former student that's dated after the student has left
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
@@ -186,6 +189,9 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "courseTranscript" file should not contain:
       | id                                          |
       | 0bc385d7a20aa1a9df92627cd841d545d3052b3b_id |
+    And I verify this "studentCompetency" file should not contain:
+      | id                                          |
+      | 3c2a56c1531ee76299aec831d2f41dc5bc6ec987_id |
 
 ##########################################################################
 #    TIMELINE OF ENROLLMENT OF MATT SOLLARS FOR EDGE CASES
@@ -278,6 +284,11 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | cb154b7f3fdb1ed9a62a5343c6d4d78addc8d444_id | entityType = courseTranscript |
       | c2c71979a917b74578950b6f976c4314acc9969f_id | entityType = courseTranscript |
       | 5a214a3e596887dffeaf44fdabd4535f33a96646_id | entityType = courseTranscript |
+    And I verify this "studentCompetency" file should contain:
+      | id | condition |
+      | c761c5f2fcc53bb90940e3cd26501a75d0106acc_id | entityType = studentCompetency |
+      | 20119d985f13ca5b223a8521972bf3fcac7a8dad_id | entityType = studentCompetency |
+      | fd7c6a6862dc7b4257234f477d601300ef4c3fc1_id | entityType = studentCompetency |
   #This extract should not contain content for anything that began after edorg 1's end date with the student
   #Given proper data, everything from edorg 4 shouldn't be included
     And I verify this "studentProgramAssociation" file should not contain:
@@ -316,4 +327,7 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "courseTranscript" file should not contain:
       | id                                          |
       | b848986b74335a114ebee017c4f70659f96850db_id |
+    And I verify this "studentCompetency" file should not contain:
+      | id                                          |
+      | ee9b1b72d1ca9692ff56bb2221a9f136c860d050_id |
 

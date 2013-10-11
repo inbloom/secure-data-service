@@ -15146,7 +15146,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2011-08-31</BeginDate>
+    <BeginDate>2011-09-05</BeginDate>
       <EndDate>2012-05-28</EndDate>
       <HomeroomIndicator>true</HomeroomIndicator>
       <RepeatIdentifier>Other</RepeatIdentifier>
@@ -16847,7 +16847,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>186</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2011-08-31</BeginDate>
+    <BeginDate>2011-09-06</BeginDate>
       <EndDate>2012-05-28</EndDate>
       <HomeroomIndicator>true</HomeroomIndicator>
       <RepeatIdentifier>Repeated, counted in grade point average</RepeatIdentifier>
