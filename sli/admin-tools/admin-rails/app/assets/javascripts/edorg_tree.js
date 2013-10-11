@@ -52,6 +52,17 @@ $(document).ready(function() {
         }
     });
 
+    $('#expand_all').click(function(event) {
+        event.preventDefault();
+        $("#edorgTree div").tree('expandAll');
+
+    });
+
+    $('#collapse_all').click(function(event) {
+        event.preventDefault();
+        $('#edorgTree div').tree('collapseAll')
+    });
+
     $('.jquery').each(function() {
         eval($(this).html());
     });
