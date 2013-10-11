@@ -13,11 +13,11 @@ Feature: An edorg's extract file should contain student data from previous enrol
 ##########################################################################
 #    TIMELINE OF ENROLLMENT OF CARMEN ORTIZ FOR POSITIVE/NEGATIVE CASES
 #  >>--------------------------------------------------------------------->
-#    [2011-08-26 -EDORG 1- 2012-05-22]
-#                                      [2012-08-26 --EDORG 2--- 2018-05-22]
+#    [2011-08-26 -DCH- 2012-05-22]
+#                                      [2012-08-26 -- SCH--- 2018-05-22]
 #
-#  a13489364c2eb015c219172d561c62350f0453f3_id - EDORG 1
-#  897755cae2f689c2d565a35a48ea69d5dd3928d6_id - EDORG 2
+#  a13489364c2eb015c219172d561c62350f0453f3_id - Daybreak Central High (DCH)
+#  897755cae2f689c2d565a35a48ea69d5dd3928d6_id - Sunset Central High (SCH)
 
   Scenario: The extract for an edorg should contain data for a student from a previously enrolled school
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "897755cae2f689c2d565a35a48ea69d5dd3928d6_id"
@@ -105,6 +105,9 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "studentCompetency" file should contain:
       | id | condition |
       | 91d9aa5d5da9dd0e2ae46791a6cc6882aec9a59a_id | entityType = studentCompetency |
+    And I verify this "studentSectionAssociation" file should contain:
+      | id | condition |
+      | 49e048fa9d77126a719d5719cfc08c36170981b1_idd5df60e5ffe544f23eb3167542fc582215e6a7a2_id | entityType = studentSectionAssociation |
 
   Scenario: The extract for an edorg should not contain data for a former student that's dated after the student has left
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
@@ -192,21 +195,24 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "studentCompetency" file should not contain:
       | id                                          |
       | 3c2a56c1531ee76299aec831d2f41dc5bc6ec987_id |
+    And I verify this "studentSectionAssociation" file should not contain:
+      | id                                          |
+      | c44eb520d29bad5d60237f6addc22f769b3448aa_idaf30e6685a85c716c26d5e559bde27017f57f304_id |
 
 ##########################################################################
 #    TIMELINE OF ENROLLMENT OF MATT SOLLARS FOR EDGE CASES
 #  >>--------------------------------------------------------------------->
-#    [2009-01-01 -EDORG 1- 2009-12-25]   [2010-08-26 -EDORG 1- 2011-09-05]
-#                                                    [2010-09-01 -----------EDORG 2----------------------- 2014-05-22]
-#                                                                        [2011-09-05 --EDORG 3--- 2013-05-22]
-#                                                                         [2011-09-06 --EDORG 4--- 2013-05-23]
+#    [2009-01-01 -DCH- 2009-12-25]   [2010-08-26 -DCH- 2011-09-05]
+#                                                    [2010-09-01 -----------ESH----------------------- 2014-05-22]
+#                                                                [2011-09-05 --SCH--- 2013-05-22]
+#                                                                 [2011-09-06 --WSH-- 2013-05-23]
 #
-# Student's end date in EDORG 1 is the same as the begin date of EDORG 3
-# EDORG 4's begin date is one day after EDORG 3's.
-#  a13489364c2eb015c219172d561c62350f0453f3_id - EDORG 1
-#  f63789e8d9f3c8aa4d42bdbec83ca64cc1d2ee16_id - EDORG 2
-#  897755cae2f689c2d565a35a48ea69d5dd3928d6_id - EDORG 3
-#  b78524194f38795a5c2e422cb7fc8becece062d0_id - EDORG 4
+# Student's end date in DCH is the same as the begin date of SCH
+# WSH's begin date is one day after SCH's.
+#  a13489364c2eb015c219172d561c62350f0453f3_id - Daybreak Central High (DCH)
+#  f63789e8d9f3c8aa4d42bdbec83ca64cc1d2ee16_id - East Side High (ESH)
+#  897755cae2f689c2d565a35a48ea69d5dd3928d6_id - Sunset Central High (SCH)
+#  b78524194f38795a5c2e422cb7fc8becece062d0_id - West Side High (WSH)
 
   Scenario: Edge Cases for student enrollment
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
@@ -221,8 +227,8 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | id                                          | condition           |
       | 5f8989384287747b1960d16edd95ff2bb318e3bd_id | entityType = parent |
       | 7f5b783a051b72820eab5f8188c45ade72869f0f_id | entityType = parent |
-  #This extract should contain content for anything that began on or before edorg 1's end date with the student
-  #Even data from edorg 3 that began on the student's final day with edorg 1 should be included
+  #This extract should contain content for anything that began on or before DCH's end date with the student
+  #Even data from SCH that began on the student's final day with DCH should be included
     And I verify this "studentProgramAssociation" file should contain:
       | id                                                                                     | condition                              |
       | 067198fd6da91e1aa8d67e28e850f224d6851713_ide34acabe3e308a140d76b7bd2da54011be117110_id | entityType = studentProgramAssociation |
@@ -289,8 +295,13 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | c761c5f2fcc53bb90940e3cd26501a75d0106acc_id | entityType = studentCompetency |
       | 20119d985f13ca5b223a8521972bf3fcac7a8dad_id | entityType = studentCompetency |
       | fd7c6a6862dc7b4257234f477d601300ef4c3fc1_id | entityType = studentCompetency |
-  #This extract should not contain content for anything that began after edorg 1's end date with the student
-  #Given proper data, everything from edorg 4 shouldn't be included
+    And I verify this "studentSectionAssociation" file should contain:
+      | id                                                                                     | condition                              |
+      | 6e9504c3061a61384cbd9591a52893f07c6af242_id56a60187f236b69252b085c0ca55c9a1cb8081ab_id | entityType = studentSectionAssociation |
+      | 8887531ea737afbd49da86f201e95d1f6fc45571_id50a30c780c85361faec9ac20013d347a619958fc_id | entityType = studentSectionAssociation |
+      | 5c593810111e06cd8b5a4e7f315b5b49c16c35b1_id26f3811034fc7d29bdc8ac5250ab1a9fe3ce97d7_id | entityType = studentSectionAssociation |
+  #This extract should not contain content for anything that began after DCH's end date with the student
+  #Given proper data, everything from WSH shouldn't be included
     And I verify this "studentProgramAssociation" file should not contain:
       | id                                                                                     |
       | 067198fd6da91e1aa8d67e28e850f224d6851713_id3401ad622b20c8502b936844cf68293b27c1957e_id |
@@ -330,4 +341,8 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "studentCompetency" file should not contain:
       | id                                          |
       | ee9b1b72d1ca9692ff56bb2221a9f136c860d050_id |
+    And I verify this "studentSectionAssociation" file should not contain:
+      | id                                          |
+      | 7df01fe133b2605d0007dd1fecf9c8f8bc6afbee_id07bec3af9633c4bdde1a240e8b003abac7e4fc47_id |
+      | 96ad14342c72b986ff6fe42556edb552abd239ca_idf146ce1a9ecb6f7852c9b48f36fee2d0f1bfcd0c_id |
 
