@@ -102,8 +102,14 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "courseTranscript" file should contain:
       | id                                          | condition                     |
       | 9d80fafba1ac36587a60002bc83df1ebe13c7c36_id | entityType = courseTranscript |
+    And I verify this "studentGradebookEntry" file should contain:
+      | id                                          | condition                          |
+      | fc1b5f1ae73a9b0808fb9c6dbc63ba68fe2da206_id | entityType = studentGradebookEntry |
+    And I verify this "gradebookEntry" file should contain:
+      | id                                                                                     | condition                   |
+      | e0b0e46a34acdf56356183cf22d9c506e4285527_id3082031a18c680ef1cac4dba1c9b8de482654d7a_id | entityType = gradebookEntry |
     And I verify this "studentCompetency" file should contain:
-      | id | condition |
+      | id                                          | condition                      |
       | 91d9aa5d5da9dd0e2ae46791a6cc6882aec9a59a_id | entityType = studentCompetency |
 
   Scenario: The extract for an edorg should not contain data for a former student that's dated after the student has left
@@ -189,6 +195,10 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "courseTranscript" file should not contain:
       | id                                          |
       | 0bc385d7a20aa1a9df92627cd841d545d3052b3b_id |
+    And I verify this "studentGradebookEntry" file should not contain:
+      | 28e83915fb2ed72fd074efdcb24f6b1a778a5f57_id |
+    And I verify this "gradebookEntry" file should not contain:
+      | f6b0227d1704b24efb2dae4a21e2d530fb384cca_idde48b510ed6ec71962f2483e1ad33511308db485_id |
     And I verify this "studentCompetency" file should not contain:
       | id                                          |
       | 3c2a56c1531ee76299aec831d2f41dc5bc6ec987_id |
@@ -284,8 +294,18 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | cb154b7f3fdb1ed9a62a5343c6d4d78addc8d444_id | entityType = courseTranscript |
       | c2c71979a917b74578950b6f976c4314acc9969f_id | entityType = courseTranscript |
       | 5a214a3e596887dffeaf44fdabd4535f33a96646_id | entityType = courseTranscript |
+    And I verify this "studentGradebookEntry" file should contain:
+      | id                                          | condition                          |
+      | 4c301bcd87feb866f5e55301880ab03f7651b3ab_id | entityType = studentGradebookEntry |
+      | f707337e00e682b21a9b1dfcd4963164672e2300_id | entityType = studentGradebookEntry |
+      | cf29b3421366846cb720ad2aaf0aa77bc6320f10_id | entityType = studentGradebookEntry |
+    And I verify this "gradebookEntry" file should contain:
+      | id                                                                                     | condition                   |
+      | 6e9504c3061a61384cbd9591a52893f07c6af242_id70c4a7aee25bcd0e9c07f370c2987970db065402_id | entityType = gradebookEntry |
+      | 0d8ae7beaec1d6ceb44b5e7dae3fa5aa75267c1f_id70b1a2d9af0abfbfd9583a0090adbf9ddb76d644_id | entityType = gradebookEntry |
+      | 2bf98e6bef0cfa93c8f824179f3d4d76d6f8eb07_id4e6bd3cc6e9f1f7fe7b7671ddba4f03ce56595da_id | entityType = gradebookEntry |
     And I verify this "studentCompetency" file should contain:
-      | id | condition |
+      | id                                          | condition                      |
       | c761c5f2fcc53bb90940e3cd26501a75d0106acc_id | entityType = studentCompetency |
       | 20119d985f13ca5b223a8521972bf3fcac7a8dad_id | entityType = studentCompetency |
       | fd7c6a6862dc7b4257234f477d601300ef4c3fc1_id | entityType = studentCompetency |
@@ -327,6 +347,10 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "courseTranscript" file should not contain:
       | id                                          |
       | b848986b74335a114ebee017c4f70659f96850db_id |
+    And I verify this "studentGradebookEntry" file should not contain:
+      | 8c14cc6999e43fd6b90d41a30cbb245cb212b508_id |
+    And I verify this "gradebookEntry" file should not contain:
+      | 7df01fe133b2605d0007dd1fecf9c8f8bc6afbee_id591ed4c7b19326e3ffa2c680b4a469ff413d65f4_id |
     And I verify this "studentCompetency" file should not contain:
       | id                                          |
       | ee9b1b72d1ca9692ff56bb2221a9f136c860d050_id |
