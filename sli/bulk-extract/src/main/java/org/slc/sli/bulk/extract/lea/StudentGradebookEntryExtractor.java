@@ -35,6 +35,7 @@ public class StudentGradebookEntryExtractor implements EntityDatedExtract {
     private ExtractFileMap map;
     private Repository<Entity> repo;
     private EdOrgExtractHelper edOrgExtractHelper;
+    private EntityToEdOrgDateCache gradebookEntryCache;
     
     public StudentGradebookEntryExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
             EdOrgExtractHelper edOrgExtractHelper) {
@@ -42,22 +43,25 @@ public class StudentGradebookEntryExtractor implements EntityDatedExtract {
         this.map = map;
         this.repo = repo;
         this.edOrgExtractHelper = edOrgExtractHelper;
+        gradebookEntryCache = new EntityToEdOrgDateCache();
     }
     
     @Override
-    public void extractEntities(EntityToEdOrgDateCache entityToEdorgCache) {
+    public void extractEntities(EntityToEdOrgDateCache studentCache) {
         edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STUDENT_GRADEBOOK_ENTRY, this.getClass().getName());
         Iterator<Entity> studentGradebookEntries = repo.findEach(EntityNames.STUDENT_GRADEBOOK_ENTRY, new NeutralQuery());
         
         while (studentGradebookEntries.hasNext()) {
             Entity studentGradebookEntry = studentGradebookEntries.next();
             String studentId = (String) studentGradebookEntry.getBody().get(ParameterConstants.STUDENT_ID);
+            String gradebookEntryId = (String) studentGradebookEntry.getBody().get(ParameterConstants.GRADEBOOK_ENTRY_ID);
 
-            Map<String, DateTime> studentEdOrgs = entityToEdorgCache.getEntriesById(studentId);
+            Map<String, DateTime> studentEdOrgs = studentCache.getEntriesById(studentId);
             for (Map.Entry<String, DateTime> entry: studentEdOrgs.entrySet()) {
                 DateTime upToDate = entry.getValue();
                 if(shouldExtract(studentGradebookEntry, upToDate)) {
                     extractor.extractEntity(studentGradebookEntry, map.getExtractFileForEdOrg(entry.getKey()), EntityNames.STUDENT_GRADEBOOK_ENTRY);
+                    gradebookEntryCache.addEntry(gradebookEntryId, entry.getKey(), upToDate);
                 }
             }
         }
@@ -66,6 +70,10 @@ public class StudentGradebookEntryExtractor implements EntityDatedExtract {
 
     protected boolean shouldExtract(Entity input, DateTime upToDate) {
         return EntityDateHelper.shouldExtract(input, upToDate);
+    }
+
+    public EntityToEdOrgDateCache getGradebookEntryCache() {
+        return gradebookEntryCache;
     }
     
 }

@@ -27,13 +27,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.Launcher;
-import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.lea.CalendarDateExtractor;
 import org.slc.sli.bulk.extract.lea.CourseExtractor;
 import org.slc.sli.bulk.extract.lea.CourseOfferingExtractor;
@@ -45,12 +38,20 @@ import org.slc.sli.bulk.extract.lea.EntityToEdOrgDateCache;
 import org.slc.sli.bulk.extract.lea.ExtractFileMap;
 import org.slc.sli.bulk.extract.lea.ExtractorFactory;
 import org.slc.sli.bulk.extract.lea.GraduationPlanExtractor;
-import org.slc.sli.bulk.extract.lea.SectionExtractor;
+import org.slc.sli.bulk.extract.lea.SectionEmbeddedDocsExtractor;
 import org.slc.sli.bulk.extract.lea.SessionExtractor;
 import org.slc.sli.bulk.extract.lea.StaffEdorgAssignmentExtractor;
 import org.slc.sli.bulk.extract.lea.StudentExtractor;
+import org.slc.sli.bulk.extract.lea.StudentGradebookEntryExtractor;
 import org.slc.sli.bulk.extract.lea.StudentSchoolAssociationExtractor;
 import org.slc.sli.bulk.extract.lea.YearlyTranscriptExtractor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.slc.sli.bulk.extract.BulkExtractMongoDA;
+import org.slc.sli.bulk.extract.Launcher;
+import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
@@ -124,7 +125,7 @@ public class LocalEdOrgExtractor {
         EntityDatedExtract studentAssessmentExtractor = factory.buildStudentAssessmentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         studentAssessmentExtractor.extractEntities(student.getStudentDatedCache());
 
-        EntityDatedExtract studentGradebookExtractor = factory.buildStudentGradebookEntryExtractor(entityExtractor, leaToExtractFileMap,
+        StudentGradebookEntryExtractor studentGradebookExtractor = factory.buildStudentGradebookEntryExtractor(entityExtractor, leaToExtractFileMap,
                 repository, helper);
         studentGradebookExtractor.extractEntities(student.getStudentDatedCache());
 
@@ -141,8 +142,8 @@ public class LocalEdOrgExtractor {
         genericExtractor.extractEntities(student.getParentCache());
 
         // Section
-        SectionExtractor sectionExtractor = factory.buildSectionExtractor(entityExtractor, leaToExtractFileMap, repository, student.getStudentDatedCache(), edorgCache, helper);
-        sectionExtractor.extractEntities(null);
+        SectionEmbeddedDocsExtractor sectionExtractor = factory.buildSectionExtractor(entityExtractor, leaToExtractFileMap, repository, student.getStudentDatedCache(), edorgCache, helper);
+        sectionExtractor.extractEntities(studentGradebookExtractor.getGradebookEntryCache());
 
         EntityDatedExtract studentCompetencyExtractor = factory.buildStudentCompetencyExtractor(entityExtractor, leaToExtractFileMap, repository);
         studentCompetencyExtractor.extractEntities(sectionExtractor.getStudentSectionAssociationDateCache());

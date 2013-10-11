@@ -102,8 +102,8 @@ public class ExtractorFactory {
         return new StaffCohortAssociationExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public SectionExtractor buildSectionExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgDateCache entityCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper) {
-        return new SectionExtractor(entityExtractor, extractFileMap, repository, entityCache, edorgCache, edOrgExtractHelper);
+    public SectionEmbeddedDocsExtractor buildSectionExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgDateCache entityCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper) {
+        return new SectionEmbeddedDocsExtractor(entityExtractor, extractFileMap, repository, entityCache, edorgCache, edOrgExtractHelper);
     }
 
     public EntityExtract buildStaffProgramAssociationExtractor(EntityExtractor extractor, ExtractFileMap map,
@@ -126,7 +126,7 @@ public class ExtractorFactory {
         return new CourseTranscriptExtractor(extractor, map, repo, edorgCache, studentDatedCache);
     }
 
-    public EntityDatedExtract buildStudentGradebookEntryExtractor(EntityExtractor extractor, ExtractFileMap map,
+    public StudentGradebookEntryExtractor buildStudentGradebookEntryExtractor(EntityExtractor extractor, ExtractFileMap map,
             Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         return new StudentGradebookEntryExtractor(extractor, map, repo, edOrgExtractHelper);
     }

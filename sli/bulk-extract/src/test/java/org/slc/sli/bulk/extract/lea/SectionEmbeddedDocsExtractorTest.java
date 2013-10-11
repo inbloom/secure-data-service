@@ -15,23 +15,14 @@
  */
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import junit.framework.Assert;
-
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-
+import junit.framework.Assert;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
@@ -43,20 +34,22 @@ import org.slc.sli.domain.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.*;
+
 /**
  * User: dkornishev
  */
 @SuppressWarnings("unchecked")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-public class SectionExtractorTest {
+public class SectionEmbeddedDocsExtractorTest {
 
     private static final List<String> EDORGS = Arrays.asList("nature", "chaos", "sorcery");
     private static final List<String> STUDENTS = Arrays.asList("Mitsubishi", "Kawasaki");
     private static final List<String> COURSE_OFFERINGS = Arrays.asList("witchcraft", "demonology", "escatronics");
     private static final List<String> SSA = Arrays.asList("phenomenology");
     private static final String LEA = "HUZZAH";
-    private SectionExtractor se;
+    private SectionEmbeddedDocsExtractor se;
     private EntityExtractor ex;
     private Repository<Entity> repo;
 
@@ -79,7 +72,7 @@ public class SectionExtractorTest {
 
         EdOrgExtractHelper mockEdOrgExtractHelper = Mockito.mock(EdOrgExtractHelper.class);
 
-        se = new SectionExtractor(ex, leaMap, repo, studentCache, edorgCache, mockEdOrgExtractHelper);
+        se = new SectionEmbeddedDocsExtractor(ex, leaMap, repo, studentCache, edorgCache, mockEdOrgExtractHelper);
     }
 
     @Test
