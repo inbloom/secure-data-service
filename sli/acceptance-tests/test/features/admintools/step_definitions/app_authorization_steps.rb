@@ -415,4 +415,12 @@ When /^I deselect hierarchical mode$/ do
   app = @driver.find_element(:id, "hierarchical_mode").click
 end
 
+When /^I expand all nodes$/ do
+  element = @driver.find_element(:id, 'expand_all').click
+end
+
+When /^I collapse all nodes$/ do
+  element = @driver.find_element(:id, 'collapse_all').click
+end
+
 

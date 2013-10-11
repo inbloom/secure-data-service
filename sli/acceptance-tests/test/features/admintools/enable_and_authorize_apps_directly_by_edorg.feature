@@ -56,6 +56,7 @@ Background:
 
          #All edOrgs from SEA downwards
     	 And I click on the "Edit Authorizations" button next to it
+    	 And I expand all nodes
     	 And I authorize the educationalOrganization "Illinois State Board of Education"
     	 And I click Update
     	Then there are "200" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
@@ -83,6 +84,7 @@ Background:
         Then I click on the "Edit Authorizations" button next to it
          And the sli securityEvent collection is empty
          And I deselect hierarchical mode
+         And I expand all nodes
          And I authorize the educationalOrganization "Illinois State Board of Education"
          And I click Update
         Then there are "1" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
