@@ -29871,9 +29871,50 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <SchoolYear>2013-2014</SchoolYear>
       </ReportCardIdentity>
     </ReportCardReference>
-    <SchoolYear>2012-2013</SchoolYear>
+    <SchoolYear>2013-2014</SchoolYear>
   </StudentAcademicRecord>
-  <StudentAcademicRecord>
+    <StudentAcademicRecord>
+        <CumulativeGradePointAverage>1.8</CumulativeGradePointAverage>
+        <SessionGradePointAverage>1.8</SessionGradePointAverage>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>4</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>2013-2014 Year Round session: 4</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>4</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>End of Year</GradingPeriod>
+                        <BeginDate>2013-08-27</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2013-2014</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
+    <StudentAcademicRecord>
     <CumulativeGradePointAverage>2.0</CumulativeGradePointAverage>
     <SessionGradePointAverage>2.0</SessionGradePointAverage>
     <StudentReference>
