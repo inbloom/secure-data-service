@@ -16,6 +16,7 @@ limitations under the License.
 
 =end
 
+include EdorgTreeHelper
 
 class AppsController < ApplicationController
   before_filter :check_rights
@@ -72,6 +73,15 @@ class AppsController < ApplicationController
     @app = App.find(params[:id])
     @app.authorized_ed_orgs = [] if @app.authorized_ed_orgs.nil?
     @sea = get_state_edorgs
+
+    stateEdOrgs = get_state_edorgs()
+    seaIds = stateEdOrgs.collect { |edOrg|
+      edOrg['sea_id']
+    }
+
+    edOrgTree = EdorgTree.new()
+                #     def get_tree_html(userEdOrg, appId, is_sea_admin, checkEnabled, checkAuthorized)
+    @treeHtml = edOrgTree.get_tree_html(seaIds, params[:id], is_sea_admin?, true, true)
   end
 
   def approve

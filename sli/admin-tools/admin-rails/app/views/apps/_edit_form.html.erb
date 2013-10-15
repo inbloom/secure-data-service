@@ -75,7 +75,6 @@
 	<span class="help-inline">This is used for applications that aren't web-based (Mobile).</span>
 </div>
 
-
 <div class = "field">
 	<!--<%= image_tag app.image_url, :title => "Image", :class => "app-image" %>-->
 	<%= f.label :image_url, "Image Url" %>
@@ -95,8 +94,6 @@
   </div>
 </div>
 
-
-
 <% if !@sea.nil? %>
 <h3>Enable the state(s) you would like to use your application</h3>
 <div id="state-menu">
@@ -108,6 +105,10 @@
 		 :style => 'width:500px' )
 		 %>
   </label>
+</div>
+
+<div>
+      <%= @treeHtml.html_safe %>
 </div>
 
 <!--
