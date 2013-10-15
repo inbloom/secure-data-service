@@ -61,6 +61,14 @@ class ApplicationController < ActionController::Base
     return
   end
 
+  def error
+    logger.error {"Internal server error"}
+    if params[:msg]
+      logger.error {"Message is: " + params[:msg]}
+    end
+    render_500
+  end
+  
   def current_url
     request.url
   end
@@ -114,6 +122,13 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { render :file => "#{Rails.root}/public/403.html", :status => :forbidden }
       #format.json { :status => :not_found}
+      format.any  { head :not_found }
+    end
+  end
+
+  def render_500
+    respond_to do |format|
+      format.html { render :file => "#{Rails.root}/public/500.html", :status => :internal_server_error }
       format.any  { head :not_found }
     end
   end

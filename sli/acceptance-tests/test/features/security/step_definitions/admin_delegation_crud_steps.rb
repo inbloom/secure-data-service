@@ -86,19 +86,19 @@ end
 
 Then /^I should revoke all app authorizations for (district "[^"]*")$/ do |district|
   @format = "application/json"
-  dataObj = {"appId" => "78f71c9a-8e37-0f86-8560-7783379d96f7", "authorized" => false}
+  dataObj = {"appId" => "78f71c9a-8e37-0f86-8560-7783379d96f7", "authorized" => false, :edorgs => [district]}
   data = prepareData("application/json", dataObj)
   puts("The data is #{data}") if ENV['DEBUG']
-  restHttpPut("/applicationAuthorization/78f71c9a-8e37-0f86-8560-7783379d96f7?edorg=#{district}", data)
+  restHttpPut("/applicationAuthorization/78f71c9a-8e37-0f86-8560-7783379d96f7", data)
   assert(@res != nil, "Response from PUT operation was nil")
 end
 
 Then /^I should grant all app authorizations for (district "[^"]*")$/ do |district|
   @format = "application/json"
-  dataObj = {"appId" => "78f71c9a-8e37-0f86-8560-7783379d96f7", "authorized" => true}
+  dataObj = {"appId" => "78f71c9a-8e37-0f86-8560-7783379d96f7", "authorized" => true, :edorgs => [district]}
   data = prepareData("application/json", dataObj)
   puts("The data is #{data}") if ENV['DEBUG']
-  restHttpPut("/applicationAuthorization/78f71c9a-8e37-0f86-8560-7783379d96f7?edorg=#{district}", data)
+  restHttpPut("/applicationAuthorization/78f71c9a-8e37-0f86-8560-7783379d96f7?", data)
   assert(@res != nil, "Response from PUT operation was nil")
 end
 

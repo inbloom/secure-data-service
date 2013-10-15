@@ -173,7 +173,8 @@ end
 
 When /^I see the realms for "([^"]*)"$/ do |uid|
   title = (@driver.find_elements(:xpath, "//html/body/div/h1"))[0].text
-  assert(title == "Realms for #{uid}", "Page title not expected")
+  expectedTitle = "Realms for #{uid}"
+  assert(title == expectedTitle, "Page title in body/div/h1 mismatch: got '" + title + "' expected '" + expectedTitle + "'")
 end
 
 When /^I click the "(.*?)" edit button$/ do |arg1|

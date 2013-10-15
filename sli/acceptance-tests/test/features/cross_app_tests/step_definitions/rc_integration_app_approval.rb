@@ -42,6 +42,17 @@ When /^I make my app an installed app$/ do
   @driver.find_element(:css, 'input[id="app_installed"]').click
 end
 
+Then /^I authorize the educationalOrganization "(.*?)" in the production tenant$/ do |edOrgName|
+  disable_NOTABLESCAN()
+  db = @conn[convertTenantIdToDbName(PropLoader.getProps['tenant'])]
+  coll = db.collection("educationOrganization")
+  record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
+  #puts record.to_s
+  edOrgId = record["_id"]
+  #puts edOrgId.to_s
+  app = @driver.find_element(:id, edOrgId.to_s).click
+  enable_NOTABLESCAN()
+end
 
 Then /^my new apps client ID is present$/ do
   @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
@@ -161,19 +172,13 @@ Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the production ap
    db = @conn.db("sli")
    coll = db.collection("application")
    record = coll.find_one("body.name" => application)
-   puts record.to_s
    appId = record["_id"]
-   puts appId.to_s
-   db = @conn[convertTenantIdToDbName(PropLoader.getProps['tenant'])]
+   db = @conn.db(convertTenantIdToDbName(PropLoader.getProps['tenant']))
    coll = db.collection("applicationAuthorization")
    record = coll.find_one("body.applicationId" => appId.to_s)
-   puts record.to_s
    body = record["body"]
-   puts body.to_s
    edorgsArray = body["edorgs"]
-   puts edorgsArray.to_s
    edorgsArrayCount = edorgsArray.count
-   puts edorgsArrayCount
    assert(edorgsArrayCount == expected_count.to_i, "Education organization count mismatch in applicationAuthorization collection. Expected #{expected_count}, actual #{edorgsArrayCount}")
 end
 

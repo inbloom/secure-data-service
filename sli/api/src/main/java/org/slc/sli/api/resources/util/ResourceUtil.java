@@ -33,8 +33,8 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -62,7 +62,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public class ResourceUtil {
 
-    private static final Log LOG = LogFactory.getFactory().getInstance(ResourceUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ResourceUtil.class);
     private static final String REFERENCE = "REF";
     private static final String LINK = "LINK";
     private static final String BLANK = "";
@@ -426,10 +426,7 @@ public class ResourceUtil {
             return getEmbeddedReferences("", Arrays.asList(keys), defnStore.lookupByEntityType(ref.getEntityType())
                     .getResourceName(), defn.getSchema(), entityBody, uri);
         } else {
-            LogFactory
-                    .getFactory()
-                    .getInstance(ResourceUtil.class)
-                    .error(String
+            LOG.error(String
                             .format("Failed to generate a link for entity type %s : the definition for the type  was not registered.",
                                     ref.getEntityType()));
         }

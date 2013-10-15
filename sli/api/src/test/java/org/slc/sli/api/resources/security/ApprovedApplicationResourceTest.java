@@ -93,7 +93,8 @@ public class ApprovedApplicationResourceTest {
         EntityBody auth = new EntityBody();
         auth.put("appId", app1.getEntityId());
         auth.put("authorized", true);
-        appAuth.updateAuthorization(app1.getEntityId(), auth, null);
+        auth.put("edorgs", Arrays.asList(lea.getEntityId()));
+        appAuth.updateAuthorization(app1.getEntityId(), auth);
 
         injector.setStaffContext();
         SecurityUtil.getSLIPrincipal().setEdOrgId(lea.getEntityId());
