@@ -473,7 +473,7 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
       |  attendance                            |
       |  course                                |
       |  courseOffering                        |
-      |  courseTranscript                      |
+     # |  courseTranscript                      |
       |  disciplineIncident                    |
       |  disciplineAction                      |
       |  educationOrganization                 |
