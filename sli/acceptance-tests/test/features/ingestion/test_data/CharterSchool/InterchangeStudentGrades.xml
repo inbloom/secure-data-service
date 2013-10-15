@@ -24555,7 +24555,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <SessionName>2013-2014 Year Round session: 4</SessionName>
           </SessionIdentity>
         </SessionReference>
-        <SchoolYear>2013-2014</SchoolYear>
+        <SchoolYear>2012-2013</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -29871,7 +29871,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <SchoolYear>2013-2014</SchoolYear>
       </ReportCardIdentity>
     </ReportCardReference>
-    <SchoolYear>2013-2014</SchoolYear>
+    <SchoolYear>2012-2013</SchoolYear>
   </StudentAcademicRecord>
   <StudentAcademicRecord>
     <CumulativeGradePointAverage>2.0</CumulativeGradePointAverage>
