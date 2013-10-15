@@ -15,11 +15,9 @@ Scenario: Trigger a bulk extract on ingested data
    |  educationOrganization                 |
    |  grade                                 |
    |  gradebookEntry                        |
-   |  gradingPeriod                         |
    |  parent                                |
    |  reportCard                            |
    |  school                                |
-   |  session                               |
    |  staff                                 |
    |  staffCohortAssociation                |
    |  staffEducationOrganizationAssociation |

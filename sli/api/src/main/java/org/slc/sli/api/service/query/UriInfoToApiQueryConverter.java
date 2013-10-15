@@ -25,6 +25,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.constants.Constraints;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -39,9 +40,6 @@ import org.slc.sli.domain.QueryParseException;
  *
  */
 public class UriInfoToApiQueryConverter {
-
-    //in order to reduce extremely long API calls, we will limit the number of entities any one call can return
-    private static final int HARD_ENTITY_COUNT_LIMIT = 1000;
 
     //private SelectionConverter selectionConverter = new Selector2MapOfMaps();
 
@@ -193,8 +191,8 @@ public class UriInfoToApiQueryConverter {
             }
 
             int limit = apiQuery.getLimit();
-            if (0 == limit || limit > HARD_ENTITY_COUNT_LIMIT) {
-                apiQuery.setLimit(HARD_ENTITY_COUNT_LIMIT);
+            if (0 == limit || limit > Constraints.HARD_ENTITY_COUNT_LIMIT) {
+                apiQuery.setLimit(Constraints.HARD_ENTITY_COUNT_LIMIT);
             }
         }
         return apiQuery;

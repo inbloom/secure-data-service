@@ -198,7 +198,7 @@ saveData = (json) ->
       window.location.reload(true);
     error: (data, status, xhr) ->
       console.log("error", data, status, xhr)
-      window.location.reload(true);
+      window.location.replace('/error?msg=Ajax%20error')
 
 
 # Should be able to scrape the data from each row regardless of whether the row is in edit mode

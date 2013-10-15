@@ -1,0 +1,29 @@
+<h1>Edit Application Authorizations</h1>
+<h2>Education Organizations for: <%= @edOrg.nameOfInstitution %></h2>
+<h3>Application: <%= @app_description %></h3>
+
+<div class="content">
+  <div id="edorgTree">
+    <ul>
+      <li>Please choose edOrgs to authorize for the app.
+      <li>Following each EdOrg are counts of: <span class="treecounts">(direct subsidiary EdOrgs / total subsidiary EdOrgs)</span>
+      <li>EdOrgs in <i>italics</i> are not authorizable because the EdOrg, or some subsidiary EdOrg, has not been enabled for its use by the vendor (<%= @app.vendor %>)
+    </ul>
+    <input id="hierarchical_mode" type="checkbox" checked="true">Hierarchical Selection Mode</input>
+    <a href="#" id="expand_all">Expand All</a>
+    <a href="#" id="collapse_all">Collapse All</a>
+    <div>
+      <%= @edorg_tree_html.html_safe %>
+    </div>
+
+    <%=form_for @appAuth,  :action => :update do |f|%>
+        <%= f.hidden_field :appId, :value => @appAuth.appId %>
+        <%= f.hidden_field :edorgsAdded,   :value => '' %>
+        <%= f.hidden_field :edorgsRemoved, :value => '' %>
+        <%= f.submit 'Save & Update' %>
+    <% end %>
+    <button onclick="window.location.href='/application_authorizations'">Cancel</button>
+
+    <%= @debug %>
+  </div>
+</div>

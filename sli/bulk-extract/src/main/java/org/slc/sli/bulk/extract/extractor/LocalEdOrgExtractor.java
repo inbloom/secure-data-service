@@ -43,7 +43,6 @@ import org.slc.sli.bulk.extract.lea.EntityToEdOrgDateCache;
 import org.slc.sli.bulk.extract.lea.ExtractFileMap;
 import org.slc.sli.bulk.extract.lea.ExtractorFactory;
 import org.slc.sli.bulk.extract.lea.SectionEmbeddedDocsExtractor;
-import org.slc.sli.bulk.extract.lea.SessionExtractor;
 import org.slc.sli.bulk.extract.lea.StaffEdorgAssignmentExtractor;
 import org.slc.sli.bulk.extract.lea.StudentExtractor;
 import org.slc.sli.bulk.extract.lea.StudentGradebookEntryExtractor;
@@ -154,13 +153,6 @@ public class LocalEdOrgExtractor {
 
         genericExtractor = factory.buildTeacherSchoolExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
-
-        //Session and gradingPeriod
-        SessionExtractor sessionExtractor = factory.buildSessionExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        sessionExtractor.extractEntities(edorgCache);
-
-        EntityExtract gradingPeriodExtractor = factory.buildGradingPeriodExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        gradingPeriodExtractor.extractEntities(sessionExtractor.getEntityToLeaCache());
 
         genericExtractor = factory.buildStaffProgramAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(seaExtractor.getEntityCache());

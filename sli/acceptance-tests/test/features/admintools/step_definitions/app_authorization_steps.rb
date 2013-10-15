@@ -24,6 +24,62 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
+
+DATABASE_NAME = PropLoader.getProps['sli_database_name']
+
+Then /^The following edOrgs are authorized for the application "(.*?)" in tenant "(.*?)"$/ do |application, tenant, table|
+    disable_NOTABLESCAN()
+    @db = @conn['02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a']
+    @slidb = @conn[DATABASE_NAME]
+   
+    @results = "true"
+    edOrgsArray ||= []
+   
+     table.hashes.map do |row|
+        @entity_collection = @db[row["edorgs"]]
+         coll = @db.collection("applicationAuthorization")
+         col2 = @db.collection("educationOrganization")
+         col3 = @slidb.collection("application")
+         @applicationEntity = col3.find_one({'body.name' => application})
+         applicationId = @applicationEntity ['_id']
+         @eduOrgEntity = col2.find_one({'body.stateOrganizationId' => row["edorgs"]})
+         @stateOrganizationId = @eduOrgEntity['_id']
+
+         edOrgsArray.push(@stateOrganizationId)
+         edOrgsArray.sort
+         record = coll.find_one({"$and" => [{'body.applicationId'=> applicationId}, {'body.edorgs' => @stateOrganizationId}] })
+         @recordBody = record['body']
+         @recordEdorgs = @recordBody['edorgs']
+         #record = coll.find_one({"$and" => [{'body.applicationId'=> application}, {'body.edorgs' => row["edorgs"]}] })         
+         if record != nil
+            assert(@results == "true", "applicationAuthorization record is found!")
+         else
+             @results= "false"
+            assert(@results == "false", "applicationAuthorization record is not found!")
+         end
+             
+    end
+    @diff = edOrgsArray <=> @recordEdorgs
+     if  @diff == 0
+         assert(@results =="true", "edorgs match mongo database!")    
+     else
+         assert(@results =="false", "edorgs does not match ")
+     end
+end
+
+
+Then /^I verify "(.*?)" delta bulk extract files are generated for Edorg "(.*?)" in "(.*?)"$/ do |count, lea, tenant|
+    count = count.to_i
+    @conn ||= Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+    puts DATABASE_NAME
+    puts DATABASE_HOST
+    puts DATABASE_PORT
+    @sliDb ||= @conn.db(DATABASE_NAME)
+    @coll = @sliDb.collection("bulkExtractFiles")
+    query = {"body.tenantId"=>tenant, "body.isDelta"=>true, "body.edorg"=>lea}
+    assert(count == @coll.count({query: query}), "Found #{@coll.count({query: query})}, expected #{count}")
+end
+
 When /^I hit the Admin Application Authorization Tool$/ do
   #XXX - Once the API is ready, remove the ID
   @driver.get(PropLoader.getProps['admintools_server_url']+"/application_authorizations/")
@@ -31,6 +87,12 @@ end
 
 Then /^I am redirected to the Admin Application Authorization Tool$/ do
   assertWithWait("Failed to navigate to the Admintools App Registration page")  {@driver.page_source.index("application_authorizations") != nil}
+end
+
+Then /^I am redirected to the Admin Application Authorization Edit Page$/ do
+  actualUrl = @driver.current_url
+  expectedRegex = "/application_authorizations/.*/edit"
+  assertWithWait("Failed to navigate to the Admintools App Authorization Edit page: URL '" + actualUrl + "' does match '" + expectedRegex + "'")  {actualUrl.match(expectedRegex) != nil}
 end
 
 Then /^I see a label in the middle "([^"]*)"/ do |arg1|
@@ -57,25 +119,27 @@ Then /^the unauthorized are colored red$/ do
   end
 end
 
-Then /^are sorted by 'Status'$/ do
+ Then /^are sorted by '([^']+)'$/ do |columnName|
   tableHeadings = @appsTable.find_elements(:xpath, ".//thead/tr/th")
-  index = 0
+  index = -1
   tableHeadings.each do |arg|
-    index = tableHeadings.index(arg) + 1 if arg.text == "Status"    
+    index = tableHeadings.index(arg) + 1 if arg.text == columnName
   end
+  assert(index >= 0, "Cannot find column name '" + columnName + "'")
   rows = @appsTable.find_elements(:xpath, ".//tbody/tr")
   inApprovedSection = true
+  last_td = nil
   rows.each do |curRow| 
-    td = curRow.find_element(:xpath, "//td[#{index}]")
-    assert(inApprovedSection || (!inApprovedSection && td.text != "Approved"), "Encountered an app with a 'Approved' status after one with a 'Not Approved' status")
-    if td.text == "Not Approved"
-      inApprovedSection = false
+    td = curRow.find_element(:xpath, "//td[#{index}]").text
+    if !last_td.nil?
+      assert(td.casecmp(last_td) >= 0, "Values in column '" + columnName + "' not sorted as expected: '" + td + "' < '" + last_td + "'")
     end
+    last_td = td
   end
 end
 
 Then /^I see the Name, Version, Vendor and Status of the apps$/ do
-  expectedHeadings = ["Name", "Version", "Vendor", "Status", ""]
+  expectedHeadings = ["Name", "Version", "Vendor", "Approval Status", ""]
   tableHeadings = @appsTable.find_elements(:xpath, ".//tr/th")
   actualHeadings = []
   tableHeadings.each do |heading|
@@ -117,6 +181,7 @@ end
 
 Given /^I see an application "([^"]*)" in the table$/ do |arg1|
   @appName = arg1
+  @appRow = getApp(@appName)
   apps = @driver.find_elements(:xpath, ".//tbody/tr/td[text()='#{arg1}']/..")
   apps.each do |cur|
     puts("The app is #{cur.inspect} and #{cur.text}")
@@ -132,6 +197,7 @@ Given /^in Status it says "([^"]*)"$/ do |arg1|
   assert(actualStatus == arg1, "Expected status of #{@appName} to be #{arg1} instead it's #{actualStatus.inspect}")
 end
 
+# TODO: assert fail if no button is matched and then clicked
 Given /^I click on the "([^"]*)" button next to it$/ do |arg1|
   inputs = @appRow.find_elements(:xpath, ".//td/form/input")
   inputs.each do |cur|
@@ -178,6 +244,13 @@ Then /^the app "([^"]*)" Status becomes "([^"]*)"$/ do |app, arg1|
   @row = getApp(app)
   assert(@row.displayed?, "#{app} should be present and visible")
   assertWithWait("Status should have switched to #{arg1}"){  @row.find_element(:xpath, ".//td[4]").text == arg1} 
+end
+
+Then /^the app "([^"]*)" Status matches "([^"]*)"$/ do |app, regex|
+  @row = @appRow = getApp(app)
+  assert(@row.displayed?, "#{app} should be present and visible")
+  text = @row.find_element(:xpath, ".//td[4]").text
+  assertWithWait("Status text '" + text + "' should match regex '#{regex}'"){  text.match(regex)} 
 end
 
 Then /^it is colored "([^"]*)"$/ do |arg1|
@@ -271,21 +344,83 @@ Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the applicationAu
    db = @conn.db("sli")
    coll = db.collection("application")
    record = coll.find_one("body.name" => application)
-   puts record.to_s
+   #puts record.to_s
    appId = record["_id"]
-   puts appId.to_s
+   #puts appId.to_s
    db = @conn[convertTenantIdToDbName(tenant)]
    coll = db.collection("applicationAuthorization")
    record = coll.find_one("body.applicationId" => appId.to_s)
-   puts record.to_s
+   #puts record.to_s
    body = record["body"]
-   puts body.to_s
+   #puts body.to_s
    edorgsArray = body["edorgs"]
-   puts edorgsArray.to_s
+   #puts edorgsArray.to_s
    edorgsArrayCount = edorgsArray.count
-   puts edorgsArrayCount
+   #puts edorgsArrayCount
    assert(edorgsArrayCount == expected_count.to_i, "Education organization count mismatch in applicationAuthorization collection. Expected #{expected_count}, actual #{edorgsArrayCount}")
    enable_NOTABLESCAN()
+end
+
+When /^I click Update$/ do
+  @driver.find_element(:css, 'input:enabled[type="submit"]').click
+end
+
+Then /^I authorize the educationalOrganization "(.*?)"$/ do |edOrgName|
+  disable_NOTABLESCAN()
+  db = @conn[convertTenantIdToDbName("Midgar")]
+  coll = db.collection("educationOrganization")
+  record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
+  #puts record.to_s
+  edOrgId = record["_id"]
+  #puts edOrgId.to_s
+  app = @driver.find_element(:id, edOrgId.to_s).click
+  enable_NOTABLESCAN()
+end
+
+Then /^the checkbox with HTML id "([^"]*?)" is (checked|unchecked)$/ do |id,status|
+  elt = @driver.find_element(:css, 'input#' + id + '[type="checkbox"]')
+  assert(elt, "Checkbox with id '" + id + "' not found")
+  selected = elt.selected?
+  assert(status == "checked" && selected || status == "unchecked" && !selected, "Expected checkbox id '" + id + "' to be " + status + ", but WebDriver.isSelected gives '" + selected.to_s() + "'")
+end
+
+When /^I (check|uncheck) the checkbox with HTML id "([^"]*?)"$/ do |action,id|
+  elt = @driver.find_element(:css, 'input#' + id + '[type="checkbox"]')
+  assert(elt, "Checkbox with id '" + id + "' not found")
+  assert(action == "check" && !elt.selected? || action == "uncheck" && elt.selected?, "Cannot " + action + " checkbox with id '" + id + "' whose checked status is " + elt.selected?.to_s())
+  elt.click()
+end
+
+Then /^I de-authorize the educationalOrganization "(.*?)"$/ do |edOrgName|
+  step "I authorize the educationalOrganization \"#{edOrgName}\""
+end
+
+Then /^there are "(.*?)" educationalOrganizations in the targetEdOrgList$/ do |expected_count|
+  disable_NOTABLESCAN()
+  db = @conn.db("sli")
+  coll = db.collection("securityEvent")
+  record = coll.find_one()
+  #puts record.to_s
+  body = record["body"]
+  #puts body.to_s
+  targetEdOrgList = body["targetEdOrgList"]
+  #puts targetEdOrgList.to_s
+  targetEdOrgListCount = targetEdOrgList.count
+  #puts targetEdOrgListCount
+  assert(targetEdOrgListCount == expected_count.to_i, "targetEdOrgList count mismatch in securityEvent collection. Expected #{expected_count}, actual #{targetEdOrgListCount}")
+  enable_NOTABLESCAN()
+end
+
+When /^I deselect hierarchical mode$/ do
+  app = @driver.find_element(:id, "hierarchical_mode").click
+end
+
+When /^I expand all nodes$/ do
+  element = @driver.find_element(:id, 'expand_all').click
+end
+
+When /^I collapse all nodes$/ do
+  element = @driver.find_element(:id, 'collapse_all').click
 end
 
 

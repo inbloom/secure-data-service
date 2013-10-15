@@ -62,16 +62,21 @@ Scenario: State Administrator gets access to app approval for one district
    And I am redirected to the Admin Application Authorization Tool
   Then I see the list of all available apps on SLI
   And I see an application "Testing App" in the table
-  And in Status it says "Not Approved"
-  And I click on the "Approve" button next to it
-  And I switch focus to the popup matching the regex "^Do you really.*access.*education organization.*data"
-  And I click on Ok
-  And the application is authorized to use data of "Daybreak School District"
-  And the app "Testing App" Status becomes "Approved"
-  And it is colored "green"
-  And the Approve button next to it is disabled
-  And the Deny button next to it is enabled
-  And I see an application "Admin Delegation Test" in the table
+#  And in Status it says "Not Approved"
+#  And I click on the "Approve" button next to it
+#  And I switch focus to the popup matching the regex "^Do you really.*access.*education organization.*data"
+#  And I click on Ok
+#  And the application is authorized to use data of "Daybreak School District"
+#  And the app "Testing App" Status becomes "Approved"
+#  And it is colored "green"
+#  And the Approve button next to it is disabled
+#  And the Deny button next to it is enabled
+   Then I click on the "Edit Authorizations" button next to it
+   And I deselect hierarchical mode
+   And I authorize the educationalOrganization "Daybreak School District 4529"
+   And I click Update
+   And I see an application "Testing App" in the table
+   And in Status it says "1 EdOrg(s)"
 
  Scenario: LEA Super Administrator delegating access to security event logs
   Given I have an open web browser

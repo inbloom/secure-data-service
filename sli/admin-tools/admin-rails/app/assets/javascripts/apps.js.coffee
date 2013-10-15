@@ -19,15 +19,15 @@ jQuery ->
         )
 
     false
-jQuery ->
-    $("#lea-menu table").live 'change', ->
-        #Populate the LI classes with enabled stuff
-        count = $(@).find('tr').size()
-        edorgs = getEdorgs()
-        jQuery.each(edorgs, (index, item) ->
-            $("tr##{item} td label input").attr('checked', true)
-        )
-        $('#smartpager').smartpaginator({ datacontainer:'lea-table', dataelement:'tr', display:'single', totalrecords: count, recordsperpage: 25, initval:0 , next: 'Next', prev: 'Prev', first: 'First', last: 'Last', theme: 'bootstrap'})
+# jQuery ->
+#     $("#lea-menu table").live 'change', ->
+#         #Populate the LI classes with enabled stuff
+#         count = $(@).find('tr').size()
+#         edorgs = getEdorgs()
+#         jQuery.each(edorgs, (index, item) ->
+#             $("tr##{item} td label input").attr('checked', true)
+#         )
+#         $('#smartpager').smartpaginator({ datacontainer:'lea-table', dataelement:'tr', display:'single', totalrecords: count, recordsperpage: 25, initval:0 , next: 'Next', prev: 'Prev', first: 'First', last: 'Last', theme: 'bootstrap'})
     # 
     #     if(count <= items_per_page)
     #       $('div.pagination').hide()
@@ -61,27 +61,27 @@ jQuery ->
     # $('div.pagination li:first a').live 'click', ->
     #   $(@).next().find('a').click()
     
-jQuery ->
-  $("#lea-menu input").live 'change', ->
-    id = $(@).parent().parent().parent().attr('id')
-    edorgs = getEdorgs()
-    if $(@).is(':checked')
-      #Add the input
-      $('div#ed_orgs').append("<input id=\"app_authorized_ed_orgs\" name=\"app[authorized_ed_orgs][]\" multiple=\"multiple\" type=\"hidden\" value=\"#{id}\">")
-    else
-      index = edorgs.indexOf id
-      if index != -1
-        #Remove the input
-        $("input#app_authorized_ed_orgs[value=\"#{id}\"]").remove()
-    false
-  
-jQuery ->
-    $("div.enable-disable a#enable-all").live 'click', ->
-        $("#lea-menu input:visible:not(:checked)").click()
-        false
-    $("div.enable-disable a#disable-all").live 'click', ->
-        $("#lea-menu input:visible:checked").click()
-        false
+# jQuery ->
+#   $("#lea-menu input").live 'change', ->
+#     id = $(@).parent().parent().parent().attr('id')
+#     edorgs = getEdorgs()
+#     if $(@).is(':checked')
+#       #Add the input
+#       $('div#ed_orgs').append("<input id=\"app_authorized_ed_orgs\" name=\"app[authorized_ed_orgs][]\" multiple=\"multiple\" type=\"hidden\" value=\"#{id}\">")
+#     else
+#       index = edorgs.indexOf id
+#       if index != -1
+#         #Remove the input
+#         $("input#app_authorized_ed_orgs[value=\"#{id}\"]").remove()
+#     false
+#   
+# jQuery ->
+#     $("div.enable-disable a#enable-all").live 'click', ->
+#         $("#lea-menu input:visible:not(:checked)").click()
+#         false
+#     $("div.enable-disable a#disable-all").live 'click', ->
+#         $("#lea-menu input:visible:checked").click()
+#         false
 jQuery ->
   $("#applications tr:odd").addClass("odd")
   $("#applications tr:not(.odd)").hide()
