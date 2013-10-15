@@ -18,7 +18,6 @@
       |  entityType                            | count |  id  | 
       #|  assessment                            |   |         |  
       |  attendance                            | 74 | a9605e685b48f1762236070db165cfe50961c058_id |
-      |  calendarDate                          |  4 | 8b126c91f26c86d7204ebb670da8eed5dc958482_id |
       #|  competencyLevelDescriptor             |   |         |
       |  courseTranscript                      |  196| f93d8f8678c4bcbebe1c8b118d12cda004025304_id |
       |  disciplineIncident                    | 2  | aa752ad920bcf00b341236b230eac76e5a80ef3b_id   |

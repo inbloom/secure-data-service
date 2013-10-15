@@ -78,11 +78,6 @@ public class ExtractorFactory {
         return new StudentSchoolAssociationExtractor(extractor, map, repo, studentCache, edOrgExtractHelper);
     }
 
-    public CalendarDateExtractor buildCalendarDateExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
-        return new CalendarDateExtractor(extractor, map, repo, new ExtractorHelper(), new EntityToEdOrgCache(), edOrgExtractHelper);
-    }
-
-
     public ExtractFile buildLEAExtractFile(String path, String edOrg, String archiveName,
             Map<String, PublicKey> appPublicKeys, SecurityEventUtil securityEventUtil) {
         File directory = new File(path, edOrg);
