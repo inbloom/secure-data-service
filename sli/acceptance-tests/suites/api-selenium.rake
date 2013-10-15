@@ -21,6 +21,12 @@ task :adminWebTests => [:realmInit] do
   runTests("test/features/admintools")
 end
 
+desc "Run Admin Auth Tests"
+task :adminAppAuthTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/enable_and_authorize_apps_directly_by_edorg.feature")
+end
+
 desc "Run Admin Tool Smoke Tests"
 task :adminRealmTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
@@ -104,6 +110,15 @@ task :adminSmokeTests do
   Rake::Task["realmInit"].execute
   Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools/admin_smoke.feature")
+end
+
+desc "Run multi realms with same idp test"
+task :adminMultiRealmSameIdpTests do
+  Rake::Task["realmInit"].execute
+  Rake::Task["importSandboxData"].execute
+  allLeaAllowApp("Mobile App")
+  authorizeEdorg("Mobile App")
+  runTests("test/features/admintools/multi_realms_with_same_idp.feature")
 end
 
 ############################################################

@@ -29,6 +29,7 @@ require 'rexml/document'
 require 'yaml'
 require 'digest/sha1'
 require 'socket'
+require 'macaddr'
 
 include REXML
 
@@ -565,6 +566,12 @@ def findLink(id, type, rel, href)
   return found
 end
 
+def get_mac_address(colon_replacer = nil)
+  address = Mac.addr
+  address.gsub!(/[:]/,colon_replacer) if colon_replacer
+
+  address
+end
 
 ########################################################################
 ########################################################################

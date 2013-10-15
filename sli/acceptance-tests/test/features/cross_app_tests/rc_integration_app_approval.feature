@@ -25,7 +25,7 @@ And I should enter "RC-IL-Daybreak" into Realm Identifier
 And I should click the "Save" button
 And I switch to the iframe
 And I should receive a notice that the realm was successfully "created"
-Then I see the realms for "Daybreak School District 4529 (IL-DAYBREAK)"
+#Then I see the realms for "Daybreak School District 4529 (IL-DAYBREAK)"
 And the realm "Daybreak Test Realm" will exist
 And I exit out of the iframe
 And I click on log out
@@ -42,6 +42,7 @@ And I should be on the admin page
 And I should not see "inBloom Data Browser"
 And I click on log out
 
+@wip
 Scenario: Charter School Realm Admin Logins to create realm
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "inBloom"
@@ -67,6 +68,7 @@ And the realm "Charter School Test Realm" will exist
 And I exit out of the iframe
 And I click on log out
 
+@wip
 Scenario: Charter School User cannot access Bootstrapped Apps before approval
 When I navigate to the Portal home page
 When I selected the realm "Charter School Test Realm"
@@ -94,27 +96,32 @@ Then I am redirected to the Admin Application Authorization Tool
 #Authorize the Dashboard
 And I see an application "inBloom Dashboards" in the table
 And in Status it says "Not Approved"
-And I click on the "Approve" button next to it
-And I am asked 'Do you really want this application to access the district's data'
-When I click on Ok
-Then the application is authorized to use data of "Daybreak School District 4529"
-And the app "inBloom Dashboards" Status becomes "Approved"
-And it is colored "green"
-And the Approve button next to it is disabled
-And the Deny button next to it is enabled
+And I click on the "Edit Authorizations" button next to it
+And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
+And the sli securityEvent collection is empty
+And I click Update
+And I see an application "inBloom Dashboards" in the table
+And in Status it says "199 EdOrg(s)"
+Then there are "199" edOrgs for the "inBloom Dashboards" application in the production applicationAuthorization collection
+And I check to find if record is in sli db collection:
+  | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+  | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+And there are "199" educationalOrganizations in the targetEdOrgList
+
 #Authorize the Databrowser
 And I see an application "inBloom Data Browser" in the table
 And in Status it says "Not Approved"
-And I click on the "Approve" button next to it
-And I am asked 'Do you really want this application to access the district's data'
-When I click on Ok
-# switch back to iframe because of the page reload
-And I switch to the iframe
-Then the application is authorized to use data of "Daybreak School District 4529"
-And the app "inBloom Data Browser" Status becomes "Approved"
-And it is colored "green"
-And the Approve button next to it is disabled
-And the Deny button next to it is enabled
+And I click on the "Edit Authorizations" button next to it
+And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
+And the sli securityEvent collection is empty
+And I click Update
+And I see an application "inBloom Data Browser" in the table
+And in Status it says "199 EdOrg(s)"
+Then there are "199" edOrgs for the "inBloom Data Browser" application in the production applicationAuthorization collection
+And I check to find if record is in sli db collection:
+  | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+  | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+And there are "199" educationalOrganizations in the targetEdOrgList
 #Authorized the new Web-App
 And I exit out of the iframe
 And I click on log out
@@ -136,6 +143,7 @@ And I should forced to reauthenticate to gain access
 When I navigate to the dashboard home page
 Then I should forced to reauthenticate to gain access
 
+@wip
 Scenario: Charter School Sessions are shared between Dashboard and Databrowser apps
 When I navigate to the Portal home page
 When I select "Charter School Test Realm" and click go
@@ -161,6 +169,7 @@ When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login
 Then I should be on Portal home page
 And under My Applications, I see the following apps: "inBloom Dashboards"
 
+@wip
 Scenario: Charter School User sees non-installed Developer App
 When I navigate to the Portal home page
 When I selected the realm "Charter School Test Realm"

@@ -5,6 +5,7 @@ Feature:  RC Integration Tests
 Background:
 Given I have an open web browser
 
+@wip
 Scenario: Charter School Realm Admin Logins to create realm
     When I navigate to the Portal home page
     When I see the realm selector I authenticate to "inBloom"
@@ -30,7 +31,7 @@ Scenario: Charter School Realm Admin Logins to create realm
     And I exit out of the iframe
     And I click on log out
 
-
+@wip
 Scenario: Charter School User cannot access Bootstrapped Apps before approval
     When I navigate to the Portal home page
     When I selected the realm "Charter School Test Realm"
@@ -43,7 +44,7 @@ Scenario: Charter School User cannot access Bootstrapped Apps before approval
     And I should not see "inBloom Data Browser"
     And I click on log out
 
-
+@wip
 Scenario:  Charter School LEA gives IT Admins bulk extract permissions
     When I navigate to the Portal home page
     When I see the realm selector I authenticate to "inBloom"
@@ -185,6 +186,7 @@ Scenario: SEA admin makes an api call to PATCH the SEA
   When I PATCH the name for the current edorg entity to Education Agency for RC Tests
   Then I should receive a return code of 204
 
+@wip
 Scenario: Charter School Sessions are shared between Dashboard and Databrowser apps
 When I navigate to the Portal home page
 When I select "Charter School Test Realm" and click go
@@ -201,7 +203,7 @@ And I should forced to reauthenticate to gain access
 When I navigate to the dashboard home page
 Then I should forced to reauthenticate to gain access
 
-
+@wip
 Scenario: Charter School User sees non-installed Developer App
 When I navigate to the Portal home page
 When I selected the realm "Charter School Test Realm"
@@ -279,9 +281,57 @@ Scenario: App developer enables Bulk Extract App
     Then I can see the on-boarded states
     When I select the state "Education Agency for RC Tests"
     When I click on Save
-    Then "BulkExtractApp2" is enabled for "5" production education organizations
     And I exit out of the iframe
     And I click on log out
+    And "BulkExtractApp2" is enabled for "5" production education organizations
+
+Scenario: App developer creates new non Bulk Extract App
+    When I navigate to the Portal home page
+    When I see the realm selector I authenticate to the developer realm
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page
+    Then I should be on Portal home page
+    Then I should see Admin link
+    And I click on Admin
+    Then I should be on the admin page
+    And under System Tools, I click on "Register Application"
+    And I switch to the iframe
+    Then I am redirected to the Application Registration Tool page
+    And I have clicked to the button New
+    And I am redirected to a new application page
+    When I entered the name "NotABulkExtractApp" into the field titled "Name"
+    And I entered the name "Best.  Description.  Ever." into the field titled "Description"
+    And I entered the name "0.0" into the field titled "Version"
+    And I make my app an installed app
+    And I click on the button Submit
+    And I switch to the iframe
+    Then I am redirected to the Application Registration Tool page
+    And the application "NotABulkExtractApp" is listed in the table on the top
+    And the client ID and shared secret fields are present
+    And I exit out of the iframe
+    And I click on log out
+
+Scenario: App developer enables non Bulk Extract App
+    When I navigate to the Portal home page
+    When I see the realm selector I authenticate to the developer realm
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page
+    Then I should be on Portal home page
+    Then I should see Admin link
+    And I click on Admin
+    Then I should be on the admin page
+    And under System Tools, I click on "Register Application"
+    And I switch to the iframe
+    Then I am redirected to the Application Registration Tool page
+    And I see an application "Not a bulk extract app" in the table
+    And the client ID and shared secret fields are present
+    And I clicked on the button Edit for the application "NotABulkExtractApp"
+    Then I can see the on-boarded states
+    When I select the state "Education Agency for RC Tests"
+    When I click on Save
+    And I exit out of the iframe
+    And I click on log out
+    And "NotABulkExtractApp" is enabled for "10" production education organizations
 
 @wip @ThisStepIsNotYetNeededSinceAutoApproveAppsIsStillTrueInRC
 Scenario: SLC Operator Approves Application Registration
@@ -304,6 +354,43 @@ Scenario: SLC Operator Approves Application Registration
     And the 'Approve' button is disabled for application "BulkExtractApp2"
     And I exit out of the iframe
     And I click on log out
+
+Scenario:  SEA approves freshly registered Applications
+When I navigate to the Portal home page
+When I see the realm selector I authenticate to "inBloom"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "<PRIMARY_EMAIL>" "<PRIMARY_EMAIL_PASS>" for the "Simple" login page
+Then I should be on Portal home page
+Then I should see Admin link
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Authorize Applications"
+And I switch to the iframe
+Then I am redirected to the Admin Application Authorization Tool
+#Authorize the Dashboard
+And I see an application "NotABulkExtractApp" in the table
+And in Status it says "Not Approved"
+And I click on the "Approve" button next to it
+And I am asked 'Do you really want this application to access the district's data'
+When I click on Ok
+And the app "NotABulkExtractApp" Status becomes "Approved"
+And it is colored "green"
+And there are "10" edOrgs for the "NotABulkExtractApp" application in the production applicationAuthorization collection
+And the Approve button next to it is disabled
+And the Deny button next to it is enabled
+#Authorize the Databrowser
+And I see an application "BulkExtractApp2" in the table
+And in Status it says "Not Approved"
+And I click on the "Approve" button next to it
+And I am asked 'Do you really want this application to access the district's data'
+When I click on Ok
+# switch back to iframe because of the page reload
+And I switch to the iframe
+And the app "BulkExtractApp2" Status becomes "Approved"
+And it is colored "green"
+And there are "5" edOrgs for the "BulkExtractApp2" application in the production applicationAuthorization collection
+And the Approve button next to it is disabled
+And the Deny button next to it is enabled
 
 Scenario: Operator triggers a bulk extract
 Given the production extraction zone is empty
@@ -372,9 +459,9 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
    #Get a session to trigger a bulk extract
    Given the pre-existing bulk extrac testing app key has been created
    When I navigate to the API authorization endpoint with my client ID
-   When I select "Charter School Test Realm" and click go
+   When I select "Daybreak Test Realm" and click go
    And I was redirected to the "Simple" IDP Login page
-   When I submit the credentials "charteradmin" "charteradmin1234" for the "Simple" login page
+   When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
    Then I should receive a json response containing my authorization code
    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
    Then I should receive a json response containing my authorization token

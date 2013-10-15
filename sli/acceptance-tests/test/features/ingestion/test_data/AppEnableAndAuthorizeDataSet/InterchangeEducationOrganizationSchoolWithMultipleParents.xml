@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                  xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+    <EducationOrganization>
+        <StateOrganizationId>Many-Parents</StateOrganizationId>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+            <ID>Many-Parents</ID>
+        </EducationOrgIdentificationCode>
+        <NameOfInstitution>Many-Parents</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>School</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-1</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-2</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-3</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-4</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-5</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-A-1</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-A-2</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-A-3</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-A-4</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-A-5</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-B-1</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-B-2</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-B-3</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-B-4</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-B-5</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-C-1</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-C-2</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-C-3</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-C-4</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-C-5</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address AddressType="Physical">
+            <StreetNumberName>111 Ave A</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>11011</PostalCode>
+            <NameOfCounty>Wake</NameOfCounty>
+        </Address>
+        <Telephone InstitutionTelephoneNumberType="Main">
+            <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+        </Telephone>
+        <GradesOffered>
+            <GradeLevel>Kindergarten</GradeLevel>
+            <GradeLevel>First grade</GradeLevel>
+            <GradeLevel>Second grade</GradeLevel>
+            <GradeLevel>Third grade</GradeLevel>
+            <GradeLevel>Fourth grade</GradeLevel>
+            <GradeLevel>Fifth grade</GradeLevel>
+        </GradesOffered>
+        <SchoolCategories>
+            <SchoolCategory>Elementary School</SchoolCategory>
+        </SchoolCategories>
+    </EducationOrganization>
+</InterchangeEducationOrganization>

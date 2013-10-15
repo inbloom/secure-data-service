@@ -27,7 +27,7 @@ Scenario:  LEA deletes realm
   And I exit out of the iframe
   And I click on log out
 
-
+@wip
 Scenario:  Charter SchoolL LEA deletes realm
   When I navigate to the Portal home page
   When I selected the realm "inBloom"
@@ -53,4 +53,4 @@ Scenario: slcoperator deletes SEA,LEA
   When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
   Then I delete the user "RCTestSeaAdminFN RCTestSeaAdminLN"
   Then I delete the user "RCTestLeaAdminFN RCTestLeaAdminLN"
-  Then I delete the user "CharterSchoolLeaAdminFN CharterSchoolLeaAdminLN"
+ #Then I delete the user "CharterSchoolLeaAdminFN CharterSchoolLeaAdminLN"

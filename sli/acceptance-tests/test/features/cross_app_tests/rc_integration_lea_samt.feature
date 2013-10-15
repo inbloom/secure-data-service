@@ -43,7 +43,7 @@ Scenario: SEA Admin logs into SAMT and creates an LEA Admin with Realm Admin and
   And I switch to the iframe
   Then I set my password to "<SECONDARY_EMAIL_PASS>"
 
-
+@wip
 Scenario: Create LEA Admin for Charter School
 
    When I navigate to the Portal home page

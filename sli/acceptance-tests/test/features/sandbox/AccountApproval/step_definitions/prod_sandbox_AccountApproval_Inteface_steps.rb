@@ -34,7 +34,7 @@ Given /^I navigate to the account management page$/ do
 end
 
 Given /^LDAP server has been setup and running$/ do
-  @email = "devldapuser"+Socket.gethostname+"@slidev.org"
+  @email = "devldapuser"+get_mac_address('_')+"@slidev.org"
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
                           PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
                           PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
@@ -45,7 +45,7 @@ Given /^there are accounts in requests pending in the system$/ do
   sleep(1)
   user_info = {
       :first => "Loraine",
-      :last => "Plyler_"+Socket.gethostname, 
+      :last => "Plyler_"+get_mac_address('_'),
        :email => @email,
        :password => "secret", 
        :emailtoken => "token",
@@ -123,7 +123,7 @@ Given /^there is a "([^"]*)" production account request for vendor "([^"]*)"$/ d
 end
 
 Then /^I see one account with name "([^"]*)"$/ do |user_name|
- user_name = user_name+"_"+Socket.gethostname
+ user_name = user_name+"_"+get_mac_address('_')
   puts "And i am looking to find the element with id username.", user_name
   user=@driver.find_element(:id,"username."+user_name)
   assert(user.text==user_name,"didnt find the account with name #{user_name}")
@@ -173,7 +173,7 @@ Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
   sleep(1)
   user_info = {
       :first => "Loraine",
-      :last => "Plyler_"+Socket.gethostname, 
+      :last => "Plyler_"+get_mac_address('_'),
        :email => @email,
        :password => "secret", 
        :emailtoken => "token",
@@ -194,7 +194,7 @@ def create_account(status, vendor)
   sleep(1)
   user_info = {
       :first => "Loraine",
-      :last => "Plyler_"+Socket.gethostname, 
+      :last => "Plyler_"+get_mac_address('_'),
        :email => @email,
        :password => "secret", 
        :emailtoken => "token",
