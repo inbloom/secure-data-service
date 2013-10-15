@@ -75,8 +75,6 @@ public class LocalEdOrgExtractorTest {
     private EntityExtract mockExtract;
     private EntityDatedExtract mockDatedExtract;
     private StaffEdorgAssignmentExtractor mockSeaExtractor;
-    private SessionExtractor mockSessionExtractor;
-    private GradingPeriodExtractor mockGradingPeriodExtractor;
 
     @Autowired
     private LocalEdOrgExtractor extractor;
@@ -103,8 +101,6 @@ public class LocalEdOrgExtractorTest {
         entityExtractor = Mockito.mock(EntityExtractor.class);
         mockSeaExtractor = Mockito.mock(StaffEdorgAssignmentExtractor.class);
         extractor.setEntityExtractor(entityExtractor);
-        mockSessionExtractor = Mockito.mock(SessionExtractor.class);
-        mockGradingPeriodExtractor = Mockito.mock(GradingPeriodExtractor.class);
         helper = Mockito.mock(EdOrgExtractHelper.class);
         extractor.setHelper(helper);
 
@@ -158,12 +154,6 @@ public class LocalEdOrgExtractorTest {
                         Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(yearlyTranscriptExtractor);
         Mockito.when(
                 mockFactory.buildParentExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
-                        Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockExtract);
-        Mockito.when(
-                mockFactory.buildSessionExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
-                        Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockSessionExtractor);
-        Mockito.when(
-                mockFactory.buildGradingPeriodExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
                         Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockExtract);
 
         Mockito.when(

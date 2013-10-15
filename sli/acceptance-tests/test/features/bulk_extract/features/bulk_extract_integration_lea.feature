@@ -28,7 +28,6 @@
       |  educationOrganization                 | 6 | 2fe47c8e78a65ee51a72628c170673c35c4bd85a_id |
       |  grade                                 | 4 | 0ae33a43b05f2be4b9c8af13788ae0b0448370ef_id2bccec3c9e510238c60c627d715fa3fc0d4d7dd3_id |
       |  gradebookEntry                        | 12 | 8a4b9bcd2ca43c5209fd7ab0e1f61dafd1a4f4a2_idd89bfce7c9788c7fc352c8556f491ffb6e324f88_id |
-      |  gradingPeriod                         |  13 | a080020ce9742a50fdbea6703f0642a01bbe3a19_id |
       |  graduationPlan                        |  1 |  be94495521de212dcb844169eafd434061fbfff9_id |
       #|  learningObjective                     |   |         |
       #|  learningStandard                      |   |         |
@@ -36,7 +35,6 @@
       #|  program                               |   |         |
       |  reportCard                            | 2 | 0ae33a43b05f2be4b9c8af13788ae0b0448370ef_id4a997dd12d3122fa839523965aab34e397fb79db_id |
       |  school                                | 4 | 2fe47c8e78a65ee51a72628c170673c35c4bd85a_id |
-      |  session                               |  22 | ed9acb6591da6f3b0b3bc1264846fd185fbcd527_id |
       |  staff                                 | 10 | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
       |  staffCohortAssociation                | 2 | f2cbed0cf5ff1d7a43f77e6a5f0f75f174cc7065_id |
       |  staffEducationOrganizationAssociation | 11 | 346a3cc0939419b34283ec6cac2330e19a483f6f_id |

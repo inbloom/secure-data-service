@@ -425,14 +425,12 @@ And the operator triggers a delta for the production tenant
       |  educationOrganization                 |
       |  grade                                 |
       |  gradebookEntry                        |
-      |  gradingPeriod                         |
       # |  learningObjective                     |
       # |  learningStandard                      |
       |  parent                                |
       # |  program                               |
       |  reportCard                            |
       |  school                                |
-      |  session                               |
       |  staff                                 |
       |  staffCohortAssociation                |
       |  staffEducationOrganizationAssociation |
@@ -479,13 +477,9 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
       |  educationOrganization                 |
       |  grade                                 |
       |  gradebookEntry                        |
-     #no grading periods associated to charter school in data set
-     #|  gradingPeriod                         |
       |  parent                                |
       |  reportCard                            |
       |  school                                |
-     #no sessions associated to charter school in data set
-     #|  session                               |
       |  staff                                 |
       |  staffCohortAssociation                |
       |  staffEducationOrganizationAssociation |
