@@ -14,9 +14,6 @@
         <url>https://github.com/inbloomdev/datastore</url>
     </scm>
     <properties>
-        <!-- Release process -->
-        <VERSION_NUMBER>1.0-SNAPSHOT</VERSION_NUMBER>
-        <isRelease>true</isRelease>
         <!-- End of Release process-->
         <java.version>1.6</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -837,7 +834,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
-            <version>${slf4j.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -1290,64 +1286,6 @@
                             </resources>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>replace-pom-placeholder</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                  <directory>${basedir}</directory>
-                                    <includes>
-                                            <include>pom.xml</include>
-                                    </includes>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </resources>
-                          <outputDirectory>${project.build.directory}/pom-install-deploy-fix</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            
-            <plugin>
-                <artifactId>maven-install-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>overwrite-pom</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                        <configuration>
-                            <packaging>pom</packaging>
-                            <file>target/pom-install-deploy-fix/pom.xml</file>
-                            <pomFile>target/pom-install-deploy-fix/pom.xml</pomFile>
-                            <version>${VERSION_NUMBER}</version>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>overwrite-pom</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>deploy-file</goal>
-                        </goals>
-                        <configuration>
-                            <packaging>pom</packaging>
-                            <file>target/pom-install-deploy-fix/pom.xml</file>
-                            <pomFile>target/pom-install-deploy-fix/pom.xml</pomFile>
-                            <version>${VERSION_NUMBER}</version>
-                            <updateReleaseInfo>${isRelease}</updateReleaseInfo>
-                            <uniqueVersion>${isRelease}</uniqueVersion>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -1359,7 +1297,7 @@
                             <name>Specification</name>
                             <manifestEntries>
                                 <Title>${project.name}</Title>
-                                <Build-Version>${VERSION_NUMBER}</Build-Version>
+                                <Build-Version>${project.version}</Build-Version>
                             </manifestEntries>
                         </manifestSection>
                     </archive>
@@ -1374,7 +1312,7 @@
                             <name>Specification</name>
                             <manifestEntries>
                                 <Title>${project.name}</Title>
-                                <Build-Version>${VERSION_NUMBER}</Build-Version>
+                                <Build-Version>${project.version}</Build-Version>
                             </manifestEntries>
                         </manifestSection>
                     </archive>
