@@ -15,7 +15,6 @@ Scenario: Trigger a bulk extract on ingested data
    |  educationOrganization                 |
    |  grade                                 |
    |  gradebookEntry                        |
-   |  graduationPlan                        |
    |  parent                                |
    |  reportCard                            |
    |  school                                |

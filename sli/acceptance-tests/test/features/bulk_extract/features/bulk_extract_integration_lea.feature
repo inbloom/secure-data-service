@@ -25,7 +25,6 @@
       |  educationOrganization                 | 6 | 2fe47c8e78a65ee51a72628c170673c35c4bd85a_id |
       |  grade                                 | 4 | 0ae33a43b05f2be4b9c8af13788ae0b0448370ef_id2bccec3c9e510238c60c627d715fa3fc0d4d7dd3_id |
       |  gradebookEntry                        | 12 | 8a4b9bcd2ca43c5209fd7ab0e1f61dafd1a4f4a2_idd89bfce7c9788c7fc352c8556f491ffb6e324f88_id |
-      |  graduationPlan                        |  1 |  be94495521de212dcb844169eafd434061fbfff9_id |
       #|  learningObjective                     |   |         |
       #|  learningStandard                      |   |         |
       |  parent                                | 9 | 6bf57bc4b7ec518e78ee16a627b02da2a02a182b_id |

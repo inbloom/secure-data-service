@@ -41,7 +41,6 @@ import org.slc.sli.bulk.extract.lea.EntityToEdOrgCache;
 import org.slc.sli.bulk.extract.lea.EntityToEdOrgDateCache;
 import org.slc.sli.bulk.extract.lea.ExtractFileMap;
 import org.slc.sli.bulk.extract.lea.ExtractorFactory;
-import org.slc.sli.bulk.extract.lea.GraduationPlanExtractor;
 import org.slc.sli.bulk.extract.lea.SectionEmbeddedDocsExtractor;
 import org.slc.sli.bulk.extract.lea.StaffEdorgAssignmentExtractor;
 import org.slc.sli.bulk.extract.lea.StudentExtractor;
@@ -163,9 +162,6 @@ public class LocalEdOrgExtractor {
         EntityDatedExtract courseTranscriptExtractor = factory.buildCourseTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository,
                 edorgCache, student.getStudentDatedCache());
         courseTranscriptExtractor.extractEntities(studentAcademicRecordDateCache);
-
-        GraduationPlanExtractor graduationPlanExtractor = factory.buildGraduationPlanExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        graduationPlanExtractor.extractEntities(edorgCache, studentSchoolAssociation.getGraduationPlanCache());
 
         leaToExtractFileMap.closeFiles();
 

@@ -37,7 +37,8 @@ Feature: Security events are logged when bulk extract is run
     And I trigger a bulk extract
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName              | count |
-      | securityEvent               | 57   |
+      | securityEvent               | 55   |
+
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
       | securityEvent   | 1                   | body.logMessage         | Beginning bulk extract execution                                             | string          |
