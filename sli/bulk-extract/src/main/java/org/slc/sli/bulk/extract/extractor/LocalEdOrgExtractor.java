@@ -27,9 +27,14 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.slc.sli.bulk.extract.BulkExtractMongoDA;
+import org.slc.sli.bulk.extract.Launcher;
+import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.lea.CalendarDateExtractor;
-import org.slc.sli.bulk.extract.lea.CourseExtractor;
-import org.slc.sli.bulk.extract.lea.CourseOfferingExtractor;
 import org.slc.sli.bulk.extract.lea.EdorgExtractor;
 import org.slc.sli.bulk.extract.lea.EntityDatedExtract;
 import org.slc.sli.bulk.extract.lea.EntityExtract;
@@ -45,13 +50,6 @@ import org.slc.sli.bulk.extract.lea.StudentExtractor;
 import org.slc.sli.bulk.extract.lea.StudentGradebookEntryExtractor;
 import org.slc.sli.bulk.extract.lea.StudentSchoolAssociationExtractor;
 import org.slc.sli.bulk.extract.lea.YearlyTranscriptExtractor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.Launcher;
-import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
@@ -170,12 +168,6 @@ public class LocalEdOrgExtractor {
 
         genericExtractor = factory.buildStaffCohortAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
-
-        CourseOfferingExtractor courseOfferingExtractor = factory.buildCourseOfferingExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        courseOfferingExtractor.extractEntities(edorgCache, sectionExtractor.getCourseOfferingCache());
-
-        CourseExtractor courseExtractor = factory.buildCourseExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        courseExtractor.extractEntities(edorgCache, courseOfferingExtractor.getCourseCache());
 
         EntityDatedExtract courseTranscriptExtractor = factory.buildCourseTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository,
                 edorgCache, student.getStudentDatedCache());

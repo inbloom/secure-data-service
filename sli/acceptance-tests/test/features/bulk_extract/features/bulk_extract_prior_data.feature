@@ -25,8 +25,6 @@ Feature: An edorg's extract file should contain student data from previous enrol
     Then the extract contains a file for each of the following entities:
       | entityType                            |
       | attendance                            |
-      | course                                |
-      | courseOffering                        |
       | courseTranscript                      |
       | disciplineIncident                    |
       | disciplineAction                      |
@@ -121,8 +119,6 @@ Feature: An edorg's extract file should contain student data from previous enrol
     Then the extract contains a file for each of the following entities:
       | entityType                            |
       | attendance                            |
-      | course                                |
-      | courseOffering                        |
       | courseTranscript                      |
       | disciplineIncident                    |
       | disciplineAction                      |

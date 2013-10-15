@@ -417,9 +417,7 @@ And the operator triggers a delta for the production tenant
       # |  assessment                            |
       |  attendance                            |
       |  calendarDate                          |
-      |  course                                |
       |  courseTranscript                      |
-      |  courseOffering                        |
       |  disciplineIncident                    |
       |  disciplineAction                      |
       |  educationOrganization                 |
@@ -471,8 +469,6 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
    And the extract contains a file for each of the following entities:
       |  entityType                            |
       |  attendance                            |
-      |  course                                |
-      |  courseOffering                        |
       |  courseTranscript                      |
       |  disciplineIncident                    |
       |  disciplineAction                      |
