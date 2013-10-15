@@ -25457,7 +25457,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <SessionName>2013-2014 Year Round session: 4</SessionName>
           </SessionIdentity>
         </SessionReference>
-        <SchoolYear>2013-2014</SchoolYear>
+        <SchoolYear>2012-2013</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -30287,41 +30287,82 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <CumulativeGradePointAverage>2.0</CumulativeGradePointAverage>
     <SessionGradePointAverage>2.0</SessionGradePointAverage>
     <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>10</StudentUniqueStateId>
-      </StudentIdentity>
+        <StudentIdentity>
+            <StudentUniqueStateId>10</StudentUniqueStateId>
+        </StudentIdentity>
     </StudentReference>
     <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>4</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2013-2014 Year Round session: 4</SessionName>
-      </SessionIdentity>
+        <SessionIdentity>
+            <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>4</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2013-2014 Year Round session: 4</SessionName>
+        </SessionIdentity>
     </SessionReference>
     <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>10</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>4</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>End of Year</GradingPeriod>
-            <BeginDate>2013-08-27</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-        <SchoolYear>2013-2014</SchoolYear>
-      </ReportCardIdentity>
+        <ReportCardIdentity>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>10</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <GradingPeriodReference>
+                <GradingPeriodIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>4</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <GradingPeriod>End of Year</GradingPeriod>
+                    <BeginDate>2013-08-27</BeginDate>
+                </GradingPeriodIdentity>
+            </GradingPeriodReference>
+            <SchoolYear>2013-2014</SchoolYear>
+        </ReportCardIdentity>
     </ReportCardReference>
     <SchoolYear>2013-2014</SchoolYear>
-  </StudentAcademicRecord>
+</StudentAcademicRecord>
+    <StudentAcademicRecord>
+        <CumulativeGradePointAverage>2.0</CumulativeGradePointAverage>
+        <SessionGradePointAverage>2.0</SessionGradePointAverage>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>10</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>4</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>2013-2014 Year Round session: 4</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>10</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>4</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>End of Year</GradingPeriod>
+                        <BeginDate>2013-08-27</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2013-2014</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
 </InterchangeStudentGrade>
