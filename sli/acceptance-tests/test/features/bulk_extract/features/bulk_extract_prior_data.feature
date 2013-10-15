@@ -32,7 +32,6 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | grade                                 |
       | gradebookEntry                        |
       | gradingPeriod                         |
-      | graduationPlan                        |
       | parent                                |
       | reportCard                            |
       | school                                |
@@ -126,7 +125,6 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | grade                                 |
       | gradebookEntry                        |
       | gradingPeriod                         |
-      | graduationPlan                        |
       | parent                                |
       | reportCard                            |
       | school                                |
