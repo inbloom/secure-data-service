@@ -104,16 +104,6 @@ public class ExtractorFactory {
         return new StaffProgramAssociationExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public CourseExtractor buildCourseExtractor(EntityExtractor extractor, ExtractFileMap map,
-            Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
-        return new CourseExtractor(extractor, map, repo, edOrgExtractHelper);
-    }
-
-    public CourseOfferingExtractor buildCourseOfferingExtractor(EntityExtractor extractor, ExtractFileMap map,
-            Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
-        return new CourseOfferingExtractor(extractor, map, repo, edOrgExtractHelper);
-    }
-
     public EntityDatedExtract buildCourseTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
             EntityToEdOrgCache edorgCache, EntityToEdOrgDateCache studentDatedCache) {
         return new CourseTranscriptExtractor(extractor, map, repo, edorgCache, studentDatedCache);

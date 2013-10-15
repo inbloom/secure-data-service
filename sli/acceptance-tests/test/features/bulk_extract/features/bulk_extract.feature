@@ -9,8 +9,6 @@ Scenario: Trigger a bulk extract on ingested data
    And the extract contains a file for each of the following entities:
    |  entityType                            |
    |  attendance                            |
-   |  course                                |
-   |  courseOffering                        |
    |  courseTranscript                      |
    |  disciplineIncident                    |
    |  disciplineAction                      |

@@ -52,12 +52,12 @@ Feature: Security events are logged when bulk extract is run
       | securityEvent   | 1                   | body.logMessage         | Extracting session                                                           | string          |
       | securityEvent   | 1                   | body.logMessage         | Extracting graduationPlan                                                    | string          |
       | securityEvent   | 1                   | body.logMessage         | Extracting calendarDate                                                      | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting gradingPeriod                                                     | string          |
       #LEA Extract
       | securityEvent   | 1                   | body.logMessage         | Finished LEA level bulk extract                                              | string          |
       | securityEvent   | 1                   | body.logMessage         | Beginning LEA level bulk extract                                             | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting educationOrganization for LEA extract                             | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting attendance for LEA extract                                        | string          |
-      | securityEvent   | 2                   | body.logMessage         | Extracting courseOffering for LEA extract                                    | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting parent for LEA extract                                            | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting staff for LEA extract                                             | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting staffCohortAssociation for LEA extract                            | string          |
