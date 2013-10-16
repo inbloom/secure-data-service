@@ -19,6 +19,7 @@ package org.slc.sli.bulk.extract.lea;
 import java.util.*;
 
 import com.google.common.collect.HashMultimap;
+
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
@@ -88,28 +89,42 @@ public class ExtractorHelper{
 
         List<Map<String, Object>> schools = data.get("schools");
         for (Map<String, Object> school : schools) {
-            if(!dateHelper.getDate(school, ParameterConstants.ENTRY_DATE).isAfter(DateTime.now())) {
-                String id = (String)school.get("_id");
-                DateTime expirationDateFromData = dateHelper.getDate(school, ParameterConstants.EXIT_WITHDRAW_DATE);
+            buildEdorgToDateMap(school, studentEdOrgs, ParameterConstants.ID, ParameterConstants.ENTRY_DATE, ParameterConstants.EXIT_WITHDRAW_DATE);
+        }
 
-                List<String> lineages = edOrgExtractHelper.getEdOrgLineages().get(id);
-                if(lineages != null) {
-                    for (String edOrg : lineages) {
-                        DateTime existingExpirationDate = studentEdOrgs.get(edOrg);
-                        DateTime finalExpirationDate = expirationDateFromData;
-                        if(studentEdOrgs.containsKey(edOrg) && (expirationDateFromData == null || existingExpirationDate == null)) {
-                            finalExpirationDate = null;
-                        } else if(studentEdOrgs.containsKey(edOrg) &&  existingExpirationDate.isAfter(expirationDateFromData)) {
-                            finalExpirationDate = studentEdOrgs.get(edOrg);
-                        }
-                        studentEdOrgs.put(edOrg, finalExpirationDate);
+        return studentEdOrgs;
+    }
+
+    /**
+     * build edorg to Date cache.
+     *
+     * @param edorg
+     * @param edOrgToDate
+     * @param edorgIdField
+     * @param beginDateField
+     * @param endDateField
+     */
+    public void buildEdorgToDateMap(Map<String, Object> edorg, Map<String, DateTime> edOrgToDate, String edorgIdField, String beginDateField, String endDateField) {
+        if (!dateHelper.getDate(edorg, beginDateField).isAfter(DateTime.now())) {
+            String id = (String) edorg.get(edorgIdField);
+            DateTime expirationDateFromData = dateHelper.getDate(edorg, endDateField);
+
+            List<String> lineages = edOrgExtractHelper.getEdOrgLineages().get(id);
+            if (lineages != null) {
+                for (String edOrg : lineages) {
+                    DateTime existingExpirationDate = edOrgToDate.get(edOrg);
+                    DateTime finalExpirationDate = expirationDateFromData;
+                    if (edOrgToDate.containsKey(edOrg) && (expirationDateFromData == null || existingExpirationDate == null)) {
+                        finalExpirationDate = null;
+                    } else if (edOrgToDate.containsKey(edOrg) &&  existingExpirationDate.isAfter(expirationDateFromData)) {
+                        finalExpirationDate = edOrgToDate.get(edOrg);
                     }
+                    edOrgToDate.put(edOrg, finalExpirationDate);
                 }
             }
         }
-        return studentEdOrgs;
     }
-    
+
     public void setDateHelper(DateHelper helper) {
         this.dateHelper = helper;
     }
