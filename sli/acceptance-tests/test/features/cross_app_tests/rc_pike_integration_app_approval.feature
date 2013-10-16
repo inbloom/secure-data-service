@@ -420,7 +420,6 @@ And the operator triggers a delta for the production tenant
       |  courseTranscript                      |
       |  disciplineIncident                    |
       |  disciplineAction                      |
-      |  educationOrganization                 |
       |  grade                                 |
       |  gradebookEntry                        |
       # |  learningObjective                     |
@@ -470,7 +469,6 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
       |  courseTranscript                      |
       |  disciplineIncident                    |
       |  disciplineAction                      |
-      |  educationOrganization                 |
       |  grade                                 |
       |  gradebookEntry                        |
       |  parent                                |

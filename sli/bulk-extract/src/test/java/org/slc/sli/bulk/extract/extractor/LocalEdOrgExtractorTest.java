@@ -48,7 +48,6 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 import org.slc.sli.bulk.extract.lea.CourseTranscriptExtractor;
 import org.slc.sli.bulk.extract.lea.DisciplineExtractor;
-import org.slc.sli.bulk.extract.lea.EdorgExtractor;
 import org.slc.sli.bulk.extract.lea.EntityDatedExtract;
 import org.slc.sli.bulk.extract.lea.EntityExtract;
 import org.slc.sli.bulk.extract.lea.EntityToEdOrgCache;
@@ -119,7 +118,6 @@ public class LocalEdOrgExtractorTest {
         helper = Mockito.mock(EdOrgExtractHelper.class);
         extractor.setHelper(helper);
 
-        EdorgExtractor mockExtractor = Mockito.mock(EdorgExtractor.class);
         StudentExtractor mockStudent = Mockito.mock(StudentExtractor.class);
         StudentSchoolAssociationExtractor mockSsa = Mockito.mock(StudentSchoolAssociationExtractor.class);
         SectionEmbeddedDocsExtractor sectionEmbeddedDocsExtractor = Mockito.mock(SectionEmbeddedDocsExtractor.class);
@@ -130,8 +128,6 @@ public class LocalEdOrgExtractorTest {
         StudentGradebookEntryExtractor studentGradebookEntryExtractor = Mockito.mock(StudentGradebookEntryExtractor.class);
 
         Mockito.when(sectionEmbeddedDocsExtractor.getStudentSectionAssociationDateCache()).thenReturn(new EntityToEdOrgDateCache());
-        Mockito.when(mockFactory.buildEdorgExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
-                Mockito.eq(helper))).thenReturn(mockExtractor);
 
         Mockito.when(
                 mockFactory.buildStudentExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
@@ -247,7 +243,6 @@ public class LocalEdOrgExtractorTest {
         File tenantDir = Mockito.mock(File.class);
         DateTime time = new DateTime();
         extractor.execute("Midgar", tenantDir, time, "sea");
-        Mockito.verify(mockFactory, Mockito.times(1)).buildEdorgExtractor(entityExtractor, mockExtractMap, helper);
         Mockito.verify(mockExtractMap, Mockito.times(1)).archiveFiles();
         Mockito.verify(mockExtractMap, Mockito.times(1)).buildManifestFiles(time);
         Mockito.verify(mockExtractMap, Mockito.times(1)).closeFiles();

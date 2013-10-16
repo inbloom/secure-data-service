@@ -37,7 +37,7 @@ Feature: Security events are logged when bulk extract is run
     And I trigger a bulk extract
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName              | count |
-      | securityEvent               | 61   |
+      | securityEvent               | 53    |
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
       | securityEvent   | 1                   | body.logMessage         | Beginning bulk extract execution                                             | string          |
@@ -46,7 +46,7 @@ Feature: Security events are logged when bulk extract is run
       | securityEvent   | 1                   | body.logMessage         | Completed SEA public data extract                                            | string          |
       | securityEvent   | 3                   | body.logMessage         | Generating archive for app 22c2a28d-7327-4444-8ff9-caad4b1c7aa3              | string          |
       | securityEvent   | 3                   | body.logMessage         | Generating archive for app 19cca28d-7357-4044-8df9-caad4b1c8ee4              | string          |
-      | securityEvent   | 3                   | body.logMessage         | Extracting educationOrganization                                             | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting educationOrganization                                             | string          |
       | securityEvent   | 1                   | body.logMessage         | Extracting course                                                            | string          |
       | securityEvent   | 1                   | body.logMessage         | Extracting courseOffering                                                    | string          |
       | securityEvent   | 1                   | body.logMessage         | Extracting session                                                           | string          |
@@ -56,7 +56,6 @@ Feature: Security events are logged when bulk extract is run
       #LEA Extract
       | securityEvent   | 1                   | body.logMessage         | Finished LEA level bulk extract                                              | string          |
       | securityEvent   | 1                   | body.logMessage         | Beginning LEA level bulk extract                                             | string          |
-      | securityEvent   | 2                   | body.logMessage         | Extracting educationOrganization for LEA extract                             | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting attendance for LEA extract                                        | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting parent for LEA extract                                            | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting staff for LEA extract                                             | string          |

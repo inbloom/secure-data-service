@@ -39,7 +39,6 @@ Feature: After Small Sample DS is ingested and BE is run, I want to ensure that 
     And I check that the studentGradebookEntry extract for "352e8570bd1116d11a72755b987902440045d346_id" has the correct number of records
     And I check that the staffProgramAssociation extract for "352e8570bd1116d11a72755b987902440045d346_id" has the correct number of records
     And I check that the calendarDate extract for "352e8570bd1116d11a72755b987902440045d346_id" has the correct number of records
-    And I check that the "educationOrganization" extract for "352e8570bd1116d11a72755b987902440045d346_id" has "1" records
     #And I check that the staffCohortAssociation extract for "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" has the correct number of records
 
 

@@ -35,7 +35,6 @@ import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.lea.CalendarDateExtractor;
-import org.slc.sli.bulk.extract.lea.EdorgExtractor;
 import org.slc.sli.bulk.extract.lea.EntityDatedExtract;
 import org.slc.sli.bulk.extract.lea.EntityExtract;
 import org.slc.sli.bulk.extract.lea.EntityToEdOrgCache;
@@ -102,9 +101,6 @@ public class LocalEdOrgExtractor {
         }
         // 2. EXTRACT
         EntityToEdOrgCache edorgCache = buildEdOrgCache(sea);
-
-        EdorgExtractor edorg = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap, helper);
-        edorg.extractEntities(edorgCache);
 
         // Student
         StudentExtractor student = factory.buildStudentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);

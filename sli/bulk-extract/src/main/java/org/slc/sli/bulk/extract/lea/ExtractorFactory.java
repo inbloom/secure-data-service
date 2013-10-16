@@ -29,10 +29,6 @@ import org.slc.sli.domain.Repository;
 
 public class ExtractorFactory {
 
-    public EdorgExtractor buildEdorgExtractor(EntityExtractor extractor, ExtractFileMap map, EdOrgExtractHelper edOrgExtractHelper) {
-        return new EdorgExtractor(extractor, map, edOrgExtractHelper);
-    }
-
     public StudentExtractor buildStudentExtractor(EntityExtractor extractor, ExtractFileMap map,
             Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         return new StudentExtractor(extractor, map, repo, new ExtractorHelper(edOrgExtractHelper), new EntityToEdOrgCache(),

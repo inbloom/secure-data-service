@@ -18,12 +18,10 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    |  courseTranscript                      |
    |  disciplineIncident                    |
    |  disciplineAction                      |
-   |  educationOrganization                 |
    |  grade                                 |
    |  gradebookEntry                        |
    |  parent                                |
    |  reportCard                            |
-   |  school                                |
    |  staff                                 |
    |  staffCohortAssociation                |
    |  staffEducationOrganizationAssociation |
