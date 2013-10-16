@@ -18,8 +18,8 @@
 
     <%=form_for @appAuth,  :action => :update do |f|%>
         <%= f.hidden_field :appId, :value => @appAuth.appId %>
-        <%= f.hidden_field :edorgsAdded,   :value => '' %>
-        <%= f.hidden_field :edorgsRemoved, :value => '' %>
+        <%= f.hidden_field :edorgsAdded, :class => 'edorgsAdded', :value => '' %>
+        <%= f.hidden_field :edorgsRemoved, :class => 'edorgsRemoved', :value => '' %>
         <%= f.submit 'Save & Update' %>
     <% end %>
     <button onclick="window.location.href='/application_authorizations'">Cancel</button>

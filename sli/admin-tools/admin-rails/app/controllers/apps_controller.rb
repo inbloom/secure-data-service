@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 include EdorgTreeHelper
+require 'pp'
 
 class AppsController < ApplicationController
   before_filter :check_rights

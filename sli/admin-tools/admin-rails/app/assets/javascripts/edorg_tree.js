@@ -76,8 +76,8 @@ $(document).ready(function() {
             added       = added.join(',');
             var log     = ['Added Authorization For [', added , ']. ', 'Removed Authorization For [', removed, '].'].join('');
             console.log(log);
-            $( "input#application_authorization_edorgsAdded" ).val( added );
-            $( "input#application_authorization_edorgsRemoved" ).val( removed );
+            $( ".edorgsAdded" ).val( added );
+            $( ".edorgsRemoved" ).val( removed );
         }
     );
 });

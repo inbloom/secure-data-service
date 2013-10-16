@@ -100,14 +100,22 @@
       <li>Please choose edOrgs to enable for the app.
       <li>Following each EdOrg are counts of: <span class="treecounts">(direct subsidiary EdOrgs / total subsidiary EdOrgs)</span>
     </ul>
+    <input id="hierarchical_mode" type="checkbox" checked="true">Hierarchical Selection Mode</input>
+    <a href="#" id="expand_all">Expand All</a>
+    <a href="#" id="collapse_all">Collapse All</a>
 
   <div>
   <%= @treeHtml.html_safe %>
   </div>
-</div>
   
+<%= f.hidden_field :edorgsAdded,   :class => 'edorgsAdded', :value => '' %>
+<%= f.hidden_field :edorgsRemoved, :class => 'edorgsRemoved', :value => '' %>
+
 <div class = "actions">
 	<%= f.submit "Save", :disable_with => 'Submitting...', :class => "btn" %>
 	<%= link_to "Cancel", :back %>
 </div>
+
+</div>
+
 <% end %>
