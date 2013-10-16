@@ -92,11 +92,9 @@ jQuery ->
       if firstCell.hasClass("collapsed")
         firstCell.removeClass("collapsed")
         firstCell.addClass("expanded")
-        firstCell.text("-")
       else if firstCell.hasClass("expanded")
         firstCell.removeClass("expanded")
         firstCell.addClass("collapsed")
-        firstCell.text("+")
       $(@).parent().next("tr").toggle()
 
 jQuery ->
