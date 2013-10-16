@@ -77,9 +77,6 @@ public class ExtractorHelper{
      * @return
      */
     public Map<String, DateTime> fetchAllEdOrgsForStudent(Entity student) {
-        if (dateHelper == null) {
-            dateHelper = new DateHelper();
-        }
 
         Map<String, DateTime> studentEdOrgs = new HashMap<String, DateTime>();
         Map<String, List<Map<String, Object>>> data = student.getDenormalizedData();
@@ -105,6 +102,10 @@ public class ExtractorHelper{
      * @param endDateField
      */
     public void buildEdorgToDateMap(Map<String, Object> edorg, Map<String, DateTime> edOrgToDate, String edorgIdField, String beginDateField, String endDateField) {
+        if (dateHelper == null) {
+            dateHelper = new DateHelper();
+        }
+
         if (!dateHelper.getDate(edorg, beginDateField).isAfter(DateTime.now())) {
             String id = (String) edorg.get(edorgIdField);
             DateTime expirationDateFromData = dateHelper.getDate(edorg, endDateField);
