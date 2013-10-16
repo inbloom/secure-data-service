@@ -6,6 +6,8 @@ resetDatabases
 
 profileSwapAndPropGenSB
 
+unDeployAdmin
+profileSwap
 deployAdminSB
 
 deployDatabrowser
@@ -24,5 +26,5 @@ bundle exec rake FORCE_COLOR=true sampleApp_server_address=https://$NODE_NAME.sl
 EXITCODE=$?
 
 mongo --eval "db.adminCommand( { setParameter: 1, notablescan: false } )"
-
+unDeployAdmin
 exit $EXITCODE
