@@ -166,8 +166,8 @@ And I click Update
 # switch back to iframe because of the page reload
 And I switch to the iframe
 And I see an application "Bulk Extract 2 End" in the table
-And in Status it says "38 EdOrg(s)"
-Then there are "38" edOrgs for the "Bulk Extract 2 End" application in the production applicationAuthorization collection
+And in Status it says "199 EdOrg(s)"
+Then there are "199" edOrgs for the "Bulk Extract 2 End" application in the production applicationAuthorization collection
 
 Scenario: SEA admin makes an api call to PATCH the SEA
   Given the pre-existing bulk extrac testing app key has been created
