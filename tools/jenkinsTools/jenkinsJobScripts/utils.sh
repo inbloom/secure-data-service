@@ -77,7 +77,7 @@ noTableScanAndCleanTomcat()
 adminUnitTests()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
-  bundle install --deployment
+  bundle install --path $WORKSPACE/../vendors/
   bundle exec rake ci:setup:testunit test
   code=$?
   if [ "$code" != "0" ]; then
@@ -96,18 +96,41 @@ databrowserUnitTests()
   fi
 }
 
+profileSwap(){
+  cd $WORKSPACE/sli/
+  sh profile_swap.sh $NODE_NAME
+}
+
 deployAdmin()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
-  bundle install --deployment
-  bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
+  bundle install --path $WORKSPACE/../vendors/
+  bundle exec thin start -C config/thin.yml -e team
+}
+
+unDeployAdmin()
+{
+  cd $WORKSPACE/sli/admin-tools/admin-rails
+  bundle install --path $WORKSPACE/../vendors/
+  bundle exec thin stop -C config/thin.yml
+
+  ln=`ls /tmp/pid/thin-admin.pid | wc -l`
+
+  if [ "$ln" -ne "0" ]
+  then
+    echo "admin is still running, killing"
+    pid=`cat /tmp/pid/thin-admin.pid`
+    sudo kill $pid
+    rm /tmp/pid/thin-admin.pid
+  fi
+  echo "Admin is shutdown"
 }
 
 deployAdminSB()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
-  bundle install --deployment
-  bundle exec cap team_sb deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
+  bundle install --path $WORKSPACE/../vendors/
+  bundle exec thin start -C config/thin.yml -e team_sb
 }
 
 deployDatabrowser()
