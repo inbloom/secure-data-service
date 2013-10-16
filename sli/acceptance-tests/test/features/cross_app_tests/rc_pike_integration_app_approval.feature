@@ -367,7 +367,7 @@ Then I am redirected to the Admin Application Authorization Tool
 And I see an application "NotABulkExtractApp" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
-And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
+And I authorize the educationalOrganization "Education Agency for RC Tests" in the production tenant
 And I click Update
 # switch back to iframe because of the page reload
 And I switch to the iframe
@@ -378,7 +378,7 @@ Then there are "199" edOrgs for the "NotABulkExtractApp" application in the prod
 And I see an application "BulkExtractApp2" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
-And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
+And I authorize the educationalOrganization "Education Agency for RC Tests" in the production tenant
 And I click Update
 # switch back to iframe because of the page reload
 And I switch to the iframe
