@@ -22,6 +22,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
@@ -39,6 +41,7 @@ public class YearlyTranscriptExtractor implements EntityDatedExtract {
     private Repository<Entity> repo;
     private EdOrgExtractHelper edOrgExtractHelper;
     private EntityToEdOrgDateCache studentAcademicRecordDateCache;
+    private static final Logger LOG = LoggerFactory.getLogger(YearlyTranscriptExtractor.class);
 
     public YearlyTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
             EdOrgExtractHelper edOrgExtractHelper) {
@@ -77,8 +80,8 @@ public class YearlyTranscriptExtractor implements EntityDatedExtract {
      */
     private Set<String> fetchStudentAcademicRecordsFromYearlyTranscript(Entity yearlyTranscript) {
         Set<String> records = new TreeSet<String>();
-        if (yearlyTranscript.getEmbeddedData().containsKey(EntityNames.STUDENT_ACADEMIC_RECORD)) {
-            for (Entity sar : yearlyTranscript.getEmbeddedData().get(EntityNames.STUDENT_ACADEMIC_RECORD)) {
+        if (yearlyTranscript.getContainerData().containsKey(EntityNames.STUDENT_ACADEMIC_RECORD)) {
+            for (Entity sar : yearlyTranscript.getContainerData().get(EntityNames.STUDENT_ACADEMIC_RECORD)) {
                 records.add(sar.getEntityId());
             }
         }
