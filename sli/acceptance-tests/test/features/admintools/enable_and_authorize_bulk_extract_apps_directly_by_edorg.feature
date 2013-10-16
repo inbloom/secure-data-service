@@ -89,7 +89,7 @@ Background:
          Then there are "1" edOrgs for the "Aboukir" application in the applicationAuthorization collection for the "Midgar" tenant
          Then The following edOrgs are authorized for the application "Aboukir" in tenant "Midgar"
   			|edorgs|
-   	        |IL |
+   	        |Illinois State Board of Education |
          And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
@@ -150,7 +150,7 @@ Background:
           Then there are "1" edOrgs for the "Aboukir" application in the applicationAuthorization collection for the "Midgar" tenant
           Then The following edOrgs are authorized for the application "Aboukir" in tenant "Midgar"
              |edorgs|
-             |IL-DAYBREAK |
+             |Daybreak School District 4529 |
           And I check to find if record is in sli db collection:
              | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
              | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
