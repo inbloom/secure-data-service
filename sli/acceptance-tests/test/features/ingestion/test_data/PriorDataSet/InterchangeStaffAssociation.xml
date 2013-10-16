@@ -5253,8 +5253,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </Credentials>
       <LoginId>5882@fakemail.com</LoginId>
   </Staff>
-  <Staff>
-      <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+  <Teacher>
+      <StaffUniqueStateId>eshea</StaffUniqueStateId>
       <StaffIdentificationCode IdentificationSystem="Medicaid">
         <ID>3220</ID>
       </StaffIdentificationCode>
@@ -5304,7 +5304,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <TeachingCredentialBasis>Relevant experience</TeachingCredentialBasis>
         </Credentials>
       <LoginId>4730@fakemail.com</LoginId>
-  </Staff>
+  </Teacher>
   <Staff>
       <StaffUniqueStateId>stff-0000000087</StaffUniqueStateId>
       <StaffIdentificationCode IdentificationSystem="Health Record">
@@ -11916,6 +11916,22 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffEducationOrgAssignmentAssociation>
     <StaffReference>
       <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Woodshop Teacher</PositionTitle>
+    <BeginDate>2010-08-26</BeginDate>
+    <EndDate>2011-05-22</EndDate>
+  </StaffEducationOrgAssignmentAssociation>  
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
         <StaffUniqueStateId>cgray</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
@@ -12460,7 +12476,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffEducationOrgAssignmentAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <EducationOrganizationReference>
@@ -12468,56 +12484,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Sunset Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
-    <PositionTitle>Librarian</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Woodshop Teacher</PositionTitle>
     <BeginDate>2013-09-03</BeginDate>
     <EndDate>2014-05-29</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -38076,7 +38044,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38091,7 +38059,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38105,7 +38073,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38120,7 +38088,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38135,7 +38103,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38149,7 +38117,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38164,7 +38132,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38179,7 +38147,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38193,7 +38161,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38208,7 +38176,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38223,7 +38191,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38238,7 +38206,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38252,7 +38220,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38267,7 +38235,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38281,7 +38249,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38295,7 +38263,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38309,7 +38277,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38324,7 +38292,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -61802,7 +61770,29 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <AcademicSubject>Foreign Language and Literature</AcademicSubject>
       <AcademicSubject>Health Care Sciences</AcademicSubject>
     </AcademicSubjects>
-  </TeacherSchoolAssociation>  <TeacherSchoolAssociation>
+  </TeacherSchoolAssociation>  
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Ninth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Social Sciences and History</AcademicSubject>
+      <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+      <AcademicSubject>Health Care Sciences</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>  
+  <TeacherSchoolAssociation>
     <TeacherReference>
       <StaffIdentity>
         <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
@@ -62262,7 +62252,28 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <AcademicSubject>Computer and Information Sciences</AcademicSubject>
       <AcademicSubject>Science</AcademicSubject>
     </AcademicSubjects>
-  </TeacherSchoolAssociation>  
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Ninth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Engineering and Technology</AcademicSubject>
+      <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+      <AcademicSubject>Science</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>     
   <TeacherSchoolAssociation>
     <TeacherReference>
       <StaffIdentity>
@@ -64047,7 +64058,28 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BeginDate>2010-08-31</BeginDate>
       <EndDate>2011-05-27</EndDate>
       <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
-  </TeacherSectionAssociation>  
+  </TeacherSectionAssociation>
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>1</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Support Teacher</ClassroomPosition>
+      <BeginDate>2010-08-31</BeginDate>
+      <EndDate>2011-05-22</EndDate>
+      <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>    
   <TeacherSectionAssociation>
     <TeacherReference>
       <StaffIdentity>
@@ -67534,6 +67566,27 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <EndDate>2014-05-29</EndDate>
       <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
   </TeacherSectionAssociation>
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Sunset Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>165</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Assistant Teacher</ClassroomPosition>
+      <BeginDate>2013-09-03</BeginDate>
+      <EndDate>2014-05-29</EndDate>
+      <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>  
   <TeacherSectionAssociation>
     <TeacherReference>
       <StaffIdentity>
