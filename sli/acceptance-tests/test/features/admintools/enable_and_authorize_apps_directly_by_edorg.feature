@@ -142,7 +142,7 @@ Background:
           And in Status it says "Not Approved"
           
           
-                  Scenario: LEA Admin Approves application
+ Scenario: LEA Admin Approves application
    
         When I hit the Admin Application Authorization Tool     
          And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page        
@@ -236,6 +236,8 @@ Background:
         | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
         | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
       And there are "1" educationalOrganizations in the targetEdOrgList
+      And I see an application "Royal Oak" in the table
+      And in Status it says "Not Approved"
          
          
     
@@ -267,6 +269,8 @@ Background:
         | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
         | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
       And there are "32" educationalOrganizations in the targetEdOrgList
+      And I see an application "Royal Oak" in the table
+      And in Status it says "Not Approved"
     
      ##########################################################################################
      ######  A single branch beginning at a grandchild of the LEA, but not including the LEA
@@ -295,6 +299,8 @@ Background:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
     And there are "24" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
     
      #############################################################################################
      ######  Authorize a single branch ending with nodes on the 5th tier
@@ -319,12 +325,14 @@ Background:
       And I expand all nodes
       And I de-authorize the educationalOrganization "LEA Tier 5"
       And I click Update
-     Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+      Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
       And I check to find if record is in sli db collection:
         | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
         | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-    And there are "8" educationalOrganizations in the targetEdOrgList
- 
+     And there are "8" educationalOrganizations in the targetEdOrgList
+     And I see an application "Royal Oak" in the table
+     And in Status it says "Not Approved"
+  
      #############################################################################################
      ######  Authorize a single leaf nodes on the 5th tier
      #############################################################################################
@@ -353,6 +361,8 @@ Background:
         | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
         | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
     And there are "1" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
     
              
          ############################################################

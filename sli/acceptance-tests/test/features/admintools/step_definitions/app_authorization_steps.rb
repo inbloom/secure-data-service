@@ -65,6 +65,8 @@ Then /^The following edOrgs are authorized for the application "(.*?)" in tenant
         else
         assert(@results =="false", "edorgs does not match ")
     end
+    enable_NOTABLESCAN()
+
 end
 
 
