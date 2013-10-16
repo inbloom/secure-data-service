@@ -57,9 +57,6 @@ public class YearlyTranscriptExtractorTest {
     private EntityToEdOrgDateCache mockStudentCache;
 
     @Mock
-    private EntityToEdOrgDateCache mockStudentAcademicRecordCache;
-
-    @Mock
     private Entity mockEntity;
 
     @Mock
@@ -134,6 +131,7 @@ public class YearlyTranscriptExtractorTest {
                 Mockito.eq(ContainerEntityNames.YEARLY_TRANSCRIPT));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testStudentAcademicRecordCache() {
         Mockito.when(mockRepo.findEach(Mockito.eq(ContainerEntityNames.YEARLY_TRANSCRIPT), Mockito.eq(new NeutralQuery())))
@@ -146,9 +144,9 @@ public class YearlyTranscriptExtractorTest {
         Mockito.when(sar1.getEntityId()).thenReturn("sar1");
         Mockito.when(body.get(Mockito.eq(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID))).thenReturn("sar1");
         List<Entity> sars = Arrays.asList(sar1);
-        Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
-        embeddedData.put(EntityNames.STUDENT_ACADEMIC_RECORD, sars);
-        Mockito.when(mockEntity.getEmbeddedData()).thenReturn(embeddedData);
+        Map<String, List<Entity>> containerData = new HashMap<String, List<Entity>>();
+        containerData.put(EntityNames.STUDENT_ACADEMIC_RECORD, sars);
+        Mockito.when(mockEntity.getContainerData()).thenReturn(containerData);
 
         extractor.extractEntities(mockStudentCache);
 
