@@ -31,54 +31,44 @@ Then /^The following edOrgs are authorized for the application "(.*?)" in tenant
     disable_NOTABLESCAN()
     @db = @conn['02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a']
     @slidb = @conn[DATABASE_NAME]
-   
+    
     @results = "true"
     edOrgsArray ||= []
-   
-     table.hashes.map do |row|
+    
+    table.hashes.map do |row|
         @entity_collection = @db[row["edorgs"]]
-         coll = @db.collection("applicationAuthorization")
-         col2 = @db.collection("educationOrganization")
-         col3 = @slidb.collection("application")
-         @applicationEntity = col3.find_one({'body.name' => application})
-         applicationId = @applicationEntity ['_id']
-         @eduOrgEntity = col2.find_one({'body.stateOrganizationId' => row["edorgs"]})
-         @stateOrganizationId = @eduOrgEntity['_id']
-
-         edOrgsArray.push(@stateOrganizationId)
-         edOrgsArray.sort
-         record = coll.find_one({"$and" => [{'body.applicationId'=> applicationId}, {'body.edorgs' => @stateOrganizationId}] })
-         @recordBody = record['body']
-         @recordEdorgs = @recordBody['edorgs']
-         #record = coll.find_one({"$and" => [{'body.applicationId'=> application}, {'body.edorgs' => row["edorgs"]}] })         
-         if record != nil
+        coll = @db.collection("applicationAuthorization")
+        col2 = @db.collection("educationOrganization")
+        col3 = @slidb.collection("application")
+        applicationEntity = col3.find_one({'body.name' => application})
+        applicationId = applicationEntity ['_id']
+        eduOrgEntity = col2.find_one({'body.nameOfInstitution' => row["edorgs"]})
+        stateOrganizationId = eduOrgEntity['_id']
+        
+        edOrgsArray.push(stateOrganizationId)
+        edOrgsArray.sort
+        record = coll.find_one({"$and" => [{'body.applicationId'=> applicationId}, {'body.edorgs' => stateOrganizationId}] })
+        recordBody = record['body']
+        @recordEdorgs = recordBody['edorgs']
+        #record = coll.find_one({"$and" => [{'body.applicationId'=> application}, {'body.edorgs' => row["edorgs"]}] })
+        if record != nil
             assert(@results == "true", "applicationAuthorization record is found!")
-         else
-             @results= "false"
+            else
+            @results= "false"
             assert(@results == "false", "applicationAuthorization record is not found!")
-         end
-             
+        end
+        
     end
     @diff = edOrgsArray <=> @recordEdorgs
-     if  @diff == 0
-         assert(@results =="true", "edorgs match mongo database!")    
-     else
-         assert(@results =="false", "edorgs does not match ")
-     end
+    if  @diff == 0
+        assert(@results =="true", "edorgs match mongo database!")
+        else
+        assert(@results =="false", "edorgs does not match ")
+    end
 end
 
 
-Then /^I verify "(.*?)" delta bulk extract files are generated for Edorg "(.*?)" in "(.*?)"$/ do |count, lea, tenant|
-    count = count.to_i
-    @conn ||= Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
-    puts DATABASE_NAME
-    puts DATABASE_HOST
-    puts DATABASE_PORT
-    @sliDb ||= @conn.db(DATABASE_NAME)
-    @coll = @sliDb.collection("bulkExtractFiles")
-    query = {"body.tenantId"=>tenant, "body.isDelta"=>true, "body.edorg"=>lea}
-    assert(count == @coll.count({query: query}), "Found #{@coll.count({query: query})}, expected #{count}")
-end
+
 
 When /^I hit the Admin Application Authorization Tool$/ do
   #XXX - Once the API is ready, remove the ID
