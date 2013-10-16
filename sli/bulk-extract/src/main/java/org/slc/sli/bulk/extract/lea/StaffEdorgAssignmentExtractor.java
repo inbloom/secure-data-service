@@ -38,6 +38,8 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
     private EntityToEdOrgCache cache;
     private EdOrgExtractHelper edOrgExtractHelper;
 
+    private EntityToEdOrgDateCache staffDatedCache;
+
     public StaffEdorgAssignmentExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
                                          ExtractorHelper extractorHelper, EntityToEdOrgCache entityToEdOrgCache, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
@@ -46,6 +48,7 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
         this.extractorHelper = extractorHelper;
         this.cache = entityToEdOrgCache;
         this.edOrgExtractHelper = edOrgExtractHelper;
+        this.staffDatedCache = new EntityToEdOrgDateCache();
     }
 
     @Override
@@ -89,6 +92,10 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
 
     public EntityToEdOrgCache getEntityCache() {
         return this.cache;
+    }
+
+    public EntityToEdOrgDateCache getStaffDatedCache() {
+        return staffDatedCache;
     }
 
 }

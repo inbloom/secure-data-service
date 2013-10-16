@@ -107,7 +107,7 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "courseTranscript" file should contain:
       | id                                          | condition                     |
       | 9d80fafba1ac36587a60002bc83df1ebe13c7c36_id | entityType = courseTranscript |
-      #| f0e15138c37352a57aab8d70feb6a0cad6c59741_id | entityType = courseTranscript |
+      | f0e15138c37352a57aab8d70feb6a0cad6c59741_id | entityType = courseTranscript |
     And I verify this "studentGradebookEntry" file should contain:
       | id                                          | condition                          |
       | fc1b5f1ae73a9b0808fb9c6dbc63ba68fe2da206_id | entityType = studentGradebookEntry |

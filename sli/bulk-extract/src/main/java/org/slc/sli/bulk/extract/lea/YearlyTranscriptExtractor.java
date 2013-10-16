@@ -77,8 +77,8 @@ public class YearlyTranscriptExtractor implements EntityDatedExtract {
      */
     private Set<String> fetchStudentAcademicRecordsFromYearlyTranscript(Entity yearlyTranscript) {
         Set<String> records = new TreeSet<String>();
-        if (yearlyTranscript.getEmbeddedData().containsKey(EntityNames.STUDENT_ACADEMIC_RECORD)) {
-            for (Entity sar : yearlyTranscript.getEmbeddedData().get(EntityNames.STUDENT_ACADEMIC_RECORD)) {
+        if (yearlyTranscript.getContainerData().containsKey(EntityNames.STUDENT_ACADEMIC_RECORD)) {
+            for (Entity sar : yearlyTranscript.getContainerData().get(EntityNames.STUDENT_ACADEMIC_RECORD)) {
                 records.add(sar.getEntityId());
             }
         }
