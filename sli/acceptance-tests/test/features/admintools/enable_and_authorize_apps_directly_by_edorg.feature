@@ -316,12 +316,10 @@ Background:
     ##########################################################################################
       And I click on the "Edit Authorizations" button next to it
       And I expand all nodes
-      #And Those edOrgs not enabled by the developer are non-selectable
+      And Those edOrgs not enabled by the developer are non-selectable
     ##########################################################################################
     #All edOrgs from SEA downwards
     ##########################################################################################
-         #And I click on the "Edit Authorizations" button next to it
-    	 #And I expand all nodes
     	 And I authorize the educationalOrganization "Illinois State Board of Education"
     	 And I click Update
     	Then there are "200" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
