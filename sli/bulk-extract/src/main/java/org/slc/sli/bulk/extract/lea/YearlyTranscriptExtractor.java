@@ -22,8 +22,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
@@ -41,7 +39,6 @@ public class YearlyTranscriptExtractor implements EntityDatedExtract {
     private Repository<Entity> repo;
     private EdOrgExtractHelper edOrgExtractHelper;
     private EntityToEdOrgDateCache studentAcademicRecordDateCache;
-    private static final Logger LOG = LoggerFactory.getLogger(YearlyTranscriptExtractor.class);
 
     public YearlyTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
             EdOrgExtractHelper edOrgExtractHelper) {
