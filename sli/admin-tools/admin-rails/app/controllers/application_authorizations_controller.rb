@@ -48,24 +48,30 @@ class ApplicationAuthorizationsController < ApplicationController
     # Get developer-enabled edorgsfor the app.  NOTE: Even though the field is
     # sli.application.authorized_ed_orgs[] these edorgs are called "developer-
     # enabled" or just "enabled" edorgs.
-    @enabled_ed_orgs = array_to_hash(@app.authorized_ed_orgs)
+    #@enabled_ed_orgs = array_to_hash(@app.authorized_ed_orgs)
 
     # Get edOrgs already authorized in <tenant>.applicationAuthorization.edorgs[]
     # The are the "authorized" (by the edOrg admin) edorgs for the app
     @appAuth = ApplicationAuthorization.find(appId)
-    @authorized_ed_orgs = array_to_hash(@appAuth.edorgs)
+    #@authorized_ed_orgs = array_to_hash(@appAuth.edorgs)
 
     # Load up edOrg data
-    load_edorgs()
+    #load_edorgs()
 
-    roots_info = ""
-    @edinf[ROOT_ID][:children].each do |cid|
-      roots_info += cid + ": " + @edinf[cid].to_s + "\n"
-    end
+    #roots_info = ""
+    #@edinf[ROOT_ID][:children].each do |cid|
+    #  roots_info += cid + ": " + @edinf[cid].to_s + "\n"
+    #end
     
-    @debug = ""
+    #@debug = ""
 
-    @edorg_tree_html = "<ul>\n" + render_html(nil, ROOT_ID, 0) + "</ul>\n"
+    #@edorg_tree_html = "<ul>\n" + render_html(nil, ROOT_ID, 0) + "</ul>\n"
+
+    edOrgTree = EdorgTree.new()
+    #     def get_tree_html(userEdOrg, appId, is_sea_admin, checkEnabled, checkAuthorized)
+    #     def get_tree_html(userEdOrgs, appId, is_sea_admin, forAAuthorization = false, authorizedEdOrgs = [])
+    forAuthorization = true
+    @edorg_tree_html = edOrgTree.get_tree_html([edOrgId], appId, is_sea_admin?, forAuthorization, @appAuth.edorgs)
 
   end
   

@@ -24,42 +24,28 @@ module EdorgTreeHelper
     ROOT_ID = 'root'
     CATEGORY_NODE_PREFIX = 'cat_'
 
-    def get_tree_html(userEdOrg, appId, is_sea_admin, checkEnabled, checkAuthorized)
+    def get_tree_html(userEdOrgs, appId, is_sea_admin, forAAuthorization = false, authorizedEdOrgs = [])
 
-      @userEdOrgs = userEdOrg
-      #@edOrg = EducationOrganization.find(userEdOrg)
-      #raise "EdOrg #{edOrgId} not found in educationOrganization collection" if @edOrg.nil?
+      @userEdOrgs           = userEdOrgs || []
+      @authorized_ed_orgs   = array_to_hash(authorizedEdOrgs)
+      @forAppAuthorization  = forAAuthorization
 
       # Get app data
-      load_apps()
+      load_apps() # Change this to fetch only the required app from db.
       @app = @apps_map[appId]
       raise "Application #{appId} not found in sli.application" if @app.nil?
-      #@app_description = app_description(@app)
-      @app_description = "Testing aoppApp Des";
+      @app_description = app_description(@app)
 
       # Get developer-enabled edorgsfor the app.  NOTE: Even though the field is
       # sli.application.authorized_ed_orgs[] these edorgs are called "developer-
       # enabled" or just "enabled" edorgs.
       @enabled_ed_orgs = array_to_hash(@app.authorized_ed_orgs)
 
-      # Get edOrgs already authorized in <tenant>.applicationAuthorization.edorgs[]
-      # The are the "authorized" (by the edOrg admin) edorgs for the app
-      @authorized_ed_orgs = {}
-      #appAuth = ApplicationAuthorization.find(appId)
-      #@authorized_ed_orgs = array_to_hash(appAuth.edorgs) if appAuth != nil
-
       # Load up edOrg data
-      load_edorgs(is_sea_admin,  checkEnabled, checkAuthorized)
-      # Compile counts across whole tree and build "by-type" category nodes
+      load_edorgs(is_sea_admin)
       @id_counter = 0
+      # Compile counts across whole tree and build "by-type" category nodes
       build_tree(ROOT_ID, {})
-
-      roots_info = ''
-      @edinf[ROOT_ID][:children].each do |cid|
-        roots_info += "cid : #{@edinf[cid].to_s} \n"
-      end
-
-      @debug = ''
       @edorg_tree_html = "<ul>\n  #{render_html(nil, ROOT_ID, 0)} </ul>\n"
     end
 
@@ -68,13 +54,14 @@ module EdorgTreeHelper
     #    @enabled_ed_orgs - Map of IDs enabled
     #    @authorized_ed_orgs - Map of IDs authorized
     #
-    def load_edorgs(is_sea_admin,  checkEnabled, checkAuthorized)
+    def load_edorgs(is_sea_admin)
 
       @edinf = {}
       root_ids = []
       allEdOrgs = EducationOrganization.findAllInChunks({'includeFields' => 'parentEducationAgencyReference,nameOfInstitution,stateOrganizationId,organizationCategories'})
 
       allEdOrgs.each do |eo|
+
         # Enable edorgs if the "allowed_for_all_edorgs" flag is set for the application OR
         # the edorg is listed in the application's "authorized" (actually enabled) list
         app_enabled = @app.allowed_for_all_edorgs || @enabled_ed_orgs.has_key?(eo.id)
@@ -85,9 +72,7 @@ module EdorgTreeHelper
         @edinf[eo.id][:parents] = parents
 
         # Track root edorgs (with no parents)
-        if parents.empty?
-          root_ids.push(eo.id)
-        end
+        root_ids.push(eo.id) if parents.empty?
       end
 
       # Init immediate children of each edorg by inverting parent relationship
@@ -103,21 +88,15 @@ module EdorgTreeHelper
       end
 
       # Create fake root edOrg and parent all top level nodes to it
-      root_children = @userEdOrgs
-      root_children = root_ids  if is_sea_admin
+      root_children = if is_sea_admin then root_ids else @userEdOrgs end
       root_edorg = { :id => ROOT_ID, :parents => [], :children => root_children, :enabled => true, :authorized => true, :name => 'All EdOrgs', :edOrg => { :id => ROOT_ID, :parentEducationAgencyReference  => []}}
       @edinf[ROOT_ID] = root_edorg
 
       # Allow SEA admin to see everything, including edOrgs not parented
       # up to SEA.  LEA admin just his own edorg
-      #if is_sea_admin
-        root_children.each do |id|
-          @edinf[id][:parents] = [ ROOT_ID ]
-        end
-      #else
-      #  @edinf[@userEdOrg][:parents] = [ ROOT_ID ]
-      #end
-
+      root_children.each do |id|
+        @edinf[id][:parents] = [ ROOT_ID ]
+      end
     end
 
     # Traverse graph and count children and descendants and put into @edinf map
@@ -247,9 +226,12 @@ module EdorgTreeHelper
       result += " class=\"collapsed\"" if collapsed
       result += ">"
 
+      isCheckable = if @forAppAuthorization then eo[:enabled]    else true end
+      isChecked   = if @forAppAuthorization then eo[:authorized] else eo[:enabled] end
+
       # <input>
       is_category = id.start_with?(CATEGORY_NODE_PREFIX) || id == ROOT_ID
-      if !is_repeat_subtree
+      if !is_repeat_subtree && isCheckable
         result += "<input type=\"checkbox\""
         if !is_category
           result += " class=\"edorgId\""
@@ -257,7 +239,7 @@ module EdorgTreeHelper
         if !id.start_with?(CATEGORY_NODE_PREFIX) && !is_empty(id)
           result += " id=\"" + id + "\""
         end
-        result += " checked" if eo[:enabled]
+        result += " checked" if isChecked
         result += "> "
       end
 
@@ -266,7 +248,7 @@ module EdorgTreeHelper
       result += " class=\"categorynode\"" if is_category
       result += " class=\"repeatsubtree\"" if is_repeat_subtree
       result += ">"
-      result += "<i>" if !eo[:enabled]
+      result += "<i>" if !isCheckable
       result += "(&rArr; see <a style=\"color: #0000ff; text-decoration:underline\" href=\"#" + id + "\">" if is_repeat_subtree
       result += "<a name=\"" + id + "\"></a>" if is_anchored
       result += eo[:name]
@@ -279,7 +261,7 @@ module EdorgTreeHelper
       # result += " parents[0]=[" + parents[0][0,8] + "]" if !parents.empty?
 
       result += ", under \"" + path_to_root + "\" above)" if is_repeat_subtree
-      result += "</i>" if !eo[:enabled]
+      result += "</i>" if !isCheckable
       # Add counts.  Note that eo[:nchild] is the number of direct child EdOrgs not the number of child display nodes
       nchild = eo[:nchild]
       ndesc = eo[:ndesc]
@@ -361,12 +343,11 @@ module EdorgTreeHelper
       return cats.sort.join("/")
     end
 
+    # String is neither nil nor empty?
+    def is_empty(s)
+      return true if s.nil?
+      return true if s.length == 0
+      return false
+    end
   end #end class definition
-
-  # String is neither nil nor empty?
-  def is_empty(s)
-    return true if s.nil?
-    return true if s.length == 0
-    return false
-  end
 end #end module definition
