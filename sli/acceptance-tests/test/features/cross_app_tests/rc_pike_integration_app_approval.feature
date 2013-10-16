@@ -161,13 +161,17 @@ Then there are "199" edOrgs for the "inBloom Data Browser" application in the pr
 And I see an application "Bulk Extract 2 End" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
+And I deselect hierarchical mode
+And I expand all nodes
 And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
+And I authorize the educationalOrganization "Daybreak School District 4529" in the production tenant
+And I authorize the educationalOrganization "IL-CHARTER-SCHOOL" in the production tenant
 And I click Update
 # switch back to iframe because of the page reload
 And I switch to the iframe
 And I see an application "Bulk Extract 2 End" in the table
-And in Status it says "199 EdOrg(s)"
-Then there are "199" edOrgs for the "Bulk Extract 2 End" application in the production applicationAuthorization collection
+And in Status it says "3 EdOrg(s)"
+Then there are "3" edOrgs for the "Bulk Extract 2 End" application in the production applicationAuthorization collection
 
 Scenario: SEA admin makes an api call to PATCH the SEA
   Given the pre-existing bulk extrac testing app key has been created
@@ -367,7 +371,7 @@ Then I am redirected to the Admin Application Authorization Tool
 And I see an application "NotABulkExtractApp" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
-And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
+And I authorize the educationalOrganization "Education Agency for RC Tests" in the production tenant
 And I click Update
 # switch back to iframe because of the page reload
 And I switch to the iframe
@@ -378,7 +382,7 @@ Then there are "199" edOrgs for the "NotABulkExtractApp" application in the prod
 And I see an application "BulkExtractApp2" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
-And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
+And I authorize the educationalOrganization "Education Agency for RC Tests" in the production tenant
 And I click Update
 # switch back to iframe because of the page reload
 And I switch to the iframe
