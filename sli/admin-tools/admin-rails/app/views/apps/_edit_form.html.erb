@@ -94,23 +94,18 @@
   </div>
 </div>
 
-<% if !@sea.nil? %>
-<h3>Enable the state(s) you would like to use your application</h3>
-<div id="state-menu">
-  <label class="inline">Select one or more state(s)
-  <% state_array = @sea.map { |state| [state["name"], state["sea_id"]]} %>
-  <% state_selected = @sea.map { |state| if state["is_enabled"] then state["sea_id"] else nil end } %>
-  <%= select_tag(:state_select, options_for_select(state_array, state_selected),
-                 :multiple => true, :size => @sea.length + 1,
-		 :style => 'width:500px' )
-		 %>
-  </label>
-</div>
+<h3>Enable the Education Organizations you would like to use your application</h3>
+<div id="edorgTree">
+    <ul>
+      <li>Please choose edOrgs to enable for the app.
+      <li>Following each EdOrg are counts of: <span class="treecounts">(direct subsidiary EdOrgs / total subsidiary EdOrgs)</span>
+    </ul>
 
-<div>
-      <%= @treeHtml.html_safe %>
+  <div>
+  <%= @treeHtml.html_safe %>
+  </div>
 </div>
-<% end %>
+  
 <div class = "actions">
 	<%= f.submit "Save", :disable_with => 'Submitting...', :class => "btn" %>
 	<%= link_to "Cancel", :back %>
