@@ -17,7 +17,6 @@ public class StudentSchoolAssociationExtractor implements EntityDatedExtract {
     private ExtractFileMap map;
     private EntityExtractor extractor;
     private EntityToEdOrgDateCache cache;
-    private EntityToEdOrgCache graduationPlanCache;
     private Repository<Entity> repo;
     private EdOrgExtractHelper helper;
     
@@ -26,7 +25,6 @@ public class StudentSchoolAssociationExtractor implements EntityDatedExtract {
         this.extractor = extractor;
         this.map = map;
         this.cache = cache;
-        this.graduationPlanCache = new EntityToEdOrgCache();
         this.repo = repo;
         this.helper = helper;
     }
@@ -45,15 +43,10 @@ public class StudentSchoolAssociationExtractor implements EntityDatedExtract {
                 DateTime upToDate = entry.getValue();
                 if(EntityDateHelper.shouldExtract(ssa, upToDate)) {
                     extractor.extractEntity(ssa, map.getExtractFileForEdOrg(entry.getKey()), EntityNames.STUDENT_SCHOOL_ASSOCIATION);
-                    graduationPlanCache.addEntry(graduationPlanId, entry.getKey());
                 }
             }
 
         }
-    }
-
-    public EntityToEdOrgCache getGraduationPlanCache() {
-        return graduationPlanCache;
     }
 
 }

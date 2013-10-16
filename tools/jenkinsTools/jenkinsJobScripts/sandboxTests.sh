@@ -8,6 +8,10 @@ profileSwapAndPropGenSB
 
 startSearchIndexer
 
+unDeployAdmin
+
+profileSwap
+
 deployAdminSB
 
 deployDatabrowser
@@ -24,5 +28,6 @@ bundle exec rake FORCE_COLOR=true databrowser_server_url=https://${NODE_NAME}.sl
 EXITCODE=$?
 
 mongo --eval "db.adminCommand( { setParameter: 1, notablescan: false } )"
+unDeployAdmin
 
 exit $EXITCODE

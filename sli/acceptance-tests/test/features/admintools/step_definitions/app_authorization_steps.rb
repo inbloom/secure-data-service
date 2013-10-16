@@ -423,4 +423,19 @@ When /^I collapse all nodes$/ do
   element = @driver.find_element(:id, 'collapse_all').click
 end
 
+Then /^I see "(.*?)" checkbox for "(.*?)"$/ do |expectedCount, edOrgName|
+   disable_NOTABLESCAN()
+   db = @conn[convertTenantIdToDbName("Midgar")]
+   coll = db.collection("educationOrganization")
+   record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
+   edOrgId = record["_id"]
+   actualCount = @driver.find_elements(:id, edOrgId.to_s).count
+   assert(expectedCount == actualCount.to_s, "Count of checkboxes mismatched. Expecting #{expectedCount}, actual #{actualCount}")
+   enable_NOTABLESCAN()
+end
 
+Then /^I see "(.*?)" occurrences of "(.*?)"$/ do |expectedCount, label|
+   labels = @driver.find_elements(:xpath, './/span[contains(.,"' + label +'")]')
+   actualCount = labels.count
+   assert(expectedCount == actualCount.to_s, "Count of labels mismatched. Expecting #{expectedCount}, actual #{actualCount}")
+end

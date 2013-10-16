@@ -25,6 +25,7 @@ desc "Run Admin Auth Tests"
 task :adminAppAuthTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools/enable_and_authorize_apps_directly_by_edorg.feature")
+  runTests("test/features/admintools/enable_and_authorize_bulk_extract_apps_directly_by_edorg.feature")
 end
 
 desc "Run Admin Tool Smoke Tests"
