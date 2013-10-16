@@ -55,7 +55,7 @@ public class ExtractorFactory {
         return new StaffEdorgAssignmentExtractor(extractor, map, repo, new ExtractorHelper(), new EntityToEdOrgCache(), edOrgExtractHelper);
     }
 
-    public EntityExtract buildStaffExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
+    public EntityDatedExtract buildStaffExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         return new StaffExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 

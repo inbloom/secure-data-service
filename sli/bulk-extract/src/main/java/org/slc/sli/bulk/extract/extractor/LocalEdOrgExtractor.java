@@ -129,6 +129,11 @@ public class LocalEdOrgExtractor {
         yearlyTranscript.extractEntities(student.getStudentDatedCache());
         EntityToEdOrgDateCache studentAcademicRecordDateCache = yearlyTranscript.getStudentAcademicRecordDateCache();
 
+        // Course Transcript
+        EntityDatedExtract courseTranscriptExtractor = factory.buildCourseTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository,
+                edorgCache, student.getStudentDatedCache());
+        courseTranscriptExtractor.extractEntities(studentAcademicRecordDateCache);
+
         genericExtractor = factory.buildParentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(student.getParentCache());
 
@@ -143,8 +148,8 @@ public class LocalEdOrgExtractor {
         StaffEdorgAssignmentExtractor seaExtractor = factory.buildStaffAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         seaExtractor.extractEntities(edorgCache);
 
-        genericExtractor = factory.buildStaffExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        genericExtractor.extractEntities(seaExtractor.getEntityCache());
+        EntityDatedExtract staffExtractor = factory.buildStaffExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
+        staffExtractor.extractEntities(seaExtractor.getStaffDatedCache());
 
         genericExtractor = factory.buildTeacherSchoolExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
@@ -154,10 +159,6 @@ public class LocalEdOrgExtractor {
 
         genericExtractor = factory.buildStaffCohortAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
-
-        EntityDatedExtract courseTranscriptExtractor = factory.buildCourseTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository,
-                edorgCache, student.getStudentDatedCache());
-        courseTranscriptExtractor.extractEntities(studentAcademicRecordDateCache);
 
         leaToExtractFileMap.closeFiles();
 

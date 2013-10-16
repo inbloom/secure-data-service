@@ -56,6 +56,7 @@ import org.slc.sli.bulk.extract.lea.ExtractFileMap;
 import org.slc.sli.bulk.extract.lea.ExtractorFactory;
 import org.slc.sli.bulk.extract.lea.SectionEmbeddedDocsExtractor;
 import org.slc.sli.bulk.extract.lea.StaffEdorgAssignmentExtractor;
+import org.slc.sli.bulk.extract.lea.StaffExtractor;
 import org.slc.sli.bulk.extract.lea.StudentCompetencyExtractor;
 import org.slc.sli.bulk.extract.lea.StudentExtractor;
 import org.slc.sli.bulk.extract.lea.StudentGradebookEntryExtractor;
@@ -126,6 +127,7 @@ public class LocalEdOrgExtractorTest {
         DisciplineExtractor discipline = Mockito.mock(DisciplineExtractor.class);
         StudentCompetencyExtractor studentCompetencyExtractor = Mockito.mock(StudentCompetencyExtractor.class);
         StudentGradebookEntryExtractor studentGradebookEntryExtractor = Mockito.mock(StudentGradebookEntryExtractor.class);
+        StaffExtractor staffExtractor = Mockito.mock(StaffExtractor.class);
 
         Mockito.when(sectionEmbeddedDocsExtractor.getStudentSectionAssociationDateCache()).thenReturn(new EntityToEdOrgDateCache());
 
@@ -146,7 +148,7 @@ public class LocalEdOrgExtractorTest {
 
         Mockito.when(
                 mockFactory.buildStaffExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
-                        Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockExtract);
+                        Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(staffExtractor);
         Mockito.when(
                 mockFactory.buildTeacherSchoolExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
                         Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockExtract);

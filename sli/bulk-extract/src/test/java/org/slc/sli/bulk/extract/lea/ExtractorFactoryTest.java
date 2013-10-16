@@ -25,6 +25,7 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 
 
 public class ExtractorFactoryTest {
+
     private ExtractorFactory factory;
 
     @Before
@@ -34,7 +35,6 @@ public class ExtractorFactoryTest {
 
     @After
     public void tearDown() {
-
     }
 
     @Test
@@ -60,4 +60,11 @@ public class ExtractorFactoryTest {
         Assert.assertTrue(factory.buildStudentAssessmentExtractor(null, null, null, null) != null);
         Assert.assertTrue(factory.buildStudentAssessmentExtractor(null, null, null, null).getClass() == StudentAssessmentExtractor.class);
     }
+
+    @Test
+    public void testBuildStaffExtractor() {
+        Assert.assertTrue(factory.buildStaffExtractor(null, null, null, null) != null);
+        Assert.assertTrue(factory.buildStaffExtractor(null, null, null, null).getClass() == StaffExtractor.class);
+    }
+
 }

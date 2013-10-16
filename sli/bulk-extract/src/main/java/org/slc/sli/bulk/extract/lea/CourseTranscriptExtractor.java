@@ -67,7 +67,7 @@ public class CourseTranscriptExtractor implements EntityDatedExtract {
 
             //add the students leas
             Map<String, DateTime> studentEdOrgDate = studentDatedCache.getEntriesById(studentId);
-            for (Map.Entry<String, DateTime> entry: studentEdOrgDate.entrySet()) {
+            for (Map.Entry<String, DateTime> entry : studentEdOrgDate.entrySet()) {
                 DateTime upToDate = entry.getValue();
                 if (shouldExtract(courseTranscript, upToDate)) {
                     leaSet.add(entry.getKey());
