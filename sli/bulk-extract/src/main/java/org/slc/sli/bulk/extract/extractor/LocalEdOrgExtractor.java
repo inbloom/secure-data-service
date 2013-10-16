@@ -34,7 +34,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.lea.CalendarDateExtractor;
 import org.slc.sli.bulk.extract.lea.EntityDatedExtract;
 import org.slc.sli.bulk.extract.lea.EntityExtract;
 import org.slc.sli.bulk.extract.lea.EntityToEdOrgCache;
@@ -159,9 +158,6 @@ public class LocalEdOrgExtractor {
         EntityDatedExtract courseTranscriptExtractor = factory.buildCourseTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository,
                 edorgCache, student.getStudentDatedCache());
         courseTranscriptExtractor.extractEntities(studentAcademicRecordDateCache);
-
-        CalendarDateExtractor calendarDateExtractor = factory.buildCalendarDateExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        calendarDateExtractor.extractEntities(edorgCache);
 
         leaToExtractFileMap.closeFiles();
 
