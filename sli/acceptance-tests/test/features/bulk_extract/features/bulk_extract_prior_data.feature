@@ -83,12 +83,15 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "grade" file should contain:
       | id                                                                                     | condition          |
       | e325f180753f2f170b2826a26112f1be229cdf63_idd17b5f2c25d83632142b68f96eae69c7c73ccdf4_id | entityType = grade |
+      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_idfce1fd8e96cffd8c1dbf505a6862acfcf914b01b_id | entityType = grade |
     And I verify this "reportCard" file should contain:
       | id                                                                                     | condition               |
       | e325f180753f2f170b2826a26112f1be229cdf63_ida74c24bab9a9ef60755b46422a8d480239498581_id | entityType = reportCard |
+      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id9c0b53684b9d64742c653621239bdd92c6bc4288_id | entityType = reportCard |
     And I verify this "studentAcademicRecord" file should contain:
       | id                                                                                     | condition                          |
       | e325f180753f2f170b2826a26112f1be229cdf63_ide536c2b89ee393a7767b597601b581fd9bbfe4e0_id | entityType = studentAcademicRecord |
+      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id17e81b9ff5c5c728ec22ec3f40e975eea03570a6_id | entityType = studentAcademicRecord |
     And I verify this "attendance" file should contain:
       | id                                          | condition               |
       | 5b2d2eeec0b545269d634aaa760ed6f61f8c5021_id | entityType = attendance |
