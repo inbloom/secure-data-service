@@ -21,6 +21,7 @@ class ApplicationAuthorizationsController < ApplicationController
 
   ROOT_ID = "root"
   CATEGORY_NODE_PREFIX = "cat_"
+  APP_AUTH_RIGHT = "EDORG_APP_AUTHZ"
   
   #
   # Edit app authorizations
@@ -73,10 +74,29 @@ class ApplicationAuthorizationsController < ApplicationController
   # NOTE this controller allows ed org super admins to enable/disable apps for their LEA(s)
   # It allows LEA(s) to see (but not change) their app authorizations
   def check_rights
-    unless is_lea_admin? || is_sea_admin?
-      logger.warn {'User is not lea or sea admin and cannot access application authorizations'}
-      raise ActiveResource::ForbiddenAccess, caller
+
+    puts "session is #{session}"
+
+    # LEAs and SEAs have a global right to authorize applications
+    if session[:rights].include?(APP_AUTH_RIGHT) then
+      return
     end
+
+    # federated users do not have such a global right, but they could in the context of various edOrgs
+
+    edOrgsWithAppAuthRight = []
+
+    session[:edOrgRights].each do |edOrgId, rights|
+      puts "iterating over edOrg #{edOrgId}"
+      puts "rights for that edOrg are #{rights}"
+      puts "rights.include?(APP_AUTH_RIGHT) #{rights.include?(APP_AUTH_RIGHT)}"
+      if rights.include?(APP_AUTH_RIGHT) then
+        edOrgsWithAppAuthRight << edOrgId
+      end
+    end
+
+    puts "edOrgs for which user has #{APP_AUTH_RIGHT} right: #{edOrgsWithAppAuthRight}"
+    # presumably user will have to pick one of these edOrgs
   end
 
   # GET /application_authorizations
