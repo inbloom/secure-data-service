@@ -1,5 +1,5 @@
-@RALLY_US5904 @RALLY_US5908 @RALLY_US5907 @RALLY_US5909
-Feature: An edorg's extract file should contain student data from previous enrollments with other schools
+@RALLY_US5904 @RALLY_US5908 @RALLY_US5907 @RALLY_US5909 @RALLY_US5905
+Feature: An edorg's extract file should contain student and staff data from previous enrollments with other schools
 
   Scenario: Setup the database and trigger an extract
     Given I clean the bulk extract file system and database
@@ -18,8 +18,16 @@ Feature: An edorg's extract file should contain student data from previous enrol
 #
 #  a13489364c2eb015c219172d561c62350f0453f3_id - Daybreak Central High (DCH)
 #  897755cae2f689c2d565a35a48ea69d5dd3928d6_id - Sunset Central High (SCH)
+#
+#    TIMELINE OF EMPLOYMENT OF CHARLES GRAY FOR POSITIVE/NEGATIVE CASES
+#  >>--------------------------------------------------------------------------------------------->
+#    [2007-05-06 -DCH- 2008-07-16] [2009-08-26 -DCH- 2011-07-22]
+#                                                                [2012-08-26 -- SCH--- 2018-05-22]
+#
+#  a13489364c2eb015c219172d561c62350f0453f3_id - Daybreak Central High (DCH)
+#  897755cae2f689c2d565a35a48ea69d5dd3928d6_id - Sunset Central High (SCH)
 
-  Scenario: The extract for an edorg should contain data for a student from a previously enrolled school
+  Scenario: The extract for an edorg should contain data for a student or staff from a previously enrolled school
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "897755cae2f689c2d565a35a48ea69d5dd3928d6_id"
     And I verify that an extract tar file was created for the tenant "Midgar"
     Then the extract contains a file for each of the following entities:
@@ -113,8 +121,14 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "studentSectionAssociation" file should contain:
       | id                                                                                     | condition                              |
       | 49e048fa9d77126a719d5719cfc08c36170981b1_idd5df60e5ffe544f23eb3167542fc582215e6a7a2_id | entityType = studentSectionAssociation |
+    #And I verify this "staff" file should contain:
+      #| id                                          | condition          |
+      #| b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = staff |
+    #And I verify this "teacher" file should contain:
+      #| id                                          | condition            |
+      #| b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = teacher |
 
-  Scenario: The extract for an edorg should not contain data for a former student that's dated after the student has left
+  Scenario: The extract for an edorg should not contain data for a former student or staff that's dated after the person has left
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
     And I verify that an extract tar file was created for the tenant "Midgar"
     Then the extract contains a file for each of the following entities:
@@ -202,6 +216,12 @@ Feature: An edorg's extract file should contain student data from previous enrol
     And I verify this "studentSectionAssociation" file should not contain:
       | id                                                                                     |
       | c44eb520d29bad5d60237f6addc22f769b3448aa_idaf30e6685a85c716c26d5e559bde27017f57f304_id |
+    #And I verify this "staff" file should contain:
+      #| id                                          | condition          |
+      #| b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = staff |
+    #And I verify this "teacher" file should contain:
+      #| id                                          | condition            |
+      #| b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = teacher |
 
 ##########################################################################
 #    TIMELINE OF ENROLLMENT OF MATT SOLLARS FOR EDGE CASES
@@ -213,12 +233,24 @@ Feature: An edorg's extract file should contain student data from previous enrol
 #
 # Student's end date in DCH is the same as the begin date of SCH
 # WSH's begin date is one day after SCH's.
+#
+#    TIMELINE OF EMPLOYMENT OF CHARLES GRAY FOR POSITIVE/NEGATIVE CASES
+#  >>--------------------------------------------------------------------------------------------->
+#    [2007-05-06 -DCH- 2008-07-16] [2009-08-26 -DCH- 2011-07-22]
+#                                             [2010-08-26 ------------ ESH --------- 2013-05-22]
+#                                                              [2011-07-22 --- WSH--- 2013-05-23]
+#                                                               [2011-07-23 ----- SCH---------- 2018-05-22]
+#
+# Staff's end date in DCH is the same as the begin date of WSH
+# SCH's begin date is one day after WSH's.
+#
+#
 #  a13489364c2eb015c219172d561c62350f0453f3_id - Daybreak Central High (DCH)
 #  f63789e8d9f3c8aa4d42bdbec83ca64cc1d2ee16_id - East Side High (ESH)
 #  897755cae2f689c2d565a35a48ea69d5dd3928d6_id - Sunset Central High (SCH)
 #  b78524194f38795a5c2e422cb7fc8becece062d0_id - West Side High (WSH)
 
-  Scenario: Edge Cases for student enrollment
+  Scenario: Edge Cases for student and staff enrollment
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
     And there is a metadata file in the extract
     And I verify this "student" file should contain:
@@ -314,6 +346,12 @@ Feature: An edorg's extract file should contain student data from previous enrol
       | 6e9504c3061a61384cbd9591a52893f07c6af242_id56a60187f236b69252b085c0ca55c9a1cb8081ab_id | entityType = studentSectionAssociation |
       | 8887531ea737afbd49da86f201e95d1f6fc45571_id50a30c780c85361faec9ac20013d347a619958fc_id | entityType = studentSectionAssociation |
       | 5c593810111e06cd8b5a4e7f315b5b49c16c35b1_id26f3811034fc7d29bdc8ac5250ab1a9fe3ce97d7_id | entityType = studentSectionAssociation |
+    #And I verify this "staff" file should contain:
+      #| id                                          | condition          |
+      #| b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = staff |
+    #And I verify this "teacher" file should contain:
+      #| id                                          | condition            |
+      #| b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = teacher |
   #This extract should not contain content for anything that began after DCH's end date with the student
   #Given proper data, everything from WSH shouldn't be included
     And I verify this "studentProgramAssociation" file should not contain:
