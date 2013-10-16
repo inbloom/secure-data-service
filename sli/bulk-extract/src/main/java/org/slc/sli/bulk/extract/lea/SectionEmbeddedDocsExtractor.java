@@ -46,17 +46,14 @@ public class SectionEmbeddedDocsExtractor implements EntityDatedExtract {
     private final Repository<Entity> repository;
     private final EntityToEdOrgDateCache studentDatedCache;
     private final EntityToEdOrgCache edorgCache;
-    private final EntityToEdOrgCache courseOfferingCache = new EntityToEdOrgCache();
     private final EntityToEdOrgDateCache studentSectionAssociationDateCache = new EntityToEdOrgDateCache();
-    private final EdOrgExtractHelper edOrgExtractHelper;
-
 
     public SectionEmbeddedDocsExtractor(EntityExtractor entityExtractor, ExtractFileMap leaToExtractFileMap, Repository<Entity> repository, EntityToEdOrgDateCache studentCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper) {
         this.entityExtractor = entityExtractor;
         this.leaToExtractFileMap = leaToExtractFileMap;
         this.repository = repository;
         this.edorgCache = edorgCache;
-        this.edOrgExtractHelper = edOrgExtractHelper;
+
         this.studentDatedCache = studentCache;
     }
 
@@ -109,7 +106,6 @@ public class SectionEmbeddedDocsExtractor implements EntityDatedExtract {
                     if (EntityDateHelper.shouldExtract(ssa, studentEdOrg.getValue())) {
                         entityExtractor.extractEntity(ssa, this.leaToExtractFileMap.getExtractFileForEdOrg(studentEdOrg.getKey()), EntityNames.STUDENT_SECTION_ASSOCIATION);
 
-                        this.courseOfferingCache.addEntry((String) section.getBody().get("courseOfferingId"), studentEdOrg.getKey());
                         this.studentSectionAssociationDateCache.addEntry(ssa.getEntityId(), studentEdOrg.getKey(), studentEdOrg.getValue());
                     }
                 }
@@ -133,10 +129,6 @@ public class SectionEmbeddedDocsExtractor implements EntityDatedExtract {
                 }
             }
         }
-    }
-
-    public EntityToEdOrgCache getCourseOfferingCache() {
-        return courseOfferingCache;
     }
 
     public EntityToEdOrgDateCache getStudentSectionAssociationDateCache() {
