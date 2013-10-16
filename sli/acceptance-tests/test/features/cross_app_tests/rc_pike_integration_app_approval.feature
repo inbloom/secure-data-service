@@ -279,7 +279,7 @@ Scenario: App developer enables Bulk Extract App
     When I click on Save
     And I exit out of the iframe
     And I click on log out
-    And "BulkExtractApp2" is enabled for "5" production education organizations
+    And "BulkExtractApp2" is enabled for "38" production education organizations
 
 Scenario: App developer creates new non Bulk Extract App
     When I navigate to the Portal home page
@@ -327,7 +327,7 @@ Scenario: App developer enables non Bulk Extract App
     When I click on Save
     And I exit out of the iframe
     And I click on log out
-    And "NotABulkExtractApp" is enabled for "10" production education organizations
+    And "NotABulkExtractApp" is enabled for "199" production education organizations
 
 @wip @ThisStepIsNotYetNeededSinceAutoApproveAppsIsStillTrueInRC
 Scenario: SLC Operator Approves Application Registration
