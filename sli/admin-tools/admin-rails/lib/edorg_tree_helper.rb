@@ -24,17 +24,26 @@ module EdorgTreeHelper
     ROOT_ID = 'root'
     CATEGORY_NODE_PREFIX = 'cat_'
 
-    def get_tree_html(userEdOrgs, appId, is_sea_admin, forAAuthorization = false, authorizedEdOrgs = [])
+    # render a tree where enabled & authorized edOrgs are checked(selected) and enabled & unauthorized edOrgs can be checked(selected)
+    # If is_sea_admin is false, the top most nodes of the tree are 'userEdOrgs'. If true, all the parentless edOrgs become the topmost nodes of the tree.
+    def get_authorization_tree_html(userEdOrgs, appId, is_sea_admin, authorizedEdOrgs)
+      get_tree_html(userEdOrgs, appId, is_sea_admin, true, authorizedEdOrgs)
+    end
 
+    # render a tree where enabled edOrgs are checked(selected) and all edOrgs can be checked(selected)
+    # If is_sea_admin is false, the top most nodes of the tree are 'userEdOrgs'. If true, all the parentless edOrgs become the topmost nodes of the tree.
+    def get_enablement_tree_html(userEdOrgs, appId, is_sea_admin)
+      get_tree_html(userEdOrgs, appId, is_sea_admin, false, [])
+    end
+
+    def get_tree_html(userEdOrgs, appId, is_sea_admin, forAAuthorization, authorizedEdOrgs)
       @userEdOrgs           = userEdOrgs || []
       @authorized_ed_orgs   = array_to_hash(authorizedEdOrgs)
       @forAppAuthorization  = forAAuthorization
 
       # Get app data
-      load_apps() # Change this to fetch only the required app from db.
-      @app = @apps_map[appId]
+      @app = App.find(appId)
       raise "Application #{appId} not found in sli.application" if @app.nil?
-      @app_description = app_description(@app)
 
       # Get developer-enabled edorgsfor the app.  NOTE: Even though the field is
       # sli.application.authorized_ed_orgs[] these edorgs are called "developer-
@@ -46,7 +55,7 @@ module EdorgTreeHelper
       @id_counter = 0
       # Compile counts across whole tree and build "by-type" category nodes
       build_tree(ROOT_ID, {})
-      @edorg_tree_html = "<ul>\n  #{render_html(nil, ROOT_ID, 0)} </ul>\n"
+      edorg_tree_html = "<ul>\n  #{render_html(nil, ROOT_ID, 0)} </ul>\n"
     end
 
     # Load up all the edOrgs.  Creates:
@@ -290,14 +299,6 @@ module EdorgTreeHelper
       return result
     end
 
-    # Load up all apps into @apps_map
-    def load_apps()
-      # Slurp all apps into @apps_map = a map of appId -> info
-      @apps_map = {}
-      allApps = App.findAllInChunks({})
-      allApps.each { |app| @apps_map[app.id] = app }
-    end
-
     # Convert array to map
     def array_to_hash(a)
       result = {}
@@ -309,29 +310,13 @@ module EdorgTreeHelper
       return result
     end
 
-    # Format app description
-    def app_description(a)
-      s = ""
-      s += a.name
-      s += " (id " + a.client_id + ")" if !is_empty(a.client_id)
-      s += ", v. " + a.version if !is_empty(a.version)
-      if a.isBulkExtract
-        s += " -- Bulk Extract"
-      else
-        s += " -- non-Bulk Extract"
-      end
-      return s
-    end
-
     # Get best guess at edorg type
     def get_edorg_type(id)
-
       begin
         cats = @edinf[id][:edOrg].organizationCategories
       rescue
-          # Check error condition
+        return "Unknown"
       end
-
       if cats.nil? || cats.empty?
         return "Unknown"
       end

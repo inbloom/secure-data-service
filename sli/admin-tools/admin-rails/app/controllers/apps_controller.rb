@@ -82,7 +82,7 @@ class AppsController < ApplicationController
     edOrgTree = EdorgTree.new()
                 #     def get_tree_html(userEdOrg, appId, is_sea_admin, checkEnabled, checkAuthorized)
                 #     def get_tree_html(userEdOrgs, appId, is_sea_admin, forAAuthorization = false, authorizedEdOrgs = [])
-    @treeHtml = edOrgTree.get_tree_html(seaIds, params[:id], is_sea_admin?)
+    @treeHtml = edOrgTree.get_enablement_tree_html(seaIds, params[:id], is_sea_admin?)
   end
 
   def approve
