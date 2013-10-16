@@ -114,7 +114,7 @@ unDeployAdmin()
   bundle install --path $WORKSPACE/../vendors/
   bundle exec thin stop -C config/thin.yml
 
-  ln=`ls /tmp/pid/ | wc -l`
+  ln=`ls /tmp/pid/thin-admin.pid | wc -l`
 
   if [ "$ln" -ne "0" ]
   then
