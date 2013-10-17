@@ -20,9 +20,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -31,11 +33,16 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-
+@SuppressWarnings("unchecked")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StaffProgramAssociationExtractorTest {
     private StaffProgramAssociationExtractor extractor;
     
@@ -53,7 +60,7 @@ public class StaffProgramAssociationExtractorTest {
     private EdOrgExtractHelper mockEdOrgExtractHelper;
     
     private Map<String, Object> entityBody;
-    private EntityToEdOrgCache staffToLeaCache;
+    private EntityToEdOrgDateCache staffToLeaCache;
     
     @Before
     public void setUp() {
@@ -62,8 +69,9 @@ public class StaffProgramAssociationExtractorTest {
         entityBody.put(ParameterConstants.STAFF_ID, "Staff1");
         extractor = new StaffProgramAssociationExtractor(mockExtractor, mockMap, mockRepo, mockEdOrgExtractHelper);
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
-        staffToLeaCache = new EntityToEdOrgCache();
-        staffToLeaCache.addEntry("Staff1", "LEA");
+        Mockito.when(mockEntity.getType()).thenReturn(EntityNames.STAFF_PROGRAM_ASSOCIATION);
+        staffToLeaCache = new EntityToEdOrgDateCache();
+        staffToLeaCache.addEntry("Staff1", "LEA", DateTime.parse("2011-05-01", DateHelper.getDateTimeFormat()));
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
     }
     
@@ -74,6 +82,8 @@ public class StaffProgramAssociationExtractorTest {
     
     @Test
     public void testExtractOneEntity() {
+        entityBody.put(ParameterConstants.BEGIN_DATE, "2010-05-01");
+
         Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_PROGRAM_ASSOCIATION), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
@@ -84,6 +94,7 @@ public class StaffProgramAssociationExtractorTest {
     
     @Test
     public void testExtractManyEntity() {
+        entityBody.put(ParameterConstants.BEGIN_DATE, "2010-05-01");
         Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_PROGRAM_ASSOCIATION), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity, mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
@@ -91,10 +102,21 @@ public class StaffProgramAssociationExtractorTest {
         Mockito.verify(mockExtractor, Mockito.times(2)).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq(EntityNames.STAFF_PROGRAM_ASSOCIATION));
     }
-    
-    
+
+    @Test
+    public void testExtractNoEntityBecauseWrongDate() {
+        entityBody.put(ParameterConstants.BEGIN_DATE, "2012-05-01");
+
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_PROGRAM_ASSOCIATION), Mockito.eq(new NeutralQuery())))
+                .thenReturn(Arrays.asList(mockEntity).iterator());
+        Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
+        extractor.extractEntities(staffToLeaCache);
+        Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
+                Mockito.eq(EntityNames.STAFF_PROGRAM_ASSOCIATION));
+    }
     @Test
     public void testExtractNoEntityBecauseOfLEAMiss() {
+        entityBody.put(ParameterConstants.BEGIN_DATE, "2010-05-01");
         Mockito.when(mockEntity.getEntityId()).thenReturn("Staff2");
         Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_PROGRAM_ASSOCIATION), 
                 Mockito.eq(new NeutralQuery()))).thenReturn(Arrays.asList(mockEntity).iterator());
