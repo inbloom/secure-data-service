@@ -15,11 +15,11 @@
  */
 package org.slc.sli.bulk.extract.lea;
 
-import org.joda.time.DateTime;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import org.joda.time.DateTime;
 
 /**
  * @author: npandey
@@ -49,14 +49,12 @@ public class EntityToEdOrgDateCache {
         Map<String, DateTime> edOrgTime = new HashMap<String, DateTime>();
         DateTime finalExpirationDate = expirationDate;
 
-        if(cache.containsKey(entityId)) {
+        if (cache.containsKey(entityId)) {
             edOrgTime = cache.get(entityId);
 
-            DateTime existingExpirationDate;
-
-            if(edOrgTime.containsKey(edOrgId)) {
-                existingExpirationDate = edOrgTime.get(edOrgId);
-                if((expirationDate == null) || (existingExpirationDate!=null && existingExpirationDate.isAfter(expirationDate))) {
+            if (edOrgTime.containsKey(edOrgId)) {
+                DateTime existingExpirationDate = edOrgTime.get(edOrgId);
+                if ((expirationDate == null) || ((existingExpirationDate != null) && existingExpirationDate.isAfter(expirationDate))) {
                     finalExpirationDate = existingExpirationDate;
                 }
             }

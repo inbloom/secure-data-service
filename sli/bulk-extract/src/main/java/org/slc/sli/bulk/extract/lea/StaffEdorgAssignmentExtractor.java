@@ -16,9 +16,12 @@
 
 package org.slc.sli.bulk.extract.lea;
 
-import com.google.common.base.Function;
-import org.apache.commons.lang3.tuple.Pair;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 import org.joda.time.DateTime;
+
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
@@ -26,8 +29,6 @@ import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-
-import java.util.*;
 
 public class StaffEdorgAssignmentExtractor implements EntityExtract {
 
@@ -37,7 +38,6 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
     private ExtractorHelper extractorHelper;
     private EntityToEdOrgCache cache;
     private EdOrgExtractHelper edOrgExtractHelper;
-
     private EntityToEdOrgDateCache staffDatedCache;
 
     public StaffEdorgAssignmentExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
@@ -54,7 +54,7 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
     @Override
     public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
         edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STAFF_ED_ORG_ASSOCIATION, this.getClass().getName());
-        doIterate(entityToEdorgCache);
+        buildStaffCaches(entityToEdorgCache);
 
         Iterator<Entity> associations = repo.findEach(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
         while (associations.hasNext()) {
@@ -68,15 +68,19 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
 
     }
 
-    private void doIterate(EntityToEdOrgCache entityToEdorgCache) {
+    private void buildStaffCaches(EntityToEdOrgCache entityToEdorgCache) {
         Iterator<Entity> associations = repo.findEach(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
 
         while (associations.hasNext()) {
             Entity association = associations.next();
             String staffId = (String) association.getBody().get(ParameterConstants.STAFF_REFERENCE);
 
-            extractorHelper.buildEdorgToDateMap(association.getBody(), staffDatedCache.getEntriesById(staffId),
-                    ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, ParameterConstants.BEGIN_DATE, ParameterConstants.END_DATE);
+            Map<String, DateTime> edOrgDates = staffDatedCache.getEntriesById(staffId);
+            extractorHelper.buildEdorgToDateMap(association.getBody(), edOrgDates,
+                ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, ParameterConstants.BEGIN_DATE, ParameterConstants.END_DATE);
+            for (Map.Entry<String, DateTime> edOrgDate : edOrgDates.entrySet()) {
+                staffDatedCache.addEntry(staffId, edOrgDate.getKey(), edOrgDate.getValue());
+            }
 
             if (!extractorHelper.isStaffAssociationCurrent(association)) {
                 continue;

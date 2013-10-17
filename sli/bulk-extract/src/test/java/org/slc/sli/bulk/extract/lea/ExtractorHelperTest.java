@@ -16,10 +16,16 @@
 
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -28,6 +34,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
@@ -36,6 +43,7 @@ import org.slc.sli.domain.Entity;
 
 @SuppressWarnings("unchecked")
 public class ExtractorHelperTest {
+
     private ExtractorHelper helper;
     private Entity mockEntity;
     private DateHelper mockHelper;
@@ -45,8 +53,7 @@ public class ExtractorHelperTest {
     @Before
     public void setUp() {
         edOrgExtractHelper = Mockito.mock(EdOrgExtractHelper.class);
-        helper = new ExtractorHelper();
-        helper.setEdOrgExtractHelper(edOrgExtractHelper);
+        helper = new ExtractorHelper(edOrgExtractHelper);
         mockEntity = Mockito.mock(Entity.class);
         mockHelper = Mockito.mock(DateHelper.class);
         helper.setDateHelper(mockHelper);
@@ -54,7 +61,6 @@ public class ExtractorHelperTest {
 
     @After
     public void tearDown() {
-
     }
 
     /**
@@ -66,11 +72,11 @@ public class ExtractorHelperTest {
         Map<String, List<String>> lineages = ImmutableMap.of(
                 "school1", (new ArrayList<String>()),
                 "school2", (new ArrayList<String>()),
-                "school3", (List<String>)Arrays.asList("Proudhon", "Bakunin", "Kropotkin")
+                "school3", Arrays.asList("Proudhon", "Bakunin", "Kropotkin")
         );
         Mockito.when(edOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
 
-        helper.setDateHelper(null);
+        helper.setDateHelper(new DateHelper());
         Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
         Map<String, Object> school = new HashMap<String, Object>();
         school.put("exitWithdrawDate", "1848-05-21");
@@ -81,11 +87,11 @@ public class ExtractorHelperTest {
         school2.put("_id", "school2");
 
         denormalized.put("schools", Arrays.asList(school, school2));
-        
+
         Entity student = Mockito.mock(Entity.class);
         Mockito.when(student.getDenormalizedData()).thenReturn(denormalized);
         Assert.assertTrue("No schools should be returned", helper.fetchCurrentSchoolsForStudent(student).size() == 0);
-        
+
         Map<String, Object> school3 = new HashMap<String, Object>();
         school3.put("_id", "school3");
         school3.put("exitWithdrawDate", "2048-05-09");
@@ -104,7 +110,7 @@ public class ExtractorHelperTest {
 
 
         List<String> edorgs = Arrays.asList("One", "Two", "Three");
-        Map<String, List<String>> lineages = ImmutableMap.of(  "school1", (List<String>)edorgs);
+        Map<String, List<String>> lineages = ImmutableMap.of(  "school1", edorgs);
         Mockito.when(edOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
 
         // No denormalized data
@@ -166,37 +172,37 @@ public class ExtractorHelperTest {
         Mockito.when(mockHelper.isFieldExpired(entityBody, ParameterConstants.END_DATE)).thenReturn(false);
         Assert.assertTrue(helper.isStaffAssociationCurrent(mockEntity));
     }
-    
+
     @Test
     public void testBuildSubToParentEdOrgCache() {
-    	EntityToEdOrgCache cache = new EntityToEdOrgCache();
-    	cache.addEntry("lea-1", "school-1");
-    	cache.addEntry("lea-1", "school-2");
-    	cache.addEntry("lea-1", "school-3");
-    	cache.addEntry("lea-2", "school-4");
-    	cache.addEntry("lea-2", "school-5");
-    	cache.addEntry("lea-3", "school-6");
-    	
-    	Map<String, Collection<String>> result = helper.buildSubToParentEdOrgCache(cache);
-    	Assert.assertEquals(6, result.keySet().size());
-    	Assert.assertEquals(Sets.newHashSet("lea-1"), result.get("school-1"));
-    	Assert.assertEquals(Sets.newHashSet("lea-1"), result.get("school-2"));
-    	Assert.assertEquals(Sets.newHashSet("lea-1"), result.get("school-3"));
-    	Assert.assertEquals(Sets.newHashSet("lea-2"), result.get("school-4"));
-    	Assert.assertEquals(Sets.newHashSet("lea-2"), result.get("school-5"));
-    	Assert.assertEquals(Sets.newHashSet("lea-3"), result.get("school-6"));
+        EntityToEdOrgCache cache = new EntityToEdOrgCache();
+        cache.addEntry("lea-1", "school-1");
+        cache.addEntry("lea-1", "school-2");
+        cache.addEntry("lea-1", "school-3");
+        cache.addEntry("lea-2", "school-4");
+        cache.addEntry("lea-2", "school-5");
+        cache.addEntry("lea-3", "school-6");
+
+        Map<String, Collection<String>> result = helper.buildSubToParentEdOrgCache(cache);
+        Assert.assertEquals(6, result.keySet().size());
+        Assert.assertEquals(Sets.newHashSet("lea-1"), result.get("school-1"));
+        Assert.assertEquals(Sets.newHashSet("lea-1"), result.get("school-2"));
+        Assert.assertEquals(Sets.newHashSet("lea-1"), result.get("school-3"));
+        Assert.assertEquals(Sets.newHashSet("lea-2"), result.get("school-4"));
+        Assert.assertEquals(Sets.newHashSet("lea-2"), result.get("school-5"));
+        Assert.assertEquals(Sets.newHashSet("lea-3"), result.get("school-6"));
     }
 
     @Test
     public void testFetchAllEdOrgs() {
         Map<String, List<String>> lineages = ImmutableMap.of(
-                "school1", (List<String>)Arrays.asList("school1"),
-                "school2", (List<String>)Arrays.asList("school2", "Proudhon", "Kropotkin"),
-                "school3", (List<String>)Arrays.asList("school3", "Proudhon", "Bakunin", "Kropotkin")
+                "school1", Arrays.asList("school1"),
+                "school2", Arrays.asList("school2", "Proudhon", "Kropotkin"),
+                "school3", Arrays.asList("school3", "Proudhon", "Bakunin", "Kropotkin")
         );
         Mockito.when(edOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
 
-        helper.setDateHelper(null);
+        helper.setDateHelper(new DateHelper());
         Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
         Map<String, Object> school = new HashMap<String, Object>();
         school.put(ParameterConstants.ENTRY_DATE, "1847-06-01");
@@ -236,14 +242,14 @@ public class ExtractorHelperTest {
     @Test
     public void testFetchAllEdOrgsNullDates() {
         Map<String, List<String>> lineages = ImmutableMap.of(
-                "school1", (List<String>)Arrays.asList("school1"),
-                "school2", (List<String>)Arrays.asList("school2", "Proudhon", "Kropotkin"),
-                "school3", (List<String>)Arrays.asList("school3", "Proudhon", "Bakunin", "Kropotkin"),
-                "school4", (List<String>)Arrays.asList("school4", "Bakunin")
+                "school1", Arrays.asList("school1"),
+                "school2", Arrays.asList("school2", "Proudhon", "Kropotkin"),
+                "school3", Arrays.asList("school3", "Proudhon", "Bakunin", "Kropotkin"),
+                "school4", Arrays.asList("school4", "Bakunin")
         );
         Mockito.when(edOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
 
-        helper.setDateHelper(null);
+        helper.setDateHelper(new DateHelper());
         Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
         Map<String, Object> school = new HashMap<String, Object>();
         school.put(ParameterConstants.ENTRY_DATE, "1847-05-21");
@@ -283,19 +289,18 @@ public class ExtractorHelperTest {
         Assert.assertEquals(DateTime.parse("1848-05-21", FMT), result.get("school1"));
         Assert.assertEquals(null, result.get("school2"));
         Assert.assertEquals(null, result.get("school4"));
-
     }
 
     @Test
     public void testFutureEntryDate() {
         Map<String, List<String>> lineages = ImmutableMap.of(
-                "school1", (List<String>)Arrays.asList("school1"),
-                "school2", (List<String>)Arrays.asList("school2", "Proudhon", "Kropotkin"),
-                "school3", (List<String>)Arrays.asList("school3", "Proudhon", "Bakunin", "Kropotkin")
+                "school1", Arrays.asList("school1"),
+                "school2", Arrays.asList("school2", "Proudhon", "Kropotkin"),
+                "school3", Arrays.asList("school3", "Proudhon", "Bakunin", "Kropotkin")
         );
         Mockito.when(edOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
 
-        helper.setDateHelper(null);
+        helper.setDateHelper(new DateHelper());
         Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
         Map<String, Object> school1 = new HashMap<String, Object>();
         school1.put(ParameterConstants.ENTRY_DATE, "3000-06-01");
@@ -314,4 +319,5 @@ public class ExtractorHelperTest {
         Map<String, DateTime> result = helper.fetchAllEdOrgsForStudent(student);
         Assert.assertEquals(0, result.size());
     }
+
 }
