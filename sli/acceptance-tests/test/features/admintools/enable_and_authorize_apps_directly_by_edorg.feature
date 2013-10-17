@@ -78,7 +78,7 @@ Background:
     And there are "45" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "Not Approved"
-    And I wait for user inputs
+    
 
   ############################################################
   ######LEA only
