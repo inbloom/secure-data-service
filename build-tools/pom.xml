@@ -35,18 +35,17 @@
     <url>https://github.com/WGEN-SLI/SLI</url>
   </scm>
 
-<!--
   <distributionManagement>
     <repository>
       <id>sli-releases</id>
-      <name>SLI Repository</name>
-      <url>https://nexus.slidev.org/nexus/content/repositories/SLI_Releases/</url>
+      <name>SLI Releases Repository</name>
+      <!-- <url>https://nexus.slidev.org/nexus/content/repositories/releases/</url> -->
     </repository>
     <snapshotRepository>
-        <id>sli-snapshots</id>
-      <name>SLI Repository</name>
-      <url>https://nexus.slidev.org/nexus/content/repositories/SLI_Snapshots/</url>
+      <id>sli-snapshots</id>
+      <name>SLI Snapshots Repository</name>
+      <!-- <url>https://nexus.slidev.org/nexus/content/repositories/snapshots/</url> -->
     </snapshotRepository>
   </distributionManagement>
--->
+
 </project>
