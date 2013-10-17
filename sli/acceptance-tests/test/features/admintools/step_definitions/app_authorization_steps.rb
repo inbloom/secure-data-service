@@ -19,6 +19,7 @@ limitations under the License.
 
 require "selenium-webdriver"
 require 'json'
+require 'time'
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
@@ -172,13 +173,17 @@ Given /^I am logged into the Application Authorization Tool$/ do
 end
 
 Given /^I see an application "([^"]*)" in the table$/ do |arg1|
-  @appName = arg1
-  @appRow = getApp(@appName)
-  apps = @driver.find_elements(:xpath, ".//tbody/tr/td[text()='#{arg1}']/..")
-  apps.each do |cur|
-    puts("The app is #{cur.inspect} and #{cur.text}")
-  end
-  assert(apps != nil)
+    @appName = arg1
+    @appRow = getApp(@appName)
+    #t = Time.now.getutc.to_s
+    #puts t
+    #apps = @driver.find_elements(:xpath, ".//tbody/tr/td[text()='#{arg1}']/..")
+    apps = @driver.find_elements(:xpath, './/tbody/tr/td[contains(.,"' + arg1 +'")]')
+
+    apps.each do |cur|
+        puts("The app is #{cur.inspect} and #{cur.text}")
+    end
+    assert(apps != nil)
 end
 
 Given /^in Status it says "([^"]*)"$/ do |arg1|
