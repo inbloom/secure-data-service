@@ -60,7 +60,7 @@ public class SectionEmbeddedDocsExtractor implements EntityDatedExtract {
     @SuppressWarnings("unchecked")
     @Override
     public void extractEntities(final EntityToEdOrgDateCache gradebookEntryCache) {
-        Iterator<Entity> sections = this.repository.findEach("section", new NeutralQuery());
+        Iterator<Entity> sections = this.repository.findEach(EntityNames.SECTION, new NeutralQuery());
 
         while (sections.hasNext()) {
             Entity section = sections.next();
@@ -73,7 +73,7 @@ public class SectionEmbeddedDocsExtractor implements EntityDatedExtract {
 
     private void extractTeacherSectionAssociation(Entity section) {
         //Extract teacherSectionAssociations based on the schoolId of the Section
-        String schoolId = (String) section.getBody().get("schoolId");
+        String schoolId = (String) section.getBody().get(ParameterConstants.SCHOOL_ID);
         final Set<String> allEdOrgs = this.edorgCache.ancestorEdorgs(schoolId);
 
         if (null != allEdOrgs && allEdOrgs.size() != 0) {  // Edorgs way

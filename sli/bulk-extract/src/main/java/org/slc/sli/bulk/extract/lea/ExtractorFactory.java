@@ -85,8 +85,8 @@ public class ExtractorFactory {
         return new StaffCohortAssociationExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public SectionEmbeddedDocsExtractor buildSectionExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgDateCache entityCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper) {
-        return new SectionEmbeddedDocsExtractor(entityExtractor, extractFileMap, repository, entityCache, edorgCache, edOrgExtractHelper);
+    public SectionEmbeddedDocsExtractor buildSectionExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgDateCache studentEntityCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper) {
+        return new SectionEmbeddedDocsExtractor(entityExtractor, extractFileMap, repository, studentEntityCache, edorgCache, edOrgExtractHelper);
     }
 
     public EntityExtract buildStaffProgramAssociationExtractor(EntityExtractor extractor, ExtractFileMap map,

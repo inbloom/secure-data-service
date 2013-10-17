@@ -51,8 +51,8 @@ public class YearlyTranscriptExtractor implements EntityDatedExtract {
 
     @Override
     public void extractEntities(EntityToEdOrgDateCache studentDatedCache) {
-        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), "yearlyTranscript", this.getClass().getName());
-        Iterator<Entity> yearlyTranscripts = repo.findEach("yearlyTranscript", new NeutralQuery());
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), ContainerEntityNames.YEARLY_TRANSCRIPT, this.getClass().getName());
+        Iterator<Entity> yearlyTranscripts = repo.findEach(ContainerEntityNames.YEARLY_TRANSCRIPT, new NeutralQuery());
 
         while (yearlyTranscripts.hasNext()) {
             Entity yearlyTranscript = yearlyTranscripts.next();
