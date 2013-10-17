@@ -294,7 +294,7 @@ class ApplicationAuthorizationsController < ApplicationController
 
     # Compile counts across whole tree and build "by-type" category nodes
     @id_counter = 0
-    build_tree(ROOT_ID, {})
+    build_tree(ROOT_ID, {}, {})
     
   end
 
@@ -302,7 +302,8 @@ class ApplicationAuthorizationsController < ApplicationController
   # Sets :nchild and :ndesc in the node with given ID
   # Replaces :children array with array of nodes by type
 
-  def build_tree(id, seen)
+  def build_tree(id, seen, all_seen)
+    all_seen[id] = true
     # Trap cycles
     if seen.has_key?(id)
       raise "CYCLE in EdOrg hierarchy includes EdOrg id '" + id + "'"
@@ -324,7 +325,7 @@ class ApplicationAuthorizationsController < ApplicationController
     @edinf[id][:parents].sort!( & compare_name )
 
     @edinf[id][:children].each do |cid|
-      build_tree(cid, seen.clone)
+      build_tree(cid, seen.clone, all_seen) if !all_seen.has_key?(cid)
       ndesc += @edinf[cid][:ndesc]
       ctype = get_edorg_type(cid)
       if by_type.has_key?(ctype)

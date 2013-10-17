@@ -1,4 +1,4 @@
-@wip
+
 Feature: Application Enablement and Authorization by Education Organization
 	As a developer I want to be able to enable my application for specific states and education organizations.
 	As an admin I want to be able to approve the applications that developers enabled for specific education organizations.
