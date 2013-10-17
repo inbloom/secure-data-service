@@ -2652,27 +2652,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </CohortIdentity>
     </CohortReference>
     <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-08-31</EndDate>
-    <StudentRecordAccess>true</StudentRecordAccess>
-  </StaffCohortAssociation>
-  <StaffCohortAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <CohortReference>
-      <CohortIdentity>
-        <CohortIdentifier>2</CohortIdentifier>
-          <EducationalOrgReference>
-            <EducationalOrgIdentity>
-              <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-            </EducationalOrgIdentity>
-          </EducationalOrgReference>
-      </CohortIdentity>
-    </CohortReference>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-08-31</EndDate>
+    <EndDate>2011-01-31</EndDate>
     <StudentRecordAccess>true</StudentRecordAccess>
   </StaffCohortAssociation>
   <StaffCohortAssociation>
@@ -2824,46 +2804,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <CohortReference>
       <CohortIdentity>
         <CohortIdentifier>1</CohortIdentifier>
-          <EducationalOrgReference>
-            <EducationalOrgIdentity>
-              <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-            </EducationalOrgIdentity>
-          </EducationalOrgReference>
-      </CohortIdentity>
-    </CohortReference>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-09-03</EndDate>
-    <StudentRecordAccess>true</StudentRecordAccess>
-  </StaffCohortAssociation>
-  <StaffCohortAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <CohortReference>
-      <CohortIdentity>
-        <CohortIdentifier>2</CohortIdentifier>
-          <EducationalOrgReference>
-            <EducationalOrgIdentity>
-              <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-            </EducationalOrgIdentity>
-          </EducationalOrgReference>
-      </CohortIdentity>
-    </CohortReference>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-09-03</EndDate>
-    <StudentRecordAccess>true</StudentRecordAccess>
-  </StaffCohortAssociation>
-  <StaffCohortAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <CohortReference>
-      <CohortIdentity>
-        <CohortIdentifier>3</CohortIdentifier>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
               <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -3071,8 +3011,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-09-03</EndDate>
+    <BeginDate>2012-09-03</BeginDate>
+    <EndDate>2013-09-03</EndDate>
     <StudentRecordAccess>true</StudentRecordAccess>
   </StaffCohortAssociation>
   <StaffCohortAssociation>
@@ -3131,8 +3071,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-08-31</EndDate>
+    <BeginDate>2011-08-31</BeginDate>
+    <EndDate>2012-08-31</EndDate>
     <StudentRecordAccess>true</StudentRecordAccess>
   </StaffCohortAssociation>
   <StaffCohortAssociation>
@@ -3311,7 +3251,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2013-09-03</BeginDate>
+    <BeginDate>2011-07-23</BeginDate>
     <EndDate>2014-09-03</EndDate>
     <StudentRecordAccess>true</StudentRecordAccess>
   </StaffCohortAssociation>
@@ -3371,7 +3311,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2010-08-31</BeginDate>
+    <BeginDate>2011-07-22</BeginDate>
     <EndDate>2011-08-31</EndDate>
     <StudentRecordAccess>true</StudentRecordAccess>
   </StaffCohortAssociation>
@@ -3551,8 +3491,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-09-03</EndDate>
+    <BeginDate>2013-01-03</BeginDate>
+    <EndDate>2013-05-03</EndDate>
     <StudentRecordAccess>true</StudentRecordAccess>
   </StaffCohortAssociation>
   <StaffCohortAssociation>
@@ -6181,8 +6121,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2012-12-05</EndDate>
+    <BeginDate>2010-09-06</BeginDate>
+    <EndDate>2010-12-05</EndDate>
   </StudentCohortAssociation>
   <StudentCohortAssociation>
     <StudentReference>
@@ -6200,46 +6140,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2012-12-05</EndDate>
-  </StudentCohortAssociation>
-  <StudentCohortAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>cgray</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <CohortReference>
-      <CohortIdentity>
-        <CohortIdentifier>1</CohortIdentifier>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-      </CohortIdentity>
-    </CohortReference>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2013-12-02</EndDate>
-  </StudentCohortAssociation>
-  <StudentCohortAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>cgray</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <CohortReference>
-      <CohortIdentity>
-        <CohortIdentifier>3</CohortIdentifier>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-      </CohortIdentity>
-    </CohortReference>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2013-12-02</EndDate>
+    <BeginDate>2010-05-06</BeginDate>
+    <EndDate>2011-06-05</EndDate>
   </StudentCohortAssociation>
   <StudentCohortAssociation>
     <StudentReference>
@@ -6827,7 +6729,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2012-09-06</BeginDate>
+    <BeginDate>2010-09-06</BeginDate>
     <EndDate>2012-12-05</EndDate>
   </StudentCohortAssociation>
   <StudentCohortAssociation>
@@ -7530,7 +7432,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2012-09-06</BeginDate>
+    <BeginDate>2011-07-23</BeginDate>
     <EndDate>2012-12-05</EndDate>
   </StudentCohortAssociation>
   <StudentCohortAssociation>
