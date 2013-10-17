@@ -46,7 +46,7 @@ Background:
         And I select the "Illinois State Board of Education"
         And I click on Save
         Then "Royal Oak" is enabled for "200" education organizations
-
+  @wip
   Scenario: LEA Admin Approves application
 
     When I hit the Admin Application Authorization Tool
@@ -316,7 +316,10 @@ Background:
     ##########################################################################################
       And I click on the "Edit Authorizations" button next to it
       And I expand all nodes
-      #And those edOrgs not enabled by the developer are non-selectable for application "Royal Oak" in tenant "Midgar"
+      And those edOrgs enabled by the developer should be selectable for application "Royal Oak" in tenant "Midgar"
+      And the following edOrgs not enabled by the developer are non-selectable for application "Royal Oak" in tenant "Midgar"
+        |edorgs|
+        |Algebra Alternative |
     ##########################################################################################
     #All edOrgs from SEA downwards
     ##########################################################################################
