@@ -138,6 +138,10 @@ Feature: An edorg's extract file should contain student and staff data from prev
       #| id                                                                                     | condition                              |
       #| e003fc1479112d3e953a0220a2d0ddd31077d6d9_idac07c2077ec3537a436342e88b894e067a9012b1_id | entityType = teacherSectionAssociation |
       #| 8173cd3053f1447abb64a8b33422e2d6b5812794_idaf40c3134828360f599f83582d6f4c1db116ba6b_id | entityType = teacherSectionAssociation |
+    #And I verify this "staffProgramAssociation" file should contain:
+      #| id                                          | condition                            |
+      #| ba48e53096fb2ccbb5353ca1c31f345e1b2200fe_id | entityType = staffProgramAssociation |
+      #| fa13fc54af5a5206e6c0c65cb79ab5b123196db3_id | entityType = staffProgramAssociation |
 
   Scenario: The extract for an edorg should not contain data for a former student or staff that's dated after the person has left
     When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
@@ -242,6 +246,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
     #And I verify this "teacherSectionAssociation" file should not contain:
       #| id                                                                                     |
       #| 8173cd3053f1447abb64a8b33422e2d6b5812794_idaf40c3134828360f599f83582d6f4c1db116ba6b_id |
+    #And I verify this "staffProgramAssociation" file should not contain:
+      #| id                                          |
+      #| fa13fc54af5a5206e6c0c65cb79ab5b123196db3_id |
 
 ##########################################################################
 #    TIMELINE OF ENROLLMENT OF MATT SOLLARS FOR EDGE CASES
@@ -387,6 +394,10 @@ Feature: An edorg's extract file should contain student and staff data from prev
       #| 2fe9099b5d9399e50f26e1c7f71bc968f6333bd1_id94c5dfa5931366539d1e03fcea96eca1fdef4a03_id | entityType = teacherSectionAssociation |
       #| 6ff1e34e9b0172af73d75eafa4d6251f0d60c661_id8f0de10b13ee76eeee2b29f7999ff0f041107f86_id | entityType = teacherSectionAssociation |
       #| e003fc1479112d3e953a0220a2d0ddd31077d6d9_id8b51e040fad02b26a1046a2c78b96122ac184836_id | entityType = teacherSectionAssociation |
+    #And I verify this "staffProgramAssociation" file should contain:
+      #| id                                          | condition                            |
+      #| f5944c9d8f7a4522d968ae67253dcbd37c54e809_id | entityType = staffProgramAssociation |
+      #| 2e1bdeef1586c5ea9f472c9e3562dd280131aecf_id | entityType = staffProgramAssociation |
   #This extract should not contain content for anything that began after DCH's end date with the student
   #Given proper data, everything from WSH shouldn't be included
     And I verify this "studentProgramAssociation" file should not contain:
@@ -447,3 +458,6 @@ Feature: An edorg's extract file should contain student and staff data from prev
     #And I verify this "studentSectionAssociation" file should not contain:
       #| id                                                                                     |
       #| 6e9504c3061a61384cbd9591a52893f07c6af242_idc7b1241a3c1cc358eccac9b3a978de4267207c0c_id |
+    #And I verify this "staffProgramAssociation" file should not contain:
+      #| id                                          |
+      #| a4fb01f4e14d3fee2560790b23d3bee2e02e6116_id |
