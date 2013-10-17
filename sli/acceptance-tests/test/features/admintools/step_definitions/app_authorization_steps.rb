@@ -452,30 +452,34 @@ Then /^I see "(.*?)" occurrences of "(.*?)"$/ do |expectedCount, label|
 end
 
 
-Then /^those edOrgs not enabled by the developer are non-selectable for application "(.*?)" in tenant "(.*?)"$/ do |application, tenant|
-  puts "Start:" + Time.new.to_s
+Then /^those edOrgs enabled by the developer should be selectable for application "(.*?)" in tenant "(.*?)"$/ do |application, tenant|
   disable_NOTABLESCAN()
   db = @conn["sli"]
   coll = db.collection("application")
   app = coll.find_one("body.name" => application)
   edorgs = app["body"]["authorized_ed_orgs"]
-  db = @conn[convertTenantIdToDbName(tenant)]
-  coll = db.collection("educationOrganization")
-  allspans = @driver.find_elements(:css, "span")
-  allspans.each do |span|
-    edOrgName = span.text
-    record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
+  edorgs.each do |edOrgId|
+    element = @driver.find_element(:id, edOrgId.to_s)
+    assert_not_nil(element,"#{edOrgId} should be selectable")
+
+    #assert(element!=nil, "#{edOrgId} should be selectable")
+  end
+end
+
+Then /^the following edOrgs not enabled by the developer are non-selectable for application "(.*?)" in tenant "(.*?)"$/ do |application, tenant, table|
+  table.hashes.map do |row|
+    edorg_name = row["edorgs"]
+    db = @conn[convertTenantIdToDbName(tenant)]
+    coll = db.collection("educationOrganization")
+    record = coll.find_one("body.nameOfInstitution" => edorg_name.to_s)
     if record
-     edOrgId = record["_id"]
-     if edorgs.include?(edOrgId)
-       actualCount = @driver.find_elements(:id, edOrgId.to_s).count()
-       assert("1" == actualCount.to_s, "#{edOrgName} should be selectable")
-     else
-       actualCount = @driver.find_elements(:id, edOrgId.to_s).count()
-       assert("0" == actualCount.to_s, "#{edOrgName} should not be selectable")
-     end
+      STDOUT.puts "Checking #{edorg_name}"
+      STDOUT.flush
+      edOrgId = record["_id"]
+      actualCount = @driver.find_elements(:id, edOrgId.to_s).count()
+      assert("0" == actualCount.to_s, "#{edorg_name} should not be selectable")
+      STDOUT.puts "#{edorg_name} is not selectable"
+      STDOUT.flush
     end
   end
-  enable_NOTABLESCAN()
-  puts "End:" + Time.new.to_s
 end
