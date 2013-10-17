@@ -336,19 +336,13 @@ Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the applicationAu
    db = @conn.db("sli")
    coll = db.collection("application")
    record = coll.find_one("body.name" => application)
-   #puts record.to_s
    appId = record["_id"]
-   #puts appId.to_s
    db = @conn[convertTenantIdToDbName(tenant)]
    coll = db.collection("applicationAuthorization")
    record = coll.find_one("body.applicationId" => appId.to_s)
-   #puts record.to_s
    body = record["body"]
-   #puts body.to_s
    edorgsArray = body["edorgs"]
-   #puts edorgsArray.to_s
    edorgsArrayCount = edorgsArray.count
-   #puts edorgsArrayCount
    assert(edorgsArrayCount == expected_count.to_i, "Education organization count mismatch in applicationAuthorization collection. Expected #{expected_count}, actual #{edorgsArrayCount}")
    enable_NOTABLESCAN()
 end
@@ -423,6 +417,10 @@ When /^I deselect hierarchical mode$/ do
   app = @driver.find_element(:id, "hierarchical_mode").click
 end
 
+When /^I select hierarchical mode$/ do
+  app = @driver.find_element(:id, "hierarchical_mode").click
+end
+
 When /^I expand all nodes$/ do
   element = @driver.find_element(:id, 'expand_all').click
 end
@@ -449,38 +447,30 @@ Then /^I see "(.*?)" occurrences of "(.*?)"$/ do |expectedCount, label|
 end
 
 
-When(/^Those edOrgs not enabled by the developer are non-selectable$/) do
+Then /^those edOrgs not enabled by the developer are non-selectable for application "(.*?)" in tenant "(.*?)"$/ do |application, tenant|
+  puts "Start:" + Time.new.to_s
   disable_NOTABLESCAN()
   db = @conn["sli"]
   coll = db.collection("application")
-  app = coll.find_one("body.name" => "Royal Oak")
-  puts app["_id"]
+  app = coll.find_one("body.name" => application)
   edorgs = app["body"]["authorized_ed_orgs"]
-
+  db = @conn[convertTenantIdToDbName(tenant)]
+  coll = db.collection("educationOrganization")
   allspans = @driver.find_elements(:css, "span")
-  puts allspans.size()
-  puts "Check ......"
   allspans.each do |span|
     edOrgName = span.text
-    #puts edOrgName
-     disable_NOTABLESCAN()
-     db = @conn[convertTenantIdToDbName("Midgar")]
-     coll = db.collection("educationOrganization")
-     record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
-     #puts record.to_s
+    record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
     if record
      edOrgId = record["_id"]
      if edorgs.include?(edOrgId)
        actualCount = @driver.find_elements(:id, edOrgId.to_s).count()
-       #puts actualCount
        assert("1" == actualCount.to_s, "#{edOrgName} should be selectable")
      else
-       puts "non-selectable"
        actualCount = @driver.find_elements(:id, edOrgId.to_s).count()
-      assert("0" == actualCount.to_s, "#{edOrgName} should not be selectable")
+       assert("0" == actualCount.to_s, "#{edOrgName} should not be selectable")
      end
     end
   end
-
-
+  enable_NOTABLESCAN()
+  puts "End:" + Time.new.to_s
 end

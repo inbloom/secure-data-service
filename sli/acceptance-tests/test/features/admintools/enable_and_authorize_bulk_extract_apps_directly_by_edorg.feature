@@ -58,6 +58,7 @@ Background:
          #All edOrgs from SEA downwards
       	 And I click on the "Edit Authorizations" button next to it
       	 And I expand all nodes
+      	 #And those edOrgs not enabled by the developer are non-selectable for application "Aboukir" in tenant "Midgar"
       	 And I authorize the educationalOrganization "Illinois State Board of Education"
       	 And I click Update
       	 Then there are "38" edOrgs for the "Aboukir" application in the applicationAuthorization collection for the "Midgar" tenant
