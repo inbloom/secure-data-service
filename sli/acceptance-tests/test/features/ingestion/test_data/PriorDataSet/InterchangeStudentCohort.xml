@@ -3138,15 +3138,15 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
       <CohortIdentity>
-        <CohortIdentifier>2</CohortIdentifier>
+        <CohortIdentifier>1</CohortIdentifier>
           <EducationalOrgReference>
             <EducationalOrgIdentity>
-              <StateOrganizationId>Sunset Central High</StateOrganizationId>
+              <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
           </EducationalOrgReference>
       </CohortIdentity>
@@ -3318,7 +3318,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
