@@ -387,6 +387,22 @@ Then /^I de-authorize the educationalOrganization "(.*?)"$/ do |edOrgName|
   step "I authorize the educationalOrganization \"#{edOrgName}\""
 end
 
+Then /^there are "(.*?)" educationalOrganizations in the targetEdOrgList of securityEvent "(.*?)"$/ do |expected_count, logMessage|
+  disable_NOTABLESCAN()
+  db = @conn.db("sli")
+  coll = db.collection("securityEvent")
+  record = coll.find_one({'body.logMessage' => logMessage})
+  #puts record.to_s
+  body = record["body"]
+  #puts body.to_s
+  targetEdOrgList = body["targetEdOrgList"]
+  #puts targetEdOrgList.to_s
+  targetEdOrgListCount = targetEdOrgList.count
+  #puts targetEdOrgListCount
+  assert(targetEdOrgListCount == expected_count.to_i, "targetEdOrgList count mismatch in securityEvent collection. Expected #{expected_count}, actual #{targetEdOrgListCount}")
+  enable_NOTABLESCAN()
+end
+
 Then /^there are "(.*?)" educationalOrganizations in the targetEdOrgList$/ do |expected_count|
   disable_NOTABLESCAN()
   db = @conn.db("sli")
@@ -430,4 +446,41 @@ Then /^I see "(.*?)" occurrences of "(.*?)"$/ do |expectedCount, label|
    labels = @driver.find_elements(:xpath, './/span[contains(.,"' + label +'")]')
    actualCount = labels.count
    assert(expectedCount == actualCount.to_s, "Count of labels mismatched. Expecting #{expectedCount}, actual #{actualCount}")
+end
+
+
+When(/^Those edOrgs not enabled by the developer are non-selectable$/) do
+  disable_NOTABLESCAN()
+  db = @conn["sli"]
+  coll = db.collection("application")
+  app = coll.find_one("body.name" => "Royal Oak")
+  puts app["_id"]
+  edorgs = app["body"]["authorized_ed_orgs"]
+
+  allspans = @driver.find_elements(:css, "span")
+  puts allspans.size()
+  puts "Check ......"
+  allspans.each do |span|
+    edOrgName = span.text
+    #puts edOrgName
+     disable_NOTABLESCAN()
+     db = @conn[convertTenantIdToDbName("Midgar")]
+     coll = db.collection("educationOrganization")
+     record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
+     #puts record.to_s
+    if record
+     edOrgId = record["_id"]
+     if edorgs.include?(edOrgId)
+       actualCount = @driver.find_elements(:id, edOrgId.to_s).count()
+       #puts actualCount
+       assert("1" == actualCount.to_s, "#{edOrgName} should be selectable")
+     else
+       puts "non-selectable"
+       actualCount = @driver.find_elements(:id, edOrgId.to_s).count()
+      assert("0" == actualCount.to_s, "#{edOrgName} should not be selectable")
+     end
+    end
+  end
+
+
 end
