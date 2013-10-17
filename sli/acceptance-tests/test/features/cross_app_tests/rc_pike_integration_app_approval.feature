@@ -424,7 +424,6 @@ And the operator triggers a delta for the production tenant
       |  parent                                |
       # |  program                               |
       |  reportCard                            |
-      |  school                                |
       |  staff                                 |
       |  staffCohortAssociation                |
       |  staffEducationOrganizationAssociation |
@@ -470,7 +469,6 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
       |  gradebookEntry                        |
       |  parent                                |
       |  reportCard                            |
-      |  school                                |
       |  staff                                 |
       |  staffCohortAssociation                |
       |  staffEducationOrganizationAssociation |

@@ -68,7 +68,7 @@ public class EntityDateHelper {
     }
 
     protected static boolean isBeforeOrEqualDate(String begin, DateTime upToDate) {
-        DateTime beginDate = DateTime.parse(begin, DateHelper.getDateTimeFormat());
+        DateTime beginDate = (begin == null) ? DateTime.now() : DateTime.parse(begin, DateHelper.getDateTimeFormat());
         return !beginDate.isAfter(upToDate);
     }
 

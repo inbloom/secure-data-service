@@ -137,13 +137,6 @@ public class LocalEdOrgExtractor {
         genericExtractor = factory.buildParentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(student.getParentCache());
 
-        // Section
-        SectionEmbeddedDocsExtractor sectionExtractor = factory.buildSectionExtractor(entityExtractor, leaToExtractFileMap, repository, student.getStudentDatedCache(), edorgCache, helper);
-        sectionExtractor.extractEntities(studentGradebookExtractor.getGradebookEntryCache());
-
-        EntityDatedExtract studentCompetencyExtractor = factory.buildStudentCompetencyExtractor(entityExtractor, leaToExtractFileMap, repository);
-        studentCompetencyExtractor.extractEntities(sectionExtractor.getStudentSectionAssociationDateCache());
-
         // Staff
         StaffEdorgAssignmentExtractor seaExtractor = factory.buildStaffAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         seaExtractor.extractEntities(edorgCache);
@@ -154,11 +147,18 @@ public class LocalEdOrgExtractor {
         genericExtractor = factory.buildTeacherSchoolExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
 
-        genericExtractor = factory.buildStaffProgramAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        genericExtractor.extractEntities(seaExtractor.getEntityCache());
+        EntityDatedExtract staffProgramExtractor = factory.buildStaffProgramAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
+        staffProgramExtractor.extractEntities(seaExtractor.getStaffDatedCache());
 
         genericExtractor = factory.buildStaffCohortAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
+
+        // Section
+        SectionEmbeddedDocsExtractor sectionExtractor = factory.buildSectionExtractor(entityExtractor, leaToExtractFileMap, repository, student.getStudentDatedCache(), edorgCache, helper, seaExtractor.getStaffDatedCache());
+        sectionExtractor.extractEntities(studentGradebookExtractor.getGradebookEntryCache());
+
+        EntityDatedExtract studentCompetencyExtractor = factory.buildStudentCompetencyExtractor(entityExtractor, leaToExtractFileMap, repository);
+        studentCompetencyExtractor.extractEntities(sectionExtractor.getStudentSectionAssociationDateCache());
 
         leaToExtractFileMap.closeFiles();
 
