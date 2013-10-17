@@ -46,14 +46,18 @@ public class SectionEmbeddedDocsExtractor implements EntityDatedExtract {
     private final Repository<Entity> repository;
     private final EntityToEdOrgDateCache studentDatedCache;
     private final EntityToEdOrgCache edorgCache;
+    private final EntityToEdOrgDateCache staffCache;
     private final EntityToEdOrgDateCache studentSectionAssociationDateCache = new EntityToEdOrgDateCache();
 
-    public SectionEmbeddedDocsExtractor(EntityExtractor entityExtractor, ExtractFileMap leaToExtractFileMap, Repository<Entity> repository, EntityToEdOrgDateCache studentCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper) {
+    public SectionEmbeddedDocsExtractor(EntityExtractor entityExtractor, ExtractFileMap leaToExtractFileMap,
+                                        Repository<Entity> repository, EntityToEdOrgDateCache studentCache,
+                                        EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper,
+                                        EntityToEdOrgDateCache staffCache) {
         this.entityExtractor = entityExtractor;
         this.leaToExtractFileMap = leaToExtractFileMap;
         this.repository = repository;
         this.edorgCache = edorgCache;
-
+        this.staffCache = staffCache;
         this.studentDatedCache = studentCache;
     }
 
@@ -73,22 +77,17 @@ public class SectionEmbeddedDocsExtractor implements EntityDatedExtract {
 
     private void extractTeacherSectionAssociation(Entity section) {
         //Extract teacherSectionAssociations based on the schoolId of the Section
-        String schoolId = (String) section.getBody().get(ParameterConstants.SCHOOL_ID);
-        final Set<String> allEdOrgs = this.edorgCache.ancestorEdorgs(schoolId);
+        List<Entity> tsas = section.getEmbeddedData().get(EntityNames.TEACHER_SECTION_ASSOCIATION);
 
-        if (null != allEdOrgs && allEdOrgs.size() != 0) {  // Edorgs way
-            for(final String edOrg: allEdOrgs) {
-                this.entityExtractor.extractEmbeddedEntities(section, this.leaToExtractFileMap.getExtractFileForEdOrg(edOrg), EntityNames.SECTION,
-                        new Predicate<Entity>() {
-                    @Override
-                    public boolean apply(Entity input) {
-                        boolean shouldExtract = false;
-                        if (input.getType().equals(EntityNames.TEACHER_SECTION_ASSOCIATION))    {
-                            shouldExtract = true;
-                        }
-                        return shouldExtract;
+        if (tsas != null) {
+            for (Entity tsa : tsas) {
+                String staffId = (String) tsa.getBody().get(ParameterConstants.TEACHER_ID);
+                Map<String, DateTime> staffEdOrgs = staffCache.getEntriesById(staffId);
+                for (Map.Entry<String, DateTime> staffEdOrg : staffEdOrgs.entrySet()) {
+                    if (EntityDateHelper.shouldExtract(tsa, staffEdOrg.getValue())) {
+                        entityExtractor.extractEntity(tsa, this.leaToExtractFileMap.getExtractFileForEdOrg(staffEdOrg.getKey()), EntityNames.TEACHER_SECTION_ASSOCIATION);
                     }
-                });
+                }
             }
         }
     }

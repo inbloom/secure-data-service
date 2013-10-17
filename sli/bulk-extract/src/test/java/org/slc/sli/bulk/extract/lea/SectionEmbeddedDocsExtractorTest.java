@@ -47,6 +47,7 @@ public class SectionEmbeddedDocsExtractorTest {
 
     private static final List<String> EDORGS = Arrays.asList("nature", "chaos", "sorcery");
     private static final List<String> STUDENTS = Arrays.asList("Mitsubishi", "Kawasaki");
+    private static final List<String> TEACHERS = Arrays.asList("LaLaurie", "Laveau");
     private static final List<String> COURSE_OFFERINGS = Arrays.asList("witchcraft", "demonology", "escatronics");
     private static final List<String> SSA = Arrays.asList("phenomenology");
     private static final String LEA = "HUZZAH";
@@ -71,37 +72,47 @@ public class SectionEmbeddedDocsExtractorTest {
         EntityToEdOrgCache edorgCache = new EntityToEdOrgCache();
         edorgCache.addEntry(LEA, EDORGS.get(0));
 
+        EntityToEdOrgDateCache staffCache = new EntityToEdOrgDateCache();
+        staffCache.addEntry(TEACHERS.get(0), LEA, DateTime.parse("2011-05-01", DateHelper.getDateTimeFormat()));
+
         EdOrgExtractHelper mockEdOrgExtractHelper = Mockito.mock(EdOrgExtractHelper.class);
 
-        se = new SectionEmbeddedDocsExtractor(ex, leaMap, repo, studentCache, edorgCache, mockEdOrgExtractHelper);
+        se = new SectionEmbeddedDocsExtractor(ex, leaMap, repo, studentCache, edorgCache, mockEdOrgExtractHelper, staffCache);
     }
 
     @Test
-    public void testEdorgBasedEntitiesExtract() throws Exception {
-        List<Entity> list = Arrays.asList(AccessibleVia.EDORG.generate(), AccessibleVia.EDORG.generate(), AccessibleVia.EDORG.generate(), AccessibleVia.NONE.generate());
-        Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
+    public void testExtractValidTSA() throws Exception {
+        List<Entity> list = Arrays.asList(AccessibleVia.VALIDTSA.generate(), AccessibleVia.VALIDTSA.generate(), AccessibleVia.VALIDTSA.generate(), AccessibleVia.NONE.generate());
+        Mockito.when(repo.findEach(Mockito.eq(EntityNames.SECTION), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
 
-        EntityToEdOrgDateCache studentDateCache = new EntityToEdOrgDateCache();
-        studentDateCache.addEntry(STUDENTS.get(1), LEA, DateTime.now());
+        se.extractEntities(null);
+        Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq(EntityNames.TEACHER_SECTION_ASSOCIATION));
+    }
 
-        se.extractEntities(studentDateCache);
-        Mockito.verify(ex, Mockito.times(3)).extractEmbeddedEntities(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
+    @Test
+    public void testExtractInvalidTSAs() throws Exception {
+        List<Entity> list = Arrays.asList(AccessibleVia.INVALIDTSA.generate(), AccessibleVia.INVALIDTSA.generate(), AccessibleVia.INVALIDTSA.generate());
+        Mockito.when(repo.findEach(Mockito.eq(EntityNames.SECTION), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
+
+        se.extractEntities(null);
+        Mockito.verify(ex, Mockito.never()).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq(EntityNames.TEACHER_SECTION_ASSOCIATION));
+        Mockito.verify(ex, Mockito.never()).extractEmbeddedEntities(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
     }
 
     @Test
     public void testExtractValidSSAs() throws Exception {
-        List<Entity> list = Arrays.asList(AccessibleVia.STUDENT.generate(), AccessibleVia.STUDENT.generate(), AccessibleVia.STUDENT.generate(), AccessibleVia.NONE.generate());
-        Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
+        List<Entity> list = Arrays.asList(AccessibleVia.VALIDSSA.generate(), AccessibleVia.VALIDSSA.generate(), AccessibleVia.VALIDSSA.generate(), AccessibleVia.NONE.generate());
+        Mockito.when(repo.findEach(Mockito.eq(EntityNames.SECTION), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
 
         se.extractEntities(null);
-        Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class));
+        Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION));
         Mockito.verify(ex, Mockito.never()).extractEmbeddedEntities(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
     }
 
     @Test
     public void testExtractInvalidSSAs() throws Exception {
         List<Entity> list = Arrays.asList(AccessibleVia.INVALIDSSA.generate(), AccessibleVia.INVALIDSSA.generate(), AccessibleVia.INVALIDSSA.generate());
-        Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
+        Mockito.when(repo.findEach(Mockito.eq(EntityNames.SECTION), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
 
         se.extractEntities(null);
         Mockito.verify(ex, Mockito.never()).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class));
@@ -110,13 +121,13 @@ public class SectionEmbeddedDocsExtractorTest {
 
     @Test
     public void testMixedExtract() throws Exception {
-        List<Entity> list = Arrays.asList(AccessibleVia.STUDENT.generate(), AccessibleVia.STUDENT.generate(), AccessibleVia.STUDENT.generate(), AccessibleVia.NONE.generate(),
-                AccessibleVia.NONE.generate(), AccessibleVia.EDORG.generate(), AccessibleVia.EDORG.generate());
-        Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
+        List<Entity> list = Arrays.asList(AccessibleVia.VALIDSSA.generate(), AccessibleVia.VALIDSSA.generate(), AccessibleVia.VALIDSSA.generate(), AccessibleVia.NONE.generate(),
+                AccessibleVia.NONE.generate(), AccessibleVia.VALIDTSA.generate(), AccessibleVia.VALIDTSA.generate());
+        Mockito.when(repo.findEach(Mockito.eq(EntityNames.SECTION), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
 
         se.extractEntities(null);
-        Mockito.verify(ex, Mockito.times(2)).extractEmbeddedEntities(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
-        Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class));
+        Mockito.verify(ex, Mockito.times(2)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq(EntityNames.TEACHER_SECTION_ASSOCIATION));
+        Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION));
 
         Assert.assertTrue("StudentSectionAssociations must contain expected id", se.getStudentSectionAssociationDateCache().getEntityIds().contains(SSA.get(0)));
     }
@@ -130,15 +141,7 @@ public class SectionEmbeddedDocsExtractorTest {
                 return input;
             }
         }),
-        EDORG(new Function<Entity, Entity>() {
-
-            @Override
-            public Entity apply(Entity input) {
-                input.getBody().put("schoolId", EDORGS.get(0));
-                return input;
-            }
-        }),
-        STUDENT(new Function<Entity, Entity>() {
+        VALIDSSA(new Function<Entity, Entity>() {
 
             @Override
             @SuppressWarnings("unchecked")
@@ -154,7 +157,7 @@ public class SectionEmbeddedDocsExtractorTest {
                 list.add(ssaEntity);
 
                 Map<String, List<Entity>> map = new HashMap<String, List<Entity>>();
-                map.put("studentSectionAssociation", list);
+                map.put(EntityNames.STUDENT_SECTION_ASSOCIATION, list);
                 Mockito.when(input.getEmbeddedData()).thenReturn(map);
 
                 return input;
@@ -176,17 +179,54 @@ public class SectionEmbeddedDocsExtractorTest {
                 list.add(ssaEntity);
 
                 Map<String, List<Entity>> map = new HashMap<String, List<Entity>>();
-                map.put("studentSectionAssociation", list);
+                map.put(EntityNames.STUDENT_SECTION_ASSOCIATION, list);
                 Mockito.when(input.getEmbeddedData()).thenReturn(map);
 
                 return input;
             }
         }),
-        BOTH(new Function<Entity, Entity>() {
+        VALIDTSA(new Function<Entity, Entity>() {
 
             @Override
+            @SuppressWarnings("unchecked")
             public Entity apply(Entity input) {
-                throw new UnsupportedOperationException("I give up");
+                List<Entity> list = new ArrayList<Entity>();
+                Entity tsaEntity = Mockito.mock(Entity.class);
+                //Mockito.when(ssaEntity.getEntityId()).thenReturn(SSA.get(0));
+                Mockito.when(tsaEntity.getType()).thenReturn(EntityNames.TEACHER_SECTION_ASSOCIATION);
+                Map<String, Object> body = new HashMap<String, Object>();
+                body.put(ParameterConstants.TEACHER_ID, TEACHERS.get(0));
+                body.put(ParameterConstants.BEGIN_DATE, "2010-10-10");
+                Mockito.when(tsaEntity.getBody()).thenReturn(body);
+                list.add(tsaEntity);
+
+                Map<String, List<Entity>> map = new HashMap<String, List<Entity>>();
+                map.put(EntityNames.TEACHER_SECTION_ASSOCIATION, list);
+                Mockito.when(input.getEmbeddedData()).thenReturn(map);
+
+                return input;
+            }
+        }),
+        INVALIDTSA(new Function<Entity, Entity>() {
+
+            @Override
+            @SuppressWarnings("unchecked")
+            public Entity apply(Entity input) {
+                List<Entity> list = new ArrayList<Entity>();
+                Entity tsaEntity = Mockito.mock(Entity.class);
+                //Mockito.when(ssaEntity.getEntityId()).thenReturn(SSA.get(0));
+                Mockito.when(tsaEntity.getType()).thenReturn(EntityNames.TEACHER_SECTION_ASSOCIATION);
+                Map<String, Object> body = new HashMap<String, Object>();
+                body.put(ParameterConstants.TEACHER_ID, TEACHERS.get(0));
+                body.put(ParameterConstants.BEGIN_DATE, "2012-10-10");
+                Mockito.when(tsaEntity.getBody()).thenReturn(body);
+                list.add(tsaEntity);
+
+                Map<String, List<Entity>> map = new HashMap<String, List<Entity>>();
+                map.put(EntityNames.TEACHER_SECTION_ASSOCIATION, list);
+                Mockito.when(input.getEmbeddedData()).thenReturn(map);
+
+                return input;
             }
         });
         private final Function<Entity, Entity> closure;
