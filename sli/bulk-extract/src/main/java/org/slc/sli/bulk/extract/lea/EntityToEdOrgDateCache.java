@@ -46,18 +46,16 @@ public class EntityToEdOrgDateCache {
      * @param expirationDate the expiration date of the association of the entity and edOrg
      */
     public void addEntry(String entityId, String edOrgId, DateTime expirationDate) {
-        Map<String, DateTime> edOrgTime = new HashMap<String, DateTime>();
+        Map<String, DateTime> edOrgTime = cache.get(entityId);
+        if (edOrgTime == null) {
+            edOrgTime = new HashMap<String, DateTime>();
+        }
+
         DateTime finalExpirationDate = expirationDate;
-
-        if (cache.containsKey(entityId)) {
-            edOrgTime = cache.get(entityId);
-
-            if (edOrgTime.containsKey(edOrgId)) {
-                DateTime existingExpirationDate = edOrgTime.get(edOrgId);
-                if ((expirationDate == null) || ((existingExpirationDate != null) && existingExpirationDate.isAfter(expirationDate))) {
-                    finalExpirationDate = existingExpirationDate;
-                }
-            }
+        DateTime existingExpirationDate = edOrgTime.get(edOrgId);
+        if ((expirationDate == null) ||
+                ((existingExpirationDate != null) && existingExpirationDate.isAfter(expirationDate))) {
+            finalExpirationDate = existingExpirationDate;
         }
 
         edOrgTime.put(edOrgId, finalExpirationDate);

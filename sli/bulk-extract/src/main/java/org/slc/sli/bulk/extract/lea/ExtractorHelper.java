@@ -17,7 +17,6 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -54,12 +53,13 @@ public class ExtractorHelper{
 
 
     /**
-     * returns all current schools of the student
-     * @param student
-     * @return
+     * Returns all current schools of the student.
+     *
+     * @param student - Student entity
+     *
+     * @return - Current schools associated with student
      */
     //F316: Old pipeline - remove this
-    @SuppressWarnings("unchecked")
     public Set<String> fetchCurrentSchoolsForStudent(Entity student) {
         Set<String> studentSchools = new HashSet<String>();
         Map<String, List<Map<String, Object>>> data = student.getDenormalizedData();
@@ -96,7 +96,7 @@ public class ExtractorHelper{
 
         List<Map<String, Object>> schools = data.get("schools");
         for (Map<String, Object> school : schools) {
-            buildEdorgToDateMap(school, studentEdOrgs, ParameterConstants.ID,
+            updateEdorgToDateMap(school, studentEdOrgs, ParameterConstants.ID,
                     ParameterConstants.ENTRY_DATE, ParameterConstants.EXIT_WITHDRAW_DATE);
         }
 
@@ -112,24 +112,28 @@ public class ExtractorHelper{
      * @param beginDateField - Begin date field name
      * @param endDateField - end date field name
      */
-    public void buildEdorgToDateMap(Map<String, Object> edOrg, Map<String, DateTime> edOrgToDate,
+    public void updateEdorgToDateMap(Map<String, Object> edOrg, Map<String, DateTime> edOrgToDate,
             String edOrgIdField, String beginDateField, String endDateField) {
         if (!dateHelper.getDate(edOrg, beginDateField).isAfter(DateTime.now())) {
             String id = (String) edOrg.get(edOrgIdField);
             DateTime expirationDateFromData = dateHelper.getDate(edOrg, endDateField);
 
             List<String> lineage = edOrgExtractHelper.getEdOrgLineages().get(id);
-            List<String> edOrgLineage = new ArrayList<String>(Arrays.asList(id));
+            List<String> edOrgLineage = new ArrayList<String>();
             if (lineage != null) {
                 edOrgLineage.addAll(lineage);
+            } else {
+                edOrgLineage.add(id);
             }
             for (String edOrgId : edOrgLineage) {
                 DateTime existingExpirationDate = edOrgToDate.get(edOrgId);
                 DateTime finalExpirationDate = expirationDateFromData;
-                if (edOrgToDate.containsKey(edOrgId) && ((expirationDateFromData == null) || (existingExpirationDate == null))) {
-                    finalExpirationDate = null;
-                } else if (edOrgToDate.containsKey(edOrgId) && existingExpirationDate.isAfter(expirationDateFromData)) {
-                    finalExpirationDate = existingExpirationDate;
+                if (edOrgToDate.containsKey(edOrgId)) {
+                    if ((expirationDateFromData == null) || (existingExpirationDate == null)) {
+                        finalExpirationDate = null;
+                    } else if (existingExpirationDate.isAfter(expirationDateFromData)) {
+                        finalExpirationDate = existingExpirationDate;
+                    }
                 }
                 edOrgToDate.put(edOrgId, finalExpirationDate);
             }
