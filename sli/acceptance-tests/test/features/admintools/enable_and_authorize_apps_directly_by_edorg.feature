@@ -48,263 +48,6 @@ Background:
         And I click on Save
         Then "Royal Oak" is enabled for "200" education organizations
 
-  Scenario: LEA Admin Approves application
-
-    When I hit the Admin Application Authorization Tool
-    And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
-    And the sli securityEvent collection is empty
-  ############################################################
-  ######All edOrgs from LEA downwards
-  ############################################################
-    And I click on the "Edit Authorizations" button next to it
-    And I authorize the educationalOrganization "Daybreak School District 4529"
-    And I click Update
-    Then there are "45" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
-    And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-    And there are "45" educationalOrganizations in the targetEdOrgList
-    And I see an application "Royal Oak" in the table
-    And in Status it says "45 EdOrg(s)"
-    Given the sli securityEvent collection is empty
-    When I click on the "Edit Authorizations" button next to it
-    And I de-authorize the educationalOrganization "Daybreak School District 4529"
-    And I click Update
-    Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
-    And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-    And there are "45" educationalOrganizations in the targetEdOrgList
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
-
-  ############################################################
-  ######LEA only
-  ############################################################
-
-    Then I click on the "Edit Authorizations" button next to it
-    And the sli securityEvent collection is empty
-    And I deselect hierarchical mode
-    And I expand all nodes
-    And I authorize the educationalOrganization "Daybreak School District 4529"
-    And I click Update
-    Then there are "1" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
-    Then The following edOrgs are authorized for the application "Royal Oak" in tenant "Midgar"
-      |edorgs|
-      |Daybreak School District 4529 |
-    And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-    And there are "1" educationalOrganizations in the targetEdOrgList
-    And I see an application "Royal Oak" in the table
-    And in Status it says "1 EdOrg(s)"
-    Given the sli securityEvent collection is empty
-    When I click on the "Edit Authorizations" button next to it
-    And I deselect hierarchical mode
-    And I de-authorize the educationalOrganization "Daybreak School District 4529"
-    And I click Update
-    Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
-    And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-    And there are "1" educationalOrganizations in the targetEdOrgList
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
-
-
-  ##########################################################################################
-  ######Authorize a single LEA edOrg that is not the edOrg that user log into
-  ##########################################################################################
-    And the sli securityEvent collection is empty
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
-    And I click on the "Edit Authorizations" button next to it
-    And I deselect hierarchical mode
-    And I expand all nodes
-    And I authorize the educationalOrganization "LEA Tier 4"
-    And I click Update
-    Then there are "1" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
-    And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-    And there are "1" educationalOrganizations in the targetEdOrgList
-    And I see an application "Royal Oak" in the table
-    And in Status it says "1 EdOrg(s)"
-    Given the sli securityEvent collection is empty
-    When I click on the "Edit Authorizations" button next to it
-    And I expand all nodes
-    And I de-authorize the educationalOrganization "LEA Tier 4"
-    And I click Update
-    Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
-    And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-    And there are "1" educationalOrganizations in the targetEdOrgList
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
-
-
-
-  ##########################################################################################
-  ######A single branch beginning at a direct child of the LEA, but not including the LEA
-  ##########################################################################################
-    And the sli securityEvent collection is empty
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
-    And I click on the "Edit Authorizations" button next to it
-    And I expand all nodes
-    And I authorize the educationalOrganization "LEA Tier 2"
-    And I click Update
-    Then there are "32" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
-    And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-    And there are "32" educationalOrganizations in the targetEdOrgList
-    And I see an application "Royal Oak" in the table
-    And in Status it says "32 EdOrg(s)"
-    Given the sli securityEvent collection is empty
-    When I click on the "Edit Authorizations" button next to it
-    And I expand all nodes
-
-    And I de-authorize the educationalOrganization "LEA Tier 2"
-    And I click Update
-    Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
-    And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-    And there are "32" educationalOrganizations in the targetEdOrgList
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
-
-  ##########################################################################################
-  ######  A single branch beginning at a grandchild of the LEA, but not including the LEA
-  ##########################################################################################
-    Given the sli securityEvent collection is empty
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
-    And I click on the "Edit Authorizations" button next to it
-    And I expand all nodes
-    And I authorize the educationalOrganization "LEA Tier 3"
-    And I click Update
-    Then there are "24" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
-    And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-    And there are "24" educationalOrganizations in the targetEdOrgList
-    And I see an application "Royal Oak" in the table
-    And in Status it says "24 EdOrg(s)"
-    Given the sli securityEvent collection is empty
-    When I click on the "Edit Authorizations" button next to it
-    And I expand all nodes
-    And I de-authorize the educationalOrganization "LEA Tier 3"
-    And I click Update
-    Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
-    And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-    And there are "24" educationalOrganizations in the targetEdOrgList
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
-
-  #############################################################################################
-  ######  Authorize a single branch ending with nodes on the 5th tier
-  #############################################################################################
-
-    Given the sli securityEvent collection is empty
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
-    And I click on the "Edit Authorizations" button next to it
-    And I expand all nodes
-    And I authorize the educationalOrganization "LEA Tier 5"
-    And I click Update
-    Then there are "8" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
-    And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-    And there are "8" educationalOrganizations in the targetEdOrgList
-    And I see an application "Royal Oak" in the table
-    And in Status it says "8 EdOrg(s)"
-    Given the sli securityEvent collection is empty
-    When I click on the "Edit Authorizations" button next to it
-    And I expand all nodes
-    And I de-authorize the educationalOrganization "LEA Tier 5"
-    And I click Update
-    Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
-    And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-    And there are "8" educationalOrganizations in the targetEdOrgList
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
-
-  #############################################################################################
-  ######  Authorize a single leaf nodes on the 5th tier
-  #############################################################################################
-
-    Given the sli securityEvent collection is empty
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
-    And I click on the "Edit Authorizations" button next to it
-    And I expand all nodes
-    And I authorize the educationalOrganization "Tier-5-School-1"
-    And I click Update
-    Then there are "1" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
-    And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-    And there are "1" educationalOrganizations in the targetEdOrgList
-    And I see an application "Royal Oak" in the table
-    And in Status it says "1 EdOrg(s)"
-    Given the sli securityEvent collection is empty
-    When I click on the "Edit Authorizations" button next to it
-    And I expand all nodes
-    And I de-authorize the educationalOrganization "Tier-5-School-1"
-    And I click Update
-    Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
-    And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-    And there are "1" educationalOrganizations in the targetEdOrgList
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
-
-
-  ############################################################
-  ######combination of only LEA and a branch of LEA
-  ############################################################
-    Given the sli securityEvent collection is empty
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
-    Then I click on the "Edit Authorizations" button next to it
-    And the sli securityEvent collection is empty
-    And I expand all nodes
-    And I authorize the educationalOrganization "LEA Tier 2"
-    And I deselect hierarchical mode
-    And I authorize the educationalOrganization "Daybreak School District 4529"
-    And I click Update
-    Then there are "33" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
-    And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-    And there are "33" educationalOrganizations in the targetEdOrgList
-    And I see an application "Royal Oak" in the table
-    And in Status it says "33 EdOrg(s)"
-    Given the sli securityEvent collection is empty
-    When I click on the "Edit Authorizations" button next to it
-    And I de-authorize the educationalOrganization "LEA Tier 2"
-    And I deselect hierarchical mode
-    And I de-authorize the educationalOrganization "Daybreak School District 4529"
-    And I click Update
-    Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
-    And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-      | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-    And there are "33" educationalOrganizations in the targetEdOrgList
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
-
     Scenario: SEA Admin Approves application
         When I hit the Admin Application Authorization Tool
          And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
@@ -626,6 +369,313 @@ Background:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
           And there are "1" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
+          And I see an application "Royal Oak" in the table
+          And in Status it says "9 EdOrg(s)"
+          Given the sli securityEvent collection is empty
+          And I click on the "Edit Authorizations" button next to it
+          And I expand all nodes
+          And I de-authorize the educationalOrganization "LEA Tier 4"
+          And I click Update
+          Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+          And I check to find if record is in sli db collection:
+            | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+            | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+          And there are "9" educationalOrganizations in the targetEdOrgList of securityEvent "EdOrg data access has been revoked!"
+          And I see an application "Royal Oak" in the table
+          And in Status it says "Not Approved"
+
+  Scenario: LEA Admin Approves application
+
+    When I hit the Admin Application Authorization Tool
+    And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
+    And the sli securityEvent collection is empty
+  ############################################################
+  ######All edOrgs from LEA downwards
+  ############################################################
+    And I click on the "Edit Authorizations" button next to it
+    And I authorize the educationalOrganization "Daybreak School District 4529"
+    And I click Update
+    Then there are "45" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+    And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+    And there are "45" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "45 EdOrg(s)"
+    Given the sli securityEvent collection is empty
+    When I click on the "Edit Authorizations" button next to it
+    And I de-authorize the educationalOrganization "Daybreak School District 4529"
+    And I click Update
+    Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+    And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+      | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+    And there are "45" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
+
+  ############################################################
+  ######LEA only
+  ############################################################
+
+    Then I click on the "Edit Authorizations" button next to it
+    And the sli securityEvent collection is empty
+    And I deselect hierarchical mode
+    And I expand all nodes
+    And I authorize the educationalOrganization "Daybreak School District 4529"
+    And I click Update
+    Then there are "1" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+    Then The following edOrgs are authorized for the application "Royal Oak" in tenant "Midgar"
+      |edorgs|
+      |Daybreak School District 4529 |
+    And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+    And there are "1" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "1 EdOrg(s)"
+    Given the sli securityEvent collection is empty
+    When I click on the "Edit Authorizations" button next to it
+    And I deselect hierarchical mode
+    And I de-authorize the educationalOrganization "Daybreak School District 4529"
+    And I click Update
+    Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+    And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+      | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+    And there are "1" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
+
+
+  ##########################################################################################
+  ######Authorize a single LEA edOrg that is not the edOrg that user log into
+  ##########################################################################################
+    And the sli securityEvent collection is empty
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
+    And I click on the "Edit Authorizations" button next to it
+    And I deselect hierarchical mode
+    And I expand all nodes
+    And I authorize the educationalOrganization "LEA Tier 4"
+    And I click Update
+    Then there are "1" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+    And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+    And there are "1" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "1 EdOrg(s)"
+    Given the sli securityEvent collection is empty
+    When I click on the "Edit Authorizations" button next to it
+    And I expand all nodes
+    And I de-authorize the educationalOrganization "LEA Tier 4"
+    And I click Update
+    Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+    And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+      | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+    And there are "1" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
+
+
+
+  ##########################################################################################
+  ######A single branch beginning at a direct child of the LEA, but not including the LEA
+  ##########################################################################################
+    And the sli securityEvent collection is empty
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
+    And I click on the "Edit Authorizations" button next to it
+    And I expand all nodes
+    And I authorize the educationalOrganization "LEA Tier 2"
+    And I click Update
+    Then there are "32" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+    And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+    And there are "32" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "32 EdOrg(s)"
+    Given the sli securityEvent collection is empty
+    When I click on the "Edit Authorizations" button next to it
+    And I expand all nodes
+
+    And I de-authorize the educationalOrganization "LEA Tier 2"
+    And I click Update
+    Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+    And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+      | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+    And there are "32" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
+
+  ##########################################################################################
+  ######  A single branch beginning at a grandchild of the LEA, but not including the LEA
+  ##########################################################################################
+    Given the sli securityEvent collection is empty
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
+    And I click on the "Edit Authorizations" button next to it
+    And I expand all nodes
+    And I authorize the educationalOrganization "LEA Tier 3"
+    And I click Update
+    Then there are "24" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+    And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+    And there are "24" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "24 EdOrg(s)"
+    Given the sli securityEvent collection is empty
+    When I click on the "Edit Authorizations" button next to it
+    And I expand all nodes
+    And I de-authorize the educationalOrganization "LEA Tier 3"
+    And I click Update
+    Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+    And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+      | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+    And there are "24" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
+
+  #############################################################################################
+  ######  Authorize a single branch ending with nodes on the 5th tier
+  #############################################################################################
+
+    Given the sli securityEvent collection is empty
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
+    And I click on the "Edit Authorizations" button next to it
+    And I expand all nodes
+    And I authorize the educationalOrganization "LEA Tier 5"
+    And I click Update
+    Then there are "8" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+    And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+    And there are "8" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "8 EdOrg(s)"
+    Given the sli securityEvent collection is empty
+    When I click on the "Edit Authorizations" button next to it
+    And I expand all nodes
+    And I de-authorize the educationalOrganization "LEA Tier 5"
+    And I click Update
+    Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+    And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+      | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+    And there are "8" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
+
+  #############################################################################################
+  ######  Authorize a single leaf nodes on the 5th tier
+  #############################################################################################
+
+    Given the sli securityEvent collection is empty
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
+    And I click on the "Edit Authorizations" button next to it
+    And I expand all nodes
+    And I authorize the educationalOrganization "Tier-5-School-1"
+    And I click Update
+    Then there are "1" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+    And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+    And there are "1" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "1 EdOrg(s)"
+    Given the sli securityEvent collection is empty
+    When I click on the "Edit Authorizations" button next to it
+    And I expand all nodes
+    And I de-authorize the educationalOrganization "Tier-5-School-1"
+    And I click Update
+    Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+    And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+      | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+    And there are "1" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
+
+
+  ############################################################
+  ######combination of only LEA and a branch of LEA
+  ############################################################
+    Given the sli securityEvent collection is empty
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
+    Then I click on the "Edit Authorizations" button next to it
+    And the sli securityEvent collection is empty
+    And I expand all nodes
+    And I authorize the educationalOrganization "LEA Tier 2"
+    And I deselect hierarchical mode
+    And I authorize the educationalOrganization "Daybreak School District 4529"
+    And I click Update
+    Then there are "33" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+    And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+    And there are "33" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "33 EdOrg(s)"
+    Given the sli securityEvent collection is empty
+    When I click on the "Edit Authorizations" button next to it
+    And I de-authorize the educationalOrganization "LEA Tier 2"
+    And I deselect hierarchical mode
+    And I de-authorize the educationalOrganization "Daybreak School District 4529"
+    And I click Update
+    Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+    And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+      | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+    And there are "33" educationalOrganizations in the targetEdOrgList
+    And I see an application "Royal Oak" in the table
+    And in Status it says "Not Approved"
+
+    Scenario: LEA Admin Approves Many Parents EdOrg
+
+        When I hit the Admin Application Authorization Tool
+        And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
+        And I see an application "Royal Oak" in the table
+        And in Status it says "Not Approved"
+        And the sli securityEvent collection is empty
+        And I click on the "Edit Authorizations" button next to it
+        And I expand all nodes
+        And I see "1" checkbox for "Many-Parents"
+        Then I see "4" occurrences of "see Many-Parents"
+        And I authorize the educationalOrganization "Many-Parents"
+        And I click Update
+        Then there are "1" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+        Then The following edOrgs are authorized for the application "Royal Oak" in tenant "Midgar"
+          |edorgs|
+          |Many-Parents |
+        And I check to find if record is in sli db collection:
+          | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+          | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+        And there are "1" educationalOrganizations in the targetEdOrgList
+        And I see an application "Royal Oak" in the table
+        And in Status it says "1 EdOrg(s)"
+        Given the sli securityEvent collection is empty
+        When I click on the "Edit Authorizations" button next to it
+        And I expand all nodes
+        And I de-authorize the educationalOrganization "Many-Parents"
+        And I click Update
+        Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+        And I check to find if record is in sli db collection:
+          | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+          | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+        And there are "1" educationalOrganizations in the targetEdOrgList
+        And I see an application "Royal Oak" in the table
+        And in Status it says "Not Approved"
 
 
 
