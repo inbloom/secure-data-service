@@ -43,6 +43,7 @@ import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.resources.security.UserResource.RightToGroupMapper;
 import org.slc.sli.api.resources.security.UserResource.RoleToGroupMapper;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.common.ldap.LdapService;
@@ -71,6 +72,9 @@ public class UserResourceTest {
 
     @Mock
     SuperAdminService adminService;
+
+    @Mock
+    AuditLogger auditLogger;
 
     @Mock
     SecurityEventBuilder securityEventBuilder;
