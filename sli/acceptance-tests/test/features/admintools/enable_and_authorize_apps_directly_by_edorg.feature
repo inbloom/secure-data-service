@@ -48,6 +48,7 @@ Background:
         And I click on Save
         Then "Royal Oak" is enabled for "200" education organizations
 
+
     Scenario: SEA Admin Approves application
         When I hit the Admin Application Authorization Tool
          And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
@@ -60,7 +61,10 @@ Background:
     ##########################################################################################
       And I click on the "Edit Authorizations" button next to it
       And I expand all nodes
-      #And those edOrgs not enabled by the developer are non-selectable for application "Royal Oak" in tenant "Midgar"
+      And those edOrgs enabled by the developer should be selectable for application "Royal Oak" in tenant "Midgar"
+      And the following edOrgs not enabled by the developer are non-selectable for application "Royal Oak" in tenant "Midgar"
+        |edorgs|
+        |Algebra Alternative |
     ##########################################################################################
     #All edOrgs from SEA downwards
     ##########################################################################################
@@ -384,6 +388,7 @@ Background:
           And I see an application "Royal Oak" in the table
           And in Status it says "Not Approved"
 
+
   Scenario: LEA Admin Approves application
 
     When I hit the Admin Application Authorization Tool
@@ -415,6 +420,7 @@ Background:
     And there are "45" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "Not Approved"
+    
 
   ############################################################
   ######LEA only
@@ -454,8 +460,6 @@ Background:
   ######Authorize a single LEA edOrg that is not the edOrg that user log into
   ##########################################################################################
     And the sli securityEvent collection is empty
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
     And I click on the "Edit Authorizations" button next to it
     And I deselect hierarchical mode
     And I expand all nodes
@@ -487,8 +491,6 @@ Background:
   ######A single branch beginning at a direct child of the LEA, but not including the LEA
   ##########################################################################################
     And the sli securityEvent collection is empty
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
     And I click on the "Edit Authorizations" button next to it
     And I expand all nodes
     And I authorize the educationalOrganization "LEA Tier 2"
@@ -518,8 +520,6 @@ Background:
   ######  A single branch beginning at a grandchild of the LEA, but not including the LEA
   ##########################################################################################
     Given the sli securityEvent collection is empty
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
     And I click on the "Edit Authorizations" button next to it
     And I expand all nodes
     And I authorize the educationalOrganization "LEA Tier 3"
@@ -549,8 +549,6 @@ Background:
   #############################################################################################
 
     Given the sli securityEvent collection is empty
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
     And I click on the "Edit Authorizations" button next to it
     And I expand all nodes
     And I authorize the educationalOrganization "LEA Tier 5"
@@ -575,13 +573,12 @@ Background:
     And I see an application "Royal Oak" in the table
     And in Status it says "Not Approved"
 
+
   #############################################################################################
   ######  Authorize a single leaf nodes on the 5th tier
   #############################################################################################
 
     Given the sli securityEvent collection is empty
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
     And I click on the "Edit Authorizations" button next to it
     And I expand all nodes
     And I authorize the educationalOrganization "Tier-5-School-1"
@@ -611,8 +608,6 @@ Background:
   ######combination of only LEA and a branch of LEA
   ############################################################
     Given the sli securityEvent collection is empty
-    And I see an application "Royal Oak" in the table
-    And in Status it says "Not Approved"
     Then I click on the "Edit Authorizations" button next to it
     And the sli securityEvent collection is empty
     And I expand all nodes
@@ -640,6 +635,8 @@ Background:
     And there are "33" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "Not Approved"
+
+
 
     Scenario: LEA Admin Approves Many Parents EdOrg
 
