@@ -98,7 +98,9 @@ module EdorgTreeHelper
 
       # Create fake root edOrg and parent all top level nodes to it
       root_children = if is_sea_admin then root_ids else @userEdOrgs end
-      root_edorg = { :id => ROOT_ID, :parents => [], :children => root_children, :enabled => true, :authorized => true, :name => 'All EdOrgs', :edOrg => { :id => ROOT_ID, :parentEducationAgencyReference  => []}}
+      # Because ":enabled" aggregates on an "or" basis, and ":authorized" aggregates on an "and" basis, init
+      # them to "false" and "true" respectively, so that the logic aggregates appropriately.
+      root_edorg = { :id => ROOT_ID, :parents => [], :children => root_children, :enabled => false, :authorized => true, :name => 'All EdOrgs', :edOrg => { :id => ROOT_ID, :parentEducationAgencyReference  => []}}
       @edinf[ROOT_ID] = root_edorg
 
       # Allow SEA admin to see everything, including edOrgs not parented
@@ -188,8 +190,9 @@ module EdorgTreeHelper
       new_children = []
 
       # Aggregate the enabled/authorized status.  Enabled aggregates on an "or" basis,
-      # and authorized aggregates on an "and" basis, and only for enabled children
-      agg_enabled = true
+      # and authorized aggregates on an "and" basis, and only for enabled children.
+      # Init aggregate status so that the and/or logic accumulates correctly.
+      agg_enabled = false
       agg_authorized = true
       by_type.each do |ctype, cinf|
         new_children.push(cinf[:id])
