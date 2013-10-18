@@ -44,6 +44,7 @@ public class EntityDates {
         ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.BEGIN_DATE);
         ENTITY_DATE_FIELDS.put(EntityNames.SESSION, ParameterConstants.BEGIN_DATE);
         ENTITY_DATE_FIELDS.put(EntityNames.GRADEBOOK_ENTRY, ParameterConstants.DATE_ASSIGNED);
+        ENTITY_DATE_FIELDS.put(EntityNames.STAFF_ED_ORG_ASSOCIATION, ParameterConstants.BEGIN_DATE);
         ENTITY_DATE_FIELDS.put(EntityNames.TEACHER_SECTION_ASSOCIATION, ParameterConstants.BEGIN_DATE);
         ENTITY_DATE_FIELDS.put(EntityNames.STAFF_PROGRAM_ASSOCIATION, ParameterConstants.BEGIN_DATE);
         ENTITY_DATE_FIELDS.put(EntityNames.STAFF_COHORT_ASSOCIATION, ParameterConstants.BEGIN_DATE);

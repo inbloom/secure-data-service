@@ -31,7 +31,7 @@
       |  reportCard                            | 2 | 0ae33a43b05f2be4b9c8af13788ae0b0448370ef_id4a997dd12d3122fa839523965aab34e397fb79db_id |
       |  staff                                 | 11 | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
       |  staffCohortAssociation                | 2 | f2cbed0cf5ff1d7a43f77e6a5f0f75f174cc7065_id |
-      |  staffEducationOrganizationAssociation | 11 | 346a3cc0939419b34283ec6cac2330e19a483f6f_id |
+      |  staffEducationOrganizationAssociation | 12 | 346a3cc0939419b34283ec6cac2330e19a483f6f_id |
       |  staffProgramAssociation               | 6 | e0ccea007dca317537e52998c1a7d8267b110787_id |
       |  student                               | 78 |  |
       |  studentAcademicRecord                 | 117 | 0ae33a43b05f2be4b9c8af13788ae0b0448370ef_id5dc5dba7a0a4a5dbeefaf195726a5fbc7be98d70_id |

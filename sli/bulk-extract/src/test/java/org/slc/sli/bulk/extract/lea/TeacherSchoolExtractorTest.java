@@ -16,12 +16,15 @@
 
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -31,9 +34,16 @@ import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import static org.mockito.Matchers.argThat;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class TeacherSchoolExtractorTest {
     private TeacherSchoolExtractor extractor;
     
@@ -48,12 +58,14 @@ public class TeacherSchoolExtractorTest {
     @Mock
     private Entity mockEntity;
     @Mock
+    private Entity mockEntity2;
+    @Mock
     private ExtractFile mockFile;
     @Mock
     private EdOrgExtractHelper mockEdOrgExtractHelper;
     
     private Map<String, Object> entityBody;
-    private EntityToEdOrgCache staffToLeaCache;
+    private EntityToEdOrgDateCache staffToLeaDateCache;
     
     @Before
     public void setUp() {
@@ -61,12 +73,17 @@ public class TeacherSchoolExtractorTest {
         entityBody = new HashMap<String, Object>();
         extractor = new TeacherSchoolExtractor(mockExtractor, mockMap, mockRepo, mockEdOrgExtractHelper);
         entityBody.put(ParameterConstants.TEACHER_ID, "Staff1");
+        entityBody.put(ParameterConstants.SCHOOL_ID, "LEA");
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
-        
-        staffToLeaCache = new EntityToEdOrgCache();
-        staffToLeaCache.addEntry("Staff1", "LEA");
-        Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
+
+        Map<String, Object> entityBody2 = new HashMap<String, Object>();
+        entityBody2.put(ParameterConstants.TEACHER_ID, "Staff1");
+        entityBody2.put(ParameterConstants.SCHOOL_ID, "LEA2");
+        Mockito.when(mockEntity2.getBody()).thenReturn(entityBody2);
+
+        Mockito.when(mockMap.getExtractFileForEdOrg(Matchers.anyString())).thenReturn(mockFile);
         Mockito.when(mockEntity.getEntityId()).thenReturn("Staff1");
+        Mockito.when(mockEntity2.getEntityId()).thenReturn("Staff1");
     }
     
     @Test
@@ -75,7 +92,17 @@ public class TeacherSchoolExtractorTest {
                 .thenReturn(
                 Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
-        extractor.extractEntities(staffToLeaCache);
+
+
+        staffToLeaDateCache = new EntityToEdOrgDateCache();
+        DateTime dt = DateTime.now();
+        staffToLeaDateCache.addEntry("Staff1", "LEA", dt);
+
+        Entity mSeoa = makeSeoa("2007-01-01", null);
+
+        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(mSeoa));
+
+        extractor.extractEntities(staffToLeaDateCache);
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION));
     }
@@ -84,10 +111,61 @@ public class TeacherSchoolExtractorTest {
     public void testExtractManyEntity() {
         Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.eq(new NeutralQuery())))
                 .thenReturn(
-                Arrays.asList(mockEntity, mockEntity).iterator());
+                Arrays.asList(mockEntity, mockEntity2).iterator());
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
-        extractor.extractEntities(staffToLeaCache);
-        Mockito.verify(mockExtractor, Mockito.times(2)).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
+
+        staffToLeaDateCache = new EntityToEdOrgDateCache();
+        staffToLeaDateCache.addEntry("Staff1", "LEA", DateTime.parse("20009-01-01"));
+        staffToLeaDateCache.addEntry("Staff1", "LEA2", DateTime.parse("2000-01-01"));
+
+        Entity mSeoa1 = makeSeoa("2007-01-01", "2008-01-01");
+        Entity mSeoa2 = makeSeoa("2008-01-01", null);
+
+        //Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(mSeoa1, mSeoa2));
+        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), argThat(new BaseMatcher<NeutralQuery>() {
+
+            @Override
+            public boolean matches(Object arg0) {
+                NeutralQuery query = (NeutralQuery) arg0;
+                return query.getCriteria().contains(
+                        new NeutralCriteria(ParameterConstants.STAFF_REFERENCE, NeutralCriteria.OPERATOR_EQUAL, "Staff1"))
+                        && query.getCriteria().contains(
+                        new NeutralCriteria(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, NeutralCriteria.OPERATOR_EQUAL,
+                                "LEA"));
+
+            }
+
+            @Override
+            public void describeTo(Description arg0) {
+            }
+        }))).thenReturn(Arrays.asList(mSeoa1, mSeoa2));
+
+        Entity mSeoa1L2 = makeSeoa("1999-01-01", "2008-01-01");
+        Entity mSeoa2L2 = makeSeoa("2000-01-01", "2002-01-01");
+
+        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), argThat(new BaseMatcher<NeutralQuery>() {
+
+            @Override
+            public boolean matches(Object arg0) {
+                NeutralQuery query = (NeutralQuery) arg0;
+                return query.getCriteria().contains(
+                        new NeutralCriteria(ParameterConstants.STAFF_REFERENCE, NeutralCriteria.OPERATOR_EQUAL, "Staff1"))
+                        && query.getCriteria().contains(
+                        new NeutralCriteria(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, NeutralCriteria.OPERATOR_EQUAL,
+                                "LEA2"));
+
+            }
+
+            @Override
+            public void describeTo(Description arg0) {
+            }
+        }))).thenReturn(Arrays.asList(mSeoa1L2, mSeoa2L2));
+
+
+                extractor.extractEntities(staffToLeaDateCache);
+        Mockito.verify(mockExtractor, Mockito.times(1)).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
+                Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION));
+        Mockito.verify(mockExtractor, Mockito.times(2)).extractEntity(Mockito.eq(mockEntity2), Mockito.eq(mockFile),
                 Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION));
     }
     
@@ -97,7 +175,8 @@ public class TeacherSchoolExtractorTest {
                 .thenReturn(
                 Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(null);
-        extractor.extractEntities(staffToLeaCache);
+        staffToLeaDateCache = new EntityToEdOrgDateCache();
+        extractor.extractEntities(staffToLeaDateCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION));
     }
@@ -109,8 +188,27 @@ public class TeacherSchoolExtractorTest {
                 .thenReturn(
                 Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
-        extractor.extractEntities(staffToLeaCache);
+        staffToLeaDateCache = new EntityToEdOrgDateCache();
+        staffToLeaDateCache.addEntry("Staff1", "LEA", DateTime.parse("2000-01-01"));
+        staffToLeaDateCache = new EntityToEdOrgDateCache();
+        extractor.extractEntities(staffToLeaDateCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION));
+    }
+
+    private Entity makeSeoa(String startDate, String endDate) {
+        Entity mSeoa = Mockito.mock(Entity.class);
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put(ParameterConstants.BEGIN_DATE, startDate);
+
+        if(endDate != null) {
+            body.put(ParameterConstants.END_DATE, endDate);
+        }
+
+        Mockito.mock(Entity.class);
+        Mockito.when(mSeoa.getBody()).thenReturn(body);
+        Mockito.when(mSeoa.getType()).thenReturn(EntityNames.STAFF_ED_ORG_ASSOCIATION);
+
+        return mSeoa;
     }
 }

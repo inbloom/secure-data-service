@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.joda.time.DateTime;
 
+import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
@@ -40,8 +41,8 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
     private EdOrgExtractHelper edOrgExtractHelper;
     private EntityToEdOrgDateCache staffDatedCache;
 
-    public StaffEdorgAssignmentExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
-                                         ExtractorHelper extractorHelper, EntityToEdOrgCache entityToEdOrgCache, EdOrgExtractHelper edOrgExtractHelper) {
+    public StaffEdorgAssignmentExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, ExtractorHelper extractorHelper,
+            EntityToEdOrgCache entityToEdOrgCache, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
@@ -58,14 +59,17 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
 
         Iterator<Entity> associations = repo.findEach(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
         while (associations.hasNext()) {
-            Entity e = associations.next();
-            Set<String> edOrgs = cache.getEntriesById((String) e.getBody().get(ParameterConstants.STAFF_REFERENCE));
+            Entity seoa = associations.next();
 
-            for (String edOrg : edOrgs) {
-                extractor.extractEntity(e, map.getExtractFileForEdOrg(edOrg), EntityNames.STAFF_ED_ORG_ASSOCIATION);
+            Map<String, DateTime> studentEdOrgDate =
+                    staffDatedCache.getEntriesById((String) seoa.getBody().get(ParameterConstants.STAFF_REFERENCE));
+            for (Map.Entry<String, DateTime> edOrgDate : studentEdOrgDate.entrySet()) {
+                DateTime upToDate = edOrgDate.getValue();
+                if (shouldExtract(seoa, upToDate)) {
+                    extractor.extractEntity(seoa, map.getExtractFileForEdOrg(edOrgDate.getKey()), EntityNames.STAFF_ED_ORG_ASSOCIATION);
+                }
             }
         }
-
     }
 
     private void buildStaffCaches(EntityToEdOrgCache entityToEdorgCache) {
@@ -76,10 +80,13 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
             String staffId = (String) association.getBody().get(ParameterConstants.STAFF_REFERENCE);
 
             Map<String, DateTime> edOrgDates = staffDatedCache.getEntriesById(staffId);
-            extractorHelper.buildEdorgToDateMap(association.getBody(), edOrgDates,
+            boolean firstEntryForStaff = edOrgDates.isEmpty() ? true : false;
+            extractorHelper.updateEdorgToDateMap(association.getBody(), edOrgDates,
                 ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, ParameterConstants.BEGIN_DATE, ParameterConstants.END_DATE);
-            for (Map.Entry<String, DateTime> edOrgDate : edOrgDates.entrySet()) {
-                staffDatedCache.addEntry(staffId, edOrgDate.getKey(), edOrgDate.getValue());
+            if (firstEntryForStaff) {
+                for (Map.Entry<String, DateTime> edOrgDate : edOrgDates.entrySet()) {
+                    staffDatedCache.addEntry(staffId, edOrgDate.getKey(), edOrgDate.getValue());
+                }
             }
 
             if (!extractorHelper.isStaffAssociationCurrent(association)) {
@@ -94,6 +101,10 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
             }
         }
 
+    }
+
+    protected boolean shouldExtract(Entity input, DateTime upToDate) {
+        return EntityDateHelper.shouldExtract(input, upToDate);
     }
 
     public EntityToEdOrgCache getEntityCache() {

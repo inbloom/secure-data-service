@@ -126,14 +126,14 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "teacher" file should contain:
       | id                                          | condition            |
       | 589a7e8634d7d284a2ec9fd76d7e1ee64a0f63b5_id | entityType = teacher |
-    #And I verify this "staffEducationOrganizationAssociation" file should contain:
-      #| id                                          | condition                                          |
-      #| d0de313091b8d4c249ff1ed47cae0121079f284c_id | entityType = staffEducationOrganizationAssociation |
-      #| bb98c67830fa46b204c8a4903e3c0b4525390e4c_id | entityType = staffEducationOrganizationAssociation |
-    #And I verify this "teacherSchoolAssociation" file should contain:
-      #| id                                          | condition                             |
-      #| 50551eec2fbe3b7a2c46e52b0604b7a3edbf4f5c_id | entityType = teacherSchoolAssociation |
-      #| 865a73e2ccec3276a4a49b2f91830927feb06dc6_id | entityType = teacherSchoolAssociation |
+    And I verify this "staffEducationOrganizationAssociation" file should contain:
+      | id                                          | condition                                          |
+      | d0de313091b8d4c249ff1ed47cae0121079f284c_id | entityType = staffEducationOrganizationAssociation |
+      | bb98c67830fa46b204c8a4903e3c0b4525390e4c_id | entityType = staffEducationOrganizationAssociation |
+    And I verify this "teacherSchoolAssociation" file should contain:
+      | id                                          | condition                             |
+      | 50551eec2fbe3b7a2c46e52b0604b7a3edbf4f5c_id | entityType = teacherSchoolAssociation |
+      | 865a73e2ccec3276a4a49b2f91830927feb06dc6_id | entityType = teacherSchoolAssociation |
     And I verify this "staffProgramAssociation" file should contain:
       | id                                          | condition                            |
       | ba48e53096fb2ccbb5353ca1c31f345e1b2200fe_id | entityType = staffProgramAssociation |
@@ -241,12 +241,12 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "teacher" file should contain:
       | id                                          | condition            |
       | 589a7e8634d7d284a2ec9fd76d7e1ee64a0f63b5_id | entityType = teacher |
-    #And I verify this "staffEducationOrganizationAssociation" file should not contain:
-      #| id                                          |
-      #| bb98c67830fa46b204c8a4903e3c0b4525390e4c_id |
-    #And I verify this "teacherSchoolAssociation" file should not contain:
-      #| id                                          |
-      #| 865a73e2ccec3276a4a49b2f91830927feb06dc6_id |
+    And I verify this "staffEducationOrganizationAssociation" file should not contain:
+      | id                                          |
+      | bb98c67830fa46b204c8a4903e3c0b4525390e4c_id |
+    And I verify this "teacherSchoolAssociation" file should not contain:
+      | id                                          |
+      | 865a73e2ccec3276a4a49b2f91830927feb06dc6_id |
     And I verify this "staffProgramAssociation" file should not contain:
       | id                                          |
       | fa13fc54af5a5206e6c0c65cb79ab5b123196db3_id |
@@ -386,16 +386,16 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "teacher" file should contain:
       | id                                          | condition            |
       | b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = teacher |
-    #And I verify this "staffEducationOrganizationAssociation" file should contain:
-      #| id                                          | condition                                          |
-      #| 202b88ed9039b0d2c366a94dcba2ab4434257102_id | entityType = staffEducationOrganizationAssociation |
-      #| 8c897da11f6d0a0dbb038118dfebade4197d72eb_id | entityType = staffEducationOrganizationAssociation |
-      #| e8b5d82e4aa2f0061f4d27797f6a0b4750582c83_id | entityType = staffEducationOrganizationAssociation |
-    #And I verify this "teacherSchoolAssociation" file should contain:
-      #| id                                          | condition                             |
-      #| ecd78fbb5be2501ac56eff3768ea642d19a9d831_id | entityType = teacherSchoolAssociation |
-      #| 2d42e4654331092fce10a8d0b99aa16dd5cf0b3b_id | entityType = teacherSchoolAssociation |
-      #| 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id | entityType = teacherSchoolAssociation |
+    And I verify this "staffEducationOrganizationAssociation" file should contain:
+      | id                                          | condition                                          |
+      | 202b88ed9039b0d2c366a94dcba2ab4434257102_id | entityType = staffEducationOrganizationAssociation |
+      | 8c897da11f6d0a0dbb038118dfebade4197d72eb_id | entityType = staffEducationOrganizationAssociation |
+      | e8b5d82e4aa2f0061f4d27797f6a0b4750582c83_id | entityType = staffEducationOrganizationAssociation |
+    And I verify this "teacherSchoolAssociation" file should contain:
+      | id                                          | condition                             |
+      | ecd78fbb5be2501ac56eff3768ea642d19a9d831_id | entityType = teacherSchoolAssociation |
+      | 2d42e4654331092fce10a8d0b99aa16dd5cf0b3b_id | entityType = teacherSchoolAssociation |
+      | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id | entityType = teacherSchoolAssociation |
     And I verify this "staffProgramAssociation" file should contain:
       | id                                          | condition                            |
       | f5944c9d8f7a4522d968ae67253dcbd37c54e809_id | entityType = staffProgramAssociation |
@@ -461,12 +461,12 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | id                                                                                     |
       | 7df01fe133b2605d0007dd1fecf9c8f8bc6afbee_id07bec3af9633c4bdde1a240e8b003abac7e4fc47_id |
       | 96ad14342c72b986ff6fe42556edb552abd239ca_idf146ce1a9ecb6f7852c9b48f36fee2d0f1bfcd0c_id |
-    #And I verify this "staffEducationOrganizationAssociation" file should not contain:
-      #| id                                          |
-      #| a6c6892f64c60e7fe6a7bb044a0f5131fd99e7f0_id |
-    #And I verify this "teacherSchoolAssociation" file should not contain:
-      #| id                                          |
-      #| 2e826613e8a90466c50b1d3a3653a125a375d760_id |
+    And I verify this "staffEducationOrganizationAssociation" file should not contain:
+      | id                                          |
+      | a6c6892f64c60e7fe6a7bb044a0f5131fd99e7f0_id |
+    And I verify this "teacherSchoolAssociation" file should not contain:
+      | id                                          |
+      | 2e826613e8a90466c50b1d3a3653a125a375d760_id |
     And I verify this "staffProgramAssociation" file should not contain:
       | id                                          |
       | a4fb01f4e14d3fee2560790b23d3bee2e02e6116_id |
