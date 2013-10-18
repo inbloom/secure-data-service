@@ -218,7 +218,7 @@ public class SecurityEvent {
                 + ((appId == null) ? "" : appId) + DELIMITER
                 + ((className == null) ? "" : className) + DELIMITER
                 + ((tenantId == null) ? "" : tenantId) + DELIMITER
-                + "<deprecated>" + DELIMITER
+                //@TA10431
                 //+ ((targetEdOrg == null) ? "" : targetEdOrg) + DELIMITER
                 + ((targetEdOrgList == null) ? "" : targetEdOrgList) + DELIMITER
                 + ((userEdOrg == null) ? "" : userEdOrg) + DELIMITER
