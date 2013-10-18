@@ -150,8 +150,8 @@ public class LocalEdOrgExtractor {
         EntityDatedExtract staffProgramExtractor = factory.buildStaffProgramAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         staffProgramExtractor.extractEntities(seaExtractor.getStaffDatedCache());
 
-        genericExtractor = factory.buildStaffCohortAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        genericExtractor.extractEntities(seaExtractor.getEntityCache());
+        EntityDatedExtract staffCohortExtractor = factory.buildStaffCohortAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
+        staffCohortExtractor.extractEntities(seaExtractor.getStaffDatedCache());
 
         // Section
         SectionEmbeddedDocsExtractor sectionExtractor = factory.buildSectionExtractor(entityExtractor, leaToExtractFileMap, repository, student.getStudentDatedCache(), edorgCache, helper, seaExtractor.getStaffDatedCache());
