@@ -108,6 +108,8 @@ When I clicked Save
 And I the field named "Application Icon Url" still says "https://imageurl"
 And I the field named "Description" still says "Kittens"
 
+# US5864 wip
+@wip
 Scenario: SLC Operator accepts application registration request
 
 Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
