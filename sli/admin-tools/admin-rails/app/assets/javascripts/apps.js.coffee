@@ -88,13 +88,7 @@ jQuery ->
   $("#applications tr:first-child").show()
   $("#applications tr.odd td").click ->
     if $(@).attr("class") != "rowAction"
-      firstCell = $(@).parent().find("td:first-child")
-      if firstCell.hasClass("collapsed")
-        firstCell.removeClass("collapsed")
-        firstCell.addClass("expanded")
-      else if firstCell.hasClass("expanded")
-        firstCell.removeClass("expanded")
-        firstCell.addClass("collapsed")
+      $(@).parent().find("td:first-child.expandable").toggleClass("expanded")
       $(@).parent().next("tr").toggle()
 
 jQuery ->
