@@ -96,7 +96,6 @@ public class SectionEmbeddedDocsExtractorTest {
 
         se.extractEntities(null);
         Mockito.verify(ex, Mockito.never()).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq(EntityNames.TEACHER_SECTION_ASSOCIATION));
-        Mockito.verify(ex, Mockito.never()).extractEmbeddedEntities(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
     }
 
     @Test
@@ -106,7 +105,6 @@ public class SectionEmbeddedDocsExtractorTest {
 
         se.extractEntities(null);
         Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION));
-        Mockito.verify(ex, Mockito.never()).extractEmbeddedEntities(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
     }
 
     @Test
@@ -116,7 +114,6 @@ public class SectionEmbeddedDocsExtractorTest {
 
         se.extractEntities(null);
         Mockito.verify(ex, Mockito.never()).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class));
-        Mockito.verify(ex, Mockito.never()).extractEmbeddedEntities(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
     }
 
     @Test
