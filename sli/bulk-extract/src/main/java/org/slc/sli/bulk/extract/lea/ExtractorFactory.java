@@ -31,7 +31,7 @@ public class ExtractorFactory {
 
     public StudentExtractor buildStudentExtractor(EntityExtractor extractor, ExtractFileMap map,
             Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
-        return new StudentExtractor(extractor, map, repo, new ExtractorHelper(edOrgExtractHelper), new EntityToEdOrgCache(),
+        return new StudentExtractor(extractor, map, repo, new ExtractorHelper(edOrgExtractHelper),
                 new EntityToEdOrgCache(), edOrgExtractHelper);
     }
 
@@ -51,7 +51,7 @@ public class ExtractorFactory {
 
     public StaffEdorgAssignmentExtractor buildStaffAssociationExtractor(EntityExtractor extractor, ExtractFileMap map,
             Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
-        return new StaffEdorgAssignmentExtractor(extractor, map, repo, new ExtractorHelper(edOrgExtractHelper), new EntityToEdOrgCache(), edOrgExtractHelper);
+        return new StaffEdorgAssignmentExtractor(extractor, map, repo, new ExtractorHelper(edOrgExtractHelper), edOrgExtractHelper);
     }
 
     public EntityDatedExtract buildStaffExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
@@ -65,7 +65,7 @@ public class ExtractorFactory {
 
     public EntityExtract buildAttendanceExtractor(EntityExtractor extractor, ExtractFileMap map,
             Repository<Entity> repo, EntityToEdOrgDateCache studentCache, EdOrgExtractHelper edOrgExtractHelper) {
-        return new AttendanceExtractor(extractor, map, repo, new ExtractorHelper(), studentCache, edOrgExtractHelper);
+        return new AttendanceExtractor(extractor, map, repo, studentCache, edOrgExtractHelper);
     }
 
     public StudentSchoolAssociationExtractor buildStudentSchoolAssociationExtractor(EntityExtractor extractor, ExtractFileMap map,
@@ -86,7 +86,7 @@ public class ExtractorFactory {
     }
 
     public SectionEmbeddedDocsExtractor buildSectionExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgDateCache studentDatedCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper, EntityToEdOrgDateCache staffDatedCache) {
-        return new SectionEmbeddedDocsExtractor(entityExtractor, extractFileMap, repository, studentDatedCache, edorgCache, edOrgExtractHelper, staffDatedCache);
+        return new SectionEmbeddedDocsExtractor(entityExtractor, extractFileMap, repository, studentDatedCache, staffDatedCache);
     }
 
     public EntityDatedExtract buildStaffProgramAssociationExtractor(EntityExtractor extractor, ExtractFileMap map,

@@ -51,35 +51,6 @@ public class ExtractorHelper{
 
     private EdOrgExtractHelper edOrgExtractHelper;
 
-
-    /**
-     * Returns all current schools of the student.
-     *
-     * @param student - Student entity
-     *
-     * @return - Current schools associated with student
-     */
-    //F316: Old pipeline - remove this
-    public Set<String> fetchCurrentSchoolsForStudent(Entity student) {
-        Set<String> studentSchools = new HashSet<String>();
-        Map<String, List<Map<String, Object>>> data = student.getDenormalizedData();
-        if (!data.containsKey("schools")) {
-            return studentSchools;
-        }
-        List<Map<String, Object>> schools = data.get("schools");
-        for (Map<String, Object> school : schools) {
-             if (dateHelper.isFieldExpired(school, "exitWithdrawDate")) {
-                continue;
-            }
-            String id = (String)school.get("_id");
-            List<String> lineages = edOrgExtractHelper.getEdOrgLineages().get(id);
-            if (lineages != null) {
-                studentSchools.addAll(lineages);
-            }
-        }
-        return studentSchools;
-    }
-
     /**
      * Fetches the associated edOrgs with their expiration date for a student.
      *

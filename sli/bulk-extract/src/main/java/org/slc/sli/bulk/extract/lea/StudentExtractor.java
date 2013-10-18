@@ -41,7 +41,6 @@ public class StudentExtractor implements EntityExtract {
     private ExtractFileMap map;
     private EntityExtractor extractor;
     private Repository<Entity> repo;
-    private EntityToEdOrgCache studentCache;
     private EntityToEdOrgDateCache studentDatedCache;
     private EntityToEdOrgCache parentCache;
     private EdOrgExtractHelper edOrgExtractHelper;
@@ -51,13 +50,12 @@ public class StudentExtractor implements EntityExtract {
     private EntityToEdOrgDateCache diDateCache = new EntityToEdOrgDateCache();
 
     public StudentExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
-                            ExtractorHelper helper, EntityToEdOrgCache studentCache, EntityToEdOrgCache parentCache,
+                            ExtractorHelper helper, EntityToEdOrgCache parentCache,
                             EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         this.helper = helper;
-        this.studentCache = studentCache;
         this.parentCache = parentCache;
         this.edOrgExtractHelper = edOrgExtractHelper;
         this.studentDatedCache = new EntityToEdOrgDateCache();
@@ -74,10 +72,9 @@ public class StudentExtractor implements EntityExtract {
 
         while (cursor.hasNext()) {
             Entity e = cursor.next();
-            Set<String> schools = helper.fetchCurrentSchoolsForStudent(e);
             buildStudentDatedCache(e);
             final Map<String, DateTime> datedEdOrgs = studentDatedCache.getEntriesById(e.getEntityId());
-            Iterable<String> parents = helper.fetchCurrentParentsFromStudent(e);
+
             for (final String edOrg : map.getEdOrgs()) {
                 if (datedEdOrgs.containsKey(edOrg)) {
                     // Write
@@ -94,14 +91,10 @@ public class StudentExtractor implements EntityExtract {
                         }
                     });
 
+                    Iterable<String> parents = helper.fetchCurrentParentsFromStudent(e);
                     for (String parent : parents) {
                         parentCache.addEntry(parent, edOrg);
                     }
-                }
-                //F316 OLD PIPELINE - REMOVE OLD CACHE
-                if (schools.contains(edOrg)) {
-                    // Update studentCache
-                    studentCache.addEntry(e.getEntityId(), edOrg);
                 }
             }
 
@@ -128,14 +121,6 @@ public class StudentExtractor implements EntityExtract {
                 studentDatedCache.addEntry(student.getEntityId(), edOrg, edOrgDate.get(edOrg));
             }
         }
-    }
-    
-    public void setEntityCache(EntityToEdOrgCache cache) {
-        this.studentCache = cache;
-    }
-    
-    public EntityToEdOrgCache getEntityCache() {
-        return studentCache;
     }
     
     public EntityToEdOrgCache getParentCache() {

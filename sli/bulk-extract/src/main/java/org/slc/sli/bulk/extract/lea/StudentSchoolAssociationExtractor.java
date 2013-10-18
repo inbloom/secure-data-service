@@ -36,7 +36,6 @@ public class StudentSchoolAssociationExtractor implements EntityDatedExtract {
         Iterator<Entity> cursor = repo.findEach("studentSchoolAssociation", new NeutralQuery());
         while(cursor.hasNext()) {
             Entity ssa = cursor.next();
-            String graduationPlanId = (String) ssa.getBody().get("graduationPlanId");
             Map<String, DateTime> studentEdOrgDate = cache.getEntriesById((String) ssa.getBody().get("studentId"));
 
             for (Map.Entry<String, DateTime> entry: studentEdOrgDate.entrySet()) {

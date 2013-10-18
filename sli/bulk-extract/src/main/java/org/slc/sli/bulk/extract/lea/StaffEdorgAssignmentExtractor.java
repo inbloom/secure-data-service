@@ -37,17 +37,15 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
     private ExtractFileMap map;
     private Repository<Entity> repo;
     private ExtractorHelper extractorHelper;
-    private EntityToEdOrgCache cache;
     private EdOrgExtractHelper edOrgExtractHelper;
     private EntityToEdOrgDateCache staffDatedCache;
 
     public StaffEdorgAssignmentExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, ExtractorHelper extractorHelper,
-            EntityToEdOrgCache entityToEdOrgCache, EdOrgExtractHelper edOrgExtractHelper) {
+            EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         this.extractorHelper = extractorHelper;
-        this.cache = entityToEdOrgCache;
         this.edOrgExtractHelper = edOrgExtractHelper;
         this.staffDatedCache = new EntityToEdOrgDateCache();
     }
@@ -92,23 +90,12 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
             if (!extractorHelper.isStaffAssociationCurrent(association)) {
                 continue;
             }
-
-            //TODO: Old pipeline, remove after F316 is done
-            String edorg = (String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE);
-            Set<String> edOrgs = entityToEdorgCache.ancestorEdorgs(edorg);
-            for(String edOrg:edOrgs) {
-                cache.addEntry((String) association.getBody().get(ParameterConstants.STAFF_REFERENCE), edOrg);
-            }
         }
 
     }
 
     protected boolean shouldExtract(Entity input, DateTime upToDate) {
         return EntityDateHelper.shouldExtract(input, upToDate);
-    }
-
-    public EntityToEdOrgCache getEntityCache() {
-        return this.cache;
     }
 
     public EntityToEdOrgDateCache getStaffDatedCache() {

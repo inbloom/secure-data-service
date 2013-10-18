@@ -32,8 +32,6 @@ import org.slc.sli.domain.Repository;
 
 public class StudentCompetencyExtractor implements EntityDatedExtract {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EntityExtractor.class);
-
     private final Repository<Entity> repository;
     private EntityExtractor entityExtractor;
     private ExtractFileMap leaToExtractFileMap;

@@ -75,9 +75,7 @@ public class SectionEmbeddedDocsExtractorTest {
         EntityToEdOrgDateCache staffCache = new EntityToEdOrgDateCache();
         staffCache.addEntry(TEACHERS.get(0), LEA, DateTime.parse("2011-05-01", DateHelper.getDateTimeFormat()));
 
-        EdOrgExtractHelper mockEdOrgExtractHelper = Mockito.mock(EdOrgExtractHelper.class);
-
-        se = new SectionEmbeddedDocsExtractor(ex, leaMap, repo, studentCache, edorgCache, mockEdOrgExtractHelper, staffCache);
+        se = new SectionEmbeddedDocsExtractor(ex, leaMap, repo, studentCache, staffCache);
     }
 
     @Test

@@ -34,16 +34,14 @@ public class AttendanceExtractor implements EntityExtract {
     private EntityExtractor extractor;
     private ExtractFileMap map;
     private Repository<Entity> repo;
-    private ExtractorHelper helper;
     private EntityToEdOrgDateCache studentCache;
     private EdOrgExtractHelper edOrgExtractHelper;
     
     public AttendanceExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
-            ExtractorHelper extractorHelper, EntityToEdOrgDateCache studentCache, EdOrgExtractHelper edOrgExtractHelper) {
+            EntityToEdOrgDateCache studentCache, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
-        this.helper = extractorHelper;
         this.studentCache = studentCache;
         this.edOrgExtractHelper = edOrgExtractHelper;
     }

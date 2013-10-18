@@ -48,8 +48,6 @@ public class AttendanceExtractorTest {
     @Mock
     private Repository<Entity> mockRepo;
     @Mock
-    private ExtractorHelper mockHelper;
-    @Mock
     private EntityToEdOrgDateCache mockCache;
     @Mock
     private EntityExtractor mockExtractor;
@@ -69,7 +67,7 @@ public class AttendanceExtractorTest {
     public void setUp() {
         entityBody = new HashMap<String, Object>();
         MockitoAnnotations.initMocks(this);
-        extractor = new AttendanceExtractor(mockExtractor, mockMap, mockRepo, mockHelper, mockCache, mockEdOrgExtractHelper);
+        extractor = new AttendanceExtractor(mockExtractor, mockMap, mockRepo, mockCache, mockEdOrgExtractHelper);
         
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
         Mockito.when(mockEntity.getType()).thenReturn(EntityNames.ATTENDANCE);

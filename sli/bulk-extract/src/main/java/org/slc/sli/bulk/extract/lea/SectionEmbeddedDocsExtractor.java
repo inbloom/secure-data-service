@@ -39,24 +39,19 @@ import java.util.Set;
  */
 public class SectionEmbeddedDocsExtractor implements EntityDatedExtract {
 
-    private static final Logger LOG = LoggerFactory.getLogger(LocalEdOrgExtractor.class);
-
     private final EntityExtractor entityExtractor;
     private final ExtractFileMap leaToExtractFileMap;
     private final Repository<Entity> repository;
     private final EntityToEdOrgDateCache studentDatedCache;
-    private final EntityToEdOrgCache edorgCache;
     private final EntityToEdOrgDateCache staffDatedCache;
     private final EntityToEdOrgDateCache studentSectionAssociationDateCache = new EntityToEdOrgDateCache();
 
     public SectionEmbeddedDocsExtractor(EntityExtractor entityExtractor, ExtractFileMap leaToExtractFileMap,
                                         Repository<Entity> repository, EntityToEdOrgDateCache studentCache,
-                                        EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper,
                                         EntityToEdOrgDateCache staffDatedCache) {
         this.entityExtractor = entityExtractor;
         this.leaToExtractFileMap = leaToExtractFileMap;
         this.repository = repository;
-        this.edorgCache = edorgCache;
         this.staffDatedCache = staffDatedCache;
         this.studentDatedCache = studentCache;
     }

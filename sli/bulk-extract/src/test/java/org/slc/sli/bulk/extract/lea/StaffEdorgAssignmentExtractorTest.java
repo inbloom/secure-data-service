@@ -58,9 +58,6 @@ public class StaffEdorgAssignmentExtractorTest {
     private Repository<Entity> mockRepo;
 
     @Mock
-    private EntityToEdOrgCache mockCache;
-
-    @Mock
     private Entity mockEntity;
 
     @Mock
@@ -92,7 +89,6 @@ public class StaffEdorgAssignmentExtractorTest {
         edorgToLeaCache.addEntry("LEA", "School1");
         edorgToLeaCache.addEntry("LEA", "School2");
 
-        Mockito.when(mockCache.getEntriesById(null)).thenReturn(new HashSet<String>(Arrays.asList("LEA")));
     }
 
     @After
@@ -117,7 +113,7 @@ public class StaffEdorgAssignmentExtractorTest {
         entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, "School1");
         entityBody.put(ParameterConstants.BEGIN_DATE, "1941-12-07");
         StaffEdorgAssignmentExtractor realExtractor = new StaffEdorgAssignmentExtractor(mockExtractor, mockMap, mockRepo,
-                extractorHelper, mockCache, mockEdOrgExtractHelper);
+                extractorHelper, mockEdOrgExtractHelper);
         extractor = Mockito.spy(realExtractor);
         Mockito.doReturn(true).when(extractor).shouldExtract(Mockito.eq(mockEntity), Mockito.any(DateTime.class));
 
@@ -145,7 +141,7 @@ public class StaffEdorgAssignmentExtractorTest {
         entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, "School1");
         entityBody.put(ParameterConstants.BEGIN_DATE, "1776-07-04");
         StaffEdorgAssignmentExtractor realExtractor = new StaffEdorgAssignmentExtractor(mockExtractor, mockMap, mockRepo,
-                extractorHelper, mockCache, mockEdOrgExtractHelper);
+                extractorHelper, mockEdOrgExtractHelper);
         extractor = Mockito.spy(realExtractor);
         Mockito.doReturn(true).when(extractor).shouldExtract(Mockito.eq(mockEntity), Mockito.any(DateTime.class));
 
@@ -169,7 +165,7 @@ public class StaffEdorgAssignmentExtractorTest {
         entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, "School1");
         entityBody.put(ParameterConstants.BEGIN_DATE, "1927-02-14");
         StaffEdorgAssignmentExtractor realExtractor = new StaffEdorgAssignmentExtractor(mockExtractor, mockMap, mockRepo,
-                extractorHelper, mockCache, mockEdOrgExtractHelper);
+                extractorHelper, mockEdOrgExtractHelper);
         extractor = Mockito.spy(realExtractor);
         Mockito.doReturn(false).when(extractor).shouldExtract(Mockito.eq(mockEntity), Mockito.any(DateTime.class));
 
@@ -193,7 +189,7 @@ public class StaffEdorgAssignmentExtractorTest {
         entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, "School1");
         entityBody.put(ParameterConstants.BEGIN_DATE, "1847-02-11");
         StaffEdorgAssignmentExtractor realExtractor = new StaffEdorgAssignmentExtractor(mockExtractor, mockMap, mockRepo,
-                extractorHelper, mockCache, mockEdOrgExtractHelper);
+                extractorHelper, mockEdOrgExtractHelper);
         extractor = Mockito.spy(realExtractor);
         Mockito.doReturn(true).when(extractor).shouldExtract(Mockito.eq(mockEntity), Mockito.any(DateTime.class));
 
