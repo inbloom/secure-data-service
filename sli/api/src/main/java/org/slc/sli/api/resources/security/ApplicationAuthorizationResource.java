@@ -265,7 +265,8 @@ public class ApplicationAuthorizationResource {
             event.setAppId(appId);
             Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(granted);
             event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
-            event.setTargetEdOrg("");
+            //@TA10431
+            //event.setTargetEdOrg("");
             audit(event);
         }
 
@@ -276,7 +277,8 @@ public class ApplicationAuthorizationResource {
             event.setAppId(appId);
             Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(revoked);
             event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
-            event.setTargetEdOrg("");
+            //@TA10431
+            //event.setTargetEdOrg("");
             audit(event);
         }
 

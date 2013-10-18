@@ -41,7 +41,7 @@ public class SecurityEvent {
 
     private String userEdOrg;
 
-    private String targetEdOrg;
+    //private String targetEdOrg;
 
     private List<String> targetEdOrgList;
 
@@ -85,13 +85,13 @@ public class SecurityEvent {
         this.user = user;
     }
 
-    public String getTargetEdOrg() {
+    /**public String getTargetEdOrg() {
         return targetEdOrg;
     }
 
     public void setTargetEdOrg(String targetEdOrg) {
         this.targetEdOrg = targetEdOrg;
-    }
+    }**/
 
     public String getActionUri() {
         return actionUri;
@@ -218,7 +218,8 @@ public class SecurityEvent {
                 + ((appId == null) ? "" : appId) + DELIMITER
                 + ((className == null) ? "" : className) + DELIMITER
                 + ((tenantId == null) ? "" : tenantId) + DELIMITER
-                + ((targetEdOrg == null) ? "" : targetEdOrg) + DELIMITER
+                + "<deprecated>" + DELIMITER
+                //+ ((targetEdOrg == null) ? "" : targetEdOrg) + DELIMITER
                 + ((targetEdOrgList == null) ? "" : targetEdOrgList) + DELIMITER
                 + ((userEdOrg == null) ? "" : userEdOrg) + DELIMITER
                 + ((user == null) ? "" : "<censored>") + DELIMITER
@@ -240,9 +241,9 @@ public class SecurityEvent {
         if (user != null && !user.isEmpty()) {
             dataMap.put("user", user);
         }
-        if (targetEdOrg != null && !targetEdOrg.isEmpty()) {
+        /*if (targetEdOrg != null && !targetEdOrg.isEmpty()) {
             dataMap.put("targetEdOrg", targetEdOrg);
-        }
+        }*/
 
         if (targetEdOrgList != null && !targetEdOrgList.isEmpty()) {
             dataMap.put("targetEdOrgList", targetEdOrgList);

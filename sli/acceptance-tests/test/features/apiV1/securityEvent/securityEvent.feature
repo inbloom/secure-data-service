@@ -37,6 +37,26 @@ Scenario: Read all entities as SLC Operator
     And I should receive a collection of "20" entities
     And each entity's "entityType" should be "<ENTITY TYPE>"
 
+Scenario: Read all entities using a targetEdOrg
+    Given I am logged in using "operator" "operator1234" to realm "SLI"
+    And format "application/vnd.slc+json"
+    And parameter "limit" is "0"
+    And parameter "targetEdOrgList" is "IL"
+    When I navigate to GET "<ENTITY URI>"
+    Then I should receive a return code of 200
+    And I should receive a collection of "5" entities
+    And each entity's "entityType" should be "<ENTITY TYPE>"
+
+Scenario: Read all entities using a targetEdOrg
+    Given I am logged in using "operator" "operator1234" to realm "SLI"
+    And format "application/vnd.slc+json"
+    And parameter "limit" is "0"
+    And parameter "targetEdOrgList" in "IL" "IL-LONGWOOD"
+    When I navigate to GET "<ENTITY URI>"
+    Then I should receive a return code of 200
+    And I should receive a collection of "8" entities
+    And each entity's "entityType" should be "<ENTITY TYPE>"
+
 Scenario: Read all entities as NonAdmin User
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     And format "application/vnd.slc+json"

@@ -86,6 +86,10 @@ Given /^parameter "([^\"]*)" is "([^\"]*)"$/ do |param, value|
   step %Q{parameter "#{param}" "=" "#{value}"}
 end
 
+Given /^parameter "([^\"]*)" in "([^\"]*)" "([^\"]*)"$/ do |param, arg1, arg2|
+  step %Q{parameter "#{param}" "=" "#{arg1},#{arg2}"}
+end
+
 Given /^all parameters are cleared$/ do
   @queryParams = [] 
 end
