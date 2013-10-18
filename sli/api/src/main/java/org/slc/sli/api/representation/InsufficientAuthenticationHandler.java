@@ -93,4 +93,8 @@ public class InsufficientAuthenticationHandler implements ExceptionMapper<Insuff
         this.securityEventBuilder = securityEventBuilder;
     }
 
+    public void setAuditLogger(AuditLogger auditLogger) {
+        this.auditLogger = auditLogger;
+    }
+
 }
