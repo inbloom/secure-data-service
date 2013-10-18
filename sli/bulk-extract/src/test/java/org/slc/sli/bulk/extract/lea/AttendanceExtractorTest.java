@@ -18,7 +18,6 @@ package org.slc.sli.bulk.extract.lea;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 import org.joda.time.DateTime;
@@ -29,6 +28,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
@@ -37,14 +39,12 @@ import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class AttendanceExtractorTest {
     private AttendanceExtractor extractor;
-    
+
     @Mock
     private Repository<Entity> mockRepo;
     @Mock
@@ -60,15 +60,15 @@ public class AttendanceExtractorTest {
 
     @Mock
     private Entity mockEntity;
-    
+
     Map<String, Object> entityBody;
-    
+
     @Before
     public void setUp() {
         entityBody = new HashMap<String, Object>();
         MockitoAnnotations.initMocks(this);
-        extractor = new AttendanceExtractor(mockExtractor, mockMap, mockRepo, mockCache, mockEdOrgExtractHelper);
-        
+        extractor = new AttendanceExtractor(mockExtractor, mockMap, mockRepo, mockEdOrgExtractHelper);
+
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
         Mockito.when(mockEntity.getType()).thenReturn(EntityNames.ATTENDANCE);
 
@@ -78,34 +78,38 @@ public class AttendanceExtractorTest {
         Mockito.when(mockCache.getEntriesById("student")).thenReturn(edOrgDate);
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
     }
-    
+
     @After
     public void tearDown() {
-        
+
     }
-    
+
     @Test
     public void testWriteOneAttendance() {
         Mockito.when(mockRepo.findEach(Mockito.eq("attendance"), Mockito.eq(new NeutralQuery()))).thenReturn(
                 Arrays.asList(mockEntity).iterator());
         entityBody.put("studentId", "student");
         entityBody.put(ParameterConstants.SCHOOL_YEAR, "2010-2011");
-        extractor.extractEntities(null);
+
+        extractor.extractEntities(mockCache);
+
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("attendance"));
     }
-    
+
     @Test
     public void testWriteManyAttendances() {
         Mockito.when(mockRepo.findEach(Mockito.eq("attendance"), Mockito.eq(new NeutralQuery()))).thenReturn(
                 Arrays.asList(mockEntity, mockEntity, mockEntity).iterator());
         entityBody.put("studentId", "student");
         entityBody.put(ParameterConstants.SCHOOL_YEAR, "2010-2011");
-        extractor.extractEntities(null);
+
+        extractor.extractEntities(mockCache);
+
         Mockito.verify(mockExtractor, Mockito.times(3)).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("attendance"));
     }
-    
+
     @Test
     public void testWriteNoAttendances() {
         Mockito.when(mockRepo.findEach(Mockito.eq("attendance"), Mockito.eq(new NeutralQuery()))).thenReturn(
@@ -113,7 +117,9 @@ public class AttendanceExtractorTest {
         entityBody.put("studentId", "student");
         entityBody.put(ParameterConstants.SCHOOL_YEAR, "2010-2011");
         Mockito.when(mockCache.getEntriesById("student")).thenReturn(new HashMap<String, DateTime>());
-        extractor.extractEntities(null);
+
+        extractor.extractEntities(mockCache);
+
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("attendance"));
     }
@@ -124,7 +130,9 @@ public class AttendanceExtractorTest {
                 Arrays.asList(mockEntity, mockEntity, mockEntity).iterator());
         entityBody.put("studentId", "student");
         entityBody.put(ParameterConstants.SCHOOL_YEAR, "3010-3011");
-        extractor.extractEntities(null);
+
+        extractor.extractEntities(mockCache);
+
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("attendance"));
     }

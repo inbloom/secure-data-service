@@ -27,12 +27,14 @@ import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
+/**
+ * Manufactures the various extractors.
+ */
 public class ExtractorFactory {
 
     public StudentExtractor buildStudentExtractor(EntityExtractor extractor, ExtractFileMap map,
             Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
-        return new StudentExtractor(extractor, map, repo, new ExtractorHelper(edOrgExtractHelper),
-                new EntityToEdOrgCache(), edOrgExtractHelper);
+        return new StudentExtractor(extractor, map, repo, new ExtractorHelper(edOrgExtractHelper), edOrgExtractHelper);
     }
 
     public EntityDatedExtract buildStudentAssessmentExtractor(EntityExtractor extractor, ExtractFileMap map,
@@ -63,14 +65,14 @@ public class ExtractorFactory {
         return new TeacherSchoolAssociationExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public EntityExtract buildAttendanceExtractor(EntityExtractor extractor, ExtractFileMap map,
-            Repository<Entity> repo, EntityToEdOrgDateCache studentCache, EdOrgExtractHelper edOrgExtractHelper) {
-        return new AttendanceExtractor(extractor, map, repo, studentCache, edOrgExtractHelper);
+    public EntityDatedExtract buildAttendanceExtractor(EntityExtractor extractor, ExtractFileMap map,
+            Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
+        return new AttendanceExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public StudentSchoolAssociationExtractor buildStudentSchoolAssociationExtractor(EntityExtractor extractor, ExtractFileMap map,
-            Repository<Entity> repo, EntityToEdOrgDateCache studentCache, EdOrgExtractHelper edOrgExtractHelper) {
-        return new StudentSchoolAssociationExtractor(extractor, map, repo, studentCache, edOrgExtractHelper);
+    public EntityDatedExtract buildStudentSchoolAssociationExtractor(EntityExtractor extractor, ExtractFileMap map,
+            Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
+        return new StudentSchoolAssociationExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
     public ExtractFile buildLEAExtractFile(String path, String edOrg, String archiveName,

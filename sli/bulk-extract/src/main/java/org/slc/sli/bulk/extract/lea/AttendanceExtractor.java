@@ -18,36 +18,33 @@ package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import org.joda.time.DateTime;
+
 import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-public class AttendanceExtractor implements EntityExtract {
+public class AttendanceExtractor implements EntityDatedExtract {
     private EntityExtractor extractor;
     private ExtractFileMap map;
     private Repository<Entity> repo;
-    private EntityToEdOrgDateCache studentCache;
     private EdOrgExtractHelper edOrgExtractHelper;
-    
+
     public AttendanceExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
-            EntityToEdOrgDateCache studentCache, EdOrgExtractHelper edOrgExtractHelper) {
+            EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
-        this.studentCache = studentCache;
         this.edOrgExtractHelper = edOrgExtractHelper;
     }
 
     @Override
-    public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
+    public void extractEntities(EntityToEdOrgDateCache studentCache) {
         edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.ATTENDANCE, this.getClass().getName());
         Iterator<Entity> attendances = repo.findEach("attendance", new NeutralQuery());
         while (attendances.hasNext()) {
@@ -58,12 +55,12 @@ public class AttendanceExtractor implements EntityExtract {
 
             for (Map.Entry<String, DateTime> entry: studentEdOrgDate.entrySet()) {
                 DateTime upToDate = entry.getValue();
-                if(EntityDateHelper.shouldExtract(schoolYear, upToDate, EntityNames.ATTENDANCE)) {
+                if (EntityDateHelper.shouldExtract(schoolYear, upToDate, EntityNames.ATTENDANCE)) {
                     extractor.extractEntity(attendance, map.getExtractFileForEdOrg(entry.getKey()), EntityNames.ATTENDANCE);
                 }
             }
         }
-        
+
     }
 
 }

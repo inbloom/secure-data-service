@@ -45,8 +45,8 @@ public class ExtractorFactoryTest {
 
     @Test
     public void testBuildAttendanceExtractor() {
-        Assert.assertTrue(factory.buildAttendanceExtractor(null, null, null, null, null) != null);
-        Assert.assertTrue(factory.buildAttendanceExtractor(null, null, null, null, null).getClass() == AttendanceExtractor.class);
+        Assert.assertTrue(factory.buildAttendanceExtractor(null, null, null, null) != null);
+        Assert.assertTrue(factory.buildAttendanceExtractor(null, null, null, null).getClass() == AttendanceExtractor.class);
     }
 
     @Test

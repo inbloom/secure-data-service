@@ -15,14 +15,19 @@
  */
 
 /**
- * 
+ *
  */
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import com.google.common.base.Predicate;
+
 import org.joda.time.DateTime;
+
 import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
@@ -50,13 +55,12 @@ public class StudentExtractor implements EntityExtract {
     private EntityToEdOrgDateCache diDateCache = new EntityToEdOrgDateCache();
 
     public StudentExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
-                            ExtractorHelper helper, EntityToEdOrgCache parentCache,
-                            EdOrgExtractHelper edOrgExtractHelper) {
+                            ExtractorHelper helper, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         this.helper = helper;
-        this.parentCache = parentCache;
+        this.parentCache = new EntityToEdOrgCache();
         this.edOrgExtractHelper = edOrgExtractHelper;
         this.studentDatedCache = new EntityToEdOrgDateCache();
     }
@@ -65,20 +69,20 @@ public class StudentExtractor implements EntityExtract {
      * @see org.slc.sli.bulk.extract.lea.EntityExtract#extractEntities(java.util.Map)
      */
     @Override
-    public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
+    public void extractEntities(EntityToEdOrgCache dummyCache) {
         edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STUDENT, this.getClass().getName());
 
-        Iterator<Entity> cursor = repo.findEach("student", new NeutralQuery());
+        Iterator<Entity> cursor = repo.findEach(EntityNames.STUDENT, new NeutralQuery());
 
         while (cursor.hasNext()) {
-            Entity e = cursor.next();
-            buildStudentDatedCache(e);
-            final Map<String, DateTime> datedEdOrgs = studentDatedCache.getEntriesById(e.getEntityId());
+            Entity student = cursor.next();
+            buildStudentDatedCache(student);
+            final Map<String, DateTime> datedEdOrgs = studentDatedCache.getEntriesById(student.getEntityId());
 
             for (final String edOrg : map.getEdOrgs()) {
                 if (datedEdOrgs.containsKey(edOrg)) {
                     // Write
-                    extractor.extractEntity(e, map.getExtractFileForEdOrg(edOrg), "student", new Predicate<Entity>() {
+                    extractor.extractEntity(student, map.getExtractFileForEdOrg(edOrg), EntityNames.STUDENT, new Predicate<Entity>() {
                         @Override
                         public boolean apply(Entity input) {
                             boolean shouldExtract = true;
@@ -91,19 +95,19 @@ public class StudentExtractor implements EntityExtract {
                         }
                     });
 
-                    Iterable<String> parents = helper.fetchCurrentParentsFromStudent(e);
+                    Iterable<String> parents = helper.fetchCurrentParentsFromStudent(student);
                     for (String parent : parents) {
                         parentCache.addEntry(parent, edOrg);
                     }
                 }
             }
 
-            List<Entity> sdias =  e.getEmbeddedData().get("studentDisciplineIncidentAssociation");
+            List<Entity> sdias =  student.getEmbeddedData().get("studentDisciplineIncidentAssociation");
 
             if(sdias != null) {
                 for(Entity sdia : sdias) {
                     String did = (String) sdia.getBody().get("disciplineIncidentId");
-                    Map<String, DateTime> edOrgsDate = studentDatedCache.getEntriesById(e.getEntityId());
+                    Map<String, DateTime> edOrgsDate = studentDatedCache.getEntriesById(student.getEntityId());
 
                     for(Map.Entry<String, DateTime> entry : edOrgsDate.entrySet()) {
                         diDateCache.addEntry(did, entry.getKey(), entry.getValue());
@@ -111,7 +115,7 @@ public class StudentExtractor implements EntityExtract {
                 }
             }
         }
-        
+
     }
 
     private void buildStudentDatedCache(Entity student) {
@@ -122,7 +126,7 @@ public class StudentExtractor implements EntityExtract {
             }
         }
     }
-    
+
     public EntityToEdOrgCache getParentCache() {
         return parentCache;
     }
