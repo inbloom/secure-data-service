@@ -44,13 +44,13 @@ public class StaffProgramAssociationExtractor implements EntityDatedExtract {
     }
 
     @Override
-    public void extractEntities(EntityToEdOrgDateCache staffToEdorgCache) {
+    public void extractEntities(EntityToEdOrgDateCache staffDatedCache) {
         edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STAFF_PROGRAM_ASSOCIATION, this.getClass().getName());
         Iterator<Entity> spas = repo.findEach(EntityNames.STAFF_PROGRAM_ASSOCIATION, new NeutralQuery());
         while (spas.hasNext()) {
             Entity spa = spas.next();
             String staffId = (String) spa.getBody().get(ParameterConstants.STAFF_ID);
-            Map<String, DateTime> edOrgs = staffToEdorgCache.getEntriesById(staffId);
+            Map<String, DateTime> edOrgs = staffDatedCache.getEntriesById(staffId);
 
             for (Map.Entry<String, DateTime> datedEdOrg : edOrgs.entrySet()) {
                 if (EntityDateHelper.shouldExtract(spa, datedEdOrg.getValue())) {
