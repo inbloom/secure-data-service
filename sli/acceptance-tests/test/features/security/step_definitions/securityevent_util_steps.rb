@@ -22,7 +22,7 @@ require 'mongo'
 
 require_relative '../../utils/sli_utils.rb'
 
-Given /^the sli securityEvent collection is empty/ do
+Given /^the sli securityEvent collection is empty$/ do
   coll = securityEventCollection()
   coll.remove()
 end

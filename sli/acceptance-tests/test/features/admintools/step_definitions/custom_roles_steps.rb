@@ -250,7 +250,7 @@ Then /^the group "([^"]*)" no longer appears on the page$/ do |arg1|
   retryOnFailure() do
     groups = @driver.find_elements(:xpath, "//div[text()='#{arg1}']")
     assert(groups.size == 0, "Found group named #{arg1} on page")
-  end
+end
   reset_timeouts_to_default
 end
 
@@ -347,6 +347,7 @@ end
 Then /^the group "(.*?)" has the admin role box checked$/ do |title|
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
   checkbox = group.find_element(:class, "isAdmin")
+  puts checkbox.to_s
   puts("The group is #{group.text} and checked is #{checkbox.attribute("checked").inspect}")
   assert(checkbox.attribute("checked") == "true", "The admin checkbox for group #{title} is not checked")
 end

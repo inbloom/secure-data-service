@@ -45,6 +45,11 @@ public class HateoasLink {
 
     public List<EntityBody> add(final String resource, List<EntityBody> entities, final UriInfo uriInfo) {
 
+    	// Optimization: if we are known to be excluding the links, don't generate them.
+        if ( null != uriInfo && null != uriInfo.getRequestUri() && null != uriInfo.getRequestUri().getQuery() && uriInfo.getRequestUri().getQuery().contains("excludeFields=links") ) {
+        	return entities;
+        }
+    	
         EntityDefinition baseDefinition = entityDefinitionStore.lookupByResourceName(resource);
         EntityDefinition definition;
 

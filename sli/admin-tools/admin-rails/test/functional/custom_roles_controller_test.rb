@@ -26,7 +26,7 @@ class CustomRolesControllerTest < ActionController::TestCase
 
   test "index should redirect to realms if multiple exist" do
     ActiveResource::HttpMock.respond_to do |mock|
-      mock.get "/api/rest/customRoles", {"Accept" => "application/json"}, [@custom_roles_fixtures["one"], @custom_roles_fixtures["two"]].to_json
+      mock.get "/api/rest/customRoles?excludeFields=links", {"Accept" => "application/json"}, [@custom_roles_fixtures["one"], @custom_roles_fixtures["two"]].to_json
     end
     get :index
     assert_response 302
@@ -35,7 +35,7 @@ class CustomRolesControllerTest < ActionController::TestCase
 
   test "index redirect to show if one exists" do
     ActiveResource::HttpMock.respond_to do |mock|
-      mock.get "/api/rest/customRoles", {"Accept" => "application/json"}, [@custom_roles_fixtures["one"]].to_json
+      mock.get "/api/rest/customRoles?excludeFields=links", {"Accept" => "application/json"}, [@custom_roles_fixtures["one"]].to_json
     end
     get :index
     assert_response 302

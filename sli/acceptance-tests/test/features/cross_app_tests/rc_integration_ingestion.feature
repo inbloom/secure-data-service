@@ -76,4 +76,12 @@ Feature: Ingestion
             And I should not see an error log file created
             And I should not see a warning log file created
 
+        Scenario: Ingest Additional edOrgs to test App Enable and Authorize
+            Given a landing zone
+            And I drop the file "AppEnableAndAuthorizeDataSet.zip" into the landingzone
+            And I check for the file "job*.log" every "10" seconds for "600" seconds
+            And the landing zone should contain a file with the message "All records processed successfully."
+            And I should not see an error log file created
+            And I should not see a warning log file created
+
 

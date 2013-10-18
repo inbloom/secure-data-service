@@ -225,8 +225,8 @@ public class BulkExtractMongoDA {
 		this.certHelper = certHelper;
 	}
 
-    public Map<String, List<String>> getEdOrgLineages() {
-        Map<String, List<String>> edOrgLineages = new HashMap<String, List<String>>();
+    public Map<String, List> getEdOrgLineages() {
+        Map<String, List> edOrgLineages = new HashMap<String, List>();
         NeutralQuery query = new NeutralQuery();
         query.setIncludeFields(Lists.newArrayList("_id", "metaData.edOrgs"));
         Iterable<Entity> edOrgs = entityRepository.findAll("educationOrganization", query);

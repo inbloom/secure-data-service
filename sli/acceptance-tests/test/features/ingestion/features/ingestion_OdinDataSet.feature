@@ -180,11 +180,11 @@ Scenario: Verify the course optional fields is ingested correctly
      | course                      | 6                   | body.courseDefinedBy                     |School                                           | string               |
      | course                      | 14                  | body.careerPathway                       |Science, Technology, Engineering and Mathematics | string               |
      | courseTranscript            | 12                  | body.gradeLevelWhenTaken                 |Seventh grade                                    | string               |
-     | courseTranscript            | 25                  | body.finalLetterGradeEarned              |C+                                               | string               |
+     | courseTranscript            | 26                  | body.finalLetterGradeEarned              |C+                                               | string               |
      | courseTranscript            | 75                  | body.courseRepeatCode                    |RepeatCounted                                    | string               |
      | courseTranscript            | 75                  | body.methodCreditEarned                  |Classroom credit                                 | string               |
      | courseTranscript            | 75                  | body.creditsAttempted.credit             |3                                                | integer              |
-     | courseTranscript            | 10                  | body.finalNumericGradeEarned             |80                                               | integer              |
+     | courseTranscript            | 6                   | body.finalNumericGradeEarned             |80                                               | integer              |
      | cohort                      | 3                   | body.academicSubject                     |Science                                          | string               |
      | cohort                      | 2                   | body.academicSubject                     |ELA                                              | string               |
      | cohort                      | 4                   | body.academicSubject                     |Critical Reading                                 | string               |

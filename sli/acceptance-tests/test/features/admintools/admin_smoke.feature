@@ -47,14 +47,13 @@ When I hit the Admin Application Authorization Tool
 And I login
 And I see an application "Smoke!" in the table
 And in Status it says "Not Approved"
-And I click on the "Approve" button next to it
-And I am asked 'Do you really want this application to access the district's data'
-When I click on Ok
-Then the application is authorized to use data of "IL"
-And the app "Smoke!" Status becomes "Approved"
+And I click on the "Edit Authorizations" button next to it
+And I am redirected to the Admin Application Authorization Edit Page
+And the checkbox with HTML id "root" is unchecked
+And I check the checkbox with HTML id "root"
+And I click Update
+And the app "Smoke!" Status matches "\d+ EdOrg"
 And it is colored "green"
-And the Approve button next to it is disabled
-And the Deny button next to it is enabled
 
 Scenario: LEA Administrator operations
 Given the sli securityEvent collection is empty
@@ -62,9 +61,14 @@ And I am a valid district administrator
 When I hit the Admin Application Authorization Tool
 And I login
 And I see an application "Smoke!" in the table
-And in Status it says "Approved"
-And the Approve button next to it is disabled
-And the Deny button next to it is disabled
+And the app "Smoke!" Status matches "\d+ EdOrg"
+And I click on the "Edit Authorizations" button next to it
+And I am redirected to the Admin Application Authorization Edit Page
+And the checkbox with HTML id "root" is checked
+And I uncheck the checkbox with HTML id "root"
+And I click Update
+And the app "Smoke!" Status matches "Not Approved"
+And it is colored "red"
 
 Scenario: Realm administrator operations
 Given I am a valid realm administrator

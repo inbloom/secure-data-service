@@ -1511,15 +1511,15 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <GradesOffered>
-        <GradeLevel>Kindergarten</GradeLevel>
-        <GradeLevel>First grade</GradeLevel>
-        <GradeLevel>Second grade</GradeLevel>
-        <GradeLevel>Third grade</GradeLevel>
-        <GradeLevel>Fourth grade</GradeLevel>
-        <GradeLevel>Fifth grade</GradeLevel>
+      <GradeLevel>Kindergarten</GradeLevel>
+      <GradeLevel>First grade</GradeLevel>
+      <GradeLevel>Second grade</GradeLevel>
+      <GradeLevel>Third grade</GradeLevel>
+      <GradeLevel>Fourth grade</GradeLevel>
+      <GradeLevel>Fifth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
-        <SchoolCategory>Elementary School</SchoolCategory>
+      <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
 </EducationOrganization>
   <EducationOrganization>
@@ -1642,12 +1642,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <GradesOffered>
-        <GradeLevel>Sixth grade</GradeLevel>
-        <GradeLevel>Seventh grade</GradeLevel>
-        <GradeLevel>Eighth grade</GradeLevel>
+      <GradeLevel>Sixth grade</GradeLevel>
+      <GradeLevel>Seventh grade</GradeLevel>
+      <GradeLevel>Eighth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
-        <SchoolCategory>Middle School</SchoolCategory>
+      <SchoolCategory>Middle School</SchoolCategory>
     </SchoolCategories>
 </EducationOrganization>
   <EducationOrganization>
@@ -1770,13 +1770,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <GradesOffered>
-        <GradeLevel>Ninth grade</GradeLevel>
-        <GradeLevel>Tenth grade</GradeLevel>
-        <GradeLevel>Eleventh grade</GradeLevel>
-        <GradeLevel>Twelfth grade</GradeLevel>
+      <GradeLevel>Ninth grade</GradeLevel>
+      <GradeLevel>Tenth grade</GradeLevel>
+      <GradeLevel>Eleventh grade</GradeLevel>
+      <GradeLevel>Twelfth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
-        <SchoolCategory>High School</SchoolCategory>
+      <SchoolCategory>High School</SchoolCategory>
     </SchoolCategories>
 </EducationOrganization>
   <CompetencyLevelDescriptor>

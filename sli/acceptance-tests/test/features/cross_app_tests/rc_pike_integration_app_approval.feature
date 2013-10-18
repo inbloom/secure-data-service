@@ -138,40 +138,40 @@ Then I am redirected to the Admin Application Authorization Tool
 #Authorize the Dashboard
 And I see an application "inBloom Dashboards" in the table
 And in Status it says "Not Approved"
-And I click on the "Approve" button next to it
-And I am asked 'Do you really want this application to access the district's data'
-When I click on Ok
-And the app "inBloom Dashboards" Status becomes "Approved"
-And it is colored "green"
-And there are "10" edOrgs for the "inBloom Dashboards" application in the production applicationAuthorization collection
-And the Approve button next to it is disabled
-And the Deny button next to it is enabled
+And I click on the "Edit Authorizations" button next to it
+And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
+And I click Update
+# switch back to iframe because of the page reload
+And I switch to the iframe
+And I see an application "inBloom Dashboards" in the table
+And in Status it says "199 EdOrg(s)"
+Then there are "199" edOrgs for the "inBloom Dashboards" application in the production applicationAuthorization collection
 #Authorize the Databrowser
 And I see an application "inBloom Data Browser" in the table
 And in Status it says "Not Approved"
-And I click on the "Approve" button next to it
-And I am asked 'Do you really want this application to access the district's data'
-When I click on Ok
+And I click on the "Edit Authorizations" button next to it
+And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
+And I click Update
 # switch back to iframe because of the page reload
 And I switch to the iframe
-And the app "inBloom Data Browser" Status becomes "Approved"
-And it is colored "green"
-And there are "10" edOrgs for the "inBloom Data Browser" application in the production applicationAuthorization collection
-And the Approve button next to it is disabled
-And the Deny button next to it is enabled
+And I see an application "inBloom Data Browser" in the table
+And in Status it says "199 EdOrg(s)"
+Then there are "199" edOrgs for the "inBloom Data Browser" application in the production applicationAuthorization collection
 #Authorize the New Installed App
 And I see an application "Bulk Extract 2 End" in the table
 And in Status it says "Not Approved"
-And I click on the "Approve" button next to it
-And I am asked 'Do you really want this application to access the district's data'
-When I click on Ok
+And I click on the "Edit Authorizations" button next to it
+And I deselect hierarchical mode
+And I expand all nodes
+And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
+And I authorize the educationalOrganization "Daybreak School District 4529" in the production tenant
+And I authorize the educationalOrganization "IL-CHARTER-SCHOOL" in the production tenant
+And I click Update
 # switch back to iframe because of the page reload
 And I switch to the iframe
-And the app "Bulk Extract 2 End" Status becomes "Approved"
-And it is colored "green"
-And there are "5" edOrgs for the "Bulk Extract 2 End" application in the production applicationAuthorization collection
-And the Approve button next to it is disabled
-And the Deny button next to it is enabled
+And I see an application "Bulk Extract 2 End" in the table
+And in Status it says "3 EdOrg(s)"
+Then there are "3" edOrgs for the "Bulk Extract 2 End" application in the production applicationAuthorization collection
 
 Scenario: SEA admin makes an api call to PATCH the SEA
   Given the pre-existing bulk extrac testing app key has been created
@@ -283,7 +283,7 @@ Scenario: App developer enables Bulk Extract App
     When I click on Save
     And I exit out of the iframe
     And I click on log out
-    And "BulkExtractApp2" is enabled for "5" production education organizations
+    And "BulkExtractApp2" is enabled for "38" production education organizations
 
 Scenario: App developer creates new non Bulk Extract App
     When I navigate to the Portal home page
@@ -331,7 +331,7 @@ Scenario: App developer enables non Bulk Extract App
     When I click on Save
     And I exit out of the iframe
     And I click on log out
-    And "NotABulkExtractApp" is enabled for "10" production education organizations
+    And "NotABulkExtractApp" is enabled for "199" production education organizations
 
 @wip @ThisStepIsNotYetNeededSinceAutoApproveAppsIsStillTrueInRC
 Scenario: SLC Operator Approves Application Registration
@@ -367,30 +367,28 @@ Then I should be on the admin page
 And under System Tools, I click on "Authorize Applications"
 And I switch to the iframe
 Then I am redirected to the Admin Application Authorization Tool
-#Authorize the Dashboard
+#Authorize fresh non-bulk extract app
 And I see an application "NotABulkExtractApp" in the table
 And in Status it says "Not Approved"
-And I click on the "Approve" button next to it
-And I am asked 'Do you really want this application to access the district's data'
-When I click on Ok
-And the app "NotABulkExtractApp" Status becomes "Approved"
-And it is colored "green"
-And there are "10" edOrgs for the "NotABulkExtractApp" application in the production applicationAuthorization collection
-And the Approve button next to it is disabled
-And the Deny button next to it is enabled
-#Authorize the Databrowser
-And I see an application "BulkExtractApp2" in the table
-And in Status it says "Not Approved"
-And I click on the "Approve" button next to it
-And I am asked 'Do you really want this application to access the district's data'
-When I click on Ok
+And I click on the "Edit Authorizations" button next to it
+And I authorize the educationalOrganization "Education Agency for RC Tests" in the production tenant
+And I click Update
 # switch back to iframe because of the page reload
 And I switch to the iframe
-And the app "BulkExtractApp2" Status becomes "Approved"
-And it is colored "green"
-And there are "5" edOrgs for the "BulkExtractApp2" application in the production applicationAuthorization collection
-And the Approve button next to it is disabled
-And the Deny button next to it is enabled
+And I see an application "NotABulkExtractApp" in the table
+And in Status it says "199 EdOrg(s)"
+Then there are "199" edOrgs for the "NotABulkExtractApp" application in the production applicationAuthorization collection
+#Authorize fresh bulk extract app
+And I see an application "BulkExtractApp2" in the table
+And in Status it says "Not Approved"
+And I click on the "Edit Authorizations" button next to it
+And I authorize the educationalOrganization "Education Agency for RC Tests" in the production tenant
+And I click Update
+# switch back to iframe because of the page reload
+And I switch to the iframe
+And I see an application "BulkExtractApp2" in the table
+And in Status it says "38 EdOrg(s)"
+Then there are "38" edOrgs for the "BulkExtractApp2" application in the production applicationAuthorization collection
 
 Scenario: Operator triggers a bulk extract
 Given the production extraction zone is empty
@@ -527,19 +525,15 @@ Scenario: App makes an api call to retrieve a SEA public data bulk extract
    And the extract contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
+      |  educationOrganization                 |
       |  learningObjective                     |
       |  learningStandard                      |
-      |  competencyLevelDescriptor             |
-      |  studentCompetencyObjective            |
       |  program                               |
+      |  studentCompetencyObjective            |
       |  calendarDate                          |
-      |  course                                |
-      |  courseOffering                        |
-      |  educationOrganization                 |
+      |  competencyLevelDescriptor             |
       |  graduationPlan                        |
-      |  session                               |
-      |  calendarDate                          |
-      |  school                                |
+      |  course                                |
 
 Scenario: App makes an api call to retrieve a bulk extract delta
 #Get a session to trigger a bulk extract

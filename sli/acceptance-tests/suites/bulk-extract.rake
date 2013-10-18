@@ -79,6 +79,7 @@ task :bulkExtractLeasTests do
   allLeaAllowApp("SDK Sample")
   authorizeEdorg("SDK Sample")
   runTests("test/features/bulk_extract/features/bulk_extract_integration_lea.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC  
 end
 
 desc "Deltas and Deletes"
@@ -184,6 +185,12 @@ task :bulkExtractEdOrgsTests do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
+desc "API Bulk Extract multiple attendance for one student in one day Tests"
+task :bulkExtractAttendanceCategoriesTests do
+  runTests("test/features/bulk_extract/features/bulk_extract_attendance_categories.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
 desc "Run the full suite of Bulk Extract Tests"
 task :bulkExtractAllEdOrgsTests => [:realmInit] do
   CLEAN_EXTRACT_LOC = true
@@ -194,6 +201,7 @@ task :bulkExtractAllEdOrgsTests => [:realmInit] do
   authorizeEdorg("SDK Sample")
   Rake::Task["bulkExtractTriggerTest"].execute
   Rake::Task["bulkExtractSimpleEntitiesTest"].execute
+  Rake::Task["bulkExtractAttendanceCategoriesTests"].execute
   Rake::Task["bulkExtractEdOrgsTests"].execute
   displayFailureReport()
   if $SUCCESS

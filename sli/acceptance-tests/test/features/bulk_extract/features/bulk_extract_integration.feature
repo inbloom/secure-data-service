@@ -66,11 +66,6 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
     |  learningStandard                      |
     |  program                               |
     |  studentCompetencyObjective            |
-    |  course                                |
-    |  courseOffering                        |
-    |  session                               |
-    |  gradingPeriod                         |
-    |  school                                |
 
 
 Scenario: Un-Authorized user cannot use the endpoint

@@ -10,8 +10,14 @@
       <%=
           isApproved = @app_auth.authorized
 	  isEnabled = @edorg_apps.has_key?(@cur_edorg) && @edorg_apps[@cur_edorg].has_key?(@app_auth.appId)
-          if isApproved
-            content_tag(:td, "Approved", :id => "approvedStatus")
+  	  app = @apps_map[@app_auth.appId]
+	  if @app_counts[@app_auth.appId].nil?
+	    count = 0
+	  else
+	    count = @app_counts[@app_auth.appId]
+	  end
+          if count > 0
+            content_tag(:td, count.to_s + " EdOrg(s)", :id => "approvedStatus")
           elsif isEnabled
             content_tag(:td, "Not Approved", :id => "notApprovedStatus")
           else
@@ -19,14 +25,11 @@
           end
       %>
       <td><%=
-          form_for @app_auth do |f|
+          form_for @app_auth, :method =>"GET", :url => "/application_authorizations/" + @app_auth.id + "/edit" do |f|
           %>
             <%= f.hidden_field :appId, :value => @app_auth.appId %>
             <%= f.hidden_field :edorg, :value => @cur_edorg %>
-            <%= f.submit "Approve", :disabled => !@isSEAAdmin || isApproved,
-                         :confirm => "Do you really want this application to access the education organization's data?'", :class=>"btn" %>
-            <%= f.submit "Deny", :disabled => !@isSEAAdmin || !isApproved,
-                :confirm => "Do you really want to deny the education organization's data to this application?", :class=> "btn btn-danger"%>
+            <%= f.submit "Edit Authorizations" %>
           <% end %>
       </td>
     </tr>

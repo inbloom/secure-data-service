@@ -43,7 +43,7 @@
       |  staffCohortAssociation                | 2 | f2cbed0cf5ff1d7a43f77e6a5f0f75f174cc7065_id |
       |  staffEducationOrganizationAssociation | 11 | 346a3cc0939419b34283ec6cac2330e19a483f6f_id |
       |  staffProgramAssociation               | 6 | e0ccea007dca317537e52998c1a7d8267b110787_id |
-      |  student                               | 78 |  |
+      |  student                               | 77 | 7fb7741b5aea5d17bb01d5775c5df55524604868_id |
       |  studentAcademicRecord                 | 115 | 0ae33a43b05f2be4b9c8af13788ae0b0448370ef_id5dc5dba7a0a4a5dbeefaf195726a5fbc7be98d70_id |
       |  studentAssessment                     | 200 | 2854a67ed0375d5b038caef2b4b39856d15b6d58_id |
       |  studentCohortAssociation              | 6 | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_idc62d5fe5dcbcb399ec33abe02dccba23b8a16eb6_id |
