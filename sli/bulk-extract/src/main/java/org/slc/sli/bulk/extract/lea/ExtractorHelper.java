@@ -133,16 +133,6 @@ public class ExtractorHelper{
         return parents;
     }
 
-    /**
-     * uses the date helper to tell us if the entity is current or not
-     *
-     * @param staffAssociation
-     * @return
-     */
-    public boolean isStaffAssociationCurrent(Entity staffAssociation) {
-        return !dateHelper.isFieldExpired(staffAssociation.getBody(), ParameterConstants.END_DATE);
-    }
-
     public Map<String, Collection<String>> buildSubToParentEdOrgCache(EntityToEdOrgCache edOrgCache) {
     	Map<String, String> result = new HashMap<String, String>();
         HashMultimap<String, String> map = HashMultimap.create();

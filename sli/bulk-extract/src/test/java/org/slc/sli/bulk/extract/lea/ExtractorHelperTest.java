@@ -92,18 +92,6 @@ public class ExtractorHelperTest {
     }
 
     @Test
-    public void testIsStaffAssignmentCurrent() {
-        Map<String, Object> entityBody = new HashMap<String, Object>();
-        Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
-
-        Mockito.when(mockHelper.isFieldExpired(entityBody, ParameterConstants.END_DATE)).thenReturn(true);
-        Assert.assertFalse(helper.isStaffAssociationCurrent(mockEntity));
-
-        Mockito.when(mockHelper.isFieldExpired(entityBody, ParameterConstants.END_DATE)).thenReturn(false);
-        Assert.assertTrue(helper.isStaffAssociationCurrent(mockEntity));
-    }
-
-    @Test
     public void testBuildSubToParentEdOrgCache() {
         EntityToEdOrgCache cache = new EntityToEdOrgCache();
         cache.addEntry("lea-1", "school-1");

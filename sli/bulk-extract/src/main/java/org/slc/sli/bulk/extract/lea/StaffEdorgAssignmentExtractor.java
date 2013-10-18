@@ -86,10 +86,6 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
                     staffDatedCache.addEntry(staffId, edOrgDate.getKey(), edOrgDate.getValue());
                 }
             }
-
-            if (!extractorHelper.isStaffAssociationCurrent(association)) {
-                continue;
-            }
         }
 
     }
