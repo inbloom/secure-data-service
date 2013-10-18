@@ -54,7 +54,7 @@ module EdorgTreeHelper
       load_edorgs(is_sea_admin)
       @id_counter = 0
       # Compile counts across whole tree and build "by-type" category nodes
-      build_tree(ROOT_ID, {})
+      build_tree(ROOT_ID, {}, {})
       edorg_tree_html = "<ul>\n  #{render_html(nil, ROOT_ID, 0)} </ul>\n"
     end
 
@@ -135,9 +135,15 @@ module EdorgTreeHelper
     # Traverse graph and count children and descendants and put into @edinf map
     # Sets :nchild and :ndesc in the node with given ID
     # Replaces :children array with array of nodes by type
-    def build_tree(id, seen)
-      raise "CYCLE in EdOrg hierarchy includes EdOrg id #{id}" if seen.has_key?(id)
-      seen[id] = true
+
+    def build_tree(id, seen, all_seen)
+      all_seen[id] = true
+      # Trap cycles
+      if seen.has_key?(id)
+        raise "CYCLE in EdOrg hierarchy includes EdOrg id #{id}"
+      else
+        seen[id] = true
+      end
 
       nchild = @edinf[id][:children].length
       @edinf[id][:nchild] = nchild
@@ -153,7 +159,7 @@ module EdorgTreeHelper
       @edinf[id][:parents].sort!( & compare_name )
 
       @edinf[id][:children].each do |cid|
-        build_tree(cid, seen.clone)
+        build_tree(cid, seen.clone, all_seen) if !all_seen.has_key?(cid)
         ndesc += @edinf[cid][:ndesc]
         ctype = get_edorg_type(cid)
         if by_type.has_key?(ctype)

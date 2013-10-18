@@ -62,10 +62,7 @@ Then application "NewApp" is not registered
 And application "NewApp" is removed from the list
 
 
-# US5864 wip - cannot find "error_explanation" after Save
-@wip
 Scenario: Vendor edits denied application incorrectly
-
 Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
@@ -77,10 +74,7 @@ And I have edited the field named "Description" to say ""
 When I clicked Save
 Then I should get 1 error
 
-# US5864 wip
-@wip
 Scenario: Vendor edits denied application incorrectly for optional url fields
-
 Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
@@ -92,10 +86,7 @@ And I have edited the field named "Administration URL" to say "burp.com"
 When I clicked Save
 Then I should get 2 errors
 
-# US5864 wip
-@wip
 Scenario: Vendor edits denied application
-
 Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
@@ -105,13 +96,11 @@ And I clicked on the button Edit for the application "NewApp"
 And I have edited the field named "Image URL" to say "https://imageurl"
 And I have edited the field named "Description" to say "Kittens"
 When I clicked Save
-And I the field named "Application Icon Url" still says "https://imageurl"
-And I the field named "Description" still says "Kittens"
+#And I the field named "Image Url" still says "https://imageurl"
+#And I the field named "Description" still says "Kittens"
 
-# US5864 wip
-@wip
+
 Scenario: SLC Operator accepts application registration request
-
 Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page

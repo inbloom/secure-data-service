@@ -1,4 +1,4 @@
-<%= form_for(app) do |f| %>
+<%= form_for(app, :html=> {:id => 'aeForm'}) do |f| %>
   <% if app.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(app.errors.count, "error") %> prohibited this application from being saved:</h2>
@@ -107,14 +107,11 @@
   <div>
   <%= @treeHtml.html_safe %>
   </div>
-  
-<%= f.hidden_field :edorgsAdded,   :class => 'edorgsAdded', :value => '' %>
-<%= f.hidden_field :edorgsRemoved, :class => 'edorgsRemoved', :value => '' %>
 
-<div class = "actions">
+  <div class = "actions" id = "edOrgTreeActions">
 	<%= f.submit "Save", :disable_with => 'Submitting...', :class => "btn" %>
 	<%= link_to "Cancel", :back %>
-</div>
+  </div>
 
 </div>
 
