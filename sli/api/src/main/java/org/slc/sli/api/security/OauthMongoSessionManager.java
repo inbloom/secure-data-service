@@ -34,6 +34,8 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -73,6 +75,8 @@ import org.slc.sli.domain.enums.Right;
  */
 @Component
 public class OauthMongoSessionManager implements OauthSessionManager {
+
+    private static final Logger LOG = LoggerFactory.getLogger(OauthMongoSessionManager.class);
 
     private static final Pattern USER_AUTH = Pattern.compile("Bearer (.+)", Pattern.CASE_INSENSITIVE);
 
@@ -121,7 +125,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
         if (app == null) {
             RuntimeException x = new InvalidClientException(String.format("No app with id %s registered", clientId));
-            error(x.getMessage(), x);
+            LOG.error(x.getMessage(), x);
             throw x;
         }
         Boolean isInstalled = (Boolean) app.getBody().get("installed");
@@ -129,12 +133,12 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         String appRedirectUri = (String) app.getBody().get("redirect_uri");
         if (!isInstalled && (appRedirectUri == null || appRedirectUri.trim().length() == 0)) {
             RuntimeException x = new RedirectMismatchException("No redirect_uri specified on non-installed app");
-            error(x.getMessage());
+            LOG.error(x.getMessage());
             throw x;
         }
         if (!isInstalled && redirectUri != null && !redirectUri.startsWith((String) app.getBody().get("redirect_uri"))) {
             RuntimeException x = new RedirectMismatchException("Invalid redirect_uri specified " + redirectUri);
-            error(x.getMessage() + " expected " + app.getBody().get("redirect_uri"), x);
+            LOG.error(x.getMessage() + " expected " + app.getBody().get("redirect_uri"), x);
             throw x;
         }
 
@@ -163,7 +167,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
         if (session == null) {
             RuntimeException x = new IllegalStateException(String.format("No session with samlId %s", samlId));
-            error("Attempted to access invalid session", x);
+            LOG.error("Attempted to access invalid session", x);
             throw x;
         }
         return session;
@@ -180,7 +184,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             }
         }
         RuntimeException x = new IllegalStateException(String.format("No session with samlId %s", samlId));
-        error("Attempted to access invalid session", x);
+        LOG.error("Attempted to access invalid session", x);
         throw x;
     }
 
@@ -204,7 +208,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         Entity session = repo.findOne(SESSION_COLLECTION, nq);
 
         if (session == null) {
-            error("Session with code %s does not exist.", code);
+            LOG.error("Session with code %s does not exist.", code);
             throw new OAuthAccessException(OAuthError.INVALID_GRANT, String.format(
                     "Session with code %s does not exist.", code));
         }
@@ -222,7 +226,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         }
 
         if (curAppSession == null) {
-            error("OAuth session not found with code %s.", code);
+            LOG.error("OAuth session not found with code %s.", code);
             throw new OAuthAccessException(OAuthError.INVALID_GRANT, String.format(
                     "OAuth session not found with code %s.", code));
         }
@@ -230,21 +234,21 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         // verify other attributes of the appSession
         String clientId = (String) curAppSession.get("clientId");
         if (!clientCredentials.getLeft().equals(clientId)) {
-            error("Client %s is invalid for app session %s.", clientCredentials.getLeft(), code);
+            LOG.error("Client %s is invalid for app session %s.", clientCredentials.getLeft(), code);
             throw new OAuthAccessException(OAuthError.INVALID_CLIENT, String.format(
                     "Client %s is invalid for app session %s.", clientCredentials.getLeft(), code));
         }
 
         String verified = (String) curAppSession.get("verified");
         if (Boolean.valueOf(verified)) {
-            error("App session %s has already been verified.", code);
+            LOG.error("App session %s has already been verified.", code);
             throw new OAuthAccessException(OAuthError.INVALID_GRANT, String.format(
                     "App session %s has already been verified.", code));
         }
 
         Long expiration = (Long) ((Map<String, Object>) curAppSession.get("code")).get("expiration");
         if (expiration < System.currentTimeMillis()) {
-            error("App session %s has expired.", code);
+            LOG.error("App session %s has expired.", code);
             throw new OAuthAccessException(OAuthError.INVALID_GRANT, String.format("App session %s has expired.", code));
         }
 
@@ -258,7 +262,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         if (app == null) {
             OAuthAccessException x = new OAuthAccessException(OAuthError.UNAUTHORIZED_CLIENT,
                     "No application matching credentials found.");
-            error("App credentials mismatch", x);
+            LOG.error("App credentials mismatch", x);
             throw x;
         }
 
@@ -274,7 +278,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         if (!appValidator.isAuthorizedForApp(app, principal)) {
             String message = "User " + principal.getExternalId() + " is not authorized to use "
                     + app.getBody().get("name");
-            error(message);
+            LOG.error(message);
             throw new OAuthAccessException(OAuthError.UNAUTHORIZED_CLIENT, message, (String) session.getBody().get(
                     "state"));
         }
@@ -351,7 +355,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                             if (isLongLived(hl - createdOn.getTime())) {
                                 String displayToken = accessToken.substring(0, 6) + "......"
                                         + accessToken.substring(accessToken.length() - 4, accessToken.length());
-                                info("Using long-lived session {} belonging to app {}", displayToken,
+                                LOG.info("Using long-lived session {} belonging to app {}", displayToken,
                                         session.get("clientId"));
                             }
                             // ****
@@ -365,7 +369,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                                 approved.setAccessible(true);
                                 approved.set(token, true);
                             } catch (Exception e) {
-                                error("Error processing authentication.  Anonymous context will be returned.", e);
+                                LOG.error("Error processing authentication.  Anonymous context will be returned.", e);
                             }
 
                             SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"),
@@ -394,12 +398,12 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                                         principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated(),
                                         true);
                                 principal.setSelfRights(selfAuthorities);
-                                debug("Granted self rights - {}", selfAuthorities);
+                                LOG.debug("Granted self rights - {}", selfAuthorities);
 
                                 authorities = resolveAuthorities(principal.getTenantId(),
                                         principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated(),
                                         false);
-                                debug("Granted regular rights - {}", authorities);
+                                LOG.debug("Granted regular rights - {}", authorities);
                             }
 
                             if (!principal.isAdminRealmAuthenticated()) {
@@ -568,7 +572,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             Map<String, Object> principal = (Map<String, Object>) original.getBody().get("principal");
             String principalId = (String) principal.get("id");
             String externalId = (String) principal.get("externalId");
-            info("Logging user: {} out of system.", principalId);
+            LOG.info("Logging user: {} out of system.", principalId);
             NeutralQuery allSessionsQuery = new NeutralQuery(new NeutralCriteria("principal.externalId",
                     NeutralCriteria.OPERATOR_EQUAL, externalId));
             allSessionsQuery.addCriteria(new NeutralCriteria("principal.id", NeutralCriteria.OPERATOR_EQUAL,
@@ -585,12 +589,12 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             boolean deleted = true;
             for (Entity session : sessionsToExpire) {
                 if (!repo.delete(SESSION_COLLECTION, session.getEntityId())) {
-                    error("Failed to delete user session: {}", session.getEntityId());
+                    LOG.error("Failed to delete user session: {}", session.getEntityId());
                     deleted = false;
                 }
                 invalidateSessions((List<Map<String, Object>>) session.getBody().get("appSession"));
             }
-            info("Status of logout: {}.", deleted ? "Success" : "Failure");
+            LOG.info("Status of logout: {}.", deleted ? "Success" : "Failure");
             return deleted;
         }
         return false;
@@ -667,7 +671,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
         for (Entity entity : repo.findAll(SESSION_COLLECTION, query)) {
             if (!repo.delete(SESSION_COLLECTION, entity.getEntityId())) {
-                error("Failed to delete entity with id: {}", new Object[] { entity.getEntityId() });
+                LOG.error("Failed to delete entity with id: {}", new Object[] { entity.getEntityId() });
                 success = false;
             }
         }

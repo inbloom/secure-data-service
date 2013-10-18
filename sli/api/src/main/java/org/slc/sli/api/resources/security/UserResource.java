@@ -49,6 +49,8 @@ import org.slc.sli.common.ldap.LdapService;
 import org.slc.sli.common.ldap.User;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -69,6 +71,9 @@ import org.springframework.stereotype.Component;
 @Consumes({ HypermediaType.JSON + ";charset=utf-8" })
 @Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class UserResource {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UserResource.class);
+
     @Autowired
     private LdapService ldapService;
 
@@ -487,7 +492,7 @@ public class UserResource {
         boolean nullTenant = (tenant == null && !(rights.contains(Right.CRUD_SANDBOX_SLC_OPERATOR) || rights
                 .contains(Right.CRUD_SLC_OPERATOR)));
         if (nullTenant) {
-            error("Non-operator user {} has null tenant.  Giving up.", new Object[] { secUtil.getUid() });
+            LOG.error("Non-operator user {} has null tenant.  Giving up.", new Object[] { secUtil.getUid() });
             throw new IllegalArgumentException("Non-operator user " + secUtil.getUid() + " has null tenant.  Giving up.");
         }
         if (rightSet.isEmpty() || nullTenant) {
