@@ -100,7 +100,7 @@ public class TeacherSchoolExtractorTest {
 
         Entity mSeoa = makeSeoa("2007-01-01", null);
 
-        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(mSeoa));
+        Mockito.when(mockEdOrgExtractHelper.retrieveSEOAS(Matchers.eq("Staff1"), Matchers.eq("LEA"))).thenReturn(Arrays.asList(mSeoa));
 
         extractor.extractEntities(staffToLeaDateCache);
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
@@ -121,46 +121,12 @@ public class TeacherSchoolExtractorTest {
         Entity mSeoa1 = makeSeoa("2007-01-01", "2008-01-01");
         Entity mSeoa2 = makeSeoa("2008-01-01", null);
 
-        //Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(mSeoa1, mSeoa2));
-        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), argThat(new BaseMatcher<NeutralQuery>() {
-
-            @Override
-            public boolean matches(Object arg0) {
-                NeutralQuery query = (NeutralQuery) arg0;
-                return query.getCriteria().contains(
-                        new NeutralCriteria(ParameterConstants.STAFF_REFERENCE, NeutralCriteria.OPERATOR_EQUAL, "Staff1"))
-                        && query.getCriteria().contains(
-                        new NeutralCriteria(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, NeutralCriteria.OPERATOR_EQUAL,
-                                "LEA"));
-
-            }
-
-            @Override
-            public void describeTo(Description arg0) {
-            }
-        }))).thenReturn(Arrays.asList(mSeoa1, mSeoa2));
+        Mockito.when(mockEdOrgExtractHelper.retrieveSEOAS(Matchers.eq("Staff1"), Matchers.eq("LEA"))).thenReturn(Arrays.asList(mSeoa1, mSeoa2));
 
         Entity mSeoa1L2 = makeSeoa("1999-01-01", "2008-01-01");
         Entity mSeoa2L2 = makeSeoa("2000-01-01", "2002-01-01");
 
-        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), argThat(new BaseMatcher<NeutralQuery>() {
-
-            @Override
-            public boolean matches(Object arg0) {
-                NeutralQuery query = (NeutralQuery) arg0;
-                return query.getCriteria().contains(
-                        new NeutralCriteria(ParameterConstants.STAFF_REFERENCE, NeutralCriteria.OPERATOR_EQUAL, "Staff1"))
-                        && query.getCriteria().contains(
-                        new NeutralCriteria(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, NeutralCriteria.OPERATOR_EQUAL,
-                                "LEA2"));
-
-            }
-
-            @Override
-            public void describeTo(Description arg0) {
-            }
-        }))).thenReturn(Arrays.asList(mSeoa1L2, mSeoa2L2));
-
+        Mockito.when(mockEdOrgExtractHelper.retrieveSEOAS(Matchers.eq("Staff1"), Matchers.eq("LEA2"))).thenReturn(Arrays.asList(mSeoa1L2, mSeoa2L2));
 
                 extractor.extractEntities(staffToLeaDateCache);
         Mockito.verify(mockExtractor, Mockito.times(1)).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),

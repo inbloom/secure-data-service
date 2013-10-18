@@ -56,6 +56,24 @@ public class EntityDateHelper {
         return isPastOrCurrentDate(entityDate, upToDate, entityType);
     }
 
+    /**
+     * Check if any of the input entities should be extracted
+     *
+     * @param entities    List of entities to check
+     * @param upToDate    Up to date
+     * @return   true if any of the entity should be extract. false otherwise.
+     */
+    public static boolean shouldExtract(Iterable<Entity> entities, DateTime upToDate) {
+        boolean shouldExtract = false;
+        for (Entity entity : entities) {
+            if (shouldExtract(entity, upToDate)) {
+                shouldExtract = true;
+                break;
+            }
+        }
+        return shouldExtract;
+    }
+
     public static String retrieveDate(Entity entity) {
         String date = "";
 

@@ -144,8 +144,8 @@ public class LocalEdOrgExtractor {
         EntityDatedExtract staffExtractor = factory.buildStaffExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         staffExtractor.extractEntities(seaExtractor.getStaffDatedCache());
 
-        EntityDatedExtract tSchoolAssExtractor = factory.buildTeacherSchoolExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        tSchoolAssExtractor.extractEntities(seaExtractor.getStaffDatedCache());
+        EntityDatedExtract teacherSchoolExtractor = factory.buildTeacherSchoolExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
+        teacherSchoolExtractor.extractEntities(seaExtractor.getStaffDatedCache());
 
         EntityDatedExtract staffProgramExtractor = factory.buildStaffProgramAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         staffProgramExtractor.extractEntities(seaExtractor.getStaffDatedCache());
