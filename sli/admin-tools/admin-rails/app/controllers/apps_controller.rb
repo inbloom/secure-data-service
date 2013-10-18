@@ -190,37 +190,23 @@ class AppsController < ApplicationController
     @app.attributes.delete :application_url unless params[:app].include? :application_url
     @app.attributes.delete :redirect_uri unless params[:app].include? :redirect_uri
 
-    #
-    # AUTHORIZE EDORGS FOR THE APP
-    #
-    # Create authorized edOrgs map so as to avoid duplicates
-    authorized_ed_orgs_map = {}
-    isBulkExtract = params[:app][:isBulkExtract]
-    params[:state_select].each do |sea|
-      authorized_ed_orgs_map[sea] = true
-      if isBulkExtract
-        # For bulk-extract app, enabled SEA and its immediate children
-        children = EducationOrganization.get_edorg_children(sea).map { |edOrg| edOrg.id }
-        children.each do |child|
-          authorized_ed_orgs_map[child] = true
-        end
-      else
-        # For non-bulk-extract app, enable all descendants of SEA edOrg
-        EducationOrganization.get_edorg_descendants(sea).each do |eo|
-          authorized_ed_orgs_map[eo] = true
-        end
-      end
-    end
-    params[:app][:authorized_ed_orgs] = authorized_ed_orgs_map.keys.sort()
 
     logger.debug {"App found (Update): #{@app.to_json}"}
     
     respond_to do |format|
       begin
         if @app.update_attributes(params[:app])
+
+          edOrgTree = EdorgTree.new()
+          @treeHtml = edOrgTree.get_enablement_tree_html(getSeaIds(), params[:id], is_sea_admin?)
+
           format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
           format.json { head :ok }
         else
+
+          edOrgTree = EdorgTree.new()
+          @treeHtml = edOrgTree.get_enablement_tree_html(getSeaIds(), params[:id], is_sea_admin?)
+
           format.html { render action: "edit" }
           format.json { render json: @app.errors, status: :unprocessable_entity }
         end
@@ -235,10 +221,20 @@ class AppsController < ApplicationController
           @app.errors.add(field_name, "Validation error. Field contains characters or text that is not allowed.") 
           start_index = e.response.body.index("fieldName=", end_index)
         end
+        edOrgTree = EdorgTree.new()
+        @treeHtml = edOrgTree.get_enablement_tree_html(getSeaIds(), params[:id], is_sea_admin?)
         format.html { render action: "edit" }
         format.json { render json: @app.errors, status: :unprocessable_entity }
       end        
     end
+  end
+
+  def getSeaIds
+    stateEdOrgs = get_state_edorgs()
+    seaIds = stateEdOrgs.collect { |edOrg|
+      edOrg['sea_id']
+    }
+    seaIds
   end
 
   # DELETE /apps/1

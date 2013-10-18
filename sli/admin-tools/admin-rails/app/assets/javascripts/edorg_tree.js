@@ -80,5 +80,16 @@ $(document).ready(function() {
             $( ".edorgsRemoved" ).val( removed );
         }
     );
+
+    $("div#edOrgTreeActions input[type=submit]").bind ('click', function () {
+            var newSelectedIds = getSelectedEdOrgs();
+            $.each(newSelectedIds, function (index, value) {
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'app[authorized_ed_orgs][]',
+                    value: value
+                }).appendTo('form#aeForm');
+            });//end each newSelectedIds
+    });//end function, end bind
 });
 
