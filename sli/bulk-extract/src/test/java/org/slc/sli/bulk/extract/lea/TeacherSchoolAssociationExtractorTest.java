@@ -18,8 +18,6 @@ package org.slc.sli.bulk.extract.lea;
 
 import java.util.*;
 
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,18 +32,15 @@ import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.mockito.Matchers.argThat;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-public class TeacherSchoolExtractorTest {
-    private TeacherSchoolExtractor extractor;
+public class TeacherSchoolAssociationExtractorTest {
+    private TeacherSchoolAssociationExtractor extractor;
     
     @Mock
     private EntityExtractor mockExtractor;
@@ -71,7 +66,7 @@ public class TeacherSchoolExtractorTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         entityBody = new HashMap<String, Object>();
-        extractor = new TeacherSchoolExtractor(mockExtractor, mockMap, mockRepo, mockEdOrgExtractHelper);
+        extractor = new TeacherSchoolAssociationExtractor(mockExtractor, mockMap, mockRepo, mockEdOrgExtractHelper);
         entityBody.put(ParameterConstants.TEACHER_ID, "Staff1");
         entityBody.put(ParameterConstants.SCHOOL_ID, "LEA");
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);

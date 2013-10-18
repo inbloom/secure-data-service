@@ -29,13 +29,13 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-public class TeacherSchoolExtractor implements EntityDatedExtract {
+public class TeacherSchoolAssociationExtractor implements EntityDatedExtract {
     private EntityExtractor extractor;
     private ExtractFileMap map;
     private Repository<Entity> repo;
     private EdOrgExtractHelper edOrgExtractHelper;
     
-    public TeacherSchoolExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
+    public TeacherSchoolAssociationExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
@@ -50,9 +50,6 @@ public class TeacherSchoolExtractor implements EntityDatedExtract {
             Entity tsa = teachers.next();
             String teacherId = (String) tsa.getBody().get(ParameterConstants.TEACHER_ID);
             Map<String, DateTime> edOrgDates = staffToEdorgDatedCache.getEntriesById(teacherId);
-            if (edOrgDates == null || edOrgDates.size() == 0) {
-                continue;
-            }
 
             String edorgId = (String) tsa.getBody().get(ParameterConstants.SCHOOL_ID);
             Iterable<Entity> seaos = edOrgExtractHelper.retrieveSEOAS(teacherId, edorgId);

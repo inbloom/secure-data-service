@@ -58,9 +58,9 @@ public class ExtractorFactory {
         return new StaffExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public EntityDatedExtract buildTeacherSchoolExtractor(EntityExtractor extractor, ExtractFileMap map,
+    public EntityDatedExtract buildTeacherSchoolAssociationExtractor(EntityExtractor extractor, ExtractFileMap map,
             Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
-        return new TeacherSchoolExtractor(extractor, map, repo, edOrgExtractHelper);
+        return new TeacherSchoolAssociationExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
     public EntityExtract buildAttendanceExtractor(EntityExtractor extractor, ExtractFileMap map,

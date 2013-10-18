@@ -15,7 +15,9 @@
  */
 package org.slc.sli.bulk.extract.date;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -85,6 +87,25 @@ public class EntityDateHelperTest {
         Assert.assertTrue(EntityDateHelper.shouldExtract(attendance, null));
         Assert.assertFalse(EntityDateHelper.shouldExtract(attendance, DateTime.parse("2009-05-24", DateHelper.getDateTimeFormat())));
         Assert.assertFalse(EntityDateHelper.shouldExtract(attendance, DateTime.parse("2008-05-24", DateHelper.getDateTimeFormat())));
+    }
+
+    @Test
+    public void testSholdExtract() {
+        List<Entity> entities = new ArrayList<Entity>();
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put(ParameterConstants.BEGIN_DATE, "2001-01-01");
+        Entity entity1 = new MongoEntity(EntityNames.STUDENT_PROGRAM_ASSOCIATION, body);
+
+        Map<String, Object> body2 = new HashMap<String, Object>();
+        body2.put(ParameterConstants.BEGIN_DATE, "2009-01-01");
+        Entity entity2 = new MongoEntity(EntityNames.STUDENT_PROGRAM_ASSOCIATION, body);
+
+        entities.add(entity1);
+        entities.add(entity2);
+
+        Assert.assertTrue(EntityDateHelper.shouldExtract(entities, DateTime.parse("2001-05-23", DateHelper.getDateTimeFormat())));
+        Assert.assertTrue(EntityDateHelper.shouldExtract(entities, DateTime.parse("2010-05-23", DateHelper.getDateTimeFormat())));
+        Assert.assertFalse(EntityDateHelper.shouldExtract(entities, DateTime.parse("2000-05-23", DateHelper.getDateTimeFormat())));
     }
 
 }
