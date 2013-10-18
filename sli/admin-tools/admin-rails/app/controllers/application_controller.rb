@@ -146,7 +146,7 @@ class ApplicationController < ActionController::Base
 
   def render_412(message=nil)
     if message.nil? || message.empty?
-      @errorMessage = "A precondition for the request was not met."
+      @errorMessage = "No additional information available."
     else
       @errorMessage = message
     end
@@ -224,7 +224,7 @@ class ApplicationController < ActionController::Base
   end
 
   def uid
-    check = Check.get ""
+    check = Check.get ''
     return check["external_id"]
   end
 
