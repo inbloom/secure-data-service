@@ -1,29 +1,58 @@
-<h1>Edit Application Authorizations</h1>
-<h2>Education Organizations for: <%= @edOrg.nameOfInstitution %></h2>
-<h3>Application: <%= @app_description %></h3>
+<h1>Application Authorization Dashboard</h1>
+<h2>Education Organizations (EdOrgs) for: <%= @edOrg.nameOfInstitution %></h2>
+<table cellpadding="3">
+<tr><td><b>Application:</b></td><td><b><%= @app_description %></b></td></tr>
+<tr><td><b>Build:</b></td><td><b><%= @app_version_description %></b></td></tr>
+<tr><td><b>Description:</b></td><td><b><%= @app_bulk_extract_description %></b></td></tr>
+</table>
 
-<div class="content">
-  <div id="edorgTree">
-    <ul>
-      <li>Please choose edOrgs to authorize for the app.
-      <li>Following each EdOrg are counts of: <span class="treecounts">(direct subsidiary EdOrgs / total subsidiary EdOrgs)</span>
-      <li>EdOrgs in <i>italics</i> are not authorizable because the EdOrg, or some subsidiary EdOrg, has not been enabled for its use by the vendor (<%= @app.vendor %>)
-    </ul>
-    <input id="hierarchical_mode" type="checkbox" checked="true">Hierarchical Selection Mode</input>
-    <a href="#" id="expand_all">Expand All</a>
-    <a href="#" id="collapse_all">Collapse All</a>
-    <div>
-      <%= @edorg_tree_html.html_safe %>
+<p>
+Please choose from the EdOrgs below to authorize for this application.
+<p>
+Quick tips:
+<ul>
+
+  <li>Disabled Authorization: EdOrgs in italics can NOT be authorized
+  because this or a subsidiary EdOrg has not been enabled for its use
+  by the application vendor.  If you feel this is an error please
+  contact the application vendor.
+
+  <li>EdOrg Counts: Counts for each EdOrg direct subsidiary as well as
+  total subsidiaries are provided to the right
+  (e.g. <span class="treecounts">2216 / 12739</span>)
+
+  <li>Hierarchical Selection mode: This allows users to auto-select
+  all subsidiary EdOrgs below the selected EdOrg (e.g., When a
+  district is selected, all subsidiary schools and other EdOrgs of
+  that district will be authorized for the application.
+
+</ul>
+
+<%=form_for @appAuth,  :action => :update do |f|%>
+  <%= f.hidden_field :appId, :value => @appAuth.appId %>
+  <%= f.hidden_field :edorgsAdded,   :value => '' %>
+  <%= f.hidden_field :edorgsRemoved, :value => '' %>
+  
+  <div class="content">
+    <div id="edorgTree">
+      <input id="hierarchical_mode" type="checkbox" checked="true">Enable Hierarchical Selection Mode</input>
+      <a href="#" id="expand_all">Expand All</a>
+      <a href="#" id="collapse_all">Collapse All</a>
+      
+      <%= f.submit 'Save & Update' %>
+      <button onclick="window.location.href='/application_authorizations'">Cancel</button>
+      
+      
+      <div>
+	<%= @edorg_tree_html.html_safe %>
+      </div>
+      
+      <%= f.submit 'Save & Update' %>
+      <button onclick="window.location.href='/application_authorizations'">Cancel</button>
+      
+      <%= @debug %>
     </div>
-
-    <%=form_for @appAuth,  :action => :update do |f|%>
-        <%= f.hidden_field :appId, :value => @appAuth.appId %>
-        <%= f.hidden_field :edorgsAdded,   :value => '' %>
-        <%= f.hidden_field :edorgsRemoved, :value => '' %>
-        <%= f.submit 'Save & Update' %>
-    <% end %>
-    <button onclick="window.location.href='/application_authorizations'">Cancel</button>
-
-    <%= @debug %>
   </div>
-</div>
+  
+  <% end %>
+  

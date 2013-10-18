@@ -43,7 +43,10 @@ class ApplicationAuthorizationsController < ApplicationController
     appId = params[:application_authorization][:appId]
     @app = @apps_map[appId]
     raise "Application '" + appId + "' not found in sli.application" if @app.nil?
+
     @app_description = app_description(@app)
+    @app_bulk_extract_description = if @app.isBulkExtract then "Bulk Extract" else "Non-Bulk Extract" end
+    @app_version_description = if is_empty(@app.version) then "Unknown" else "v" + @app.version.to_s() end
 
     # Get developer-enabled edorgsfor the app.  NOTE: Even though the field is
     # sli.application.authorized_ed_orgs[] these edorgs are called "developer-
@@ -403,12 +406,6 @@ class ApplicationAuthorizationsController < ApplicationController
     s = ""
     s += a.name
     s += " (id " + a.client_id + ")" if !is_empty(a.client_id)
-    s += ", v. " + a.version if !is_empty(a.version)
-    if a.isBulkExtract
-      s += " -- Bulk Extract"
-    else
-      s += " -- non-Bulk Extract"
-    end
     return s
   end
 
