@@ -1,3 +1,4 @@
+
 Feature: Application Enablement and Authorization by Education Organization
 	As a developer I want to be able to enable my application for specific states and education organizations.
 	As an admin I want to be able to approve the applications that developers enabled for specific education organizations.
@@ -54,10 +55,16 @@ Background:
          And I see an application "Aboukir" in the table
          And in Status it says "Not Approved"
          And the sli securityEvent collection is empty
-  
-         #All edOrgs from SEA downwards
-      	 And I click on the "Edit Authorizations" button next to it
-      	 And I expand all nodes
+
+    ##########################################################################################
+    #those edOrgs not enabled by the developer are grayed out and non-selectable
+    ##########################################################################################
+        And I click on the "Edit Authorizations" button next to it
+        And I expand all nodes
+        And those edOrgs enabled by the developer should be selectable for application "Aboukir" in tenant "Midgar"
+        And the following edOrgs not enabled by the developer are non-selectable for application "Aboukir" in tenant "Midgar"
+          |edorgs|
+          |Yellow Middle School |
       	 And I authorize the educationalOrganization "Illinois State Board of Education"
       	 And I click Update
       	 Then there are "38" edOrgs for the "Aboukir" application in the applicationAuthorization collection for the "Midgar" tenant

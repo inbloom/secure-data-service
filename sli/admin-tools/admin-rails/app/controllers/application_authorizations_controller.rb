@@ -36,7 +36,7 @@ class ApplicationAuthorizationsController < ApplicationController
     # Get input objects
     edOrgId = session[:edOrgId]
     @edOrg = EducationOrganization.find(edOrgId)
-    raise "Edorg '" + edOrgId + "' not found in educationOrganization collection" if @edOrg.nil?
+    raise NoUserEdOrgError.new "Educational organization '" + edOrgId + "' not found in educationOrganization collection" if @edOrg.nil?
 
     # Get app data
     load_apps()
@@ -150,7 +150,7 @@ class ApplicationAuthorizationsController < ApplicationController
       }
     else
       eo = session[:edOrgId]
-      raise "No edOrgId in session -- are realms set up?" if !eo
+      raise NoUserEdOrgError.new "No education organization in session -- The user\'s educational organization may not exist. Please confirm that realms are set up properly and relevant educational organizations have been ingested." if !eo
       @edorgs = [eo]
       ApplicationAuthorization.cur_edorg = @edorgs[0]
       @application_authorizations[@edorgs[0]] = ApplicationAuthorization.all
@@ -292,17 +292,42 @@ class ApplicationAuthorizationsController < ApplicationController
       @edinf[userEdOrg][:parents] = [ ROOT_ID ]
     end
 
+    # Cleanse parents and children of dangling IDs that point outside subtree of ROOT_ID
+    ids_in_scope = {}
+    get_descendants(ROOT_ID, ids_in_scope, {})
+    cleanse_refs(ROOT_ID, ids_in_scope)
+
     # Compile counts across whole tree and build "by-type" category nodes
     @id_counter = 0
-    build_tree(ROOT_ID, {})
+    build_tree(ROOT_ID, {}, {})
     
   end
+
+  # Get descendant nodes, recursively
+  def get_descendants(id, result, seen)
+    raise "CYCLE in EdOrg hierarchy includes EdOrg id #{id}" if seen.has_key?(id)
+    seen[id] = true
+    result[id] = true
+    @edinf[id][:children].each do |cid|
+      get_descendants(cid, result, seen.clone)
+    end
+  end
+ 
+  # Cleanse parent/child refs that point outside subtree at ROOT_ID
+  def cleanse_refs(id, ids_in_scope)
+    @edinf[id][:parents].select! { |id| ids_in_scope.has_key?(id) }
+    @edinf[id][:children].select! { |id| ids_in_scope.has_key?(id) }
+    @edinf[id][:children].each do |cid|
+      cleanse_refs(cid, ids_in_scope)
+    end
+  end 
 
   # Traverse graph and count children and descendants and put into @edinf map
   # Sets :nchild and :ndesc in the node with given ID
   # Replaces :children array with array of nodes by type
 
-  def build_tree(id, seen)
+  def build_tree(id, seen, all_seen)
+    all_seen[id] = true
     # Trap cycles
     if seen.has_key?(id)
       raise "CYCLE in EdOrg hierarchy includes EdOrg id '" + id + "'"
@@ -324,7 +349,7 @@ class ApplicationAuthorizationsController < ApplicationController
     @edinf[id][:parents].sort!( & compare_name )
 
     @edinf[id][:children].each do |cid|
-      build_tree(cid, seen.clone)
+      build_tree(cid, seen.clone, all_seen) if !all_seen.has_key?(cid)
       ndesc += @edinf[cid][:ndesc]
       ctype = get_edorg_type(cid)
       if by_type.has_key?(ctype)
@@ -580,5 +605,4 @@ class ApplicationAuthorizationsController < ApplicationController
       get_edorgs_in_scope_recursive(edinf, cid, result)
     end
   end
-    
 end

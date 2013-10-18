@@ -19,6 +19,7 @@ limitations under the License.
 
 require "selenium-webdriver"
 require 'json'
+require 'time'
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
@@ -172,13 +173,17 @@ Given /^I am logged into the Application Authorization Tool$/ do
 end
 
 Given /^I see an application "([^"]*)" in the table$/ do |arg1|
-  @appName = arg1
-  @appRow = getApp(@appName)
-  apps = @driver.find_elements(:xpath, ".//tbody/tr/td[text()='#{arg1}']/..")
-  apps.each do |cur|
-    puts("The app is #{cur.inspect} and #{cur.text}")
-  end
-  assert(apps != nil)
+    @appName = arg1
+    @appRow = getApp(@appName)
+    #t = Time.now.getutc.to_s
+    #puts t
+    #apps = @driver.find_elements(:xpath, ".//tbody/tr/td[text()='#{arg1}']/..")
+    apps = @driver.find_elements(:xpath, './/tbody/tr/td[contains(.,"' + arg1 +'")]')
+
+    apps.each do |cur|
+        puts("The app is #{cur.inspect} and #{cur.text}")
+    end
+    assert(apps != nil)
 end
 
 Given /^in Status it says "([^"]*)"$/ do |arg1|
@@ -336,19 +341,13 @@ Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the applicationAu
    db = @conn.db("sli")
    coll = db.collection("application")
    record = coll.find_one("body.name" => application)
-   #puts record.to_s
    appId = record["_id"]
-   #puts appId.to_s
    db = @conn[convertTenantIdToDbName(tenant)]
    coll = db.collection("applicationAuthorization")
    record = coll.find_one("body.applicationId" => appId.to_s)
-   #puts record.to_s
    body = record["body"]
-   #puts body.to_s
    edorgsArray = body["edorgs"]
-   #puts edorgsArray.to_s
    edorgsArrayCount = edorgsArray.count
-   #puts edorgsArrayCount
    assert(edorgsArrayCount == expected_count.to_i, "Education organization count mismatch in applicationAuthorization collection. Expected #{expected_count}, actual #{edorgsArrayCount}")
    enable_NOTABLESCAN()
 end
@@ -387,6 +386,22 @@ Then /^I de-authorize the educationalOrganization "(.*?)"$/ do |edOrgName|
   step "I authorize the educationalOrganization \"#{edOrgName}\""
 end
 
+Then /^there are "(.*?)" educationalOrganizations in the targetEdOrgList of securityEvent "(.*?)"$/ do |expected_count, logMessage|
+  disable_NOTABLESCAN()
+  db = @conn.db("sli")
+  coll = db.collection("securityEvent")
+  record = coll.find_one({'body.logMessage' => logMessage})
+  #puts record.to_s
+  body = record["body"]
+  #puts body.to_s
+  targetEdOrgList = body["targetEdOrgList"]
+  #puts targetEdOrgList.to_s
+  targetEdOrgListCount = targetEdOrgList.count
+  #puts targetEdOrgListCount
+  assert(targetEdOrgListCount == expected_count.to_i, "targetEdOrgList count mismatch in securityEvent collection. Expected #{expected_count}, actual #{targetEdOrgListCount}")
+  enable_NOTABLESCAN()
+end
+
 Then /^there are "(.*?)" educationalOrganizations in the targetEdOrgList$/ do |expected_count|
   disable_NOTABLESCAN()
   db = @conn.db("sli")
@@ -404,6 +419,10 @@ Then /^there are "(.*?)" educationalOrganizations in the targetEdOrgList$/ do |e
 end
 
 When /^I deselect hierarchical mode$/ do
+  app = @driver.find_element(:id, "hierarchical_mode").click
+end
+
+When /^I select hierarchical mode$/ do
   app = @driver.find_element(:id, "hierarchical_mode").click
 end
 
@@ -430,4 +449,37 @@ Then /^I see "(.*?)" occurrences of "(.*?)"$/ do |expectedCount, label|
    labels = @driver.find_elements(:xpath, './/span[contains(.,"' + label +'")]')
    actualCount = labels.count
    assert(expectedCount == actualCount.to_s, "Count of labels mismatched. Expecting #{expectedCount}, actual #{actualCount}")
+end
+
+
+Then /^those edOrgs enabled by the developer should be selectable for application "(.*?)" in tenant "(.*?)"$/ do |application, tenant|
+  disable_NOTABLESCAN()
+  db = @conn["sli"]
+  coll = db.collection("application")
+  app = coll.find_one("body.name" => application)
+  edorgs = app["body"]["authorized_ed_orgs"]
+  edorgs.each do |edOrgId|
+    element = @driver.find_element(:id, edOrgId.to_s)
+    assert_not_nil(element,"#{edOrgId} should be selectable")
+
+    #assert(element!=nil, "#{edOrgId} should be selectable")
+  end
+end
+
+Then /^the following edOrgs not enabled by the developer are non-selectable for application "(.*?)" in tenant "(.*?)"$/ do |application, tenant, table|
+  table.hashes.map do |row|
+    edorg_name = row["edorgs"]
+    db = @conn[convertTenantIdToDbName(tenant)]
+    coll = db.collection("educationOrganization")
+    record = coll.find_one("body.nameOfInstitution" => edorg_name.to_s)
+    if record
+      STDOUT.puts "Checking #{edorg_name}"
+      STDOUT.flush
+      edOrgId = record["_id"]
+      actualCount = @driver.find_elements(:id, edOrgId.to_s).count()
+      assert("0" == actualCount.to_s, "#{edorg_name} should not be selectable")
+      STDOUT.puts "#{edorg_name} is not selectable"
+      STDOUT.flush
+    end
+  end
 end
