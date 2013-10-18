@@ -106,18 +106,38 @@ module EdorgTreeHelper
       root_children.each do |id|
         @edinf[id][:parents] = [ ROOT_ID ]
       end
+
+      # Cleanse parents and children of dangling IDs that point outside subtree of ROOT_ID
+      ids_in_scope = {}
+      get_descendants(ROOT_ID, ids_in_scope, {})
+      cleanse_refs(ROOT_ID, ids_in_scope)
     end
+
+    # Get descendant nodes, recursively
+    def get_descendants(id, result, seen)
+      raise "CYCLE in EdOrg hierarchy includes EdOrg id #{id}" if seen.has_key?(id)
+      seen[id] = true
+      result[id] = true
+      @edinf[id][:children].each do |cid|
+        get_descendants(cid, result, seen.clone)
+      end
+    end
+
+    # Cleanse parent/child refs that point outside subtree at ROOT_ID
+    def cleanse_refs(id, ids_in_scope)
+      @edinf[id][:parents].select! { |id| ids_in_scope.has_key?(id) }
+      @edinf[id][:children].select! { |id| ids_in_scope.has_key?(id) }
+      @edinf[id][:children].each do |cid|
+        cleanse_refs(cid, ids_in_scope)
+      end
+    end 
 
     # Traverse graph and count children and descendants and put into @edinf map
     # Sets :nchild and :ndesc in the node with given ID
     # Replaces :children array with array of nodes by type
     def build_tree(id, seen)
-      # Trap cycles
-      if seen.has_key?(id)
-        raise "CYCLE in EdOrg hierarchy includes EdOrg id #{id}"
-      else
-        seen[id] = true
-      end
+      raise "CYCLE in EdOrg hierarchy includes EdOrg id #{id}" if seen.has_key?(id)
+      seen[id] = true
 
       nchild = @edinf[id][:children].length
       @edinf[id][:nchild] = nchild
