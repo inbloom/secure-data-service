@@ -81,11 +81,7 @@
 	<%= f.text_field :image_url %>
 	<span class="help-inline">An optional image url to be displayed as an icon</span>
 </div>
-<div id="ed_orgs" class = "field">
-  <% app.authorized_ed_orgs.each do |role| %>
-      <%= f.hidden_field :authorized_ed_orgs, :multiple => true, :value => role %>
-  <% end %>
-</div>
+
 <div class= "well">
   <div class = "field" id="isBulkExtract">
     <%= f.label :isBulkExtract, "Bulk Extract" %>
