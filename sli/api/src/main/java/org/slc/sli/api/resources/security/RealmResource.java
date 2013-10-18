@@ -45,6 +45,7 @@ import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
@@ -100,6 +101,9 @@ public class RealmResource {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+
+    @Autowired
+    private AuditLogger auditLogger;
 
     @Autowired
     private RoleInitializer roleInitializer;
@@ -320,35 +324,35 @@ public class RealmResource {
         if (oldRealm == null && newRealm != null)        {//Create
             event.setLogMessage("Realm [" + newRealmName + "] created!");
             event.setTargetEdOrgList(newTargetEdOrgList);
-            audit(event);
+            auditLogger.audit(event);
         } else if (oldRealm != null && newRealm == null) {//Delete
             event.setLogMessage("Realm [" + oldRealmName + "] deleted!");
             event.setTargetEdOrgList(oldTargetEdOrgList);
-            audit(event);
+            auditLogger.audit(event);
         } else if (oldRealm != null && newRealm != null) {//Update. Can realm edOrg be updated? Assuming yes.
             if (oldEdOrg == null && newEdOrg == null) {
                 event.setLogMessage("Realm [" + joiner.join(oldRealmName, newRealmName) + "] updated!");
-                audit(event);
+                auditLogger.audit(event);
             } else if (oldEdOrg != null && newEdOrg == null) {
                 event.setLogMessage("Realm [" + oldRealmName + "] deleted!");
                 event.setTargetEdOrgList(oldTargetEdOrgList);
-                audit(event);
+                auditLogger.audit(event);
             } else if (oldEdOrg == null && newEdOrg != null) {
                 event.setLogMessage("Realm [" + newRealmName + "] created!");
                 event.setTargetEdOrgList(newTargetEdOrgList);
-                audit(event);
+                auditLogger.audit(event);
             } else if (oldEdOrg.equals(newEdOrg)) { //both not null and equal
                 event.setLogMessage("Realm [" + joiner.join(oldRealmName, newRealmName) + "] updated!");
                 event.setTargetEdOrgList(oldTargetEdOrgList);
-                audit(event);
+                auditLogger.audit(event);
             } else {                                //both not null and unequal
                 event.setLogMessage("Realm [" + oldRealmName + "] deleted!");
                 event.setTargetEdOrgList(oldTargetEdOrgList);
-                audit(event);
+                auditLogger.audit(event);
 
                 event.setLogMessage("Realm [" + oldRealmName + "] created!");
                 event.setTargetEdOrgList(newTargetEdOrgList);
-                audit(event);
+                auditLogger.audit(event);
             }
         } else {                                          //None
              LOG.info("Old and New Realms are both null!");

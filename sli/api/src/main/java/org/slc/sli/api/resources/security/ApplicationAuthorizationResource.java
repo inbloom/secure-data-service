@@ -34,6 +34,7 @@ import javax.ws.rs.core.UriInfo;
 
 import com.google.common.collect.Sets;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,6 +112,9 @@ public class ApplicationAuthorizationResource {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+
+    @Autowired
+    private AuditLogger auditLogger;
 
     @Context
     UriInfo uri;
@@ -270,7 +274,7 @@ public class ApplicationAuthorizationResource {
             Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(granted);
             event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
             event.setTargetEdOrg("");
-            audit(event);
+            auditLogger.audit(event);
         }
 
         Set<String> revoked = Sets.difference(oldEO, newEO);
@@ -281,7 +285,7 @@ public class ApplicationAuthorizationResource {
             Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(revoked);
             event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
             event.setTargetEdOrg("");
-            audit(event);
+            auditLogger.audit(event);
         }
 
     }

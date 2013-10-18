@@ -17,6 +17,7 @@ package org.slc.sli.api.resources.generic.service;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,9 @@ public class ResourceAccessLog {
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
 
+    @Autowired
+    private AuditLogger auditLogger;
+
     public void logAccessToRestrictedEntity(final UriInfo uriInfo, final Resource resource, final String loggingClass) {
 
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
@@ -56,7 +60,7 @@ public class ResourceAccessLog {
             if (securityEventBuilder != null) {
                 SecurityEvent event = securityEventBuilder.createSecurityEvent(loggingClass,
                         uriInfo.getRequestUri(), "restricted entity \"" + definition.getResourceName() + "\" is accessed.", true);
-                auditLog(event);
+                auditLogger.auditLog(event);
             } else {
                 LOG.warn("Cannot create security event, when restricted entity \"" + definition.getResourceName()
                         + "\" is accessed.");

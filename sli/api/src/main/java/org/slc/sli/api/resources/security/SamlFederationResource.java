@@ -52,6 +52,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.roles.EdOrgContextualRoleBuilder;
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,6 +138,9 @@ public class SamlFederationResource {
     private SecurityEventBuilder securityEventBuilder;
 
     @Autowired
+    private AuditLogger auditLogger;
+
+    @Autowired
     private EdOrgHelper edorgHelper;
 
     @Autowired
@@ -193,7 +197,7 @@ public class SamlFederationResource {
                 event.setLogLevel(LogLevelType.TYPE_ERROR);
             }
 
-            audit(event);
+            auditLogger.audit(event);
 
             generateSamlValidationError(e.getMessage(), targetEdOrg);
         }
@@ -452,7 +456,7 @@ public class SamlFederationResource {
         successfulLogin.setUser(principal.getExternalId());
         successfulLogin.setLogMessage(principal.getExternalId() + " from tenant " + tenant + " logged successfully into " + applicationDetails + ".");
 
-        audit(successfulLogin);
+        auditLogger.audit(successfulLogin);
 
         if (isInstalled) {
             Map<String, Object> resultMap = new HashMap<String, Object>();

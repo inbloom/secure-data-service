@@ -43,6 +43,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.common.ldap.LdapService;
@@ -89,6 +90,9 @@ public class UserResource {
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
 
+    @Autowired
+    private AuditLogger auditLogger;
+
     SecurityEvent createSecurityEvent(String logMessage, String tenantId, String edorg) {
         SecurityEvent securityEvent = securityEventBuilder.createSecurityEvent(UserResource.class.getName(), null, logMessage,false);
         securityEvent.setTenantId(tenantId);
@@ -127,7 +131,7 @@ public class UserResource {
             return Response.status(Status.CONFLICT).build();
         }
 
-        audit(createSecurityEvent("Created user " + newUser.getUid() + " with roles " + rolesToString(newUser), newUser.getTenant(), newUser.getEdorg()));
+        auditLogger.audit(createSecurityEvent("Created user " + newUser.getUid() + " with roles " + rolesToString(newUser), newUser.getTenant(), newUser.getEdorg()));
         return Response.status(Status.CREATED).build();
     }
 
@@ -176,7 +180,7 @@ public class UserResource {
         updateUser.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapRoleToGroups(updateUser.getGroups())));
         ldapService.updateUser(realm, updateUser);
 
-        audit(createSecurityEvent("Updated user " + updateUser.getUid() + " with roles " + rolesToString(updateUser), updateUser.getTenant(), updateUser.getEdorg()));
+        auditLogger.audit(createSecurityEvent("Updated user " + updateUser.getUid() + " with roles " + rolesToString(updateUser), updateUser.getTenant(), updateUser.getEdorg()));
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -192,7 +196,7 @@ public class UserResource {
         User userToDelete = ldapService.getUser(realm, uid);
         ldapService.removeUser(realm, uid);
 
-        audit(createSecurityEvent("Deleted user " + uid + " with roles " + rolesToString(userToDelete), userToDelete.getTenant(), userToDelete.getEdorg()));
+        auditLogger.audit(createSecurityEvent("Deleted user " + uid + " with roles " + rolesToString(userToDelete), userToDelete.getTenant(), userToDelete.getEdorg()));
         return Response.status(Status.NO_CONTENT).build();
     }
 
