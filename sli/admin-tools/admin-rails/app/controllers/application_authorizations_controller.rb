@@ -38,7 +38,7 @@ class ApplicationAuthorizationsController < ApplicationController
     # Get input objects
     edOrgId = session[:edOrgId]
     @edOrg = EducationOrganization.find(edOrgId)
-    raise "Edorg '" + edOrgId + "' not found in educationOrganization collection" if @edOrg.nil?
+    raise NoUserEdOrgError.new "Educational organization '" + edOrgId + "' not found in educationOrganization collection" if @edOrg.nil?
 
     # Get app data
     load_apps()
@@ -132,7 +132,7 @@ class ApplicationAuthorizationsController < ApplicationController
       }
     else
       eo = session[:edOrgId]
-      raise "No edOrgId in session -- are realms set up?" if !eo
+      raise NoUserEdOrgError.new "No education organization in session -- The user\'s educational organization may not exist. Please confirm that realms are set up properly and relevant educational organizations have been ingested." if !eo
       @edorgs = [eo]
       ApplicationAuthorization.cur_edorg = @edorgs[0]
       @application_authorizations[@edorgs[0]] = ApplicationAuthorization.all
