@@ -30,7 +30,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.stubbing.Answer;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -55,9 +57,11 @@ public class InsufficientAuthenticationHandlerTest {
     @Test
     public void checkResponse() throws Exception {
         SecurityEventBuilder mockSecurityEventBuilder = Mockito.mock(SecurityEventBuilder.class);
+        AuditLogger mockAuditLogger = Mockito.mock(AuditLogger.class);
 
         handler = new InsufficientAuthenticationHandler();
         handler.setSecurityEventBuilder(mockSecurityEventBuilder);
+        handler.setAuditLogger(mockAuditLogger);
 
         SecurityEvent secEvt = new SecurityEvent();
 
