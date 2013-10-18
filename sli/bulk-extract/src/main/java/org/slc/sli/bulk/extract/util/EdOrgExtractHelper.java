@@ -167,6 +167,22 @@ public class EdOrgExtractHelper implements InitializingBean {
     }
 
     /**
+     * Retrieve all the staff edorg association for a teacher and edorg.
+     *
+     * @param teacherId  teacher id
+     * @param edorgId    education organization id
+     *
+     * @return  list of all the seoas for the teacher in the edorg
+     */
+    public Iterable<Entity> retrieveSEOAS(String teacherId, String edorgId) {
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, NeutralCriteria.OPERATOR_EQUAL, edorgId));
+        query.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE, NeutralCriteria.OPERATOR_EQUAL, teacherId));
+
+        return repository.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, query);
+    }
+
+    /**
      * Log security events when an extract is initiated for each LEA
      * @param leas
      *          list of LEAs
