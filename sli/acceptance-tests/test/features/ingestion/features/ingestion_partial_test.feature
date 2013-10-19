@@ -237,3 +237,49 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | courseTranscript            | 196  |
   And I should not see a warning log file created
 
+# Rally_US5836 - added "High School" as a valid value for a grade level type; new definition
+# made in SLC-GradeLevelType in SLI-Ed-Fi-Core.xsd.  The data in this data set inserts
+# a new LearningStandard into the database, using this new field.  rcook, 2013-10-4.
+
+  And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And I post "PartialIgestionDataSet_Tier8.zip" file as the payload of the ingestion job
+  When zip file is scp to ingestion landing zone
+    And a batch job for file "PartialIgestionDataSet_Tier8.zip" is completed in database
+      Then I should see following map of entry counts in the corresponding collections:
+        | collectionName              | count |
+        | student                     | 78    |
+        | staff                       | 14    |
+        | parent                      | 9     |
+        | program                     | 2     |
+        | learningStandard            | 37    |
+        | calendarDate                | 556   |
+        | graduationPlan              | 3     |
+        | educationOrganization       | 5     |
+        | gradingPeriod               | 17    |
+        | learningObjective           | 63    |
+        | staffProgramAssociation     | 3     |
+        | studentParentAssociation    | 9     |
+        | studentProgramAssociation   | 6     |
+        | cohort                      | 3     |
+        | course                      | 95    |
+        | disciplineIncident          | 2     |
+        | session                     | 22    |
+        | staffEducationOrganizationAssociation | 10 |
+        | studentSchoolAssociation    | 167   |
+        | studentCompetencyObjective  | 4     |
+        | courseOffering              | 95    |
+        | disciplineAction            | 2     |
+        | staffCohortAssociation      | 3     |
+        | studentCohortAssociation    | 6     |
+        | section                     | 97    |
+        | assessment                  | 3     |
+        | attendance                  | 75    |
+        | studentSectionAssociation   | 297   |
+        | teacherSectionAssociation   | 11    |
+        | reportCard                  | 2     |
+        | studentAcademicRecord       | 116   |
+        | studentCompetency           | 59    |
+        | courseTranscript            | 196  |
+  And I should not see a warning log file created
+
+
