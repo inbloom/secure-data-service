@@ -84,23 +84,24 @@ Feature: An edorg's extract file should contain student and staff data from prev
 #  897755cae2f689c2d565a35a48ea69d5dd3928d6_id - Sunset Central High (SCH)
 #  b78524194f38795a5c2e422cb7fc8becece062d0_id - West Side High (WSH)
 
-  #Scenario: Edge Cases for student and staff enrollment
-#    When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
-#    And there is a metadata file in the extract
-#    And I verify this "student" file should contain:
-#      | id                                          | condition            |
-#      | 067198fd6da91e1aa8d67e28e850f224d6851713_id | entityType = student |
+  Scenario: Edge Cases for student and staff enrollment
+    And I request the latest bulk extract delta using the api
+    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "a13489364c2eb015c219172d561c62350f0453f3_id"
+    And there is a metadata file in the extract
+    And I verify this "student" file should contain:
+      | id                                          | condition            |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id | entityType = student |
   #This extract should contain content for anything that began on or before DCH's end date with the student
   #Even data from SCH that began on the student's final day with DCH should be included
-#    And I verify this "studentProgramAssociation" file should contain:
-#      | id                                                                                     | condition                              |
-#      | 067198fd6da91e1aa8d67e28e850f224d6851713_ide34acabe3e308a140d76b7bd2da54011be117110_id | entityType = studentProgramAssociation |
-#      | 067198fd6da91e1aa8d67e28e850f224d6851713_id56c2e2108230cfdd4fc0602921f4ee724ff8b1a2_id | entityType = studentProgramAssociation |
-#      | 067198fd6da91e1aa8d67e28e850f224d6851713_ide2285301a2915907a047b8343f0522de2300031b_id | entityType = studentProgramAssociation |
-#      | 067198fd6da91e1aa8d67e28e850f224d6851713_id16ec8cd2cdf977761aa6105868be5339c12e19bc_id | entityType = studentProgramAssociation |
+    And I verify this "studentProgramAssociation" file should contain:
+      | id                                                                                     | condition                              |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_ide34acabe3e308a140d76b7bd2da54011be117110_id | entityType = studentProgramAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id56c2e2108230cfdd4fc0602921f4ee724ff8b1a2_id | entityType = studentProgramAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_ide2285301a2915907a047b8343f0522de2300031b_id | entityType = studentProgramAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id16ec8cd2cdf977761aa6105868be5339c12e19bc_id | entityType = studentProgramAssociation |
   #This extract should not contain content for anything that began after DCH's end date with the student
   #Given proper data, everything from WSH shouldn't be included
-#    And I verify this "studentProgramAssociation" file should not contain:
-#      | id                                                                                     |
-#      | 067198fd6da91e1aa8d67e28e850f224d6851713_id3401ad622b20c8502b936844cf68293b27c1957e_id |
+    And I verify this "studentProgramAssociation" file should not contain:
+      | id                                                                                     |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id3401ad622b20c8502b936844cf68293b27c1957e_id |
 
