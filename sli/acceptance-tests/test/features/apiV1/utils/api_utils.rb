@@ -255,6 +255,21 @@ Then /^each entity's "([^"]*)" should contain "([^"]*)"$/ do |key, value|
   end
 end
 
+Then /^each entity's "([^"]*)" array should contain "([^"]*)"$/ do |key, value|
+   @result.each do |entity|
+    assert(entity.has_key?(key), "Entity does not even contain key #{key}")
+    containsValue = false
+    entity[key].each do |resultValue|
+      value.each do |subValue|
+        if (resultValue == subValue)
+          containsValue = true
+        end
+      end
+    end
+    assert(containsValue, "Entity's value for key #{key} does not contain #{value} (was #{entity[key]})")
+  end
+end
+
 Then /^in each entity, I should receive a link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
   @result.each do |entity|
     foundInEntity = false

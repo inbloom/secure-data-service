@@ -14,7 +14,7 @@ Scenario: Read all entities as SEA Admin
     Then I should receive a return code of 200
     And I should receive a collection of "4" entities
     And each entity's "entityType" should be "<ENTITY TYPE>"
-    And each entity's "targetEdOrg" should be "IL"
+    And each entity's "targetEdOrgList" should contain "IL"
     And each entity's "roles" should contain "SEA Administrator"
 
 Scenario: Read all entities as LEA Admin
@@ -25,7 +25,7 @@ Scenario: Read all entities as LEA Admin
     Then I should receive a return code of 200
     And I should receive a collection of "7" entities
     And each entity's "entityType" should be "<ENTITY TYPE>"
-    And each entity's "targetEdOrg" should be in the array "<IL_SUNSET_LONGWOOD>"
+    And each entity's "targetEdOrgList" array should contain "<IL_SUNSET_LONGWOOD>"
     And each entity's "roles" should contain "LEA Administrator"
 
 Scenario: Read all entities as SLC Operator
@@ -90,7 +90,7 @@ Scenario: Read securityEvents as SEA Admin. 11 Events. Sunsetadmin(4),  Iladmin(
     Then I should receive a return code of 200
     And I should receive a collection of "11" entities
     And each entity's "entityType" should be "<ENTITY TYPE>"
-    Then each entity's "targetEdOrg" should be in the array "<IL_SUNSET_LONGWOOD>"
+    Then each entity's "targetEdOrgList" array should contain "<IL_SUNSET_LONGWOOD>"
  
  @wip  
    Scenario: Enable delegation of SecurityEvents as Longwood LEA Admin 
