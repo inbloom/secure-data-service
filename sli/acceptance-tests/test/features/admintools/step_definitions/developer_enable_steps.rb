@@ -188,10 +188,11 @@ Then /^I don't see the newly disabled application$/ do
 end
 
 When /^I (enable|disable) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action,edOrgName,tenant|
-  # Note: there should be no need to disable table scan since there is an index on educationOrganization.nameOfInstitution
+  disable_NOTABLESCAN()
   db = @conn[convertTenantIdToDbName(tenant)]
   coll = db.collection("educationOrganization")
   record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
+  enable_NOTABLESCAN()
   edOrgId = record["_id"]
   elt = @driver.find_element(:id, edOrgId)
   assert(elt, "Educational organization element for '" + edOrgName + "' (" + edOrgId + ") not found")
