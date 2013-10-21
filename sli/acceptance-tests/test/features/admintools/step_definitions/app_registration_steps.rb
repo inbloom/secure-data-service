@@ -268,7 +268,7 @@ Then /^the client ID and shared secret fields are present$/ do
 end
 
 Then /^the Registration Status field is Pending$/ do
-  td = @driver.find_element(:xpath, "//tbody/tr[1]/td[4]")
+  td = @driver.find_element(:xpath, "//tbody/tr[1]/td[5]")
   assert(td.text == 'Pending', "Expected 'Pending', got #{td.text}")
 end
 
@@ -372,7 +372,7 @@ Then /^the application is registered$/ do
   appsTable = @driver.find_element(:id, "applications")
   trs  = appsTable.find_elements(:xpath, ".//tbody/tr/td[text()='NewApp']")
   trs.each do |tr|
-    assert(tr.find_element(:xpath, "../td[4]").text != "Pending", "App should be registered")
+    assert(tr.find_element(:xpath, "../td[5]").text != "Pending", "App should be registered")
   end
   assert(trs.length > 0, "No more pending applications")
 end
