@@ -90,7 +90,7 @@ And under My Applications, I click on "Schlemiel"
 Then my current url is "https://www.google.com/"
 
 #assert all edOrgs explicitly authorized
-#bulk extract app is "NotTheAppYoureLookingFor", SSDS expected count is 2 (SEA & LEA)
-Then there are "2" edOrgs for the "NotTheAppYoureLookingFor" application in the applicationAuthorization collection
+#bulk extract app is "NotTheAppYoureLookingFor", SSDS expected count is 5 (SEA, LEA & 3 schools)
+Then there are "5" edOrgs for the "NotTheAppYoureLookingFor" application in the applicationAuthorization collection
 # non-bulk-extract app is "Schlemiel", SSDS expected count is 5 (SEA, LEA & 3 schools)
 Then there are "5" edOrgs for the "Schlemiel" application in the applicationAuthorization collection
