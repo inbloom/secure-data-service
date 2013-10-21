@@ -1,4 +1,3 @@
-
 Feature: Application Enablement and Authorization by Education Organization
 	As a developer I want to be able to enable my application for specific states and education organizations.
 	As an admin I want to be able to approve the applications that developers enabled for specific education organizations.
@@ -44,10 +43,9 @@ Background:
         Then I am redirected to the Application Registration Tool page
         And I see the list of (only) my applications
         And I clicked on the button Edit for the application "Aboukir"
-        Then I can see the on-boarded states
-        And I select the "Illinois State Board of Education"
+        When I enable the educationalOrganization "Illinois State Board of Education" in tenant "Midgar"
         And I click on Save
-        Then "Aboukir" is enabled for "38" education organizations
+        Then "Aboukir" is enabled for "200" education organizations
         
     Scenario: SEA Admin Approves application
          When I hit the Admin Application Authorization Tool
@@ -67,13 +65,13 @@ Background:
           |Yellow Middle School |
       	 And I authorize the educationalOrganization "Illinois State Board of Education"
       	 And I click Update
-      	 Then there are "38" edOrgs for the "Aboukir" application in the applicationAuthorization collection for the "Midgar" tenant
+      	 Then there are "200" edOrgs for the "Aboukir" application in the applicationAuthorization collection for the "Midgar" tenant
          And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-         And there are "38" educationalOrganizations in the targetEdOrgList
+         And there are "200" educationalOrganizations in the targetEdOrgList
          And I see an application "Aboukir" in the table
-         And in Status it says "38 EdOrg(s)"
+         And in Status it says "200 EdOrg(s)"
          Given the sli securityEvent collection is empty
          When I click on the "Edit Authorizations" button next to it
          And I de-authorize the educationalOrganization "Illinois State Board of Education"
@@ -82,7 +80,7 @@ Background:
          And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-         And there are "38" educationalOrganizations in the targetEdOrgList
+         And there are "200" educationalOrganizations in the targetEdOrgList
          And I see an application "Aboukir" in the table
          And in Status it says "Not Approved"
   
@@ -128,13 +126,13 @@ Background:
           And I expand all nodes
           And I authorize the educationalOrganization "Daybreak School District 4529"
           And I click Update
-          Then there are "2" edOrgs for the "Aboukir" application in the applicationAuthorization collection for the "Midgar" tenant
+          Then there are "45" edOrgs for the "Aboukir" application in the applicationAuthorization collection for the "Midgar" tenant
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-          And there are "2" educationalOrganizations in the targetEdOrgList
+          And there are "45" educationalOrganizations in the targetEdOrgList
           And I see an application "Aboukir" in the table
-          And in Status it says "2 EdOrg(s)"
+          And in Status it says "45 EdOrg(s)"
           Given the sli securityEvent collection is empty
           When I click on the "Edit Authorizations" button next to it
           And I de-authorize the educationalOrganization "Daybreak School District 4529"
@@ -143,7 +141,7 @@ Background:
           And I check to find if record is in sli db collection:
               | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
               | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-          And there are "2" educationalOrganizations in the targetEdOrgList
+          And there are "45" educationalOrganizations in the targetEdOrgList
           And I see an application "Aboukir" in the table
           And in Status it says "Not Approved"
 
