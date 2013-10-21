@@ -24,6 +24,9 @@ sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" acceptance-t
 #Take care of rails projects
 echo "Altering rails applications to match..."
 grep -lR "https://ci.slidev.org" admin-tools/admin-rails/config/config.yml | xargs -L 1 sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g"
+if test ${LDAP_NODE+defined}; then
+    sed -i "s/ou=CI,dc=slidev,dc=org/ou=${LDAP_NODE},dc=slidev,dc=org/g" admin-tools/admin-rails/config/config.yml
+fi
 grep -lR "https://ci.slidev.org" databrowser/config/config.yml | xargs -L 1 sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g"
 sed -i "s/ci.slidev.org/$hostname.slidev.org/g" admin-tools/admin-rails/config/deploy/*.rb
 sed -i "s/ci.slidev.org/$hostname.slidev.org/g" databrowser/config/deploy/*.rb
