@@ -31,11 +31,11 @@ Then I am redirected to the Application Registration Tool page
 And the application "NotTheAppYoureLookingFor" is listed in the table on the top
 And the client ID and shared secret fields are present
 And I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
-When I select the state "Standard State Education Agency"
+When I enable the educationalOrganization "Standard State Education Agency"
 When I click on Save
 And my new apps client ID is present
 And my new apps shared secret is present
-Then the "NotTheAppYoureLookingFor" is enabled for Districts
+Then "NotTheAppYoureLookingFor" is enabled for "199" education organizations
 
 #Add Bulk Extract role to IT Admin
 And I exit out of the iframe
@@ -70,9 +70,9 @@ Then I am redirected to the Application Registration Tool page
 And the application "Schlemiel" is listed in the table on the top
 And the client ID and shared secret fields are present
 And I clicked on the button Edit for the application "Schlemiel"
-When I select the state "Standard State Education Agency"
+When I enable the educationalOrganization "Standard State Education Agency"
 When I click on Save
-Then the "Schlemiel" is enabled for Districts
+Then "Schlemiel" is enabled for "199" education organizations
 And I exit out of the iframe
 And I click on log out
 Then I should be redirected to the impersonation page
