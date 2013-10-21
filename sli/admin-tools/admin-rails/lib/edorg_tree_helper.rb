@@ -100,7 +100,8 @@ module EdorgTreeHelper
       root_children = if is_sea_admin then root_ids else @userEdOrgs end
       # Because ":enabled" aggregates on an "or" basis, and ":authorized" aggregates on an "and" basis, init
       # them to "false" and "true" respectively, so that the logic aggregates appropriately.
-      root_edorg = { :id => ROOT_ID, :parents => [], :children => root_children, :enabled => false, :authorized => true, :name => 'All EdOrgs', :edOrg => { :id => ROOT_ID, :parentEducationAgencyReference  => []}}
+      root_edorg = { :id => ROOT_ID, :parents => [], :children => root_children, :enabled => ! @forAppAuthorization, :authorized => true,
+                     :name => 'All EdOrgs', :edOrg => { :id => ROOT_ID, :parentEducationAgencyReference  => []}}
       @edinf[ROOT_ID] = root_edorg
 
       # Allow SEA admin to see everything, including edOrgs not parented
@@ -168,16 +169,23 @@ module EdorgTreeHelper
           by_type[ctype][:children].push(cid)
           by_type[ctype][:nchild] += 1
           by_type[ctype][:ndesc] += @edinf[cid][:ndesc] + 1
-          # Aggregate the enabled/authorized status.  Enabled aggregates on an "or" basis,
-          # and authorized aggregates on an "and" basis, and only for enabled children
-          by_type[ctype][:enabled] = by_type[ctype][:enabled] || @edinf[cid][:enabled]
+          # Aggregate the enabled/authorized status.  For authoriztation, enabled aggregates on an "or" basis,
+          # and authorized aggregates on an "and" basis (and then only for enabled children).
+          # For enablement screen, aggregate by "and" everywhere.
+          if @forAppAuthorization
+            agg_enabled = by_type[ctype][:enabled] || @edinf[cid][:enabled]
+          else
+            agg_enabled = by_type[ctype][:enabled] && @edinf[cid][:enabled]
+          end
+          by_type[ctype][:enabled] = agg_enabled
           if @edinf[cid][:enabled]
             by_type[ctype][:authorized] = by_type[ctype][:authorized]  && @edinf[cid][:authorized]
           end
         else
           new_id = CATEGORY_NODE_PREFIX + @id_counter.to_s
           @id_counter += 1
-          by_type[ctype] = { :id => new_id, :name => ctype, :parents => [ id ], :children => [ cid ], :nchild => 1, :ndesc => @edinf[cid][:ndesc] + 1, :enabled => @edinf[cid][:enabled], :authorized => !@edinf[cid][:enabled] || @edinf[cid][:authorized]
+          by_type[ctype] = { :id => new_id, :name => ctype, :parents => [ id ], :children => [ cid ], :nchild => 1, :ndesc => @edinf[cid][:ndesc] + 1,
+                             :enabled => @edinf[cid][:enabled], :authorized => !@edinf[cid][:enabled] || @edinf[cid][:authorized]
           }
         end
       end
@@ -197,7 +205,11 @@ module EdorgTreeHelper
       by_type.each do |ctype, cinf|
         new_children.push(cinf[:id])
         @edinf[cinf[:id]] = cinf
-        agg_enabled = agg_enabled || cinf[:enabled]
+        if @forAppAuthorization
+          agg_enabled = agg_enabled || cinf[:enabled]
+        else
+          agg_enabled = agg_enabled && cinf[:enabled]
+        end
         if cinf[:enabled]
           agg_authorized = agg_authorized && cinf[:authorized]
         end
@@ -294,7 +306,7 @@ module EdorgTreeHelper
 
       # Uncomment below for debugging: add ID, show enabled/authorized status, show subtree status
       # result += " [" + eo[:id][0,8] + "]"
-      # result += " enabled=" + eo[:enabled].to_s + " authorized=" + eo[:authorized].to_s
+      result += " enabled=" + eo[:enabled].to_s + " authorized=" + eo[:authorized].to_s
       # result += " is_anchored=" + is_anchored.to_s + " is_repeat_subtree=" + is_repeat_subtree.to_s
       # result += " parents[0]=[" + parents[0][0,8] + "]" if !parents.empty?
 
