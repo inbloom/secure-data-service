@@ -44,14 +44,9 @@ Background:
         Then I am redirected to the Application Registration Tool page
         And I see the list of (only) my applications
         And I clicked on the button Edit for the application "Royal Oak"
-<<<<<<< Updated upstream
-=======
-        #And I select the "Illinois State Board of Education"
->>>>>>> Stashed changes
         And I enable the educationalOrganization "Illinois State Board of Education"
         And I click on Save
         Then "Royal Oak" is enabled for "200" education organizations
-        #don't forget to checkstatus
 
     Scenario: SEA Admin Approves application
         When I hit the Admin Application Authorization Tool
