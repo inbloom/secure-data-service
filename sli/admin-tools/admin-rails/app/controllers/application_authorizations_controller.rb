@@ -103,7 +103,9 @@ class ApplicationAuthorizationsController < ApplicationController
   # GET /application_authorizations.json
   def index
 
+    puts "before load_apps"
     load_apps()
+    puts "after load apps"
 
     # Use this in the template to enable buttons
     @isSEAAdmin = is_sea_admin?
@@ -235,6 +237,9 @@ class ApplicationAuthorizationsController < ApplicationController
     # Slurp all apps into @apps_map = a map of appId -> info
     @apps_map = {}
     allApps = App.findAllInChunks({})
+
+    puts "allApps #{allApps}"
+
     allApps.each { |app| @apps_map[app.id] = app }
   end
 
