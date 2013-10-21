@@ -96,8 +96,8 @@ And I clicked on the button Edit for the application "NewApp"
 And I have edited the field named "Image URL" to say "https://imageurl"
 And I have edited the field named "Description" to say "Kittens"
 When I clicked Save
-#And I the field named "Image Url" still says "https://imageurl"
-#And I the field named "Description" still says "Kittens"
+And I the field named "Application Icon Url" still says "https://imageurl"
+And I the field named "Description" still says "Kittens"
 
 
 Scenario: SLC Operator accepts application registration request
