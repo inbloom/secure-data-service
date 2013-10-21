@@ -387,7 +387,7 @@ Then /^I de-authorize the educationalOrganization "(.*?)"$/ do |edOrgName|
   step "I authorize the educationalOrganization \"#{edOrgName}\""
 end
 
-Then /^I enable the educationalOrganization "(.*?)"$/ do |edOrgName|
+Then /^I enable the education Organization "(.*?)"$/ do |edOrgName|
     step "I authorize the educationalOrganization \"#{edOrgName}\""
 end
 
