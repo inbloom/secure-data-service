@@ -35,7 +35,7 @@ When I enable the educationalOrganization "Standard State Education Agency" in s
 When I click on Save
 And my new apps client ID is present
 And my new apps shared secret is present
-Then "NotTheAppYoureLookingFor" is enabled for "199" education organizations
+Then "NotTheAppYoureLookingFor" is enabled for "5" education organizations
 
 #Add Bulk Extract role to IT Admin
 And I exit out of the iframe
@@ -72,7 +72,7 @@ And the client ID and shared secret fields are present
 And I clicked on the button Edit for the application "Schlemiel"
 When I enable the educationalOrganization "Standard State Education Agency" in sandbox
 When I click on Save
-Then "Schlemiel" is enabled for "199" education organizations
+Then "Schlemiel" is enabled for "5" education organizations
 And I exit out of the iframe
 And I click on log out
 Then I should be redirected to the impersonation page
