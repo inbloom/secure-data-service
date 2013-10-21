@@ -81,37 +81,37 @@ Background:
         Given I have replaced the edorg data
 
 Scenario: App Developer or Vendor enabling application for a District
-Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
-When I hit the Application Registration Tool URL
+  Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
+    And "Red Dwarf" is enabled for "0" education organizations
+  When I hit the Application Registration Tool URL
 	And I was redirected to the "Simple" IDP Login page
 	And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
-Then I am redirected to the Application Registration Tool page
+  Then I am redirected to the Application Registration Tool page
 	And I see the list of (only) my applications
-	And I clicked on the button Edit for the application "Testing App"
-#Already enabled
-#When I select the state "Illinois State Board of Education"
-And I click on Save
-Then the "Testing App" is enabled for Districts
+	And I clicked on the button Edit for the application "Red Dwarf"
+    And I enable the educationalOrganization "Illinois State Board of Education" in tenant "Midgar"
+    And I click on Save
+  Then "Red Dwarf" is enabled for "200" education organizations
 
 Scenario: District Admin authorizing application for their district
-Given I log in as a valid SLI Operator "sunsetadmin" from the "SLI" hosted directory
-When I hit the Admin Application Authorization Tool
+  Given I log in as a valid SLI Operator "sunsetadmin" from the "SLI" hosted directory
+  When I hit the Admin Application Authorization Tool
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
-	Then I am redirected to the Admin Application Authorization Tool
-	Then I see the newly enabled application
+  Then I am redirected to the Admin Application Authorization Tool
+	And I see the newly enabled application
 
 Scenario: App Developer or Vendor disabling application for a District, part 2
-Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
-When I hit the Application Registration Tool URL
+  Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
+  When I hit the Application Registration Tool URL
 	And I was redirected to the "Simple" IDP Login page
 	And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
-Then I am redirected to the Application Registration Tool page
+  Then I am redirected to the Application Registration Tool page
 	And I see the list of (only) my applications
-	And I clicked on the button Edit for the application "Testing App"
-When I select the state "Illinois State Board of Education"
-And I click on Save
-  Then the "Testing App" is enabled for Districts
+	And I clicked on the button Edit for the application "Red Dwarf"
+    And I disable the educationalOrganization "Illinois State Board of Education" in tenant "Midgar"
+    And I click on Save
+  Then "Red Dwarf" is enabled for "0" education organizations
 
 Scenario: District Admin no longers see apps disabled for their district 
 Given I log in as a valid SLI Operator "sunsetadmin" from the "SLI" hosted directory
