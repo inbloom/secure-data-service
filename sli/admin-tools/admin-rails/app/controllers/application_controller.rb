@@ -173,6 +173,9 @@ class ApplicationController < ActionController::Base
 
   def set_session
     check = Check.get("")
+
+    puts "session check response was [#{check}]"
+
     if check['authenticated'] == false
       raise ActiveResource::UnauthorizedAccess, caller
     end
