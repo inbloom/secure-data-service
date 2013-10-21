@@ -193,6 +193,7 @@ end
 desc "API Bulk Extract non current student data Tests"
 task :bulkExtractPriorTest => [:realmInit] do
   runTests("test/features/bulk_extract/features/bulk_extract_prior_data.feature")
+  #runTests("test/features/bulk_extract/features/bulk_extract_delta_prior_data.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 

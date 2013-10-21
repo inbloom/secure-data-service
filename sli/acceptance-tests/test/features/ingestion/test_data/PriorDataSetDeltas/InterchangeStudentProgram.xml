@@ -1,0 +1,56 @@
+<InterchangeStudentProgram xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                           xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentProgram.xsd">
+
+    <StudentProgramAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>118</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
+        <Services>
+
+
+            <Description>Reading Intervention</Description>
+        </Services>
+        <BeginDate>2011-08-31</BeginDate>
+        <EndDate>2012-05-28</EndDate>
+        <ReasonExited>Reached maximum age</ReasonExited>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </StudentProgramAssociation>
+
+    <StudentProgramAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>174</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
+        <Services>
+
+
+            <Description>Reading Intervention</Description>
+        </Services>
+        <BeginDate>2012-09-06</BeginDate>
+        <EndDate>2013-06-03</EndDate>
+        <ReasonExited>Transfer to regular education</ReasonExited>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </StudentProgramAssociation>
+
+</InterchangeStudentProgram>

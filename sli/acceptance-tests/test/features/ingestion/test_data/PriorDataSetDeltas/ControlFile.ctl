@@ -1,0 +1,2 @@
+edfi-xml,StudentParent,InterchangeStudentParent.xml
+edfi-xml,StudentProgram,InterchangeStudentProgram.xml
