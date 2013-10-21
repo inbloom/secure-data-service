@@ -30,8 +30,8 @@ Quick tips:
 
 <%=form_for @appAuth,  :action => :update do |f|%>
   <%= f.hidden_field :appId, :value => @appAuth.appId %>
-  <%= f.hidden_field :edorgsAdded,   :value => '' %>
-  <%= f.hidden_field :edorgsRemoved, :value => '' %>
+  <%= f.hidden_field :edorgsAdded,   :class => 'edorgsAdded', :value => '' %>
+  <%= f.hidden_field :edorgsRemoved, :class => 'edorgsRemoved', :value => '' %>
   
   <div class="content">
     <div id="edorgTree">
