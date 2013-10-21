@@ -93,21 +93,19 @@ Then /^I can see the on\-boarded states\/districts$/ do
 end
 
 Then /^I can see the on\-boarded states$/ do
-  attempts = 0
-  found = false
-  options = nil
-  while attempts < 5 && found == false
-    if attempts > 1
-      puts "DEBUG: elements.to_s #{options}"
-      puts "DEBUG: select box:  #{@driver.find_elements(:css, 'div#state-menu select')}"
-      puts "Did not find any states in select menu.  Retrying..."
-      sleep(2)
-    end
-    attempts += 1
-    options = @driver.find_elements(:css, 'div#state-menu select option')
-    found = true if options.count >= 1
-  end
-  assert(found, "At least one state should exist")
+
+  ['Midgar', 'Hyrule'].each {|tenantId|
+    sliDb = @conn.db(convertTenantIdToDbName(tenantId))
+    coll  = sliDb.collection('educationOrganization')
+    seas  = coll.find('body.organizationCategories' => 'State Education Agency')
+    puts "Looking for #{seas.count} SEAs of #{tenantId} on page!"
+    seas.each { |sea|
+      seaName = sea['body']['nameOfInstitution']
+      puts " Looking for #{seaName} on page"
+      seaOnPage = @driver.find_elements(:xpath, "//span[contains(., '#{seaName}')]")
+      assert(seaOnPage.count > 0, " Looking for SEA #{seaName} of #{tenantId} on page. Found #{seaOnPage.count}.")
+    }
+  }
 end
 
 #

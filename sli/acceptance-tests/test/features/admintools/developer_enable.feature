@@ -46,6 +46,7 @@ Background:
         Then I am redirected to the Application Registration Tool page
         And I see the list of (only) my applications
         And I clicked on the button Edit for the application "Red Dwarf"
+        Then I can see the on-boarded states
         When I check the Bulk Extract checkbox
         And I enable the educationalOrganization "Mega State" in tenant "Midgar"
         And I enable the educationalOrganization "New York State Education System" in tenant "Hyrule"
@@ -53,11 +54,13 @@ Background:
         # 8 for Ny and 2331 for Mega State
         Then "Red Dwarf" is enabled for "2339" education organizations
         And I clicked on the button Edit for the application "Red Dwarf"
+        Then I can see the on-boarded states
         And I disable the educationalOrganization "Mega State" in tenant "Midgar"
         And I click on Save
         Then "Red Dwarf" is enabled for "8" education organizations
         #test non-bulk extract app
         And I clicked on the button Edit for the application "Red Dwarf"
+        Then I can see the on-boarded states
         When I uncheck the Bulk Extract checkbox
         And I enable the educationalOrganization "Mega State" in tenant "Midgar"
         And I click on Save
