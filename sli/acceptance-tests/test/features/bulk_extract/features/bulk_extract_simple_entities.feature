@@ -50,10 +50,11 @@ Scenario Outline: Verify simple entities were correctly extracted for low-level 
    Examples:
     | entity                                | expectedCount | | user       | role             | realm       | tenant | edorg        | appId                                |
     | attendance                            | 22      | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-    # should be uncommented when endpoint is available
-    | courseTranscript                      | 25      | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-    # discipline{Incident,Action} should be excluded from the extract due to no records match
+    #  courseTranscript should be excluded from the extract due to no records match
+    #| courseTranscript                      | dbCount | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
+    # disciplineIncident should be excluded from the extract due to no records match
     #| disciplineIncident                    | dbCount | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
+    # disciplineAction should be excluded from the extract due to no records match
     #| disciplineAction                      | dbCount | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
     # graduationPlan should be excluded from the extract due to no records match
     #| graduationPlan                        | dbCount | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |

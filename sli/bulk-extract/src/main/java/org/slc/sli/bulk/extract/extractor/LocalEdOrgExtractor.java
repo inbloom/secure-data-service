@@ -132,7 +132,7 @@ public class LocalEdOrgExtractor {
 
         // Course Transcript
         EntityDatedExtract courseTranscriptExtractor = factory.buildCourseTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository,
-                edorgCache, student.getStudentDatedCache());
+                student.getStudentDatedCache());
         courseTranscriptExtractor.extractEntities(studentAcademicRecordDateCache);
 
         EntityExtract genericExtractor = factory.buildParentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
@@ -155,7 +155,8 @@ public class LocalEdOrgExtractor {
         staffCohortExtractor.extractEntities(seaExtractor.getStaffDatedCache());
 
         // Section
-        SectionEmbeddedDocsExtractor sectionExtractor = factory.buildSectionExtractor(entityExtractor, leaToExtractFileMap, repository, student.getStudentDatedCache(), edorgCache, helper, seaExtractor.getStaffDatedCache());
+        SectionEmbeddedDocsExtractor sectionExtractor = factory.buildSectionExtractor(entityExtractor, leaToExtractFileMap, repository, student.getStudentDatedCache(),
+                edorgCache, helper, seaExtractor.getStaffDatedCache());
         sectionExtractor.extractEntities(studentGradebookExtractor.getGradebookEntryCache());
 
         EntityDatedExtract studentCompetencyExtractor = factory.buildStudentCompetencyExtractor(entityExtractor, leaToExtractFileMap, repository);
