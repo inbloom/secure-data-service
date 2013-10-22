@@ -55,5 +55,10 @@ public class ParentContextResolver implements ContextResolver {
         }
         return leas;
     }
+
+    @Override
+    public Set<String> findGoverningEdOrgs(Entity baseEntity, Entity entityToExtract) {
+        return null;
+    }
     
 }

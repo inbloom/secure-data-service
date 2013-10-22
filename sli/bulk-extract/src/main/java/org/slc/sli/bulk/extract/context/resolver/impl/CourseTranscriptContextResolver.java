@@ -72,5 +72,10 @@ public class CourseTranscriptContextResolver implements ContextResolver {
         
         return Collections.emptySet();
     }
+
+    @Override
+    public Set<String> findGoverningEdOrgs(Entity baseEntity, Entity entityToExtract) {
+        return null;
+    }
     
 }
