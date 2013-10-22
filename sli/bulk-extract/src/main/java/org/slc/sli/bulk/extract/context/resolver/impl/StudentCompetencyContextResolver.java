@@ -67,5 +67,9 @@ public class StudentCompetencyContextResolver implements ContextResolver {
 
         return studentResolver.findGoverningEdOrgs(studentId);
     }
-    
+
+    @Override
+    public Set<String> findGoverningEdOrgs(Entity baseEntity, Entity entityToExtract) {
+        return null;
+    }
 }

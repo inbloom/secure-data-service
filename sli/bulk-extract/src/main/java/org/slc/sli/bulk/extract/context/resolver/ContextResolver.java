@@ -27,7 +27,8 @@ import org.slc.sli.domain.Entity;
  * The entity could belong to more than one top level LEA
  */
 public interface ContextResolver {
-    
+
+    //TODO: Remove after F316 is done
     /**
      * Return a list of LEAs IDs given the entity
      * 
@@ -36,5 +37,14 @@ public interface ContextResolver {
      * @return a set of Strings which are IDs of the top level LEA
      */
     public Set<String> findGoverningEdOrgs(Entity entity);
-    
+
+    /**
+     * Return a set of edorg Ids given the base entity and entity to extract
+     *
+     * @param baseEntity        base entity the entity to extract relies on
+     * @param entityToExtract   entity to extract
+     * @return                  set of edorg Ids
+     */
+    public Set<String> findGoverningEdOrgs(Entity baseEntity, Entity entityToExtract);
+
 }

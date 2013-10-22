@@ -44,5 +44,4 @@ public class StudentDirectRelatedContextResolver extends RelatedContextResolver 
     protected String getReferenceProperty(String entityType) {
         return STUDENT_ID;
     }
-    
 }

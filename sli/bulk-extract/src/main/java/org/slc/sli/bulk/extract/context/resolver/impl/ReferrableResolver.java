@@ -15,11 +15,9 @@
  */ 
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import org.slc.sli.common.constants.EntityNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +94,37 @@ public abstract class ReferrableResolver implements ContextResolver {
         
         return Collections.emptySet();
     }
-    
+
+    public Set<String> findGoverningEdOrgs(Entity baseEntity, Entity entityToExtract) {
+        LOG.debug("resolving {}", baseEntity);
+        if (baseEntity == null || baseEntity.getEntityId() == null) {
+            return Collections.emptySet();
+        }
+
+        Set<String> edOrgs = resolve(baseEntity, entityToExtract);
+
+        return edOrgs;
+    }
+
+    public Set<String> findGoverningEdOrgs(String id, Entity entityToExtract) {
+        if (id == null) {
+            return Collections.emptySet();
+        }
+
+        if (getCache().containsKey(id)) {
+            LOG.debug("got edOrgs from cache for {}", id);
+            return getCache().get(id);
+        }
+
+        Entity entity = getRepo().findOne(getCollection(), DeltaEntityIterator.buildQuery(getCollection(), id));
+        if (entity != null) {
+            return findGoverningEdOrgs(entity, entityToExtract);
+        }
+
+        return Collections.emptySet();
+    }
+
+
     protected Repository<Entity> getRepo() {
         return repo;
     }
@@ -108,5 +136,9 @@ public abstract class ReferrableResolver implements ContextResolver {
     protected abstract String getCollection();
     
     protected abstract Set<String> resolve(Entity entity);
+
+    protected Set<String> resolve(Entity baseEntity, Entity entityToExtract) {
+        throw new UnsupportedOperationException();
+    }
 
 }

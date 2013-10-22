@@ -623,10 +623,6 @@ Scenario: Triggering deltas via ingestion
        #this is student 11, which has updated information
        | id                                          | condition                                |
        | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id | studentUniqueStateId = 11                |
-     And I verify this "student" file should not contain:
-       #this is student 12, which has updated information, but we cut his tie with any schools
-       | id                                          | condition                                |
-       | 609640f6af263faad3a0cbee2cbe718fb71b9ab2_id |                                          |
 
      And I verify this "studentSchoolAssociation" file should contain:
        #updated association for student 11
@@ -771,10 +767,6 @@ Scenario: Triggering deltas via ingestion
   #this is student 11, which has updated information
     | id                                          | condition                                |
     | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id | studentUniqueStateId = 11                |
-  And I verify this "student" file should not contain:
-  #this is student 12, which has updated information, but we cut his tie with any schools
-    | id                                          | condition                                |
-    | 609640f6af263faad3a0cbee2cbe718fb71b9ab2_id |                                          |
 
   And I verify this "studentSchoolAssociation" file should contain:
   #updated association for student 11

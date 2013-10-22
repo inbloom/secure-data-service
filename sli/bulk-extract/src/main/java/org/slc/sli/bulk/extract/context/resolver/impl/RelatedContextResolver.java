@@ -15,11 +15,10 @@
  */
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -29,7 +28,10 @@ import org.slc.sli.domain.Entity;
  * 
  */
 public abstract class RelatedContextResolver implements ContextResolver {
-    
+
+    private static Set<String> supportedNonCurrentEntities = new HashSet<String>(Arrays.asList(EntityNames.STUDENT_PROGRAM_ASSOCIATION,
+            EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, EntityNames.STUDENT_PARENT_ASSOCIATION));
+
     public RelatedContextResolver() {
         super();
     }
@@ -44,8 +46,16 @@ public abstract class RelatedContextResolver implements ContextResolver {
         if (referredId == null) {
             return Collections.emptySet();
         }
-        
+
+        if (supportedNonCurrentEntities.contains(entity.getType())) {
+            return getReferredResolver().findGoverningEdOrgs(referredId, entity);
+        }
         return getReferredResolver().findGoverningEdOrgs(referredId);
+    }
+
+    @Override
+    public Set<String> findGoverningEdOrgs(Entity baseEntity, Entity actualEntity) {
+        throw new UnsupportedOperationException();
     }
     
     protected String getReferredId(String type, Map<String, Object> body) {

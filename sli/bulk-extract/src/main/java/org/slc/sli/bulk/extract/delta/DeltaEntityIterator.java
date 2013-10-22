@@ -242,7 +242,9 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             if (deletedTime >= updatedTime) {
                 Entity deleted = new MongoEntity(collection, id, null, null);
                 if(DEPENDENT_MAP.containsKey(collection)) {
-                    addDependencies(collection, deleted, resolver.findGoverningEdOrgs(deleted));
+                    Set<String> edorgs = findGoverningEdorgs(resolver, deleted);
+
+                    addDependencies(collection, deleted, edorgs);
                 } else {
                     deleteQueue.add(new DeltaRecord(deleted, null, Operation.DELETE, false, collection));
                 }
@@ -324,7 +326,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                     continue;
                 }
 
-                Set<String> governingEdOrgs = resolver.findGoverningEdOrgs(entity);
+                Set<String> governingEdOrgs = findGoverningEdorgs(resolver, entity);
                 if (!KEEP_DENORMALIZED.contains(entity.getType())) {
                     entity.getDenormalizedData().clear();
                     entity.getEmbeddedData().clear();
@@ -391,6 +393,17 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             }
         }
         
+    }
+
+    private Set<String> findGoverningEdorgs(ContextResolver resolver, Entity entity) {
+        Set<String> edorgs;
+        if (entity.getType().equals(EntityNames.STUDENT)) {
+            edorgs = resolver.findGoverningEdOrgs(entity, entity);
+        } else {
+            edorgs = resolver.findGoverningEdOrgs(entity);
+        }
+
+        return edorgs;
     }
 
     /**
