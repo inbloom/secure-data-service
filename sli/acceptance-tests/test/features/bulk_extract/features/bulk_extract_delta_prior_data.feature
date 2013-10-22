@@ -123,10 +123,10 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | student                               |
       #| studentAcademicRecord                 |
       #| studentAssessment                     |
-     # | studentCohortAssociation              |
-     # | studentDisciplineIncidentAssociation  |
+      | studentCohortAssociation              |
+      | studentDisciplineIncidentAssociation  |
       #| studentGradebookEntry                 |
-     # | studentParentAssociation              |
+      | studentParentAssociation              |
       | studentProgramAssociation             |
      # | studentSchoolAssociation              |
      # | studentSectionAssociation             |
@@ -144,9 +144,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
    # And I verify this "studentAssessment" file should not contain:
    #   | id                                          |
   #    | b2542b105c09130bc7d3f81b471d1f0f0e481fd8_id |
-   # And I verify this "studentParentAssociation" file should contain:
-  #    | id                                                                                     | condition                             |
-   #   | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id3382e80b35990e1ea89cdde30339fb0c4b79793d_id | entityType = studentParentAssociation |
+    And I verify this "studentParentAssociation" file should contain:
+      | id                                                                                     | condition                             |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id3382e80b35990e1ea89cdde30339fb0c4b79793d_id | entityType = studentParentAssociation |
     And I verify this "studentProgramAssociation" file should not contain:
       | id                                                                                     |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id58e9a8ae4486e96051b33876b20a8f2cac745408_id |
