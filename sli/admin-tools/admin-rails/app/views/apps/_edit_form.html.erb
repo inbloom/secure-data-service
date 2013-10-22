@@ -92,22 +92,29 @@
 
 <h3>Enable the Education Organizations you would like to use your application</h3>
 <div id="edorgTree">
-    <ul>
-      <li>Please choose edOrgs to enable for the app.
-      <li>Following each EdOrg are counts of: <span class="treecounts">(direct subsidiary EdOrgs / total subsidiary EdOrgs)</span>
-    </ul>
-    <input id="hierarchical_mode" type="checkbox" checked="true">Hierarchical Selection Mode</input>
-    <a href="#" id="expand_all">Expand All</a>
-    <a href="#" id="collapse_all">Collapse All</a>
+
+  <ul>
+    <li>Please choose edOrgs to enable for the app.
+    <li>Following each EdOrg are counts of: <span class="treecounts">(direct subsidiary EdOrgs / total subsidiary EdOrgs)</span>
+  </ul>
+  <input id="hierarchical_mode" type="checkbox" checked="true">Hierarchical Selection Mode</input>
+
+  <a href="#" id="expand_all">Expand All</a>
+  <a href="#" id="collapse_all">Collapse All</a>
+  <span class = "edOrgTreeActions">
+    <%= f.submit "Save & Update", :disable_with => 'Submitting...', :class => "btn" %>
+    <button onclick="window.location.href='/apps'">Cancel</button>
+  </span>
+
 
   <div>
   <%= @treeHtml.html_safe %>
   </div>
 
-  <div class = "actions" id = "edOrgTreeActions">
-	<%= f.submit "Save", :disable_with => 'Submitting...', :class => "btn" %>
-	<%= link_to "Cancel", :back %>
-  </div>
+  <span class = "edOrgTreeActions" >
+	<%= f.submit "Save & Update", :disable_with => 'Submitting...', :class => "btn" %>
+    <button onclick="window.location.href='/apps'">Cancel</button>
+  </span>
 
 </div>
 
