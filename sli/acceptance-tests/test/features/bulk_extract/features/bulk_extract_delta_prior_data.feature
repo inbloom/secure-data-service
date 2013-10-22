@@ -68,6 +68,10 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | id                                                                                     | condition          |
       | e325f180753f2f170b2826a26112f1be229cdf63_idd17b5f2c25d83632142b68f96eae69c7c73ccdf4_id | entityType = grade |
       | e1ddd4b5c0c531a734135ecd461b33cab842c18c_idfce1fd8e96cffd8c1dbf505a6862acfcf914b01b_id | entityType = grade |
+    And I verify this "courseTranscript" file should contain:
+      | id                                          | condition                     |
+      | 9d80fafba1ac36587a60002bc83df1ebe13c7c36_id | entityType = courseTranscript |
+      | f0e15138c37352a57aab8d70feb6a0cad6c59741_id | entityType = courseTranscript |
 
   Scenario: The extract for an edorg should not contain data for a former student or staff that's dated after the person has left
     And I request the latest bulk extract delta using the api
@@ -111,7 +115,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "grade" file should not contain:
       | id                                                                                     |
       | e1ddd4b5c0c531a734135ecd461b33cab842c18c_idc215fa1253b26479fea38c153679913544bf3ad0_id |
-
+    And I verify this "courseTranscript" file should not contain:
+      | id                                          |
+      | 0bc385d7a20aa1a9df92627cd841d545d3052b3b_id |
 
 ##########################################################################
 #    TIMELINE OF ENROLLMENT OF MATT SOLLARS FOR EDGE CASES
@@ -191,6 +197,12 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | 429dc90b61707fa474005db798cec3f46807fa69_idab729c89eb9aa10765955b0da2f6c9bd4e1a2bb6_id | entityType = grade |
       | 429dc90b61707fa474005db798cec3f46807fa69_id6e4d4b52f5caa38f1ae6063fca428908f2c1575d_id | entityType = grade |
       | 429dc90b61707fa474005db798cec3f46807fa69_id3b746ce9c454a4ef2bb8b29c9672bbf1e75a704c_id | entityType = grade |
+    And I verify this "courseTranscript" file should contain:
+      | id                                          | condition                     |
+      | cb154b7f3fdb1ed9a62a5343c6d4d78addc8d444_id | entityType = courseTranscript |
+      | c2c71979a917b74578950b6f976c4314acc9969f_id | entityType = courseTranscript |
+      | 5a214a3e596887dffeaf44fdabd4535f33a96646_id | entityType = courseTranscript |
+
   #This extract should not contain content for anything that began after DCH's end date with the student
   #Given proper data, everything from WSH shouldn't be included
     And I verify this "studentAssessment" file should not contain:
@@ -215,5 +227,8 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "grade" file should not contain:
       | id                                                                                     |
       | b28bc3be4667c80070094a24e1f7bc3a9b9a2893_id0d1ec4954d2640bf3ae2eb758f6c8c86d820dbb1_id |
+    And I verify this "courseTranscript" file should not contain:
+      | id                                          |
+      | b848986b74335a114ebee017c4f70659f96850db_id |
 
 
