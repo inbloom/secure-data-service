@@ -1,0 +1,429 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+
+  <CourseTranscript>
+    <CourseAttemptResult>Pass</CourseAttemptResult>
+    <CreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+      <Credit>3</Credit>
+    </CreditsAttempted>
+    <CreditsEarned>
+      <Credit>3</Credit>
+    </CreditsEarned>
+    <AdditionalCreditsEarned AdditionalCreditType="AP"> 
+       <Credit>0</Credit>
+    </AdditionalCreditsEarned>
+    <GradeLevelWhenTaken>Ninth grade</GradeLevelWhenTaken>
+    <MethodCreditEarned>Classroom credit</MethodCreditEarned>
+    <FinalLetterGradeEarned>C</FinalLetterGradeEarned>
+    <FinalNumericGradeEarned>75</FinalNumericGradeEarned>
+    <CourseRepeatCode>RepeatCounted</CourseRepeatCode>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>281</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StudentAcademicRecordReference>
+      <StudentAcademicRecordIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>900000016</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2011-2012 Year Round session: Daybreak Central High</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <SchoolYear>2011-2012</SchoolYear>
+      </StudentAcademicRecordIdentity>
+    </StudentAcademicRecordReference>
+  </CourseTranscript>
+
+  <CourseTranscript>
+    <CourseAttemptResult>Pass</CourseAttemptResult>
+    <CreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+      <Credit>3</Credit>
+    </CreditsAttempted>
+    <CreditsEarned>
+      <Credit>3</Credit>
+    </CreditsEarned>
+    <AdditionalCreditsEarned AdditionalCreditType="AP"> 
+       <Credit>0</Credit>
+    </AdditionalCreditsEarned>
+    <GradeLevelWhenTaken>Twelfth grade</GradeLevelWhenTaken>
+    <MethodCreditEarned>Classroom credit</MethodCreditEarned>
+    <FinalLetterGradeEarned>A+</FinalLetterGradeEarned>
+    <FinalNumericGradeEarned>99</FinalNumericGradeEarned>
+    <CourseRepeatCode>RepeatCounted</CourseRepeatCode>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>454</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StudentAcademicRecordReference>
+      <StudentAcademicRecordIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>900000016</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2013-2014 Year Round session: Sunset Central High</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <SchoolYear>2013-2014</SchoolYear>
+      </StudentAcademicRecordIdentity>
+    </StudentAcademicRecordReference>
+  </CourseTranscript>
+
+  <CourseTranscript>
+    <CourseAttemptResult>Pass</CourseAttemptResult>
+    <CreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+      <Credit>3</Credit>
+    </CreditsAttempted>
+    <CreditsEarned>
+      <Credit>3</Credit>
+    </CreditsEarned>
+    <AdditionalCreditsEarned AdditionalCreditType="AP"> 
+       <Credit>0</Credit>
+    </AdditionalCreditsEarned>
+    <GradeLevelWhenTaken>Twelfth grade</GradeLevelWhenTaken>
+    <MethodCreditEarned>Classroom credit</MethodCreditEarned>
+    <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
+    <FinalNumericGradeEarned>85</FinalNumericGradeEarned>
+    <CourseRepeatCode>RepeatCounted</CourseRepeatCode>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>455</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StudentAcademicRecordReference>
+      <StudentAcademicRecordIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>900000016</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2013-2014 Year Round session: Sunset Central High</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <SchoolYear>2013-2014</SchoolYear>
+      </StudentAcademicRecordIdentity>
+    </StudentAcademicRecordReference>
+  </CourseTranscript>
+
+  <CourseTranscript>
+    <CourseAttemptResult>Pass</CourseAttemptResult>
+    <CreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+      <Credit>3</Credit>
+    </CreditsAttempted>
+    <CreditsEarned>
+      <Credit>3</Credit>
+    </CreditsEarned>
+    <AdditionalCreditsEarned AdditionalCreditType="AP"> 
+       <Credit>0</Credit>
+    </AdditionalCreditsEarned>
+    <GradeLevelWhenTaken>Ninth grade</GradeLevelWhenTaken>
+    <MethodCreditEarned>Classroom credit</MethodCreditEarned>
+    <FinalLetterGradeEarned>C-</FinalLetterGradeEarned>
+    <FinalNumericGradeEarned>71</FinalNumericGradeEarned>
+    <CourseRepeatCode>RepeatCounted</CourseRepeatCode>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>265</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StudentAcademicRecordReference>
+      <StudentAcademicRecordIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2010-2011 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <SchoolYear>2010-2011</SchoolYear>
+      </StudentAcademicRecordIdentity>
+    </StudentAcademicRecordReference>
+  </CourseTranscript>
+
+  <CourseTranscript>
+    <CourseAttemptResult>Pass</CourseAttemptResult>
+    <CreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+      <Credit>3</Credit>
+    </CreditsAttempted>
+    <CreditsEarned>
+      <Credit>3</Credit>
+    </CreditsEarned>
+    <AdditionalCreditsEarned AdditionalCreditType="AP"> 
+       <Credit>0</Credit>
+    </AdditionalCreditsEarned>
+    <GradeLevelWhenTaken>Ninth grade</GradeLevelWhenTaken>
+    <MethodCreditEarned>Online credit</MethodCreditEarned>
+    <FinalLetterGradeEarned>C</FinalLetterGradeEarned>
+    <FinalNumericGradeEarned>75</FinalNumericGradeEarned>
+    <CourseRepeatCode>RepeatCounted</CourseRepeatCode>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>267</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StudentAcademicRecordReference>
+      <StudentAcademicRecordIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2010-2011 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <SchoolYear>2010-2011</SchoolYear>
+      </StudentAcademicRecordIdentity>
+    </StudentAcademicRecordReference>
+  </CourseTranscript>
+
+  <CourseTranscript>
+    <CourseAttemptResult>Pass</CourseAttemptResult>
+    <CreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+      <Credit>3</Credit>
+    </CreditsAttempted>
+    <CreditsEarned>
+      <Credit>3</Credit>
+    </CreditsEarned>
+    <AdditionalCreditsEarned AdditionalCreditType="AP"> 
+       <Credit>0</Credit>
+    </AdditionalCreditsEarned>
+    <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
+    <MethodCreditEarned>Credit by examination</MethodCreditEarned>
+    <FinalLetterGradeEarned>B-</FinalLetterGradeEarned>
+    <FinalNumericGradeEarned>80</FinalNumericGradeEarned>
+    <CourseRepeatCode>RepeatCounted</CourseRepeatCode>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>334</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Eastside High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StudentAcademicRecordReference>
+      <StudentAcademicRecordIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2010-2011 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <SchoolYear>2010-2011</SchoolYear>
+      </StudentAcademicRecordIdentity>
+    </StudentAcademicRecordReference>
+  </CourseTranscript> 
+
+  <CourseTranscript>
+    <CourseAttemptResult>Pass</CourseAttemptResult>
+    <CreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+      <Credit>3</Credit>
+    </CreditsAttempted>
+    <CreditsEarned>
+      <Credit>3</Credit>
+    </CreditsEarned>
+    <AdditionalCreditsEarned AdditionalCreditType="AP"> 
+       <Credit>0</Credit>
+    </AdditionalCreditsEarned>
+    <GradeLevelWhenTaken>Eleventh grade</GradeLevelWhenTaken>
+    <MethodCreditEarned>Converted occupational experience credit</MethodCreditEarned>
+    <FinalLetterGradeEarned>C+</FinalLetterGradeEarned>
+    <FinalNumericGradeEarned>79</FinalNumericGradeEarned>
+    <CourseRepeatCode>RepeatCounted</CourseRepeatCode>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>402</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StudentAcademicRecordReference>
+      <StudentAcademicRecordIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2010-2011 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <SchoolYear>2010-2011</SchoolYear>
+      </StudentAcademicRecordIdentity>
+    </StudentAcademicRecordReference>
+  </CourseTranscript> 
+
+  <CourseTranscript>
+    <CourseAttemptResult>Pass</CourseAttemptResult>
+    <CreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+      <Credit>3</Credit>
+    </CreditsAttempted>
+    <CreditsEarned>
+      <Credit>3</Credit>
+    </CreditsEarned>
+    <AdditionalCreditsEarned AdditionalCreditType="AP"> 
+       <Credit>0</Credit>
+    </AdditionalCreditsEarned>
+    <GradeLevelWhenTaken>Twelfth grade</GradeLevelWhenTaken>
+    <MethodCreditEarned>Adult education credit</MethodCreditEarned>
+    <FinalLetterGradeEarned>B-</FinalLetterGradeEarned>
+    <FinalNumericGradeEarned>80</FinalNumericGradeEarned>
+    <CourseRepeatCode>RepeatCounted</CourseRepeatCode>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>486</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Westside High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StudentAcademicRecordReference>
+      <StudentAcademicRecordIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2011-2012 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <SchoolYear>2011-2012</SchoolYear>
+      </StudentAcademicRecordIdentity>
+    </StudentAcademicRecordReference>
+  </CourseTranscript>
+
+</InterchangeStudentGrade>    
