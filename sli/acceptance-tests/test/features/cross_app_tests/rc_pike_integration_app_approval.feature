@@ -281,6 +281,7 @@ Scenario: App developer enables Bulk Extract App
     And I expand all nodes
     And I deselect hierarchical mode
     When I enable the educationalOrganization "Daybreak School District 4529" in production
+    When I enable the educationalOrganization "Education Agency for RC Tests" in production
     When I click on Save
     And I exit out of the iframe
     And I click on log out
@@ -383,6 +384,7 @@ And I see an application "BulkExtractApp2" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
 And I expand all nodes
+And I deselect hierarchical mode
 And I authorize the educationalOrganization "Daybreak School District 4529" in the production tenant
 And I click Update
 # switch back to iframe because of the page reload
