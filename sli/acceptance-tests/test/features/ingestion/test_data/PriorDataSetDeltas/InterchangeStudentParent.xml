@@ -213,5 +213,95 @@
         <EmergencyContactStatus>true</EmergencyContactStatus>
         <ContactPriority>1</ContactPriority>
     </StudentParentAssociation>
+    
+<Parent>
+  <ParentUniqueStateId>900000016-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Tommy</FirstName>
+    <MiddleName>Benny</MiddleName>
+    <LastSurname>Ortiz</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Previous Legal Name">
+    <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+    <FirstName>Terrence</FirstName>
+    <MiddleName>Zane</MiddleName>
+    <LastSurname>Kelly</LastSurname>
+    <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>1313 Mockingbird Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>(133)555-2191</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>210@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>210@fakemail.com</LoginId>
+</Parent>
+
+<Parent>
+  <ParentUniqueStateId>800000025-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Brent</FirstName>
+    <MiddleName>Ulysses</MiddleName>
+    <LastSurname>Sollars</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Nickname">
+    <PersonalTitlePrefix>Dr</PersonalTitlePrefix>
+    <FirstName>Gregory</FirstName>
+    <MiddleName>Samuel</MiddleName>
+    <LastSurname>Murphy</LastSurname>
+    <GenerationCodeSuffix>IV</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>707 Elm Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>(512)555-2418</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9008@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9008@fakemail.com</LoginId>
+</Parent>    
+
+<Parent>
+  <ParentUniqueStateId>800000025-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Monica</FirstName>
+    <MiddleName>Reyna</MiddleName>
+    <LastSurname>Sollars</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Other Name">
+    <PersonalTitlePrefix>Dr</PersonalTitlePrefix>
+    <FirstName>Gloria</FirstName>
+    <MiddleName>Edna</MiddleName>
+    <LastSurname>Williams</LastSurname>
+    <GenerationCodeSuffix>IV</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>707 Elm Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>(305)555-9797</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>3918@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>3918@fakemail.com</LoginId>
+</Parent>
 
 </InterchangeStudentParent>

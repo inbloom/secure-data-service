@@ -155,5 +155,181 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CodeValue>BE0</CodeValue>
     </Behaviors>
   </StudentDisciplineIncidentAssociation>
+  
+  <DisciplineIncident>
+    <IncidentIdentifier>32#1</IncidentIdentifier>
+    <IncidentDate>2011-09-26</IncidentDate>
+    <IncidentTime>09:10:20</IncidentTime>
+    <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="Other">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Firearm</Weapon>
+      <Weapon>Other Sharp Objects</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000008</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+  </DisciplineIncident>  
+
+  <DisciplineIncident>
+    <IncidentIdentifier>167#0</IncidentIdentifier>
+    <IncidentDate>2013-11-22</IncidentDate>
+    <IncidentTime>09:13:11</IncidentTime>
+    <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Other</ReporterDescription>
+    <ReporterName>Reported Other Name</ReporterName>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="Other">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000026</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+  </DisciplineIncident>
+  
+  <DisciplineIncident>
+    <IncidentIdentifier>140#0</IncidentIdentifier>
+    <IncidentDate>2011-09-06</IncidentDate>
+    <IncidentTime>13:08:37</IncidentTime>
+    <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Other</ReporterDescription>
+    <ReporterName>Reported Other Name</ReporterName>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="Other">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000025</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+  </DisciplineIncident>
+  
+  <DisciplineIncident>
+    <IncidentIdentifier>137#1</IncidentIdentifier>
+    <IncidentDate>2010-11-04</IncidentDate>
+    <IncidentTime>09:32:04</IncidentTime>
+    <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Mrs. Simone Fakename</ReporterName>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>None</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000024</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+  </DisciplineIncident>
+  
+  <DisciplineIncident>
+    <IncidentIdentifier>15#0</IncidentIdentifier>
+    <IncidentDate>2011-04-16</IncidentDate>
+    <IncidentTime>15:31:06</IncidentTime>
+    <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Mr. Anon E Mous</ReporterName>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Sharp Objects</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-15#0</CaseNumber>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000007</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+  </DisciplineIncident>
+  
+  <DisciplineIncident>
+    <IncidentIdentifier>52#1</IncidentIdentifier>
+    <IncidentDate>2011-09-05</IncidentDate>
+    <IncidentTime>08:09:19</IncidentTime>
+    <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="Other">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000007</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+  </DisciplineIncident>        
    
 </InterchangeStudentDiscipline>

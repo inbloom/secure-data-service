@@ -87,7 +87,8 @@ public class ExtractorFactory {
         return new StaffCohortAssociationExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public SectionEmbeddedDocsExtractor buildSectionExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgDateCache studentDatedCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper, EntityToEdOrgDateCache staffDatedCache) {
+    public SectionEmbeddedDocsExtractor buildSectionExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository,
+            EntityToEdOrgDateCache studentDatedCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper, EntityToEdOrgDateCache staffDatedCache) {
         return new SectionEmbeddedDocsExtractor(entityExtractor, extractFileMap, repository, studentDatedCache, staffDatedCache);
     }
 
@@ -97,8 +98,8 @@ public class ExtractorFactory {
     }
 
     public EntityDatedExtract buildCourseTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
-            EntityToEdOrgCache edorgCache, EntityToEdOrgDateCache studentDatedCache) {
-        return new CourseTranscriptExtractor(extractor, map, repo, edorgCache, studentDatedCache);
+            EntityToEdOrgDateCache studentDatedCache) {
+        return new CourseTranscriptExtractor(extractor, map, repo, studentDatedCache);
     }
 
     public StudentGradebookEntryExtractor buildStudentGradebookEntryExtractor(EntityExtractor extractor, ExtractFileMap map,
@@ -110,7 +111,8 @@ public class ExtractorFactory {
         return new StudentCompetencyExtractor(entityExtractor, extractFileMap, repository);
     }
 
-    public EntityDatedExtract buildDisciplineExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgCache edorgCache, EntityToEdOrgDateCache entityCache) {
+    public EntityDatedExtract buildDisciplineExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository,
+            EntityToEdOrgCache edorgCache, EntityToEdOrgDateCache entityCache) {
         return new DisciplineExtractor(entityExtractor, extractFileMap, repository, entityCache, edorgCache);
     }
 }

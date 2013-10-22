@@ -177,7 +177,7 @@ public class LocalEdOrgExtractorTest {
 
         Mockito.when(
                 mockFactory.buildCourseTranscriptExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class), Mockito.any(Repository.class),
-                        Mockito.any(EntityToEdOrgCache.class), Mockito.any(EntityToEdOrgDateCache.class))).thenReturn(courseTranscriptExtract);
+                        Mockito.any(EntityToEdOrgDateCache.class))).thenReturn(courseTranscriptExtract);
 
         Mockito.when(
                 mockFactory.buildStudentGradebookEntryExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),
