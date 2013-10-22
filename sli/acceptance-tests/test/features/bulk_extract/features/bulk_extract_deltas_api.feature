@@ -1168,6 +1168,7 @@ Given I clean the bulk extract file system and database
     | newSEACourseOffering           |  courseOffering                        |  201         |
     | newAssessment                  |  assessment                            |  201         |
     | newBECalendarDate              |  calendarDate                          |  201         |
+    | newStudentGradebookEntry       |  studentGradebookEntry                 |  201         |
 
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
@@ -1330,6 +1331,7 @@ Given I clean the bulk extract file system and database
         |  studentProgramAssociation             |
         #| newStaffProgramAssociation             |
         |  studentCompetency                     |
+        |  studentGradebookEntry                 |
         #| newDisciplineIncident                  |
         #| newDisciplineAction                    |
         #| newStudentDiscIncidentAssoc            |

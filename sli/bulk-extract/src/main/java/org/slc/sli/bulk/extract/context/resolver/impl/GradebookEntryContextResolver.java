@@ -15,8 +15,20 @@
  */
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
+import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 
 /**
@@ -26,19 +38,32 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-public class GradebookEntryContextResolver extends RelatedContextResolver {
+public class GradebookEntryContextResolver implements ContextResolver {
 
     @Autowired
-    private SectionContextResolver sectionResolver;
-    
+    @Qualifier("secondaryRepo")
+    private Repository<Entity> repo;
+
+    @Autowired
+    private StudentContextResolver studentResolver;
+
     @Override
-    protected String getReferenceProperty(String entityType) {
-        return "sectionId";
+    public Set<String> findGoverningEdOrgs(Entity entity) {
+        Set<String> edOrgs = new HashSet<String>();
+
+        Iterator<Entity> studentGradebookEntries = repo.findEach(EntityNames.STUDENT_GRADEBOOK_ENTRY,
+                Query.query(Criteria.where("body.gradebookEntryId").is(entity.getEntityId())));
+
+        while(studentGradebookEntries.hasNext()) {
+            Entity studentGradebookEntry = studentGradebookEntries.next();
+            edOrgs.addAll(studentResolver.findGoverningEdOrgs((String) studentGradebookEntry.getBody().get(ParameterConstants.STUDENT_ID), entity));
+        }
+        return edOrgs;
     }
 
     @Override
-    protected ReferrableResolver getReferredResolver() {
-        return sectionResolver;
+    public Set<String> findGoverningEdOrgs(Entity baseEntity, Entity actualEntity) {
+        return null;
     }
     
 }

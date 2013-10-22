@@ -111,11 +111,6 @@ public abstract class ReferrableResolver implements ContextResolver {
             return Collections.emptySet();
         }
 
-        if (getCache().containsKey(id)) {
-            LOG.debug("got edOrgs from cache for {}", id);
-            return getCache().get(id);
-        }
-
         Entity entity = getRepo().findOne(getCollection(), DeltaEntityIterator.buildQuery(getCollection(), id));
         if (entity != null) {
             return findGoverningEdOrgs(entity, entityToExtract);
