@@ -277,13 +277,14 @@ Scenario: App developer enables Bulk Extract App
     Then I am redirected to the Application Registration Tool page
     And I see an application "BulkExtractApp2" in the table
     And the client ID and shared secret fields are present
-    And I clicked on the button Edit for the application "BulkExtractApp2"
-    Then I can see the on-boarded states
-    When I select the state "Education Agency for RC Tests"
+    When I clicked on the button Edit for the application "BulkExtractApp2"
+    And I expand all nodes
+    And I I deselect hierarchical mode
+    When I enable the educationalOrganization "Daybreak School District 4529" in production
     When I click on Save
     And I exit out of the iframe
     And I click on log out
-    And "BulkExtractApp2" is enabled for "38" production education organizations
+    And "BulkExtractApp2" is enabled for "1" production education organizations
 
 Scenario: App developer creates new non Bulk Extract App
     When I navigate to the Portal home page
@@ -326,8 +327,7 @@ Scenario: App developer enables non Bulk Extract App
     And I see an application "Not a bulk extract app" in the table
     And the client ID and shared secret fields are present
     And I clicked on the button Edit for the application "NotABulkExtractApp"
-    Then I can see the on-boarded states
-    When I select the state "Education Agency for RC Tests"
+    When I enable the educationalOrganization "Education Agency for RC Tests" in production
     When I click on Save
     And I exit out of the iframe
     And I click on log out
@@ -382,13 +382,14 @@ Then there are "199" edOrgs for the "NotABulkExtractApp" application in the prod
 And I see an application "BulkExtractApp2" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
-And I authorize the educationalOrganization "Education Agency for RC Tests" in the production tenant
+And I expand all nodes
+And I authorize the educationalOrganization "Daybreak School District 4529" in the production tenant
 And I click Update
 # switch back to iframe because of the page reload
 And I switch to the iframe
 And I see an application "BulkExtractApp2" in the table
-And in Status it says "38 EdOrg(s)"
-Then there are "38" edOrgs for the "BulkExtractApp2" application in the production applicationAuthorization collection
+And in Status it says "1 EdOrg(s)"
+Then there are "1" edOrgs for the "BulkExtractApp2" application in the production applicationAuthorization collection
 
 Scenario: Operator triggers a bulk extract
 Given the production extraction zone is empty
