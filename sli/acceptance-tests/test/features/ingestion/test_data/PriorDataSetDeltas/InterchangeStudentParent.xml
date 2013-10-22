@@ -180,5 +180,38 @@
         <LoginId>4859@fakemail.com</LoginId>
     </Student>
 
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>900000016-dad</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Father</Relation>
+        <LivesWith>true</LivesWith>
+        <ContactPriority>1</ContactPriority>
+    </StudentParentAssociation>
+
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>800000025-dad</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Father</Relation>
+        <PrimaryContactStatus>true</PrimaryContactStatus>
+        <LivesWith>true</LivesWith>
+        <EmergencyContactStatus>true</EmergencyContactStatus>
+        <ContactPriority>1</ContactPriority>
+    </StudentParentAssociation>
 
 </InterchangeStudentParent>

@@ -1,2 +1,5 @@
+edfi-xml,StudentCohort,InterchangeStudentCohort.xml
+edfi-xml,StudentDiscipline,InterchangeStudentDiscipline.xml
 edfi-xml,StudentParent,InterchangeStudentParent.xml
 edfi-xml,StudentProgram,InterchangeStudentProgram.xml
+edfi-xml,StudentGrades,InterchangeStudentGrades.xml

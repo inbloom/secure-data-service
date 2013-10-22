@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<InterchangeStudentCohort xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                          xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentCohort.xsd">
+    <StudentCohortAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <CohortReference>
+            <CohortIdentity>
+                <CohortIdentifier>2</CohortIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CohortIdentity>
+        </CohortReference>
+        <BeginDate>2011-08-31</BeginDate>
+        <EndDate>2012-11-29</EndDate>
+    </StudentCohortAssociation>
+
+    <StudentCohortAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <CohortReference>
+            <CohortIdentity>
+                <CohortIdentifier>2</CohortIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CohortIdentity>
+        </CohortReference>
+        <BeginDate>2013-09-03</BeginDate>
+        <EndDate>2014-12-02</EndDate>
+    </StudentCohortAssociation>
+
+    <StudentCohortAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <CohortReference>
+            <CohortIdentity>
+                <CohortIdentifier>3</CohortIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CohortIdentity>
+        </CohortReference>
+        <BeginDate>2011-09-05</BeginDate>
+        <EndDate>2012-11-29</EndDate>
+    </StudentCohortAssociation>
+
+    <StudentCohortAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <CohortReference>
+            <CohortIdentity>
+                <CohortIdentifier>2</CohortIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CohortIdentity>
+        </CohortReference>
+        <BeginDate>2011-08-31</BeginDate>
+        <EndDate>2012-11-29</EndDate>
+    </StudentCohortAssociation>
+
+    <StudentCohortAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <CohortReference>
+            <CohortIdentity>
+                <CohortIdentifier>1</CohortIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CohortIdentity>
+        </CohortReference>
+        <BeginDate>2010-08-31</BeginDate>
+        <EndDate>2011-11-29</EndDate>
+    </StudentCohortAssociation>
+
+    <StudentCohortAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <CohortReference>
+            <CohortIdentity>
+                <CohortIdentifier>3</CohortIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Eastside High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CohortIdentity>
+        </CohortReference>
+        <BeginDate>2010-08-31</BeginDate>
+        <EndDate>2011-11-29</EndDate>
+    </StudentCohortAssociation>
+
+    <StudentCohortAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <CohortReference>
+            <CohortIdentity>
+                <CohortIdentifier>2</CohortIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>14</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CohortIdentity>
+        </CohortReference>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2012-11-29</EndDate>
+    </StudentCohortAssociation>
+</InterchangeStudentCohort>

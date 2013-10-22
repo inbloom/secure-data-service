@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentDiscipline.xsd"> 
+
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>32#1</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Victim</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>168#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Sunset Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Victim</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>70#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Eastside High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Victim</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation> 
+  
+    <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>137#1</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Sunset Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Victim</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation> 
+
+    <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>138#1</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Sunset Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Victim</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+
+    <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>177#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Westside High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Victim</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+
+   <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>71#1</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Eastside High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Victim</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+   
+</InterchangeStudentDiscipline>
