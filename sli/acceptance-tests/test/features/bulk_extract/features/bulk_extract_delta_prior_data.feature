@@ -32,7 +32,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
     Then the extract contains a file for each of the following entities:
       | entityType                            |
       | grade                                 |
+      | reportCard                            |
       | student                               |
+      | studentAcademicRecord                 |
       | studentAssessment                     |
       | studentCohortAssociation              |
       | studentDisciplineIncidentAssociation  |
@@ -43,6 +45,10 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "student" file should contain:
       | id                                          | condition            |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id | entityType = student |
+    And I verify this "studentAcademicRecord" file should contain:
+      | id                                                                                     | condition                          |
+      | e325f180753f2f170b2826a26112f1be229cdf63_ide536c2b89ee393a7767b597601b581fd9bbfe4e0_id | entityType = studentAcademicRecord |
+      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id17e81b9ff5c5c728ec22ec3f40e975eea03570a6_id | entityType = studentAcademicRecord |
     And I verify this "studentAssessment" file should contain:
       | id                                          | condition                      |
       | abf6b39f8c841a247c3e4731a821ea8b86f1c5d1_id | entityType = studentAssessment |
@@ -68,6 +74,10 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | id                                                                                     | condition          |
       | e325f180753f2f170b2826a26112f1be229cdf63_idd17b5f2c25d83632142b68f96eae69c7c73ccdf4_id | entityType = grade |
       | e1ddd4b5c0c531a734135ecd461b33cab842c18c_idfce1fd8e96cffd8c1dbf505a6862acfcf914b01b_id | entityType = grade |
+    And I verify this "reportCard" file should contain:
+      | id                                                                                     | condition               |
+      | e325f180753f2f170b2826a26112f1be229cdf63_ida74c24bab9a9ef60755b46422a8d480239498581_id | entityType = reportCard |
+      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id9c0b53684b9d64742c653621239bdd92c6bc4288_id | entityType = reportCard |
     And I verify this "courseTranscript" file should contain:
       | id                                          | condition                     |
       | 9d80fafba1ac36587a60002bc83df1ebe13c7c36_id | entityType = courseTranscript |
@@ -80,7 +90,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
     Then the extract contains a file for each of the following entities:
       | entityType                            |
       | grade                                 |
+      | reportCard                            |
       | student                               |
+      | studentAcademicRecord                 |
       | studentAssessment                     |
       | studentCohortAssociation              |
       | studentDisciplineIncidentAssociation  |
@@ -91,6 +103,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "student" file should contain:
       | id                                          | condition            |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id | entityType = student |
+    And I verify this "studentAcademicRecord" file should not contain:
+      | id                                                                                     |
+      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id074f8af9afa35d4bb10ea7cd17794174563c7509_id |
     And I verify this "studentAssessment" file should not contain:
       | id                                          |
       | b2542b105c09130bc7d3f81b471d1f0f0e481fd8_id |
@@ -115,6 +130,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "grade" file should not contain:
       | id                                                                                     |
       | e1ddd4b5c0c531a734135ecd461b33cab842c18c_idc215fa1253b26479fea38c153679913544bf3ad0_id |
+    And I verify this "reportCard" file should not contain:
+      | id                                                                                     |
+      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_idfa02e1c8575067c8b43bfaee7da6108ffb4da31d_id |
     And I verify this "courseTranscript" file should not contain:
       | id                                          |
       | 0bc385d7a20aa1a9df92627cd841d545d3052b3b_id |
@@ -163,6 +181,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | 5154384148dbad6bc84a4b20b1c312e99fb3c004_id | entityType = studentAssessment |
       | 4c7a3fb655b56351f244c3d87bad76fd07b8478f_id | entityType = studentAssessment |
       | 02cbe22e355aea8e59f976247bae5389c491176d_id | entityType = studentAssessment |
+    And I verify this "studentAcademicRecord" file should contain:
+      | id                                                                                     | condition                          |
+      | 429dc90b61707fa474005db798cec3f46807fa69_id1a62a16dd757629cf502eeeaa9fd4494a0fff115_id | entityType = studentAcademicRecord |
     And I verify this "studentProgramAssociation" file should contain:
       | id                                                                                     | condition                              |
       | 067198fd6da91e1aa8d67e28e850f224d6851713_ide34acabe3e308a140d76b7bd2da54011be117110_id | entityType = studentProgramAssociation |
@@ -197,6 +218,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | 429dc90b61707fa474005db798cec3f46807fa69_idab729c89eb9aa10765955b0da2f6c9bd4e1a2bb6_id | entityType = grade |
       | 429dc90b61707fa474005db798cec3f46807fa69_id6e4d4b52f5caa38f1ae6063fca428908f2c1575d_id | entityType = grade |
       | 429dc90b61707fa474005db798cec3f46807fa69_id3b746ce9c454a4ef2bb8b29c9672bbf1e75a704c_id | entityType = grade |
+    And I verify this "reportCard" file should contain:
+      | id                                                                                     | condition               |
+      | 429dc90b61707fa474005db798cec3f46807fa69_id42fd81249cbc0c15bb99024e300b4d6f801d9a0f_id | entityType = reportCard |
     And I verify this "courseTranscript" file should contain:
       | id                                          | condition                     |
       | cb154b7f3fdb1ed9a62a5343c6d4d78addc8d444_id | entityType = courseTranscript |
@@ -208,6 +232,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "studentAssessment" file should not contain:
       | id                                          |
       | 6697f6850c06b1458bebff42b9ea9b5fdb444e95_id |
+    And I verify this "studentAcademicRecord" file should not contain:
+      | id                                                                                     |
+      | b28bc3be4667c80070094a24e1f7bc3a9b9a2893_id9f850bb17e294c429148d0b353f9e0db6c17338c_id |
     And I verify this "studentProgramAssociation" file should not contain:
       | id                                                                                     |
       | 067198fd6da91e1aa8d67e28e850f224d6851713_id3401ad622b20c8502b936844cf68293b27c1957e_id |
@@ -227,6 +254,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "grade" file should not contain:
       | id                                                                                     |
       | b28bc3be4667c80070094a24e1f7bc3a9b9a2893_id0d1ec4954d2640bf3ae2eb758f6c8c86d820dbb1_id |
+    And I verify this "reportCard" file should not contain:
+      | id                                                                                     |
+      | b28bc3be4667c80070094a24e1f7bc3a9b9a2893_id5d7185b665b99461cb92d18f09635d1212eda10b_id |
     And I verify this "courseTranscript" file should not contain:
       | id                                          |
       | b848986b74335a114ebee017c4f70659f96850db_id |
