@@ -3,6 +3,7 @@ Feature: An edorg's extract file should contain student and staff data from prev
 
   Scenario: Setup the database and trigger an extract
     Given I clean the bulk extract file system and database
+    And I have an empty delta collection
     And I am using local data store
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I successfully ingest "PriorDataSetDeltas.zip"
@@ -47,6 +48,7 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | courseTranscript                      |
       | gradebookEntry                        |
       | disciplineIncident                    |
+      | disciplineAction                      |
       | parent                                |
     And I verify this "student" file should contain:
       | id                                          | condition            |
@@ -102,6 +104,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "disciplineIncident" file should contain:
       | id                                          | condition                       |
       | 5c2d1d70eed68e801d551631eb82636fc9e9a6dc_id | entityType = disciplineIncident |
+    #And I verify this "disciplineAction" file should contain:
+      #| id                                          | condition                     |
+      #| c3210dcba5a65f44d37a88528989e39cdbcc6e09_id | entityType = disciplineAction |
     And I verify this "parent" file should contain:
       | id                                          | condition           |
       | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id | entityType = parent |
@@ -128,6 +133,7 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | courseTranscript                      |
       | gradebookEntry                        |
       | disciplineIncident                    |
+      | disciplineAction                      |
       | parent                                |
     And I verify this "student" file should contain:
       | id                                          | condition            |
@@ -177,6 +183,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "disciplineIncident" file should not contain:
       | id                                          |
       | ad0101e8b3efe4d35317175167c9fee11d746b58_id |
+    #And I verify this "disciplineAction" file should not contain:
+      #| id                                          |
+      #| e3d4fe2fdb6af50c87446e9050b74e0d7903f5cb_id |
     And I verify this "parent" file should contain:
       | id                                          | condition           |
       | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id | entityType = parent |
@@ -294,6 +303,12 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | bbd04e4949e29924c6520123c832209dcac9b8c0_id | entityType = disciplineIncident |
       | 02510a4ee38ab5b6b2b24270c89ab57e3f21e84c_id | entityType = disciplineIncident |
       | ccc1eb03dc0b67c556608ad0d6f1542d7f0e81ac_id | entityType = disciplineIncident |
+    #And I verify this "disciplineAction" file should contain:
+      #| id                                          | condition                     |
+      #| 8487d1a242024f633a945d953483b3fe58ced932_id | entityType = disciplineAction |
+      #| b7ae083ff970dc7d053db375cf228b4d055e1f10_id | entityType = disciplineAction |
+      #| 3704e7d33ede429ffaff697f6df37d95749fdfe8_id | entityType = disciplineAction |
+      #| 707dbc3c10c188bf5351a52a291009fe8f014075_id | entityType = disciplineAction |
 
   #This extract should not contain content for anything that began after DCH's end date with the student
   #Given proper data, everything from WSH shouldn't be included
@@ -340,5 +355,8 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "disciplineIncident" file should not contain:
       | id                                          |
       | 86048cb8a09146bf0c241aff921e1d68664961d2_id |
+    #And I verify this "disciplineAction" file should not contain:
+      #| id                                          |
+      #| 50bbbe6516a35098047a3b81634cf718ed58ffc4_id |
 
 

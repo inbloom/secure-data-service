@@ -213,10 +213,10 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | e1ddd4b5c0c531a734135ecd461b33cab842c18c_idc215fa1253b26479fea38c153679913544bf3ad0_id |
     And I verify this "reportCard" file should not contain:
       | id                                                                                     |
-      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_idfa02e1c8575067c8b43bfaee7da6108ffb4da31d_id |
+      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id67ce8d959e708542ad7f1861ba549211a8a6f099_id |
     And I verify this "studentAcademicRecord" file should not contain:
       | id                                                                                     |
-      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id074f8af9afa35d4bb10ea7cd17794174563c7509_id |
+      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id2797454efde05815c8a62f744265f31f94979316_id |
     And I verify this "attendance" file should not contain:
       | id                                          |
       | 49e65583c8c5f3e97db81807d5beeb028433053d_id |
