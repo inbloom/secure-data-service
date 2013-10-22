@@ -50,6 +50,7 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | disciplineIncident                    |
       | disciplineAction                      |
       | parent                                |
+      | studentCompetency                     |
     And I verify this "student" file should contain:
       | id                                          | condition            |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id | entityType = student |
@@ -110,6 +111,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "parent" file should contain:
       | id                                          | condition           |
       | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id | entityType = parent |
+    And I verify this "studentCompetency" file should contain:
+      | id                                          | condition                      |
+      | 91d9aa5d5da9dd0e2ae46791a6cc6882aec9a59a_id | entityType = studentCompetency |
 
   Scenario: The extract for an edorg should not contain data for a former student or staff that's dated after the person has left
     And I request the latest bulk extract delta using the api
@@ -135,6 +139,7 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | disciplineIncident                    |
       | disciplineAction                      |
       #| parent                                |
+      #| studentCompetency                     |
     And I verify this "student" file should contain:
       | id                                          | condition            |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id | entityType = student |
@@ -190,6 +195,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
     #And I verify this "parent" file should contain:
     #  | id                                          | condition           |
     #  | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id | entityType = parent |
+    #And I verify this "studentCompetency" file should not contain:
+      #| id                                          |
+      #| 3c2a56c1531ee76299aec831d2f41dc5bc6ec987_id |
 
 ##########################################################################
 #    TIMELINE OF ENROLLMENT OF MATT SOLLARS FOR EDGE CASES
@@ -310,6 +318,11 @@ Feature: An edorg's extract file should contain student and staff data from prev
       #| b7ae083ff970dc7d053db375cf228b4d055e1f10_id | entityType = disciplineAction |
       #| 3704e7d33ede429ffaff697f6df37d95749fdfe8_id | entityType = disciplineAction |
       #| 707dbc3c10c188bf5351a52a291009fe8f014075_id | entityType = disciplineAction |
+    #And I verify this "studentCompetency" file should contain:
+      #| id                                          | condition                      |
+      #| c761c5f2fcc53bb90940e3cd26501a75d0106acc_id | entityType = studentCompetency |
+      #| 20119d985f13ca5b223a8521972bf3fcac7a8dad_id | entityType = studentCompetency |
+      #| fd7c6a6862dc7b4257234f477d601300ef4c3fc1_id | entityType = studentCompetency |
 
   #This extract should not contain content for anything that began after DCH's end date with the student
   #Given proper data, everything from WSH shouldn't be included
@@ -359,5 +372,8 @@ Feature: An edorg's extract file should contain student and staff data from prev
     #And I verify this "disciplineAction" file should not contain:
       #| id                                          |
       #| 50bbbe6516a35098047a3b81634cf718ed58ffc4_id |
+    #And I verify this "studentCompetency" file should not contain:
+      #| id                                          |
+      #| ee9b1b72d1ca9692ff56bb2221a9f136c860d050_id |
 
 
