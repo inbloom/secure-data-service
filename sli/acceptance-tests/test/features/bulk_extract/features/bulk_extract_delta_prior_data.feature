@@ -1,4 +1,4 @@
-@RALLY_US5904 @RALLY_US5908 @RALLY_US5907 @RALLY_US5909 @RALLY_US5905
+@RALLY_US5911
 Feature: An edorg's extract file should contain student and staff data from previous enrollments with other schools
 
   Scenario: Setup the database and trigger an extract
@@ -32,14 +32,25 @@ Feature: An edorg's extract file should contain student and staff data from prev
     Then the extract contains a file for each of the following entities:
       | entityType                            |
       | student                               |
+      | studentCohortAssociation              |
+      | studentDisciplineIncidentAssociation  |
+      | studentParentAssociation              |
       | studentProgramAssociation             |
     And I verify this "student" file should contain:
       | id                                          | condition            |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id | entityType = student |
+    And I verify this "studentParentAssociation" file should contain:
+      | id                                                                                     | condition                             |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id3382e80b35990e1ea89cdde30339fb0c4b79793d_id | entityType = studentParentAssociation |
     And I verify this "studentProgramAssociation" file should contain:
       | id                                                                                     | condition                              |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id6d3f9afe4b7a6fe871bf92aa46d6ee9cca56f6e5_id | entityType = studentProgramAssociation |
-
+    And I verify this "studentCohortAssociation" file should contain:
+      | id                                                                                     | condition                             |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_idb8cb9f9619c552284b43208290b8e2455137eeed_id | entityType = studentCohortAssociation |
+    And I verify this "studentDisciplineIncidentAssociation" file should contain:
+      | id                                                                                     | condition                                         |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id92709ce1b529f9825bd4ab623f292c12c083df8e_id | entityType = studentDisciplineIncidentAssociation |
 
   Scenario: The extract for an edorg should not contain data for a former student or staff that's dated after the person has left
     And I request the latest bulk extract delta using the api
@@ -48,13 +59,25 @@ Feature: An edorg's extract file should contain student and staff data from prev
     Then the extract contains a file for each of the following entities:
       | entityType                            |
       | student                               |
+      | studentCohortAssociation              |
+      | studentDisciplineIncidentAssociation  |
+      | studentParentAssociation              |
       | studentProgramAssociation             |
     And I verify this "student" file should contain:
       | id                                          | condition            |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id | entityType = student |
+    And I verify this "studentParentAssociation" file should contain:
+      | id                                                                                     | condition                             |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id3382e80b35990e1ea89cdde30339fb0c4b79793d_id | entityType = studentParentAssociation |
     And I verify this "studentProgramAssociation" file should not contain:
       | id                                                                                     |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id58e9a8ae4486e96051b33876b20a8f2cac745408_id |
+    And I verify this "studentCohortAssociation" file should not contain:
+      | id                                                                                     |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_idcee230069953f0b915305f33ff9f061bfc832509_id |
+    And I verify this "studentDisciplineIncidentAssociation" file should not contain:
+      | id                                                                                     |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id2b0fbf2af85b9e850e533ded46d26d77aeaa2e75_id |
 
 
 ##########################################################################
@@ -91,6 +114,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "student" file should contain:
       | id                                          | condition            |
       | 067198fd6da91e1aa8d67e28e850f224d6851713_id | entityType = student |
+    And I verify this "studentParentAssociation" file should contain:
+      | id                                                                                     | condition                             |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_idc43bbfa3df05d4fd2d78a9edfee8fd63fbcf495a_id | entityType = studentParentAssociation |
   #This extract should contain content for anything that began on or before DCH's end date with the student
   #Even data from SCH that began on the student's final day with DCH should be included
     And I verify this "studentProgramAssociation" file should contain:
@@ -99,9 +125,30 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | 067198fd6da91e1aa8d67e28e850f224d6851713_id56c2e2108230cfdd4fc0602921f4ee724ff8b1a2_id | entityType = studentProgramAssociation |
       | 067198fd6da91e1aa8d67e28e850f224d6851713_ide2285301a2915907a047b8343f0522de2300031b_id | entityType = studentProgramAssociation |
       | 067198fd6da91e1aa8d67e28e850f224d6851713_id16ec8cd2cdf977761aa6105868be5339c12e19bc_id | entityType = studentProgramAssociation |
+    And I verify this "studentCohortAssociation" file should contain:
+      | id                                                                                     | condition                             |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id388413bdbb0059dd85a0451fe1c6ea8c5475d4d1_id | entityType = studentCohortAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id293b5f08004c4385b121091e2cd72a1a33e39392_id | entityType = studentCohortAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_idfe9b9e96676d530866cf5b742ea265d76f0d8a24_id | entityType = studentCohortAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id7de288576a0f32b99789d8f3a6cb773200794aa8_id | entityType = studentCohortAssociation |
+    And I verify this "studentDisciplineIncidentAssociation" file should contain:
+      | id                                                                                     | condition                                         |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_idd178f903e8fc7f13da40eff90fe04289f8d60180_id | entityType = studentDisciplineIncidentAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id7c81a5b5c57d1eacf611875aa87c44e57e2d4422_id | entityType = studentDisciplineIncidentAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id7776723a42cad712a6771a01aec0d7bb4b4c4ec9_id | entityType = studentDisciplineIncidentAssociation |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id126ec69e8441ecd01db21b4a68b74026e7cfb1b9_id | entityType = studentDisciplineIncidentAssociation |
+
   #This extract should not contain content for anything that began after DCH's end date with the student
   #Given proper data, everything from WSH shouldn't be included
     And I verify this "studentProgramAssociation" file should not contain:
       | id                                                                                     |
       | 067198fd6da91e1aa8d67e28e850f224d6851713_id3401ad622b20c8502b936844cf68293b27c1957e_id |
+    And I verify this "studentCohortAssociation" file should not contain:
+      | id                                                                                     |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_idb675acc4cb309496b14c25e7c3d74d07b60d68ae_id |
+    And I verify this "studentDisciplineIncidentAssociation" file should not contain:
+      | id                                                                                     |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id488486ca968826efacf5c1941c04e3ab30b83dc9_id |
+
+
 
