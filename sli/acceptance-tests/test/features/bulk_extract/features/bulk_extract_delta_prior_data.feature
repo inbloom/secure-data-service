@@ -55,6 +55,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | id                                          | condition                     |
       | 9d80fafba1ac36587a60002bc83df1ebe13c7c36_id | entityType = courseTranscript |
       | f0e15138c37352a57aab8d70feb6a0cad6c59741_id | entityType = courseTranscript |
+    And I verify this "gradebookEntry" file should contain:
+      | id                                                                                     | condition                   |
+      | e0b0e46a34acdf56356183cf22d9c506e4285527_id3082031a18c680ef1cac4dba1c9b8de482654d7a_id | entityType = gradebookEntry |
 
   Scenario: The extract for an edorg should not contain data for a former student or staff that's dated after the person has left
     And I request the latest bulk extract delta using the api
@@ -85,6 +88,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "courseTranscript" file should not contain:
       | id                                          |
       | 0bc385d7a20aa1a9df92627cd841d545d3052b3b_id |
+    And I verify this "gradebookEntry" file should not contain:
+      | id                                                                                     |
+      | f6b0227d1704b24efb2dae4a21e2d530fb384cca_idde48b510ed6ec71962f2483e1ad33511308db485_id |
 
 ##########################################################################
 #    TIMELINE OF ENROLLMENT OF MATT SOLLARS FOR EDGE CASES
@@ -148,6 +154,11 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | cb154b7f3fdb1ed9a62a5343c6d4d78addc8d444_id | entityType = courseTranscript |
       | c2c71979a917b74578950b6f976c4314acc9969f_id | entityType = courseTranscript |
       | 5a214a3e596887dffeaf44fdabd4535f33a96646_id | entityType = courseTranscript |
+    And I verify this "gradebookEntry" file should contain:
+      | id                                                                                     | condition                   |
+      | 6e9504c3061a61384cbd9591a52893f07c6af242_id70c4a7aee25bcd0e9c07f370c2987970db065402_id | entityType = gradebookEntry |
+      | 0d8ae7beaec1d6ceb44b5e7dae3fa5aa75267c1f_id70b1a2d9af0abfbfd9583a0090adbf9ddb76d644_id | entityType = gradebookEntry |
+      | 2bf98e6bef0cfa93c8f824179f3d4d76d6f8eb07_id4e6bd3cc6e9f1f7fe7b7671ddba4f03ce56595da_id | entityType = gradebookEntry |
 
   #This extract should not contain content for anything that began after DCH's end date with the student
   #Given proper data, everything from WSH shouldn't be included
@@ -163,6 +174,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "courseTranscript" file should not contain:
       | id                                          |
       | b848986b74335a114ebee017c4f70659f96850db_id |
+    And I verify this "gradebookEntry" file should not contain:
+      | id                                                                                     |
+      | 7df01fe133b2605d0007dd1fecf9c8f8bc6afbee_id591ed4c7b19326e3ffa2c680b4a469ff413d65f4_id |
 
 
 
