@@ -182,7 +182,6 @@ Scenario: App Developer registers an application in App Registration Tool in San
 		And I can see the client ID and shared secret
 		And the Registration Status field is Registered
 	When I click on the In Progress button
-        And I switch to the iframe
     Then I am redirected to the Application Registration Tool page
         And "NewApp" is enabled for "0" education organizations
 
