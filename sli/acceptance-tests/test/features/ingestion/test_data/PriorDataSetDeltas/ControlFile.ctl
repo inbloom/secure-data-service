@@ -1,3 +1,4 @@
+edfi-xml,Attendance,InterchangeAttendance.xml
 edfi-xml,StudentAssessment,InterchangeStudentAssessment.xml
 edfi-xml,StudentCohort,InterchangeStudentCohort.xml
 edfi-xml,StudentDiscipline,InterchangeStudentDiscipline.xml
