@@ -3010,6 +3010,16 @@ def get_post_body_by_entity_name(entity_name)
                              "ea27f2c3cd548cf82682a75e29182462da366912_id",
                              "5b1d4e75f457644b1bd00f7ef05caafa605adaec_id"]
     },
+    "newStudentGradebookEntry" => {
+        "studentSectionAssociationId" => "4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id",
+        "gradebookEntryId" => "4030207003b03d055bba0b5019b31046164eff4e_id383ee846e68a3f539a0a64a651ab2078dedbb6f3_id",
+        "letterGradeEarned" => "F",
+        "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "numericGradeEarned" => 59,
+        "dateFulfilled" => "2013-04-25",
+        "diagnosticStatement" => "Diagnostic Statement"
+    },
     "newStudentAssessment" => {
       "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
       "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",

@@ -115,8 +115,8 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
         if (edorgDates.isEmpty()) {
             edorgDates = extractorHelper.fetchAllEdOrgsForStudent(student);
             updateCache(studentId, edorgDates);
+            edorgDates = datedCache.getEntriesById(studentId);
         }
-        edorgDates = datedCache.getEntriesById(studentId);
 
         for (Map.Entry<String, DateTime> edorgDate : edorgDates.entrySet()) {
             try {

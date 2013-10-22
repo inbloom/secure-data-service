@@ -28,7 +28,7 @@ import org.slc.sli.domain.Entity;
  */
 public interface ContextResolver {
 
-    //TODO: Remove after F316 is done
+
     /**
      * Return a list of LEAs IDs given the entity
      * 
@@ -45,6 +45,7 @@ public interface ContextResolver {
      * @param entityToExtract   entity to extract
      * @return                  set of edorg Ids
      */
+    //TODO: Remove after F316 is done
     public Set<String> findGoverningEdOrgs(Entity baseEntity, Entity entityToExtract);
 
 }
