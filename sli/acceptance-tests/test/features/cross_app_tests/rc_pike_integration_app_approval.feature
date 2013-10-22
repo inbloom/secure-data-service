@@ -279,7 +279,7 @@ Scenario: App developer enables Bulk Extract App
     And the client ID and shared secret fields are present
     When I clicked on the button Edit for the application "BulkExtractApp2"
     And I expand all nodes
-    And I I deselect hierarchical mode
+    And I deselect hierarchical mode
     When I enable the educationalOrganization "Daybreak School District 4529" in production
     When I click on Save
     And I exit out of the iframe
