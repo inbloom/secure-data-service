@@ -285,7 +285,7 @@ Scenario: App developer enables Bulk Extract App
     When I click on Save
     And I exit out of the iframe
     And I click on log out
-    And "BulkExtractApp2" is enabled for "1" production education organizations
+    And "BulkExtractApp2" is enabled for "2" production education organizations
 
 Scenario: App developer creates new non Bulk Extract App
     When I navigate to the Portal home page
