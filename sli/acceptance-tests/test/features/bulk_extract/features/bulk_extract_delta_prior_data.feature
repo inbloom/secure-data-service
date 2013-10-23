@@ -130,7 +130,7 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | studentProgramAssociation             |
      # | studentSchoolAssociation              |
      # | studentSectionAssociation             |
-      #| courseTranscript                      |
+      | courseTranscript                      |
       | gradebookEntry                        |
       | disciplineIncident                    |
       | disciplineAction                      |
@@ -175,9 +175,9 @@ Feature: An edorg's extract file should contain student and staff data from prev
    # And I verify this "reportCard" file should not contain:
    #   | id                                                                                     |
    #   | e1ddd4b5c0c531a734135ecd461b33cab842c18c_idfa02e1c8575067c8b43bfaee7da6108ffb4da31d_id |
-    #And I verify this "courseTranscript" file should not contain:
-    #  | id                                          |
-    #  | 0bc385d7a20aa1a9df92627cd841d545d3052b3b_id |
+    And I verify this "courseTranscript" file should not contain:
+      | id                                          |
+      | 0bc385d7a20aa1a9df92627cd841d545d3052b3b_id |
     And I verify this "gradebookEntry" file should not contain:
       | id                                                                                     |
       | f6b0227d1704b24efb2dae4a21e2d530fb384cca_idde48b510ed6ec71962f2483e1ad33511308db485_id |
@@ -289,11 +289,11 @@ Feature: An edorg's extract file should contain student and staff data from prev
    # And I verify this "reportCard" file should contain:
    #   | id                                                                                     | condition               |
    #   | 429dc90b61707fa474005db798cec3f46807fa69_id42fd81249cbc0c15bb99024e300b4d6f801d9a0f_id | entityType = reportCard |
-    #And I verify this "courseTranscript" file should contain:
-    #  | id                                          | condition                     |
-    #  | cb154b7f3fdb1ed9a62a5343c6d4d78addc8d444_id | entityType = courseTranscript |
-    #  | c2c71979a917b74578950b6f976c4314acc9969f_id | entityType = courseTranscript |
-    #  | 5a214a3e596887dffeaf44fdabd4535f33a96646_id | entityType = courseTranscript |
+    And I verify this "courseTranscript" file should contain:
+      | id                                          | condition                     |
+      | cb154b7f3fdb1ed9a62a5343c6d4d78addc8d444_id | entityType = courseTranscript |
+      | c2c71979a917b74578950b6f976c4314acc9969f_id | entityType = courseTranscript |
+      | 5a214a3e596887dffeaf44fdabd4535f33a96646_id | entityType = courseTranscript |
     And I verify this "gradebookEntry" file should contain:
       | id                                                                                     | condition                   |
       | 6e9504c3061a61384cbd9591a52893f07c6af242_id70c4a7aee25bcd0e9c07f370c2987970db065402_id | entityType = gradebookEntry |
