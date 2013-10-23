@@ -138,7 +138,7 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | gradebookEntry                        |
       | disciplineIncident                    |
       | disciplineAction                      |
-      #| parent                                |
+      | parent                                |
       #| studentCompetency                     |
     And I verify this "student" file should contain:
       | id                                          | condition            |
@@ -189,12 +189,12 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "disciplineIncident" file should not contain:
       | id                                          |
       | ad0101e8b3efe4d35317175167c9fee11d746b58_id |
+    And I verify this "parent" file should contain:
+      | id                                          | condition           |
+      | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id | entityType = parent |
     And I verify this "disciplineAction" file should not contain:
       | id                                          |
       | e3d4fe2fdb6af50c87446e9050b74e0d7903f5cb_id |
-    #And I verify this "parent" file should contain:
-    #  | id                                          | condition           |
-    #  | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id | entityType = parent |
     #And I verify this "studentCompetency" file should not contain:
       #| id                                          |
       #| 3c2a56c1531ee76299aec831d2f41dc5bc6ec987_id |
@@ -236,10 +236,10 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "studentParentAssociation" file should contain:
       | id                                                                                     | condition                             |
       | 067198fd6da91e1aa8d67e28e850f224d6851713_idc43bbfa3df05d4fd2d78a9edfee8fd63fbcf495a_id | entityType = studentParentAssociation |
-    #And I verify this "parent" file should contain:
-    #  | id                                          | condition           |
-    #  | 5f8989384287747b1960d16edd95ff2bb318e3bd_id | entityType = parent |
-    #  | 7f5b783a051b72820eab5f8188c45ade72869f0f_id | entityType = parent |
+    And I verify this "parent" file should contain:
+      | id                                          | condition           |
+      | 5f8989384287747b1960d16edd95ff2bb318e3bd_id | entityType = parent |
+      | 7f5b783a051b72820eab5f8188c45ade72869f0f_id | entityType = parent |
   #This extract should contain content for anything that began on or before DCH's end date with the student
   #Even data from SCH that began on the student's final day with DCH should be included
     And I verify this "studentAssessment" file should contain:

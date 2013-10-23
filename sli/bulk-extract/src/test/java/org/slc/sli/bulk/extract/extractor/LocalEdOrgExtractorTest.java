@@ -28,7 +28,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
@@ -50,7 +49,6 @@ import org.slc.sli.bulk.extract.lea.CourseTranscriptExtractor;
 import org.slc.sli.bulk.extract.lea.DisciplineExtractor;
 import org.slc.sli.bulk.extract.lea.EntityDatedExtract;
 import org.slc.sli.bulk.extract.lea.EntityExtract;
-import org.slc.sli.bulk.extract.lea.EntityToEdOrgCache;
 import org.slc.sli.bulk.extract.lea.EntityToEdOrgDateCache;
 import org.slc.sli.bulk.extract.lea.ExtractFileMap;
 import org.slc.sli.bulk.extract.lea.ExtractorFactory;
@@ -173,7 +171,7 @@ public class LocalEdOrgExtractorTest {
                         Mockito.any(Repository.class), Mockito.any(EdOrgExtractHelper.class))).thenReturn(mockDatedExtract);
 
         Mockito.when(mockFactory.buildSectionExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class),Mockito.any(Repository.class),
-                Mockito.any(EntityToEdOrgDateCache.class), Mockito.any(EntityToEdOrgCache.class), Mockito.any(EdOrgExtractHelper.class), Mockito.any(EntityToEdOrgDateCache.class))).thenReturn(sectionEmbeddedDocsExtractor);
+                Mockito.any(EntityToEdOrgDateCache.class), Mockito.any(EdOrgExtractHelper.class), Mockito.any(EntityToEdOrgDateCache.class))).thenReturn(sectionEmbeddedDocsExtractor);
 
         Mockito.when(
                 mockFactory.buildCourseTranscriptExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class), Mockito.any(Repository.class),
@@ -188,7 +186,7 @@ public class LocalEdOrgExtractorTest {
                         Mockito.any(Repository.class))).thenReturn(studentCompetencyExtractor);
 
         Mockito.when(mockFactory.buildDisciplineExtractor(Mockito.eq(entityExtractor), Mockito.any(ExtractFileMap.class), Mockito.any(Repository.class),
-                Mockito.any(EntityToEdOrgCache.class), Mockito.any(EntityToEdOrgDateCache.class))).thenReturn(discipline);
+                Mockito.any(EntityToEdOrgDateCache.class))).thenReturn(discipline);
 
     }
 
@@ -311,8 +309,7 @@ public class LocalEdOrgExtractorTest {
 
         extractor.execute("Midgar", tenantDir, time, "sea");
 
-        Mockito.verify(helper, Mockito.times(3)).getBulkExtractEdOrgs("sea");
-        Mockito.verify(helper, Mockito.times(4)).getChildEdOrgs(Mockito.any(List.class));
+        Mockito.verify(helper, Mockito.times(2)).getBulkExtractEdOrgs("sea");
         Mockito.verify(mockMongo, Mockito.times(6)).updateDBRecord(Mockito.eq("Midgar"), Mockito.any(String.class), Mockito.any(String.class),
                 Mockito.any(Date.class), Mockito.eq(false), Mockito.any(String.class), Mockito.eq(false));
 
