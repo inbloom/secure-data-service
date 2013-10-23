@@ -88,7 +88,7 @@ public class ExtractorFactory {
     }
 
     public SectionEmbeddedDocsExtractor buildSectionExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository,
-            EntityToEdOrgDateCache studentDatedCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper, EntityToEdOrgDateCache staffDatedCache) {
+            EntityToEdOrgDateCache studentDatedCache, EdOrgExtractHelper edOrgExtractHelper, EntityToEdOrgDateCache staffDatedCache) {
         return new SectionEmbeddedDocsExtractor(entityExtractor, extractFileMap, repository, studentDatedCache, staffDatedCache);
     }
 
@@ -112,7 +112,7 @@ public class ExtractorFactory {
     }
 
     public EntityDatedExtract buildDisciplineExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository,
-            EntityToEdOrgCache edorgCache, EntityToEdOrgDateCache entityCache) {
-        return new DisciplineExtractor(entityExtractor, extractFileMap, repository, entityCache, edorgCache);
+            EntityToEdOrgDateCache entityCache) {
+        return new DisciplineExtractor(entityExtractor, extractFileMap, repository, entityCache);
     }
 }

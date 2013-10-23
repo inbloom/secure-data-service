@@ -15,16 +15,22 @@
  */
 package org.slc.sli.bulk.extract.lea;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.google.common.base.Function;
+
 import org.joda.time.DateTime;
+
 import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-
-import java.util.*;
 
 
 /**
@@ -35,15 +41,13 @@ public class DisciplineExtractor implements EntityDatedExtract {
     private final ExtractFileMap extractFileMap;
     private final Repository<Entity> repository;
     private final EntityToEdOrgDateCache studentCache;
-    private final EntityToEdOrgCache edorgCache;
 
 
-    public DisciplineExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgDateCache studentCache, EntityToEdOrgCache edorgCache) {
+    public DisciplineExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgDateCache studentCache) {
         this.entityExtractor = entityExtractor;
         this.extractFileMap = extractFileMap;
         this.repository = repository;
         this.studentCache = studentCache;
-        this.edorgCache = edorgCache;
     }
 
     @Override
@@ -62,11 +66,6 @@ public class DisciplineExtractor implements EntityDatedExtract {
                     if (shouldExtract(input, upToDate)) {
                         edOrgs.add(entry.getKey());
                     }
-                }
-
-                if (edOrgs.isEmpty()) {
-                    String schoolId = (String) input.getBody().get("schoolId");
-                    edOrgs.addAll(edorgCache.ancestorEdorgs(schoolId));
                 }
 
                 return edOrgs;

@@ -100,8 +100,6 @@ public class LocalEdOrgExtractor {
         }
 
         // 2. EXTRACT
-        EntityToEdOrgCache edorgCache = buildEdOrgCache(sea);
-
         // Student
         StudentExtractor student = factory.buildStudentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         student.extractEntities(null);
@@ -122,7 +120,7 @@ public class LocalEdOrgExtractor {
         studentGradebookExtractor.extractEntities(student.getStudentDatedCache());
 
         // Discipline
-        EntityDatedExtract discipline = factory.buildDisciplineExtractor(entityExtractor, leaToExtractFileMap, repository, edorgCache, student.getStudentDatedCache());
+        EntityDatedExtract discipline = factory.buildDisciplineExtractor(entityExtractor, leaToExtractFileMap, repository, student.getStudentDatedCache());
         discipline.extractEntities(student.getDiDateCache());
 
         // Yearly Transcript
@@ -140,7 +138,7 @@ public class LocalEdOrgExtractor {
 
         // Staff
         StaffEdorgAssignmentExtractor seaExtractor = factory.buildStaffAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        seaExtractor.extractEntities(edorgCache);
+        seaExtractor.extractEntities(null);
 
         EntityDatedExtract staffExtractor = factory.buildStaffExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         staffExtractor.extractEntities(seaExtractor.getStaffDatedCache());
@@ -156,7 +154,7 @@ public class LocalEdOrgExtractor {
 
         // Section
         SectionEmbeddedDocsExtractor sectionExtractor = factory.buildSectionExtractor(entityExtractor, leaToExtractFileMap, repository, student.getStudentDatedCache(),
-                edorgCache, helper, seaExtractor.getStaffDatedCache());
+                helper, seaExtractor.getStaffDatedCache());
         sectionExtractor.extractEntities(studentGradebookExtractor.getGradebookEntryCache());
 
         EntityDatedExtract studentCompetencyExtractor = factory.buildStudentCompetencyExtractor(entityExtractor, leaToExtractFileMap, repository);
@@ -195,25 +193,6 @@ public class LocalEdOrgExtractor {
             edOrgToLEAExtract.put(lea, file);
         }
         return edOrgToLEAExtract;
-    }
-
-    /**
-     * Returns a map that maps an edorg to it's top level LEA, used as a cache
-     * to speed up extract
-     *
-     * @return a map that has the lea to the set of all it's child edorgs
-     */
-    private EntityToEdOrgCache buildEdOrgCache(String sea) {
-        EntityToEdOrgCache cache = new EntityToEdOrgCache();
-        for (String lea : helper.getBulkExtractEdOrgs(sea)) {
-            Set<String> children = helper.getChildEdOrgs(Arrays.asList(lea));
-            children.add(lea);
-            for (String child : children) {
-                cache.addEntry(lea, child);
-            }
-
-        }
-        return cache;
     }
 
     public void setRepository(Repository<Entity> repository) {

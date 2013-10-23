@@ -69,8 +69,8 @@ public class ParentContextResolverTest {
             }
         }))).thenReturn(Arrays.asList(kid1, kid2).iterator());
         // I don't know, maybe the parent has a step kid who used to live in a different district.
-        when(studentResolver.findGoverningEdOrgs(kid1)).thenReturn(new HashSet<String>(Arrays.asList("lea1", "lea2")));
-        when(studentResolver.findGoverningEdOrgs(kid2)).thenReturn(new HashSet<String>(Arrays.asList("lea1", "lea3")));
+        when(studentResolver.findGoverningEdOrgs(kid1, parent)).thenReturn(new HashSet<String>(Arrays.asList("lea1", "lea2")));
+        when(studentResolver.findGoverningEdOrgs(kid2, parent)).thenReturn(new HashSet<String>(Arrays.asList("lea1", "lea3")));
         assertEquals(new HashSet<String>(Arrays.asList("lea1", "lea2", "lea3")), underTest.findGoverningEdOrgs(parent));
     }
     
