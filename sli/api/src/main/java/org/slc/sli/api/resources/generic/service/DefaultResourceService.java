@@ -33,9 +33,12 @@ import javax.ws.rs.core.Response;
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
+import org.slc.sli.api.constants.Constraints;
 import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -78,6 +81,8 @@ import org.slc.sli.modeling.uml.ClassType;
 @Component("defaultResourceService")
 public class DefaultResourceService implements ResourceService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultResourceService.class);
+
     @Autowired
     private LogicalEntity logicalEntity;
 
@@ -97,8 +102,6 @@ public class DefaultResourceService implements ResourceService {
     private ApiSchemaAdapter adapter;
     private Map<String, String> endDates = new HashMap<String, String>();
 
-
-    public static final int MAX_MULTIPLE_UUIDS = 100;
 
     private static final String POST = "POST";
     private static final String GET = "GET";
@@ -138,9 +141,10 @@ public class DefaultResourceService implements ResourceService {
             public ServiceResponse run(final Resource resource, EntityDefinition definition) {
                 final int idLength = idList.split(",").length;
 
-                if (idLength > MAX_MULTIPLE_UUIDS) {
+                if (idLength > Constraints.MAX_MULTIPLE_UUIDS) {
                     String errorMessage = "Too many GUIDs: " + idLength + " (input) vs "
-                            + MAX_MULTIPLE_UUIDS + " (allowed)";
+                            + Constraints.MAX_MULTIPLE_UUIDS + " (allowed)";
+                    LOG.error(errorMessage);
                     throw new PreConditionFailedException(errorMessage);
                 }
 
@@ -231,7 +235,7 @@ public class DefaultResourceService implements ResourceService {
         apiQuery.setLimit(0);
         apiQuery.setOffset(0);
 
-        if (ContextSupportedEntities.getSupportedEntities().contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+        if (SecurityUtil.isStaffUser()) {
             count = definition.getService().countBasedOnContextualRoles(apiQuery);
         } else {
             count = definition.getService().count(apiQuery);
@@ -248,7 +252,7 @@ public class DefaultResourceService implements ResourceService {
     public String postEntity(final Resource resource, EntityBody entity) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
         List<String> entityIds = new ArrayList<String>();
-        if (ContextSupportedEntities.getSupportedEntities().contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+        if (SecurityUtil.isStaffUser()) {
             entityIds = definition.getService().createBasedOnContextualRoles(adapter.migrate(entity, definition.getResourceName(), POST));
         } else {
             entityIds = definition.getService().create(adapter.migrate(entity, definition.getResourceName(), POST));
@@ -268,7 +272,7 @@ public class DefaultResourceService implements ResourceService {
         if (migratedCopies.size() != 1) {
             throw new IllegalStateException("Error occurred while processing entity body.");
         }
-        if (ContextSupportedEntities.getSupportedEntities().contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+        if (SecurityUtil.isStaffUser()) {
             definition.getService().updateBasedOnContextualRoles(id, migratedCopies.get(0));
         } else {
             definition.getService().update(id, migratedCopies.get(0));
@@ -283,7 +287,7 @@ public class DefaultResourceService implements ResourceService {
         EntityBody copy = new EntityBody(entity);
         copy.remove(ResourceConstants.LINKS);
 
-        if (ContextSupportedEntities.getSupportedEntities().contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+        if (SecurityUtil.isStaffUser()) {
             definition.getService().patchBasedOnContextualRoles(id, copy);
         } else {
             definition.getService().patch(id, copy);
@@ -294,7 +298,7 @@ public class DefaultResourceService implements ResourceService {
     public void deleteEntity(Resource resource, String id) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
-        if (ContextSupportedEntities.getSupportedEntities().contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+        if (SecurityUtil.isStaffUser()) {
             definition.getService().deleteBasedOnContextualRoles(id);
         } else {
             definition.getService().delete(id);
@@ -424,7 +428,7 @@ public class DefaultResourceService implements ResourceService {
                 }
 
                 Iterable<EntityBody> entityList;
-                if (ContextSupportedEntities.getSupportedEntities().contains(finalEntity.getType()) && SecurityUtil.isStaffUser()) {
+                if (SecurityUtil.isStaffUser()) {
                     entityList = assocEntity.getService().listBasedOnContextualRoles(apiQuery);
                 } else {
                     entityList = assocEntity.getService().list(apiQuery);
@@ -614,7 +618,7 @@ public class DefaultResourceService implements ResourceService {
         try {
             entityBodies = logicalEntity.getEntities(apiQuery, type);
         } catch (UnsupportedSelectorException e) {
-            if (ContextSupportedEntities.getSupportedEntities().contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+            if (SecurityUtil.isStaffUser()) {
                 entityBodies = definition.getService().listBasedOnContextualRoles(apiQuery);
             } else {
                 entityBodies = definition.getService().list(apiQuery);

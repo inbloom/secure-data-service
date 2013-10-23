@@ -121,3 +121,26 @@ Feature: Use the API to successfully delete students  while having roles over ma
     Then I should receive a return code of 204
     When I navigate to GET the new student entity
     Then I should receive a return code of 404
+
+  Scenario: Staff user with dual context can delete student data based on the role
+    Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
+    And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
+    And I change the custom role of "Educator" to add the "WRITE_PUBLIC" right
+    Given the following student section associations in Midgar are set correctly
+      | student         | teacher              | edorg                 | enrolledInAnySection? |
+      | bert.jakeman    | rbelding             | Daybreak Central High | yes                   |
+
+    When I log in as "rbelding"
+
+    When I navigate to DELETE "<bert.jakeman URI>"
+    Then I should receive a return code of 403
+
+    When I navigate to DELETE "<delete.me URI>"
+    Then I should receive a return code of 204
+
+    Given I change the custom role of "Leader" to remove the "WRITE_RESTRICTED" right
+    Given I change the custom role of "Leader" to remove the "WRITE_GENERAL" right
+    When I log in as "rbelding"
+
+    When I navigate to DELETE "<jack.jackson URI>"
+    Then I should receive a return code of 403

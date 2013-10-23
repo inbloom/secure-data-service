@@ -22,6 +22,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -66,17 +67,20 @@ public class StudentToStudentValidatorTest {
 
     @Test
     public void testStudentCanAccessHerself() {
-        assertTrue(underTest.validate("student", new HashSet<String>(Arrays.asList("riverTam"))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList("riverTam"));
+        assertTrue(underTest.validate("student", idsToValidate).containsAll(idsToValidate));
     }
 
     @Test
     public void testStudentCannotAccessOthers() {
-        assertFalse(underTest.validate("student", new HashSet<String>(Arrays.asList("simonTam"))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList("simonTam"));
+        assertFalse(underTest.validate("student", idsToValidate).containsAll(idsToValidate));
     }
 
     @Test
     public void testHeterogeneousList() {
-        assertFalse(underTest.validate("student", new HashSet<String>(Arrays.asList("simonTam", "riverTam"))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList("simonTam", "riverTam"));
+        assertFalse(underTest.validate("student", idsToValidate).containsAll(idsToValidate));
     }
 
 }

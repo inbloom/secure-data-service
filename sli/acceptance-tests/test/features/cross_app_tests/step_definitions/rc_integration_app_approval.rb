@@ -20,7 +20,7 @@ limitations under the License.
 Dir["./test/features/liferay/step_definitions/*.rb"].each {|file| require file}
 
 #admin tools
-Dir["./test/features/admintools/step_definitions/*.rb"].each {|file| require file}
+Dir["./test/features/admintools/step_definitions/*.rb"].each {|file| require file if(!file.include?("multiple_realms_steps.rb"))}
 
 #databrowser
 Dir["./test/features/databrowser/step_definitions/*.rb"].each {|file| require file}
@@ -42,6 +42,17 @@ When /^I make my app an installed app$/ do
   @driver.find_element(:css, 'input[id="app_installed"]').click
 end
 
+Then /^I authorize the educationalOrganization "(.*?)" in the production tenant$/ do |edOrgName|
+  disable_NOTABLESCAN()
+  db = @conn[convertTenantIdToDbName(PropLoader.getProps['tenant'])]
+  coll = db.collection("educationOrganization")
+  record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
+  #puts record.to_s
+  edOrgId = record["_id"]
+  #puts edOrgId.to_s
+  app = @driver.find_element(:id, edOrgId.to_s).click
+  enable_NOTABLESCAN()
+end
 
 Then /^my new apps client ID is present$/ do
   @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
@@ -118,11 +129,13 @@ Then /^my current url is "(.*?)"$/ do |url|
   assertWithWait("Not in expected URL") {@driver.current_url == url}
 end
 
-Then /^I enter "(.*?)" in the IDP URL field$/ do |url|  
+Then /^I enter "(.*?)" in the IDP URL field$/ do |url|
+  STDOUT.puts "url : #{url}"
   @driver.find_element(:name, 'realm[idp][id]').send_keys url
 end
 
 Then /^I enter "(.*?)" in the Redirect Endpoint field$/ do |url|
+  STDOUT.puts "redirect url : #{url}"
   @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys url
 end
 
@@ -154,3 +167,44 @@ Then /I get the id for the edorg "(.*?)"$/ do |arg1|
     @lea = json['id']
   end
 end
+
+Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the production applicationAuthorization collection$/ do |expected_count, application|
+   db = @conn.db("sli")
+   coll = db.collection("application")
+   record = coll.find_one("body.name" => application)
+   appId = record["_id"]
+   db = @conn.db(convertTenantIdToDbName(PropLoader.getProps['tenant']))
+   coll = db.collection("applicationAuthorization")
+   record = coll.find_one("body.applicationId" => appId.to_s)
+   body = record["body"]
+   edorgsArray = body["edorgs"]
+   edorgsArrayCount = edorgsArray.count
+   assert(edorgsArrayCount == expected_count.to_i, "Education organization count mismatch in applicationAuthorization collection. Expected #{expected_count}, actual #{edorgsArrayCount}")
+end
+
+Then /^"(.*?)" is enabled for "(.*?)" production education organizations$/ do |app, edOrgCount|
+     db = @conn.db("sli")
+     coll = db.collection("application")
+     record = coll.find_one("body.name" => app)
+     puts record.to_s
+     body = record["body"]
+     puts body.to_s
+     edorgsArray = body["authorized_ed_orgs"]
+     puts edorgsArray.to_s
+     edorgsArrayCount = edorgsArray.count
+     puts edorgsArrayCount
+     assert(edorgsArrayCount == edOrgCount.to_i, "Education organization count mismatch in application collection. Expected #{edOrgCount}, actual #{edorgsArrayCount}")
+end
+
+When /^I (enable|disable) the educationalOrganization "([^"]*?)" in production$/ do |action,edOrgName|
+  # Note: there should be no need to disable table scan since there is an index on educationOrganization.nameOfInstitution
+  db = @conn[convertTenantIdToDbName(PropLoader.getProps['tenant'])]
+  coll = db.collection("educationOrganization")
+  record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
+  edOrgId = record["_id"]
+  elt = @driver.find_element(:id, edOrgId)
+  assert(elt, "Educational organization element for '" + edOrgName + "' (" + edOrgId + ") not found")
+  assert(action == "enable" && !elt.selected? || action == "disable" && elt.selected?, "Cannot " + action + " educationalOrganization element with id '" + edOrgId + "' whose checked status is " + elt.selected?.to_s())
+  elt.click()
+end
+

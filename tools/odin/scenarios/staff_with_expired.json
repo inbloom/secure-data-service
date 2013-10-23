@@ -1,0 +1,197 @@
+[
+  {
+    "userId": "cgray",
+    "name": "Charles Gray",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "begin": "2009-08-26",
+        "end": "2011-07-22"
+      },
+      {
+        "role": "Leader",
+        "type": "High School",
+        "association": "Eastside High",
+        "begin": "2010-08-26",
+        "end": "2013-05-22"
+      },
+      {
+        "role": "Leader",
+        "type": "High School",
+        "association": "Sunset Central High",
+        "begin": "2011-07-22",
+        "end": "2013-05-22"
+      },
+      {
+        "role": "Leader",
+        "type": "High School",
+        "association": "Westside High",
+        "begin": "2011-07-23",
+        "end": "2013-05-23"
+      },
+      {
+        "role": "Leader",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "begin": "2012-08-26",
+        "end": "2018-05-22"
+      }
+    ]
+  },
+  {
+    "userId": "linda.kim",
+    "name": "Linda Kim",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "Middle School",
+        "association": "East Daybreak Junior High"
+      }
+    ]
+  },
+  {
+    "userId": "rbraverman",
+    "name": "Rebecca Braverman",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "Elementary School",
+        "association": "South Daybreak Elementary"
+      }
+    ]
+  },
+  {
+    "userId": "demo",
+    "name": "Johnny Admin",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Local Education Agency",
+        "association": "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
+    "userId": "badmin",
+    "name": "Bruce Admin",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Local Education Agency",
+        "association": "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
+    "userId": "sampleUser",
+    "name": "Billy Admin",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Local Education Agency",
+        "association": ""
+      }
+    ]
+  },
+  {
+    "userId": "mgonzales",
+    "name": "Maria Gonzales",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "Elementary School",
+        "association": "South Daybreak Elementary"
+      }
+    ]
+  },
+  {
+    "userId": "akopel",
+    "name": "Amy Kopel",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Elementary School",
+        "association": "South Daybreak Elementary"
+      }
+    ]
+  },
+  {
+    "userId": "msmith",
+    "name": "Mary Smith",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "Elementary School",
+        "association": "South Daybreak Elementary"
+      }
+    ]
+  },
+  {
+    "userId": "ckoch",
+    "name": "Christopher Koch",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "State Education Agency",
+        "association": "STANDARD-SEA"
+      }
+    ]
+  },
+  {
+    "userId": "rrogers",
+    "name": "Rick Rogers",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "State Education Agency",
+        "association": "STANDARD-SEA"
+      }
+    ]
+  },
+  {
+    "userId": "mjohnson",
+    "name": "Michael Johnson",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "State Education Agency",
+        "association": "STANDARD-SEA"
+      }
+    ]
+  },
+  {
+    "userId": "sbantu",
+    "name": "Susan Bantu",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "Local Education Agency",
+        "association": "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
+    "userId": "jstevenson",
+    "name": "James Stevenson",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Local Education Agency",
+        "association": "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
+    "userId": "jjackson",
+    "name": "Jack Jackson",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "Local Education Agency",
+        "association": "IL-DAYBREAK"
+      }
+    ]
+  }
+]

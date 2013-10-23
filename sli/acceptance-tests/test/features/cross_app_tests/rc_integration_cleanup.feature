@@ -28,7 +28,7 @@ Scenario:  LEA deletes realm
   And I click on log out
 
 @wip
-Scenario:  Charter SchoolL EA deletes realm
+Scenario:  Charter SchoolL LEA deletes realm
   When I navigate to the Portal home page
   When I selected the realm "inBloom"
   And I was redirected to the "Simple" IDP Login page
@@ -39,10 +39,10 @@ Scenario:  Charter SchoolL EA deletes realm
   Then I should be on the admin page
   And under System Tools, I click on "Manage Realm"
   And I switch to the iframe
-  Then I see the realms for "IL-CHARTER"
-  When I click the "Daybreak Test Realm" delete button and confirm deletion
+  Then I see the realms for "IL-CHARTER-SCHOOL"
+  When I click the "Charter School Test Realm" delete button and confirm deletion
   And I switch to the iframe
-  Then I see the realms for "IL-CHARTER"
+  Then I see the realms for "IL-CHARTER-SCHOOL"
   And I exit out of the iframe
   And I click on log out
 
@@ -53,3 +53,4 @@ Scenario: slcoperator deletes SEA,LEA
   When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
   Then I delete the user "RCTestSeaAdminFN RCTestSeaAdminLN"
   Then I delete the user "RCTestLeaAdminFN RCTestLeaAdminLN"
+ #Then I delete the user "CharterSchoolLeaAdminFN CharterSchoolLeaAdminLN"

@@ -16,7 +16,9 @@
 package org.slc.sli.domain.utils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -149,7 +151,56 @@ public class EdOrgHierarchyHelper {
         
         return null;
     }
-    
+
+    /**
+     * Given an school or LEA level entity, returns all ancestor edOrgs it belongs to (excluding SEAs and including the passed egOrg itself)
+     *
+     * If input is SEA, returns null.
+     *
+     * @param entity
+     * @return Ancestors
+     */
+    public Set<Entity> getAncestorsOfEdOrg(Entity entity) {
+        if (isSEA(entity)) {
+            return null;
+        }
+
+        // using a set of visited edOrg id's to avoid any issues that might occur with hashCode on Entity
+        Set<String> visitedIds = new HashSet<String>();
+        Set<Entity> ancestors = new HashSet<Entity>();
+
+        List<Entity> stack = new ArrayList<Entity>(10);
+        // we are intentionally including the original edOrg -- not doing so breaks the bulk extract in delta mode
+        ancestors.add(entity);
+        stack.add(entity);
+
+        while (!stack.isEmpty()) {
+            Entity cur = stack.remove(stack.size() - 1);
+
+            // don't let cycles cause us to loop forever
+            if (visitedIds.contains(cur.getEntityId())) {
+                continue;
+            } else {
+                visitedIds.add(cur.getEntityId());
+            }
+
+            if (cur.getBody().containsKey("parentEducationAgencyReference")) {
+                List<Entity> parentEdOrgs = getParentEdOrg(cur);
+                if (parentEdOrgs != null) {
+                    for (Entity parent:parentEdOrgs) {
+                        stack.add(parent);
+                        // do not include SEA in the list of ancestors returned.
+                        if (!isSEA(parent)) {
+                            ancestors.add(parent);
+                        }
+                    }
+                }
+            }
+        }
+
+        return ancestors;
+    }
+
     /**
      * Given an edorg entity, returns the SEA it belongs to
      * 

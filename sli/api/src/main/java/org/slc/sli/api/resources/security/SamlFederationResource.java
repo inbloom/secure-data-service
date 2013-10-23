@@ -197,10 +197,17 @@ public class SamlFederationResource {
         String inResponseTo = doc.getRootElement().getAttributeValue("InResponseTo");
         String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
 
+
+        Entity session = sessionManager.getSessionForSamlId(inResponseTo);
+
+        String requestedRealmId = (String) session.getBody().get("requestedRealmId");
+
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
+
         neutralQuery.addCriteria(new NeutralCriteria("idp.id", "=", issuer));
+        neutralQuery.addCriteria(new NeutralCriteria("_id", "=", requestedRealmId));
         Entity realm = repo.findOne("realm", neutralQuery);
 
         if (realm == null) {
@@ -328,12 +335,6 @@ public class SamlFederationResource {
             throw new APIAccessDeniedException("Invalid user. No roles specified for user.", realm);
         }
 
-        if(!(isAdminRealm || isDevRealm) &&
-                (principal.getUserType() == null || principal.getUserType().equals("") || principal.getUserType().equals(EntityNames.STAFF))) {
-            Map<String, List<String>> sliEdOrgRoleMap = edOrgRoleBuilder.buildValidStaffRoles(realm.getEntityId(), principal.getEntity().getEntityId(), tenant, roles);
-            principal.setEdOrgRoles(sliEdOrgRoleMap);
-        }
-
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
@@ -348,7 +349,6 @@ public class SamlFederationResource {
             throw new APIAccessDeniedException("User is not associated with realm.", realm);
         }
 
-        //F262: Update this to only store roles for non staff users
         Set<Role> sliRoleSet = resolver.mapRoles(tenant, realm.getEntityId(), roles, isAdminRealm);
         List<String> sliRoleList = new ArrayList<String>();
         boolean isAdminUser = true;
@@ -360,15 +360,25 @@ public class SamlFederationResource {
             }
         }
 
-        principal.setRoles(sliRoleList);
+        if(!(isAdminRealm || isDevRealm) &&
+                (principal.getUserType() == null || principal.getUserType().equals("") || principal.getUserType().equals(EntityNames.STAFF))) {
+            Map<String, List<String>> sliEdOrgRoleMap = edOrgRoleBuilder.buildValidStaffRoles(realm.getEntityId(), principal.getEntity().getEntityId(), tenant, roles);
+            principal.setEdOrgRoles(sliEdOrgRoleMap);
+            Set<String> allRoles = new HashSet<String>();
+            for (List<String> roleList : sliEdOrgRoleMap.values()) {
+                allRoles.addAll(roleList);
+            }
+            principal.setRoles(new ArrayList<String>(allRoles));
+        } else {
+            principal.setRoles(sliRoleList);
+            if (principal.getRoles().isEmpty()) {
+                debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
+                throw new APIAccessDeniedException(
+                        "Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.", realm);
+            }
+        }
         principal.setAdminUser(isAdminUser);
         principal.setAdminRealmAuthenticated(isAdminRealm || isDevRealm);
-
-        if (principal.getRoles().isEmpty()) {
-            debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
-            throw new APIAccessDeniedException(
-                    "Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.", realm);
-        }
 
         if (samlTenant != null) {
             principal.setTenantId(samlTenant);
@@ -391,13 +401,6 @@ public class SamlFederationResource {
         }
 
         TenantContext.setIsSystemCall(true);
-
-        Entity session = sessionManager.getSessionForSamlId(inResponseTo);
-
-        String requestedRealmId = (String) session.getBody().get("requestedRealmId");
-        if (requestedRealmId == null || !requestedRealmId.equals(realm.getEntityId())) {
-            generateSamlValidationError("Requested Realm (id=" + requestedRealmId +") does not match the realm the user authenticated against (id="+realm.getEntityId()+")", targetEdOrg);
-        }
 
         Map<String, Object> appSession = sessionManager.getAppSession(inResponseTo, session);
         Boolean isInstalled = (Boolean) appSession.get("installed");

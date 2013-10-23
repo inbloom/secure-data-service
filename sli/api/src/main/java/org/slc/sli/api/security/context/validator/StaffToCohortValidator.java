@@ -19,6 +19,7 @@ package org.slc.sli.api.security.context.validator;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.ldap.User;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -47,13 +48,11 @@ public class StaffToCohortValidator extends AbstractContextValidator {
      * well as the ones you're directly associated with.
      */
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
-        if (!areParametersValid(EntityNames.COHORT, entityType, ids)) {
-            return false;
-        }
-        
-        boolean match = false;
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         Set<String> myCohortIds = new HashSet<String>();
+        if (!areParametersValid(EntityNames.COHORT, entityType, ids)) {
+            return myCohortIds;
+        }
         
         // Get the one's I'm associated to.
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
@@ -76,13 +75,13 @@ public class StaffToCohortValidator extends AbstractContextValidator {
             myCohortIds.add(cohort.getEntityId());
         }
 
-        for (String id : ids) {
-            if (!myCohortIds.contains(id)) {
-                return false;
-            } else {
-                match = true;
-            }
-        }
-        return match;
+        myCohortIds.retainAll(ids);
+
+        return myCohortIds;
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.STAFF_CONTEXT;
     }
 }

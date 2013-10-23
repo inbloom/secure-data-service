@@ -93,23 +93,26 @@ Then /^I can see the on\-boarded states\/districts$/ do
 end
 
 Then /^I can see the on\-boarded states$/ do
-  attempts = 0
-  found = false
-  options = nil
-  while attempts < 5 && found == false
-    if attempts > 1
-      puts "DEBUG: elements.to_s #{options}"
-      puts "DEBUG: select box:  #{@driver.find_elements(:css, 'div#state-menu select')}"
-      puts "Did not find any states in select menu.  Retrying..."
-      sleep(2)
-    end
-    attempts += 1
-    options = @driver.find_elements(:css, 'div#state-menu select option')
-    found = true if options.count > 1
-  end
-  assert(found, "At least one state should exist")
+
+  ['Midgar', 'Hyrule'].each {|tenantId|
+    sliDb = @conn.db(convertTenantIdToDbName(tenantId))
+    coll  = sliDb.collection('educationOrganization')
+    seas  = coll.find('body.organizationCategories' => 'State Education Agency')
+    puts "Looking for #{seas.count} SEAs of #{tenantId} on page!"
+    seas.each { |sea|
+      seaName = sea['body']['nameOfInstitution']
+      puts " Looking for #{seaName} on page"
+      seaOnPage = @driver.find_elements(:xpath, "//span[contains(., '#{seaName}')]")
+      assert(seaOnPage.count > 0, " Looking for SEA #{seaName} of #{tenantId} on page. Found #{seaOnPage.count}.")
+    }
+  }
 end
 
+#
+# NOTE: the actions and assertion below apply to a selection mode where
+# the user selects a state from the dropdown, which triggers a refresh
+# of the list of the (newly selected) state's districts for checkbox
+# selection.  This mode is now obsolete
 When /^I select the state "([^"]*)"$/ do |arg1|
   options = @driver.find_elements(:css, 'div#state-menu select option')
   step "I select the \"#{arg1}\""
@@ -158,6 +161,21 @@ Then /^I see the newly enabled application is approved$/ do
   assert(!test_app.find_element(:xpath, "//td[text()='Approved']").nil?, "App should be approved")
 end
 
+Then /^"(.*?)" is enabled for "(.*?)" education organizations$/ do |app, edOrgCount|
+     disable_NOTABLESCAN()
+     sliDb = @conn.db('sli')
+     coll = sliDb.collection("application")
+     record = coll.find_one("body.name" => app)
+     #puts record.to_s
+     body = record["body"]
+     #puts body.to_s
+     edorgsArray = body["authorized_ed_orgs"]
+     edorgsArrayCount = edorgsArray.count
+     #puts edorgsArrayCount
+     assert(edorgsArrayCount == edOrgCount.to_i, "Education organization count mismatch. Expected #{edOrgCount}, actual #{edorgsArrayCount}")
+     enable_NOTABLESCAN()
+end
+
 Then /^I don't see the newly disabled application$/ do
   begin
     get_app
@@ -165,6 +183,27 @@ Then /^I don't see the newly disabled application$/ do
   rescue
     assert(true, "Should not find the app")
   end
+end
+
+When /^I (enable|disable) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action,edOrgName,tenant|
+  disable_NOTABLESCAN()
+  db = @conn[convertTenantIdToDbName(tenant)]
+  coll = db.collection("educationOrganization")
+  record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
+  enable_NOTABLESCAN()
+  edOrgId = record["_id"]
+  elt = @driver.find_element(:id, edOrgId)
+  assert(elt, "Educational organization element for '" + edOrgName + "' (" + edOrgId + ") not found")
+  assert(action == "enable" && !elt.selected? || action == "disable" && elt.selected?, "Cannot " + action + " educationalOrganization element with id '" + edOrgId + "' whose checked status is " + elt.selected?.to_s())
+  elt.click()
+end
+
+When /^I (check|uncheck) the Bulk Extract checkbox$/ do |action|
+  bulkExtractCheckboxId = 'app_isBulkExtract'
+  elt = @driver.find_element(:id, bulkExtractCheckboxId)
+  assert(elt, "Bulk Extract checkbox with id '" + bulkExtractCheckboxId + "' not found")
+  assert(action == "check" && !elt.selected? || action == "uncheck" && elt.selected?, "Cannot " + action + " Bulk Extract checkbox because checked status is " + elt.selected?.to_s())
+  elt.click()
 end
 
 private

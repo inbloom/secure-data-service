@@ -6,11 +6,11 @@ As a Data Browser user, I want to be able to traverse all of the data I have acc
 Background:
   Given I have an open web browser
   When I navigate to the Portal home page
-  And I see the realm selector I authenticate to "Daybreak Test Realm"
-  And I was redirected to the "Simple" IDP Login page
 
 Scenario: Login and logout
-  When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
+  And I was redirected to the "Simple" IDP Login page
+  And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
@@ -21,7 +21,9 @@ Scenario: Login and logout
   And I am forced to reauthenticate to access the databrowser
 
 Scenario: Navigate to home page from any page
-  When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
+  And I was redirected to the "Simple" IDP Login page
+  And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
@@ -37,7 +39,9 @@ Scenario: Navigate to home page from any page
   Then I should click on the Home link and be redirected back
 
 Scenario: Associations List - Expand/Collapse between Simple View and Detail View
-  When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
+  And I was redirected to the "Simple" IDP Login page
+  And I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
@@ -54,7 +58,9 @@ Scenario: Associations List - Expand/Collapse between Simple View and Detail Vie
   Then the row collapses hiding the additional attributes
 
 Scenario: Click on Available Links associations and entities
-  When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
+  And I was redirected to the "Simple" IDP Login page
+  And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
@@ -67,7 +73,9 @@ Scenario: Click on Available Links associations and entities
   Then I am redirected to the particular associations Simple View
 
 Scenario: Get a Forbidden message when we access something that is forbidden
-  When I submit the credentials "akopel" "akopel1234" for the "Simple" login page
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
+  And I was redirected to the "Simple" IDP Login page
+  And I submit the credentials "akopel" "akopel1234" for the "Simple" login page
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
@@ -85,7 +93,9 @@ Scenario: Get a Forbidden message when we access something that is forbidden
   Then the error is dismissed
 
 Scenario: Traverse Edorg Hiearchy from SEA down to LEA
-  When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
+  And I was redirected to the "Simple" IDP Login page
+  And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
@@ -98,14 +108,18 @@ Scenario: Traverse Edorg Hiearchy from SEA down to LEA
   Then I should be on the detailed page for an LEA
 
 Scenario: Educators are not authorized to use databrowser
-  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
+  And I was redirected to the "Simple" IDP Login page
+  And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
   Then I should be on Portal home page
   And I should not see Admin link
   When I navigated to the Data Browser Home URL
   Then I am notified that "You are not authorized to use this app."
 
 Scenario: Search by id
-  When I submit the credentials "akopel" "akopel1234" for the "Simple" login page
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
+  And I was redirected to the "Simple" IDP Login page
+  And I submit the credentials "akopel" "akopel1234" for the "Simple" login page
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
@@ -130,7 +144,9 @@ Scenario: Search by id
 
 @wip
 Scenario: Charter School - Search by id
-  When I submit the credentials "charteradmin" "charteradmin1234" for the "Simple" login page
+  When I see the realm selector I authenticate to "Charter School Test Realm"
+  And I was redirected to the "Simple" IDP Login page
+  And I submit the credentials "charteradmin" "charteradmin1234" for the "Simple" login page
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
@@ -140,15 +156,15 @@ Scenario: Charter School - Search by id
   When I search for the identifier "100000017" in "students"
   Then I should see the text "Miha"
   And I should see the text "Tran"
-  When I search for the identifier "IL Charter School" in "educationOrganizations"
-  Then I should see the text "IL Charter School"
+  When I search for the identifier "IL-CHARTER-SCHOOL" in "educationOrganizations"
+  Then I should see the text "IL-CHARTER-SCHOOL"
   And I should see the text "Elementary School"
-  When I search for the identifier "charterteacher" in "staff"
-  Then I should see the text "Charter"
-  And I should see the text "Teacher"
+  When I search for the identifier "chartereducator" in "staff"
+  Then I should see the text "Catherine"
+  And I should see the text "Binkley"
   When I search for the identifier "charteradmin" in "staff"
-  Then I should see the text "Charter"
-  And I should see the text "Admin"
+  Then I should see the text "Hallie"
+  And I should see the text "Allison"
   # Search for something I don't have access to
   When I search for the identifier "<ZOE LOCUST UNIQUE ID>" in "students"
   Then I see a "There were no entries matching your search" alert box

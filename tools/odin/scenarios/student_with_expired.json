@@ -1,0 +1,84 @@
+[
+  {
+    "userId": "800000025",
+    "name": "Matt Sollars",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "grade": "Ninth grade",
+        "begin": "2009-08-26",
+        "end": "2011-07-22"
+      },
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Eastside High",
+        "grade": "Ninth grade",
+        "begin": "2010-08-26",
+        "end": "2013-05-22"
+      },
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Sunset Central High",
+        "grade": "Ninth grade",
+        "begin": "2011-07-22",
+        "end": "2013-05-22"
+      },
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Westside High",
+        "grade": "Ninth grade",
+        "begin": "2011-07-23",
+        "end": "2013-05-23"
+      },
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "grade": "Ninth grade",
+        "begin": "2012-08-26",
+        "end": "2018-05-22"
+      }
+    ]
+  },
+  {
+    "userId": "100000017",
+    "name": "Miha Tran",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "Elementary School",
+        "association": "South Daybreak Elementary",
+        "grade": "First grade"
+      }
+    ]
+  },
+  {
+    "userId": "900000016",
+    "name": "Carmen Ortiz",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "grade": "Ninth grade"
+      }
+    ]
+  },
+  {
+    "userId": "cgray",
+    "name": "Celeste Gray",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "Middle School",
+        "association": "East Daybreak Junior High",
+        "grade": "Seventh grade"
+      }
+    ]
+  }
+]

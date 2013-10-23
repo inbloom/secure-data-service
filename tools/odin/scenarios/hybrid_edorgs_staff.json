@@ -6,7 +6,7 @@
       {
         "role": "Educator",
         "type": "Elementary School",
-        "association": "IL Charter School"
+        "association": "IL-CHARTER-SCHOOL"
       }
     ]
   },
@@ -17,7 +17,7 @@
       {
         "role": "IT Administrator",
         "type": "Elementary School",
-        "association": "IL Charter School"
+        "association": "IL-CHARTER-SCHOOL"
       }
     ]
   },
@@ -28,7 +28,7 @@
       {
         "role": "Leader",
         "type": "Elementary School",
-        "association": "IL Charter School"
+        "association": "IL-CHARTER-SCHOOL"
       }
     ]
   },
@@ -39,13 +39,13 @@
       {
         "role": "Aggregate Viewer",
         "type": "Elementary School",
-        "association": "IL Charter School"
+        "association": "IL-CHARTER-SCHOOL"
       }
     ]
   },
   {
-    "userId": "ckoch",
-    "name": "Christopher Koch",
+    "userId": "odinleader",
+    "name": "Odin Leader",
     "edOrgs": [
       {
         "role": "Leader",
@@ -55,8 +55,8 @@
     ]
   },
   {
-    "userId": "rrogers",
-    "name": "Rick Rogers",
+    "userId": "odinadmin",
+    "name": "Odin Admin",
     "edOrgs": [
       {
         "role": "IT Administrator",
@@ -66,8 +66,8 @@
     ]
   },
   {
-    "userId": "mjohnson",
-    "name": "Michael Johnson",
+    "userId": "odinviewer",
+    "name": "Odin Viewer",
     "edOrgs": [
       {
         "role": "Aggregate Viewer",

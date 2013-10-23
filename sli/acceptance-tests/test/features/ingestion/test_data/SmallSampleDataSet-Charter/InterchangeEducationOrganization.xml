@@ -4,7 +4,7 @@
     <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
     <NameOfInstitution>Standard State Education Agency</NameOfInstitution>
     <OrganizationCategories>
-      <OrganizationCategory>State Education Agency</OrganizationCategory>
+        <OrganizationCategory>State Education Agency</OrganizationCategory>
     </OrganizationCategories>
     <Address>
       <StreetNumberName>123 Street</StreetNumberName>
@@ -20,6 +20,7 @@
         <OrganizationCategory>Local Education Agency</OrganizationCategory>
         <OrganizationCategory>Local Education Agency</OrganizationCategory>
         <OrganizationCategory>Education Service Center</OrganizationCategory>
+        <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
  <ParentEducationAgencyReference>
   <EducationalOrgIdentity>

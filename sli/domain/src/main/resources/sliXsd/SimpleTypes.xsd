@@ -989,6 +989,7 @@
 			<xs:enumeration value="First grade"/>
 			<xs:enumeration value="Fourth grade"/>
 			<xs:enumeration value="Grade 13"/>
+			<xs:enumeration value="High School"/>
 			<xs:enumeration value="Infant/toddler"/>
 			<xs:enumeration value="Kindergarten"/>
 			<xs:enumeration value="Ninth grade"/>
@@ -1998,6 +1999,7 @@
 		</xs:annotation>
 		<xs:restriction base="xs:token">
 			<xs:enumeration value="In Attendance"/>
+			<xs:enumeration value="Absence"/>
 			<xs:enumeration value="Excused Absence"/>
 			<xs:enumeration value="Unexcused Absence"/>
 			<xs:enumeration value="Tardy"/>

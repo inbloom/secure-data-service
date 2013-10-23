@@ -16,6 +16,8 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,12 +44,20 @@ public class ParentToStudentAssociationValidator extends BasicValidator {
     }
     
     @Override
-    protected boolean doValidate(Set<String> ids, String entityType) {
+    protected Set<String> doValidate(Set<String> ids, String entityType) {
         Set<String> studentIds = new HashSet<String>();
+        Map<String, Set<String>> studentToAssoc = new HashMap<String, Set<String>>();
         for (String id : ids) {
-            studentIds.add(SuperDocIdUtility.getParentId(id));
+            String key = SuperDocIdUtility.getParentId(id);
+            studentIds.add(key);
+            if(!studentToAssoc.containsKey(key)) {
+                studentToAssoc.put(key, new HashSet<String>());
+            }
+            studentToAssoc.get(key).add(id);
         }
-        return studentValidator.validate(EntityNames.STUDENT, studentIds);
+
+        Set<String> validStudentIds = studentValidator.validate(EntityNames.STUDENT, studentIds);
+        return getValidIds(validStudentIds, studentToAssoc);
     }
     
 }

@@ -16,8 +16,9 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
+import java.util.Collections;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -33,25 +34,31 @@ public class StudentToStudentCompetencyValidator extends AbstractContextValidato
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT_COMPETENCY, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
-        List<String> studentSectionAssociationIds = getIdsContainedInFieldOnEntities(entityType, new ArrayList<String>(
+        Map<String, Set<String>> ssaToSC = getIdsContainedInFieldOnEntities(entityType, new ArrayList<String>(
                 ids), ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID);
-        if (studentSectionAssociationIds.isEmpty()) {
-            return false;
+        if (ssaToSC.isEmpty()) {
+            return Collections.emptySet();
         }
 
         // We cannot chain to the studentSectionAssociation validator, since you have context
         // to more SSA than the grades on those SSA, so get the student IDs and compare to yourself
-        List<String> studentIds = getIdsContainedInFieldOnEntities(EntityNames.STUDENT_SECTION_ASSOCIATION,
-                studentSectionAssociationIds, ParameterConstants.STUDENT_ID);
-        if (studentIds.isEmpty()) {
-            return false;
+        Map<String, Set<String>> studentIdsToSSA = getIdsContainedInFieldOnEntities(EntityNames.STUDENT_SECTION_ASSOCIATION,
+                new ArrayList<String>(ssaToSC.keySet()), ParameterConstants.STUDENT_ID);
+
+        if (studentIdsToSSA.isEmpty()) {
+            return Collections.emptySet();
         }
 
-        return getDirectStudentIds().containsAll(studentIds);
+        Set<String> studentIds = studentIdsToSSA.keySet();
+        studentIds.retainAll(getDirectStudentIds());
+
+        Set<String> validSSAIds = getValidIds(studentIds, studentIdsToSSA);
+        Set<String> validSCIds = getValidIds(validSSAIds, ssaToSC);
+        return validSCIds;
     }
 }

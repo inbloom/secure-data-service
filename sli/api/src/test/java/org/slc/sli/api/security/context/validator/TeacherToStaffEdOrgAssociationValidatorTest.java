@@ -19,6 +19,7 @@ package org.slc.sli.api.security.context.validator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
@@ -51,12 +52,12 @@ public class TeacherToStaffEdOrgAssociationValidatorTest {
     @Autowired
     ValidatorTestHelper helper;
 
-    Set<String> edOrgAssociationIds;
+
 
     @Before
     public void setUp() throws Exception {
         helper.setUpTeacherContext();
-        edOrgAssociationIds = new HashSet<String>();
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
 
     @Test
@@ -70,16 +71,18 @@ public class TeacherToStaffEdOrgAssociationValidatorTest {
 
     @Test
     public void testCanValidateNonExpiredAssociation() {
+        Set<String> edOrgAssociationIds = new HashSet<String>();
         Entity assoc = helper.generateStaffEdorg(helper.STAFF_ID, helper.ED_ORG_ID, false);
         edOrgAssociationIds.add(assoc.getEntityId());
-        assertTrue(validator.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION, edOrgAssociationIds));
+        assertTrue(validator.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION, edOrgAssociationIds).containsAll(edOrgAssociationIds));
     }
 
     @Test
     public void testInvalidateExpiredAssociation() {
+        Set<String> edOrgAssociationIds = new HashSet<String>();
         Entity assoc = helper.generateStaffEdorg(helper.STAFF_ID, helper.ED_ORG_ID, true);
         edOrgAssociationIds.add(assoc.getEntityId());
-        assertFalse(validator.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION, edOrgAssociationIds));
+        assertFalse(validator.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION, edOrgAssociationIds).containsAll(edOrgAssociationIds));
     }
 
 

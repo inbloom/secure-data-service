@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.resolver;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,6 +26,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
+import java.util.Arrays;
+
 
 import javax.annotation.PostConstruct;
 
@@ -35,6 +39,7 @@ import org.slc.sli.api.resources.security.DelegationUtil;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.EntityOwnershipValidator;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.util.RequestUtil;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
@@ -76,6 +81,22 @@ public class EdOrgHelper {
     protected DelegationUtil delegationUtil;
 
     private EdOrgHierarchyHelper helper;
+
+    private static ThreadLocal<UUID> currentRequestIdTL = new ThreadLocal<UUID>() {
+        @Override
+        protected UUID initialValue()
+        {
+            return RequestUtil.generateRequestId();
+        }
+    };
+
+    private static ThreadLocal<Map<String, Entity>> edOrgCacheTL = new ThreadLocal<Map<String, Entity>>() {
+        @Override
+        protected Map<String, Entity> initialValue()
+        {
+            return new HashMap<String, Entity>();
+        }
+    };
 
     @PostConstruct
     public void init() {
@@ -262,17 +283,22 @@ public class EdOrgHelper {
     }
 
     private Map<String, Entity> loadEdOrgCache() {
-        Map<String, Entity> edOrgCache = new HashMap<String, Entity>();
+        if (!currentRequestIdTL.get().equals(RequestUtil.getCurrentRequestId())) {
+            Map<String, Entity> edOrgCache = new HashMap<String, Entity>();
 
-        Iterator<Entity> edOrgs = repo.findEach(EntityNames.EDUCATION_ORGANIZATION, (NeutralQuery) null);
+            Iterator<Entity> edOrgs = repo.findEach(EntityNames.EDUCATION_ORGANIZATION, (NeutralQuery) null);
+            if (edOrgs != null) {
+                while (edOrgs.hasNext()) {
+                    Entity eo = edOrgs.next();
+                    edOrgCache.put(eo.getEntityId(), eo);
+                }
+            }
 
-        while (edOrgs != null && edOrgs.hasNext()) {
-            Entity eo = edOrgs.next();
-
-            edOrgCache.put(eo.getEntityId(), eo);
+            edOrgCacheTL.set(edOrgCache);
+            currentRequestIdTL.set(RequestUtil.getCurrentRequestId());
         }
 
-        return edOrgCache;
+        return edOrgCacheTL.get();
     }
 
     public Entity byId(String edOrgId) {
@@ -302,7 +328,7 @@ public class EdOrgHelper {
      * @return
      */
     public List<String> getDirectSchools(Entity principal) {
-        return getDirectSchoolsLineage( principal, false );
+        return getDirectSchoolsLineage(principal, false);
     }
 
     public List<String> getDirectSchoolsLineage(Entity principal, boolean getLineage) {
@@ -343,6 +369,11 @@ public class EdOrgHelper {
      * @return
      */
     public Set<String> getChildEdOrgs(Collection<String> edOrgs) {
+        Set<String> visitedEdOrgs = new HashSet<String>();
+        return getChildEdOrgs(visitedEdOrgs, edOrgs);
+    }
+
+    public Set<String> getChildEdOrgs(final Set<String> visitedEdOrgs, Collection<String> edOrgs) {
 
         if (edOrgs.isEmpty()) {
             return new HashSet<String>();
@@ -350,15 +381,20 @@ public class EdOrgHelper {
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
                 NeutralCriteria.CRITERIA_IN, edOrgs));
-        Iterable<Entity> childrenIds = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
-        Set<String> children = new HashSet<String>();
-        for (Entity child : childrenIds) {
-            children.add(child.getEntityId());
+        Iterable<Entity> children = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+
+        visitedEdOrgs.addAll(edOrgs);
+
+        Set<String> childIds = new HashSet<String>();
+        for (Entity child : children) {
+            if (!visitedEdOrgs.contains(child.getEntityId())) {
+                childIds.add(child.getEntityId());
+            }
         }
-        if (!children.isEmpty()) {
-            children.addAll(getChildEdOrgs(children));
+        if (!childIds.isEmpty()) {
+            childIds.addAll(getChildEdOrgs(visitedEdOrgs, childIds));
         }
-        return children;
+        return childIds;
     }
 
 
@@ -369,24 +405,21 @@ public class EdOrgHelper {
      * @return
      */
     public Set<String> getChildEdOrgsName(Collection<String> edOrgs) {
+        // get child edOrgs reusing existing code
+        Set<String> childEdOrgIds = getChildEdOrgs(edOrgs);
 
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
-                NeutralCriteria.CRITERIA_IN, edOrgs));
-        Iterable<Entity> childrenEntities = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
-        Set<String> children = new HashSet<String>();
-        for (Entity child : childrenEntities) {
-            children.add((String) child.getBody().get("stateOrganizationId"));
+        // do a single query to get the names (stateOrganizationId)
+        NeutralQuery query = new NeutralQuery(
+                new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
+                        new ArrayList<String>(childEdOrgIds))).setIncludeFields(Arrays.asList(ParameterConstants.STATE_ORGANIZATION_ID));
+
+        Iterable<Entity> children = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+        Set<String> names = new HashSet<String>();
+        for (Entity child : children) {
+            names.add((String) child.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID));
         }
-        Set<String> childrenIds = new HashSet<String>();
-        for (Entity child : childrenEntities) {
-        	childrenIds.add(child.getEntityId());
-        }
-        if (!children.isEmpty()) {
-            children.addAll(getChildEdOrgsName(childrenIds));
-        }
-        return children;
+        return names;
     }
-
 
     private Entity getTopLEAOfEdOrg(Entity entity) {
         if (entity.getBody().containsKey("parentEducationAgencyReference")) {
@@ -529,7 +562,14 @@ public class EdOrgHelper {
     public Set<String> getDirectEdorgs(Entity principal) {
         return getEdOrgs(principal, true);
     }
-
+    
+    public List<String> getUserEdorgs(Entity principal) {
+        Set<String> directEdOrgs = getDirectEdorgs(principal);
+        List<String> userEdOrgs = new ArrayList<String>(getChildEdOrgs(directEdOrgs));
+        userEdOrgs.addAll(directEdOrgs);
+        return userEdOrgs;
+    }
+ 
     /**
      * Get directly associated education organizations for the specified principal, not filtered by
      * data ownership.

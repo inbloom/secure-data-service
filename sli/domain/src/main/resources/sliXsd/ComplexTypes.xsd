@@ -3941,36 +3941,6 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element maxOccurs='1' minOccurs='0' name='gradeLevel' type='gradeLevelType'>
-                <xs:annotation>
-                    <xs:documentation>Current grade level</xs:documentation>
-                    <xs:appinfo>
-                        <sli:WriteEnforcement>
-                            <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
-                            <sli:allowedBy>WRITE_STUDENT_OWNED</sli:allowedBy>
-                        </sli:WriteEnforcement>
-                        <sli:ReadEnforcement>
-                            <sli:allowedBy>READ_GENERAL</sli:allowedBy>
-                            <sli:allowedBy>READ_STUDENT_OWNED</sli:allowedBy>
-                        </sli:ReadEnforcement>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element maxOccurs='1' minOccurs='0' name='schoolId' type='xs:string'>
-                <xs:annotation>
-                    <xs:documentation>Current school</xs:documentation>
-                    <xs:appinfo>
-                        <sli:WriteEnforcement>
-                            <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
-                            <sli:allowedBy>WRITE_STUDENT_OWNED</sli:allowedBy>
-                        </sli:WriteEnforcement>
-                        <sli:ReadEnforcement>
-                            <sli:allowedBy>READ_GENERAL</sli:allowedBy>
-                            <sli:allowedBy>READ_STUDENT_OWNED</sli:allowedBy>
-                        </sli:ReadEnforcement>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
         </xs:sequence>
     </xs:complexType>
 

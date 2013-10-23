@@ -25,7 +25,7 @@ And I should enter "RC-IL-Daybreak" into Realm Identifier
 And I should click the "Save" button
 And I switch to the iframe
 And I should receive a notice that the realm was successfully "created"
-Then I see the realms for "Daybreak School District 4529 (IL-DAYBREAK)"
+#Then I see the realms for "Daybreak School District 4529 (IL-DAYBREAK)"
 And the realm "Daybreak Test Realm" will exist
 And I exit out of the iframe
 And I click on log out
@@ -41,88 +41,6 @@ And I click on Admin
 And I should be on the admin page
 And I should not see "inBloom Data Browser"
 And I click on log out
-
-Scenario:  LEA approves Dashboard and Databrowser
-When I navigate to the Portal home page
-When I see the realm selector I authenticate to "inBloom"
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page    
-Then I should be on Portal home page
-Then I should see Admin link
-And I click on Admin
-Then I should be on the admin page
-And under System Tools, I click on "Authorize Applications"
-And I switch to the iframe
-Then I am redirected to the Admin Application Authorization Tool
-#Authorize the Dashboard
-And I see an application "inBloom Dashboards" in the table
-And in Status it says "Not Approved"
-And I click on the "Approve" button next to it
-And I am asked 'Do you really want this application to access the district's data'
-When I click on Ok
-Then the application is authorized to use data of "Daybreak School District 4529"
-And the app "inBloom Dashboards" Status becomes "Approved"
-And it is colored "green"
-And the Approve button next to it is disabled
-And the Deny button next to it is enabled
-#Authorize the Databrowser
-And I see an application "inBloom Data Browser" in the table
-And in Status it says "Not Approved"
-And I click on the "Approve" button next to it
-And I am asked 'Do you really want this application to access the district's data'
-When I click on Ok
-# switch back to iframe because of the page reload
-And I switch to the iframe
-Then the application is authorized to use data of "Daybreak School District 4529"
-And the app "inBloom Data Browser" Status becomes "Approved"
-And it is colored "green"
-And the Approve button next to it is disabled
-And the Deny button next to it is enabled
-#Authorized the new Web-App
-And I exit out of the iframe
-And I click on log out
-
-#US4878: Logout Test Coverage
-@wip 
-Scenario: Sessions are shared between Databrowser and Dashboard apps
-When I navigate to the databrowser page
-When I selected the realm "Daybreak Test Realm"
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page    
-Then I should be redirected to the Data Browser home page
-When I navigate to the dashboard page
-Then I do not see any login pages
-And I am redirected to the dashboard home page
-And I click on log out
-Then I will be redirected to the realm selector web page
-When I navigate to the databrowser page
-Then I should forced to reauthenticate to gain access
-
-Scenario: Sessions are shared between Dashboard and Databrowser apps
-When I navigate to the Portal home page
-When I select "Daybreak Test Realm" and click go
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page    
-Then I should be on Portal home page
-When I navigate to the dashboard page
-And I am redirected to the dashboard home page
-When I navigate to the databrowser page
-Then I do not see any login pages
-Then I am redirected to the databrowser home page
-And I click on the logout link
-Then I should see a message that I was logged out
-And I should forced to reauthenticate to gain access
-When I navigate to the dashboard home page
-Then I should forced to reauthenticate to gain access
-
-
-Scenario: User sees non-installed Developer App 
-When I navigate to the Portal home page
-When I selected the realm "Daybreak Test Realm"
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page    
-Then I should be on Portal home page
-And under My Applications, I see the following apps: "inBloom Dashboards"
 
 @wip
 Scenario: Charter School Realm Admin Logins to create realm
@@ -145,7 +63,7 @@ And I should enter "RC-IL-Charter-School" into Realm Identifier
 And I should click the "Save" button
 And I switch to the iframe
 And I should receive a notice that the realm was successfully "created"
-Then I see the realms for "IL Charter School (IL-CHARTER)"
+Then I see the realms for "IL-CHARTER-SCHOOL (IL-CHARTER-SCHOOL)"
 And the realm "Charter School Test Realm" will exist
 And I exit out of the iframe
 And I click on log out
@@ -163,12 +81,11 @@ And I should be on the admin page
 And I should not see "inBloom Data Browser"
 And I click on log out
 
-@wip
-Scenario:  Charter School LEA approves Dashboard and Databrowser
+Scenario: SEA approves Dashboard and Databrowser
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "inBloom"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "<CHARTER_EMAIL>" "<CHARTER_EMAIL_PASS>" for the "Simple" login page
+When I submit the credentials "<PRIMARY_EMAIL>" "<PRIMARY_EMAIL_PASS>" for the "Simple" login page
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
@@ -179,30 +96,52 @@ Then I am redirected to the Admin Application Authorization Tool
 #Authorize the Dashboard
 And I see an application "inBloom Dashboards" in the table
 And in Status it says "Not Approved"
-And I click on the "Approve" button next to it
-And I am asked 'Do you really want this application to access the district's data'
-When I click on Ok
-Then the application is authorized to use data of "IL Charter School"
-And the app "inBloom Dashboards" Status becomes "Approved"
-And it is colored "green"
-And the Approve button next to it is disabled
-And the Deny button next to it is enabled
+And I click on the "Edit Authorizations" button next to it
+And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
+And the sli securityEvent collection is empty
+And I click Update
+And I see an application "inBloom Dashboards" in the table
+And in Status it says "199 EdOrg(s)"
+Then there are "199" edOrgs for the "inBloom Dashboards" application in the production applicationAuthorization collection
+And I check to find if record is in sli db collection:
+  | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+  | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+And there are "199" educationalOrganizations in the targetEdOrgList
+
 #Authorize the Databrowser
 And I see an application "inBloom Data Browser" in the table
 And in Status it says "Not Approved"
-And I click on the "Approve" button next to it
-And I am asked 'Do you really want this application to access the district's data'
-When I click on Ok
-# switch back to iframe because of the page reload
-And I switch to the iframe
-Then the application is authorized to use data of "IL Charter School"
-And the app "inBloom Data Browser" Status becomes "Approved"
-And it is colored "green"
-And the Approve button next to it is disabled
-And the Deny button next to it is enabled
+And I click on the "Edit Authorizations" button next to it
+And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
+And the sli securityEvent collection is empty
+And I click Update
+And I see an application "inBloom Data Browser" in the table
+And in Status it says "199 EdOrg(s)"
+Then there are "199" edOrgs for the "inBloom Data Browser" application in the production applicationAuthorization collection
+And I check to find if record is in sli db collection:
+  | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+  | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+And there are "199" educationalOrganizations in the targetEdOrgList
 #Authorized the new Web-App
 And I exit out of the iframe
 And I click on log out
+
+Scenario: Sessions are shared between Dashboard and Databrowser apps
+When I navigate to the Portal home page
+When I select "Daybreak Test Realm" and click go
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+Then I should be on Portal home page
+When I navigate to the dashboard page
+And I am redirected to the dashboard home page
+When I navigate to the databrowser page
+Then I do not see any login pages
+Then I am redirected to the databrowser home page
+And I click on the logout link
+Then I should see a message that I was logged out
+And I should forced to reauthenticate to gain access
+When I navigate to the dashboard home page
+Then I should forced to reauthenticate to gain access
 
 @wip
 Scenario: Charter School Sessions are shared between Dashboard and Databrowser apps
@@ -222,12 +161,20 @@ And I should forced to reauthenticate to gain access
 When I navigate to the dashboard home page
 Then I should forced to reauthenticate to gain access
 
-@wip
 Scenario: User sees non-installed Developer App
+When I navigate to the Portal home page
+When I selected the realm "Daybreak Test Realm"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+Then I should be on Portal home page
+And under My Applications, I see the following apps: "inBloom Dashboards"
+
+@wip
+Scenario: Charter School User sees non-installed Developer App
 When I navigate to the Portal home page
 When I selected the realm "Charter School Test Realm"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "charterteacher" "charterteacher1234" for the "Simple" login page
+When I submit the credentials "chartereducator" "chartereducator1234" for the "Simple" login page
 Then I should be on Portal home page
 And under My Applications, I see the following apps: "inBloom Dashboards"
 

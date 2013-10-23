@@ -19,13 +19,7 @@ package org.slc.sli.api.security.context.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -33,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -88,6 +83,8 @@ public class StaffToSubStudentEntityValidatorTest {
 
         validator.setRepo(mockRepo);
         validator.setStaffToStudentValidator(staffToStudentValidator);
+
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
 
     @After
@@ -171,8 +168,8 @@ public class StaffToSubStudentEntityValidatorTest {
         Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.REPORT_CARD), 
                 Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(reportCardEntity));
         
-        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
-        assertTrue(validator.validate(EntityNames.REPORT_CARD, reportCards));
+        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(studentIds);
+        assertTrue(validator.validate(EntityNames.REPORT_CARD, reportCards).equals(reportCards));
     }
     
     @Test
@@ -187,8 +184,8 @@ public class StaffToSubStudentEntityValidatorTest {
         Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.ATTENDANCE), Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList(attendanceEntity1));
 
-        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
-        assertTrue(validator.validate(EntityNames.ATTENDANCE, attendances));
+        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(studentIds);
+        assertTrue(validator.validate(EntityNames.ATTENDANCE, attendances).equals(attendances));
     }
 
     @Test
@@ -202,8 +199,8 @@ public class StaffToSubStudentEntityValidatorTest {
         Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.ATTENDANCE), Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList(attendanceEntity1));
 
-        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(false);
-        assertFalse(validator.validate(EntityNames.ATTENDANCE, attendances));
+        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(Collections.EMPTY_SET);
+        assertFalse(validator.validate(EntityNames.ATTENDANCE, attendances).equals(attendances));
     }
 
     @Test
@@ -218,9 +215,9 @@ public class StaffToSubStudentEntityValidatorTest {
         associations.add(association.getEntityId());
 
         studentIds.add("student123");
-        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(studentIds);
 
-        assertTrue(validator.validate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, associations));
+        assertTrue(validator.validate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, associations).equals(associations));
     }
 
     @Test
@@ -234,9 +231,9 @@ public class StaffToSubStudentEntityValidatorTest {
         associations.add(association.getEntityId());
 
         studentIds.add("student123");
-        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(studentIds);
 
-        assertTrue(validator.validate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, associations));
+        assertTrue(validator.validate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, associations).equals(associations));
     }
 
     @Test
@@ -249,7 +246,7 @@ public class StaffToSubStudentEntityValidatorTest {
                 .thenReturn(Arrays.asList(association));
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
-        assertFalse(validator.validate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, associations));
+        assertTrue(validator.validate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, associations).isEmpty());
     }
 
     @Test
@@ -264,9 +261,9 @@ public class StaffToSubStudentEntityValidatorTest {
         associations.add(association.getEntityId());
 
         studentIds.add("student123");
-        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(studentIds);
 
-        assertTrue(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations));
+        assertTrue(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations).equals(associations));
     }
 
     @Test
@@ -280,9 +277,9 @@ public class StaffToSubStudentEntityValidatorTest {
         associations.add(association.getEntityId());
 
         studentIds.add("student123");
-        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(studentIds);
 
-        assertTrue(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations));
+        assertTrue(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations).equals(associations));
     }
 
     @Test
@@ -295,7 +292,7 @@ public class StaffToSubStudentEntityValidatorTest {
                 .thenReturn(Arrays.asList(association));
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
-        assertFalse(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations));
+        assertTrue(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations).isEmpty());
     }
     
     private Map<String, Object> buildReportCard(String studentId) {

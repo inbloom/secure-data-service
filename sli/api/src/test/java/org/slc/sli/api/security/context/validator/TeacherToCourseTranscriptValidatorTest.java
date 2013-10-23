@@ -4,6 +4,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -111,6 +112,7 @@ public class TeacherToCourseTranscriptValidatorTest {
         body.put("studentAcademicRecordId", studentAcademicRecord2.getEntityId());
         courseTranscript2 = repo.create(EntityNames.COURSE_TRANSCRIPT, body);
 
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
 
     private void setupCurrentUser(Entity staff) {
@@ -132,17 +134,17 @@ public class TeacherToCourseTranscriptValidatorTest {
     @Test
     public void testValidAssociations() {
         setupCurrentUser(teacher1);
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>(Arrays.asList(courseTranscript1.getEntityId()))));
+        Assert.assertEquals(1, validator.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>(Arrays.asList(courseTranscript1.getEntityId()))).size());
     }
 
     @Test
     public void testInvalidAssociations() {
         setupCurrentUser(teacher1);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.COURSE_TRANSCRIPT,
-                new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()))));
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.COURSE_TRANSCRIPT,
-                new HashSet<String>()));
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.COURSE_TRANSCRIPT,
-                new HashSet<String>(Arrays.asList(courseTranscript2.getEntityId()))));
+        Assert.assertEquals(0, validator.validate(EntityNames.COURSE_TRANSCRIPT,
+                new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()))).size());
+        Assert.assertEquals(0, validator.validate(EntityNames.COURSE_TRANSCRIPT,
+                new HashSet<String>()).size());
+        Assert.assertEquals(0, validator.validate(EntityNames.COURSE_TRANSCRIPT,
+                new HashSet<String>(Arrays.asList(courseTranscript2.getEntityId()))).size());
     }
 }

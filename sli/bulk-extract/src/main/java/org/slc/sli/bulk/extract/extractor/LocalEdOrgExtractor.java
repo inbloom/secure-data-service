@@ -36,7 +36,7 @@ import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -52,13 +52,13 @@ public class LocalEdOrgExtractor {
     private Repository<Entity> repository;
 
     @Autowired
-    private LocalEdOrgExtractHelper helper;
+    private EdOrgExtractHelper helper;
 
-    private LEAExtractFileMap leaToExtractFileMap;
+    private ExtractFileMap leaToExtractFileMap;
     private EntityExtractor entityExtractor;
     private Map<String, String> entitiesToCollections;
     private BulkExtractMongoDA bulkExtractMongoDA;
-    private LEAExtractorFactory factory;
+    private ExtractorFactory factory;
 
     @Autowired
     private SecurityEventUtil securityEventUtil;
@@ -72,7 +72,7 @@ public class LocalEdOrgExtractor {
      * @param tenant
      *            name of tenant to extract
      */
-    public void execute(String tenant, File tenantDirectory, DateTime startTime) {
+    public void execute(String tenant, File tenantDirectory, DateTime startTime, String sea) {
 
         // 1. SETUP
         TenantContext.setTenantId(tenant);
@@ -82,13 +82,13 @@ public class LocalEdOrgExtractor {
         audit(securityEventUtil.createSecurityEvent(this.getClass().getName(), "LEA level extract initiated", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0008));
 
         if (factory == null) {
-            factory = new LEAExtractorFactory();
+            factory = new ExtractorFactory();
         }
         if (leaToExtractFileMap == null) {
-            leaToExtractFileMap = new LEAExtractFileMap(buildLEAToExtractFile());
+            leaToExtractFileMap = new ExtractFileMap(buildLEAToExtractFile(sea));
         }
         // 2. EXTRACT
-        EntityToLeaCache edorgCache = buildEdOrgCache();
+        EntityToEdOrgCache edorgCache = buildEdOrgCache(sea);
 
         EdorgExtractor edorg = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap, helper);
         edorg.extractEntities(edorgCache);
@@ -119,7 +119,7 @@ public class LocalEdOrgExtractor {
         // Yearly Transcript
         genericExtractor = factory.buildYearlyTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(student.getEntityCache());
-        EntityToLeaCache studentAcademicRecordCache = ((YearlyTranscriptExtractor)genericExtractor).getStudentAcademicRecordCache();
+        EntityToEdOrgCache studentAcademicRecordCache = ((YearlyTranscriptExtractor)genericExtractor).getStudentAcademicRecordCache();
 
         genericExtractor = factory.buildParentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(student.getParentCache());
@@ -180,16 +180,16 @@ public class LocalEdOrgExtractor {
         leaToExtractFileMap.archiveFiles();
 
         // 3. ARCHIVE
-        updateBulkExtractDb(tenant, startTime);
+        updateBulkExtractDb(tenant, startTime, sea);
         LOG.info("Finished LEA based extract in: {} seconds",
                 (new DateTime().getMillis() - this.startTime.getMillis()) / 1000);
         audit(securityEventUtil.createSecurityEvent(this.getClass().getName(), "Marks the end of LEA level extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0009));
     }
 
-    private void updateBulkExtractDb(String tenant, DateTime startTime) {
-        for (String lea : helper.getBulkExtractLEAs()) {
+    private void updateBulkExtractDb(String tenant, DateTime startTime, String sea) {
+        for (String lea : helper.getBulkExtractEdOrgs(sea)) {
             // update db to point to new archive
-            for (Entry<String, File> archiveFile : leaToExtractFileMap.getExtractFileForLea(lea).getArchiveFiles()
+            for (Entry<String, File> archiveFile : leaToExtractFileMap.getExtractFileForEdOrg(lea).getArchiveFiles()
                     .entrySet()) {
                 bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), archiveFile.getKey(),
                         startTime.toDate(), false, lea, false);
@@ -197,11 +197,11 @@ public class LocalEdOrgExtractor {
         }
     }
 
-    private Map<String, ExtractFile> buildLEAToExtractFile() {
+    private Map<String, ExtractFile> buildLEAToExtractFile(String sea) {
         Map<String, ExtractFile> edOrgToLEAExtract = new HashMap<String, ExtractFile>();
 
         Map<String, PublicKey> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
-        for (String lea : helper.getBulkExtractLEAs()) {
+        for (String lea : helper.getBulkExtractEdOrgs(sea)) {
             ExtractFile file = factory.buildLEAExtractFile(tenantDirectory.getAbsolutePath(), lea,
                     getArchiveName(lea, startTime.toDate()), appPublicKeys, securityEventUtil);
             edOrgToLEAExtract.put(lea, file);
@@ -215,9 +215,9 @@ public class LocalEdOrgExtractor {
      *
      * @return a map that has the lea to the set of all it's child edorgs
      */
-    private EntityToLeaCache buildEdOrgCache() {
-        EntityToLeaCache cache = new EntityToLeaCache();
-        for (String lea : helper.getBulkExtractLEAs()) {
+    private EntityToEdOrgCache buildEdOrgCache(String sea) {
+        EntityToEdOrgCache cache = new EntityToEdOrgCache();
+        for (String lea : helper.getBulkExtractEdOrgs(sea)) {
             Set<String> children = helper.getChildEdOrgs(Arrays.asList(lea));
             children.add(lea);
             for (String child : children) {
@@ -270,15 +270,15 @@ public class LocalEdOrgExtractor {
         this.bulkExtractMongoDA = bulkExtractMongoDA;
     }
 
-    public void setHelper(LocalEdOrgExtractHelper helper) {
+    public void setHelper(EdOrgExtractHelper helper) {
         this.helper = helper;
     }
 
-    public void setFactory(LEAExtractorFactory factory) {
+    public void setFactory(ExtractorFactory factory) {
         this.factory = factory;
     }
 
-    public void setLeaToExtractMap(LEAExtractFileMap map) {
+    public void setLeaToExtractMap(ExtractFileMap map) {
         this.leaToExtractFileMap = map;
     }
 

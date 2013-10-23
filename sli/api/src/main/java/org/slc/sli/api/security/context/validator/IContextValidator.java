@@ -16,6 +16,8 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
+
 import java.util.Set;
 
 /**
@@ -52,10 +54,10 @@ public interface IContextValidator {
      *            Type of entities being requested.
      * @param ids
      *            Set of Strings representing the _id's of entities being requested.
-     * @return True if the user has access to ALL of the entities requested, false otherwise.
+     * @return Set of ids of validate entities
      * @throws IllegalStateException thrown iw e
      */
-    public abstract boolean validate(String entityType, Set<String> ids) throws IllegalStateException;
+    public abstract Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException;
 
     /**
      * Gets a subset of ids that the user has access to from the provided set of entities of type 'entityType'.
@@ -67,4 +69,11 @@ public interface IContextValidator {
      * @return Set of valid ids that the user has access to to
      */
     public abstract Set<String> getValid(String entityType, Set<String> ids);
+
+    /**
+     * Gets the context of the context validatior applies for.
+     *
+     * @return SecurityUtil.UserContext
+     */
+    public abstract SecurityUtil.UserContext getContext();
 }

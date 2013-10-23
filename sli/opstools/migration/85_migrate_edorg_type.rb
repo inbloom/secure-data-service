@@ -22,6 +22,7 @@ EDORG_COLLECTION = "educationOrganization"
 TYPE_FIELD = "type"
 BODY_FIELD = "body"
 ORGCAT_FIELD = "organizationCategories"
+PARENT_REF_FIELD = "parentEducationAgencyReference"
 
 # Update field "type" in collection "educationOrganization" ...
 # From these values ...
@@ -70,10 +71,18 @@ def updateEdOrgs(dbName)
   @edorg_collection = @db[EDORG_COLLECTION]
   nupdated = 0
   @edorg_collection.find.each do |row|
+    did_update = 0
     if row[TYPE_FIELD] != TYPE_VALUE_EDORG
       @edorg_collection.update({"_id" => row["_id"]},{"$set" => {TYPE_FIELD => TYPE_VALUE_EDORG}})
-      nupdated += 1
+      did_update = 1
     end
+    body = row[BODY_FIELD]
+    unless body[PARENT_REF_FIELD].nil?
+      parent_refs = [ body[PARENT_REF_FIELD] ]
+      @edorg_collection.update({"_id" => row["_id"]},{"$set" => {BODY_FIELD+"."+PARENT_REF_FIELD => parent_refs}})
+      did_update = 2
+    end
+    nupdated += 1 if did_update > 0
   end
   puts "Updated " + nupdated.to_s + " document(s)"
 end
@@ -132,7 +141,7 @@ def main(argv)
     end
 
     puts "--------------------------------------------------------------------------------------------"
-    puts "| To migrate on student and educationOrganization collection, give argument(s) as follows:\n"
+    puts "| To migrate educationOrganization collection, give argument(s) as follows:\n"
     puts "|\n"
     puts "|     --all                                     Migrate against all tenant dbs\n"
     puts "|       --OR--\n"

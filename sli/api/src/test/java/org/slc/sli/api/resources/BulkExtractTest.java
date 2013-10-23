@@ -36,15 +36,7 @@ import java.net.URISyntaxException;
 import java.security.Principal;
 import java.security.cert.X509Certificate;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
@@ -171,7 +163,9 @@ public class BulkExtractTest {
         Mockito.doNothing().when(spyFileResource).logSecurityEvent(Mockito.anyString());
         bulkExtract.setFileResource(spyFileResource);
 
-        when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class))).thenReturn(true);
+        Set<String> dummySet = new HashSet<String>();
+        dummySet.add("dummy");
+        when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class))).thenReturn(dummySet);
 
         // Hmm.. this needed?
         bulkExtract.setEdorgValidator(mockValidator);
@@ -383,7 +377,8 @@ public class BulkExtractTest {
         Mockito.when(edOrgHelper.getDirectChildLEAsOfEdOrg(edOrg)).thenReturn(Arrays.asList("lea123"));
         Set<String> lea = new HashSet<String>();
         lea.add("lea123");
-        Mockito.when(mockValidator.validate(EntityNames.EDUCATION_ORGANIZATION, lea)).thenReturn(true);
+
+        Mockito.when(mockValidator.validate(EntityNames.EDUCATION_ORGANIZATION, lea)).thenReturn(lea);
         Map<String, Object> authBody = new HashMap<String, Object>();
         authBody.put("applicationId", "App1");
         authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("lea123"));
@@ -428,7 +423,7 @@ public class BulkExtractTest {
         when(mockAuth.getBody()).thenReturn(authBody);
         when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockAuth);
-        bulkExtract.getLEAorSEAExtract(CONTEXT, req, "BLEEP");
+        bulkExtract.getEdOrgExtract(CONTEXT, req, "BLEEP");
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -476,7 +471,7 @@ public class BulkExtractTest {
         when(mockAuth.getBody()).thenReturn(authBody);
         when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockAuth);
-        bulkExtract.getLEAorSEAExtract(CONTEXT, req, "BLEEP");
+        bulkExtract.getEdOrgExtract(CONTEXT, req, "BLEEP");
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -492,7 +487,7 @@ public class BulkExtractTest {
         when(mockEntity.getEntityId()).thenReturn("App1");
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
-        bulkExtract.getLEAorSEAExtract(CONTEXT, req, "BLEEP");
+        bulkExtract.getEdOrgExtract(CONTEXT, req, "BLEEP");
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -500,8 +495,8 @@ public class BulkExtractTest {
         injector.setEducatorContext();
         // No BE Field
         Mockito.when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class)))
-                .thenReturn(false);
-        bulkExtract.getLEAorSEAExtract(CONTEXT, req, "BLEEP");
+                .thenReturn(Collections.EMPTY_SET);
+        bulkExtract.getEdOrgExtract(CONTEXT, req, "BLEEP");
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -524,7 +519,7 @@ public class BulkExtractTest {
     public void testGetLEAListNoUserAssociatedLEAs() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
-        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
+        Mockito.when(edOrgHelper.getUserEdorgs(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
 
         Response res = bulkExtract.getSEAOrLEAList(req, CONTEXT);
         assertEquals(404, res.getStatus());
@@ -535,7 +530,7 @@ public class BulkExtractTest {
     public void testGetSetSEAAndLEAListEmpty() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
-        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
+        Mockito.when(edOrgHelper.getUserEdorgs(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
         Entity mockAppAuthEntity = Mockito.mock(Entity.class);
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(ApplicationAuthorizationResource.RESOURCE_NAME), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockAppAuthEntity);
@@ -549,10 +544,10 @@ public class BulkExtractTest {
         assertEquals(200, res.getStatus());
         EntityBody list = (EntityBody) res.getEntity();
         assertNotNull("Links list should not be null", list);
-        Map<String, Map<String, String>> fullLeas = (Map<String, Map<String, String>>) list.get("fullLeas");
-        assertTrue("LEA full extract list should be empty", fullLeas.isEmpty());
-        Map<String, Map<String, String>> deltaLeas = (Map<String, Map<String, String>>) list.get("deltaLeas");
-        assertTrue("LEA delta extract list should be empty", deltaLeas.isEmpty());
+        Map<String, Map<String, String>> fullEdOrgs = (Map<String, Map<String, String>>) list.get("fullEdOrgs");
+        assertTrue("LEA full extract list should be empty", fullEdOrgs.isEmpty());
+        Map<String, Map<String, String>> deltaEdOrgs = (Map<String, Map<String, String>>) list.get("deltaEdOrgs");
+        assertTrue("LEA delta extract list should be empty", deltaEdOrgs.isEmpty());
         Map<String, Map<String, String>> fullSeas = (Map<String, Map<String, String>>) list.get("fullSea");
         assertTrue("SEA full extract list should be empty", fullSeas.isEmpty());
         Map<String, Map<String, String>> deltaSeas = (Map<String, Map<String, String>>) list.get("deltaSea");
@@ -572,7 +567,7 @@ public class BulkExtractTest {
         Mockito.when(edOrgHelper.byId("LEA1")).thenReturn(mockLEAEntity);
         Mockito.when(edOrgHelper.isSEA(mockLEAEntity)).thenReturn(false);
         Mockito.when(edOrgHelper.getSEAOfEdOrg(mockLEAEntity)).thenReturn("SEA1");
-        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(LEAs);
+        Mockito.when(edOrgHelper.getUserEdorgs(Mockito.any(Entity.class))).thenReturn(LEAs);
         Entity mockAppAuthEntity = Mockito.mock(Entity.class);
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(ApplicationAuthorizationResource.RESOURCE_NAME), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockAppAuthEntity);
@@ -598,12 +593,12 @@ public class BulkExtractTest {
         assertEquals(200, res.getStatus());
         EntityBody list = (EntityBody) res.getEntity();
         assertNotNull("Links list should not be null", list);
-        Map<String, Map<String, String>> fullLeas = (Map<String, Map<String, String>>) list.get("fullLeas");
-        assertEquals("There should be one LEA full extract link", 1, fullLeas.size());
-        assertEquals("Mismatched URI for full extract of LEA \"123\"", URI_PATH + "/bulk/extract/LEA1", fullLeas.get("LEA1").get("uri"));
-        Map<String, Map<String, String>> deltaLeas = (Map<String, Map<String, String>>) list.get("deltaLeas");
-        assertEquals("There should be one LEA delta extract link list", 1, deltaLeas.size());
-        Set<Map<String, String>> leaDeltaLinks = (Set<Map<String, String>>) deltaLeas.get("LEA1");
+        Map<String, Map<String, String>> fullEdOrgs = (Map<String, Map<String, String>>) list.get("fullEdOrgs");
+        assertEquals("There should be one LEA full extract link", 1, fullEdOrgs.size());
+        assertEquals("Mismatched URI for full extract of LEA \"123\"", URI_PATH + "/bulk/extract/LEA1", fullEdOrgs.get("LEA1").get("uri"));
+        Map<String, Map<String, String>> deltaEdOrgs = (Map<String, Map<String, String>>) list.get("deltaEdOrgs");
+        assertEquals("There should be one LEA delta extract link list", 1, deltaEdOrgs.size());
+        Set<Map<String, String>> leaDeltaLinks = (Set<Map<String, String>>) deltaEdOrgs.get("LEA1");
         assertEquals("There should be two LEA delta extract links for LEA \"LEA1\"", 2, leaDeltaLinks.size());
         Map<String, String> leaDeltaLink1 = (Map<String, String>) leaDeltaLinks.toArray()[0];
         assertEquals("Mismatched delta extraction date for LEA \"LEA1\"", timeStamp2, leaDeltaLink1.get("timestamp"));
@@ -635,7 +630,7 @@ public class BulkExtractTest {
     public void testGetJustFullLEAListSuccess() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
-        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
+        Mockito.when(edOrgHelper.getUserEdorgs(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
         Entity mockAppAuthEntity = Mockito.mock(Entity.class);
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(ApplicationAuthorizationResource.RESOURCE_NAME), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockAppAuthEntity);
@@ -657,11 +652,11 @@ public class BulkExtractTest {
         assertTrue("SEA full extract link list should be empty", fullSeas.isEmpty());
         Map<String, Map<String, String>> deltaSeas = (Map<String, Map<String, String>>) list.get("deltaSea");
         assertTrue("SEA delta extract link list should be empty", deltaSeas.isEmpty());
-        Map<String, Map<String, String>> fullLeas = (Map<String, Map<String, String>>) list.get("fullLeas");
-        assertEquals("There should be one LEA full extract link", 1, fullLeas.size());
-        assertEquals("Mismatched URI for full extract of LEA \"123\"", URI_PATH + "/bulk/extract/123", fullLeas.get("123").get("uri"));
-        Map<String, Map<String, String>> deltaLeas = (Map<String, Map<String, String>>) list.get("deltaLeas");
-        assertTrue("LEA delta extract link list should be empty", deltaLeas.isEmpty());
+        Map<String, Map<String, String>> fullEdOrgs = (Map<String, Map<String, String>>) list.get("fullEdOrgs");
+        assertEquals("There should be one LEA full extract link", 1, fullEdOrgs.size());
+        assertEquals("Mismatched URI for full extract of LEA \"123\"", URI_PATH + "/bulk/extract/123", fullEdOrgs.get("123").get("uri"));
+        Map<String, Map<String, String>> deltaEdOrgs = (Map<String, Map<String, String>>) list.get("deltaEdOrgs");
+        assertTrue("LEA delta extract link list should be empty", deltaEdOrgs.isEmpty());
     }
 
     @SuppressWarnings("unchecked")
@@ -669,7 +664,7 @@ public class BulkExtractTest {
     public void testGetJustDeltaLEAListSuccess() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
-        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
+        Mockito.when(edOrgHelper.getUserEdorgs(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
         Entity mockAppAuthEntity = Mockito.mock(Entity.class);
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(ApplicationAuthorizationResource.RESOURCE_NAME), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockAppAuthEntity);
@@ -697,11 +692,11 @@ public class BulkExtractTest {
         assertTrue("SEA full extract link list should be empty", fullSeas.isEmpty());
         Map<String, Map<String, String>> deltaSeas = (Map<String, Map<String, String>>) list.get("deltaSea");
         assertTrue("SEA delta extract link list should be empty", deltaSeas.isEmpty());
-        Map<String, Map<String, String>> fullLeas = (Map<String, Map<String, String>>) list.get("fullLeas");
-        assertTrue("LEA full extract link list should be empty", fullLeas.isEmpty());
-        Map<String, Map<String, String>> deltaLeas = (Map<String, Map<String, String>>) list.get("deltaLeas");
-        assertEquals("There should be one LEA delta extract link list", 1, deltaLeas.size());
-        Set<Map<String, String>> deltaLinks = (Set<Map<String, String>>) deltaLeas.get("123");
+        Map<String, Map<String, String>> fullEdOrgs = (Map<String, Map<String, String>>) list.get("fullEdOrgs");
+        assertTrue("LEA full extract link list should be empty", fullEdOrgs.isEmpty());
+        Map<String, Map<String, String>> deltaEdOrgs = (Map<String, Map<String, String>>) list.get("deltaEdOrgs");
+        assertEquals("There should be one LEA delta extract link list", 1, deltaEdOrgs.size());
+        Set<Map<String, String>> deltaLinks = (Set<Map<String, String>>) deltaEdOrgs.get("123");
         assertEquals("There should be two LEA delta extract links for LEA \"123\"", 2, deltaLinks.size());
         Map<String, String> deltaLink1 = (Map<String, String>) deltaLinks.toArray()[0];
         assertEquals("Mismatched delta extraction date for LEA \"123\"", timeStamp2, deltaLink1.get("timestamp"));
@@ -722,7 +717,7 @@ public class BulkExtractTest {
             assertTrue(!e.getMessage().isEmpty());
         }
         try {
-            bulkExtract.getLEAorSEAExtract(CONTEXT, req, null);
+            bulkExtract.getEdOrgExtract(CONTEXT, req, null);
             fail("Should have thrown exception for null lea");
         } catch (IllegalArgumentException e) {
             assertTrue(!e.getMessage().isEmpty());
@@ -756,7 +751,7 @@ public class BulkExtractTest {
         Mockito.when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockAppAuth);
 
-        Response res = bulkExtract.getLEAorSEAExtract(CONTEXT, req, "SeaPub");
+        Response res = bulkExtract.getEdOrgExtract(CONTEXT, req, "SeaPub");
 
         assertEquals(200, res.getStatus());
         MultivaluedMap<String, Object> headers = res.getMetadata();

@@ -21,10 +21,29 @@ task :adminWebTests => [:realmInit] do
   runTests("test/features/admintools")
 end
 
+desc "Run Admin Auth Tests"
+task :adminAppAuthTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/enable_and_authorize_apps_directly_by_edorg.feature")
+  runTests("test/features/admintools/enable_and_authorize_bulk_extract_apps_directly_by_edorg.feature")
+end
+
 desc "Run Admin Tool Smoke Tests"
 task :adminRealmTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools/edit_realms.feature")
+end
+
+desc "Run Admin Delegation Tests"
+task :adminDelegationTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/delegate_privileges.feature")
+end
+
+desc "Run Admin Develper App Enable Tests"
+task :adminDevAppEnableTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/developer_enable.feature")
 end
 
 desc "Run Reset and Change Password Selenium Tests"
@@ -42,6 +61,12 @@ desc "Run Application Registration Tests"
 task :appRegistrationTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools/app_registration.feature")
+end
+
+desc "Run Application Authorization Tests"
+task :appAuthorizationTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/app_authorization.feature")
 end
 
 desc "Run Admin Edit Rules Tests"
@@ -92,6 +117,15 @@ task :adminSmokeTests do
   Rake::Task["realmInit"].execute
   Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools/admin_smoke.feature")
+end
+
+desc "Run multi realms with same idp test"
+task :adminMultiRealmSameIdpTests do
+  Rake::Task["realmInit"].execute
+  Rake::Task["importSandboxData"].execute
+  allLeaAllowApp("Mobile App")
+  authorizeEdorg("Mobile App")
+  runTests("test/features/admintools/multi_realms_with_same_idp.feature")
 end
 
 ############################################################

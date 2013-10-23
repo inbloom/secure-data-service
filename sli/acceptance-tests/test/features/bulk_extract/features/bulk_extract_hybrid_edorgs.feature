@@ -69,7 +69,7 @@ Feature: As an API user, I want to be able to get a list of links available to t
     And in my list of rights I have BULK_EXTRACT
 
     Then I trigger a bulk extract
-    When I retrieve the path to and decrypt the LEA "<IL-DAYBREAK school>" public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    When I retrieve the path to and decrypt the LEA "<IL-DAYBREAK school>" data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
     And I verify that an extract tar file was created for the tenant "Midgar"
     And there is a metadata file in the extract
     And the extract contains a file for each of the following entities:
@@ -119,7 +119,7 @@ Feature: As an API user, I want to be able to get a list of links available to t
       | 78ded3395d49f8099bf2aa75ade2f7ca181fbae1_id | educationOrganizationReference = 352e8570bd1116d11a72755b987902440045d346_id   |
       | 78ded3395d49f8099bf2aa75ade2f7ca181fbae1_id | staffReference = 8107c5ce31cec58d4ac0b647e91b786b03091f02_id                   |
 
-    When I retrieve the path to and decrypt the LEA "<IL-DAYBREAK>" public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    When I retrieve the path to and decrypt the LEA "<IL-DAYBREAK>" data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
     And I verify that an extract tar file was created for the tenant "Midgar"
     And there is a metadata file in the extract
     And I verify this "educationOrganization" file should contain:

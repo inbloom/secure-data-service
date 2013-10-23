@@ -83,7 +83,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                         .makeRole(Arrays.asList(SEA_ADMINISTRATOR))
                         .addGroupTitle(SEA_ADMINISTRATOR)
                         .addRights(
-                                new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE, Right.READ_PUBLIC,
+                                new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE, Right.READ_PUBLIC,
                                         Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN, Right.SECURITY_EVENT_VIEW }).setAdmin(true).build());
         adminRoles.put(
                 SANDBOX_SLC_OPERATOR,

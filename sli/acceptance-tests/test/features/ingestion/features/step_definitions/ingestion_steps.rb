@@ -3770,6 +3770,13 @@ Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. A
         end
     end
 
+    condHash.each do |field, value|
+      if value.class == String and value.include? ","
+            valueArray = getValueArray(value)
+            condHash[field] = valueArray
+      end
+    end
+
     elemMatch.each do |arrName, memberCriteria|
           condHash[arrName] = {'$elemMatch' => memberCriteria};
     end
@@ -3779,6 +3786,10 @@ Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. A
     recordCnt   = @coll.find(condHash).count()
     enable_NOTABLESCAN()
     assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{condHash}!");
+end
+
+def getValueArray(value)
+    return value.split(',')
 end
 
 Then /I re-execute saved query "([^"]*)" to get "([^"]*)" records/ do |queryName, count|
@@ -3958,7 +3969,7 @@ And /I generate zip files/ do
 end
 
 
-Given /^I ingest "(.*?)"$/ do |ingestion_file|
+Given /^I ingest "([^"]*?)"$/ do |ingestion_file|
   steps %Q{
     Given I am using local data store
     And the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
@@ -3972,9 +3983,18 @@ Given /^I ingest "(.*?)"$/ do |ingestion_file|
 
 end
 
-And /I wait for user input/ do
-      print "Waiting for user input. Press Enter to continue."
-      STDIN.getc
+Given /^I ingest "([^"]*?)" in tenant "([^"]*?)" edOrg "([^"]*?)"$/ do |ingestion_file, tenant, edOrg|
+  steps %Q{
+    Given I am using local data store
+    And the landing zone for tenant "#{tenant}" edOrg "#{edOrg}" is reinitialized
+    When I post "#{ingestion_file}" file as the payload of the ingestion job
+    And zip file is scp to ingestion landing zone
+    Then a batch job for file "#{ingestion_file}" is completed in database
+    And I should see "All records processed successfully." in the resulting batch job file
+    And I should not see an error log file created
+    And I should not see a warning log file created
+  }
+
 end
 
 Then /^"([^"]*)" records in the "([^"]*)" collection with field "([^"]*)" matching "([^"]*)" should be in the "([^"]*)" tenant db$/ do |expected_count, collection, field, pattern, tenant|

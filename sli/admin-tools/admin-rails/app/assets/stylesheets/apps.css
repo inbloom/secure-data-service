@@ -13,3 +13,8 @@ ul.select-list li a:hover {background-color: #888;color: #000;}
 div.clear {clear: both;}
 span.district-text {font-weight: bold; color: #7B7B7E;}
 div.enable-disable {font-size: 70%;}
+span.treecounts {font-size: 70%;}
+span.categorynode {color: #009933}
+span.repeatsubtree {color: #a0a0a0}
+a:link {color: #0000ff; text-decoration:underline}
+a:hover {background-color: #e0e0e0}

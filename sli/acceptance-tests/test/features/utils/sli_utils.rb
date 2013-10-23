@@ -29,6 +29,7 @@ require 'rexml/document'
 require 'yaml'
 require 'digest/sha1'
 require 'socket'
+require 'macaddr'
 
 include REXML
 
@@ -309,6 +310,10 @@ def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId, 
   puts "Loading Key and Certificate for client ID #{client_id}"
   client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
   private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
+  puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+  puts client_cert
+  puts private_key
+  puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
   urlHeader = makeUrlAndHeaders('get',url,sessionId,format,true)
 
@@ -490,6 +495,11 @@ Around('@LDAP_Reset_sunsetadmin') do |scenario, block|
   end
 end
 
+And /I wait for user input/ do
+      print "Waiting for user input. Press Enter to continue."
+      STDIN.getc
+end
+
 ##############################################################################
 ##############################################################################
 ### Step Def Util methods ###
@@ -556,6 +566,12 @@ def findLink(id, type, rel, href)
   return found
 end
 
+def get_mac_address(colon_replacer = nil)
+  address = Mac.addr
+  address.gsub!(/[:]/,colon_replacer) if colon_replacer
+
+  address
+end
 
 ########################################################################
 ########################################################################

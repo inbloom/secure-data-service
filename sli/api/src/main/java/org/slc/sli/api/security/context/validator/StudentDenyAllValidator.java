@@ -16,6 +16,7 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,8 +46,8 @@ public class StudentDenyAllValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         // Always deny access to discipline incident stuff
-        return false;
+        return Collections.emptySet();
     }
 }

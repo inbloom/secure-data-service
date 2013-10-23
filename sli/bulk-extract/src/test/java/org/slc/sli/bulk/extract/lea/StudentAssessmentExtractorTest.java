@@ -24,7 +24,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -43,20 +43,20 @@ public class StudentAssessmentExtractorTest {
     @Mock
     private Repository<Entity> mockRepo;
     @Mock
-    private LEAExtractFileMap mockMap;
+    private ExtractFileMap mockMap;
     @Mock
     private EntityExtractor mockExtractor;
     @Mock
     private ExtractFile mockFile;
     
     @Mock
-    private EntityToLeaCache mockStudentCache;
+    private EntityToEdOrgCache mockStudentCache;
     
     @Mock
     private Entity mockEntity;
 
     @Mock
-    private LocalEdOrgExtractHelper mockHelper;
+    private EdOrgExtractHelper mockHelper;
 
     private Map<String, Object> entityBody;
 
@@ -66,7 +66,7 @@ public class StudentAssessmentExtractorTest {
         extractor = new StudentAssessmentExtractor(mockExtractor, mockMap, mockRepo, mockHelper);
         entityBody = new HashMap<String, Object>();
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
-        Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
+        Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
         Mockito.when(mockStudentCache.getEntriesById("student")).thenReturn(new HashSet<String>(Arrays.asList("LEA")));
     }
     
@@ -98,7 +98,7 @@ public class StudentAssessmentExtractorTest {
         Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STUDENT_ASSESSMENT), Mockito.eq(new NeutralQuery())))
                 .thenReturn(
                 Arrays.asList(mockEntity).iterator());
-        Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(null);
+        Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(null);
         extractor.extractEntities(mockStudentCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq(EntityNames.STUDENT_ASSESSMENT));
@@ -110,7 +110,7 @@ public class StudentAssessmentExtractorTest {
         Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STUDENT_ASSESSMENT), Mockito.eq(new NeutralQuery())))
                 .thenReturn(
                 Arrays.asList(mockEntity).iterator());
-        Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
+        Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
         extractor.extractEntities(mockStudentCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq(EntityNames.STUDENT_ASSESSMENT));

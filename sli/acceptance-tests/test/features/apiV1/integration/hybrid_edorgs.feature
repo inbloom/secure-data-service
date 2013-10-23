@@ -3,10 +3,11 @@ Feature: As a teacher or staff of a hybrid edOrg I want to validate I can access
 
 Background: None
 
+@wip
 Scenario: As a teacher, for my section, I want to get a list of students
 
 # Log in via simple-idp and authenticate teacher credentials   
-  Given I log in to realm "IL Charter School" using simple-idp as "teacher" "chartereducator" with password "chartereducator1234"
+  Given I log in to realm "IL-CHARTER-SCHOOL" using simple-idp as "teacher" "chartereducator" with password "chartereducator1234"
     And format "application/json"
     
   When I navigate to GET "/v1/home"

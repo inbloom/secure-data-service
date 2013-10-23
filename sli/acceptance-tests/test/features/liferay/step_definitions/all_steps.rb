@@ -23,6 +23,7 @@ require_relative '../../utils/sli_utils.rb'
 Dir["./test/features/dashboard/dash/step_definitions/*"].each {|file| require file}
 
 When /^I navigate to the Portal home page$/ do
+  puts PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']
   @driver.get PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']
   @explicitWait ||= Selenium::WebDriver::Wait.new(:timeout => 15)
 end
@@ -162,7 +163,7 @@ end
 def eula_go_away()
   if (@driver.page_source.include?("d_popup"))
     accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
-    puts accept.inspect
+    puts accept.inspect.to_s
     puts "EULA is present"
     accept.click
     sleep 2

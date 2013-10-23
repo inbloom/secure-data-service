@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                  xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+    <EducationOrganization>
+        <StateOrganizationId>LEA-TIER-1</StateOrganizationId>
+        <NameOfInstitution>LEA Tier 1</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address>
+            <StreetNumberName>123 Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>00000</PostalCode>
+        </Address>
+        <LEACategory>Independent</LEACategory>
+    </EducationOrganization>
+    <EducationOrganization>
+        <StateOrganizationId>LEA-TIER-2</StateOrganizationId>
+        <NameOfInstitution>LEA Tier 2</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-1</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address>
+            <StreetNumberName>123 Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>00000</PostalCode>
+        </Address>
+        <LEACategory>Independent</LEACategory>
+    </EducationOrganization>
+    <EducationOrganization>
+        <StateOrganizationId>LEA-TIER-3</StateOrganizationId>
+        <NameOfInstitution>LEA Tier 3</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-2</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address>
+            <StreetNumberName>123 Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>00000</PostalCode>
+        </Address>
+        <LEACategory>Independent</LEACategory>
+    </EducationOrganization>
+    <EducationOrganization>
+        <StateOrganizationId>LEA-TIER-4</StateOrganizationId>
+        <NameOfInstitution>LEA Tier 4</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-3</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address>
+            <StreetNumberName>123 Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>00000</PostalCode>
+        </Address>
+        <LEACategory>Independent</LEACategory>
+    </EducationOrganization>
+    <EducationOrganization>
+        <StateOrganizationId>LEA-TIER-5</StateOrganizationId>
+        <NameOfInstitution>LEA Tier 5</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-4</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address>
+            <StreetNumberName>123 Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>00000</PostalCode>
+        </Address>
+        <LEACategory>Independent</LEACategory>
+    </EducationOrganization>
+
+</InterchangeEducationOrganization>

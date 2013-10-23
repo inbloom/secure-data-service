@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.api.security.context.APIAccessDeniedException;
-import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
@@ -34,10 +32,12 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.security.service.SecurityCriteria;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -164,14 +164,9 @@ public class RightAccessValidator {
      * @param isSelf  whether operation is being done in "self" context
      * @param entity item under inspection
      */
-    public void checkFieldAccess(NeutralQuery query, boolean isSelf, Entity entity, String entityType, Collection<GrantedAuthority> auths) {
+    public void checkFieldAccess(NeutralQuery query, Entity entity, String entityType, Collection<GrantedAuthority> auths) {
 
         if (query != null) {
-            // get the authorities
-            if (isSelf) {
-                auths.addAll(SecurityUtil.getSLIPrincipal().getSelfRights());
-            }
-
             try {
                 checkFieldAccess(query, entityType, auths);
             } catch (APIAccessDeniedException e) {
@@ -223,11 +218,11 @@ public class RightAccessValidator {
      *
      * @param isSelf  whether operation is being done in "self" context
      * @param entity item under inspection
-     *
+     * @param context context(s) to which the entity belongs
      * @param isRead if operation is a read operation
      * @return a set of granted authorities
      */
-    public Collection<GrantedAuthority> getContextualAuthorities(boolean isSelf, Entity entity, boolean isRead){
+    public Collection<GrantedAuthority> getContextualAuthorities(boolean isSelf, Entity entity, SecurityUtil.UserContext context, boolean isRead){
         Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
 
         SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
@@ -240,9 +235,9 @@ public class RightAccessValidator {
                         && "true".equals(entity.getMetaData().get("isOrphaned")))
                         || EntityNames.isPublic(entity.getType())) {
                     // Orphaned entities created by the principal are handled the same as before.
-                    auths.addAll(principal.getAllRights(isSelf));
+                    auths.addAll(principal.getAllContextRights(isSelf));
                 } else {
-                    auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgRights(), entity, isRead));
+                    auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgContextRights(principal.getEdOrgContextRights(), entity, context, isRead));
                 }
                 if (isSelf) {
                     auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgSelfRights(), entity, isRead));

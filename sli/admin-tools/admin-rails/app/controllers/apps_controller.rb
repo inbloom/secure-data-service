@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+include EdorgTreeHelper
+require 'pp'
 
 class AppsController < ApplicationController
   before_filter :check_rights
@@ -69,8 +71,19 @@ class AppsController < ApplicationController
   # GET /apps/1/edit.json
   def edit
     @title = "Edit Application"
-    @sea = get_state_edorgs
     @app = App.find(params[:id])
+    @app.authorized_ed_orgs = [] if @app.authorized_ed_orgs.nil?
+    @sea = get_state_edorgs
+
+    stateEdOrgs = get_state_edorgs()
+    seaIds = stateEdOrgs.collect { |edOrg|
+      edOrg['sea_id']
+    }
+
+    edOrgTree = EdorgTree.new()
+                #     def get_tree_html(userEdOrg, appId, is_sea_admin, checkEnabled, checkAuthorized)
+                #     def get_tree_html(userEdOrgs, appId, is_sea_admin, forAAuthorization = false, authorizedEdOrgs = [])
+    @treeHtml = edOrgTree.get_enablement_tree_html(seaIds, params[:id], is_sea_admin?)
   end
 
   def approve
@@ -163,6 +176,7 @@ class AppsController < ApplicationController
     params[:app][:installed] = boolean_fix params[:app][:installed]
     params[:app][:isBulkExtract] = boolean_fix params[:app][:isBulkExtract]
     params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
+    params[:state_select] = [] if params[:state_select] == nil
     params[:app].delete_if {|key, value| ["administration_url", "image_url", "application_url", "redirect_uri"].include? key and value.length == 0 }
     #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
     params[:app][:behavior] = params[:app_behavior]
@@ -182,9 +196,17 @@ class AppsController < ApplicationController
     respond_to do |format|
       begin
         if @app.update_attributes(params[:app])
+
+          edOrgTree = EdorgTree.new()
+          @treeHtml = edOrgTree.get_enablement_tree_html(getSeaIds(), params[:id], is_sea_admin?)
+
           format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
           format.json { head :ok }
         else
+
+          edOrgTree = EdorgTree.new()
+          @treeHtml = edOrgTree.get_enablement_tree_html(getSeaIds(), params[:id], is_sea_admin?)
+
           format.html { render action: "edit" }
           format.json { render json: @app.errors, status: :unprocessable_entity }
         end
@@ -199,10 +221,20 @@ class AppsController < ApplicationController
           @app.errors.add(field_name, "Validation error. Field contains characters or text that is not allowed.") 
           start_index = e.response.body.index("fieldName=", end_index)
         end
+        edOrgTree = EdorgTree.new()
+        @treeHtml = edOrgTree.get_enablement_tree_html(getSeaIds(), params[:id], is_sea_admin?)
         format.html { render action: "edit" }
         format.json { render json: @app.errors, status: :unprocessable_entity }
       end        
     end
+  end
+
+  def getSeaIds
+    stateEdOrgs = get_state_edorgs()
+    seaIds = stateEdOrgs.collect { |edOrg|
+      edOrg['sea_id']
+    }
+    seaIds
   end
 
   # DELETE /apps/1
@@ -218,12 +250,14 @@ class AppsController < ApplicationController
     end
   end
 
+  # Get all SEAs
   def get_state_edorgs
     state_ed_orgs = EducationOrganization.find(:all, :params => {"organizationCategories" => "State Education Agency", "limit" => 100})
     @results = []
 
     state_ed_orgs.each do |ed_org|
-      current = {"name" => ed_org.nameOfInstitution, "sea_id" => ed_org.id }
+      is_enabled = @app.authorized_ed_orgs.include?ed_org.id || @app.allowed_for_all_edorgs
+      current = {"name" => ed_org.nameOfInstitution, "sea_id" => ed_org.id, "is_enabled" => is_enabled }
       @results.push current
     end
     @results.sort! {|x, y| x["name"] <=> y["name"]}

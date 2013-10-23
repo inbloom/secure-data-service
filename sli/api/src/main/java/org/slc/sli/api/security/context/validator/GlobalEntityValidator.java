@@ -16,8 +16,10 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,14 +30,24 @@ import org.springframework.stereotype.Component;
 @Component
 public class GlobalEntityValidator extends AbstractContextValidator {
 
-	@Override
-	public boolean canValidate(String entityType, boolean isTransitive) {
-		return isTransitive && isGlobalWrite(entityType) && !isStudentOrParent();
-	}
+    @Override
+    public boolean canValidate(String entityType, boolean isTransitive) {
+        return isTransitive && isGlobalWrite(entityType) && !isStudentOrParent();
+    }
 
-	@Override
-	public boolean validate(String entityType, Set<String> entityIds) throws IllegalStateException {
-		return areParametersValid(GLOBAL_WRITE_RESOURCE, entityType, entityIds);
-	}
+    @Override
+    public Set<String> validate(String entityType, Set<String> entityIds) throws IllegalStateException {
+        Set<String> result = new HashSet<String>();
 
+        if(areParametersValid(GLOBAL_WRITE_RESOURCE, entityType, entityIds)) {
+            result = entityIds;
+        }
+
+        return result;
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
+    }
 }

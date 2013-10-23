@@ -23,14 +23,14 @@ public class StudentCompetencyExtractorTest {
 	@Mock
     private EntityExtractor mockExtractor; 
 	@Mock
-    private LEAExtractFileMap mockMap;
+    private ExtractFileMap mockMap;
 	
 	private EntityExtract entityExtract;
 	
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		LEAExtractorFactory factory = new LEAExtractorFactory();
+		ExtractorFactory factory = new ExtractorFactory();
 		entityExtract = factory.buildStudentCompetencyExtractor(mockExtractor, mockMap, mockRepo);
 	}
 	
@@ -56,10 +56,10 @@ public class StudentCompetencyExtractorTest {
 			thenReturn(Arrays.asList(studentCompetency1, studentCompetency2, studentCompetency3).iterator());
 		
 		ExtractFile mockFile = Mockito.mock(ExtractFile.class);
-		Mockito.when(mockMap.getExtractFileForLea(Mockito.eq("lea-1"))).thenReturn(mockFile);
-		Mockito.when(mockMap.getExtractFileForLea(Mockito.eq("lea-2"))).thenReturn(mockFile);
+		Mockito.when(mockMap.getExtractFileForEdOrg(Mockito.eq("lea-1"))).thenReturn(mockFile);
+		Mockito.when(mockMap.getExtractFileForEdOrg(Mockito.eq("lea-2"))).thenReturn(mockFile);
 
-		EntityToLeaCache cache = new EntityToLeaCache();
+		EntityToEdOrgCache cache = new EntityToEdOrgCache();
 		cache.addEntry("ssa-1", "lea-1");
 		cache.addEntry("ssa-2", "lea-1");
 		cache.addEntry("ssa-3", "lea-2");

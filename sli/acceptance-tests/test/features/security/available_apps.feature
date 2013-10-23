@@ -72,7 +72,7 @@ Scenario Outline: Verify endpoints in admin app
     | "operator"          | "operator1234"        | "Production Operator"  |
     | "developer"         | "developer1234"       | "Production Developer" |
     | "sunsetadmin"       | "sunsetadmin1234"     | "LEA Admin"            |
-    | "iladmin"           | "iladmin1234"         | "SEA Admin"            |
+   # app auth changes| "iladmin"           | "iladmin1234"         | "SEA Admin"            |
     | "ingestionuser"     | "ingestionuser1234"   | "Ingestion User"       |
     | "sunsetrealmadmin"  | "sunsetrealmadmin1234"| "LEA and Realm Admin"  |
     

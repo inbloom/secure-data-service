@@ -200,7 +200,8 @@ public class ApplicationAuthorizationResourceTest {
         EntityBody body = new EntityBody();
         body.put("authorized", false);
         body.put("applicationId", app.getEntityId());
-        res.updateAuthorization(app.getEntityId(),body, null);
+        body.put("edorgs", Arrays.asList(SecurityUtil.getEdOrgId()));
+        res.updateAuthorization(app.getEntityId(),body);
         
         //Re-query auth
         resp = (ResponseImpl) res.getAuthorization(app.getEntityId(), null);
@@ -223,9 +224,15 @@ public class ApplicationAuthorizationResourceTest {
         Assert.assertEquals(1, ents.size());
     }
     
+    /* With story US5894, we don't apply the delegation requirement anymore (SEAs are
+     * implicitly delegated for their LEAs) so that the access denied
+     * error will not be thrown.  We may re-instate that, so if we
+     * do, uncomment this.
+     */
+    /*
     @Test(expected=AccessDeniedException.class)
     public void testGetAuthForBadEdorg() {
         ResponseImpl resp = (ResponseImpl) res.getAuthorization("someAppId", "badEdorgId");
     }
-    
+    */
 }

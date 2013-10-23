@@ -31,14 +31,13 @@ Then I am redirected to the Application Registration Tool page
 And the application "NotTheAppYoureLookingFor" is listed in the table on the top
 And the client ID and shared secret fields are present
 And I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
-Then I can see the on-boarded states
-When I select the state "Standard State Education Agency"
-Then I see all of the Districts
-Then I check the Districts
+When I enable the educationalOrganization "Standard State Education Agency" in sandbox
 When I click on Save
 And my new apps client ID is present
 And my new apps shared secret is present
-Then the "NotTheAppYoureLookingFor" is enabled for Districts
+And I switch to the iframe
+Then I am redirected to the Application Registration Tool page
+Then "NotTheAppYoureLookingFor" is enabled for "5" education organizations
 
 #Add Bulk Extract role to IT Admin
 And I exit out of the iframe
@@ -65,20 +64,19 @@ And I am redirected to a new application page
 When I entered the name "Schlemiel" into the field titled "Name"
 And I entered the name "Yes, I totally made Schlemiel the painter's algorithm for SLI'" into the field titled "Description"
 And I entered the name "1.0" into the field titled "Version"
-And I entered the name "http://www.google.com" into the field titled "Application_URL"
-And I entered the name "http://wwww.google.com" into the field titled "Redirect_URI"
+And I entered the name "https://www.google.com" into the field titled "Application_URL"
+And I entered the name "https://wwww.google.com" into the field titled "Redirect_URI"
 And I select the app display method to "Full Window App" 
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
 And the application "Schlemiel" is listed in the table on the top
 And the client ID and shared secret fields are present
 And I clicked on the button Edit for the application "Schlemiel"
-Then I can see the on-boarded states
-When I select the state "Standard State Education Agency"
-Then I see all of the Districts
-Then I check the Districts
+When I enable the educationalOrganization "Standard State Education Agency" in sandbox
 When I click on Save
-Then the "Schlemiel" is enabled for Districts
+And I switch to the iframe
+Then I am redirected to the Application Registration Tool page
+Then "Schlemiel" is enabled for "5" education organizations
 And I exit out of the iframe
 And I click on log out
 Then I should be redirected to the impersonation page
@@ -89,4 +87,10 @@ And I want to select "cgray" from the "SmallDatasetUsers" in automatic mode
 Then I should be on Portal home page
 And under My Applications, I see the following apps: "inBloom Dashboards;Schlemiel"
 And under My Applications, I click on "Schlemiel"
-Then my current url is "http://www.google.com/"	
+Then my current url is "https://www.google.com/"
+
+#assert all edOrgs explicitly authorized
+#bulk extract app is "NotTheAppYoureLookingFor", SSDS expected count is 5 (SEA, LEA & 3 schools)
+Then there are "5" edOrgs for the "NotTheAppYoureLookingFor" application in the applicationAuthorization collection
+# non-bulk-extract app is "Schlemiel", SSDS expected count is 5 (SEA, LEA & 3 schools)
+Then there are "5" edOrgs for the "Schlemiel" application in the applicationAuthorization collection

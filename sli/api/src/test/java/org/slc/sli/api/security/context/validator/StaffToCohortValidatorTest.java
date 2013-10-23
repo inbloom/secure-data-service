@@ -25,10 +25,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -80,6 +82,7 @@ public class StaffToCohortValidatorTest {
         Mockito.when(entity.getType()).thenReturn("staff");
         Mockito.when(entity.getEntityId()).thenReturn(helper.STAFF_ID);
         injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, helper.ED_ORG_ID);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
         
         cohortIds = new HashSet<String>();
     }
@@ -110,7 +113,9 @@ public class StaffToCohortValidatorTest {
         helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, true);
         helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
         cohortIds.add(cohort.getEntityId());
-        assertTrue(validator.validate(EntityNames.COHORT, cohortIds));
+        Set<String> validIds = validator.validate(EntityNames.COHORT, cohortIds);
+
+        Assert.assertEquals(cohortIds, validIds);
     }
     
     @Test
@@ -120,10 +125,12 @@ public class StaffToCohortValidatorTest {
         helper.generateStaffEdorg(helper.STAFF_ID, lea.getEntityId(), false);
         Entity cohort = helper.generateCohort(sea.getEntityId());
         cohortIds.add(cohort.getEntityId());
-        assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
+        Set<String> validIds = validator.validate(EntityNames.COHORT, cohortIds);
+        assertFalse(validIds.size() == cohortIds.size());
         // Add the association
         helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, true);
-        assertTrue(validator.validate(EntityNames.COHORT, cohortIds));
+        validIds = validator.validate(EntityNames.COHORT, cohortIds);
+        Assert.assertEquals(validIds.size(), cohortIds.size());
     }
     
     @Test
@@ -135,12 +142,13 @@ public class StaffToCohortValidatorTest {
         Entity cohort = helper.generateCohort(lea.getEntityId());
         cohortIds.add(cohort.getEntityId());
         // Can't see it because it's above you in the edorg
-        assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
+
+        assertFalse(validator.validate(EntityNames.COHORT, cohortIds).size() == cohortIds.size());
         cohortIds.clear();
         cohort = helper.generateCohort(school2.getEntityId());
         cohortIds.add(cohort.getEntityId());
         // Can't see it because it's in an edorg not beneath you.
-        assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
+        assertFalse(validator.validate(EntityNames.COHORT, cohortIds).size() == cohortIds.size());
     }
     
     @Test
@@ -149,19 +157,19 @@ public class StaffToCohortValidatorTest {
         Entity school = helper.generateEdorgWithParent(lea.getEntityId());
         helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), true);
         Entity cohort = helper.generateCohort(lea.getEntityId());
-        // cohortIds.add(cohort.getEntityId());
+        cohortIds.add(cohort.getEntityId());
         helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, true);
-        assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
+        assertTrue(validator.validate(EntityNames.COHORT, cohortIds).equals(cohortIds));
 
         repo.deleteAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
         repo.deleteAll(EntityNames.STAFF_COHORT_ASSOCIATION, new NeutralQuery());
         helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
         helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), true, true);
-        assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
+        assertFalse(validator.validate(EntityNames.COHORT, cohortIds).size() == cohortIds.size());
         
         repo.deleteAll(EntityNames.STAFF_COHORT_ASSOCIATION, new NeutralQuery());
         helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, false);
-        assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
+        assertTrue(validator.validate(EntityNames.COHORT, cohortIds).equals(cohortIds));
 
     }
     
@@ -177,7 +185,8 @@ public class StaffToCohortValidatorTest {
         }
         Entity cohort = helper.generateCohort(lea.getEntityId());
         cohortIds.add(cohort.getEntityId());
-        assertTrue(validator.validate(EntityNames.COHORT, cohortIds));
+        helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, true);
+        Assert.assertEquals(cohortIds, validator.validate(EntityNames.COHORT, cohortIds));
 
         for (int i = 0; i < 5; ++i) {
             cohort = helper.generateCohort(sea.getEntityId());
@@ -185,8 +194,6 @@ public class StaffToCohortValidatorTest {
             cohortIds.add(cohort.getEntityId());
         }
         
-        assertTrue(validator.validate(EntityNames.COHORT, cohortIds));
-
-        
+        Assert.assertEquals(validator.validate(EntityNames.COHORT, cohortIds), cohortIds);
     }
 }

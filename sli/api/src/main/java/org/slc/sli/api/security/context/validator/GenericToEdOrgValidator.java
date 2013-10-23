@@ -17,8 +17,11 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 
+import com.sun.corba.se.impl.orb.ORBVersionImpl;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
@@ -43,13 +46,19 @@ public class GenericToEdOrgValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(Arrays.asList(EntityNames.SCHOOL, EntityNames.EDUCATION_ORGANIZATION), entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
         Set<String> edOrgs = getDirectEdorgs();
         edOrgs.addAll(getEdorgDescendents(edOrgs));
-        return edOrgs.containsAll(ids);
+        edOrgs.retainAll(ids);
+        return edOrgs;
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
     }
 }

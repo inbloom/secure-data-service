@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.List;
 import java.util.Map;
 
@@ -100,8 +101,12 @@ public class StudentToStaffCohortValidatorTest {
         Authentication auth = mock(Authentication.class);
         when(auth.getPrincipal()).thenReturn(principal);
         SecurityContextHolder.getContext().setAuthentication(auth);
-        assertTrue(underTest.doValidate(new HashSet<String>(Arrays.asList("sca1", "sca2")), EntityNames.STAFF_COHORT_ASSOCIATION));
-        assertFalse(underTest.doValidate(new HashSet<String>(Arrays.asList("sca1", "sca2", "sca3")), EntityNames.STAFF_COHORT_ASSOCIATION));
+
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList("sca1", "sca2"));
+        assertTrue(underTest.doValidate(idsToValidate, EntityNames.STAFF_COHORT_ASSOCIATION).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList("sca1", "sca2", "sca3"));
+        assertFalse(underTest.doValidate(idsToValidate, EntityNames.STAFF_COHORT_ASSOCIATION).containsAll(idsToValidate));
     }
 
     private Entity makeEntity(String id) {

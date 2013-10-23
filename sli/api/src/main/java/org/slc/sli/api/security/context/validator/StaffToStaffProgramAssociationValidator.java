@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -24,9 +25,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Validates the context of a staff member to see the requested set of staff program associations.
@@ -50,25 +49,35 @@ public class StaffToStaffProgramAssociationValidator extends AbstractContextVali
      * all of the staff you can see have.
      */
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STAFF_PROGRAM_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
         
         //Get the ones based on staffIds (Including me)
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         
-        Set<String> staffIds = new HashSet<String>();
+        Map<String, Set<String>> staffIdsToSPA = new HashMap<String, Set<String>>();
         Iterable<Entity> staffPrograms = getRepo().findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, basicQuery);
         for (Entity staff : staffPrograms) {
             Map<String, Object> body = staff.getBody();
             if (isFieldExpired(body, ParameterConstants.END_DATE, true)) {
                 continue;
             }
-            staffIds.add((String) body.get(ParameterConstants.STAFF_ID));
+            String id = (String) body.get(ParameterConstants.STAFF_ID);
+            if (!staffIdsToSPA.containsKey(id)) {
+                staffIdsToSPA.put(id, new HashSet<String>());
+            }
+            staffIdsToSPA.get(id).add(staff.getEntityId());
         }
         
-        return staffValidator.validate(EntityNames.STAFF, staffIds);
+        Set<String> validStaffs = staffValidator.validate(EntityNames.STAFF, staffIdsToSPA.keySet());
+        Set<String> validSPA = getValidIds(validStaffs, staffIdsToSPA);
+        return validSPA;
     }
-    
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.STAFF_CONTEXT;
+    }
 }
