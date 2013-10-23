@@ -554,8 +554,6 @@ Scenario: Triggering deltas via ingestion
       | id                                          | condition                          |
       # This incident involved student 1
       | 58295e247c01aae77d6f494d28c6a0b4808d4248_id | actualDisciplineActionLength = 3   |
-      # This incident involved one of our schools
-      | c78d1f951362ce558cb379cabc7491c6da339e58_id | actualDisciplineActionLength = 3   |
 
     # This did not
     And I verify this "disciplineAction" file should not contain:
