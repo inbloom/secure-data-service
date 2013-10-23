@@ -1,0 +1,391 @@
+<?xml version="1.0"?>
+<InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentEnrollment.xsd">
+    <StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>31</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2011-08-31</BeginDate>
+        <EndDate>2012-05-28</EndDate>
+        <HomeroomIndicator>true</HomeroomIndicator>
+        <RepeatIdentifier>Other</RepeatIdentifier>
+    </StudentSectionAssociation>
+
+    <StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>161</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2012-09-06</BeginDate>
+        <EndDate>2013-06-03</EndDate>
+        <HomeroomIndicator>true</HomeroomIndicator>
+        <RepeatIdentifier>Repeated, not counted in grade point average</RepeatIdentifier>
+    </StudentSectionAssociation>
+
+    <StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>145</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2011-09-05</BeginDate>
+        <EndDate>2012-05-28</EndDate>
+        <HomeroomIndicator>false</HomeroomIndicator>
+        <RepeatIdentifier>Other</RepeatIdentifier>
+    </StudentSectionAssociation>
+
+    <StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Eastside High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>85</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2011-08-31</BeginDate>
+        <EndDate>2012-05-28</EndDate>
+        <HomeroomIndicator>true</HomeroomIndicator>
+        <RepeatIdentifier>Other</RepeatIdentifier>
+    </StudentSectionAssociation>
+
+    <StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>14</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2010-08-31</BeginDate>
+        <EndDate>2011-05-27</EndDate>
+        <HomeroomIndicator>true</HomeroomIndicator>
+        <RepeatIdentifier>Other</RepeatIdentifier>
+    </StudentSectionAssociation>
+
+    <StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Westside High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>186</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2012-05-28</EndDate>
+        <HomeroomIndicator>true</HomeroomIndicator>
+        <RepeatIdentifier>Repeated, counted in grade point average</RepeatIdentifier>
+    </StudentSectionAssociation>
+
+    <StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Eastside High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>100</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2012-09-06</BeginDate>
+        <EndDate>2013-06-03</EndDate>
+        <HomeroomIndicator>false</HomeroomIndicator>
+        <RepeatIdentifier>Not repeated</RepeatIdentifier>
+    </StudentSectionAssociation>
+
+    <StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SchoolYear>2015-2016</SchoolYear>
+        <EntryDate>2011-08-26</EntryDate>
+        <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+        <EntryType>Transfer from a private, non-religiously-affiliated school in a different local education agency in the same state</EntryType>
+        <RepeatGradeIndicator>false</RepeatGradeIndicator>
+        <ClassOf>2018-2019</ClassOf>
+        <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+        <ExitWithdrawDate>2012-05-22</ExitWithdrawDate>
+        <ExitWithdrawType>Exited</ExitWithdrawType>
+        <EducationalPlans>
+            <EducationalPlan>Outside Service Access</EducationalPlan>
+        </EducationalPlans>
+    </StudentSchoolAssociation>
+
+    <StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SchoolYear>2016-2017</SchoolYear>
+        <EntryDate>2012-08-26</EntryDate>
+        <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+        <EntryType>Original entry into a United States school from a foreign country with no interruption in schooling</EntryType>
+        <RepeatGradeIndicator>true</RepeatGradeIndicator>
+        <ClassOf>2014-2015</ClassOf>
+        <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+        <ExitWithdrawDate>2018-05-22</ExitWithdrawDate>
+        <EducationalPlans>
+            <EducationalPlan>Outside Service Access</EducationalPlan>
+        </EducationalPlans>
+        <GraduationPlanReference>
+            <GraduationPlanIdentity>
+                <GraduationPlanType>Distinguished</GraduationPlanType>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </GraduationPlanIdentity>
+        </GraduationPlanReference>
+    </StudentSchoolAssociation>
+
+    <StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SchoolYear>2021-2022</SchoolYear>
+        <EntryDate>2010-08-26</EntryDate>
+        <EntryGradeLevel>Twelfth grade</EntryGradeLevel>
+        <EntryType>Transfer from a school outside of the country</EntryType>
+        <RepeatGradeIndicator>true</RepeatGradeIndicator>
+        <ClassOf>2020-2021</ClassOf>
+        <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+        <ExitWithdrawDate>2011-09-05</ExitWithdrawDate>
+        <ExitWithdrawType>Exited</ExitWithdrawType>
+        <EducationalPlans>
+            <EducationalPlan>Career Pathways</EducationalPlan>
+        </EducationalPlans>
+        <GraduationPlanReference>
+            <GraduationPlanIdentity>
+                <GraduationPlanType>Distinguished</GraduationPlanType>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </GraduationPlanIdentity>
+        </GraduationPlanReference>
+    </StudentSchoolAssociation>
+
+    <StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SchoolYear>2021-2022</SchoolYear>
+        <EntryDate>2009-01-01</EntryDate>
+        <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+        <EntryType>Transfer from a school outside of the country</EntryType>
+        <RepeatGradeIndicator>true</RepeatGradeIndicator>
+        <ClassOf>2022-2023</ClassOf>
+        <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+        <ExitWithdrawDate>2009-12-25</ExitWithdrawDate>
+        <ExitWithdrawType>Exited</ExitWithdrawType>
+        <EducationalPlans>
+            <EducationalPlan>Career Pathways</EducationalPlan>
+        </EducationalPlans>
+        <GraduationPlanReference>
+            <GraduationPlanIdentity>
+                <GraduationPlanType>Distinguished</GraduationPlanType>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </GraduationPlanIdentity>
+        </GraduationPlanReference>
+    </StudentSchoolAssociation>
+
+    <StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Eastside High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SchoolYear>2017-2018</SchoolYear>
+        <EntryDate>2010-09-01</EntryDate>
+        <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+        <EntryType>Transfer from a school outside of the country</EntryType>
+        <RepeatGradeIndicator>true</RepeatGradeIndicator>
+        <ClassOf>2017-2018</ClassOf>
+        <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+        <ExitWithdrawDate>2014-05-22</ExitWithdrawDate>
+        <EducationalPlans>
+            <EducationalPlan>High School Education Plan</EducationalPlan>
+        </EducationalPlans>
+        <GraduationPlanReference>
+            <GraduationPlanIdentity>
+                <GraduationPlanType>Distinguished</GraduationPlanType>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </GraduationPlanIdentity>
+        </GraduationPlanReference>
+    </StudentSchoolAssociation>
+
+    <StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SchoolYear>2015-2016</SchoolYear>
+        <EntryDate>2011-09-05</EntryDate>
+        <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+        <EntryType>Original entry into a United States school</EntryType>
+        <RepeatGradeIndicator>false</RepeatGradeIndicator>
+        <ClassOf>2012-2013</ClassOf>
+        <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+        <ExitWithdrawDate>2013-05-22</ExitWithdrawDate>
+        <ExitWithdrawType>Exited</ExitWithdrawType>
+        <EducationalPlans>
+            <EducationalPlan>Full Time Employment</EducationalPlan>
+        </EducationalPlans>
+        <GraduationPlanReference>
+            <GraduationPlanIdentity>
+                <GraduationPlanType>Distinguished</GraduationPlanType>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </GraduationPlanIdentity>
+        </GraduationPlanReference>
+    </StudentSchoolAssociation>
+
+    <StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Westside High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SchoolYear>2017-2018</SchoolYear>
+        <EntryDate>2011-09-06</EntryDate>
+        <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+        <EntryType>Original entry into a United States school from a foreign country with no interruption in schooling</EntryType>
+        <RepeatGradeIndicator>false</RepeatGradeIndicator>
+        <ClassOf>2014-2015</ClassOf>
+        <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+        <ExitWithdrawDate>2013-05-23</ExitWithdrawDate>
+        <ExitWithdrawType>Exited</ExitWithdrawType>
+        <EducationalPlans>
+            <EducationalPlan>504 Plan</EducationalPlan>
+        </EducationalPlans>
+        <GraduationPlanReference>
+            <GraduationPlanIdentity>
+                <GraduationPlanType>Distinguished</GraduationPlanType>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </GraduationPlanIdentity>
+        </GraduationPlanReference>
+    </StudentSchoolAssociation>
+
+</InterchangeStudentEnrollment>

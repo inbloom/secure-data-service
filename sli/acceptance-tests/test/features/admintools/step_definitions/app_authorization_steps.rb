@@ -38,6 +38,7 @@ Then /^The following edOrgs are authorized for the application "(.*?)" in tenant
     
     table.hashes.map do |row|
         @entity_collection = @db[row["edorgs"]]
+        
         coll = @db.collection("applicationAuthorization")
         col2 = @db.collection("educationOrganization")
         col3 = @slidb.collection("application")
@@ -384,6 +385,10 @@ end
 
 Then /^I de-authorize the educationalOrganization "(.*?)"$/ do |edOrgName|
   step "I authorize the educationalOrganization \"#{edOrgName}\""
+end
+
+Then /^I enable the education Organization "(.*?)"$/ do |edOrgName|
+    step "I authorize the educationalOrganization \"#{edOrgName}\""
 end
 
 Then /^there are "(.*?)" educationalOrganizations in the targetEdOrgList of securityEvent "(.*?)"$/ do |expected_count, logMessage|

@@ -30,16 +30,18 @@ And the 'Approve' button is disabled for application "Smoke!"
 When I navigate to the account management page
 And I got the 404 page
 
+# Developer: Enable all edOrgs for app "Smoke!"
 Scenario: SLC Developer operations part 2
 Given I am a valid SLC developer
 When I authenticate on the Application Registration Tool
 Then I see the list of my registered applications only
 And I clicked on the button Edit for the application "Smoke!"
-Then I can see the on-boarded states
-When I select the state "Illinois State Board of Education"
+And the checkbox with HTML id "root" is unchecked
+And I check the checkbox with HTML id "root"
 When I click on Save
 Then I am redirected to the Application Registration Tool page
 
+# SEA Admin: Approve all edOrgs for app "Smoke!"
 Scenario: SEA Administrator operations
 Given the sli securityEvent collection is empty
 And I am a valid SEA administrator

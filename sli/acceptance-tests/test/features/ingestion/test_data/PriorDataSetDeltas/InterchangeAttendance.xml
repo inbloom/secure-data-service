@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<InterchangeStudentAttendance xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAttendance.xsd">
+    <AttendanceEvent>
+        <SchoolYear>2010-2011</SchoolYear>
+        <EventDate>2010-09-07</EventDate>
+        <AttendanceEventType>Daily Attendance</AttendanceEventType>
+        <AttendanceEventCategory>Absence</AttendanceEventCategory>
+        <AttendanceEventReason>Missed school bus</AttendanceEventReason>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>2010-2011 Year Round session: IL-DAYBREAK</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+    </AttendanceEvent>
+
+    <AttendanceEvent>
+        <SchoolYear>2013-2014</SchoolYear>
+        <EventDate>2014-05-29</EventDate>
+        <AttendanceEventType>Daily Attendance</AttendanceEventType>
+        <AttendanceEventCategory>Tardy</AttendanceEventCategory>
+        <AttendanceEventReason>Was not here</AttendanceEventReason>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>2013-2014 Year Round session: IL-DAYBREAK</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+    </AttendanceEvent>
+
+    <AttendanceEvent>
+        <SchoolYear>2010-2011</SchoolYear>
+        <EventDate>2010-09-02</EventDate>
+        <AttendanceEventType>Daily Attendance</AttendanceEventType>
+        <AttendanceEventCategory>Tardy</AttendanceEventCategory>
+        <AttendanceEventReason>ISS: Spray painted locker</AttendanceEventReason>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Eastside High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Eastside High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>2010-2011 Year Round session: IL-DAYBREAK</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+    </AttendanceEvent>
+
+    <AttendanceEvent>
+        <SchoolYear>2010-2011</SchoolYear>
+        <EventDate>2010-08-31</EventDate>
+        <AttendanceEventType>Daily Attendance</AttendanceEventType>
+        <AttendanceEventCategory>Absence</AttendanceEventCategory>
+        <AttendanceEventReason>Was not here</AttendanceEventReason>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>2010-2011 Year Round session: IL-DAYBREAK</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+    </AttendanceEvent>
+
+    <AttendanceEvent>
+        <SchoolYear>2010-2011</SchoolYear>
+        <EventDate>2010-09-01</EventDate>
+        <AttendanceEventType>Daily Attendance</AttendanceEventType>
+        <AttendanceEventCategory>Tardy</AttendanceEventCategory>
+        <AttendanceEventReason>Was not here</AttendanceEventReason>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>2010-2011 Year Round session: IL-DAYBREAK</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+    </AttendanceEvent>
+
+    <AttendanceEvent>
+        <SchoolYear>2011-2012</SchoolYear>
+        <EventDate>2012-05-17</EventDate>
+        <AttendanceEventType>Daily Attendance</AttendanceEventType>
+        <AttendanceEventCategory>Tardy</AttendanceEventCategory>
+        <AttendanceEventReason>Was not here</AttendanceEventReason>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Westside High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Westside High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>2011-2012 Year Round session: IL-DAYBREAK</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+    </AttendanceEvent>
+</InterchangeStudentAttendance>
