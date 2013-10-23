@@ -222,6 +222,7 @@ end
 
 Then /^the "(.*?)" should be ingested with the correct number of records$/ do |dataSet|
    correct_count = getCorrectCountForDataset(dataSet)
+   step "a batch job for file \"#{dataSet}\" is completed in database"
    step "the landing zone should contain a file with the message \"Processed #{correct_count} records\""
 end
 
