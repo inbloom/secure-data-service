@@ -989,6 +989,7 @@
 			<xs:enumeration value="First grade"/>
 			<xs:enumeration value="Fourth grade"/>
 			<xs:enumeration value="Grade 13"/>
+			<xs:enumeration value="High School"/>
 			<xs:enumeration value="Infant/toddler"/>
 			<xs:enumeration value="Kindergarten"/>
 			<xs:enumeration value="Ninth grade"/>

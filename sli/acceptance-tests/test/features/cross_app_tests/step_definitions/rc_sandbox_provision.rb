@@ -54,3 +54,15 @@ Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the applicationAu
    puts edorgsArrayCount
    assert(edorgsArrayCount == expected_count.to_i, "Education organization count mismatch in applicationAuthorization collection. Expected #{expected_count}, actual #{edorgsArrayCount}")
 end
+
+When /^I (enable|disable) the educationalOrganization "([^"]*?)" in sandbox/ do |action,edOrgName|
+  # Note: there should be no need to disable table scan since there is an index on educationOrganization.nameOfInstitution
+  db = @conn[convertTenantIdToDbName(PropLoader.getProps['sandbox_tenant'])]
+  coll = db.collection("educationOrganization")
+  record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
+  edOrgId = record["_id"]
+  elt = @driver.find_element(:id, edOrgId)
+  assert(elt, "Educational organization element for '" + edOrgName + "' (" + edOrgId + ") not found")
+  assert(action == "enable" && !elt.selected? || action == "disable" && elt.selected?, "Cannot " + action + " educationalOrganization element with id '" + edOrgId + "' whose checked status is " + elt.selected?.to_s())
+  elt.click()
+end
