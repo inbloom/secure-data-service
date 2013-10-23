@@ -52,7 +52,6 @@ public class CourseTranscriptContextResolverTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        when(studentResolver.findGoverningEdOrgs("student1")).thenReturn(new HashSet<String>(Arrays.asList("toplea2")));
         when(repo.findById(EntityNames.STUDENT_ACADEMIC_RECORD, "studentacademicrecord1")).thenReturn(buildStudentAcademicRecord());
     }
     
@@ -68,6 +67,7 @@ public class CourseTranscriptContextResolverTest {
     @Test
     public void followStudentId() {
         Entity courseTranscript = buildCourseTranscript();
+        when(studentResolver.findGoverningEdOrgs("student1", courseTranscript)).thenReturn(new HashSet<String>(Arrays.asList("toplea2")));
         assertEquals(new HashSet<String>(Arrays.asList("toplea2")), underTest.findGoverningEdOrgs(courseTranscript));
     }
     
@@ -75,7 +75,21 @@ public class CourseTranscriptContextResolverTest {
     public void noStudentIdFollowAcademicRecord() {
         Entity courseTranscript = buildCourseTranscript();
         courseTranscript.getBody().remove(STUDENT_ID);
+        when(studentResolver.findGoverningEdOrgs("student1", courseTranscript)).thenReturn(new HashSet<String>(Arrays.asList("toplea2")));
         assertEquals(new HashSet<String>(Arrays.asList("toplea2")), underTest.findGoverningEdOrgs(courseTranscript));
+    }
+
+    @Test
+    public void testDifferentEdOrgs() {
+        Entity courseTranscript = buildCourseTranscript();
+        Entity studentAcademicRecord = buildStudentAcademicRecord();
+        studentAcademicRecord.getBody().put(STUDENT_ID, "student2");
+        when(repo.findById(EntityNames.STUDENT_ACADEMIC_RECORD, "studentacademicrecord1")).thenReturn(studentAcademicRecord);
+
+        when(studentResolver.findGoverningEdOrgs("student1", courseTranscript)).thenReturn(new HashSet<String>(Arrays.asList("edOrg1")));
+        when(studentResolver.findGoverningEdOrgs("student2", courseTranscript)).thenReturn(new HashSet<String>(Arrays.asList("edOrg2")));
+
+        assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2")), underTest.findGoverningEdOrgs(courseTranscript));
     }
 
     private Entity buildCourseTranscript() {

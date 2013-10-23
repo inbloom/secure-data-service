@@ -16,6 +16,7 @@
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,28 +50,28 @@ public class CourseTranscriptContextResolver implements ContextResolver {
 
     @Override
     public Set<String> findGoverningEdOrgs(Entity entity) {
+        Set<String> edOrgs = new HashSet<String>();
+
         if (entity == null) {
-            return Collections.emptySet();
-        }
-        
-        // This studentId MUST be the same as the studentId on studentAcademicRecord
-        String studentId = (String) entity.getBody().get(STUDENT_ID);
-        if (studentId == null) {
-            // okay studentId is null, must go through studentAcademicRecord to find the studentId
-            String studentAcademicRecordId = (String) entity.getBody().get(STUDENT_ACADEMIC_RECORD_ID);
-            if (studentAcademicRecordId != null) {
-                Entity studentAcademicRecord = repo.findById(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecordId);
-                if (studentAcademicRecord != null) {
-                    studentId = (String) studentAcademicRecord.getBody().get(STUDENT_ID);
-                }
-            }
+            return edOrgs;
         }
 
+        //Get edOrgs based on studentId in the body
+        String studentId = (String) entity.getBody().get(STUDENT_ID);
         if (studentId != null) {
-            return studentResolver.findGoverningEdOrgs(studentId);
+            edOrgs.addAll(studentResolver.findGoverningEdOrgs(studentId, entity));
         }
-        
-        return Collections.emptySet();
+
+        //Get edOrgs based on the referenced studentAcademicRecord
+        String studentAcademicRecordId = (String) entity.getBody().get(STUDENT_ACADEMIC_RECORD_ID);
+        if (studentAcademicRecordId != null) {
+            Entity studentAcademicRecord = repo.findById(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecordId);
+            if (studentAcademicRecord != null) {
+                  edOrgs.addAll(studentResolver.findGoverningEdOrgs((String) studentAcademicRecord.getBody().get(STUDENT_ID), entity));
+              }
+            }
+
+        return edOrgs;
     }
 
     @Override
