@@ -4945,6 +4945,210 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2011-08-31</BeginDate>
       </GradingPeriodIdentity>
     </GradingPeriodReference>
-  </GradebookEntry>          
+  </GradebookEntry>
+  
+  <StudentCompetency>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 1</Objective>
+        <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevel>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevel>
+    <DiagnosticStatement>Oooh.. Look! Here's a diagnostic statement. Whee!!!!</DiagnosticStatement>
+    <StudentSectionAssociationReference>
+      <StudentSectionAssociationIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>900000016</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>32</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2011-08-31</BeginDate>
+      </StudentSectionAssociationIdentity>
+    </StudentSectionAssociationReference>
+  </StudentCompetency>
+  
+  <StudentCompetency>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 1</Objective>
+        <AcademicSubject>Social Sciences and History</AcademicSubject>
+        <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevel>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevel>
+    <DiagnosticStatement>I tried, but she's uncontrollable. Frowny stickers mean nothing to her.</DiagnosticStatement>
+    <StudentSectionAssociationReference>
+      <StudentSectionAssociationIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>900000016</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>167</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2013-09-03</BeginDate>
+      </StudentSectionAssociationIdentity>
+    </StudentSectionAssociationReference>
+  </StudentCompetency>
+  
+  <StudentCompetency>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 2</Objective>
+        <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+        <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevel>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevel>
+    <DiagnosticStatement>Just a generic Diagnostic Statement. Nothing to see here.</DiagnosticStatement>
+    <StudentSectionAssociationReference>
+      <StudentSectionAssociationIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>145</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2011-09-05</BeginDate>
+      </StudentSectionAssociationIdentity>
+    </StudentSectionAssociationReference>
+  </StudentCompetency>
+  
+  <StudentCompetency>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 4</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevel>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevel>
+    <DiagnosticStatement>Blah, blah, blah, blah. Blah, blah, blah?</DiagnosticStatement>
+    <StudentSectionAssociationReference>
+      <StudentSectionAssociationIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>Eastside High</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>85</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2011-08-31</BeginDate>
+      </StudentSectionAssociationIdentity>
+    </StudentSectionAssociationReference>
+  </StudentCompetency>
+  
+  <StudentCompetency>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 2</Objective>
+        <AcademicSubject>English Language and Literature</AcademicSubject>
+        <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevel>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevel>
+    <DiagnosticStatement>I've got a diagnostic statement and you don't.</DiagnosticStatement>    
+    <StudentSectionAssociationReference>
+      <StudentSectionAssociationIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>14</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2010-08-31</BeginDate>
+      </StudentSectionAssociationIdentity>
+    </StudentSectionAssociationReference>
+  </StudentCompetency>
+  
+  <StudentCompetency>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 3</Objective>
+        <AcademicSubject>Miscellaneous</AcademicSubject>
+        <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevel>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevel>
+    <DiagnosticStatement>....</DiagnosticStatement>    
+    <StudentSectionAssociationReference>
+      <StudentSectionAssociationIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>Westside High</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>186</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2011-09-06</BeginDate>
+      </StudentSectionAssociationIdentity>
+    </StudentSectionAssociationReference>
+  </StudentCompetency>            
   
 </InterchangeStudentGrade>    
