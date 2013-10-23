@@ -121,7 +121,7 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
         for (Map.Entry<String, DateTime> edorgDate : edorgDates.entrySet()) {
             try {
                 if (nonDatedEntities.contains(entityToExtract.getType())
-                         || EntityDateHelper.shouldExtract(entityToExtract, edorgDate.getValue())) {
+                         || shouldExtract(entityToExtract, edorgDate.getValue())) {
 
                     leas.add(edorgDate.getKey());
                 }
@@ -131,6 +131,10 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
         }
 
         return leas;
+    }
+
+    protected boolean shouldExtract(Entity entity, DateTime dateTime) {
+        return EntityDateHelper.shouldExtract(entity, dateTime);
     }
 
     private void updateCache(String studentId, Map<String, DateTime> edorgDates) {
@@ -173,6 +177,11 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
 
     public void setEdOrgResolver(EducationOrganizationContextResolver edOrgResolver) {
         this.edOrgResolver = edOrgResolver;
+    }
+
+
+    public void setEdOrgHierarchyHelper(EdOrgHierarchyHelper edOrgHierarchyHelper) {
+        this.edOrgHierarchyHelper = edOrgHierarchyHelper;
     }
 
     public void setExtractorHelper(ExtractorHelper extractorHelper) {
