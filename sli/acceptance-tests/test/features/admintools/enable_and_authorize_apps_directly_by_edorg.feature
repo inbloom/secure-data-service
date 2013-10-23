@@ -22,6 +22,7 @@ Background:
         And the client ID and shared secret fields are Pending
         And the Registration Status field is Pending
 
+
     Scenario: SLC Operator accepts application registration request (set up data)
         Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
@@ -43,11 +44,9 @@ Background:
         Then I am redirected to the Application Registration Tool page
         And I see the list of (only) my applications
         And I clicked on the button Edit for the application "Royal Oak"
-        Then I can see the on-boarded states
-        And I select the "Illinois State Board of Education"
+        And I enable the education Organization "Illinois State Board of Education"
         And I click on Save
         Then "Royal Oak" is enabled for "200" education organizations
-
 
     Scenario: SEA Admin Approves application
         When I hit the Admin Application Authorization Tool
@@ -397,10 +396,10 @@ Background:
     And in Status it says "Not Approved"
     And the sli securityEvent collection is empty
   ############################################################
-  ######All edOrgs from LEA downwards
+  ######All edOrgs from LEA downwards 
   ############################################################
     And I click on the "Edit Authorizations" button next to it
-    And I authorize the educationalOrganization "Daybreak School District 4529"
+    And I authorize the educationalOrganization "Daybreak School District 4529"   
     And I click Update
     Then there are "45" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
     And I check to find if record is in sli db collection:

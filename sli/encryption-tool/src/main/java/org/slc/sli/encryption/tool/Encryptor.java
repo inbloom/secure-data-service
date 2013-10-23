@@ -135,17 +135,38 @@ public class Encryptor {
 
     public static void main(String[] args) throws Exception {
         PrintStream out = System.out;
-        if (args.length < 4) {
-            out.println("Please specify the keystore location, alias, password, and the string to be encrypted.");
+        if (args.length != 5 && args.length != 6) {
+            out.println("For encryption, please specify the keystore location, alias, password, and the string to be encrypted.");
             out.println("Usage: java -jar encryption-tool.jar <keystore_location> <keystore_password> <key_alias> <key_password> <string>");
+            out.println("For decryption, please specify the keystore location, alias, password, and the string to be encrypted, with '--decrypt' first");
+            out.println("Usage: java -jar encryption-tool.jar --decrypt <keystore_location> <keystore_password> <key_alias> <key_password> <string>");
             return;
         }
 
-        Encryptor encryptor = new Encryptor(args[0], args[1]);
+        boolean decrypt = false;
+        String [] effectiveArgs = args;
+        if (args[0].equals("--decrypt")) {
+            decrypt = true;
+            effectiveArgs = new String[args.length - 1];
+            System.arraycopy(args, 1, effectiveArgs, 0, args.length - 1);
+        }
 
-        String encryptedString = encryptor.encrypt(args[2], args[3], args[4]);
-        
-        out.println("\nEncrypted String for " + args[4] + " is: " + encryptedString + "\n");
+        String keystoreLocation = effectiveArgs[0];
+        String keystorePassword = effectiveArgs[1];
+        String keyAlias = effectiveArgs[2];
+        String keyPassword = effectiveArgs[3];
+        String message = effectiveArgs[4];
+
+        Encryptor encryptor = new Encryptor(keystoreLocation, keystorePassword);
+
+
+        if (!decrypt) {
+            String encryptedString = encryptor.encrypt(keyAlias, keyPassword, message);
+            out.println("Encrypted string for " + message + " is: " + encryptedString + "\n");
+        } else {
+            String decryptedString = encryptor.decrypt(keyAlias, keyPassword, message);
+            out.println("Descrypted string for " + message + " is: " + decryptedString + "\n");
+        }
 
     }
 }

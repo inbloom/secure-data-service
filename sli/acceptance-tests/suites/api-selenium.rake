@@ -40,6 +40,12 @@ task :adminDelegationTests => [:realmInit] do
   runTests("test/features/admintools/delegate_privileges.feature")
 end
 
+desc "Run Admin Develper App Enable Tests"
+task :adminDevAppEnableTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/developer_enable.feature")
+end
+
 desc "Run Reset and Change Password Selenium Tests"
 task :resetAndChangePasswordTests => [:realmInit] do
   runTests("test/features/admintools/reset_change_password.feature")

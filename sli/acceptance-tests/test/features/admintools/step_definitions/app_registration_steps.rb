@@ -302,10 +302,10 @@ Then /^the row of the app "([^"]*)" expanded$/ do |arg1|
 end
 
 Then /^every field except the shared secret and the app ID became editable$/ do
-  @form = @driver.find_element(:id, "edit_app_#{@id}")
+  @form = @driver.find_element(:id, "aeForm")
   editable = @form.find_elements(:css, "input").count
   not_editable = @form.find_elements(:css, "input[disabled='disabled']").count
-  assert(not_editable == 2, "Found #{not_editable} elements")
+  assert(not_editable == 2, "Found #{not_editable} non-editable elements. Found #{editable} editable elements")
 end
 
 Then /^I have edited the field named "([^"]*)" to say "([^"]*)"$/ do |arg1, arg2|

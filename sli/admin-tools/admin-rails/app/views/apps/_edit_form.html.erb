@@ -1,4 +1,4 @@
-<%= form_for(app) do |f| %>
+<%= form_for(app, :html=> {:id => 'aeForm'}) do |f| %>
   <% if app.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(app.errors.count, "error") %> prohibited this application from being saved:</h2>
@@ -75,18 +75,13 @@
 	<span class="help-inline">This is used for applications that aren't web-based (Mobile).</span>
 </div>
 
-
 <div class = "field">
 	<!--<%= image_tag app.image_url, :title => "Image", :class => "app-image" %>-->
 	<%= f.label :image_url, "Image Url" %>
 	<%= f.text_field :image_url %>
 	<span class="help-inline">An optional image url to be displayed as an icon</span>
 </div>
-<div id="ed_orgs" class = "field">
-  <% app.authorized_ed_orgs.each do |role| %>
-      <%= f.hidden_field :authorized_ed_orgs, :multiple => true, :value => role %>
-  <% end %>
-</div>
+
 <div class= "well">
   <div class = "field" id="isBulkExtract">
     <%= f.label :isBulkExtract, "Bulk Extract" %>
@@ -95,35 +90,32 @@
   </div>
 </div>
 
+<h3>Enable the Education Organizations you would like to use your application</h3>
+<div id="edorgTree">
+
+  <ul>
+    <li>Please choose edOrgs to enable for the app.
+    <li>Following each EdOrg are counts of: <span class="treecounts">(direct subsidiary EdOrgs / total subsidiary EdOrgs)</span>
+  </ul>
+  <input id="hierarchical_mode" type="checkbox" checked="true">Hierarchical Selection Mode</input>
+
+  <a href="#" id="expand_all">Expand All</a>
+  <a href="#" id="collapse_all">Collapse All</a>
+  <span class = "edOrgTreeActions">
+    <%= f.submit "Save & Update", :disable_with => 'Submitting...', :class => "btn" %>
+    <button onclick="window.location.href='/apps'">Cancel</button>
+  </span>
 
 
-<% if !@sea.nil? %>
-<h3>Enable the state(s) you would like to use your application</h3>
-<div id="state-menu">
-  <label class="inline">Select one or more state(s)
-  <% state_array = @sea.map { |state| [state["name"], state["sea_id"]]} %>
-  <% state_selected = @sea.map { |state| if state["is_enabled"] then state["sea_id"] else nil end } %>
-  <%= select_tag(:state_select, options_for_select(state_array, state_selected),
-                 :multiple => true, :size => @sea.length + 1,
-		 :style => 'width:500px' )
-		 %>
-  </label>
+  <div>
+  <%= @treeHtml.html_safe %>
+  </div>
+
+  <span class = "edOrgTreeActions" >
+	<%= f.submit "Save & Update", :disable_with => 'Submitting...', :class => "btn" %>
+    <button onclick="window.location.href='/apps'">Cancel</button>
+  </span>
+
 </div>
 
-<!--
-<div id="enable-menu" class="well">
-<div id = "lea-menu">
-  <p>Please select a state first...</p>
-</div>
-
-<% end %>
-
-<div class="clear"></div>
-</div>
--->
-
-<div class = "actions">
-	<%= f.submit "Save", :disable_with => 'Submitting...', :class => "btn" %>
-	<%= link_to "Cancel", :back %>
-</div>
 <% end %>

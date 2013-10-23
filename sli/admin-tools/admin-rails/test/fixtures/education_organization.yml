@@ -1,5 +1,5 @@
 state:
-    id: 1
+    id: "1"
     organizationCategories: ["State Education Agency"]
     nameOfInstitution: "Some Fake District"
     stateOrganizationId: "STATE"
@@ -11,7 +11,7 @@ state:
         created: 10000000
 
 local:
-  id: 2
+  id: "2"
   organizationCategories: ["Local Education Agency"]
   nameOfInstitution: "A Fake Local District"
   address:
@@ -20,7 +20,7 @@ local:
   stateOrganizationId: "LOCAL"
 
 waffles:
-  id: 3
+  id: "3"
   organizationCategories: ["Local Education Agency"]
   nameOfInstitution: "Waffles District of Wafflenating"
   stateOrganizationId: "Waffles"
