@@ -30,7 +30,9 @@ import org.slc.sli.domain.Entity;
 public abstract class RelatedContextResolver implements ContextResolver {
 
     private static Set<String> supportedNonCurrentEntities = new HashSet<String>(Arrays.asList(EntityNames.STUDENT_PROGRAM_ASSOCIATION,
-            EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, EntityNames.STUDENT_PARENT_ASSOCIATION));
+            EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, EntityNames.STUDENT_PARENT_ASSOCIATION,
+            EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.STUDENT_ASSESSMENT, EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.GRADE,
+            EntityNames.REPORT_CARD, EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.ATTENDANCE, EntityNames.STUDENT_GRADEBOOK_ENTRY));
 
     public RelatedContextResolver() {
         super();

@@ -121,19 +121,19 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify that an extract tar file was created for the tenant "Midgar"
     Then the extract contains a file for each of the following entities:
       | entityType                            |
-      #| attendance                            |
-      #| grade                                 |
-     # | reportCard                            |
+      | attendance                            |
+      | grade                                 |
+      | reportCard                            |
       | student                               |
-      #| studentAcademicRecord                 |
-      #| studentAssessment                     |
+      | studentAcademicRecord                 |
+      | studentAssessment                     |
       | studentCohortAssociation              |
       | studentDisciplineIncidentAssociation  |
-      #| studentGradebookEntry                 |
+      | studentGradebookEntry                 |
       | studentParentAssociation              |
       | studentProgramAssociation             |
-     # | studentSchoolAssociation              |
-     # | studentSectionAssociation             |
+      | studentSchoolAssociation              |
+      | studentSectionAssociation             |
       | courseTranscript                      |
       | gradebookEntry                        |
       | disciplineIncident                    |
@@ -143,12 +143,12 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "student" file should contain:
       | id                                          | condition            |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id | entityType = student |
-    #And I verify this "studentAcademicRecord" file should not contain:
-    #  | id                                                                                     |
-    #  | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id2797454efde05815c8a62f744265f31f94979316_id |
-   # And I verify this "studentAssessment" file should not contain:
-   #   | id                                          |
-  #    | b2542b105c09130bc7d3f81b471d1f0f0e481fd8_id |
+    And I verify this "studentAcademicRecord" file should not contain:
+      | id                                                                                     |
+      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id2797454efde05815c8a62f744265f31f94979316_id |
+    And I verify this "studentAssessment" file should not contain:
+      | id                                          |
+      | b2542b105c09130bc7d3f81b471d1f0f0e481fd8_id |
     And I verify this "studentParentAssociation" file should contain:
       | id                                                                                     | condition                             |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id3382e80b35990e1ea89cdde30339fb0c4b79793d_id | entityType = studentParentAssociation |
@@ -162,24 +162,24 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "studentDisciplineIncidentAssociation" file should not contain:
       | id                                                                                     |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id2b0fbf2af85b9e850e533ded46d26d77aeaa2e75_id |
-    #And I verify this "studentGradebookEntry" file should not contain:
-    #  | id                                          |
-    #  | 28e83915fb2ed72fd074efdcb24f6b1a778a5f57_id |
-   # And I verify this "studentSchoolAssociation" file should not contain:
-   #   | id                                          |
-   #   | c5a10351b0957620192a7b1c0e3e6fd686173579_id |
-   # And I verify this "studentSectionAssociation" file should not contain:
-   #   | id                                                                                     |
-   #   | c44eb520d29bad5d60237f6addc22f769b3448aa_idaf30e6685a85c716c26d5e559bde27017f57f304_id |
-   # And I verify this "attendance" file should not contain:
-   #   | id                                          |
-   #   | 49e65583c8c5f3e97db81807d5beeb028433053d_id |
-    #And I verify this "grade" file should not contain:
-    #  | id                                                                                     |
-    #  | e1ddd4b5c0c531a734135ecd461b33cab842c18c_idc215fa1253b26479fea38c153679913544bf3ad0_id |
-   # And I verify this "reportCard" file should not contain:
-   #   | id                                                                                     |
-   #   | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id67ce8d959e708542ad7f1861ba549211a8a6f099_id |
+    And I verify this "studentGradebookEntry" file should not contain:
+      | id                                          |
+      | 28e83915fb2ed72fd074efdcb24f6b1a778a5f57_id |
+    And I verify this "studentSchoolAssociation" file should not contain:
+      | id                                          |
+      | c5a10351b0957620192a7b1c0e3e6fd686173579_id |
+    And I verify this "studentSectionAssociation" file should not contain:
+      | id                                                                                     |
+      | c44eb520d29bad5d60237f6addc22f769b3448aa_idaf30e6685a85c716c26d5e559bde27017f57f304_id |
+    And I verify this "attendance" file should not contain:
+      | id                                          |
+      | 49e65583c8c5f3e97db81807d5beeb028433053d_id |
+    And I verify this "grade" file should not contain:
+      | id                                                                                     |
+      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_idc215fa1253b26479fea38c153679913544bf3ad0_id |
+    And I verify this "reportCard" file should not contain:
+      | id                                                                                     |
+      | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id67ce8d959e708542ad7f1861ba549211a8a6f099_id |
     And I verify this "courseTranscript" file should not contain:
       | id                                          |
       | 0bc385d7a20aa1a9df92627cd841d545d3052b3b_id |
@@ -242,14 +242,14 @@ Feature: An edorg's extract file should contain student and staff data from prev
     #  | 7f5b783a051b72820eab5f8188c45ade72869f0f_id | entityType = parent |
   #This extract should contain content for anything that began on or before DCH's end date with the student
   #Even data from SCH that began on the student's final day with DCH should be included
-   # And I verify this "studentAssessment" file should contain:
-   #   | id                                          | condition                      |
-   #   | 5154384148dbad6bc84a4b20b1c312e99fb3c004_id | entityType = studentAssessment |
-   #   | 4c7a3fb655b56351f244c3d87bad76fd07b8478f_id | entityType = studentAssessment |
-   #   | 02cbe22e355aea8e59f976247bae5389c491176d_id | entityType = studentAssessment |
-   # And I verify this "studentAcademicRecord" file should contain:
-   #   | id                                                                                     | condition                          |
-   #   | 429dc90b61707fa474005db798cec3f46807fa69_id1a62a16dd757629cf502eeeaa9fd4494a0fff115_id | entityType = studentAcademicRecord |
+    And I verify this "studentAssessment" file should contain:
+      | id                                          | condition                      |
+      | 5154384148dbad6bc84a4b20b1c312e99fb3c004_id | entityType = studentAssessment |
+      | 4c7a3fb655b56351f244c3d87bad76fd07b8478f_id | entityType = studentAssessment |
+      | 02cbe22e355aea8e59f976247bae5389c491176d_id | entityType = studentAssessment |
+    And I verify this "studentAcademicRecord" file should contain:
+      | id                                                                                     | condition                          |
+      | 429dc90b61707fa474005db798cec3f46807fa69_id1a62a16dd757629cf502eeeaa9fd4494a0fff115_id | entityType = studentAcademicRecord |
     And I verify this "studentProgramAssociation" file should contain:
       | id                                                                                     | condition                              |
       | 067198fd6da91e1aa8d67e28e850f224d6851713_ide34acabe3e308a140d76b7bd2da54011be117110_id | entityType = studentProgramAssociation |
@@ -268,35 +268,35 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | 067198fd6da91e1aa8d67e28e850f224d6851713_id7c81a5b5c57d1eacf611875aa87c44e57e2d4422_id | entityType = studentDisciplineIncidentAssociation |
       | 067198fd6da91e1aa8d67e28e850f224d6851713_id7776723a42cad712a6771a01aec0d7bb4b4c4ec9_id | entityType = studentDisciplineIncidentAssociation |
       | 067198fd6da91e1aa8d67e28e850f224d6851713_id126ec69e8441ecd01db21b4a68b74026e7cfb1b9_id | entityType = studentDisciplineIncidentAssociation |
-    #And I verify this "studentGradebookEntry" file should contain:
-    #  | id                                          | condition                          |
-    #  | 4c301bcd87feb866f5e55301880ab03f7651b3ab_id | entityType = studentGradebookEntry |
-    #  | f707337e00e682b21a9b1dfcd4963164672e2300_id | entityType = studentGradebookEntry |
-    #  | cf29b3421366846cb720ad2aaf0aa77bc6320f10_id | entityType = studentGradebookEntry |
-  #  And I verify this "studentSectionAssociation" file should contain:
-   #   | id                                                                                     | condition                              |
-  #    | 6e9504c3061a61384cbd9591a52893f07c6af242_id56a60187f236b69252b085c0ca55c9a1cb8081ab_id | entityType = studentSectionAssociation |
-  #    | 8887531ea737afbd49da86f201e95d1f6fc45571_id50a30c780c85361faec9ac20013d347a619958fc_id | entityType = studentSectionAssociation |
-  #    | 5c593810111e06cd8b5a4e7f315b5b49c16c35b1_id26f3811034fc7d29bdc8ac5250ab1a9fe3ce97d7_id | entityType = studentSectionAssociation |
-  #  And I verify this "studentSchoolAssociation" file should contain:
-  #    | id                                          | condition                             |
-  #    | 85021515aa5e6b0133d6830aa5a01856a78ecad3_id | entityType = studentSchoolAssociation |
-  #    | 1c560036515238f702e031799673dbb6994d1eaf_id | entityType = studentSchoolAssociation |
-  #    | 728e9428a82847723ed9eab66fa04003827228ee_id | entityType = studentSchoolAssociation |
-  #    | e0c566a0bd2c94298c117c6220ddf0c2465c0945_id | entityType = studentSchoolAssociation |
-   # And I verify this "attendance" file should contain:
-   #   | id                                          | condition               |
-   #   | a4e76009f29433910dabda3f5d79b9fd4be3f8a9_id | entityType = attendance |
-   #   | 8ccecad63cb003d3e93d1ce4808204d33ad8859f_id | entityType = attendance |
-   #   | 28e5438c90b728ff4599f83c1fa36fdbabc0dbff_id | entityType = attendance |
-   # And I verify this "grade" file should contain:
-   #   | id                                                                                     | condition          |
-   #   | 429dc90b61707fa474005db798cec3f46807fa69_idab729c89eb9aa10765955b0da2f6c9bd4e1a2bb6_id | entityType = grade |
-   #   | 429dc90b61707fa474005db798cec3f46807fa69_id6e4d4b52f5caa38f1ae6063fca428908f2c1575d_id | entityType = grade |
-   #   | 429dc90b61707fa474005db798cec3f46807fa69_id3b746ce9c454a4ef2bb8b29c9672bbf1e75a704c_id | entityType = grade |
-   # And I verify this "reportCard" file should contain:
-   #   | id                                                                                     | condition               |
-   #   | 429dc90b61707fa474005db798cec3f46807fa69_id42fd81249cbc0c15bb99024e300b4d6f801d9a0f_id | entityType = reportCard |
+    And I verify this "studentGradebookEntry" file should contain:
+      | id                                          | condition                          |
+      | 4c301bcd87feb866f5e55301880ab03f7651b3ab_id | entityType = studentGradebookEntry |
+      | f707337e00e682b21a9b1dfcd4963164672e2300_id | entityType = studentGradebookEntry |
+      | cf29b3421366846cb720ad2aaf0aa77bc6320f10_id | entityType = studentGradebookEntry |
+    And I verify this "studentSectionAssociation" file should contain:
+      | id                                                                                     | condition                              |
+      | 6e9504c3061a61384cbd9591a52893f07c6af242_id56a60187f236b69252b085c0ca55c9a1cb8081ab_id | entityType = studentSectionAssociation |
+      | 8887531ea737afbd49da86f201e95d1f6fc45571_id50a30c780c85361faec9ac20013d347a619958fc_id | entityType = studentSectionAssociation |
+      | 5c593810111e06cd8b5a4e7f315b5b49c16c35b1_id26f3811034fc7d29bdc8ac5250ab1a9fe3ce97d7_id | entityType = studentSectionAssociation |
+    And I verify this "studentSchoolAssociation" file should contain:
+      | id                                          | condition                             |
+      | 85021515aa5e6b0133d6830aa5a01856a78ecad3_id | entityType = studentSchoolAssociation |
+      | 1c560036515238f702e031799673dbb6994d1eaf_id | entityType = studentSchoolAssociation |
+      | 728e9428a82847723ed9eab66fa04003827228ee_id | entityType = studentSchoolAssociation |
+      | e0c566a0bd2c94298c117c6220ddf0c2465c0945_id | entityType = studentSchoolAssociation |
+    And I verify this "attendance" file should contain:
+      | id                                          | condition               |
+      | a4e76009f29433910dabda3f5d79b9fd4be3f8a9_id | entityType = attendance |
+      | 8ccecad63cb003d3e93d1ce4808204d33ad8859f_id | entityType = attendance |
+      | 28e5438c90b728ff4599f83c1fa36fdbabc0dbff_id | entityType = attendance |
+    And I verify this "grade" file should contain:
+      | id                                                                                     | condition          |
+      | 429dc90b61707fa474005db798cec3f46807fa69_idab729c89eb9aa10765955b0da2f6c9bd4e1a2bb6_id | entityType = grade |
+      | 429dc90b61707fa474005db798cec3f46807fa69_id6e4d4b52f5caa38f1ae6063fca428908f2c1575d_id | entityType = grade |
+      | 429dc90b61707fa474005db798cec3f46807fa69_id3b746ce9c454a4ef2bb8b29c9672bbf1e75a704c_id | entityType = grade |
+    And I verify this "reportCard" file should contain:
+      | id                                                                                     | condition               |
+      | 429dc90b61707fa474005db798cec3f46807fa69_id42fd81249cbc0c15bb99024e300b4d6f801d9a0f_id | entityType = reportCard |
     And I verify this "courseTranscript" file should contain:
       | id                                          | condition                     |
       | cb154b7f3fdb1ed9a62a5343c6d4d78addc8d444_id | entityType = courseTranscript |
@@ -312,12 +312,12 @@ Feature: An edorg's extract file should contain student and staff data from prev
     #  | bbd04e4949e29924c6520123c832209dcac9b8c0_id | entityType = disciplineIncident |
     #  | 02510a4ee38ab5b6b2b24270c89ab57e3f21e84c_id | entityType = disciplineIncident |
     #  | ccc1eb03dc0b67c556608ad0d6f1542d7f0e81ac_id | entityType = disciplineIncident |
-    And I verify this "disciplineAction" file should contain:
-      | id                                          | condition                     |
-      | 8487d1a242024f633a945d953483b3fe58ced932_id | entityType = disciplineAction |
-      | b7ae083ff970dc7d053db375cf228b4d055e1f10_id | entityType = disciplineAction |
-      | 3704e7d33ede429ffaff697f6df37d95749fdfe8_id | entityType = disciplineAction |
-      | 707dbc3c10c188bf5351a52a291009fe8f014075_id | entityType = disciplineAction |
+    #And I verify this "disciplineAction" file should contain:
+    #  | id                                          | condition                     |
+    #  | 8487d1a242024f633a945d953483b3fe58ced932_id | entityType = disciplineAction |
+    #  | b7ae083ff970dc7d053db375cf228b4d055e1f10_id | entityType = disciplineAction |
+    #  | 3704e7d33ede429ffaff697f6df37d95749fdfe8_id | entityType = disciplineAction |
+    #  | 707dbc3c10c188bf5351a52a291009fe8f014075_id | entityType = disciplineAction |
     #And I verify this "studentCompetency" file should contain:
       #| id                                          | condition                      |
       #| c761c5f2fcc53bb90940e3cd26501a75d0106acc_id | entityType = studentCompetency |
@@ -326,43 +326,43 @@ Feature: An edorg's extract file should contain student and staff data from prev
 
   #This extract should not contain content for anything that began after DCH's end date with the student
   #Given proper data, everything from WSH shouldn't be included
- #   And I verify this "studentAssessment" file should not contain:
-  #    | id                                          |
-  #    | 6697f6850c06b1458bebff42b9ea9b5fdb444e95_id |
-  #  And I verify this "studentAcademicRecord" file should not contain:
-  #    | id                                                                                     |
-  #    | b28bc3be4667c80070094a24e1f7bc3a9b9a2893_id9f850bb17e294c429148d0b353f9e0db6c17338c_id |
+    And I verify this "studentAssessment" file should not contain:
+      | id                                          |
+      | 6697f6850c06b1458bebff42b9ea9b5fdb444e95_id |
+    And I verify this "studentAcademicRecord" file should not contain:
+      | id                                                                                     |
+      | b28bc3be4667c80070094a24e1f7bc3a9b9a2893_id9f850bb17e294c429148d0b353f9e0db6c17338c_id |
     And I verify this "studentProgramAssociation" file should not contain:
       | id                                                                                     |
       | 067198fd6da91e1aa8d67e28e850f224d6851713_id3401ad622b20c8502b936844cf68293b27c1957e_id |
     And I verify this "studentCohortAssociation" file should not contain:
       | id                                                                                     |
       | 067198fd6da91e1aa8d67e28e850f224d6851713_idb675acc4cb309496b14c25e7c3d74d07b60d68ae_id |
-    #And I verify this "studentGradebookEntry" file should not contain:
-    #  | id                                          |
-    #  | 8c14cc6999e43fd6b90d41a30cbb245cb212b508_id |
-  #  And I verify this "studentSectionAssociation" file should not contain:
-  #    | id                                                                                     |
-  #    | 7df01fe133b2605d0007dd1fecf9c8f8bc6afbee_id07bec3af9633c4bdde1a240e8b003abac7e4fc47_id |
-  #    | 96ad14342c72b986ff6fe42556edb552abd239ca_idf146ce1a9ecb6f7852c9b48f36fee2d0f1bfcd0c_id |
-  #  And I verify this "studentSchoolAssociation" file should not contain:
-  #    | id                                          |
-  #    | 6beed2cdd5386603d5b0b0e34eb1f87d091e9eb7_id |
-   # And I verify this "attendance" file should not contain:
-   #   | id                                          |
-   #   | d1c52a1dac17a9a5cde037ca618ccac8b4e368ee_id |
-  #  And I verify this "grade" file should not contain:
-  #    | id                                                                                     |
-  #    | b28bc3be4667c80070094a24e1f7bc3a9b9a2893_id0d1ec4954d2640bf3ae2eb758f6c8c86d820dbb1_id |
-  #  And I verify this "reportCard" file should not contain:
-  #    | id                                                                                     |
-  #    | b28bc3be4667c80070094a24e1f7bc3a9b9a2893_id5d7185b665b99461cb92d18f09635d1212eda10b_id |
+    And I verify this "studentGradebookEntry" file should not contain:
+      | id                                          |
+      | 8c14cc6999e43fd6b90d41a30cbb245cb212b508_id |
+    And I verify this "studentSectionAssociation" file should not contain:
+      | id                                                                                     |
+      | 7df01fe133b2605d0007dd1fecf9c8f8bc6afbee_id07bec3af9633c4bdde1a240e8b003abac7e4fc47_id |
+      | 96ad14342c72b986ff6fe42556edb552abd239ca_idf146ce1a9ecb6f7852c9b48f36fee2d0f1bfcd0c_id |
+    And I verify this "studentSchoolAssociation" file should not contain:
+      | id                                          |
+      | 6beed2cdd5386603d5b0b0e34eb1f87d091e9eb7_id |
+    And I verify this "attendance" file should not contain:
+      | id                                          |
+      | d1c52a1dac17a9a5cde037ca618ccac8b4e368ee_id |
+    And I verify this "grade" file should not contain:
+      | id                                                                                     |
+      | b28bc3be4667c80070094a24e1f7bc3a9b9a2893_id0d1ec4954d2640bf3ae2eb758f6c8c86d820dbb1_id |
+    And I verify this "reportCard" file should not contain:
+      | id                                                                                     |
+      | b28bc3be4667c80070094a24e1f7bc3a9b9a2893_id5d7185b665b99461cb92d18f09635d1212eda10b_id |
     And I verify this "studentDisciplineIncidentAssociation" file should not contain:
       | id                                                                                     |
       | 067198fd6da91e1aa8d67e28e850f224d6851713_id488486ca968826efacf5c1941c04e3ab30b83dc9_id |
-    #And I verify this "courseTranscript" file should not contain:
-    #  | id                                          |
-    #  | b848986b74335a114ebee017c4f70659f96850db_id |
+    And I verify this "courseTranscript" file should not contain:
+      | id                                          |
+      | b848986b74335a114ebee017c4f70659f96850db_id |
     And I verify this "gradebookEntry" file should not contain:
       | id                                                                                     |
       | 7df01fe133b2605d0007dd1fecf9c8f8bc6afbee_id591ed4c7b19326e3ffa2c680b4a469ff413d65f4_id |
@@ -370,8 +370,8 @@ Feature: An edorg's extract file should contain student and staff data from prev
     #  | id                                          |
     #  | 86048cb8a09146bf0c241aff921e1d68664961d2_id |
     #And I verify this "disciplineAction" file should not contain:
-      #| id                                          |
-      #| 50bbbe6516a35098047a3b81634cf718ed58ffc4_id |
+    #  | id                                          |
+    #  | 50bbbe6516a35098047a3b81634cf718ed58ffc4_id |
     #And I verify this "studentCompetency" file should not contain:
       #| id                                          |
       #| ee9b1b72d1ca9692ff56bb2221a9f136c860d050_id |
