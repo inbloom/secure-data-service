@@ -72,7 +72,7 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
 
     private ExtractorHelper extractorHelper;
 
-    private Set<String> nonDatedEntities = new HashSet<String>(Arrays.asList(EntityNames.STUDENT, EntityNames.STUDENT_PARENT_ASSOCIATION));
+    private Set<String> nonDatedEntities = new HashSet<String>(Arrays.asList(EntityNames.STUDENT, EntityNames.STUDENT_PARENT_ASSOCIATION, EntityNames.PARENT));
 
     @Override
     public void afterPropertiesSet() throws Exception {
