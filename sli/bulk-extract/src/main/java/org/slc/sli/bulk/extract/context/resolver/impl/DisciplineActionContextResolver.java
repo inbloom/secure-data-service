@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,24 +44,17 @@ public class DisciplineActionContextResolver implements ContextResolver {
     private Repository<Entity> repo;
     
     @Autowired
-    private EducationOrganizationContextResolver edOrgResolver;
-    
-    @Autowired
     private StudentContextResolver studentResolver;
     
     @Override
     public Set<String> findGoverningEdOrgs(Entity entity) {
-        String responsibleSchool = (String) entity.getBody().get("responsibilitySchoolId");
-        String assignmentSchool = (String) entity.getBody().get("assignmentSchoolId");
-        Set<String> leas = new HashSet<String>();
-        leas.addAll(edOrgResolver.findGoverningEdOrgs(responsibleSchool));
-        leas.addAll(edOrgResolver.findGoverningEdOrgs(assignmentSchool));
-        @SuppressWarnings("unchecked")
-        List<String> studentIds = (List<String>) entity.getBody().get("studentId");
+        Set<String> edOrgs = new HashSet<String>();
+
+        List<String> studentIds = (List<String>) entity.getBody().get(ParameterConstants.STUDENT_ID);
         for(String studentId: studentIds){
-            leas.addAll(studentResolver.findGoverningEdOrgs(studentId));
+            edOrgs.addAll(studentResolver.findGoverningEdOrgs(studentId, entity));
         }
-        return leas;
+        return edOrgs;
     }
 
     @Override
