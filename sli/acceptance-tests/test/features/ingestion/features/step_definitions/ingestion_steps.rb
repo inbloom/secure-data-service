@@ -1484,7 +1484,7 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
   disable_NOTABLESCAN()
 
   db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
-  job_collection = db.collection("newBatchJob")
+  job_collection = db.collection('newBatchJob')
 
   zip_suffix='.zip'
   data_basename = batch_file.chomp(zip_suffix)
@@ -1502,10 +1502,10 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
 
     # store the id after the first find, so we won't process new jobs across iterations
     if job_id.nil?
-      job_record = @job_collection.find({"tenantId" => @tenant_name, "_id" => /#{data_basename}.*\#{zip_suffix}.*/}, :fields => ["jobStartTimeStamp","status"]).sort({"jobStartTimestamp" => -1}).limit(1).first
+      job_record = job_collection.find({"tenantId" => @tenant_name, "_id" => /#{data_basename}.*\#{zip_suffix}.*/}, :fields => ["jobStartTimeStamp","status"]).sort({"jobStartTimestamp" => -1}).limit(1).first
       job_id = job_record['_id']
     else
-      job_record = @job_collection.find_one({"_id" => job_id}, :fields => ["status"])
+      job_record = job_collection.find_one({"_id" => job_id}, :fields => ["status"])
     end
 
     status = job_record['status']
