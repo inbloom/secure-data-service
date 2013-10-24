@@ -1476,6 +1476,57 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   enable_NOTABLESCAN()
 end
 
+# Note that this step will find the most recent job for the specified tenant that matches the name of the dropped zip file in the landing zone.
+# Therefore, a more recent job for the same tenant for a zip file of the same name or prefixed with the same name (e.g. SmallSampleDataSet.zip and SmallSampleDataSetXXXX.zip)
+# may be matched incorrectly by this step.
+# This should not be a problem for RC e2e prod since a new tenant is created, but for other use cases it is possible this will be an issue, however unlikely.
+When /^the most recent batch job for file "([^"]*)" has completed successfully for tenant "([^"]*)"$/ do |batch_file, tenant|
+  disable_NOTABLESCAN()
+
+  db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
+  job_collection = db.collection("newBatchJob")
+
+  zip_suffix='.zip'
+  data_basename = batch_file.chomp(zip_suffix)
+
+  intervalTime = 0.1 #seconds
+  #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
+  @maxTimeout ? @maxTimeout : @maxTimeout = 900
+  iters = (1.0*@maxTimeout/intervalTime).ceil
+  found = false
+  job_id = nil
+
+  iters.times do |i|
+    # sleep first to allow time for the new job document to be created (needed for sandbox e2e since a new tenant isn't created) - don't want to false positive on a older job
+    sleep(intervalTime)
+
+    # store the id after the first find, so we won't process new jobs across iterations
+    if job_id.nil?
+      job_record = @job_collection.find({"tenantId" => @tenant_name, "_id" => /#{data_basename}.*\#{zip_suffix}.*/}, :fields => ["jobStartTimeStamp","status"]).sort({"jobStartTimestamp" => -1}).limit(1).first
+      job_id = job_record['_id']
+    else
+      job_record = @job_collection.find_one({"_id" => job_id}, :fields => ["status"])
+    end
+
+    status = job_record['status']
+    if status.equals('CompletedSuccessfully')
+      #puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+      found = true
+      break
+    else
+      assert(!status.equals('CompletedWithErrors'), "Job completed with errors.")
+    end
+  end
+
+  if found
+    assert(true, "")
+  else
+    assert(false, "Batch log did not complete either successfully or with errors within #{@maxTimeout} seconds. Test has timed out. Please check ingestion.log for root cause.")
+  end
+
+  enable_NOTABLESCAN()
+end
+
 When /^two batch job logs have been created$/ do
   intervalTime = 3 #seconds
                    #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
