@@ -41,6 +41,16 @@ public interface ContextResolver {
     /**
      * Return a set of edorg Ids given the base entity and entity to extract
      *
+     *
+     * @param id        base entity the entity to extract relies on
+     * @param entityToExtract   entity to extract
+     * @return                  set of edorg Ids
+     */
+    public Set<String> findGoverningEdOrgs(String id, Entity entityToExtract);
+
+    /**
+     * Return a set of edorg Ids given the base entity and entity to extract
+     *
      * @param baseEntity        base entity the entity to extract relies on
      * @param entityToExtract   entity to extract
      * @return                  set of edorg Ids

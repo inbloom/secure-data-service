@@ -15,9 +15,7 @@
  */ 
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
-import java.util.*;
 
-import org.slc.sli.common.constants.EntityNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +25,12 @@ import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
 import org.slc.sli.bulk.extract.delta.DeltaEntityIterator;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Resolver that supports the ability to find the reference from an id
@@ -63,13 +67,14 @@ public abstract class ReferrableResolver implements ContextResolver {
             LOG.debug("got edOrgs from cache for {}", entity);
             return getCache().get(id);
         }
-        
+
         Set<String> edOrgs = resolve(entity);
 
         getCache().put(id, edOrgs);
         return edOrgs;
     }
-    
+
+    //TODO: Remove after all entities are finished
     /**
      * Find the governing edOrgs based on the id
      * 
@@ -111,12 +116,14 @@ public abstract class ReferrableResolver implements ContextResolver {
             return Collections.emptySet();
         }
 
+        Set<String> edOrgs = new HashSet<String>();
+
         Entity entity = getRepo().findOne(getCollection(), DeltaEntityIterator.buildQuery(getCollection(), id));
-        if (entity != null) {
-            return findGoverningEdOrgs(entity, entityToExtract);
+        if (entity != null && entity.getEntityId() != null) {
+            edOrgs = resolve(entity, entityToExtract);
         }
 
-        return Collections.emptySet();
+        return edOrgs;
     }
 
 

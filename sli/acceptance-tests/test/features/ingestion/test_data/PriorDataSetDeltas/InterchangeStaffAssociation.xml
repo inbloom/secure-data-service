@@ -105,6 +105,7 @@
         </Credentials>
         <LoginId>9690@fakemail.com</LoginId>
     </Teacher>
+
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
@@ -177,4 +178,370 @@
     <BeginDate>2011-08-31</BeginDate>
     <EndDate>2012-05-28</EndDate>
   </StaffProgramAssociation>
+
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>1</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Substitute Teacher</ClassroomPosition>
+      <BeginDate>2010-08-31</BeginDate>
+      <EndDate>2011-05-22</EndDate>
+      <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>
+  
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Sunset Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>165</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Substitute Teacher</ClassroomPosition>
+      <BeginDate>2013-09-03</BeginDate>
+      <EndDate>2014-05-29</EndDate>
+      <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>
+  
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Westside High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>185</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Substitute Teacher</ClassroomPosition>
+      <BeginDate>2011-07-22</BeginDate>
+      <EndDate>2012-05-28</EndDate>
+      <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>
+  
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Eastside High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>65</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Substitute Teacher</ClassroomPosition>
+      <BeginDate>2010-08-31</BeginDate>
+      <EndDate>2011-05-22</EndDate>
+      <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>
+  
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>1</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Substitute Teacher</ClassroomPosition>
+      <BeginDate>2010-08-31</BeginDate>
+      <EndDate>2011-05-27</EndDate>
+      <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>
+  
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Sunset Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>145</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Substitute Teacher</ClassroomPosition>
+      <BeginDate>2011-08-31</BeginDate>
+      <EndDate>2012-05-22</EndDate>
+      <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>
+
+    <StaffEducationOrgAssignmentAssociation>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>eshea</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StaffClassification>Educator</StaffClassification>
+        <PositionTitle>Home Ec Teacher</PositionTitle>
+        <BeginDate>2010-08-26</BeginDate>
+        <EndDate>2011-05-22</EndDate>
+    </StaffEducationOrgAssignmentAssociation>
+
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Social Sciences and History</AcademicSubject>
+      <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+      <AcademicSubject>Health Care Sciences</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Engineering and Technology</AcademicSubject>
+      <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+      <AcademicSubject>Science</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Westside High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+      <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+      <AcademicSubject>Engineering and Technology</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Eastside High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Social Studies</AcademicSubject>
+      <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+      <AcademicSubject>Miscellaneous</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Social Sciences and History</AcademicSubject>
+      <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+      <AcademicSubject>Health Care Sciences</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Engineering and Technology</AcademicSubject>
+      <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+      <AcademicSubject>Science</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation> 
+
+    <StaffEducationOrgAssignmentAssociation>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>eshea</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StaffClassification>Educator</StaffClassification>
+        <PositionTitle>Home Ec Teacher</PositionTitle>
+        <BeginDate>2013-09-03</BeginDate>
+        <EndDate>2014-05-29</EndDate>
+    </StaffEducationOrgAssignmentAssociation>
+
+    <StaffEducationOrgAssignmentAssociation>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>cgray</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Westside High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StaffClassification>Educator</StaffClassification>
+        <PositionTitle>Global Studies Teacher</PositionTitle>
+        <BeginDate>2011-07-22</BeginDate>
+        <EndDate>2013-05-23</EndDate>
+    </StaffEducationOrgAssignmentAssociation>
+
+    <StaffEducationOrgAssignmentAssociation>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>cgray</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Eastside High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StaffClassification>Educator</StaffClassification>
+        <PositionTitle>Arithmetic Teacher</PositionTitle>
+        <BeginDate>2010-08-26</BeginDate>
+        <EndDate>2013-05-22</EndDate>
+    </StaffEducationOrgAssignmentAssociation>
+
+    <StaffEducationOrgAssignmentAssociation>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>cgray</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StaffClassification>Educator</StaffClassification>
+        <PositionTitle>Literature Teacher</PositionTitle>
+        <BeginDate>2007-05-06</BeginDate>
+        <EndDate>2008-07-16</EndDate>
+    </StaffEducationOrgAssignmentAssociation>
+
+    <StaffEducationOrgAssignmentAssociation>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>cgray</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StaffClassification>Educator</StaffClassification>
+        <PositionTitle>Physical Education Teacher</PositionTitle>
+        <BeginDate>2011-07-23</BeginDate>
+        <EndDate>2018-05-22</EndDate>
+    </StaffEducationOrgAssignmentAssociation>
 </InterchangeStaffAssociation>
