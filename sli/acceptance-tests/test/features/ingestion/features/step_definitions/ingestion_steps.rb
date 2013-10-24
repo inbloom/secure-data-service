@@ -1530,7 +1530,7 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
     STDOUT.puts "status : #{status}"
     STDOUT.flush
 
-    if status.equals('CompletedSuccessfully') || status.equals('CompletedWithErrors')
+    if status == 'CompletedSuccessfully' || status == 'CompletedWithErrors'
       puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete" if $SLI_DEBUG
       found = true
       break
@@ -1540,7 +1540,7 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
   enable_NOTABLESCAN()
 
   if found
-    assert(status.equals('CompletedSuccessfully'), "Job completed with errors.")
+    assert(status == 'CompletedSuccessfully', "Job completed with errors.")
   else
     assert(false, "Batch log did not complete either successfully or with errors within #{@maxTimeout} seconds. Test has timed out. Please check ingestion.log for root cause.")
   end
