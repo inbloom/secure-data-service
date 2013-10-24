@@ -220,9 +220,13 @@ Given /^I check for the file "(.*?)" every "(.*?)" seconds for "(.*?)" seconds$/
   assert (waited < total)
 end
 
+When /^the most recent batch job for file "([^"]*)" has completed successfully$/ do |dataSet|
+  step "the most recent batch job for file \"#{dataSet}\" has completed successfully for tenant \"#{@tenant_name}\""
+end
+
 Then /^the "(.*?)" should be ingested with the correct number of records$/ do |dataSet|
    correct_count = getCorrectCountForDataset(dataSet)
-   step "a batch job for file \"#{dataSet}\" is completed in database"
+   step "the most recent batch job for file \"#{dataSet}\" has completed successfully"
    step "the landing zone should contain a file with the message \"Processed #{correct_count} records\""
 end
 
