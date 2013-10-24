@@ -1,0 +1,242 @@
+<?xml version="1.0"?>
+<InterchangeStaffAssociation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                             xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd">
+    <Teacher>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+        <StaffIdentificationCode IdentificationSystem="Medicaid">
+            <ID>3220</ID>
+        </StaffIdentificationCode>
+        <Name>
+            <FirstName>Emily</FirstName>
+            <MiddleName>Maritza</MiddleName>
+            <LastSurname>Shea</LastSurname>
+        </Name>
+        <OtherName OtherNameType="Nickname">
+            <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+            <FirstName>Luann</FirstName>
+            <MiddleName>Maryellen</MiddleName>
+            <LastSurname>Otto</LastSurname>
+            <GenerationCodeSuffix>VIII</GenerationCodeSuffix>
+        </OtherName>
+        <Sex>Female</Sex>
+        <BirthDate>1954-06-08</BirthDate>
+        <Address AddressType="Home">
+            <StreetNumberName>700 Oak Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60601</PostalCode>
+        </Address>
+        <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>(784)555-4223</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>4730@fakemail.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <OldEthnicity>Asian Or Pacific Islander</OldEthnicity>
+        <Race>
+            <RacialCategory>White</RacialCategory>
+        </Race>
+        <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
+        <YearsOfPriorProfessionalExperience>9</YearsOfPriorProfessionalExperience>
+        <YearsOfPriorTeachingExperience>17</YearsOfPriorTeachingExperience>
+        <Credentials>
+            <CredentialType>Licensure</CredentialType>
+            <CredentialField>
+                <Description>Physics</Description>
+            </CredentialField>
+            <Level>All Level (Grade Level PK-12)</Level>
+            <TeachingCredentialType>Probationary Extension</TeachingCredentialType>
+            <CredentialIssuanceDate>2009-07-03</CredentialIssuanceDate>
+            <CredentialExpirationDate>2014-08-15</CredentialExpirationDate>
+            <TeachingCredentialBasis>Relevant experience</TeachingCredentialBasis>
+        </Credentials>
+        <LoginId>4730@fakemail.com</LoginId>
+    </Teacher>
+
+    <Teacher>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+        <StaffIdentificationCode IdentificationSystem="Health Record">
+            <ID>5299</ID>
+        </StaffIdentificationCode>
+        <Name>
+            <FirstName>Charles</FirstName>
+            <MiddleName>Walker</MiddleName>
+            <LastSurname>Gray</LastSurname>
+        </Name>
+        <OtherName OtherNameType="Nickname">
+            <PersonalTitlePrefix>Colonel</PersonalTitlePrefix>
+            <FirstName>Donny</FirstName>
+            <MiddleName>Alberto</MiddleName>
+            <LastSurname>Busch</LastSurname>
+            <GenerationCodeSuffix>II</GenerationCodeSuffix>
+        </OtherName>
+        <Sex>Male</Sex>
+        <BirthDate>1977-07-15</BirthDate>
+        <Address AddressType="Home">
+            <StreetNumberName>700 Oak Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60601</PostalCode>
+        </Address>
+        <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>(836)555-5649</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>9690@fakemail.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+        <Race>
+            <RacialCategory>White</RacialCategory>
+        </Race>
+        <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
+        <YearsOfPriorProfessionalExperience>4</YearsOfPriorProfessionalExperience>
+        <YearsOfPriorTeachingExperience>4</YearsOfPriorTeachingExperience>
+        <Credentials>
+            <CredentialType>Endorsement</CredentialType>
+            <CredentialField>
+                <Description>Mathematics</Description>
+            </CredentialField>
+            <Level>Elementary (Grade Level 1-8)</Level>
+            <TeachingCredentialType>Other</TeachingCredentialType>
+            <CredentialIssuanceDate>2005-08-23</CredentialIssuanceDate>
+            <CredentialExpirationDate>2013-10-07</CredentialExpirationDate>
+            <TeachingCredentialBasis>4-year bachelor's degree</TeachingCredentialBasis>
+        </Credentials>
+        <LoginId>9690@fakemail.com</LoginId>
+    </Teacher>
+
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Social Sciences and History</AcademicSubject>
+      <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+      <AcademicSubject>Health Care Sciences</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Engineering and Technology</AcademicSubject>
+      <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+      <AcademicSubject>Science</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Westside High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+      <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+      <AcademicSubject>Engineering and Technology</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Eastside High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Social Studies</AcademicSubject>
+      <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+      <AcademicSubject>Miscellaneous</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Social Sciences and History</AcademicSubject>
+      <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+      <AcademicSubject>Health Care Sciences</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Engineering and Technology</AcademicSubject>
+      <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+      <AcademicSubject>Science</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation> 
+
+</InterchangeStaffAssociation>
