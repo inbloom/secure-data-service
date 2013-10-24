@@ -64,7 +64,12 @@ public class StudentCompetencyContextResolver implements ContextResolver {
     }
 
     @Override
-    public Set<String> findGoverningEdOrgs(Entity baseEntity, Entity entityToExtract) {
+    public Set<String> findGoverningEdOrgs(String id, Entity entityToExtract) {
         return null;
+    }
+
+    @Override
+    public Set<String> findGoverningEdOrgs(Entity entity, Entity actualEntity) {
+        throw new UnsupportedOperationException();
     }
 }

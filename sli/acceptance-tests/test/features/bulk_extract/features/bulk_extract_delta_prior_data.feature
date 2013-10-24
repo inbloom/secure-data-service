@@ -148,8 +148,8 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | disciplineAction                      |
       | parent                                |
       | studentCompetency                     |
-     # | staff                                 |
-     # | teacher                               |
+      | staff                                 |
+      | teacher                               |
     And I verify this "student" file should contain:
       | id                                          | condition            |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id | entityType = student |
@@ -208,12 +208,12 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "studentCompetency" file should not contain:
       | id                                          |
       | 3c2a56c1531ee76299aec831d2f41dc5bc6ec987_id |
-   # And I verify this "staff" file should contain:
-   #   | id                                          | condition          |
-   #   | 589a7e8634d7d284a2ec9fd76d7e1ee64a0f63b5_id | entityType = staff |
-   # And I verify this "teacher" file should contain:
-   #   | id                                          | condition            |
-   #   | 589a7e8634d7d284a2ec9fd76d7e1ee64a0f63b5_id | entityType = teacher |
+    And I verify this "staff" file should contain:
+      | id                                          | condition          |
+      | 589a7e8634d7d284a2ec9fd76d7e1ee64a0f63b5_id | entityType = staff |
+    And I verify this "teacher" file should contain:
+      | id                                          | condition            |
+      | 589a7e8634d7d284a2ec9fd76d7e1ee64a0f63b5_id | entityType = teacher |
 
 
 ##########################################################################
@@ -340,12 +340,12 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | c761c5f2fcc53bb90940e3cd26501a75d0106acc_id | entityType = studentCompetency |
       | 20119d985f13ca5b223a8521972bf3fcac7a8dad_id | entityType = studentCompetency |
       | fd7c6a6862dc7b4257234f477d601300ef4c3fc1_id | entityType = studentCompetency |
-    #And I verify this "staff" file should contain:
-    #  | id                                          | condition          |
-    #  | b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = staff |
-    #And I verify this "teacher" file should contain:
-    #  | id                                          | condition            |
-    #  | b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = teacher |
+    And I verify this "staff" file should contain:
+      | id                                          | condition          |
+      | b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = staff |
+    And I verify this "teacher" file should contain:
+      | id                                          | condition            |
+      | b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = teacher |
 
   #This extract should not contain content for anything that began after DCH's end date with the student
   #Given proper data, everything from WSH shouldn't be included

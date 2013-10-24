@@ -60,7 +60,12 @@ public class DisciplineIncidentContextResolver implements ContextResolver {
     }
 
     @Override
-    public Set<String> findGoverningEdOrgs(Entity baseEntity, Entity actualEntity) {
+    public Set<String> findGoverningEdOrgs(String id, Entity actualEntity) {
+        return null;
+    }
+
+    @Override
+    public Set<String> findGoverningEdOrgs(Entity entity, Entity entityToExtract) {
         return null;
     }
 
