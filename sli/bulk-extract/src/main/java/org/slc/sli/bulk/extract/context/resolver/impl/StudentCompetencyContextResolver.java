@@ -18,6 +18,7 @@ package org.slc.sli.bulk.extract.context.resolver.impl;
 import java.util.Collections;
 import java.util.Set;
 
+import org.slc.sli.common.constants.ParameterConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -36,9 +37,6 @@ import org.slc.sli.domain.Repository;
 @Component
 public class StudentCompetencyContextResolver implements ContextResolver {
 
-    public static final String STUDENT_SECTION_ASSOCIATION_ID = "studentSectionAssociationId";
-    public static final String STUDENT_ID = "studentId";
-
     @Autowired
     StudentContextResolver studentResolver;
     
@@ -52,20 +50,17 @@ public class StudentCompetencyContextResolver implements ContextResolver {
             return Collections.emptySet();
         }
         
-        String studentSectionAssociationId = (String) entity.getBody().get(STUDENT_SECTION_ASSOCIATION_ID);
-        if (studentSectionAssociationId == null) {
-            return Collections.emptySet();
-        }
-        
+        String studentSectionAssociationId = (String) entity.getBody().get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID);
+
         Entity studentSectionAssociation = repo.findById(EntityNames.STUDENT_SECTION_ASSOCIATION, studentSectionAssociationId);
         
         if (studentSectionAssociation == null) {
             return Collections.emptySet();
         }
 
-        String studentId = (String) studentSectionAssociation.getBody().get(STUDENT_ID);
+        String studentId = (String) studentSectionAssociation.getBody().get(ParameterConstants.STUDENT_ID);
 
-        return studentResolver.findGoverningEdOrgs(studentId);
+        return studentResolver.findGoverningEdOrgs(studentId, entity);
     }
 
     @Override

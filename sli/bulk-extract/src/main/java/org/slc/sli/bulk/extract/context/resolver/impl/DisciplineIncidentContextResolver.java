@@ -19,44 +19,49 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+
 /**
  * Context resolver for discipline incidents
- * 
+ *
  * @author nbrown
- * 
+ *
  */
 @Component
-public class DisciplineIncidentContextResolver extends EdOrgRelatedReferrableResolver {
+public class DisciplineIncidentContextResolver implements ContextResolver {
     @Autowired
     @Qualifier("secondaryRepo")
     private Repository<Entity> repo;
-    
+
     @Autowired
     private StudentContextResolver studentResolver;
-    
+
     @Override
-    protected Set<String> getTransitiveAssociations(Entity entity) {
-        Set<String> leas = new HashSet<String>();
+    public Set<String> findGoverningEdOrgs(Entity entity) {
+        Set<String> edOrgs = new HashSet<String>();
+
         Iterator<Entity> students = repo.findEach(EntityNames.STUDENT,
                 Query.query(Criteria.where("studentDisciplineIncidentAssociation.body.disciplineIncidentId").is(entity.getEntityId())));
+
         while (students.hasNext()) {
-            leas.addAll(studentResolver.findGoverningEdOrgs(students.next()));
+            Entity student = students.next();
+            edOrgs.addAll(studentResolver.findGoverningEdOrgs(student.getEntityId(), entity));
         }
-        return leas;
+        return edOrgs;
     }
-    
+
     @Override
-    protected String getCollection() {
-        return EntityNames.DISCIPLINE_INCIDENT;
+    public Set<String> findGoverningEdOrgs(Entity baseEntity, Entity actualEntity) {
+        return null;
     }
-    
+
 }

@@ -697,7 +697,7 @@ Scenario: Triggering deltas via ingestion
       | id                                          | condition                                |
       | 8270a081d30b82a9ac40a324bde644aaee933c20_id | reporterName = Squealer                  |
       | ededd91e0b8069fb040227ec0fdeb20ff1a257bc_id | reporterName = Upstanding Citizen        |
-      | e6a01c4ee7768924c9e260c7ef5cea8d75088b89_id | incidentIdentifier = orphan1             |
+      #| e6a01c4ee7768924c9e260c7ef5cea8d75088b89_id | incidentIdentifier = orphan1             |
 
     And I verify this "studentDisciplineIncidentAssociation" file should contain:
       | id                                                                                     | condition                          |
@@ -839,7 +839,7 @@ Scenario: Triggering deltas via ingestion
     | id                                          | condition                                |
     | 8270a081d30b82a9ac40a324bde644aaee933c20_id | reporterName = Squealer                  |
     | ededd91e0b8069fb040227ec0fdeb20ff1a257bc_id | reporterName = Upstanding Citizen        |
-    | e6a01c4ee7768924c9e260c7ef5cea8d75088b89_id | incidentIdentifier = orphan1             |
+    #| e6a01c4ee7768924c9e260c7ef5cea8d75088b89_id | incidentIdentifier = orphan1             |
 
   And I verify this "studentDisciplineIncidentAssociation" file should contain:
     | id                                                                                     | condition                          |
