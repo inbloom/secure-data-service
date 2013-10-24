@@ -124,6 +124,138 @@
         <EndDate>2011-05-22</EndDate>
     </StaffEducationOrgAssignmentAssociation>
 
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Social Sciences and History</AcademicSubject>
+      <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+      <AcademicSubject>Health Care Sciences</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Engineering and Technology</AcademicSubject>
+      <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+      <AcademicSubject>Science</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Westside High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+      <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+      <AcademicSubject>Engineering and Technology</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Eastside High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Social Studies</AcademicSubject>
+      <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+      <AcademicSubject>Miscellaneous</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Social Sciences and History</AcademicSubject>
+      <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+      <AcademicSubject>Health Care Sciences</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Engineering and Technology</AcademicSubject>
+      <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+      <AcademicSubject>Science</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation> 
+
     <StaffEducationOrgAssignmentAssociation>
         <StaffReference>
             <StaffIdentity>

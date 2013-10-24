@@ -395,6 +395,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         
     }
 
+    //TODO: Remove after all entities are finished
     private Set<String> findGoverningEdorgs(ContextResolver resolver, Entity entity) {
         Set<String> edorgs;
         if (entity.getType().equals(EntityNames.STUDENT)) {

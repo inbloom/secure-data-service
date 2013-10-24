@@ -111,7 +111,7 @@ public class DisciplineIncidentContextResolverTest {
             @Override
             public boolean matches(Object item) {
                 Query q = (Query) item;
-                return q.getQueryObject().get("studentDisciplineIncidentAssociation.body.disciplineIncidentId").equals("123_id");
+                return q.getQueryObject().get(DisciplineIncidentContextResolver.DISCIPLINE_INCIDENT_ID).equals("123_id");
             }
 
             @Override

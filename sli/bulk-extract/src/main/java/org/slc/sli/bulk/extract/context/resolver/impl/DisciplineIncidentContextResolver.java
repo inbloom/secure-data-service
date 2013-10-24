@@ -38,6 +38,7 @@ import org.slc.sli.domain.Repository;
  */
 @Component
 public class DisciplineIncidentContextResolver implements ContextResolver {
+
     @Autowired
     @Qualifier("secondaryRepo")
     private Repository<Entity> repo;
@@ -45,12 +46,14 @@ public class DisciplineIncidentContextResolver implements ContextResolver {
     @Autowired
     private StudentContextResolver studentResolver;
 
+    public static final String DISCIPLINE_INCIDENT_ID = "studentDisciplineIncidentAssociation.body.disciplineIncidentId";
+
     @Override
     public Set<String> findGoverningEdOrgs(Entity entity) {
         Set<String> edOrgs = new HashSet<String>();
 
         Iterator<Entity> students = repo.findEach(EntityNames.STUDENT,
-                Query.query(Criteria.where("studentDisciplineIncidentAssociation.body.disciplineIncidentId").is(entity.getEntityId())));
+                Query.query(Criteria.where(DISCIPLINE_INCIDENT_ID).is(entity.getEntityId())));
 
         while (students.hasNext()) {
             Entity student = students.next();
