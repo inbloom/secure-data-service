@@ -1508,7 +1508,7 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
       job_record = job_collection.find({"tenantId" => tenant, "_id" => /#{id_pattern}/}, :fields => ["jobStartTimeStamp","status"]).sort({"jobStartTimestamp" => -1}).limit(1).first
       if job_record.nil?
         puts "No matching job record found for tenant : #{tenant}, _id matching : /#{id_pattern}/, continuing to poll."
-        continue
+        next
       else
         job_id = job_record['_id']
       end
