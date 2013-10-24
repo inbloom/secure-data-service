@@ -1483,9 +1483,11 @@ end
 When /^the most recent batch job for file "([^"]*)" has completed successfully for tenant "([^"]*)"$/ do |batch_file, tenant|
   disable_NOTABLESCAN()
 
+  @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB, INGESTION_BATCHJOB_DB_PORT)
+  puts "INGESTION_BATCHJOB_DB : #{INGESTION_BATCHJOB_DB}, INGESTION_BATCHJOB_DB_PORT : #{INGESTION_BATCHJOB_DB_PORT}, INGESTION_BATCHJOB_DB_NAME : #{INGESTION_BATCHJOB_DB_NAME}"
   db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
   job_collection = db.collection('newBatchJob')
-
+  puts "job_collection.count() : " + job_collection.count()
   zip_suffix='.zip'
   data_basename = batch_file.chomp(zip_suffix)
 
@@ -1495,6 +1497,7 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   job_id = nil
+  id_pattern = "#{data_basename}.*#{zip_suffix}.*"
 
   iters.times do |i|
     # sleep first to allow time for the new job document to be created (needed for sandbox e2e since a new tenant isn't created) - don't want to false positive on a older job
@@ -1502,8 +1505,13 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
 
     # store the id after the first find, so we won't process new jobs across iterations
     if job_id.nil?
-      job_record = job_collection.find({"tenantId" => @tenant_name, "_id" => /#{data_basename}.*\#{zip_suffix}.*/}, :fields => ["jobStartTimeStamp","status"]).sort({"jobStartTimestamp" => -1}).limit(1).first
-      job_id = job_record['_id']
+      job_record = job_collection.find({"tenantId" => @tenant_name, "_id" => /#{id_pattern}/}, :fields => ["jobStartTimeStamp","status"]).sort({"jobStartTimestamp" => -1}).limit(1).first
+      if job_record.nil?
+        puts "No matching job record found for tenant : #{@tenant_name}, _id matching : /#{id_pattern}/, continuing to poll."
+        continue
+      else
+        job_id = job_record['_id']
+      end
     else
       job_record = job_collection.find_one({"_id" => job_id}, :fields => ["status"])
     end
