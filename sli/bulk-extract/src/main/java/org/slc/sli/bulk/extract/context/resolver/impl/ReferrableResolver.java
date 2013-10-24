@@ -15,9 +15,7 @@
  */ 
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
-import java.util.*;
 
-import org.slc.sli.common.constants.EntityNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +25,11 @@ import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
 import org.slc.sli.bulk.extract.delta.DeltaEntityIterator;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Resolver that supports the ability to find the reference from an id
@@ -69,7 +72,8 @@ public abstract class ReferrableResolver implements ContextResolver {
         getCache().put(id, edOrgs);
         return edOrgs;
     }
-    
+
+    //TODO: Remove after all entities are finished
     /**
      * Find the governing edOrgs based on the id
      * 

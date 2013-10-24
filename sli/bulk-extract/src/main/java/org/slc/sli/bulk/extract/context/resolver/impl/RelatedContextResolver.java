@@ -15,11 +15,16 @@
  */
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
-import java.util.*;
 
 import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Resolver for entities directly related to another entity
@@ -29,6 +34,7 @@ import org.slc.sli.domain.Entity;
  */
 public abstract class RelatedContextResolver implements ContextResolver {
 
+    //TODO: Remove after all all entities are finished
     private static Set<String> supportedNonCurrentEntities = new HashSet<String>(Arrays.asList(EntityNames.STUDENT_PROGRAM_ASSOCIATION,
             EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, EntityNames.STUDENT_PARENT_ASSOCIATION,
             EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.STUDENT_ASSESSMENT, EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.GRADE,

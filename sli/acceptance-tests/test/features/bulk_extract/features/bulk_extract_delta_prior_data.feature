@@ -1,4 +1,4 @@
-@RALLY_US5911
+@RALLY_US5911 @RALLY_US5912
 Feature: An edorg's extract file should contain student and staff data from previous enrollments with other schools
 
   Scenario: Setup the database and trigger an extract
@@ -52,7 +52,10 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | parent                                |
       | studentCompetency                     |
       | staff                                 |
+      | staffEducationOrganizationAssociation |
       | teacher                               |
+      | teacherSectionAssociation             |
+      | teacherSchoolAssociation              |
 
     And I verify this "student" file should contain:
       | id                                          | condition            |
@@ -123,6 +126,19 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "teacher" file should contain:
       | id                                          | condition            |
       | 589a7e8634d7d284a2ec9fd76d7e1ee64a0f63b5_id | entityType = teacher |
+    And I verify this "staffEducationOrganizationAssociation" file should contain:
+      | id                                          | condition                                          |
+      | d0de313091b8d4c249ff1ed47cae0121079f284c_id | entityType = staffEducationOrganizationAssociation |
+      | bb98c67830fa46b204c8a4903e3c0b4525390e4c_id | entityType = staffEducationOrganizationAssociation |
+    And I verify this "teacherSectionAssociation" file should contain:
+      | id                                                                                     | condition                              |
+      | e003fc1479112d3e953a0220a2d0ddd31077d6d9_idac07c2077ec3537a436342e88b894e067a9012b1_id | entityType = teacherSectionAssociation |
+      | 8173cd3053f1447abb64a8b33422e2d6b5812794_idaf40c3134828360f599f83582d6f4c1db116ba6b_id | entityType = teacherSectionAssociation |
+    And I verify this "teacherSchoolAssociation" file should contain:
+      | id                                          | condition                             |
+      | 50551eec2fbe3b7a2c46e52b0604b7a3edbf4f5c_id | entityType = teacherSchoolAssociation |
+      | 865a73e2ccec3276a4a49b2f91830927feb06dc6_id | entityType = teacherSchoolAssociation |
+
   Scenario: The extract for an edorg should not contain data for a former student or staff that's dated after the person has left
     And I request the latest bulk extract delta using the api
     And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "a13489364c2eb015c219172d561c62350f0453f3_id"
@@ -149,7 +165,11 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | parent                                |
       | studentCompetency                     |
       | staff                                 |
+     # | staffEducationOrganizationAssociation |
       | teacher                               |
+     # | staffEducationOrganizationAssociation |
+     # | teacherSectionAssociation             |
+     # | teacherSchoolAssociation              |
     And I verify this "student" file should contain:
       | id                                          | condition            |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id | entityType = student |
@@ -214,6 +234,15 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "teacher" file should contain:
       | id                                          | condition            |
       | 589a7e8634d7d284a2ec9fd76d7e1ee64a0f63b5_id | entityType = teacher |
+   # And I verify this "staffEducationOrganizationAssociation" file should not contain:
+   #   | id                                          |
+   #   | bb98c67830fa46b204c8a4903e3c0b4525390e4c_id |
+   # And I verify this "teacherSectionAssociation" file should not contain:
+   #   | id                                                                                     |
+   #   | 8173cd3053f1447abb64a8b33422e2d6b5812794_idaf40c3134828360f599f83582d6f4c1db116ba6b_id |
+   # And I verify this "teacherSchoolAssociation" file should not contain:
+   #   | id                                          |
+   #   | 865a73e2ccec3276a4a49b2f91830927feb06dc6_id |
 
 
 ##########################################################################
@@ -346,6 +375,21 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "teacher" file should contain:
       | id                                          | condition            |
       | b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = teacher |
+    #And I verify this "staffEducationOrganizationAssociation" file should contain:
+    #  | id                                          | condition                                          |
+    #  | 202b88ed9039b0d2c366a94dcba2ab4434257102_id | entityType = staffEducationOrganizationAssociation |
+    #  | 8c897da11f6d0a0dbb038118dfebade4197d72eb_id | entityType = staffEducationOrganizationAssociation |
+    #  | e8b5d82e4aa2f0061f4d27797f6a0b4750582c83_id | entityType = staffEducationOrganizationAssociation |
+    #And I verify this "teacherSectionAssociation" file should contain:
+    #  | id                                                                                     | condition                              |
+    #  | 2fe9099b5d9399e50f26e1c7f71bc968f6333bd1_id94c5dfa5931366539d1e03fcea96eca1fdef4a03_id | entityType = teacherSectionAssociation |
+    #  | 6ff1e34e9b0172af73d75eafa4d6251f0d60c661_id8f0de10b13ee76eeee2b29f7999ff0f041107f86_id | entityType = teacherSectionAssociation |
+    #  | e003fc1479112d3e953a0220a2d0ddd31077d6d9_id8b51e040fad02b26a1046a2c78b96122ac184836_id | entityType = teacherSectionAssociation |
+    #And I verify this "teacherSchoolAssociation" file should contain:
+    #  | id                                          | condition                             |
+    #  | ecd78fbb5be2501ac56eff3768ea642d19a9d831_id | entityType = teacherSchoolAssociation |
+    #  | 2d42e4654331092fce10a8d0b99aa16dd5cf0b3b_id | entityType = teacherSchoolAssociation |
+    #  | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id | entityType = teacherSchoolAssociation |
 
   #This extract should not contain content for anything that began after DCH's end date with the student
   #Given proper data, everything from WSH shouldn't be included
@@ -398,6 +442,15 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "studentCompetency" file should not contain:
       | id                                          |
       | ee9b1b72d1ca9692ff56bb2221a9f136c860d050_id |
+    #And I verify this "staffEducationOrganizationAssociation" file should not contain:
+    #  | id                                          |
+    #  | a6c6892f64c60e7fe6a7bb044a0f5131fd99e7f0_id |
+    #And I verify this "teacherSectionAssociation" file should not contain:
+    #  | id                                                                                     |
+    #  | 6e9504c3061a61384cbd9591a52893f07c6af242_idc7b1241a3c1cc358eccac9b3a978de4267207c0c_id |
+    #And I verify this "teacherSchoolAssociation" file should not contain:
+    #  | id                                          |
+    #  | 2e826613e8a90466c50b1d3a3653a125a375d760_id |
 
   Scenario: Setup the database and trigger an extract
     Given I am using local data store

@@ -15,7 +15,6 @@
  */
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
-import java.util.*;
 
 import com.google.common.collect.MapMaker;
 
@@ -25,6 +24,7 @@ import org.slc.sli.bulk.extract.lea.EntityToEdOrgDateCache;
 import org.slc.sli.bulk.extract.lea.ExtractorHelper;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -37,8 +37,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Context resolver for students
@@ -49,37 +54,38 @@ import org.slc.sli.domain.Entity;
 @Component
 public class StudentContextResolver extends ReferrableResolver implements InitializingBean {
     private static final Logger LOG = LoggerFactory.getLogger(StudentContextResolver.class);
-    
-    public static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
+
 
     private final Map<String, Set<String>> studentEdOrgCache = new MapMaker().softValues().makeMap();
-    @Autowired
-    private EducationOrganizationContextResolver edOrgResolver;
 
     private EntityToEdOrgDateCache datedCache = new EntityToEdOrgDateCache();
+
+    @Autowired
+    private EdOrgExtractHelper edOrgExtractHelper;
+
+    private EdOrgHierarchyHelper edOrgHierarchyHelper;
+
+    @Autowired
+    private EducationOrganizationContextResolver edOrgResolver;
 
     @Autowired
     private DateHelper dateHelper;
 
     @Autowired
-    private EdOrgExtractHelper edOrgExtractHelper;
-
-    @Autowired
     @Qualifier("secondaryRepo")
     private Repository<Entity> repo;
-
-    private EdOrgHierarchyHelper edOrgHierarchyHelper;
 
     private ExtractorHelper extractorHelper;
 
     private Set<String> nonDatedEntities = new HashSet<String>(Arrays.asList(EntityNames.STUDENT, EntityNames.STUDENT_PARENT_ASSOCIATION, EntityNames.PARENT));
+
+    private String seaIds = null;
 
     @Override
     public void afterPropertiesSet() throws Exception {
         extractorHelper = new ExtractorHelper(edOrgExtractHelper);
         edOrgHierarchyHelper = new EdOrgHierarchyHelper(repo);
     }
-
 
     @Override
     public Set<String> resolve (Entity entity) {
@@ -89,7 +95,7 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
         if (schools != null) {
             for (Map<String, Object> school : schools) {
                 try {
-                    if (!dateHelper.isFieldExpired(school, EXIT_WITHDRAW_DATE)) {
+                    if (!dateHelper.isFieldExpired(school, ParameterConstants.EXIT_WITHDRAW_DATE)) {
                         String schoolId = (String) school.get("_id");
                         Set<String> edOrgs = edOrgResolver.findGoverningEdOrgs(schoolId);
                         if (edOrgs != null) {
@@ -107,14 +113,15 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
 
     @Override
     public Set<String> resolve(Entity student, Entity entityToExtract) {
-        Set<String> leas = new HashSet<String>();
+        Set<String> edorgs = new HashSet<String>();
 
 
         String studentId = student.getEntityId();
         Map<String, DateTime> edorgDates = datedCache.getEntriesById(studentId);
         if (edorgDates.isEmpty()) {
-            edorgDates = extractorHelper.fetchAllEdOrgsForStudent(student);
-            updateCache(studentId, edorgDates);
+            Map<String, DateTime> nonSeaDates = fetchNonSEADates(extractorHelper.fetchAllEdOrgsForStudent(student));
+
+            updateCache(studentId, nonSeaDates);
             edorgDates = datedCache.getEntriesById(studentId);
         }
 
@@ -123,14 +130,14 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
                 if (nonDatedEntities.contains(entityToExtract.getType())
                          || shouldExtract(entityToExtract, edorgDate.getValue())) {
 
-                    leas.add(edorgDate.getKey());
+                    edorgs.add(edorgDate.getKey());
                 }
             } catch (RuntimeException e) {
                 LOG.warn("Could not parse school " + edorgDate.getKey(), e);
             }
         }
 
-        return leas;
+        return edorgs;
     }
 
     protected boolean shouldExtract(Entity entity, DateTime dateTime) {
@@ -139,35 +146,22 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
 
     private void updateCache(String studentId, Map<String, DateTime> edorgDates) {
 
-        Set<String> allEdorgs = edorgDates.keySet();
-        Set<String> nonSeas = fetchNonSEA(allEdorgs);
-
-        for (String edorg : nonSeas) {
-            datedCache.addEntry(studentId, edorg, edorgDates.get(edorg));
+        for (Map.Entry<String, DateTime> edorgDate: edorgDates.entrySet()) {
+            datedCache.addEntry(studentId, edorgDate.getKey(), edorgDate.getValue());
         }
     }
 
-    private Set<String> fetchNonSEA(Set<String> edorgIds) {
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, edorgIds));
-
-        Iterable<Entity> edorgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
-
-        Set<String> nonSEAs = new HashSet<String>();
-        for(Entity edorg : edorgs) {
-            if (!edOrgHierarchyHelper.isSEA(edorg)) {
-                nonSEAs.add(edorg.getEntityId());
-            }
+    private Map<String, DateTime> fetchNonSEADates(Map<String, DateTime> edorgDates) {
+        if (seaIds == null) {
+            seaIds = edOrgHierarchyHelper.getSEAId();
         }
-        return nonSEAs;
+
+        edorgDates.remove(seaIds);
+        return edorgDates;
     }
     
     protected Map<String, Set<String>> getCache() {
         return studentEdOrgCache;
-    }
-    
-    void setDateHelper(DateHelper dateHelper) {
-        this.dateHelper = dateHelper;
     }
 
     @Override
@@ -175,16 +169,11 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
         return EntityNames.STUDENT;
     }
 
-    public void setEdOrgResolver(EducationOrganizationContextResolver edOrgResolver) {
-        this.edOrgResolver = edOrgResolver;
+    public void setExtractorHelper(ExtractorHelper extractorHelper) {
+        this.extractorHelper = extractorHelper;
     }
-
 
     public void setEdOrgHierarchyHelper(EdOrgHierarchyHelper edOrgHierarchyHelper) {
         this.edOrgHierarchyHelper = edOrgHierarchyHelper;
-    }
-
-    public void setExtractorHelper(ExtractorHelper extractorHelper) {
-        this.extractorHelper = extractorHelper;
     }
 }
