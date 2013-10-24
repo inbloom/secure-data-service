@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentDiscipline.xsd">
+
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
+        <StudentDisciplineIncidentAssociation>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>900000016</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <DisciplineIncidentReference>
+          <DisciplineIncidentIdentity>
+            <IncidentIdentifier>32#1</IncidentIdentifier>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+          </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <StudentParticipationCode>Victim</StudentParticipationCode>
+        <Behaviors>
+          <CodeValue>BE0</CodeValue>
+        </Behaviors>
+      </StudentDisciplineIncidentAssociation>
+
+      <StudentDisciplineIncidentAssociation>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>900000016</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <DisciplineIncidentReference>
+          <DisciplineIncidentIdentity>
+            <IncidentIdentifier>168#0</IncidentIdentifier>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+          </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <StudentParticipationCode>Victim</StudentParticipationCode>
+        <Behaviors>
+          <CodeValue>BE0</CodeValue>
+        </Behaviors>
+      </StudentDisciplineIncidentAssociation>
+
+      <DisciplineIncident>
+        <IncidentIdentifier>32#1</IncidentIdentifier>
+        <IncidentDate>2011-09-26</IncidentDate>
+        <IncidentTime>09:10:20</IncidentTime>
+        <IncidentLocation>Classroom</IncidentLocation>
+        <ReporterDescription>Staff</ReporterDescription>
+        <ReporterName>Reported Staff Name</ReporterName>
+        <Behaviors>
+          <CodeValue>BE0</CodeValue>
+        </Behaviors>
+        <SecondaryBehaviors BehaviorCategory="Other">
+          <SecondaryBehavior>SBE0</SecondaryBehavior>
+        </SecondaryBehaviors>
+        <Weapons>
+          <Weapon>Firearm</Weapon>
+          <Weapon>Other Sharp Objects</Weapon>
+        </Weapons>
+        <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+        <SchoolReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </SchoolReference>
+        <StaffReference>
+          <StaffIdentity>
+            <StaffUniqueStateId>tech-0000000008</StaffUniqueStateId>
+          </StaffIdentity>
+        </StaffReference>
+      </DisciplineIncident>
+
+      <DisciplineIncident>
+        <IncidentIdentifier>167#0</IncidentIdentifier>
+        <IncidentDate>2013-11-22</IncidentDate>
+        <IncidentTime>09:13:11</IncidentTime>
+        <IncidentLocation>Classroom</IncidentLocation>
+        <ReporterDescription>Other</ReporterDescription>
+        <ReporterName>Reported Other Name</ReporterName>
+        <Behaviors>
+          <CodeValue>BE2</CodeValue>
+        </Behaviors>
+        <SecondaryBehaviors BehaviorCategory="Other">
+          <SecondaryBehavior>SBE2</SecondaryBehavior>
+        </SecondaryBehaviors>
+        <Weapons>
+          <Weapon>Illegal Knife</Weapon>
+        </Weapons>
+        <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+        <SchoolReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Sunset Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </SchoolReference>
+        <StaffReference>
+          <StaffIdentity>
+            <StaffUniqueStateId>tech-0000000026</StaffUniqueStateId>
+          </StaffIdentity>
+        </StaffReference>
+      </DisciplineIncident>
+    </Action>
+</InterchangeStudentDiscipline>

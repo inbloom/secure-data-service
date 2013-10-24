@@ -376,4 +376,55 @@ Feature: An edorg's extract file should contain student and staff data from prev
       #| id                                          |
       #| ee9b1b72d1ca9692ff56bb2221a9f136c860d050_id |
 
+  Scenario: Setup the database and trigger an extract
+    Given I am using local data store
+    And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And I successfully ingest "PriorDataSetDeletes.zip"
+    And all edorgs in "Midgar" are authorized for "SDK Sample"
+    And I trigger a delta extract
 
+  Scenario: Each Delta extract file contains a delete file with the whole tenants past deleted data
+    And I request the latest bulk extract delta using the api
+    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "897755cae2f689c2d565a35a48ea69d5dd3928d6_id"
+    And I verify that an extract tar file was created for the tenant "Midgar"
+    Given the unpack directory is empty
+    Then the extract contains a file for each of the following entities:
+      | entityType                            |
+      | deleted                               |
+    And I verify this "deleted" file should contain:
+      | id                                          | condition            |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id3382e80b35990e1ea89cdde30339fb0c4b79793d_id | entityType = studentParentAssociation |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id92709ce1b529f9825bd4ab623f292c12c083df8e_id | entityType = studentDisciplineIncidentAssociation |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id2b0fbf2af85b9e850e533ded46d26d77aeaa2e75_id | entityType = studentDisciplineIncidentAssociation |
+      | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id | entityType = parent |
+      | 5c2d1d70eed68e801d551631eb82636fc9e9a6dc_id | entityType = disciplineIncident |
+      | ad0101e8b3efe4d35317175167c9fee11d746b58_id | entityType = disciplineIncident |
+      | abf6b39f8c841a247c3e4731a821ea8b86f1c5d1_id | entityType = studentAssessment |
+      | b2542b105c09130bc7d3f81b471d1f0f0e481fd8_id | entityType = studentAssessment |
+      | 49e048fa9d77126a719d5719cfc08c36170981b1_idd5df60e5ffe544f23eb3167542fc582215e6a7a2_id | entityType = studentSectionAssociation |
+      | c44eb520d29bad5d60237f6addc22f769b3448aa_idaf30e6685a85c716c26d5e559bde27017f57f304_id | entityType = studentSectionAssociation |
+      | 89c3228f05f5d88d785b4788babbf12c02c9f3f4_id | entityType = studentSchoolAssociation |
+      | c5a10351b0957620192a7b1c0e3e6fd686173579_id | entityType = studentSchoolAssociation |
+
+  Scenario: Each Delta extract file contains a delete file with the whole tenants past deleted data
+    And I request the latest bulk extract delta using the api
+    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "a13489364c2eb015c219172d561c62350f0453f3_id"
+    And I verify that an extract tar file was created for the tenant "Midgar"
+    Given the unpack directory is empty
+    Then the extract contains a file for each of the following entities:
+      | entityType                            |
+      | deleted                               |
+    And I verify this "deleted" file should contain:
+      | id                                          | condition            |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id3382e80b35990e1ea89cdde30339fb0c4b79793d_id | entityType = studentParentAssociation |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id92709ce1b529f9825bd4ab623f292c12c083df8e_id | entityType = studentDisciplineIncidentAssociation |
+      | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id2b0fbf2af85b9e850e533ded46d26d77aeaa2e75_id | entityType = studentDisciplineIncidentAssociation |
+      | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id | entityType = parent |
+      | 5c2d1d70eed68e801d551631eb82636fc9e9a6dc_id | entityType = disciplineIncident |
+      | ad0101e8b3efe4d35317175167c9fee11d746b58_id | entityType = disciplineIncident |
+      | abf6b39f8c841a247c3e4731a821ea8b86f1c5d1_id | entityType = studentAssessment |
+      | b2542b105c09130bc7d3f81b471d1f0f0e481fd8_id | entityType = studentAssessment |
+      | 49e048fa9d77126a719d5719cfc08c36170981b1_idd5df60e5ffe544f23eb3167542fc582215e6a7a2_id | entityType = studentSectionAssociation |
+      | c44eb520d29bad5d60237f6addc22f769b3448aa_idaf30e6685a85c716c26d5e559bde27017f57f304_id | entityType = studentSectionAssociation |
+      | 89c3228f05f5d88d785b4788babbf12c02c9f3f4_id | entityType = studentSchoolAssociation |
+      | c5a10351b0957620192a7b1c0e3e6fd686173579_id | entityType = studentSchoolAssociation |
