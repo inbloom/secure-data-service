@@ -1490,6 +1490,8 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
   db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
   job_collection = db.collection('newBatchJob')
   puts "job_collection.count() : " + job_collection.count().to_s
+  STDOUT.puts "job_collection.count() : " + job_collection.count().to_s
+  STDOUT.flush
   zip_suffix='.zip'
   data_basename = batch_file.chomp(zip_suffix)
 
@@ -1510,31 +1512,39 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
       job_record = job_collection.find({"tenantId" => tenant, "_id" => /#{id_pattern}/}, :fields => ["jobStartTimeStamp","status"]).sort({"jobStartTimestamp" => -1}).limit(1).first
       if job_record.nil?
         puts "No matching job record found for tenant : #{tenant}, _id matching : /#{id_pattern}/, continuing to poll."
+        STDOUT.puts "No matching job record found for tenant : #{tenant}, _id matching : /#{id_pattern}/, continuing to poll."
+        STDOUT.flush
         next
       else
+        STDOUT.puts "first job_record : " + job_record.to_s
+        STDOUT.flush
         job_id = job_record['_id']
       end
     else
       job_record = job_collection.find_one({"_id" => job_id}, :fields => ["status"])
+        STDOUT.puts "later job_record : " + job_record.to_s
+        STDOUT.flush
     end
 
     status = job_record['status']
-    if status.equals('CompletedSuccessfully')
+    STDOUT.puts "status : #{status}"
+    STDOUT.flush
+
+    if status.equals('CompletedSuccessfully') || status.equals('CompletedWithErrors')
       puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete" if $SLI_DEBUG
       found = true
       break
-    else
-      assert(!status.equals('CompletedWithErrors'), "Job completed with errors.")
     end
   end
 
+  enable_NOTABLESCAN()
+
   if found
-    assert(true, "")
+    assert(status.equals('CompletedSuccessfully'), "Job completed with errors.")
   else
     assert(false, "Batch log did not complete either successfully or with errors within #{@maxTimeout} seconds. Test has timed out. Please check ingestion.log for root cause.")
   end
 
-  enable_NOTABLESCAN()
 end
 
 When /^two batch job logs have been created$/ do
