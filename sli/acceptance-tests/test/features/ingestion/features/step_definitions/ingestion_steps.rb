@@ -1487,7 +1487,7 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
   puts "INGESTION_BATCHJOB_DB : #{INGESTION_BATCHJOB_DB}, INGESTION_BATCHJOB_DB_PORT : #{INGESTION_BATCHJOB_DB_PORT}, INGESTION_BATCHJOB_DB_NAME : #{INGESTION_BATCHJOB_DB_NAME}"
   db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
   job_collection = db.collection('newBatchJob')
-  puts "job_collection.count() : " + job_collection.count()
+  puts "job_collection.count() : " + job_collection.count().to_s
   zip_suffix='.zip'
   data_basename = batch_file.chomp(zip_suffix)
 
