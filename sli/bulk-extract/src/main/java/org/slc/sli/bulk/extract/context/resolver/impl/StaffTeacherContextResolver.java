@@ -144,7 +144,10 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
     }
 
     private Set<String> removeSEA(Set<String> edOrgs) {
-        edOrgs.remove(edOrgHierarchyHelper.getSEAId());
+        Entity sea = edOrgHierarchyHelper.getSEA();
+        if (sea != null) {
+            edOrgs.remove(sea.getEntityId());
+        }
         return edOrgs;
     }
 

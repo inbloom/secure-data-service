@@ -153,7 +153,10 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
 
     private Map<String, DateTime> fetchNonSEADates(Map<String, DateTime> edorgDates) {
         if (seaIds == null) {
-            seaIds = edOrgHierarchyHelper.getSEAId();
+            Entity sea = edOrgHierarchyHelper.getSEA();
+            if (sea != null) {
+                seaIds = sea.getEntityId();
+            }
         }
 
         edorgDates.remove(seaIds);
