@@ -1499,7 +1499,7 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
   iters = (1.0*@maxTimeout/intervalTime).ceil
-  found = false
+  status = nil
   job_id = nil
   id_pattern = "#{data_basename}.*#{zip_suffix}.*"
 
@@ -1532,18 +1532,14 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
 
     if status == 'CompletedSuccessfully' || status == 'CompletedWithErrors'
       puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete" if $SLI_DEBUG
-      found = true
       break
     end
   end
 
   enable_NOTABLESCAN()
 
-  if found
-    assert(status == 'CompletedSuccessfully', "Job completed with errors.")
-  else
-    assert(false, "Batch log did not complete either successfully or with errors within #{@maxTimeout} seconds. Test has timed out. Please check ingestion.log for root cause.")
-  end
+  assert(!status.nil?, "Batch log did not complete either successfully or with errors within #{@maxTimeout} seconds. Test has timed out. Please check ingestion.log for root cause.")
+  assert(status == 'CompletedSuccessfully', "Job completed with errors.")
 
 end
 
