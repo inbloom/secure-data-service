@@ -107,5 +107,105 @@
         <LoginId>9690@fakemail.com</LoginId>
     </Teacher>
 
+    <StaffEducationOrgAssignmentAssociation>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>eshea</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StaffClassification>Educator</StaffClassification>
+        <PositionTitle>Home Ec Teacher</PositionTitle>
+        <BeginDate>2010-08-26</BeginDate>
+        <EndDate>2011-05-22</EndDate>
+    </StaffEducationOrgAssignmentAssociation>
 
+    <StaffEducationOrgAssignmentAssociation>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>eshea</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StaffClassification>Educator</StaffClassification>
+        <PositionTitle>Home Ec Teacher</PositionTitle>
+        <BeginDate>2013-09-03</BeginDate>
+        <EndDate>2014-05-29</EndDate>
+    </StaffEducationOrgAssignmentAssociation>
+
+    <StaffEducationOrgAssignmentAssociation>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>cgray</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Westside High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StaffClassification>Educator</StaffClassification>
+        <PositionTitle>Global Studies Teacher</PositionTitle>
+        <BeginDate>2011-07-22</BeginDate>
+        <EndDate>2013-05-23</EndDate>
+    </StaffEducationOrgAssignmentAssociation>
+
+    <StaffEducationOrgAssignmentAssociation>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>cgray</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Eastside High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StaffClassification>Educator</StaffClassification>
+        <PositionTitle>Arithmetic Teacher</PositionTitle>
+        <BeginDate>2010-08-26</BeginDate>
+        <EndDate>2013-05-22</EndDate>
+    </StaffEducationOrgAssignmentAssociation>
+
+    <StaffEducationOrgAssignmentAssociation>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>cgray</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StaffClassification>Educator</StaffClassification>
+        <PositionTitle>Literature Teacher</PositionTitle>
+        <BeginDate>2007-05-06</BeginDate>
+        <EndDate>2008-07-16</EndDate>
+    </StaffEducationOrgAssignmentAssociation>
+
+    <StaffEducationOrgAssignmentAssociation>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>cgray</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StaffClassification>Educator</StaffClassification>
+        <PositionTitle>Physical Education Teacher</PositionTitle>
+        <BeginDate>2011-07-23</BeginDate>
+        <EndDate>2018-05-22</EndDate>
+    </StaffEducationOrgAssignmentAssociation>
 </InterchangeStaffAssociation>
