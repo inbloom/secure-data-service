@@ -1505,9 +1505,9 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
 
     # store the id after the first find, so we won't process new jobs across iterations
     if job_id.nil?
-      job_record = job_collection.find({"tenantId" => @tenant_name, "_id" => /#{id_pattern}/}, :fields => ["jobStartTimeStamp","status"]).sort({"jobStartTimestamp" => -1}).limit(1).first
+      job_record = job_collection.find({"tenantId" => tenant, "_id" => /#{id_pattern}/}, :fields => ["jobStartTimeStamp","status"]).sort({"jobStartTimestamp" => -1}).limit(1).first
       if job_record.nil?
-        puts "No matching job record found for tenant : #{@tenant_name}, _id matching : /#{id_pattern}/, continuing to poll."
+        puts "No matching job record found for tenant : #{tenant}, _id matching : /#{id_pattern}/, continuing to poll."
         continue
       else
         job_id = job_record['_id']
