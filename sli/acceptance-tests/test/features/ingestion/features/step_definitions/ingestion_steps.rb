@@ -1484,14 +1484,10 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
   disable_NOTABLESCAN()
 
   @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB, INGESTION_BATCHJOB_DB_PORT)
-  puts "INGESTION_BATCHJOB_DB : #{INGESTION_BATCHJOB_DB}, INGESTION_BATCHJOB_DB_PORT : #{INGESTION_BATCHJOB_DB_PORT}, INGESTION_BATCHJOB_DB_NAME : #{INGESTION_BATCHJOB_DB_NAME}"
-  STDOUT.puts "tenant : #{tenant}, INGESTION_BATCHJOB_DB : #{INGESTION_BATCHJOB_DB}, INGESTION_BATCHJOB_DB_PORT : #{INGESTION_BATCHJOB_DB_PORT}, INGESTION_BATCHJOB_DB_NAME : #{INGESTION_BATCHJOB_DB_NAME}"
-  STDOUT.flush
+  puts "INGESTION_BATCHJOB_DB : #{INGESTION_BATCHJOB_DB}, INGESTION_BATCHJOB_DB_PORT : #{INGESTION_BATCHJOB_DB_PORT}, INGESTION_BATCHJOB_DB_NAME : #{INGESTION_BATCHJOB_DB_NAME}" if $SLI_DEBUG
   db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
   job_collection = db.collection('newBatchJob')
-  puts "job_collection.count() : " + job_collection.count().to_s
-  STDOUT.puts "job_collection.count() : " + job_collection.count().to_s
-  STDOUT.flush
+  puts "job_collection.count() : " + job_collection.count().to_s if $SLI_DEBUG
   zip_suffix='.zip'
   data_basename = batch_file.chomp(zip_suffix)
 
@@ -1511,24 +1507,15 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
     if job_id.nil?
       job_record = job_collection.find({"tenantId" => tenant, "_id" => /#{id_pattern}/}, :fields => ["jobStartTimeStamp","status"]).sort({"jobStartTimestamp" => -1}).limit(1).first
       if job_record.nil?
-        puts "No matching job record found for tenant : #{tenant}, _id matching : /#{id_pattern}/, continuing to poll."
-        STDOUT.puts "No matching job record found for tenant : #{tenant}, _id matching : /#{id_pattern}/, continuing to poll."
-        STDOUT.flush
         next
       else
-        STDOUT.puts "first job_record : " + job_record.to_s
-        STDOUT.flush
         job_id = job_record['_id']
       end
     else
       job_record = job_collection.find_one({"_id" => job_id}, :fields => ["status"])
-        STDOUT.puts "later job_record : " + job_record.to_s
-        STDOUT.flush
     end
 
     status = job_record['status']
-    STDOUT.puts "status : #{status}"
-    STDOUT.flush
 
     if status == 'CompletedSuccessfully' || status == 'CompletedWithErrors'
       puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete" if $SLI_DEBUG

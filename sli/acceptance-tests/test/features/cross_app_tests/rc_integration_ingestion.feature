@@ -69,17 +69,17 @@ Feature: Ingestion
 
         Scenario: Ingest Charter School Dataset
             Given a landing zone
-            And I drop the file "CharterSchool.zip" into the landingzone
+            When I drop the file "CharterSchool.zip" into the landingzone
             And the most recent batch job for file "CharterSchool.zip" has completed successfully
-            And the landing zone should contain a file with the message "All records processed successfully."
+            Then the landing zone should contain a file with the message "All records processed successfully."
             And I should not see an error log file created
             And I should not see a warning log file created
 
         Scenario: Ingest Additional edOrgs to test App Enable and Authorize
             Given a landing zone
-            And I drop the file "AppEnableAndAuthorizeDataSet.zip" into the landingzone
+            When I drop the file "AppEnableAndAuthorizeDataSet.zip" into the landingzone
             And the most recent batch job for file "AppEnableAndAuthorizeDataSet.zip" has completed successfully
-            And the landing zone should contain a file with the message "All records processed successfully."
+            Then the landing zone should contain a file with the message "All records processed successfully."
             And I should not see an error log file created
             And I should not see a warning log file created
 

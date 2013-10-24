@@ -229,11 +229,8 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully$/
 end
 
 Then /^the "(.*?)" should be ingested with the correct number of records$/ do |dataSet|
-   puts "About to get current count"
    correct_count = getCorrectCountForDataset(dataSet)
-   puts "About to check db for job"
    step "the most recent batch job for file \"#{dataSet}\" has completed successfully"
-   puts "Done checking db for job"
    step "the landing zone should contain a file with the message \"Processed #{correct_count} records\""
 end
 
