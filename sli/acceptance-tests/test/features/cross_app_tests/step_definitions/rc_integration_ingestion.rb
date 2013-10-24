@@ -221,9 +221,11 @@ Given /^I check for the file "(.*?)" every "(.*?)" seconds for "(.*?)" seconds$/
 end
 
 When /^the most recent batch job for file "([^"]*)" has completed successfully$/ do |dataSet|
-  STDOUT.puts "Calling ingestion step with data set : #{dataSet}, tenant : #{@tenant_name}"
-  STDOUT.flush
-  step "the most recent batch job for file \"#{dataSet}\" has completed successfully for tenant \"#{@tenant_name}\""
+    if (@mode == "SANDBOX")
+      step "the most recent batch job for file \"#{dataSet}\" has completed successfully for tenant \"<SANDBOX_TENANT>\""
+    else
+      step "the most recent batch job for file \"#{dataSet}\" has completed successfully for tenant \"<TENANT>\""
+    end
 end
 
 Then /^the "(.*?)" should be ingested with the correct number of records$/ do |dataSet|
