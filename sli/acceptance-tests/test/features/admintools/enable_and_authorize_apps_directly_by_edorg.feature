@@ -107,6 +107,7 @@ Background:
           | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
           | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
           | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
+          | securityEvent       | 1                   | body.targetEdOrgList  | IL                                        |
          And there are "1" educationalOrganizations in the targetEdOrgList
          And I see an application "Royal Oak" in the table
          And in Status it says "1 EdOrg(s)"
