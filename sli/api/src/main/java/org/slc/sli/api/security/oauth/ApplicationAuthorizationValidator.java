@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.resolver.AppAuthHelper;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -76,7 +77,7 @@ public class ApplicationAuthorizationValidator {
                 Set<String> edOrgs = helper.locateDirectEdorgs(principal.getEntity());
                 NeutralQuery appAuthCollQuery = new NeutralQuery();
                 appAuthCollQuery.addCriteria(new NeutralCriteria("applicationId", "=", app.getEntityId()));
-                appAuthCollQuery.addCriteria(new NeutralCriteria("edorgs", NeutralCriteria.CRITERIA_IN, edOrgs));
+                appAuthCollQuery.addCriteria(new NeutralCriteria("edorgs.authorized_edorg", NeutralCriteria.CRITERIA_IN, edOrgs));
                 Entity authorizedApps = repo.findOne("applicationAuthorization", appAuthCollQuery);
                 if (authorizedApps != null) {
                     if (isAutoApproved(app)) {
@@ -132,7 +133,7 @@ public class ApplicationAuthorizationValidator {
         NeutralQuery appAuthCollQuery = new NeutralQuery(new NeutralCriteria("applicationId", "=", app.getEntityId()));
         Entity authEntry = repo.findOne("applicationAuthorization", appAuthCollQuery);
         if (authEntry != null) {
-            return new HashSet<String>((Collection) authEntry.getBody().get("edorgs"));
+            return AppAuthHelper.getAuthorizedEdOrgIds(authEntry);
         } else {
             return new HashSet<String>();
         }

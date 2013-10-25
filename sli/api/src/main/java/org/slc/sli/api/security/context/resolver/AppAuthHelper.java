@@ -16,9 +16,7 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +54,7 @@ public class AppAuthHelper {
         if (edorgId != null) {
             Entity appAuth = getApplicationAuthorizationEntity(app.getEntityId());
             if (appAuth == null
-                || !((List) appAuth.getBody().get(ApplicationAuthorizationResource.EDORG_IDS))
-                            .contains(edorgId)) {
+                || !getAuthorizedEdOrgIds(appAuth).contains(edorgId)) {
                 throw new APIAccessDeniedException("Application is not authorized for bulk extract", EntityNames.EDUCATION_ORGANIZATION, edorgId);
             }
         }
@@ -71,8 +68,7 @@ public class AppAuthHelper {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public List<String> getApplicationAuthorizationEdorgIds(String appId) {
         Entity appAuth = getApplicationAuthorizationEntity(appId);
-        return appAuth == null ? Collections.emptyList() :
-                (List) appAuth.getBody().get(ApplicationAuthorizationResource.EDORG_IDS);
+        return appAuth == null? Collections.<String>emptyList():new ArrayList<String>(getAuthorizedEdOrgIds(appAuth));
     }
 
     private Entity getApplicationAuthorizationEntity(String appId) {
@@ -101,4 +97,17 @@ public class AppAuthHelper {
         return entity;
     }
 
+    public static Set<String> getAuthorizedEdOrgIds(Entity appAuth) {
+        Set<String> result = new HashSet<String>();
+        List<Map<String, Object>> acls = (List<Map<String, Object>>)appAuth.getBody().get("edorgs");
+        if(acls != null) {
+            for(Map<String, Object> acl:acls) {
+                String edOrg = (String)acl.get("authorized_edorg");
+                if(edOrg != null) {
+                    result.add(edOrg);
+                }
+            }
+        }
+        return result;
+    }
 }
