@@ -124,22 +124,15 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
 
             Map<String, DateTime> edOrgDates = new HashMap<String, DateTime>();
 
-            extractorHelper.updateEdorgToDateMap(seoa.getBody(), edOrgDates,
+            edOrgDates = extractorHelper.updateEdorgToDateMap(seoa.getBody(), edOrgDates,
                     ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, ParameterConstants.BEGIN_DATE, ParameterConstants.END_DATE);
 
             for (Map.Entry<String, DateTime> edorgDate : edOrgDates.entrySet()) {
-                try {
-                    if (nonDatedEntities.contains(entityToExtract.getType())
-                            || shouldExtract(entityToExtract, edorgDate.getValue())) {
-
-                        edOrgs.add(edorgDate.getKey());
-                    }
-                } catch (RuntimeException e) {
-                    LOG.warn("Could not parse school " + edorgDate.getKey(), e);
+                if (nonDatedEntities.contains(entityToExtract.getType()) || shouldExtract(entityToExtract, edorgDate.getValue())) {
+                    edOrgs.add(edorgDate.getKey());
                 }
             }
         }
-
         return removeSEA(edOrgs);
     }
 
@@ -167,6 +160,10 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
     @Override
     protected String getCollection() {
         return EntityNames.STAFF;
+    }
+
+    public void setExtractorHelper(ExtractorHelper extractorHelper) {
+        this.extractorHelper = extractorHelper;
     }
 
 }
