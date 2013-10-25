@@ -31,11 +31,14 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.ModificationItem;
 import javax.naming.directory.SearchControls;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.ldap.NameAlreadyBoundException;
+import org.springframework.ldap.NamingException;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.core.LdapTemplate;
@@ -53,6 +56,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LdapServiceImpl implements LdapService {
+    private static final Logger LOG = LoggerFactory.getLogger(LdapServiceImpl.class);
 
     public static final String OBJECTCLASS = "objectclass";
     @Autowired
@@ -118,9 +122,6 @@ public class LdapServiceImpl implements LdapService {
 
         if (groups != null && groups.size() > 0) {
             for (Group group : groups) {
-//                group.removeMemberUid(uid);
-//                updateGroup(realm, group);
-
                 removeUserFromGroup(realm, group, oldUser);
             }
         }
@@ -134,9 +135,6 @@ public class LdapServiceImpl implements LdapService {
         if (groupNames != null && groupNames.size() > 0) {
             for (String groupName : groupNames) {
                 Group group = getGroup(realm, groupName);
-//                group.addMemberUid(user.getUid());
-//                updateGroup(realm, group);
-
                 addUserToGroup(realm, group, user);
             }
         }
@@ -159,9 +157,6 @@ public class LdapServiceImpl implements LdapService {
         if (oldGroups != null && oldGroups.size() > 0) {
             for (Group oldGroup : oldGroups) {
                 if (!newGroupNames.contains(oldGroup.getGroupName())) {
-//                    oldGroup.removeMemberUid(user.getUid());
-//                    updateGroup(realm, oldGroup);
-
                     removeUserFromGroup(realm, oldGroup, user);
                 }
             }
@@ -171,9 +166,6 @@ public class LdapServiceImpl implements LdapService {
             for (String newGroupName : newGroupNames) {
                 if (!oldGroupNames.contains(newGroupName)) {
                     Group newGroup = getGroup(realm, newGroupName);
-//                    newGroup.addMemberUid(user.getUid());
-//                    updateGroup(realm, newGroup);
-
                     removeUserFromGroup(realm, newGroup, user);
                 }
             }
@@ -296,7 +288,17 @@ public class LdapServiceImpl implements LdapService {
 
         Name groupName = buildGroupDN(realm, group.getGroupName());
 
-        ldapTemplate.modifyAttributes(groupName, modGroups);
+        try {
+            ldapTemplate.modifyAttributes(groupName, modGroups);
+        } catch (NamingException e) {
+            if (DirContext.ADD_ATTRIBUTE == op) {
+                LOG.warn("Error occured while adding user '{}' to group '{}'", user.getUid(), group.getGroupName());
+            } else if (DirContext.ADD_ATTRIBUTE == op) {
+                LOG.warn("Error occured while removing user '{}' from group '{}'", user.getUid(), group.getGroupName());
+            }
+
+            return false;
+        }
 
         return true;
     }
