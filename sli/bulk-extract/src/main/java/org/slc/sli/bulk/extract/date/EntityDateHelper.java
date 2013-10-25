@@ -53,6 +53,10 @@ public class EntityDateHelper {
      * @return - true if the entity should be extracted, false otherwise.
      */
     public static boolean shouldExtract(Entity entity, DateTime upToDate) {
+        if(isNonDated(entity.getType())) {
+            return true;
+        }
+
         // TeacherSchoolAssociation is a special case, as it is dated from it's corresponding SEOAs.
         if (EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(entity.getType())) {
             Iterable<Entity> seaos = edOrgExtractHelper.retrieveSEOAS((String) entity.getBody().get(ParameterConstants.TEACHER_ID),
@@ -75,6 +79,10 @@ public class EntityDateHelper {
      * @return - true if the entity should be extracted, false otherwise.
      */
     public static boolean shouldExtract(String entityDate, DateTime upToDate, String entityType) {
+        if(isNonDated(entityType)) {
+            return true;
+        }
+
         return isPastOrCurrentDate(entityDate, upToDate, entityType);
     }
 
@@ -149,6 +157,14 @@ public class EntityDateHelper {
         } else {
             return isBeforeOrEqualDate(entityDate, finalUpToDate);
         }
+    }
+
+    private static boolean isNonDated(String entityType) {
+        boolean isNonDated = false;
+        if (EntityDates.NON_DATED_ENTITIES.contains(entityType)) {
+            isNonDated = true;
+        }
+        return isNonDated;
     }
 
     @Autowired(required = true)

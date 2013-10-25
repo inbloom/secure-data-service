@@ -75,7 +75,6 @@ public class StaffTeacherContextResolverTest {
         edOrgResolver = Mockito.mock(EducationOrganizationContextResolver.class);
         MockitoAnnotations.initMocks(this);
         resolver.setDateHelper(dateHelper);
-        //extractorHelper = new ExtractorHelper(edOrgExtractHelper);
         resolver.setExtractorHelper(extractorHelper);
     }
 

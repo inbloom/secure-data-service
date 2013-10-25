@@ -100,6 +100,7 @@ public abstract class ReferrableResolver implements ContextResolver {
         return Collections.emptySet();
     }
 
+    //F316: this method should be removed as part of clean up
     public Set<String> findGoverningEdOrgs(Entity baseEntity, Entity entityToExtract) {
         LOG.debug("resolving {}", baseEntity);
         if (baseEntity == null || baseEntity.getEntityId() == null) {

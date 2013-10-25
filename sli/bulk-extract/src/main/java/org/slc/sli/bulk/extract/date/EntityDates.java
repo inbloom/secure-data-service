@@ -16,7 +16,9 @@
 package org.slc.sli.bulk.extract.date;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.slc.sli.common.constants.ContainerEntityNames;
 import org.slc.sli.common.constants.EntityNames;
@@ -31,6 +33,7 @@ public class EntityDates {
 
     public static final Map<String, Map<String, String>> ENTITY_PATH_FIELDS = new HashMap<String, Map<String, String>>();
 
+    public static final Set<String> NON_DATED_ENTITIES = new HashSet<String>();
     static {
         ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_PROGRAM_ASSOCIATION, ParameterConstants.BEGIN_DATE);
         ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_COHORT_ASSOCIATION, ParameterConstants.BEGIN_DATE);
@@ -74,6 +77,12 @@ public class EntityDates {
         Map<String, String> sgbFields = new HashMap<String, String>();
         sgbFields.put(EntityNames.GRADEBOOK_ENTRY, ParameterConstants.GRADEBOOK_ENTRY_ID);
         ENTITY_PATH_FIELDS.put(EntityNames.STUDENT_GRADEBOOK_ENTRY, sgbFields);
+
+        NON_DATED_ENTITIES.add(EntityNames.STUDENT);
+        NON_DATED_ENTITIES.add(EntityNames.STUDENT_PARENT_ASSOCIATION);
+        NON_DATED_ENTITIES.add(EntityNames.PARENT);
+        NON_DATED_ENTITIES.add(EntityNames.STAFF);
+        NON_DATED_ENTITIES.add(EntityNames.TEACHER);
     }
 
 }

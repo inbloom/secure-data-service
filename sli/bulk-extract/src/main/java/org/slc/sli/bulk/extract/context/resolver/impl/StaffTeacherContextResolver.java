@@ -73,15 +73,15 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
 
     private Set<String> nonDatedEntities = new HashSet<String>(Arrays.asList(EntityNames.STAFF, EntityNames.TEACHER));
 
-    private EntityToEdOrgDateCache staffDatedCache = new EntityToEdOrgDateCache();
-
     @PostConstruct
     public void init() {
-    	edOrgHelper = new EdOrgHierarchyHelper(getRepo());
+        edOrgHelper = new EdOrgHierarchyHelper(getRepo());
         extractorHelper = new ExtractorHelper(edOrgExtractHelper);
         edOrgHierarchyHelper = new EdOrgHierarchyHelper(getRepo());
     }
-    
+
+
+    //F316: this method should be removed with the old pipeline
     @Override
     protected Set<String> resolve(Entity entity) {
         Set<String> leas = new HashSet<String>();
@@ -128,7 +128,7 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
                     ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, ParameterConstants.BEGIN_DATE, ParameterConstants.END_DATE);
 
             for (Map.Entry<String, DateTime> edorgDate : edOrgDates.entrySet()) {
-                if (nonDatedEntities.contains(entityToExtract.getType()) || shouldExtract(entityToExtract, edorgDate.getValue())) {
+                if (shouldExtract(entityToExtract, edorgDate.getValue())) {
                     edOrgs.add(edorgDate.getKey());
                 }
             }

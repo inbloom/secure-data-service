@@ -127,8 +127,7 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
 
         for (Map.Entry<String, DateTime> edorgDate : edorgDates.entrySet()) {
             try {
-                if (nonDatedEntities.contains(entityToExtract.getType())
-                         || shouldExtract(entityToExtract, edorgDate.getValue())) {
+                if (shouldExtract(entityToExtract, edorgDate.getValue())) {
 
                     edorgs.add(edorgDate.getKey());
                 }
