@@ -64,11 +64,6 @@ public abstract class RelatedContextResolver implements ContextResolver {
     }
 
     @Override
-    public Set<String> findGoverningEdOrgs(String id, Entity actualEntity) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public Set<String> findGoverningEdOrgs(Entity entity, Entity actualEntity) {
         throw new UnsupportedOperationException();
     }

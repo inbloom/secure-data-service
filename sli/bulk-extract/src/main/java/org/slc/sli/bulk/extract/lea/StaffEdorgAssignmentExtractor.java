@@ -79,7 +79,7 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
 
             Map<String, DateTime> edOrgDates = staffDatedCache.getEntriesById(staffId);
             boolean firstEntryForStaff = edOrgDates.isEmpty() ? true : false;
-            extractorHelper.updateEdorgToDateMap(association.getBody(), edOrgDates,
+            edOrgDates = extractorHelper.updateEdorgToDateMap(association.getBody(), edOrgDates,
                 ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, ParameterConstants.BEGIN_DATE, ParameterConstants.END_DATE);
             if (firstEntryForStaff) {
                 for (Map.Entry<String, DateTime> edOrgDate : edOrgDates.entrySet()) {

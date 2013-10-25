@@ -74,11 +74,6 @@ public class CourseTranscriptContextResolver implements ContextResolver {
     }
 
     @Override
-    public Set<String> findGoverningEdOrgs(String id, Entity entityToExtract) {
-        return null;
-    }
-
-    @Override
     public Set<String> findGoverningEdOrgs(Entity entity, Entity entityToExtract) {
         return null;
     }
