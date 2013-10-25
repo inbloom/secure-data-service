@@ -26,6 +26,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.SimpleEntityTypeContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContextResolver;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -35,7 +36,7 @@ public class EdOrgContextResolverFactoryTest {
     EdOrgContextResolverFactory factory = new EdOrgContextResolverFactory();
     
     @Mock
-    EducationOrganizationContextResolver edOrgContextResolver;
+    SimpleEntityTypeContextResolver edOrgContextResolver;
     
     @Mock
     StudentDirectRelatedContextResolver studentDirectContextResolver;
@@ -50,7 +51,7 @@ public class EdOrgContextResolverFactoryTest {
     public void test() {
         assertNull(factory.getResolver("doesn't exist"));
         ContextResolver resolver = factory.getResolver("educationOrganization");
-        assertTrue(resolver instanceof EducationOrganizationContextResolver);
+        assertTrue(resolver instanceof SimpleEntityTypeContextResolver);
     }
     
     @Test

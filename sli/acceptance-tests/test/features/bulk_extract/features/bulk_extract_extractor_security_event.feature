@@ -71,9 +71,9 @@ Feature: Security events are logged when bulk extract is run
 
 
   Scenario: Trigger a delta extract and check security events
-    Given I post "new_edorg_in_daybreak.zip" file as the payload of the ingestion job
+    Given I post "ExtendStaffEdorgAssociation.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
-    And a batch job for file "new_edorg_in_daybreak.zip" is completed in database
+    And a batch job for file "ExtendStaffEdorgAssociation.zip" is completed in database
     Then I should not see an error log file created
     And I should not see a warning log file created
 

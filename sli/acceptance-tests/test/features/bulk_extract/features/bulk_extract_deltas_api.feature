@@ -17,7 +17,6 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
   Then I should see "24" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  Then The "educationOrganization" delta was extracted in the same format as the api
    And The "parent" delta was extracted in the same format as the api
    And The "studentParentAssociation" delta was extracted in the same format as the api
    And The "section" delta was extracted in the same format as the api
@@ -39,11 +38,6 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    And The "cohort" delta was extracted in the same format as the api
    And The "studentCohortAssociation" delta was extracted in the same format as the api
    And The "staffCohortAssociation" delta was extracted in the same format as the api
-   And The "session" delta was extracted in the same format as the api
-   And The "gradingPeriod" delta was extracted in the same format as the api
-   And The "graduationPlan" delta was extracted in the same format as the api
-   And The "courseOffering" delta was extracted in the same format as the api
-   And The "course" delta was extracted in the same format as the api
    And The "courseTranscript" delta was extracted in the same format as the api
    And The "studentProgramAssociation" delta was extracted in the same format as the api
    And The "staffProgramAssociation" delta was extracted in the same format as the api
@@ -51,7 +45,6 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    And The "disciplineIncident" delta was extracted in the same format as the api
    And The "disciplineAction" delta was extracted in the same format as the api
    And The "studentCompetency" delta was extracted in the same format as the api
-   And The "calendarDate" delta was extracted in the same format as the api
 
   Given I trigger a bulk extract
    When I set the header format to "application/x-tar"
@@ -68,7 +61,6 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
 
   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<Daybreak Central High>"
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  Then The "educationOrganization" delta was extracted in the same format as the api
   And The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
   And The "section" delta was extracted in the same format as the api
@@ -90,8 +82,6 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
   And The "cohort" delta was extracted in the same format as the api
   And The "studentCohortAssociation" delta was extracted in the same format as the api
   And The "staffCohortAssociation" delta was extracted in the same format as the api
-  And The "courseOffering" delta was extracted in the same format as the api
-  And The "course" delta was extracted in the same format as the api
   And The "courseTranscript" delta was extracted in the same format as the api
   And The "studentProgramAssociation" delta was extracted in the same format as the api
   And The "staffProgramAssociation" delta was extracted in the same format as the api
@@ -99,11 +89,6 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
   And The "disciplineIncident" delta was extracted in the same format as the api
   And The "disciplineAction" delta was extracted in the same format as the api
   And The "studentCompetency" delta was extracted in the same format as the api
-
-  And The "session" delta was extracted in the same format as the api
-  And The "graduationPlan" delta was extracted in the same format as the api
-  And The "gradingPeriod" delta was extracted in the same format as the api
-  And The "calendarDate" delta was extracted in the same format as the api
 
   When I set the header format to "application/x-tar"
   Then I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -126,6 +111,12 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
      And The "competencyLevelDescriptor" delta was extracted in the same format as the api
      And The "studentCompetencyObjective" delta was extracted in the same format as the api
      And The "program" delta was extracted in the same format as the api
+     And The "courseOffering" delta was extracted in the same format as the api
+     And The "course" delta was extracted in the same format as the api
+     And The "session" delta was extracted in the same format as the api
+     And The "graduationPlan" delta was extracted in the same format as the api
+     And The "gradingPeriod" delta was extracted in the same format as the api
+     And The "calendarDate" delta was extracted in the same format as the api
 
   Given I trigger a bulk extract
    When I set the header format to "application/x-tar"
@@ -154,41 +145,8 @@ Scenario: SEA - Ingest additional entities in preparation for subsequent update 
       |  gradingPeriod                         |
       |  graduationPlan                        |
       |  deleted                               |
-    And Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
-      |  assessment                            |
-      |  session                               |
-      |  calendarDate                          |
-      |  course                                |
-      |  courseOffering                        |
-      |  gradingPeriod                         |
-      |  graduationPlan                        |
-      |  deleted                               |
     And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     And The "calendarDate" delta was extracted in the same format as the api
-    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
-    # Note course exists here due to a reference to a courseOffering related to this LEA
-      |  assessment                            |
-      |  session                               |
-      |  calendarDate                          |
-      |  courseOffering                        |
-      |  gradingPeriod                         |
-      |  graduationPlan                        |
-    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
-    # Note course exists here due to a reference to a courseOffering related to this LEA
-      |  assessment                            |
-      |  session                               |
-      |  calendarDate                          |
-      |  courseOffering                        |
-      |  gradingPeriod                         |
-      |  graduationPlan                        |
-    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
-      |  assessment                            |
-      |  session                               |
-      |  calendarDate                          |
-      |  course                                |
-      |  courseOffering                        |
-      |  gradingPeriod                         |
-      |  graduationPlan                        |
     And I verify this "assessment" file should contain:
       | id                                          | condition                                | description                                  |
 	  | bb99132d75ccc4f92db1b8923a15bda8b40a3826_id | assessmentTitle = 2013-Kindergarten Assessment 2 Item | insert                          |
@@ -375,6 +333,10 @@ Scenario: Triggering deltas via ingestion
        |  program                               |
        |  educationOrganization                 |
        |  calendarDate                          |
+       |  course                                |
+       |  courseOffering                        |
+       |  graduationPlan                        |
+       |  school                                |
        |  deleted                               |
      And I verify this "deleted" file should contain:
        | id                                           | condition                               |
@@ -449,7 +411,41 @@ Scenario: Triggering deltas via ingestion
      And I verify this "educationOrganization" file should contain:
        | id                                          | condition                      |
        | 884daa27d806c2d725bc469b273d840493f84b4d_id | webSite = www.STANDARD-SEA.net |
-     When I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
+    And I verify this "courseOffering" file should contain:
+      | id                                          | condition                                |
+      | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
+    And I verify this "course" file should contain:
+      | id                                          | condition                                |
+      | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
+    And I verify this "graduationPlan" file should contain:
+      | id                                          | condition                                |
+      | ac907f298a74a5f200c78ecb372afb1e53cf15c3_id | graduationPlanType = Distinguished       |
+
+  And I verify this "calendarDate" file should contain:
+    | id                                          | condition                                |
+    | eab8ffa631837241c27316f4cd034b8e014821a3_id | calendarEvent = Instructional day   |
+    | 356a441384ea905a4e01d5acebb25f7c42b7e0bd_id | date = 2022-06-04                   |
+  And I verify this "courseOffering" file should contain:
+    | id                                          | condition                                |
+    | 1c4d8ea0c38aab28c05b5b40e8cf71e79e455ea2_id | localCourseTitle = First grade modified course |
+    | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
+  And I verify this "course" file should contain:
+    | id                                          | condition                                |
+    | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
+    | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id | uniqueCourseId = DAYBREAK1               |
+
+  And I verify this "graduationPlan" file should contain:
+    | id                                          | condition                                |
+    | 1af13424ea3a179e716468ff760255878ce20ec7_id | graduationPlanType = Distinguished       |
+
+  And I verify this "courseOffering" file should contain:
+    | id                                          | condition                                |
+    | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
+  And I verify this "course" file should contain:
+    | id                                          | condition                                |
+    | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
+
+  When I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  attendance                            |
        |  student                               |
@@ -458,16 +454,11 @@ Scenario: Triggering deltas via ingestion
        |  studentGradebookEntry                 |
        |  studentParentAssociation              |
        |  parent                                |
-       |  school                                |
        |  section                               |
-       |  educationOrganization                 |
        |  staff                                 |
        |  staffEducationOrganizationAssociation |
        |  teacher                               |
        |  teacherSchoolAssociation              |
-       |  course                                |
-       |  courseOffering                        |
-       |  graduationPlan                        |
        |  disciplineIncident                    |
        |  studentDisciplineIncidentAssociation  |
        |  disciplineAction                      |
@@ -511,23 +502,6 @@ Scenario: Triggering deltas via ingestion
     And I verify this "attendance" file should not contain:
       | id                                          | condition                                |
       | aefc3c964b1caf4754c8792be9886edaa2f84d4c_id | schoolYearAttendance.attendanceEvent.date = 2013-09-09        |
-
-    # only has section 45 since it followed the section
-    And I verify this "courseOffering" file should contain:
-      | id                                          | condition                                |
-      | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
-    # I belong to DAYBREAK, but I creepily followed the above courseOffering to HIGHWIND
-    And I verify this "course" file should contain:
-      | id                                          | condition                                |
-      | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
-    # this course belongs to DAYBREAK, so should not show up here
-    And I verify this "course" file should not contain:
-      | id                                          | condition                                |
-      | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id |                                          |
-
-    And I verify this "graduationPlan" file should contain:
-      | id                                          | condition                                |
-      | ac907f298a74a5f200c78ecb372afb1e53cf15c3_id | graduationPlanType = Distinguished       |
 
     # This incident involved student 1
     And I verify this "disciplineIncident" file should contain:
@@ -592,14 +566,10 @@ Scenario: Triggering deltas via ingestion
        |  teacher                               |
        |  teacherSchoolAssociation              |
        |  teacherSectionAssociation             |
-       |  courseOffering                        |
        |  courseTranscript                      |
-       |  course                                |
-       |  graduationPlan                        |
        |  disciplineIncident                    |
        |  studentDisciplineIncidentAssociation  |
        |  disciplineAction                      |
-       |  calendarDate                          |
        |  deleted                               |
      And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
@@ -611,11 +581,6 @@ Scenario: Triggering deltas via ingestion
        | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id | entityType = student                     |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation    |
        | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id                                            | entityType = section                     |
-
-       And I verify this "calendarDate" file should contain:
-        | id                                          | condition                                |
-        | eab8ffa631837241c27316f4cd034b8e014821a3_id | calendarEvent = Instructional day   |
-        | 356a441384ea905a4e01d5acebb25f7c42b7e0bd_id | date = 2022-06-04                   |
 
      And I verify this "student" file should contain:
        #this is student 11, which has updated information
@@ -674,24 +639,11 @@ Scenario: Triggering deltas via ingestion
       | id                                          | condition                                |
       | 07185fb3e72af3e0c2f48cf64b474b1731c52b20_id | schoolYearAttendance.attendanceEvent.reason = change_1       |
 
-    And I verify this "courseOffering" file should contain:
-      | id                                          | condition                                |
-      | 1c4d8ea0c38aab28c05b5b40e8cf71e79e455ea2_id | localCourseTitle = First grade modified course |
-      | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
-    And I verify this "course" file should contain:
-      | id                                          | condition                                |
-      | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
-      | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id | uniqueCourseId = DAYBREAK1               |
-
     # This course transcript has a direct edorg reference to IL-HIGHWIND, but belongs to a student
     # only in IL-DAYBREAK, so it only shows up in IL-DAYBREAK
     And I verify this "courseTranscript" file should contain:
       | id                                          | condition                                |
       | adbd098e947690550c7c7bda7bd04d0e76f3d715_id | studentId = 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id |
-
-    And I verify this "graduationPlan" file should contain:
-      | id                                          | condition                                |
-      | 1af13424ea3a179e716468ff760255878ce20ec7_id | graduationPlanType = Distinguished       |
 
     And I verify this "disciplineIncident" file should contain:
       | id                                          | condition                                |
@@ -717,7 +669,6 @@ Scenario: Triggering deltas via ingestion
   #this step is necesssary since there is no graduationPlan in day 0 delta, need to verify it's really the same
    #format as API would return
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   Then The "graduationPlan" delta was extracted in the same format as the api
 
 # DAYBREAK stuff now
   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<Daybreak Central High>" in "Midgar" contains a file for each of the following entities:
@@ -736,14 +687,10 @@ Scenario: Triggering deltas via ingestion
     |  teacher                               |
     |  teacherSchoolAssociation              |
     |  teacherSectionAssociation             |
-    |  courseOffering                        |
     |  courseTranscript                      |
-    |  course                                |
-    #|  graduationPlan                        |
-    |  disciplineIncident                    |
     |  studentDisciplineIncidentAssociation  |
     |  disciplineAction                      |
-    #|  calendarDate                          |
+    |  disciplineIncident                    |
     |  deleted                               |
   And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
@@ -818,13 +765,6 @@ Scenario: Triggering deltas via ingestion
     | id                                          | condition                                |
     | 07185fb3e72af3e0c2f48cf64b474b1731c52b20_id | schoolYearAttendance.attendanceEvent.reason = change_1       |
 
-  And I verify this "courseOffering" file should contain:
-    | id                                          | condition                                |
-    | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
-  And I verify this "course" file should contain:
-    | id                                          | condition                                |
-    | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
-
 # This course transcript has a direct edorg reference to IL-HIGHWIND, but belongs to a student
 # only in IL-DAYBREAK, so it only shows up in IL-DAYBREAK
   And I verify this "courseTranscript" file should contain:
@@ -878,51 +818,34 @@ Scenario: Generate a bulk extract in a different LEA
    And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
    And I should receive a return code of 200
    And I download and decrypt the delta
-   Then I should see "2" bulk extract files
-   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   And The "educationOrganization" delta was extracted in the same format as the api
-   And The "educationOrganization" entity with id "<ed_org_to_lea2_id>" should belong to LEA with id "<IL-HIGHWIND>"
+   Then I should see "4" bulk extract files
+   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   And I verify this "staffEducationOrganizationAssociation" file should contain:
+    | id                                          | condition                             |
+    | 42b45fa5d34a3f9f2db3db516eaa1ad6579d7e8f_id | entityType = staffEducationOrganizationAssociation                   |
 
-Scenario: Ingest education organization and perform delta
+  Scenario: Ingest education organization and perform twice delta, the second delta will should contain changes from the second ingestion
   Given I clean the bulk extract file system and database
     And I am using local data store
     And I post "deltas_new_edorg.zip" file as the payload of the ingestion job
+    When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+    And zip file is scp to ingestion landing zone
+    And a batch job for file "deltas_new_edorg.zip" is completed in database
+    And a batch job log has been created
+    Then I should not see an error log file created
+    And I should not see a warning log file created
+    And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
+    Then I should see "2" bulk extract files
 
-  When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
-   And zip file is scp to ingestion landing zone
-   And a batch job for file "deltas_new_edorg.zip" is completed in database
-   And a batch job log has been created
-  Then I should not see an error log file created
-   And I should not see a warning log file created
-
-  When I trigger a delta extract
-   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
-   Then I should see "2" bulk extract files
-   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  Then The "educationOrganization" delta was extracted in the same format as the api
-   And The "school" delta was extracted in the same format as the api
-
-  #Combined moving school across LEA boundary scenario to test genetate a delta after another delta and
-  #delta should only pick up latest change without clean bulk extract file system and database step
-
-  #The expected behavior is that the old LEA that school used to belong to would receive an delete file, and
-  #the new LEA would only receive a update file since the delete event is not applicable to the new LEA
   And I ingested "deltas_move_between_edorg.zip" dataset
     When I trigger a delta extract
       And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "22c2a28d-7327-4444-8ff9-caad4b1c7aa3" for "<IL-HIGHWIND>"
-      And I verify "4" delta bulk extract files are generated for Edorg "<IL-DAYBREAK>" in "Midgar"
+      And I verify "4" delta bulk extract files are generated for Edorg "<STANDARD-SEA>" in "Midgar"
+      And I verify "2" delta bulk extract files are generated for Edorg "<IL-DAYBREAK>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for Edorg "<IL-HIGHWIND>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for Edorg "<10 School District>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for Edorg "<11 School District>" in "Midgar"
-      And the extract contains a file for each of the following entities:
-        |  entityType                            |
-        |  school                                |
-        |  educationOrganization                 |
-      And I verify this "school" file should contain:
-          | id                                          | condition                             |
-          | 54b4b51377cd941675958e6e81dce69df801bfe8_id | stateOrganizationId=Daybreak Podunk High |
 
-      # should only see delete file for lea 2
       And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  deleted                               |
@@ -972,14 +895,14 @@ Given I clean the bulk extract file system and database
     |  newStudentMotherAssociation  |  studentParentAssociation  |  201         |
 
   When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
-   And I verify "2" delta bulk extract files are generated for Edorg "<IL-DAYBREAK>" in "Midgar"
+  And I verify "2" delta bulk extract files are generated for Edorg "<STANDARD-SEA>" in "Midgar"
+  And I verify "2" delta bulk extract files are generated for Edorg "<IL-DAYBREAK>" in "Midgar"
    And I verify "0" delta bulk extract files are generated for Edorg "<IL-HIGHWIND>" in "Midgar"
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   Then The "student" delta was extracted in the same format as the api
    And The "studentSchoolAssociation" delta was extracted in the same format as the api
    And The "parent" delta was extracted in the same format as the api
    And The "studentParentAssociation" delta was extracted in the same format as the api
-   And The "educationOrganization" delta was extracted in the same format as the api
 
  Given I clean the bulk extract file system and database
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -994,13 +917,13 @@ Given I clean the bulk extract file system and database
      |  postalCode       |  newEducationOrganization     |  11012                           |  204         | educationOrganizations/a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id |
 
   When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
+   And I verify "2" delta bulk extract files are generated for Edorg "<STANDARD-SEA>" in "Midgar"
    And I verify "2" delta bulk extract files are generated for Edorg "<IL-DAYBREAK>" in "Midgar"
    And I verify "0" delta bulk extract files are generated for Edorg "<IL-HIGHWIND>" in "Midgar"
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    And The "student" delta was extracted in the same format as the api
    And The "parent" delta was extracted in the same format as the api
    And The "studentParentAssociation" delta was extracted in the same format as the api
-   And The "educationOrganization" delta was extracted in the same format as the api
 
  Given I clean the bulk extract file system and database
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -1016,16 +939,15 @@ Given I clean the bulk extract file system and database
     |  contactPriority  |  studentParentAssociation | 1                                     |  204         | studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id |
 
   When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
+   And I verify "2" delta bulk extract files are generated for Edorg "<STANDARD-SEA>" in "Midgar"
    And I verify "2" delta bulk extract files are generated for Edorg "<IL-DAYBREAK>" in "Midgar"
    And I verify "0" delta bulk extract files are generated for Edorg "<IL-HIGHWIND>" in "Midgar"
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    And The "student" delta was extracted in the same format as the api
    And The "parent" delta was extracted in the same format as the api
    And The "studentParentAssociation" delta was extracted in the same format as the api
-   And The "educationOrganization" delta was extracted in the same format as the api
-   And The "school" delta was extracted in the same format as the api
 
-  # DELETE entities
+# DELETE entities
  Given I clean the bulk extract file system and database
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    And format "application/json"
@@ -1048,39 +970,6 @@ Given I clean the bulk extract file system and database
     |  cbfe3a47491fdff0432d5d4abca339735da9461d_id | entityType = studentSchoolAssociation |
     |  9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id | entityType = studentParentAssociation |
     |  9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | entityType = studentParentAssociation |
-
-
-Scenario: Update an existing edorg through the API, perform delta, call list endpoint, call API to download and verify delta
-    # Make IL-DAYBREAK a charter school to verify bulk extract will work
-    Given I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-    And format "application/json"
-    Then I PATCH the "organizationCategories" field of the entity specified by endpoint "educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id" to '[ "School", "Local Education Agency" ]'
-
- Given I clean the bulk extract file system and database
-   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   And format "application/json"
-  When I PUT the "postalCode" for a "newEducationOrganization" entity to "11013" at "educationOrganizations/a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id "
-  Then I should receive a return code of 204
-  When I trigger a delta extract
-
- Given I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  When I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "vavedra9ub"
-  When I get back a response code of "200"
-  When I store the URL for the latest delta for LEA "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
-  When the number of returned URLs is correct:
-  |   fieldName  | count |
-  |   fullEdOrgs   |  0    |
-  |   deltaEdOrgs  |  1    |
-  When I request listed delta via API for "19cca28d-7357-4044-8df9-caad4b1c8ee4"
-  Then I should receive a return code of 200
-  And I download and decrypt the delta
-  And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
-  |  entityType                            |
-  |  educationOrganization                 |
-  |  school                                |
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And The "educationOrganization" delta was extracted in the same format as the api
-  And The "school" delta was extracted in the same format as the api
 
 Scenario: Update an existing edOrg with invalid API call, verify no delta created
 Given I clean the bulk extract file system and database
@@ -1191,6 +1080,7 @@ Given I clean the bulk extract file system and database
   And I verify this "gradingPeriod" file should contain:
         | id                                          | condition                                |
         | 8feb483ade5d7b3b45c1e4b4a50d00302cba4548_id | endDate = 2014-05-22                     |
+        | 1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id | entityType = gradingPeriod               |
   And I verify this "learningObjective" file should contain:
         | id                                          | condition                                |
         | bc2dd61ff2234eb25835dbebe22d674c8a10e963_id | description = Description                |
@@ -1206,9 +1096,11 @@ Given I clean the bulk extract file system and database
   And I verify this "session" file should contain:
         | id                                          | condition                                |
         | fe6e1a162e6f6825830d78d72cb55498afaedcd3_id | endDate = 2015-06-11                     |
+        | 227097db8525f4631d873837754633daf8bfcb22_id | entityType = session                     |
   And I verify this "course" file should contain:
         | id                                          | condition                                |
         | 494d4c8281ec78c7d8634afb683d39f6afdc5b85_id | courseDescription = new SEA course |
+        | 877e4934a96612529535581d2e0f909c5288131a_id | entityType = course                       |
   And I verify this "courseOffering" file should contain:
         | id                                          | condition                                |
         | 0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id | courseId = 877e4934a96612529535581d2e0f909c5288131a_id |
@@ -1305,15 +1197,11 @@ Given I clean the bulk extract file system and database
         |  entityType                            |
         |  attendance                            |
         |  cohort                                |
-        |  course                                |
-        |  courseOffering                        |
         |  grade                                 |
         |  gradebookEntry                        |
-        |  gradingPeriod                         |
         |  parent                                |
         |  reportCard                            |
         |  section                               |
-        |  session                               |
         |  staff                                 |
         |  staffCohortAssociation                |
         |  staffEducationOrganizationAssociation |
@@ -1327,13 +1215,8 @@ Given I clean the bulk extract file system and database
         |  teacher                               |
         |  teacherSchoolAssociation              |
         |  studentProgramAssociation             |
-        #| newStaffProgramAssociation             |
         |  studentCompetency                     |
         |  studentGradebookEntry                 |
-        #| newDisciplineIncident                  |
-        #| newDisciplineAction                    |
-        #| newStudentDiscIncidentAssoc            |
-        #|  graduationPlan                        |
 
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I verify this "student" file should contain:
@@ -1363,12 +1246,6 @@ Given I clean the bulk extract file system and database
     | 4030207003b03d055bba0b5019b31046164eff4e_id | sessionId = bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id        |
     | 4030207003b03d055bba0b5019b31046164eff4e_id | courseOfferingId = 38edd8479722ccf576313b4640708212841a5406_id |
     | 4030207003b03d055bba0b5019b31046164eff4e_id | schoolId = a13489364c2eb015c219172d561c62350f0453f3_id         |
-  And I verify this "gradingPeriod" file should contain:
-    | id                                          | condition                                                      |
-    | 1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id | entityType = gradingPeriod                                     |
-  And I verify this "session" file should contain:
-    | id                                          | condition                                                      |
-    | 227097db8525f4631d873837754633daf8bfcb22_id | entityType = session                                           |
   And I verify this "studentSchoolAssociation" file should contain:
     | id                                          | condition                                                |
     | cbfe3a47491fdff0432d5d4abca339735da9461d_id | entityType = studentSchoolAssociation                    |
@@ -1416,9 +1293,6 @@ Given I clean the bulk extract file system and database
   And I verify this "teacherSchoolAssociation" file should contain:
     | id                                          | condition                                                   |
     | 7a2d5a958cfda9905812c3a9f38c07ac4e8899b0_id | entityType = teacherSchoolAssociation                       |
-  And I verify this "course" file should contain:
-    | id                                          | condition                                                   |
-    | 877e4934a96612529535581d2e0f909c5288131a_id | entityType = course                                         |
   And I verify this "grade" file should contain:
     | id                                          | condition                                                   |
     | 1417cec726dc51d43172568a9c332ee1712d73d4_idcd83575df61656c7d8aebb690ae0bb3ff129a857_id | entityType = grade |
