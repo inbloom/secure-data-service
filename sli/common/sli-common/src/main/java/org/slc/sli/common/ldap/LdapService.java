@@ -46,6 +46,10 @@ public interface LdapService {
 
     public boolean updateGroup(String realm, Group group);
 
+    public boolean addUserToGroup(String realm, Group group, User user);
+
+    public boolean removeUserFromGroup(String realm, Group group, User user);
+
     public Collection<User> findUsersByGroups(String realm, Collection<String> groupNames);
 
     public Collection<User> findUsersByAttributes(String realm, Collection<String> attributes);
