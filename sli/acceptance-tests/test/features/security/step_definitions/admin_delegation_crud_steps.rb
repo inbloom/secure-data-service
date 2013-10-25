@@ -129,3 +129,29 @@ Then /^I should see that "([^"]*)" is "([^"]*)" for (district "[^"]*")$/ do |fie
   end
   assert(foundIt, "Never found district #{district}")
 end
+
+When /^I navigate to GET applicationAuthorization with "([^"]*)"$/ do |app_id|
+  restHttpGet("/applicationAuthorization/#{app_id}")
+  assert(@res != nil, "Response from application authorization request is nil")
+  @result = JSON.parse(@res.body)
+  puts @result
+end
+
+And /^There is a correct entry in applicationAuthorization edorg array for "([^"]*)" for the application "([^"]*)"$/ do |edorg, app_id|
+  edorgs = @result["edorgs"]
+  @edorg_hash = {}
+  edorgs.each do |edorg_entry|
+    if edorg_entry["authorizedEdorg"]==edorg
+      @edorg_hash = edorg_entry
+    end
+  end
+  assert(@edorg_hash.size==4, "The entry in applicationAuthorization edorg array for #{edorg} was incorrect");
+end
+
+And /^The "([^"]*)" should be "([^"]*)"$/ do |field, value|
+  @edorg_hash[field].should_not == nil
+  @edorg_hash[field].should == value
+  @edorg_hash.delete(field)
+end
+
+
