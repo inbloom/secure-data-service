@@ -1484,16 +1484,18 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
   disable_NOTABLESCAN()
 
   @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB, INGESTION_BATCHJOB_DB_PORT)
-  puts "tenant : #{tenant}, INGESTION_BATCHJOB_DB : #{INGESTION_BATCHJOB_DB}, INGESTION_BATCHJOB_DB_PORT : #{INGESTION_BATCHJOB_DB_PORT}, INGESTION_BATCHJOB_DB_NAME : #{INGESTION_BATCHJOB_DB_NAME}" if $SLI_DEBUG
+  STDOUT.puts "tenant : #{tenant}, INGESTION_BATCHJOB_DB : #{INGESTION_BATCHJOB_DB}, INGESTION_BATCHJOB_DB_PORT : #{INGESTION_BATCHJOB_DB_PORT}, INGESTION_BATCHJOB_DB_NAME : #{INGESTION_BATCHJOB_DB_NAME}"
+  STDOUT.flush
   db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
   job_collection = db.collection('newBatchJob')
-  puts "job_collection.count() : " + job_collection.count().to_s if $SLI_DEBUG
+  STDOUT.puts "job_collection.count() : " + job_collection.count().to_s
+  STDOUT.flush
   zip_suffix='.zip'
   data_basename = batch_file.chomp(zip_suffix)
 
   intervalTime = 5 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 900s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 900
+  @maxTimeout ? @maxTimeout : @maxTimeout = 60
   iters = (1.0*@maxTimeout/intervalTime).ceil
   status = nil
   job_id = nil
@@ -1510,6 +1512,8 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
         next
       else
         job_id = job_record['_id']
+        STDOUT.puts "job_id : " + job_id.to_s
+        STDOUT.flush
       end
     else
       job_record = job_collection.find_one({"_id" => job_id}, :fields => ["status"])
@@ -1518,7 +1522,8 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
     status = job_record['status']
 
     if status == 'CompletedSuccessfully' || status == 'CompletedWithErrors'
-      puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete" if $SLI_DEBUG
+      STDOUT.puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+      STDOUT.flush
       break
     end
   end
