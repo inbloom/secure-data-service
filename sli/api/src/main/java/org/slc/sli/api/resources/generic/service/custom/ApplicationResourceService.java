@@ -16,7 +16,6 @@
 package org.slc.sli.api.resources.generic.service.custom;
 
 import org.slc.sli.api.resources.generic.service.DefaultResourceService;
-import org.slc.sli.api.resources.security.DelegationUtil;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
@@ -52,9 +51,6 @@ public class ApplicationResourceService extends DefaultResourceService {
     @Autowired
     @Value("${sli.sandbox.enabled}")
     private boolean sandboxEnabled;
-    
-    @Autowired
-    private DelegationUtil delegation;
 
     @Override
     protected void addAdditionalCriteria(final NeutralQuery query) {
@@ -78,9 +74,6 @@ public class ApplicationResourceService extends DefaultResourceService {
 
             Set<String> edorgs = new HashSet<String>();
             edorgs.add(principal.getEdOrgId());
-            if (SecurityUtil.getAllRights().contains(Right.EDORG_DELEGATE)) {   //Add an SEA admin's delegated LEAs
-                edorgs.addAll(delegation.getAppApprovalDelegateEdOrgs());
-            }
             
             //know this is ugly, but having trouble getting or queries to work
             List<String> idList = new ArrayList<String>();
