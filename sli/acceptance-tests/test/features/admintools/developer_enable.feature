@@ -47,77 +47,74 @@ Background:
         And I see the list of (only) my applications
         And I clicked on the button Edit for the application "Red Dwarf"
         Then I can see the on-boarded states
-        When I check Bulk Extract
-        And I select the "Mega State"
-        And I select the "New York State Education System"
+        When I check the Bulk Extract checkbox
+        And I enable the educationalOrganization "Mega State" in tenant "Midgar"
+        And I enable the educationalOrganization "New York State Education System" in tenant "Hyrule"
         And I click on Save
-        #3 for NY and 2325 for Mega State
-        Then "Red Dwarf" is enabled for "2328" education organizations
-        And I clicked on the button Edit for the application "Red Dwarf"
-        Then I can see the on-boarded states
-        And I select the "Mega State"
-        And I click on Save
-        Then "Red Dwarf" is enabled for "3" education organizations
-        #test non-bulk extract app
-        And I clicked on the button Edit for the application "Red Dwarf"
-        When I check Bulk Extract
-        Then I can see the on-boarded states
-        And I select the "Mega State"
-        And I click on Save
-        #8 for Ny and 2331 for Mega State
+        # 8 for Ny and 2331 for Mega State
         Then "Red Dwarf" is enabled for "2339" education organizations
         And I clicked on the button Edit for the application "Red Dwarf"
         Then I can see the on-boarded states
-        And I select the "Mega State"
+        And I disable the educationalOrganization "Mega State" in tenant "Midgar"
+        And I click on Save
+        Then "Red Dwarf" is enabled for "8" education organizations
+        #test non-bulk extract app
+        And I clicked on the button Edit for the application "Red Dwarf"
+        Then I can see the on-boarded states
+        When I uncheck the Bulk Extract checkbox
+        And I enable the educationalOrganization "Mega State" in tenant "Midgar"
+        And I click on Save
+        # confirm bulk extract specific app enable behavior is no longer there
+        # 8 for Ny and 2331 for Mega State
+        Then "Red Dwarf" is enabled for "2339" education organizations
+        And I clicked on the button Edit for the application "Red Dwarf"
+        And I disable the educationalOrganization "Mega State" in tenant "Midgar"
         And I click on Save
         Then "Red Dwarf" is enabled for "8" education organizations
         #Toggle bulk extract test
         And I clicked on the button Edit for the application "Red Dwarf"
-        When I check Bulk Extract
+        When I check the Bulk Extract checkbox
         And I click on Save
-        Then "Red Dwarf" is enabled for "3" education organizations
+        Then "Red Dwarf" is enabled for "8" education organizations
         #Remove all SEAs test
         And I clicked on the button Edit for the application "Red Dwarf"
-        Then I can see the on-boarded states
-        And I select the "New York State Education System"
+        And I disable the educationalOrganization "New York State Education System" in tenant "Hyrule"
         And I click on Save
         Then "Red Dwarf" is enabled for "0" education organizations
         Given I have replaced the edorg data
 
 Scenario: App Developer or Vendor enabling application for a District
-Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
-When I hit the Application Registration Tool URL
+  Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
+    And "Red Dwarf" is enabled for "0" education organizations
+  When I hit the Application Registration Tool URL
 	And I was redirected to the "Simple" IDP Login page
 	And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
-Then I am redirected to the Application Registration Tool page
+  Then I am redirected to the Application Registration Tool page
 	And I see the list of (only) my applications
-	And I clicked on the button Edit for the application "Testing App"
-   Then I can see the on-boarded states
-#Already enabled
-#When I select the state "Illinois State Board of Education"
-And I click on Save
-Then the "Testing App" is enabled for Districts
+	And I clicked on the button Edit for the application "Red Dwarf"
+    And I enable the educationalOrganization "Illinois State Board of Education" in tenant "Midgar"
+    And I click on Save
+  Then "Red Dwarf" is enabled for "200" education organizations
 
 Scenario: District Admin authorizing application for their district
-Given I log in as a valid SLI Operator "sunsetadmin" from the "SLI" hosted directory
-When I hit the Admin Application Authorization Tool
+  Given I log in as a valid SLI Operator "sunsetadmin" from the "SLI" hosted directory
+  When I hit the Admin Application Authorization Tool
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
-	Then I am redirected to the Admin Application Authorization Tool
-	Then I see the newly enabled application
+  Then I am redirected to the Admin Application Authorization Tool
+	And I see the newly enabled application
 
 Scenario: App Developer or Vendor disabling application for a District, part 2
-Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
-When I hit the Application Registration Tool URL
+  Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
+  When I hit the Application Registration Tool URL
 	And I was redirected to the "Simple" IDP Login page
 	And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
-Then I am redirected to the Application Registration Tool page
+  Then I am redirected to the Application Registration Tool page
 	And I see the list of (only) my applications
-	And I clicked on the button Edit for the application "Testing App"
-Then I can see the on-boarded states
-When I select the state "Illinois State Board of Education"
-And I click on Save
-  Then the "Testing App" is enabled for Districts
+	And I clicked on the button Edit for the application "Red Dwarf"
+    And I disable the educationalOrganization "Illinois State Board of Education" in tenant "Midgar"
+    And I click on Save
+  Then "Red Dwarf" is enabled for "0" education organizations
 
 Scenario: District Admin no longers see apps disabled for their district 
 Given I log in as a valid SLI Operator "sunsetadmin" from the "SLI" hosted directory

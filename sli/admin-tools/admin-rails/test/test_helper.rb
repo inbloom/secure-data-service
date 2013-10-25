@@ -98,6 +98,8 @@ class ActiveSupport::TestCase
       mock.head "/api/rest/v1/educationOrganizations/ID1", {"Accept" => "application/json"}, @ed_org_fixtures["local"].to_json
       mock.get "/api/rest/v1/educationOrganizations/?stateOrganizationId=Waffles", {"Accept" => "application/json"}, @ed_org_fixtures["waffles"].to_json
       mock.get "/api/rest/v1/educationOrganizations/?excludeFields=links&stateOrganizationId=Waffles", {"Accept" => "application/json"}, @ed_org_fixtures["waffles"].to_json
+      mock.get "/api/rest/v1/educationOrganizations?excludeFields=links&limit=100&organizationCategories=State+Education+Agency", {"Accept" => "application/json"}, [@ed_org_fixtures["state"]].to_json
+      mock.get '/api/rest/v1/educationOrganizations?excludeFields=links&includeFields=parentEducationAgencyReference%2CnameOfInstitution%2CstateOrganizationId%2CorganizationCategories&limit=20000&offset=0', {"Accept" => "application/json"}, [@ed_org_fixtures["state"], @ed_org_fixtures["local"], @ed_org_fixtures["waffles"]].to_json
 
       #admin delegations
       mock.get "/api/rest/adminDelegation", {"Accept" => "application/json"}, [@admin_delegations_fixtures["one"]].to_json
