@@ -21,10 +21,10 @@
                 <xs:element name="edorgs" minOccurs="0" maxOccurs="unbounded">
                 	<xs:complexType>
                 		<xs:sequence>
-                			<xs:element name="authorized_edorg" type="xs:string"/>
-                			<xs:element name="last_authorizing_realm_edorg" type="xs:string" minOccurs="0"/>
-                			<xs:element name="last_authorizing_user" type="xs:string" minOccurs="0"/>
-                			<xs:element name="last_authorized_date" type="xs:long" minOccurs="0"/>                            
+                			<xs:element name="authorizedEdorg" type="xs:string"/>
+                			<xs:element name="lastAuthorizingRealmEdorg" type="xs:string" minOccurs="0"/>
+                			<xs:element name="lastAuthorizingUser" type="xs:string" minOccurs="0"/>
+                			<xs:element name="lastAuthorizedDate" type="xs:long" minOccurs="0"/>
                 		</xs:sequence>
                 	</xs:complexType>
                 </xs:element>
