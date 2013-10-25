@@ -192,7 +192,6 @@ public class EdOrgExtractHelper implements InitializingBean {
         this.securityEventUtil = securityEventUtil;
     }
 
-
     public Map<String, List> getEdOrgLineages() {
         return edOrgLineages;
     }
