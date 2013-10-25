@@ -488,3 +488,41 @@ Then /^the following edOrgs not enabled by the developer are non-selectable for 
     end
   end
 end
+
+Then /^only below is present in the application authorization edOrgs array for the application "(.*?)" in tenant "(.*?)"$/ do |application, tenant, table|
+
+  expected_array = Array.new
+  #create expected results array
+  table.hashes.map do |row|
+    new_hash = Hash.new
+    db = @conn[convertTenantIdToDbName(tenant)]
+    coll = db.collection("educationOrganization")
+    record = coll.find_one("body.nameOfInstitution" => row["edOrg"].to_s)
+    new_hash["authorizedEdorg"] = record["_id"]
+    new_hash["lastAuthorizingRealmEdorg"] = row["realm edOrg"]
+    new_hash["lastAuthorizingUser"] = row["user"]
+    expected_array.insert(-1, new_hash)
+  end
+  expected_array.sort
+
+  #get actual results array, remove timestamp fields rom comparison
+  disable_NOTABLESCAN()
+  db = @conn.db("sli")
+  coll = db.collection("application")
+  record = coll.find_one("body.name" => application)
+  appId = record["_id"]
+  db = @conn[convertTenantIdToDbName(tenant)]
+  coll = db.collection("applicationAuthorization")
+  record = coll.find_one("body.applicationId" => appId.to_s)
+  enable_NOTABLESCAN()
+  body = record["body"]
+  actual_array = body["edorgs"]
+  actual_array.each do |entry|
+    entry.delete("lastAuthorizedDate")
+  end
+  actual_array.sort
+
+  #compare
+  assert(actual_array == expected_array, "edOrgs array mismatch in applicationAuthorization collection. Expected #{expected_array.to_s}, actual #{actual_array.to_s}")
+
+end
