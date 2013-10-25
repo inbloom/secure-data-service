@@ -103,6 +103,9 @@ Background:
         Then The following edOrgs are authorized for the application "Royal Oak" in tenant "Midgar"
 			|edorgs|
  	        |Illinois State Board of Education |
+ 	     #And only below is present in the application authorization edOrgs array for the application "Royal Oak" in tenant "Midgar"
+            #| edOrg                             | user    | realm edOrg                          |
+            #| Illinois State Board of Education | iladmin | fakeab32-b493-999b-a6f3-sliedorg1234 |
          And I check to find if record is in sli db collection:
           | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
           | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
@@ -718,6 +721,68 @@ Background:
         And there are "1" educationalOrganizations in the targetEdOrgList
         And I see an application "Royal Oak" in the table
         And in Status it says "Not Approved"
+
+    @wip
+    Scenario: Verify last authorized information - SEA admin authorizes SEA only
+
+        When I hit the Admin Application Authorization Tool
+         And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
+        Then I see an application "Royal Oak" in the table
+         And in Status it says "Not Approved"
+        Then I click on the "Edit Authorizations" button next to it
+         And I deselect hierarchical mode
+         And I expand all nodes
+         And I authorize the educationalOrganization "Illinois State Board of Education"
+         And I click Update
+        Then only below is present in the application authorization edOrgs array for the application "Royal Oak" in tenant "Midgar"
+            | edOrg                             | user    | realm edOrg                          |
+            | Illinois State Board of Education | iladmin | fakeab32-b493-999b-a6f3-sliedorg1234 |
+
+    @wip
+    Scenario: Verify last authorized information - LEA admin authorizes LEA only (dependant on above scenario)
+
+        When I hit the Admin Application Authorization Tool
+         And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
+        Then I see an application "Royal Oak" in the table
+         And in Status it says "Not Approved"
+        Then I click on the "Edit Authorizations" button next to it
+         And I deselect hierarchical mode
+         And I expand all nodes
+         And I authorize the educationalOrganization "Daybreak School District 4529"
+         And I click Update
+        Then only below is present in the application authorization edOrgs array for the application "Royal Oak" in tenant "Midgar"
+            | edOrg                             | user          | realm edOrg                          |
+            | Illinois State Board of Education | iladmin       | fakeab32-b493-999b-a6f3-sliedorg1234 |
+            | Daybreak School District 4529     | daybreakadmin | fakeab32-b493-999b-a6f3-sliedorg1234 |
+
+    @wip
+    Scenario: Verify last authorized information - SEA admin de-authorizes LEA and adds school (depends on above)
+
+        When I hit the Admin Application Authorization Tool
+         And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
+        Then I see an application "Royal Oak" in the table
+         And in Status it says "2 EdOrg(s)"
+        Then I click on the "Edit Authorizations" button next to it
+         And I deselect hierarchical mode
+         And I expand all nodes
+         And I de-authorize the educationalOrganization "Daybreak School District 4529"
+         And I authorize the educationalOrganization "Many-Parents"
+         And I click Update
+        Then only below is present in the application authorization edOrgs array for the application "Royal Oak" in tenant "Midgar"
+            | edOrg                             | user          | realm edOrg                          |
+            | Illinois State Board of Education | iladmin       | fakeab32-b493-999b-a6f3-sliedorg1234 |
+            | Many-Parents                      | iladmin       | fakeab32-b493-999b-a6f3-sliedorg1234 |
+        Then I see an application "Royal Oak" in the table
+         And in Status it says "2 EdOrg(s)"
+        Then I click on the "Edit Authorizations" button next to it
+         And I deselect hierarchical mode
+         And I expand all nodes
+         And I de-authorize the educationalOrganization "Illinois State Board of Education"
+         And I de-authorize the educationalOrganization "Many-Parents"
+         And I click Update
+        Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+
+        #Timestamps should be checked manually
 
 
 
