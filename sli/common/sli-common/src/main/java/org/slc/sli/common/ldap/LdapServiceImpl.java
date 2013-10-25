@@ -25,10 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.naming.Name;
-import javax.naming.directory.BasicAttribute;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.ModificationItem;
 import javax.naming.directory.SearchControls;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,13 +111,11 @@ public class LdapServiceImpl implements LdapService {
         if (oldUser != null) {
             ldapTemplate.unbind(buildUserDN(realm, oldUser.getCn()));
         }
-
         if (groups != null && groups.size() > 0) {
-            for (Group group : groups) {
-//                group.removeMemberUid(uid);
-//                updateGroup(realm, group);
 
-                removeUserFromGroup(realm, group, oldUser);
+            for (Group group : groups) {
+                group.removeMemberUid(uid);
+                updateGroup(realm, group);
             }
         }
     }
@@ -134,10 +128,8 @@ public class LdapServiceImpl implements LdapService {
         if (groupNames != null && groupNames.size() > 0) {
             for (String groupName : groupNames) {
                 Group group = getGroup(realm, groupName);
-//                group.addMemberUid(user.getUid());
-//                updateGroup(realm, group);
-
-                addUserToGroup(realm, group, user);
+                group.addMemberUid(user.getUid());
+                updateGroup(realm, group);
             }
         }
         return user.getUid();
@@ -159,10 +151,8 @@ public class LdapServiceImpl implements LdapService {
         if (oldGroups != null && oldGroups.size() > 0) {
             for (Group oldGroup : oldGroups) {
                 if (!newGroupNames.contains(oldGroup.getGroupName())) {
-//                    oldGroup.removeMemberUid(user.getUid());
-//                    updateGroup(realm, oldGroup);
-
-                    removeUserFromGroup(realm, oldGroup, user);
+                    oldGroup.removeMemberUid(user.getUid());
+                    updateGroup(realm, oldGroup);
                 }
             }
         }
@@ -171,10 +161,8 @@ public class LdapServiceImpl implements LdapService {
             for (String newGroupName : newGroupNames) {
                 if (!oldGroupNames.contains(newGroupName)) {
                     Group newGroup = getGroup(realm, newGroupName);
-//                    newGroup.addMemberUid(user.getUid());
-//                    updateGroup(realm, newGroup);
-
-                    removeUserFromGroup(realm, newGroup, user);
+                    newGroup.addMemberUid(user.getUid());
+                    updateGroup(realm, newGroup);
                 }
             }
         }
@@ -282,28 +270,6 @@ public class LdapServiceImpl implements LdapService {
     public Collection<User> findUsersByGroups(String realm, Collection<String> groupNames, String tenant,
             Collection<String> edorgs) {
         return findUsersByGroups(realm, groupNames, null, tenant, edorgs);
-    }
-
-    @Override
-    public boolean addUserToGroup(String realm, Group group, User user) {
-        return toggleUserInGroup(realm, group, user, DirContext.ADD_ATTRIBUTE);
-    }
-
-    private boolean toggleUserInGroup(String realm, Group group, User user, int op) {
-        BasicAttribute member = new BasicAttribute("memberUid", user.getUid());
-        ModificationItem[] modGroups = new ModificationItem[] {
-                new ModificationItem(op, member) };
-
-        Name groupName = buildGroupDN(realm, group.getGroupName());
-
-        ldapTemplate.modifyAttributes(groupName, modGroups);
-
-        return true;
-    }
-
-    @Override
-    public boolean removeUserFromGroup(String realm, Group group, User user) {
-        return toggleUserInGroup(realm, group, user, DirContext.REMOVE_ATTRIBUTE);
     }
 
     @Override
