@@ -17,10 +17,7 @@
 
 package org.slc.sli.api.resources.security;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -67,6 +64,16 @@ public class ApplicationAuthorizationResourceTest {
     private SecurityContextInjector injector;
     
     Entity sea, lea1, lea2, school11, school12, school21, school22;
+
+    public static List<Map<String,Object>> getAuthList(String... edOrgs){
+        List<Map<String, Object>> authList = new ArrayList<Map<String, Object>>();
+        for(String edOrg:edOrgs) {
+            Map<String, Object> auth = new HashMap<String, Object>();
+            auth.put("authorizedEdorg", edOrg);
+            authList.add(auth);
+        }
+        return  authList;
+    }
 
     @Before
     public void setup() {

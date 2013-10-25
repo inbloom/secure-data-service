@@ -102,7 +102,7 @@ public class AppAuthHelper {
         List<Map<String, Object>> acls = (List<Map<String, Object>>)appAuth.getBody().get("edorgs");
         if(acls != null) {
             for(Map<String, Object> acl:acls) {
-                String edOrg = (String)acl.get("authorized_edorg");
+                String edOrg = (String)acl.get("authorizedEdorg");
                 if(edOrg != null) {
                     result.add(edOrg);
                 }

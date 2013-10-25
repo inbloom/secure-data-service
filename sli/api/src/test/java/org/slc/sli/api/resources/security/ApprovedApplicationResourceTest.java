@@ -27,6 +27,7 @@ import java.util.Map;
 import junit.framework.Assert;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.representation.EntityBody;
@@ -46,6 +47,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import com.sun.jersey.core.spi.factory.ResponseImpl;
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class,
