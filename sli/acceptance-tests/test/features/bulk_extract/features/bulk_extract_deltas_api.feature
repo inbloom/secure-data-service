@@ -617,15 +617,12 @@ Scenario: Triggering deltas via ingestion
        | id                                          | condition                                |
        | 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id | uniqueSectionCode = 2                    |
 
-     # Both Teacher 01 and 03 should be in DAYBREAK
+     # Both Teacher 01, 02 and 03 should be in DAYBREAK
      And I verify this "teacher" file should contain:
        | id                                          | condition                                |
        | cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id | staffUniqueStateId = tech-0000000003     |
        | fe472294f0e40fd428b1a67b9765360004562bab_id | staffUniqueStateId = tech-0000000001     |
-     And I verify this "teacher" file should not contain:
-       # teacher 02 should not show up as we expired his staffEdorgAssociations
-       | id                                          | condition                                |
-       | 631d712727054d49d706d5a3a7eb8faaad0cbeba_id |                                          |
+       | 631d712727054d49d706d5a3a7eb8faaad0cbeba_id | staffUniqueStateId = tech-0000000002     |
      And I verify this "teacherSchoolAssociation" file should contain:
        | id                                          | condition                                |
        | c063086ce77b13c4e593ff8261024a6ef30e0a8d_id | teacherId = cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id |
@@ -743,15 +740,12 @@ Scenario: Triggering deltas via ingestion
     | id                                          | condition                                |
     | 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id | uniqueSectionCode = 2                    |
 
-# Both Teacher 01 and 03 should be in DAYBREAK
+# Both Teacher 01, 02 and 03 should be in DAYBREAK
   And I verify this "teacher" file should contain:
     | id                                          | condition                                |
     | cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id | staffUniqueStateId = tech-0000000003     |
     | fe472294f0e40fd428b1a67b9765360004562bab_id | staffUniqueStateId = tech-0000000001     |
-  And I verify this "teacher" file should not contain:
-  # teacher 02 should not show up as we expired his staffEdorgAssociations
-    | id                                          | condition                                |
-    | 631d712727054d49d706d5a3a7eb8faaad0cbeba_id |                                          |
+    | 631d712727054d49d706d5a3a7eb8faaad0cbeba_id | staffUniqueStateId = tech-0000000002     |
   And I verify this "teacherSchoolAssociation" file should contain:
     | id                                          | condition                                |
     | c063086ce77b13c4e593ff8261024a6ef30e0a8d_id | teacherId = cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id |

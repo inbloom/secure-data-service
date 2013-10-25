@@ -140,4 +140,125 @@
         <BeginDate>2011-09-06</BeginDate>
         <EndDate>2012-11-29</EndDate>
     </StudentCohortAssociation>
+
+  <StaffCohortAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <CohortReference>
+      <CohortIdentity>
+        <CohortIdentifier>1</CohortIdentifier>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+              <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+      </CohortIdentity>
+    </CohortReference>
+    <BeginDate>2010-08-31</BeginDate>
+    <EndDate>2011-08-30</EndDate>
+    <StudentRecordAccess>true</StudentRecordAccess>
+  </StaffCohortAssociation>
+  <StaffCohortAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <CohortReference>
+      <CohortIdentity>
+        <CohortIdentifier>2</CohortIdentifier>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+              <StateOrganizationId>Sunset Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+      </CohortIdentity>
+    </CohortReference>
+    <BeginDate>2013-09-03</BeginDate>
+    <EndDate>2014-09-04</EndDate>
+    <StudentRecordAccess>true</StudentRecordAccess>
+  </StaffCohortAssociation>
+  <StaffCohortAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <CohortReference>
+      <CohortIdentity>
+        <CohortIdentifier>1</CohortIdentifier>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+              <StateOrganizationId>Westside High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+      </CohortIdentity>
+    </CohortReference>
+    <BeginDate>2011-07-22</BeginDate>
+    <EndDate>2011-09-01</EndDate>
+    <StudentRecordAccess>true</StudentRecordAccess>
+  </StaffCohortAssociation>
+  <StaffCohortAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <CohortReference>
+      <CohortIdentity>
+        <CohortIdentifier>1</CohortIdentifier>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+              <StateOrganizationId>Eastside High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+      </CohortIdentity>
+    </CohortReference>
+    <BeginDate>2010-08-31</BeginDate>
+    <EndDate>2011-08-29</EndDate>
+    <StudentRecordAccess>true</StudentRecordAccess>
+  </StaffCohortAssociation>
+  <StaffCohortAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <CohortReference>
+      <CohortIdentity>
+        <CohortIdentifier>1</CohortIdentifier>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+              <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+      </CohortIdentity>
+    </CohortReference>
+    <BeginDate>2010-08-31</BeginDate>
+    <EndDate>2011-02-01</EndDate>
+    <StudentRecordAccess>true</StudentRecordAccess>
+  </StaffCohortAssociation>
+  <StaffCohortAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <CohortReference>
+      <CohortIdentity>
+        <CohortIdentifier>1</CohortIdentifier>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+              <StateOrganizationId>Sunset Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+      </CohortIdentity>
+    </CohortReference>
+    <BeginDate>2011-07-23</BeginDate>
+    <EndDate>2014-09-02</EndDate>
+    <StudentRecordAccess>true</StudentRecordAccess>
+  </StaffCohortAssociation>
 </InterchangeStudentCohort>

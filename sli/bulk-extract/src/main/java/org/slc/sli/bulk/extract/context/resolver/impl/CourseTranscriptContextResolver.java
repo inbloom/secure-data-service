@@ -15,7 +15,6 @@
  */
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -75,7 +74,7 @@ public class CourseTranscriptContextResolver implements ContextResolver {
     }
 
     @Override
-    public Set<String> findGoverningEdOrgs(Entity baseEntity, Entity entityToExtract) {
+    public Set<String> findGoverningEdOrgs(Entity entity, Entity entityToExtract) {
         return null;
     }
     

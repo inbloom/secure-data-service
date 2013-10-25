@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Resolver that supports the ability to find the reference from an id
@@ -66,7 +67,7 @@ public abstract class ReferrableResolver implements ContextResolver {
             LOG.debug("got edOrgs from cache for {}", entity);
             return getCache().get(id);
         }
-        
+
         Set<String> edOrgs = resolve(entity);
 
         getCache().put(id, edOrgs);
@@ -99,6 +100,7 @@ public abstract class ReferrableResolver implements ContextResolver {
         return Collections.emptySet();
     }
 
+    //F316: this method should be removed as part of clean up
     public Set<String> findGoverningEdOrgs(Entity baseEntity, Entity entityToExtract) {
         LOG.debug("resolving {}", baseEntity);
         if (baseEntity == null || baseEntity.getEntityId() == null) {
@@ -115,12 +117,14 @@ public abstract class ReferrableResolver implements ContextResolver {
             return Collections.emptySet();
         }
 
+        Set<String> edOrgs = new HashSet<String>();
+
         Entity entity = getRepo().findOne(getCollection(), DeltaEntityIterator.buildQuery(getCollection(), id));
-        if (entity != null) {
-            return findGoverningEdOrgs(entity, entityToExtract);
+        if (entity != null && entity.getEntityId() != null) {
+            edOrgs = resolve(entity, entityToExtract);
         }
 
-        return Collections.emptySet();
+        return edOrgs;
     }
 
 

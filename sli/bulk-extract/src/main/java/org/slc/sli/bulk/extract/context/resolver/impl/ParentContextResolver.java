@@ -53,15 +53,14 @@ public class ParentContextResolver implements ContextResolver {
         Iterator<Entity> kids = repo.findEach(EntityNames.STUDENT,
                 Query.query(Criteria.where(PATH_TO_PARENT).is(entity.getEntityId())));
         while(kids.hasNext()) {
-            Entity kid = kids.next();
-            leas.addAll(studentResolver.findGoverningEdOrgs(kid, entity));
+            Entity student = kids.next();
+            leas.addAll(studentResolver.findGoverningEdOrgs(student.getEntityId(), entity));
         }
         return leas;
     }
 
     @Override
-    public Set<String> findGoverningEdOrgs(Entity baseEntity, Entity entityToExtract) {
-        return null;
+    public Set<String> findGoverningEdOrgs(Entity entity, Entity actualEntity) {
+        throw new UnsupportedOperationException();
     }
-    
 }

@@ -99,7 +99,7 @@ public class StudentContextResolverTest {
         final DateTime futureDate = edorgDates.get(FUTURESCHOOL);
 
         EdOrgHierarchyHelper edOrgHierarchyHelper = mock(EdOrgHierarchyHelper.class);
-        when(edOrgHierarchyHelper.getSEAId()).thenReturn(CURRENTSCHOOL);
+        when(edOrgHierarchyHelper.getSEA()).thenReturn(current);
         underTest.setEdOrgHierarchyHelper(edOrgHierarchyHelper);
 
         StudentContextResolver rs = Mockito.spy(underTest);
@@ -122,7 +122,7 @@ public class StudentContextResolverTest {
 
         when(repo.findOne(Matchers.eq(EntityNames.EDUCATION_ORGANIZATION), (NeutralQuery)Matchers.any())).thenReturn(null);
         EdOrgHierarchyHelper edOrgHierarchyHelper = mock(EdOrgHierarchyHelper.class);
-        when(edOrgHierarchyHelper.getSEAId()).thenReturn(null);
+        when(edOrgHierarchyHelper.getSEA()).thenReturn(null);
         underTest.setEdOrgHierarchyHelper(edOrgHierarchyHelper);
 
         Set<String> res = underTest.resolve(testStudent, testStudent);

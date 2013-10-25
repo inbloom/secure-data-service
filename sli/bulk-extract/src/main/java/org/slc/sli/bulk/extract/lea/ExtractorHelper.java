@@ -77,25 +77,27 @@ public class ExtractorHelper{
     /**
      * build edOrg to date map.
      *
-     * @param edOrg - EdOrg entity body
+     * @param entityBody - EdOrg entity body
      * @param edOrgToDate - Old edOrg to date map
      * @param edOrgIdField - EdOrg ID field name
      * @param beginDateField - Begin date field name
      * @param endDateField - end date field name
      */
-    public void updateEdorgToDateMap(Map<String, Object> edOrg, Map<String, DateTime> edOrgToDate,
-            String edOrgIdField, String beginDateField, String endDateField) {
-        if (!dateHelper.getDate(edOrg, beginDateField).isAfter(DateTime.now())) {
-            String id = (String) edOrg.get(edOrgIdField);
-            DateTime expirationDateFromData = dateHelper.getDate(edOrg, endDateField);
+    public Map<String, DateTime> updateEdorgToDateMap(Map<String, Object> entityBody, Map<String, DateTime> edOrgToDate,
+                                                      String edOrgIdField, String beginDateField, String endDateField) {
+        if (!dateHelper.getDate(entityBody, beginDateField).isAfter(DateTime.now())) {
+            String id = (String) entityBody.get(edOrgIdField);
+            DateTime expirationDateFromData = dateHelper.getDate(entityBody, endDateField);
 
             List<String> lineage = edOrgExtractHelper.getEdOrgLineages().get(id);
             List<String> edOrgLineage = new ArrayList<String>();
+
             if (lineage != null) {
                 edOrgLineage.addAll(lineage);
             } else {
                 edOrgLineage.add(id);
             }
+
             for (String edOrgId : edOrgLineage) {
                 DateTime existingExpirationDate = edOrgToDate.get(edOrgId);
                 DateTime finalExpirationDate = expirationDateFromData;
@@ -109,6 +111,7 @@ public class ExtractorHelper{
                 edOrgToDate.put(edOrgId, finalExpirationDate);
             }
         }
+        return edOrgToDate;
     }
 
     public void setDateHelper(DateHelper helper) {

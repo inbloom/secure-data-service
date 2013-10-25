@@ -230,14 +230,15 @@ public class EdOrgHierarchyHelper {
         return null;
     }
 
-    public String getSEAId() {
+    /**
+     * Get the only SEA from the tenant.
+     *
+     * @return SEA entity
+     */
+    public Entity getSEA() {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(ParameterConstants.ORGANIZATION_CATEGORIES, NeutralCriteria.OPERATOR_EQUAL, SEA_CATEGORIES));
 
-        Entity sea = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query);
-        if (sea == null) {
-            return null;
-        }
-        return sea.getEntityId();
+        return repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query);
     }
 }

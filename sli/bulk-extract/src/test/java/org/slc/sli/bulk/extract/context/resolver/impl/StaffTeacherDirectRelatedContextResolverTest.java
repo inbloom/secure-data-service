@@ -17,33 +17,23 @@ package org.slc.sli.bulk.extract.context.resolver.impl;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 
 public class StaffTeacherDirectRelatedContextResolverTest {
-    
-    @InjectMocks
-    StaffTeacherDirectRelatedContextResolver resolver = new StaffTeacherDirectRelatedContextResolver();
-    
-    @Mock
-    private StaffTeacherContextResolver staffTeacherResolver;
 
-    @Before
-    public void setUp() throws Exception {
-        staffTeacherResolver = Mockito.mock(StaffTeacherContextResolver.class);
-        MockitoAnnotations.initMocks(this);
-    }
-    
+    StaffTeacherDirectRelatedContextResolver resolver = new StaffTeacherDirectRelatedContextResolver();
+
     @Test
     public void canResolveTeacherAndStaffRelatedEntities() {
-        assertEquals(StaffTeacherDirectRelatedContextResolver.TEACHER_ID, resolver.getReferenceProperty(EntityNames.TEACHER_SCHOOL_ASSOCIATION));
-        assertEquals(StaffTeacherDirectRelatedContextResolver.TEACHER_ID, resolver.getReferenceProperty(EntityNames.TEACHER_SECTION_ASSOCIATION));
-        assertEquals(StaffTeacherContextResolver.STAFF_REFERENCE, resolver.getReferenceProperty(EntityNames.STAFF_ED_ORG_ASSOCIATION));
+        assertEquals(ParameterConstants.TEACHER_ID, resolver.getReferenceProperty(EntityNames.TEACHER_SCHOOL_ASSOCIATION));
+        assertEquals(ParameterConstants.TEACHER_ID, resolver.getReferenceProperty(EntityNames.TEACHER_SECTION_ASSOCIATION));
+        assertEquals(ParameterConstants.STAFF_REFERENCE, resolver.getReferenceProperty(EntityNames.STAFF_ED_ORG_ASSOCIATION));
+        assertEquals(ParameterConstants.STAFF_ID, resolver.getReferenceProperty(EntityNames.STAFF_COHORT_ASSOCIATION));
+        assertEquals(ParameterConstants.STAFF_ID, resolver.getReferenceProperty(EntityNames.STAFF_PROGRAM_ASSOCIATION));
+        assertEquals(null, resolver.getReferenceProperty(EntityNames.STAFF));
+        assertEquals(null, resolver.getReferenceProperty(EntityNames.TEACHER));
     }
 }

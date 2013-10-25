@@ -53,7 +53,6 @@
         </Credentials>
         <LoginId>4730@fakemail.com</LoginId>
     </Teacher>
-
     <Teacher>
         <StaffUniqueStateId>cgray</StaffUniqueStateId>
         <StaffIdentificationCode IdentificationSystem="Health Record">
@@ -106,6 +105,211 @@
         </Credentials>
         <LoginId>9690@fakemail.com</LoginId>
     </Teacher>
+
+  <StaffProgramAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>163</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2010-08-31</BeginDate>
+    <EndDate>2011-05-30</EndDate>
+  </StaffProgramAssociation>
+  <StaffProgramAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>172</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2013-09-03</BeginDate>
+    <EndDate>2014-05-26</EndDate>
+    <StudentRecordAccess>true</StudentRecordAccess>
+  </StaffProgramAssociation>
+  <StaffProgramAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>134</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2010-08-31</BeginDate>
+    <EndDate>2011-05-28</EndDate>
+    <StudentRecordAccess>true</StudentRecordAccess>
+  </StaffProgramAssociation>
+  <StaffProgramAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>146</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2010-08-31</BeginDate>
+    <EndDate>2011-05-26</EndDate>
+  </StaffProgramAssociation>
+  <StaffProgramAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>122</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2011-08-31</BeginDate>
+    <EndDate>2012-05-28</EndDate>
+  </StaffProgramAssociation>
+
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>1</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Substitute Teacher</ClassroomPosition>
+      <BeginDate>2010-08-31</BeginDate>
+      <EndDate>2011-05-22</EndDate>
+      <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>
+  
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Sunset Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>165</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Substitute Teacher</ClassroomPosition>
+      <BeginDate>2013-09-03</BeginDate>
+      <EndDate>2014-05-29</EndDate>
+      <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>
+  
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Westside High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>185</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Substitute Teacher</ClassroomPosition>
+      <BeginDate>2011-07-22</BeginDate>
+      <EndDate>2012-05-28</EndDate>
+      <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>
+  
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Eastside High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>65</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Substitute Teacher</ClassroomPosition>
+      <BeginDate>2010-08-31</BeginDate>
+      <EndDate>2011-05-22</EndDate>
+      <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>
+  
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>1</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Substitute Teacher</ClassroomPosition>
+      <BeginDate>2010-08-31</BeginDate>
+      <EndDate>2011-05-27</EndDate>
+      <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>
+  
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Sunset Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>145</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Substitute Teacher</ClassroomPosition>
+      <BeginDate>2011-08-31</BeginDate>
+      <EndDate>2012-05-22</EndDate>
+      <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>
 
     <StaffEducationOrgAssignmentAssociation>
         <StaffReference>

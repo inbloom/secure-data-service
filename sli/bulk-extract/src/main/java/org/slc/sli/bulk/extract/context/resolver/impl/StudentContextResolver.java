@@ -127,8 +127,7 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
 
         for (Map.Entry<String, DateTime> edorgDate : edorgDates.entrySet()) {
             try {
-                if (nonDatedEntities.contains(entityToExtract.getType())
-                         || shouldExtract(entityToExtract, edorgDate.getValue())) {
+                if (shouldExtract(entityToExtract, edorgDate.getValue())) {
 
                     edorgs.add(edorgDate.getKey());
                 }
@@ -153,7 +152,10 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
 
     private Map<String, DateTime> fetchNonSEADates(Map<String, DateTime> edorgDates) {
         if (seaIds == null) {
-            seaIds = edOrgHierarchyHelper.getSEAId();
+            Entity sea = edOrgHierarchyHelper.getSEA();
+            if (sea != null) {
+                seaIds = sea.getEntityId();
+            }
         }
 
         edorgDates.remove(seaIds);

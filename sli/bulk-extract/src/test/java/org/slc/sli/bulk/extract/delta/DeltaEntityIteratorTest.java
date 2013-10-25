@@ -71,6 +71,7 @@ public class DeltaEntityIteratorTest {
             List<String> lists = Arrays.asList("LEA1", "LEA2");
             return new HashSet<String>(lists);
         }
+
         @Override
         public Set<String> findGoverningEdOrgs(Entity entity, Entity entityToExtract) {
             List<String> lists = Arrays.asList("LEA1", "LEA2");

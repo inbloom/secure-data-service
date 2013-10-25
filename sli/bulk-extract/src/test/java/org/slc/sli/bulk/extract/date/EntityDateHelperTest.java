@@ -16,6 +16,7 @@
 package org.slc.sli.bulk.extract.date;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +26,12 @@ import junit.framework.Assert;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
+import org.mockito.Mockito;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.datetime.DateHelper;
@@ -78,19 +82,34 @@ public class EntityDateHelperTest {
 
     @Test
     public void testshouldExtractSchoolYear() {
-        Map<String, Object> attendanceBody = new HashMap<String, Object>();
-        attendanceBody.put(ParameterConstants.SCHOOL_YEAR, "2009-2010");
-        Entity attendance = new MongoEntity(EntityNames.ATTENDANCE, attendanceBody);
+        Map<String, Object> gradeBody = new HashMap<String, Object>();
+        gradeBody.put(ParameterConstants.SCHOOL_YEAR, "2009-2010");
+        Entity grade = new MongoEntity(EntityNames.GRADE, gradeBody);
 
-        Assert.assertTrue(EntityDateHelper.shouldExtract(attendance, DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat())));
-        Assert.assertTrue(EntityDateHelper.shouldExtract(attendance, DateTime.parse("2010-05-23", DateHelper.getDateTimeFormat())));
-        Assert.assertTrue(EntityDateHelper.shouldExtract(attendance, null));
-        Assert.assertFalse(EntityDateHelper.shouldExtract(attendance, DateTime.parse("2009-05-24", DateHelper.getDateTimeFormat())));
-        Assert.assertFalse(EntityDateHelper.shouldExtract(attendance, DateTime.parse("2008-05-24", DateHelper.getDateTimeFormat())));
+        Assert.assertTrue(EntityDateHelper.shouldExtract(grade, DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat())));
+        Assert.assertTrue(EntityDateHelper.shouldExtract(grade, DateTime.parse("2010-05-23", DateHelper.getDateTimeFormat())));
+        Assert.assertTrue(EntityDateHelper.shouldExtract(grade, null));
+        Assert.assertFalse(EntityDateHelper.shouldExtract(grade, DateTime.parse("2009-05-24", DateHelper.getDateTimeFormat())));
+        Assert.assertFalse(EntityDateHelper.shouldExtract(grade, DateTime.parse("2008-05-24", DateHelper.getDateTimeFormat())));
     }
 
     @Test
-    public void testSholdExtract() {
+    public void testshouldExtractDateAndType() {
+        String attendanceDate = "2009-2010";
+
+        Assert.assertTrue(EntityDateHelper.shouldExtract(attendanceDate, DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()),
+                EntityNames.ATTENDANCE));
+        Assert.assertTrue(EntityDateHelper.shouldExtract(attendanceDate, DateTime.parse("2010-05-23", DateHelper.getDateTimeFormat()),
+                EntityNames.ATTENDANCE));
+        Assert.assertTrue(EntityDateHelper.shouldExtract(attendanceDate, null, EntityNames.ATTENDANCE));
+        Assert.assertFalse(EntityDateHelper.shouldExtract(attendanceDate, DateTime.parse("2009-05-24", DateHelper.getDateTimeFormat()),
+                EntityNames.ATTENDANCE));
+        Assert.assertFalse(EntityDateHelper.shouldExtract(attendanceDate, DateTime.parse("2008-05-24", DateHelper.getDateTimeFormat()),
+                EntityNames.ATTENDANCE));
+    }
+
+    @Test
+    public void testSholdExtractEntities() {
         List<Entity> entities = new ArrayList<Entity>();
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(ParameterConstants.BEGIN_DATE, "2001-01-01");
@@ -106,6 +125,36 @@ public class EntityDateHelperTest {
         Assert.assertTrue(EntityDateHelper.shouldExtract(entities, DateTime.parse("2001-05-23", DateHelper.getDateTimeFormat())));
         Assert.assertTrue(EntityDateHelper.shouldExtract(entities, DateTime.parse("2010-05-23", DateHelper.getDateTimeFormat())));
         Assert.assertFalse(EntityDateHelper.shouldExtract(entities, DateTime.parse("2000-05-23", DateHelper.getDateTimeFormat())));
+    }
+
+    @SuppressWarnings("static-access")
+    @Test
+    public void testshouldExtractTeacherSchoolAssociation() {
+        EntityDateHelper helper = new EntityDateHelper();
+
+        Entity mSeoa = Mockito.mock(Entity.class);
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put(ParameterConstants.BEGIN_DATE, "2009-09-02");
+        body.put(ParameterConstants.END_DATE, "2010-05-31");
+        Mockito.when(mSeoa.getBody()).thenReturn(body);
+        Mockito.when(mSeoa.getType()).thenReturn(EntityNames.STAFF_ED_ORG_ASSOCIATION);
+
+        EdOrgExtractHelper mockEdOrgExtractHelper = Mockito.mock(EdOrgExtractHelper.class);
+        Mockito.when(mockEdOrgExtractHelper.retrieveSEOAS(Matchers.eq("Staff1"), Matchers.eq("LEA"))).thenReturn(Arrays.asList(mSeoa));
+        helper.setEdOrgExtractHelper(mockEdOrgExtractHelper);
+
+        Map<String, Object> tsaBody = new HashMap<String, Object>();
+        tsaBody.put(ParameterConstants.TEACHER_ID, "Staff1");
+        tsaBody.put(ParameterConstants.SCHOOL_ID, "LEA");
+        Entity tsa = Mockito.mock(Entity.class);
+        Mockito.when(tsa.getBody()).thenReturn(tsaBody);
+        Mockito.when(tsa.getType()).thenReturn(EntityNames.TEACHER_SCHOOL_ASSOCIATION);
+
+        Assert.assertTrue(helper.shouldExtract(tsa, DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat())));
+        Assert.assertTrue(helper.shouldExtract(tsa, DateTime.parse("2009-09-02", DateHelper.getDateTimeFormat())));
+        Assert.assertTrue(helper.shouldExtract(tsa, null));
+        Assert.assertFalse(helper.shouldExtract(tsa, DateTime.parse("2009-09-01", DateHelper.getDateTimeFormat())));
+        Assert.assertFalse(helper.shouldExtract(tsa, DateTime.parse("2008-05-24", DateHelper.getDateTimeFormat())));
     }
 
 }
