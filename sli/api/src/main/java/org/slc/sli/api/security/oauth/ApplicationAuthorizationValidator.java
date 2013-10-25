@@ -77,7 +77,7 @@ public class ApplicationAuthorizationValidator {
                 Set<String> edOrgs = helper.locateDirectEdorgs(principal.getEntity());
                 NeutralQuery appAuthCollQuery = new NeutralQuery();
                 appAuthCollQuery.addCriteria(new NeutralCriteria("applicationId", "=", app.getEntityId()));
-                appAuthCollQuery.addCriteria(new NeutralCriteria("edorgs.authorized_edorg", NeutralCriteria.CRITERIA_IN, edOrgs));
+                appAuthCollQuery.addCriteria(new NeutralCriteria("edorgs.authorizedEdorg", NeutralCriteria.CRITERIA_IN, edOrgs));
                 Entity authorizedApps = repo.findOne("applicationAuthorization", appAuthCollQuery);
                 if (authorizedApps != null) {
                     if (isAutoApproved(app)) {
