@@ -16,21 +16,21 @@
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
 
-import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+
 /**
  * Resolver for entities directly related to another entity
- * 
+ *
  * @author nbrown
- * 
+ *
  */
 public abstract class RelatedContextResolver implements ContextResolver {
 
@@ -38,18 +38,20 @@ public abstract class RelatedContextResolver implements ContextResolver {
     private static Set<String> supportedNonCurrentEntities = new HashSet<String>(Arrays.asList(EntityNames.STUDENT_PROGRAM_ASSOCIATION,
             EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, EntityNames.STUDENT_PARENT_ASSOCIATION,
             EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.STUDENT_ASSESSMENT, EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.GRADE,
-            EntityNames.REPORT_CARD, EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.ATTENDANCE, EntityNames.STUDENT_GRADEBOOK_ENTRY));
+            EntityNames.REPORT_CARD, EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.ATTENDANCE,
+            EntityNames.STUDENT_GRADEBOOK_ENTRY, EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION,
+            EntityNames.STAFF_PROGRAM_ASSOCIATION, EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION));
 
     public RelatedContextResolver() {
         super();
     }
-    
+
     @Override
     public Set<String> findGoverningEdOrgs(Entity entity) {
         if (entity.getBody() == null) {
             return Collections.emptySet();
         }
-        
+
         String referredId = getReferredId(entity.getType(), entity.getBody());
         if (referredId == null) {
             return Collections.emptySet();
@@ -70,7 +72,7 @@ public abstract class RelatedContextResolver implements ContextResolver {
     public Set<String> findGoverningEdOrgs(Entity entity, Entity actualEntity) {
         throw new UnsupportedOperationException();
     }
-    
+
     protected String getReferredId(String type, Map<String, Object> body) {
         String reference = getReferenceProperty(type);
         if (reference == null) {
@@ -79,9 +81,9 @@ public abstract class RelatedContextResolver implements ContextResolver {
         String referredId = (String) body.get(reference);
         return referredId;
     }
-    
+
     protected abstract String getReferenceProperty(String entityType);
-    
+
     protected abstract ReferrableResolver getReferredResolver();
-    
+
 }

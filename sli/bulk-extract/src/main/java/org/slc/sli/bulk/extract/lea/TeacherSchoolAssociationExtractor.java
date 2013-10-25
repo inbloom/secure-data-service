@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.joda.time.DateTime;
+
 import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
@@ -30,11 +31,12 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 public class TeacherSchoolAssociationExtractor implements EntityDatedExtract {
+
     private EntityExtractor extractor;
     private ExtractFileMap map;
     private Repository<Entity> repo;
     private EdOrgExtractHelper edOrgExtractHelper;
-    
+
     public TeacherSchoolAssociationExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
@@ -46,22 +48,22 @@ public class TeacherSchoolAssociationExtractor implements EntityDatedExtract {
     public void extractEntities(EntityToEdOrgDateCache staffToEdorgDatedCache) {
         edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.TEACHER_SCHOOL_ASSOCIATION, this.getClass().getName());
         Iterator<Entity> teachers = repo.findEach(EntityNames.TEACHER_SCHOOL_ASSOCIATION, new NeutralQuery());
+
         while (teachers.hasNext()) {
             Entity tsa = teachers.next();
             String teacherId = (String) tsa.getBody().get(ParameterConstants.TEACHER_ID);
             Map<String, DateTime> edOrgDates = staffToEdorgDatedCache.getEntriesById(teacherId);
 
-            String edorgId = (String) tsa.getBody().get(ParameterConstants.SCHOOL_ID);
-            Iterable<Entity> seaos = edOrgExtractHelper.retrieveSEOAS(teacherId, edorgId);
             for (Map.Entry<String, DateTime> edOrgDate : edOrgDates.entrySet()) {
-                DateTime upToDate = edOrgDate.getValue();
-
-                if (EntityDateHelper.shouldExtract(seaos, upToDate)) {
+                if (shouldExtract(tsa, edOrgDate.getValue())) {
                     extractor.extractEntity(tsa, map.getExtractFileForEdOrg(edOrgDate.getKey()), EntityNames.TEACHER_SCHOOL_ASSOCIATION);
                 }
             }
-            
         }
-        
     }
+
+    protected boolean shouldExtract(Entity input, DateTime upToDate) {
+        return EntityDateHelper.shouldExtract(input, upToDate);
+    }
+
 }
