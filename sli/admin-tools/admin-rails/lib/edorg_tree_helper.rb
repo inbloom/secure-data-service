@@ -306,7 +306,7 @@ module EdorgTreeHelper
 
       # Uncomment below for debugging: add ID, show enabled/authorized status, show subtree status
       # result += " [" + eo[:id][0,8] + "]"
-      result += " enabled=" + eo[:enabled].to_s + " authorized=" + eo[:authorized].to_s
+      # result += " enabled=" + eo[:enabled].to_s + " authorized=" + eo[:authorized].to_s
       # result += " is_anchored=" + is_anchored.to_s + " is_repeat_subtree=" + is_repeat_subtree.to_s
       # result += " parents[0]=[" + parents[0][0,8] + "]" if !parents.empty?
 

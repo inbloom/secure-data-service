@@ -279,12 +279,13 @@ Scenario: App developer enables Bulk Extract App
     And the client ID and shared secret fields are present
     When I clicked on the button Edit for the application "BulkExtractApp2"
     And I expand all nodes
-    And I I deselect hierarchical mode
+    And I deselect hierarchical mode
     When I enable the educationalOrganization "Daybreak School District 4529" in production
+    When I enable the educationalOrganization "Education Agency for RC Tests" in production
     When I click on Save
     And I exit out of the iframe
     And I click on log out
-    And "BulkExtractApp2" is enabled for "1" production education organizations
+    And "BulkExtractApp2" is enabled for "2" production education organizations
 
 Scenario: App developer creates new non Bulk Extract App
     When I navigate to the Portal home page
@@ -383,6 +384,7 @@ And I see an application "BulkExtractApp2" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
 And I expand all nodes
+And I deselect hierarchical mode
 And I authorize the educationalOrganization "Daybreak School District 4529" in the production tenant
 And I click Update
 # switch back to iframe because of the page reload
@@ -570,7 +572,7 @@ Given the pre-existing bulk extrac testing app key has been created
 Scenario: Ingestion user ingests additional public entities
   Given a landing zone
   And I drop the file "NewSimplePublicEntities.zip" into the landingzone
-  And I check for the file "job-NewSimplePublicEntities*.log" every "6" seconds for "120" seconds
+  When the most recent batch job for file "NewSimplePublicEntities.zip" has completed successfully
   Then I should not see an error log file created
   And I should not see a warning log file created
 
