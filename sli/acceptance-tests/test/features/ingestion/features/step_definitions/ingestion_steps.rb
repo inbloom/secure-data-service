@@ -1491,8 +1491,8 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
   zip_suffix='.zip'
   data_basename = batch_file.chomp(zip_suffix)
 
-  intervalTime = 0.1 #seconds
-  #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
+  intervalTime = 5 #seconds
+  #If @maxTimeout set in previous step def, then use it, otherwise default to 900s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
   iters = (1.0*@maxTimeout/intervalTime).ceil
   status = nil
