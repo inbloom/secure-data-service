@@ -1485,12 +1485,10 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
   disable_NOTABLESCAN()
 
   @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB, INGESTION_BATCHJOB_DB_PORT)
-  STDOUT.puts "tenant : #{tenant}, INGESTION_BATCHJOB_DB : #{INGESTION_BATCHJOB_DB}, INGESTION_BATCHJOB_DB_PORT : #{INGESTION_BATCHJOB_DB_PORT}, INGESTION_BATCHJOB_DB_NAME : #{INGESTION_BATCHJOB_DB_NAME}"
-  STDOUT.flush
+  puts "tenant : #{tenant}, INGESTION_BATCHJOB_DB : #{INGESTION_BATCHJOB_DB}, INGESTION_BATCHJOB_DB_PORT : #{INGESTION_BATCHJOB_DB_PORT}, INGESTION_BATCHJOB_DB_NAME : #{INGESTION_BATCHJOB_DB_NAME}" if $SLI_DEBUG
   db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
   job_collection = db.collection('newBatchJob')
-  STDOUT.puts "job_collection.count() : " + job_collection.count().to_s
-  STDOUT.flush
+  puts "job_collection.count() : " + job_collection.count().to_s if $SLI_DEBUG
   zip_suffix='.zip'
   data_basename = batch_file.chomp(zip_suffix)
 
@@ -1510,13 +1508,10 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
     if job_id.nil?
       job_record = job_collection.find({"tenantId" => tenant, "_id" => /#{id_pattern}/}, :fields => ["jobStartTimeStamp","status"]).sort({"jobStartTimestamp" => -1}).limit(1).first
       if job_record.nil?
-        STDOUT.puts "job_record not found. tenant : #{tenant}, id_pattern : #{id_pattern}"
-        STDOUT.flush
+        puts "job_record not found. tenant : #{tenant}, id_pattern : #{id_pattern}" if $SLI_DEBUG
         next
       else
         job_id = job_record['_id']
-        STDOUT.puts "job_id : " + job_id.to_s
-        STDOUT.flush
       end
     else
       job_record = job_collection.find_one({"_id" => job_id}, :fields => ["status"])
@@ -1525,8 +1520,7 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
     status = job_record['status']
 
     if status == 'CompletedSuccessfully' || status == 'CompletedWithErrors'
-      STDOUT.puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
-      STDOUT.flush
+      puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete" if $SLI_DEBUG
       break
     end
   end
