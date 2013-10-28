@@ -47,7 +47,6 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import com.sun.jersey.core.spi.factory.ResponseImpl;
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class,

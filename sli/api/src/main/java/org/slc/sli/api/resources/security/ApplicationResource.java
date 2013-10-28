@@ -479,38 +479,18 @@ public class ApplicationResource extends UnversionedResource {
             debug("No application authorization exists. Creating one.");
             EntityBody body = new EntityBody();
             body.put("applicationId", uuid);
-            body.put("edorgs", enrichAuthorizedEdOrgsList(edOrgIds));
+            body.put("edorgs", ApplicationAuthorizationResource.enrichAuthorizedEdOrgsList(edOrgIds));
             service.create(body);
         } else {
         	Iterable<EntityBody> auths = service.list(query);
         	for (EntityBody auth : auths) {
         		String authId = (String) auth.get("id");
         		auth.remove("edorgs");
-        		auth.put("edorgs", enrichAuthorizedEdOrgsList(edOrgIds));
+        		auth.put("edorgs", ApplicationAuthorizationResource.enrichAuthorizedEdOrgsList(edOrgIds));
         		service.update(authId, auth);
         	}
         }
 
-    }
-
-    private List<Map<String, Object>> enrichAuthorizedEdOrgsList(List<String> edOrgIds) {
-        List<Map<String, Object>>  enrichedAEOList = new LinkedList<Map<String, Object>>();
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String user = principal.getExternalId();
-        String time = String.valueOf(new Date().getTime());
-        for(String edOrgId:edOrgIds) {
-            Map<String, Object> enrichedAEO = new HashMap<String, Object>();
-            String authorizedEdorg               =  edOrgId;
-            String lastAuthorizingRealmEdorg     = principal.getRealmEdOrg();
-            String lastAuthorizingUser           = user;
-            String lastAuthorizedDate            = time;
-            enrichedAEO.put("authorizedEdorg",           authorizedEdorg);
-            enrichedAEO.put("lastAuthorizingRealmEdorg", lastAuthorizingRealmEdorg);
-            enrichedAEO.put("lastAuthorizingUser",       lastAuthorizingUser);
-            enrichedAEO.put("lastAuthorizedDate",        lastAuthorizedDate);
-            enrichedAEOList.add(enrichedAEO);
-        }
-        return  enrichedAEOList;
     }
 
     /**
