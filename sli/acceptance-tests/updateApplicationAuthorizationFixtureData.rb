@@ -27,8 +27,8 @@ def process_file (filename)
       body = aa_json["body"]
       edorgs = body["edorgs"]
       new_edorgs = Array.new
-      new_hash = Hash.new
       edorgs.each do |edorg|
+        new_hash = Hash.new
         new_hash["authorizedEdorg"] = edorg
         new_edorgs.insert(-1, new_hash)
       end
