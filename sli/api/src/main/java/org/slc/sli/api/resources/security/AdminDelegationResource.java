@@ -71,6 +71,15 @@ public class AdminDelegationResource {
 
     private EntityService service;
 
+<<<<<<< HEAD
+=======
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
+
+    @Autowired
+    private AuditLogger auditLogger;
+
+>>>>>>> master
     public static final String RESOURCE_NAME = "adminDelegation";
     public static final String LEA_ID = "localEdOrgId";
 
