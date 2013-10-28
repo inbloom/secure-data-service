@@ -54,8 +54,6 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
     public final static String EDORG_REFERENCE = "educationOrganizationReference";
     public final static String END_DATE = "endDate";
 
-    private static final Logger LOG = LoggerFactory.getLogger(SectionContextResolver.class);
-
     @Autowired
     private EducationOrganizationContextResolver edOrgResolver;
     
@@ -70,8 +68,6 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
     private EdOrgHierarchyHelper edOrgHierarchyHelper;
 
     private ExtractorHelper extractorHelper;
-
-    private Set<String> nonDatedEntities = new HashSet<String>(Arrays.asList(EntityNames.STAFF, EntityNames.TEACHER));
 
     @PostConstruct
     public void init() {

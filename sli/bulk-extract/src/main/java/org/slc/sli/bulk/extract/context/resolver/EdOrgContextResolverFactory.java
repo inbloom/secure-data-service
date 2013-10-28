@@ -32,7 +32,6 @@ import org.slc.sli.bulk.extract.context.resolver.impl.DisciplineActionContextRes
 import org.slc.sli.bulk.extract.context.resolver.impl.DisciplineIncidentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.GradebookEntryContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
-import org.slc.sli.bulk.extract.context.resolver.impl.SectionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SimpleEntityTypeContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherDirectRelatedContextResolver;
@@ -67,9 +66,6 @@ public class EdOrgContextResolverFactory {
 
     @Autowired
     private ParentContextResolver parentResolver;
-
-    @Autowired
-    private SectionContextResolver sectionResolver;
 
     @Autowired
     private StaffTeacherContextResolver staffTeacherResolver;
@@ -120,8 +116,6 @@ public class EdOrgContextResolverFactory {
 
         resolverMap.put(EntityNames.PARENT, parentResolver);
 
-        resolverMap.put(EntityNames.SECTION, sectionResolver);
-
         resolverMap.put(EntityNames.TEACHER, staffTeacherResolver);
         resolverMap.put(EntityNames.STAFF, staffTeacherResolver);
 
@@ -158,6 +152,7 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.GRADING_PERIOD, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.GRADUATION_PLAN, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.EDUCATION_ORGANIZATION, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.SECTION, simpleEntityTypeContextResolver);
 
         LOG.debug("Resolver map is {}", resolverMap);
     }

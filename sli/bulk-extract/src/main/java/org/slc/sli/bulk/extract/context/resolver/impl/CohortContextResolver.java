@@ -39,8 +39,6 @@ public class CohortContextResolver extends ReferrableResolver {
 	
     public final static String EDORG_REFERENCE = "educationOrgId";
 
-    private static final Logger LOG = LoggerFactory.getLogger(SectionContextResolver.class);
-
     @Autowired
     private EducationOrganizationContextResolver edOrgResolver;
     

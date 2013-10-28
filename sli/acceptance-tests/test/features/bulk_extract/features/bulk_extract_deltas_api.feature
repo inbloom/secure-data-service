@@ -19,7 +19,6 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    And The "parent" delta was extracted in the same format as the api
    And The "studentParentAssociation" delta was extracted in the same format as the api
-   And The "section" delta was extracted in the same format as the api
    And The "gradebookEntry" delta was extracted in the same format as the api
    And The "studentSectionAssociation" delta was extracted in the same format as the api
    And The "staff" delta was extracted in the same format as the api
@@ -63,7 +62,6 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
-  And The "section" delta was extracted in the same format as the api
   And The "gradebookEntry" delta was extracted in the same format as the api
   And The "studentSectionAssociation" delta was extracted in the same format as the api
   And The "staff" delta was extracted in the same format as the api
@@ -117,6 +115,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
      And The "graduationPlan" delta was extracted in the same format as the api
      And The "gradingPeriod" delta was extracted in the same format as the api
      And The "calendarDate" delta was extracted in the same format as the api
+     And The "section" delta was extracted in the same format as the api
 
   Given I trigger a bulk extract
    When I set the header format to "application/x-tar"
@@ -337,6 +336,7 @@ Scenario: Triggering deltas via ingestion
        |  courseOffering                        |
        |  graduationPlan                        |
        |  school                                |
+       |  section                                |
        |  deleted                               |
      And I verify this "deleted" file should contain:
        | id                                           | condition                               |
@@ -348,6 +348,7 @@ Scenario: Triggering deltas via ingestion
        | ebfc74d85dfcdcb7e5ddc93a6af2952801f9436e_id  | entityType = program                    |
        | aec59707feac8e68d9d4b780bef5547e934297dc_id  | entityType = gradingPeriod              |
        | 78f5ed2b6ce039539f34ef1889af712816aec6f7_id  | entityType = calendarDate               |
+       | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id  | entityType = section                    |
 
       And I verify this "assessment" file should contain:
        | id                                          | condition                                                    |
@@ -444,6 +445,9 @@ Scenario: Triggering deltas via ingestion
   And I verify this "course" file should contain:
     | id                                          | condition                                |
     | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
+  And I verify this "section" file should contain:
+    | id                                          | condition                                |
+    | 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id | uniqueSectionCode = 2                    |
 
   When I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
@@ -454,7 +458,6 @@ Scenario: Triggering deltas via ingestion
        |  studentGradebookEntry                 |
        |  studentParentAssociation              |
        |  parent                                |
-       |  section                               |
        |  staff                                 |
        |  staffEducationOrganizationAssociation |
        |  teacher                               |
@@ -470,7 +473,6 @@ Scenario: Triggering deltas via ingestion
        | 54759a8d56aba10b1b300e66657cd6fcc3ca6ac9_id                                            | entityType = studentSchoolAssociation |
        | 1b4aa93f01d11ad51072f3992583861ed080f15c_id                                            | entityType = parent                   |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation |
-       | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id                                            | entityType = section                  |
 
      # Teacher 03 and related entities should be in both DAYBREAk and HIGHWIND
      And I verify this "teacher" file should contain:
@@ -489,11 +491,6 @@ Scenario: Triggering deltas via ingestion
      And I verify this "staff" file should contain:
        | id                                          | condition                                |
        | b7beb5d73c2189c680e16826e2e57d4d71970181_id | staffUniqueStateId = stff-0000000004     |
-
-     # Student 1 was in this section, should receive delta for it
-     And I verify this "section" file should contain:
-       | id                                          | condition                                |
-       | 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id | uniqueSectionCode = 2                    |
 
     And I verify this "attendance" file should contain:
       | id                                          | condition                                |
@@ -554,7 +551,6 @@ Scenario: Triggering deltas via ingestion
        |  entityType                            |
        |  attendance                            |
        |  parent                                |
-       |  section                               |
        |  student                               |
        |  studentAssessment                     |
        |  studentGradebookEntry                 |
@@ -580,7 +576,6 @@ Scenario: Triggering deltas via ingestion
        | 1b4aa93f01d11ad51072f3992583861ed080f15c_id | entityType = parent                      |
        | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id | entityType = student                     |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation    |
-       | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id                                            | entityType = section                     |
 
      And I verify this "student" file should contain:
        #this is student 11, which has updated information
@@ -612,10 +607,6 @@ Scenario: Triggering deltas via ingestion
      And I verify this "studentParentAssociation" file should contain:
        | id                                          | condition                                |
        | 908404e876dd56458385667fa383509035cd4312_id6ac27714bca705efbd6fd0eb6c0fd2c7317062e6_id | contactPriority = 0 |
-
-     And I verify this "section" file should contain:
-       | id                                          | condition                                |
-       | 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id | uniqueSectionCode = 2                    |
 
      # Both Teacher 01, 02 and 03 should be in DAYBREAK
      And I verify this "teacher" file should contain:
@@ -672,7 +663,6 @@ Scenario: Triggering deltas via ingestion
     |  entityType                            |
     |  attendance                            |
     |  parent                                |
-    |  section                               |
     |  student                               |
     |  studentAssessment                     |
     |  studentGradebookEntry                 |
@@ -698,7 +688,6 @@ Scenario: Triggering deltas via ingestion
     | 1b4aa93f01d11ad51072f3992583861ed080f15c_id | entityType = parent                      |
     | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id | entityType = student                     |
     | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation    |
-    | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id                                            | entityType = section                     |
 
   #And I verify this "calendarDate" file should contain:
   #  | id                                          | condition                                |
@@ -735,10 +724,6 @@ Scenario: Triggering deltas via ingestion
   And I verify this "studentParentAssociation" file should contain:
     | id                                          | condition                                |
     | 908404e876dd56458385667fa383509035cd4312_id6ac27714bca705efbd6fd0eb6c0fd2c7317062e6_id | contactPriority = 0 |
-
-  And I verify this "section" file should contain:
-    | id                                          | condition                                |
-    | 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id | uniqueSectionCode = 2                    |
 
 # Both Teacher 01, 02 and 03 should be in DAYBREAK
   And I verify this "teacher" file should contain:
@@ -1067,6 +1052,7 @@ Given I clean the bulk extract file system and database
         |  assessment                            |
         |  graduationPlan                        |
         |  calendarDate                          |
+        |  section                          |
   And I verify this "program" file should contain:
         | id                                          | condition                                |
         | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Regular Education          |
@@ -1108,6 +1094,12 @@ Given I clean the bulk extract file system and database
         | id                                          | condition                                |
         | c7af73b8f98390a6d695a9e458529d6a149f0a21_id | date = 2015-04-02                        |
         | c7af73b8f98390a6d695a9e458529d6a149f0a21_id | calendarEvent = Instructional day        |
+  And I verify this "section" file should contain:
+    | id                                          | condition                                                      |
+    | 4030207003b03d055bba0b5019b31046164eff4e_id | entityType = section                                           |
+    | 4030207003b03d055bba0b5019b31046164eff4e_id | sessionId = bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id        |
+    | 4030207003b03d055bba0b5019b31046164eff4e_id | courseOfferingId = 38edd8479722ccf576313b4640708212841a5406_id |
+    | 4030207003b03d055bba0b5019b31046164eff4e_id | schoolId = a13489364c2eb015c219172d561c62350f0453f3_id         |
 
  When I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
@@ -1195,7 +1187,6 @@ Given I clean the bulk extract file system and database
         |  gradebookEntry                        |
         |  parent                                |
         |  reportCard                            |
-        |  section                               |
         |  staff                                 |
         |  staffCohortAssociation                |
         |  staffEducationOrganizationAssociation |
@@ -1234,12 +1225,6 @@ Given I clean the bulk extract file system and database
     | 9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id  |
     | 9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | parentId = 41f42690a7c8eb5b99637fade00fc72f599dab07_id   |
     | 9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | relation = Father                                        |
-  And I verify this "section" file should contain:
-    | id                                          | condition                                                      |
-    | 4030207003b03d055bba0b5019b31046164eff4e_id | entityType = section                                           |
-    | 4030207003b03d055bba0b5019b31046164eff4e_id | sessionId = bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id        |
-    | 4030207003b03d055bba0b5019b31046164eff4e_id | courseOfferingId = 38edd8479722ccf576313b4640708212841a5406_id |
-    | 4030207003b03d055bba0b5019b31046164eff4e_id | schoolId = a13489364c2eb015c219172d561c62350f0453f3_id         |
   And I verify this "studentSchoolAssociation" file should contain:
     | id                                          | condition                                                |
     | cbfe3a47491fdff0432d5d4abca339735da9461d_id | entityType = studentSchoolAssociation                    |
@@ -1411,7 +1396,6 @@ Given I clean the bulk extract file system and database
     | 1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id | entityType = gradingPeriod               |
     | 41f42690a7c8eb5b99637fade00fc72f599dab07_id | entityType = parent                      |
     | 41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id | entityType = parent                      |
-    | 4030207003b03d055bba0b5019b31046164eff4e_id | entityType = section                     |
     | 227097db8525f4631d873837754633daf8bfcb22_id | entityType = session                     |
     | 5e7d5f12cefbcb749069f2e5db63c1003df3c917_id | entityType = staffCohortAssociation      |
     | afef1537920d10e093a8d301efbb463e364f8079_id | entityType = staffEducationOrganizationAssociation |
@@ -1450,6 +1434,7 @@ Given I clean the bulk extract file system and database
        | 0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id | entityType = courseOffering              |
        | 8d58352d180e00da82998cf29048593927a25c8e_id | entityType = assessment                  |
        | a77cdbececc81173aa76a34c05f9aeb44126a64d_id | entityType = graduationPlan              |
+       | 4030207003b03d055bba0b5019b31046164eff4e_id | entityType = section                     |
 
 Scenario: Delete student and stuSchAssoc, re-post them, then delete just studentSchoolAssociations (leaving students), verify delete
 Given I clean the bulk extract file system and database
