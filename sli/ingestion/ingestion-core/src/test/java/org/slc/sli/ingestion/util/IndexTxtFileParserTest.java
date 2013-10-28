@@ -41,7 +41,7 @@ public class IndexTxtFileParserTest {
         IndexTxtFileParser indexTxtFileParser = new IndexTxtFileParser();
         Set<MongoIndex> indexes = indexTxtFileParser.parse(INDEX_TXT_FILE);
 
-        assertEquals(3, indexes.size());
+        assertEquals(2, indexes.size());
 
         Map<String, MongoIndex> expectedIndex = new HashMap<String, MongoIndex>();
 
