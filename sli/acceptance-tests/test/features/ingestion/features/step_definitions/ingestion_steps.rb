@@ -489,6 +489,7 @@ def getCorrectCountForDataset(dataSet)
   case dataSet
     when "SmallSampleDataSet-Charter.zip" then 10137
     when "SmallSampleDataSet.zip" then 10137
+    when "preload.zip" then 10137
     when "MediumSampleDataSet.zip" then 45416
   end
 end
@@ -1493,7 +1494,7 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
 
   intervalTime = 5 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 900s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 900
+  @maxTimeout ? @maxTimeout : @maxTimeout = 240
   iters = (1.0*@maxTimeout/intervalTime).ceil
   status = nil
   job_id = nil
@@ -1507,6 +1508,7 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
     if job_id.nil?
       job_record = job_collection.find({"tenantId" => tenant, "_id" => /#{id_pattern}/}, :fields => ["jobStartTimeStamp","status"]).sort({"jobStartTimestamp" => -1}).limit(1).first
       if job_record.nil?
+        puts "job_record not found. tenant : #{tenant}, id_pattern : #{id_pattern}" if $SLI_DEBUG
         next
       else
         job_id = job_record['_id']
