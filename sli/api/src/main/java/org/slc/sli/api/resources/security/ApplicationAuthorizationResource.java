@@ -231,6 +231,7 @@ public class ApplicationAuthorizationResource {
         return  authSet;
     }
 
+    @SuppressWarnings("PMD.AvoidReassigningParameters")
     private List<Map<String,Object>> modifyEdOrgList( List<Map<String,Object>> currentAuthList, boolean add, List<String> newEdOrgList ) {
         if(currentAuthList == null) {
             currentAuthList = new LinkedList<Map<String, Object>>();
