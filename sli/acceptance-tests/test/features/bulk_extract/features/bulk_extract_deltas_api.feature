@@ -34,7 +34,6 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    And The "studentSchoolAssociation" delta was extracted in the same format as the api
    And The "studentAssessment" delta was extracted in the same format as the api
    And The "studentGradebookEntry" delta was extracted in the same format as the api
-   And The "cohort" delta was extracted in the same format as the api
    And The "studentCohortAssociation" delta was extracted in the same format as the api
    And The "staffCohortAssociation" delta was extracted in the same format as the api
    And The "courseTranscript" delta was extracted in the same format as the api
@@ -77,7 +76,6 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
   And The "studentSchoolAssociation" delta was extracted in the same format as the api
   And The "studentAssessment" delta was extracted in the same format as the api
   And The "studentGradebookEntry" delta was extracted in the same format as the api
-  And The "cohort" delta was extracted in the same format as the api
   And The "studentCohortAssociation" delta was extracted in the same format as the api
   And The "staffCohortAssociation" delta was extracted in the same format as the api
   And The "courseTranscript" delta was extracted in the same format as the api
@@ -116,6 +114,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
      And The "gradingPeriod" delta was extracted in the same format as the api
      And The "calendarDate" delta was extracted in the same format as the api
      And The "section" delta was extracted in the same format as the api
+     And The "cohort" delta was extracted in the same format as the api
 
   Given I trigger a bulk extract
    When I set the header format to "application/x-tar"
@@ -1052,7 +1051,8 @@ Given I clean the bulk extract file system and database
         |  assessment                            |
         |  graduationPlan                        |
         |  calendarDate                          |
-        |  section                          |
+        |  section                               |
+        |  cohort                               |
   And I verify this "program" file should contain:
         | id                                          | condition                                |
         | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Regular Education          |
@@ -1100,6 +1100,10 @@ Given I clean the bulk extract file system and database
     | 4030207003b03d055bba0b5019b31046164eff4e_id | sessionId = bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id        |
     | 4030207003b03d055bba0b5019b31046164eff4e_id | courseOfferingId = 38edd8479722ccf576313b4640708212841a5406_id |
     | 4030207003b03d055bba0b5019b31046164eff4e_id | schoolId = a13489364c2eb015c219172d561c62350f0453f3_id         |
+  And I verify this "cohort" file should contain:
+    | id                                          | condition                                                |
+    | cb99a7df36fadf8885b62003c442add9504b3cbd_id | entityType = cohort                                      |
+    | cb99a7df36fadf8885b62003c442add9504b3cbd_id | cohortIdentifier = new-cohort-1                          |
 
  When I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
@@ -1182,7 +1186,6 @@ Given I clean the bulk extract file system and database
   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  attendance                            |
-        |  cohort                                |
         |  grade                                 |
         |  gradebookEntry                        |
         |  parent                                |
@@ -1289,10 +1292,6 @@ Given I clean the bulk extract file system and database
     | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | entityType = attendance                                  |
     | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id  |
     | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | schoolId = a13489364c2eb015c219172d561c62350f0453f3_id   |
-  And I verify this "cohort" file should contain:
-    | id                                          | condition                                                |
-    | cb99a7df36fadf8885b62003c442add9504b3cbd_id | entityType = cohort                                      |
-    | cb99a7df36fadf8885b62003c442add9504b3cbd_id | cohortIdentifier = new-cohort-1                          |
   And I verify this "staffCohortAssociation" file should contain:
     | id                                          | condition                                                |
     | 5e7d5f12cefbcb749069f2e5db63c1003df3c917_id | entityType = staffCohortAssociation                      |

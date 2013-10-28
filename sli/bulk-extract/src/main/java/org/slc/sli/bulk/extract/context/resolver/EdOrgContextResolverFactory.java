@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.bulk.extract.context.resolver.impl.CohortContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.CourseTranscriptContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.DisciplineActionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.DisciplineIncidentContextResolver;
@@ -77,9 +76,6 @@ public class EdOrgContextResolverFactory {
     private GradebookEntryContextResolver gradebookEntryContextResolver;
 
     @Autowired
-    private CohortContextResolver cohortResolver;
-
-    @Autowired
     private DisciplineIncidentContextResolver disciplineIncidentResolver;
 
     @Autowired
@@ -127,8 +123,6 @@ public class EdOrgContextResolverFactory {
 
         resolverMap.put(EntityNames.GRADEBOOK_ENTRY, gradebookEntryContextResolver);
 
-        resolverMap.put(EntityNames.COHORT, cohortResolver);
-
         resolverMap.put(EntityNames.COURSE_TRANSCRIPT, courseTranscriptResolver);
 
         resolverMap.put(EntityNames.DISCIPLINE_INCIDENT, disciplineIncidentResolver);
@@ -153,6 +147,7 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.GRADUATION_PLAN, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.EDUCATION_ORGANIZATION, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.SECTION, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.COHORT, simpleEntityTypeContextResolver);
 
         LOG.debug("Resolver map is {}", resolverMap);
     }
