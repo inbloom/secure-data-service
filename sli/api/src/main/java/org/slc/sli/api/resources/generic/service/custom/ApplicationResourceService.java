@@ -78,9 +78,6 @@ public class ApplicationResourceService extends DefaultResourceService {
 
             Set<String> edorgs = new HashSet<String>();
             edorgs.add(principal.getEdOrgId());
-            if (SecurityUtil.getAllRights().contains(Right.EDORG_DELEGATE)) {   //Add an SEA admin's delegated LEAs
-                edorgs.addAll(delegation.getAppApprovalDelegateEdOrgs());
-            }
             
             //know this is ugly, but having trouble getting or queries to work
             List<String> idList = new ArrayList<String>();
