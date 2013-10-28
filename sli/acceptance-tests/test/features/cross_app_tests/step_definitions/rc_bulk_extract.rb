@@ -92,6 +92,31 @@ When /^I PATCH the postalCode for the lea entity to 11999$/ do
   assert(@res != nil, "Patch failed: Received no response from API.")
 end
 
+When /^I PATCH the postalCode for the student entity to 11999$/ do
+  restHttpGet("/v1/students")
+  puts "result from '/v1/students' is #{@res}"
+  assert(@res.code == 200, "Response from GET '/v1/students/' is #{@res.code}, expected 200")
+  json = JSON.parse(@res.body)
+  if json.is_a? Array
+    student_id = json[0]['id']
+  else
+    student_id = json['id']
+  end
+  patch_body = {
+      "address" => [{"postalCode" => "11999",
+                     "nameOfCounty" => "Wake",
+                     "streetNumberName" => "111 Ave A",
+                     "stateAbbreviation" => "IL",
+                     "addressType" => "Physical",
+                     "city" => "Chicago"}]
+  }
+  @format = "application/json"
+  puts "PATCHing body #{patch_body} to /v1/students/#{student_id}"
+  restHttpPatch("/v1/students/#{student_id}", prepareData(@format, patch_body), @format)
+  puts @res
+  assert(@res != nil, "Patch failed: Received no response from API.")
+end
+
 When /^I PATCH the (postalCode|name) for the current edorg entity to (.*?)$/ do |field, value|
   patch_body = {
       'postalCode' => {
