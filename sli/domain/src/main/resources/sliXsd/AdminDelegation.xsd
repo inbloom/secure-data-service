@@ -12,8 +12,7 @@
                 </xs:appinfo>
             </xs:annotation>
             <xs:sequence>
-                <xs:element name="localEdOrgId" type="xs:string" minOccurs="1" />                
-                <xs:element name="appApprovalEnabled" type="xs:boolean" minOccurs="1" />
+                <xs:element name="localEdOrgId" type="xs:string" minOccurs="1" />
                 <xs:element name="viewSecurityEventsEnabled" type="xs:boolean" minOccurs="1" />
             </xs:sequence>
         </xs:complexType>
