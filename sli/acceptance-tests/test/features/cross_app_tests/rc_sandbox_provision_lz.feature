@@ -23,8 +23,7 @@ Background:
 
 #Verify the file ingested on the Landing Zone
     Given a landing zone
-    And I check for the file "job*.log" every "30" seconds for "900" seconds
-    Then the "SmallSampleDataSet.zip" should be ingested with the correct number of records
+    Then the "preload.zip" should be ingested with the correct number of records
     And the landing zone should contain a file with the message "All records processed successfully."
     And I should not see an error log file created
     And I should not see a warning log file created

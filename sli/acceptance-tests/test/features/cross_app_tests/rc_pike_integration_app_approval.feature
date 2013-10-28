@@ -572,7 +572,7 @@ Given the pre-existing bulk extrac testing app key has been created
 Scenario: Ingestion user ingests additional public entities
   Given a landing zone
   And I drop the file "NewSimplePublicEntities.zip" into the landingzone
-  And I check for the file "job-NewSimplePublicEntities*.log" every "6" seconds for "120" seconds
+  When the most recent batch job for file "NewSimplePublicEntities.zip" has completed successfully
   Then I should not see an error log file created
   And I should not see a warning log file created
 
