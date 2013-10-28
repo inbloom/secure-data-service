@@ -144,12 +144,23 @@ public class ApplicationAuthorizationResource {
             HashMap<String, Object> entity = new HashMap<String, Object>();
             entity.put("appId", appId);
             entity.put("id", appId);
-            List<String> edOrgs = (List<String>) appAuth.get("edorgs");
-            entity.put("authorized", edOrgs.contains(myEdorg));
+            List<Map<String,Object>> edOrgs = (List<Map<String,Object>>) appAuth.get("edorgs");
+            entity.put("authorized", containsEdOrg(edOrgs,myEdorg));
             entity.put("edorgs", edOrgs);//(TA10857)
             return Response.status(Status.OK).entity(entity).build();
         }
 
+    }
+
+    private Boolean containsEdOrg(List<Map<String,Object>> edOrgList, String edOrg){
+            for (Map<String,Object> edOrgListElement :edOrgList ){
+                if(edOrgListElement.get("authorized_edorg") != null){
+                    if(edOrg.equals(edOrgListElement.get("authorized_edorg").toString())){
+                       return true;
+                   }
+                }
+            }
+            return false;
     }
 
     private EntityBody getAppAuth(String appId) {
@@ -184,7 +195,8 @@ public class ApplicationAuthorizationResource {
                     //We don't have an appauth entry for this app, so create one
                     EntityBody body = new EntityBody();
                     body.put("applicationId", appId);
-                    body.put("edorgs", edOrgsToAuthorize);
+                    body.put("edorgs", formattedEdOrg(edOrgsToAuthorize));
+
                     service.create(body);
                     logSecurityEvent(appId, null, edOrgsToAuthorize);
                 }
@@ -194,7 +206,7 @@ public class ApplicationAuthorizationResource {
             List<String> edorgs = (List<String>) existingAuth.get("edorgs");
             Set<String> edorgsCopy = new HashSet<String>(edorgs);
             if (((Boolean) auth.get("authorized")).booleanValue()) {
-                edorgsCopy.addAll(edOrgsToAuthorize);
+                edorgsCopy.addAll(formattedEdOrg(edOrgsToAuthorize));
             } else {
                 edorgsCopy.removeAll(edOrgsToAuthorize);
             }
@@ -203,6 +215,32 @@ public class ApplicationAuthorizationResource {
             service.update((String) existingAuth.get("id"), existingAuth);
             return Response.status(Status.NO_CONTENT).build();
         }
+    }
+    private List<Map<String,Object>> modifyEdOrgList( List<Map<String,Object>> edOrgList, List<String> edOrgStringList ){
+            List<Map<String, Object>> modifiedEdOrgList = new ArrayList<Map<String,Object>>();
+            Map<String,Map<String,Object>> cacheMap = new HashMap<String,Map<String,Object>>();
+        for ( Map<String, Object> mapElement: edOrgList){
+
+        }
+        for( String edOrgListElement : edOrgStringList){
+
+
+
+            }
+          return modifiedEdOrgList;
+    }
+
+    private List<Map<String, Object>> formattedEdOrg( List<String> edOrgList){
+            List<Map<String,Object>> formattedEdOrgList = new ArrayList<Map<String,Object>>();
+        for( String edOrg : edOrgList){
+            Map<String,Object> authInfo = new HashMap<String, Object>();
+            authInfo.put("authorizedEdorg",edOrg );
+            authInfo.put("lastAuthorizingRealmEdorg", "");
+            authInfo.put("lastAuthorizingUser", "");
+            authInfo.put("lastAuthorizedDate", "");
+            formattedEdOrgList.add(authInfo);
+        }
+        return formattedEdOrgList;
     }
 
     List<String> getParentEdorgs(String rootEdorg) {
