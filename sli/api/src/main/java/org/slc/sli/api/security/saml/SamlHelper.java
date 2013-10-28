@@ -48,8 +48,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slc.sli.common.encrypt.security.saml2.SAML2Validator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -64,8 +62,6 @@ import org.xml.sax.InputSource;
  */
 @Component
 public class SamlHelper {
-
-    private static final Logger LOG = LoggerFactory.getLogger(SamlHelper.class);
 
     private static final String POST_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST";
     private static final String SUCCESS_STATUS = "urn:oasis:names:tc:SAML:2.0:status:Success";
@@ -145,7 +141,7 @@ public class SamlHelper {
             Element statusCode = status.getChild("StatusCode", SAMLP_NS);
             String statusValue = statusCode.getAttributeValue("Value");
             if (!statusValue.equals(SUCCESS_STATUS)) {
-                LOG.error("SAML Response did not have a success status, instead status was {}", statusValue);
+                error("SAML Response did not have a success status, instead status was {}", statusValue);
             }
 
             synchronized (validator) {
@@ -156,7 +152,7 @@ public class SamlHelper {
             }
             return jdomDocument;
         } catch (Exception e) {
-            LOG.error("Error unmarshalling saml post", e);
+            error("Error unmarshalling saml post", e);
             throw (RuntimeException) new IllegalArgumentException("Posted SAML isn't valid").initCause(e);
         }
     }
@@ -228,10 +224,10 @@ public class SamlHelper {
                 w3Doc = domer.output(doc);
             }
             String xmlString = nodeToXmlString(w3Doc);
-            LOG.debug(xmlString);
+            debug(xmlString);
             return Pair.of(id, xmlToEncodedString(xmlString));
         } catch (Exception e) {
-            LOG.error("Error composing AuthnRequest", e);
+            error("Error composing AuthnRequest", e);
             throw new IllegalArgumentException("Couldn't compose AuthnRequest", e);
         }
     }
@@ -245,7 +241,7 @@ public class SamlHelper {
         String trimmed = postData.replaceAll("\r\n", "");
         String base64Decoded = new String(Base64.decodeBase64(trimmed));
 
-        LOG.debug("Decrypted SAML: \n{}\n", base64Decoded);
+        debug("Decrypted SAML: \n{}\n", base64Decoded);
         return base64Decoded;
     }
 

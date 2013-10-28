@@ -43,18 +43,10 @@ Background:
         And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
         Then I am redirected to the Application Registration Tool page
         And I see the list of (only) my applications
-        And a "In Progress" button is displayed for application "Royal Oak"
         And I clicked on the button Edit for the application "Royal Oak"
         And I enable the education Organization "Illinois State Board of Education"
         And I click on Save
-        And a "Edit" button is displayed for application "Royal Oak"
         Then "Royal Oak" is enabled for "200" education organizations
-
-        #DE2983 - test cancel button
-        #And I clicked on the button Edit for the application "Royal Oak"
-        #And I click Cancel
-        #And a "Edit" button is displayed for application "Royal Oak"
-        #Then "Royal Oak" is enabled for "200" education organizations
 
     Scenario: SEA Admin Approves application
         When I hit the Admin Application Authorization Tool

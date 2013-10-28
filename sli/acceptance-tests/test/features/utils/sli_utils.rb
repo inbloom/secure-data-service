@@ -627,6 +627,7 @@ module DataProvider
   def self.getValidAdminDelegationData()
     return {
       "viewSecurityEventsEnabled" => false,
+      "appApprovalEnabled" => false,
       "localEdOrgId" => "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
       }
   end
@@ -635,6 +636,7 @@ module DataProvider
    def self.getValidAdminDelegationDataLongwood()
     return {
       "viewSecurityEventsEnabled" => false,
+      "appApprovalEnabled" => false,
       "localEdOrgId" => "xd086bae-ee82-6ce2-bcf9-321a8407ba13"
       }
   end

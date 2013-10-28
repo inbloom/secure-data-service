@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
@@ -30,8 +31,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -51,9 +50,9 @@ import org.slc.sli.domain.enums.Right;
 
 /**
  * Used to retrieve the list of apps that a user is allowed to use.
- * 
+ *
  * @author pwolf
- * 
+ *
  */
 @Component
 @Scope("request")
@@ -61,146 +60,143 @@ import org.slc.sli.domain.enums.Right;
 @Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class ApprovedApplicationResource {
 
-	public static final String RESOURCE_NAME = "application";
+    public static final String RESOURCE_NAME = "application";
+    public static final String DELEGATED_ADMIN_PLACEHOLDER = "DELEGATED_ADMIN";
 
-	private static final String[] ALLOWED_ATTRIBUTES = new String[] {
-			"application_url", "administration_url", "image_url",
-			"description", "name", "vendor", "version", "is_admin", "behavior",
-			"endpoints" };
+    private static final String[] ALLOWED_ATTRIBUTES = new String[] {
+        "application_url", "administration_url", "image_url", "description",
+ "name", "vendor", "version", "is_admin", "behavior", "endpoints"
+    };
 
-	@Autowired
-	private ApplicationAuthorizationValidator appValidator;
+    @Autowired
+    private ApplicationAuthorizationValidator appValidator;
 
-	@Autowired
-	@Qualifier("validationRepo")
-	private Repository<Entity> repo;
+    @Autowired
+    @Qualifier("validationRepo")
+    private Repository<Entity> repo;
 
-	@GET
-	@RightsAllowed(any = true)
-	public Response getApplications(
-			@DefaultValue("") @QueryParam("is_admin") String adminFilter) {
-		List<EntityBody> results = new ArrayList<EntityBody>();
+    @Autowired
+    private DelegationUtil delegationUtil;
 
-		NeutralQuery query = new NeutralQuery(0);
+    @GET
+    @RightsAllowed(any = true)
+    public Response getApplications(@DefaultValue("") @QueryParam("is_admin") String adminFilter) {
+        List<EntityBody> results = new ArrayList<EntityBody>();
 
-		for (Entity result : repo.findAll("application", query)) {
-			if (appValidator.isAuthorizedForApp(result,
-					SecurityUtil.getSLIPrincipal())) {
-				EntityBody body = new EntityBody(result.getBody());
-				if (!shouldFilterApp(body, adminFilter)) {
+        NeutralQuery query = new NeutralQuery(0);
 
-					filterAttributes(body);
-					results.add(body);
-				}
-			}
-		}
-		return Response.status(Status.OK).entity(results).build();
-	}
+        for (Entity result : repo.findAll("application", query)) {
+            if (appValidator.isAuthorizedForApp(result, SecurityUtil.getSLIPrincipal())) {
+                EntityBody body = new EntityBody(result.getBody());
+                if (!shouldFilterApp(body, adminFilter)) {
 
-	@SuppressWarnings("unchecked")
-	private boolean shouldFilterApp(EntityBody result, String adminFilter) {
-		if (result.containsKey("endpoints")) {
+                    filterAttributes(body);
+                    results.add(body);
+                }
+            }
+        }
+        return Response.status(Status.OK).entity(results).build();
+    }
 
-			List<Map<String, Object>> endpoints = (List<Map<String, Object>>) result
-					.get("endpoints");
-			filterEndpoints(endpoints);
+    @SuppressWarnings("unchecked")
+    private boolean shouldFilterApp(EntityBody result, String adminFilter) {
+        if (result.containsKey("endpoints")) {
 
-			// we ended up filtering out all the endpoints - no reason to
-			// display the app
-			if (endpoints.size() == 0) {
-				return true;
-			}
-		}
+            List<Map<String, Object>> endpoints = (List<Map<String, Object>>) result.get("endpoints");
+            filterEndpoints(endpoints);
 
-		boolean isAdminApp = result.containsKey("is_admin") ? Boolean
-				.valueOf((Boolean) result.get("is_admin")) : false;
+            //we ended up filtering out all the endpoints - no reason to display the app
+            if (endpoints.size() == 0) {
+                return true;
+            }
+        }
 
-		// is_admin query param specified
-		if (!adminFilter.equals("")) {
-			boolean adminFilterVal = Boolean.valueOf(adminFilter);
+        boolean isAdminApp = result.containsKey("is_admin") ? Boolean.valueOf((Boolean) result.get("is_admin")) : false;
 
-			// non-admin app, but is_admin == true
-			if (!isAdminApp && adminFilterVal) {
-				return true;
-			}
+        //is_admin query param specified
+        if (!adminFilter.equals("")) {
+            boolean adminFilterVal = Boolean.valueOf(adminFilter);
 
-			// admin app, but is_admin == false
-			if (isAdminApp && !adminFilterVal) {
-				return true;
-			}
-		}
+            //non-admin app, but is_admin == true
+            if (!isAdminApp && adminFilterVal) {
+                return true;
+            }
 
-		// don't allow "installed" apps
-		if (result.get("installed") == null
-				|| (Boolean) result.get("installed")) {
-			return true;
-		}
+            //admin app, but is_admin == false
+            if (isAdminApp && !adminFilterVal) {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        // don't allow "installed" apps
+        if (result.get("installed") == null || (Boolean) result.get("installed")) {
+            return true;
+        }
 
-	private List<String> getUsersRights() {
+        return false;
+    }
 
-		ArrayList<String> rights = new ArrayList<String>();
-		for (GrantedAuthority right : SecurityContextHolder.getContext()
-				.getAuthentication().getAuthorities()) {
-			rights.add(right.toString());
-		}
+    private List<String> getUsersRights() {
 
-		// This is a fake role we use mean that a user is either an LEA admin or
-		// an SEA admin with delegated rights
-		if (hasAppAuthorizationRight()) {
-			rights.add("DELEGATED_ADMIN");
-		}
+        ArrayList<String> rights = new ArrayList<String>();
+        for (GrantedAuthority right : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
+            rights.add(right.toString());
+        }
 
-		return rights;
-	}
+        //This is a fake role we use mean that a user is either an LEA admin or an SEA admin with delegated rights
+        if (hasAppAuthorizationRight()) {
+            rights.add(DELEGATED_ADMIN_PLACEHOLDER);
+        }
 
-	private boolean hasAppAuthorizationRight() {
-		if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
-			// edorg authz users always have the right to authorize apps
-			return true;
-		}
-		return false;
-	}
+        return rights;
+    }
 
-	private void filterEndpoints(List<Map<String, Object>> endpoints) {
-		List<String> userRights = getUsersRights();
+    private boolean hasAppAuthorizationRight() {
+        if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
+            //edorg authz users always have the right to authorize apps
+            return true;
+        } else if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
+            //We need to figure out if any districts have delegated to us
+            return delegationUtil.getAppApprovalDelegateEdOrgs().size() > 0;
+        }
+        return false;
+    }
 
-		for (Iterator<Map<String, Object>> i = endpoints.iterator(); i
-				.hasNext();) {
+    private void filterEndpoints(List<Map<String, Object>> endpoints) {
+        List<String> userRights = getUsersRights();
 
-			@SuppressWarnings("unchecked")
-			List<String> reqRights = (List<String>) i.next().get("rights");
+        for (Iterator<Map<String, Object>> i = endpoints.iterator(); i.hasNext();) {
 
-			// if no rights specified, don't filter it
-			if (reqRights.size() == 0) {
-				continue;
-			}
+            @SuppressWarnings("unchecked")
+            List<String> reqRights = (List<String>) i.next().get("rights");
 
-			List<String> intersection = new ArrayList<String>(reqRights);
-			intersection.retainAll(userRights);
-			if (userRights.size() == 0 || intersection.size() == 0) {
-				debug("Removing endpoint because users rights {} did not match required rights {}.",
-						userRights, reqRights);
-				i.remove();
-			}
-		}
-	}
+            //if no rights specified, don't filter it
+            if (reqRights.size() == 0) {
+                continue;
+            }
 
-	/**
-	 * Filters out attributes we don't want ordinary users to see. For example,
-	 * they should never see the client_secret.
-	 * 
-	 * @param result
-	 */
-	private void filterAttributes(EntityBody result) {
-		for (Iterator<Map.Entry<String, Object>> i = result.entrySet()
-				.iterator(); i.hasNext();) {
-			String key = i.next().getKey();
-			if (!Arrays.asList(ALLOWED_ATTRIBUTES).contains(key)) {
-				i.remove();
-			}
-		}
-	}
+            List<String> intersection = new ArrayList<String>(reqRights);
+            intersection.retainAll(userRights);
+            if (userRights.size() == 0 || intersection.size() == 0) {
+                debug("Removing endpoint because users rights {} did not match required rights {}.", userRights, reqRights);
+                i.remove();
+            }
+        }
+    }
+
+
+    /**
+     * Filters out attributes we don't want ordinary users to see.
+     * For example, they should never see the client_secret.
+     *
+     * @param result
+     */
+    private void filterAttributes(EntityBody result) {
+        for (Iterator<Map.Entry<String, Object>> i = result.entrySet().iterator(); i.hasNext();) {
+            String key = i.next().getKey();
+            if (!Arrays.asList(ALLOWED_ATTRIBUTES).contains(key)) {
+                i.remove();
+            }
+        }
+    }
 }
