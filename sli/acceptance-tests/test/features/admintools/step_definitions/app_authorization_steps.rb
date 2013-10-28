@@ -488,3 +488,10 @@ Then /^the following edOrgs not enabled by the developer are non-selectable for 
     end
   end
 end
+
+Then /^I click Cancel on the application authorization page$/ do
+   #first cancel button
+   @driver.find_element(:xpath, '//*[@id="edorgTree"]/button[1]').click
+   #second cancel button
+   #@driver.find_element(:xpath, '//*[@id="edorgTree"]/button[2]/button').click
+end

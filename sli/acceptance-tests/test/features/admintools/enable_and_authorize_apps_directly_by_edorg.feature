@@ -52,7 +52,7 @@ Background:
 
         #DE2983 - test cancel button
         #And I clicked on the button Edit for the application "Royal Oak"
-        #And I click Cancel
+        #And I click Cancel on the application enable page
         #And a "Edit" button is displayed for application "Royal Oak"
         #Then "Royal Oak" is enabled for "200" education organizations
 
@@ -84,6 +84,12 @@ Background:
          And there are "200" educationalOrganizations in the targetEdOrgList
          And I see an application "Royal Oak" in the table
          And in Status it says "200 EdOrg(s)"
+         #cancel button check
+         When I click on the "Edit Authorizations" button next to it
+         And I click Cancel on the application authorization page
+         Then I see an application "Royal Oak" in the table
+         And in Status it says "200 EdOrg(s)"
+         And there are "200" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
         Given the sli securityEvent collection is empty
         When I click on the "Edit Authorizations" button next to it
          And I de-authorize the educationalOrganization "Illinois State Board of Education"
