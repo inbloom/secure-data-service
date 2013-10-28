@@ -24,6 +24,8 @@ import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +39,8 @@ import java.util.*;
 
 @Component
 public abstract class OwnershipArbiter {
+
+    private static final Logger LOG = LoggerFactory.getLogger(OwnershipArbiter.class);
 
     protected Map<String, Reference> typeToReference = new HashMap<String, OwnershipArbiter.Reference>();
 
@@ -74,7 +78,7 @@ public abstract class OwnershipArbiter {
 
     public List<Entity> findOwner(Iterable<Entity> entities, String entityType, boolean ignoreOrphans) {
         List<Entity> edorgs = new ArrayList<Entity>();
-        debug("checking ownership for entities of type: {}", entityType);
+        LOG.debug("checking ownership for entities of type: {}", entityType);
 
         if (isBaseType(entityType)) {
             // No need to do an actual mongo lookup since we have the IDs we need
@@ -84,7 +88,7 @@ public abstract class OwnershipArbiter {
         } else {
             Reference ref = typeToReference.get(entityType);
             if (ref == null) {
-                warn("Cannot handle ownership for entity type {}.", entityType);
+                LOG.warn("Cannot handle ownership for entity type {}.", entityType);
                 throw new RuntimeException("No ownership for " + entityType);
             }
 
@@ -92,7 +96,7 @@ public abstract class OwnershipArbiter {
                 // Ignore orphaned entities created by the principal.
                 if (entity.getMetaData() != null && SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
                         && "true".equals(entity.getMetaData().get("isOrphaned")) && ignoreOrphans) {
-                    debug("Entity is orphaned: id {} of type {}", entity.getEntityId(), entity.getType());
+                    LOG.debug("Entity is orphaned: id {} of type {}", entity.getEntityId(), entity.getType());
                     continue;
                 }
 

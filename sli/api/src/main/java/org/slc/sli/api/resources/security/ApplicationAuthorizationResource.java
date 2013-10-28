@@ -34,6 +34,9 @@ import javax.ws.rs.core.UriInfo;
 
 import com.google.common.collect.Sets;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.security.service.AuditLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -90,6 +93,8 @@ import org.slc.sli.domain.enums.Right;
 @Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class ApplicationAuthorizationResource {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ApplicationAuthorizationResource.class);
+
     @Autowired
     private EntityDefinitionStore store;
 
@@ -107,6 +112,9 @@ public class ApplicationAuthorizationResource {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+
+    @Autowired
+    private AuditLogger auditLogger;
 
     @Context
     UriInfo uri;
@@ -253,8 +261,8 @@ public class ApplicationAuthorizationResource {
         Set<String> oldEO = (oldEdOrgs == null)?Collections.<String>emptySet():new HashSet<String>(oldEdOrgs);
         Set<String> newEO = (newEdOrgs == null)?Collections.<String>emptySet():new HashSet<String>(newEdOrgs);
 
-        info("EdOrgs that App could access earlier " + helper.getEdOrgStateOrganizationIds(oldEO));
-        info("EdOrgs that App can access now "       + helper.getEdOrgStateOrganizationIds(newEO));
+        LOG.info("EdOrgs that App could access earlier " + helper.getEdOrgStateOrganizationIds(oldEO));
+        LOG.info("EdOrgs that App can access now "       + helper.getEdOrgStateOrganizationIds(newEO));
 
         URI path = (uri != null)?uri.getRequestUri():null;
         String resourceClassName = ApplicationAuthorizationResource.class.getName();
@@ -266,7 +274,7 @@ public class ApplicationAuthorizationResource {
             Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(granted);
             event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
             event.setTargetEdOrg("");
-            audit(event);
+            auditLogger.audit(event);
         }
 
         Set<String> revoked = Sets.difference(oldEO, newEO);
@@ -277,7 +285,7 @@ public class ApplicationAuthorizationResource {
             Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(revoked);
             event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
             event.setTargetEdOrg("");
-            audit(event);
+            auditLogger.audit(event);
         }
 
     }
