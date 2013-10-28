@@ -401,8 +401,8 @@ public class EdOrgHelper {
     /**
      * Recursively returns the list of all child edorgs By Name
      *
-     * @param edOrgs
-     * @return
+     * @param edOrgs a list of edOrg ids
+     * @return a list of edOrg state unique ids (names!) of child edOrgs
      */
     public Set<String> getChildEdOrgsName(Collection<String> edOrgs) {
         // get child edOrgs reusing existing code
