@@ -31,8 +31,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -45,8 +43,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ApplicationAuthorizationValidator {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ApplicationAuthorizationValidator.class);
 
     @Autowired
     @Qualifier("validationRepo")
@@ -129,7 +125,7 @@ public class ApplicationAuthorizationValidator {
         Entity app = repo.findOne("application", new NeutralQuery(new NeutralCriteria("client_id", "=", clientId)));
 
         if (isAuthorizedForAllEdorgs(app)) {
-            LOG.debug("App {} is authorized for all edorgs", clientId);
+            debug("App {} is authorized for all edorgs", clientId);
             return null;
         }
 

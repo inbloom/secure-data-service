@@ -43,15 +43,12 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SecurityEventBuilder;
-import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.common.ldap.LdapService;
 import org.slc.sli.common.ldap.User;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -72,9 +69,6 @@ import org.springframework.stereotype.Component;
 @Consumes({ HypermediaType.JSON + ";charset=utf-8" })
 @Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class UserResource {
-
-    private static final Logger LOG = LoggerFactory.getLogger(UserResource.class);
-
     @Autowired
     private LdapService ldapService;
 
@@ -89,9 +83,6 @@ public class UserResource {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
-
-    @Autowired
-    private AuditLogger auditLogger;
 
     SecurityEvent createSecurityEvent(String logMessage, String tenantId, String edorg) {
         SecurityEvent securityEvent = securityEventBuilder.createSecurityEvent(UserResource.class.getName(), null, logMessage,false);
@@ -131,7 +122,7 @@ public class UserResource {
             return Response.status(Status.CONFLICT).build();
         }
 
-        auditLogger.audit(createSecurityEvent("Created user " + newUser.getUid() + " with roles " + rolesToString(newUser), newUser.getTenant(), newUser.getEdorg()));
+        audit(createSecurityEvent("Created user " + newUser.getUid() + " with roles " + rolesToString(newUser), newUser.getTenant(), newUser.getEdorg()));
         return Response.status(Status.CREATED).build();
     }
 
@@ -180,7 +171,7 @@ public class UserResource {
         updateUser.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapRoleToGroups(updateUser.getGroups())));
         ldapService.updateUser(realm, updateUser);
 
-        auditLogger.audit(createSecurityEvent("Updated user " + updateUser.getUid() + " with roles " + rolesToString(updateUser), updateUser.getTenant(), updateUser.getEdorg()));
+        audit(createSecurityEvent("Updated user " + updateUser.getUid() + " with roles " + rolesToString(updateUser), updateUser.getTenant(), updateUser.getEdorg()));
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -196,7 +187,7 @@ public class UserResource {
         User userToDelete = ldapService.getUser(realm, uid);
         ldapService.removeUser(realm, uid);
 
-        auditLogger.audit(createSecurityEvent("Deleted user " + uid + " with roles " + rolesToString(userToDelete), userToDelete.getTenant(), userToDelete.getEdorg()));
+        audit(createSecurityEvent("Deleted user " + uid + " with roles " + rolesToString(userToDelete), userToDelete.getTenant(), userToDelete.getEdorg()));
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -496,7 +487,7 @@ public class UserResource {
         boolean nullTenant = (tenant == null && !(rights.contains(Right.CRUD_SANDBOX_SLC_OPERATOR) || rights
                 .contains(Right.CRUD_SLC_OPERATOR)));
         if (nullTenant) {
-            LOG.error("Non-operator user {} has null tenant.  Giving up.", new Object[] { secUtil.getUid() });
+            error("Non-operator user {} has null tenant.  Giving up.", new Object[] { secUtil.getUid() });
             throw new IllegalArgumentException("Non-operator user " + secUtil.getUid() + " has null tenant.  Giving up.");
         }
         if (rightSet.isEmpty() || nullTenant) {

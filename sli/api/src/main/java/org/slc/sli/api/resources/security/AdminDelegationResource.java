@@ -71,15 +71,6 @@ public class AdminDelegationResource {
 
     private EntityService service;
 
-<<<<<<< HEAD
-=======
-    @Autowired
-    private SecurityEventBuilder securityEventBuilder;
-
-    @Autowired
-    private AuditLogger auditLogger;
-
->>>>>>> master
     public static final String RESOURCE_NAME = "adminDelegation";
     public static final String LEA_ID = "localEdOrgId";
 
@@ -132,73 +123,6 @@ public class AdminDelegationResource {
 
     }
 
-<<<<<<< HEAD
-=======
-
-    /**
-     * Set the admin delegation record for an LEA admin user's EdOrg.
-     *
-     * @param body Admin delegation record to be written.
-     * @return NO_CONTENT on success. BAD_REQUEST or FORBIDDEN on failure.
-     */
-    @PUT
-    @Path("myEdOrg")
-    @RightsAllowed({Right.EDORG_APP_AUTHZ })
-    public Response setLocalDelegation(EntityBody body, @Context final UriInfo uriInfo) {
-        //verifyBodyEdOrgMatchesPrincipalEdOrg
-        if (body == null || !body.containsKey(LEA_ID) || !body.get(LEA_ID).equals(SecurityUtil.getEdOrgId())) {
-            EntityBody response = new EntityBody();
-            response.put("message", "Entity EdOrg must match principal's EdOrg when writing delegation record.");
-            return Response.status(Status.BAD_REQUEST).entity(response).build();
-        }
-
-        EntityBody del =  getDelegationRecordForPrincipal();
-        Boolean appApprovalEnabled = (Boolean) body.get("appApprovalEnabled");
-        if(appApprovalEnabled == null) {
-        	appApprovalEnabled = false;
-        }
-        if (del == null) {
-
-            if (service.create(body).isEmpty()) {
-                return Response.status(Status.BAD_REQUEST).build();
-            } else {
-                log(appApprovalEnabled, false, uriInfo);
-                return Response.status(Status.CREATED).build();
-            }
-
-        } else {
-            String delgId = (String)del.get("id");
-            Boolean oldAppApprovalEnabled = (Boolean)del.get("appApprovalEnabled");
-            if(oldAppApprovalEnabled == null) {
-            	oldAppApprovalEnabled = false;
-            }
-            if (!service.update(delgId, body)) {
-                return Response.status(Status.BAD_REQUEST).build();
-            }
-
-            log(appApprovalEnabled, oldAppApprovalEnabled, uriInfo);
-        }
-
-        return Response.status(Status.NO_CONTENT).build();
-    }
-
-    void log(boolean appApprovalEnabled, boolean oldAppApprovalEnabled, @Context final UriInfo uriInfo){
-    	 if (appApprovalEnabled && !oldAppApprovalEnabled) {
-             SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA's delegation is enabled!", true);
-             auditLogger.audit(event);
-         }	 else if (!appApprovalEnabled  && oldAppApprovalEnabled ) {
-             SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA's delegation is disabled!", true);
-             auditLogger.audit(event);
-         }
-    }
-
-    @POST
-    @RightsAllowed({Right.EDORG_APP_AUTHZ })
-    public Response create(EntityBody body, @Context final UriInfo uriInfo) {
-        return setLocalDelegation(body, uriInfo);
-    }
-
->>>>>>> master
     @GET
     @Path("myEdOrg")
     @RightsAllowed({Right.EDORG_DELEGATE, Right.EDORG_APP_AUTHZ })
