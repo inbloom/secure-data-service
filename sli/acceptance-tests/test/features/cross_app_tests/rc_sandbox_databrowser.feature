@@ -124,9 +124,9 @@ Feature: Data Browser
     Given I am running in Sandbox mode
 
     Given a landing zone
-    When I drop the file "E2ESandboxSEOA.zip" into the landingzone
-    And the most recent batch job for file "E2ESandboxSEOA.zip" has completed successfully
-    Then the landing zone should contain a file with the message "All records processed successfully."
+    And I drop the file "E2ESandboxSEOA.zip" into the landingzone
+    And I check for the file "job*.log" every "5" seconds for "60" seconds
+    And the landing zone should contain a file with the message "All records processed successfully."
     And I should not see an error log file created
     And I should not see a warning log file created
 
@@ -155,8 +155,8 @@ Feature: Data Browser
     Then I see a "There were no entries matching your search" alert box
 
     Given a landing zone
-    When I drop the file "E2ESandboxSEOADelete.zip" into the landingzone
-    And the most recent batch job for file "E2ESandboxSEOADelete.zip" has completed successfully
-    Then the landing zone should contain a file with the message "All records processed successfully."
+    And I drop the file "E2ESandboxSEOADelete.zip" into the landingzone
+    And I check for the file "job*.log" every "5" seconds for "60" seconds
+    And the landing zone should contain a file with the message "All records processed successfully."
     And I should not see an error log file created
     And I should not see a warning log file created
