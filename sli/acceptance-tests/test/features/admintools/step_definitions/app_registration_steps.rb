@@ -299,7 +299,7 @@ Then /^a "([^"]*)" button is displayed for application "([^"]*)"$/ do |button_la
    assert (@driver.find_element(:xpath, "//tr/td[text()='#{app}']/../td/a[text()='#{button_label}']"))
 end
 
-Then /^I click Cancel$/ do
+Then /^I click Cancel on the application enable page$/ do
    #first cancel button
    @driver.find_element(:xpath, '//*[@id="edorgTree"]/span[1]/button').click
    #second cancel button
