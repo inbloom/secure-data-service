@@ -295,6 +295,17 @@ Then /^I clicked on the button Edit for the application "([^"]*)"$/ do |arg1|
   @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/../td/a[contains(@class, 'btn')]").click
 end
 
+Then /^a "([^"]*)" button is displayed for application "([^"]*)"$/ do |button_label, app|
+   assert (@driver.find_element(:xpath, "//tr/td[text()='#{app}']/../td/a[text()='#{button_label}']"))
+end
+
+Then /^I click Cancel$/ do
+   #first cancel button
+   @driver.find_element(:xpath, '//*[@id="edorgTree"]/span[1]/button').click
+   #second cancel button
+   #@driver.find_element(:xpath, '//*[@id="edorgTree"]/span[2]/button').click
+end
+
 Then /^the row of the app "([^"]*)" expanded$/ do |arg1|
  invisible = @driver.find_elements(:css, "tr[display='none']").count
  visible = @driver.find_elements(:css, "tr.odd").count
