@@ -25,6 +25,8 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,6 +45,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AutoRegistrationInitializer {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AutoRegistrationInitializer.class);
     
     @Autowired
     @Value("${sli.autoRegisterApps}")
@@ -59,7 +63,7 @@ public class AutoRegistrationInitializer {
             query.addCriteria(new NeutralCriteria(ApplicationResource.REGISTRATION + "." + ApplicationResource.STATUS, "=", "PENDING"));
             
             for (Entity app : repo.findAll(ApplicationResource.RESOURCE_NAME, query)) {
-                info("Auto approving registration for application {} from {}.", 
+                LOG.info("Auto approving registration for application {} from {}.",
                         app.getBody().get("name"), 
                         app.getBody().get("vendor"));
                 

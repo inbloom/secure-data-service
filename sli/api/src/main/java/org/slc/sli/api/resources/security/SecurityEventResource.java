@@ -45,6 +45,8 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.NeutralQuery.SortOrder;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -61,6 +63,8 @@ import org.springframework.stereotype.Component;
 @Path("securityEvent")
 @Produces({ HypermediaType.JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
 public class SecurityEventResource extends UnversionedResource {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SecurityEventResource.class);
 
     public static final String RESOURCE_NAME = "securityEvent";
     /*WATCHED_APP: restricts retrieval of security events only to those whose appId is listed, this is in addition to the normal accessibility rules*/
@@ -105,7 +109,7 @@ public class SecurityEventResource extends UnversionedResource {
         for (EntityBody body : entityDef.getService().list(mainQuery)) {
             results.add(body);
         }
-        debug("Found [{}] SecurityEvents!", results.size());
+        LOG.debug("Found [{}] SecurityEvents!", results.size());
         return Response.ok(new EntityResponse(entityDef.getType(), results)).build();
     }
 }

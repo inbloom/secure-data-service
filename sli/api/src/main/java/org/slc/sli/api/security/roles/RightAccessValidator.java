@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
@@ -51,6 +53,8 @@ import org.slc.sli.domain.enums.Right;
  */
 @Component
 public class RightAccessValidator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(RightAccessValidator.class);
 
     private static final String ADMIN_SPHERE = "Admin";
 
@@ -128,16 +132,16 @@ public class RightAccessValidator {
         SecurityUtil.ensureAuthenticated();
         Set<Right> neededRights = new HashSet<Right>();
 
-        info("Granted authorizies are :" ,  auths);
+        LOG.info("Granted authorizies are :" ,  auths);
         boolean allow = false;
         if (auths.contains(Right.FULL_ACCESS)) {
-            debug("User has full access");
+            LOG.debug("User has full access");
             allow = true;
         } else if (ADMIN_SPHERE.equals(provider.getDataSphere(entityType))) {
             neededRights = new HashSet<Right>(Arrays.asList(Right.ADMIN_ACCESS));
             allow = intersection(auths, neededRights);
         } else if (!isRead) {
-            debug("Evaluating rights for write...");
+            LOG.debug("Evaluating rights for write...");
             if (entityBody == null) {
                 neededRights.addAll(provider.getAllFieldRights(entityType, isRead));
                 allow = intersection(auths, neededRights);
@@ -145,7 +149,7 @@ public class RightAccessValidator {
                 allow = determineWriteAccess(entityBody, "", auths, entityType);
             }
         } else if (isRead) {
-            debug("Evaluating rights for read...");
+            LOG.debug("Evaluating rights for read...");
             neededRights.addAll(provider.getAllFieldRights(entityType, isRead));
             allow = intersection(auths, neededRights);
         } else {
@@ -195,7 +199,7 @@ public class RightAccessValidator {
                 Set<Right> rightsOnSort = getNeededRights(query.getSortBy(), entityType);
 
                 if (!rightsOnSort.isEmpty() && !intersection(auths, rightsOnSort)) {
-                    debug("Denied user sorting on field {}", query.getSortBy());
+                    LOG.debug("Denied user sorting on field {}", query.getSortBy());
                     throw new APIAccessDeniedException("Cannot search on restricted field " + query.getSortBy());
                 }
             }
@@ -205,7 +209,7 @@ public class RightAccessValidator {
                 Set<Right> neededRights = getNeededRights(criteria.getKey(), entityType);
 
                 if (!neededRights.isEmpty() && !intersection(auths, neededRights)) {
-                    debug("Denied user searching on field {}", criteria.getKey());
+                    LOG.debug("Denied user searching on field {}", criteria.getKey());
                     throw new QueryParseException("Cannot search on restricted field", criteria.getKey());
                 }
             }
@@ -229,7 +233,7 @@ public class RightAccessValidator {
 
         if (SecurityUtil.isStaffUser()) {
             if (entity == null) {
-                debug("No authority for null");
+                LOG.debug("No authority for null");
             } else {
                 if ((entity.getMetaData() != null && SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
                         && "true".equals(entity.getMetaData().get("isOrphaned")))
@@ -303,7 +307,7 @@ public class RightAccessValidator {
                     String fieldPath = prefix + fieldName;
                     Set<Right> neededRights = provider.getRequiredWriteLevels(entityType, fieldPath);
 
-                    debug("Field {} requires {}", fieldPath, neededRights);
+                    LOG.debug("Field {} requires {}", fieldPath, neededRights);
 
                     if (neededRights.isEmpty() && obj instanceof Map) {
                         allow &= determineWriteAccess((Map<String, Object>) obj, prefix + "." + fieldName + ".", auths, entityType);    // Mixing recursion and iteration, very bad
@@ -324,7 +328,7 @@ public class RightAccessValidator {
     public void checkSecurity(boolean isRead, String entityId, String entityType, String collectionName, Repository<Entity> repo) {
         // Check that target entity actually exists
         if (securityRepo.findById(collectionName, entityId) == null) {
-            warn("Could not find {}", entityId);
+            LOG.warn("Could not find {}", entityId);
             throw new EntityNotFoundException(entityId);
         }
         Set<Right> rights = provider.getAllFieldRights(entityType, isRead);

@@ -45,6 +45,7 @@ import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
@@ -55,6 +56,8 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -74,6 +77,8 @@ import org.slc.sli.common.util.logging.SecurityEvent;
 @Path("/realm")
 @Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class RealmResource {
+
+    private static final Logger LOG = LoggerFactory.getLogger(RealmResource.class);
 
     public static final String REALM = "realm";
     public static final String ED_ORG = "edOrg";
@@ -96,6 +101,9 @@ public class RealmResource {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+
+    @Autowired
+    private AuditLogger auditLogger;
 
     @Autowired
     private RoleInitializer roleInitializer;
@@ -180,7 +188,7 @@ public class RealmResource {
         Response validateUniqueness = validateUniqueId(null, (String) newRealm.get(UNIQUE_IDENTIFIER),
                 (String) newRealm.get(NAME), getIdpId(newRealm));
         if (validateUniqueness != null) {
-            debug("On realm create, uniqueId is not unique");
+            LOG.debug("On realm create, uniqueId is not unique");
             return validateUniqueness;
         }
 
@@ -256,7 +264,7 @@ public class RealmResource {
         });
 
         if (body != null) {
-            debug("uniqueId: {}", body.getBody().get(UNIQUE_IDENTIFIER));
+            LOG.debug("uniqueId: {}", body.getBody().get(UNIQUE_IDENTIFIER));
             Map<String, String> res = new HashMap<String, String>();
             res.put(RESPONSE, "Cannot have duplicate unique identifiers");
             return Response.status(Status.BAD_REQUEST).entity(res).build();
@@ -277,7 +285,7 @@ public class RealmResource {
         });
 
         if (entity != null) {
-            debug("name: {}", entity.getBody().get(NAME));
+            LOG.debug("name: {}", entity.getBody().get(NAME));
             Map<String, String> res = new HashMap<String, String>();
             res.put(RESPONSE, "Cannot have duplicate display names");
             return Response.status(Status.BAD_REQUEST).entity(res).build();
@@ -316,38 +324,38 @@ public class RealmResource {
         if (oldRealm == null && newRealm != null)        {//Create
             event.setLogMessage("Realm [" + newRealmName + "] created!");
             event.setTargetEdOrgList(newTargetEdOrgList);
-            audit(event);
+            auditLogger.audit(event);
         } else if (oldRealm != null && newRealm == null) {//Delete
             event.setLogMessage("Realm [" + oldRealmName + "] deleted!");
             event.setTargetEdOrgList(oldTargetEdOrgList);
-            audit(event);
+            auditLogger.audit(event);
         } else if (oldRealm != null && newRealm != null) {//Update. Can realm edOrg be updated? Assuming yes.
             if (oldEdOrg == null && newEdOrg == null) {
                 event.setLogMessage("Realm [" + joiner.join(oldRealmName, newRealmName) + "] updated!");
-                audit(event);
+                auditLogger.audit(event);
             } else if (oldEdOrg != null && newEdOrg == null) {
                 event.setLogMessage("Realm [" + oldRealmName + "] deleted!");
                 event.setTargetEdOrgList(oldTargetEdOrgList);
-                audit(event);
+                auditLogger.audit(event);
             } else if (oldEdOrg == null && newEdOrg != null) {
                 event.setLogMessage("Realm [" + newRealmName + "] created!");
                 event.setTargetEdOrgList(newTargetEdOrgList);
-                audit(event);
+                auditLogger.audit(event);
             } else if (oldEdOrg.equals(newEdOrg)) { //both not null and equal
                 event.setLogMessage("Realm [" + joiner.join(oldRealmName, newRealmName) + "] updated!");
                 event.setTargetEdOrgList(oldTargetEdOrgList);
-                audit(event);
+                auditLogger.audit(event);
             } else {                                //both not null and unequal
                 event.setLogMessage("Realm [" + oldRealmName + "] deleted!");
                 event.setTargetEdOrgList(oldTargetEdOrgList);
-                audit(event);
+                auditLogger.audit(event);
 
                 event.setLogMessage("Realm [" + oldRealmName + "] created!");
                 event.setTargetEdOrgList(newTargetEdOrgList);
-                audit(event);
+                auditLogger.audit(event);
             }
         } else {                                          //None
-             info("Old and New Realms are both null!");
+             LOG.info("Old and New Realms are both null!");
         }
     }
 }
