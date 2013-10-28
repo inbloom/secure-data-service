@@ -295,7 +295,9 @@ Given /^all LEAs in "([^"]*)" are authorized for "([^"]*)"/ do |tenant, applicat
 
   needed_ed_orgs = []
   ed_org_coll.find({'body.organizationCategories' => {"$in" => ['Local Education Agency']}}).each do |edorg|
-    needed_ed_orgs.push(edorg['_id'])
+    edorg_entry = {}
+    edorg_entry["authorizedEdorg"]= edorg['_id']
+    needed_ed_orgs.push(edorg_entry)
   end
 
   app_auth_coll.remove('body.applicationId' => app_id)
@@ -303,7 +305,7 @@ Given /^all LEAs in "([^"]*)" are authorized for "([^"]*)"/ do |tenant, applicat
   app_auth_coll.insert(new_app_auth)
 
   needed_ed_orgs.each do |edorg|
-    app_coll.update({'_id' => app_id}, {'$push' => {'body.authorized_ed_orgs' => edorg}})
+    app_coll.update({'_id' => app_id}, {'$push' => {'body.authorized_ed_orgs' => edorg["authorizedEdorg"]}})
   end
 
   conn.close
