@@ -1,4 +1,5 @@
 #Comment
+adminDelegation,false,false,body.localEdOrgId:1,body.appApprovalEnabled:1
 applicationAuthorization,true,false,body.appIds:1
 studentCompetency,false,false,metaData.externalId:1,metaData.studentUniqueStateId:1,metaData.uniqueSectionCode:1,body.studentSectionAssociationId:1
 #Invalid index - missing unique field

@@ -45,6 +45,11 @@ public class IndexTxtFileParserTest {
 
         Map<String, MongoIndex> expectedIndex = new HashMap<String, MongoIndex>();
 
+        DBObject adminDelegationIndex = new BasicDBObject();
+        adminDelegationIndex.put("body.localEdOrgId", 1);
+        adminDelegationIndex.put("body.appApprovalEnabled", 1);
+        expectedIndex.put("adminDelegation", new MongoIndex("adminDelegation", false, adminDelegationIndex, false));
+
         DBObject applicationAuthorizationIndex = new BasicDBObject();
         applicationAuthorizationIndex.put("body.appIds", 1);
         expectedIndex.put("applicationAuthorization", new MongoIndex("applicationAuthorization", true, applicationAuthorizationIndex, false));
@@ -53,6 +58,8 @@ public class IndexTxtFileParserTest {
             String collection = index.getCollection();
             if (collection.equalsIgnoreCase("learningObjective")) {
                 fail("Invalid index was parsed");
+            } else if (collection.equalsIgnoreCase("adminDelegation")) {
+                assertEquals(index, expectedIndex.get("adminDelegation"));
             } else if (collection.equalsIgnoreCase("applicationAuthorization")) {
                 assertEquals(index, expectedIndex.get("applicationAuthorization"));
                 assertTrue(index.isUnique());
