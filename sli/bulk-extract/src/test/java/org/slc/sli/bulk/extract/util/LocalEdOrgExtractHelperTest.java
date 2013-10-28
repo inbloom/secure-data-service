@@ -85,9 +85,12 @@ public class LocalEdOrgExtractHelperTest {
     public void getBulkExtractEdOrgsPerAppTest() {
 
         getBulkExtractAppsTest(); // mock applications
-
-        Entity authOne = buildAuthEntity("1", Arrays.asList("edOrg1", "edOrg2"));
-        Entity authTwo = buildAuthEntity("5", new ArrayList<String>());
+        Map<String, Object> edorg1 = new HashMap<String, Object>();
+        edorg1.put("authorizedEdorg", "edOrg1");
+        Map<String, Object> edorg2 = new HashMap<String, Object>();
+        edorg2.put("authorizedEdorg", "edOrg2");
+        Entity authOne = buildAuthEntity("1", Arrays.asList(edorg1, edorg2));
+        Entity authTwo = buildAuthEntity("5", new ArrayList<Map<String, Object>>());
 
         List<Entity> auths = Arrays.asList(authOne, authTwo);
         when(repository.findAll(Mockito.eq("applicationAuthorization"), Mockito.any(NeutralQuery.class))).thenReturn(auths);
@@ -96,12 +99,12 @@ public class LocalEdOrgExtractHelperTest {
 
         assertTrue(bulkExtractEdOrgsPerApp.size() == 2);
         assertTrue(bulkExtractEdOrgsPerApp.get(authOne.getBody().get("applicationId")).containsAll(
-                (Collection<?>) authOne.getBody().get("edorgs")));
+                Arrays.asList("edOrg1","edOrg2")));
         assertTrue(bulkExtractEdOrgsPerApp.get(authTwo.getBody().get("applicationId")).isEmpty());
 
     }
 
-    private Entity buildAuthEntity(String applicationId, List<String> edOrgs) {
+    private Entity buildAuthEntity(String applicationId, List<Map<String, Object>> edOrgs) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("applicationId", applicationId);
         body.put("edorgs", edOrgs);
