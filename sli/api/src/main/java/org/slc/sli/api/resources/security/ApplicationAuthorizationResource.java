@@ -209,14 +209,12 @@ public class ApplicationAuthorizationResource {
             }
         } else {
             List<Map<String,Object>> oldEdOrgs = (List<Map<String,Object>>)existingAuth.get("edorgs");
-
             Set<String>  oldAuth = getSetOfAuthorizedIds(oldEdOrgs);
-            List<String> newAuth = (List<String>)(auth.get("edorgs"));
-
-            logSecurityEvent(appId, oldAuth, newAuth);
-            boolean addOrRemove = ((Boolean) auth.get("authorized")).booleanValue();
-            List<Map<String,Object>> modifiedAuthList = modifyEdOrgList(oldEdOrgs, addOrRemove, newAuth) ;
+            boolean add = ((Boolean) auth.get("authorized")).booleanValue();
+            List<Map<String,Object>> modifiedAuthList = modifyEdOrgList(oldEdOrgs, add, edOrgsToAuthorize) ;
+            Set<String>  newAuth = getSetOfAuthorizedIds(modifiedAuthList);
             existingAuth.put("edorgs", modifiedAuthList);
+            logSecurityEvent(appId, oldAuth, newAuth);
             service.update((String) existingAuth.get("id"), existingAuth);
             return Response.status(Status.NO_CONTENT).build();
         }
@@ -232,7 +230,7 @@ public class ApplicationAuthorizationResource {
     }
 
     @SuppressWarnings("PMD.AvoidReassigningParameters")
-    private List<Map<String,Object>> modifyEdOrgList( List<Map<String,Object>> currentAuthList, boolean add, List<String> newEdOrgList ) {
+    private List<Map<String,Object>> modifyEdOrgList( List<Map<String,Object>> currentAuthList, boolean add, Collection<String> newEdOrgList ) {
         if(currentAuthList == null) {
             currentAuthList = new LinkedList<Map<String, Object>>();
         }
