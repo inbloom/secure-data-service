@@ -16,10 +16,11 @@
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
@@ -27,8 +28,12 @@ import com.google.common.collect.Lists;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -40,17 +45,14 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
 /**
+ * Provides filtering for what security events a principle should be able to see based on their credentials.
+ *
+ * Now supports both hosted and federated users.
  */
 @Component
 public class SecurityEventContextResolver implements EntityContextResolver {
 
     private static final Logger LOG = LoggerFactory.getLogger(SecurityEventContextResolver.class);
-
-	static final List<String> ROLES_SEA_OR_REALM_ADMIN = Arrays.asList(
-			RoleInitializer.SEA_ADMINISTRATOR,
-			RoleInitializer.REALM_ADMINISTRATOR);
-	static final List<String> ROLES_LEA_ADMIN = Arrays
-			.asList(RoleInitializer.LEA_ADMINISTRATOR);
 
 	@Autowired
 	private PagingRepositoryDelegate<Entity> repository;
@@ -77,77 +79,155 @@ public class SecurityEventContextResolver implements EntityContextResolver {
 			securityEventIds = Lists.newArrayList((repository.findAllIds(
 					RESOURCE_NAME, query)));
 		} else {
-			LOG.info("User neither LEA Admin, nor SEA Admin, nor SLC Operator. Cannot access SecurityEvents!");
+			LOG.info("Cannot access SecurityEvents!");
 		}
 		return securityEventIds;
 	}
 
 	private List<NeutralQuery> buildQualifyingFilters() {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
-		List<NeutralQuery> filters = new ArrayList<NeutralQuery>();
-		if (auth != null) {
-			SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
-			if (principal != null) {
-				List<String> roles = principal.getRoles();
-				if (roles != null) {
-					if (roles.contains(RoleInitializer.SLC_OPERATOR)) {
-						NeutralQuery or = new NeutralQuery();
-						filters.add(or);
-					} else {
-						String edOrg = principal.getEdOrg();
-						String edOrgId = principal.getEdOrgId();
-						if (edOrg != null) {
-                            String tenantId = SecurityUtil.getTenantId();
-                            Set<String> homeEdOrgs = new HashSet<String>();
-							homeEdOrgs.add(edOrg);
-							if (roles
-									.contains(RoleInitializer.SEA_ADMINISTRATOR)) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-								Set<String> delegatedLEAStateIds = edOrgHelper
-										.getDelegatedEdorgDescendents();
-								if (delegatedLEAStateIds.size() > 0) {
-									LOG.info(delegatedLEAStateIds
-											+ " have delegated SecurityEvents access to SEA!");
-									homeEdOrgs.addAll(delegatedLEAStateIds);
-								}
+        List<NeutralQuery> filters = new ArrayList<NeutralQuery>();
 
-								NeutralQuery or = new NeutralQuery();
-                                or.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, tenantId));
-								or.addCriteria(new NeutralCriteria(
-										"targetEdOrgList",
-										NeutralCriteria.CRITERIA_IN, homeEdOrgs));
-								filters.add(or);
-							}
-							if (roles
-									.contains(RoleInitializer.LEA_ADMINISTRATOR)) {
-								Set<String> edOrgs = new HashSet<String>();
-								edOrgs.add(edOrgId);
-								Set<String> childEdorgStateIds = edOrgHelper
-										.getChildEdOrgsName(edOrgs);
-								homeEdOrgs.addAll(childEdorgStateIds);
-								NeutralQuery or = new NeutralQuery();
-                                or.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, tenantId));
-								or.addCriteria(new NeutralCriteria(
-										"targetEdOrgList",
-										NeutralCriteria.CRITERIA_IN, homeEdOrgs));
-								filters.add(or);
-							}
-						} else {
-							LOG.warn("Could not find edOrgs for SecurityEvents!");
-						}
-					}
-				} else {
-					LOG.warn("Could not find roles for SecurityEvents!");
-				}
-			} else {
-				LOG.warn("Could not find principal for SecurityEvents!");
-			}
-		} else {
-			LOG.warn("Could not find auth for SecurityEvents!");
-		}
-		return filters;
-	}
+        if (auth == null) {
+            LOG.warn("Could not find auth for SecurityEvents!");
+            return filters;
+        }
+
+        SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
+        if (principal == null) {
+            LOG.warn("Could not find principal for SecurityEvents!");
+            return filters;
+        }
+
+        List<String> roles = principal.getRoles();
+        if (roles == null) {
+            LOG.warn("Could not find roles for SecurityEvents!");
+            return filters;
+        }
+
+        if (roles.contains(RoleInitializer.SLC_OPERATOR)) {
+            // SLC operators can see all of the security events
+            NeutralQuery or = new NeutralQuery();
+            filters.add(or);
+            return filters;
+        } else if (roles.contains(RoleInitializer.SEA_ADMINISTRATOR)) {
+            addFiltersForSeaAdmin(principal, filters);
+        } else if (roles.contains(RoleInitializer.LEA_ADMINISTRATOR)) {
+            addFiltersForLeaAdmin(principal, filters);
+        } else {
+            addFiltersForFederatedUser(principal, filters);
+        }
+
+        return filters;
+    }
+
+    private List<NeutralQuery> addFiltersForSeaAdmin(SLIPrincipal principal, List<NeutralQuery> filtersSoFar) {
+
+        String edOrg = principal.getEdOrg();
+        if (edOrg == null) {
+            LOG.warn("Could not find edOrgs for SecurityEvents!");
+            return filtersSoFar;
+        }
+
+        String tenantId = SecurityUtil.getTenantId();
+        Set<String> homeEdOrgs = new HashSet<String>();
+        homeEdOrgs.add(edOrg);
+
+        Set<String> delegatedLEAStateIds = edOrgHelper.getDelegatedEdorgDescendents();
+
+        if (delegatedLEAStateIds.size() > 0) {
+            LOG.info(delegatedLEAStateIds + " have delegated SecurityEvents access to SEA!");
+            homeEdOrgs.addAll(delegatedLEAStateIds);
+        }
+
+        NeutralQuery or = new NeutralQuery();
+        or.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, tenantId));
+        or.addCriteria(new NeutralCriteria(
+                "targetEdOrgList",
+                NeutralCriteria.CRITERIA_IN, homeEdOrgs));
+        filtersSoFar.add(or);
+
+        return filtersSoFar;
+    }
+
+    private List<NeutralQuery> addFiltersForLeaAdmin(SLIPrincipal principal, List<NeutralQuery> filtersSoFar) {
+
+        String edOrg = principal.getEdOrg();
+        if (edOrg == null) {
+            LOG.warn("Could not find edOrgs for SecurityEvents!");
+            return filtersSoFar;
+        }
+        String edOrgId = principal.getEdOrg();
+        if (edOrgId == null) {
+            LOG.warn("Could not find edOrgId for SecurityEvents!");
+            return filtersSoFar;
+        }
+
+
+        String tenantId = SecurityUtil.getTenantId();
+        Set<String> homeEdOrgs = new HashSet<String>();
+        homeEdOrgs.add(edOrg);
+
+        Set<String> edOrgs = new HashSet<String>();
+        edOrgs.add(edOrgId);
+        Set<String> childEdorgStateIds = edOrgHelper.getChildEdOrgsName(edOrgs);
+        homeEdOrgs.addAll(childEdorgStateIds);
+        NeutralQuery or = new NeutralQuery();
+        or.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, tenantId));
+        or.addCriteria(new NeutralCriteria(
+                "targetEdOrgList",
+                NeutralCriteria.CRITERIA_IN, homeEdOrgs));
+        filtersSoFar.add(or);
+
+        return filtersSoFar;
+    }
+
+    private List<NeutralQuery> addFiltersForFederatedUser(SLIPrincipal principal,
+            List<NeutralQuery> filtersSoFar) {
+
+        String tenantId = SecurityUtil.getTenantId();
+
+        Map<String, Collection<GrantedAuthority>> edOrgRights = principal.getEdOrgRights();
+        if (edOrgRights == null) {
+            return filtersSoFar;
+        }
+
+        Set<String> explicitlyAuthorizedEdOrgIds = new HashSet<String>();
+        for (String currentEdOrgId : edOrgRights.keySet()) {
+            if (edOrgRights.get(currentEdOrgId).contains(Right.SECURITY_EVENT_VIEW)) {
+                explicitlyAuthorizedEdOrgIds.add(currentEdOrgId);
+            }
+        }
+
+        Set<String> allAuthorizedEdOrgIds = edOrgHelper.getChildEdOrgs(explicitlyAuthorizedEdOrgIds);
+        allAuthorizedEdOrgIds.addAll(explicitlyAuthorizedEdOrgIds);
+
+        // now get the ed Org names
+
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
+                NeutralCriteria.CRITERIA_IN, allAuthorizedEdOrgIds));
+        Iterable<Entity> allAuthorizedEdOrgEntities = repository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+
+        Set<String> allAuthorizedEdOrgNames = new HashSet<String>();
+        for (Entity edOrgEntity : allAuthorizedEdOrgEntities) {
+            allAuthorizedEdOrgNames.add((String) edOrgEntity.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID));
+        }
+
+        if (allAuthorizedEdOrgNames.size() > 0) {
+            NeutralQuery or = new NeutralQuery();
+            or.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, tenantId));
+            or.addCriteria(new NeutralCriteria(
+                    "targetEdOrgList",
+                    NeutralCriteria.CRITERIA_IN, allAuthorizedEdOrgNames));
+            filtersSoFar.add(or);
+
+        }
+
+        return filtersSoFar;
+
+    }
+
 
 	public void setRepository(PagingRepositoryDelegate<Entity> repository) {
 		this.repository = repository;
