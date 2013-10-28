@@ -1249,11 +1249,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         if (query != null) {
             // get the authorities
-            Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
-            auths.addAll(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-            if (isSelf) {
-                auths.addAll(SecurityUtil.getSLIPrincipal().getSelfRights());
-            }
+            Collection<GrantedAuthority> auths = getAuths(isSelf);
 
             rightAccessValidator.checkFieldAccess(query, defn.getType(), auths);
         }
