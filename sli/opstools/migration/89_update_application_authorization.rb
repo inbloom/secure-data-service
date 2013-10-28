@@ -21,26 +21,33 @@ APPAUTH_COLLECTION = "applicationAuthorization"
 
 #Update applicationAuthorizations with new schema
 #US5860
-def consolidate_dups(dbName)
+def update_applicationAuthorization(dbName)
   @conn[dbName][APPAUTH_COLLECTION].find({}).each do |appAuth|
     puts appAuth  if DEBUG == true
     id = appAuth["_id"]
     appAuth_body = appAuth["body"]
     edorgs =  appAuth_body["edorgs"]
-    if appAuth_body.has_key?("edorgs")
+    puts id if DEBUG == true
+    if appAuth_body.has_key?("edorgs") and notMigrated(edorgs)
         edorgs_new = []
-        edorg_entry = {}
         edorgs.each do |edorg|
+            edorg_entry = {}
             edorg_entry["authorizedEdorg"] = edorg
             edorgs_new.push(edorg_entry)
+            updated = true
+            #puts edorgs_new
         end
         appAuth_body["edorgs"] = edorgs_new
         @conn[dbName][APPAUTH_COLLECTION].update({"_id"=>id}, {"body"=>appAuth_body})
+        #puts appAuth_body["edorgs"]
     end
   end
-
 end
 
+def  notMigrated(edorgs)
+    puts edorgs[0].class.name=="String" if DEBUG == true
+    edorgs[0].class.name=="String"
+end
 
 # Example: this_script.rb --all host:myhost.com port:12345
 #          this_script.rb host:myhost.com port:12345 db1 db2 db3
@@ -114,7 +121,7 @@ def main(argv)
   for tenant in tenants
     dbname = tenant2db[tenant]
     puts "Updating applicationAuthorization collection for tenant: " + tenant + ", database " + dbname
-    consolidate_dups(dbname)
+    update_applicationAuthorization(dbname)
     puts "\n"
   end
 
