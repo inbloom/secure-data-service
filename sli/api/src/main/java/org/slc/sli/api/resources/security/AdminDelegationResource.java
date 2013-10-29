@@ -77,6 +77,9 @@ public class AdminDelegationResource {
 
     private EntityService service;
 
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
+
     public static final String RESOURCE_NAME = "adminDelegation";
     public static final String LEA_ID = "localEdOrgId";
 
@@ -127,6 +130,60 @@ public class AdminDelegationResource {
 
         return SecurityUtil.forbiddenResponse();
 
+    }
+
+
+    /**
+     * Set the admin delegation record for an LEA admin user's EdOrg.
+     *
+     * @param body Admin delegation record to be written.
+     * @return NO_CONTENT on success. BAD_REQUEST or FORBIDDEN on failure.
+     */
+    @PUT
+    @Path("myEdOrg")
+    @RightsAllowed({Right.EDORG_APP_AUTHZ })
+    public Response setLocalDelegation(EntityBody body, @Context final UriInfo uriInfo) {
+        //verifyBodyEdOrgMatchesPrincipalEdOrg
+        if (body == null || !body.containsKey(LEA_ID) || !body.get(LEA_ID).equals(SecurityUtil.getEdOrgId())) {
+            EntityBody response = new EntityBody();
+            response.put("message", "Entity EdOrg must match principal's EdOrg when writing delegation record.");
+            return Response.status(Status.BAD_REQUEST).entity(response).build();
+        }
+
+        EntityBody del =  getDelegationRecordForPrincipal();
+        
+        if (del == null) {
+
+            if (service.create(body).isEmpty()) {
+                return Response.status(Status.BAD_REQUEST).build();
+            } else {
+                return Response.status(Status.CREATED).build();
+            }
+
+        } else {
+            String delgId = (String)del.get("id");
+            if (!service.update(delgId, body)) {
+                return Response.status(Status.BAD_REQUEST).build();
+            }
+        }
+
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    void log(boolean appApprovalEnabled, boolean oldAppApprovalEnabled, @Context final UriInfo uriInfo){
+    	 if (appApprovalEnabled && !oldAppApprovalEnabled) {
+             SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA's delegation is enabled!", true);
+             audit(event);
+         }	 else if (!appApprovalEnabled  && oldAppApprovalEnabled ) {
+             SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA's delegation is disabled!", true);
+             audit(event);
+         }
+    }
+
+    @POST
+    @RightsAllowed({Right.EDORG_APP_AUTHZ })
+    public Response create(EntityBody body, @Context final UriInfo uriInfo) {
+        return setLocalDelegation(body, uriInfo);
     }
 
     @GET
