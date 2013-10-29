@@ -23,10 +23,6 @@ import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.lea.EntityToEdOrgDateCache;
 import org.slc.sli.bulk.extract.lea.ExtractorHelper;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.common.util.datetime.DateHelper;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 import org.slf4j.Logger;
@@ -39,14 +35,12 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * Context resolver for students
+ * Context resolver for students.
  * 
  * @author nbrown
  * 
@@ -66,18 +60,10 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
     private EdOrgHierarchyHelper edOrgHierarchyHelper;
 
     @Autowired
-    private EducationOrganizationContextResolver edOrgResolver;
-
-    @Autowired
-    private DateHelper dateHelper;
-
-    @Autowired
     @Qualifier("secondaryRepo")
     private Repository<Entity> repo;
 
     private ExtractorHelper extractorHelper;
-
-    private Set<String> nonDatedEntities = new HashSet<String>(Arrays.asList(EntityNames.STUDENT, EntityNames.STUDENT_PARENT_ASSOCIATION, EntityNames.PARENT));
 
     private String seaIds = null;
 
@@ -85,30 +71,6 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
     public void afterPropertiesSet() throws Exception {
         extractorHelper = new ExtractorHelper(edOrgExtractHelper);
         edOrgHierarchyHelper = new EdOrgHierarchyHelper(repo);
-    }
-
-    @Override
-    public Set<String> resolve (Entity entity) {
-        Set<String> leas = new HashSet<String>();
-
-        List<Map<String, Object>> schools = entity.getDenormalizedData().get("schools");
-        if (schools != null) {
-            for (Map<String, Object> school : schools) {
-                try {
-                    if (!dateHelper.isFieldExpired(school, ParameterConstants.EXIT_WITHDRAW_DATE)) {
-                        String schoolId = (String) school.get("_id");
-                        Set<String> edOrgs = edOrgResolver.findGoverningEdOrgs(schoolId);
-                        if (edOrgs != null) {
-                            leas.addAll(edOrgs);
-                        }
-                    }
-                } catch (RuntimeException e) {
-                    LOG.warn("Could not parse school " + school, e);
-                }
-            }
-        }
-
-        return leas;
     }
 
     @Override

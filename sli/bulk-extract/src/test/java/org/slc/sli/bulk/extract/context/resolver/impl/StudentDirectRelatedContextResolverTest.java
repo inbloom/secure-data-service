@@ -19,6 +19,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -46,11 +47,9 @@ public class StudentDirectRelatedContextResolverTest {
 
     @Before
     public void setUp() throws Exception {
-        studentResolver = Mockito.mock(StudentContextResolver.class);
         MockitoAnnotations.initMocks(this);
         topLevelLEAs.add("lea1");
         topLevelLEAs.add("lea2");
-        when(studentResolver.findGoverningEdOrgs("studentId123")).thenReturn(topLevelLEAs);
     }
     
     @Test
@@ -62,10 +61,14 @@ public class StudentDirectRelatedContextResolverTest {
 
     @Test
     public void shouldReturnWhateverStudentResolverReturns() {
+
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("studentId", "studentId123");
         Entity e = new MongoEntity("type", "id", body, new HashMap<String, Object>());
+        Mockito.when(studentResolver.findGoverningEdOrgs("studentId123", e)).thenReturn(topLevelLEAs);
+
         Set<String> leas = resolver.findGoverningEdOrgs(e);
+
         assertTrue(leas.size() == 2);
         assertTrue(leas.contains("lea1"));
         assertTrue(leas.contains("lea2"));

@@ -26,13 +26,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.bulk.extract.context.resolver.impl.CohortContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.CourseTranscriptContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.DisciplineActionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.DisciplineIncidentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.GradebookEntryContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
-import org.slc.sli.bulk.extract.context.resolver.impl.SectionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SimpleEntityTypeContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherDirectRelatedContextResolver;
@@ -69,9 +67,6 @@ public class EdOrgContextResolverFactory {
     private ParentContextResolver parentResolver;
 
     @Autowired
-    private SectionContextResolver sectionResolver;
-
-    @Autowired
     private StaffTeacherContextResolver staffTeacherResolver;
 
     @Autowired
@@ -79,9 +74,6 @@ public class EdOrgContextResolverFactory {
 
     @Autowired
     private GradebookEntryContextResolver gradebookEntryContextResolver;
-
-    @Autowired
-    private CohortContextResolver cohortResolver;
 
     @Autowired
     private DisciplineIncidentContextResolver disciplineIncidentResolver;
@@ -119,8 +111,11 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, studentDirectRelatedContextResolver);
 
         resolverMap.put(EntityNames.PARENT, parentResolver);
-
-        resolverMap.put(EntityNames.SECTION, sectionResolver);
+        resolverMap.put(EntityNames.GRADEBOOK_ENTRY, gradebookEntryContextResolver);
+        resolverMap.put(EntityNames.COURSE_TRANSCRIPT, courseTranscriptResolver);
+        resolverMap.put(EntityNames.DISCIPLINE_INCIDENT, disciplineIncidentResolver);
+        resolverMap.put(EntityNames.DISCIPLINE_ACTION, disciplineActionResolver);
+        resolverMap.put(EntityNames.STUDENT_COMPETENCY, studentCompetencyResolver);
 
         resolverMap.put(EntityNames.TEACHER, staffTeacherResolver);
         resolverMap.put(EntityNames.STAFF, staffTeacherResolver);
@@ -130,17 +125,6 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.STAFF_ED_ORG_ASSOCIATION, staffTeacherRelatedResolver);
         resolverMap.put(EntityNames.STAFF_COHORT_ASSOCIATION, staffTeacherRelatedResolver);
         resolverMap.put(EntityNames.STAFF_PROGRAM_ASSOCIATION, staffTeacherRelatedResolver);
-
-        resolverMap.put(EntityNames.GRADEBOOK_ENTRY, gradebookEntryContextResolver);
-
-        resolverMap.put(EntityNames.COHORT, cohortResolver);
-
-        resolverMap.put(EntityNames.COURSE_TRANSCRIPT, courseTranscriptResolver);
-
-        resolverMap.put(EntityNames.DISCIPLINE_INCIDENT, disciplineIncidentResolver);
-        resolverMap.put(EntityNames.DISCIPLINE_ACTION, disciplineActionResolver);
-
-        resolverMap.put(EntityNames.STUDENT_COMPETENCY, studentCompetencyResolver);
 
         resolverMap.put(EntityNames.LEARNING_OBJECTIVE, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.LEARNING_STANDARD, simpleEntityTypeContextResolver);
@@ -158,6 +142,8 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.GRADING_PERIOD, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.GRADUATION_PLAN, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.EDUCATION_ORGANIZATION, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.SECTION, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.COHORT, simpleEntityTypeContextResolver);
 
         LOG.debug("Resolver map is {}", resolverMap);
     }

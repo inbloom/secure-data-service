@@ -50,7 +50,6 @@ Feature: List a purge as a single event in the delta extract
       |  student                               |
       |  studentSchoolAssociation              |
       |  studentSectionAssociation             |
-      |  section                               |
       |  staff                                 |
       |  staffEducationOrganizationAssociation |
       |  teacher                               |

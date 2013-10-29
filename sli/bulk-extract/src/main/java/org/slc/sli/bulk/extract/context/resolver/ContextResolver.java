@@ -37,15 +37,4 @@ public interface ContextResolver {
      * @return a set of Strings which are IDs of the top level LEA
      */
     public Set<String> findGoverningEdOrgs(Entity entity);
-
-    /**
-     * Return a set of edorg Ids given the base entity and entity to extract
-     *
-     * @param baseEntity        base entity the entity to extract relies on
-     * @param entityToExtract   entity to extract
-     * @return                  set of edorg Ids
-     */
-    //TODO: Remove after F316 is done
-    public Set<String> findGoverningEdOrgs(Entity baseEntity, Entity entityToExtract);
-
 }

@@ -62,8 +62,6 @@ public class StudentContextResolverTest {
     private final StudentContextResolver underTest = new StudentContextResolver();
     @Mock
     private Repository<Entity> repo;
-    @Mock
-    private EducationOrganizationContextResolver edOrgResolver;
 
     private ExtractorHelper extractorHelper = Mockito.mock(ExtractorHelper.class);
 
@@ -167,27 +165,23 @@ public class StudentContextResolverTest {
         oldSchool.put("entryDate", today.minusMonths(15).toString(format));
         oldSchool.put("exitWithdrawDate", today.minusMonths(3).toString(format));
         edorgDates.put(NONCURSCHOOL, today.minusMonths(3));
-        when(edOrgResolver.findGoverningEdOrgs(NONCURSCHOOL)).thenReturn(new HashSet<String>(Arrays.asList(NONCURSCHOOL)));
 
         Map<String, Object> currentSchool = new HashMap<String, Object>();
         currentSchool.put("_id", CURRENTSCHOOL);
         currentSchool.put("entryDate", today.minusMonths(15).toString(format));
         currentSchool.put("exitWithdrawDate", today.plusMonths(9).toString(format));
         edorgDates.put(CURRENTSCHOOL, today.plusMonths(9));
-        when(edOrgResolver.findGoverningEdOrgs(CURRENTSCHOOL)).thenReturn(new HashSet<String>(Arrays.asList(CURRENTSCHOOL)));
 
         Map<String, Object> futureSchool = new HashMap<String, Object>();
         futureSchool.put("_id", FUTURESCHOOL);
         futureSchool.put("entryDate", today.plusMonths(9).toString(format));
         futureSchool.put("exitWithdrawDate", today.plusMonths(21).toString(format));
         edorgDates.put(FUTURESCHOOL, today.plusMonths(21));
-        when(edOrgResolver.findGoverningEdOrgs(FUTURESCHOOL)).thenReturn(new HashSet<String>(Arrays.asList(FUTURESCHOOL)));
 
         Map<String, Object> unboundedSchool = new HashMap<String, Object>();
         unboundedSchool.put("_id", UNBOUNDSCHOOL);
         unboundedSchool.put("entryDate", today.minusMonths(15).toString(format));
         edorgDates.put(UNBOUNDSCHOOL, null);
-        when(edOrgResolver.findGoverningEdOrgs(UNBOUNDSCHOOL)).thenReturn(new HashSet<String>(Arrays.asList(UNBOUNDSCHOOL)));
 
         Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
         denormalized.put("schools", Arrays.asList(oldSchool, currentSchool, futureSchool, unboundedSchool));
