@@ -107,7 +107,7 @@ public class ApplicationAuthorizationResourceTest {
     public void testGetAuthForNonExistingAppAndExistingAuth() {
         Map<String, Object> auth = new HashMap<String, Object>();
         auth.put("applicationId", "someAppId");
-        auth.put("edorgs", Arrays.asList("someOtherEdorg"));
+        auth.put("edorgs", getAuthList("someOtherEdorg"));
         repo.create("applicationAuthorization", auth);
         ResponseImpl resp = (ResponseImpl) res.getAuthorization("someAppId", null);
         Assert.assertEquals(200, resp.getStatus());
@@ -120,7 +120,7 @@ public class ApplicationAuthorizationResourceTest {
     public void testGetAuthForNonExistingAppAndExistingAuth2() {
         Map<String, Object> auth = new HashMap<String, Object>();
         auth.put("applicationId", "someAppId");
-        auth.put("edorgs", Arrays.asList(SecurityUtil.getEdOrgId()));
+        auth.put("edorgs", getAuthList(SecurityUtil.getEdOrgId()));
         repo.create("applicationAuthorization", auth);
         ResponseImpl resp = (ResponseImpl) res.getAuthorization("someAppId", null);
         Assert.assertEquals(200, resp.getStatus());
@@ -146,7 +146,7 @@ public class ApplicationAuthorizationResourceTest {
         Entity app = repo.create("application", appBody);
         Map<String, Object> auth = new HashMap<String, Object>();
         auth.put("applicationId", app.getEntityId());
-        auth.put("edorgs", Arrays.asList(SecurityUtil.getEdOrgId()));
+        auth.put("edorgs", getAuthList(SecurityUtil.getEdOrgId()));
         repo.create("applicationAuthorization", auth);
         ResponseImpl resp = (ResponseImpl) res.getAuthorization(app.getEntityId(), null);
         Assert.assertEquals(200, resp.getStatus());
@@ -161,7 +161,7 @@ public class ApplicationAuthorizationResourceTest {
         Entity app = repo.create("application", appBody);
         Map<String, Object> auth = new HashMap<String, Object>();
         auth.put("applicationId", app.getEntityId());
-        auth.put("edorgs", Arrays.asList("someOtherEdorg"));
+        auth.put("edorgs", getAuthList("someOtherEdorg"));
         repo.create("applicationAuthorization", auth);
         ResponseImpl resp = (ResponseImpl) res.getAuthorization(app.getEntityId(), null);
         Assert.assertEquals(200, resp.getStatus());
@@ -176,7 +176,7 @@ public class ApplicationAuthorizationResourceTest {
         Entity app = repo.create("application", appBody);
         Map<String, Object> auth = new HashMap<String, Object>();
         auth.put("applicationId", app.getEntityId());
-        auth.put("edorgs", Arrays.asList("someOtherEdorg"));
+        auth.put("edorgs", getAuthList("someOtherEdorg"));
         repo.create("applicationAuthorization", auth);
         ResponseImpl resp = (ResponseImpl) res.getAuthorization(app.getEntityId(), SecurityUtil.getEdOrgId());
         Assert.assertEquals(200, resp.getStatus());
@@ -194,7 +194,7 @@ public class ApplicationAuthorizationResourceTest {
         //create app auth
         Map<String, Object> auth = new HashMap<String, Object>();
         auth.put("applicationId", app.getEntityId());
-        auth.put("edorgs", Arrays.asList(SecurityUtil.getEdOrgId()));
+        auth.put("edorgs", getAuthList(SecurityUtil.getEdOrgId()));
         repo.create("applicationAuthorization", auth);
         
         //query app auth
@@ -223,7 +223,7 @@ public class ApplicationAuthorizationResourceTest {
         Entity app = repo.create("application", appBody);
         Map<String, Object> auth = new HashMap<String, Object>();
         auth.put("applicationId", app.getEntityId());
-        auth.put("edorgs", Arrays.asList(SecurityUtil.getEdOrgId()));
+        auth.put("edorgs", getAuthList(SecurityUtil.getEdOrgId()));
         repo.create("applicationAuthorization", auth);
         ResponseImpl resp = (ResponseImpl) res.getAuthorizations(null);
         Assert.assertEquals(200, resp.getStatus());

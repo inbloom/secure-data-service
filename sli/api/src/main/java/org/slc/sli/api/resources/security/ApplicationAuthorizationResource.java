@@ -33,10 +33,11 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import com.google.common.collect.Sets;
-import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
@@ -145,22 +146,26 @@ public class ApplicationAuthorizationResource {
             entity.put("appId", appId);
             entity.put("id", appId);
             List<Map<String,Object>> edOrgs = (List<Map<String,Object>>) appAuth.get("edorgs");
-            entity.put("authorized", containsEdOrg(edOrgs,myEdorg));
+            entity.put("authorized", containsEdOrg(edOrgs, myEdorg));
             entity.put("edorgs", edOrgs);//(TA10857)
             return Response.status(Status.OK).entity(entity).build();
         }
 
     }
 
-    private Boolean containsEdOrg(List<Map<String,Object>> edOrgList, String edOrg){
-            for (Map<String,Object> edOrgListElement :edOrgList ){
-                if(edOrgListElement.get("authorized_edorg") != null){
-                    if(edOrg.equals(edOrgListElement.get("authorized_edorg").toString())){
-                       return true;
-                   }
+    private boolean containsEdOrg(List<Map<String,Object>> edOrgList, String edOrg) {
+        if( edOrgList == null || edOrg == null ) {
+            return false;
+        }
+        for (Map<String,Object> edOrgListElement :edOrgList ){
+            String authorizedEdorg = (String)edOrgListElement.get("authorizedEdorg");
+            if(authorizedEdorg != null){
+                if(edOrg.equals(authorizedEdorg)){
+                    return true;
                 }
             }
-            return false;
+        }
+        return false;
     }
 
     private EntityBody getAppAuth(String appId) {
@@ -195,7 +200,7 @@ public class ApplicationAuthorizationResource {
                     //We don't have an appauth entry for this app, so create one
                     EntityBody body = new EntityBody();
                     body.put("applicationId", appId);
-                    body.put("edorgs", formattedEdOrg(edOrgsToAuthorize));
+                    body.put("edorgs", enrichAuthorizedEdOrgsList(edOrgsToAuthorize));
 
                     service.create(body);
                     logSecurityEvent(appId, null, edOrgsToAuthorize);
@@ -203,44 +208,80 @@ public class ApplicationAuthorizationResource {
                 return Response.status(Status.NO_CONTENT).build();
             }
         } else {
-            List<String> edorgs = (List<String>) existingAuth.get("edorgs");
-            Set<String> edorgsCopy = new HashSet<String>(edorgs);
-            if (((Boolean) auth.get("authorized")).booleanValue()) {
-                edorgsCopy.addAll(formattedEdOrg(edOrgsToAuthorize));
-            } else {
-                edorgsCopy.removeAll(edOrgsToAuthorize);
-            }
-            logSecurityEvent(appId, edorgs, edorgsCopy);
-            existingAuth.put("edorgs", new ArrayList<String>(edorgsCopy));
+            List<Map<String,Object>> oldEdOrgs = (List<Map<String,Object>>)existingAuth.get("edorgs");
+            Set<String>  oldAuth = getSetOfAuthorizedIds(oldEdOrgs);
+            boolean add = ((Boolean) auth.get("authorized")).booleanValue();
+            List<Map<String,Object>> modifiedAuthList = modifyEdOrgList(oldEdOrgs, add, edOrgsToAuthorize) ;
+            Set<String>  newAuth = getSetOfAuthorizedIds(modifiedAuthList);
+            existingAuth.put("edorgs", modifiedAuthList);
+            logSecurityEvent(appId, oldAuth, newAuth);
             service.update((String) existingAuth.get("id"), existingAuth);
             return Response.status(Status.NO_CONTENT).build();
         }
     }
-    private List<Map<String,Object>> modifyEdOrgList( List<Map<String,Object>> edOrgList, List<String> edOrgStringList ){
-            List<Map<String, Object>> modifiedEdOrgList = new ArrayList<Map<String,Object>>();
-            Map<String,Map<String,Object>> cacheMap = new HashMap<String,Map<String,Object>>();
-        for ( Map<String, Object> mapElement: edOrgList){
 
+    private Set<String> getSetOfAuthorizedIds( List<Map<String,Object>> currentAuthList) {
+        Set<String> authSet = new HashSet<String>();
+        for(Map<String, Object> currentAuthListItem:currentAuthList) {
+            String authorizedEdorg = (String)currentAuthListItem.get("authorizedEdorg");
+            authSet.add(authorizedEdorg);
         }
-        for( String edOrgListElement : edOrgStringList){
-
-
-
-            }
-          return modifiedEdOrgList;
+        return  authSet;
     }
 
-    private List<Map<String, Object>> formattedEdOrg( List<String> edOrgList){
-            List<Map<String,Object>> formattedEdOrgList = new ArrayList<Map<String,Object>>();
-        for( String edOrg : edOrgList){
-            Map<String,Object> authInfo = new HashMap<String, Object>();
-            authInfo.put("authorizedEdorg",edOrg );
-            authInfo.put("lastAuthorizingRealmEdorg", "");
-            authInfo.put("lastAuthorizingUser", "");
-            authInfo.put("lastAuthorizedDate", "");
-            formattedEdOrgList.add(authInfo);
+    @SuppressWarnings("PMD.AvoidReassigningParameters")
+    private List<Map<String,Object>> modifyEdOrgList( List<Map<String,Object>> currentAuthList, boolean add, Collection<String> newEdOrgList ) {
+        if(currentAuthList == null) {
+            currentAuthList = new LinkedList<Map<String, Object>>();
         }
-        return formattedEdOrgList;
+        Set<String> newAuthSet = new HashSet<String>(newEdOrgList);
+        Set<String> oldAuthSet = getSetOfAuthorizedIds(currentAuthList);
+
+        if(add) {
+            newAuthSet.removeAll(oldAuthSet);
+            for(String newAuthItem :newAuthSet) {
+                Map<String, Object> newAuthItemProps = new HashMap<String, Object>();
+                newAuthItemProps.put("authorizedEdorg", newAuthItem);
+                enrichAuthorizedEdOrg(newAuthItemProps);
+                currentAuthList.add(newAuthItemProps);
+            }
+        } else {
+            ListIterator<Map<String, Object>> it = currentAuthList.listIterator();
+            while(it.hasNext()) {
+                Map<String, Object> currentAuthListItem = it.next();
+                String authorizedEdorg = (String)currentAuthListItem.get("authorizedEdorg");
+                if(newAuthSet.contains(authorizedEdorg)) {
+                    it.remove();
+                }
+            }
+        }
+        return currentAuthList;
+    }
+
+    public static List<Map<String, Object>> enrichAuthorizedEdOrgsList(List<String> edOrgIds) {
+        List<Map<String, Object>>  enrichedAEOList = new LinkedList<Map<String, Object>>();
+        for(String edOrgId:edOrgIds) {
+            Map<String, Object> enrichedAEO = new HashMap<String, Object>();
+            enrichedAEO.put("authorizedEdorg", edOrgId);
+            enrichedAEOList.add(enrichAuthorizedEdOrg(enrichedAEO));
+        }
+        return  enrichedAEOList;
+    }
+
+    private static Map<String, Object> enrichAuthorizedEdOrg(Map<String, Object> authInfo) {
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String user = principal.getExternalId();
+        String time = String.valueOf(new Date().getTime());
+
+        String lastAuthorizingRealmEdorg     = principal.getRealmEdOrg();
+        String lastAuthorizingUser           = user;
+        String lastAuthorizedDate            = time;
+
+        authInfo.put("lastAuthorizingRealmEdorg", lastAuthorizingRealmEdorg);
+        authInfo.put("lastAuthorizingUser",       lastAuthorizingUser);
+        authInfo.put("lastAuthorizedDate",        lastAuthorizedDate);
+
+        return authInfo;
     }
 
     List<String> getParentEdorgs(String rootEdorg) {
@@ -261,7 +302,7 @@ public class ApplicationAuthorizationResource {
             allApps.put(ent.getEntityId(), ent);
         }
 
-        Iterable<EntityBody> ents = service.list(new NeutralQuery(new NeutralCriteria("edorgs", "=", myEdorg)));
+        Iterable<EntityBody> ents = service.list(new NeutralQuery(new NeutralCriteria("edorgs.authorizedEdorg", "=", myEdorg)));
 
         List<Map> results = new ArrayList<Map>();
         for (EntityBody body : ents) {
