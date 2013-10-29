@@ -37,22 +37,7 @@ public class AttendanceExtractVerifier implements ExtractVerifier {
             this.schoolYear.set(schoolYear);
         }
 
-        DateTime finalUpToDate = (upToDate == null) ? DateTime.now() : upToDate;
-        return isBeforeOrEqualYear(this.schoolYear.get(), finalUpToDate.year().get());
-    }
-
-    /**
-     * Check if year span is not beyond up to year.
-     *
-     * @param yearSpan - Year span
-     * @param upToYear - Up to year
-     *
-     * @return - true if year span is not beyond up to year
-     */
-    protected boolean isBeforeOrEqualYear(String yearSpan, int upToYear) {
-        int fromYear = Integer.parseInt(yearSpan.split("-")[0]);
-        int toYear = Integer.parseInt(yearSpan.split("-")[1]);
-        return ((upToYear >= toYear) && (upToYear > fromYear));
+        return EntityDateHelper.isPastOrCurrentDate(this.schoolYear.get(), upToDate, entity.getType());
     }
 
 }

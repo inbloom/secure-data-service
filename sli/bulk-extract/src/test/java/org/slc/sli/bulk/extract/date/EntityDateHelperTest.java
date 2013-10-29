@@ -20,10 +20,12 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 
@@ -33,12 +35,27 @@ import org.slc.sli.domain.MongoEntity;
 public class EntityDateHelperTest {
 
     @Test
-    public void testRetrieve() {
+    public void testRetrieveDate() {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(ParameterConstants.BEGIN_DATE, "01-01-01");
         Entity studentProgramAssociation = new MongoEntity(EntityNames.STUDENT_PROGRAM_ASSOCIATION, body);
 
         Assert.assertEquals("01-01-01", EntityDateHelper.retrieveDate(studentProgramAssociation));
+    }
+
+    @Test
+    public void testIsPastOrCurrentDateWithDate() {
+        Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2010-05-23", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.DISCIPLINE_INCIDENT));
+        Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2011-05-23", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.DISCIPLINE_INCIDENT));
+        Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate("2012-05-23", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.DISCIPLINE_INCIDENT));
+    }
+
+    @Test
+    public void testIsPastOrCurrentDateWithYear() {
+        Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2009-2010", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.GRADE));
+        Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2010-2011", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.GRADE));
+        Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate("2011-2012", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.GRADE));
+        Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate("2012-2013", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.GRADE));
     }
 
 }

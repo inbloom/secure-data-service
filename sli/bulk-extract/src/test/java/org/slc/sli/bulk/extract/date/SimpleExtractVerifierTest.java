@@ -37,21 +37,13 @@ public class SimpleExtractVerifierTest {
     private SimpleExtractVerifier simpleExtractVerifier = new SimpleExtractVerifier();
 
     @Test
-    public void testShouldExtrct() {
+    public void testShouldExtract() {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(ParameterConstants.BEGIN_DATE, "01-01-01");
         Entity studentProgramAssociation = new MongoEntity(EntityNames.STUDENT_PROGRAM_ASSOCIATION, body);
 
         Assert.assertTrue( "01-01-01",simpleExtractVerifier.shouldExtract(studentProgramAssociation, DateTime.parse("2000-01-01", DateHelper.getDateTimeFormat())));
         Assert.assertTrue( "01-01-01",simpleExtractVerifier.shouldExtract(studentProgramAssociation, DateTime.parse("1999-01-01", DateHelper.getDateTimeFormat())));
-    }
-
-    @Test
-    public void testisBeforeOrEqualYear() {
-        Assert.assertTrue(simpleExtractVerifier.isBeforeOrEqualYear("2007-2008", 2009));
-        Assert.assertTrue(simpleExtractVerifier.isBeforeOrEqualYear("2008-2009", 2009));
-        Assert.assertFalse(simpleExtractVerifier.isBeforeOrEqualYear("2009-2010", 2009));
-        Assert.assertFalse(simpleExtractVerifier.isBeforeOrEqualYear("2010-2011", 2009));
     }
 
     @Test
