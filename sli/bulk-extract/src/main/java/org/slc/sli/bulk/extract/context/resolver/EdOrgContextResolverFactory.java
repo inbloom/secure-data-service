@@ -111,6 +111,11 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, studentDirectRelatedContextResolver);
 
         resolverMap.put(EntityNames.PARENT, parentResolver);
+        resolverMap.put(EntityNames.GRADEBOOK_ENTRY, gradebookEntryContextResolver);
+        resolverMap.put(EntityNames.COURSE_TRANSCRIPT, courseTranscriptResolver);
+        resolverMap.put(EntityNames.DISCIPLINE_INCIDENT, disciplineIncidentResolver);
+        resolverMap.put(EntityNames.DISCIPLINE_ACTION, disciplineActionResolver);
+        resolverMap.put(EntityNames.STUDENT_COMPETENCY, studentCompetencyResolver);
 
         resolverMap.put(EntityNames.TEACHER, staffTeacherResolver);
         resolverMap.put(EntityNames.STAFF, staffTeacherResolver);
@@ -120,15 +125,6 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.STAFF_ED_ORG_ASSOCIATION, staffTeacherRelatedResolver);
         resolverMap.put(EntityNames.STAFF_COHORT_ASSOCIATION, staffTeacherRelatedResolver);
         resolverMap.put(EntityNames.STAFF_PROGRAM_ASSOCIATION, staffTeacherRelatedResolver);
-
-        resolverMap.put(EntityNames.GRADEBOOK_ENTRY, gradebookEntryContextResolver);
-
-        resolverMap.put(EntityNames.COURSE_TRANSCRIPT, courseTranscriptResolver);
-
-        resolverMap.put(EntityNames.DISCIPLINE_INCIDENT, disciplineIncidentResolver);
-        resolverMap.put(EntityNames.DISCIPLINE_ACTION, disciplineActionResolver);
-
-        resolverMap.put(EntityNames.STUDENT_COMPETENCY, studentCompetencyResolver);
 
         resolverMap.put(EntityNames.LEARNING_OBJECTIVE, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.LEARNING_STANDARD, simpleEntityTypeContextResolver);

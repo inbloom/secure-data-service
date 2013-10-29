@@ -16,6 +16,7 @@
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
 
+import org.slc.sli.common.constants.ParameterConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,13 +36,11 @@ public class StudentDirectRelatedContextResolver extends RelatedContextResolver 
     @Autowired
     private ReferrableResolver studentContextResolver;
 
-    private final static String STUDENT_ID = "studentId";
-    
     protected ReferrableResolver getReferredResolver() {
         return studentContextResolver;
     }
     
     protected String getReferenceProperty(String entityType) {
-        return STUDENT_ID;
+        return ParameterConstants.STUDENT_ID;
     }
 }

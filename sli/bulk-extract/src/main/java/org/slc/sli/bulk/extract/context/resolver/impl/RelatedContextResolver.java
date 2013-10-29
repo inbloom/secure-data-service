@@ -16,14 +16,11 @@
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -33,14 +30,6 @@ import org.slc.sli.domain.Entity;
  *
  */
 public abstract class RelatedContextResolver implements ContextResolver {
-
-    //TODO: Remove after all all entities are finished
-    private static Set<String> supportedNonCurrentEntities = new HashSet<String>(Arrays.asList(EntityNames.STUDENT_PROGRAM_ASSOCIATION,
-            EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, EntityNames.STUDENT_PARENT_ASSOCIATION,
-            EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.STUDENT_ASSESSMENT, EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.GRADE,
-            EntityNames.REPORT_CARD, EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.ATTENDANCE,
-            EntityNames.STUDENT_GRADEBOOK_ENTRY, EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION,
-            EntityNames.STAFF_PROGRAM_ASSOCIATION, EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION));
 
     public RelatedContextResolver() {
         super();
@@ -57,15 +46,7 @@ public abstract class RelatedContextResolver implements ContextResolver {
             return Collections.emptySet();
         }
 
-        if (supportedNonCurrentEntities.contains(entity.getType())) {
-            return getReferredResolver().findGoverningEdOrgs(referredId, entity);
-        }
-        return getReferredResolver().findGoverningEdOrgs(referredId);
-    }
-
-    @Override
-    public Set<String> findGoverningEdOrgs(Entity entity, Entity actualEntity) {
-        throw new UnsupportedOperationException();
+        return getReferredResolver().findGoverningEdOrgs(referredId, entity);
     }
 
     protected String getReferredId(String type, Map<String, Object> body) {

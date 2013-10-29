@@ -41,7 +41,7 @@ public class StaffTeacherDirectRelatedContextResolver extends RelatedContextReso
         }
 
         if (EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(entityType)) {
-            return StaffTeacherContextResolver.STAFF_REFERENCE;
+            return ParameterConstants.STAFF_REFERENCE;
         }
 
         if (EntityNames.STAFF_COHORT_ASSOCIATION.equals(entityType)
