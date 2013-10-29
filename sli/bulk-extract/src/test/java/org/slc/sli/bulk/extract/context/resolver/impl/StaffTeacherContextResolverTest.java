@@ -52,13 +52,8 @@ public class StaffTeacherContextResolverTest {
     @InjectMocks
     StaffTeacherContextResolver resolver = new StaffTeacherContextResolver();
     
-    private DateHelper dateHelper = new DateHelper();
-    
     @Mock
     private Repository<Entity> repo;
-    
-    @Mock
-    private EducationOrganizationContextResolver edOrgResolver;
     
     @Mock
     private EdOrgHierarchyHelper edOrgHelper;
@@ -67,40 +62,11 @@ public class StaffTeacherContextResolverTest {
     private EdOrgExtractHelper edOrgExtractHelper;
 
     private ExtractorHelper extractorHelper = Mockito.mock(ExtractorHelper.class);
-    
 
     @Before
     public void setUp() throws Exception {
-        dateHelper = Mockito.mock(DateHelper.class);
-        edOrgResolver = Mockito.mock(EducationOrganizationContextResolver.class);
         MockitoAnnotations.initMocks(this);
-        resolver.setDateHelper(dateHelper);
         resolver.setExtractorHelper(extractorHelper);
-    }
-
-    @Test
-    public void expiredStaffDoNotShowup() {
-        Entity staff = buildStaffEntity();
-        NeutralQuery q = resolver.buildStaffEdorgQuery(staff.getEntityId());
-        when(repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, q)).thenReturn(buildExpiredAssociations());
-        assertTrue(resolver.findGoverningEdOrgs(staff).size() == 0);
-    }
-    
-    @Test
-    public void staffWithAssociationsToTwoLEAsBelongsToTwoLEAs() {
-        Entity staff = buildStaffEntity();
-        NeutralQuery q = resolver.buildStaffEdorgQuery(staff.getEntityId());
-        when(repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, q)).thenReturn(buildCurrentAssociations());
-        String tomorrow = new DateTime().plusDays(1).toString("yyyy-MM-dd");
-        String dayAfterTomorrow = new DateTime().plusDays(2).toString("yyyy-MM-dd");
-        Set<String> lea1 = new HashSet<String>(Arrays.asList("lea1"));
-        Set<String> lea2 = new HashSet<String>(Arrays.asList("lea2"));
-        when(edOrgResolver.findGoverningEdOrgs("edorg" + tomorrow)).thenReturn(lea1);
-        when(edOrgResolver.findGoverningEdOrgs("edorg" + dayAfterTomorrow)).thenReturn(lea2);
-        System.out.println(resolver.findGoverningEdOrgs(staff));
-        assertTrue(resolver.findGoverningEdOrgs(staff).size() == 2);
-        Set<String> all = new HashSet<String>(Arrays.asList("lea1", "lea2"));
-        assertEquals(all, resolver.findGoverningEdOrgs(staff));
     }
 
     @Test
@@ -174,27 +140,6 @@ public class StaffTeacherContextResolverTest {
         assertEquals(0, spyResolver.resolve(staff, entityToExtract).size());
     }
 
-    private Iterable<Entity> buildCurrentAssociations() {
-        String tomorrow = new DateTime().plusDays(1).toString("yyyy-MM-dd");
-        String dayAfterTomorrow = new DateTime().plusDays(2).toString("yyyy-MM-dd");
-        return Arrays.asList(buildAssociations(tomorrow), buildAssociations(dayAfterTomorrow));
-    }
-
-    private Iterable<Entity> buildExpiredAssociations() {
-        String yesterday = new DateTime().minusDays(1).toString("yyyy-MM-dd");
-        return Arrays.asList(buildAssociations(yesterday));
-    }
-
-    private Entity buildAssociations(String endDate) {
-        Map<String, Object> body = new HashMap<String, Object>();
-        if (endDate != null) {
-            body.put("endDate", endDate);
-            body.put("educationOrganizationReference", "edorg" + endDate);
-        }
-        
-        return new MongoEntity(EntityNames.STAFF_ED_ORG_ASSOCIATION, "staffEdorgAssociationId", body, new HashMap<String, Object>());
-    }
-
     private Entity buildSeoa(String staffId, String edOrgId, DateTime entryDate, DateTime endDate) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(ParameterConstants.STAFF_ID, staffId);
@@ -208,11 +153,5 @@ public class StaffTeacherContextResolverTest {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("loginId", "myId");
         return new MongoEntity("staff", "staffId", body, new HashMap<String, Object>());
-    }
-
-    private Map<String, List<String>> buildEdOrgLineage() {
-        Map<String, List<String>> lineage = new HashMap<String, List<String>>();
-        lineage.put("edOrg1", Arrays.asList("edOrg1", "edOrg2"));
-        return lineage;
     }
 }

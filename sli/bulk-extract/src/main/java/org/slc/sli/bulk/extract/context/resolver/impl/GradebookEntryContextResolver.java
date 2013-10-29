@@ -60,9 +60,4 @@ public class GradebookEntryContextResolver implements ContextResolver {
         }
         return edOrgs;
     }
-
-    @Override
-    public Set<String> findGoverningEdOrgs(Entity entity, Entity entityToExtract) {
-        return null;
-    }
 }
