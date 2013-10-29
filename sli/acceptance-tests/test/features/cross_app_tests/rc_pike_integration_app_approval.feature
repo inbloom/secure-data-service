@@ -538,7 +538,7 @@ Given the pre-existing bulk extrac testing app key has been created
    And there is no bulk extract files in the local directory
 
   Then I get the id for the edorg "IL-DAYBREAK"
-  When I PATCH the postalCode for the student entity to 11999
+  When I PATCH the endDate for the staffProgramAssociation entity to 2011-05-05
   Then I should receive a return code of 204
   When the operator triggers a delta for the production tenant
    #And I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
