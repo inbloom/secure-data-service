@@ -553,7 +553,7 @@ Given the pre-existing bulk extrac testing app key has been created
    And there is a metadata file in the extract
    And the extract contains a file for each of the following entities:
    |  entityType                            |
-   |  student                               |
+   |  staffProgramAssociation               |
 
 Scenario: Ingestion user ingests additional public entities
   Given a landing zone
