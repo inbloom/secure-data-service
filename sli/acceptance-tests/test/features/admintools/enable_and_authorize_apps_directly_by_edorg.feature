@@ -43,12 +43,43 @@ Background:
         And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
         Then I am redirected to the Application Registration Tool page
         And I see the list of (only) my applications
+        And a "In Progress" button is displayed for application "Royal Oak"
         And I clicked on the button Edit for the application "Royal Oak"
-        And I enable the education Organization "Illinois State Board of Education"
+        And I expand all nodes
+        And I enable the educationalOrganization "Illinois State Board of Education" in tenant "Midgar"
+        And I enable the educationalOrganization "Dusk High School" in tenant "Hyrule"
         And I click on Save
+        Then "Royal Oak" is enabled for "201" education organizations
+
+        #DE2983 - test cancel button
+        And I clicked on the button Edit for the application "Royal Oak"
+        And I click Cancel on the application enable page
+        And a "Edit" button is displayed for application "Royal Oak"
+        Then "Royal Oak" is enabled for "201" education organizations
+
+    @RALLY_DE2981
+    Scenario: NY SEA Admin Approves application
+        When I hit the Admin Application Authorization Tool
+         And I submit the credentials "nyadmin" "nyadmin1234" for the "Simple" login page
+         And I see an application "Royal Oak" in the table
+         And in Status it says "Not Approved"
+         And the sli securityEvent collection is empty
+
+        # clean up app state for DE2981
+    Scenario: Developer disables application
+        Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
+        When I hit the Application Registration Tool URL
+        And I was redirected to the "Simple" IDP Login page
+        And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
+        Then I am redirected to the Application Registration Tool page
+        And I clicked on the button Edit for the application "Royal Oak"
+        And I expand all nodes
+        And I disable the educationalOrganization "Dusk High School" in tenant "Hyrule"
+        And I click on Save
+        And a "Edit" button is displayed for application "Royal Oak"
         Then "Royal Oak" is enabled for "200" education organizations
 
-    Scenario: SEA Admin Approves application
+    Scenario: IL SEA Admin Approves application
         When I hit the Admin Application Authorization Tool
          And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
          And I see an application "Royal Oak" in the table
@@ -77,6 +108,12 @@ Background:
          And there are "200" educationalOrganizations in the targetEdOrgList
          And I see an application "Royal Oak" in the table
          And in Status it says "200 EdOrg(s)"
+         #cancel button check
+         When I click on the "Edit Authorizations" button next to it
+         And I click Cancel on the application authorization page
+         Then I see an application "Royal Oak" in the table
+         And in Status it says "200 EdOrg(s)"
+         And there are "200" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
         Given the sli securityEvent collection is empty
         When I click on the "Edit Authorizations" button next to it
          And I de-authorize the educationalOrganization "Illinois State Board of Education"

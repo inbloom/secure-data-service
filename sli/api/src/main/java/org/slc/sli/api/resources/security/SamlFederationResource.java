@@ -52,6 +52,9 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.roles.EdOrgContextualRoleBuilder;
+import org.slc.sli.api.security.service.AuditLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -88,6 +91,8 @@ import org.slc.sli.domain.Repository;
 @Component
 @Path("saml")
 public class SamlFederationResource {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SamlFederationResource.class);
 
     @Autowired
     private SamlHelper saml;
@@ -133,6 +138,9 @@ public class SamlFederationResource {
     private SecurityEventBuilder securityEventBuilder;
 
     @Autowired
+    private AuditLogger auditLogger;
+
+    @Autowired
     private EdOrgHelper edorgHelper;
 
     @Autowired
@@ -157,7 +165,7 @@ public class SamlFederationResource {
     @SuppressWarnings("unchecked")
     public Response consume(@FormParam("SAMLResponse") String postData, @Context UriInfo uriInfo) {
 
-        info("Received a SAML post for SSO...");
+        LOG.info("Received a SAML post for SSO...");
         TenantContext.setTenantId(null);
         Document doc = null;
         String targetEdOrg = null;
@@ -171,7 +179,7 @@ public class SamlFederationResource {
             try {
                 event.setExecutedOn(InetAddress.getLocalHost().getHostName());
             } catch (UnknownHostException ue) {
-                info("Could not find hostname for security event logging!");
+                LOG.info("Could not find hostname for security event logging!");
             }
 
             if (httpServletRequest != null) {
@@ -189,7 +197,7 @@ public class SamlFederationResource {
                 event.setLogLevel(LogLevelType.TYPE_ERROR);
             }
 
-            audit(event);
+            auditLogger.audit(event);
 
             generateSamlValidationError(e.getMessage(), targetEdOrg);
         }
@@ -294,7 +302,7 @@ public class SamlFederationResource {
                 if(samlTenant != null) {
                     tenant = samlTenant;
                 }else{
-                    error("Attempted login by a user in sandbox mode but no tenant was specified in the saml message.");
+                    LOG.error("Attempted login by a user in sandbox mode but no tenant was specified in the saml message.");
                     throw new APIAccessDeniedException("Invalid user configuration.", (String) realm.getBody().get("edOrg"));
                 }
             }
@@ -311,7 +319,7 @@ public class SamlFederationResource {
             tenant = realmTenant;
         }
 
-        debug("Authenticating user is an admin: " + isAdminRealm);
+        LOG.debug("Authenticating user is an admin: " + isAdminRealm);
         principal = users.locate(tenant, attributes.getFirst("userId"), attributes.getFirst("userType"));
         String userName = getUserNameFromEntity(principal.getEntity());
         if (userName != null) {
@@ -331,7 +339,7 @@ public class SamlFederationResource {
 
         List<String> roles = attributes.get("roles");
         if (roles == null || roles.isEmpty()) {
-            error("Attempted login by a user that did not include any roles in the SAML Assertion.");
+            LOG.error("Attempted login by a user that did not include any roles in the SAML Assertion.");
             throw new APIAccessDeniedException("Invalid user. No roles specified for user.", realm);
         }
 
@@ -372,7 +380,7 @@ public class SamlFederationResource {
         } else {
             principal.setRoles(sliRoleList);
             if (principal.getRoles().isEmpty()) {
-                debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
+                LOG.debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
                 throw new APIAccessDeniedException(
                         "Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.", realm);
             }
@@ -391,7 +399,7 @@ public class SamlFederationResource {
             if (edOrg != null) {
                 principal.setEdOrgId(edOrg.getEntityId());
             } else {
-                debug("Failed to find edOrg with stateOrganizationID {} and tenantId {}", principal.getEdOrg(),
+                LOG.debug("Failed to find edOrg with stateOrganizationID {} and tenantId {}", principal.getEdOrg(),
                         principal.getTenantId());
             }
         }
@@ -448,7 +456,7 @@ public class SamlFederationResource {
         successfulLogin.setUser(principal.getExternalId());
         successfulLogin.setLogMessage(principal.getExternalId() + " from tenant " + tenant + " logged successfully into " + applicationDetails + ".");
 
-        audit(successfulLogin);
+        auditLogger.audit(successfulLogin);
 
         if (isInstalled) {
             Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -456,7 +464,7 @@ public class SamlFederationResource {
             if (state != null) {
                 resultMap.put("state", state);
             }
-            info("Sending back authorization token for installed app: {}", authorizationCode);
+            LOG.info("Sending back authorization token for installed app: {}", authorizationCode);
             return Response.ok(resultMap).build();
 
         } else {
@@ -477,7 +485,7 @@ public class SamlFederationResource {
 
 
     private void generateSamlValidationError(String message, String targetEdOrg) {
-        error(message);
+        LOG.error(message);
         throw new APIAccessDeniedException("Authorization could not be verified.", targetEdOrg);
     }
 
@@ -538,7 +546,7 @@ public class SamlFederationResource {
         if (notBefore != null) {
             DateTime calNotBefore = DateTime.parse(notBefore);
             if (currentTime.isBefore(calNotBefore)) {
-                debug("{} is before {}.", currentTime, calNotBefore);
+                LOG.debug("{} is before {}.", currentTime, calNotBefore);
                 return false;
             }
         }
@@ -546,7 +554,7 @@ public class SamlFederationResource {
         if (notOnOrAfter != null) {
             DateTime calNotOnOrAfter = DateTime.parse(notOnOrAfter);
             if (currentTime.isAfter(calNotOnOrAfter) || currentTime.isEqual(calNotOnOrAfter)) {
-                debug("{} is on or after {}.", currentTime, calNotOnOrAfter);
+                LOG.debug("{} is on or after {}.", currentTime, calNotOnOrAfter);
                 return false;
             }
         }

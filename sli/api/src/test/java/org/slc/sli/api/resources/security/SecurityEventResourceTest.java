@@ -27,7 +27,10 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -45,7 +48,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 
@@ -65,8 +68,11 @@ public class SecurityEventResourceTest {
     @Autowired
     SecurityContextInjector injector;
 
+    @Qualifier("validationRepo")
+    @Autowired
+    Repository<Entity> repo;
+
     private UriInfo uriInfo;
-    private static boolean isExecuted = false;
 
     @Before
     public void setup() throws Exception {
@@ -80,18 +86,15 @@ public class SecurityEventResourceTest {
         URI mockUri = new URI("/rest/securityEvent");
         when(uriInfo.getRequestUri()).thenReturn(mockUri);
 
-        synchronized (this) {
-            if (!isExecuted) {
-                isExecuted = true;
 
-                // create entities
-                resource.createSecurityEvent(new EntityBody(sampleEntity1()), uriInfo);
-                resource.createSecurityEvent(new EntityBody(sampleEntity2()), uriInfo);
-                resource.createSecurityEvent(new EntityBody(sampleEntity3()), uriInfo);
-                resource.createSecurityEvent(new EntityBody(sampleEntity4()), uriInfo);
-                resource.createSecurityEvent(new EntityBody(sampleEntity5()), uriInfo);
-            }
-        }
+        repo.deleteAll("securityEvent", null);
+
+        // create entities
+        resource.createSecurityEvent(new EntityBody(sampleEntity1()), uriInfo);
+        resource.createSecurityEvent(new EntityBody(sampleEntity2()), uriInfo);
+        resource.createSecurityEvent(new EntityBody(sampleEntity3()), uriInfo);
+        resource.createSecurityEvent(new EntityBody(sampleEntity4()), uriInfo);
+        resource.createSecurityEvent(new EntityBody(sampleEntity5()), uriInfo);
     }
 
     private Map<String, Object> sampleEntity1() {
@@ -222,7 +225,7 @@ public class SecurityEventResourceTest {
         } else if (responseEntityObj instanceof List<?>) {
             @SuppressWarnings("unchecked")
             List<EntityBody> results = (List<EntityBody>) responseEntityObj;
-            assertTrue("Should have three entities, but the actual count is " + results.size(), results.size() == 2);
+            assertEquals("unexpected number of entities", 2, results.size());
         } else {
             fail("Response entity not recognized: " + response);
         }
@@ -251,7 +254,7 @@ public class SecurityEventResourceTest {
         } else if (responseEntityObj instanceof List<?>) {
             @SuppressWarnings("unchecked")
             List<EntityBody> results = (List<EntityBody>) responseEntityObj;
-            assertTrue("Should have two entities, but the actual count is " + results.size(), results.size() == 2);
+            assertEquals("unexpected number of entities", 2, results.size());
         } else {
             fail("Response entity not recognized: " + response);
         }
@@ -280,7 +283,7 @@ public class SecurityEventResourceTest {
         } else if (responseEntityObj instanceof List<?>) {
             @SuppressWarnings("unchecked")
             List<EntityBody> results = (List<EntityBody>) responseEntityObj;
-            assertTrue("Should have three entities, but the actual count is " + results.size(), results.size() == 3);
+            assertEquals("unexpected number of entities", 3, results.size());
         } else {
             fail("Response entity not recognized: " + response);
         }
@@ -307,7 +310,7 @@ public class SecurityEventResourceTest {
         } else if (responseEntityObj instanceof List<?>) {
             @SuppressWarnings("unchecked")
             List<EntityBody> results = (List<EntityBody>) responseEntityObj;
-            assertTrue("Should have five entities, but the actual count is " + results.size(), results.size() == 5);
+            assertEquals("unexpected number of entities", 5, results.size());
         } else {
             fail("Response entity not recognized: " + response);
         }
