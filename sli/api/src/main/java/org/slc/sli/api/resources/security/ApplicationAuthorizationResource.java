@@ -57,6 +57,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.util.CollectionUtils;
 
 /**
  *
@@ -233,6 +234,8 @@ public class ApplicationAuthorizationResource {
 
         Iterable<EntityBody> ents = service.list(new NeutralQuery(new NeutralCriteria("edorgs", "=", myEdorg)));
 
+        Set<String> inScopeEdOrgs = getChildEdorgs(edorg);
+
         List<Map> results = new ArrayList<Map>();
         for (EntityBody body : ents) {
             HashMap<String, Object> entity = new HashMap<String, Object>();
@@ -246,7 +249,8 @@ public class ApplicationAuthorizationResource {
         for (Map.Entry<String, Entity> entry : allApps.entrySet()) {
             Boolean    autoApprove = (Boolean) entry.getValue().getBody().get("allowed_for_all_edorgs");
             List<String> approvedEdorgs = (List<String>) entry.getValue().getBody().get("authorized_ed_orgs");
-            if ((autoApprove != null && autoApprove) || (approvedEdorgs != null && approvedEdorgs.contains(myEdorg))) {
+            // user has app auth ability for their own edorg and all child edorgs
+            if ((autoApprove != null && autoApprove) || (approvedEdorgs != null && CollectionUtils.containsAny(approvedEdorgs, inScopeEdOrgs))) {
                 HashMap<String, Object> entity = new HashMap<String, Object>();
                 entity.put("id", entry.getKey());
                 entity.put("appId", entry.getKey());

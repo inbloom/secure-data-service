@@ -357,6 +357,14 @@ When /^I click Update$/ do
   @driver.find_element(:css, 'input:enabled[type="submit"]').click
 end
 
+When /^I (authorize|de-authorize) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action,edOrgName,tenant|
+  if action == 'authorize'
+    step "I enable the educationalOrganization \"#{edOrgName}\" in tenant \"#{tenant}\""
+  else
+    step "I disable the educationalOrganization \"#{edOrgName}\" in tenant \"#{tenant}\""
+  end
+end
+
 Then /^I authorize the educationalOrganization "(.*?)"$/ do |edOrgName|
   disable_NOTABLESCAN()
   db = @conn[convertTenantIdToDbName("Midgar")]
