@@ -49,9 +49,13 @@ Then /^The following edOrgs are authorized for the application "(.*?)" in tenant
         
         edOrgsArray.push(stateOrganizationId)
         edOrgsArray.sort
-        record = coll.find_one({"$and" => [{'body.applicationId'=> applicationId}, {'body.edorgs' => stateOrganizationId}] })
+        #record = coll.find_one({"$and" => [{'body.applicationId'=> applicationId}, {'body.edorgs' => stateOrganizationId}] })
+        record = coll.find_one({'body.applicationId'=> applicationId})
         recordBody = record['body']
-        @recordEdorgs = recordBody['edorgs']
+        @recordEdorgs = []
+        recordBody['edorgs'].each do |edorg|
+          @recordEdorgs.push(edorg["authorizedEdorg"])
+        end
         #record = coll.find_one({"$and" => [{'body.applicationId'=> application}, {'body.edorgs' => row["edorgs"]}] })
         if record != nil
             assert(@results == "true", "applicationAuthorization record is found!")
@@ -503,7 +507,8 @@ Then /^only below is present in the application authorization edOrgs array for t
     new_hash["lastAuthorizingUser"] = row["user"]
     expected_array.insert(-1, new_hash)
   end
-  expected_array.sort
+  #expected_array.sort
+  expected = expected_array.to_set
 
   #get actual results array, remove timestamp fields rom comparison
   disable_NOTABLESCAN()
@@ -520,9 +525,10 @@ Then /^only below is present in the application authorization edOrgs array for t
   actual_array.each do |entry|
     entry.delete("lastAuthorizedDate")
   end
-  actual_array.sort
+  #actual_array.sort
+  actual = actual_array.to_set
 
   #compare
-  assert(actual_array == expected_array, "edOrgs array mismatch in applicationAuthorization collection. Expected #{expected_array.to_s}, actual #{actual_array.to_s}")
+  assert(actual == expected, "edOrgs array mismatch in applicationAuthorization collection. Expected #{expected_array.to_s}, actual #{actual_array.to_s}")
 
 end
