@@ -354,7 +354,7 @@ Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the applicationAu
 end
 
 When /^I click Update$/ do
-  @driver.find_element(:css, 'input:enabled[type="submit"]').click
+  @driver.find_element(:xpath, '//*[@id="edorgTree"]/input[2]').click
 end
 
 When /^I (authorize|de-authorize) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action,edOrgName,tenant|
@@ -378,14 +378,14 @@ Then /^I authorize the educationalOrganization "(.*?)"$/ do |edOrgName|
 end
 
 Then /^the checkbox with HTML id "([^"]*?)" is (checked|unchecked)$/ do |id,status|
-  elt = @driver.find_element(:css, 'input#' + id + '[type="checkbox"]')
+  elt = @driver.find_element(:id, id)
   assert(elt, "Checkbox with id '" + id + "' not found")
   selected = elt.selected?
   assert(status == "checked" && selected || status == "unchecked" && !selected, "Expected checkbox id '" + id + "' to be " + status + ", but WebDriver.isSelected gives '" + selected.to_s() + "'")
 end
 
 When /^I (check|uncheck) the checkbox with HTML id "([^"]*?)"$/ do |action,id|
-  elt = @driver.find_element(:css, 'input#' + id + '[type="checkbox"]')
+  elt = @driver.find_element(:id, id)
   assert(elt, "Checkbox with id '" + id + "' not found")
   assert(action == "check" && !elt.selected? || action == "uncheck" && elt.selected?, "Cannot " + action + " checkbox with id '" + id + "' whose checked status is " + elt.selected?.to_s())
   elt.click()
@@ -486,13 +486,9 @@ Then /^the following edOrgs not enabled by the developer are non-selectable for 
     coll = db.collection("educationOrganization")
     record = coll.find_one("body.nameOfInstitution" => edorg_name.to_s)
     if record
-      STDOUT.puts "Checking #{edorg_name}"
-      STDOUT.flush
       edOrgId = record["_id"]
       actualCount = @driver.find_elements(:id, edOrgId.to_s).count()
       assert("0" == actualCount.to_s, "#{edorg_name} should not be selectable")
-      STDOUT.puts "#{edorg_name} is not selectable"
-      STDOUT.flush
     end
   end
 end
