@@ -52,7 +52,7 @@
     <% @cur_edorg = edorg %>
     <% @app_auth = app_auth
        next if @apps_map[app_auth.appId] == nil
-       isEnabled = @edorg_apps.has_key?(edorg) && @edorg_apps[edorg].has_key?(app_auth.appId)
+       isEnabled = edorg_in_scope_enabled?(edorg, app_auth.appId)
        next if ! isEnabled
     %>
     <%= render 'form'%>
