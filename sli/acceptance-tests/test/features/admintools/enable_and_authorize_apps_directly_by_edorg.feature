@@ -51,6 +51,12 @@ Background:
         And I click on Save
         Then "Royal Oak" is enabled for "201" education organizations
 
+        #DE2983 - test cancel button
+        And I clicked on the button Edit for the application "Royal Oak"
+        And I click Cancel on the application enable page
+        And a "Edit" button is displayed for application "Royal Oak"
+        Then "Royal Oak" is enabled for "201" education organizations
+
     @RALLY_DE2981
     Scenario: NY SEA Admin Approves application
         When I hit the Admin Application Authorization Tool
@@ -72,12 +78,6 @@ Background:
         And I click on Save
         And a "Edit" button is displayed for application "Royal Oak"
         Then "Royal Oak" is enabled for "200" education organizations
-
-        #DE2983 - test cancel button
-        #And I clicked on the button Edit for the application "Royal Oak"
-        #And I click Cancel on the application enable page
-        #And a "Edit" button is displayed for application "Royal Oak"
-        #Then "Royal Oak" is enabled for "200" education organizations
 
     Scenario: IL SEA Admin Approves application
         When I hit the Admin Application Authorization Tool

@@ -301,9 +301,9 @@ end
 
 Then /^I click Cancel on the application enable page$/ do
    #first cancel button
-   @driver.find_element(:xpath, '//*[@id="edorgTree"]/span[1]/button').click
+   @driver.find_element(:id, 'Cancel1').click
    #second cancel button
-   #@driver.find_element(:xpath, '//*[@id="edorgTree"]/span[2]/button').click
+   #@driver.find_element(:id, 'Cancel2').click
 end
 
 Then /^the row of the app "([^"]*)" expanded$/ do |arg1|
