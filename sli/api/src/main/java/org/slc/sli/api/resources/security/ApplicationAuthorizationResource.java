@@ -205,6 +205,14 @@ public class ApplicationAuthorizationResource {
         }
     }
 
+    List<String> getParentEdorgs(String rootEdorg) {
+        return helper.getParentEdOrgs(helper.byId(rootEdorg));
+    }
+
+    Set<String> getChildEdorgs(String rootEdorg) {
+        return helper.getChildEdOrgs(Arrays.asList(rootEdorg));
+    }
+
     @GET
     @RightsAllowed({Right.EDORG_APP_AUTHZ})
     public Response getAuthorizations(@QueryParam("edorg") String edorg) {
