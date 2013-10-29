@@ -20,6 +20,8 @@ import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +33,8 @@ import java.util.*;
  */
 @Component
 public class EdOrgContextualRoleBuilder {
+
+    private static final Logger LOG = LoggerFactory.getLogger(EdOrgContextualRoleBuilder.class);
 
     @Autowired
     private EdOrgHelper edorgHelper;
@@ -52,14 +56,14 @@ public class EdOrgContextualRoleBuilder {
         Set<Entity> staffEdOrgAssoc = edorgHelper.locateNonExpiredSEOAs(staffId);
 
         if (staffEdOrgAssoc.size() == 0) {
-            error("Attempted login by a user that did not include any current valid roles in the SAML Assertion.");
+            LOG.error("Attempted login by a user that did not include any current valid roles in the SAML Assertion.");
             throw new APIAccessDeniedException("Invalid user.  User is not currently associated with any school/edorg", true);
         }
 
         Map<String, List<String>> sliEdOrgRoleMap = buildEdOrgContextualRoles(staffEdOrgAssoc, samlRoleSet);
 
         if(sliEdOrgRoleMap.isEmpty()) {
-            error("Attempted login by a user that did not include any valid roles in the SAML Assertion.");
+            LOG.error("Attempted login by a user that did not include any valid roles in the SAML Assertion.");
             throw new APIAccessDeniedException("Invalid user. No valid roles specified for user.", true);
         }
 
@@ -68,7 +72,7 @@ public class EdOrgContextualRoleBuilder {
         }
 
         if (isInValidRoleMap(sliEdOrgRoleMap)) {
-            error("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
+            LOG.error("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
             throw new APIAccessDeniedException(
                     "Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.", true);
         }

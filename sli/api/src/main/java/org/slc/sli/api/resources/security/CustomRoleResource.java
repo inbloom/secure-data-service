@@ -34,6 +34,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -77,6 +78,9 @@ public class CustomRoleResource {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+
+    @Autowired
+    private AuditLogger auditLogger;
 
     @Autowired
     private RoleInitializer roleInitializer;
@@ -317,7 +321,7 @@ public class CustomRoleResource {
     		event.setTargetEdOrg(targetEdOrg);
     		event.setTargetEdOrgList(Arrays.asList(targetEdOrg));
     	}
-        audit(event);
+        auditLogger.audit(event);
     }
 
 

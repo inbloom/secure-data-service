@@ -33,6 +33,8 @@ import javax.ws.rs.core.PathSegment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -63,6 +65,8 @@ import org.slc.sli.domain.Repository;
  */
 @Component
 public class UriMutator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UriMutator.class);
 
     public static final int NUM_SEGMENTS_IN_TWO_PART_REQUEST = 3;
     public static final int NUM_SEGMENTS_IN_ONE_PART_REQUEST = 2;
@@ -140,7 +144,7 @@ public class UriMutator {
                         }
                         newMutated.setPath(path);
 
-                        info("Rewriting URI to {} based on natural keys", newMutated.getPath());
+                        LOG.info("Rewriting URI to {} based on natural keys", newMutated.getPath());
                         return newMutated;
                     }
                 }
@@ -382,7 +386,7 @@ public class UriMutator {
                     String mutatedURL = String.format("/calendarDates/%s", StringUtils.join(gradingPeriodCalendarDates.toArray(), ","));
                     mutated.setPath(mutatedURL);
                 }   else {    //no calendarDates associated with this grading Period
-                    info("Cannot find any calendarDates associated with gradingPeriods [{}]", Arrays.asList(gradingPeriodIds));
+                    LOG.info("Cannot find any calendarDates associated with gradingPeriods [{}]", Arrays.asList(gradingPeriodIds));
                 }
             }
         }

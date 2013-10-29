@@ -29,6 +29,8 @@ import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -60,6 +62,8 @@ import org.slc.sli.api.resources.v1.HypermediaType;
 @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8",
         MediaType.APPLICATION_XML + ";charset=utf-8", HypermediaType.VENDOR_SLC_XML + ";charset=utf-8" })
 public abstract class GenericResource {
+
+    private static final Logger LOG = LoggerFactory.getLogger(GenericResource.class);
 
     @Autowired
     @Qualifier("defaultResourceService")
@@ -147,7 +151,7 @@ public abstract class GenericResource {
             try {
                 queryString = "?" + URLEncoder.encode(decoded, "UTF-8");
             } catch (UnsupportedEncodingException e) {
-                error("unsupported encoding exception when parsing query parameters: {}", e);
+                LOG.error("unsupported encoding exception when parsing query parameters: {}", e);
             }
         }
         return queryString;
