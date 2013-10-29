@@ -102,8 +102,8 @@
   <a href="#" id="expand_all">Expand All</a>
   <a href="#" id="collapse_all">Collapse All</a>
   <span class = "edOrgTreeActions">
-    <%= f.submit "Save & Update", :disable_with => 'Submitting...', :class => "btn" %>
-    <button onclick="window.location.href='/apps'">Cancel</button>
+    <%= f.submit "Save & Update", :disable_with => 'Save & Update', :class => "btn" %>
+	<%= f.submit 'Cancel', :id => 'Cancel1', :disable_with => 'Cancel', :class => "btn" %>
   </span>
 
 
@@ -112,8 +112,8 @@
   </div>
 
   <span class = "edOrgTreeActions" >
-	<%= f.submit "Save & Update", :disable_with => 'Submitting...', :class => "btn" %>
-    <button onclick="window.location.href='/apps'">Cancel</button>
+	<%= f.submit "Save & Update", :disable_with => 'Save & Update', :class => "btn" %>
+	<%= f.submit 'Cancel', :id => 'Cancel2', :disable_with => 'Cancel', :class => "btn" %>
   </span>
 
 </div>
