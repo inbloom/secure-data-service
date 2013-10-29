@@ -16,30 +16,29 @@ require 'mongo'
 ############################################################
 
 @conn = nil
-DEBUG = false
+DEBUG = true
 APPAUTH_COLLECTION = "applicationAuthorization"
 
 #Update applicationAuthorizations with new schema
 #US5860
 def update_applicationAuthorization(dbName)
+  appAuth2Id = {}
   @conn[dbName][APPAUTH_COLLECTION].find({}).each do |appAuth|
-    puts appAuth  if DEBUG == true
-    id = appAuth["_id"]
-    appAuth_body = appAuth["body"]
-    edorgs =  appAuth_body["edorgs"]
+     id = appAuth["_id"]
+     appAuth2Id[id] = appAuth["body"]
+  end
+  appAuth2Id.each do |id, appAuth_body|
     puts id if DEBUG == true
+    edorgs =  appAuth_body["edorgs"]
     if appAuth_body.has_key?("edorgs") and notMigrated(edorgs)
         edorgs_new = []
         edorgs.each do |edorg|
             edorg_entry = {}
             edorg_entry["authorizedEdorg"] = edorg
             edorgs_new.push(edorg_entry)
-            updated = true
-            #puts edorgs_new
         end
         appAuth_body["edorgs"] = edorgs_new
         @conn[dbName][APPAUTH_COLLECTION].update({"_id"=>id}, {"body"=>appAuth_body})
-        #puts appAuth_body["edorgs"]
     end
   end
 end
