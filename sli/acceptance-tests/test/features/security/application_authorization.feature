@@ -29,6 +29,7 @@ Feature: Admin delegation CRUD
     And a security event "Application granted access to EdOrg data!" should be created for these targetEdOrgs
       | targetEdOrg                |
       | IL                         |
+    And I should grant all app authorizations for district "IL-SUNSET"
 
   Scenario Outline: Read the application Authorization data and confirm all fields are populated correctly
     And I am logged in using "iladmin" "iladmin1234" to realm "SLI"
