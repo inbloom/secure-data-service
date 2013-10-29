@@ -20,6 +20,12 @@ import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -43,25 +49,21 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * Unit test for the student context resolver
- * 
+ *
  * @author nbrown
- * 
+ *
  */
 @RunWith(MockitoJUnitRunner.class)
 public class StudentContextResolverTest {
+
     @InjectMocks
     private final StudentContextResolver underTest = new StudentContextResolver();
+
     @Mock
     private Repository<Entity> repo;
+
     @Mock
     private EducationOrganizationContextResolver edOrgResolver;
 
@@ -85,7 +87,6 @@ public class StudentContextResolverTest {
     @Test
     public void testResolveDatedEntity() {
         Map<String, DateTime> edorgDates = new HashMap<String, DateTime>();
-
 
         Entity testStudent = buildTestStudent("42", edorgDates);
         Entity spa =buildSPA("spa1", today.minusMonths(2).toString(format), today.plusMonths(1).toString());
@@ -119,17 +120,20 @@ public class StudentContextResolverTest {
         Entity testStudent = buildTestStudent("42", edorgDates);
         Mockito.when(extractorHelper.fetchAllEdOrgsForStudent((Entity) Matchers.any())).thenReturn(edorgDates);
 
-
         when(repo.findOne(Matchers.eq(EntityNames.EDUCATION_ORGANIZATION), (NeutralQuery)Matchers.any())).thenReturn(null);
         EdOrgHierarchyHelper edOrgHierarchyHelper = mock(EdOrgHierarchyHelper.class);
         when(edOrgHierarchyHelper.getSEA()).thenReturn(null);
         underTest.setEdOrgHierarchyHelper(edOrgHierarchyHelper);
 
-        Set<String> res = underTest.resolve(testStudent, testStudent);
+        StudentContextResolver rs = Mockito.spy(underTest);
+        Mockito.doReturn(true).when(rs).shouldExtract(Matchers.eq(testStudent), Mockito.any(DateTime.class));
+
+        Set<String> res = rs.resolve(testStudent, testStudent);
 
         Set<String> expected = new HashSet<String>(Arrays.asList(CURRENTSCHOOL, NONCURSCHOOL, FUTURESCHOOL, UNBOUNDSCHOOL));
-        assertEquals(res, expected);
+        assertEquals(expected, res);
     }
+
 
     private Entity buildEdorg(String edorgId, String type) {
         Entity edorg = mock(Entity.class);
@@ -196,6 +200,7 @@ public class StudentContextResolverTest {
         when(testStudent.getBody()).thenReturn(body);
         when(testStudent.getDenormalizedData()).thenReturn(denormalized);
         when(testStudent.getType()).thenReturn(EntityNames.STUDENT);
+
         return testStudent;
     }
 

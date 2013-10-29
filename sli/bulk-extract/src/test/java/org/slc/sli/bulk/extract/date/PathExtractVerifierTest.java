@@ -15,53 +15,59 @@
  */
 package org.slc.sli.bulk.extract.date;
 
-import junit.framework.Assert;
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Matchers;
-import org.mockito.Mockito;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.*;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static org.mockito.Matchers.argThat;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static org.mockito.Matchers.argThat;
+import junit.framework.Assert;
+
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
+import org.joda.time.DateTime;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Matchers;
+import org.mockito.Mockito;
+
+import org.slc.sli.bulk.extract.SecondaryReadRepository;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.datetime.DateHelper;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * @author: tke
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({ "classpath:/spring/applicationContext-test.xml" })
-public class PathDateRetriverTest {
+public class PathExtractVerifierTest {
 
-    PathDateRetriever pathDateRetriver  = Mockito.mock(PathDateRetriever.class);
+    private Repository<Entity> repo;
 
-    Repository  repo = Mockito.mock(Repository.class);
+    private PathExtractVerifier pathExtractVerifier = new PathExtractVerifier();
 
     @Before
     public void setup() {
-        Mockito.doCallRealMethod().when(pathDateRetriver).setRepo(Mockito.any(Repository.class));
-        pathDateRetriver.setRepo(repo);
+        PathExtractVerifier realPathExtractVerifier = new PathExtractVerifier();
+        repo = Mockito.mock(SecondaryReadRepository.class);
+        realPathExtractVerifier.setRepo(repo);
 
+        pathExtractVerifier = Mockito.spy(realPathExtractVerifier);
     }
 
     @Test
     public void testMakeQuery() {
 
         String diId = "disciplineIncidentId1234";
-        Mockito.doCallRealMethod().when(pathDateRetriver).getPathEntity(Mockito.any(Entity.class));
-        Mockito.doCallRealMethod().when(pathDateRetriver).retrieve(Mockito.any(Entity.class));
 
+        Map <String, Object> diBody = new HashMap<String, Object>();
+        diBody.put(ParameterConstants.INCIDENT_DATE, "2010-05-23");
         final Entity di = Mockito.mock(Entity.class);
         Mockito.when(di.getEntityId()).thenReturn(diId);
+        Mockito.when(di.getType()).thenReturn(EntityNames.DISCIPLINE_INCIDENT);
+        Mockito.when(di.getBody()).thenReturn(diBody);
 
         Mockito.when(repo.findOne(Matchers.eq(EntityNames.DISCIPLINE_INCIDENT), argThat(new BaseMatcher<NeutralQuery>() {
 
@@ -70,7 +76,6 @@ public class PathDateRetriverTest {
                 NeutralQuery query = (NeutralQuery) arg0;
                 return query.getCriteria().contains(
                         new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.OPERATOR_EQUAL, di.getEntityId()));
-
             }
 
             @Override
@@ -78,21 +83,16 @@ public class PathDateRetriverTest {
             }
         }))).thenReturn(di);
 
-        Mockito.doCallRealMethod().when(pathDateRetriver).setSimpleDateRetriever(Mockito.any(SimpleDateRetriever.class));
+        Mockito.doReturn(new SimpleExtractVerifier()).when(pathExtractVerifier).getExtractVerifer(Mockito.eq(EntityNames.DISCIPLINE_INCIDENT));
 
-        SimpleDateRetriever sdr = Mockito.mock(SimpleDateRetriever.class);
-        String expectedDate ="2012-01-01";
-        Mockito.when(sdr.retrieve(di)).thenReturn(expectedDate);
-        pathDateRetriver.setSimpleDateRetriever(sdr);
-
-        Map <String, Object> body = new HashMap<String, Object>();
-        body.put(ParameterConstants.DISCIPLINE_INCIDENT_ID, diId);
+        Map <String, Object> sdiaBody = new HashMap<String, Object>();
+        sdiaBody.put(ParameterConstants.DISCIPLINE_INCIDENT_ID, diId);
         Entity studentDisciplineIncidentAssociation = Mockito.mock(Entity.class);
-        Mockito.when(studentDisciplineIncidentAssociation.getBody()).thenReturn(body);
+        Mockito.when(studentDisciplineIncidentAssociation.getBody()).thenReturn(sdiaBody);
         Mockito.when(studentDisciplineIncidentAssociation.getType()).thenReturn(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION);
 
-        String date = pathDateRetriver.retrieve(studentDisciplineIncidentAssociation);
-        Assert.assertEquals(date, expectedDate);
+        Assert.assertTrue(pathExtractVerifier.shouldExtract(studentDisciplineIncidentAssociation, DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat())));
+        Assert.assertFalse(pathExtractVerifier.shouldExtract(studentDisciplineIncidentAssociation, DateTime.parse("2009-05-23", DateHelper.getDateTimeFormat())));
     }
 
 }

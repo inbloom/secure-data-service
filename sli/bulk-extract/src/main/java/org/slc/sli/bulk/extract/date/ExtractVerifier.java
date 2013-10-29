@@ -15,12 +15,25 @@
  */
 package org.slc.sli.bulk.extract.date;
 
+import org.joda.time.DateTime;
+
 import org.slc.sli.domain.Entity;
 
 /**
- * @author ablum tke
+ * Verifies whether or not an entity should be extracted.
+ *
+ * @author tke tshewchuk
  */
-public interface DateRetriever {
+public interface ExtractVerifier {
 
-    public String retrieve(Entity entity);
+    /**
+     * Check if the input entity should be extracted.
+     *
+     * @param entity - Entity from which to retrieve the date
+     * @param upToDate - Up to date
+     *
+     * @return - true if the entity should be extracted, false otherwise.
+     */
+    public boolean shouldExtract(Entity entity, DateTime upToDate);
+
 }

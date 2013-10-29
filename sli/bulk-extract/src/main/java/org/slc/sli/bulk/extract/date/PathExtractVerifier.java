@@ -15,48 +15,40 @@
  */
 package org.slc.sli.bulk.extract.date;
 
+import java.util.Map;
+
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.Map;
 
 /**
- * @author ablum tke
+ * @author tke tshewchuk
  */
 @Component
-public class PathDateRetriever implements DateRetriever{
+public class PathExtractVerifier implements ExtractVerifier{
 
     @Autowired
     @Qualifier("secondaryRepo")
     private Repository<Entity> repo;
 
-    @Autowired
-    private SimpleDateRetriever simpleDateRetriever;
-
     @Override
-    public String retrieve(Entity entity) {
-        String entityType = entity.getType();
-        Map<String, String> targetAndField = EntityDates.ENTITY_PATH_FIELDS.get(entityType);
-
-        if (targetAndField == null) {
-            return simpleDateRetriever.retrieve(entity);
-        }
-
+    public boolean shouldExtract(Entity entity, DateTime upToDate) {
         Entity targetEntity = getPathEntity(entity);
 
         if (targetEntity == null) {
-            return null;
+            return false;
         }
 
-        return retrieve(targetEntity);
+        ExtractVerifier extractVerifier = getExtractVerifer(targetEntity.getType());
+
+        return extractVerifier.shouldExtract(targetEntity, upToDate);
     }
 
     protected Entity getPathEntity(Entity entity) {
@@ -74,14 +66,6 @@ public class PathDateRetriever implements DateRetriever{
         return null;
 }
 
-    public SimpleDateRetriever getSimpleDateRetriever() {
-        return simpleDateRetriever;
-    }
-
-    public void setSimpleDateRetriever(SimpleDateRetriever simpleDateRetriever) {
-        this.simpleDateRetriever = simpleDateRetriever;
-    }
-
     public Repository<Entity> getRepo() {
         return repo;
     }
@@ -89,4 +73,9 @@ public class PathDateRetriever implements DateRetriever{
     public void setRepo(Repository<Entity> repo) {
         this.repo = repo;
     }
+
+    protected ExtractVerifier getExtractVerifer(String entityType) {
+        return ExtractVerifierFactory.retrieveExtractVerifier(entityType);
+    }
+
 }

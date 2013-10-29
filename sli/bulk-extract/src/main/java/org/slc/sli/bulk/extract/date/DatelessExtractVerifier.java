@@ -15,17 +15,22 @@
  */
 package org.slc.sli.bulk.extract.date;
 
-import org.slc.sli.domain.Entity;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.domain.Entity;
+
 /**
- * @author ablum tke
+ * Verifies whether or not an Attendance entity should be extracted.
+ *
+ * @author tke tshewchuk
  */
 @Component
-public class SimpleDateRetriever implements DateRetriever{
+public class DatelessExtractVerifier implements ExtractVerifier {
 
     @Override
-    public String retrieve(Entity entity) {
-        return (String) entity.getBody().get(EntityDates.ENTITY_DATE_FIELDS.get(entity.getType()));
+    public boolean shouldExtract(Entity entity, DateTime upToDate) {
+        return true;
     }
+
 }
