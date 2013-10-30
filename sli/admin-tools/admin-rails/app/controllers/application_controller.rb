@@ -191,6 +191,10 @@ class ApplicationController < ActionController::Base
     session[:roles].include?("IT Administrator")
   end
 
+  def is_app_authorizer
+    session[:rights].include?("EDORG_APP_AUTHZ")
+  end
+
   def get_tenant
     check = Check.get ""
     return check["tenantId"]
