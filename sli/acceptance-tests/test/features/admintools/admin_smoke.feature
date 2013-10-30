@@ -54,8 +54,9 @@ And I am redirected to the Admin Application Authorization Edit Page
 And the checkbox with HTML id "root" is unchecked
 And I check the checkbox with HTML id "root"
 And I click Update
-And the app "Smoke!" Status matches "\d+ EdOrg"
-And it is colored "green"
+And I see an application "Smoke!" in the table
+And in Status it says "205 EdOrg(s)"
+And the "Smoke!" application status is colored "green"
 
 Scenario: LEA Administrator operations
 Given the sli securityEvent collection is empty
@@ -63,14 +64,16 @@ And I am a valid district administrator
 When I hit the Admin Application Authorization Tool
 And I login
 And I see an application "Smoke!" in the table
-And the app "Smoke!" Status matches "\d+ EdOrg"
+And in Status it says "3 EdOrg(s)"
+And the "Smoke!" application status is colored "green"
 And I click on the "Edit Authorizations" button next to it
 And I am redirected to the Admin Application Authorization Edit Page
 And the checkbox with HTML id "root" is checked
 And I uncheck the checkbox with HTML id "root"
 And I click Update
-And the app "Smoke!" Status matches "Not Approved"
-And it is colored "red"
+And I see an application "Smoke!" in the table
+And in Status it says "Not Approved"
+And the "Smoke!" application status is colored "red"
 
 Scenario: Realm administrator operations
 Given I am a valid realm administrator
