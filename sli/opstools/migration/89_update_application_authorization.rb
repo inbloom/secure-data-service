@@ -26,7 +26,14 @@ def create_index(dbName)
     index_lists = @conn[dbName][APPAUTH_COLLECTION].index_information
 
     puts "------------------------Existing Indexes----------------------------" if DEBUG == true
-	  puts index_lists.map{|key, value| "#{key}: #{value}" } if DEBUG == true
+	puts index_lists.map{|key, value| "#{key}: #{value}" } if DEBUG == true
+
+    key, value, contains = has_index(index_lists, "body.edorgs")
+    if contains
+       puts "There is an existing index body.edorgs named " + key
+       puts "Dropping index ..." + "body.edorgs"
+       @conn[dbName][APPAUTH_COLLECTION].drop_index(key)
+    end
 
     key, value, contains = has_index(index_lists, "body.edorgs.authorizedEdorg")
 
