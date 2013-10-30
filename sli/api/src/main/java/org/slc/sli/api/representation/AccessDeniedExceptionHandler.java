@@ -32,8 +32,6 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,8 +49,6 @@ import org.slc.sli.api.security.SecurityEventBuilder;
 @Provider
 @Component
 public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDeniedException> {
-
-    private static final Logger LOG = LoggerFactory.getLogger(AccessDeniedExceptionHandler.class);
 
     public static final String ED_ORG_START = "<" ;
     public static final String ED_ORG_END = ">" ;
@@ -80,7 +76,7 @@ public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDenie
                 response.sendError(403, e.getMessage());
                 return null;    //the error page handles the response, so no need to return a response
             } catch (IOException ex) {
-                LOG.error("Error displaying error page", ex);
+                error("Error displaying error page", ex);
             }
         }
 
@@ -89,11 +85,11 @@ public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDenie
         String message = e.getMessage();
         if (SecurityContextHolder.getContext().getAuthentication() != null) {
             principal = (SLIPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            LOG.warn("Access has been denied to user: {}",principal );
+            warn("Access has been denied to user: {}",principal );
         } else {
-            LOG.warn("Access has been denied to user for being incorrectly associated");
+            warn("Access has been denied to user for being incorrectly associated");
         }
-        LOG.warn("Cause: {}", e.getMessage());
+        warn("Cause: {}", e.getMessage());
 
         MediaType errorType = MediaType.APPLICATION_JSON_TYPE;
         if(this.headers.getMediaType() == MediaType.APPLICATION_XML_TYPE) {

@@ -26,20 +26,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.bulk.extract.context.resolver.impl.CalendarDateContextResolver;
-import org.slc.sli.bulk.extract.context.resolver.impl.CohortContextResolver;
-import org.slc.sli.bulk.extract.context.resolver.impl.CourseContextResolver;
-import org.slc.sli.bulk.extract.context.resolver.impl.CourseOfferingContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.CourseTranscriptContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.DisciplineActionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.DisciplineIncidentContextResolver;
-import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.GradebookEntryContextResolver;
-import org.slc.sli.bulk.extract.context.resolver.impl.GradingPeriodContextResolver;
-import org.slc.sli.bulk.extract.context.resolver.impl.GraduationPlanContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
-import org.slc.sli.bulk.extract.context.resolver.impl.SectionContextResolver;
-import org.slc.sli.bulk.extract.context.resolver.impl.SessionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SimpleEntityTypeContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherDirectRelatedContextResolver;
@@ -60,9 +51,6 @@ import org.slc.sli.common.constants.EntityNames;
 public class EdOrgContextResolverFactory {
     private static final Logger LOG = LoggerFactory.getLogger(EdOrgContextResolverFactory.class);
 
-    @Autowired
-    private EducationOrganizationContextResolver edOrgContextResolver;
-
     /**
      * Two things must in common for a entity to be a student direct related entity:
      * 1. the entity must have a "body.studentId" field
@@ -79,12 +67,6 @@ public class EdOrgContextResolverFactory {
     private ParentContextResolver parentResolver;
 
     @Autowired
-    private SectionContextResolver sectionResolver;
-    
-    @Autowired
-    private CalendarDateContextResolver calendarDateResolver;
-
-    @Autowired
     private StaffTeacherContextResolver staffTeacherResolver;
 
     @Autowired
@@ -92,24 +74,6 @@ public class EdOrgContextResolverFactory {
 
     @Autowired
     private GradebookEntryContextResolver gradebookEntryContextResolver;
-
-    @Autowired
-    private CohortContextResolver cohortResolver;
-
-    @Autowired
-    private SessionContextResolver sessionResolver;
-
-    @Autowired
-    private GradingPeriodContextResolver gradingPeriodResolver;
-
-    @Autowired
-    private CourseOfferingContextResolver courseOfferingResolver;
-
-    @Autowired
-    private CourseContextResolver courseResolver;
-
-    @Autowired
-    private GraduationPlanContextResolver graduationPlanResolver;
 
     @Autowired
     private DisciplineIncidentContextResolver disciplineIncidentResolver;
@@ -131,8 +95,6 @@ public class EdOrgContextResolverFactory {
     @PostConstruct
     void init() {
 
-        resolverMap.put(EntityNames.EDUCATION_ORGANIZATION, edOrgContextResolver);
-
         resolverMap.put(EntityNames.STUDENT, studentResolver);
 
         resolverMap.put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, studentDirectRelatedContextResolver);
@@ -149,8 +111,11 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, studentDirectRelatedContextResolver);
 
         resolverMap.put(EntityNames.PARENT, parentResolver);
-
-        resolverMap.put(EntityNames.SECTION, sectionResolver);
+        resolverMap.put(EntityNames.GRADEBOOK_ENTRY, gradebookEntryContextResolver);
+        resolverMap.put(EntityNames.COURSE_TRANSCRIPT, courseTranscriptResolver);
+        resolverMap.put(EntityNames.DISCIPLINE_INCIDENT, disciplineIncidentResolver);
+        resolverMap.put(EntityNames.DISCIPLINE_ACTION, disciplineActionResolver);
+        resolverMap.put(EntityNames.STUDENT_COMPETENCY, studentCompetencyResolver);
 
         resolverMap.put(EntityNames.TEACHER, staffTeacherResolver);
         resolverMap.put(EntityNames.STAFF, staffTeacherResolver);
@@ -161,27 +126,6 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.STAFF_COHORT_ASSOCIATION, staffTeacherRelatedResolver);
         resolverMap.put(EntityNames.STAFF_PROGRAM_ASSOCIATION, staffTeacherRelatedResolver);
 
-        resolverMap.put(EntityNames.GRADEBOOK_ENTRY, gradebookEntryContextResolver);
-
-        resolverMap.put(EntityNames.COHORT, cohortResolver);
-
-        resolverMap.put(EntityNames.SESSION, sessionResolver);
-
-        resolverMap.put(EntityNames.GRADING_PERIOD, gradingPeriodResolver);
-
-        resolverMap.put(EntityNames.COURSE_OFFERING, courseOfferingResolver);
-
-        resolverMap.put(EntityNames.COURSE, courseResolver);
-
-        resolverMap.put(EntityNames.COURSE_TRANSCRIPT, courseTranscriptResolver);
-
-        resolverMap.put(EntityNames.GRADUATION_PLAN, graduationPlanResolver);
-
-        resolverMap.put(EntityNames.DISCIPLINE_INCIDENT, disciplineIncidentResolver);
-        resolverMap.put(EntityNames.DISCIPLINE_ACTION, disciplineActionResolver);
-
-        resolverMap.put(EntityNames.STUDENT_COMPETENCY, studentCompetencyResolver);
-
         resolverMap.put(EntityNames.LEARNING_OBJECTIVE, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.LEARNING_STANDARD, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, simpleEntityTypeContextResolver);
@@ -191,7 +135,15 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.OBJECTIVE_ASSESSMENT, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.PROGRAM, simpleEntityTypeContextResolver);
-        resolverMap.put(EntityNames.CALENDAR_DATE, calendarDateResolver);
+        resolverMap.put(EntityNames.CALENDAR_DATE, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.COURSE, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.COURSE_OFFERING, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.SESSION, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.GRADING_PERIOD, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.GRADUATION_PLAN, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.EDUCATION_ORGANIZATION, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.SECTION, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.COHORT, simpleEntityTypeContextResolver);
 
         LOG.debug("Resolver map is {}", resolverMap);
     }

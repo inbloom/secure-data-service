@@ -63,6 +63,16 @@ $GLOBAL_VARIABLE_MAP = {}
 LEA_DAYBREAK_ID_VAL = '1b223f577827204a1c7e9c851dba06bea6b031fe_id'
 SEA_IL_ID_VAL = 'b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id'
 
+CURRENT_STUDENT_QUERY     = <<-jsonDelimiter
+  [
+  {"$project":{"schools":1}}
+  ,{"$unwind":"$schools"}
+  ,{"$match":{ "$or":[     {"schools.exitWithdrawDate":{"$exists":true, "$gt": "#{DateTime.now.strftime('%Y-%m-%d')}"}} ,{"schools.exitWithdrawDate":{"$exists":false}}    ]}}
+  ,{"$project":{"_id":1, "schools._id":1}}
+  ,{"$group":{"_id":"$schools._id", "students":{"$addToSet":"$_id"}}}
+  ]
+jsonDelimiter
+
 ############################################################
 # Transform
 ############################################################
@@ -277,7 +287,7 @@ Given /^the tenant "(.*?)" does not have any bulk extract apps for any of its ed
   enable_NOTABLESCAN()
 end
 
-Given /^all LEAs in "([^"]*)" are authorized for "([^"]*)"/ do |tenant, application|
+Given /^all (LEAs|edorgs) in "([^"]*)" are authorized for "([^"]*)"/ do |which_edorg, tenant, application|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   db = conn[DATABASE_NAME]
@@ -292,6 +302,13 @@ Given /^all LEAs in "([^"]*)" are authorized for "([^"]*)"/ do |tenant, applicat
   db_tenant = conn[convertTenantIdToDbName(tenant)]
   app_auth_coll = db_tenant.collection('applicationAuthorization')
   ed_org_coll = db_tenant.collection('educationOrganization')
+
+  case which_edorg.downcase
+  when 'leas'
+    query = {'body.organizationCategories' => {'$in' => ['Local Education Agency']}}
+  else
+    query = {}
+  end
 
   needed_ed_orgs = []
   ed_org_coll.find({'body.organizationCategories' => {"$in" => ['Local Education Agency']}}).each do |edorg|
@@ -686,7 +703,6 @@ When /I check that the parent extract for "(.*?)" has the correct number of reco
   [
   {"$project":{"schools":1,"studentParentAssociation":1}}
   ,{"$unwind":"$schools"},{"$unwind":"$studentParentAssociation"}
-  ,{"$match":{ "$or":[     {"schools.exitWithdrawDate":{"$exists":true, "$gt": "#{DateTime.now.strftime('%Y-%m-%d')}"}} ,{"schools.exitWithdrawDate":{"$exists":false}}    ]}}
   ,{"$project":{"schools._id":1, "studentParentAssociation.body.parentId":1}}
   ,{"$group":{"_id":"$schools._id", "parents":{"$addToSet":"$studentParentAssociation.body.parentId"}}}
   ]
@@ -716,29 +732,36 @@ When /I check that the parent extract for "(.*?)" has the correct number of reco
 end
                                           
 
-$schoolStudents = {}
-When /I check that the student extract for "(.*?)" has the correct number of records/ do |edOrgId|
-  disable_NOTABLESCAN()
-  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
-  query     = <<-jsonDelimiter
-  [
-  {"$project":{"schools":1}}
-  ,{"$unwind":"$schools"}
-  ,{"$match":{ "$or":[     {"schools.exitWithdrawDate":{"$exists":true, "$gt": "#{DateTime.now.strftime('%Y-%m-%d')}"}} ,{"schools.exitWithdrawDate":{"$exists":false}}    ]}}
-  ,{"$project":{"_id":1, "schools._id":1}}
-  ,{"$group":{"_id":"$schools._id", "students":{"$addToSet":"$_id"}}}
-  ]
-  jsonDelimiter
-  puts(query)
+def get_student_schools(query)
+  schoolStudents = {}
   query  = JSON.parse(query)
   result = @tenantDb.collection('student').aggregate(query)
 
   result.each{ |schoolIdToStudents|
     schoolId = schoolIdToStudents['_id']
     students = schoolIdToStudents['students']
-    $schoolStudents[schoolId] = students
+    schoolStudents[schoolId] = students
   }
 
+   schoolStudents
+end
+
+When /I check that the student extract for "(.*?)" has the correct number of records/ do |edOrgId|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+
+  query     = <<-jsonDelimiter
+  [
+  {"$project":{"schools":1}}
+  ,{"$unwind":"$schools"}
+  ,{"$match":{}}
+  ,{"$project":{"_id":1, "schools._id":1}}
+  ,{"$group":{"_id":"$schools._id", "students":{"$addToSet":"$_id"}}}
+  ]
+  jsonDelimiter
+  puts(query)
+
+  schoolStudents = get_student_schools(query)
   studentZipFile  = @unpackDir + '/student.json.gz'
   studentJsnFile  = @unpackDir + '/student.json'
   Minitar.unpack(@filePath, @unpackDir)
@@ -747,11 +770,13 @@ When /I check that the student extract for "(.*?)" has the correct number of rec
   `gunzip #{studentZipFile}`
   json = JSON.parse(File.read(studentJsnFile))
 
-  comment = "Expected student extract for #{edOrgId} to have #{$schoolStudents[edOrgId].size}. Found #{json.size}"
-  assert(json.size == $schoolStudents[edOrgId].size, comment)
+  comment = "Expected student extract for #{edOrgId} to have #{schoolStudents[edOrgId].size}. Found #{json.size}"
+  assert(json.size == schoolStudents[edOrgId].size, comment)
   puts (comment)
   enable_NOTABLESCAN()
 end
+
+
 
 $schoolSSA = {}
 When /I check that the studentSchoolAssociation extract for "(.*?)" has the correct number of records/ do |edOrgId|
@@ -803,7 +828,9 @@ When /I check that the attendance extract for "(.*?)" has the correct number of 
   jsonDelimiter
   puts(query)
   query = JSON.parse(query)
-  query[2]['$match']['body.studentId']['$in']  = $schoolStudents[edOrgId]
+  studentSchools = get_student_schools( CURRENT_STUDENT_QUERY )
+
+  query[2]['$match']['body.studentId']['$in']  = studentSchools[edOrgId]
   result = @tenantDb.collection('attendance').aggregate(query)
 
   attendanceZipFile  = @unpackDir + '/attendance.json.gz'
@@ -862,8 +889,9 @@ When /I check that the disciplineAction extract for "(.*?)" has the correct numb
   disable_NOTABLESCAN()
   @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
   entity = 'disciplineAction'
+  studentSchools = get_student_schools( CURRENT_STUDENT_QUERY )
 
-  result = @tenantDb.collection(entity).find({'body.studentId' => {'$in' => $schoolStudents[edOrgId]}}).count()
+  result = @tenantDb.collection(entity).find({'body.studentId' => {'$in' => studentSchools[edOrgId]}}).count()
 
   zipFile  = "#{@unpackDir}/#{entity}.json.gz"
   jsnFile  = "#{@unpackDir}/#{entity}.json"
@@ -977,32 +1005,23 @@ When /I check that the teacherSchoolAssociation extract for "(.*?)" has the corr
   enable_NOTABLESCAN()
 end
 
-$schoolStudents = {}
 When /I check that the studentGradebookEntry extract for "(.*?)" has the correct number of records/ do |edOrgId|
   disable_NOTABLESCAN()
   @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
   entity = 'studentGradebookEntry'
   date = DateTime.now.strftime('%Y-%m-%d')
+
   query     = <<-jsonDelimiter
   [
   {"$project":{"schools":1}}
   ,{"$unwind":"$schools"}
-  ,{"$match":{ "$or":[     {"schools.exitWithdrawDate":{"$exists":true, "$gt": "#{DateTime.now.strftime('%Y-%m-%d')}"}} ,{"schools.exitWithdrawDate":{"$exists":false}}    ]}}
   ,{"$project":{"_id":1, "schools._id":1}}
   ,{"$group":{"_id":"$schools._id", "students":{"$addToSet":"$_id"}}}
   ]
   jsonDelimiter
-  puts(query)
-  query  = JSON.parse(query)
-  result = @tenantDb.collection('student').aggregate(query)
 
-  result.each{ |schoolIdToStudents|
-    schoolId = schoolIdToStudents['_id']
-    students = schoolIdToStudents['students']
-    $schoolStudents[schoolId] = students
-  }
-
-  gradebookEntryForEdOrgStudent =  @tenantDb.collection('studentGradebookEntry').find({'body.studentId' => {'$in' => $schoolStudents[edOrgId]}})
+  studentSchools = get_student_schools(query)
+  gradebookEntryForEdOrgStudent =  @tenantDb.collection('studentGradebookEntry').find({'body.studentId' => {'$in' => studentSchools[edOrgId]}})
 
   zipFile  = "#{@unpackDir}/#{entity}.json.gz"
   jsnFile  = "#{@unpackDir}/#{entity}.json"
@@ -1030,7 +1049,6 @@ When /I check that the studentAssessment extract for "(.*?)" has the correct num
   [
   {"$project":{"schools":1}}
   ,{"$unwind":"$schools"}
-  ,{"$match":{ "$or":[     {"schools.exitWithdrawDate":{"$exists":true, "$gt": "#{DateTime.now.strftime('%Y-%m-%d')}"}} ,{"schools.exitWithdrawDate":{"$exists":false}}    ]}}
   ,{"$project":{"_id":1, "schools._id":1}}
   ,{"$group":{"_id":"$schools._id", "students":{"$addToSet":"$_id"}}}
   ]
@@ -1858,12 +1876,13 @@ Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, 
     table.hashes.map do |entity|
         id = entity['id']
         json_entities = json_map[id]
-        field, value = entity['condition'].split('=').map{|s| s.strip}
         if ((entity['condition'].nil? || entity['condition'].empty?) && !look_for)
             assert(json_entities.nil?, "Entity with id #{id} should not exist, but it does")
             next
+        else
+            assert(!json_entities.nil?, "Does not contain an entity with id: #{id}")
         end
-        assert(!json_entities.nil?, "Does not contain an entity with id: #{id}")
+        field, value = entity['condition'].split('=').map{|s| s.strip}
         success = false
         json_entities.each {|e|
             success = find_value_in_map(e, field, value)
@@ -2341,7 +2360,7 @@ def bulkExtractTrigger(trigger_script, jar_file, properties_file, keystore_file,
   command = command + options
   puts "Running: #{command}"
   result = `#{command}`
-  puts result
+  puts result if $SLI_DEBUG
   assert($?.exitstatus == 0, "Nonzero exit code from bulk extract: #{$?.exitstatus}")
 end
 
@@ -2992,6 +3011,16 @@ def get_post_body_by_entity_name(entity_name)
                              "12ebed0aa9b9e0fc406278fb8184a9569dd71600_id",
                              "ea27f2c3cd548cf82682a75e29182462da366912_id",
                              "5b1d4e75f457644b1bd00f7ef05caafa605adaec_id"]
+    },
+    "newStudentGradebookEntry" => {
+        "studentSectionAssociationId" => "4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id",
+        "gradebookEntryId" => "4030207003b03d055bba0b5019b31046164eff4e_id383ee846e68a3f539a0a64a651ab2078dedbb6f3_id",
+        "letterGradeEarned" => "F",
+        "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "numericGradeEarned" => 59,
+        "dateFulfilled" => "2013-04-25",
+        "diagnosticStatement" => "Diagnostic Statement"
     },
     "newStudentAssessment" => {
       "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",

@@ -21,8 +21,6 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -39,8 +37,6 @@ import java.util.Set;
 @Component
 public class StaffToEducationOrganizationAssociationValidator extends AbstractContextValidator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StaffToEducationOrganizationAssociationValidator.class);
-
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
         return EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(entityType) && isStaff();
@@ -52,7 +48,7 @@ public class StaffToEducationOrganizationAssociationValidator extends AbstractCo
             return Collections.EMPTY_SET;
         }
         
-        LOG.info("Validating {}'s access to staffEducationOrganizationAssoc: [{}]", SecurityUtil.getSLIPrincipal().getName(), ids);
+        info("Validating {}'s access to staffEducationOrganizationAssoc: [{}]", SecurityUtil.getSLIPrincipal().getName(), ids);
         
         Set<String> lineage = this.getStaffEdOrgLineage();
         

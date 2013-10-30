@@ -242,7 +242,9 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             if (deletedTime >= updatedTime) {
                 Entity deleted = new MongoEntity(collection, id, null, null);
                 if(DEPENDENT_MAP.containsKey(collection)) {
-                    addDependencies(collection, deleted, resolver.findGoverningEdOrgs(deleted));
+                    Set<String> edorgs = resolver.findGoverningEdOrgs(deleted);
+
+                    addDependencies(collection, deleted, edorgs);
                 } else {
                     deleteQueue.add(new DeltaRecord(deleted, null, Operation.DELETE, false, collection));
                 }

@@ -33,7 +33,6 @@ import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
-import org.slc.sli.api.security.service.AuditLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -62,9 +61,6 @@ public class SecuritySessionResource {
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
 
-    @Autowired
-    private AuditLogger auditLogger;
-
     @Value("${sli.security.noSession.landing.url}")
     private String realmPage;
 
@@ -92,7 +88,7 @@ public class SecuritySessionResource {
         }
 
         String status = (Boolean) logoutMap.get("logout") ? "Success" : "Failure";
-        auditLogger.audit(securityEventBuilder.createSecurityEvent(SecuritySessionResource.class.getName(),
+        audit(securityEventBuilder.createSecurityEvent(SecuritySessionResource.class.getName(),
                 uriInfo.getRequestUri(), "Logout: " + status, true));
         return logoutMap;
     }

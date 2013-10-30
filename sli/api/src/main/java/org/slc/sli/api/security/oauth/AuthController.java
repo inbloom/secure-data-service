@@ -36,8 +36,6 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,8 +65,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Scope("request")
 @RequestMapping("/oauth")
 public class AuthController {
-
-    private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
 
     private static final Pattern BASIC_AUTH = Pattern.compile("Basic (.+)", Pattern.CASE_INSENSITIVE);
 
@@ -105,10 +101,10 @@ public class AuthController {
         if (sessionId != null) {
             String realmId = getRealmId(sessionId);
             if (realmId != null) {
-                LOG.debug("found valid session --> user authenticated in realm with id: {}", realmId);
+                debug("found valid session --> user authenticated in realm with id: {}", realmId);
                 return ssoInit(realmId, sessionId, redirectUri, clientId, state, res, model);
             } else {
-                LOG.debug("session does not map to a valid oauth session");
+                debug("session does not map to a valid oauth session");
             }
         }
 
@@ -130,7 +126,7 @@ public class AuthController {
             }
 
             if(realmId==null){
-                LOG.error("No Sandbox/Admin Simple-IDP Realm is defined which is required when in sandbox mode");
+                error("No Sandbox/Admin Simple-IDP Realm is defined which is required when in sandbox mode");
                 throw new IllegalStateException("No Sandbox/Admin Simple-IDP Realm is defined which is required when in sandbox mode");
             }
             return ssoInit( realmId, sessionId, redirectUri, clientId, state, res, model);
@@ -236,7 +232,7 @@ public class AuthController {
         try {
             mapper.writeValue(writer, resp.getEntity());
         } catch (Exception e1) {
-            LOG.error("Error handling exception", e1);
+            error("Error handling exception", e1);
         }
         return new ResponseEntity<String>(writer.getBuffer().toString(), HttpStatus.valueOf(resp.getStatus()));
     }
@@ -290,7 +286,7 @@ public class AuthController {
             throw new IllegalArgumentException("realm " + realmIndex + " doesn't have an endpoint");
         }
 
-        LOG.debug("creating saml authnrequest with ForceAuthn equal to {}", forceAuthn);
+        debug("creating saml authnrequest with ForceAuthn equal to {}", forceAuthn);
 
         int idpType = 1;
 
@@ -304,7 +300,7 @@ public class AuthController {
         sessionManager.createAppSession(sessionId, clientId, redirectUri, state, tenantId, realmEnt.getEntityId(),
                 tuple.getLeft(), isExpired);
 
-        LOG.debug("redirecting to: {}", endpoint);
+        debug("redirecting to: {}", endpoint);
 
         String redirectUrl = endpoint.contains("?") ? endpoint + "&SAMLRequest=" + tuple.getRight() : endpoint
                 + "?SAMLRequest=" + tuple.getRight();

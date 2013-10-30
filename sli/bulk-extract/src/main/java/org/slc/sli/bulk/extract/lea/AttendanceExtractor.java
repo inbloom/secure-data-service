@@ -17,8 +17,11 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
-import java.util.Set;
+import java.util.Map;
 
+import org.joda.time.DateTime;
+
+import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
@@ -26,36 +29,37 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-public class AttendanceExtractor implements EntityExtract {
+public class AttendanceExtractor implements EntityDatedExtract {
     private EntityExtractor extractor;
     private ExtractFileMap map;
     private Repository<Entity> repo;
-    private ExtractorHelper helper;
-    private EntityToEdOrgCache studentCache;
     private EdOrgExtractHelper edOrgExtractHelper;
-    
+
     public AttendanceExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
-            ExtractorHelper extractorHelper, EntityToEdOrgCache studentCache, EdOrgExtractHelper edOrgExtractHelper) {
+            EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
-        this.helper = extractorHelper;
-        this.studentCache = studentCache;
         this.edOrgExtractHelper = edOrgExtractHelper;
     }
 
     @Override
-    public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
+    public void extractEntities(EntityToEdOrgDateCache studentCache) {
         edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.ATTENDANCE, this.getClass().getName());
         Iterator<Entity> attendances = repo.findEach("attendance", new NeutralQuery());
         while (attendances.hasNext()) {
             Entity attendance = attendances.next();
-            Set<String> edorgs = studentCache.getEntriesById((String) attendance.getBody().get("studentId"));
-            for (String edorg : edorgs) {
-                extractor.extractEntity(attendance, map.getExtractFileForEdOrg(edorg), "attendance");
+
+            Map<String, DateTime> studentEdOrgDate = studentCache.getEntriesById((String) attendance.getBody().get("studentId"));
+
+            for (Map.Entry<String, DateTime> entry: studentEdOrgDate.entrySet()) {
+                DateTime upToDate = entry.getValue();
+                if (EntityDateHelper.shouldExtract(attendance, upToDate)) {
+                    extractor.extractEntity(attendance, map.getExtractFileForEdOrg(entry.getKey()), EntityNames.ATTENDANCE);
+                }
             }
         }
-        
+
     }
-    
+
 }

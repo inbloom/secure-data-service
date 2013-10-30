@@ -31,8 +31,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.EntityValidationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -43,8 +41,6 @@ import org.springframework.stereotype.Component;
 @Scope("prototype")
 @Component("basicAssociationService")
 public class BasicAssocService extends BasicService implements AssociationService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(BasicAssocService.class);
 
     private final EntityDefinition sourceDefn;
     private final EntityDefinition targetDefn;
@@ -111,7 +107,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
                 // If both entities are orphaned, don't allow linking
                 if ("true".equals(sourceEntity.getMetaData().get("isOrphaned"))
                         && "true".equals(targetEntity.getMetaData().get("isOrphaned"))) {
-                    LOG.warn("Link two orphaned entities, ids {} & {}", sourceEntity.getEntityId(),
+                    warn("Link two orphaned entities, ids {} & {}", sourceEntity.getEntityId(),
                             targetEntity.getEntityId());
                 }
 
@@ -123,7 +119,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
                     getRepo().update(sourceCollection, sourceEntity, FullSuperDoc.isFullSuperdoc(sourceEntity));
                     getRepo().update(targetCollection, targetEntity, FullSuperDoc.isFullSuperdoc(targetEntity));
                 } catch (EntityValidationException e) {
-                    LOG.error("Invariant violation.  Read entity couldn't be updated", e);
+                    error("Invariant violation.  Read entity couldn't be updated", e);
                 }
             }
         }
@@ -228,7 +224,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
                     ids.add((String) other);
                 }
             } else {
-                LOG.error("Association had bad value of key {}: {}", new Object[] { otherEntityKey, other });
+                error("Association had bad value of key {}: {}", new Object[] { otherEntityKey, other });
             }
         }
 

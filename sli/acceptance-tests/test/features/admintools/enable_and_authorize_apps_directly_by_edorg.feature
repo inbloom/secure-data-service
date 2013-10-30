@@ -79,7 +79,7 @@ Background:
         And a "Edit" button is displayed for application "Royal Oak"
         Then "Royal Oak" is enabled for "200" education organizations
 
-    Scenario: IL SEA Admin Approves application
+    Scenario: SEA Admin Approves application
         When I hit the Admin Application Authorization Tool
          And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
          And I see an application "Royal Oak" in the table

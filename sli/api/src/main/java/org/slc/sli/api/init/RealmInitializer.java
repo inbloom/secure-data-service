@@ -27,8 +27,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,8 +38,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RealmInitializer {
-
-    private static final Logger LOG = LoggerFactory.getLogger(RealmInitializer.class);
     
     @Value("${bootstrap.admin.realm.name}")
     private String adminRealmName;
@@ -102,7 +98,7 @@ public class RealmInitializer {
         // the nullValue property on Spring's PropertyPlaceholderConfig doesn't seem to work
         // correctly in Spring 3.0 - it fails an assertion during autowiring.
         if ("@null".equals(value) || value == null) {
-            LOG.error("Missing property {} required for production mode", new Object[] { property });
+            error("Missing property {} required for production mode", new Object[] { property });
             throw new IllegalArgumentException("Required property not set: " + property);
         }
     }
@@ -110,10 +106,10 @@ public class RealmInitializer {
     private void createOrUpdateRealm(String realmId, Map<String, Object> realmEntity) {
         Entity existingRealm = findRealm(realmId);
         if (existingRealm != null) {
-            LOG.info("{} realm already exists --> updating if necessary", realmId);
+            info("{} realm already exists --> updating if necessary", realmId);
             updateRealmIfNecessary(existingRealm, realmEntity);
         } else {
-            LOG.info("Creating {} realm.", realmId);
+            info("Creating {} realm.", realmId);
             repository.create(REALM_RESOURCE, realmEntity);
         }
         
@@ -136,12 +132,12 @@ public class RealmInitializer {
             existingRealm.getBody().clear();
             existingRealm.getBody().putAll(newRealmBody);
             if (repository.update(REALM_RESOURCE, existingRealm, false)) {
-                LOG.info("Successfully updated realm: {}", new Object[] { newRealmBody.get("name") });
+                info("Successfully updated realm: {}", new Object[] { newRealmBody.get("name") });
             } else {
-                LOG.warn("Failed to update realm: {}", new Object[] { newRealmBody.get("name") });
+                warn("Failed to update realm: {}", new Object[] { newRealmBody.get("name") });
             }
         } else {
-            LOG.info("No need to update realm: {}", new Object[] { existingRealm.getBody().get("name") });
+            info("No need to update realm: {}", new Object[] { existingRealm.getBody().get("name") });
         }
     }
     

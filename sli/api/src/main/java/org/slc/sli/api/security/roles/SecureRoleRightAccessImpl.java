@@ -25,8 +25,6 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -43,8 +41,6 @@ import org.slc.sli.domain.enums.Right;
  */
 @Component
 public class SecureRoleRightAccessImpl implements RoleRightAccess {
-
-    private static final Logger LOG = LoggerFactory.getLogger(SecureRoleRightAccessImpl.class);
 
     @Value("${sli.sandbox.enabled}")
     protected boolean isSandboxEnabled;
@@ -194,7 +190,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                     }
                 }
             } else {
-                LOG.debug("No custom roles defined for realm {} in tenant {}.", realmId, tenantId);
+                debug("No custom roles defined for realm {} in tenant {}.", realmId, tenantId);
             }
         }
         return roles;

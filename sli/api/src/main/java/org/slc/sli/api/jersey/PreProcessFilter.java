@@ -31,8 +31,6 @@ import javax.xml.bind.DatatypeConverter;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
@@ -73,8 +71,6 @@ import org.slc.sli.validation.ValidationError;
  */
 @Component
 public class PreProcessFilter implements ContainerRequestFilter {
-
-    private static final Logger LOG = LoggerFactory.getLogger(PreProcessFilter.class);
 
     private static final List<String> UPDATE_DELETE_OPERATIONS = Arrays.asList(ResourceMethod.PUT.toString(),
             ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString());
@@ -136,7 +132,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
             SecurityUtil.setUserContext(SecurityUtil.UserContext.NO_CONTEXT);
         }
 
-        LOG.info("uri: {} -> {}", request.getMethod(), request.getRequestUri().getPath());
+        info("uri: {} -> {}", request.getMethod(), request.getRequestUri().getPath());
         request.getProperties().put("original-request", request.getPath());
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
         injectObligations(request);
@@ -166,7 +162,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
             String assoc = request.getPathSegments().get(3).getPath();
 
             if (CONTEXTERS.contains(base)) {
-                LOG.info("Skipping date-based obligation injection because association {} is base level URI", base);
+                info("Skipping date-based obligation injection because association {} is base level URI", base);
                 return;
             }
 
@@ -198,7 +194,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
                         prince.addObligation(resourceName.replaceAll("s$", ""), construct("endDate"));
                     }
 
-                    LOG.info("Injected a date-based obligation on association: {}", resourceName);
+                    info("Injected a date-based obligation on association: {}", resourceName);
                 }
             }
         }
