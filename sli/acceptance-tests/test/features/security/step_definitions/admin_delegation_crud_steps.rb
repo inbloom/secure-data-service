@@ -26,6 +26,7 @@ Transform /^district "([^"]*)"$/ do |district|
   id = "b2c6e292-37b0-4148-bf75-c98a2fcc905f" if district == "IL-SUNSET"
   id = "b2c6e292-37b0-4148-bf75-c98a2fcc905f" if district == "IL-SUNSET's ID"
   id = "xd086bae-ee82-6ce2-bcf9-321a8407ba13" if district == "IL-LONGWOOD's ID"
+  id = "xd086bae-ee82-6ce2-bcf9-321a8407ba13" if district == "IL-LONGWOOD"
   id = "b1bd3db6-d020-4651-b1b8-a8dba688d9e1" if district == "IL"
   id
 end
