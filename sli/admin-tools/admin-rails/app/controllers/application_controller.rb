@@ -65,6 +65,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActiveResource::ServerError do |exception|
     logger.error {"Exception on server"}
+    render_500
     reset_session
     SessionResource.access_token = nil
   end

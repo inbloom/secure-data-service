@@ -299,7 +299,6 @@ class ApplicationAuthorizationsController < ApplicationController
       end
     }
 
-    puts "Returning #{has_enabled_edorg} for app #{app.to_s}, edorg #{edorg}"
     return has_enabled_edorg
   end
   helper_method :edorg_in_scope_enabled?
