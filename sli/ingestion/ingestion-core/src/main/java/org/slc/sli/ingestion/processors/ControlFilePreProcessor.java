@@ -336,8 +336,10 @@ public class ControlFilePreProcessor implements Processor {
         event.setTenantId(controlFile.getConfigProperties().getProperty("tenantId"));
         event.setUser("");
         event.setUserEdOrg(edOrg);
-        event.setTargetEdOrg(edOrg);
-        event.setTargetEdOrgList(Arrays.asList(edOrg));
+        //@TA10431
+        //event.setTargetEdOrg(edOrg);
+        //event.setTargetEdOrgList(Arrays.asList(edOrg));
+        event.addTargetEdOrg(edOrg); //@TA10431
         event.setActionUri("processUsingNewBatchJob");
         event.setAppId("Ingestion");
         event.setOrigin("");

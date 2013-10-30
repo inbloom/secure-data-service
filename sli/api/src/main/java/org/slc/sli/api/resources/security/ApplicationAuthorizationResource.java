@@ -358,8 +358,10 @@ public class ApplicationAuthorizationResource {
                     path, "Application granted access to EdOrg data!", true);
             event.setAppId(appId);
             Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(granted);
-            event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
-            event.setTargetEdOrg("");
+            //event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
+            //@TA10431
+            //event.setTargetEdOrg("");
+            event.addAllTargetEdOrg(targetEdOrgList); //@TA10431
             audit(event);
         }
 
@@ -369,8 +371,10 @@ public class ApplicationAuthorizationResource {
                     path, "EdOrg data access has been revoked!", true);
             event.setAppId(appId);
             Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(revoked);
-            event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
-            event.setTargetEdOrg("");
+            //event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
+            //@TA10431
+            //event.setTargetEdOrg("");
+            event.addAllTargetEdOrg(targetEdOrgList); //@TA10431
             audit(event);
         }
 
@@ -380,6 +384,14 @@ public class ApplicationAuthorizationResource {
         if (edorg == null) {
             return SecurityUtil.getEdOrgId();
         }
+        // US5894 removed the need for LEA to delegate app approval to SEA
+        /*
+        if (!edorg.equals(SecurityUtil.getEdOrgId()) && !delegation.getAppApprovalDelegateEdOrgs().contains(edorg) ) {
+            Set<String> edOrgIds = new HashSet<String>();
+            edOrgIds.add(edorg);
+            throw new APIAccessDeniedException("Cannot perform authorizations for edorg ", edOrgIds);
+        }
+        */
         return edorg;
     }
 
