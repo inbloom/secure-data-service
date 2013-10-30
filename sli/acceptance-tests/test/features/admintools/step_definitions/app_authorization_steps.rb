@@ -256,7 +256,9 @@ Then /^the app "([^"]*)" Status matches "([^"]*)"$/ do |app, regex|
 end
 
 Then /^it is colored "([^"]*)"$/ do |arg1|
-  status = @row.find_element(:xpath, ".//td[4]")
+  statusIndex = 4
+  @appRow = getApp(@appName)
+  status = @appRow.find_element(:xpath, ".//td[#{statusIndex}]")
   if arg1 == "green"
     assert(status.attribute(:id) == "approvedStatus", "Should be colored green, instead ID is #{status.attribute(:id)}")
   elsif arg1 == "red"
