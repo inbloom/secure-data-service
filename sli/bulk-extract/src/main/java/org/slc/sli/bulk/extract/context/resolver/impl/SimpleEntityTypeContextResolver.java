@@ -38,8 +38,8 @@ public class SimpleEntityTypeContextResolver extends ReferrableResolver {
         
         synchronized (cache) {
             if (cache.isEmpty()) {
-            	String sea = "State Education Agency"; 				// Should be a constant
-            	String orgField = "body.organizationCategories";	// ""
+                String sea = "State Education Agency";          // Should be a constant
+                String orgField = "body.organizationCategories";    // ""
                 NeutralQuery query = new NeutralQuery(new NeutralCriteria(orgField, NeutralCriteria.OPERATOR_EQUAL, sea, false));
                 
                 Iterable<Entity> edOrgs = getRepo().findAll(EntityNames.EDUCATION_ORGANIZATION, query);
@@ -66,13 +66,12 @@ public class SimpleEntityTypeContextResolver extends ReferrableResolver {
     }
     
     @Override
-    protected Set<String> resolve(Entity entity) {
-        
-        return null;
-    }
-    
-    @Override
     public String getCollection() {
         return EntityNames.EDUCATION_ORGANIZATION;
+    }
+
+    @Override
+    protected Set<String> resolve(Entity baseEntity, Entity entityToExtract) {
+        return null;
     }
 }

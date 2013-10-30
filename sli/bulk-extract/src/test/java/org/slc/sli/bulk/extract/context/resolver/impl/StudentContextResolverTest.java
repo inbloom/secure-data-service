@@ -16,6 +16,7 @@
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -26,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -33,98 +36,181 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.slc.sli.common.util.datetime.DateHelper;
+import org.slc.sli.bulk.extract.lea.ExtractorHelper;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 
 /**
  * Unit test for the student context resolver
- * 
+ *
  * @author nbrown
- * 
+ *
  */
 @RunWith(MockitoJUnitRunner.class)
 public class StudentContextResolverTest {
+
     @InjectMocks
     private final StudentContextResolver underTest = new StudentContextResolver();
+
     @Mock
     private Repository<Entity> repo;
-    @Mock
-    private EducationOrganizationContextResolver edOrgResolver;
-    
-    private DateHelper helper = new DateHelper();
+
+    private ExtractorHelper extractorHelper = Mockito.mock(ExtractorHelper.class);
+
+    private final static String NONCURSCHOOL = "nonCurrentSchool";
+    private final static String CURRENTSCHOOL = "currentSchool";
+    private final static String FUTURESCHOOL = "futureSchool";
+    private final static String UNBOUNDSCHOOL = "unboundSchool";
+
+    DateTime today = DateTime.now();
+    DateTimeFormatter format = ISODateTimeFormat.date();
 
     @Before
     public void setup() {
         underTest.getCache().clear();
-        underTest.setDateHelper(helper);
+
+        underTest.setExtractorHelper(extractorHelper);
     }
-    
+
     @Test
-    public void testFindGoverningLEA() {
-        assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2", "edOrg3")),
-                underTest.findGoverningEdOrgs(buildTestStudent()));
+    public void testResolveDatedEntity() {
+        Map<String, DateTime> edorgDates = new HashMap<String, DateTime>();
+
+        Entity testStudent = buildTestStudent("42", edorgDates);
+        Entity spa =buildSPA("spa1", today.minusMonths(2).toString(format), today.plusMonths(1).toString());
+        Mockito.when(extractorHelper.fetchAllEdOrgsForStudent((Entity) Matchers.any())).thenReturn(edorgDates);
+
+        Entity current = buildEdorg(CURRENTSCHOOL, "State Education Agency");
+
+        when(repo.findOne(Matchers.eq(EntityNames.EDUCATION_ORGANIZATION), (NeutralQuery)Matchers.any())).thenReturn(current);
+
+        final DateTime nonCurrentDate = edorgDates.get(NONCURSCHOOL);
+        final DateTime futureDate = edorgDates.get(FUTURESCHOOL);
+
+        EdOrgHierarchyHelper edOrgHierarchyHelper = mock(EdOrgHierarchyHelper.class);
+        when(edOrgHierarchyHelper.getSEA()).thenReturn(current);
+        underTest.setEdOrgHierarchyHelper(edOrgHierarchyHelper);
+
+        StudentContextResolver rs = Mockito.spy(underTest);
+        Mockito.doReturn(false).when(rs).shouldExtract(Matchers.eq(spa),argThat(buildMatchers(nonCurrentDate)));
+        Mockito.doReturn(true).when(rs).shouldExtract(Matchers.eq(spa), argThat(buildMatchers(futureDate)));
+
+        Set<String> res = rs.resolve(testStudent, spa);
+
+        Set<String> expected = new HashSet<String>(Arrays.asList(UNBOUNDSCHOOL, FUTURESCHOOL));
+        assertEquals(res, expected);
     }
-    
+
     @Test
-    public void testGetLEAsForStudentId() {
-        Entity testStudent = buildTestStudent();
-        when(repo.findOne("student", buildQuery("42"))).thenReturn(testStudent);
-        assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2", "edOrg3")),
-                underTest.findGoverningEdOrgs("42"));
+    public void testResolveNonDatedEntity() {
+        Map<String, DateTime> edorgDates = new HashMap<String, DateTime>();
+
+        Entity testStudent = buildTestStudent("42", edorgDates);
+        Mockito.when(extractorHelper.fetchAllEdOrgsForStudent((Entity) Matchers.any())).thenReturn(edorgDates);
+
+        when(repo.findOne(Matchers.eq(EntityNames.EDUCATION_ORGANIZATION), (NeutralQuery)Matchers.any())).thenReturn(null);
+        EdOrgHierarchyHelper edOrgHierarchyHelper = mock(EdOrgHierarchyHelper.class);
+        when(edOrgHierarchyHelper.getSEA()).thenReturn(null);
+        underTest.setEdOrgHierarchyHelper(edOrgHierarchyHelper);
+
+        StudentContextResolver rs = Mockito.spy(underTest);
+        Mockito.doReturn(true).when(rs).shouldExtract(Matchers.eq(testStudent), Mockito.any(DateTime.class));
+
+        Set<String> res = rs.resolve(testStudent, testStudent);
+
+        Set<String> expected = new HashSet<String>(Arrays.asList(CURRENTSCHOOL, NONCURSCHOOL, FUTURESCHOOL, UNBOUNDSCHOOL));
+        assertEquals(expected, res);
     }
-    
-    @SuppressWarnings("unchecked")
-    private Entity buildTestStudent() {
+
+
+    private Entity buildEdorg(String edorgId, String type) {
+        Entity edorg = mock(Entity.class);
+
         Map<String, Object> body = new HashMap<String, Object>();
-        body.put("studentUniqueStateId", "42");
-        DateTime today = DateTime.now();
-        DateTimeFormatter format = ISODateTimeFormat.date();
+        body.put(ParameterConstants.ORGANIZATION_CATEGORIES, type);
+
+        Mockito.when(edorg.getEntityId()).thenReturn(edorgId);
+        Mockito.when(edorg.getBody()).thenReturn(body);
+
+        return edorg;
+    }
+
+    private BaseMatcher<DateTime> buildMatchers(final DateTime dateTime) {
+        return new BaseMatcher<DateTime>() {
+
+            @Override
+            public boolean matches(Object arg0) {
+                DateTime target = (DateTime) arg0;
+                return target == null || target.equals(dateTime);
+            }
+
+            @Override
+            public void describeTo(Description arg0) {
+            }
+        };
+    }
+
+    private Entity buildTestStudent(String studentId, Map<String, DateTime> edorgDates) {
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("studentUniqueStateId", studentId);
+
         Map<String, Object> oldSchool = new HashMap<String, Object>();
-        oldSchool.put("_id", "oldSchool");
+        oldSchool.put("_id", NONCURSCHOOL);
         oldSchool.put("entryDate", today.minusMonths(15).toString(format));
         oldSchool.put("exitWithdrawDate", today.minusMonths(3).toString(format));
-        when(edOrgResolver.findGoverningEdOrgs("oldSchool")).thenReturn(new HashSet<String>(Arrays.asList("badEdOrg")));
+        edorgDates.put(NONCURSCHOOL, today.minusMonths(3));
+
         Map<String, Object> currentSchool = new HashMap<String, Object>();
-        currentSchool.put("_id", "currentSchool");
-        currentSchool.put("entryDate", today.minusMonths(3).toString(format));
+        currentSchool.put("_id", CURRENTSCHOOL);
+        currentSchool.put("entryDate", today.minusMonths(15).toString(format));
         currentSchool.put("exitWithdrawDate", today.plusMonths(9).toString(format));
-        when(edOrgResolver.findGoverningEdOrgs("currentSchool")).thenReturn(new HashSet<String>(Arrays.asList("edOrg1")));
+        edorgDates.put(CURRENTSCHOOL, today.plusMonths(9));
+
         Map<String, Object> futureSchool = new HashMap<String, Object>();
-        futureSchool.put("_id", "futureSchool");
+        futureSchool.put("_id", FUTURESCHOOL);
         futureSchool.put("entryDate", today.plusMonths(9).toString(format));
         futureSchool.put("exitWithdrawDate", today.plusMonths(21).toString(format));
-        when(edOrgResolver.findGoverningEdOrgs("futureSchool")).thenReturn(new HashSet<String>(Arrays.asList("edOrg2")));
+        edorgDates.put(FUTURESCHOOL, today.plusMonths(21));
+
         Map<String, Object> unboundedSchool = new HashMap<String, Object>();
-        unboundedSchool.put("_id", "unboundedSchool");
+        unboundedSchool.put("_id", UNBOUNDSCHOOL);
         unboundedSchool.put("entryDate", today.minusMonths(15).toString(format));
-        when(edOrgResolver.findGoverningEdOrgs("unboundedSchool")).thenReturn(new HashSet<String>(Arrays.asList("edOrg3")));
+        edorgDates.put(UNBOUNDSCHOOL, null);
+
         Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
         denormalized.put("schools", Arrays.asList(oldSchool, currentSchool, futureSchool, unboundedSchool));
         Entity testStudent = mock(Entity.class);
         when(testStudent.getEntityId()).thenReturn("testStudent");
         when(testStudent.getBody()).thenReturn(body);
         when(testStudent.getDenormalizedData()).thenReturn(denormalized);
+        when(testStudent.getType()).thenReturn(EntityNames.STUDENT);
+
         return testStudent;
     }
-    
-    private NeutralQuery buildQuery(String id) {
-        return new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, id))
-                .setEmbeddedFieldString("schools");
+
+    Entity buildSPA(String spaId, String beginDate, String endDate) {
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put(ParameterConstants.ID, spaId);
+        body.put(ParameterConstants.BEGIN_DATE, beginDate);
+
+        if(endDate != null) {
+            body.put(ParameterConstants.END_DATE, endDate);
+        }
+
+        Entity spa = mock(Entity.class);
+        when(spa.getEntityId()).thenReturn(spaId);
+        when(spa.getType()).thenReturn(EntityNames.STUDENT_PROGRAM_ASSOCIATION);
+        when(spa.getBody()).thenReturn(body);
+        return spa;
     }
-    
-    @Test
-    public void testCache() {
-        Entity testEntity = buildTestStudent();
-        Set<String> fromEntity1 = underTest.findGoverningEdOrgs(testEntity);
-        Set<String> fromId = underTest.findGoverningEdOrgs("testStudent");
-        Set<String> fromEntity2 = underTest.findGoverningEdOrgs(testEntity);
-        assertEquals(fromEntity1, fromId);
-        assertEquals(fromEntity2, fromId);
-    }
+
 }

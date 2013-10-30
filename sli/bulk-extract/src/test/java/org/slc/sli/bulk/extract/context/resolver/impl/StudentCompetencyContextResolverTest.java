@@ -32,6 +32,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
@@ -53,18 +54,18 @@ public class StudentCompetencyContextResolverTest {
     }
     
     @Test
-    public void noStudentSectionAssociationReturnsEmptyLEAs() {
+    public void noStudentSectionAssociation() {
         Entity studentCompetency = buildStudentCompetency();
-        studentCompetency.getBody().remove(StudentCompetencyContextResolver.STUDENT_SECTION_ASSOCIATION_ID);
-        
+        when(repo.findById(EntityNames.STUDENT_SECTION_ASSOCIATION, "association123")).thenReturn(null);
         assertEquals(Collections.<String> emptySet(), underTest.findGoverningEdOrgs(studentCompetency));
     }
-    
+
+    @Test
     public void shouldFollowStudent() {
         Entity studentCompetency = buildStudentCompetency();
         when(repo.findById(EntityNames.STUDENT_SECTION_ASSOCIATION, "association123")).thenReturn(buildStudentSectionAssociation());
         Set<String> topLeas = new HashSet<String>(Arrays.asList("lea1", "lea2"));
-        when(studentResolver.findGoverningEdOrgs("student123")).thenReturn(topLeas);
+        when(studentResolver.findGoverningEdOrgs("student123", studentCompetency)).thenReturn(topLeas);
         
         assertEquals(topLeas, underTest.findGoverningEdOrgs(studentCompetency));
     }
@@ -79,7 +80,7 @@ public class StudentCompetencyContextResolverTest {
 
     private Entity buildStudentCompetency() {
         Map<String, Object> body = new HashMap<String, Object>();
-        body.put(StudentCompetencyContextResolver.STUDENT_SECTION_ASSOCIATION_ID, "association123");
+        body.put(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID, "association123");
         Entity e = new MongoEntity("studentCompetency", "studentCompetency123", body, new HashMap<String, Object>());
         return e;
     }
