@@ -54,8 +54,7 @@ And I am redirected to the Admin Application Authorization Edit Page
 And the checkbox with HTML id "root" is unchecked
 And I check the checkbox with HTML id "root"
 And I click Update
-Then I see an application "Smoke!" in the table
-And in Status it says "205 EdOrg(s)"
+And the app "Smoke!" Status matches "\d+ EdOrg"
 And it is colored "green"
 
 Scenario: LEA Administrator operations
@@ -70,8 +69,7 @@ And I am redirected to the Admin Application Authorization Edit Page
 And the checkbox with HTML id "root" is checked
 And I uncheck the checkbox with HTML id "root"
 And I click Update
-Then I see an application "Smoke!" in the table
-And in Status it says "Not Approved"
+And the app "Smoke!" Status matches "Not Approved"
 And it is colored "red"
 
 Scenario: Realm administrator operations
