@@ -65,7 +65,7 @@ end
 Then /^I see all the applications registered on SLI$/ do
   appsTable = @driver.find_element(:id, "applications")
   trs = appsTable.find_elements(:xpath, ".//tr/td[text()='APPROVED']")
-  assert(trs.length > 10, "Should see a significant number of approved applications")
+  assert(trs.length > 4, "Should see a significant number of approved applications")
 end
 
 Then /^I see all the applications pending registration$/ do
@@ -90,7 +90,7 @@ Then /^the pending apps are on top$/ do
     index = tableHeadings.index(arg) + 1 if arg.text == "Status"    
   end
   trs = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Approve']/../../../..")
-  assert(trs.length > 10, "Should see many applications")
+  assert(trs.length > 4, "Should see many applications")
 
   last_status = nil
   trs.each do |row|
