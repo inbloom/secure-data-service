@@ -33,7 +33,7 @@ Feature: As an API user, I want to be able to get a list of links available to t
 	When the number of returned URLs is correct:
 	|   fieldName  | count |
 	|   fullEdOrgs   |  5    |
-	|   deltaEdOrgs  |  5    |
+	|   deltaEdOrgs  |  4    |
 	|   fullSea    |  1    |
 	|   deltaSea   |  1    |
     When I set the header format to "application/x-tar"
@@ -46,7 +46,7 @@ Scenario: Login as a user not directly associated with the SEA, SEA extract shou
   When the number of returned URLs is correct:
   |   fieldName  | count |
   |   fullEdOrgs   |  5    |
-  |   deltaEdOrgs  |  5    |
+  |   deltaEdOrgs  |  4    |
   |   fullSea    |  1    |
   |   deltaSea   |  1    |
   And I make a head request with each returned URL

@@ -43,7 +43,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.context.resolver.TypeResolver;
-import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
 import org.slc.sli.bulk.extract.delta.DeltaEntityIterator;
 import org.slc.sli.bulk.extract.delta.DeltaEntityIterator.DeltaRecord;
 import org.slc.sli.bulk.extract.delta.DeltaEntityIterator.Operation;
@@ -101,9 +100,6 @@ public class DeltaExtractor implements InitializingBean {
 
     @Autowired
     TypeResolver typeResolver;
-
-    @Autowired
-    EducationOrganizationContextResolver edorgContextResolver;
 
     @Autowired
     @Qualifier("secondaryRepo")
@@ -285,23 +281,6 @@ public class DeltaExtractor implements InitializingBean {
         }
 
         return appPerEdOrgExtractFiles.get(edOrg);
-    }
-
-    /* filter out all non top level LEAs */
-    private Map<String, Set<String>> filter(Map<String, Set<String>> bulkExtractEdOrgsPerApp) {
-        Map<String, Set<String>> result = new HashMap<String, Set<String>>();
-        for (Map.Entry<String, Set<String>> entry : bulkExtractEdOrgsPerApp.entrySet()) {
-            String app = entry.getKey();
-            Set<String> topLEA = new HashSet<String>();
-            for (String edorg : entry.getValue()) {
-                Entity edorgEntity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, edorg);
-                topLEA.addAll(edorgContextResolver.findGoverningEdOrgs(edorgEntity));
-            }
-            entry.getValue().retainAll(topLEA);
-            result.put(app, entry.getValue());
-        }
-
-        return result;
     }
 
     private Map<String, Set<String>> reverse(Map<String, Set<String>> leasPerApp) {

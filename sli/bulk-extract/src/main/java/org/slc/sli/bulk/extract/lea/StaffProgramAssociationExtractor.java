@@ -17,8 +17,11 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
@@ -27,7 +30,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-public class StaffProgramAssociationExtractor implements EntityExtract {
+public class StaffProgramAssociationExtractor implements EntityDatedExtract {
     private EntityExtractor extractor;
     private ExtractFileMap map;
     private Repository<Entity> repo;
@@ -41,17 +44,18 @@ public class StaffProgramAssociationExtractor implements EntityExtract {
     }
 
     @Override
-    public void extractEntities(EntityToEdOrgCache staffToEdorgCache) {
+    public void extractEntities(EntityToEdOrgDateCache staffDatedCache) {
         edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STAFF_PROGRAM_ASSOCIATION, this.getClass().getName());
         Iterator<Entity> spas = repo.findEach(EntityNames.STAFF_PROGRAM_ASSOCIATION, new NeutralQuery());
         while (spas.hasNext()) {
             Entity spa = spas.next();
-            Set<String> edOrgs = staffToEdorgCache.getEntriesById(spa.getBody().get(ParameterConstants.STAFF_ID).toString());
-            if (edOrgs == null || edOrgs.size() == 0) {
-                continue;
-            }
-            for (String edOrg : edOrgs) {
-                extractor.extractEntity(spa, map.getExtractFileForEdOrg(edOrg), EntityNames.STAFF_PROGRAM_ASSOCIATION);
+            String staffId = (String) spa.getBody().get(ParameterConstants.STAFF_ID);
+            Map<String, DateTime> edOrgs = staffDatedCache.getEntriesById(staffId);
+
+            for (Map.Entry<String, DateTime> datedEdOrg : edOrgs.entrySet()) {
+                if (EntityDateHelper.shouldExtract(spa, datedEdOrg.getValue())) {
+                    extractor.extractEntity(spa, map.getExtractFileForEdOrg(datedEdOrg.getKey()), EntityNames.STAFF_PROGRAM_ASSOCIATION);
+                }
             }
             
         }

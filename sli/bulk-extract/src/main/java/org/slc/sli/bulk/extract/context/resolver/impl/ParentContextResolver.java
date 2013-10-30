@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ParentContextResolver implements ContextResolver {
-    
+
+    public static final String PATH_TO_PARENT = "studentParentAssociation.body.parentId";
+
     @Autowired
     @Qualifier("secondaryRepo")
     private Repository<Entity> repo;
@@ -47,13 +50,12 @@ public class ParentContextResolver implements ContextResolver {
     @Override
     public Set<String> findGoverningEdOrgs(Entity entity) {
         Set<String> leas = new HashSet<String>();
-        Iterator<Entity> kids = repo.findEach("student",
-                Query.query(Criteria.where("studentParentAssociation.body.parentId").is(entity.getEntityId())));
+        Iterator<Entity> kids = repo.findEach(EntityNames.STUDENT,
+                Query.query(Criteria.where(PATH_TO_PARENT).is(entity.getEntityId())));
         while(kids.hasNext()) {
-            Entity kid = kids.next();
-            leas.addAll(studentResolver.findGoverningEdOrgs(kid));
+            Entity student = kids.next();
+            leas.addAll(studentResolver.findGoverningEdOrgs(student.getEntityId(), entity));
         }
         return leas;
     }
-    
 }
