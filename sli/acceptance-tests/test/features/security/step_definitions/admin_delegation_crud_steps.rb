@@ -139,12 +139,16 @@ end
 
 And /^There is a correct entry in applicationAuthorization edorg array for "([^"]*)" for the application "([^"]*)"$/ do |edorg, app_id|
   edorgs = @result["edorgs"]
-  @edorg_hash = {}
+
+  found = false
   edorgs.each do |edorg_entry|
-    if edorg_entry["authorizedEdorg"]==edorg
+    if edorg_entry["authorizedEdorg"]== [edorg]
+      found = true
       @edorg_hash = edorg_entry
+      break
     end
   end
+  assert(found==true,"The entry in applicationAuthorization edorg array for #{edorg} was incorrect");
   assert(@edorg_hash.size==4, "The entry in applicationAuthorization edorg array for #{edorg} was incorrect");
 end
 
