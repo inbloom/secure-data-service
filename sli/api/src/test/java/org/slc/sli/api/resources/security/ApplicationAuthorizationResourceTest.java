@@ -223,16 +223,4 @@ public class ApplicationAuthorizationResourceTest {
         List ents = (List) resp.getEntity();
         Assert.assertEquals(1, ents.size());
     }
-    
-    /* With story US5894, we don't apply the delegation requirement anymore (SEAs are
-     * implicitly delegated for their LEAs) so that the access denied
-     * error will not be thrown.  We may re-instate that, so if we
-     * do, uncomment this.
-     */
-    /*
-    @Test(expected=AccessDeniedException.class)
-    public void testGetAuthForBadEdorg() {
-        ResponseImpl resp = (ResponseImpl) res.getAuthorization("someAppId", "badEdorgId");
-    }
-    */
 }

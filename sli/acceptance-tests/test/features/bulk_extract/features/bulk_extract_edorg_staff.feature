@@ -1,4 +1,4 @@
-Feature: A bulk extract is triggered and educationOrganization, school, staff, and teacher entities are verified
+Feature: A bulk extract is triggered and staff and teacher entities are verified
 
 Scenario Outline: Verify educationOrganization, school, staff, and teacher entities were correctly extracted
    When I get the path to the extract file for the tenant "<tenant>" and application with id "<appId>" for the lea "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
@@ -10,8 +10,6 @@ Scenario Outline: Verify educationOrganization, school, staff, and teacher entit
    
 	Examples:
     | entity                                | user       | role             | realm       | tenant | edorg      | appId                                |
-	| educationOrganization                 | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-	| school                                | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| staff                                 | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| teacher                               | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 

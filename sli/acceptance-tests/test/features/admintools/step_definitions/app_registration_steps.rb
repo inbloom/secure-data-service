@@ -295,6 +295,17 @@ Then /^I clicked on the button Edit for the application "([^"]*)"$/ do |arg1|
   @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/../td/a[contains(@class, 'btn')]").click
 end
 
+Then /^a "([^"]*)" button is displayed for application "([^"]*)"$/ do |button_label, app|
+   assert (@driver.find_element(:xpath, "//tr/td[text()='#{app}']/../td/a[text()='#{button_label}']"))
+end
+
+Then /^I click Cancel on the application enable page$/ do
+   #first cancel button
+   @driver.find_element(:id, 'Cancel1').click
+   #second cancel button
+   #@driver.find_element(:id, 'Cancel2').click
+end
+
 Then /^the row of the app "([^"]*)" expanded$/ do |arg1|
  invisible = @driver.find_elements(:css, "tr[display='none']").count
  visible = @driver.find_elements(:css, "tr.odd").count
@@ -302,10 +313,10 @@ Then /^the row of the app "([^"]*)" expanded$/ do |arg1|
 end
 
 Then /^every field except the shared secret and the app ID became editable$/ do
-  @form = @driver.find_element(:id, "edit_app_#{@id}")
+  @form = @driver.find_element(:id, "aeForm")
   editable = @form.find_elements(:css, "input").count
   not_editable = @form.find_elements(:css, "input[disabled='disabled']").count
-  assert(not_editable == 2, "Found #{not_editable} elements")
+  assert(not_editable == 2, "Found #{not_editable} non-editable elements. Found #{editable} editable elements")
 end
 
 Then /^I have edited the field named "([^"]*)" to say "([^"]*)"$/ do |arg1, arg2|

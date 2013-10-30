@@ -76,9 +76,20 @@ $(document).ready(function() {
             added       = added.join(',');
             var log     = ['Added Authorization For [', added , ']. ', 'Removed Authorization For [', removed, '].'].join('');
             console.log(log);
-            $( "input#application_authorization_edorgsAdded" ).val( added );
-            $( "input#application_authorization_edorgsRemoved" ).val( removed );
+            $( ".edorgsAdded" ).val( added );
+            $( ".edorgsRemoved" ).val( removed );
         }
     );
+
+    $(".edOrgTreeActions input[type=submit]").bind ('click', function () {
+            var newSelectedIds = getSelectedEdOrgs();
+            $.each(newSelectedIds, function (index, value) {
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'app[authorized_ed_orgs][]',
+                    value: value
+                }).appendTo('form#aeForm');
+            });//end each newSelectedIds
+    });//end function, end bind
 });
 

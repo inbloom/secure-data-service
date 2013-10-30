@@ -16,9 +16,19 @@
 
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.google.common.collect.HashMultimap;
+
+import org.joda.time.DateTime;
+
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
@@ -28,46 +38,82 @@ public class ExtractorHelper{
 
     public ExtractorHelper() {
         //LocalEdOrgExtractHelper is optional
+        edOrgExtractHelper = new EdOrgExtractHelper();
+        dateHelper = new DateHelper();
     }
 
     public ExtractorHelper(EdOrgExtractHelper edOrgExtractHelper) {
         this.edOrgExtractHelper = edOrgExtractHelper;
+        dateHelper = new DateHelper();
     }
 
     private DateHelper dateHelper;
 
     private EdOrgExtractHelper edOrgExtractHelper;
 
-
     /**
-     * returns all current schools of the student
-     * @param student
-     * @return
+     * Fetches the associated edOrgs with their expiration date for a student.
+     *
+     * @param student - Student entity
+     *
+     * @return - Student edOrgs and expiration dates
      */
-    @SuppressWarnings("unchecked")
-    public Set<String>fetchCurrentSchoolsForStudent(Entity student) {
-        if (dateHelper == null) {
-            dateHelper = new DateHelper();
-        }
-        Set<String> studentSchools = new HashSet<String>();
+    public Map<String, DateTime> fetchAllEdOrgsForStudent(Entity student) {
+        Map<String, DateTime> studentEdOrgs = new HashMap<String, DateTime>();
         Map<String, List<Map<String, Object>>> data = student.getDenormalizedData();
         if (!data.containsKey("schools")) {
-            return studentSchools;
+            return studentEdOrgs;
         }
+
         List<Map<String, Object>> schools = data.get("schools");
         for (Map<String, Object> school : schools) {
-             if (dateHelper.isFieldExpired(school, "exitWithdrawDate")) {
-                continue;
+            updateEdorgToDateMap(school, studentEdOrgs, ParameterConstants.ID,
+                    ParameterConstants.ENTRY_DATE, ParameterConstants.EXIT_WITHDRAW_DATE);
+        }
+
+        return studentEdOrgs;
+    }
+
+    /**
+     * build edOrg to date map.
+     *
+     * @param entityBody - EdOrg entity body
+     * @param edOrgToDate - Old edOrg to date map
+     * @param edOrgIdField - EdOrg ID field name
+     * @param beginDateField - Begin date field name
+     * @param endDateField - end date field name
+     */
+    public Map<String, DateTime> updateEdorgToDateMap(Map<String, Object> entityBody, Map<String, DateTime> edOrgToDate,
+                                                      String edOrgIdField, String beginDateField, String endDateField) {
+        if (!dateHelper.getDate(entityBody, beginDateField).isAfter(DateTime.now())) {
+            String id = (String) entityBody.get(edOrgIdField);
+            DateTime expirationDateFromData = dateHelper.getDate(entityBody, endDateField);
+
+            List<String> lineage = edOrgExtractHelper.getEdOrgLineages().get(id);
+            List<String> edOrgLineage = new ArrayList<String>();
+
+            if (lineage != null) {
+                edOrgLineage.addAll(lineage);
+            } else {
+                edOrgLineage.add(id);
             }
-            String id = (String)school.get("_id");
-            List<String> lineages = edOrgExtractHelper.getEdOrgLineages().get(id);
-            if(lineages != null) {
-                studentSchools.addAll(lineages);
+
+            for (String edOrgId : edOrgLineage) {
+                DateTime existingExpirationDate = edOrgToDate.get(edOrgId);
+                DateTime finalExpirationDate = expirationDateFromData;
+                if (edOrgToDate.containsKey(edOrgId)) {
+                    if ((expirationDateFromData == null) || (existingExpirationDate == null)) {
+                        finalExpirationDate = null;
+                    } else if (existingExpirationDate.isAfter(expirationDateFromData)) {
+                        finalExpirationDate = existingExpirationDate;
+                    }
+                }
+                edOrgToDate.put(edOrgId, finalExpirationDate);
             }
         }
-        return studentSchools;
+        return edOrgToDate;
     }
-    
+
     public void setDateHelper(DateHelper helper) {
         this.dateHelper = helper;
     }
@@ -90,19 +136,6 @@ public class ExtractorHelper{
         return parents;
     }
 
-    /**
-     * uses the date helper to tell us if the entity is current or not
-     * 
-     * @param staffAssociation
-     * @return
-     */
-    public boolean isStaffAssociationCurrent(Entity staffAssociation) {
-        if (dateHelper == null) {
-            dateHelper = new DateHelper();
-        }
-        return !dateHelper.isFieldExpired(staffAssociation.getBody(), ParameterConstants.END_DATE);
-    }
-    
     public Map<String, Collection<String>> buildSubToParentEdOrgCache(EntityToEdOrgCache edOrgCache) {
     	Map<String, String> result = new HashMap<String, String>();
         HashMultimap<String, String> map = HashMultimap.create();

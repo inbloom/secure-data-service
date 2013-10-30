@@ -54,15 +54,20 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.util.CollectionUtils;
 
 /**
  *
- * App auths are stored in mongo in the format
+ * App auths are stored in mongo in tenant DB's collection applicationAuthorization in the format
  *
  * {
- *  applicationId: id of application from application collection,
- *  edorgs: ids of all the edorgs (schools, LEAs, and SEAs) that have authorized the application.
+ *  applicationId: id of application from sli.application collection,
+ *  edorgs: ids of all the edorgs that have authorized the application.
  * }
+ * Note that the interobject reference:
+ *      [tenantDb].applicationAuthorization.applicationId => sli.application._id
+ * is a "cross-database" reference and therefore relies on the uniqueness of IDs not just
+ * database-wide but platform-wide.
  *
  * The endpoint supports three operations
  *
@@ -76,13 +81,11 @@ import org.slc.sli.domain.enums.Right;
  *  authorized: true|false
  * }
  *
- * For LEA administrators the content is based on the user's LEA.
- * For SEA administrators the content is based on delegated SEAs.
- *
- * If an SEA administrator needs to distinguish between two edorgs, a
+ * The content is based on the user's edOrg.
+ * 
+ * If the caller needs to specify the user's edOrg(s), a
  * ?edorgs=... query parameter can be used on all operations.
  *
- * On a PUT, the endpoint automatically registers parent and child edorgs.
  */
 @Component
 @Scope("request")
@@ -99,9 +102,6 @@ public class ApplicationAuthorizationResource {
 
     @Autowired
     private EdOrgHelper helper;
-
-    @Autowired
-    private DelegationUtil delegation;
 
     private EntityService service;
 
@@ -123,7 +123,7 @@ public class ApplicationAuthorizationResource {
 
     @GET
     @Path("{appId}")
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
+    @RightsAllowed({Right.EDORG_APP_AUTHZ})
     public Response getAuthorization(@PathParam("appId") String appId, @QueryParam("edorg") String edorg) {
         String myEdorg = validateEdOrg(edorg);
         EntityBody appAuth = getAppAuth(appId);
@@ -162,7 +162,7 @@ public class ApplicationAuthorizationResource {
 
     @PUT
     @Path("{appId}")
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
+    @RightsAllowed({Right.EDORG_APP_AUTHZ})
     public Response updateAuthorization(@PathParam("appId") String appId, EntityBody auth) {
         if (!auth.containsKey("authorized")) {
             return Response.status(Status.BAD_REQUEST).build();
@@ -214,7 +214,7 @@ public class ApplicationAuthorizationResource {
     }
 
     @GET
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
+    @RightsAllowed({Right.EDORG_APP_AUTHZ})
     public Response getAuthorizations(@QueryParam("edorg") String edorg) {
         String myEdorg = validateEdOrg(edorg);
         Iterable<Entity> appQuery = repo.findAll("application", new NeutralQuery());
@@ -224,6 +224,8 @@ public class ApplicationAuthorizationResource {
         }
 
         Iterable<EntityBody> ents = service.list(new NeutralQuery(new NeutralCriteria("edorgs", "=", myEdorg)));
+
+        Set<String> inScopeEdOrgs = getChildEdorgs(edorg);
 
         List<Map> results = new ArrayList<Map>();
         for (EntityBody body : ents) {
@@ -238,7 +240,8 @@ public class ApplicationAuthorizationResource {
         for (Map.Entry<String, Entity> entry : allApps.entrySet()) {
             Boolean    autoApprove = (Boolean) entry.getValue().getBody().get("allowed_for_all_edorgs");
             List<String> approvedEdorgs = (List<String>) entry.getValue().getBody().get("authorized_ed_orgs");
-            if ((autoApprove != null && autoApprove) || (approvedEdorgs != null && approvedEdorgs.contains(myEdorg))) {
+            // user has app auth ability for their own edorg and all child edorgs
+            if ((autoApprove != null && autoApprove) || (approvedEdorgs != null && CollectionUtils.containsAny(approvedEdorgs, inScopeEdOrgs))) {
                 HashMap<String, Object> entity = new HashMap<String, Object>();
                 entity.put("id", entry.getKey());
                 entity.put("appId", entry.getKey());
@@ -290,14 +293,6 @@ public class ApplicationAuthorizationResource {
         if (edorg == null) {
             return SecurityUtil.getEdOrgId();
         }
-        // US5894 removed the need for LEA to delegate app approval to SEA
-        /*
-        if (!edorg.equals(SecurityUtil.getEdOrgId()) && !delegation.getAppApprovalDelegateEdOrgs().contains(edorg) ) {
-            Set<String> edOrgIds = new HashSet<String>();
-            edOrgIds.add(edorg);
-            throw new APIAccessDeniedException("Cannot perform authorizations for edorg ", edOrgIds);
-        }
-        */
         return edorg;
     }
 
