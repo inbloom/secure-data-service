@@ -6,7 +6,6 @@ Feature: Admin delegation CRUD
     Then I should revoke all app authorizations for district "IL-SUNSET"
     Then I should revoke all app authorizations for district "IL"
     Then I should revoke all app authorizations for district "IL-LONGWOOD"
-    And I wait for user input
     And I should grant all app authorizations for district "IL-SUNSET"
     And I should grant all app authorizations for district "IL-LONGWOOD"
     Then I should grant all app authorizations for district "IL"
