@@ -159,26 +159,27 @@ public class ApplicationAuthorizationResource {
             entity.put("appId", appId);
             entity.put("id", appId);
             List<Map<String,Object>> edOrgs = (List<Map<String,Object>>) appAuth.get("edorgs");
-            entity.put("authorized", containsEdOrg(edOrgs, myEdorg));
+            Map<String,Object> authorizingInfo = getAuthorizingInfo(edOrgs, myEdorg);
+            entity.put("authorized", (authorizingInfo == null)?false:true);
             entity.put("edorgs", edOrgs);//(TA10857)
             return Response.status(Status.OK).entity(entity).build();
         }
 
     }
 
-    private boolean containsEdOrg(List<Map<String,Object>> edOrgList, String edOrg) {
+    private Map<String,Object> getAuthorizingInfo(List<Map<String,Object>> edOrgList, String edOrg) {
         if( edOrgList == null || edOrg == null ) {
-            return false;
+            return null;
         }
         for (Map<String,Object> edOrgListElement :edOrgList ){
             String authorizedEdorg = (String)edOrgListElement.get("authorizedEdorg");
             if(authorizedEdorg != null){
                 if(edOrg.equals(authorizedEdorg)){
-                    return true;
+                    return edOrgListElement;
                 }
             }
         }
-        return false;
+        return null;
     }
 
     private EntityBody getAppAuth(String appId) {
@@ -251,6 +252,13 @@ public class ApplicationAuthorizationResource {
         Set<String> oldAuthSet = getSetOfAuthorizedIds(currentAuthList);
 
         if(add) {
+            //refresh/update authorizing info for edOrgs that are already authorized
+            for(Map<String, Object> currentAuthListItem: currentAuthList) {
+                String authorizedEdorg = (String)currentAuthListItem.get("authorizedEdorg");
+                if(authorizedEdorg != null && newAuthSet.contains(authorizedEdorg)) {
+                    enrichAuthorizedEdOrg(currentAuthListItem);
+                }
+            }
             newAuthSet.removeAll(oldAuthSet);
             for(String newAuthItem :newAuthSet) {
                 Map<String, Object> newAuthItemProps = new HashMap<String, Object>();
