@@ -25,8 +25,6 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 
 import org.slc.sli.api.util.SecurityUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,8 +41,6 @@ import org.slc.sli.domain.NeutralQuery;
  */
 @Component
 public class SecurityEventContextResolver implements EntityContextResolver {
-
-    private static final Logger LOG = LoggerFactory.getLogger(SecurityEventContextResolver.class);
 
 	static final List<String> ROLES_SEA_OR_REALM_ADMIN = Arrays.asList(
 			RoleInitializer.SEA_ADMINISTRATOR,
@@ -77,7 +73,7 @@ public class SecurityEventContextResolver implements EntityContextResolver {
 			securityEventIds = Lists.newArrayList((repository.findAllIds(
 					RESOURCE_NAME, query)));
 		} else {
-			LOG.info("User neither LEA Admin, nor SEA Admin, nor SLC Operator. Cannot access SecurityEvents!");
+			info("User neither LEA Admin, nor SEA Admin, nor SLC Operator. Cannot access SecurityEvents!");
 		}
 		return securityEventIds;
 	}
@@ -107,7 +103,7 @@ public class SecurityEventContextResolver implements EntityContextResolver {
 								Set<String> delegatedLEAStateIds = edOrgHelper
 										.getDelegatedEdorgDescendents();
 								if (delegatedLEAStateIds.size() > 0) {
-									LOG.info(delegatedLEAStateIds
+									info(delegatedLEAStateIds
 											+ " have delegated SecurityEvents access to SEA!");
 									homeEdOrgs.addAll(delegatedLEAStateIds);
 								}
@@ -134,17 +130,17 @@ public class SecurityEventContextResolver implements EntityContextResolver {
 								filters.add(or);
 							}
 						} else {
-							LOG.warn("Could not find edOrgs for SecurityEvents!");
+							warn("Could not find edOrgs for SecurityEvents!");
 						}
 					}
 				} else {
-					LOG.warn("Could not find roles for SecurityEvents!");
+					warn("Could not find roles for SecurityEvents!");
 				}
 			} else {
-				LOG.warn("Could not find principal for SecurityEvents!");
+				warn("Could not find principal for SecurityEvents!");
 			}
 		} else {
-			LOG.warn("Could not find auth for SecurityEvents!");
+			warn("Could not find auth for SecurityEvents!");
 		}
 		return filters;
 	}

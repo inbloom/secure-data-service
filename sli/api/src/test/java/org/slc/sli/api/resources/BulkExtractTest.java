@@ -159,7 +159,6 @@ public class BulkExtractTest {
 
         bulkExtract = Mockito.spy(bulkExtractToBeSpied);
         Mockito.doNothing().when(bulkExtract).logSecurityEvent(Mockito.anyString());
-
         FileResource spyFileResource = Mockito.spy(fileResource);
         Mockito.doNothing().when(spyFileResource).logSecurityEvent(Mockito.anyString());
         bulkExtract.setFileResource(spyFileResource);

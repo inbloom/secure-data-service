@@ -37,9 +37,6 @@ import com.google.common.collect.Sets;
 import org.slc.sli.api.security.SLIPrincipal;
 
 import org.slc.sli.api.security.context.APIAccessDeniedException;
-import org.slc.sli.api.security.service.AuditLogger;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -66,12 +63,16 @@ import org.springframework.util.CollectionUtils;
 
 /**
  *
- * App auths are stored in mongo in the format
+ * App auths are stored in mongo in tenant DB's collection applicationAuthorization in the format
  *
  * {
- *  applicationId: id of application from application collection,
- *  edorgs: ids of all the edorgs (schools, LEAs, and SEAs) that have authorized the application.
+ *  applicationId: id of application from sli.application collection,
+ *  edorgs: ids of all the edorgs that have authorized the application.
  * }
+ * Note that the interobject reference:
+ *      [tenantDb].applicationAuthorization.applicationId => sli.application._id
+ * is a "cross-database" reference and therefore relies on the uniqueness of IDs not just
+ * database-wide but platform-wide.
  *
  * The endpoint supports three operations
  *
@@ -85,21 +86,17 @@ import org.springframework.util.CollectionUtils;
  *  authorized: true|false
  * }
  *
- * For LEA administrators the content is based on the user's LEA.
- * For SEA administrators the content is based on delegated SEAs.
- *
- * If an SEA administrator needs to distinguish between two edorgs, a
+ * The content is based on the user's edOrg.
+ * 
+ * If the caller needs to specify the user's edOrg(s), a
  * ?edorgs=... query parameter can be used on all operations.
  *
- * On a PUT, the endpoint automatically registers parent and child edorgs.
  */
 @Component
 @Scope("request")
 @Path("/applicationAuthorization")
 @Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class ApplicationAuthorizationResource {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ApplicationAuthorizationResource.class);
 
     @Autowired
     private EntityDefinitionStore store;
@@ -111,16 +108,10 @@ public class ApplicationAuthorizationResource {
     @Autowired
     private EdOrgHelper helper;
 
-    @Autowired
-    private DelegationUtil delegation;
-
     private EntityService service;
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
-
-    @Autowired
-    private AuditLogger auditLogger;
 
     @Context
     UriInfo uri;
@@ -137,7 +128,7 @@ public class ApplicationAuthorizationResource {
 
     @GET
     @Path("{appId}")
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
+    @RightsAllowed({Right.EDORG_APP_AUTHZ})
     public Response getAuthorization(@PathParam("appId") String appId, @QueryParam("edorg") String edorg) {
         String myEdorg = validateEdOrg(edorg);
         EntityBody appAuth = getAppAuth(appId);
@@ -192,7 +183,7 @@ public class ApplicationAuthorizationResource {
 
     @PUT
     @Path("{appId}")
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
+    @RightsAllowed({Right.EDORG_APP_AUTHZ})
     public Response updateAuthorization(@PathParam("appId") String appId, EntityBody auth) {
         if (!auth.containsKey("authorized")) {
             return Response.status(Status.BAD_REQUEST).build();
@@ -314,7 +305,7 @@ public class ApplicationAuthorizationResource {
     }
 
     @GET
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
+    @RightsAllowed({Right.EDORG_APP_AUTHZ})
     public Response getAuthorizations(@QueryParam("edorg") String edorg) {
         String myEdorg = validateEdOrg(edorg);
         Iterable<Entity> appQuery = repo.findAll("application", new NeutralQuery());
@@ -356,8 +347,8 @@ public class ApplicationAuthorizationResource {
         Set<String> oldEO = (oldEdOrgs == null)?Collections.<String>emptySet():new HashSet<String>(oldEdOrgs);
         Set<String> newEO = (newEdOrgs == null)?Collections.<String>emptySet():new HashSet<String>(newEdOrgs);
 
-        LOG.info("EdOrgs that App could access earlier " + helper.getEdOrgStateOrganizationIds(oldEO));
-        LOG.info("EdOrgs that App can access now "       + helper.getEdOrgStateOrganizationIds(newEO));
+        info("EdOrgs that App could access earlier " + helper.getEdOrgStateOrganizationIds(oldEO));
+        info("EdOrgs that App can access now "       + helper.getEdOrgStateOrganizationIds(newEO));
 
         URI path = (uri != null)?uri.getRequestUri():null;
         String resourceClassName = ApplicationAuthorizationResource.class.getName();
@@ -369,7 +360,7 @@ public class ApplicationAuthorizationResource {
             Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(granted);
             event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
             event.setTargetEdOrg("");
-            auditLogger.audit(event);
+            audit(event);
         }
 
         Set<String> revoked = Sets.difference(oldEO, newEO);
@@ -380,7 +371,7 @@ public class ApplicationAuthorizationResource {
             Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(revoked);
             event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
             event.setTargetEdOrg("");
-            auditLogger.audit(event);
+            audit(event);
         }
 
     }
@@ -389,14 +380,6 @@ public class ApplicationAuthorizationResource {
         if (edorg == null) {
             return SecurityUtil.getEdOrgId();
         }
-        // US5894 removed the need for LEA to delegate app approval to SEA
-        /*
-        if (!edorg.equals(SecurityUtil.getEdOrgId()) && !delegation.getAppApprovalDelegateEdOrgs().contains(edorg) ) {
-            Set<String> edOrgIds = new HashSet<String>();
-            edOrgIds.add(edorg);
-            throw new APIAccessDeniedException("Cannot perform authorizations for edorg ", edOrgIds);
-        }
-        */
         return edorg;
     }
 

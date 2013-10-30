@@ -21,8 +21,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,8 +38,6 @@ import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderHelper;
  */
 @Component
 public class StudentGradeLevelOptionalFieldAppender implements OptionalFieldAppender {
-
-    private static final Logger LOG = LoggerFactory.getLogger(StudentGradeLevelOptionalFieldAppender.class);
 
     private static final String ENTRY_GRADE_LEVEL = "entryGradeLevel";
     private static final String ENTRY_DATE = "entryDate";
@@ -121,7 +117,7 @@ public class StudentGradeLevelOptionalFieldAppender implements OptionalFieldAppe
             } catch (Exception e) {
                 String exceptionMessage = "Exception while retrieving current gradeLevel for student with id:  "
                         + student.get("id") + " Exception: " + e.getMessage();
-                LOG.debug(exceptionMessage);
+                debug(exceptionMessage);
                 mostRecentGradeLevel = "Not Available";
             }
 

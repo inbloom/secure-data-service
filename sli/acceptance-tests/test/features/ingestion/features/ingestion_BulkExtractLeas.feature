@@ -89,7 +89,7 @@ When zip file is scp to ingestion landing zone
      | learningStandard                         |               1499|
      | parent                                   |                109|
      | program                                  |                 64|
-     | recordHash                               |              26719|
+     | recordHash                               |              26711|
      | reportCard                               |                 99|
      | schoolSessionAssociation                 |                  0|
      | section                                  |                165|
@@ -113,7 +113,7 @@ When zip file is scp to ingestion landing zone
      | studentProgramAssociation                |                307|
      | studentSchoolAssociation                 |                265|
      | studentSectionAssociation                |                554|
-     | studentGradebookEntry                    |               4956|
+     | studentGradebookEntry                    |               4948|
      | courseTranscript                         |                452|
      | teacherSchoolAssociation                 |                 25|
      | teacherSectionAssociation                |                 79|

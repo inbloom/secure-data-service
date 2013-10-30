@@ -24,7 +24,6 @@ import javax.ws.rs.ext.Provider;
 
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.oauth.OAuthAccessException;
-import org.slc.sli.api.security.service.AuditLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -47,9 +46,6 @@ public class InsufficientAuthenticationHandler implements ExceptionMapper<Insuff
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
-
-    @Autowired
-    private AuditLogger auditLogger;
 
     @Context
     UriInfo uriInfo;
@@ -76,7 +72,7 @@ public class InsufficientAuthenticationHandler implements ExceptionMapper<Insuff
             errorType = MediaType.APPLICATION_XML_TYPE;
         }
 
-        auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(exception), requestUri, "Access Denied: "
+        audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(exception), requestUri, "Access Denied: "
                 + exception.getMessage(), false));
 
         return Response.status(status).entity(new ErrorResponse(status.getStatusCode(), status.getReasonPhrase(),
@@ -95,10 +91,6 @@ public class InsufficientAuthenticationHandler implements ExceptionMapper<Insuff
 
     public void setSecurityEventBuilder(SecurityEventBuilder securityEventBuilder) {
         this.securityEventBuilder = securityEventBuilder;
-    }
-
-    public void setAuditLogger(AuditLogger auditLogger) {
-        this.auditLogger = auditLogger;
     }
 
 }

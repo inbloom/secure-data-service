@@ -22,8 +22,6 @@ import java.util.HashMap;
 import java.util.Collections;
 import java.util.HashSet;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,8 +39,6 @@ import org.slc.sli.domain.NeutralQuery;
 @Component
 public class StaffToCourseTranscriptValidator extends AbstractContextValidator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StaffToCourseTranscriptValidator.class);
-
     @Autowired
     private StaffToSubStudentEntityValidator validator;
 
@@ -58,7 +54,7 @@ public class StaffToCourseTranscriptValidator extends AbstractContextValidator {
             return Collections.emptySet();
         }
 
-        LOG.info("Validating {}'s access to courseTranscripts: [{}]", SecurityUtil.getSLIPrincipal().getName(), ids);
+        info("Validating {}'s access to courseTranscripts: [{}]", SecurityUtil.getSLIPrincipal().getName(), ids);
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
@@ -75,7 +71,7 @@ public class StaffToCourseTranscriptValidator extends AbstractContextValidator {
                 studentAcademicRecords.get(key).add(entity.getEntityId());
             } else {
                 //studentacademicrecord ID was not a string, this is unexpected
-                LOG.warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
+                warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
             }
         }
 

@@ -12,16 +12,10 @@ Scenario Outline: Verify simple entities were correctly extracted for LEA
     | entity                                | user       | role             | realm       | tenant | edorg        | appId                                |
     | attendance                            | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	# should be uncommented when endpoint is available
-	#| calendarDate                          | jstevenson | IT Administrator | IL-Daybreak | Midgar| IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-	| course                                | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-	| courseOffering                        | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| courseTranscript                      | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| disciplineIncident                    | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| disciplineAction                      | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-	| gradingPeriod                         | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-	| graduationPlan                        | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| parent                                | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-	| session                               | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| staffEducationOrganizationAssociation | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| staffCohortAssociation                | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| staffProgramAssociation               | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
@@ -56,24 +50,20 @@ Scenario Outline: Verify simple entities were correctly extracted for low-level 
    Examples:
     | entity                                | expectedCount | | user       | role             | realm       | tenant | edorg        | appId                                |
     | attendance                            | 22      | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-    # should be uncommented when endpoint is available
-    #| calendarDate                         | dbCount | | jstevenson | IT Administrator | IL-Daybreak | Midgar| South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-    | course                                | 30      | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-    | courseOffering                        | 29      | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-    | courseTranscript                      | 25      | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-    # discipline{Incident,Action} should be excluded from the extract due to no records match
+    #  courseTranscript should be excluded from the extract due to no records match
+    #| courseTranscript                      | dbCount | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
+    # disciplineIncident should be excluded from the extract due to no records match
     #| disciplineIncident                    | dbCount | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
+    # disciplineAction should be excluded from the extract due to no records match
     #| disciplineAction                      | dbCount | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-    | gradingPeriod                         | 12      | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
     # graduationPlan should be excluded from the extract due to no records match
     #| graduationPlan                        | dbCount | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-    | parent                                | 2       | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-    | session                               | 10      | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
+    | parent                                | 9       | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
     | staffEducationOrganizationAssociation | 4       | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
     | staffCohortAssociation                | 2       | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
     # staffProgramAssociation should be excluded from the extract due to no records match
     #| staffProgramAssociation               | dbCount | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-    | studentCompetency                     | 32      | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
+    | studentCompetency                     |  32     | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
     | studentGradebookEntry                 | 100     | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-    | studentSchoolAssociation              | 50      | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
+    | studentSchoolAssociation              | 55      | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
     | teacherSchoolAssociation              | 1       | | jstevenson | IT Administrator | IL-Daybreak | Midgar | South Daybreak Elementary  | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |

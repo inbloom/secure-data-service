@@ -37,7 +37,8 @@ Feature: Security events are logged when bulk extract is run
     And I trigger a bulk extract
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName              | count |
-      | securityEvent               | 69   |
+      | securityEvent               | 51    |
+
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
       | securityEvent   | 1                   | body.logMessage         | Beginning bulk extract execution                                             | string          |
@@ -46,23 +47,18 @@ Feature: Security events are logged when bulk extract is run
       | securityEvent   | 1                   | body.logMessage         | Completed SEA public data extract                                            | string          |
       | securityEvent   | 3                   | body.logMessage         | Generating archive for app 22c2a28d-7327-4444-8ff9-caad4b1c7aa3              | string          |
       | securityEvent   | 3                   | body.logMessage         | Generating archive for app 19cca28d-7357-4044-8df9-caad4b1c8ee4              | string          |
-      | securityEvent   | 3                   | body.logMessage         | Extracting educationOrganization                                             | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting educationOrganization                                             | string          |
       | securityEvent   | 1                   | body.logMessage         | Extracting course                                                            | string          |
       | securityEvent   | 1                   | body.logMessage         | Extracting courseOffering                                                    | string          |
       | securityEvent   | 1                   | body.logMessage         | Extracting session                                                           | string          |
       | securityEvent   | 1                   | body.logMessage         | Extracting graduationPlan                                                    | string          |
       | securityEvent   | 1                   | body.logMessage         | Extracting calendarDate                                                      | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting gradingPeriod                                                     | string          |
       #LEA Extract
       | securityEvent   | 1                   | body.logMessage         | Finished LEA level bulk extract                                              | string          |
       | securityEvent   | 1                   | body.logMessage         | Beginning LEA level bulk extract                                             | string          |
-      | securityEvent   | 2                   | body.logMessage         | Extracting educationOrganization for LEA extract                             | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting attendance for LEA extract                                        | string          |
-      | securityEvent   | 2                   | body.logMessage         | Extracting cohort for LEA extract                                            | string          |
-      | securityEvent   | 2                   | body.logMessage         | Extracting courseOffering for LEA extract                                    | string          |
-      | securityEvent   | 2                   | body.logMessage         | Extracting gradingPeriod for LEA extract                                     | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting parent for LEA extract                                            | string          |
-      | securityEvent   | 2                   | body.logMessage         | Extracting section for LEA extract                                           | string          |
-      | securityEvent   | 2                   | body.logMessage         | Extracting session for LEA extract                                           | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting staff for LEA extract                                             | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting staffCohortAssociation for LEA extract                            | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting staffEducationOrganizationAssociation for LEA extract             | string          |
@@ -75,9 +71,9 @@ Feature: Security events are logged when bulk extract is run
 
 
   Scenario: Trigger a delta extract and check security events
-    Given I post "new_edorg_in_daybreak.zip" file as the payload of the ingestion job
+    Given I post "ExtendStaffEdorgAssociation.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
-    And a batch job for file "new_edorg_in_daybreak.zip" is completed in database
+    And a batch job for file "ExtendStaffEdorgAssociation.zip" is completed in database
     Then I should not see an error log file created
     And I should not see a warning log file created
 

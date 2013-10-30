@@ -33,8 +33,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,8 +60,6 @@ import org.slc.sli.domain.Repository;
  */
 @Component
 public class PostProcessFilter implements ContainerResponseFilter {
-
-    private static final Logger LOG = LoggerFactory.getLogger(PostProcessFilter.class);
 
     private static final int LONG_REQUEST = 1000;
 
@@ -168,10 +164,10 @@ public class PostProcessFilter implements ContainerResponseFilter {
         long startTime = (Long) request.getProperties().get("startTime");
         long elapsed = System.currentTimeMillis() - startTime;
 
-        LOG.info("{} finished in {} ms", request.getRequestUri().toString(), elapsed);
+        info("{} finished in {} ms", request.getRequestUri().toString(), elapsed);
 
         if (elapsed > LONG_REQUEST) {
-            LOG.warn("Long request: {} elapsed {}ms > {}ms", new Object[] {request.getRequestUri().toString(), elapsed, LONG_REQUEST});
+            warn("Long request: {} elapsed {}ms > {}ms", request.getRequestUri().toString(), elapsed, LONG_REQUEST);
         }
     }
 

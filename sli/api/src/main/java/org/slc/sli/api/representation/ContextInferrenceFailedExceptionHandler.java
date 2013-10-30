@@ -28,8 +28,6 @@ import javax.ws.rs.ext.Provider;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.slc.sli.api.security.pdp.ContextInferrenceFailedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -42,14 +40,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ContextInferrenceFailedExceptionHandler implements ExceptionMapper<ContextInferrenceFailedException> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ContextInferrenceFailedExceptionHandler.class);
-
     @Context
     private HttpHeaders headers;
     
     @Override
     public Response toResponse(ContextInferrenceFailedException exception) {
-        LOG.warn("Failed Context Inferrence");
+        warn("Failed Context Inferrence");
         Object entity = Collections.EMPTY_LIST;
         if (headers.getAcceptableMediaTypes().contains(MediaType.APPLICATION_XML_TYPE)) {
             entity = new EmptyResponse();

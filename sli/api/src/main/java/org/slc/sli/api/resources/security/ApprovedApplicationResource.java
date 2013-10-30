@@ -31,8 +31,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -62,10 +60,7 @@ import org.slc.sli.domain.enums.Right;
 @Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class ApprovedApplicationResource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ApprovedApplicationResource.class);
-
     public static final String RESOURCE_NAME = "application";
-    public static final String DELEGATED_ADMIN_PLACEHOLDER = "DELEGATED_ADMIN";
 
     private static final String[] ALLOWED_ATTRIBUTES = new String[] {
         "application_url", "administration_url", "image_url", "description",
@@ -78,9 +73,6 @@ public class ApprovedApplicationResource {
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
-
-    @Autowired
-    private DelegationUtil delegationUtil;
 
     @GET
     @RightsAllowed(any = true)
@@ -149,7 +141,7 @@ public class ApprovedApplicationResource {
 
         //This is a fake role we use mean that a user is either an LEA admin or an SEA admin with delegated rights
         if (hasAppAuthorizationRight()) {
-            rights.add(DELEGATED_ADMIN_PLACEHOLDER);
+            rights.add("DELEGATED_ADMIN");
         }
 
         return rights;
@@ -159,9 +151,6 @@ public class ApprovedApplicationResource {
         if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
             //edorg authz users always have the right to authorize apps
             return true;
-        } else if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
-            //We need to figure out if any districts have delegated to us
-            return delegationUtil.getAppApprovalDelegateEdOrgs().size() > 0;
         }
         return false;
     }
@@ -182,7 +171,7 @@ public class ApprovedApplicationResource {
             List<String> intersection = new ArrayList<String>(reqRights);
             intersection.retainAll(userRights);
             if (userRights.size() == 0 || intersection.size() == 0) {
-                LOG.debug("Removing endpoint because users rights {} did not match required rights {}.", userRights, reqRights);
+                debug("Removing endpoint because users rights {} did not match required rights {}.", userRights, reqRights);
                 i.remove();
             }
         }

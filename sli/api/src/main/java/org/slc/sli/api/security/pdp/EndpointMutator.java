@@ -27,8 +27,6 @@ import com.sun.jersey.core.header.InBoundHeaders;
 import com.sun.jersey.spi.container.ContainerRequest;
 
 import org.slc.sli.api.constants.ResourceNames;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -42,8 +40,6 @@ import org.slc.sli.api.security.SLIPrincipal;
  */
 @Component
 public class EndpointMutator {
-
-    private static final Logger LOG = LoggerFactory.getLogger(EndpointMutator.class);
 
     private static final String POST = "POST";
     private static final String REQUESTED_PATH = "requestedPath";
@@ -101,13 +97,13 @@ public class EndpointMutator {
 
                 if (mutated.getPath() != null) {
                     if (mutated.getQueryParameters() != null && !mutated.getQueryParameters().isEmpty()) {
-                        LOG.info("URI Rewrite: {}?{} --> {}?{}", new Object[] { request.getPath(), parameters, mutated.getPath(),
+                        info("URI Rewrite: {}?{} --> {}?{}", new Object[] { request.getPath(), parameters, mutated.getPath(),
                                 mutated.getQueryParameters() });
                         request.setUris(request.getBaseUri(),
                                 request.getBaseUriBuilder().path(version).path(mutated.getPath())
                                     .replaceQuery(mutated.getQueryParameters()).build());
                     } else {
-                        LOG.info("URI Rewrite: {} --> {}", new Object[] { request.getPath(), mutated.getPath() });
+                        info("URI Rewrite: {} --> {}", new Object[] { request.getPath(), mutated.getPath() });
                         request.setUris(request.getBaseUri(),
                                 request.getBaseUriBuilder().path(version).path(mutated.getPath()).build());
                     }

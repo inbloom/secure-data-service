@@ -23,7 +23,6 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SecurityEventBuilder;
-import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
@@ -81,9 +80,6 @@ public class AdminDelegationResource {
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
 
-    @Autowired
-    private AuditLogger auditLogger;
-
     public static final String RESOURCE_NAME = "adminDelegation";
     public static final String LEA_ID = "localEdOrgId";
 
@@ -114,7 +110,6 @@ public class AdminDelegationResource {
             List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
             NeutralQuery query = new NeutralQuery();
             Set<String> delegatedEdorgs = new HashSet<String>();
-            delegatedEdorgs.addAll(util.getAppApprovalDelegateEdOrgs());
             delegatedEdorgs.addAll(util.getSecurityEventDelegateEdOrgs());
             query.addCriteria(new NeutralCriteria(LEA_ID, NeutralCriteria.CRITERIA_IN, delegatedEdorgs));
             for (Entity entity : repo.findAll(RESOURCE_NAME, query)) {
@@ -156,30 +151,20 @@ public class AdminDelegationResource {
         }
 
         EntityBody del =  getDelegationRecordForPrincipal();
-        Boolean appApprovalEnabled = (Boolean) body.get("appApprovalEnabled");
-        if(appApprovalEnabled == null) {
-        	appApprovalEnabled = false;
-        }
+        
         if (del == null) {
 
             if (service.create(body).isEmpty()) {
                 return Response.status(Status.BAD_REQUEST).build();
             } else {
-                log(appApprovalEnabled, false, uriInfo);
                 return Response.status(Status.CREATED).build();
             }
 
         } else {
             String delgId = (String)del.get("id");
-            Boolean oldAppApprovalEnabled = (Boolean)del.get("appApprovalEnabled");
-            if(oldAppApprovalEnabled == null) {
-            	oldAppApprovalEnabled = false;
-            }
             if (!service.update(delgId, body)) {
                 return Response.status(Status.BAD_REQUEST).build();
             }
-
-            log(appApprovalEnabled, oldAppApprovalEnabled, uriInfo);
         }
 
         return Response.status(Status.NO_CONTENT).build();
@@ -188,10 +173,10 @@ public class AdminDelegationResource {
     void log(boolean appApprovalEnabled, boolean oldAppApprovalEnabled, @Context final UriInfo uriInfo){
     	 if (appApprovalEnabled && !oldAppApprovalEnabled) {
              SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA's delegation is enabled!", true);
-             auditLogger.audit(event);
+             audit(event);
          }	 else if (!appApprovalEnabled  && oldAppApprovalEnabled ) {
              SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA's delegation is disabled!", true);
-             auditLogger.audit(event);
+             audit(event);
          }
     }
 
