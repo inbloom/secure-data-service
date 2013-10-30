@@ -255,10 +255,8 @@ Then /^the app "([^"]*)" Status matches "([^"]*)"$/ do |app, regex|
   assertWithWait("Status text '" + text + "' should match regex '#{regex}'"){  text.match(regex)} 
 end
 
-Then /^the "([^"]*)" application status is colored "([^"]*)"$/ do |app, arg1|
-  statusIndex = 4
-  @appRow = getApp(app)
-  status = @appRow.find_element(:xpath, ".//td[#{statusIndex}]")
+Then /^it is colored "([^"]*)"$/ do |arg1|
+  status = @row.find_element(:xpath, ".//td[4]")
   if arg1 == "green"
     assert(status.attribute(:id) == "approvedStatus", "Should be colored green, instead ID is #{status.attribute(:id)}")
   elsif arg1 == "red"
