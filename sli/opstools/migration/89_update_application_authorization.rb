@@ -19,6 +19,48 @@ require 'mongo'
 DEBUG = true
 APPAUTH_COLLECTION = "applicationAuthorization"
 
+def create_index(dbName)
+    puts "Updating index on " + APPAUTH_COLLECTION
+
+    #Check if there is an existing applicationId index, if so drop it first, then recreate the index
+    index_lists = @conn[dbName][APPAUTH_COLLECTION].index_information
+
+    puts "------------------------Existing Indexes----------------------------" if DEBUG == true
+	  puts index_lists.map{|key, value| "#{key}: #{value}" } if DEBUG == true
+
+    key, value, contains = has_index(index_lists, "body.edorgs.authorizedEdorg")
+
+	if  contains
+		puts "There is an existing index body.edorgs.authorizedEdorg named " + key
+	    puts "Dropping index ..." + "body.edorgs.authorizedEdorg"
+        @conn[dbName][APPAUTH_COLLECTION].drop_index(key)
+        value.delete("name")
+        puts "Creating index body.edorgs.authorizedEdorg_1"
+        @conn[dbName][APPAUTH_COLLECTION].create_index("body.edorgs.authorizedEdorg",value)
+    else
+        puts "Creating index body.edorgs.authorizedEdorg"
+        @conn[dbName][APPAUTH_COLLECTION].create_index("body.edorgs.authorizedEdorg",:unique => false,:sparse => false)
+    end
+    puts "Finishing creating index on db " + dbName
+end
+
+#Check if there is an existing index for "body.edorgs.authorizedEdorg", return true if there exists
+def has_index(index_lists, index)
+  contains = false
+  index_lists.each do |key, value|
+    if has_index_helper(value, index)
+      contains = true
+      return key, value, contains
+    end
+  end
+  return nil, nil, contains
+end
+
+#A helper method of method has_index() to check if an index has key "body.edorgs.authorizedEdorg", return true if there exists
+def has_index_helper(index_map, index)
+  return  index_map["key"].has_key?(index)
+end
+
 #Update applicationAuthorizations with new schema
 #US5860
 def update_applicationAuthorization(dbName)
@@ -121,6 +163,7 @@ def main(argv)
     dbname = tenant2db[tenant]
     puts "Updating applicationAuthorization collection for tenant: " + tenant + ", database " + dbname
     update_applicationAuthorization(dbname)
+    create_index(dbname)
     puts "\n"
   end
 
