@@ -354,6 +354,12 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | id                                          | condition           |
       | 5f8989384287747b1960d16edd95ff2bb318e3bd_id | entityType = parent |
       | 7f5b783a051b72820eab5f8188c45ade72869f0f_id | entityType = parent |
+    And I verify this "staff" file should contain:
+      | id                                          | condition          |
+      | b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = staff |
+    And I verify this "teacher" file should contain:
+      | id                                          | condition            |
+      | b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = teacher |
   #This extract should contain content for anything that began on or before DCH's end date with the student
   #Even data from SCH that began on the student's final day with DCH should be included
     And I verify this "studentAssessment" file should contain:
@@ -437,12 +443,6 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | c761c5f2fcc53bb90940e3cd26501a75d0106acc_id | entityType = studentCompetency |
       | 20119d985f13ca5b223a8521972bf3fcac7a8dad_id | entityType = studentCompetency |
       | fd7c6a6862dc7b4257234f477d601300ef4c3fc1_id | entityType = studentCompetency |
-    And I verify this "staff" file should contain:
-      | id                                          | condition          |
-      | b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = staff |
-    And I verify this "teacher" file should contain:
-      | id                                          | condition            |
-      | b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = teacher |
     And I verify this "staffProgramAssociation" file should contain:
       | id                                          | condition                            |
       | f5944c9d8f7a4522d968ae67253dcbd37c54e809_id | entityType = staffProgramAssociation |
