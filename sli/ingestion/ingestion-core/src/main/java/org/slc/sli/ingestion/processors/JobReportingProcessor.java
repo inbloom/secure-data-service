@@ -531,7 +531,8 @@ public class JobReportingProcessor implements Processor {
         event.setUserEdOrg(edOrg);
         //@TA10431
         //event.setTargetEdOrg(edOrg);
-        event.setTargetEdOrgList(Arrays.asList(edOrg));
+        //event.setTargetEdOrgList(Arrays.asList(edOrg));
+        event.addTargetEdOrg(edOrg); //@TA10431
         event.setActionUri("writeLine");
         event.setAppId("Ingestion");
         event.setOrigin("");

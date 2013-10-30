@@ -264,9 +264,10 @@ public class ApplicationAuthorizationResource {
                     path, "Application granted access to EdOrg data!", true);
             event.setAppId(appId);
             Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(granted);
-            event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
+            //event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
             //@TA10431
             //event.setTargetEdOrg("");
+            event.addAllTargetEdOrg(targetEdOrgList); //@TA10431
             audit(event);
         }
 
@@ -276,9 +277,10 @@ public class ApplicationAuthorizationResource {
                     path, "EdOrg data access has been revoked!", true);
             event.setAppId(appId);
             Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(revoked);
-            event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
+            //event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
             //@TA10431
             //event.setTargetEdOrg("");
+            event.addAllTargetEdOrg(targetEdOrgList); //@TA10431
             audit(event);
         }
 

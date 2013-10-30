@@ -89,6 +89,7 @@ public class UserResource {
         securityEvent.setTenantId(tenantId);
         //@TA10431
         //securityEvent.setTargetEdOrg(edorg);
+        securityEvent.addTargetEdOrg(edorg);	//@TA10431
         return securityEvent;
     }
 

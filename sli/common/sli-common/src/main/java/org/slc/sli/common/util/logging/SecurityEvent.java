@@ -17,7 +17,9 @@
 
 package org.slc.sli.common.util.logging;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -85,13 +87,13 @@ public class SecurityEvent {
         this.user = user;
     }
 
-    /**public String getTargetEdOrg() {
-        return targetEdOrg;
-    }
+    /**public String getTargetEdOrg() {					//@TA10431
+        return targetEdOrg;								//@TA10431
+    }													//@TA10431
 
-    public void setTargetEdOrg(String targetEdOrg) {
-        this.targetEdOrg = targetEdOrg;
-    }**/
+    public void setTargetEdOrg(String targetEdOrg) {	//@TA10431
+        this.targetEdOrg = targetEdOrg;					//@TA10431
+    }**/												//@TA10431
 
     public String getActionUri() {
         return actionUri;
@@ -200,7 +202,42 @@ public class SecurityEvent {
     public List<String> getTargetEdOrgList() {
         return targetEdOrgList;
     }
+    
+    /**
+     * Add the given educational organization string to the list of target
+     * ed organizations for this security event.  Null or empty String has
+     * no effect.
+     * @param edOrg String representing the target educational organization
+     */
+    public void addTargetEdOrg(String edOrg) //@TA10431
+    {
+    	if ((edOrg != null) && !edOrg.equals(""))
+    	{
+    		if (targetEdOrgList == null) { targetEdOrgList = new ArrayList<String>(); }
+    		targetEdOrgList.add(edOrg);
+    	}
+    }
+    
+    /**
+     * Add all the given educational organization strings to the list of target
+     * ed organizations for this security event.  Null or empty list has no effect.
+     * @param edOrg Collection of String representing the target educational organizations
+     */
+    public void addAllTargetEdOrg(Collection<String> edOrgs) //@TA10431
+    {
+    	if ((edOrgs != null) && (edOrgs.size() > 0))
+    	{
+    		if (targetEdOrgList == null) { targetEdOrgList = new ArrayList<String>(); }
+    		targetEdOrgList.addAll(edOrgs);
+    	}
+    }
 
+    /**
+     * Sets the targetEdOrgList to the given list; any existing list is lost.  If
+     * adding a list to the existing list is needed, see addTargetEdOrg. 
+     * @param targetEdOrgList
+     * @see SecurityEvent#addTargetEdOrg(Collection<String> edOrgs)
+     */
     public void setTargetEdOrgList(List<String> targetEdOrgList) {
         if (targetEdOrgList != null && !targetEdOrgList.isEmpty()) {
             this.targetEdOrgList = targetEdOrgList;

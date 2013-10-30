@@ -389,7 +389,10 @@ def restHttpDelete(id, format = @format, sessionId = @sessionId)
   assert(sessionId != nil, "Session ID passed into DELETE was nil")
 
   urlHeader = makeUrlAndHeaders('delete',id,sessionId,format)
-  @res = RestClient.delete(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
+  #@res = RestClient.delete(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
+
+  @res = RestClient::Request.execute(:method => :delete, :url => urlHeader[:url], :headers => urlHeader[:headers],
+    :timeout => 500){|response, request, result| response }
 
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end

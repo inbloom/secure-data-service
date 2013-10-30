@@ -180,6 +180,7 @@ public class EdOrgExtractHelper implements InitializingBean {
             SecurityEvent event = securityEventUtil.createSecurityEvent(className, entityName + " data extract initiated for LEA", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0011, entityName);
             // @TA10431
             //event.setTargetEdOrg(lea);
+            event.addTargetEdOrg(lea); //@TA10431
             audit(event);
         }
 
