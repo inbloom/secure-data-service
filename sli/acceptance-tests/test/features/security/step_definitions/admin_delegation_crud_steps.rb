@@ -134,15 +134,14 @@ When /^I navigate to GET applicationAuthorization with "([^"]*)"$/ do |app_id|
   restHttpGet("/applicationAuthorization/#{app_id}")
   assert(@res != nil, "Response from application authorization request is nil")
   @result = JSON.parse(@res.body)
-  puts @result
+  #puts @result
 end
 
-And /^There is a correct entry in applicationAuthorization edorg array for "([^"]*)" for the application "([^"]*)"$/ do |edorg, app_id|
+And /^There is a correct entry in applicationAuthorization edorg array for (district "[^"]*") for the application "([^"]*)"$/ do |edorg, app_id|
   edorgs = @result["edorgs"]
-
   found = false
   edorgs.each do |edorg_entry|
-    if edorg_entry["authorizedEdorg"]== [edorg]
+    if edorg_entry["authorizedEdorg"]== edorg
       found = true
       @edorg_hash = edorg_entry
       break
@@ -152,10 +151,17 @@ And /^There is a correct entry in applicationAuthorization edorg array for "([^"
   assert(@edorg_hash.size==4, "The entry in applicationAuthorization edorg array for #{edorg} was incorrect");
 end
 
-And /^The "([^"]*)" should be "([^"]*)"$/ do |field, value|
-  @edorg_hash[field].should_not == nil
-  @edorg_hash[field].should == value
-  @edorg_hash.delete(field)
+And /^The value of "([^"]*)" should be "([^"]*)"$/ do |field, value|
+  if value == "nil"
+    value_t = nil
+  else
+    value_t = value
+  end
+  assert(@edorg_hash.has_key?(field), "Does not have expected field #{field}")
+  if @edorg_hash.has_key?(field)
+    assert(@edorg_hash[field] == value_t, "Expected field #{field} to be #{value_t} was #{@edorg_hash[field].to_s}")
+    @edorg_hash.delete(field)
+  end
 end
 
 
