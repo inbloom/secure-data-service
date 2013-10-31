@@ -93,6 +93,10 @@ public class PathExtractVerifierTest {
 
         Assert.assertTrue(pathExtractVerifier.shouldExtract(studentDisciplineIncidentAssociation, DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat())));
         Assert.assertFalse(pathExtractVerifier.shouldExtract(studentDisciplineIncidentAssociation, DateTime.parse("2009-05-23", DateHelper.getDateTimeFormat())));
+
+        Mockito.doReturn(null).when(pathExtractVerifier).getPathEntity(studentDisciplineIncidentAssociation);
+
+        Assert.assertFalse(pathExtractVerifier.shouldExtract(studentDisciplineIncidentAssociation, DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat())));
     }
 
 }
