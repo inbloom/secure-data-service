@@ -760,7 +760,6 @@ Background:
         And I see an application "Royal Oak" in the table
         And in Status it says "Not Approved"
 
-    @wip
     Scenario: Verify last authorized information - SEA admin authorizes SEA only
 
         When I hit the Admin Application Authorization Tool
@@ -776,7 +775,6 @@ Background:
             | edOrg                             | user    | realm edOrg                          |
             | Illinois State Board of Education | iladmin | fakeab32-b493-999b-a6f3-sliedorg1234 |
 
-    @wip
     Scenario: Verify last authorized information - LEA admin authorizes LEA only (dependant on above scenario)
 
         When I hit the Admin Application Authorization Tool
@@ -793,7 +791,6 @@ Background:
             | Illinois State Board of Education | iladmin       | fakeab32-b493-999b-a6f3-sliedorg1234 |
             | Daybreak School District 4529     | daybreakadmin | fakeab32-b493-999b-a6f3-sliedorg1234 |
 
-    @wip
     Scenario: Verify last authorized information - SEA admin de-authorizes LEA and adds school (depends on above)
 
         When I hit the Admin Application Authorization Tool
