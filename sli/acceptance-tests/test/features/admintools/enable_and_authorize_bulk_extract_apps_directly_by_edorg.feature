@@ -66,6 +66,7 @@ Background:
          And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
          And there are "200" educationalOrganizations in the targetEdOrgList
          And I see an application "Aboukir" in the table
          And in Status it says "200 EdOrg(s)"
@@ -77,6 +78,7 @@ Background:
          And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
          And there are "200" educationalOrganizations in the targetEdOrgList
          And I see an application "Aboukir" in the table
          And in Status it says "Not Approved"
@@ -95,6 +97,7 @@ Background:
          And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
          And there are "1" educationalOrganizations in the targetEdOrgList
          And I see an application "Aboukir" in the table
          And in Status it says "1 EdOrg(s)"
@@ -107,6 +110,7 @@ Background:
          And I check to find if record is in sli db collection:
              | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
              | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+             | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
          And there are "1" educationalOrganizations in the targetEdOrgList
          And I see an application "Aboukir" in the table
          And in Status it says "Not Approved"
@@ -127,6 +131,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "45" educationalOrganizations in the targetEdOrgList
           And I see an application "Aboukir" in the table
           And in Status it says "45 EdOrg(s)"
@@ -138,6 +143,7 @@ Background:
           And I check to find if record is in sli db collection:
               | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
               | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+              | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "45" educationalOrganizations in the targetEdOrgList
           And I see an application "Aboukir" in the table
           And in Status it says "Not Approved"
@@ -156,6 +162,7 @@ Background:
           And I check to find if record is in sli db collection:
              | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
              | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+             | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "1" educationalOrganizations in the targetEdOrgList
           And I see an application "Aboukir" in the table
           And in Status it says "1 EdOrg(s)"
@@ -168,6 +175,7 @@ Background:
           And I check to find if record is in sli db collection:
              | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
              | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+             | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "1" educationalOrganizations in the targetEdOrgList
           And I see an application "Aboukir" in the table
           And in Status it says "Not Approved"

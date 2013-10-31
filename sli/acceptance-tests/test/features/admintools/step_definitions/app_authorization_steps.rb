@@ -49,9 +49,13 @@ Then /^The following edOrgs are authorized for the application "(.*?)" in tenant
         
         edOrgsArray.push(stateOrganizationId)
         edOrgsArray.sort
-        record = coll.find_one({"$and" => [{'body.applicationId'=> applicationId}, {'body.edorgs' => stateOrganizationId}] })
+        #record = coll.find_one({"$and" => [{'body.applicationId'=> applicationId}, {'body.edorgs' => stateOrganizationId}] })
+        record = coll.find_one({'body.applicationId'=> applicationId})
         recordBody = record['body']
-        @recordEdorgs = recordBody['edorgs']
+        @recordEdorgs = []
+        recordBody['edorgs'].each do |edorg|
+          @recordEdorgs.push(edorg["authorizedEdorg"])
+        end
         #record = coll.find_one({"$and" => [{'body.applicationId'=> application}, {'body.edorgs' => row["edorgs"]}] })
         if record != nil
             assert(@results == "true", "applicationAuthorization record is found!")
@@ -493,9 +497,51 @@ Then /^the following edOrgs not enabled by the developer are non-selectable for 
   end
 end
 
+
+Then /^only below is present in the application authorization edOrgs array for the application "(.*?)" in tenant "(.*?)"$/ do |application, tenant, table|
+
+  expected_array = Array.new
+  #create expected results array
+  table.hashes.map do |row|
+    new_hash = Hash.new
+    db = @conn[convertTenantIdToDbName(tenant)]
+    coll = db.collection("educationOrganization")
+    record = coll.find_one("body.nameOfInstitution" => row["edOrg"].to_s)
+    new_hash["authorizedEdorg"] = record["_id"]
+    new_hash["lastAuthorizingRealmEdorg"] = row["realm edOrg"]
+    new_hash["lastAuthorizingUser"] = row["user"]
+    expected_array.insert(-1, new_hash)
+  end
+  #expected_array.sort
+  expected = expected_array.to_set
+
+  #get actual results array, remove timestamp fields rom comparison
+  disable_NOTABLESCAN()
+  db = @conn.db("sli")
+  coll = db.collection("application")
+  record = coll.find_one("body.name" => application)
+  appId = record["_id"]
+  db = @conn[convertTenantIdToDbName(tenant)]
+  coll = db.collection("applicationAuthorization")
+  record = coll.find_one("body.applicationId" => appId.to_s)
+  enable_NOTABLESCAN()
+  body = record["body"]
+  actual_array = body["edorgs"]
+  actual_array.each do |entry|
+    entry.delete("lastAuthorizedDate")
+  end
+  #actual_array.sort
+  actual = actual_array.to_set
+
+  #compare
+  assert(actual == expected, "edOrgs array mismatch in applicationAuthorization collection. Expected #{expected_array.to_s}, actual #{actual_array.to_s}")
+
+end
+
 Then /^I click Cancel on the application authorization page$/ do
    #first cancel button
    @driver.find_element(:xpath, '//*[@id="edorgTree"]/button[1]').click
    #second cancel button
    #@driver.find_element(:xpath, '//*[@id="edorgTree"]/button[2]/button').click
+
 end

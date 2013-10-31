@@ -14,7 +14,7 @@
 # approved 10/30 by Tony/Billy
 adminDelegation,false,false,body.localEdOrgId:1,body.appApprovalEnabled:1
 applicationAuthorization,true,false,body.applicationId:1
-applicationAuthorization,false,false,body.edorgs:1
+applicationAuthorization,false,false,body.edorgs.authorizedEdorg:1
 customRole,false,false,body.realmId:1
 customRole,false,false,metaData.tenantId:1,body.realmId:1
 custom_entities,false,false,metaData.entityId:1,metaData.clientId:1

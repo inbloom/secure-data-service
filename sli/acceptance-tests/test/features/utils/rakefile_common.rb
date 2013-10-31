@@ -76,9 +76,10 @@ def allLeaAllowAppForTenant(appName, tenantName)
 
   neededEdOrgs = [] 
   edOrgColl.find().each do |edorg|
-    neededEdOrgs.push(edorg["_id"])
+    edorg_entry = {}
+    edorg_entry["authorizedEdorg"]= edorg["_id"]
+    neededEdOrgs.push(edorg_entry)
   end
-  
   appAuthColl.remove("body.applicationId" => appId)
   newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"applicationId" => appId, "edorgs" => neededEdOrgs}, "metaData" => {"tenantId" => tenantName}}
   appAuthColl.insert(newAppAuth)
@@ -108,7 +109,11 @@ def authorizeEdorgForTenant(appName, tenantName)
   appAuthColl = dbTenant.collection("applicationAuthorization")
   
   puts("The app #{appName} id is #{appId}")
-  neededEdOrgs = appAuthColl.find_one({"body.applicationId" => appId})["body"]["edorgs"]
+  neededEdOrgsArray = appAuthColl.find_one({"body.applicationId" => appId})["body"]["edorgs"]
+  neededEdOrgs = []
+  neededEdOrgsArray.each do |edorg_entry|
+    neededEdOrgs.push(edorg_entry["authorizedEdorg"])
+  end
   neededEdOrgs.each do |edorg|
     appColl.update({"_id" => appId}, {"$push" => {"body.authorized_ed_orgs" => edorg}})
   end
