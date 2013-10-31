@@ -8,6 +8,7 @@ As an SEA, I want to be able to allow specific applications access to my data
 	
 	Given I have an open web browser
 	When I hit the Admin Application Authorization Tool
+	And I select "inBloom" from the dropdown and click go
 	And I was redirected to the "Simple" IDP Login page
 	When I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
 	Then I am redirected to the Admin Application Authorization Tool
@@ -22,6 +23,7 @@ Scenario: Non SLI-hosted valid user tries to access the Application Authorizatio
 	Given I have an open web browser
 	And the sli securityEvent collection is empty
 	When I hit the Admin Application Authorization Tool
+	 And I select "inBloom" from the dropdown and click go
      And I submit the credentials "administrator" "administrator1234" for the "Simple" login page
      Then the api should generate a 403 error
       And I should see a count of "2" in the security event collection
@@ -37,6 +39,7 @@ Scenario: SEA Admin Approves bulk extract application
 	
    Given I have an open web browser
     When I hit the Admin Application Authorization Tool
+     And I select "inBloom" from the dropdown and click go
      And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
      And I see an application "SDK Sample" in the table
      # denying app to clean out incorrect fixture data
@@ -82,6 +85,7 @@ Scenario: SEA Admin Denies bulk extract application (dependant on above scenario
      Given I have an open web browser
       And the sli securityEvent collection is empty
      When I hit the Admin Application Authorization Tool
+      And I select "inBloom" from the dropdown and click go
       And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
       And I see an application "SDK Sample" in the table
       # TODO: enable these if we can determine what status should be true
@@ -113,6 +117,7 @@ Scenario: SEA Admin Approves non-bulk extract application
 
 	Given I have an open web browser
     When I hit the Admin Application Authorization Tool
+     And I select "inBloom" from the dropdown and click go
      And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
      And I see an application "Testing App" in the table
      And in Status it says "Not Approved"
@@ -138,6 +143,7 @@ Scenario: SEA Admin Denies non-bulk extract application (dependant on above scen
      Given I have an open web browser
       And the sli securityEvent collection is empty
      When I hit the Admin Application Authorization Tool
+      And I select "inBloom" from the dropdown and click go
       And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
       And I see an application "Testing App" in the table
       And the app "Testing App" Status matches "\d+ EdOrg"

@@ -8,6 +8,7 @@ Scenario: As a Admin I can define a High Level Ed-Org and Provision my Landing Z
 Given there is a production account in ldap for vendor "Macro Corp"
 And I have an open web browser
 When I go to the provisioning application
+And I select "inBloom" from the dropdown and click go
 And I submit the credentials "<USER_ID>" "<USER_PASS>" for the "Simple" login page
 #Then I can only enter a custom high-level ed-org
 #When I set the custom high-level ed-org to "Test Ed Org"
@@ -19,6 +20,7 @@ Scenario: As a developer I can define a High Level Ed-Org and Provision my Landi
 Given there is a sandbox account in ldap for vendor "Macro Corp"
 And I have an open web browser
 When I go to the provisioning application
+And I select "inBloom" from the dropdown and click go
 And I submit the credentials "<USER_ID>" "<USER_PASS>" for the "Simple" login page
 Then I can select between the the high level ed-org of the sample data sets or enter a custom high-level ed-org
 #When I select the first sample data set
@@ -31,6 +33,7 @@ Scenario: As a Admin I cannot provision my landing zone twice
 Given there is a production account in ldap for vendor "Macro Corp"
 And I have an open web browser
 When I go to the provisioning application
+And I select "inBloom" from the dropdown and click go
 And I submit the credentials "<USER_ID>" "<USER_PASS>" for the "Simple" login page
 And I click the Provision button
 Then I get the success message

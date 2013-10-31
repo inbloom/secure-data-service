@@ -9,6 +9,7 @@ As an SEA/LEA  Admin, I would like to have the Complex Role Mapping admin tool, 
 Background:
 Given I have an open web browser
 When I navigate to the Custom Role Mapping Page
+And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
 
 @production

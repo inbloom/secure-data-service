@@ -322,6 +322,7 @@ end
 Given /^I am an authenticated District Super Administrator for "([^"]*)"$/ do |arg1|
   step "I have an open web browser"
   step "I hit the Admin Application Authorization Tool"
+  step "I select \"inBloom\" from the dropdown and click go"
   step "I was redirected to the \"Simple\" IDP Login page"
   step "I submit the credentials \"sunsetadmin\" \"sunsetadmin1234\" for the \"Simple\" login page"
   step "I am redirected to the Admin Application Authorization Tool"
