@@ -20,6 +20,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +47,9 @@ public class EdOrgHierarchyHelper {
      * The repo must be passed in from the beans managed by spring. This is
      * a POJO
      */
-   
+
+    static final String SEA_CATEGORIES = "State Education Agency";
+
     private Repository<Entity> repo;
     
     public EdOrgHierarchyHelper(Repository<Entity> repo) {
@@ -58,7 +63,7 @@ public class EdOrgHierarchyHelper {
      * @return boolean
      */
     public boolean isSEA(Entity entity) {
-        return isType("State Education Agency", entity);
+        return isType(SEA_CATEGORIES, entity);
     }
     
     /**
@@ -223,5 +228,17 @@ public class EdOrgHierarchyHelper {
         }
         LOG.warn("EdOrg {} is missing parent SEA", entity.getEntityId());
         return null;
+    }
+
+    /**
+     * Get the only SEA from the tenant.
+     *
+     * @return SEA entity
+     */
+    public Entity getSEA() {
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria(ParameterConstants.ORGANIZATION_CATEGORIES, NeutralCriteria.OPERATOR_EQUAL, SEA_CATEGORIES));
+
+        return repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query);
     }
 }

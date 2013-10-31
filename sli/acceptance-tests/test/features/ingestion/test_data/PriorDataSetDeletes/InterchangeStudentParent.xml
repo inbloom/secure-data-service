@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                          xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
+
+        <StudentParentAssociation>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>900000016</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <ParentReference>
+                <ParentIdentity>
+                    <ParentUniqueStateId>900000016-dad</ParentUniqueStateId>
+                </ParentIdentity>
+            </ParentReference>
+            <Relation>Father</Relation>
+            <LivesWith>true</LivesWith>
+            <ContactPriority>1</ContactPriority>
+        </StudentParentAssociation>
+
+    <Parent>
+      <ParentUniqueStateId>900000016-dad</ParentUniqueStateId>
+      <Name>
+        <FirstName>Tommy</FirstName>
+        <MiddleName>Benny</MiddleName>
+        <LastSurname>Ortiz</LastSurname>
+      </Name>
+      <OtherName OtherNameType="Previous Legal Name">
+        <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+        <FirstName>Terrence</FirstName>
+        <MiddleName>Zane</MiddleName>
+        <LastSurname>Kelly</LastSurname>
+        <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+      </OtherName>
+      <Sex>Male</Sex>
+      <Address AddressType="Home">
+        <StreetNumberName>1313 Mockingbird Lane</StreetNumberName>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
+      </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+          <TelephoneNumber>(133)555-2191</TelephoneNumber>
+        </Telephone>
+      <ElectronicMail EmailAddressType="Home/Personal">
+        <EmailAddress>210@fakemail.com</EmailAddress>
+      </ElectronicMail>
+      <LoginId>210@fakemail.com</LoginId>
+    </Parent>
+  </Action>
+</InterchangeStudentParent>

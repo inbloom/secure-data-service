@@ -23,7 +23,7 @@ class AdminDelegation < SessionResource
   self.collection_name = "adminDelegation"
   schema do
     string "localEdOrgId"
-    boolean "appApprovalEnabled", "viewSecurityEventsEnabled"
+    boolean "viewSecurityEventsEnabled"
   end
 
 end

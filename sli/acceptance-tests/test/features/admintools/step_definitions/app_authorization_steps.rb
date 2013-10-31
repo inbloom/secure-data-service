@@ -49,9 +49,13 @@ Then /^The following edOrgs are authorized for the application "(.*?)" in tenant
         
         edOrgsArray.push(stateOrganizationId)
         edOrgsArray.sort
-        record = coll.find_one({"$and" => [{'body.applicationId'=> applicationId}, {'body.edorgs' => stateOrganizationId}] })
+        #record = coll.find_one({"$and" => [{'body.applicationId'=> applicationId}, {'body.edorgs' => stateOrganizationId}] })
+        record = coll.find_one({'body.applicationId'=> applicationId})
         recordBody = record['body']
-        @recordEdorgs = recordBody['edorgs']
+        @recordEdorgs = []
+        recordBody['edorgs'].each do |edorg|
+          @recordEdorgs.push(edorg["authorizedEdorg"])
+        end
         #record = coll.find_one({"$and" => [{'body.applicationId'=> application}, {'body.edorgs' => row["edorgs"]}] })
         if record != nil
             assert(@results == "true", "applicationAuthorization record is found!")
@@ -354,7 +358,15 @@ Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the applicationAu
 end
 
 When /^I click Update$/ do
-  @driver.find_element(:css, 'input:enabled[type="submit"]').click
+  @driver.find_element(:xpath, '//*[@id="edorgTree"]/input[2]').click
+end
+
+When /^I (authorize|de-authorize) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action,edOrgName,tenant|
+  if action == 'authorize'
+    step "I enable the educationalOrganization \"#{edOrgName}\" in tenant \"#{tenant}\""
+  else
+    step "I disable the educationalOrganization \"#{edOrgName}\" in tenant \"#{tenant}\""
+  end
 end
 
 Then /^I authorize the educationalOrganization "(.*?)"$/ do |edOrgName|
@@ -370,14 +382,14 @@ Then /^I authorize the educationalOrganization "(.*?)"$/ do |edOrgName|
 end
 
 Then /^the checkbox with HTML id "([^"]*?)" is (checked|unchecked)$/ do |id,status|
-  elt = @driver.find_element(:css, 'input#' + id + '[type="checkbox"]')
+  elt = @driver.find_element(:id, id)
   assert(elt, "Checkbox with id '" + id + "' not found")
   selected = elt.selected?
   assert(status == "checked" && selected || status == "unchecked" && !selected, "Expected checkbox id '" + id + "' to be " + status + ", but WebDriver.isSelected gives '" + selected.to_s() + "'")
 end
 
 When /^I (check|uncheck) the checkbox with HTML id "([^"]*?)"$/ do |action,id|
-  elt = @driver.find_element(:css, 'input#' + id + '[type="checkbox"]')
+  elt = @driver.find_element(:id, id)
   assert(elt, "Checkbox with id '" + id + "' not found")
   assert(action == "check" && !elt.selected? || action == "uncheck" && elt.selected?, "Cannot " + action + " checkbox with id '" + id + "' whose checked status is " + elt.selected?.to_s())
   elt.click()
@@ -478,13 +490,58 @@ Then /^the following edOrgs not enabled by the developer are non-selectable for 
     coll = db.collection("educationOrganization")
     record = coll.find_one("body.nameOfInstitution" => edorg_name.to_s)
     if record
-      STDOUT.puts "Checking #{edorg_name}"
-      STDOUT.flush
       edOrgId = record["_id"]
       actualCount = @driver.find_elements(:id, edOrgId.to_s).count()
       assert("0" == actualCount.to_s, "#{edorg_name} should not be selectable")
-      STDOUT.puts "#{edorg_name} is not selectable"
-      STDOUT.flush
     end
   end
+end
+
+
+Then /^only below is present in the application authorization edOrgs array for the application "(.*?)" in tenant "(.*?)"$/ do |application, tenant, table|
+
+  expected_array = Array.new
+  #create expected results array
+  table.hashes.map do |row|
+    new_hash = Hash.new
+    db = @conn[convertTenantIdToDbName(tenant)]
+    coll = db.collection("educationOrganization")
+    record = coll.find_one("body.nameOfInstitution" => row["edOrg"].to_s)
+    new_hash["authorizedEdorg"] = record["_id"]
+    new_hash["lastAuthorizingRealmEdorg"] = row["realm edOrg"]
+    new_hash["lastAuthorizingUser"] = row["user"]
+    expected_array.insert(-1, new_hash)
+  end
+  #expected_array.sort
+  expected = expected_array.to_set
+
+  #get actual results array, remove timestamp fields rom comparison
+  disable_NOTABLESCAN()
+  db = @conn.db("sli")
+  coll = db.collection("application")
+  record = coll.find_one("body.name" => application)
+  appId = record["_id"]
+  db = @conn[convertTenantIdToDbName(tenant)]
+  coll = db.collection("applicationAuthorization")
+  record = coll.find_one("body.applicationId" => appId.to_s)
+  enable_NOTABLESCAN()
+  body = record["body"]
+  actual_array = body["edorgs"]
+  actual_array.each do |entry|
+    entry.delete("lastAuthorizedDate")
+  end
+  #actual_array.sort
+  actual = actual_array.to_set
+
+  #compare
+  assert(actual == expected, "edOrgs array mismatch in applicationAuthorization collection. Expected #{expected_array.to_s}, actual #{actual_array.to_s}")
+
+end
+
+Then /^I click Cancel on the application authorization page$/ do
+   #first cancel button
+   @driver.find_element(:xpath, '//*[@id="edorgTree"]/button[1]').click
+   #second cancel button
+   #@driver.find_element(:xpath, '//*[@id="edorgTree"]/button[2]/button').click
+
 end

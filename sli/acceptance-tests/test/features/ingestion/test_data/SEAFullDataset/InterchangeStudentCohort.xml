@@ -18,40 +18,6 @@
 	  </ProgramIdentity>
 	</ProgramReference>
   </Cohort>
-  <Cohort>
-    <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
-	<CohortDescription>District-wide academic intervention cohort for Mathematics</CohortDescription>
-	<CohortType>Academic Intervention</CohortType>
-	<CohortScope>District</CohortScope>
-	<AcademicSubject>Mathematics</AcademicSubject>
-	<EducationOrgReference>
-	  <EducationalOrgIdentity>
-	    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-	  </EducationalOrgIdentity>
-	</EducationOrgReference>
-	<ProgramReference>
-	  <ProgramIdentity>
-	    <ProgramId>ACC-TEST-PROG-2</ProgramId>
-	  </ProgramIdentity>
-	</ProgramReference>
-  </Cohort>  
-  <Cohort>
-    <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
-  <CohortDescription>District-wide academic intervention cohort for Social Studies</CohortDescription>
-  <CohortType>Academic Intervention</CohortType>
-  <CohortScope>District</CohortScope>
-  <AcademicSubject>Social Studies</AcademicSubject>
-  <EducationOrgReference>
-    <EducationalOrgIdentity>
-      <StateOrganizationId>IL</StateOrganizationId>
-    </EducationalOrgIdentity>
-  </EducationOrgReference>
-  <ProgramReference>
-    <ProgramIdentity>
-      <ProgramId>ACC-TEST-PROG-1</ProgramId>
-    </ProgramIdentity>
-  </ProgramReference>
-  </Cohort>
   
   <StudentCohortAssociation>
     <StudentReference>
@@ -116,7 +82,7 @@
 	</StudentReference>
 	<CohortReference>
 	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
+	    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
             <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -134,7 +100,7 @@
 	</StudentReference>
 	<CohortReference>
 	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
+	    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
             <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -152,7 +118,7 @@
 	</StudentReference>
 	<CohortReference>
 	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
+	    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
             <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -192,7 +158,7 @@
   </StaffReference>
   <CohortReference>
     <CohortIdentity>
-      <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
+      <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
             <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -211,7 +177,7 @@
   </StaffReference>
   <CohortReference>
     <CohortIdentity>
-      <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
+      <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
             <StateOrganizationId>IL</StateOrganizationId>

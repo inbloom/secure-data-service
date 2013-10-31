@@ -17,14 +17,7 @@
 
 package org.slc.sli.api.resources.security;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.DELETE;
@@ -486,14 +479,14 @@ public class ApplicationResource extends UnversionedResource {
             debug("No application authorization exists. Creating one.");
             EntityBody body = new EntityBody();
             body.put("applicationId", uuid);
-            body.put("edorgs", edOrgIds);
+            body.put("edorgs", ApplicationAuthorizationResource.enrichAuthorizedEdOrgsList(edOrgIds));
             service.create(body);
         } else {
         	Iterable<EntityBody> auths = service.list(query);
         	for (EntityBody auth : auths) {
         		String authId = (String) auth.get("id");
         		auth.remove("edorgs");
-        		auth.put("edorgs", edOrgIds);
+        		auth.put("edorgs", ApplicationAuthorizationResource.enrichAuthorizedEdOrgsList(edOrgIds));
         		service.update(authId, auth);
         	}
         }

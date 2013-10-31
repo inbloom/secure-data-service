@@ -18,6 +18,7 @@ package org.slc.sli.api.resources.generic.service.custom;
 import org.slc.sli.api.resources.generic.service.DefaultResourceService;
 import org.slc.sli.api.resources.security.DelegationUtil;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -52,7 +53,10 @@ public class ApplicationResourceService extends DefaultResourceService {
     @Autowired
     @Value("${sli.sandbox.enabled}")
     private boolean sandboxEnabled;
-    
+
+    @Autowired
+    private EdOrgHelper helper;
+
     @Autowired
     private DelegationUtil delegation;
 
@@ -78,10 +82,9 @@ public class ApplicationResourceService extends DefaultResourceService {
 
             Set<String> edorgs = new HashSet<String>();
             edorgs.add(principal.getEdOrgId());
-            if (SecurityUtil.getAllRights().contains(Right.EDORG_DELEGATE)) {   //Add an SEA admin's delegated LEAs
-                edorgs.addAll(delegation.getAppApprovalDelegateEdOrgs());
-            }
-            
+            // application info for all descendant edorgs should be visible to the admin users
+            edorgs.addAll(helper.getChildEdOrgs(edorgs));
+
             //know this is ugly, but having trouble getting or queries to work
             List<String> idList = new ArrayList<String>();
             NeutralQuery newQuery = new NeutralQuery(new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.CRITERIA_IN, edorgs));
