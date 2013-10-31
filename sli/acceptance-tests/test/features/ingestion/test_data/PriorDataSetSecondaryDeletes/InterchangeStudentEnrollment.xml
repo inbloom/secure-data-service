@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentEnrollment.xsd">
+
+<Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>cgray</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>8</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>380</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2010-08-31</BeginDate>
+      <EndDate>2011-05-27</EndDate>
+      <HomeroomIndicator>true</HomeroomIndicator>
+      <RepeatIdentifier>Other</RepeatIdentifier>
+  </StudentSectionAssociation>
+</Action>
+</InterchangeStudentEnrollment>  

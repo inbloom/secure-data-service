@@ -43,7 +43,7 @@ public class PathExtractVerifier implements ExtractVerifier{
         Entity targetEntity = getPathEntity(entity);
 
         if (targetEntity == null) {
-            return EntityDateHelper.isPastOrCurrentDate(null, upToDate, entity.getType());
+            return false;
         }
 
         ExtractVerifier extractVerifier = getExtractVerifer(targetEntity.getType());
@@ -64,7 +64,7 @@ public class PathExtractVerifier implements ExtractVerifier{
         }
 
         return null;
-}
+    }
 
     public Repository<Entity> getRepo() {
         return repo;
