@@ -49,4 +49,12 @@ class ApplicationAuthorizationsControllerTest < ActionController::TestCase
     put :update, id: "appId1", application_authorization: @appauth_fixtures['district1']
     assert_redirected_to application_authorizations_path
   end
+
+  test "should update application authorization if we are a federated user" do
+    session[:edOrgId] = "ID1"
+    session[:rights] = ["EDORG_APP_AUTHZ"]
+
+    put :update, id: "appId1", application_authorization: @appauth_fixtures['district1']
+    assert_redirected_to application_authorizations_path
+  end
 end
