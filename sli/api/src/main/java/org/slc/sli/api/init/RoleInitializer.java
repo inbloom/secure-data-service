@@ -189,7 +189,7 @@ public class RoleInitializer {
                 .addGroupTitle(IT_ADMINISTRATOR)
                 .addRights(
                         new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL,
-                                Right.READ_RESTRICTED, Right.WRITE_PUBLIC, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED, Right.STAFF_CONTEXT }).build();
+                                Right.READ_RESTRICTED, Right.WRITE_PUBLIC, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED, Right.STAFF_CONTEXT, Right.APP_AUTHORIZE }).build();
         role.setAdmin(true);
         return role;
     }

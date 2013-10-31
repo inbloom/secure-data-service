@@ -50,17 +50,10 @@ Feature: List a purge as a single event in the delta extract
       |  student                               |
       |  studentSchoolAssociation              |
       |  studentSectionAssociation             |
-      |  school                                |
-      |  section                               |
-      |  session                               |
-      |  educationOrganization                 |
       |  staff                                 |
       |  staffEducationOrganizationAssociation |
       |  teacher                               |
       |  teacherSchoolAssociation              |
       |  teacherSectionAssociation             |
-      |  course                                |
-      |  courseOffering                        |
-      |  gradingPeriod                         |
       |  deleted                               |
     Then the delete file in the delta extract should have one purge entry

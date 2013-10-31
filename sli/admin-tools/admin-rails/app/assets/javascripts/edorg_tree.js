@@ -81,7 +81,7 @@ $(document).ready(function() {
         }
     );
 
-    $("div#edOrgTreeActions input[type=submit]").bind ('click', function () {
+    $(".edOrgTreeActions input[type=submit]").bind ('click', function () {
             var newSelectedIds = getSelectedEdOrgs();
             $.each(newSelectedIds, function (index, value) {
                 $('<input>').attr({

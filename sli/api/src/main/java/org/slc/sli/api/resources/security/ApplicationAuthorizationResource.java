@@ -33,10 +33,15 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import com.google.common.collect.Sets;
+
+import org.slc.sli.api.security.SLIPrincipal;
+
 import org.slc.sli.api.security.context.APIAccessDeniedException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
@@ -54,15 +59,20 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.util.CollectionUtils;
 
 /**
  *
- * App auths are stored in mongo in the format
+ * App auths are stored in mongo in tenant DB's collection applicationAuthorization in the format
  *
  * {
- *  applicationId: id of application from application collection,
- *  edorgs: ids of all the edorgs (schools, LEAs, and SEAs) that have authorized the application.
+ *  applicationId: id of application from sli.application collection,
+ *  edorgs: ids of all the edorgs that have authorized the application.
  * }
+ * Note that the interobject reference:
+ *      [tenantDb].applicationAuthorization.applicationId => sli.application._id
+ * is a "cross-database" reference and therefore relies on the uniqueness of IDs not just
+ * database-wide but platform-wide.
  *
  * The endpoint supports three operations
  *
@@ -76,13 +86,11 @@ import org.slc.sli.domain.enums.Right;
  *  authorized: true|false
  * }
  *
- * For LEA administrators the content is based on the user's LEA.
- * For SEA administrators the content is based on delegated SEAs.
- *
- * If an SEA administrator needs to distinguish between two edorgs, a
+ * The content is based on the user's edOrg.
+ * 
+ * If the caller needs to specify the user's edOrg(s), a
  * ?edorgs=... query parameter can be used on all operations.
  *
- * On a PUT, the endpoint automatically registers parent and child edorgs.
  */
 @Component
 @Scope("request")
@@ -99,9 +107,6 @@ public class ApplicationAuthorizationResource {
 
     @Autowired
     private EdOrgHelper helper;
-
-    @Autowired
-    private DelegationUtil delegation;
 
     private EntityService service;
 
@@ -123,7 +128,7 @@ public class ApplicationAuthorizationResource {
 
     @GET
     @Path("{appId}")
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
+    @RightsAllowed({Right.EDORG_APP_AUTHZ})
     public Response getAuthorization(@PathParam("appId") String appId, @QueryParam("edorg") String edorg) {
         String myEdorg = validateEdOrg(edorg);
         EntityBody appAuth = getAppAuth(appId);
@@ -144,12 +149,28 @@ public class ApplicationAuthorizationResource {
             HashMap<String, Object> entity = new HashMap<String, Object>();
             entity.put("appId", appId);
             entity.put("id", appId);
-            List<String> edOrgs = (List<String>) appAuth.get("edorgs");
-            entity.put("authorized", edOrgs.contains(myEdorg));
+            List<Map<String,Object>> edOrgs = (List<Map<String,Object>>) appAuth.get("edorgs");
+            Map<String,Object> authorizingInfo = getAuthorizingInfo(edOrgs, myEdorg);
+            entity.put("authorized", (authorizingInfo == null)?false:true);
             entity.put("edorgs", edOrgs);//(TA10857)
             return Response.status(Status.OK).entity(entity).build();
         }
 
+    }
+
+    private Map<String,Object> getAuthorizingInfo(List<Map<String,Object>> edOrgList, String edOrg) {
+        if( edOrgList == null || edOrg == null ) {
+            return null;
+        }
+        for (Map<String,Object> edOrgListElement :edOrgList ){
+            String authorizedEdorg = (String)edOrgListElement.get("authorizedEdorg");
+            if(authorizedEdorg != null){
+                if(edOrg.equals(authorizedEdorg)){
+                    return edOrgListElement;
+                }
+            }
+        }
+        return null;
     }
 
     private EntityBody getAppAuth(String appId) {
@@ -162,7 +183,7 @@ public class ApplicationAuthorizationResource {
 
     @PUT
     @Path("{appId}")
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
+    @RightsAllowed({Right.EDORG_APP_AUTHZ})
     public Response updateAuthorization(@PathParam("appId") String appId, EntityBody auth) {
         if (!auth.containsKey("authorized")) {
             return Response.status(Status.BAD_REQUEST).build();
@@ -184,25 +205,95 @@ public class ApplicationAuthorizationResource {
                     //We don't have an appauth entry for this app, so create one
                     EntityBody body = new EntityBody();
                     body.put("applicationId", appId);
-                    body.put("edorgs", edOrgsToAuthorize);
+                    body.put("edorgs", enrichAuthorizedEdOrgsList(edOrgsToAuthorize));
+
                     service.create(body);
                     logSecurityEvent(appId, null, edOrgsToAuthorize);
                 }
                 return Response.status(Status.NO_CONTENT).build();
             }
         } else {
-            List<String> edorgs = (List<String>) existingAuth.get("edorgs");
-            Set<String> edorgsCopy = new HashSet<String>(edorgs);
-            if (((Boolean) auth.get("authorized")).booleanValue()) {
-                edorgsCopy.addAll(edOrgsToAuthorize);
-            } else {
-                edorgsCopy.removeAll(edOrgsToAuthorize);
-            }
-            logSecurityEvent(appId, edorgs, edorgsCopy);
-            existingAuth.put("edorgs", new ArrayList<String>(edorgsCopy));
+            List<Map<String,Object>> oldEdOrgs = (List<Map<String,Object>>)existingAuth.get("edorgs");
+            Set<String>  oldAuth = getSetOfAuthorizedIds(oldEdOrgs);
+            boolean add = ((Boolean) auth.get("authorized")).booleanValue();
+            List<Map<String,Object>> modifiedAuthList = modifyEdOrgList(oldEdOrgs, add, edOrgsToAuthorize) ;
+            Set<String>  newAuth = getSetOfAuthorizedIds(modifiedAuthList);
+            existingAuth.put("edorgs", modifiedAuthList);
+            logSecurityEvent(appId, oldAuth, newAuth);
             service.update((String) existingAuth.get("id"), existingAuth);
             return Response.status(Status.NO_CONTENT).build();
         }
+    }
+
+    private Set<String> getSetOfAuthorizedIds( List<Map<String,Object>> currentAuthList) {
+        Set<String> authSet = new HashSet<String>();
+        for(Map<String, Object> currentAuthListItem:currentAuthList) {
+            String authorizedEdorg = (String)currentAuthListItem.get("authorizedEdorg");
+            authSet.add(authorizedEdorg);
+        }
+        return  authSet;
+    }
+
+    @SuppressWarnings("PMD.AvoidReassigningParameters")
+    private List<Map<String,Object>> modifyEdOrgList( List<Map<String,Object>> currentAuthList, boolean add, Collection<String> newEdOrgList ) {
+        if(currentAuthList == null) {
+            currentAuthList = new LinkedList<Map<String, Object>>();
+        }
+        Set<String> newAuthSet = new HashSet<String>(newEdOrgList);
+        Set<String> oldAuthSet = getSetOfAuthorizedIds(currentAuthList);
+
+        if(add) {
+            //refresh/update authorizing info for edOrgs that are already authorized
+            for(Map<String, Object> currentAuthListItem: currentAuthList) {
+                String authorizedEdorg = (String)currentAuthListItem.get("authorizedEdorg");
+                if(authorizedEdorg != null && newAuthSet.contains(authorizedEdorg)) {
+                    enrichAuthorizedEdOrg(currentAuthListItem);
+                }
+            }
+            newAuthSet.removeAll(oldAuthSet);
+            for(String newAuthItem :newAuthSet) {
+                Map<String, Object> newAuthItemProps = new HashMap<String, Object>();
+                newAuthItemProps.put("authorizedEdorg", newAuthItem);
+                enrichAuthorizedEdOrg(newAuthItemProps);
+                currentAuthList.add(newAuthItemProps);
+            }
+        } else {
+            ListIterator<Map<String, Object>> it = currentAuthList.listIterator();
+            while(it.hasNext()) {
+                Map<String, Object> currentAuthListItem = it.next();
+                String authorizedEdorg = (String)currentAuthListItem.get("authorizedEdorg");
+                if(newAuthSet.contains(authorizedEdorg)) {
+                    it.remove();
+                }
+            }
+        }
+        return currentAuthList;
+    }
+
+    public static List<Map<String, Object>> enrichAuthorizedEdOrgsList(List<String> edOrgIds) {
+        List<Map<String, Object>>  enrichedAEOList = new LinkedList<Map<String, Object>>();
+        for(String edOrgId:edOrgIds) {
+            Map<String, Object> enrichedAEO = new HashMap<String, Object>();
+            enrichedAEO.put("authorizedEdorg", edOrgId);
+            enrichedAEOList.add(enrichAuthorizedEdOrg(enrichedAEO));
+        }
+        return  enrichedAEOList;
+    }
+
+    private static Map<String, Object> enrichAuthorizedEdOrg(Map<String, Object> authInfo) {
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String user = principal.getExternalId();
+        String time = String.valueOf(new Date().getTime());
+
+        String lastAuthorizingRealmEdorg     = principal.getRealmEdOrg();
+        String lastAuthorizingUser           = user;
+        String lastAuthorizedDate            = time;
+
+        authInfo.put("lastAuthorizingRealmEdorg", lastAuthorizingRealmEdorg);
+        authInfo.put("lastAuthorizingUser",       lastAuthorizingUser);
+        authInfo.put("lastAuthorizedDate",        lastAuthorizedDate);
+
+        return authInfo;
     }
 
     List<String> getParentEdorgs(String rootEdorg) {
@@ -214,7 +305,7 @@ public class ApplicationAuthorizationResource {
     }
 
     @GET
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
+    @RightsAllowed({Right.EDORG_APP_AUTHZ})
     public Response getAuthorizations(@QueryParam("edorg") String edorg) {
         String myEdorg = validateEdOrg(edorg);
         Iterable<Entity> appQuery = repo.findAll("application", new NeutralQuery());
@@ -223,7 +314,9 @@ public class ApplicationAuthorizationResource {
             allApps.put(ent.getEntityId(), ent);
         }
 
-        Iterable<EntityBody> ents = service.list(new NeutralQuery(new NeutralCriteria("edorgs", "=", myEdorg)));
+        Iterable<EntityBody> ents = service.list(new NeutralQuery(new NeutralCriteria("edorgs.authorizedEdorg", "=", myEdorg)));
+
+        Set<String> inScopeEdOrgs = getChildEdorgs(edorg);
 
         List<Map> results = new ArrayList<Map>();
         for (EntityBody body : ents) {
@@ -238,7 +331,8 @@ public class ApplicationAuthorizationResource {
         for (Map.Entry<String, Entity> entry : allApps.entrySet()) {
             Boolean    autoApprove = (Boolean) entry.getValue().getBody().get("allowed_for_all_edorgs");
             List<String> approvedEdorgs = (List<String>) entry.getValue().getBody().get("authorized_ed_orgs");
-            if ((autoApprove != null && autoApprove) || (approvedEdorgs != null && approvedEdorgs.contains(myEdorg))) {
+            // user has app auth ability for their own edorg and all child edorgs
+            if ((autoApprove != null && autoApprove) || (approvedEdorgs != null && CollectionUtils.containsAny(approvedEdorgs, inScopeEdOrgs))) {
                 HashMap<String, Object> entity = new HashMap<String, Object>();
                 entity.put("id", entry.getKey());
                 entity.put("appId", entry.getKey());
@@ -286,14 +380,6 @@ public class ApplicationAuthorizationResource {
         if (edorg == null) {
             return SecurityUtil.getEdOrgId();
         }
-        // US5894 removed the need for LEA to delegate app approval to SEA
-        /*
-        if (!edorg.equals(SecurityUtil.getEdOrgId()) && !delegation.getAppApprovalDelegateEdOrgs().contains(edorg) ) {
-            Set<String> edOrgIds = new HashSet<String>();
-            edOrgIds.add(edorg);
-            throw new APIAccessDeniedException("Cannot perform authorizations for edorg ", edOrgIds);
-        }
-        */
         return edorg;
     }
 

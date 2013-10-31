@@ -46,7 +46,12 @@ def dissallowDashboard(district, tenantName)
     end
     existingAppAuth = appAuthColl.find_one({"body.applicationId" => dashboardId})
     if existingAppAuth != nil
-      existingAppAuth["body"]["edorgs"] = existingAppAuth["body"]["edorgs"] - edOrgIds
+      #existingAppAuth["body"]["edorgs"] = existingAppAuth["body"]["edorgs"] - edOrgIds
+
+      existingAppAuth["body"]["edorgs"] =  existingAppAuth["body"]["edorgs"].reject { |authInfo|
+          edOrgIds.include? authInfo['authorizedEdorg']
+      }
+
       puts("About to update #{existingAppAuth.inspect}") if ENV['DEBUG']
       appAuthColl.update({"body.applicationId" => dashboardId}, existingAppAuth)
     else

@@ -21,6 +21,11 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/courseTranscript.xml" />
       </bean>
     </entry>
+      <entry key="teacherSchoolAssociation">
+          <bean class="org.milyn.Smooks">
+              <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/teacherSchoolAssociation.xml" />
+          </bean>
+      </entry>
   </util:map>
 
   <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">

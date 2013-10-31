@@ -164,7 +164,21 @@ public class MockRepo implements Repository<Entity> {
                 Object sub = container.get(path[i]);
                 if (sub != null && sub instanceof Map) {
                     container = (Map<String, Object>) sub;
-                } else {
+                }
+                else if(sub != null && sub instanceof List) {
+                    List<Object> listContainer = (List) sub;
+                    if(listContainer.size() > 0) {
+                       Object object = ((List) sub).get(0);//AT LEAST, going down the first element as a Quick Incomplete Fix(QIF). Refactor later, when we implement our own MongoDB.
+                        if(object instanceof  Map) {
+                            container = (Map)object;
+                        } else {
+                            return null;
+                        }
+                    } else {
+                        return null;
+                    }
+                }
+                else {
                     return null;
                 }
             }

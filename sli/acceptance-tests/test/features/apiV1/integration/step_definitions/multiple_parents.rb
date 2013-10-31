@@ -169,7 +169,9 @@ When(/^I authorize all apps to access "([^"]*)"$/) do |schoolName|
   @conn = Mongo::Connection.new(PropLoader.getProps['ingestion_db'], PropLoader.getProps['ingestion_db_port']) if !defined? @conn
   @db = @conn.db(convertTenantIdToDbName('Midgar'))
   @coll = @db['applicationAuthorization']
-  updateResult = @coll.update({}, {'$push' => {'body.edorgs' => schoolName}},:upsert => true, :safe => true, :multi=> true )
+  new_edorg = Hash.new
+  new_edorg["authorizedEdorg"] = schoolName
+  updateResult = @coll.update({}, {'$push' => {'body.edorgs' => new_edorg}},:upsert => true, :safe => true, :multi=> true )
   assert(updateResult['ok'] == 1 && updateResult['err'] == nil, 'Authorizing update failed!')
 end
 

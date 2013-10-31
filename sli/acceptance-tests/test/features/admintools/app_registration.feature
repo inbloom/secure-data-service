@@ -31,7 +31,8 @@ And I have entered data into the other required fields except for the shared sec
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
 And the application "NewApp" is listed in the table on the top
-And the client ID and shared secret fields are Pending
+When I click on the row of application named "NewApp" in the table
+Then the client ID and shared secret fields are Pending
 And the Registration Status field is Pending
 And a notification email is sent to "slcoperator-email@slidev.org"
 
@@ -96,6 +97,7 @@ And I clicked on the button Edit for the application "NewApp"
 And I have edited the field named "Image URL" to say "https://imageurl"
 And I have edited the field named "Description" to say "Kittens"
 When I clicked Save
+And I click on the row of application named "NewApp" in the table
 And I the field named "Application Icon Url" still says "https://imageurl"
 And I the field named "Description" still says "Kittens"
 

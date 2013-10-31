@@ -26,12 +26,13 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-public class StaffExtractor implements EntityExtract {
+public class StaffExtractor implements EntityDatedExtract {
+
     private EntityExtractor extractor;
     private ExtractFileMap map;
     private Repository<Entity> repo;
     private EdOrgExtractHelper edOrgExtractHelper;
-    
+
     public StaffExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
@@ -40,21 +41,16 @@ public class StaffExtractor implements EntityExtract {
     }
 
     @Override
-    public void extractEntities(EntityToEdOrgCache staffToEdorgCache) {
+    public void extractEntities(EntityToEdOrgDateCache staffToEdorgDateCache) {
         edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STAFF, this.getClass().getName());
         Iterator<Entity> staffs = repo.findEach(EntityNames.STAFF, new NeutralQuery());
         while (staffs.hasNext()) {
             Entity staff = staffs.next();
-            Set<String> edOrgs = staffToEdorgCache.getEntriesById(staff.getEntityId());
-            if (edOrgs == null || edOrgs.size() == 0) {
-                continue;
-            }
+            Set<String> edOrgs = staffToEdorgDateCache.getEntriesById(staff.getEntityId()).keySet();
             for (String edOrg : edOrgs) {
                 extractor.extractEntity(staff, map.getExtractFileForEdOrg(edOrg), EntityNames.STAFF);
-            }
-            
+             }
         }
-        
     }
-    
+
 }
