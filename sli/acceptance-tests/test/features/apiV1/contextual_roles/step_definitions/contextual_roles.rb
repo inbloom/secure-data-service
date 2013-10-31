@@ -306,11 +306,13 @@ def authorize_edorg_for_tenant(app_name, tenant_name)
   app_auth_coll = db_tenant.collection("applicationAuthorization")
 
   puts("The app #{app_name} id is #{app_id}")
-  needed_ed_orgs = app_auth_coll.find_one({"body.applicationId" => app_id})["body"]["edorgs"]
-  needed_ed_orgs.each do |edorg|
-    new_edorg = Hash.new
-    new_edorg["authorizedEdorg"] = edorg
-    app_coll.update({"_id" => app_id}, {"$push" => {"body.edorgs" => new_edorg}})
+  needed_edorg_entries = app_auth_coll.find_one({"body.applicationId" => app_id})["body"]["edorgs"]
+  needed_edorgs = Array.new 
+  needed_edorg_entries.each do |edorg_entry|
+    needed_edorgs.push(edorg_entry["authorizedEdorg"])
+  end
+  needed_edorgs.each do |edorg|
+    app_coll.update({"_id" => app_id}, {"$push" => {"body.authorized_ed_orgs" => edorg}})
   end
 
   conn.close
