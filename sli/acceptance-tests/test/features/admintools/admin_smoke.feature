@@ -15,7 +15,8 @@ And I have entered data into the other required fields except for the shared sec
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
 And the application "Smoke!" is listed in the table on the top
-And the client ID and shared secret fields are Pending
+When I click on the row of application named "Smoke!" in the table
+Then the client ID and shared secret fields are Pending
 And the Registration Status field is Pending
 
 Scenario: SLC Operator operations
