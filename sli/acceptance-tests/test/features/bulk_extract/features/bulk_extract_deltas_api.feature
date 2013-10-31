@@ -451,7 +451,6 @@ Scenario: Triggering deltas via ingestion
        |  student                               |
        |  studentSchoolAssociation              |
        |  studentAssessment                     |
-       |  studentGradebookEntry                 |
        |  studentParentAssociation              |
        |  parent                                |
        |  staff                                 |
@@ -549,7 +548,6 @@ Scenario: Triggering deltas via ingestion
        |  parent                                |
        |  student                               |
        |  studentAssessment                     |
-       |  studentGradebookEntry                 |
        |  studentSchoolAssociation              |
        |  studentParentAssociation              |
        |  studentCompetency                     |
@@ -586,10 +584,6 @@ Scenario: Triggering deltas via ingestion
        #this is an association on a expired student 12, should not show up
        | id                                          | condition                                |
        | a13489364c2eb015c219172d561c62350f0453f3_id |                                          |
-
-     And I verify this "studentGradebookEntry" file should contain:
-       | id                                          | condition                                |
-       | 6620fcd37d1095005a67dc330e591279577aede7_id | letterGradeEarned = A                    |
 
      And I verify this "studentAssessment" file should contain:
        | id                                          | condition                                 |
@@ -661,7 +655,6 @@ Scenario: Triggering deltas via ingestion
     |  parent                                |
     |  student                               |
     |  studentAssessment                     |
-    |  studentGradebookEntry                 |
     |  studentSchoolAssociation              |
     |  studentParentAssociation              |
     |  studentCompetency                     |
@@ -703,10 +696,6 @@ Scenario: Triggering deltas via ingestion
   #this is an association on a expired student 12, should not show up
     | id                                          | condition                                |
     | a13489364c2eb015c219172d561c62350f0453f3_id |                                          |
-
-  And I verify this "studentGradebookEntry" file should contain:
-    | id                                          | condition                                |
-    | 6620fcd37d1095005a67dc330e591279577aede7_id | letterGradeEarned = A                    |
 
   And I verify this "studentAssessment" file should contain:
     | id                                          | condition                                 |

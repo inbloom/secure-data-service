@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+<Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
+  <StudentAcademicRecord>
+    <CumulativeCreditsEarned>
+      <Credit>15.0</Credit>
+    </CumulativeCreditsEarned>
+    <CumulativeCreditsAttempted>
+      <Credit>20.0</Credit>
+    </CumulativeCreditsAttempted>
+    <CumulativeGradePointsEarned>45.0</CumulativeGradePointsEarned>
+    <CumulativeGradePointAverage>2.0</CumulativeGradePointAverage>
+    <GradeValueQualifier>90-100%=A, 80-90%=B</GradeValueQualifier>
+    <ClassRanking>
+      <ClassRank>20</ClassRank>
+      <TotalNumberInClass>22</TotalNumberInClass>
+      <PercentageRanking>37</PercentageRanking>
+      <ClassRankingDate>2007-07-25</ClassRankingDate>
+    </ClassRanking>
+    <AcademicHonors>
+      <AcademicHonorsType>Honor roll</AcademicHonorsType>
+      <HonorsDescription>Honor Desc BBB</HonorsDescription>
+      <HonorAwardDate>2007-08-15</HonorAwardDate>
+    </AcademicHonors>
+    <Recognitions>
+      <RecognitionType>Certificate</RecognitionType>
+      <RecognitionDescription>Recognition Desc a</RecognitionDescription>
+      <RecognitionAwardDate>2008-10-21</RecognitionAwardDate>
+    </Recognitions>
+    <ProjectedGraduationDate>2015-06-16</ProjectedGraduationDate>
+      <SessionCreditsEarned>
+        <Credit>0</Credit>
+      </SessionCreditsEarned>
+      <SessionCreditsAttempted>
+        <Credit>0</Credit>
+      </SessionCreditsAttempted>
+    <SessionGradePointsEarned>0</SessionGradePointsEarned>
+    <SessionGradePointAverage>2.0</SessionGradePointAverage>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>cgray</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2011-2012 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <ReportCardReference>
+      <ReportCardIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>cgray</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <GradingPeriodReference>
+          <GradingPeriodIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <GradingPeriod>End of Year</GradingPeriod>
+            <BeginDate>2011-08-31</BeginDate>
+          </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        <SchoolYear>2011-2012</SchoolYear>
+      </ReportCardIdentity>
+    </ReportCardReference>
+    <SchoolYear>2011-2012</SchoolYear>
+  </StudentAcademicRecord>
+</Action>
+</InterchangeStudentGrade>
