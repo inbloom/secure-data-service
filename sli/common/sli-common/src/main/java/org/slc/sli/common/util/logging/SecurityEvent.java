@@ -239,9 +239,7 @@ public class SecurityEvent {
      * @see SecurityEvent#addTargetEdOrg(Collection<String> edOrgs)
      */
     public void setTargetEdOrgList(List<String> targetEdOrgList) {
-        if (targetEdOrgList != null && !targetEdOrgList.isEmpty()) {
             this.targetEdOrgList = targetEdOrgList;
-        }
     }
 
     @Override
