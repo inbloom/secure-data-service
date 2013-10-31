@@ -528,3 +528,16 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I verify this "staffCohortAssociation" file should not contain:
       | id                                          |
       | aa7d73c082de023499901396734fb63b15d69fa9_id |
+
+  Scenario: Setup the database and trigger an extract
+    Given I clean the bulk extract file system and database
+    And I am using local data store
+    And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And I successfully ingest "PriorDataSetSecondaryDeletes.zip"
+    And I trigger an extract for tenant "Midgar"
+
+  Scenario: Verify deletes don't cause full extract to barf
+    When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
+    And there is a metadata file in the extract
+    And I check that the "studentSectionAssociation" extract for "Daybreak Central High" has "102" records
+    And I check that the "studentAcademicRecord" extract for "Daybreak Central High" has "7" records
