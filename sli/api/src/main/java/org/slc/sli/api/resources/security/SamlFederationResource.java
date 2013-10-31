@@ -21,7 +21,10 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.InetAddress;
 import java.net.URI;
+import java.net.URL;
 import java.net.UnknownHostException;
+import java.security.SignatureException;
+import java.security.cert.CertificateEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +32,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -45,18 +49,31 @@ import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.elasticsearch.search.query.FromParseElement;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.opensaml.common.xml.SAMLConstants;
+import org.opensaml.saml2.core.Artifact;
+import org.opensaml.saml2.core.ArtifactResolve;
+import org.opensaml.saml2.core.Issuer;
+import org.opensaml.saml2.metadata.ArtifactResolutionService;
+import org.opensaml.ws.soap.client.BasicSOAPMessageContext;
+import org.opensaml.ws.soap.client.http.HttpClientBuilder;
+import org.opensaml.ws.soap.client.http.HttpSOAPClient;
+import org.opensaml.ws.soap.common.SOAPException;
+import org.opensaml.ws.soap.soap11.Body;
+import org.opensaml.ws.soap.soap11.Envelope;
+import org.opensaml.xml.XMLObjectBuilderFactory;
+import org.opensaml.xml.Configuration;
+import org.opensaml.xml.parse.BasicParserPool;
+import org.opensaml.xml.security.SecurityException;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.roles.EdOrgContextualRoleBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 
@@ -138,6 +155,9 @@ public class SamlFederationResource {
     @Autowired
     private EdOrgContextualRoleBuilder edOrgRoleBuilder;
 
+    @Value("${sli.security.sp.issuerName}")
+    private String issuerName;
+
     public static SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 
     @SuppressWarnings("unused")
@@ -159,9 +179,13 @@ public class SamlFederationResource {
 
         info("Received a SAML post for SSO...");
         TenantContext.setTenantId(null);
-        Document doc = null;
-        String targetEdOrg = null;
+        Document doc = getDocument(postData, uriInfo, null);
 
+        return processSamlAssertion(uriInfo, doc);
+    }
+
+    private Document getDocument(String postData, UriInfo uriInfo, String targetEdOrg) {
+        Document doc = null;
         try {
             doc = saml.decodeSamlPost(postData);
         } catch (Exception e) {
@@ -193,7 +217,11 @@ public class SamlFederationResource {
 
             generateSamlValidationError(e.getMessage(), targetEdOrg);
         }
+        return doc;
+    }
 
+    private Response processSamlAssertion(UriInfo uriInfo, Document doc) {
+        String targetEdOrg = null;
         String inResponseTo = doc.getRootElement().getAttributeValue("InResponseTo");
         String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
 
@@ -256,13 +284,13 @@ public class SamlFederationResource {
             generateSamlValidationError("SAML response is missing Subject.", targetEdOrg);
         }
 
-        List<org.jdom.Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
+        List<Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
 
         LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
-        for (org.jdom.Element attributeNode : attributeNodes) {
+        for (Element attributeNode : attributeNodes) {
             String samlAttributeName = attributeNode.getAttributeValue("Name");
-            List<org.jdom.Element> valueNodes = attributeNode.getChildren("AttributeValue", SamlHelper.SAML_NS);
-            for (org.jdom.Element valueNode : valueNodes) {
+            List<Element> valueNodes = attributeNode.getChildren("AttributeValue", SamlHelper.SAML_NS);
+            for (Element valueNode : valueNodes) {
                 attributes.add(samlAttributeName, valueNode.getText());
             }
         }
@@ -551,6 +579,75 @@ public class SamlFederationResource {
             }
         }
         return true;
+    }
+
+    /**
+     *
+     * @return
+     * @throws IOException
+     */
+    @GET
+    @Path("sso/artifact")
+    public Response artifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) throws IOException, SOAPException, SecurityException {
+        String artifact = request.getParameter("SAMLart");
+        if (artifact == null) {
+            throw new IOException("No artifact in message");
+        }
+
+        ArtifactResolve artifactReolve = generateArtifactResolve(artifact);
+        sendArtifactResolve(artifactReolve).getBody();
+        info("Received a SAML post for SSO...");
+
+        TenantContext.setTenantId(null);
+        Document doc = null;
+
+        //doc = getDocument(postData, uriInfo, null);
+
+        return processSamlAssertion(uriInfo, doc);
+    }
+
+
+    private ArtifactResolve generateArtifactResolve(final String artifactString) {
+
+        XMLObjectBuilderFactory bf = Configuration.getBuilderFactory();
+
+        ArtifactResolve artifactResolve =  (ArtifactResolve) bf.getBuilder(ArtifactResolve.DEFAULT_ELEMENT_NAME).buildObject(ArtifactResolve.DEFAULT_ELEMENT_NAME);
+
+        Issuer issuer = (Issuer) bf.getBuilder(Issuer.DEFAULT_ELEMENT_NAME).buildObject(Issuer.DEFAULT_ELEMENT_NAME);
+        issuer.setValue(issuerName);
+        artifactResolve.setIssuer(issuer);
+        artifactResolve.setIssueInstant(new DateTime());
+
+        String artifactResolveId = UUID.randomUUID().toString();
+        artifactResolve.setID(artifactResolveId);
+
+        artifactResolve.setDestination("https://idp.example.org/idp/shibboleth/artifact");
+
+        Artifact artifact = (Artifact) bf.getBuilder(Artifact.DEFAULT_ELEMENT_NAME).buildObject(Artifact.DEFAULT_ELEMENT_NAME);
+        artifact.setArtifact(artifactString);
+        artifactResolve.setArtifact(artifact);
+
+        return artifactResolve;
+    }
+
+    private Envelope sendArtifactResolve(final ArtifactResolve artifactResolve) throws org.opensaml.xml.security.SecurityException, SOAPException {
+        XMLObjectBuilderFactory bf = Configuration.getBuilderFactory();
+        Envelope envelope = (Envelope) bf.getBuilder(Envelope.DEFAULT_ELEMENT_NAME).buildObject(Envelope.DEFAULT_ELEMENT_NAME);
+        Body body = (Body) bf.getBuilder(Body.DEFAULT_ELEMENT_NAME).buildObject(Body.DEFAULT_ELEMENT_NAME);
+
+        body.getUnknownXMLObjects().add(artifactResolve);
+        envelope.setBody(body);
+
+        BasicSOAPMessageContext soapContext = new BasicSOAPMessageContext();
+        soapContext.setOutboundMessage(envelope);
+        HttpClientBuilder clientBuilder = new HttpClientBuilder();
+        HttpSOAPClient soapClient = new HttpSOAPClient(clientBuilder.buildClient(), new BasicParserPool());
+
+        String artifactResolutionServiceURL = "https://idp.example.org/idp/shibboleth/artifact";
+
+        soapClient.send(artifactResolutionServiceURL, soapContext);
+
+        return (Envelope)soapContext.getInboundMessage();
     }
 
     Repository getRepository() {
