@@ -276,13 +276,15 @@ def all_lea_allow_app_for_tenant(app_name, tenant_name)
   app_auth_coll = db_tenant.collection("applicationAuthorization")
   ed_org_coll = db_tenant.collection("educationOrganization")
 
-  needed_ed_orgs = []
+  needed_edorgs = Array.new
   ed_org_coll.find().each do |edorg|
-    needed_ed_orgs.push(edorg["_id"])
+    edorg_entry = Hash.new
+    edorg_entry["authorizedEdorg"] = edorg["_id"]
+    needed_edorgs.push(edorg_entry)
   end
 
   app_auth_coll.remove("body.applicationId" => app_id)
-  new_app_auth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"applicationId" => app_id, "edorgs" => needed_ed_orgs}, "metaData" => {"tenantId" => tenant_name}}
+  new_app_auth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"applicationId" => app_id, "edorgs" => needed_edorgs}, "metaData" => {"tenantId" => tenant_name}}
   app_auth_coll.insert(new_app_auth)
   conn.close
   enable_NOTABLESCAN()
