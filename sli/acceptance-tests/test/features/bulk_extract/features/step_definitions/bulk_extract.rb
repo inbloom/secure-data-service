@@ -311,7 +311,7 @@ Given /^all (LEAs|edorgs) in "([^"]*)" are authorized for "([^"]*)"/ do |which_e
   end
 
   needed_ed_orgs = []
-  ed_org_coll.find({'body.organizationCategories' => {"$in" => ['Local Education Agency']}}).each do |edorg|
+  ed_org_coll.find(query).each do |edorg|
     edorg_entry = {}
     edorg_entry["authorizedEdorg"]= edorg['_id']
     needed_ed_orgs.push(edorg_entry)
