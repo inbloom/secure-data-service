@@ -116,8 +116,8 @@ def authorizeEdorgForTenant(appName, tenantName)
   end
   neededEdOrgs.each do |edorg|
     new_edorg = Hash.new
-    new_edOrg["authorizedEdorg"] = edorg
-    appColl.update({"_id" => appId}, {"$push" => {"body.edorgs" => edorg}})
+    new_edorg["authorizedEdorg"] = edorg
+    appColl.update({"_id" => appId}, {"$push" => {"body.edorgs" => new_edorg}})
   end
   
   conn.close
