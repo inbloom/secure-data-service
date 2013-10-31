@@ -17,8 +17,11 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
@@ -27,7 +30,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-public class StaffCohortAssociationExtractor implements EntityExtract {
+public class StaffCohortAssociationExtractor implements EntityDatedExtract {
     private EntityExtractor extractor;
     private ExtractFileMap map;
     private Repository<Entity> repo;
@@ -41,19 +44,19 @@ public class StaffCohortAssociationExtractor implements EntityExtract {
     }
 
     @Override
-    public void extractEntities(EntityToEdOrgCache staffToEdorgCache) {
+    public void extractEntities(EntityToEdOrgDateCache staffDatedCache) {
         edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STAFF_COHORT_ASSOCIATION, this.getClass().getName());
         Iterator<Entity> scas = repo.findEach(EntityNames.STAFF_COHORT_ASSOCIATION, new NeutralQuery());
         while (scas.hasNext()) {
             Entity sca = scas.next();
-            Set<String> edOrgs = staffToEdorgCache.getEntriesById(sca.getBody().get(ParameterConstants.STAFF_ID).toString());
-            if (edOrgs == null || edOrgs.size() == 0) {
-                continue;
+            String staffId = (String) sca.getBody().get(ParameterConstants.STAFF_ID);
+            Map<String, DateTime> edOrgs = staffDatedCache.getEntriesById(staffId);
+
+            for (Map.Entry<String, DateTime> datedEdOrg : edOrgs.entrySet()) {
+                if (EntityDateHelper.shouldExtract(sca, datedEdOrg.getValue())) {
+                    extractor.extractEntity(sca, map.getExtractFileForEdOrg(datedEdOrg.getKey()), EntityNames.STAFF_COHORT_ASSOCIATION);
+                }
             }
-            for (String edOrg : edOrgs) {
-                extractor.extractEntity(sca, map.getExtractFileForEdOrg(edOrg), EntityNames.STAFF_COHORT_ASSOCIATION);
-            }
-            
         }
     }
     

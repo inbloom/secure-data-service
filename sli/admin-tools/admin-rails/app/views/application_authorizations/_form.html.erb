@@ -9,7 +9,7 @@
       <td><%= @apps_map[@app_auth.appId].vendor %></td>
       <%=
           isApproved = @app_auth.authorized
-	  isEnabled = @edorg_apps.has_key?(@cur_edorg) && @edorg_apps[@cur_edorg].has_key?(@app_auth.appId)
+	  isEnabled = edorg_in_scope_enabled?(@cur_edorg, @app_auth.appId)
   	  app = @apps_map[@app_auth.appId]
 	  if @app_counts[@app_auth.appId].nil?
 	    count = 0

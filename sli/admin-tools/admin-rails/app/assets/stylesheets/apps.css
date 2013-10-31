@@ -18,3 +18,6 @@ span.categorynode {color: #009933}
 span.repeatsubtree {color: #a0a0a0}
 a:link {color: #0000ff; text-decoration:underline}
 a:hover {background-color: #e0e0e0}
+tr.odd:hover {background: #B0E0F0; cursor: pointer;}
+td.expandable > div {background: url("images/ui-icons_454545_256x240.png") -32px -128px no-repeat; height: 16px; width: 16px;}
+td.expandable.expanded > div {background-position: -64px -128px;}

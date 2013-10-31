@@ -13,52 +13,59 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.slc.sli.bulk.extract.lea;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.google.common.base.Function;
+
+import org.joda.time.DateTime;
+
+import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 
 /**
  * User: dkornishev
  */
-public class DisciplineExtractor implements EntityExtract {
+public class DisciplineExtractor implements EntityDatedExtract {
     private final EntityExtractor entityExtractor;
     private final ExtractFileMap extractFileMap;
     private final Repository<Entity> repository;
-    private final EntityToEdOrgCache studentCache;
-    private final EntityToEdOrgCache edorgCache;
+    private final EntityToEdOrgDateCache studentCache;
 
-    public DisciplineExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgCache studentCache, EntityToEdOrgCache edorgCache) {
+
+    public DisciplineExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgDateCache studentCache) {
         this.entityExtractor = entityExtractor;
         this.extractFileMap = extractFileMap;
         this.repository = repository;
         this.studentCache = studentCache;
-        this.edorgCache = edorgCache;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public void extractEntities(final EntityToEdOrgCache diCache) {
+    public void extractEntities(final EntityToEdOrgDateCache diCache) {
         extract(EntityNames.DISCIPLINE_INCIDENT, new Function<Entity, Set<String>>() {
             @Override
             public Set<String> apply(Entity input) {
                 String id = input.getEntityId();
-                Set<String> edOrgs = diCache.getEntriesById(id);
+                Map<String, DateTime> edorgDate = diCache.getEntriesById(id);
 
-                if (edOrgs.isEmpty()) {
-                   String schoolId = (String) input.getBody().get("schoolId");
-                   edOrgs.addAll(edorgCache.ancestorEdorgs(schoolId));
+                Set<String> edOrgs = new HashSet<String>();
+
+                for (Map.Entry<String, DateTime> entry: edorgDate.entrySet()) {
+                    DateTime upToDate = entry.getValue();
+                    if (shouldExtract(input, upToDate)) {
+                        edOrgs.add(entry.getKey());
+                    }
                 }
 
                 return edOrgs;
@@ -73,13 +80,23 @@ public class DisciplineExtractor implements EntityExtract {
                 List<String> students = (List<String>) input.getBody().get("studentId");
 
                 for (String student : students) {
-                    edOrgs.addAll(studentCache.getEntriesById(student));
+                    Map<String, DateTime> edorgDate = studentCache.getEntriesById(student);
+                    for (Map.Entry<String, DateTime> entry: edorgDate.entrySet()) {
+                        DateTime upToDate = entry.getValue();
+                        if (shouldExtract(input, upToDate)) {
+                            edOrgs.add(entry.getKey());
+                        }
+                    }
                 }
 
                 return edOrgs;
             }
         });
 
+    }
+
+    protected boolean shouldExtract(Entity input, DateTime upToDate) {
+        return EntityDateHelper.shouldExtract(input, upToDate);
     }
 
     private void extract(String entityType, Function<Entity, Set<String>> moreLeas) {

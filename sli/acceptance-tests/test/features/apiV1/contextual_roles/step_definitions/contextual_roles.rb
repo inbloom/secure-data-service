@@ -230,13 +230,6 @@ Then /^I should be redirected to the realm choosing page$/ do
   assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}
 end
 
-When /^I select "(.*?)" from the dropdown and click go$/ do |arg1|
-  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
-  select.select_by(:text, arg1)
-  assertWithWait("Could not find the Go button")  { @driver.find_element(:id, "go") }
-  @driver.find_element(:id, "go").click
-end
-
 Then /^I should receive a json response containing my authorization code$/ do
   assertWithWait("Could not find text 'authorization_code' on page") {@driver.page_source.include?("authorization_code")}
   @oauthAuthCode = @driver.page_source.match(/"authorization_code":"(?<Code>[^"]*)"/)[:Code]
@@ -283,13 +276,15 @@ def all_lea_allow_app_for_tenant(app_name, tenant_name)
   app_auth_coll = db_tenant.collection("applicationAuthorization")
   ed_org_coll = db_tenant.collection("educationOrganization")
 
-  needed_ed_orgs = []
+  needed_edorgs = Array.new
   ed_org_coll.find().each do |edorg|
-    needed_ed_orgs.push(edorg["_id"])
+    edorg_entry = Hash.new
+    edorg_entry["authorizedEdorg"] = edorg["_id"]
+    needed_edorgs.push(edorg_entry)
   end
 
   app_auth_coll.remove("body.applicationId" => app_id)
-  new_app_auth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"applicationId" => app_id, "edorgs" => needed_ed_orgs}, "metaData" => {"tenantId" => tenant_name}}
+  new_app_auth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"applicationId" => app_id, "edorgs" => needed_edorgs}, "metaData" => {"tenantId" => tenant_name}}
   app_auth_coll.insert(new_app_auth)
   conn.close
   enable_NOTABLESCAN()
@@ -313,8 +308,12 @@ def authorize_edorg_for_tenant(app_name, tenant_name)
   app_auth_coll = db_tenant.collection("applicationAuthorization")
 
   puts("The app #{app_name} id is #{app_id}")
-  needed_ed_orgs = app_auth_coll.find_one({"body.applicationId" => app_id})["body"]["edorgs"]
-  needed_ed_orgs.each do |edorg|
+  needed_edorg_entries = app_auth_coll.find_one({"body.applicationId" => app_id})["body"]["edorgs"]
+  needed_edorgs = Array.new 
+  needed_edorg_entries.each do |edorg_entry|
+    needed_edorgs.push(edorg_entry["authorizedEdorg"])
+  end
+  needed_edorgs.each do |edorg|
     app_coll.update({"_id" => app_id}, {"$push" => {"body.authorized_ed_orgs" => edorg}})
   end
 

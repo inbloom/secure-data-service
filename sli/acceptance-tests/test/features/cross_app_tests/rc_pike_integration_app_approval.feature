@@ -417,25 +417,16 @@ And the operator triggers a delta for the production tenant
       |  entityType                            |
       # |  assessment                            |
       |  attendance                            |
-      |  calendarDate                          |
-      |  cohort                                |
-      |  course                                |
       |  courseTranscript                      |
-      |  courseOffering                        |
       |  disciplineIncident                    |
       |  disciplineAction                      |
-      |  educationOrganization                 |
       |  grade                                 |
       |  gradebookEntry                        |
-      |  gradingPeriod                         |
       # |  learningObjective                     |
       # |  learningStandard                      |
       |  parent                                |
       # |  program                               |
       |  reportCard                            |
-      |  school                                |
-      |  section                               |
-      |  session                               |
       |  staff                                 |
       |  staffCohortAssociation                |
       |  staffEducationOrganizationAssociation |
@@ -474,23 +465,13 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
    And the extract contains a file for each of the following entities:
       |  entityType                            |
       |  attendance                            |
-      |  cohort                                |
-      |  course                                |
-      |  courseOffering                        |
       |  courseTranscript                      |
       |  disciplineIncident                    |
       |  disciplineAction                      |
-      |  educationOrganization                 |
       |  grade                                 |
       |  gradebookEntry                        |
-     #no grading periods associated to charter school in data set
-     #|  gradingPeriod                         |
       |  parent                                |
       |  reportCard                            |
-      |  school                                |
-      |  section                               |
-     #no sessions associated to charter school in data set
-     #|  session                               |
       |  staff                                 |
       |  staffCohortAssociation                |
       |  staffEducationOrganizationAssociation |
@@ -528,15 +509,21 @@ Scenario: App makes an api call to retrieve a SEA public data bulk extract
    And the extract contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
-      |  educationOrganization                 |
       |  learningObjective                     |
       |  learningStandard                      |
-      |  program                               |
-      |  studentCompetencyObjective            |
-      |  calendarDate                          |
       |  competencyLevelDescriptor             |
-      |  graduationPlan                        |
+      |  studentCompetencyObjective            |
+      |  program                               |
+      |  calendarDate                          |
       |  course                                |
+      |  courseOffering                        |
+      |  educationOrganization                 |
+      |  graduationPlan                        |
+      |  session                               |
+      |  calendarDate                          |
+      |  school                                |
+      |  cohort                                |
+      |  section                               |
 
 Scenario: App makes an api call to retrieve a bulk extract delta
 #Get a session to trigger a bulk extract
@@ -551,7 +538,7 @@ Given the pre-existing bulk extrac testing app key has been created
    And there is no bulk extract files in the local directory
 
   Then I get the id for the edorg "IL-DAYBREAK"
-  When I PATCH the postalCode for the lea entity to 11999
+  When I PATCH the endDate for the staffProgramAssociation entity to 2011-05-05
   Then I should receive a return code of 204
   When the operator triggers a delta for the production tenant
    #And I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
@@ -566,8 +553,7 @@ Given the pre-existing bulk extrac testing app key has been created
    And there is a metadata file in the extract
    And the extract contains a file for each of the following entities:
    |  entityType                            |
-   |  educationOrganization                 |
-   |  school                                |
+   |  staffProgramAssociation               |
 
 Scenario: Ingestion user ingests additional public entities
   Given a landing zone
@@ -614,6 +600,7 @@ Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
   And the extract contains a file for each of the following entities:
     |  entityType                            |
     |  educationOrganization                 |
+    |  course                                |
     |  competencyLevelDescriptor             |
     |  studentCompetencyObjective            |
     |  learningObjective                     |
