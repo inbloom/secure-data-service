@@ -283,11 +283,13 @@ Then /^the Ingestion Admin gets a success message$/ do
 end
 
 When /^the developer is authenticated to Simple IDP as user "([^"]*)" with pass "([^"]*)"$/ do |user, pass|
+  step "I select \"inBloom\" from the dropdown and click go"
   step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
 
 end
 
 Then /^the Ingestion Admin is authenticated to Simple IDP as user "(.*?)" with pass "(.*?)"$/ do |user, pass|
+  step "I select \"inBloom\" from the dropdown and click go"
   step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
 end
 

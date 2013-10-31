@@ -4,6 +4,7 @@ Background:
 Given I have an open web browser
 And LDAP server has been setup and running
 And I navigate to the account management page
+And I select "inBloom" from the dropdown and click go
 And I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
 
 @production

@@ -137,6 +137,7 @@ end
 
 Then /^I can log in with my username and password$/ do
   @driver.get(PropLoader.getProps["admintools_server_url"])
+  step "I select \"inBloom\" from the dropdown and click go"
   step "I submit the credentials \"#{@newly_created_user[:uid]}\" \"#{NEW_PASSWORD}\" for the \"Simple\" login page"
   actual_page_content = @driver.find_element(:tag_name, "body")
   expected_page_content = "Admin Tool"

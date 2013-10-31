@@ -9,6 +9,7 @@ Background:
 	Scenario: Create new application (set up data)
         Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
+        And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
         And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
         Then I am redirected to the Application Registration Tool page
@@ -19,14 +20,14 @@ Background:
         And I click on the button Submit
         Then I am redirected to the Application Registration Tool page
         And the application "Royal Oak" is listed in the table on the top
-        When I click on the row of application named "Royal Oak" in the table
-        Then the client ID and shared secret fields are Pending
+        And the client ID and shared secret fields are Pending
         And the Registration Status field is Pending
 
 
     Scenario: SLC Operator accepts application registration request (set up data)
         Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
+        And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
         And I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
         Then I am redirected to the Application Approval Tool page
@@ -40,6 +41,7 @@ Background:
     Scenario: Developer registers application (set up data)
         Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
+        And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
         And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
         Then I am redirected to the Application Registration Tool page
@@ -61,6 +63,7 @@ Background:
     @RALLY_DE2981
     Scenario: NY SEA Admin Approves application
         When I hit the Admin Application Authorization Tool
+         And I select "inBloom" from the dropdown and click go
          And I submit the credentials "nyadmin" "nyadmin1234" for the "Simple" login page
          And I see an application "Royal Oak" in the table
          And in Status it says "Not Approved"
@@ -70,6 +73,7 @@ Background:
     Scenario: Developer disables application
         Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
+        And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
         And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
         Then I am redirected to the Application Registration Tool page
@@ -82,6 +86,7 @@ Background:
 
     Scenario: SEA Admin Approves application
         When I hit the Admin Application Authorization Tool
+         And I select "inBloom" from the dropdown and click go
          And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
          And I see an application "Royal Oak" in the table
          And in Status it says "Not Approved"

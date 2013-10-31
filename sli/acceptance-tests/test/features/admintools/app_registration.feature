@@ -11,6 +11,7 @@ Scenario: SLI Developer Logging in
 
 Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
+And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
@@ -21,6 +22,7 @@ Scenario: Register a new application
 
 Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
+And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
@@ -39,6 +41,7 @@ And a notification email is sent to "slcoperator-email@slidev.org"
 Scenario: View application details
 Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
+And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
@@ -51,6 +54,7 @@ And all the fields are read only
 Scenario: SLC Operator denies application registration request
 Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
+And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
 Then I am redirected to the Application Approval Tool page
@@ -66,6 +70,7 @@ And application "NewApp" is removed from the list
 Scenario: Vendor edits denied application incorrectly
 Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
+And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
@@ -78,6 +83,7 @@ Then I should get 1 error
 Scenario: Vendor edits denied application incorrectly for optional url fields
 Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
+And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
@@ -90,6 +96,7 @@ Then I should get 2 errors
 Scenario: Vendor edits denied application
 Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
+And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
@@ -105,6 +112,7 @@ And I the field named "Description" still says "Kittens"
 Scenario: SLC Operator accepts application registration request
 Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
+And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
 Then I am redirected to the Application Approval Tool page
@@ -119,6 +127,7 @@ And a notification email is sent to "admintest-developer@slidev.org"
 Scenario: Vendor inspects app after approval 
 Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
+And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
@@ -127,6 +136,7 @@ And the client ID and shared secret fields are present
 Scenario: SLC Operator un-registers already-registered application
 Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
+And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
 Then I am redirected to the Application Approval Tool page
@@ -142,6 +152,7 @@ Scenario: Deleting Application
 
 Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
+And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
@@ -155,6 +166,7 @@ Then the application named "NewApp" is removed from the SLI
 Scenario: App Developer logs-in to App Registration Tool in Sandbox (Vendor in Prod should see own apps respectively)
 	Given I am a valid App Developer
 	When I hit the Application Registration Tool URL
+	And I select "inBloom" from the dropdown and click go
 	And I was redirected to the "Simple" IDP Login page
 	And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
 	Then I am redirected to the Application Registration Tool page
@@ -172,6 +184,7 @@ Scenario: Different App developer in same tenant should also see my apps
 Scenario: App Developer registers an application in App Registration Tool in Sandbox
 	Given I am a valid App Developer
 	When I hit the Application Registration Tool URL
+	    And I select "inBloom" from the dropdown and click go
 		And I was redirected to the "Simple" IDP Login page
 		And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
 	Then I am redirected to the Application Registration Tool page

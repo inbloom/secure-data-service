@@ -8,6 +8,7 @@ Background:
 	Scenario: Create new application (set up data)
         Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
+        And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
         And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
         Then I am redirected to the Application Registration Tool page
@@ -26,6 +27,7 @@ Background:
     Scenario: SLC Operator accepts application registration request (set up data)
     Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
+        And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
         And I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
         Then I am redirected to the Application Approval Tool page
@@ -42,6 +44,7 @@ Background:
         Given the large list of edorgs is loaded
         Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
+        And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
         And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
         Then I am redirected to the Application Registration Tool page
@@ -88,6 +91,7 @@ Scenario: App Developer or Vendor enabling application for a District
   Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
     And "Red Dwarf" is enabled for "0" education organizations
   When I hit the Application Registration Tool URL
+    And I select "inBloom" from the dropdown and click go
 	And I was redirected to the "Simple" IDP Login page
 	And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
   Then I am redirected to the Application Registration Tool page
@@ -100,6 +104,7 @@ Scenario: App Developer or Vendor enabling application for a District
 Scenario: District Admin authorizing application for their district
   Given I log in as a valid SLI Operator "sunsetadmin" from the "SLI" hosted directory
   When I hit the Admin Application Authorization Tool
+    And I select "inBloom" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
   Then I am redirected to the Admin Application Authorization Tool
@@ -108,6 +113,7 @@ Scenario: District Admin authorizing application for their district
 Scenario: App Developer or Vendor disabling application for a District, part 2
   Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
   When I hit the Application Registration Tool URL
+    And I select "inBloom" from the dropdown and click go
 	And I was redirected to the "Simple" IDP Login page
 	And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
   Then I am redirected to the Application Registration Tool page
@@ -120,6 +126,7 @@ Scenario: App Developer or Vendor disabling application for a District, part 2
 Scenario: District Admin no longers see apps disabled for their district 
 Given I log in as a valid SLI Operator "sunsetadmin" from the "SLI" hosted directory
 When I hit the Admin Application Authorization Tool
+    And I select "inBloom" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 	Then I am redirected to the Admin Application Authorization Tool
@@ -129,6 +136,7 @@ When I hit the Admin Application Authorization Tool
 Scenario: App Developer or Vendor disabling application for a District, part 3
 Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
+    And I select "inBloom" from the dropdown and click go
 	And I was redirected to the "Simple" IDP Login page
 	And I submit the credentials "developer" "developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
