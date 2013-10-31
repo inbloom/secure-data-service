@@ -108,8 +108,7 @@ class ApplicationController < ActionController::Base
         SessionResource.access_token = oauth.get_token(params[:code])
         set_session
       else
-        admin_realm = "#{APP_CONFIG['admin_realm']}"
-        @url = oauth.authorize_url + "&Realm=" + CGI::escape(admin_realm) + "&state=" + CGI::escape(form_authenticity_token)
+        @url = oauth.authorize_url + "&state=" + CGI::escape(form_authenticity_token)
         respond_to do |format|
           format.html {redirect_to @url}
           format.js { render 'layouts/redirect_to_login', :layout => false}
