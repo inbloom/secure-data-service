@@ -114,7 +114,7 @@ public class EdOrgExtractHelper implements InitializingBean {
         Iterable<Entity> apps = repository.findAll("applicationAuthorization", appQuery);
         Map<String, Set<String>> edorgIds = new HashMap<String, Set<String>>();
         for (Entity app : apps) {
-            Set<String> edorgs = new HashSet<String>((Collection<String>) app.getBody().get("edorgs"));
+            Set<String> edorgs = new HashSet<String>(BulkExtractMongoDA.getAuthorizedEdOrgIds(app));
             edorgIds.put((String) app.getBody().get("applicationId"), edorgs);
         }
         return edorgIds;
@@ -207,7 +207,6 @@ public class EdOrgExtractHelper implements InitializingBean {
     public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
         this.securityEventUtil = securityEventUtil;
     }
-
 
     public Map<String, List<String>> getEdOrgLineages() {
         return edOrgLineages;

@@ -5,6 +5,7 @@
 <table id="applications" class="table">
   <thead>
 	<tr>
+    <th></th>
 		<th><%= sortable "Name" %></th>
 		<th><%= sortable "Version" %></th>
 		<th><%= sortable "Vendor" %></th>
@@ -16,6 +17,7 @@
 	<tbody>
 	<% @apps.each do |app| %>
 		<tr id='<%= app.id %>'>
+      <td class="expandable"><div></div></td>
       <td><%= app.name %></td>
       <td><%= app.version %></td>
 			<td><%= app.vendor %></td>

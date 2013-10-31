@@ -59,7 +59,11 @@ class ApplicationAuthorizationsController < ApplicationController
     # The are the "authorized" (by the edOrg admin) edorgs for the app
     @appAuth = ApplicationAuthorization.find(appId)
     edOrgTree = EdorgTree.new()
-    @edorg_tree_html = edOrgTree.get_authorization_tree_html([edOrgId], appId, is_sea_admin?, @appAuth.edorgs || [])
+    @appAuth_edorgs = []
+        @appAuth.edorgs.each do |edorg_entry|
+          @appAuth_edorgs.push(edorg_entry.authorizedEdorg)
+        end
+    @edorg_tree_html = edOrgTree.get_authorization_tree_html([edOrgId], appId, is_sea_admin?, @appAuth_edorgs || [])
   end
   
 
@@ -100,7 +104,7 @@ class ApplicationAuthorizationsController < ApplicationController
         else
           count = 0
           auth2.edorgs.each do |id|
-            count +=1 if @edorgs_in_scope[userEdOrg].has_key?(id)
+            count +=1 if @edorgs_in_scope[userEdOrg].has_key?(id.authorizedEdorg)
           end
         end
         @app_counts[auth.id] = count
@@ -295,7 +299,6 @@ class ApplicationAuthorizationsController < ApplicationController
       end
     }
 
-    puts "Returning #{has_enabled_edorg} for app #{app.to_s}, edorg #{edorg}"
     return has_enabled_edorg
   end
   helper_method :edorg_in_scope_enabled?
