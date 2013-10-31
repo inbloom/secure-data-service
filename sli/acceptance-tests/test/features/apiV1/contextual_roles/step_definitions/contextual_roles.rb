@@ -230,13 +230,6 @@ Then /^I should be redirected to the realm choosing page$/ do
   assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}
 end
 
-When /^I select "(.*?)" from the dropdown and click go$/ do |arg1|
-  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
-  select.select_by(:text, arg1)
-  assertWithWait("Could not find the Go button")  { @driver.find_element(:id, "go") }
-  @driver.find_element(:id, "go").click
-end
-
 Then /^I should receive a json response containing my authorization code$/ do
   assertWithWait("Could not find text 'authorization_code' on page") {@driver.page_source.include?("authorization_code")}
   @oauthAuthCode = @driver.page_source.match(/"authorization_code":"(?<Code>[^"]*)"/)[:Code]
@@ -315,7 +308,9 @@ def authorize_edorg_for_tenant(app_name, tenant_name)
   puts("The app #{app_name} id is #{app_id}")
   needed_ed_orgs = app_auth_coll.find_one({"body.applicationId" => app_id})["body"]["edorgs"]
   needed_ed_orgs.each do |edorg|
-    app_coll.update({"_id" => app_id}, {"$push" => {"body.authorized_ed_orgs" => edorg}})
+    new_edorg = Hash.new
+    new_edOrg["authorizedEdorg"] = edOrg
+    app_coll.update({"_id" => app_id}, {"$push" => {"body.authorized_ed_orgs" => new_edOrg}})
   end
 
   conn.close
