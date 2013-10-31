@@ -66,7 +66,7 @@ class ApplicationAuthorizationsController < ApplicationController
   # NOTE this controller allows ed org super admins to enable/disable apps for their LEA(s)
   # It allows LEA(s) to see (but not change) their app authorizations
   def check_rights
-    unless is_lea_admin? || is_sea_admin?
+    unless is_lea_admin? || is_sea_admin? || is_app_authorizer
       logger.warn {'User is not lea or sea admin and cannot access application authorizations'}
       raise ActiveResource::ForbiddenAccess, caller
     end
@@ -163,7 +163,7 @@ class ApplicationAuthorizationsController < ApplicationController
   def update
 
     # Only allow update by SEA  or LEA admin.
-    unless is_sea_admin? || is_lea_admin?
+    unless is_sea_admin? || is_lea_admin? || is_app_authorizer
       logger.warn {'User is not SEA or LEA admin and cannot update application authorizations'}
       raise ActiveResource::ForbiddenAccess, caller
     end
