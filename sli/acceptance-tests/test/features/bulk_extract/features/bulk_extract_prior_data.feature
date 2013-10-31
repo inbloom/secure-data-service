@@ -57,91 +57,117 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | teacher                               |
       | teacherSchoolAssociation              |
       | teacherSectionAssociation             |
+    And I check that the "student" extract for "Sunset Central High" has "3" records
     And I verify this "student" file should contain:
       | id                                          | condition            |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id | entityType = student |
+    And I check that the "studentParentAssociation" extract for "Sunset Central High" has "6" records
     And I verify this "studentParentAssociation" file should contain:
       | id                                                                                     | condition                             |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id3382e80b35990e1ea89cdde30339fb0c4b79793d_id | entityType = studentParentAssociation |
+    And I check that the "studentProgramAssociation" extract for "Sunset Central High" has "54" records
     And I verify this "studentProgramAssociation" file should contain:
       | id                                                                                     | condition                              |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id6d3f9afe4b7a6fe871bf92aa46d6ee9cca56f6e5_id | entityType = studentProgramAssociation |
+    And I check that the "studentCohortAssociation" extract for "Sunset Central High" has "34" records
     And I verify this "studentCohortAssociation" file should contain:
       | id                                                                                     | condition                             |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_idb8cb9f9619c552284b43208290b8e2455137eeed_id | entityType = studentCohortAssociation |
+    And I check that the "studentDisciplineIncidentAssociation" extract for "Sunset Central High" has "94" records
     And I verify this "studentDisciplineIncidentAssociation" file should contain:
       | id                                                                                     | condition                                         |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id92709ce1b529f9825bd4ab623f292c12c083df8e_id | entityType = studentDisciplineIncidentAssociation |
+    And I check that the "disciplineAction" extract for "Sunset Central High" has "94" records
     And I verify this "disciplineAction" file should contain:
       | id                                          | condition                     |
       | c3210dcba5a65f44d37a88528989e39cdbcc6e09_id | entityType = disciplineAction |
+    And I check that the "studentAssessment" extract for "Sunset Central High" has "102" records
     And I verify this "studentAssessment" file should contain:
       | id                                          | condition                      |
       | abf6b39f8c841a247c3e4731a821ea8b86f1c5d1_id | entityType = studentAssessment |
+    And I check that the "studentSchoolAssociation" extract for "Sunset Central High" has "13" records
     And I verify this "studentSchoolAssociation" file should contain:
       | id                                          | condition                             |
       | 89c3228f05f5d88d785b4788babbf12c02c9f3f4_id | entityType = studentSchoolAssociation |
+    And I check that the "parent" extract for "Sunset Central High" has "6" records
     And I verify this "parent" file should contain:
       | id                                          | condition           |
       | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id | entityType = parent |
+    And I check that the "disciplineIncident" extract for "Sunset Central High" has "88" records
     And I verify this "disciplineIncident" file should contain:
       | id                                          | condition                       |
       | 5c2d1d70eed68e801d551631eb82636fc9e9a6dc_id | entityType = disciplineIncident |
+    And I check that the "grade" extract for "Sunset Central High" has "88" records
     And I verify this "grade" file should contain:
       | id                                                                                     | condition          |
       | e325f180753f2f170b2826a26112f1be229cdf63_idd17b5f2c25d83632142b68f96eae69c7c73ccdf4_id | entityType = grade |
       | e1ddd4b5c0c531a734135ecd461b33cab842c18c_idfce1fd8e96cffd8c1dbf505a6862acfcf914b01b_id | entityType = grade |
+    And I check that the "reportCard" extract for "Sunset Central High" has "10" records
     And I verify this "reportCard" file should contain:
       | id                                                                                     | condition               |
       | e325f180753f2f170b2826a26112f1be229cdf63_ida74c24bab9a9ef60755b46422a8d480239498581_id | entityType = reportCard |
       | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id9c0b53684b9d64742c653621239bdd92c6bc4288_id | entityType = reportCard |
+    And I check that the "studentAcademicRecord" extract for "Sunset Central High" has "10" records
     And I verify this "studentAcademicRecord" file should contain:
       | id                                                                                     | condition                          |
       | e325f180753f2f170b2826a26112f1be229cdf63_ide536c2b89ee393a7767b597601b581fd9bbfe4e0_id | entityType = studentAcademicRecord |
       | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id17e81b9ff5c5c728ec22ec3f40e975eea03570a6_id | entityType = studentAcademicRecord |
+    And I check that the "attendance" extract for "Sunset Central High" has "22" records
     And I verify this "attendance" file should contain:
       | id                                          | condition               |
       | 5b2d2eeec0b545269d634aaa760ed6f61f8c5021_id | entityType = attendance |
       | 49e65583c8c5f3e97db81807d5beeb028433053d_id | entityType = attendance |
+    And I check that the "courseTranscript" extract for "Sunset Central High" has "88" records
     And I verify this "courseTranscript" file should contain:
       | id                                          | condition                     |
       | 9d80fafba1ac36587a60002bc83df1ebe13c7c36_id | entityType = courseTranscript |
       | f0e15138c37352a57aab8d70feb6a0cad6c59741_id | entityType = courseTranscript |
+    And I check that the "studentGradebookEntry" extract for "Sunset Central High" has "2106" records
     And I verify this "studentGradebookEntry" file should contain:
       | id                                          | condition                          |
       | fc1b5f1ae73a9b0808fb9c6dbc63ba68fe2da206_id | entityType = studentGradebookEntry |
       | c07d6623ddf954dc943949f9200231a760755f8a_id | entityType = studentGradebookEntry |
+    And I check that the "gradebookEntry" extract for "Sunset Central High" has "2106" records
     And I verify this "gradebookEntry" file should contain:
       | id                                                                                     | condition                   |
       | e0b0e46a34acdf56356183cf22d9c506e4285527_id3082031a18c680ef1cac4dba1c9b8de482654d7a_id | entityType = gradebookEntry |
+    And I check that the "studentCompetency" extract for "Sunset Central High" has "440" records
     And I verify this "studentCompetency" file should contain:
       | id                                          | condition                      |
       | 91d9aa5d5da9dd0e2ae46791a6cc6882aec9a59a_id | entityType = studentCompetency |
+    And I check that the "studentSectionAssociation" extract for "Sunset Central High" has "104" records
     And I verify this "studentSectionAssociation" file should contain:
       | id                                                                                     | condition                              |
       | 49e048fa9d77126a719d5719cfc08c36170981b1_idd5df60e5ffe544f23eb3167542fc582215e6a7a2_id | entityType = studentSectionAssociation |
+    And I check that the "staff" extract for "Sunset Central High" has "2" records
     And I verify this "staff" file should contain:
       | id                                          | condition          |
       | 589a7e8634d7d284a2ec9fd76d7e1ee64a0f63b5_id | entityType = staff |
+    And I check that the "teacher" extract for "Sunset Central High" has "2" records
     And I verify this "teacher" file should contain:
       | id                                          | condition            |
       | 589a7e8634d7d284a2ec9fd76d7e1ee64a0f63b5_id | entityType = teacher |
+    And I check that the "staffEducationOrganizationAssociation" extract for "Sunset Central High" has "7" records
     And I verify this "staffEducationOrganizationAssociation" file should contain:
       | id                                          | condition                                          |
       | d0de313091b8d4c249ff1ed47cae0121079f284c_id | entityType = staffEducationOrganizationAssociation |
       | bb98c67830fa46b204c8a4903e3c0b4525390e4c_id | entityType = staffEducationOrganizationAssociation |
+    And I check that the "teacherSchoolAssociation" extract for "Sunset Central High" has "6" records
     And I verify this "teacherSchoolAssociation" file should contain:
       | id                                          | condition                             |
       | 50551eec2fbe3b7a2c46e52b0604b7a3edbf4f5c_id | entityType = teacherSchoolAssociation |
       | 865a73e2ccec3276a4a49b2f91830927feb06dc6_id | entityType = teacherSchoolAssociation |
+    And I check that the "staffProgramAssociation" extract for "Sunset Central High" has "97" records
     And I verify this "staffProgramAssociation" file should contain:
       | id                                          | condition                            |
       | ba48e53096fb2ccbb5353ca1c31f345e1b2200fe_id | entityType = staffProgramAssociation |
       | fa13fc54af5a5206e6c0c65cb79ab5b123196db3_id | entityType = staffProgramAssociation |
+    And I check that the "teacherSectionAssociation" extract for "Sunset Central High" has "6" records
     And I verify this "teacherSectionAssociation" file should contain:
       | id                                                                                     | condition                              |
       | e003fc1479112d3e953a0220a2d0ddd31077d6d9_idac07c2077ec3537a436342e88b894e067a9012b1_id | entityType = teacherSectionAssociation |
       | 8173cd3053f1447abb64a8b33422e2d6b5812794_idaf40c3134828360f599f83582d6f4c1db116ba6b_id | entityType = teacherSectionAssociation |
+    And I check that the "staffCohortAssociation" extract for "Sunset Central High" has "9" records
     And I verify this "staffCohortAssociation" file should contain:
       | id                                          | condition                           |
       | 2fd24b2cfe20e69c5f8c37c8e1b56b226dd8605d_id | entityType = staffCohortAssociation |
@@ -178,81 +204,107 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | teacher                               |
       | teacherSchoolAssociation              |
       | teacherSectionAssociation             |
+    And I check that the "student" extract for "Daybreak Central High" has "3" records
     And I verify this "student" file should contain:
       | id                                          | condition            |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id | entityType = student |
+    And I check that the "studentParentAssociation" extract for "Daybreak Central High" has "6" records
     And I verify this "studentParentAssociation" file should contain:
       | id                                                                                     | condition                             |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id3382e80b35990e1ea89cdde30339fb0c4b79793d_id | entityType = studentParentAssociation |
+    And I check that the "studentProgramAssociation" extract for "Daybreak Central High" has "53" records
     And I verify this "studentProgramAssociation" file should not contain:
       | id                                                                                     |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id58e9a8ae4486e96051b33876b20a8f2cac745408_id |
+    And I check that the "studentCohortAssociation" extract for "Daybreak Central High" has "32" records
     And I verify this "studentCohortAssociation" file should not contain:
       | id                                                                                     |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_idcee230069953f0b915305f33ff9f061bfc832509_id |
+    And I check that the "studentDisciplineIncidentAssociation" extract for "Daybreak Central High" has "72" records
     And I verify this "studentDisciplineIncidentAssociation" file should not contain:
       | id                                                                                     |
       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id2b0fbf2af85b9e850e533ded46d26d77aeaa2e75_id |
+    And I check that the "disciplineAction" extract for "Daybreak Central High" has "73" records
     And I verify this "disciplineAction" file should not contain:
       | id                                          |
       | e3d4fe2fdb6af50c87446e9050b74e0d7903f5cb_id |
+    And I check that the "studentAssessment" extract for "Daybreak Central High" has "90" records
     And I verify this "studentAssessment" file should not contain:
       | id                                          |
       | b2542b105c09130bc7d3f81b471d1f0f0e481fd8_id |
+    And I check that the "studentSchoolAssociation" extract for "Daybreak Central High" has "15" records
     And I verify this "studentSchoolAssociation" file should not contain:
       | id                                          |
       | c5a10351b0957620192a7b1c0e3e6fd686173579_id |
+    And I check that the "parent" extract for "Daybreak Central High" has "6" records
     And I verify this "parent" file should contain:
       | id                                          | condition           |
       | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id | entityType = parent |
+    And I check that the "disciplineIncident" extract for "Daybreak Central High" has "72" records
     And I verify this "disciplineIncident" file should not contain:
       | id                                          |
       | ad0101e8b3efe4d35317175167c9fee11d746b58_id |
+    And I check that the "grade" extract for "Daybreak Central High" has "80" records
     And I verify this "grade" file should not contain:
       | id                                                                                     |
       | e1ddd4b5c0c531a734135ecd461b33cab842c18c_idc215fa1253b26479fea38c153679913544bf3ad0_id |
+    And I check that the "reportCard" extract for "Daybreak Central High" has "8" records
     And I verify this "reportCard" file should not contain:
       | id                                                                                     |
       | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id67ce8d959e708542ad7f1861ba549211a8a6f099_id |
+    And I check that the "studentAcademicRecord" extract for "Daybreak Central High" has "8" records
     And I verify this "studentAcademicRecord" file should not contain:
       | id                                                                                     |
       | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id2797454efde05815c8a62f744265f31f94979316_id |
+    And I check that the "attendance" extract for "Daybreak Central High" has "22" records
     And I verify this "attendance" file should not contain:
       | id                                          |
       | 49e65583c8c5f3e97db81807d5beeb028433053d_id |
+    And I check that the "courseTranscript" extract for "Daybreak Central High" has "80" records
     And I verify this "courseTranscript" file should not contain:
       | id                                          |
       | 0bc385d7a20aa1a9df92627cd841d545d3052b3b_id |
+    And I check that the "studentGradebookEntry" extract for "Daybreak Central High" has "1803" records
     And I verify this "studentGradebookEntry" file should not contain:
       | id                                          |
       | 28e83915fb2ed72fd074efdcb24f6b1a778a5f57_id |
+    And I check that the "gradebookEntry" extract for "Daybreak Central High" has "1803" records
     And I verify this "gradebookEntry" file should not contain:
       | id                                                                                     |
       | f6b0227d1704b24efb2dae4a21e2d530fb384cca_idde48b510ed6ec71962f2483e1ad33511308db485_id |
+    And I check that the "studentCompetency" extract for "Daybreak Central High" has "515" records
     And I verify this "studentCompetency" file should not contain:
       | id                                          |
       | 3c2a56c1531ee76299aec831d2f41dc5bc6ec987_id |
+    And I check that the "studentSectionAssociation" extract for "Daybreak Central High" has "103" records
     And I verify this "studentSectionAssociation" file should not contain:
       | id                                                                                     |
       | c44eb520d29bad5d60237f6addc22f769b3448aa_idaf30e6685a85c716c26d5e559bde27017f57f304_id |
+    And I check that the "staff" extract for "Daybreak Central High" has "2" records
     And I verify this "staff" file should contain:
       | id                                          | condition          |
       | 589a7e8634d7d284a2ec9fd76d7e1ee64a0f63b5_id | entityType = staff |
+    And I check that the "teacher" extract for "Daybreak Central High" has "2" records
     And I verify this "teacher" file should contain:
       | id                                          | condition            |
       | 589a7e8634d7d284a2ec9fd76d7e1ee64a0f63b5_id | entityType = teacher |
+    And I check that the "staffEducationOrganizationAssociation" extract for "Daybreak Central High" has "5" records
     And I verify this "staffEducationOrganizationAssociation" file should not contain:
       | id                                          |
       | bb98c67830fa46b204c8a4903e3c0b4525390e4c_id |
+    And I check that the "teacherSchoolAssociation" extract for "Daybreak Central High" has "4" records
     And I verify this "teacherSchoolAssociation" file should not contain:
       | id                                          |
       | 865a73e2ccec3276a4a49b2f91830927feb06dc6_id |
+    And I check that the "staffProgramAssociation" extract for "Daybreak Central High" has "29" records
     And I verify this "staffProgramAssociation" file should not contain:
       | id                                          |
       | fa13fc54af5a5206e6c0c65cb79ab5b123196db3_id |
+    And I check that the "teacherSectionAssociation" extract for "Daybreak Central High" has "4" records
     And I verify this "teacherSectionAssociation" file should not contain:
       | id                                                                                     |
       | 8173cd3053f1447abb64a8b33422e2d6b5812794_idaf40c3134828360f599f83582d6f4c1db116ba6b_id |
+    And I check that the "staffCohortAssociation" extract for "Daybreak Central High" has "4" records
     And I verify this "staffCohortAssociation" file should not contain:
       | id                                          |
       | 1545605a8763219b5f73d4f01c85fc8bab5f4a1e_id |
@@ -297,6 +349,12 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | id                                          | condition           |
       | 5f8989384287747b1960d16edd95ff2bb318e3bd_id | entityType = parent |
       | 7f5b783a051b72820eab5f8188c45ade72869f0f_id | entityType = parent |
+    And I verify this "staff" file should contain:
+      | id                                          | condition          |
+      | b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = staff |
+    And I verify this "teacher" file should contain:
+      | id                                          | condition            |
+      | b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = teacher |
   #This extract should contain content for anything that began on or before DCH's end date with the student
   #Even data from SCH that began on the student's final day with DCH should be included
     And I verify this "studentProgramAssociation" file should contain:
@@ -380,12 +438,6 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | 6e9504c3061a61384cbd9591a52893f07c6af242_id56a60187f236b69252b085c0ca55c9a1cb8081ab_id | entityType = studentSectionAssociation |
       | 8887531ea737afbd49da86f201e95d1f6fc45571_id50a30c780c85361faec9ac20013d347a619958fc_id | entityType = studentSectionAssociation |
       | 5c593810111e06cd8b5a4e7f315b5b49c16c35b1_id26f3811034fc7d29bdc8ac5250ab1a9fe3ce97d7_id | entityType = studentSectionAssociation |
-    And I verify this "staff" file should contain:
-      | id                                          | condition          |
-      | b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = staff |
-    And I verify this "teacher" file should contain:
-      | id                                          | condition            |
-      | b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = teacher |
     And I verify this "staffEducationOrganizationAssociation" file should contain:
       | id                                          | condition                                          |
       | 202b88ed9039b0d2c366a94dcba2ab4434257102_id | entityType = staffEducationOrganizationAssociation |
