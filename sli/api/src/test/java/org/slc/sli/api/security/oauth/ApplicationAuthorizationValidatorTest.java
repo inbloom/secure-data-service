@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.security.ApplicationAuthorizationResourceTest;
 import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -171,17 +172,17 @@ public class ApplicationAuthorizationValidatorTest {
         approvedAppWithoutOperator = repo.create("application", body);
 
         body = new HashMap<String, Object>();
-        body.put("edorgs", Arrays.asList(sea1.getEntityId(), lea1.getEntityId()));
+        body.put("edorgs", ApplicationAuthorizationResourceTest.getAuthList(lea1.getEntityId(), sea1.getEntityId())); //Changed order from sea1, lea1 to lea1, sea1 to get MockRepo to work.
         body.put("applicationId", approvedApp.getEntityId());
         repo.create("applicationAuthorization", body);
         
         body = new HashMap<String, Object>();
-        body.put("edorgs", Arrays.asList(sea1.getEntityId(), lea1.getEntityId()));
+        body.put("edorgs", ApplicationAuthorizationResourceTest.getAuthList(lea1.getEntityId(), sea1.getEntityId())); //Changed order from sea1, lea1 to lea1, sea1 to get MockRepo to work.
         body.put("applicationId", approvedAppWithoutOperator.getEntityId());
         repo.create("applicationAuthorization", body);
         
         body = new HashMap<String, Object>();
-        body.put("edorgs", Arrays.asList(sea1.getEntityId(), lea1.getEntityId()));
+        body.put("edorgs", ApplicationAuthorizationResourceTest.getAuthList(lea1.getEntityId(), sea1.getEntityId())); //Changed order from sea1, lea1 to lea1, sea1 to get MockRepo to work.
         body.put("applicationId", nonApprovedApp.getEntityId());
         repo.create("applicationAuthorization", body);
         

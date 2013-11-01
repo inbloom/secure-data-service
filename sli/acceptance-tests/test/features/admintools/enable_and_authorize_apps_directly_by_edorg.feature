@@ -19,7 +19,8 @@ Background:
         And I click on the button Submit
         Then I am redirected to the Application Registration Tool page
         And the application "Royal Oak" is listed in the table on the top
-        And the client ID and shared secret fields are Pending
+        When I click on the row of application named "Royal Oak" in the table
+        Then the client ID and shared secret fields are Pending
         And the Registration Status field is Pending
 
 
@@ -104,6 +105,7 @@ Background:
          And I check to find if record is in sli db collection:
           | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
           | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+          | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
          And there are "200" educationalOrganizations in the targetEdOrgList
          And I see an application "Royal Oak" in the table
          And in Status it says "200 EdOrg(s)"
@@ -121,6 +123,7 @@ Background:
          And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
          And there are "200" educationalOrganizations in the targetEdOrgList
          And I see an application "Royal Oak" in the table
          And in Status it says "Not Approved"
@@ -138,9 +141,14 @@ Background:
         Then The following edOrgs are authorized for the application "Royal Oak" in tenant "Midgar"
 			|edorgs|
  	        |Illinois State Board of Education |
+ 	     #And only below is present in the application authorization edOrgs array for the application "Royal Oak" in tenant "Midgar"
+            #| edOrg                             | user    | realm edOrg                          |
+            #| Illinois State Board of Education | iladmin | fakeab32-b493-999b-a6f3-sliedorg1234 |
          And I check to find if record is in sli db collection:
           | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
           | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+          | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
+          | securityEvent       | 1                   | body.targetEdOrgList  | IL                                        |
          And there are "1" educationalOrganizations in the targetEdOrgList
          And I see an application "Royal Oak" in the table
          And in Status it says "1 EdOrg(s)"
@@ -153,6 +161,7 @@ Background:
          And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
          And there are "1" educationalOrganizations in the targetEdOrgList
          And I see an application "Royal Oak" in the table
          And in Status it says "Not Approved"
@@ -175,6 +184,7 @@ Background:
           And I check to find if record is in sli db collection:
            | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
            | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+           | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "1" educationalOrganizations in the targetEdOrgList
           And I see an application "Royal Oak" in the table
           And in Status it says "1 EdOrg(s)"
@@ -188,6 +198,7 @@ Background:
           And I check to find if record is in sli db collection:
              | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
              | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+             | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "1" educationalOrganizations in the targetEdOrgList
           And I see an application "Royal Oak" in the table
           And in Status it says "Not Approved"
@@ -209,6 +220,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "1" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
           And I see an application "Royal Oak" in the table
           And in Status it says "1 EdOrg(s)"
@@ -221,6 +233,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "1" educationalOrganizations in the targetEdOrgList of securityEvent "EdOrg data access has been revoked!"
 
     ##########################################################################################
@@ -228,6 +241,7 @@ Background:
     ##########################################################################################
           And I see an application "Royal Oak" in the table
           And in Status it says "Not Approved"
+          Given the sli securityEvent collection is empty
           And I click on the "Edit Authorizations" button next to it
           And I expand all nodes
           And I authorize the educationalOrganization "Sunset School District 4526"
@@ -236,6 +250,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "3" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
           And I see an application "Royal Oak" in the table
           And in Status it says "3 EdOrg(s)"
@@ -248,6 +263,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "3" educationalOrganizations in the targetEdOrgList of securityEvent "EdOrg data access has been revoked!"
 
     ##########################################################################################
@@ -255,6 +271,7 @@ Background:
     ##########################################################################################
           And I see an application "Royal Oak" in the table
           And in Status it says "Not Approved"
+          Given the sli securityEvent collection is empty
           And I click on the "Edit Authorizations" button next to it
           And I expand all nodes
           And I authorize the educationalOrganization "LEA Tier 2"
@@ -263,6 +280,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "32" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
           And I see an application "Royal Oak" in the table
           And in Status it says "32 EdOrg(s)"
@@ -275,6 +293,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "32" educationalOrganizations in the targetEdOrgList of securityEvent "EdOrg data access has been revoked!"
 
     ##########################################################################################
@@ -282,6 +301,7 @@ Background:
     ##########################################################################################
           And I see an application "Royal Oak" in the table
           And in Status it says "Not Approved"
+          Given the sli securityEvent collection is empty
           And I click on the "Edit Authorizations" button next to it
           And I expand all nodes
           And I authorize the educationalOrganization "LEA-TIER-A-1"
@@ -290,6 +310,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "40" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
           And I see an application "Royal Oak" in the table
           And in Status it says "40 EdOrg(s)"
@@ -302,6 +323,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "40" educationalOrganizations in the targetEdOrgList of securityEvent "EdOrg data access has been revoked!"
 
     ##########################################################################################
@@ -309,6 +331,7 @@ Background:
     ##########################################################################################
           And I see an application "Royal Oak" in the table
           And in Status it says "Not Approved"
+          Given the sli securityEvent collection is empty
           And I click on the "Edit Authorizations" button next to it
           And I expand all nodes
           And I authorize the educationalOrganization "Tier-5A-School-1"
@@ -317,6 +340,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "1" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
           And I see an application "Royal Oak" in the table
           And in Status it says "1 EdOrg(s)"
@@ -329,6 +353,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "1" educationalOrganizations in the targetEdOrgList of securityEvent "EdOrg data access has been revoked!"
 
     ##########################################################################################
@@ -336,6 +361,7 @@ Background:
     ##########################################################################################
           And I see an application "Royal Oak" in the table
           And in Status it says "Not Approved"
+          Given the sli securityEvent collection is empty
           And I click on the "Edit Authorizations" button next to it
           And I expand all nodes
           And I deselect hierarchical mode
@@ -350,6 +376,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "77" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
           And I see an application "Royal Oak" in the table
           And in Status it says "77 EdOrg(s)"
@@ -368,6 +395,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "77" educationalOrganizations in the targetEdOrgList of securityEvent "EdOrg data access has been revoked!"
 
     ##########################################################################################
@@ -375,6 +403,7 @@ Background:
     ##########################################################################################
           And I see an application "Royal Oak" in the table
           And in Status it says "Not Approved"
+          Given the sli securityEvent collection is empty
           And I click on the "Edit Authorizations" button next to it
           And I expand all nodes
           And I authorize the educationalOrganization "LEA Tier 4"
@@ -383,6 +412,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "16" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
           And I see an application "Royal Oak" in the table
           And in Status it says "16 EdOrg(s)"
@@ -395,6 +425,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "8" educationalOrganizations in the targetEdOrgList of securityEvent "EdOrg data access has been revoked!"
           And I see an application "Royal Oak" in the table
           And in Status it says "8 EdOrg(s)"
@@ -408,6 +439,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "1" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
           And I see an application "Royal Oak" in the table
           And in Status it says "9 EdOrg(s)"
@@ -420,6 +452,7 @@ Background:
           And I check to find if record is in sli db collection:
             | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
             | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+            | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
           And there are "9" educationalOrganizations in the targetEdOrgList of securityEvent "EdOrg data access has been revoked!"
           And I see an application "Royal Oak" in the table
           And in Status it says "Not Approved"
@@ -442,6 +475,7 @@ Background:
     And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
     And there are "45" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "45 EdOrg(s)"
@@ -453,6 +487,7 @@ Background:
     And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
     And there are "45" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "Not Approved"
@@ -475,6 +510,7 @@ Background:
     And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
     And there are "1" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "1 EdOrg(s)"
@@ -487,6 +523,7 @@ Background:
     And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
     And there are "1" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "Not Approved"
@@ -505,6 +542,7 @@ Background:
     And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
     And there are "1" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "1 EdOrg(s)"
@@ -517,6 +555,7 @@ Background:
     And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
     And there are "1" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "Not Approved"
@@ -535,6 +574,7 @@ Background:
     And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
     And there are "32" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "32 EdOrg(s)"
@@ -548,6 +588,7 @@ Background:
     And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
     And there are "32" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "Not Approved"
@@ -576,6 +617,7 @@ Background:
     And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
     And there are "24" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "Not Approved"
@@ -593,6 +635,7 @@ Background:
     And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
     And there are "8" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "8 EdOrg(s)"
@@ -605,6 +648,7 @@ Background:
     And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
     And there are "8" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "Not Approved"
@@ -623,6 +667,7 @@ Background:
     And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
     And there are "1" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "1 EdOrg(s)"
@@ -635,6 +680,7 @@ Background:
     And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
     And there are "1" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "Not Approved"
@@ -655,6 +701,7 @@ Background:
     And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
     And there are "33" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "33 EdOrg(s)"
@@ -668,6 +715,7 @@ Background:
     And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
     And there are "33" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "Not Approved"
@@ -694,6 +742,7 @@ Background:
         And I check to find if record is in sli db collection:
           | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
           | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+          | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
         And there are "1" educationalOrganizations in the targetEdOrgList
         And I see an application "Royal Oak" in the table
         And in Status it says "1 EdOrg(s)"
@@ -706,9 +755,69 @@ Background:
         And I check to find if record is in sli db collection:
           | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
           | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+          | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
         And there are "1" educationalOrganizations in the targetEdOrgList
         And I see an application "Royal Oak" in the table
         And in Status it says "Not Approved"
+
+    Scenario: Verify last authorized information - SEA admin authorizes SEA only
+
+        When I hit the Admin Application Authorization Tool
+         And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
+        Then I see an application "Royal Oak" in the table
+         And in Status it says "Not Approved"
+        Then I click on the "Edit Authorizations" button next to it
+         And I deselect hierarchical mode
+         And I expand all nodes
+         And I authorize the educationalOrganization "Illinois State Board of Education"
+         And I click Update
+        Then only below is present in the application authorization edOrgs array for the application "Royal Oak" in tenant "Midgar"
+            | edOrg                             | user    | realm edOrg                          |
+            | Illinois State Board of Education | iladmin | fakeab32-b493-999b-a6f3-sliedorg1234 |
+
+    Scenario: Verify last authorized information - LEA admin authorizes LEA only (dependant on above scenario)
+
+        When I hit the Admin Application Authorization Tool
+         And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
+        Then I see an application "Royal Oak" in the table
+         And in Status it says "Not Approved"
+        Then I click on the "Edit Authorizations" button next to it
+         And I deselect hierarchical mode
+         And I expand all nodes
+         And I authorize the educationalOrganization "Daybreak School District 4529"
+         And I click Update
+        Then only below is present in the application authorization edOrgs array for the application "Royal Oak" in tenant "Midgar"
+            | edOrg                             | user          | realm edOrg                          |
+            | Illinois State Board of Education | iladmin       | fakeab32-b493-999b-a6f3-sliedorg1234 |
+            | Daybreak School District 4529     | daybreakadmin | fakeab32-b493-999b-a6f3-sliedorg1234 |
+
+    Scenario: Verify last authorized information - SEA admin de-authorizes LEA and adds school (depends on above)
+
+        When I hit the Admin Application Authorization Tool
+         And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
+        Then I see an application "Royal Oak" in the table
+         And in Status it says "2 EdOrg(s)"
+        Then I click on the "Edit Authorizations" button next to it
+         And I deselect hierarchical mode
+         And I expand all nodes
+         And I de-authorize the educationalOrganization "Daybreak School District 4529"
+         And I authorize the educationalOrganization "Many-Parents"
+         And I click Update
+        Then only below is present in the application authorization edOrgs array for the application "Royal Oak" in tenant "Midgar"
+            | edOrg                             | user          | realm edOrg                          |
+            | Illinois State Board of Education | iladmin       | fakeab32-b493-999b-a6f3-sliedorg1234 |
+            | Many-Parents                      | iladmin       | fakeab32-b493-999b-a6f3-sliedorg1234 |
+        Then I see an application "Royal Oak" in the table
+         And in Status it says "2 EdOrg(s)"
+        Then I click on the "Edit Authorizations" button next to it
+         And I deselect hierarchical mode
+         And I expand all nodes
+         And I de-authorize the educationalOrganization "Illinois State Board of Education"
+         And I de-authorize the educationalOrganization "Many-Parents"
+         And I click Update
+        Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+
+        #Timestamps should be checked manually
 
 
 

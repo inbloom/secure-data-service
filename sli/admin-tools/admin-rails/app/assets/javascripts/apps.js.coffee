@@ -88,7 +88,8 @@ jQuery ->
   $("#applications tr:first-child").show()
   $("#applications tr.odd td").click ->
     if $(@).attr("class") != "rowAction"
-      $(@).parent().next("tr").slideToggle()
+      $(@).parent().find("td:first-child.expandable").toggleClass("expanded")
+      $(@).parent().next("tr").toggle()
 
 jQuery ->
   if $('#isBulkExtract > :checkbox').is(':checked')
