@@ -21,10 +21,7 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.InetAddress;
 import java.net.URI;
-import java.net.URL;
 import java.net.UnknownHostException;
-import java.security.SignatureException;
-import java.security.cert.CertificateEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -159,7 +156,7 @@ public class SamlFederationResource {
     private String issuerName;
 
     public static SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-    public static final String idpUrl = "https://localhost:8444/idp/profile/SAML2/SOAP/ArtifactResolution";
+    public static final String IDP_URL = "https://localhost:8444/idp/profile/SAML2/SOAP/ArtifactResolution";
 
     @SuppressWarnings("unused")
     @PostConstruct
@@ -623,7 +620,7 @@ public class SamlFederationResource {
         String artifactResolveId = UUID.randomUUID().toString();
         artifactResolve.setID(artifactResolveId);
 
-        artifactResolve.setDestination(idpUrl);
+        artifactResolve.setDestination(IDP_URL);
 
         Artifact artifact = (Artifact) bf.getBuilder(Artifact.DEFAULT_ELEMENT_NAME).buildObject(Artifact.DEFAULT_ELEMENT_NAME);
         artifact.setArtifact(artifactString);
@@ -645,7 +642,7 @@ public class SamlFederationResource {
         HttpClientBuilder clientBuilder = new HttpClientBuilder();
         HttpSOAPClient soapClient = new HttpSOAPClient(clientBuilder.buildClient(), new BasicParserPool());
 
-        String artifactResolutionServiceURL = idpUrl;
+        String artifactResolutionServiceURL = IDP_URL;
 
         soapClient.send(artifactResolutionServiceURL, soapContext);
 
