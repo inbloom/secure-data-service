@@ -63,7 +63,7 @@ class ApplicationAuthorizationsController < ApplicationController
         @appAuth.edorgs.each do |edorg_entry|
           @appAuth_edorgs.push(edorg_entry.authorizedEdorg)
         end
-    @edorg_tree_html = edOrgTree.get_authorization_tree_html([edOrgId], appId, is_sea_admin?, @appAuth_edorgs || [])
+    @edorg_tree_html = edOrgTree.get_authorization_tree_html(get_app_authorizer_edOrgs, appId, is_sea_admin?, @appAuth_edorgs || [])
   end
   
 
