@@ -5,29 +5,131 @@
 
 	<xs:element name="securityEvent">
 		<xs:complexType>
-			<xs:annotation>
-				<xs:appinfo>
-					<sli:SecuritySphere>Admin</sli:SecuritySphere>
-				</xs:appinfo>
-			</xs:annotation>
+            <!--
+                 re US5459 this entity was removed from the "Admin" data sphere.
+                 The SECURITY_EVENT_VIEW right should be required for reading any of the fields
+                 and nothing should be writable through the API.
+             -->
 			<xs:sequence>
-			    <xs:element name="tenantId"        type="xs:string"     minOccurs="0"></xs:element>
-				<xs:element name="user"            type="xs:string"     minOccurs="0"></xs:element>				
-				<xs:element name="roles"           type="roleList"      minOccurs="0"></xs:element>
-                <xs:element name="targetEdOrg"     type="xs:string"      minOccurs="0"></xs:element>
-				<xs:element name="targetEdOrgList" type="targetEdOrgList"     minOccurs="0"></xs:element>
-				<xs:element name="userEdOrg"       type="xs:string"     minOccurs="0"></xs:element>
-				<xs:element name="actionUri"       type="xs:string"     minOccurs="0" ></xs:element>
-				<xs:element name="appId"           type="xs:string"     minOccurs="0"></xs:element>
-				<xs:element name="executedOn"      type="xs:string"     minOccurs="0" ></xs:element>
-				<xs:element name="origin"          type="xs:string"     minOccurs="0" ></xs:element>
-				<xs:element name="credential"      type="xs:string"     minOccurs="0" ></xs:element>
-				<xs:element name="userOrigin"      type="xs:string"     minOccurs="0" ></xs:element>
-				<xs:element name="timeStamp"       type="xs:dateTime"   minOccurs="0"></xs:element>
-				<xs:element name="processNameOrId" type="xs:string"     minOccurs="0"></xs:element>
-				<xs:element name="className"       type="xs:string"     minOccurs="0"></xs:element>
-				<xs:element name="logLevel"        type="xs:string"     minOccurs="0"></xs:element>
-				<xs:element name="logMessage"      type="xs:string"     minOccurs="0"></xs:element>
+			    <xs:element name="tenantId"        type="xs:string"     minOccurs="0">
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+			    </xs:element>
+				<xs:element name="user"        type="xs:string"     minOccurs="0">
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:element>
+				<xs:element name="roles"           type="roleList"      minOccurs="0">
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:element>
+                <xs:element name="targetEdOrg"     type="xs:string"      minOccurs="0">
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:element>
+				<xs:element name="targetEdOrgList" type="targetEdOrgList"     minOccurs="0">
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:element>
+				<xs:element name="userEdOrg"       type="xs:string"     minOccurs="0">
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:element>
+				<xs:element name="actionUri"       type="xs:string"     minOccurs="0" >
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:element>
+				<xs:element name="appId"           type="xs:string"     minOccurs="0">
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:element>
+				<xs:element name="executedOn"      type="xs:string"     minOccurs="0" >
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+				</xs:element>
+				<xs:element name="origin"          type="xs:string"     minOccurs="0" >
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+				</xs:element>
+				<xs:element name="credential"      type="xs:string"     minOccurs="0" >
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+				</xs:element>
+				<xs:element name="userOrigin"      type="xs:string"     minOccurs="0" >
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+				</xs:element>
+				<xs:element name="timeStamp"       type="xs:dateTime"   minOccurs="0">
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+				</xs:element>
+				<xs:element name="processNameOrId" type="xs:string"     minOccurs="0">
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+				</xs:element>
+				<xs:element name="className"       type="xs:string"     minOccurs="0">
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+				</xs:element>
+				<xs:element name="logLevel"        type="xs:string"     minOccurs="0">
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+				</xs:element>
+				<xs:element name="logMessage"      type="xs:string"     minOccurs="0">
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>SECURITY_EVENT_VIEW</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
