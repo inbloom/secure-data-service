@@ -53,17 +53,17 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.opensaml.common.xml.SAMLConstants;
+import org.opensaml.DefaultBootstrap;
 import org.opensaml.saml2.core.Artifact;
 import org.opensaml.saml2.core.ArtifactResolve;
 import org.opensaml.saml2.core.Issuer;
-import org.opensaml.saml2.metadata.ArtifactResolutionService;
 import org.opensaml.ws.soap.client.BasicSOAPMessageContext;
 import org.opensaml.ws.soap.client.http.HttpClientBuilder;
 import org.opensaml.ws.soap.client.http.HttpSOAPClient;
 import org.opensaml.ws.soap.common.SOAPException;
 import org.opensaml.ws.soap.soap11.Body;
 import org.opensaml.ws.soap.soap11.Envelope;
+import org.opensaml.xml.ConfigurationException;
 import org.opensaml.xml.XMLObjectBuilderFactory;
 import org.opensaml.xml.Configuration;
 import org.opensaml.xml.parse.BasicParserPool;
@@ -159,6 +159,7 @@ public class SamlFederationResource {
     private String issuerName;
 
     public static SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+    public static final String idpUrl = "https://localhost:8444/idp/profile/SAML2/SOAP/ArtifactResolution";
 
     @SuppressWarnings("unused")
     @PostConstruct
@@ -588,7 +589,7 @@ public class SamlFederationResource {
      */
     @GET
     @Path("sso/artifact")
-    public Response artifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) throws IOException, SOAPException, SecurityException {
+    public Response artifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) throws IOException, SOAPException, SecurityException, ConfigurationException {
         String artifact = request.getParameter("SAMLart");
         if (artifact == null) {
             throw new IOException("No artifact in message");
@@ -607,8 +608,9 @@ public class SamlFederationResource {
     }
 
 
-    private ArtifactResolve generateArtifactResolve(final String artifactString) {
+    private ArtifactResolve generateArtifactResolve(final String artifactString) throws ConfigurationException {
 
+        DefaultBootstrap.bootstrap();
         XMLObjectBuilderFactory bf = Configuration.getBuilderFactory();
 
         ArtifactResolve artifactResolve =  (ArtifactResolve) bf.getBuilder(ArtifactResolve.DEFAULT_ELEMENT_NAME).buildObject(ArtifactResolve.DEFAULT_ELEMENT_NAME);
@@ -621,7 +623,7 @@ public class SamlFederationResource {
         String artifactResolveId = UUID.randomUUID().toString();
         artifactResolve.setID(artifactResolveId);
 
-        artifactResolve.setDestination("https://idp.example.org/idp/shibboleth/artifact");
+        artifactResolve.setDestination(idpUrl);
 
         Artifact artifact = (Artifact) bf.getBuilder(Artifact.DEFAULT_ELEMENT_NAME).buildObject(Artifact.DEFAULT_ELEMENT_NAME);
         artifact.setArtifact(artifactString);
@@ -643,7 +645,7 @@ public class SamlFederationResource {
         HttpClientBuilder clientBuilder = new HttpClientBuilder();
         HttpSOAPClient soapClient = new HttpSOAPClient(clientBuilder.buildClient(), new BasicParserPool());
 
-        String artifactResolutionServiceURL = "https://idp.example.org/idp/shibboleth/artifact";
+        String artifactResolutionServiceURL = idpUrl;
 
         soapClient.send(artifactResolutionServiceURL, soapContext);
 
