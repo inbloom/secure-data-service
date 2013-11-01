@@ -39,7 +39,6 @@ import com.sun.jersey.core.header.reader.HttpHeaderReader;
 
 import org.apache.commons.io.IOUtils;
 import org.slc.sli.api.security.SecurityEventBuilder;
-import org.slc.sli.api.security.service.AuditLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -77,9 +76,6 @@ public class FileResource {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
-
-    @Autowired
-    private AuditLogger auditLogger;
 
     /**
      * Get the file request response
@@ -528,7 +524,7 @@ public class FileResource {
     }
 
     void logSecurityEvent(String message) {
-        auditLogger.audit(securityEventBuilder.createSecurityEvent(FileResource.class.getName(),
+        audit(securityEventBuilder.createSecurityEvent(FileResource.class.getName(),
                 uri.getRequestUri(), message, true));
     }
 

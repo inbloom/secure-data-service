@@ -103,6 +103,42 @@ public class SmooksEdFi2SLITransformerTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    public void testTeacherSchoolAssociationMapping() {
+        NeutralRecord teacherSchoolAssociation = createTeacherSchoolAssociationNeutralRecord();
+
+        ReportStats reportStats = new SimpleReportStats();
+
+        List<? extends Entity> result = transformer.transform(teacherSchoolAssociation, new DummyMessageReport(),
+                reportStats);
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(1, result.size());
+
+        Entity tsa = result.get(0);
+
+        Assert.assertNotNull(tsa.getBody().get("teacherId"));
+        Assert.assertEquals("teacherreference", tsa.getBody().get("teacherId"));
+
+        Assert.assertNotNull(tsa.getBody().get("schoolId"));
+        Assert.assertEquals("schoolreference", tsa.getBody().get("schoolId"));
+
+        Assert.assertNotNull(tsa.getBody().get("programAssignment"));
+        Assert.assertEquals("programassignment", tsa.getBody().get("programAssignment"));
+
+        Assert.assertNotNull(tsa.getBody().get("academicSubjects"));
+        List<String> academicSubjects =((List<String>) tsa.getBody().get("academicSubjects"));
+        Assert.assertEquals(2, academicSubjects.size());
+        Assert.assertTrue(academicSubjects.contains("Computer Science"));
+        Assert.assertTrue(academicSubjects.contains("AP Computer Science"));
+
+        Assert.assertNotNull(tsa.getBody().get("instructionalGradeLevels"));
+        List<String> instructionalGradeLevels =((List<String>) tsa.getBody().get("instructionalGradeLevels"));
+        Assert.assertEquals(2, instructionalGradeLevels.size());
+        Assert.assertTrue(instructionalGradeLevels.contains("High School"));
+        Assert.assertTrue(instructionalGradeLevels.contains("8th Grade"));
+    }
+    @SuppressWarnings("unchecked")
+    @Test
     public void testAssessmentMapping() {
         NeutralRecord assessment = createAssessmentNeutralRecord(false);
 
@@ -414,6 +450,59 @@ public class SmooksEdFi2SLITransformerTest {
 
 
         return courseTranscript;
+    }
+
+    /**
+     * @author
+     * @param
+     *
+     * @return neutral record
+     */
+    private NeutralRecord createTeacherSchoolAssociationNeutralRecord() {
+        // Create neutral record for entity.
+        NeutralRecord teacherSchoolAssociation = new NeutralRecord();
+
+
+        Map<String,Object>  body = new HashMap<String, Object>();
+        body.put( "TeacherReference", "teacherreference");
+
+        body.put( "SchoolReference", "schoolreference");
+
+
+        Map<String, Object> programAssignment = new HashMap<String, Object>();
+        programAssignment.put("_value", "programassignment");
+        body.put( "ProgramAssignment", programAssignment);
+
+        Map<String, Object> academicSubjects = new HashMap<String, Object>();
+        List<Map<String, Object>> academicSubject = new ArrayList<Map<String, Object>>();
+        Map<String, Object> value1 = new HashMap<String, Object>();
+        value1.put("_value", "Computer Science");
+        Map<String, Object> value2 = new HashMap<String, Object>();
+        value2.put("_value", "AP Computer Science");
+        academicSubject.add(value1);
+        academicSubject.add(value2);
+        academicSubjects.put("AcademicSubject", academicSubject);
+        body.put( "AcademicSubjects", academicSubjects);
+
+
+        Map<String, Object> gradeLevels = new HashMap<String, Object>();
+        List<Map<String, Object>> gradeLevel = new ArrayList<Map<String, Object>>();
+        Map<String, Object> ovalue1 = new HashMap<String, Object>();
+        ovalue1.put("_value", "High School");
+        Map<String, Object> ovalue2 = new HashMap<String, Object>();
+        ovalue2.put("_value", "8th Grade");
+        gradeLevel.add(ovalue1);
+        gradeLevel.add(ovalue2);
+        gradeLevels.put("GradeLevel", gradeLevel);
+        body.put( "InstructionalGradeLevels", gradeLevels);
+
+        teacherSchoolAssociation.setAttributes( body);
+        teacherSchoolAssociation.setRecordId( "1a-323-fg4");
+        teacherSchoolAssociation.setSourceId(TENANT_ID);
+        teacherSchoolAssociation.setRecordType("teacherSchoolAssociation");
+
+
+        return teacherSchoolAssociation;
     }
     /**
      * @author tke

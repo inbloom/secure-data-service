@@ -65,7 +65,7 @@ end
 Then /^I see all the applications registered on SLI$/ do
   appsTable = @driver.find_element(:id, "applications")
   trs = appsTable.find_elements(:xpath, ".//tr/td[text()='APPROVED']")
-  assert(trs.length > 10, "Should see a significant number of approved applications")
+  assert(trs.length > 4, "Should see a significant number of approved applications")
 end
 
 Then /^I see all the applications pending registration$/ do
@@ -90,7 +90,7 @@ Then /^the pending apps are on top$/ do
     index = tableHeadings.index(arg) + 1 if arg.text == "Status"    
   end
   trs = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Approve']/../../../..")
-  assert(trs.length > 10, "Should see many applications")
+  assert(trs.length > 4, "Should see many applications")
 
   last_status = nil
   trs.each do |row|
@@ -245,7 +245,7 @@ Then /^a client ID is created for the new application that can be used to access
 end
 
 Then /^the client ID and shared secret fields are Pending$/ do
-  @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
+#  @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
   client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[1]').text
   puts "Client ID: " + client_id
   assert(client_id == 'Pending', "Expected 'Pending', got #{client_id}")
@@ -268,7 +268,7 @@ Then /^the client ID and shared secret fields are present$/ do
 end
 
 Then /^the Registration Status field is Pending$/ do
-  td = @driver.find_element(:xpath, "//tbody/tr[1]/td[4]")
+  td = @driver.find_element(:xpath, "//tbody/tr[1]/td[5]")
   assert(td.text == 'Pending', "Expected 'Pending', got #{td.text}")
 end
 
@@ -299,11 +299,11 @@ Then /^a "([^"]*)" button is displayed for application "([^"]*)"$/ do |button_la
    assert (@driver.find_element(:xpath, "//tr/td[text()='#{app}']/../td/a[text()='#{button_label}']"))
 end
 
-Then /^I click Cancel$/ do
+Then /^I click Cancel on the application enable page$/ do
    #first cancel button
-   @driver.find_element(:xpath, '//*[@id="edorgTree"]/span[1]/button').click
+   @driver.find_element(:id, 'Cancel1').click
    #second cancel button
-   #@driver.find_element(:xpath, '//*[@id="edorgTree"]/span[2]/button').click
+   #@driver.find_element(:id, 'Cancel2').click
 end
 
 Then /^the row of the app "([^"]*)" expanded$/ do |arg1|
@@ -335,7 +335,7 @@ Then /^the info for "([^"]*)" was updated$/ do |arg1|
 end
 
 Then /^I the field named "([^"]*)" still says "([^"]*)"$/ do |arg1, arg2|
-  @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
+  #@driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
   data = @driver.find_element(:xpath, "//tbody/tr[2]/td/dl/dt[text()=\"#{arg1}\"]")
   value = data.find_element(:xpath, "following-sibling::*[1]").text
   assertWithWait("#{arg1} should be #{arg2}") {value == arg2}
@@ -383,7 +383,7 @@ Then /^the application is registered$/ do
   appsTable = @driver.find_element(:id, "applications")
   trs  = appsTable.find_elements(:xpath, ".//tbody/tr/td[text()='NewApp']")
   trs.each do |tr|
-    assert(tr.find_element(:xpath, "../td[4]").text != "Pending", "App should be registered")
+    assert(tr.find_element(:xpath, "../td[5]").text != "Pending", "App should be registered")
   end
   assert(trs.length > 0, "No more pending applications")
 end

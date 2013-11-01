@@ -15,22 +15,13 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    And the extract contains a file for each of the following entities:
    |  entityType                            |
    |  attendance                            |
-   |  cohort                                |
-   |  course                                |
-   |  courseOffering                        |
    |  courseTranscript                      |
    |  disciplineIncident                    |
    |  disciplineAction                      |
-   |  educationOrganization                 |
    |  grade                                 |
    |  gradebookEntry                        |
-   |  gradingPeriod                         |
-   |  graduationPlan                        |
    |  parent                                |
    |  reportCard                            |
-   |  school                                |
-   |  section                               |
-   |  session                               |
    |  staff                                 |
    |  staffCohortAssociation                |
    |  staffEducationOrganizationAssociation |
@@ -66,6 +57,13 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
     |  learningStandard                      |
     |  program                               |
     |  studentCompetencyObjective            |
+    |  course                                |
+    |  courseOffering                        |
+    |  session                               |
+    |  gradingPeriod                         |
+    |  school                                |
+    |  section                               |
+    |  cohort                                |
 
 
 Scenario: Un-Authorized user cannot use the endpoint

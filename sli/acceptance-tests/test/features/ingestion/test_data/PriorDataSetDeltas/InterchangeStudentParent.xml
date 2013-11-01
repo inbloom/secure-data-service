@@ -1,0 +1,307 @@
+<?xml version="1.0"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                          xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd">
+    <Student>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+        <StudentIdentificationCode IdentificationSystem="School" AssigningOrganizationCode="District">
+            <IdentificationCode>abcde</IdentificationCode>
+        </StudentIdentificationCode>
+        <Name>
+            <FirstName>Carmen</FirstName>
+            <MiddleName>Karyn</MiddleName>
+            <LastSurname>Ortiz</LastSurname>
+        </Name>
+        <OtherName OtherNameType="Other Name">
+            <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+            <FirstName>Fannie</FirstName>
+            <MiddleName>Misty</MiddleName>
+            <LastSurname>Leslie</LastSurname>
+            <GenerationCodeSuffix>II</GenerationCodeSuffix>
+        </OtherName>
+        <Sex>Female</Sex>
+        <BirthData>
+            <BirthDate>1996-10-15</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>800 Oak Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60601</PostalCode>
+        </Address>
+        <Telephone>
+            <TelephoneNumber>(058)555-4767</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>8724@fakemail.com</EmailAddress>
+        </ElectronicMail>
+        <ProfileThumbnail>900000016 thumb</ProfileThumbnail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <OldEthnicity>Hispanic</OldEthnicity>
+        <Race>
+            <RacialCategory>White</RacialCategory>
+        </Race>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
+        <StudentCharacteristics>
+            <Characteristic>Unschooled Asylee</Characteristic>
+            <BeginDate>20012-04-22</BeginDate>
+            <EndDate>2014-06-11</EndDate>
+            <DesignatedBy>Teacher</DesignatedBy>
+        </StudentCharacteristics>
+
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Languages>
+            <Language>Nepali</Language>
+        </Languages>
+        <HomeLanguages>
+            <Language>Nepali</Language>
+        </HomeLanguages>
+        <Disabilities>
+            <Disability>Emotional Disturbance</Disability>
+            <DisabilityDiagnosis>Diagnosis A</DisabilityDiagnosis>
+            <OrderOfDisability>12</OrderOfDisability>
+        </Disabilities>
+        <Section504Disabilities>
+            <Section504Disability>Medical Condition</Section504Disability>
+        </Section504Disabilities>
+        <DisplacementStatus>Status A</DisplacementStatus>
+        <ProgramParticipations>
+            <Program>Athletics</Program>
+            <BeginDate>20013-04-10</BeginDate>
+            <EndDate>2014-06-26</EndDate>
+            <DesignatedBy>Teacher</DesignatedBy>
+        </ProgramParticipations>
+        <LearningStyles>
+            <VisualLearning>12</VisualLearning>
+            <AuditoryLearning>31</AuditoryLearning>
+            <TactileLearning>13</TactileLearning>
+        </LearningStyles>
+        <CohortYears CohortYearType="Third grade">
+            <SchoolYear>2013-2014</SchoolYear>
+        </CohortYears>
+        <StudentIndicators>
+            <IndicatorGroup>Group A</IndicatorGroup>
+            <IndicatorName>Name 3</IndicatorName>
+            <Indicator>Indicator 1</Indicator>
+            <BeginDate>20013-04-05</BeginDate>
+            <EndDate>2013-11-17</EndDate>
+            <DesignatedBy>Mentor</DesignatedBy>
+        </StudentIndicators>
+
+        <LoginId>8724@fakemail.com</LoginId>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+        <StudentIdentificationCode IdentificationSystem="District" AssigningOrganizationCode="School">
+            <IdentificationCode>abcde</IdentificationCode>
+        </StudentIdentificationCode>
+        <Name>
+            <FirstName>Matt</FirstName>
+            <MiddleName>Aida</MiddleName>
+            <LastSurname>Sollars</LastSurname>
+        </Name>
+        <OtherName OtherNameType="Nickname">
+            <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+            <FirstName>Evangeline</FirstName>
+            <MiddleName>Mavis</MiddleName>
+            <LastSurname>Charles</LastSurname>
+            <GenerationCodeSuffix>VII</GenerationCodeSuffix>
+        </OtherName>
+        <Sex>Female</Sex>
+        <BirthData>
+            <BirthDate>1995-07-21</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>800 Oak Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60601</PostalCode>
+        </Address>
+        <Telephone>
+            <TelephoneNumber>(115)555-5072</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>4859@fakemail.com</EmailAddress>
+        </ElectronicMail>
+        <ProfileThumbnail>800000025 thumb</ProfileThumbnail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+        <Race>
+            <RacialCategory>Black - African American</RacialCategory>
+        </Race>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+        <StudentCharacteristics>
+            <Characteristic>Unaccompanied Youth</Characteristic>
+            <BeginDate>20013-04-20</BeginDate>
+            <EndDate>2014-08-01</EndDate>
+            <DesignatedBy>Teacher</DesignatedBy>
+        </StudentCharacteristics>
+
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Languages>
+            <Language>Norwegian</Language>
+        </Languages>
+        <HomeLanguages>
+            <Language>Cambodian (Khmer)</Language>
+        </HomeLanguages>
+        <Disabilities>
+            <Disability>Deaf-Blindness</Disability>
+            <DisabilityDiagnosis>Diagnosis A</DisabilityDiagnosis>
+            <OrderOfDisability>3</OrderOfDisability>
+        </Disabilities>
+        <Section504Disabilities>
+            <Section504Disability>Sensory Impairment</Section504Disability>
+        </Section504Disabilities>
+        <DisplacementStatus>Status BBB</DisplacementStatus>
+        <ProgramParticipations>
+            <Program>Adult/Continuing Education</Program>
+            <BeginDate>20013-05-10</BeginDate>
+            <EndDate>2013-11-25</EndDate>
+            <DesignatedBy>Teacher</DesignatedBy>
+        </ProgramParticipations>
+        <LearningStyles>
+            <VisualLearning>36</VisualLearning>
+            <AuditoryLearning>39</AuditoryLearning>
+            <TactileLearning>12</TactileLearning>
+        </LearningStyles>
+        <CohortYears CohortYearType="Twelfth grade">
+            <SchoolYear>2011-2012</SchoolYear>
+        </CohortYears>
+        <StudentIndicators>
+            <IndicatorGroup>Group A</IndicatorGroup>
+            <IndicatorName>Name 3</IndicatorName>
+            <Indicator>Indicator 1</Indicator>
+            <BeginDate>20012-05-12</BeginDate>
+            <EndDate>2013-07-05</EndDate>
+            <DesignatedBy>Parent</DesignatedBy>
+        </StudentIndicators>
+
+        <LoginId>4859@fakemail.com</LoginId>
+    </Student>
+
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>900000016-dad</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Father</Relation>
+        <LivesWith>true</LivesWith>
+        <ContactPriority>1</ContactPriority>
+    </StudentParentAssociation>
+
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>800000025-dad</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Father</Relation>
+        <PrimaryContactStatus>true</PrimaryContactStatus>
+        <LivesWith>true</LivesWith>
+        <EmergencyContactStatus>true</EmergencyContactStatus>
+        <ContactPriority>1</ContactPriority>
+    </StudentParentAssociation>
+    
+<Parent>
+  <ParentUniqueStateId>900000016-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Tommy</FirstName>
+    <MiddleName>Benny</MiddleName>
+    <LastSurname>Ortiz</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Previous Legal Name">
+    <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+    <FirstName>Terrence</FirstName>
+    <MiddleName>Zane</MiddleName>
+    <LastSurname>Kelly</LastSurname>
+    <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>1313 Mockingbird Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>(133)555-2191</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>210@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>210@fakemail.com</LoginId>
+</Parent>
+
+<Parent>
+  <ParentUniqueStateId>800000025-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Brent</FirstName>
+    <MiddleName>Ulysses</MiddleName>
+    <LastSurname>Sollars</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Nickname">
+    <PersonalTitlePrefix>Dr</PersonalTitlePrefix>
+    <FirstName>Gregory</FirstName>
+    <MiddleName>Samuel</MiddleName>
+    <LastSurname>Murphy</LastSurname>
+    <GenerationCodeSuffix>IV</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>707 Elm Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>(512)555-2418</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9008@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9008@fakemail.com</LoginId>
+</Parent>    
+
+<Parent>
+  <ParentUniqueStateId>800000025-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Monica</FirstName>
+    <MiddleName>Reyna</MiddleName>
+    <LastSurname>Sollars</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Other Name">
+    <PersonalTitlePrefix>Dr</PersonalTitlePrefix>
+    <FirstName>Gloria</FirstName>
+    <MiddleName>Edna</MiddleName>
+    <LastSurname>Williams</LastSurname>
+    <GenerationCodeSuffix>IV</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>707 Elm Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>(305)555-9797</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>3918@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>3918@fakemail.com</LoginId>
+</Parent>
+
+</InterchangeStudentParent>

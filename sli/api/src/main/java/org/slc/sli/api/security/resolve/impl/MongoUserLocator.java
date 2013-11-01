@@ -24,8 +24,6 @@ import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -41,8 +39,6 @@ import java.util.Set;
 @Component
 public class MongoUserLocator implements UserLocator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MongoUserLocator.class);
-
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
@@ -51,7 +47,7 @@ public class MongoUserLocator implements UserLocator {
 
     @Override
     public SLIPrincipal locate(String tenantId, String externalUserId, String userType, String clientId) {
-    	 LOG.info("Locating user {}@{} of type: {}", new Object[]{externalUserId, tenantId, userType});
+    	 info("Locating user {}@{} of type: {}", new Object[]{externalUserId, tenantId, userType});
          SLIPrincipal user = new SLIPrincipal(externalUserId + "@" + tenantId);
          user.setExternalId(externalUserId);
          user.setTenantId(tenantId);
@@ -84,7 +80,7 @@ public class MongoUserLocator implements UserLocator {
                  Entity entity = staff.iterator().next();
                  Set<String> edorgs = edorgHelper.locateDirectEdorgs(entity);
                  if (edorgs.size() == 0) {
-                     LOG.warn("User {} is not currently associated to a school/edorg", user.getId());
+                     warn("User {} is not currently associated to a school/edorg", user.getId());
                      throw new APIAccessDeniedException("User is not currently associated to a school/edorg", user, clientId);
                  }
                  user.setEntity(entity);
@@ -92,12 +88,12 @@ public class MongoUserLocator implements UserLocator {
          }
 
          if (user.getEntity() == null) {
-             LOG.warn("Failed to locate user {} in the datastore", user.getId());
+             warn("Failed to locate user {} in the datastore", user.getId());
              Entity entity = new MongoEntity("user", "-133", new HashMap<String, Object>(),
                      new HashMap<String, Object>());
              user.setEntity(entity);
          } else {
-             LOG.info("Matched user: {}@{} -> {}", new Object[]{externalUserId, tenantId, user.getEntity().getEntityId()});
+             info("Matched user: {}@{} -> {}", new Object[]{externalUserId, tenantId, user.getEntity().getEntityId()});
          }
 
          return user;

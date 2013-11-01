@@ -19,25 +19,30 @@ package org.slc.sli.bulk.extract.lea;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
+import org.slc.sli.common.constants.ContainerEntityNames;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 public class YearlyTranscriptExtractorTest {
+
     private YearlyTranscriptExtractor extractor;
     @Mock
     private Repository<Entity> mockRepo;
@@ -47,90 +52,105 @@ public class YearlyTranscriptExtractorTest {
     private EntityExtractor mockExtractor;
     @Mock
     private ExtractFile mockFile;
-    
+
     @Mock
-    private EntityToEdOrgCache mockStudentCache;
-    
-    @Mock
-    private EntityToEdOrgCache mockStudentAcademicRecordCache;
-    
+    private EntityToEdOrgDateCache mockStudentCache;
+
     @Mock
     private Entity mockEntity;
 
     @Mock
     private EdOrgExtractHelper mockEdOrgExtractHelper;
-    
+
     private Map<String, Object> entityBody;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        extractor = new YearlyTranscriptExtractor(mockExtractor, mockMap, mockRepo, mockEdOrgExtractHelper, mockStudentAcademicRecordCache);
+        extractor = new YearlyTranscriptExtractor(mockExtractor, mockMap, mockRepo, mockEdOrgExtractHelper);
         entityBody = new HashMap<String, Object>();
+        entityBody.put(ParameterConstants.SCHOOL_YEAR, "2010-2011");
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
+        Mockito.when(mockEntity.getType()).thenReturn(ContainerEntityNames.YEARLY_TRANSCRIPT);
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
-        Mockito.when(mockStudentCache.getEntriesById("student")).thenReturn(new HashSet<String>(Arrays.asList("LEA")));
+
+        Map<String, DateTime> edorgDatedCache = new HashMap<String, DateTime>();
+        edorgDatedCache.put("LEA", DateTime.parse("2011-01-01", DateHelper.getDateTimeFormat()));
+        Mockito.when(mockStudentCache.getEntriesById("student")).thenReturn(edorgDatedCache);
     }
-    
+
+    @Test
+    public void testDoNotWriteDatedBasedEntity() {
+        Mockito.when(mockRepo.findEach(Mockito.eq(ContainerEntityNames.YEARLY_TRANSCRIPT), Mockito.eq(new NeutralQuery())))
+                .thenReturn(Arrays.asList(mockEntity).iterator());
+        entityBody.put(ParameterConstants.STUDENT_ID, "student");
+        entityBody.put(ParameterConstants.SCHOOL_YEAR, "2012-2013");
+        extractor.extractEntities(mockStudentCache);
+        Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
+                Mockito.eq(ContainerEntityNames.YEARLY_TRANSCRIPT));
+    }
+
     @Test
     public void testWriteOneEntity() {
-        Mockito.when(mockRepo.findEach(Mockito.eq("yearlyTranscript"), Mockito.eq(new NeutralQuery())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(ContainerEntityNames.YEARLY_TRANSCRIPT), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         entityBody.put(ParameterConstants.STUDENT_ID, "student");
         extractor.extractEntities(mockStudentCache);
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
-                Mockito.eq("yearlyTranscript"));
+                Mockito.eq(ContainerEntityNames.YEARLY_TRANSCRIPT));
     }
-    
+
     @Test
     public void testWriteManyEntities() {
-        Mockito.when(mockRepo.findEach(Mockito.eq("yearlyTranscript"), Mockito.eq(new NeutralQuery())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(ContainerEntityNames.YEARLY_TRANSCRIPT), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity, mockEntity, mockEntity).iterator());
         entityBody.put(ParameterConstants.STUDENT_ID, "student");
         extractor.extractEntities(mockStudentCache);
         Mockito.verify(mockExtractor, Mockito.times(3)).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
-                Mockito.eq("yearlyTranscript"));
+                Mockito.eq(ContainerEntityNames.YEARLY_TRANSCRIPT));
     }
-    
+
     @Test
     public void testExtractNoEntityBecauseOfLEAMiss() {
-        Mockito.when(mockRepo.findEach(Mockito.eq("yearlyTranscript"), Mockito.eq(new NeutralQuery())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(ContainerEntityNames.YEARLY_TRANSCRIPT), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(null);
         extractor.extractEntities(mockStudentCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
-                Mockito.eq("yearlyTranscript"));
+                Mockito.eq(ContainerEntityNames.YEARLY_TRANSCRIPT));
     }
-    
+
     @Test
     public void testExtractNoEntityBecauseOfIdMiss() {
         entityBody.put(ParameterConstants.STUDENT_ID, "STUDENT1");
-        Mockito.when(mockRepo.findEach(Mockito.eq("yearlyTranscript"), Mockito.eq(new NeutralQuery())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(ContainerEntityNames.YEARLY_TRANSCRIPT), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
         extractor.extractEntities(mockStudentCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
-                Mockito.eq("yearlyTranscript"));
+                Mockito.eq(ContainerEntityNames.YEARLY_TRANSCRIPT));
     }
-    
+
+    @SuppressWarnings("unchecked")
     @Test
     public void testStudentAcademicRecordCache() {
-        Mockito.when(mockRepo.findEach(Mockito.eq("yearlyTranscript"), Mockito.eq(new NeutralQuery())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(ContainerEntityNames.YEARLY_TRANSCRIPT), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         entityBody.put(ParameterConstants.STUDENT_ID, "student");
-        
+
         Entity sar1 = Mockito.mock(Entity.class);
         Map<String, Object> body = Mockito.mock(Map.class);
         Mockito.when(sar1.getBody()).thenReturn(body);
         Mockito.when(sar1.getEntityId()).thenReturn("sar1");
         Mockito.when(body.get(Mockito.eq(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID))).thenReturn("sar1");
         List<Entity> sars = Arrays.asList(sar1);
-        Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
-        embeddedData.put(EntityNames.STUDENT_ACADEMIC_RECORD, sars);
-        Mockito.when(mockEntity.getEmbeddedData()).thenReturn(embeddedData);
-        
+        Map<String, List<Entity>> containerData = new HashMap<String, List<Entity>>();
+        containerData.put(EntityNames.STUDENT_ACADEMIC_RECORD, sars);
+        Mockito.when(mockEntity.getContainerData()).thenReturn(containerData);
+
         extractor.extractEntities(mockStudentCache);
-        
-        Mockito.verify(mockStudentAcademicRecordCache).addEntry("sar1", "LEA");
+
+        Assert.assertTrue(extractor.getStudentAcademicRecordDateCache().getEntriesById("sar1").containsKey("LEA"));
     }
+
 }

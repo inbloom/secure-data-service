@@ -22,8 +22,6 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,8 +36,6 @@ import java.util.Map.Entry;
  */
 @Component
 public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
-
-    private static final Logger LOG = LoggerFactory.getLogger(TransitiveStaffToStaffValidator.class);
     
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
@@ -62,7 +58,7 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("staffReference", NeutralCriteria.CRITERIA_IN,
                 staffIds));
         basicQuery.setIncludeFields(Arrays.asList("educationOrganizationReference", "staffReference"));
-        LOG.info("Attempting to validate transitively from staff to staff with ids {}", staffIds);
+        info("Attempting to validate transitively from staff to staff with ids {}", staffIds);
         
         injectEndDateQuery(basicQuery);
         

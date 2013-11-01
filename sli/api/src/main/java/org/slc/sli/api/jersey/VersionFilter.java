@@ -25,8 +25,6 @@ import javax.ws.rs.core.UriBuilder;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,8 +38,6 @@ import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
  */
 @Component
 public class VersionFilter implements ContainerRequestFilter {
-
-    private static final Logger LOG = LoggerFactory.getLogger(VersionFilter.class);
 
     private static final String REQUESTED_PATH = "requestedPath";
 
@@ -76,7 +72,7 @@ public class VersionFilter implements ContainerRequestFilter {
                 newVersion = getLatestApiVersion(version);
 
                 updateContainerRequest(containerRequest, segments, newVersion);
-                LOG.info("Version Rewrite: {} --> {}", new Object[] { version, newVersion });
+                info("Version Rewrite: {} --> {}", new Object[] { version, newVersion });
 
             } else if ((minorVersions != null) && !minorVersions.isEmpty()) {
                 segments.remove(0);
@@ -84,7 +80,7 @@ public class VersionFilter implements ContainerRequestFilter {
                 newVersion = version + "." + minorVersions.last();
 
                 updateContainerRequest(containerRequest, segments, newVersion);
-                LOG.info("Version Rewrite: {} --> {}", new Object[] { version, newVersion });
+                info("Version Rewrite: {} --> {}", new Object[] { version, newVersion });
             }
         }
 

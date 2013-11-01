@@ -20,8 +20,6 @@ package org.slc.sli.api.security.roles;
 import java.util.List;
 
 import org.slc.sli.domain.enums.Right;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A simple class to help build a Role in terms of their associated rights.
@@ -29,8 +27,6 @@ import org.slf4j.LoggerFactory;
  * Currently this doesn't have much use, but will when we add custom roles.
  */
 public final class RoleBuilder {
-
-    private static final Logger LOG = LoggerFactory.getLogger(RoleBuilder.class);
 
     Role role;
 
@@ -84,7 +80,7 @@ public final class RoleBuilder {
                 try {
                     role.addRight(Right.valueOf(rightName));
                 } catch (IllegalArgumentException e) {
-                    LOG.warn("No such right: {}", rightName);
+                    warn("No such right: {}", rightName);
                 }
             }
         }
@@ -97,7 +93,7 @@ public final class RoleBuilder {
                 try {
                     role.addSelfRight(Right.valueOf(rightName));
                 } catch (IllegalArgumentException e) {
-                    LOG.warn("No such right: {}", rightName);
+                    warn("No such right: {}", rightName);
                 }
             }
         }

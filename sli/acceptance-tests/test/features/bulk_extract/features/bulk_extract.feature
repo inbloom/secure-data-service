@@ -9,22 +9,13 @@ Scenario: Trigger a bulk extract on ingested data
    And the extract contains a file for each of the following entities:
    |  entityType                            |
    |  attendance                            |
-   |  cohort                                |
-   |  course                                |
-   |  courseOffering                        |
    |  courseTranscript                      |
    |  disciplineIncident                    |
    |  disciplineAction                      |
-   |  educationOrganization                 |
    |  grade                                 |
    |  gradebookEntry                        |
-   |  gradingPeriod                         |
-   |  graduationPlan                        |
    |  parent                                |
    |  reportCard                            |
-   |  school                                |
-   |  section                               |
-   |  session                               |
    |  staff                                 |
    |  staffCohortAssociation                |
    |  staffEducationOrganizationAssociation |
@@ -61,3 +52,10 @@ Scenario: Trigger a bulk extract on ingested data
       |  educationOrganization                 |
       |  learningObjective                     |
       |  studentCompetencyObjective            |
+      |  course                                |
+      |  courseOffering                        |
+      |  session                               |
+      |  gradingPeriod                         |
+      |  school                                |
+      |  section                               |
+      |  cohort                                |

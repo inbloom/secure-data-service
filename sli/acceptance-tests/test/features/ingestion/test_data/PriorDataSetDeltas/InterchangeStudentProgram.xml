@@ -1,0 +1,185 @@
+<InterchangeStudentProgram xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                           xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentProgram.xsd">
+
+    <StudentProgramAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>118</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
+        <Services>
+
+
+            <Description>Reading Intervention</Description>
+        </Services>
+        <BeginDate>2011-08-31</BeginDate>
+        <EndDate>2012-05-28</EndDate>
+        <ReasonExited>Reached maximum age</ReasonExited>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </StudentProgramAssociation>
+
+    <StudentProgramAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>174</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
+        <Services>
+
+
+            <Description>Reading Intervention</Description>
+        </Services>
+        <BeginDate>2012-09-06</BeginDate>
+        <EndDate>2013-06-03</EndDate>
+        <ReasonExited>Reached maximum age</ReasonExited>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </StudentProgramAssociation>
+
+    <StudentProgramAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>144</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
+        <Services>
+
+
+            <Description>Reading Intervention</Description>
+        </Services>
+        <BeginDate>2010-08-31</BeginDate>
+        <EndDate>2011-05-27</EndDate>
+        <ReasonExited>Discontinued schooling</ReasonExited>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Eastside High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </StudentProgramAssociation>
+
+    <StudentProgramAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>252</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
+        <Services>
+
+
+            <Description>Reading Intervention</Description>
+        </Services>
+        <BeginDate>2011-08-31</BeginDate>
+        <EndDate>2012-05-28</EndDate>
+        <ReasonExited>Reached maximum age</ReasonExited>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </StudentProgramAssociation>
+
+    <StudentProgramAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>176</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
+        <Services>
+
+
+            <Description>Reading Intervention</Description>
+        </Services>
+        <BeginDate>2010-08-31</BeginDate>
+        <EndDate>2011-05-27</EndDate>
+        <ReasonExited>Reached maximum age</ReasonExited>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </StudentProgramAssociation>
+
+    <StudentProgramAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>151</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
+        <Services>
+
+
+            <Description>Reading Intervention</Description>
+        </Services>
+        <BeginDate>2011-09-05</BeginDate>
+        <EndDate>2012-05-28</EndDate>
+        <ReasonExited>Discontinued schooling</ReasonExited>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Eastside High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </StudentProgramAssociation>
+
+    <StudentProgramAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>136</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
+        <Services>
+
+
+            <Description>Reading Intervention</Description>
+        </Services>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2013-06-03</EndDate>
+        <ReasonExited>Reached maximum age</ReasonExited>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Eastside High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </StudentProgramAssociation>
+</InterchangeStudentProgram>
