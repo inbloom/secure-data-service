@@ -28,6 +28,24 @@ class ApplicationController < ActionController::Base
   class OutOfOrder < StandardError
   end
 
+  class NoUserEdOrgError < StandardError
+    def initialize(message)
+      @message = message
+    end
+
+    def to_s
+      @message
+    end
+
+  end
+
+  unless Rails.application.config.consider_all_requests_local
+    rescue_from NoUserEdOrgError do |exception|
+      logger.error("Error occurred processing application authorizations for #{uid()}: #{exception}")
+      render_412(exception.message)
+    end
+  end
+
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
     logger.info { "Unauthorized Access: Redirecting..." }
     reset_session
@@ -47,6 +65,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActiveResource::ServerError do |exception|
     logger.error {"Exception on server"}
+    render_500
     reset_session
     SessionResource.access_token = nil
   end
@@ -126,6 +145,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def render_412(message=nil)
+    if message.nil? || message.empty?
+      @errorMessage = "No additional information available."
+    else
+      @errorMessage = message
+    end
+    respond_to do |format|
+      format.html { render "#{Rails.root}/app/views/apps/errors/412", :formats => [:html], :status => :precondition_failed }
+      format.any  { head :precondition_failed }
+    end
+  end
+
   def render_500
     respond_to do |format|
       format.html { render :file => "#{Rails.root}/public/500.html", :status => :internal_server_error }
@@ -159,6 +190,10 @@ class ApplicationController < ActionController::Base
 
   def is_it_admin?
     session[:roles].include?("IT Administrator")
+  end
+
+  def is_app_authorizer
+    session[:rights].include?("EDORG_APP_AUTHZ")
   end
 
   def get_tenant
@@ -196,6 +231,11 @@ class ApplicationController < ActionController::Base
     session[:vendor] = check["vendor"]
     session[:tenant_id] = get_tenant()
     session[:rights] = check["rights"]
+  end
+
+  def uid
+    check = Check.get ''
+    return check["external_id"]
   end
 
 end

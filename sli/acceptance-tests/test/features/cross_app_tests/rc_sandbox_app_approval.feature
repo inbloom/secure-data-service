@@ -31,11 +31,13 @@ Then I am redirected to the Application Registration Tool page
 And the application "NotTheAppYoureLookingFor" is listed in the table on the top
 And the client ID and shared secret fields are present
 And I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
-When I select the state "Standard State Education Agency"
+When I enable the educationalOrganization "Standard State Education Agency" in sandbox
 When I click on Save
 And my new apps client ID is present
 And my new apps shared secret is present
-Then the "NotTheAppYoureLookingFor" is enabled for Districts
+And I switch to the iframe
+Then I am redirected to the Application Registration Tool page
+Then "NotTheAppYoureLookingFor" is enabled for "5" education organizations
 
 #Add Bulk Extract role to IT Admin
 And I exit out of the iframe
@@ -70,9 +72,11 @@ Then I am redirected to the Application Registration Tool page
 And the application "Schlemiel" is listed in the table on the top
 And the client ID and shared secret fields are present
 And I clicked on the button Edit for the application "Schlemiel"
-When I select the state "Standard State Education Agency"
+When I enable the educationalOrganization "Standard State Education Agency" in sandbox
 When I click on Save
-Then the "Schlemiel" is enabled for Districts
+And I switch to the iframe
+Then I am redirected to the Application Registration Tool page
+Then "Schlemiel" is enabled for "5" education organizations
 And I exit out of the iframe
 And I click on log out
 Then I should be redirected to the impersonation page
@@ -86,7 +90,7 @@ And under My Applications, I click on "Schlemiel"
 Then my current url is "https://www.google.com/"
 
 #assert all edOrgs explicitly authorized
-#bulk extract app is "NotTheAppYoureLookingFor", SSDS expected count is 2 (SEA & LEA)
-Then there are "2" edOrgs for the "NotTheAppYoureLookingFor" application in the applicationAuthorization collection
+#bulk extract app is "NotTheAppYoureLookingFor", SSDS expected count is 5 (SEA, LEA & 3 schools)
+Then there are "5" edOrgs for the "NotTheAppYoureLookingFor" application in the applicationAuthorization collection
 # non-bulk-extract app is "Schlemiel", SSDS expected count is 5 (SEA, LEA & 3 schools)
 Then there are "5" edOrgs for the "Schlemiel" application in the applicationAuthorization collection

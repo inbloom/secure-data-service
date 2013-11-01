@@ -17,54 +17,59 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.joda.time.DateTime;
+
+import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
+import org.slc.sli.common.constants.ContainerEntityNames;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-public class YearlyTranscriptExtractor implements EntityExtract {
+public class YearlyTranscriptExtractor implements EntityDatedExtract {
     private EntityExtractor extractor;
     private ExtractFileMap map;
     private Repository<Entity> repo;
     private EdOrgExtractHelper edOrgExtractHelper;
-    private EntityToEdOrgCache studentAcademicRecordCache;
-    
+    private EntityToEdOrgDateCache studentAcademicRecordDateCache;
+
     public YearlyTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
-            EdOrgExtractHelper edOrgExtractHelper, EntityToEdOrgCache studentAcademicRecordCache) {
+            EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         this.edOrgExtractHelper = edOrgExtractHelper;
-        this.studentAcademicRecordCache = studentAcademicRecordCache;    
+        this.studentAcademicRecordDateCache = new EntityToEdOrgDateCache();
     }
-    
+
     @Override
-    public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
-        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), "yearlyTranscript", this.getClass().getName());
-        Iterator<Entity> yearlyTranscripts = repo.findEach("yearlyTranscript", new NeutralQuery());
-        
+    public void extractEntities(EntityToEdOrgDateCache studentDatedCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), ContainerEntityNames.YEARLY_TRANSCRIPT, this.getClass().getName());
+        Iterator<Entity> yearlyTranscripts = repo.findEach(ContainerEntityNames.YEARLY_TRANSCRIPT, new NeutralQuery());
+
         while (yearlyTranscripts.hasNext()) {
             Entity yearlyTranscript = yearlyTranscripts.next();
             String studentId = (String) yearlyTranscript.getBody().get(ParameterConstants.STUDENT_ID);
-            Set<String> studentEdOrgs = entityToEdorgCache.getEntriesById(studentId);
+            final Map<String, DateTime> studentEdOrgs = studentDatedCache.getEntriesById(studentId);
             Set<String> studentAcademicRecords = fetchStudentAcademicRecordsFromYearlyTranscript(yearlyTranscript);
-            for (String edOrg : studentEdOrgs) {
-                extractor.extractEntity(yearlyTranscript, map.getExtractFileForEdOrg(edOrg), "yearlyTranscript");
-                
-                for (String studentAcademicRecord : studentAcademicRecords) {
-                    studentAcademicRecordCache.addEntry(studentAcademicRecord, edOrg);
+            for (Map.Entry<String, DateTime> studentEdOrg : studentEdOrgs.entrySet()) {
+                if (shouldExtract(yearlyTranscript, studentEdOrg.getValue())) {
+                    extractor.extractEntity(yearlyTranscript, map.getExtractFileForEdOrg(studentEdOrg.getKey()), ContainerEntityNames.YEARLY_TRANSCRIPT);
+                    for (String sarId : studentAcademicRecords) {
+                        studentAcademicRecordDateCache.addEntry(sarId, studentEdOrg.getKey(), studentEdOrg.getValue());
+                    }
                 }
             }
         }
-        
     }
-    
+
     /**
      * returns all parents of the student
      * @param student
@@ -72,19 +77,23 @@ public class YearlyTranscriptExtractor implements EntityExtract {
      */
     private Set<String> fetchStudentAcademicRecordsFromYearlyTranscript(Entity yearlyTranscript) {
         Set<String> records = new TreeSet<String>();
-        if (yearlyTranscript.getEmbeddedData().containsKey(EntityNames.STUDENT_ACADEMIC_RECORD)) {
-            for (Entity sar : yearlyTranscript.getEmbeddedData().get(EntityNames.STUDENT_ACADEMIC_RECORD)) {
+        if (yearlyTranscript.getContainerData().containsKey(EntityNames.STUDENT_ACADEMIC_RECORD)) {
+            for (Entity sar : yearlyTranscript.getContainerData().get(EntityNames.STUDENT_ACADEMIC_RECORD)) {
                 records.add(sar.getEntityId());
             }
         }
         return records;
     }
-    
+
+    protected boolean shouldExtract(Entity input, DateTime upToDate) {
+        return EntityDateHelper.shouldExtract(input, upToDate);
+    }
+
     /**
      * Get the cache of studentAcademicRecordIds to a list of LEA IDs that these records were extracted to
      * @return
      */
-    public EntityToEdOrgCache getStudentAcademicRecordCache(){
-        return studentAcademicRecordCache;
+    public EntityToEdOrgDateCache getStudentAcademicRecordDateCache(){
+        return studentAcademicRecordDateCache;
     }
 }

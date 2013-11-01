@@ -39,18 +39,24 @@ Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the applicationAu
    db = @conn.db("sli")
    coll = db.collection("application")
    record = coll.find_one("body.name" => application)
-   puts record.to_s
    appId = record["_id"]
-   puts appId.to_s
    db = @conn[convertTenantIdToDbName(PropLoader.getProps['sandbox_tenant'])]
    coll = db.collection("applicationAuthorization")
    record = coll.find_one("body.applicationId" => appId.to_s)
-   puts record.to_s
    body = record["body"]
-   puts body.to_s
    edorgsArray = body["edorgs"]
-   puts edorgsArray.to_s
    edorgsArrayCount = edorgsArray.count
-   puts edorgsArrayCount
    assert(edorgsArrayCount == expected_count.to_i, "Education organization count mismatch in applicationAuthorization collection. Expected #{expected_count}, actual #{edorgsArrayCount}")
+end
+
+When /^I (enable|disable) the educationalOrganization "([^"]*?)" in sandbox/ do |action,edOrgName|
+  # Note: there should be no need to disable table scan since there is an index on educationOrganization.nameOfInstitution
+  db = @conn[convertTenantIdToDbName(PropLoader.getProps['sandbox_tenant'])]
+  coll = db.collection("educationOrganization")
+  record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
+  edOrgId = record["_id"]
+  elt = @driver.find_element(:id, edOrgId)
+  assert(elt, "Educational organization element for '" + edOrgName + "' (" + edOrgId + ") not found")
+  assert(action == "enable" && !elt.selected? || action == "disable" && elt.selected?, "Cannot " + action + " educationalOrganization element with id '" + edOrgId + "' whose checked status is " + elt.selected?.to_s())
+  elt.click()
 end

@@ -61,7 +61,6 @@ class AdminDelegationsController < ApplicationController
   # POST /admin_delegations
   # POST /admin_delegations.json
   def create
-    params[:admin_delegation][:appApprovalEnabled] = boolean_fix(params[:admin_delegation][:appApprovalEnabled])
     params[:admin_delegation][:viewSecurityEventsEnabled] = boolean_fix(params[:admin_delegation][:viewSecurityEventsEnabled])
     @admin_delegation = AdminDelegation.new(params[:admin_delegation])
 
@@ -81,7 +80,6 @@ class AdminDelegationsController < ApplicationController
   def update
     @admin_delegation = AdminDelegation.first
     @admin_delegation.id = "myEdOrg"
-    params[:admin_delegation][:appApprovalEnabled] = boolean_fix(params[:admin_delegation][:appApprovalEnabled])
     params[:admin_delegation][:viewSecurityEventsEnabled] = boolean_fix(params[:admin_delegation][:viewSecurityEventsEnabled])
 
 

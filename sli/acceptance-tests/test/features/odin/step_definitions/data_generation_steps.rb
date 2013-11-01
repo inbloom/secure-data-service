@@ -81,6 +81,12 @@ When /^I generate the contextual roles data set in the (.*?) directory$/ do |gen
   generate("contextual_roles")
 end
 
+When /^I generate the with expired data set in the (.*?) directory$/ do |gen_dir|
+  @gen_path = "#{@odin_working_path}#{gen_dir}/"
+  puts "Calling generate function for api testing scenario"
+  generate("with_expired")
+end
+
 When /^I zip generated data under filename (.*?) to the new (.*?) directory$/ do |zip_file, new_dir|
   @zip_path = "#{@gen_path}#{new_dir}/"
   FileUtils.mkdir_p(@zip_path)

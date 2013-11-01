@@ -17,6 +17,7 @@ package org.slc.sli.bulk.extract.treatment;
 
 import java.util.Map;
 
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.migration.strategy.impl.AttendanceStrategyHelper;
 import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;

@@ -773,6 +773,11 @@ Then I should see following map of entry counts in the corresponding collections
      | teacherSectionAssociation             | 1                   | body.endDate                                                                                                                          | none |
      | teacherSectionAssociation             | 1                   | body.highlyQualifiedTeacher                                                                                                           | none |
 
+  #Verify list fields are properly ingested
+  And I check to find if record is in collection:
+    | collectionName              | expectedRecordCount | searchParameter                    | searchValue                       | searchType           |
+    | teacherSchoolAssociation    | 16                  | body.academicSubjects              | Computer and Information Sciences | string               |
+    | teacherSchoolAssociation    | 16                  | body.instructionalGradeLevels      | Early Education                   | string               |
 
   And I should see "Processed 1326 records." in the resulting batch job file
   And I should not see an error log file created

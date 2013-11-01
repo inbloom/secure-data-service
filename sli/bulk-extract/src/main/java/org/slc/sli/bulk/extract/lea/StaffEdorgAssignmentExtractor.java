@@ -16,8 +16,13 @@
 
 package org.slc.sli.bulk.extract.lea;
 
-import com.google.common.base.Function;
-import org.apache.commons.lang3.tuple.Pair;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+import org.joda.time.DateTime;
+
+import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
@@ -26,69 +31,71 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-import java.util.Iterator;
-import java.util.Set;
-
 public class StaffEdorgAssignmentExtractor implements EntityExtract {
 
     private EntityExtractor extractor;
     private ExtractFileMap map;
     private Repository<Entity> repo;
     private ExtractorHelper extractorHelper;
-    private EntityToEdOrgCache cache;
     private EdOrgExtractHelper edOrgExtractHelper;
+    private EntityToEdOrgDateCache staffDatedCache;
 
-    public StaffEdorgAssignmentExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
-                                         ExtractorHelper extractorHelper, EntityToEdOrgCache entityToEdOrgCache, EdOrgExtractHelper edOrgExtractHelper) {
+    public StaffEdorgAssignmentExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, ExtractorHelper extractorHelper,
+            EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         this.extractorHelper = extractorHelper;
-        this.cache = entityToEdOrgCache;
         this.edOrgExtractHelper = edOrgExtractHelper;
+        this.staffDatedCache = new EntityToEdOrgDateCache();
     }
 
     @Override
     public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
         edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STAFF_ED_ORG_ASSOCIATION, this.getClass().getName());
-        doIterate(entityToEdorgCache, new Function<Pair<String, Entity>, Boolean>() {
-            @Override
-            public Boolean apply(Pair<String, Entity> input) {
-                cache.addEntry((String) input.getRight().getBody().get(ParameterConstants.STAFF_REFERENCE), input.getLeft());
-                return true;
-            }
-        });
+        buildStaffCaches(entityToEdorgCache);
 
         Iterator<Entity> associations = repo.findEach(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
         while (associations.hasNext()) {
-            Entity e = associations.next();
-            Set<String> edOrgs = cache.getEntriesById((String) e.getBody().get(ParameterConstants.STAFF_REFERENCE));
+            Entity seoa = associations.next();
 
-            for (String edOrg : edOrgs) {
-                extractor.extractEntity(e, map.getExtractFileForEdOrg(edOrg), EntityNames.STAFF_ED_ORG_ASSOCIATION);
+            Map<String, DateTime> studentEdOrgDate =
+                    staffDatedCache.getEntriesById((String) seoa.getBody().get(ParameterConstants.STAFF_REFERENCE));
+            for (Map.Entry<String, DateTime> edOrgDate : studentEdOrgDate.entrySet()) {
+                DateTime upToDate = edOrgDate.getValue();
+                if (shouldExtract(seoa, upToDate)) {
+                    extractor.extractEntity(seoa, map.getExtractFileForEdOrg(edOrgDate.getKey()), EntityNames.STAFF_ED_ORG_ASSOCIATION);
+                }
             }
         }
-
     }
 
-    private void doIterate(EntityToEdOrgCache entityToEdorgCache, Function<Pair<String, Entity>, Boolean> func) {
+    private void buildStaffCaches(EntityToEdOrgCache entityToEdorgCache) {
         Iterator<Entity> associations = repo.findEach(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
+
         while (associations.hasNext()) {
             Entity association = associations.next();
-            if (!extractorHelper.isStaffAssociationCurrent(association)) {
-                continue;
-            }
-            String edorg = (String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE);
-            Set<String> edOrgs = entityToEdorgCache.ancestorEdorgs(edorg);
-            for(String edOrg:edOrgs) {
-                func.apply(Pair.of(edOrg, association));
+            String staffId = (String) association.getBody().get(ParameterConstants.STAFF_REFERENCE);
+
+            Map<String, DateTime> edOrgDates = staffDatedCache.getEntriesById(staffId);
+            boolean firstEntryForStaff = edOrgDates.isEmpty() ? true : false;
+            edOrgDates = extractorHelper.updateEdorgToDateMap(association.getBody(), edOrgDates,
+                ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, ParameterConstants.BEGIN_DATE, ParameterConstants.END_DATE);
+            if (firstEntryForStaff) {
+                for (Map.Entry<String, DateTime> edOrgDate : edOrgDates.entrySet()) {
+                    staffDatedCache.addEntry(staffId, edOrgDate.getKey(), edOrgDate.getValue());
+                }
             }
         }
 
     }
 
-    public EntityToEdOrgCache getEntityCache() {
-        return this.cache;
+    protected boolean shouldExtract(Entity input, DateTime upToDate) {
+        return EntityDateHelper.shouldExtract(input, upToDate);
+    }
+
+    public EntityToEdOrgDateCache getStaffDatedCache() {
+        return staffDatedCache;
     }
 
 }

@@ -110,7 +110,6 @@ public class AdminDelegationResource {
             List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
             NeutralQuery query = new NeutralQuery();
             Set<String> delegatedEdorgs = new HashSet<String>();
-            delegatedEdorgs.addAll(util.getAppApprovalDelegateEdOrgs());
             delegatedEdorgs.addAll(util.getSecurityEventDelegateEdOrgs());
             query.addCriteria(new NeutralCriteria(LEA_ID, NeutralCriteria.CRITERIA_IN, delegatedEdorgs));
             for (Entity entity : repo.findAll(RESOURCE_NAME, query)) {
@@ -152,30 +151,20 @@ public class AdminDelegationResource {
         }
 
         EntityBody del =  getDelegationRecordForPrincipal();
-        Boolean appApprovalEnabled = (Boolean) body.get("appApprovalEnabled");
-        if(appApprovalEnabled == null) {
-        	appApprovalEnabled = false;
-        }
+        
         if (del == null) {
 
             if (service.create(body).isEmpty()) {
                 return Response.status(Status.BAD_REQUEST).build();
             } else {
-                log(appApprovalEnabled, false, uriInfo);
                 return Response.status(Status.CREATED).build();
             }
 
         } else {
             String delgId = (String)del.get("id");
-            Boolean oldAppApprovalEnabled = (Boolean)del.get("appApprovalEnabled");
-            if(oldAppApprovalEnabled == null) {
-            	oldAppApprovalEnabled = false;
-            }
             if (!service.update(delgId, body)) {
                 return Response.status(Status.BAD_REQUEST).build();
             }
-
-            log(appApprovalEnabled, oldAppApprovalEnabled, uriInfo);
         }
 
         return Response.status(Status.NO_CONTENT).build();

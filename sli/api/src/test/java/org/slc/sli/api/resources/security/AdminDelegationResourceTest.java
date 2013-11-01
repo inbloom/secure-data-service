@@ -84,28 +84,4 @@ public class AdminDelegationResourceTest {
 
         Assert.assertEquals(resource.getSingleDelegation().getStatus(), Response.Status.NOT_FOUND.getStatusCode());
     }
-
-    @Test
-    public void testSetLocalDelegationNoEdOrg() throws Exception {
-
-        securityContextInjector.setLeaAdminContext();
-        UriInfo uriInfo = ResourceTestUtil.buildMockUriInfo("");
-        Assert.assertEquals(resource.setLocalDelegation(null, uriInfo).getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
-
-    }
-
-    @Test
-    public void testSetLocalDelegation() throws Exception {
-
-        securityContextInjector.setLeaAdminContext();
-
-        ((SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setEdOrg("1234");
-        ((SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setEdOrgId("1234");
-
-        EntityBody body = new EntityBody();
-        body.put(resource.LEA_ID, "1234");
-        UriInfo uriInfo = ResourceTestUtil.buildMockUriInfo("");
-        Assert.assertEquals(Response.Status.CREATED.getStatusCode(), resource.setLocalDelegation(body, uriInfo).getStatus());
-
-    }
 }

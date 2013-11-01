@@ -67,9 +67,9 @@ public class EntityExtractor{
      *          Archive File
      * @param collectionName
      *          Name of the entity to be extracted
+     * @param filter
      */
-    public void extractEntities(ExtractFile archiveFile, String collectionName) {
-
+    public void extractEntities(ExtractFile archiveFile, String collectionName, Predicate<Entity> filter) {
         audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
                 " Entity extraction", LogLevelType.TYPE_INFO,
                 BEMessageCode.BE_SE_CODE_0024, collectionName));
@@ -84,15 +84,13 @@ public class EntityExtractor{
 
             while (cursor.hasNext()) {
                 Entity entity = cursor.next();
-
-                write(entity, archiveFile, collectionRecord, null);
+                write(entity, archiveFile, collectionRecord, filter);
 
             }
 
             LOG.info("Finished extracting " + collectionRecord.toString());
         }
     }
-    
     /**
      * Writes a single entity to an extract file.
      * 
@@ -107,6 +105,19 @@ public class EntityExtractor{
     
     public void extractEntity(Entity entity, ExtractFile archiveFile, String collectionName) {  
         extractEntity(entity, archiveFile, collectionName, null);
+    }
+
+    /**
+     * Writes embedded docs in the entity to an extract file
+     * @param entity the entity for which the embedded docs have to be extracted
+     * @param archiveFile the extract file
+     * @param collectionName the name of the collection
+     * @param filter the filter to be applied on each of the embedded docs
+     */
+    public void extractEmbeddedEntities(Entity entity, ExtractFile archiveFile, String collectionName, Predicate<Entity> filter) {
+        if (archiveFile != null) {
+            writeEmbeddedDocs(entity.getEmbeddedData(), archiveFile, new CollectionWrittenRecord(collectionName), filter);
+        }
     }
 
 	/**

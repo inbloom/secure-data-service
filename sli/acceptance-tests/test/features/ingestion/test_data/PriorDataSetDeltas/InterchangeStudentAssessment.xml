@@ -1,0 +1,232 @@
+<?xml version="1.0"?>
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd">
+    <StudentAssessment>
+        <AdministrationDate>2010-09-01</AdministrationDate>
+        <AdministrationEndDate>2010-09-01</AdministrationEndDate>
+
+        <SerialNumber>900000016 code</SerialNumber>
+        <AdministrationLanguage IdentificationSystem="languageSystem">English</AdministrationLanguage>
+        <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+        <SpecialAccommodations>
+            <SpecialAccommodation>Large Print</SpecialAccommodation>
+        </SpecialAccommodations>
+
+        <LinguisticAccommodations>
+            <LinguisticAccommodation>Linguistic Accommodations allowed but not used</LinguisticAccommodation>
+        </LinguisticAccommodations>
+        <RetestIndicator>Primary Administration</RetestIndicator>
+        <ReasonNotTested>Absent</ReasonNotTested>
+        <ScoreResults AssessmentReportingMethod="Scale score">
+            <Result>95</Result>
+        </ScoreResults>
+        <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+        <PerformanceLevels>
+            <CodeValue>900000016 code</CodeValue>
+            <PerformanceLevelMet>false</PerformanceLevelMet>
+        </PerformanceLevels>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>2010-Eighth grade Assessment 1</AssessmentTitle>
+                <AcademicSubject>Mathematics</AcademicSubject>
+                <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+            </AssessmentIdentity>
+        </AssessmentReference>
+    </StudentAssessment>
+
+    <StudentAssessment>
+        <AdministrationDate>2013-09-05</AdministrationDate>
+        <AdministrationEndDate>2013-09-05</AdministrationEndDate>
+
+        <SerialNumber>900000016 code</SerialNumber>
+        <AdministrationLanguage IdentificationSystem="languageSystem">English</AdministrationLanguage>
+        <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+        <SpecialAccommodations>
+            <SpecialAccommodation>Setting</SpecialAccommodation>
+        </SpecialAccommodations>
+
+        <LinguisticAccommodations>
+            <LinguisticAccommodation>Clarification - Word or Phrase</LinguisticAccommodation>
+        </LinguisticAccommodations>
+        <RetestIndicator>Primary Administration</RetestIndicator>
+        <ReasonNotTested>Parental waiver</ReasonNotTested>
+        <ScoreResults AssessmentReportingMethod="Scale score">
+            <Result>70</Result>
+        </ScoreResults>
+        <GradeLevelWhenAssessed>Eleventh grade</GradeLevelWhenAssessed>
+        <PerformanceLevels>
+            <CodeValue>900000016 code</CodeValue>
+            <PerformanceLevelMet>true</PerformanceLevelMet>
+        </PerformanceLevels>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>2013-Eleventh grade Assessment 1</AssessmentTitle>
+                <AcademicSubject>Social Studies</AcademicSubject>
+                <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+            </AssessmentIdentity>
+        </AssessmentReference>
+    </StudentAssessment>
+
+    <StudentAssessment>
+        <AdministrationDate>2011-09-01</AdministrationDate>
+        <AdministrationEndDate>2011-09-01</AdministrationEndDate>
+
+        <SerialNumber>800000025 code</SerialNumber>
+        <AdministrationLanguage IdentificationSystem="languageSystem">English</AdministrationLanguage>
+        <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+        <SpecialAccommodations>
+            <SpecialAccommodation>Response</SpecialAccommodation>
+        </SpecialAccommodations>
+
+        <LinguisticAccommodations>
+            <LinguisticAccommodation>Reading Aloud - Entire Test Item</LinguisticAccommodation>
+        </LinguisticAccommodations>
+        <RetestIndicator>Primary Administration</RetestIndicator>
+        <ReasonNotTested>Not appropriate (ARD decision)</ReasonNotTested>
+        <ScoreResults AssessmentReportingMethod="Scale score">
+            <Result>65</Result>
+        </ScoreResults>
+        <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed>
+        <PerformanceLevels>
+            <CodeValue>800000025 code</CodeValue>
+            <PerformanceLevelMet>false</PerformanceLevelMet>
+        </PerformanceLevels>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>2011-Tenth grade Assessment 1</AssessmentTitle>
+                <AcademicSubject>English Language and Literature</AcademicSubject>
+                <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+            </AssessmentIdentity>
+        </AssessmentReference>
+    </StudentAssessment>
+
+    <StudentAssessment>
+        <AdministrationDate>2010-09-02</AdministrationDate>
+        <AdministrationEndDate>2010-09-02</AdministrationEndDate>
+
+        <SerialNumber>800000025 code</SerialNumber>
+        <AdministrationLanguage IdentificationSystem="languageSystem">English</AdministrationLanguage>
+        <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+        <SpecialAccommodations>
+            <SpecialAccommodation>Oral Administration</SpecialAccommodation>
+        </SpecialAccommodations>
+
+        <LinguisticAccommodations>
+            <LinguisticAccommodation>Linguistic Simplification</LinguisticAccommodation>
+        </LinguisticAccommodations>
+        <RetestIndicator>Primary Administration</RetestIndicator>
+        <ReasonNotTested>Alternate assessment administered</ReasonNotTested>
+        <ScoreResults AssessmentReportingMethod="Scale score">
+            <Result>75</Result>
+        </ScoreResults>
+        <GradeLevelWhenAssessed>Infant/toddler</GradeLevelWhenAssessed>
+        <PerformanceLevels>
+            <CodeValue>800000025 code</CodeValue>
+            <PerformanceLevelMet>true</PerformanceLevelMet>
+        </PerformanceLevels>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>2010-Tenth grade Assessment 2</AssessmentTitle>
+                <AcademicSubject>English Language and Literature</AcademicSubject>
+                <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+            </AssessmentIdentity>
+        </AssessmentReference>
+    </StudentAssessment>
+
+    <StudentAssessment>
+        <AdministrationDate>2010-09-01</AdministrationDate>
+        <AdministrationEndDate>2010-09-01</AdministrationEndDate>
+
+        <SerialNumber>800000025 code</SerialNumber>
+        <AdministrationLanguage IdentificationSystem="languageSystem">English</AdministrationLanguage>
+        <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+        <SpecialAccommodations>
+            <SpecialAccommodation>Presentation</SpecialAccommodation>
+        </SpecialAccommodations>
+
+        <LinguisticAccommodations>
+            <LinguisticAccommodation>Clarification - Word or Phrase</LinguisticAccommodation>
+        </LinguisticAccommodations>
+        <RetestIndicator>Primary Administration</RetestIndicator>
+        <ReasonNotTested>Absent</ReasonNotTested>
+        <ScoreResults AssessmentReportingMethod="Scale score">
+            <Result>90</Result>
+        </ScoreResults>
+        <GradeLevelWhenAssessed>First grade</GradeLevelWhenAssessed>
+        <PerformanceLevels>
+            <CodeValue>800000025 code</CodeValue>
+            <PerformanceLevelMet>false</PerformanceLevelMet>
+        </PerformanceLevels>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>2010-Twelfth grade Assessment 1</AssessmentTitle>
+                <AcademicSubject>ELA</AcademicSubject>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+            </AssessmentIdentity>
+        </AssessmentReference>
+    </StudentAssessment>
+
+    <StudentAssessment>
+        <AdministrationDate>2012-09-08</AdministrationDate>
+        <AdministrationEndDate>2012-09-08</AdministrationEndDate>
+
+        <SerialNumber>800000025 code</SerialNumber>
+        <AdministrationLanguage IdentificationSystem="languageSystem">English</AdministrationLanguage>
+        <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+        <SpecialAccommodations>
+            <SpecialAccommodation>Setting</SpecialAccommodation>
+        </SpecialAccommodations>
+
+        <LinguisticAccommodations>
+            <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation>
+        </LinguisticAccommodations>
+        <RetestIndicator>Primary Administration</RetestIndicator>
+        <ReasonNotTested>Foreign exchange student waiver</ReasonNotTested>
+        <ScoreResults AssessmentReportingMethod="Scale score">
+            <Result>50</Result>
+        </ScoreResults>
+        <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
+        <PerformanceLevels>
+            <CodeValue>800000025 code</CodeValue>
+            <PerformanceLevelMet>true</PerformanceLevelMet>
+        </PerformanceLevels>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>2012-Twelfth grade Assessment 2</AssessmentTitle>
+                <AcademicSubject>English Language and Literature</AcademicSubject>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+            </AssessmentIdentity>
+        </AssessmentReference>
+    </StudentAssessment>
+
+</InterchangeStudentAssessment>
