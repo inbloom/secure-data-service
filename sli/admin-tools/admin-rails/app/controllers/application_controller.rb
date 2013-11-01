@@ -191,6 +191,36 @@ class ApplicationController < ActionController::Base
     session[:roles].include?("IT Administrator")
   end
 
+  # (1) hosted user with global EDORG_APP_AUTHZ right
+  # (2) federated user with the right APP_AUTHORIZE for at least one edOrg (see edOrgRights in session check)
+  def is_app_authorizer?
+    if is_admin_realm_authenticated?
+      return session[:rights].include?('EDORG_APP_AUTHZ')
+    elsif ! session[:edOrgRights].nil? && ! session[:edOrgRights].empty?
+      session[:edOrgRights].each_pair do |edorg, rights|
+        return true if rights.include?('APP_AUTHORIZE')
+      end
+    end
+    return false
+  end
+
+   def get_app_authorizer_edOrgs
+     if is_admin_realm_authenticated?
+         return [session[:edOrgId]] if session[:rights].include?('EDORG_APP_AUTHZ')
+     end
+     if session[:edOrgRights]
+       edOrgsWithAppAuth = session[:edOrgRights].select do |edorg, rights|
+         rights.include?('APPLICATION_AUTH')
+       end
+       return edOrgsWithAppAuth.keys
+     end
+     return []
+   end
+
+  def is_admin_realm_authenticated?
+    session[:adminRealmAuthenticated]
+  end
+
   def get_tenant
     check = Check.get ""
     return check["tenantId"]
@@ -211,6 +241,7 @@ class ApplicationController < ActionController::Base
     session[:support_email] = email
     session[:full_name] ||= check["full_name"]
     session[:email] ||= check["email"]
+    session[:adminRealmAuthenticated] = check["adminRealmAuthenticated"]
     session[:adminRealm] = check["adminRealm"]
     session[:roles] = check["sliRoles"]
     session[:edOrg] = check["edOrg"]

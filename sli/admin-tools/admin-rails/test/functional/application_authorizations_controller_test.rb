@@ -27,6 +27,8 @@ class ApplicationAuthorizationsControllerTest < ActionController::TestCase
   test "should get index" do
     session[:roles] = ["LEA Administrator"]
     session[:edOrgId] = "ID1"
+    session[:rights] = ["EDORG_APP_AUTHZ"]
+    session[:adminRealmAuthenticated] = true
     get :index
     assert_response :success
     assert_not_nil assigns(:application_authorizations)
@@ -34,6 +36,8 @@ class ApplicationAuthorizationsControllerTest < ActionController::TestCase
 
   test "should fail if we are an operator" do
     session[:roles] = ["SLC Operator"]
+    session[:rights] = ["RIGH1"]
+    session[:adminRealmAuthenticated] = true
     post :index
     assert(!session.has_key?("roles"), "Session should be reset after we are given a forbidden")
   end
@@ -41,7 +45,23 @@ class ApplicationAuthorizationsControllerTest < ActionController::TestCase
   test "should update application_authorization" do
     session[:roles] = ["LEA Administrator"]
     session[:edOrgId] = "ID1"
+    session[:rights] = ["EDORG_APP_AUTHZ"]
+    session[:adminRealmAuthenticated] = true
+
     #params[:application_authorization][:edorg] = "ID1"
+    put :update, id: "appId1", application_authorization: @appauth_fixtures['district1']
+    assert_redirected_to application_authorizations_path
+  end
+
+  test "should update application authorization if we are a federated user" do
+    session[:edOrgId] = "ID1"
+
+    edorg_rights = Hash.new
+    edorg_rights['testEdOrg'] = [ 'APP_AUTHORIZE' ]
+
+    session[:edOrgRights] = edorg_rights
+    session[:adminRealmAuthenticated] = false
+
     put :update, id: "appId1", application_authorization: @appauth_fixtures['district1']
     assert_redirected_to application_authorizations_path
   end

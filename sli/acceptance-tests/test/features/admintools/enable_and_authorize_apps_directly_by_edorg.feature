@@ -20,6 +20,7 @@ Background:
         And I click on the button Submit
         Then I am redirected to the Application Registration Tool page
         And the application "Royal Oak" is listed in the table on the top
+        When I expand the application row for "Royal Oak"
         And the client ID and shared secret fields are Pending
         And the Registration Status field is Pending
 
@@ -466,6 +467,7 @@ Background:
   Scenario: LEA Admin Approves application
 
     When I hit the Admin Application Authorization Tool
+    And I select "inBloom" from the dropdown and click go
     And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
     And I see an application "Royal Oak" in the table
     And in Status it says "Not Approved"
@@ -730,6 +732,7 @@ Background:
     Scenario: LEA Admin Approves Many Parents EdOrg
 
         When I hit the Admin Application Authorization Tool
+        And I select "inBloom" from the dropdown and click go
         And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
         And I see an application "Royal Oak" in the table
         And in Status it says "Not Approved"
@@ -768,6 +771,7 @@ Background:
     Scenario: Verify last authorized information - SEA admin authorizes SEA only
 
         When I hit the Admin Application Authorization Tool
+        And I select "inBloom" from the dropdown and click go
          And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
         Then I see an application "Royal Oak" in the table
          And in Status it says "Not Approved"
@@ -783,6 +787,7 @@ Background:
     Scenario: Verify last authorized information - LEA admin authorizes LEA only (dependant on above scenario)
 
         When I hit the Admin Application Authorization Tool
+        And I select "inBloom" from the dropdown and click go
          And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
         Then I see an application "Royal Oak" in the table
          And in Status it says "Not Approved"
@@ -799,6 +804,7 @@ Background:
     Scenario: Verify last authorized information - SEA admin de-authorizes LEA and adds school (depends on above)
 
         When I hit the Admin Application Authorization Tool
+         And I select "inBloom" from the dropdown and click go
          And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
         Then I see an application "Royal Oak" in the table
          And in Status it says "2 EdOrg(s)"

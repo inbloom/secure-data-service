@@ -501,6 +501,7 @@ end
 
 Then /^only below is present in the application authorization edOrgs array for the application "(.*?)" in tenant "(.*?)"$/ do |application, tenant, table|
 
+  disable_NOTABLESCAN()
   expected_array = Array.new
   #create expected results array
   table.hashes.map do |row|
@@ -517,7 +518,6 @@ Then /^only below is present in the application authorization edOrgs array for t
   expected = expected_array.to_set
 
   #get actual results array, remove timestamp fields rom comparison
-  disable_NOTABLESCAN()
   db = @conn.db("sli")
   coll = db.collection("application")
   record = coll.find_one("body.name" => application)

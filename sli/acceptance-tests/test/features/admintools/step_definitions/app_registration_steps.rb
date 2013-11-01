@@ -244,8 +244,14 @@ Then /^a client ID is created for the new application that can be used to access
   assertWithWait("Should have located a client id") {@driver.find_element(:xpath, '//tr[3]').find_element(:name, 'app[client_id]')}
 end
 
+Then /^I expand the application row for "([^"]*)"$/ do |app|
+  app_el = @driver.find_element(:xpath, "//tbody/tr[1]/td[1]")
+  if app_el.attribute('class') == 'expandable'
+    app_el.click
+  end
+end
+
 Then /^the client ID and shared secret fields are Pending$/ do
-#  @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
   client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[1]').text
   puts "Client ID: " + client_id
   assert(client_id == 'Pending', "Expected 'Pending', got #{client_id}")
