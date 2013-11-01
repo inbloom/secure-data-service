@@ -192,13 +192,13 @@ class ApplicationController < ActionController::Base
   end
 
   # (1) hosted user with global EDORG_APP_AUTHZ right
-  # (2) federated user with the right APPLICATION_AUTH for at least one edOrg (see edOrgRights in session check)
+  # (2) federated user with the right APP_AUTHORIZE for at least one edOrg (see edOrgRights in session check)
   def is_app_authorizer?
     if is_admin_realm_authenticated?
       return session[:rights].include?('EDORG_APP_AUTHZ')
-    elsif ! session[:edOrgRights].nil?
+    elsif ! session[:edOrgRights].nil? && ! session[:edOrgRights].empty?
       session[:edOrgRights].each_pair do |edorg, rights|
-        return true if rights.include?('APPLICATION_AUTH')
+        return true if rights.include?('APP_AUTHORIZE')
       end
     end
     return false
