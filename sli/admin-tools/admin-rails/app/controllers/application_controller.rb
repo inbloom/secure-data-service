@@ -204,6 +204,19 @@ class ApplicationController < ActionController::Base
     return false
   end
 
+   def get_app_authorizer_edOrgs
+     if is_admin_realm_authenticated?
+         return [session[:edOrgId]] if session[:rights].include?('EDORG_APP_AUTHZ')
+     end
+     if session[:edOrgRights]
+       edOrgsWithAppAuth = session[:edOrgRights].select do |edorg, rights|
+         rights.include?('APPLICATION_AUTH')
+       end
+       return edOrgsWithAppAuth.keys
+     end
+     return []
+   end
+
   def is_admin_realm_authenticated?
     session[:adminRealmAuthenticated]
   end
