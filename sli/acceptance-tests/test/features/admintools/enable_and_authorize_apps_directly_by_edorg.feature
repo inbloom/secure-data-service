@@ -20,6 +20,7 @@ Background:
         And I click on the button Submit
         Then I am redirected to the Application Registration Tool page
         And the application "Royal Oak" is listed in the table on the top
+        When I expand the application row for "Royal Oak"
         And the client ID and shared secret fields are Pending
         And the Registration Status field is Pending
 
