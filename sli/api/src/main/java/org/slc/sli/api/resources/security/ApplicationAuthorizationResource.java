@@ -359,8 +359,7 @@ public class ApplicationAuthorizationResource {
             event.setAppId(appId);
             // set the list of target ed orgs to hold just the one that was granted. (US5828, TA10431)
             Set<String> targetEdOrgSet = helper.getEdOrgStateOrganizationIds(granted);
-            event.setTargetEdOrgList(null);
-            event.addAllTargetEdOrg(targetEdOrgSet);	
+            event.setTargetEdOrgList(targetEdOrgSet);
             audit(event);
         }
 
@@ -371,8 +370,7 @@ public class ApplicationAuthorizationResource {
             event.setAppId(appId);
             // set the list of target ed orgs to hold just the one that was revoked. (US5828, TA10431)
             Set<String> targetEdOrgSet = helper.getEdOrgStateOrganizationIds(revoked);
-            event.setTargetEdOrgList(null);
-            event.addAllTargetEdOrg(targetEdOrgSet);	
+            event.setTargetEdOrgList(targetEdOrgSet);
             audit(event);
         }
 

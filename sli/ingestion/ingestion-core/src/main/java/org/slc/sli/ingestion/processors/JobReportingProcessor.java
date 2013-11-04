@@ -529,10 +529,7 @@ public class JobReportingProcessor implements Processor {
         event.setTenantId(""); // Alpha MH (tenantId - written in 'message')
         event.setUser("");
         event.setUserEdOrg(edOrg);
-        //@TA10431
-        //event.setTargetEdOrg(edOrg);
-        //event.setTargetEdOrgList(Arrays.asList(edOrg));
-        event.addTargetEdOrg(edOrg); //@TA10431
+        event.setTargetEdOrgList(edOrg); //@TA10431 - change targetEdOrg from scalar to list
         event.setActionUri("writeLine");
         event.setAppId("Ingestion");
         event.setOrigin("");

@@ -233,13 +233,34 @@ public class SecurityEvent {
     }
 
     /**
-     * Sets the targetEdOrgList to the given list; any existing list is lost.  If
+     * Sets the targetEdOrgList to the given collection; any existing list is lost.  If
      * adding a list to the existing list is needed, see addTargetEdOrg. 
      * @param targetEdOrgList
      * @see SecurityEvent#addTargetEdOrg(Collection<String> edOrgs)
      */
-    public void setTargetEdOrgList(List<String> targetEdOrgList) {
-            this.targetEdOrgList = targetEdOrgList;
+    public void setTargetEdOrgList(Collection<String> newList) {
+            targetEdOrgList = new ArrayList<String>();
+            targetEdOrgList.addAll(newList);
+    }
+    
+    /**
+     * Sets the targetEdOrgList to the given collection; any existing list is lost.  If
+     * adding a list to the existing list is needed, see addTargetEdOrg. 
+     * @param targetEdOrgList
+     * @see SecurityEvent#addTargetEdOrg(Collection<String> edOrgs)
+     */
+    public void setTargetEdOrgList(String targetEdOrg) 
+    {
+            targetEdOrgList = new ArrayList<String>();
+            targetEdOrgList.add(targetEdOrg);
+    }
+    
+    /**
+     * Resets the targetEdOrgList to have no members.
+     */
+    public void resetTargetEdOrgList()
+    {
+    	targetEdOrgList = null;
     }
 
     @Override

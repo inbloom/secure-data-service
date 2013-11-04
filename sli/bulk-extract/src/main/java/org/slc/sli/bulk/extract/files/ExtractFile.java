@@ -174,9 +174,7 @@ public class ExtractFile {
         try {
             for(String app : clientKeys.keySet()){
                 SecurityEvent event = securityEventUtil.createSecurityEvent(this.getClass().getName(), "Writing extract file to the file system", LogLevelType.TYPE_INFO, app, BEMessageCode.BE_SE_CODE_0022, app);
-                //@TA10431
-                //event.setTargetEdOrg(edorg);
-                event.addTargetEdOrg(edorg); //@TA10431
+                event.setTargetEdOrgList(edorg); //@TA10431 - change targetEdOrg from scalar to list
                 audit(event);
                 multiOutputStream.addStream(getAppStream(app));
             }
@@ -197,9 +195,7 @@ public class ExtractFile {
             }
         } catch (Exception e) {
             SecurityEvent event = securityEventUtil.createSecurityEvent(this.getClass().getName(), "Writing extract file to the file system", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0023);
-            //@TA10431
-            //event.setTargetEdOrg(edorg);
-            event.addTargetEdOrg(edorg); //@TA10431
+            event.setTargetEdOrgList(edorg); //@TA10431 - change targetEdOrg from scalar to list
             audit(event);
 
             LOG.error("Error writing to tar file: {}", e.getMessage());
