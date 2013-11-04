@@ -33,7 +33,7 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "Aggregate Viewer"
   rights = ["READ_GENERAL", "TEACHER_CONTEXT"] if arg1 == "New Custom"
   # Custom right sets for test roles
-  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "WRITE_PUBLIC", "AGGREGATE_WRITE", "STAFF_CONTEXT"] if arg1 == "all defaults"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "WRITE_PUBLIC", "AGGREGATE_WRITE", "STAFF_CONTEXT", "APP_AUTHORIZE"] if arg1 == "all defaults"
   rights = ["READ_GENERAL", "TEACHER_CONTEXT"] if arg1 == "Read General"
   rights = ["READ_GENERAL", "STAFF_CONTEXT"] if arg1 == "Staff Read General"
   rights = ["READ_RESTRICTED", "TEACHER_CONTEXT"] if arg1 == "Read Restricted"

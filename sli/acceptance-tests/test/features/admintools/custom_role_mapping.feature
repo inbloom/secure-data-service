@@ -8,12 +8,12 @@ As an SEA/LEA  Admin, I would like to have the Complex Role Mapping admin tool, 
 
 Background:
 Given I have an open web browser
-When I navigate to the Custom Role Mapping Page
-And I select "inBloom" from the dropdown and click go
-And I was redirected to the "Simple" IDP Login page
 
 @production
 Scenario: Reset to default role to right mapping
+When I navigate to the Custom Role Mapping Page
+And I select "inBloom" from the dropdown and click go
+And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I click on the Reset Mapping button
@@ -26,6 +26,9 @@ And the IT Administrator role is the only admin role
 
 @production
 Scenario: Create new group
+When I navigate to the Custom Role Mapping Page
+And I select "inBloom" from the dropdown and click go
+And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I click on the Add Group button
@@ -40,6 +43,9 @@ And the group "New Custom" contains the "right" rights "Read General"
 
 @production
 Scenario: Add role to existing group
+When I navigate to the Custom Role Mapping Page
+And I select "inBloom" from the dropdown and click go
+And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I create a new role <Role> to the group <Group> that allows <User> to access the API
@@ -54,6 +60,9 @@ And That user can now access the API
 
 @production
 Scenario: Add rights to group
+When I navigate to the Custom Role Mapping Page
+And I select "inBloom" from the dropdown and click go
+And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 And the user "custom" in tenant "IL" can access the API with rights "Read General"
@@ -68,6 +77,9 @@ And the group "New Custom" has the admin role box checked
 
 @production
 Scenario: Remove rights from group
+When I navigate to the Custom Role Mapping Page
+And I select "inBloom" from the dropdown and click go
+And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I edit the group "New Custom"
@@ -87,6 +99,9 @@ And the user "custom" in tenant "IL" can access the API with rights "Read Genera
 
 @production
 Scenario: Remove role from group
+When I navigate to the Custom Role Mapping Page
+And I select "inBloom" from the dropdown and click go
+And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I remove the role <Role> out of <TotalRoles> from the group <Group> that denies <User> access to the API
@@ -101,6 +116,9 @@ And That user can no longer access the API
 
 @production
 Scenario: Cannot remove last role in group
+When I navigate to the Custom Role Mapping Page
+And I select "inBloom" from the dropdown and click go
+And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I edit the group "New Custom"
@@ -109,6 +127,9 @@ Then I am informed that I must have at least one role and right in the group
 
 @production
 Scenario: Remove group
+When I navigate to the Custom Role Mapping Page
+And I select "inBloom" from the dropdown and click go
+And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I remove the group "New Custom"
@@ -116,6 +137,9 @@ Then the group "New Custom" no longer appears on the page
 
 @production
 Scenario: Cannot add duplicate rights within a group
+When I navigate to the Custom Role Mapping Page
+And I select "inBloom" from the dropdown and click go
+And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I edit the rights for the group <Group> to include the duplicate right <Right>
@@ -127,6 +151,9 @@ Then I cannot find the right in the dropdown
 
 @production
 Scenario: Cannot add duplicate roles
+When I navigate to the Custom Role Mapping Page
+And I select "inBloom" from the dropdown and click go
+And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I edit the roles for the group <Group> to include the duplicate role <Role>
@@ -138,6 +165,9 @@ Then I am informed that "Role names must be unique across all groups"
 
 @production
 Scenario: Cancel button discards any unsaved changes for a group
+When I navigate to the Custom Role Mapping Page
+And I select "inBloom" from the dropdown and click go
+And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I edit the group "Educator"
@@ -149,6 +179,9 @@ And the group "Educator" contains the roles "Educator,Teacher"
 
 @production
 Scenario: An Educator is given WRITE_GENERAL in self context, they can write to themselves but no one else
+When I navigate to the Custom Role Mapping Page
+And I select "inBloom" from the dropdown and click go
+And I was redirected to the "Simple" IDP Login page
 When the user "cgray" in tenant "IL" tries to update the "firstName" for staff "cgray" to "Chuck"
 Then I should receive a return code of 403
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
@@ -166,6 +199,9 @@ Then I should receive a return code of 403
 
 @production
 Scenario: Self rights for Aggregate Viewers are removed, a aggregate viewer can no longer read their enitity
+When I navigate to the Custom Role Mapping Page
+And I select "inBloom" from the dropdown and click go
+And I was redirected to the "Simple" IDP Login page
 When the user "jvasquez" in tenant "IL" tries to retrieve the staff "jvasquez"
 Then I should receive a return code of 200
 And  the user "jvasquez" in tenant "IL" tries to update the "firstName" for staff "jvasquez" to "Jerry"
@@ -184,6 +220,8 @@ Then I should receive a return code of 403
 
 @sandbox
 Scenario: Developer modifies roles in their tenant without affecting other tenant
+When I navigate to the Custom Role Mapping Page
+And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I remove the group "Educator"
@@ -204,6 +242,8 @@ And the user "linda.kim" in tenant "sandboxadministrator" can access the API wit
 
 @sandbox
 Scenario: Sandbox reset to defaults
+When I navigate to the Custom Role Mapping Page
+And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sandboxdeveloper" "sandboxdeveloper1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I edit the group "IT Administrator"
