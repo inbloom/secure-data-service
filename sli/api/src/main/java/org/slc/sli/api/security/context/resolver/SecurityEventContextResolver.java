@@ -169,7 +169,7 @@ public class SecurityEventContextResolver implements EntityContextResolver {
             LOG.warn("Could not find edOrgs for SecurityEvents!");
             return filtersSoFar;
         }
-        String edOrgId = principal.getEdOrg();
+        String edOrgId = principal.getEdOrgId();
         if (edOrgId == null) {
             LOG.warn("Could not find edOrgId for SecurityEvents!");
             return filtersSoFar;
