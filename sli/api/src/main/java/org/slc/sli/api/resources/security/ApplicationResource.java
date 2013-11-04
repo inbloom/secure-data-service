@@ -203,7 +203,7 @@ public class ApplicationResource extends UnversionedResource {
 
     @SuppressWarnings("rawtypes")
     @GET
-    @RightsAllowed({ Right.ADMIN_ACCESS })
+    @RightsAllowed({ Right.APP_AUTHORIZE })
     @Override
     public Response getAll(@Context final UriInfo uriInfo) {
         Response resp = super.getAll(uriInfo);
@@ -224,7 +224,7 @@ public class ApplicationResource extends UnversionedResource {
     @GET
     @Override
     @Path("{" + UUID + "}")
-    @RightsAllowed({ Right.ADMIN_ACCESS })
+    @RightsAllowed({ Right.APP_AUTHORIZE })
     public Response getWithId(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
         Response resp = super.getWithId(uuid, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
@@ -281,7 +281,7 @@ public class ApplicationResource extends UnversionedResource {
     @SuppressWarnings("unchecked")
     @PUT
     @Path("{" + UUID + "}")
-    @RightsAllowed({ Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE })
+    @RightsAllowed({ Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE, Right.APP_AUTHORIZE })
     @Override
     public Response put(@PathParam(UUID) String uuid, EntityBody app, @Context final UriInfo uriInfo) {
         if (!missingRequiredUrls(app)) {
