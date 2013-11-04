@@ -21,6 +21,7 @@ puts "where users are set to expire on 2013-08-13"
 if yesno("Do you wish to proceed?", false) == false
   exit(1)
 end
+time = Time.new
 conn = Mongo::Connection.new()
 databases = conn.database_names
 databases.each do |dbName|
@@ -28,7 +29,7 @@ databases.each do |dbName|
   coll = db.collection('staffEducationOrganizationAssociation')
 
   puts("Updating db #{dbName}")
-  result = coll.update({'body.endDate' => '2013-08-13'}, {"$set" => {"body.endDate" => '2032-08-13'}}, {:multi => true})
+  result = coll.update({'body.endDate' => {"$lt" => time.strftime("%Y-%m-%d")}}, {"$set" => {"body.endDate" => (time.year + 1).to_s + time.strftime("-%m-%d")}}, {:multi => true})
 
   puts "Updated #{result['n']}/#{coll.count}"
 
