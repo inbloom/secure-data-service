@@ -252,11 +252,6 @@
             <artifactId>opensaml</artifactId>
             <version>2.6.0</version>
         </dependency>
-        <dependency>
-            <groupId>opensaml</groupId>
-            <artifactId>xmltooling</artifactId>
-            <version>1.0-alpha1</version>
-        </dependency>
 
         <dependency>
             <groupId>com.google.code.findbugs</groupId>

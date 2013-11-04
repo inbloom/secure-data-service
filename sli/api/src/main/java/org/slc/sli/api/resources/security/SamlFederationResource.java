@@ -16,15 +16,26 @@
 
 package org.slc.sli.api.resources.security;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.RandomAccessFile;
 import java.io.StringWriter;
 import java.net.InetAddress;
 import java.net.URI;
-import java.net.URL;
 import java.net.UnknownHostException;
-import java.security.SignatureException;
-import java.security.cert.CertificateEncodingException;
+import java.security.KeyException;
+import java.security.KeyFactory;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.UnrecoverableEntryException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,6 +71,7 @@ import org.opensaml.saml2.core.Issuer;
 import org.opensaml.ws.soap.client.BasicSOAPMessageContext;
 import org.opensaml.ws.soap.client.http.HttpClientBuilder;
 import org.opensaml.ws.soap.client.http.HttpSOAPClient;
+import org.opensaml.ws.soap.client.http.TLSProtocolSocketFactory;
 import org.opensaml.ws.soap.common.SOAPException;
 import org.opensaml.ws.soap.soap11.Body;
 import org.opensaml.ws.soap.soap11.Envelope;
@@ -67,7 +79,15 @@ import org.opensaml.xml.ConfigurationException;
 import org.opensaml.xml.XMLObjectBuilderFactory;
 import org.opensaml.xml.Configuration;
 import org.opensaml.xml.parse.BasicParserPool;
+import org.opensaml.xml.security.SecurityConfiguration;
 import org.opensaml.xml.security.SecurityException;
+import org.opensaml.xml.security.SecurityHelper;
+import org.opensaml.xml.security.credential.Credential;
+import org.opensaml.xml.security.x509.BasicX509Credential;
+import org.opensaml.xml.security.x509.X509Credential;
+import org.opensaml.xml.security.x509.X509Util;
+import org.opensaml.xml.signature.Signature;
+import org.opensaml.xml.util.DatatypeHelper;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.roles.EdOrgContextualRoleBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +116,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+
 
 /**
  * Process SAML assertions
@@ -158,8 +179,17 @@ public class SamlFederationResource {
     @Value("${sli.security.sp.issuerName}")
     private String issuerName;
 
+    @Value("classpath:saml/pkcs8_key")
+    private Resource keyFile;
+
+    @Value("classpath:saml/test.cert")
+    private Resource certFile;
+
+    public static final String PWD = "test1234";
+    public static final String CERTIFICATE_ALIAS_NAME = "selfsigned";
+
     public static SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-    public static final String idpUrl = "https://localhost:8444/idp/profile/SAML2/SOAP/ArtifactResolution";
+    public static final String IDPURL = "https://localhost:8444/idp/profile/SAML2/SOAP/ArtifactResolution";
 
     @SuppressWarnings("unused")
     @PostConstruct
@@ -589,7 +619,7 @@ public class SamlFederationResource {
      */
     @GET
     @Path("sso/artifact")
-    public Response artifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) throws IOException, SOAPException, SecurityException, ConfigurationException {
+    public Response artifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) throws InvalidKeySpecException, SOAPException, org.opensaml.xml.security.SecurityException, ConfigurationException, UnrecoverableEntryException, NoSuchAlgorithmException, KeyStoreException, IOException, CertificateException {
         String artifact = request.getParameter("SAMLart");
         if (artifact == null) {
             throw new IOException("No artifact in message");
@@ -608,7 +638,7 @@ public class SamlFederationResource {
     }
 
 
-    private ArtifactResolve generateArtifactResolve(final String artifactString) throws ConfigurationException {
+    private ArtifactResolve generateArtifactResolve(final String artifactString) throws InvalidKeySpecException, org.opensaml.xml.security.SecurityException, ConfigurationException, UnrecoverableEntryException, NoSuchAlgorithmException, KeyStoreException, IOException, CertificateException {
 
         DefaultBootstrap.bootstrap();
         XMLObjectBuilderFactory bf = Configuration.getBuilderFactory();
@@ -623,16 +653,29 @@ public class SamlFederationResource {
         String artifactResolveId = UUID.randomUUID().toString();
         artifactResolve.setID(artifactResolveId);
 
-        artifactResolve.setDestination(idpUrl);
+        artifactResolve.setDestination(IDPURL);
 
         Artifact artifact = (Artifact) bf.getBuilder(Artifact.DEFAULT_ELEMENT_NAME).buildObject(Artifact.DEFAULT_ELEMENT_NAME);
         artifact.setArtifact(artifactString);
         artifactResolve.setArtifact(artifact);
 
+
+        Signature signature = (Signature) Configuration.getBuilderFactory().getBuilder(Signature.DEFAULT_ELEMENT_NAME)
+                .buildObject(Signature.DEFAULT_ELEMENT_NAME);
+
+        Credential signingCredential = intializeCredentials();
+        signature.setSigningCredential(signingCredential);
+
+        SecurityConfiguration secConfig = Configuration.getGlobalSecurityConfiguration();
+
+        SecurityHelper.prepareSignatureParams(signature, signingCredential, secConfig, null);
+
+        artifactResolve.setSignature(signature);
         return artifactResolve;
     }
 
     private Envelope sendArtifactResolve(final ArtifactResolve artifactResolve) throws org.opensaml.xml.security.SecurityException, SOAPException {
+
         XMLObjectBuilderFactory bf = Configuration.getBuilderFactory();
         Envelope envelope = (Envelope) bf.getBuilder(Envelope.DEFAULT_ELEMENT_NAME).buildObject(Envelope.DEFAULT_ELEMENT_NAME);
         Body body = (Body) bf.getBuilder(Body.DEFAULT_ELEMENT_NAME).buildObject(Body.DEFAULT_ELEMENT_NAME);
@@ -642,14 +685,48 @@ public class SamlFederationResource {
 
         BasicSOAPMessageContext soapContext = new BasicSOAPMessageContext();
         soapContext.setOutboundMessage(envelope);
+
+        // Build the SOAP client
         HttpClientBuilder clientBuilder = new HttpClientBuilder();
         HttpSOAPClient soapClient = new HttpSOAPClient(clientBuilder.buildClient(), new BasicParserPool());
-
-        String artifactResolutionServiceURL = idpUrl;
+        String artifactResolutionServiceURL = IDPURL;
 
         soapClient.send(artifactResolutionServiceURL, soapContext);
 
         return (Envelope)soapContext.getInboundMessage();
+    }
+
+    private Credential intializeCredentials() throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException, UnrecoverableEntryException, InvalidKeySpecException {
+        KeyStore ks = null;
+        FileInputStream fis = null;
+        char[] password = PWD.toCharArray();
+
+        RandomAccessFile raf = new RandomAccessFile(keyFile.getFile(), "r");
+        byte[] buf = new byte[(int)raf.length()];
+        raf.readFully(buf);
+        raf.close();
+
+        PKCS8EncodedKeySpec kspec = new PKCS8EncodedKeySpec(buf);
+        KeyFactory kf = KeyFactory.getInstance("RSA");
+        PrivateKey pk = kf.generatePrivate(kspec);
+
+        /*// Get Private Key Entry From Certificate
+        KeyStore.PrivateKeyEntry pkEntry = null;
+            pkEntry = (KeyStore.PrivateKeyEntry) ks.getEntry(CERTIFICATE_ALIAS_NAME, new KeyStore.PasswordProtection(
+                    PWD.toCharArray()));
+
+        PrivateKey pk = pkEntry.getPrivateKey();*/
+
+        InputStream inStream = new FileInputStream(certFile.getFile());
+        CertificateFactory cf = CertificateFactory.getInstance("X.509");
+        X509Certificate certificate = (X509Certificate)cf.generateCertificate(inStream);
+        inStream.close();
+
+        BasicX509Credential credential = new BasicX509Credential();
+        credential.setEntityCertificate(certificate);
+        credential.setPrivateKey(pk);
+        Credential signingCredential  = credential;
+        return signingCredential;
     }
 
     Repository getRepository() {
