@@ -9,6 +9,10 @@
                  re US5459 this entity was removed from the "Admin" data sphere.
                  The SECURITY_EVENT_VIEW right should be required for reading any of the fields
                  and nothing should be writable through the API.
+
+                 Note that the security enforcement for this entity is in the SecurityEventResource class.
+
+                 No updates or deletions should ever be allowed.
              -->
 			<xs:sequence>
 			    <xs:element name="tenantId"        type="xs:string"     minOccurs="0">
