@@ -65,7 +65,7 @@ end
 Then /^I see all the applications registered on SLI$/ do
   appsTable = @driver.find_element(:id, "applications")
   trs = appsTable.find_elements(:xpath, ".//tr/td[text()='APPROVED']")
-  assert(trs.length > 10, "Should see a significant number of approved applications")
+  assert(trs.length > 4, "Should see a significant number of approved applications")
 end
 
 Then /^I see all the applications pending registration$/ do
@@ -90,7 +90,7 @@ Then /^the pending apps are on top$/ do
     index = tableHeadings.index(arg) + 1 if arg.text == "Status"    
   end
   trs = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Approve']/../../../..")
-  assert(trs.length > 10, "Should see many applications")
+  assert(trs.length > 4, "Should see many applications")
 
   last_status = nil
   trs.each do |row|
@@ -245,7 +245,7 @@ Then /^a client ID is created for the new application that can be used to access
 end
 
 Then /^the client ID and shared secret fields are Pending$/ do
-  @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
+#  @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
   client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[1]').text
   puts "Client ID: " + client_id
   assert(client_id == 'Pending', "Expected 'Pending', got #{client_id}")
@@ -335,7 +335,7 @@ Then /^the info for "([^"]*)" was updated$/ do |arg1|
 end
 
 Then /^I the field named "([^"]*)" still says "([^"]*)"$/ do |arg1, arg2|
-  @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
+  #@driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
   data = @driver.find_element(:xpath, "//tbody/tr[2]/td/dl/dt[text()=\"#{arg1}\"]")
   value = data.find_element(:xpath, "following-sibling::*[1]").text
   assertWithWait("#{arg1} should be #{arg2}") {value == arg2}

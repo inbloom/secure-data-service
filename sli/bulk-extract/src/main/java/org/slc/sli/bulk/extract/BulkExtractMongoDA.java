@@ -17,11 +17,14 @@ package org.slc.sli.bulk.extract;
 
 
 import java.security.PublicKey;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
 
@@ -125,7 +128,7 @@ public class BulkExtractMongoDA {
         while(cursor.hasNext()){
             Entity appAuth = cursor.next();
             String appId = (String) appAuth.getBody().get(APP_ID);
-            List<String> edorgs = (List<String>) appAuth.getBody().get(TENANT_EDORG_FIELD);
+            List<String> edorgs = getAuthorizedEdOrgIds(appAuth);
 
             appKeys.putAll(getClientIdAndPublicKey(appId, edorgs));
         }
@@ -133,6 +136,21 @@ public class BulkExtractMongoDA {
         return appKeys;
     }
 
+    public static List<String> getAuthorizedEdOrgIds(Entity appAuth) {
+    	List<String> result = new ArrayList<String>();
+        List<Map<String, Object>> acls = (List<Map<String, Object>>)appAuth.getBody().get("edorgs");
+        if(acls != null) {
+            for(Map<String, Object> acl:acls) {
+                String edOrg = (String)acl.get("authorizedEdorg");
+                if(edOrg != null) {
+                    result.add(edOrg);
+                }
+            }
+        }
+        return result;
+    }
+
+    
     @SuppressWarnings("boxing")
     public Map<String, PublicKey> getClientIdAndPublicKey(String appId, List<String> edorgs) {
         Map<String, PublicKey> clientPubKeys = new HashMap<String, PublicKey>();
