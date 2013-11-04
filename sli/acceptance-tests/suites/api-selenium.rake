@@ -18,7 +18,25 @@ end
 desc "Run Admin Tool Smoke Tests"
 task :adminWebTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/admintools")
+  runTests("test/features/admintools/accountRequest.feature")
+  runTests("test/features/adminWebTests/Admin_Edit_Rules.feature")
+  runTests("test/features/admintools/admin_smoke.feature")
+  runTests("test/features/admintools/Admin_Welcome_Email.feature")
+  runTests("test/features/admintools/admintool_declarative.feature")
+  runTests("test/features/admintools/app_authorization.feature")
+  runTests("test/features/admintools/app_registration.feature")
+  runTests("test/features/admintools/bulkExtract.feature")
+  runTests("test/features/admintools/custom_role_mapping.feature")
+  runTests("test/features/admintools/delegate_privileges.feature")
+  runTests("test/features/admintools/developer_enable.feature")
+  runTests("test/features/admintools/edit_realms.feature")
+  runTests("test/features/admintools/enable_and_authorize_apps_directly_by_edorg.feature")
+  runTests("test/features/admintools/enable_and_authorize_bulk_extract_apps_directly_by_edorg.feature")
+  runTests("test/features/admintools/encrypted_session_cookie.feature")
+  runTests("test/features/admintools/ProvisioningApplication_Interface.feature")
+  runTests("test/features/admintools/reset_change_password.feature")
+  runTests("test/features/admintools/SAMT_Account_Management_Interface.feature")
+  runTests("test/features/admintools/sli_admin_authorization.feature")
 end
 
 desc "Run Admin Auth Tests"
