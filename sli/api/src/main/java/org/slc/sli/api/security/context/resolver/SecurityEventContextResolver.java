@@ -67,6 +67,12 @@ public class SecurityEventContextResolver implements EntityContextResolver {
 		return toEntityType.equals("securityEvent");
 	}
 
+    /**
+     * Constructs a list of primary keys of security events which the current user should be able to read.
+     *
+     * @param entity (unused)
+     * @return list of ids of accessible security events
+     */
 	@Override
 	public List<String> findAccessible(Entity entity) {
 		List<String> securityEventIds = Collections.emptyList();
@@ -84,6 +90,11 @@ public class SecurityEventContextResolver implements EntityContextResolver {
 		return securityEventIds;
 	}
 
+    /**
+     * Constructs a list of filters for which security events the current user should be able to read.
+     *
+     * No filters implies no security events are accessible!
+     */
 	private List<NeutralQuery> buildQualifyingFilters() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
