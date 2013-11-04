@@ -166,7 +166,6 @@ Then the application named "NewApp" is removed from the SLI
 Scenario: App Developer logs-in to App Registration Tool in Sandbox (Vendor in Prod should see own apps respectively)
 	Given I am a valid App Developer
 	When I hit the Application Registration Tool URL
-	And I select "inBloom" from the dropdown and click go
 	And I was redirected to the "Simple" IDP Login page
 	And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
 	Then I am redirected to the Application Registration Tool page
@@ -184,7 +183,6 @@ Scenario: Different App developer in same tenant should also see my apps
 Scenario: App Developer registers an application in App Registration Tool in Sandbox
 	Given I am a valid App Developer
 	When I hit the Application Registration Tool URL
-	    And I select "inBloom" from the dropdown and click go
 		And I was redirected to the "Simple" IDP Login page
 		And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
 	Then I am redirected to the Application Registration Tool page
