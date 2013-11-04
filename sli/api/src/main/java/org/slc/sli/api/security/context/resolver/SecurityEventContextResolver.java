@@ -122,10 +122,14 @@ public class SecurityEventContextResolver implements EntityContextResolver {
             NeutralQuery or = new NeutralQuery();
             filters.add(or);
             return filters;
-        } else if (roles.contains(RoleInitializer.SEA_ADMINISTRATOR)) {
-            addFiltersForSeaAdmin(principal, filters);
-        } else if (roles.contains(RoleInitializer.LEA_ADMINISTRATOR)) {
-            addFiltersForLeaAdmin(principal, filters);
+        } else if (roles.contains(RoleInitializer.SEA_ADMINISTRATOR) || roles.contains(RoleInitializer.LEA_ADMINISTRATOR)) {
+            // handle users who are both SEA admins and LEA admins, as the version of the class before US5459 did
+            if (roles.contains(RoleInitializer.SEA_ADMINISTRATOR)) {
+                addFiltersForSeaAdmin(principal, filters);
+            }
+            if (roles.contains(RoleInitializer.LEA_ADMINISTRATOR)) {
+                addFiltersForLeaAdmin(principal, filters);
+            }
         } else {
             addFiltersForFederatedUser(principal, filters);
         }
