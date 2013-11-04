@@ -37,7 +37,7 @@ class AppsController < ApplicationController
   # It also allows inBloom operators approve an app for use in inBloom.
   def check_rights
     logger.debug {"Roles: #{session[:roles]}"}
-    unless is_developer? or is_operator?
+    unless is_developer? or is_operator? or is_app_authorizer?
       raise ActiveResource::ForbiddenAccess, caller
     end
   end

@@ -197,9 +197,10 @@ class ApplicationController < ActionController::Base
     if is_admin_realm_authenticated?
       return session[:rights].include?('EDORG_APP_AUTHZ')
     elsif ! session[:edOrgRights].nil? && ! session[:edOrgRights].empty?
-      session[:edOrgRights].each_pair do |edorg, rights|
-        return true if rights.include?('APP_AUTHORIZE')
+      anyAppAuth =  session[:edOrgRights].any? do |edorg, rights|
+        rights.include?('APP_AUTHORIZE')
       end
+      return anyAppAuth
     end
     return false
   end
