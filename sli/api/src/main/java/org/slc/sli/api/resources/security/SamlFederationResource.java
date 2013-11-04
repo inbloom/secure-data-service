@@ -24,7 +24,6 @@ import java.io.StringWriter;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
-<<<<<<< HEAD
 import java.security.KeyException;
 import java.security.KeyFactory;
 import java.security.KeyStore;
@@ -37,8 +36,6 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-=======
->>>>>>> c1ff85226968885aab9e18b89718eb9109c1b9d2
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -657,11 +654,7 @@ public class SamlFederationResource {
         String artifactResolveId = UUID.randomUUID().toString();
         artifactResolve.setID(artifactResolveId);
 
-<<<<<<< HEAD
         artifactResolve.setDestination(IDPURL);
-=======
-        artifactResolve.setDestination(IDP_URL);
->>>>>>> c1ff85226968885aab9e18b89718eb9109c1b9d2
 
         Artifact artifact = (Artifact) bf.getBuilder(Artifact.DEFAULT_ELEMENT_NAME).buildObject(Artifact.DEFAULT_ELEMENT_NAME);
         artifact.setArtifact(artifactString);
@@ -697,12 +690,7 @@ public class SamlFederationResource {
         // Build the SOAP client
         HttpClientBuilder clientBuilder = new HttpClientBuilder();
         HttpSOAPClient soapClient = new HttpSOAPClient(clientBuilder.buildClient(), new BasicParserPool());
-<<<<<<< HEAD
         String artifactResolutionServiceURL = IDPURL;
-=======
-
-        String artifactResolutionServiceURL = IDP_URL;
->>>>>>> c1ff85226968885aab9e18b89718eb9109c1b9d2
 
         soapClient.send(artifactResolutionServiceURL, soapContext);
 
