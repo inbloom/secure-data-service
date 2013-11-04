@@ -42,7 +42,7 @@ public class EdOrgExtractHelper implements InitializingBean {
     @Autowired
     private BulkExtractMongoDA bulkExtractMongoDA;
 
-    private Map<String, List> edOrgLineages;
+    private Map<String, List<String>> edOrgLineages;
 
     private static final String STATE_EDUCATION_AGENCY = "State Education Agency";
 
@@ -114,7 +114,7 @@ public class EdOrgExtractHelper implements InitializingBean {
         Iterable<Entity> apps = repository.findAll("applicationAuthorization", appQuery);
         Map<String, Set<String>> edorgIds = new HashMap<String, Set<String>>();
         for (Entity app : apps) {
-            Set<String> edorgs = new HashSet<String>((Collection<String>) app.getBody().get("edorgs"));
+            Set<String> edorgs = new HashSet<String>(BulkExtractMongoDA.getAuthorizedEdOrgIds(app));
             edorgIds.put((String) app.getBody().get("applicationId"), edorgs);
         }
         return edorgIds;
@@ -167,6 +167,22 @@ public class EdOrgExtractHelper implements InitializingBean {
     }
 
     /**
+     * Retrieve all the staff edorg association for a teacher and edorg.
+     *
+     * @param teacherId  teacher id
+     * @param edorgId    education organization id
+     *
+     * @return  list of all the seoas for the teacher in the edorg
+     */
+    public Iterable<Entity> retrieveSEOAS(String teacherId, String edorgId) {
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, NeutralCriteria.OPERATOR_EQUAL, edorgId));
+        query.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE, NeutralCriteria.OPERATOR_EQUAL, teacherId));
+
+        return repository.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, query);
+    }
+
+    /**
      * Log security events when an extract is initiated for each LEA
      * @param leas
      *          list of LEAs
@@ -192,12 +208,11 @@ public class EdOrgExtractHelper implements InitializingBean {
         this.securityEventUtil = securityEventUtil;
     }
 
-
-    public Map<String, List> getEdOrgLineages() {
+    public Map<String, List<String>> getEdOrgLineages() {
         return edOrgLineages;
     }
 
-    public void setEdOrgLineages(Map<String, List> edOrgLineages) {
+    public void setEdOrgLineages(Map<String, List<String>> edOrgLineages) {
         this.edOrgLineages = edOrgLineages;
     }
 }

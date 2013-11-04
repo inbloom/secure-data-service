@@ -17,14 +17,7 @@
 
 package org.slc.sli.api.resources.security;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.DELETE;
@@ -55,8 +48,6 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -76,8 +67,6 @@ import org.springframework.stereotype.Component;
 @Path("apps")
 @Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class ApplicationResource extends UnversionedResource {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ApplicationResource.class);
 
     public static final String AUTHORIZED_ED_ORGS = "authorized_ed_orgs";
     public static final String APPLICATION = "application";
@@ -363,13 +352,13 @@ public class ApplicationResource extends UnversionedResource {
             }
 
             if (newRegStatus.equals(STATUS_APPROVED) && oldRegStatus.equals(STATUS_PENDING)) {
-                LOG.debug("App approved");
+                debug("App approved");
                 newReg.put(STATUS, STATUS_APPROVED);
                 newReg.put(APPROVAL_DATE, System.currentTimeMillis());
             } else if (newRegStatus.equals("DENIED") && oldRegStatus.equals(STATUS_PENDING)) {
-                LOG.debug("App denied");
+                debug("App denied");
             } else if (newRegStatus.equals("UNREGISTERED") && oldRegStatus.equals(STATUS_APPROVED)) {
-                LOG.debug("App unregistered");
+                debug("App unregistered");
                 newReg.remove(APPROVAL_DATE);
                 newReg.remove(REQUEST_DATE);
             } else {
@@ -487,17 +476,17 @@ public class ApplicationResource extends UnversionedResource {
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, uuid));
         long count = service.count(query);
         if (count == 0) {
-            LOG.debug("No application authorization exists. Creating one.");
+            debug("No application authorization exists. Creating one.");
             EntityBody body = new EntityBody();
             body.put("applicationId", uuid);
-            body.put("edorgs", edOrgIds);
+            body.put("edorgs", ApplicationAuthorizationResource.enrichAuthorizedEdOrgsList(edOrgIds));
             service.create(body);
         } else {
         	Iterable<EntityBody> auths = service.list(query);
         	for (EntityBody auth : auths) {
         		String authId = (String) auth.get("id");
         		auth.remove("edorgs");
-        		auth.put("edorgs", edOrgIds);
+        		auth.put("edorgs", ApplicationAuthorizationResource.enrichAuthorizedEdOrgsList(edOrgIds));
         		service.update(authId, auth);
         	}
         }

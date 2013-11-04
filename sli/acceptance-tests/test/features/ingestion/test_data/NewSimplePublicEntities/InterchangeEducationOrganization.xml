@@ -8,4 +8,34 @@
       <CodeValue>Service 2</CodeValue>
     </Services>
   </Program>
+    <Course>
+        <CourseTitle>CAP0-D0-HSch0-cse0</CourseTitle>
+        <NumberOfParts>3</NumberOfParts>
+        <CourseCode IdentificationSystem="CSSC course code">
+            <ID>CAP0-D0-HSch0-cse0</ID>
+        </CourseCode>
+        <CourseLevel>General or regular</CourseLevel>
+        <GradesOffered>
+            <GradeLevel>Seventh grade</GradeLevel>
+        </GradesOffered>
+        <SubjectArea>Other</SubjectArea>
+        <CourseDescription>Introduction to Web Design</CourseDescription>
+        <DateCourseAdopted>2011-03-04</DateCourseAdopted>
+        <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+        <CourseGPAApplicability>Applicable</CourseGPAApplicability>
+        <CourseDefinedBy>National Organization</CourseDefinedBy>
+        <MinimumAvailableCredit CreditConversion="0" CreditType="Other">
+            <Credit>4</Credit>
+        </MinimumAvailableCredit>
+        <MaximumAvailableCredit CreditConversion="0" CreditType="Other">
+            <Credit>4</Credit>
+        </MaximumAvailableCredit>
+        <CareerPathway>Education and Training</CareerPathway>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <UniqueCourseId>South Daybreak Elementary</UniqueCourseId>
+    </Course>
 </InterchangeEducationOrganization>

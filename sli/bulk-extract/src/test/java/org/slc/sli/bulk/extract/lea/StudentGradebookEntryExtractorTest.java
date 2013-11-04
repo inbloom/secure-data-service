@@ -22,19 +22,26 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentGradebookEntryExtractorTest {
     private StudentGradebookEntryExtractor extractor;
     @Mock
@@ -47,10 +54,13 @@ public class StudentGradebookEntryExtractorTest {
     private ExtractFile mockFile;
     
     @Mock
-    private EntityToEdOrgCache mockStudentCache;
+    private EntityToEdOrgDateCache mockStudentCache;
     
     @Mock
     private Entity mockEntity;
+
+    @Mock
+    private Entity gradebookEntryEntity;
     
     @Mock
     private EdOrgExtractHelper mockEdOrgExtractHelper;
@@ -63,8 +73,13 @@ public class StudentGradebookEntryExtractorTest {
         extractor = new StudentGradebookEntryExtractor(mockExtractor, mockMap, mockRepo, mockEdOrgExtractHelper);
         entityBody = new HashMap<String, Object>();
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
+        Mockito.when(mockEntity.getType()).thenReturn(EntityNames.STUDENT_GRADEBOOK_ENTRY);
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
-        Mockito.when(mockStudentCache.getEntriesById("studentId")).thenReturn(new HashSet<String>(Arrays.asList("LEA")));
+
+        Map<String, DateTime> edOrgDate = new HashMap<String, DateTime>();
+        edOrgDate.put("LEA", DateTime.now());
+
+        Mockito.when(mockStudentCache.getEntriesById("studentId")).thenReturn(edOrgDate);
     }
     
     @Test
@@ -72,7 +87,11 @@ public class StudentGradebookEntryExtractorTest {
         Mockito.when(mockRepo.findEach(Mockito.eq("studentGradebookEntry"), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         entityBody.put(ParameterConstants.STUDENT_ID, "studentId");
-        extractor.extractEntities(mockStudentCache);
+
+        StudentGradebookEntryExtractor spyExtractor = Mockito.spy(extractor);
+        Mockito.doReturn(true).when(spyExtractor).shouldExtract(Mockito.eq(mockEntity), Mockito.any(DateTime.class));
+
+        spyExtractor.extractEntities(mockStudentCache);
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("studentGradebookEntry"));
     }
@@ -82,7 +101,11 @@ public class StudentGradebookEntryExtractorTest {
         Mockito.when(mockRepo.findEach(Mockito.eq("studentGradebookEntry"), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity, mockEntity, mockEntity).iterator());
         entityBody.put(ParameterConstants.STUDENT_ID, "studentId");
-        extractor.extractEntities(mockStudentCache);
+
+        StudentGradebookEntryExtractor spyExtractor = Mockito.spy(extractor);
+        Mockito.doReturn(true).when(spyExtractor).shouldExtract(Mockito.eq(mockEntity), Mockito.any(DateTime.class));
+
+        spyExtractor.extractEntities(mockStudentCache);
         Mockito.verify(mockExtractor, Mockito.times(3)).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("studentGradebookEntry"));
     }
@@ -93,7 +116,11 @@ public class StudentGradebookEntryExtractorTest {
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(null);
         entityBody.put(ParameterConstants.STUDENT_ID, "studentId");
-        extractor.extractEntities(mockStudentCache);
+
+        StudentGradebookEntryExtractor spyExtractor = Mockito.spy(extractor);
+        Mockito.doReturn(false).when(spyExtractor).shouldExtract(Mockito.eq(mockEntity), Mockito.any(DateTime.class));
+
+        spyExtractor.extractEntities(mockStudentCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("studentGradebookEntry"));
     }

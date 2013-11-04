@@ -32,8 +32,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
 
 import org.bson.BasicBSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -55,9 +53,6 @@ import org.slc.sli.domain.Repository;
 @Component("validationRepo")
 @Primary
 public class MockRepo implements Repository<Entity> {
-
-    private static final Logger LOG = LoggerFactory.getLogger(MockRepo.class);
-
     @Override
     public boolean collectionExists(String collection) {
         return false;
@@ -169,7 +164,21 @@ public class MockRepo implements Repository<Entity> {
                 Object sub = container.get(path[i]);
                 if (sub != null && sub instanceof Map) {
                     container = (Map<String, Object>) sub;
-                } else {
+                }
+                else if(sub != null && sub instanceof List) {
+                    List<Object> listContainer = (List) sub;
+                    if(listContainer.size() > 0) {
+                       Object object = ((List) sub).get(0);//AT LEAST, going down the first element as a Quick Incomplete Fix(QIF). Refactor later, when we implement our own MongoDB.
+                        if(object instanceof  Map) {
+                            container = (Map)object;
+                        } else {
+                            return null;
+                        }
+                    } else {
+                        return null;
+                    }
+                }
+                else {
                     return null;
                 }
             }
@@ -417,7 +426,7 @@ public class MockRepo implements Repository<Entity> {
                 }
             }
         } else {
-            LOG.warn("Unsupported operator: {}", criteria.getOperator());
+            warn("Unsupported operator: {}", criteria.getOperator());
         }
 
         return toReturn;

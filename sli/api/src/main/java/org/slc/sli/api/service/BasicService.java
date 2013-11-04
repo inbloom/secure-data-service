@@ -27,8 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -75,8 +73,6 @@ import org.slc.sli.validation.ValidationError;
 @Scope("prototype")
 @Component("basicService")
 public class BasicService implements EntityService, AccessibilityCheck {
-
-    private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
 
     private static final int MAX_RESULT_SIZE = 0;
     private static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
@@ -332,11 +328,11 @@ public class BasicService implements EntityService, AccessibilityCheck {
         try {
             cascadeDelete(id);
         } catch (RuntimeException re) {
-            LOG.debug(re.toString());
+            debug(re.toString());
         }
 
         if (!getRepo().delete(collectionName, id)) {
-            LOG.info("Could not find {}", id);
+            info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
         deleteAttachedCustomEntities(id);
@@ -352,7 +348,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         Entity entity = repo.findOne(collectionName, query);
         if (entity == null) {
-            LOG.info("Could not find {}", id);
+            info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
 
@@ -363,11 +359,11 @@ public class BasicService implements EntityService, AccessibilityCheck {
         try {
             cascadeDelete(id);
         } catch (RuntimeException re) {
-            LOG.debug(re.toString());
+            debug(re.toString());
         }
 
         if (!getRepo().delete(collectionName, id)) {
-            LOG.info("Could not find {}", id);
+            info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
         deleteAttachedCustomEntities(id);
@@ -375,7 +371,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Override
     public boolean update(String id, EntityBody content) {
-        LOG.debug("Updating {} in {} with {}", new Object[] {id, collectionName, SecurityUtil.getSLIPrincipal()});
+        debug("Updating {} in {} with {}", id, collectionName, SecurityUtil.getSLIPrincipal());
         checkAccess(false, id, content);
 
         NeutralQuery query = new NeutralQuery();
@@ -383,7 +379,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         Entity entity = getRepo().findOne(collectionName, query);
         // Entity entity = repo.findById(collectionName, id);
         if (entity == null) {
-            LOG.info("Could not find {}", id);
+            info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
 
@@ -391,13 +387,13 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         boolean success = false;
         if (entity.getBody().equals(content)) {
-            LOG.info("No change detected to {}", id);
+            info("No change detected to {}", id);
             return false;
         }
 
         checkReferences(id, content);
 
-        LOG.info("new body is {}", content);
+        info("new body is {}", content);
         entity.getBody().clear();
         entity.getBody().putAll(content);
 
@@ -407,7 +403,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Override
     public boolean updateBasedOnContextualRoles(String id, EntityBody content) {
-        LOG.debug("Updating {} in {} with {}", new Object [] {id, collectionName, SecurityUtil.getSLIPrincipal()});
+        debug("Updating {} in {} with {}", id, collectionName, SecurityUtil.getSLIPrincipal());
 
         boolean isSelf = isSelf(id);
         NeutralQuery query = new NeutralQuery();
@@ -415,7 +411,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         Entity entity = getRepo().findOne(collectionName, query);
         // Entity entity = repo.findById(collectionName, id);
         if (entity == null) {
-            LOG.info("Could not find {}", id);
+            info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
 
@@ -427,13 +423,13 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         boolean success = false;
         if (entity.getBody().equals(content)) {
-            LOG.info("No change detected to {}", id);
+            info("No change detected to {}", id);
             return false;
         }
 
         checkReferences(id, content);
 
-        LOG.info("new body is {}", content);
+        info("new body is {}", content);
         entity.getBody().clear();
         entity.getBody().putAll(content);
 
@@ -443,20 +439,20 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Override
     public boolean patch(String id, EntityBody content) {
-        LOG.debug("Patching {} in {}", id, collectionName);
+        debug("Patching {} in {}", id, collectionName);
         checkAccess(false, id, content);
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
 
         if (repo.findOne(collectionName, query) == null) {
-            LOG.info("Could not find {}", id);
+            info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
 
         sanitizeEntityBody(content);
 
-        LOG.info("patch value(s): ", content);
+        info("patch value(s): ", content);
 
         // don't check references until things are combined
         checkReferences(id, content);
@@ -468,7 +464,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Override
     public boolean patchBasedOnContextualRoles(String id, EntityBody content) {
-        LOG.debug("Patching {} in {}", id, collectionName);
+        debug("Patching {} in {}", id, collectionName);
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
@@ -477,7 +473,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         Entity entity = repo.findOne(collectionName, query);
         if (entity == null) {
-            LOG.info("Could not find {}", id);
+            info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
 
@@ -487,7 +483,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         sanitizeEntityBody(content);
 
-        LOG.info("patch value(s): ", content);
+        info("patch value(s): ", content);
 
         // don't check references until things are combined
         checkReferences(id, content);
@@ -661,7 +657,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 if (entities.size() == 1) {
                     throw aex;
                 } else {
-                    LOG.error(aex.getMessage());
+                    error(aex.getMessage());
                 }
             }
 
@@ -710,7 +706,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                     if (totalCount == 1) {
                         throw aex;
                     } else if ((accessibleCount > offset) && (responseEntities.size() < responseLimit)) {
-                        LOG.error(aex.getMessage());
+                        error(aex.getMessage());
                     }
                 }
             }
@@ -824,7 +820,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             throw wrapperE;
         }
 
-        LOG.debug("Reading custom entity: entity={}, entityId={}, clientId={}", new Object[]{
+        debug("Reading custom entity: entity={}, entityId={}, clientId={}", new Object[]{
                 getEntityDefinition().getType(), id, clientId});
 
         Entity customEntity = getCustomEntity(id, clientId);
@@ -869,7 +865,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         boolean deleted = getRepo().delete(CUSTOM_ENTITY_COLLECTION, customEntity.getEntityId());
 
-        LOG.debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new Object[]{
+        debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new Object[]{
                 getEntityDefinition().getType(), id, clientId, String.valueOf(deleted)});
     }
 
@@ -900,7 +896,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         Entity entity = getCustomEntity(id, clientId);
 
         if (entity != null && entity.getBody().equals(customEntity)) {
-            LOG.debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}",
+            debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}",
                     new Object[]{getEntityDefinition().getType(), id, clientId});
 
             return;
@@ -909,21 +905,21 @@ public class BasicService implements EntityService, AccessibilityCheck {
         // Verify field names contain no blacklisted components.
         List<ValidationError> errorList = customEntityValidator.validate(customEntity);
         if (!errorList.isEmpty()) {
-            LOG.debug("Blacklist validation failed for custom entity {}", id);
+            debug("Blacklist validation failed for custom entity {}", id);
             throw new EntityValidationException(id, PathConstants.CUSTOM_ENTITIES, errorList);
         }
 
         EntityBody clonedEntity = new EntityBody(customEntity);
 
         if (entity != null) {
-            LOG.debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new Object[]{
+            debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new Object[]{
                     getEntityDefinition().getType(), id, clientId});
             entity.getBody().clear();
             entity.getBody().putAll(clonedEntity);
             // custom entity is not superdoc
             getRepo().update(CUSTOM_ENTITY_COLLECTION, entity, false);
         } else {
-            LOG.debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new Object[]{
+            debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new Object[]{
                     getEntityDefinition().getType(), id, clientId});
             EntityBody metaData = new EntityBody();
 
@@ -1008,13 +1004,13 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 continue;
             }
 
-            LOG.debug("Field {} is referencing {}", fieldName, entityType);
+            debug("Field {} is referencing {}", fieldName, entityType);
             @SuppressWarnings("unchecked")
             List<String> ids = value instanceof List ? (List<String>) value : Arrays.asList((String) value);
 
             EntityDefinition def = definitionStore.lookupByEntityType(entityType);
             if (def == null) {
-                LOG.debug("Invalid reference field: {} does not have an entity definition registered", fieldName);
+                debug("Invalid reference field: {} does not have an entity definition registered", fieldName);
                 ValidationError error = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, fieldName, value, null);
                 throw new EntityValidationException(null, null, Arrays.asList(error));
             }
@@ -1022,11 +1018,11 @@ public class BasicService implements EntityService, AccessibilityCheck {
             try {
                 contextValidator.validateContextToEntities(def, ids, true);
             } catch (APIAccessDeniedException e) {
-                LOG.debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
+                debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
                 throw new APIAccessDeniedException(
                         "Invalid reference. No association to referenced entity.", e);
             } catch (EntityNotFoundException e) {
-                LOG.debug("Invalid Reference: {} in {} does not exist", value, def.getStoredCollectionName());
+                debug("Invalid Reference: {} in {} does not exist", value, def.getStoredCollectionName());
                 throw (APIAccessDeniedException) new APIAccessDeniedException(
                         "Invalid reference. No association to referenced entity.",
                         defn.getType(), entityId).initCause(e);
@@ -1155,7 +1151,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                         }
                     }
                 } catch (AccessDeniedException ade) {
-                    LOG.debug("No {} have {}={}", new Object[]{referencingEntity.getResourceName(), referenceField,
+                    debug("No {} have {}={}", new Object[]{referencingEntity.getResourceName(), referenceField,
                             sourceId});
                 }
             }
@@ -1299,7 +1295,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         Entity entity = repo.findOne(collectionName, entityQuery);
         if (entity == null) {
-            LOG.info("Could not find {}", id);
+            info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
         return entity;

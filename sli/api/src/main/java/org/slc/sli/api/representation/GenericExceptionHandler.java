@@ -27,8 +27,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -38,7 +36,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class GenericExceptionHandler implements ExceptionMapper<Throwable> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GenericExceptionHandler.class);
     
     @Context
     private HttpHeaders headers;
@@ -53,16 +50,16 @@ public class GenericExceptionHandler implements ExceptionMapper<Throwable> {
         //default web-container error handler pages to get used in those cases.
         if (headers.getAcceptableMediaTypes().contains(MediaType.TEXT_HTML_TYPE)) {
             try {
-                LOG.error(e.getMessage(), e);
+                error(e.getMessage(), e);
                 response.sendError(500, e.getMessage());
                 return null;    //the error page handles the response, so no need to return a response
             } catch (IOException ex) {
-                LOG.error("Error displaying error page", ex);
+                error("Error displaying error page", ex);
             }
         }
         Response.Status errorStatus = Response.Status.INTERNAL_SERVER_ERROR;
         
-        LOG.error("Caught exception thrown by ReST handler", e);
+        error("Caught exception thrown by ReST handler", e);
         return Response
                 .status(errorStatus)
                 .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),

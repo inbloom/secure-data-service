@@ -28,8 +28,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,9 +41,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SessionSecurityCache implements SecurityCachingStrategy {
-
-    private static final Logger LOG = LoggerFactory.getLogger(SessionSecurityCache.class);
-
     private static final String CACHE = "cache";
 
     public static final String USER_SESSION = "userSession";
@@ -92,7 +87,7 @@ public class SessionSecurityCache implements SecurityCachingStrategy {
         if (!enabled) {
             return null;
         }
-        LOG.info("Using cached context for {}", cacheId);
+        info("Using cached context for {}", cacheId);
         Map<String, Object> body = (Map<String, Object>) getUserSession().getBody();
         Map<String, Object> cache = (Map) body.get("cache");
         

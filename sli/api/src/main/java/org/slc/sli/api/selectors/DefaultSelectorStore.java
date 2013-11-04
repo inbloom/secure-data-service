@@ -27,8 +27,6 @@ import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -51,8 +49,6 @@ import org.slc.sli.modeling.uml.ClassType;
  */
 @Component("defaultSelectorRepository")
 public class DefaultSelectorStore implements SelectorRepository {
-
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultSelectorStore.class);
 
     public static final String DEFAULT_SELECTOR_TYPE_KEY = "type";
     public static final String DEFAULT_SELECTOR_VALUE_KEY = "selector";
@@ -110,9 +106,9 @@ public class DefaultSelectorStore implements SelectorRepository {
 
                     retVal.put(type, semanticSelector);
                 } catch (IllegalArgumentException npe) {
-                    LOG.warn("Default selector entry missing 'type' or 'selector' field(s): " + jsonNode.toString());
+                    warn("Default selector entry missing 'type' or 'selector' field(s): " + jsonNode.toString());
                 } catch (SelectorParseException spe) {
-                    LOG.warn("Default selector failed to parse: " + spe.getMessage());
+                    warn("Default selector failed to parse: " + spe.getMessage());
                 }
             }
         }

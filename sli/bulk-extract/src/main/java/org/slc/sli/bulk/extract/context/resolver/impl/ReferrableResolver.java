@@ -15,10 +15,6 @@
  */ 
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,13 +26,19 @@ import org.slc.sli.bulk.extract.delta.DeltaEntityIterator;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
+
 /**
- * Resolver that supports the ability to find the reference from an id
+ * Resolver that supports the ability to find the reference from an id.
  * @author nbrown
  *
  */
 public abstract class ReferrableResolver implements ContextResolver {
-    private static final Logger LOG = LoggerFactory.getLogger(EducationOrganizationContextResolver.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ReferrableResolver.class);
     
     @Autowired
     @Qualifier("secondaryRepo")
@@ -51,8 +53,8 @@ public abstract class ReferrableResolver implements ContextResolver {
     /**
      * Return a list of edOrg IDs that have ownership of the given entity
      * 
-     * @param an
-     *            entity
+     * @param entity
+     *            the entity to extract
      * @return a set of Strings which are IDs of the top level LEA
      */
     public Set<String> findGoverningEdOrgs(Entity entity) {
@@ -60,43 +62,37 @@ public abstract class ReferrableResolver implements ContextResolver {
         if (entity == null || entity.getEntityId() == null) {
             return Collections.emptySet();
         }
-        String id = entity.getEntityId();
-        if (getCache().containsKey(id)) {
-            LOG.debug("got edOrgs from cache for {}", entity);
-            return getCache().get(id);
-        }
-        
-        Set<String> edOrgs = resolve(entity);
 
-        getCache().put(id, edOrgs);
+        Set<String> edOrgs = resolve(entity, entity);
+
         return edOrgs;
     }
-    
+
     /**
      * Find the governing edOrgs based on the id
      * 
      * @param id
      *            the id of the entity to look up
+     * @param entityToExtract
+     *              the entity to be extracted
      * @return the list of edOrgs
      */
-    public Set<String> findGoverningEdOrgs(String id) {
+    public Set<String> findGoverningEdOrgs(String id, Entity entityToExtract) {
         if (id == null) {
             return Collections.emptySet();
         }
 
-        if (getCache().containsKey(id)) {
-            LOG.debug("got edOrgs from cache for {}", id);
-            return getCache().get(id);
-        }
+        Set<String> edOrgs = new HashSet<String>();
 
         Entity entity = getRepo().findOne(getCollection(), DeltaEntityIterator.buildQuery(getCollection(), id));
-        if (entity != null) {
-            return findGoverningEdOrgs(entity);
+        if (entity != null && entity.getEntityId() != null) {
+            edOrgs = resolve(entity, entityToExtract);
         }
-        
-        return Collections.emptySet();
+
+        return edOrgs;
     }
-    
+
+
     protected Repository<Entity> getRepo() {
         return repo;
     }
@@ -107,6 +103,6 @@ public abstract class ReferrableResolver implements ContextResolver {
     
     protected abstract String getCollection();
     
-    protected abstract Set<String> resolve(Entity entity);
+    protected abstract Set<String> resolve(Entity baseEntity, Entity entityToExtract);
 
 }

@@ -29,8 +29,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -42,20 +40,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class DelegationUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DelegationUtil.class);
-
     @Autowired
     @Qualifier("validationRepo")
     Repository<Entity> repo;
     
     @Autowired
     EdOrgHelper helper;
-
-    public List<String> getAppApprovalDelegateEdOrgs() {
-        List<String> delegateEdOrgs = getDelegateEdOrgs("appApprovalEnabled");
-        LOG.debug("Ed orgs that have delegated ApplicationApproval are {}", delegateEdOrgs);
-        return delegateEdOrgs;
-    }
 
     public List<String> getSecurityEventDelegateStateIds() {
         List<String> delegateEdOrgs = getSecurityEventDelegateEdOrgs();
@@ -78,7 +68,7 @@ public class DelegationUtil {
 
     public List<String> getSecurityEventDelegateEdOrgs() {
         List<String> delegateEdOrgs = getDelegateEdOrgs("viewSecurityEventsEnabled");
-        LOG.debug("Ed orgs that have delegated SecurityEventViewing are {}", delegateEdOrgs);
+        debug("Ed orgs that have delegated SecurityEventViewing are {}", delegateEdOrgs);
         return delegateEdOrgs;
     }
 

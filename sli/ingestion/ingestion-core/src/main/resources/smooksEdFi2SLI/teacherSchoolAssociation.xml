@@ -32,12 +32,12 @@
 
   </jb:bean>
 
-  <jb:bean beanId="GradeLevelsTypeArray" class="java.util.ArrayList" createOnElement="attributes">
-    <jb:value data="InstructionalGradeLevels element _value" />
-  </jb:bean>
+    <jb:bean beanId="GradeLevelsTypeArray" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:value data="InstructionalGradeLevels GradeLevel element _value" />
+    </jb:bean>
 
-  <jb:bean beanId="AcademicSubjectsTypeArray" class="java.util.ArrayList" createOnElement="attributes">
-    <jb:value data="AcademicSubjects element _value" />
-  </jb:bean>
+    <jb:bean beanId="AcademicSubjectsTypeArray" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:value data="AcademicSubjects AcademicSubject element _value" />
+    </jb:bean>
 
 </smooks-resource-list>

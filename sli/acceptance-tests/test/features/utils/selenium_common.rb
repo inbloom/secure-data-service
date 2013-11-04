@@ -110,6 +110,13 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
 
 end
 
+When /^I select "(.*?)" from the dropdown and click go$/ do |arg1|
+  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
+  select.select_by(:text, arg1)
+  assertWithWait("Could not find the Go button")  { @driver.find_element(:id, "go") }
+  @driver.find_element(:id, "go").click
+end
+
 After do |scenario|
   begin
     File.delete("./cats_with_lasers.png")

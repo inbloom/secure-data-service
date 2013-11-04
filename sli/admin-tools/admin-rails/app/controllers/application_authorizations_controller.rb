@@ -59,14 +59,18 @@ class ApplicationAuthorizationsController < ApplicationController
     # The are the "authorized" (by the edOrg admin) edorgs for the app
     @appAuth = ApplicationAuthorization.find(appId)
     edOrgTree = EdorgTree.new()
-    @edorg_tree_html = edOrgTree.get_authorization_tree_html([edOrgId], appId, is_sea_admin?, @appAuth.edorgs || [])
+    @appAuth_edorgs = []
+        @appAuth.edorgs.each do |edorg_entry|
+          @appAuth_edorgs.push(edorg_entry.authorizedEdorg)
+        end
+    @edorg_tree_html = edOrgTree.get_authorization_tree_html([edOrgId], appId, is_sea_admin?, @appAuth_edorgs || [])
   end
   
 
   # NOTE this controller allows ed org super admins to enable/disable apps for their LEA(s)
   # It allows LEA(s) to see (but not change) their app authorizations
   def check_rights
-    unless is_lea_admin? || is_sea_admin?
+    unless is_app_authorizer
       logger.warn {'User is not lea or sea admin and cannot access application authorizations'}
       raise ActiveResource::ForbiddenAccess, caller
     end
@@ -76,21 +80,22 @@ class ApplicationAuthorizationsController < ApplicationController
   # GET /application_authorizations.json
   def index
 
+    userEdOrg = session[:edOrgId]
+
     load_apps()
 
     # Use this in the template to enable buttons
     @isSEAAdmin = is_sea_admin?
     @isLEAAdmin = is_lea_admin?
-
     # Get counts of apps ... have to look up each individually
     # For non-SEA admin apply a filter of the edOrgs in scope for the user
     @app_counts = {}
-    if !@isSEAAdmin
-      edorgs_in_scope = get_edorgs_in_scope()
-    end
-    
-    allAuth = ApplicationAuthorization.findAllInChunks({})
-    allAuth.each do |auth|
+    @edorgs_in_scope = {}
+    @edorgs_in_scope[userEdOrg] = get_edorgs_in_scope(userEdOrg)
+
+    user_app_auths = ApplicationAuthorization.findAllInChunks({})
+
+    user_app_auths.each do |auth|
       auth2 = ApplicationAuthorization.find(auth.id)
       if !auth2.edorgs.nil?
         if @isSEAAdmin
@@ -98,7 +103,7 @@ class ApplicationAuthorizationsController < ApplicationController
         else
           count = 0
           auth2.edorgs.each do |id|
-            count +=1 if edorgs_in_scope.has_key?(id)
+            count +=1 if @edorgs_in_scope[userEdOrg].has_key?(id.authorizedEdorg)
           end
         end
         @app_counts[auth.id] = count
@@ -108,9 +113,11 @@ class ApplicationAuthorizationsController < ApplicationController
     # Invert apps map to get set of enabled apps by edOrg for filtering
     @edorg_apps = {}
     @apps_map.each do |appId, app|
-      authorized_ed_orgs = app.authorized_ed_orgs
-      if ! authorized_ed_orgs.nil?
-        authorized_ed_orgs.each do |edOrg|
+      # In this context 'authorized_ed_orgs' is named poorly in datastore so rename locally
+      # The field actually expresses whether an app is enabled.
+      enabled_ed_orgs = app.authorized_ed_orgs
+      if ! enabled_ed_orgs.nil?
+        enabled_ed_orgs.each do |edOrg|
           if ! @edorg_apps.has_key?(edOrg)
             @edorg_apps[edOrg] = { appId => true }
           else
@@ -121,14 +128,14 @@ class ApplicationAuthorizationsController < ApplicationController
 
       # Some apps such as dashboard and databrowser may have allowed_for_all_edorgs set
       if app.allowed_for_all_edorgs
-        if ! @edorg_apps.has_key?(session[:edOrgId])
-          @edorg_apps[session[:edOrgId]] = { appId => true }
+        if ! @edorg_apps.has_key?(userEdOrg)
+          @edorg_apps[userEdOrg] = { appId => true }
         else
-          @edorg_apps[session[:edOrgId]][appId] = true
+          @edorg_apps[userEdOrg][appId] = true
         end
       end
     end
-    
+
     # We used to support a mode where the SEA saw edOrgs for which is
     # was delegated admin access by the edOrgs (usu. an LEA)
     legacy_sea_delegation_support = false
@@ -142,9 +149,8 @@ class ApplicationAuthorizationsController < ApplicationController
         @application_authorizations[edorg] = ApplicationAuthorization.find(:all, :params => {'edorg' => edorg})
       }
     else
-      eo = session[:edOrgId]
-      raise NoUserEdOrgError.new "No education organization in session -- The user\'s educational organization may not exist. Please confirm that realms are set up properly and relevant educational organizations have been ingested." if !eo
-      @edorgs = [eo]
+      raise NoUserEdOrgError.new "No education organization in session -- The user\'s educational organization may not exist. Please confirm that realms are set up properly and relevant educational organizations have been ingested." if !userEdOrg
+      @edorgs = [userEdOrg]
       ApplicationAuthorization.cur_edorg = @edorgs[0]
       @application_authorizations[@edorgs[0]] = ApplicationAuthorization.all
     end
@@ -160,7 +166,7 @@ class ApplicationAuthorizationsController < ApplicationController
   def update
 
     # Only allow update by SEA  or LEA admin.
-    unless is_sea_admin? || is_lea_admin?
+    unless is_app_authorizer
       logger.warn {'User is not SEA or LEA admin and cannot update application authorizations'}
       raise ActiveResource::ForbiddenAccess, caller
     end
@@ -222,13 +228,17 @@ class ApplicationAuthorizationsController < ApplicationController
     return result
   end
 
-   
-  # Get edOrgs in user's scope (descendants of user's edOrg). This is optimized just
+  # Get edOrgs in scope (descendants of the 'edOrgId' specified). This is optimized just
   # to get a map of the IDs for the purpose of filtering the "index" list
-  def get_edorgs_in_scope()
+  def get_edorgs_in_scope(edorg = session[:edOrgId])
+    # check cache
+    @edorgs_in_scope = {} if @edorgs_in_scope.nil?
+    if @edorgs_in_scope.has_key?(edorg)
+      return @edorgs_in_scope[edorg]
+    end
+
     edinf = {}
-    userEdOrg = session[:edOrgId]
-    
+
     # Get all edOrgs, include only needed fields
     allEdOrgs = EducationOrganization.findAllInChunks({"includeFields" => "parentEducationAgencyReference"})
     allEdOrgs.each do |eo|
@@ -257,8 +267,8 @@ class ApplicationAuthorizationsController < ApplicationController
 
     # Now traverse it
     result = {}
-    get_edorgs_in_scope_recursive(edinf, userEdOrg, result)
-    return result
+    get_edorgs_in_scope_recursive(edinf, edorg, result)
+    return @edorgs_in_scope[edorg] = result
   end
 
   # Recursive traversal to get edOrg IDs in scope of user
@@ -269,6 +279,28 @@ class ApplicationAuthorizationsController < ApplicationController
       get_edorgs_in_scope_recursive(edinf, cid, result)
     end
   end
+
+
+  # Determine whether the 'edorg' itself or one of it's children have the app enabled
+  # Return true if it does, false if not
+  def edorg_in_scope_enabled?(edorg, app)
+    has_enabled_edorg = false
+
+    # get the edorgs in scope including self - have this already for self from the index logic
+    edorgs_in_scope = get_edorgs_in_scope(edorg)
+    return false if edorgs_in_scope.nil?
+
+    # check all in scope edorgs for enablement
+    edorgs_in_scope.keys.each { |in_scope_edorg|
+      if @edorg_apps.has_key?(in_scope_edorg) && @edorg_apps[in_scope_edorg].has_key?(app)
+        has_enabled_edorg = true
+        break
+      end
+    }
+
+    return has_enabled_edorg
+  end
+  helper_method :edorg_in_scope_enabled?
 
   # Format app description
   def app_description(a)
