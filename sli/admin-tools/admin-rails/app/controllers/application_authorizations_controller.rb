@@ -59,14 +59,18 @@ class ApplicationAuthorizationsController < ApplicationController
     # The are the "authorized" (by the edOrg admin) edorgs for the app
     @appAuth = ApplicationAuthorization.find(appId)
     edOrgTree = EdorgTree.new()
-    @edorg_tree_html = edOrgTree.get_authorization_tree_html([edOrgId], appId, is_sea_admin?, @appAuth.edorgs || [])
+    @appAuth_edorgs = []
+        @appAuth.edorgs.each do |edorg_entry|
+          @appAuth_edorgs.push(edorg_entry.authorizedEdorg)
+        end
+    @edorg_tree_html = edOrgTree.get_authorization_tree_html([edOrgId], appId, is_sea_admin?, @appAuth_edorgs || [])
   end
   
 
   # NOTE this controller allows ed org super admins to enable/disable apps for their LEA(s)
   # It allows LEA(s) to see (but not change) their app authorizations
   def check_rights
-    unless is_lea_admin? || is_sea_admin?
+    unless is_app_authorizer
       logger.warn {'User is not lea or sea admin and cannot access application authorizations'}
       raise ActiveResource::ForbiddenAccess, caller
     end
@@ -83,7 +87,6 @@ class ApplicationAuthorizationsController < ApplicationController
     # Use this in the template to enable buttons
     @isSEAAdmin = is_sea_admin?
     @isLEAAdmin = is_lea_admin?
-
     # Get counts of apps ... have to look up each individually
     # For non-SEA admin apply a filter of the edOrgs in scope for the user
     @app_counts = {}
@@ -100,7 +103,7 @@ class ApplicationAuthorizationsController < ApplicationController
         else
           count = 0
           auth2.edorgs.each do |id|
-            count +=1 if @edorgs_in_scope[userEdOrg].has_key?(id)
+            count +=1 if @edorgs_in_scope[userEdOrg].has_key?(id.authorizedEdorg)
           end
         end
         @app_counts[auth.id] = count
@@ -163,7 +166,7 @@ class ApplicationAuthorizationsController < ApplicationController
   def update
 
     # Only allow update by SEA  or LEA admin.
-    unless is_sea_admin? || is_lea_admin?
+    unless is_app_authorizer
       logger.warn {'User is not SEA or LEA admin and cannot update application authorizations'}
       raise ActiveResource::ForbiddenAccess, caller
     end
@@ -295,7 +298,6 @@ class ApplicationAuthorizationsController < ApplicationController
       end
     }
 
-    puts "Returning #{has_enabled_edorg} for app #{app.to_s}, edorg #{edorg}"
     return has_enabled_edorg
   end
   helper_method :edorg_in_scope_enabled?

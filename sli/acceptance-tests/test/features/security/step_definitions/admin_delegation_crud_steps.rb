@@ -26,6 +26,7 @@ Transform /^district "([^"]*)"$/ do |district|
   id = "b2c6e292-37b0-4148-bf75-c98a2fcc905f" if district == "IL-SUNSET"
   id = "b2c6e292-37b0-4148-bf75-c98a2fcc905f" if district == "IL-SUNSET's ID"
   id = "xd086bae-ee82-6ce2-bcf9-321a8407ba13" if district == "IL-LONGWOOD's ID"
+  id = "xd086bae-ee82-6ce2-bcf9-321a8407ba13" if district == "IL-LONGWOOD"
   id = "b1bd3db6-d020-4651-b1b8-a8dba688d9e1" if district == "IL"
   id
 end
@@ -77,10 +78,10 @@ end
 
 Then /^I should update app authorizations for (district "[^"]*")$/ do |district|
   @format = "application/json"
-  dataObj = {"appId" => "78f71c9a-8e37-0f86-8560-7783379d96f7", "authorized" => true}
+  dataObj = {"appId" => "78f71c9a-8e37-0f86-8560-7783379d96f7", "authorized" => true, :edorgs => [district]}
   data = prepareData("application/json", dataObj)
   puts("The data is #{data}") if ENV['DEBUG']
-  restHttpPut("/applicationAuthorization/78f71c9a-8e37-0f86-8560-7783379d96f7?edorg=#{district}", data)
+  restHttpPut("/applicationAuthorization/78f71c9a-8e37-0f86-8560-7783379d96f7", data)
   assert(@res != nil, "Response from PUT operation was nil")
 end
 
@@ -129,3 +130,39 @@ Then /^I should see that "([^"]*)" is "([^"]*)" for (district "[^"]*")$/ do |fie
   end
   assert(foundIt, "Never found district #{district}")
 end
+
+When /^I navigate to GET applicationAuthorization with "([^"]*)"$/ do |app_id|
+  restHttpGet("/applicationAuthorization/#{app_id}")
+  assert(@res != nil, "Response from application authorization request is nil")
+  @result = JSON.parse(@res.body)
+  #puts @result
+end
+
+And /^There is a correct entry in applicationAuthorization edorg array for (district "[^"]*") for the application "([^"]*)"$/ do |edorg, app_id|
+  edorgs = @result["edorgs"]
+  found = false
+  edorgs.each do |edorg_entry|
+    if edorg_entry["authorizedEdorg"]== edorg
+      found = true
+      @edorg_hash = edorg_entry
+      break
+    end
+  end
+  assert(found==true,"The entry in applicationAuthorization edorg array for #{edorg} was incorrect");
+  assert(@edorg_hash.size==4, "The entry in applicationAuthorization edorg array for #{edorg} was incorrect");
+end
+
+And /^The value of "([^"]*)" should be "([^"]*)"$/ do |field, value|
+  if value == "nil"
+    value_t = nil
+  else
+    value_t = value
+  end
+  assert(@edorg_hash.has_key?(field), "Does not have expected field #{field}")
+  if @edorg_hash.has_key?(field)
+    assert(@edorg_hash[field] == value_t, "Expected field #{field} to be #{value_t} was #{@edorg_hash[field].to_s}")
+    @edorg_hash.delete(field)
+  end
+end
+
+

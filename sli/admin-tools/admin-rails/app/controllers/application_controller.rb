@@ -65,6 +65,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActiveResource::ServerError do |exception|
     logger.error {"Exception on server"}
+    render_500
     reset_session
     SessionResource.access_token = nil
   end
@@ -189,6 +190,10 @@ class ApplicationController < ActionController::Base
 
   def is_it_admin?
     session[:roles].include?("IT Administrator")
+  end
+
+  def is_app_authorizer
+    session[:rights].include?("EDORG_APP_AUTHZ")
   end
 
   def get_tenant
