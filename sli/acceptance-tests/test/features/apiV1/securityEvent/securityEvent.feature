@@ -71,15 +71,3 @@ Scenario: Read securityEvents as SEA Admin. 11 Events. Sunsetadmin(4),  Iladmin(
     And I should receive a collection of "11" entities
     And each entity's "entityType" should be "<ENTITY TYPE>"
     Then each entity's "targetEdOrg" should be in the array "<IL_SUNSET_LONGWOOD>"
- 
- @wip  
-	Scenario: Read securityEvents as SEA Admin. 11 Events. Sunsetadmin(4),  Iladmin(4) and Longwoodadmin(3)
-    Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
-    And format "application/vnd.slc+json"
-    And parameter "limit" is "0"
-    When I navigate to GET "<ENTITY URI>"
-    Then I should receive a return code of 200
-    And I should receive a collection of "4" entities
-    And each entity's "entityType" should be "<ENTITY TYPE>"
-    Then each entity's "targetEdOrg" should be in the array "<IL_SUNSET_LONGWOOD>"
-   
