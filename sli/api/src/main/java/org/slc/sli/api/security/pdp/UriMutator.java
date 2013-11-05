@@ -279,6 +279,13 @@ public class UriMutator {
 
     }
 
+    private boolean shouldSkipMutation(List<PathSegment> segments, String queryParameters, SLIPrincipal principal, String clientId) {
+        return shouldSkipMutationToEnableSearch(segments, queryParameters) ||
+                ( isAdminApp(clientId) && hasAppAuthRight(principal) && isEducationOrganizationsEndPoint(segments) );
+    }
+
+    // Check the is_admin field in the 'sli' db 'application' collection to determine if the application is
+    // and 'admin' type application
     private boolean isAdminApp(String clientId) {
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ApplicationResource.CLIENT_ID, "=", clientId));
         Entity app = repo.findOne(EntityNames.APPLICATION, nq);
@@ -292,15 +299,12 @@ public class UriMutator {
         return result;
     }
 
+    // Check whether the principal has the 'APP_AUTHORIZE' right for any of its roles in any edorg
     private boolean hasAppAuthRight(SLIPrincipal principal) {
         return principal.getAllRights(true).contains(Right.APP_AUTHORIZE);
     }
 
-    private boolean shouldSkipMutation(List<PathSegment> segments, String queryParameters, SLIPrincipal principal, String clientId) {
-        return shouldSkipMutationToEnableSearch(segments, queryParameters) ||
-                ( isAdminApp(clientId) && hasAppAuthRight(principal) && isEducationOrganizationsEndPoint(segments) );
-    }
-
+    // Check whether the 'educationOrganizations' endpoint is hit directly
     private boolean isEducationOrganizationsEndPoint(List<PathSegment> segments) {
         boolean skipMutation = false;
         if (segments.size() == NUM_SEGMENTS_IN_ONE_PART_REQUEST) {
