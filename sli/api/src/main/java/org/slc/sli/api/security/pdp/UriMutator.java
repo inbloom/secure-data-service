@@ -291,12 +291,10 @@ public class UriMutator {
         Entity app = repo.findOne(EntityNames.APPLICATION, nq);
 
         if (app == null) {
-            RuntimeException x = new InvalidClientException(String.format("No app with id %s registered", clientId));
-            error(x.getMessage(), x);
-            throw x;
+            return false;
         }
-        boolean result = (Boolean) app.getBody().get("is_admin");
-        return result;
+
+        return (Boolean) app.getBody().get("is_admin");
     }
 
     // Check whether the principal has the 'APP_AUTHORIZE' right for any of its roles in any edorg
