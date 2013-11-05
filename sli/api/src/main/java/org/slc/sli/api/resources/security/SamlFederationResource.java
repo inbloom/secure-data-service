@@ -78,6 +78,7 @@ import org.opensaml.ws.soap.soap11.Envelope;
 import org.opensaml.xml.ConfigurationException;
 import org.opensaml.xml.XMLObjectBuilderFactory;
 import org.opensaml.xml.Configuration;
+import org.opensaml.xml.io.MarshallingException;
 import org.opensaml.xml.parse.BasicParserPool;
 import org.opensaml.xml.security.SecurityConfiguration;
 import org.opensaml.xml.security.SecurityException;
@@ -87,6 +88,9 @@ import org.opensaml.xml.security.x509.BasicX509Credential;
 import org.opensaml.xml.security.x509.X509Credential;
 import org.opensaml.xml.security.x509.X509Util;
 import org.opensaml.xml.signature.Signature;
+import org.opensaml.xml.signature.SignatureConstants;
+import org.opensaml.xml.signature.SignatureException;
+import org.opensaml.xml.signature.Signer;
 import org.opensaml.xml.util.DatatypeHelper;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.roles.EdOrgContextualRoleBuilder;
@@ -189,7 +193,7 @@ public class SamlFederationResource {
     public static final String CERTIFICATE_ALIAS_NAME = "selfsigned";
 
     public static SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-    public static final String IDPURL = "https://localhost:8444/idp/profile/SAML2/SOAP/ArtifactResolution";
+    public static final String IDPURL = "https://local.slidev.org:8444/idp/profile/SAML2/SOAP/ArtifactResolution";
 
 
     @SuppressWarnings("unused")
@@ -620,7 +624,7 @@ public class SamlFederationResource {
      */
     @GET
     @Path("sso/artifact")
-    public Response artifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) throws InvalidKeySpecException, SOAPException, org.opensaml.xml.security.SecurityException, ConfigurationException, UnrecoverableEntryException, NoSuchAlgorithmException, KeyStoreException, IOException, CertificateException {
+    public Response artifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) throws InvalidKeySpecException, SOAPException, org.opensaml.xml.security.SecurityException, ConfigurationException, UnrecoverableEntryException, NoSuchAlgorithmException, KeyStoreException, IOException, CertificateException, SignatureException, MarshallingException {
         String artifact = request.getParameter("SAMLart");
         if (artifact == null) {
             throw new IOException("No artifact in message");
@@ -639,7 +643,7 @@ public class SamlFederationResource {
     }
 
 
-    private ArtifactResolve generateArtifactResolve(final String artifactString) throws InvalidKeySpecException, org.opensaml.xml.security.SecurityException, ConfigurationException, UnrecoverableEntryException, NoSuchAlgorithmException, KeyStoreException, IOException, CertificateException {
+    private ArtifactResolve generateArtifactResolve(final String artifactString) throws InvalidKeySpecException, org.opensaml.xml.security.SecurityException, ConfigurationException, UnrecoverableEntryException, NoSuchAlgorithmException, KeyStoreException, IOException, CertificateException, SignatureException, MarshallingException {
 
         DefaultBootstrap.bootstrap();
         XMLObjectBuilderFactory bf = Configuration.getBuilderFactory();
@@ -667,11 +671,17 @@ public class SamlFederationResource {
         Credential signingCredential = intializeCredentials();
         signature.setSigningCredential(signingCredential);
 
+        signature.setSignatureAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA1);
+
         SecurityConfiguration secConfig = Configuration.getGlobalSecurityConfiguration();
 
         SecurityHelper.prepareSignatureParams(signature, signingCredential, secConfig, null);
 
         artifactResolve.setSignature(signature);
+
+        Configuration.getMarshallerFactory().getMarshaller(artifactResolve).marshall(artifactResolve);
+
+        Signer.signObject(signature);
         return artifactResolve;
     }
 
