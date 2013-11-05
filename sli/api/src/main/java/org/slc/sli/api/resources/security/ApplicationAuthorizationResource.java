@@ -128,7 +128,7 @@ public class ApplicationAuthorizationResource {
 
     @GET
     @Path("{appId}")
-    @RightsAllowed({Right.EDORG_APP_AUTHZ})
+    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.APP_AUTHORIZE})
     public Response getAuthorization(@PathParam("appId") String appId, @QueryParam("edorg") String edorg) {
         String myEdorg = validateEdOrg(edorg);
         EntityBody appAuth = getAppAuth(appId);
@@ -183,7 +183,7 @@ public class ApplicationAuthorizationResource {
 
     @PUT
     @Path("{appId}")
-    @RightsAllowed({Right.EDORG_APP_AUTHZ})
+    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.APP_AUTHORIZE})
     public Response updateAuthorization(@PathParam("appId") String appId, EntityBody auth) {
         if (!auth.containsKey("authorized")) {
             return Response.status(Status.BAD_REQUEST).build();
@@ -305,7 +305,7 @@ public class ApplicationAuthorizationResource {
     }
 
     @GET
-    @RightsAllowed({Right.EDORG_APP_AUTHZ})
+    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.APP_AUTHORIZE})
     public Response getAuthorizations(@QueryParam("edorg") String edorg) {
         String myEdorg = validateEdOrg(edorg);
         Iterable<Entity> appQuery = repo.findAll("application", new NeutralQuery());
