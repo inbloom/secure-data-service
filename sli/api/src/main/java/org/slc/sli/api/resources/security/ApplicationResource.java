@@ -203,7 +203,7 @@ public class ApplicationResource extends UnversionedResource {
 
     @SuppressWarnings("rawtypes")
     @GET
-    @RightsAllowed({ Right.APP_AUTHORIZE })
+    @RightsAllowed({ Right.READ_GENERAL, Right.EDORG_APP_AUTHZ, Right.DEV_APP_CRUD })
     @Override
     public Response getAll(@Context final UriInfo uriInfo) {
         Response resp = super.getAll(uriInfo);
@@ -224,7 +224,7 @@ public class ApplicationResource extends UnversionedResource {
     @GET
     @Override
     @Path("{" + UUID + "}")
-    @RightsAllowed({ Right.APP_AUTHORIZE })
+    @RightsAllowed({  Right.READ_GENERAL, Right.EDORG_APP_AUTHZ, Right.DEV_APP_CRUD  })
     public Response getWithId(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
         Response resp = super.getWithId(uuid, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
