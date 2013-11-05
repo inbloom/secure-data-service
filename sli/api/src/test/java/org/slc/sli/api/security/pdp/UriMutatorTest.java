@@ -371,6 +371,7 @@ public class UriMutatorTest {
                 mutator.mutateBaseUri(VERSION, ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "", staff));
     }
 
+    // creates an edOrgRights map with one entry { <edOrg> => [ <right> ] }
     private Map<String, Collection<GrantedAuthority>> generateSimpleEdOrgRightsMap(String edOrg, GrantedAuthority right) {
         Map<String, Collection<GrantedAuthority>> edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
         if (principal.getEdOrgRoles() != null) {
