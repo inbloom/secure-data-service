@@ -19,10 +19,7 @@ package org.slc.sli.api.security.pdp;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 import javax.ws.rs.core.PathSegment;
 
@@ -31,8 +28,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -58,6 +58,7 @@ import org.slc.sli.domain.Repository;
 public class UriMutatorTest {
 
     private static final String VERSION = "v1.0";
+    private static final String ADMIN_APP_ID = "adminAppId";
 
     @Autowired
     UriMutator mutator;
@@ -72,6 +73,10 @@ public class UriMutatorTest {
     private Entity teacher;
     private Entity staff;
 
+    private SLIPrincipal principal;
+    private Entity app;
+    private Entity adminApp;
+
     @Before
     public void setup() throws Exception {
         teacher = mock(Entity.class);
@@ -85,12 +90,24 @@ public class UriMutatorTest {
         sectionHelper = mock(SectionHelper.class);
         when(sectionHelper.getTeachersSections(teacher)).thenReturn(Arrays.asList("section123"));
 
+        principal = mock(SLIPrincipal.class);
+
         edOrgHelper = mock(EdOrgHelper.class);
         when(edOrgHelper.getDirectEdorgs(teacher)).thenReturn(new HashSet<String>(Arrays.asList("school123")));
         when(edOrgHelper.getDirectEdorgs(staff)).thenReturn(new HashSet<String>(Arrays.asList("edOrg123")));
 
         mutator.setSectionHelper(sectionHelper);
         mutator.setEdOrgHelper(edOrgHelper);
+
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("client_id", ADMIN_APP_ID);
+        body.put("is_admin", true);
+        adminApp = repo.create("application", body, "application");
+
+        body = new HashMap<String, Object>();
+        body.put("client_id", "nonAdminAppId");
+        body.put("is_admin", false);
+        app = repo.create("application", body, "application");
     }
 
     @Test
@@ -98,30 +115,59 @@ public class UriMutatorTest {
         // Testing that we don't crash the api if we do an api/v1/ request
         PathSegment v1 = Mockito.mock(PathSegment.class);
         when(v1.getPath()).thenReturn("v1");
+
+        when(principal.getEntity()).thenReturn(staff);
         Assert.assertEquals("Bad endpoint of /v1 is redirected to v1/home safely", createMutatedContainer("/home", ""),
-                mutator.mutate(Arrays.asList(v1), null, staff));
+                mutator.mutate(Arrays.asList(v1), null, principal, "nonAdminAppId"));
+        when(principal.getEntity()).thenReturn(teacher);
         Assert.assertEquals("Bad endpoint of /v1 is redirected to v1/home safely", createMutatedContainer("/home", ""),
-                mutator.mutate(Arrays.asList(v1), null, teacher));
+                mutator.mutate(Arrays.asList(v1), null, principal, "nonAdminAppId"));
     }
 
     @Test
     public void testDeterministicRewrite() {
+        // no user entity needed
+        when(principal.getEntity()).thenReturn(null);
+
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("staffUniqueStateId", "teacher");
         Entity teacher = repo.create("teacher", body, "staff");
         PathSegment v1 = Mockito.mock(PathSegment.class);
         when(v1.getPath()).thenReturn("/staff");
-        Assert.assertEquals("Endponit should be rewritten to /teachers/id",
+        Assert.assertEquals("Endpoint should be rewritten to /teachers/id",
                 createMutatedContainer("/teachers/" + teacher.getEntityId(), null),
-                mutator.mutate(Arrays.asList(v1), "staffUniqueStateId=teacher", null));
+                mutator.mutate(Arrays.asList(v1), "staffUniqueStateId=teacher", principal, null));
 
         body.put("staffUniqueStateId", "staff");
         teacher = repo.create("staff", body, "staff");
         v1 = Mockito.mock(PathSegment.class);
         when(v1.getPath()).thenReturn("/staff");
-        Assert.assertEquals("Endponit should be rewritten to /staff/id",
+        Assert.assertEquals("Endpoint should be rewritten to /staff/id",
                 createMutatedContainer("/staff/" + teacher.getEntityId(), null),
-                mutator.mutate(Arrays.asList(v1), "staffUniqueStateId=staff", null));
+                mutator.mutate(Arrays.asList(v1), "staffUniqueStateId=staff", principal, null));
+    }
+
+    @Test
+    // One part requests to the 'educationOrganizations' endpoint by a user with the APP_AUTHORIZE right
+    // from an admin application should NOT be mutated
+    public void testMutateSkipForAppAuthRightAdminApp() {
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
+
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("staffUniqueStateId", "staff");
+        teacher = repo.create("staff", body, "staff");
+        PathSegment v1 = Mockito.mock(PathSegment.class);
+        when(v1.getPath()).thenReturn("/v1");
+        PathSegment edorgs = Mockito.mock(PathSegment.class);
+        when(edorgs.getPath()).thenReturn("/educationOrganizations");
+        when(principal.getEntity()).thenReturn(staff);
+        Map<String, Collection<GrantedAuthority>> edOrgRights = generateSimpleEdOrgRightsMap("theEdOrg", Right.APP_AUTHORIZE);
+        when(principal.getEdOrgRights()).thenReturn(edOrgRights);
+        MutatedContainer mutated = mutator.mutate(Arrays.asList(v1,edorgs), null, principal, ADMIN_APP_ID);
+        System.out.println("The path is : " + mutated.getPath() + ", qparams : " + mutated.getQueryParameters());
+        Assert.assertEquals("Endpoint should NOT have been rewritten to " + mutated.getPath(),
+                createMutatedContainer(null, ""),
+                mutated);
     }
 
     @Test
@@ -323,6 +369,17 @@ public class UriMutatorTest {
         Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS + " is incorrect.",
                 createMutatedContainer("/schools/edOrg123/teacherSchoolAssociations", ""),
                 mutator.mutateBaseUri(VERSION, ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "", staff));
+    }
+
+    private Map<String, Collection<GrantedAuthority>> generateSimpleEdOrgRightsMap(String edOrg, GrantedAuthority right) {
+        Map<String, Collection<GrantedAuthority>> edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
+        if (principal.getEdOrgRoles() != null) {
+            Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+            authorities.add(right);
+            edOrgRights.put(edOrg, authorities);
+        }
+
+        return edOrgRights;
     }
 
     private MutatedContainer createMutatedContainer(String path, String params) {
