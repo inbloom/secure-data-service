@@ -28,6 +28,8 @@ import com.sun.jersey.spi.container.ContainerRequest;
 
 import org.slc.sli.api.constants.ResourceNames;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.PathConstants;
@@ -68,6 +70,7 @@ public class EndpointMutator {
         }
 
         SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
+        String clientId = ((OAuth2Authentication) auth).getClientAuthentication().getClientId();
         List<PathSegment> segments = sanitizePathSegments(request);
         String parameters = request.getRequestUri().getQuery();
         
@@ -80,7 +83,7 @@ public class EndpointMutator {
             if (!request.getProperties().containsKey(REQUESTED_PATH)) {
                 request.getProperties().put(REQUESTED_PATH, request.getPath());
             }
-            MutatedContainer mutated = uriMutator.mutate(segments, parameters, user.getEntity());
+            MutatedContainer mutated = uriMutator.mutate(segments, parameters, user, clientId);
 
             if (mutated != null && mutated.isModified()) {
 

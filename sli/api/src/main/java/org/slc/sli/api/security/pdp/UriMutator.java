@@ -33,8 +33,13 @@ import javax.ws.rs.core.PathSegment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slc.sli.api.resources.security.ApplicationResource;
+import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
@@ -110,10 +115,11 @@ public class UriMutator {
      * @param user
      *            User requesting resource.
      * @return MutatedContainer representing {mutated path (if necessary), mutated
-     *         parameters (if necessary)}, where path or parameters will be null if they didn't need
+     *         parameters (if necessary)}, where path will be null or parameters the empty string if they didn't need
      *         to be rewritten.
      */
-    public MutatedContainer mutate(List<PathSegment> segments, String queryParameters, Entity user) {
+    public MutatedContainer mutate(List<PathSegment> segments, String queryParameters, SLIPrincipal principal, String clientId) {
+        Entity user = principal.getEntity();
         MutatedContainer mutated = new MutatedContainer();
         mutated.setQueryParameters(queryParameters);
         if (mutated.getQueryParameters() == null) {
@@ -156,7 +162,7 @@ public class UriMutator {
         }
         else if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
 
-            if (!shouldSkipMutationToEnableSearch(segments, mutated.getQueryParameters())) {
+            if (!shouldSkipMutation(segments, mutated.getQueryParameters(), principal, clientId)) {
                 if (segments.size() == 1) {
                     // api/v1
                     mutated = mutateBaseUri(segments.get(0).getPath(), ResourceNames.HOME,
@@ -271,6 +277,39 @@ public class UriMutator {
             }
         };
 
+    }
+
+    private boolean isAdminApp(String clientId) {
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ApplicationResource.CLIENT_ID, "=", clientId));
+        Entity app = repo.findOne(EntityNames.APPLICATION, nq);
+
+        if (app == null) {
+            RuntimeException x = new InvalidClientException(String.format("No app with id %s registered", clientId));
+            error(x.getMessage(), x);
+            throw x;
+        }
+        boolean result = (Boolean) app.getBody().get("is_admin");
+        return result;
+    }
+
+    private boolean hasAppAuthRight(SLIPrincipal principal) {
+        return principal.getAllRights(true).contains(Right.APP_AUTHORIZE);
+    }
+
+    private boolean shouldSkipMutation(List<PathSegment> segments, String queryParameters, SLIPrincipal principal, String clientId) {
+        return shouldSkipMutationToEnableSearch(segments, queryParameters) ||
+                ( isAdminApp(clientId) && hasAppAuthRight(principal) && isEducationOrganizationsEndPoint(segments) );
+    }
+
+    private boolean isEducationOrganizationsEndPoint(List<PathSegment> segments) {
+        boolean skipMutation = false;
+        if (segments.size() == NUM_SEGMENTS_IN_ONE_PART_REQUEST) {
+            final int baseResourceIndex = 1;
+            if (ResourceNames.EDUCATION_ORGANIZATIONS.equals(segments.get(baseResourceIndex).getPath())) {
+                skipMutation = true;
+            }
+        }
+        return skipMutation;
     }
 
     private boolean shouldSkipMutationToEnableSearch(List<PathSegment> segments, String queryParameters) {
