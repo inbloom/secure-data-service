@@ -146,6 +146,15 @@ task :adminMultiRealmSameIdpTests do
   runTests("test/features/admintools/multi_realms_with_same_idp.feature")
 end
 
+desc "Run application authorization with federated users tests"
+task :appAuthWithFederatedUsersTests do
+  Rake::Task["realmInit"].execute
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/authrorize_applications_with_federated_users.feature")
+  #to reset data to prevent breaking other ATs
+  Rake::Task["importSandboxData"].execute
+end
+
 ############################################################
 # API Selenium tests end
 ############################################################

@@ -68,6 +68,7 @@ Transform /roles "(.*?)"/ do |arg1|
   roles = ["HOLL"] if arg1 == "New Federated"
   roles = ["Silly"] if arg1 == "Old Federated"
   roles = ["Educator", "Teacher"] if arg1 == "Educator,Teacher"
+  roles = ["Application Authorizer"] if arg1 == "Application Authorizer"
   roles = [] if arg1 == "none"
   roles
 end
@@ -123,7 +124,6 @@ end
 
 Then /^the group "([^"]*)" contains the (roles "[^"]*")$/ do |title, roles|
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
-
   assertWithWait("Expected #{roles.size} roles, but saw #{group.find_elements(:class, "role").size} in group #{title}") {group.find_elements(:class, "role").size == roles.size}
   roles.each do |role|
     group.find_elements(:xpath, "//span[text()='#{role}']")
