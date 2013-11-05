@@ -24,22 +24,6 @@ Then I am no longer in edit mode
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
 And the Leader, Educator, Aggregate Viewer and IT Administrator role groups have the correct default role names
 And the IT Administrator role is the only admin role
-  And the group "IT Administrator" contains the "right" rights "all defaults"
-
-@production
-Scenario: Create new group with new right
-When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
-Then I have navigated to my Custom Role Mapping Page
-When I click on the Add Group button
-And I type the name "New Federated" in the Group name textbox
-When I add the right "READ_GENERAL" to the group "New Federated"
-When I add the right "APP_AUTHORIZE" to the group "New Federated"
-And I add the role "HOLL" to the group "New Federated"
-And I hit the save button
-Then I am no longer in edit mode
-And the group "New Federated" contains the roles "HOLL"
-And the group "New Federated" contains the "right" rights "APP AUTH"
-
 
 @production
 Scenario: Create new group
@@ -57,40 +41,6 @@ And I hit the save button
 Then I am no longer in edit mode
 And the group "New Custom" contains the roles "Dummy"
 And the group "New Custom" contains the "right" rights "Read General"
-
-  @production
-  Scenario: Create new group
-    When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
-    Then I have navigated to my Custom Role Mapping Page
-    When I click on the Add Group button
-    And I type the name "Old Custom" in the Group name textbox
-    When I add the right "READ_GENERAL" to the group "Old Custom"
-    When I add the right "TEACHER_CONTEXT" to the group "Old Custom"
-    And I add the role "Silly" to the group "Old Custom"
-    And I hit the save button
-    Then I am no longer in edit mode
-    And the group "Old Custom" contains the roles "Silly"
-    And the group "Old Custom" contains the "right" rights "Read General"
-
-  Scenario: Add new right to existing group
-    When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
-    Then I have navigated to my Custom Role Mapping Page
-    And I edit the group "Old Custom"
-    And the group "Old Custom" contains the roles "Silly"
-    And the group "Old Custom" contains the "right" rights "Read General"
-    When I add the right "APP_AUTHORIZE" to the group "Old Custom"
-    And I hit the save button
-    Then I am no longer in edit mode
-    And the group "Old Custom" contains the "right" rights "New Read General"
-
-  Scenario: Remove new right from existing group
-    When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
-    Then I have navigated to my Custom Role Mapping Page
-    When I edit the group "Old Custom"
-    When I remove the right "APP_AUTHORIZE" from the group "Old Custom"
-    And I hit the save button
-    Then I am no longer in edit mode
-    And the group "Old Custom" contains the "right" rights "Read General"
 
 @production
 Scenario: Add role to existing group
