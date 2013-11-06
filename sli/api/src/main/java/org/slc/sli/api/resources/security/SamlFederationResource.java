@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.InetAddress;
 import java.net.URI;
@@ -57,6 +58,7 @@ import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+import javax.xml.namespace.QName;
 
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -67,7 +69,12 @@ import org.joda.time.DateTimeZone;
 import org.opensaml.DefaultBootstrap;
 import org.opensaml.saml2.core.Artifact;
 import org.opensaml.saml2.core.ArtifactResolve;
+import org.opensaml.saml2.core.ArtifactResponse;
+import org.opensaml.saml2.core.Assertion;
+import org.opensaml.saml2.core.EncryptedAssertion;
 import org.opensaml.saml2.core.Issuer;
+import org.opensaml.saml2.core.impl.ArtifactResponseImpl;
+import org.opensaml.saml2.encryption.Decrypter;
 import org.opensaml.ws.soap.client.BasicSOAPMessageContext;
 import org.opensaml.ws.soap.client.http.HttpClientBuilder;
 import org.opensaml.ws.soap.client.http.HttpSOAPClient;
@@ -75,15 +82,22 @@ import org.opensaml.ws.soap.client.http.TLSProtocolSocketFactory;
 import org.opensaml.ws.soap.common.SOAPException;
 import org.opensaml.ws.soap.soap11.Body;
 import org.opensaml.ws.soap.soap11.Envelope;
+import org.opensaml.ws.soap.soap11.impl.EnvelopeImpl;
 import org.opensaml.xml.ConfigurationException;
+import org.opensaml.xml.XMLObject;
 import org.opensaml.xml.XMLObjectBuilderFactory;
 import org.opensaml.xml.Configuration;
+import org.opensaml.xml.encryption.DecryptionException;
+import org.opensaml.xml.encryption.InlineEncryptedKeyResolver;
 import org.opensaml.xml.io.MarshallingException;
+import org.opensaml.xml.io.Unmarshaller;
+import org.opensaml.xml.io.UnmarshallerFactory;
 import org.opensaml.xml.parse.BasicParserPool;
 import org.opensaml.xml.security.SecurityConfiguration;
 import org.opensaml.xml.security.SecurityException;
 import org.opensaml.xml.security.SecurityHelper;
 import org.opensaml.xml.security.credential.Credential;
+import org.opensaml.xml.security.keyinfo.StaticKeyInfoCredentialResolver;
 import org.opensaml.xml.security.x509.BasicX509Credential;
 import org.opensaml.xml.security.x509.X509Credential;
 import org.opensaml.xml.security.x509.X509Util;
@@ -624,20 +638,27 @@ public class SamlFederationResource {
      */
     @GET
     @Path("sso/artifact")
-    public Response artifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) throws InvalidKeySpecException, SOAPException, org.opensaml.xml.security.SecurityException, ConfigurationException, UnrecoverableEntryException, NoSuchAlgorithmException, KeyStoreException, IOException, CertificateException, SignatureException, MarshallingException {
+    public Response artifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) throws Exception {
         String artifact = request.getParameter("SAMLart");
         if (artifact == null) {
             throw new IOException("No artifact in message");
         }
 
         ArtifactResolve artifactReolve = generateArtifactResolve(artifact);
-        sendArtifactResolve(artifactReolve).getBody();
+        XMLObject soapObject = sendArtifactResolve(artifactReolve);
+
+        XMLObject response = ((EnvelopeImpl) soapObject).getBody().getUnknownXMLObjects().get(0);
+        ArtifactResponse ar = (ArtifactResponse) response;
+
+
+
+
+        Document doc = null;
         info("Received a SAML post for SSO...");
 
         TenantContext.setTenantId(null);
-        Document doc = null;
 
-        //doc = getDocument(postData, uriInfo, null);
+        //doc = getDocument(data, uriInfo, null);
 
         return processSamlAssertion(uriInfo, doc);
     }
@@ -685,7 +706,7 @@ public class SamlFederationResource {
         return artifactResolve;
     }
 
-    private Envelope sendArtifactResolve(final ArtifactResolve artifactResolve) throws org.opensaml.xml.security.SecurityException, SOAPException {
+    private XMLObject sendArtifactResolve(final ArtifactResolve artifactResolve) throws org.opensaml.xml.security.SecurityException, SOAPException {
 
         XMLObjectBuilderFactory bf = Configuration.getBuilderFactory();
         Envelope envelope = (Envelope) bf.getBuilder(Envelope.DEFAULT_ELEMENT_NAME).buildObject(Envelope.DEFAULT_ELEMENT_NAME);
@@ -704,14 +725,10 @@ public class SamlFederationResource {
 
         soapClient.send(artifactResolutionServiceURL, soapContext);
 
-        return (Envelope)soapContext.getInboundMessage();
+        return soapContext.getInboundMessage();
     }
 
     private Credential intializeCredentials() throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException, UnrecoverableEntryException, InvalidKeySpecException {
-        KeyStore ks = null;
-        FileInputStream fis = null;
-        char[] password = PWD.toCharArray();
-
         RandomAccessFile raf = new RandomAccessFile(keyFile.getFile(), "r");
         byte[] buf = new byte[(int)raf.length()];
         raf.readFully(buf);
@@ -720,13 +737,6 @@ public class SamlFederationResource {
         PKCS8EncodedKeySpec kspec = new PKCS8EncodedKeySpec(buf);
         KeyFactory kf = KeyFactory.getInstance("RSA");
         PrivateKey pk = kf.generatePrivate(kspec);
-
-        /*// Get Private Key Entry From Certificate
-        KeyStore.PrivateKeyEntry pkEntry = null;
-            pkEntry = (KeyStore.PrivateKeyEntry) ks.getEntry(CERTIFICATE_ALIAS_NAME, new KeyStore.PasswordProtection(
-                    PWD.toCharArray()));
-
-        PrivateKey pk = pkEntry.getPrivateKey();*/
 
         InputStream inStream = new FileInputStream(certFile.getFile());
         CertificateFactory cf = CertificateFactory.getInstance("X.509");
@@ -738,6 +748,34 @@ public class SamlFederationResource {
         credential.setPrivateKey(pk);
         Credential signingCredential  = credential;
         return signingCredential;
+    }
+
+    private Assertion decryptAssertion(String serializedAssertion) throws Exception {
+        BasicParserPool parser = new BasicParserPool();
+        parser.setNamespaceAware(true);
+        org.w3c.dom.Document document = parser.parse(new StringReader(serializedAssertion));
+        UnmarshallerFactory unmarshallerFactory = Configuration.getUnmarshallerFactory();
+        Unmarshaller unmarshaller = unmarshallerFactory.getUnmarshaller(document.getDocumentElement());
+        EncryptedAssertion encryptedAssertion = (EncryptedAssertion) unmarshaller.unmarshall(document.getDocumentElement());
+
+        RandomAccessFile raf = new RandomAccessFile(keyFile.getFile(), "r");
+        byte[] buf = new byte[(int)raf.length()];
+        raf.readFully(buf);
+        raf.close();
+
+        PKCS8EncodedKeySpec kspec = new PKCS8EncodedKeySpec(buf);
+        KeyFactory kf = KeyFactory.getInstance("RSA");
+        PrivateKey pk = kf.generatePrivate(kspec);
+
+        BasicX509Credential decryptionCredential = new BasicX509Credential();
+
+        decryptionCredential.setPrivateKey(pk);
+
+        StaticKeyInfoCredentialResolver resolver = new StaticKeyInfoCredentialResolver(decryptionCredential);
+
+        Decrypter decrypter = new Decrypter(null, resolver, new InlineEncryptedKeyResolver());
+        Assertion assertion = decrypter.decrypt(encryptedAssertion);
+        return assertion;
     }
 
     Repository getRepository() {
