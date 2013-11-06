@@ -108,13 +108,9 @@ public abstract class OwnershipArbiter {
                     critValue = entity.getEntityId();
                 }
 
-
                 if(critValue != null) {
                     Iterable<Entity> ents = repo.findAll(collectionName, new NeutralQuery(new NeutralCriteria(critField,
                             NeutralCriteria.OPERATOR_EQUAL, critValue)));
-
-
-
                     if (ents.iterator().hasNext()) {
                         List<Entity> toAdd = findOwner(ents, collectionName, ignoreOrphans);
                         edorgs.addAll(toAdd);
@@ -124,7 +120,7 @@ public abstract class OwnershipArbiter {
                                 + critField + " is " + critValue + ".");
                     }
                 } else {
-                    // entity does not exist in db so skip
+                    // the reference field is uninitialized
                     throw new APIAccessDeniedException("Will not try to find a matching " + collectionName + " because " + entityType + "." + ref.refField + " is null.");
                 }
             }
