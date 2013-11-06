@@ -147,12 +147,10 @@ task :adminMultiRealmSameIdpTests do
 end
 
 desc "Run application authorization with federated users tests"
-task :appAuthWithFederatedUsersTests do
-  Rake::Task["realmInit"].execute
-  Rake::Task["importSandboxData"].execute
+task :appAuthWithFederatedUsersTests => [:realmInit, :importSandboxData]  do
+  allLeaAllowApp("Mobile App")
+  authorizeEdorg("Mobile App")
   runTests("test/features/admintools/authrorize_applications_with_federated_users.feature")
-  #to reset data to prevent breaking other ATs
-  Rake::Task["importSandboxData"].execute
 end
 
 ############################################################
