@@ -150,7 +150,7 @@ desc "Run application authorization with federated users tests"
 task :appAuthWithFederatedUsersTests => [:realmInit, :importSandboxData]  do
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
-  runTests("test/features/admintools/authrorize_applications_with_federated_users.feature")
+  runTests("test/features/admintools/authorize_applications_with_federated_users.feature")
 end
 
 ############################################################

@@ -51,6 +51,7 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["BULK_EXTRACT","STAFF_CONTEXT"] if arg1 == "BULK_EXTRACT"
   rights = ["TEACHER_CONTEXT"] if arg1 == "TEACHER CONTEXT"
   rights = ["READ_GENERAL","APP_AUTHORIZE"] if arg1 == "APP AUTH"
+  rights = ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC", "TEACHER_CONTEXT", "APP_AUTHORIZE"] if arg1 == "EDUCATOR APP AUTH"
   rights = [] if arg1 == "none"
   rights
 end
