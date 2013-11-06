@@ -46,9 +46,8 @@ public class StaffToApplicationValidator extends AbstractContextValidator {
      */
     @Override
     public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
-        Set<String> myCohortIds = new HashSet<String>();
         if (!areParametersValid(EntityNames.APPLICATION, entityType, ids)) {
-            return myCohortIds;
+            return Collections.emptySet();
         }
 
         Set<String> staffEdOrgs                        = edorgHelper.getStaffEdOrgsAndChildren();
