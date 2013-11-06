@@ -258,6 +258,8 @@ def get_type(val)
       return "Entity ID '%40x_id'"
     elsif val.length == 86 and val.match(/^[a-f0-9]{40}_id[a-f0-9]{40}_id$/)
       return "SubDoc ID '%40x_id%40x_id'"
+    elsif val.length == 36 and val.match(/^[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}$/)
+      return "GUID '%8x-%4x-%4x-%4x-%12x'"
     end
   end
   return typ
