@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentEnrollment.xsd">
+
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
+        <StudentSectionAssociation>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>900000016</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>31</UniqueSectionCode>
+                </SectionIdentity>
+            </SectionReference>
+            <BeginDate>2011-08-31</BeginDate>
+            <EndDate>2012-05-28</EndDate>
+            <HomeroomIndicator>true</HomeroomIndicator>
+            <RepeatIdentifier>Other</RepeatIdentifier>
+        </StudentSectionAssociation>
+
+        <StudentSectionAssociation>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>900000016</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>Sunset Central High</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>161</UniqueSectionCode>
+                </SectionIdentity>
+            </SectionReference>
+            <BeginDate>2012-09-06</BeginDate>
+            <EndDate>2013-06-03</EndDate>
+            <HomeroomIndicator>true</HomeroomIndicator>
+            <RepeatIdentifier>Repeated, not counted in grade point average</RepeatIdentifier>
+        </StudentSectionAssociation>
+
+        <StudentSchoolAssociation>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>900000016</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <SchoolReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </SchoolReference>
+            <SchoolYear>2015-2016</SchoolYear>
+            <EntryDate>2011-08-26</EntryDate>
+            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryType>Transfer from a private, non-religiously-affiliated school in a different local education agency in the same state</EntryType>
+            <RepeatGradeIndicator>false</RepeatGradeIndicator>
+            <ClassOf>2018-2019</ClassOf>
+            <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+            <ExitWithdrawDate>2012-05-22</ExitWithdrawDate>
+            <ExitWithdrawType>Exited</ExitWithdrawType>
+            <EducationalPlans>
+                <EducationalPlan>Outside Service Access</EducationalPlan>
+            </EducationalPlans>
+        </StudentSchoolAssociation>
+
+        <StudentSchoolAssociation>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>900000016</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <SchoolReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>Sunset Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </SchoolReference>
+            <SchoolYear>2016-2017</SchoolYear>
+            <EntryDate>2012-08-26</EntryDate>
+            <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+            <EntryType>Original entry into a United States school from a foreign country with no interruption in schooling</EntryType>
+            <RepeatGradeIndicator>true</RepeatGradeIndicator>
+            <ClassOf>2014-2015</ClassOf>
+            <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+            <ExitWithdrawDate>2018-05-22</ExitWithdrawDate>
+            <EducationalPlans>
+                <EducationalPlan>Outside Service Access</EducationalPlan>
+            </EducationalPlans>
+            <GraduationPlanReference>
+                <GraduationPlanIdentity>
+                    <GraduationPlanType>Distinguished</GraduationPlanType>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                </GraduationPlanIdentity>
+            </GraduationPlanReference>
+        </StudentSchoolAssociation>
+    </Action>
+</InterchangeStudentEnrollment>

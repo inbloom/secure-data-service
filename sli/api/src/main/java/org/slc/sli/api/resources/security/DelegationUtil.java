@@ -47,12 +47,6 @@ public class DelegationUtil {
     @Autowired
     EdOrgHelper helper;
 
-    public List<String> getAppApprovalDelegateEdOrgs() {
-        List<String> delegateEdOrgs = getDelegateEdOrgs("appApprovalEnabled");
-        debug("Ed orgs that have delegated ApplicationApproval are {}", delegateEdOrgs);
-        return delegateEdOrgs;
-    }
-
     public List<String> getSecurityEventDelegateStateIds() {
         List<String> delegateEdOrgs = getSecurityEventDelegateEdOrgs();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", "in", delegateEdOrgs));

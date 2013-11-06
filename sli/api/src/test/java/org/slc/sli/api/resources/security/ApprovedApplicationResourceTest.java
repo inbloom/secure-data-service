@@ -27,6 +27,7 @@ import java.util.Map;
 import junit.framework.Assert;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.representation.EntityBody;
@@ -93,7 +94,8 @@ public class ApprovedApplicationResourceTest {
         EntityBody auth = new EntityBody();
         auth.put("appId", app1.getEntityId());
         auth.put("authorized", true);
-        appAuth.updateAuthorization(app1.getEntityId(), auth, null);
+        auth.put("edorgs", Arrays.asList(lea.getEntityId()));
+        appAuth.updateAuthorization(app1.getEntityId(), auth);
 
         injector.setStaffContext();
         SecurityUtil.getSLIPrincipal().setEdOrgId(lea.getEntityId());

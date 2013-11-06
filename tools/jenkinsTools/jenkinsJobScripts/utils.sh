@@ -79,6 +79,10 @@ adminUnitTests()
   cd $WORKSPACE/sli/admin-tools/admin-rails
   bundle install --path $WORKSPACE/../vendors/
   bundle exec rake ci:setup:testunit test
+  code=$?
+  if [ "$code" != "0" ]; then
+    exit $code
+  fi
 }
 
 databrowserUnitTests()
@@ -86,6 +90,10 @@ databrowserUnitTests()
   cd $WORKSPACE/sli/databrowser
   bundle install --deployment
   bundle exec rake ci:setup:testunit test
+  code=$?
+  if [ "$code" != "0" ]; then
+    exit $code
+  fi
 }
 
 profileSwap(){
@@ -106,7 +114,7 @@ unDeployAdmin()
   bundle install --path $WORKSPACE/../vendors/
   bundle exec thin stop -C config/thin.yml
 
-  ln=`ls /tmp/pid/ | wc -l`
+  ln=`ls /tmp/pid/thin-admin.pid | wc -l`
 
   if [ "$ln" -ne "0" ]
   then

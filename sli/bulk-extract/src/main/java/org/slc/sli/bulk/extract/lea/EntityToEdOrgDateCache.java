@@ -15,11 +15,11 @@
  */
 package org.slc.sli.bulk.extract.lea;
 
-import org.joda.time.DateTime;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import org.joda.time.DateTime;
 
 /**
  * @author: npandey
@@ -27,15 +27,11 @@ import java.util.Set;
 public class EntityToEdOrgDateCache {
     private Map<String, Map<String, DateTime>> cache;
 
-    //F316: Inverse cache needs to be fixed for the new pipeline
-    //private HashMultimap<String, String> inverse;
-
     /**
      * Simple constructor that creates the internal cache.
      */
     public EntityToEdOrgDateCache() {
         cache = new HashMap<String, Map<String, DateTime>>();
-        //inverse = HashMultimap.create();
     }
 
     /**
@@ -46,32 +42,21 @@ public class EntityToEdOrgDateCache {
      * @param expirationDate the expiration date of the association of the entity and edOrg
      */
     public void addEntry(String entityId, String edOrgId, DateTime expirationDate) {
-        Map<String, DateTime> edOrgTime = new HashMap<String, DateTime>();
+        Map<String, DateTime> edOrgTime = cache.get(entityId);
+        if (edOrgTime == null) {
+            edOrgTime = new HashMap<String, DateTime>();
+        }
+
         DateTime finalExpirationDate = expirationDate;
-
-        if(cache.containsKey(entityId)) {
-            edOrgTime = cache.get(entityId);
-
-            DateTime existingExpirationDate;
-
-            if(edOrgTime.containsKey(edOrgId)) {
-                existingExpirationDate = edOrgTime.get(edOrgId);
-                if((expirationDate == null) || (existingExpirationDate!=null && existingExpirationDate.isAfter(expirationDate))) {
-                    finalExpirationDate = existingExpirationDate;
-                }
-            }
+        DateTime existingExpirationDate = edOrgTime.get(edOrgId);
+        if ((expirationDate == null) ||
+                ((existingExpirationDate != null) && existingExpirationDate.isAfter(expirationDate))) {
+            finalExpirationDate = existingExpirationDate;
         }
 
         edOrgTime.put(edOrgId, finalExpirationDate);
         cache.put(entityId, edOrgTime);
-
-        //inverse.put(edOrgId, entityId);
     }
-
-    /*
-    public Set<String> ancestorEdorgs(String edorgId) {
-        return inverse.get(edorgId);
-    } */
 
     /**
      * Gets the map of EdOrgs with their expiration date associated with the entity.

@@ -39,7 +39,6 @@ import org.mockito.MockitoAnnotations;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.context.resolver.TypeResolver;
-import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
 import org.slc.sli.bulk.extract.delta.DeltaEntityIterator;
 import org.slc.sli.bulk.extract.delta.DeltaEntityIterator.DeltaRecord;
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
@@ -87,9 +86,6 @@ public class DeltaExtractorTest {
     EdOrgHierarchyHelper edOrgHelper;
 
     @Mock
-    EducationOrganizationContextResolver edorgContextResolver;
-
-    @Mock
     Repository<Entity> repo;
 
     @Mock
@@ -128,7 +124,6 @@ public class DeltaExtractorTest {
         bulkExtractMongoDA = Mockito.mock(BulkExtractMongoDA.class);
         entityWriteManager = Mockito.mock(EntityWriterManager.class);
         typeResolver = Mockito.mock(TypeResolver.class);
-        edorgContextResolver = Mockito.mock(EducationOrganizationContextResolver.class);
         repo = Mockito.mock(MongoEntityRepository.class);
         extractFile = Mockito.mock(ExtractFile.class);
         metaDataFile = Mockito.mock(ManifestFile.class);
@@ -145,10 +140,6 @@ public class DeltaExtractorTest {
         when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "lea1")).thenReturn(LEA1);
         when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "lea2")).thenReturn(LEA2);
         when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "lea3")).thenReturn(LEA3);
-
-        when(edorgContextResolver.findGoverningEdOrgs(LEA1)).thenReturn(new HashSet<String>(Arrays.asList("lea1")));
-        when(edorgContextResolver.findGoverningEdOrgs(LEA2)).thenReturn(new HashSet<String>(Arrays.asList("lea2")));
-        when(edorgContextResolver.findGoverningEdOrgs(LEA3)).thenReturn(new HashSet<String>(Arrays.asList("lea1")));
 
         when(deltaEntityIterator.hasNext()).thenReturn(true, true, false);
         when(deltaEntityIterator.next()).thenReturn(buildUpdateRecord(), buildDeleteRecord());

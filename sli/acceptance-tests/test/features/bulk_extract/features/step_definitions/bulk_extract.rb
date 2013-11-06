@@ -312,7 +312,9 @@ Given /^all (LEAs|edorgs) in "([^"]*)" are authorized for "([^"]*)"/ do |which_e
 
   needed_ed_orgs = []
   ed_org_coll.find(query).each do |edorg|
-    needed_ed_orgs.push(edorg['_id'])
+    edorg_entry = {}
+    edorg_entry["authorizedEdorg"]= edorg['_id']
+    needed_ed_orgs.push(edorg_entry)
   end
 
   app_auth_coll.remove('body.applicationId' => app_id)
@@ -320,7 +322,7 @@ Given /^all (LEAs|edorgs) in "([^"]*)" are authorized for "([^"]*)"/ do |which_e
   app_auth_coll.insert(new_app_auth)
 
   needed_ed_orgs.each do |edorg|
-    app_coll.update({'_id' => app_id}, {'$push' => {'body.authorized_ed_orgs' => edorg}})
+    app_coll.update({'_id' => app_id}, {'$push' => {'body.authorized_ed_orgs' => edorg["authorizedEdorg"]}})
   end
 
   conn.close
@@ -1008,7 +1010,17 @@ When /I check that the studentGradebookEntry extract for "(.*?)" has the correct
   @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
   entity = 'studentGradebookEntry'
   date = DateTime.now.strftime('%Y-%m-%d')
-  studentSchools = get_student_schools(CURRENT_STUDENT_QUERY)
+
+  query     = <<-jsonDelimiter
+  [
+  {"$project":{"schools":1}}
+  ,{"$unwind":"$schools"}
+  ,{"$project":{"_id":1, "schools._id":1}}
+  ,{"$group":{"_id":"$schools._id", "students":{"$addToSet":"$_id"}}}
+  ]
+  jsonDelimiter
+
+  studentSchools = get_student_schools(query)
   gradebookEntryForEdOrgStudent =  @tenantDb.collection('studentGradebookEntry').find({'body.studentId' => {'$in' => studentSchools[edOrgId]}})
 
   zipFile  = "#{@unpackDir}/#{entity}.json.gz"
@@ -1867,8 +1879,9 @@ Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, 
         if ((entity['condition'].nil? || entity['condition'].empty?) && !look_for)
             assert(json_entities.nil?, "Entity with id #{id} should not exist, but it does")
             next
+        else
+            assert(!json_entities.nil?, "Does not contain an entity with id: #{id}")
         end
-        assert(!json_entities.nil?, "Does not contain an entity with id: #{id}")
         field, value = entity['condition'].split('=').map{|s| s.strip}
         success = false
         json_entities.each {|e|
@@ -2347,7 +2360,7 @@ def bulkExtractTrigger(trigger_script, jar_file, properties_file, keystore_file,
   command = command + options
   puts "Running: #{command}"
   result = `#{command}`
-  puts result
+  puts result if $SLI_DEBUG
   assert($?.exitstatus == 0, "Nonzero exit code from bulk extract: #{$?.exitstatus}")
 end
 
@@ -2998,6 +3011,16 @@ def get_post_body_by_entity_name(entity_name)
                              "12ebed0aa9b9e0fc406278fb8184a9569dd71600_id",
                              "ea27f2c3cd548cf82682a75e29182462da366912_id",
                              "5b1d4e75f457644b1bd00f7ef05caafa605adaec_id"]
+    },
+    "newStudentGradebookEntry" => {
+        "studentSectionAssociationId" => "4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id",
+        "gradebookEntryId" => "4030207003b03d055bba0b5019b31046164eff4e_id383ee846e68a3f539a0a64a651ab2078dedbb6f3_id",
+        "letterGradeEarned" => "F",
+        "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "numericGradeEarned" => 59,
+        "dateFulfilled" => "2013-04-25",
+        "diagnosticStatement" => "Diagnostic Statement"
     },
     "newStudentAssessment" => {
       "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",

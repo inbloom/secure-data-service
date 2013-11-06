@@ -31,7 +31,8 @@ And I have entered data into the other required fields except for the shared sec
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
 And the application "NewApp" is listed in the table on the top
-And the client ID and shared secret fields are Pending
+When I click on the row of application named "NewApp" in the table
+Then the client ID and shared secret fields are Pending
 And the Registration Status field is Pending
 And a notification email is sent to "slcoperator-email@slidev.org"
 
@@ -63,7 +64,6 @@ And application "NewApp" is removed from the list
 
 
 Scenario: Vendor edits denied application incorrectly
-
 Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
@@ -76,7 +76,6 @@ When I clicked Save
 Then I should get 1 error
 
 Scenario: Vendor edits denied application incorrectly for optional url fields
-
 Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
@@ -89,7 +88,6 @@ When I clicked Save
 Then I should get 2 errors
 
 Scenario: Vendor edits denied application
-
 Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
@@ -99,11 +97,12 @@ And I clicked on the button Edit for the application "NewApp"
 And I have edited the field named "Image URL" to say "https://imageurl"
 And I have edited the field named "Description" to say "Kittens"
 When I clicked Save
+And I click on the row of application named "NewApp" in the table
 And I the field named "Application Icon Url" still says "https://imageurl"
 And I the field named "Description" still says "Kittens"
 
-Scenario: SLC Operator accepts application registration request
 
+Scenario: SLC Operator accepts application registration request
 Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
@@ -184,8 +183,6 @@ Scenario: App Developer registers an application in App Registration Tool in San
 	Then the application is registered
 		And I can see the client ID and shared secret
 		And the Registration Status field is Registered
-	When I click on the In Progress button
-	  Then I can see the on-boarded states
 
 @sandbox
 Scenario: The other app developer in my tenancy can also modify and delete my apps

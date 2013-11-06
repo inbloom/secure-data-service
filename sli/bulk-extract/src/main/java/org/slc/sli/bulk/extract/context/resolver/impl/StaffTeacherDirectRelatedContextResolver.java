@@ -19,44 +19,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 
 /**
  * Staff / Teacher related entities resolver
- * 
+ *
  * @author ycao
- * 
+ *
  */
 @Component
 public class StaffTeacherDirectRelatedContextResolver extends RelatedContextResolver {
-    public static final String STAFF_ID = "staffId";
-    public static final String TEACHER_ID = "teacherId";
-    
+
     @Autowired
     private StaffTeacherContextResolver staffTeacherResolver;
-    
+
     @Override
     protected String getReferenceProperty(String entityType) {
         if (EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(entityType)
                 || EntityNames.TEACHER_SECTION_ASSOCIATION.equals(entityType)) {
-            return TEACHER_ID;
+            return ParameterConstants.TEACHER_ID;
         }
-        
+
         if (EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(entityType)) {
-            return StaffTeacherContextResolver.STAFF_REFERENCE;
+            return ParameterConstants.STAFF_REFERENCE;
         }
-        
+
         if (EntityNames.STAFF_COHORT_ASSOCIATION.equals(entityType)
                 || EntityNames.STAFF_PROGRAM_ASSOCIATION.equals(entityType)) {
             // curse you edfi!!!!!
-            return STAFF_ID;
+            return ParameterConstants.STAFF_ID;
         }
-        
+
         return null;
     }
-    
+
     @Override
     protected ReferrableResolver getReferredResolver() {
         return staffTeacherResolver;
     }
-    
+
 }

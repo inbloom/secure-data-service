@@ -4422,110 +4422,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <LoginId>3430@fakemail.com</LoginId>
   </Staff>
   <Staff>
-      <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      <StaffIdentificationCode IdentificationSystem="Medicaid">
-        <ID>4128</ID>
-      </StaffIdentificationCode>
-      <Name>
-        <FirstName>Charles</FirstName>
-        <MiddleName>Gabriel</MiddleName>
-        <LastSurname>Gray</LastSurname>
-      </Name>
-      <OtherName OtherNameType="Previous Legal Name">
-        <PersonalTitlePrefix>Colonel</PersonalTitlePrefix>
-        <FirstName>Eddie</FirstName>
-        <MiddleName>Reuben</MiddleName>
-        <LastSurname>Branham</LastSurname>
-        <GenerationCodeSuffix>VI</GenerationCodeSuffix>
-      </OtherName>
-      <Sex>Male</Sex>
-      <BirthDate>1986-03-09</BirthDate>
-      <Address AddressType="Home">
-        <StreetNumberName>685 Cherry Rd</StreetNumberName>
-        <City>Chicago</City>
-        <StateAbbreviation>IL</StateAbbreviation>
-        <PostalCode>60601</PostalCode>
-      </Address>
-        <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
-          <TelephoneNumber>(667)555-9777</TelephoneNumber>
-        </Telephone>
-      <ElectronicMail EmailAddressType="Home/Personal">
-        <EmailAddress>5976@fakemail.com</EmailAddress>
-      </ElectronicMail>
-      <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-      <OldEthnicity>American Indian Or Alaskan Native</OldEthnicity>
-      <Race>
-        <RacialCategory>White</RacialCategory>
-      </Race>
-      <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
-      <YearsOfPriorProfessionalExperience>5</YearsOfPriorProfessionalExperience>
-      <YearsOfPriorTeachingExperience>14</YearsOfPriorTeachingExperience>
-        <Credentials>
-          <CredentialType>Certification</CredentialType>
-          <CredentialField>
-            <Description>Physics</Description>
-          </CredentialField>
-          <Level>Elementary (Grade Level EC-4)</Level>
-          <TeachingCredentialType>District Local</TeachingCredentialType>
-          <CredentialIssuanceDate>2004-11-28</CredentialIssuanceDate>
-          <CredentialExpirationDate>2014-09-07</CredentialExpirationDate>
-          <TeachingCredentialBasis>Met state testing requirement</TeachingCredentialBasis>
-        </Credentials>
-      <LoginId>5976@fakemail.com</LoginId>
-  </Staff>
-  <Staff>
-      <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      <StaffIdentificationCode IdentificationSystem="Medicaid">
-        <ID>9435</ID>
-      </StaffIdentificationCode>
-      <Name>
-        <FirstName>Charles</FirstName>
-        <MiddleName>Marlin</MiddleName>
-        <LastSurname>Gray</LastSurname>
-      </Name>
-      <OtherName OtherNameType="Other Name">
-        <PersonalTitlePrefix>Dr</PersonalTitlePrefix>
-        <FirstName>Christoper</FirstName>
-        <MiddleName>Kent</MiddleName>
-        <LastSurname>Starks</LastSurname>
-        <GenerationCodeSuffix>VI</GenerationCodeSuffix>
-      </OtherName>
-      <Sex>Male</Sex>
-      <BirthDate>1974-08-08</BirthDate>
-      <Address AddressType="Home">
-        <StreetNumberName>32 West Blvd</StreetNumberName>
-        <City>Chicago</City>
-        <StateAbbreviation>IL</StateAbbreviation>
-        <PostalCode>60601</PostalCode>
-      </Address>
-        <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
-          <TelephoneNumber>(632)555-3942</TelephoneNumber>
-        </Telephone>
-      <ElectronicMail EmailAddressType="Home/Personal">
-        <EmailAddress>1831@fakemail.com</EmailAddress>
-      </ElectronicMail>
-      <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-      <OldEthnicity>Hispanic</OldEthnicity>
-      <Race>
-        <RacialCategory>Black - African American</RacialCategory>
-      </Race>
-      <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
-      <YearsOfPriorProfessionalExperience>5</YearsOfPriorProfessionalExperience>
-      <YearsOfPriorTeachingExperience>4</YearsOfPriorTeachingExperience>
-        <Credentials>
-          <CredentialType>Certification</CredentialType>
-          <CredentialField>
-            <Description>Mathematics</Description>
-          </CredentialField>
-          <Level>Junior High (Grade Level 6-8)</Level>
-          <TeachingCredentialType>Temporary Classroom</TeachingCredentialType>
-          <CredentialIssuanceDate>2008-04-19</CredentialIssuanceDate>
-          <CredentialExpirationDate>2023-12-13</CredentialExpirationDate>
-          <TeachingCredentialBasis>Relevant experience</TeachingCredentialBasis>
-        </Credentials>
-      <LoginId>1831@fakemail.com</LoginId>
-  </Staff>
-  <Staff>
       <StaffUniqueStateId>stff-0000000068</StaffUniqueStateId>
       <StaffIdentificationCode IdentificationSystem="Medicaid">
         <ID>5618</ID>
@@ -4940,58 +4836,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <TeachingCredentialBasis>Relevant experience</TeachingCredentialBasis>
         </Credentials>
       <LoginId>2943@fakemail.com</LoginId>
-  </Staff>
-  <Staff>
-      <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      <StaffIdentificationCode IdentificationSystem="Drivers License">
-        <ID>4316</ID>
-      </StaffIdentificationCode>
-      <Name>
-        <FirstName>Charles</FirstName>
-        <MiddleName>Delmar</MiddleName>
-        <LastSurname>Gray</LastSurname>
-      </Name>
-      <OtherName OtherNameType="Nickname">
-        <PersonalTitlePrefix>Reverend</PersonalTitlePrefix>
-        <FirstName>Donny</FirstName>
-        <MiddleName>Young</MiddleName>
-        <LastSurname>Reese</LastSurname>
-        <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
-      </OtherName>
-      <Sex>Male</Sex>
-      <BirthDate>1984-05-18</BirthDate>
-      <Address AddressType="Home">
-        <StreetNumberName>661 South Lane</StreetNumberName>
-        <City>Chicago</City>
-        <StateAbbreviation>IL</StateAbbreviation>
-        <PostalCode>60601</PostalCode>
-      </Address>
-        <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
-          <TelephoneNumber>(976)555-9992</TelephoneNumber>
-        </Telephone>
-      <ElectronicMail EmailAddressType="Home/Personal">
-        <EmailAddress>4782@fakemail.com</EmailAddress>
-      </ElectronicMail>
-      <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-      <OldEthnicity>Hispanic</OldEthnicity>
-      <Race>
-        <RacialCategory>Black - African American</RacialCategory>
-      </Race>
-      <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
-      <YearsOfPriorProfessionalExperience>11</YearsOfPriorProfessionalExperience>
-      <YearsOfPriorTeachingExperience>11</YearsOfPriorTeachingExperience>
-        <Credentials>
-          <CredentialType>Other</CredentialType>
-          <CredentialField>
-            <Description>Early Childhood Education</Description>
-          </CredentialField>
-          <Level>Elementary (Grade Level EC-6)</Level>
-          <TeachingCredentialType>Paraprofessional</TeachingCredentialType>
-          <CredentialIssuanceDate>2001-09-24</CredentialIssuanceDate>
-          <CredentialExpirationDate>2018-07-03</CredentialExpirationDate>
-          <TeachingCredentialBasis>4-year bachelor's degree</TeachingCredentialBasis>
-        </Credentials>
-      <LoginId>4782@fakemail.com</LoginId>
   </Staff>
   <Staff>
       <StaffUniqueStateId>stff-0000000077</StaffUniqueStateId>
@@ -5409,60 +5253,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </Credentials>
       <LoginId>5882@fakemail.com</LoginId>
   </Staff>
-  <Staff>
-      <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      <StaffIdentificationCode IdentificationSystem="Drivers License">
-        <ID>2415</ID>
-      </StaffIdentificationCode>
-      <Name>
-        <FirstName>Charles</FirstName>
-        <MiddleName>Irving</MiddleName>
-        <LastSurname>Gray</LastSurname>
-      </Name>
-      <OtherName OtherNameType="Nickname">
-        <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
-        <FirstName>Chance</FirstName>
-        <MiddleName>Frankie</MiddleName>
-        <LastSurname>Cronin</LastSurname>
-        <GenerationCodeSuffix>V</GenerationCodeSuffix>
-      </OtherName>
-      <Sex>Male</Sex>
-      <BirthDate>1967-05-03</BirthDate>
-      <Address AddressType="Home">
-        <StreetNumberName>390 Braeburn Lane</StreetNumberName>
-        <City>Chicago</City>
-        <StateAbbreviation>IL</StateAbbreviation>
-        <PostalCode>60601</PostalCode>
-      </Address>
-        <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
-          <TelephoneNumber>(203)555-8488</TelephoneNumber>
-        </Telephone>
-      <ElectronicMail EmailAddressType="Home/Personal">
-        <EmailAddress>3907@fakemail.com</EmailAddress>
-      </ElectronicMail>
-      <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-      <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
-      <Race>
-        <RacialCategory>White</RacialCategory>
-      </Race>
-      <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
-      <YearsOfPriorProfessionalExperience>9</YearsOfPriorProfessionalExperience>
-      <YearsOfPriorTeachingExperience>19</YearsOfPriorTeachingExperience>
-        <Credentials>
-          <CredentialType>Registration</CredentialType>
-          <CredentialField>
-            <Description>Physics</Description>
-          </CredentialField>
-          <Level>Elementary (Grade Level EC-6)</Level>
-          <TeachingCredentialType>Standard Paraprofessional</TeachingCredentialType>
-          <CredentialIssuanceDate>2001-12-15</CredentialIssuanceDate>
-          <CredentialExpirationDate>2023-03-14</CredentialExpirationDate>
-          <TeachingCredentialBasis>Special/alternative program completion</TeachingCredentialBasis>
-        </Credentials>
-      <LoginId>3907@fakemail.com</LoginId>
-  </Staff>
-  <Staff>
-      <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+  <Teacher>
+      <StaffUniqueStateId>eshea</StaffUniqueStateId>
       <StaffIdentificationCode IdentificationSystem="Medicaid">
         <ID>3220</ID>
       </StaffIdentificationCode>
@@ -5512,7 +5304,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <TeachingCredentialBasis>Relevant experience</TeachingCredentialBasis>
         </Credentials>
       <LoginId>4730@fakemail.com</LoginId>
-  </Staff>
+  </Teacher>
   <Staff>
       <StaffUniqueStateId>stff-0000000087</StaffUniqueStateId>
       <StaffIdentificationCode IdentificationSystem="Health Record">
@@ -5877,7 +5669,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </Credentials>
       <LoginId>9209@fakemail.com</LoginId>
   </Staff>
-  <Staff>
+  <Teacher>
       <StaffUniqueStateId>cgray</StaffUniqueStateId>
       <StaffIdentificationCode IdentificationSystem="Health Record">
         <ID>5299</ID>
@@ -5928,7 +5720,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           <TeachingCredentialBasis>4-year bachelor's degree</TeachingCredentialBasis>
         </Credentials>
       <LoginId>9690@fakemail.com</LoginId>
-  </Staff>
+  </Teacher>
   <Staff>
       <StaffUniqueStateId>stff-0000000095</StaffUniqueStateId>
       <StaffIdentificationCode IdentificationSystem="Drivers License">
@@ -11588,8 +11380,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>Athletic Trainer</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Math Teacher</PositionTitle>
     <BeginDate>2009-08-26</BeginDate>
     <EndDate>2011-07-22</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -11604,15 +11396,15 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>School Nurse</PositionTitle>
-    <BeginDate>2009-08-26</BeginDate>
-    <EndDate>2011-07-22</EndDate>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>English Teacher</PositionTitle>
+    <BeginDate>2007-05-06</BeginDate>
+    <EndDate>2008-07-16</EndDate>
   </StaffEducationOrgAssignmentAssociation>
   <StaffEducationOrgAssignmentAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <EducationOrganizationReference>
@@ -11620,619 +11412,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>Principal</PositionTitle>
-    <BeginDate>2009-08-26</BeginDate>
-    <EndDate>2011-07-22</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>Instructional Aide</PositionTitle>
-    <BeginDate>2009-08-26</BeginDate>
-    <EndDate>2011-07-22</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>Librarian</PositionTitle>
-    <BeginDate>2012-08-26</BeginDate>
-    <EndDate>2018-05-22</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>Instructional Aide</PositionTitle>
-    <BeginDate>2012-08-26</BeginDate>
-    <EndDate>2018-05-22</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>Librarian</PositionTitle>
-    <BeginDate>2012-08-26</BeginDate>
-    <EndDate>2018-05-22</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>Principal</PositionTitle>
-    <BeginDate>2012-08-26</BeginDate>
-    <EndDate>2018-05-22</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000068</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
-    <PositionTitle>School Nurse</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000068</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000068</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
-    <PositionTitle>School Nurse</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000068</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
-    <PositionTitle>School Nurse</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000069</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
-    <PositionTitle>Assistant Principal</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000069</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
-    <PositionTitle>Instructional Aide</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000069</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000069</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
-    <PositionTitle>School Administrator</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000070</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
-    <PositionTitle>Athletic Trainer</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000070</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
-    <PositionTitle>Librarian</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000070</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
-    <PositionTitle>School Nurse</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000070</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
-    <PositionTitle>Instructional Aide</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000071</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
-    <PositionTitle>Athletic Trainer</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000071</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
-    <PositionTitle>Instructional Aide</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000071</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
-    <PositionTitle>School Administrator</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000071</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
-    <PositionTitle>Assistant Principal</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000072</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>LIBRARIAN</StaffClassification>
-    <PositionTitle>Principal</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000072</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>LIBRARIAN</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000072</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>LIBRARIAN</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000072</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>LIBRARIAN</StaffClassification>
-    <PositionTitle>School Nurse</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000073</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>PRINCIPAL</StaffClassification>
-    <PositionTitle>Assistant Principal</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000073</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>PRINCIPAL</StaffClassification>
-    <PositionTitle>School Nurse</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000073</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>PRINCIPAL</StaffClassification>
-    <PositionTitle>Athletic Trainer</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000073</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>PRINCIPAL</StaffClassification>
-    <PositionTitle>Instructional Aide</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000074</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
-    <PositionTitle>Athletic Trainer</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000074</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
-    <PositionTitle>School Administrator</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000074</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
-    <PositionTitle>Librarian</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000074</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000075</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>SCHOOL_NURSE</StaffClassification>
-    <PositionTitle>Librarian</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000075</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>SCHOOL_NURSE</StaffClassification>
-    <PositionTitle>School Administrator</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000075</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>SCHOOL_NURSE</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000075</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>SCHOOL_NURSE</StaffClassification>
-    <PositionTitle>School Administrator</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Eastside High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Woodshop Teacher</PositionTitle>
     <BeginDate>2010-08-26</BeginDate>
-    <EndDate>2013-05-22</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
+    <EndDate>2011-05-22</EndDate>
+  </StaffEducationOrgAssignmentAssociation>  
   <StaffEducationOrgAssignmentAssociation>
     <StaffReference>
       <StaffIdentity>
@@ -12244,40 +11428,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Eastside High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>School Administrator</PositionTitle>
-    <BeginDate>2010-08-26</BeginDate>
-    <EndDate>2013-05-22</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Eastside High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>Principal</PositionTitle>
-    <BeginDate>2010-08-26</BeginDate>
-    <EndDate>2013-05-22</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Eastside High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Math Teacher</PositionTitle>
     <BeginDate>2010-08-26</BeginDate>
     <EndDate>2013-05-22</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -12804,15 +11956,15 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Sunset Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>Instructional Aide</PositionTitle>
-    <BeginDate>2011-07-22</BeginDate>
-    <EndDate>2013-05-22</EndDate>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>History Teacher</PositionTitle>
+    <BeginDate>2011-07-23</BeginDate>
+    <EndDate>2018-05-22</EndDate>
   </StaffEducationOrgAssignmentAssociation>
   <StaffEducationOrgAssignmentAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <EducationOrganizationReference>
@@ -12820,552 +11972,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Sunset Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>Athletic Trainer</PositionTitle>
-    <BeginDate>2011-07-22</BeginDate>
-    <EndDate>2013-05-22</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>School Nurse</PositionTitle>
-    <BeginDate>2011-07-22</BeginDate>
-    <EndDate>2013-05-22</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>Instructional Aide</PositionTitle>
-    <BeginDate>2011-07-22</BeginDate>
-    <EndDate>2013-05-22</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
-    <PositionTitle>Librarian</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000087</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
-    <PositionTitle>Assistant Principal</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000087</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
-    <PositionTitle>Athletic Trainer</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000087</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
-    <PositionTitle>School Administrator</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000087</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
-    <PositionTitle>Assistant Principal</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000088</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
-    <PositionTitle>Assistant Principal</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000088</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
-    <PositionTitle>Athletic Trainer</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000088</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000088</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000089</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
-    <PositionTitle>Principal</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000089</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
-    <PositionTitle>Principal</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000089</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
-    <PositionTitle>Principal</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000089</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
-    <PositionTitle>Principal</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000090</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>LIBRARIAN</StaffClassification>
-    <PositionTitle>Principal</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000090</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>LIBRARIAN</StaffClassification>
-    <PositionTitle>Librarian</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000090</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>LIBRARIAN</StaffClassification>
-    <PositionTitle>Instructional Aide</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000090</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>LIBRARIAN</StaffClassification>
-    <PositionTitle>School Nurse</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000091</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>PRINCIPAL</StaffClassification>
-    <PositionTitle>Assistant Principal</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000091</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>PRINCIPAL</StaffClassification>
-    <PositionTitle>High School Counselor</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000091</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>PRINCIPAL</StaffClassification>
-    <PositionTitle>Instructional Aide</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000091</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>PRINCIPAL</StaffClassification>
-    <PositionTitle>School Nurse</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000092</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
-    <PositionTitle>School Administrator</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000092</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
-    <PositionTitle>Assistant Principal</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000092</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
-    <PositionTitle>Athletic Trainer</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000092</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
-    <PositionTitle>Principal</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000093</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>SCHOOL_NURSE</StaffClassification>
-    <PositionTitle>School Nurse</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000093</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>SCHOOL_NURSE</StaffClassification>
-    <PositionTitle>Instructional Aide</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000093</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>SCHOOL_NURSE</StaffClassification>
-    <PositionTitle>School Nurse</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000093</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>SCHOOL_NURSE</StaffClassification>
-    <PositionTitle>Instructional Aide</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Woodshop Teacher</PositionTitle>
     <BeginDate>2013-09-03</BeginDate>
     <EndDate>2014-05-29</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -13380,57 +11988,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Westside High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>Instructional Aide</PositionTitle>
-    <BeginDate>2011-07-23</BeginDate>
-    <EndDate>2013-05-23</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Westside High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>Assistant Principal</PositionTitle>
-    <BeginDate>2011-07-23</BeginDate>
-    <EndDate>2013-05-23</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Westside High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>Instructional Aide</PositionTitle>
-    <BeginDate>2011-07-23</BeginDate>
-    <EndDate>2013-05-23</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Westside High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Leader</StaffClassification>
-    <PositionTitle>Librarian</PositionTitle>
-    <BeginDate>2011-07-23</BeginDate>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Social Studies Teacher</PositionTitle>
+    <BeginDate>2011-07-22</BeginDate>
     <EndDate>2013-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
   <StaffEducationOrgAssignmentAssociation>
@@ -38524,7 +37084,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38539,7 +37099,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38553,7 +37113,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38568,7 +37128,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38583,7 +37143,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38597,7 +37157,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38612,7 +37172,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38627,7 +37187,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38641,7 +37201,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38656,7 +37216,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38671,7 +37231,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38686,7 +37246,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38700,7 +37260,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38715,7 +37275,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38729,7 +37289,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38743,7 +37303,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38757,7 +37317,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -38772,7 +37332,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>stff-0000000086</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <ProgramReference>
@@ -51373,566 +49933,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffEducationOrgAssignmentAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000002</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000003</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000004</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000005</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000007</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000007</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000004</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000005</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000002</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000003</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000008</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000007</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000009</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000010</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000004</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000005</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000002</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000003</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000008</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000007</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000009</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000010</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000004</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000005</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000002</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000003</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000008</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
         <StaffUniqueStateId>tech-0000000011</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
@@ -52531,310 +50531,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Eastside High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000021</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000022</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000023</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000024</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000025</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000026</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2010-08-31</BeginDate>
-    <EndDate>2011-05-27</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000026</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000027</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000024</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000025</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000022</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000023</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000028</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2011-08-31</BeginDate>
-    <EndDate>2012-05-28</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000026</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000027</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000024</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000025</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2012-09-06</BeginDate>
-    <EndDate>2013-06-03</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000026</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StaffClassification>Educator</StaffClassification>
-    <PositionTitle>Teacher</PositionTitle>
-    <BeginDate>2013-09-03</BeginDate>
-    <EndDate>2014-05-29</EndDate>
-  </StaffEducationOrgAssignmentAssociation>
-  <StaffEducationOrgAssignmentAssociation>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000027</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <StaffClassification>Educator</StaffClassification>
@@ -62233,7 +59929,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <TeacherSchoolAssociation>
     <TeacherReference>
       <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
       </StaffIdentity>
     </TeacherReference>
     <SchoolReference>
@@ -62250,137 +59946,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <AcademicSubject>Foreign Language and Literature</AcademicSubject>
       <AcademicSubject>Health Care Sciences</AcademicSubject>
     </AcademicSubjects>
-  </TeacherSchoolAssociation>
+  </TeacherSchoolAssociation>  
   <TeacherSchoolAssociation>
     <TeacherReference>
       <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000002</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <ProgramAssignment>Regular Education</ProgramAssignment>
-    <InstructionalGradeLevels>
-      <GradeLevel>Tenth grade</GradeLevel>
-    </InstructionalGradeLevels>
-    <AcademicSubjects>
-      <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
-      <AcademicSubject>Business and Marketing</AcademicSubject>
-      <AcademicSubject>Social Studies</AcademicSubject>
-    </AcademicSubjects>
-  </TeacherSchoolAssociation>
-  <TeacherSchoolAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000003</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <ProgramAssignment>Regular Education</ProgramAssignment>
-    <InstructionalGradeLevels>
-      <GradeLevel>Tenth grade</GradeLevel>
-    </InstructionalGradeLevels>
-    <AcademicSubjects>
-      <AcademicSubject>Writing</AcademicSubject>
-      <AcademicSubject>Reading</AcademicSubject>
-      <AcademicSubject>Foreign Language and Literature</AcademicSubject>
-    </AcademicSubjects>
-  </TeacherSchoolAssociation>
-  <TeacherSchoolAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000004</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <ProgramAssignment>Regular Education</ProgramAssignment>
-    <InstructionalGradeLevels>
-      <GradeLevel>Eleventh grade</GradeLevel>
-    </InstructionalGradeLevels>
-    <AcademicSubjects>
-      <AcademicSubject>Science</AcademicSubject>
-      <AcademicSubject>Social Studies</AcademicSubject>
-      <AcademicSubject>Life and Physical Sciences</AcademicSubject>
-    </AcademicSubjects>
-  </TeacherSchoolAssociation>
-  <TeacherSchoolAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000005</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <ProgramAssignment>Regular Education</ProgramAssignment>
-    <InstructionalGradeLevels>
-      <GradeLevel>Eleventh grade</GradeLevel>
-    </InstructionalGradeLevels>
-    <AcademicSubjects>
-      <AcademicSubject>ELA</AcademicSubject>
-      <AcademicSubject>Miscellaneous</AcademicSubject>
-      <AcademicSubject>Social Studies</AcademicSubject>
-    </AcademicSubjects>
-  </TeacherSchoolAssociation>
-  <TeacherSchoolAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <ProgramAssignment>Regular Education</ProgramAssignment>
-    <InstructionalGradeLevels>
-      <GradeLevel>Eleventh grade</GradeLevel>
-    </InstructionalGradeLevels>
-    <AcademicSubjects>
-      <AcademicSubject>Reading</AcademicSubject>
-      <AcademicSubject>ELA</AcademicSubject>
-      <AcademicSubject>Social Studies</AcademicSubject>
-    </AcademicSubjects>
-  </TeacherSchoolAssociation>
-  <TeacherSchoolAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000007</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <ProgramAssignment>Regular Education</ProgramAssignment>
-    <InstructionalGradeLevels>
-      <GradeLevel>Twelfth grade</GradeLevel>
-    </InstructionalGradeLevels>
-    <AcademicSubjects>
-      <AcademicSubject>Critical Reading</AcademicSubject>
-      <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-      <AcademicSubject>English</AcademicSubject>
-    </AcademicSubjects>
-  </TeacherSchoolAssociation>
-  <TeacherSchoolAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000008</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </TeacherReference>
     <SchoolReference>
@@ -62393,54 +59963,32 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <GradeLevel>Ninth grade</GradeLevel>
     </InstructionalGradeLevels>
     <AcademicSubjects>
-      <AcademicSubject>ELA</AcademicSubject>
-      <AcademicSubject>Critical Reading</AcademicSubject>
-      <AcademicSubject>Computer and Information Sciences</AcademicSubject>
-    </AcademicSubjects>
-  </TeacherSchoolAssociation>
-  <TeacherSchoolAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000009</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <ProgramAssignment>Regular Education</ProgramAssignment>
-    <InstructionalGradeLevels>
-      <GradeLevel>Twelfth grade</GradeLevel>
-    </InstructionalGradeLevels>
-    <AcademicSubjects>
-      <AcademicSubject>Reading</AcademicSubject>
+      <AcademicSubject>Social Sciences and History</AcademicSubject>
       <AcademicSubject>Foreign Language and Literature</AcademicSubject>
-      <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+      <AcademicSubject>Health Care Sciences</AcademicSubject>
     </AcademicSubjects>
-  </TeacherSchoolAssociation>
+  </TeacherSchoolAssociation>  
   <TeacherSchoolAssociation>
     <TeacherReference>
       <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000010</StaffUniqueStateId>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
       </StaffIdentity>
     </TeacherReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Eastside High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <ProgramAssignment>Regular Education</ProgramAssignment>
     <InstructionalGradeLevels>
-      <GradeLevel>Twelfth grade</GradeLevel>
+      <GradeLevel>Ninth grade</GradeLevel>
     </InstructionalGradeLevels>
     <AcademicSubjects>
-      <AcademicSubject>Engineering and Technology</AcademicSubject>
-      <AcademicSubject>Mathematics</AcademicSubject>
-      <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+      <AcademicSubject>Social Studies</AcademicSubject>
+      <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+      <AcademicSubject>Miscellaneous</AcademicSubject>
     </AcademicSubjects>
-  </TeacherSchoolAssociation>
-  <TeacherSchoolAssociation>
+  </TeacherSchoolAssociation>  <TeacherSchoolAssociation>
     <TeacherReference>
       <StaffIdentity>
         <StaffUniqueStateId>tech-0000000011</StaffUniqueStateId>
@@ -62653,7 +60201,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <TeacherSchoolAssociation>
     <TeacherReference>
       <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000021</StaffUniqueStateId>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
       </StaffIdentity>
     </TeacherReference>
     <SchoolReference>
@@ -62674,7 +60222,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <TeacherSchoolAssociation>
     <TeacherReference>
       <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000022</StaffUniqueStateId>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
       </StaffIdentity>
     </TeacherReference>
     <SchoolReference>
@@ -62684,140 +60232,35 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
     <ProgramAssignment>Regular Education</ProgramAssignment>
     <InstructionalGradeLevels>
-      <GradeLevel>Tenth grade</GradeLevel>
+      <GradeLevel>Ninth grade</GradeLevel>
     </InstructionalGradeLevels>
     <AcademicSubjects>
-      <AcademicSubject>Mathematics</AcademicSubject>
-      <AcademicSubject>Miscellaneous</AcademicSubject>
-      <AcademicSubject>Social Sciences and History</AcademicSubject>
+      <AcademicSubject>Engineering and Technology</AcademicSubject>
+      <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+      <AcademicSubject>Science</AcademicSubject>
     </AcademicSubjects>
-  </TeacherSchoolAssociation>
+  </TeacherSchoolAssociation>     
   <TeacherSchoolAssociation>
     <TeacherReference>
       <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000023</StaffUniqueStateId>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
       </StaffIdentity>
     </TeacherReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
+        <StateOrganizationId>Westside High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <ProgramAssignment>Regular Education</ProgramAssignment>
     <InstructionalGradeLevels>
-      <GradeLevel>Tenth grade</GradeLevel>
+      <GradeLevel>Ninth grade</GradeLevel>
     </InstructionalGradeLevels>
     <AcademicSubjects>
-      <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+      <AcademicSubject>Mathematics</AcademicSubject>
       <AcademicSubject>Life and Physical Sciences</AcademicSubject>
       <AcademicSubject>Engineering and Technology</AcademicSubject>
     </AcademicSubjects>
-  </TeacherSchoolAssociation>
-  <TeacherSchoolAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000024</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <ProgramAssignment>Regular Education</ProgramAssignment>
-    <InstructionalGradeLevels>
-      <GradeLevel>Eleventh grade</GradeLevel>
-    </InstructionalGradeLevels>
-    <AcademicSubjects>
-      <AcademicSubject>Mathematics</AcademicSubject>
-      <AcademicSubject>Social Studies</AcademicSubject>
-      <AcademicSubject>Science</AcademicSubject>
-    </AcademicSubjects>
-  </TeacherSchoolAssociation>
-  <TeacherSchoolAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000025</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <ProgramAssignment>Regular Education</ProgramAssignment>
-    <InstructionalGradeLevels>
-      <GradeLevel>Eleventh grade</GradeLevel>
-    </InstructionalGradeLevels>
-    <AcademicSubjects>
-      <AcademicSubject>English</AcademicSubject>
-      <AcademicSubject>Social Sciences and History</AcademicSubject>
-      <AcademicSubject>Critical Reading</AcademicSubject>
-    </AcademicSubjects>
-  </TeacherSchoolAssociation>
-  <TeacherSchoolAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000026</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <ProgramAssignment>Regular Education</ProgramAssignment>
-    <InstructionalGradeLevels>
-      <GradeLevel>Twelfth grade</GradeLevel>
-    </InstructionalGradeLevels>
-    <AcademicSubjects>
-      <AcademicSubject>Health Care Sciences</AcademicSubject>
-      <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
-      <AcademicSubject>ELA</AcademicSubject>
-    </AcademicSubjects>
-  </TeacherSchoolAssociation>
-  <TeacherSchoolAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000027</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <ProgramAssignment>Regular Education</ProgramAssignment>
-    <InstructionalGradeLevels>
-      <GradeLevel>Twelfth grade</GradeLevel>
-    </InstructionalGradeLevels>
-    <AcademicSubjects>
-      <AcademicSubject>Human Services</AcademicSubject>
-      <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
-      <AcademicSubject>Critical Reading</AcademicSubject>
-    </AcademicSubjects>
-  </TeacherSchoolAssociation>
-  <TeacherSchoolAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000028</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <ProgramAssignment>Regular Education</ProgramAssignment>
-    <InstructionalGradeLevels>
-      <GradeLevel>Tenth grade</GradeLevel>
-    </InstructionalGradeLevels>
-    <AcademicSubjects>
-      <AcademicSubject>Business and Marketing</AcademicSubject>
-      <AcademicSubject>English</AcademicSubject>
-      <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
-    </AcademicSubjects>
-  </TeacherSchoolAssociation>
+  </TeacherSchoolAssociation>  
   <TeacherSchoolAssociation>
     <TeacherReference>
       <StaffIdentity>
@@ -64396,6 +61839,48 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <TeacherSectionAssociation>
     <TeacherReference>
       <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>1</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Assistant Teacher</ClassroomPosition>
+      <BeginDate>2010-08-31</BeginDate>
+      <EndDate>2011-05-27</EndDate>
+      <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>1</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Support Teacher</ClassroomPosition>
+      <BeginDate>2010-08-31</BeginDate>
+      <EndDate>2011-05-22</EndDate>
+      <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>    
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
         <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
       </StaffIdentity>
     </TeacherReference>
@@ -65737,6 +63222,27 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <EndDate>2011-05-27</EndDate>
       <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
   </TeacherSectionAssociation>
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Eastside High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>65</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Assistant Teacher</ClassroomPosition>
+      <BeginDate>2010-08-31</BeginDate>
+      <EndDate>2011-05-22</EndDate>
+      <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>  
   <TeacherSectionAssociation>
     <TeacherReference>
       <StaffIdentity>
@@ -67420,6 +64926,27 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <TeacherSectionAssociation>
     <TeacherReference>
       <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Sunset Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>145</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Assistant Teacher</ClassroomPosition>
+      <BeginDate>2011-08-31</BeginDate>
+      <EndDate>2012-05-22</EndDate>
+      <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>  
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
         <StaffUniqueStateId>tech-0000000026</StaffUniqueStateId>
       </StaffIdentity>
     </TeacherReference>
@@ -67840,6 +65367,27 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <TeacherSectionAssociation>
     <TeacherReference>
       <StaffIdentity>
+        <StaffUniqueStateId>eshea</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Sunset Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>165</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Assistant Teacher</ClassroomPosition>
+      <BeginDate>2013-09-03</BeginDate>
+      <EndDate>2014-05-29</EndDate>
+      <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>  
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
         <StaffUniqueStateId>tech-0000000027</StaffUniqueStateId>
       </StaffIdentity>
     </TeacherReference>
@@ -68257,6 +65805,27 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <EndDate>2012-05-28</EndDate>
       <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
   </TeacherSectionAssociation>
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Westside High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>185</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Assistant Teacher</ClassroomPosition>
+      <BeginDate>2011-07-22</BeginDate>
+      <EndDate>2012-05-28</EndDate>
+      <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>  
   <TeacherSectionAssociation>
     <TeacherReference>
       <StaffIdentity>

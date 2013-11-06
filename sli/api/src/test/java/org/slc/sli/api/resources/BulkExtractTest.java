@@ -72,6 +72,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.api.resources.security.ApplicationAuthorizationResourceTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
@@ -158,7 +159,6 @@ public class BulkExtractTest {
 
         bulkExtract = Mockito.spy(bulkExtractToBeSpied);
         Mockito.doNothing().when(bulkExtract).logSecurityEvent(Mockito.anyString());
-
         FileResource spyFileResource = Mockito.spy(fileResource);
         Mockito.doNothing().when(spyFileResource).logSecurityEvent(Mockito.anyString());
         bulkExtract.setFileResource(spyFileResource);
@@ -381,7 +381,7 @@ public class BulkExtractTest {
         Mockito.when(mockValidator.validate(EntityNames.EDUCATION_ORGANIZATION, lea)).thenReturn(lea);
         Map<String, Object> authBody = new HashMap<String, Object>();
         authBody.put("applicationId", "App1");
-        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("lea123"));
+        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, ApplicationAuthorizationResourceTest.getAuthList("lea123"));
         Entity mockAppAuth = Mockito.mock(Entity.class);
         Mockito.when(mockAppAuth.getBody()).thenReturn(authBody);
         Mockito.when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
@@ -395,8 +395,8 @@ public class BulkExtractTest {
     private void mockAppAuth() {
         Map<String, Object> authBody = new HashMap<String, Object>();
         authBody.put("applicationId", "App1");
-        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("Midvale"));
-        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("Midvale"));
+        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, ApplicationAuthorizationResourceTest.getAuthList("Midvale"));
+        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, ApplicationAuthorizationResourceTest.getAuthList("Midvale"));
         Entity mockAuth = Mockito.mock(Entity.class);
         when(mockAuth.getBody()).thenReturn(authBody);
         when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
@@ -418,7 +418,7 @@ public class BulkExtractTest {
 
         Map<String, Object> authBody = new HashMap<String, Object>();
         authBody.put("applicationId", "App1");
-        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("TWO"));
+        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, ApplicationAuthorizationResourceTest.getAuthList("TWO"));
         Entity mockAuth = Mockito.mock(Entity.class);
         when(mockAuth.getBody()).thenReturn(authBody);
         when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
@@ -441,7 +441,7 @@ public class BulkExtractTest {
 
         Map<String, Object> authBody = new HashMap<String, Object>();
         authBody.put("applicationId", "App1");
-        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("TWO"));
+        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, ApplicationAuthorizationResourceTest.getAuthList("TWO"));
         Entity mockAuth = Mockito.mock(Entity.class);
         when(mockAuth.getBody()).thenReturn(authBody);
         when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
@@ -466,7 +466,7 @@ public class BulkExtractTest {
         // Empty auth
         Map<String, Object> authBody = new HashMap<String, Object>();
         authBody.put("applicationId", "App1");
-        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, new ArrayList<String>());
+        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, ApplicationAuthorizationResourceTest.getAuthList());
         Entity mockAuth = Mockito.mock(Entity.class);
         when(mockAuth.getBody()).thenReturn(authBody);
         when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
@@ -536,7 +536,7 @@ public class BulkExtractTest {
             .thenReturn(mockAppAuthEntity);
         Map<String, Object> body = new HashMap<String, Object>();
         Mockito.when(mockAppAuthEntity.getBody()).thenReturn(body);
-        body.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("123"));
+        body.put(ApplicationAuthorizationResource.EDORG_IDS, ApplicationAuthorizationResourceTest.getAuthList("123"));
         Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
             .thenReturn(new ArrayList<Entity>());
 
@@ -573,7 +573,7 @@ public class BulkExtractTest {
             .thenReturn(mockAppAuthEntity);
         Map<String, Object> body = new HashMap<String, Object>();
         Mockito.when(mockAppAuthEntity.getBody()).thenReturn(body);
-        body.put(ApplicationAuthorizationResource.EDORG_IDS, LEAs);
+        body.put(ApplicationAuthorizationResource.EDORG_IDS, ApplicationAuthorizationResourceTest.getAuthList(LEAs.toArray(new String[]{})));
 
         Entity fullBulkExtractEntity = mockBulkExtractEntity(null);
         Date deltaTime1 = new Date(1000000000000L);
@@ -636,7 +636,7 @@ public class BulkExtractTest {
             .thenReturn(mockAppAuthEntity);
         Map<String, Object> body = new HashMap<String, Object>();
         Mockito.when(mockAppAuthEntity.getBody()).thenReturn(body);
-        body.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("123"));
+        body.put(ApplicationAuthorizationResource.EDORG_IDS, ApplicationAuthorizationResourceTest.getAuthList("123"));
 
         Entity fullBulkExtractEntity = mockBulkExtractEntity(null);
         List<Entity> leas = new ArrayList<Entity>();
@@ -670,7 +670,7 @@ public class BulkExtractTest {
             .thenReturn(mockAppAuthEntity);
         Map<String, Object> body = new HashMap<String, Object>();
         Mockito.when(mockAppAuthEntity.getBody()).thenReturn(body);
-        body.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("123"));
+        body.put(ApplicationAuthorizationResource.EDORG_IDS, ApplicationAuthorizationResourceTest.getAuthList("123"));
 
         Date deltaTime1 = new Date(1000000000000L);
         String timeStamp1 = ISODateTimeFormat.dateTime().print(new DateTime(deltaTime1));
@@ -745,7 +745,7 @@ public class BulkExtractTest {
 
         Map<String, Object> authBody = new HashMap<String, Object>();
         authBody.put("applicationId", "App1");
-        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("lea123"));
+        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, ApplicationAuthorizationResourceTest.getAuthList("lea123"));
         Entity mockAppAuth = Mockito.mock(Entity.class);
         Mockito.when(mockAppAuth.getBody()).thenReturn(authBody);
         Mockito.when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))

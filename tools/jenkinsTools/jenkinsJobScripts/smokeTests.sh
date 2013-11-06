@@ -6,9 +6,15 @@ resetDatabases
 
 profileSwapAndPropGen
 
+adminUnitTests
+
 unDeployAdmin
 profileSwap
 deployAdmin
+
+databrowserUnitTests
+
+deployDatabrowser
 
 startSearchIndexer
 

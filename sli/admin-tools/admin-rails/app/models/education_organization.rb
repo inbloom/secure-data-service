@@ -24,7 +24,10 @@ class EducationOrganization < SessionResource
   schema do
     string "id"
     boolean "is_allowed"
-    string  "organizationCategories"
+    string "stateOrganizationid"
+    string "nameOfInstituton"
+    string "organizationCategories" # Really: an array
+    string "parentEducationAgencyReference" # Really: an array
   end
 
  # Get list of EducationOrganization objects that are immediate children of edOrg with given ID

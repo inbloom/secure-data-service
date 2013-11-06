@@ -31,7 +31,7 @@
     <th>Name</th>
     <th>Version</th>
     <th>Vendor</th>
-    <th>Status</th>
+    <th>Approval Status</th>
     <th> </th>
   </tr>
   </thead>
@@ -43,26 +43,16 @@
        # such apps at the bottom
        appA = @apps_map[a.appId]
        appB = @apps_map[b.appId]
-       if a.authorized && !b.authorized
-         -1 #Authorized on top
-       elsif !a.authorized && b.authorized
-         1 
-       elsif (appA == nil && appB != nil)
-         -1
-       elsif (appA != nil && appB == nil)
-         1
-       elsif (appA == nil && appB == nil)
-         0
-       else
-         appA.name <=> appB.name
-       end
+       appAName = if appA.nil? then "" else appA.name end
+       appBName = if appB.nil? then "" else appB.name end
+       appAName.casecmp(appBName)
      }
     %>
     <% @application_authorizations[edorg].each do |app_auth| %>
     <% @cur_edorg = edorg %>
     <% @app_auth = app_auth
        next if @apps_map[app_auth.appId] == nil
-       isEnabled = @edorg_apps.has_key?(edorg) && @edorg_apps[edorg].has_key?(app_auth.appId)
+       isEnabled = edorg_in_scope_enabled?(edorg, app_auth.appId)
        next if ! isEnabled
     %>
     <%= render 'form'%>

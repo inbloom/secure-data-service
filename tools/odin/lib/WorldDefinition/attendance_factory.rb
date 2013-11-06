@@ -34,7 +34,6 @@ class AttendanceFactory
   # -> type refers to education organization type (elementary, middle, or high school)
   # -> type is required to perform lookup on daily attendance percentages breakdown (for absence and tardiness)
   def generate_attendance_events(prng, student, ed_org_id, session, type, student_section_association)
-    absent, tardy, excused, unexcused, early_dep, iss, oss = get_attendance_percentages(type)
     attendance_events = []
     unless session.nil?
       raise(ArgumentError, "Missing configuration parameter related to exception-only attendance.") if @scenario['EXCEPTION_ONLY_ATTENDANCE'].nil?
@@ -92,7 +91,6 @@ class AttendanceFactory
   # returns a string representing the reason for the attendance event
   # -> returns nil if attendance event is not tardy or absent
   def get_attendance_event_reason(category)
-    return "Present"                   if category == :PRESENT
     return "Missed school bus"         if category == :TARDY
     return "Excused: sick"             if category == :EXCUSED_ABSENCE
     return "Unexcused: skipped"        if category == :UNEXCUSED_ABSENCE
