@@ -28,7 +28,7 @@ require_relative '../../apiV1/long_lived_session/step_definitions/token_generato
 Transform /rights "(.*?)"/ do |arg1|
   # Default rights for SLI Default roles  
   rights = ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC", "TEACHER_CONTEXT"] if arg1 == "Educator"
-  rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "IT Administrator"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT", "SECURITY_EVENT_VIEW"] if arg1 == "IT Administrator"
   rights = ["READ_GENERAL", "READ_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "Leader"
   rights = ["AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "Aggregate Viewer"
   rights = ["READ_GENERAL", "TEACHER_CONTEXT"] if arg1 == "New Custom"
