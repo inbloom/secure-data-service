@@ -16,22 +16,21 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import com.google.common.collect.Sets;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
- * Resolves which cohorts any given staff member can access.
+ * Resolves which applications any given staff member can access.
  * 
- * @author kmyers
+ * @author ldalgado
  *
  */
 @Component
@@ -39,44 +38,34 @@ public class StaffToApplicationValidator extends AbstractContextValidator {
     
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isTransitive && isStaff() && EntityNames.COHORT.equals(entityType);
+        return isStaff() && EntityNames.APPLICATION.equals(entityType);
     }
     
     /**
-     * The rule is you can see cohorts at and beneath you in the edorg heirarchy as
-     * well as the ones you're directly associated with.
+     * The rule is you can see those applications that have YOUR edOrg in application.body.authorized_ed_orgs
      */
     @Override
     public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         Set<String> myCohortIds = new HashSet<String>();
-        if (!areParametersValid(EntityNames.COHORT, entityType, ids)) {
+        if (!areParametersValid(EntityNames.APPLICATION, entityType, ids)) {
             return myCohortIds;
         }
-        
-        // Get the one's I'm associated to.
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
-                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        Iterable<Entity> scas = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
-        for (Entity sca : scas) {
-            Map<String, Object> body = sca.getBody();
-            if (isFieldExpired(body, ParameterConstants.END_DATE, true)) {
-                continue;
-            } else {
-                myCohortIds.add((String) body.get(ParameterConstants.COHORT_ID));
-            }
-        }
-        
-        // Get the one's beneath me
-        basicQuery = new NeutralQuery(new NeutralCriteria("educationOrgId", NeutralCriteria.CRITERIA_IN,
-                getStaffEdOrgLineage()));
-        Iterable<Entity> cohorts = getRepo().findAll(EntityNames.COHORT, basicQuery);
-        for (Entity cohort : cohorts) {
-            myCohortIds.add(cohort.getEntityId());
+
+        Set<String> staffEdOrgs                        = edorgHelper.getStaffEdOrgsAndChildren();
+        NeutralCriteria idInAppIdList                  = new NeutralCriteria("_id",                NeutralCriteria.CRITERIA_IN, new LinkedList<String>(ids));
+        NeutralCriteria staffEdOrgsInAuthorizedEdOrgs  = new NeutralCriteria("authorized_ed_orgs", NeutralCriteria.CRITERIA_IN, staffEdOrgs);
+        NeutralQuery q                                 = new NeutralQuery();
+                                                         q.addCriteria(idInAppIdList);
+                                                         q.addCriteria(staffEdOrgsInAuthorizedEdOrgs);
+        Iterable<String> myApplicationIds              = getRepo().findAllIds(EntityNames.APPLICATION, q);
+
+        if(myApplicationIds == null) {
+            return Collections.emptySet();
+        } else {
+            Set<String>  myApplicationIdsSet = Sets.newHashSet(myApplicationIds);
+            return  myApplicationIdsSet;
         }
 
-        myCohortIds.retainAll(ids);
-
-        return myCohortIds;
     }
 
     @Override
