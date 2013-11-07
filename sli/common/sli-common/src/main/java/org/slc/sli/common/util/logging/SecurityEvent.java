@@ -17,7 +17,9 @@
 
 package org.slc.sli.common.util.logging;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +43,7 @@ public class SecurityEvent {
 
     private String userEdOrg;
 
-    private String targetEdOrg;
+    //private String targetEdOrg;
 
     private List<String> targetEdOrgList;
 
@@ -85,13 +87,13 @@ public class SecurityEvent {
         this.user = user;
     }
 
-    public String getTargetEdOrg() {
-        return targetEdOrg;
-    }
+//    public String getTargetEdOrg() {					//@TA10431
+//        return targetEdOrg;							//@TA10431
+//    }													//@TA10431
 
-    public void setTargetEdOrg(String targetEdOrg) {
-        this.targetEdOrg = targetEdOrg;
-    }
+//    public void setTargetEdOrg(String targetEdOrg) {	//@TA10431
+//        this.targetEdOrg = targetEdOrg;				//@TA10431
+//    }     											//@TA10431
 
     public String getActionUri() {
         return actionUri;
@@ -200,11 +202,71 @@ public class SecurityEvent {
     public List<String> getTargetEdOrgList() {
         return targetEdOrgList;
     }
+    
+    /**
+     * Add the given educational organization string to the list of target
+     * ed organizations for this security event.  Null or empty String has
+     * no effect.
+     * @param edOrg String representing the target educational organization
+     */
+    public void addTargetEdOrg(String edOrg) //@TA10431
+    {
+    	if ((edOrg != null) && !edOrg.equals(""))
+    	{
+    		if (targetEdOrgList == null) { targetEdOrgList = new ArrayList<String>(); }
+    		targetEdOrgList.add(edOrg);
+    	}
+    }
+    
+    /**
+     * Add all the given educational organization strings to the list of target
+     * ed organizations for this security event.  Null or empty list has no effect.
+     * @param edOrg Collection of String representing the target educational organizations
+     */
+    public void addAllTargetEdOrg(Collection<String> edOrgs) //@TA10431
+    {
+    	if ((edOrgs != null) && (edOrgs.size() > 0))
+    	{
+    		if (targetEdOrgList == null) { targetEdOrgList = new ArrayList<String>(); }
+    		targetEdOrgList.addAll(edOrgs);
+    	}
+    }
 
-    public void setTargetEdOrgList(List<String> targetEdOrgList) {
-        if (targetEdOrgList != null && !targetEdOrgList.isEmpty()) {
-            this.targetEdOrgList = targetEdOrgList;
-        }
+    /**
+     * Sets the targetEdOrgList to the given collection; any existing list is lost.  
+     * If adding a list to the existing list is needed, see addTargetEdOrg. 
+     * @param targetEdOrgList
+     * @see SecurityEvent#addTargetEdOrg(Collection<String> edOrgs)
+     */
+    public void setTargetEdOrgList(Collection<String> newList) {
+            targetEdOrgList = new ArrayList<String>();
+            targetEdOrgList.addAll(newList);
+    }
+    
+    /**
+     * Sets the targetEdOrgList to the given collection; any existing list is lost.
+     * If targetEdOrg is null, then targetEdOrgList is set to null  
+     * If adding a list to the existing list is desired, see addTargetEdOrg. 
+     * @param targetEdOrgList
+     * @see SecurityEvent#addTargetEdOrg(Collection<String> edOrgs)
+     */
+    public void setTargetEdOrgList(String targetEdOrg) 
+    {
+    	if (targetEdOrg == null) 
+    		{ targetEdOrgList = null; 
+    		}
+    	else 
+    		{	targetEdOrgList = new ArrayList<String>();
+            	targetEdOrgList.add(targetEdOrg);
+    		}
+    }
+    
+    /**
+     * Resets the targetEdOrgList to null.
+     */
+    public void resetTargetEdOrgList()
+    {
+    	targetEdOrgList = null;
     }
 
     @Override
@@ -218,7 +280,8 @@ public class SecurityEvent {
                 + ((appId == null) ? "" : appId) + DELIMITER
                 + ((className == null) ? "" : className) + DELIMITER
                 + ((tenantId == null) ? "" : tenantId) + DELIMITER
-                + ((targetEdOrg == null) ? "" : targetEdOrg) + DELIMITER
+                //@TA10431
+                //+ ((targetEdOrg == null) ? "" : targetEdOrg) + DELIMITER
                 + ((targetEdOrgList == null) ? "" : targetEdOrgList) + DELIMITER
                 + ((userEdOrg == null) ? "" : userEdOrg) + DELIMITER
                 + ((user == null) ? "" : "<censored>") + DELIMITER
@@ -240,9 +303,9 @@ public class SecurityEvent {
         if (user != null && !user.isEmpty()) {
             dataMap.put("user", user);
         }
-        if (targetEdOrg != null && !targetEdOrg.isEmpty()) {
-            dataMap.put("targetEdOrg", targetEdOrg);
-        }
+        //if (targetEdOrg != null && !targetEdOrg.isEmpty()) {
+        //    dataMap.put("targetEdOrg", targetEdOrg);
+        //}
 
         if (targetEdOrgList != null && !targetEdOrgList.isEmpty()) {
             dataMap.put("targetEdOrgList", targetEdOrgList);
