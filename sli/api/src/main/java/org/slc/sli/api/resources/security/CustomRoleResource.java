@@ -314,8 +314,7 @@ public class CustomRoleResource {
     	if(RealmId!=null)
     	{
             String targetEdOrg = realmHelper.getEdOrgIdFromRealm(RealmId);
-    		event.setTargetEdOrg(targetEdOrg);
-    		event.setTargetEdOrgList(Arrays.asList(targetEdOrg));
+            event.setTargetEdOrgList(targetEdOrg); //@TA10431 - change targetEdOrg from scalar to list 
     	}
         audit(event);
     }

@@ -224,7 +224,7 @@ public class LoggingAspectTest {
          SecurityEvent event = new SecurityEvent();
          event.setTenantId("Midgar");
          event.setUser("");
-         event.setTargetEdOrg("");
+//         event.setTargetEdOrgList("");	//US5828 - uses list instead of scalar
          event.setActionUri("AppProcessing");
          event.setAppId("app");
          event.setOrigin("");

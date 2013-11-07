@@ -53,7 +53,7 @@ public class SecurityEventUtilTest {
         assertEquals("BulkExtract", event.getAppId());
         String processName = ManagementFactory.getRuntimeMXBean().getName();
         assertEquals(processName, event.getProcessNameOrId());
-        assertEquals(null, event.getTargetEdOrg());
+        assertEquals(null, event.getTargetEdOrgList());
     }
 
     /**
