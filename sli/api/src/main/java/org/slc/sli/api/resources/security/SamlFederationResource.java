@@ -26,6 +26,7 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
 import java.security.KeyFactory;
+import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -660,7 +661,7 @@ public class SamlFederationResource {
         Signature signature = (Signature) Configuration.getBuilderFactory().getBuilder(Signature.DEFAULT_ELEMENT_NAME)
                 .buildObject(Signature.DEFAULT_ELEMENT_NAME);
 
-        Credential signingCredential = intializeCredentials();
+        Credential signingCredential = intializeCredentialsWithKeystore();
         signature.setSigningCredential(signingCredential);
 
         signature.setSignatureAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA1);
@@ -717,6 +718,42 @@ public class SamlFederationResource {
         BasicX509Credential credential = new BasicX509Credential();
         credential.setEntityCertificate(certificate);
         credential.setPrivateKey(pk);
+        Credential signingCredential  = credential;
+        return signingCredential;
+    }
+
+    private Credential intializeCredentialsWithKeystore() {
+        BasicX509Credential credential = null;
+        try {
+            KeyStore ks = null;
+            FileInputStream fis = null;
+            String fileName = "/Users/npandey/sli/sli/data-access/dal/keyStore/api.jks";
+
+            char[] password = "changeit".toCharArray();
+
+            ks = KeyStore.getInstance(KeyStore.getDefaultType());
+            fis = new FileInputStream(fileName);
+            ks.load(fis, password);
+            IOUtils.closeQuietly(fis);
+            KeyStore.PrivateKeyEntry pkEntry = null;
+            pkEntry = (KeyStore.PrivateKeyEntry) ks.getEntry("apids", new KeyStore.PasswordProtection(
+                    password));
+            PrivateKey pk = pkEntry.getPrivateKey();
+            X509Certificate certificate = (X509Certificate) pkEntry.getCertificate();
+            credential = new BasicX509Credential();
+            credential.setEntityCertificate(certificate);
+            credential.setPrivateKey(pk);
+        } catch (KeyStoreException ke) {
+            String msg = ke.getMessage();
+        } catch (IOException ioe) {
+            String msg = ioe.getMessage();
+        } catch (CertificateException ce) {
+            String msg = ce.getMessage();
+        } catch (NoSuchAlgorithmException ne) {
+            String msg = ne.getMessage();
+        } catch (UnrecoverableEntryException ue) {
+            String msg = ue.getMessage();
+        }
         Credential signingCredential  = credential;
         return signingCredential;
     }
