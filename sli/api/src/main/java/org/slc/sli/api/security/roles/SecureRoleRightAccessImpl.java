@@ -76,7 +76,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                         .addGroupTitle(LEA_ADMINISTRATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ, Right.READ_PUBLIC,
-                                        Right.CRUD_LEA_ADMIN, Right.SECURITY_EVENT_VIEW, Right.APP_AUTHORIZE }).setAdmin(true).build());
+                                        Right.CRUD_LEA_ADMIN, Right.SECURITY_EVENT_VIEW }).setAdmin(true).build());
         adminRoles.put(
                 SEA_ADMINISTRATOR,
                 RoleBuilder
