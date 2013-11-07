@@ -4,6 +4,7 @@ Feature: Admininstrating role-based access to bulking
     Scenario: Make sure it works
         Given I have an open web browser
         When I navigate to the Custom Role Mapping Page
+        And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
         When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
         Then I have navigated to my Custom Role Mapping Page
@@ -28,6 +29,7 @@ Feature: Admininstrating role-based access to bulking
   Scenario: Enabling an application for bulk extract
     Given I have an open web browser
     When I hit the Application Registration Tool URL
+    And I select "inBloom" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
     Then I am redirected to the Application Registration Tool page
@@ -39,6 +41,7 @@ Feature: Admininstrating role-based access to bulking
   Scenario: Legacy apps are still safe for application registration
     Given I have an open web browser
     When I hit the Application Registration Tool URL
+    And I select "inBloom" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
     Then I am redirected to the Application Registration Tool page

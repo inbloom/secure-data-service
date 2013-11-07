@@ -322,6 +322,7 @@ end
 Given /^I am an authenticated District Super Administrator for "([^"]*)"$/ do |arg1|
   step "I have an open web browser"
   step "I hit the Admin Application Authorization Tool"
+  step "I select \"inBloom\" from the dropdown and click go"
   step "I was redirected to the \"Simple\" IDP Login page"
   step "I submit the credentials \"sunsetadmin\" \"sunsetadmin1234\" for the \"Simple\" login page"
   step "I am redirected to the Admin Application Authorization Tool"
@@ -544,4 +545,39 @@ Then /^I click Cancel on the application authorization page$/ do
    #second cancel button
    #@driver.find_element(:xpath, '//*[@id="edorgTree"]/button[2]/button').click
 
+end
+
+Given /^"(.*?)" has an active staffEducationOrganizationAssociation of "(.*?)" for "(.*?)" in tenant "(.*?)"$/ do |user, role, edorg, tenant|
+  disable_NOTABLESCAN()
+  db = @conn[convertTenantIdToDbName(tenant)]
+  coll = db.collection("staff")
+  staffId = coll.find_one({"body.staffUniqueStateId" => user}) ["_id"]
+  coll = db.collection("educationOrganization")
+  edorgId = coll.find_one({"body.nameOfInstitution" => edorg}) ["_id"]
+  coll = db.collection("staffEducationOrganizationAssociation")
+  record_count = coll.find({"body.staffReference" => staffId, "body.staffClassification" => role, "body.educationOrganizationReference" => edorgId}).count
+  assert(record_count > 0, "No staffEducationOrganizationAssociation matching criteria found.")
+  records = coll.find({"body.staffReference" => staffId, "body.staffClassification" => role, "body.educationOrganizationReference" => edorgId})
+  enable_NOTABLESCAN()
+  expired_count = 0
+  records.each do |record|
+     if !record["body"]["endDate"].nil?
+       expired_count += 1
+     end
+  end
+  assert(record_count > expired_count, "No unexpired staffEducationOrganizationAssociation matching criteria found." + records.to_s)
+end
+
+When /^a staffEducationOrgAssignmentAssociation is created for user "(.*?)" with role "(.*?)" for education organization "(.*?)" in tenant "(.*?)"$/ do |user, role, edorg, tenant|
+  disable_NOTABLESCAN()
+  db = @conn[convertTenantIdToDbName(tenant)]
+  coll = db.collection("staff")
+  staffId = coll.find_one({"body.staffUniqueStateId" => user}) ["_id"]
+  coll = db.collection("educationOrganization")
+  edorgId = coll.find_one({"body.nameOfInstitution" => edorg}) ["_id"]
+  enable_NOTABLESCAN()
+  seoa_hash = {"staffReference" => staffId, "educationOrganizationReference" =>  edorgId, "staffClassification" => role, "beginDate" => "2011-01-13"}
+  puts seoa_hash.to_json.to_s
+  restHttpPost('/v1/staffEducationOrgAssignmentAssociations', seoa_hash.to_json, 'application/vnd.slc+json')
+  step "\"#{user}\" has an active staffEducationOrganizationAssociation of \"#{role}\" for \"#{edorg}\" in tenant \"#{tenant}\""
 end
