@@ -25,9 +25,7 @@ import java.io.StringWriter;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
-import java.security.KeyException;
 import java.security.KeyFactory;
-import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -58,7 +56,6 @@ import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
-import javax.xml.namespace.QName;
 
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -73,12 +70,10 @@ import org.opensaml.saml2.core.ArtifactResponse;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.EncryptedAssertion;
 import org.opensaml.saml2.core.Issuer;
-import org.opensaml.saml2.core.impl.ArtifactResponseImpl;
 import org.opensaml.saml2.encryption.Decrypter;
 import org.opensaml.ws.soap.client.BasicSOAPMessageContext;
 import org.opensaml.ws.soap.client.http.HttpClientBuilder;
 import org.opensaml.ws.soap.client.http.HttpSOAPClient;
-import org.opensaml.ws.soap.client.http.TLSProtocolSocketFactory;
 import org.opensaml.ws.soap.common.SOAPException;
 import org.opensaml.ws.soap.soap11.Body;
 import org.opensaml.ws.soap.soap11.Envelope;
@@ -87,25 +82,20 @@ import org.opensaml.xml.ConfigurationException;
 import org.opensaml.xml.XMLObject;
 import org.opensaml.xml.XMLObjectBuilderFactory;
 import org.opensaml.xml.Configuration;
-import org.opensaml.xml.encryption.DecryptionException;
 import org.opensaml.xml.encryption.InlineEncryptedKeyResolver;
 import org.opensaml.xml.io.MarshallingException;
 import org.opensaml.xml.io.Unmarshaller;
 import org.opensaml.xml.io.UnmarshallerFactory;
 import org.opensaml.xml.parse.BasicParserPool;
 import org.opensaml.xml.security.SecurityConfiguration;
-import org.opensaml.xml.security.SecurityException;
 import org.opensaml.xml.security.SecurityHelper;
 import org.opensaml.xml.security.credential.Credential;
 import org.opensaml.xml.security.keyinfo.StaticKeyInfoCredentialResolver;
 import org.opensaml.xml.security.x509.BasicX509Credential;
-import org.opensaml.xml.security.x509.X509Credential;
-import org.opensaml.xml.security.x509.X509Util;
 import org.opensaml.xml.signature.Signature;
 import org.opensaml.xml.signature.SignatureConstants;
 import org.opensaml.xml.signature.SignatureException;
 import org.opensaml.xml.signature.Signer;
-import org.opensaml.xml.util.DatatypeHelper;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.roles.EdOrgContextualRoleBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -204,7 +194,9 @@ public class SamlFederationResource {
     private Resource certFile;
 
     public static SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-    public static final String IDPURL = "https://local.slidev.org:8444/idp/profile/SAML2/SOAP/ArtifactResolution";
+
+    @Value("${sli.security.idp.url:https://local.slidev.org:8444/idp/profile/SAML2/SOAP/ArtifactResolution}")
+    private String idpUrl;
 
 
     @SuppressWarnings("unused")
@@ -658,7 +650,7 @@ public class SamlFederationResource {
         String artifactResolveId = UUID.randomUUID().toString();
         artifactResolve.setID(artifactResolveId);
 
-        artifactResolve.setDestination(IDPURL);
+        artifactResolve.setDestination(idpUrl);
 
         Artifact artifact = (Artifact) bf.getBuilder(Artifact.DEFAULT_ELEMENT_NAME).buildObject(Artifact.DEFAULT_ELEMENT_NAME);
         artifact.setArtifact(artifactString);
@@ -700,7 +692,7 @@ public class SamlFederationResource {
         // Build the SOAP client
         HttpClientBuilder clientBuilder = new HttpClientBuilder();
         HttpSOAPClient soapClient = new HttpSOAPClient(clientBuilder.buildClient(), new BasicParserPool());
-        String artifactResolutionServiceURL = IDPURL;
+        String artifactResolutionServiceURL = idpUrl;
 
         soapClient.send(artifactResolutionServiceURL, soapContext);
 
