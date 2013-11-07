@@ -203,9 +203,6 @@ public class SamlFederationResource {
     @Value("classpath:saml/test.cert")
     private Resource certFile;
 
-    public static final String PWD = "test1234";
-    public static final String CERTIFICATE_ALIAS_NAME = "selfsigned";
-
     public static SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
     public static final String IDPURL = "https://local.slidev.org:8444/idp/profile/SAML2/SOAP/ArtifactResolution";
 
@@ -229,13 +226,9 @@ public class SamlFederationResource {
 
         info("Received a SAML post for SSO...");
         TenantContext.setTenantId(null);
-        Document doc = getDocument(postData, uriInfo, null);
-
-        return processSamlAssertion(uriInfo, doc);
-    }
-
-    private Document getDocument(String postData, UriInfo uriInfo, String targetEdOrg) {
         Document doc = null;
+        String targetEdOrg = null;
+
         try {
             doc = saml.decodeSamlPost(postData);
         } catch (Exception e) {
@@ -267,11 +260,7 @@ public class SamlFederationResource {
 
             generateSamlValidationError(e.getMessage(), targetEdOrg);
         }
-        return doc;
-    }
 
-    private Response processSamlAssertion(UriInfo uriInfo, Document doc) {
-        String targetEdOrg = null;
         String inResponseTo = doc.getRootElement().getAttributeValue("InResponseTo");
         String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
 
@@ -334,13 +323,13 @@ public class SamlFederationResource {
             generateSamlValidationError("SAML response is missing Subject.", targetEdOrg);
         }
 
-        List<Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
+        List <org.jdom.Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
 
         LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
-        for (Element attributeNode : attributeNodes) {
+        for (org.jdom.Element attributeNode : attributeNodes) {
             String samlAttributeName = attributeNode.getAttributeValue("Name");
-            List<Element> valueNodes = attributeNode.getChildren("AttributeValue", SamlHelper.SAML_NS);
-            for (Element valueNode : valueNodes) {
+            List <org.jdom.Element> valueNodes = attributeNode.getChildren("AttributeValue", SamlHelper.SAML_NS);
+            for (org.jdom.Element valueNode : valueNodes) {
                 attributes.add(samlAttributeName, valueNode.getText());
             }
         }
@@ -650,17 +639,7 @@ public class SamlFederationResource {
         XMLObject response = ((EnvelopeImpl) soapObject).getBody().getUnknownXMLObjects().get(0);
         ArtifactResponse ar = (ArtifactResponse) response;
 
-
-
-
-        Document doc = null;
-        info("Received a SAML post for SSO...");
-
-        TenantContext.setTenantId(null);
-
-        //doc = getDocument(data, uriInfo, null);
-
-        return processSamlAssertion(uriInfo, doc);
+        return null;
     }
 
 
