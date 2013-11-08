@@ -401,12 +401,26 @@ public class EdOrgHelper {
     /**
      * Recursively returns the list of all child edorgs By Name
      *
-     * @param edOrgs a list of edOrg ids
+     * @param parentEdOrgIds a list of edOrg ids
      * @return a list of edOrg state unique ids (names!) of child edOrgs
      */
-    public Set<String> getChildEdOrgsName(Collection<String> edOrgs) {
+    public Set<String> getChildEdOrgsName(Collection<String> parentEdOrgIds) {
+        return getChildEdOrgsName(parentEdOrgIds, false);
+    }
+
+    /**
+     * Recursively returns the list of all child edorgs By Name
+     *
+     * @param parentEdOrgIds a list of parent edOrg ids
+     * @param includeParents whether to include the given parents in the results as well
+     * @return a list of edOrg state unique ids (names!) of child edOrgs
+     */
+    public Set<String> getChildEdOrgsName(Collection<String> parentEdOrgIds, boolean includeParents) {
         // get child edOrgs reusing existing code
-        Set<String> childEdOrgIds = getChildEdOrgs(edOrgs);
+        Set<String> childEdOrgIds = getChildEdOrgs(parentEdOrgIds);
+        if (includeParents) {
+            childEdOrgIds.addAll(parentEdOrgIds);
+        }
 
         // do a single query to get the names (stateOrganizationId)
         NeutralQuery query = new NeutralQuery(
