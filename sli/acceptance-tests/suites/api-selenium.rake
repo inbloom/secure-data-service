@@ -112,7 +112,7 @@ task :databrowserSmokeTests do
 end
 
 desc "Run databrowser shibboleth login test"
-task :databrowserShibbolethTests do
+task :databrowserShibbolethTests => [:realmInit, :importSandboxData] do
   runTests("test/features/databrowser/databrowser_shibboleth_login.feature")
 end
 
