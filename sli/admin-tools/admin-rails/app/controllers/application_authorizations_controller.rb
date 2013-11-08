@@ -148,13 +148,6 @@ class ApplicationAuthorizationsController < ApplicationController
       @edorgs.each { |edorg|
         @application_authorizations[edorg] = ApplicationAuthorization.find(:all, :params => {'edorg' => edorg})
       }
-    elsif is_app_authorizer?
-      @edorgs = get_app_authorizer_edOrgs
-      @edorgs = @edorgs.sort{|a,b| a.casecmp(b)}
-      @edorgs.each { |edorg|
-        @application_authorizations[edorg] = ApplicationAuthorization.find(:all, :params => {'edorg' => edorg})
-
-      }
     else
       raise NoUserEdOrgError.new "No education organization in session -- The user\'s educational organization may not exist. Please confirm that realms are set up properly and relevant educational organizations have been ingested." if !userEdOrg
       @edorgs = [userEdOrg]

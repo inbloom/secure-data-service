@@ -14,11 +14,13 @@
 			    </xs:documentation>
 				<xs:appinfo>
 				  <sli:WriteEnforcement>
+				  <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
 				    <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
 				    <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
 				    <sli:allowedBy>EDORG_APP_AUTHZ</sli:allowedBy>
 				  </sli:WriteEnforcement>
 				  <sli:ReadEnforcement>
+				  <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
 				    <sli:allowedBy>READ_GENERAL</sli:allowedBy>
 				    <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
 				    <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
