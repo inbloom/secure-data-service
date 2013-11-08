@@ -37,6 +37,11 @@ class AppsController < ApplicationController
   # It also allows inBloom operators approve an app for use in inBloom.
   def check_rights
     logger.debug {"Roles: #{session[:roles]}"}
+    # Give access to /apps to developers (to edit info and enable edorgs) and inBloom operator (to approve for platform)
+    # Edorgs' App authorizers -- users for whom is_app_authorizer? return true -- should not be given access here, as
+    # they use the /application_authorizations controller which applies filters specific to their edOrg(s)
+    # So perhaps this next line should be reverted to:
+    # unless is_developer? or is_operator?
     unless is_developer? or is_operator? or is_app_authorizer?
       raise ActiveResource::ForbiddenAccess, caller
     end
