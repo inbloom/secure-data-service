@@ -211,7 +211,7 @@ class ApplicationController < ActionController::Base
      end
      if session[:edOrgRights]
        edOrgsWithAppAuth = session[:edOrgRights].select do |edorg, rights|
-         rights.include?('APPLICATION_AUTH')
+         rights.include?('APP_AUTHORIZE')
        end
        return edOrgsWithAppAuth.keys
      end
