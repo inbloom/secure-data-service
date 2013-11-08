@@ -16,18 +16,25 @@
 
 package org.slc.sli.api.resources.security;
 
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableEntryException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -43,9 +50,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.elasticsearch.search.query.FromParseElement;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
@@ -55,8 +65,6 @@ import org.slc.sli.api.security.roles.EdOrgContextualRoleBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 
@@ -111,9 +119,6 @@ public class SamlFederationResource {
     @Value("${sli.security.sp.issuerName}")
     private String metadataSpIssuerName;
 
-    @Value("classpath:saml/samlMetadata.xml.template")
-    private Resource metadataTemplateResource;
-
     @Value("${sli.api.cookieDomain}")
     private String apiCookieDomain;
 
@@ -138,18 +143,56 @@ public class SamlFederationResource {
     @Autowired
     private EdOrgContextualRoleBuilder edOrgRoleBuilder;
 
+    @Value("${sli.api.keyStore:../data-access/dal/keyStore/api.jks}")
+    private String keystoreFileName;
+
+    @Value("${sli.api.keystore.password:changeit}")
+    private String keystorePassword;
+
+    @Value("${sli.api.digital.signature.alias:apids}")
+    private String keystoreAlias;
+
     public static SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+
+    private static final String METADATA_TEMPLATE = "saml/samlMetadata-template.vm";
+    private static final String TEMPLATE_ISSUER_REFERENCE = "spIssuerName";
+    private static final String TEMPLATE_CERTIFICATE_REFERENCE = "certificateText";
 
     @SuppressWarnings("unused")
     @PostConstruct
-    private void processMetadata() throws IOException {
-        InputStream is = metadataTemplateResource.getInputStream();
+    private void processMetadata() throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException, UnrecoverableEntryException {
         StringWriter writer = new StringWriter();
-        IOUtils.copy(is, writer);
-        is.close();
+
+        Properties props = new Properties();
+        props.setProperty("resource.loader", "class");
+        props.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        VelocityEngine velocityEngine = new VelocityEngine(props);
+        velocityEngine.init();
+
+        Template veTemplate = velocityEngine.getTemplate(METADATA_TEMPLATE);
+        VelocityContext context = new VelocityContext();
+        context.put(TEMPLATE_ISSUER_REFERENCE, metadataSpIssuerName);
+        context.put(TEMPLATE_CERTIFICATE_REFERENCE, getCertificateText());
+        veTemplate.merge(context, writer);
 
         metadata = writer.toString();
-        metadata = metadata.replaceAll("\\$\\{sli\\.security\\.sp.issuerName\\}", metadataSpIssuerName);
+    }
+
+    private String getCertificateText() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
+        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        FileInputStream fis = new FileInputStream(keystoreFileName);
+        char[] password = keystorePassword.toCharArray();
+
+        keyStore.load(fis, password);
+        IOUtils.closeQuietly(fis);
+
+        KeyStore.PrivateKeyEntry pkEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(keystoreAlias, new KeyStore.PasswordProtection(password));
+        X509Certificate certificate = (X509Certificate) pkEntry.getCertificate();
+
+        Base64 encoder = new Base64(64);
+        String certificateText = new String(encoder.encode(certificate.getEncoded()));
+
+        return certificateText;
     }
 
     @POST

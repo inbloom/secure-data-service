@@ -35,6 +35,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.jdom.Content;
+import org.jdom.Element;
+import org.jdom.filter.ElementFilter;
+import org.jdom.input.DOMBuilder;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -51,6 +55,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.jdom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -86,7 +91,17 @@ public class SamlFederationResourceTest {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             InputSource is = new InputSource(new StringReader((String) response.getEntity()));
-            db.parse(is);
+            org.w3c.dom.Document doc = db.parse(is);
+            DOMBuilder builder = new DOMBuilder();
+            org.jdom.Document jdomDocument = builder.build(doc);
+            Iterator<Element> itr = jdomDocument.getDescendants(new ElementFilter());
+
+            while (itr.hasNext()) {
+                Element el = itr.next();
+                if(el.getName().equals("X509Certificate")) {
+                    Assert.assertNotNull(el.getText());
+                }
+            }
         } catch (ParserConfigurationException e) {
             exception = e;
         } catch (SAXException e) {
