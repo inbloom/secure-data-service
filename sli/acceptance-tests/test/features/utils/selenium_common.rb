@@ -69,6 +69,8 @@ When /^I was redirected to the "([^"]*)" IDP Login page$/ do |idpType|
     assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "ctl00_ContentPlaceHolder1_SubmitButton")}
   elsif idpType=="Simple"
     assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "login_button")}
+  elsif idpType=="Shibboleth"
+    assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:css, ".form-button")}
   else
     raise "IDP type '#{arg1}' not implemented yet"
   end
@@ -102,6 +104,10 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
       #handle sandbox admin/impersonation chooser page
         @driver.find_element(:id, "adminLink").click
     end
+  elsif idpType=="Shibboleth"
+    @driver.find_element(:name, "j_username").send_keys user
+    @driver.find_element(:name, "j_password").send_keys pass
+    @driver.find_element(:css, ".form-button").click
   else
     raise "IDP type '#{arg1}' not implemented yet"
   end
