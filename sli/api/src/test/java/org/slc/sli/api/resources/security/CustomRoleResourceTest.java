@@ -246,7 +246,7 @@ public class CustomRoleResourceTest {
         Mockito.when(service.update(id, body)).thenReturn(true);
         Response res = resource.updateCustomRole(id, body, uriInfo);
         Assert.assertEquals(400, res.getStatus());
-        Assert.assertEquals(CustomRoleResource.ERROR_DUPLICATE_ROLE, res.getEntity());
+        Assert.assertEquals(CustomRoleResource.ERROR_DUPLICATE_ROLE + ": 'Role1'", res.getEntity());
     }
     
     @Test
@@ -261,7 +261,7 @@ public class CustomRoleResourceTest {
         Mockito.when(service.update(id, body)).thenReturn(true);
         Response res = resource.updateCustomRole(id, body, uriInfo);
         Assert.assertEquals(400, res.getStatus());
-        Assert.assertEquals(CustomRoleResource.ERROR_INVALID_RIGHT, res.getEntity());
+        Assert.assertEquals(CustomRoleResource.ERROR_INVALID_RIGHT + ": 'RIGHT_TO_REMAIN_SILENT'", res.getEntity());
 
     }
     
@@ -294,7 +294,7 @@ public class CustomRoleResourceTest {
         Mockito.when(service.update(id, body)).thenReturn(true);
         Response res = resource.updateCustomRole(id, body, uriInfo);
         Assert.assertEquals(400, res.getStatus());
-        Assert.assertEquals(CustomRoleResource.ERROR_DUPLICATE_RIGHTS, res.getEntity());
+        Assert.assertEquals(CustomRoleResource.ERROR_DUPLICATE_RIGHTS + ": 'WRITE_GENERAL'", res.getEntity());
     }
     
     
@@ -308,7 +308,7 @@ public class CustomRoleResourceTest {
         
         Response res = resource.createCustomRole(body, uriInfo);
         Assert.assertEquals(400, res.getStatus());
-        Assert.assertEquals(CustomRoleResource.ERROR_DUPLICATE_ROLE, res.getEntity());
+        Assert.assertEquals(CustomRoleResource.ERROR_DUPLICATE_ROLE + ": 'Role1'", res.getEntity());
     }
     
     @Test
@@ -321,7 +321,7 @@ public class CustomRoleResourceTest {
         
         Response res = resource.createCustomRole(body, uriInfo);
         Assert.assertEquals(400, res.getStatus());
-        Assert.assertEquals(CustomRoleResource.ERROR_INVALID_RIGHT, res.getEntity());
+        Assert.assertEquals(CustomRoleResource.ERROR_INVALID_RIGHT + ": 'RIGHT_TO_REMAIN_SILENT'", res.getEntity());
     }
     
     @Test
@@ -347,7 +347,7 @@ public class CustomRoleResourceTest {
         
         Response res = resource.createCustomRole(body, uriInfo);
         Assert.assertEquals(400, res.getStatus());
-        Assert.assertEquals(CustomRoleResource.ERROR_DUPLICATE_RIGHTS, res.getEntity());
+        Assert.assertEquals(CustomRoleResource.ERROR_DUPLICATE_RIGHTS + ": 'WRITE_GENERAL'", res.getEntity());
     }
     
     @Test
@@ -363,7 +363,7 @@ public class CustomRoleResourceTest {
 
         Response res = resource.createCustomRole(getValidRoleDoc(), uriInfo);
         Assert.assertEquals(400, res.getStatus());
-        Assert.assertEquals(CustomRoleResource.ERROR_MULTIPLE_DOCS, res.getEntity());
+        Assert.assertEquals(CustomRoleResource.ERROR_MULTIPLE_DOCS + ": Realm '867-5309'", res.getEntity());
 
     }
 
