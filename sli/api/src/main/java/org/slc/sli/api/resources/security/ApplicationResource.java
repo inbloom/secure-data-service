@@ -203,7 +203,7 @@ public class ApplicationResource extends UnversionedResource {
 
     @SuppressWarnings("rawtypes")
     @GET
-    @RightsAllowed({ Right.READ_GENERAL, Right.EDORG_APP_AUTHZ, Right.DEV_APP_CRUD })
+    @RightsAllowed({ Right.APP_AUTHORIZE, Right.ADMIN_ACCESS })
     @Override
     public Response getAll(@Context final UriInfo uriInfo) {
         Response resp = super.getAll(uriInfo);
@@ -224,7 +224,7 @@ public class ApplicationResource extends UnversionedResource {
     @GET
     @Override
     @Path("{" + UUID + "}")
-    @RightsAllowed({  Right.READ_GENERAL, Right.EDORG_APP_AUTHZ, Right.DEV_APP_CRUD  })
+    @RightsAllowed({  Right.APP_AUTHORIZE, Right.ADMIN_ACCESS  })
     public Response getWithId(@PathParam(UUID) String uuid, @Context final UriInfo uriInfo) {
         Response resp = super.getWithId(uuid, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
@@ -281,7 +281,7 @@ public class ApplicationResource extends UnversionedResource {
     @SuppressWarnings("unchecked")
     @PUT
     @Path("{" + UUID + "}")
-    @RightsAllowed({ Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE, Right.APP_AUTHORIZE })
+    @RightsAllowed({ Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE, Right.APP_AUTHORIZE})
     @Override
     public Response put(@PathParam(UUID) String uuid, EntityBody app, @Context final UriInfo uriInfo) {
         if (!missingRequiredUrls(app)) {
