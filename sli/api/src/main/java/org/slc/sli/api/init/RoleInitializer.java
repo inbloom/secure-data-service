@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -45,6 +47,9 @@ import org.slc.sli.domain.enums.Right;
  */
 @Component
 public class RoleInitializer {
+
+    private static final Logger LOG = LoggerFactory.getLogger(RoleInitializer.class);
+
     public static final String EDUCATOR = "Educator";
     public static final String TEACHER = "Teacher";
     public static final String AGGREGATE_VIEWER = "Aggregate Viewer";
@@ -84,16 +89,16 @@ public class RoleInitializer {
         Entity entity = repository.findOne(ROLES, query);
         if (entity != null) {
             repository.delete(ROLES, entity.getEntityId());
-            info("Successfully dropped roles from realm: {}", new Object[] { realmId });
+            LOG.info("Successfully dropped roles from realm: {}", new Object[] { realmId });
         } else {
-            info("No roles exist to drop for realm: {}", new Object[] { realmId });
+            LOG.info("No roles exist to drop for realm: {}", new Object[] { realmId });
         }
 
     }
 
     public int buildRoles(String realmId) {
         if (realmId != null) {
-            info("Building roles for realm: {}", new Object[] { realmId });
+            LOG.info("Building roles for realm: {}", new Object[] { realmId });
             Map<String, Object> rolesBody = new HashMap<String, Object>();
             List<Map<String, Object>> groups = getDefaultRoles();
             rolesBody.put("realmId", realmId);
@@ -102,7 +107,7 @@ public class RoleInitializer {
             repository.create(ROLES, rolesBody);
             return groups.size();
         } else {
-            warn("Null realm id --> not building roles.");
+            LOG.warn("Null realm id --> not building roles.");
         }
         return 0;
     }
@@ -138,7 +143,7 @@ public class RoleInitializer {
     }
 
     private Role buildAggregate() {
-        info("Building Aggregate Viewer default role.");
+        LOG.info("Building Aggregate Viewer default role.");
         ArrayList<String> roleNames = new ArrayList<String>();
         roleNames.add(AGGREGATE_VIEWER);
         roleNames.add(SPECIALIST_CONSULTANT);
@@ -151,7 +156,7 @@ public class RoleInitializer {
     }
 
     private Role buildEducator() {
-        info("Building Educator default role.");
+        LOG.info("Building Educator default role.");
         ArrayList<String> roleNames = new ArrayList<String>();
         roleNames.add(EDUCATOR);
         roleNames.add(TEACHER);
@@ -164,7 +169,7 @@ public class RoleInitializer {
     }
 
     private Role buildLeader() {
-        info("Building Leader default role.");
+        LOG.info("Building Leader default role.");
         ArrayList<String> roleNames = new ArrayList<String>();
         roleNames.add(LEADER);
         roleNames.add(PRINCIPAL);
@@ -179,7 +184,7 @@ public class RoleInitializer {
     }
 
     private Role buildIT() {
-        info("Building IT Administrator default role.");
+        LOG.info("Building IT Administrator default role.");
         ArrayList<String> roleNames = new ArrayList<String>();
         roleNames.add(IT_ADMINISTRATOR);
         roleNames.add(LEA_ADMINISTRATOR);

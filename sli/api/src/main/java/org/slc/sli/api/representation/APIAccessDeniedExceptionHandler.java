@@ -27,6 +27,8 @@ import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -46,6 +48,8 @@ import java.util.*;
 @Provider
 @Component
 public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAccessDeniedException> {
+
+    private static final Logger LOG = LoggerFactory.getLogger(APIAccessDeniedExceptionHandler.class);
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
@@ -72,7 +76,7 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
                 logSecurityEvent(e);
                 return null;    //the error page handles the response, so no need to return a response
             } catch (IOException ex) {
-                error("Error displaying error page", ex);
+                LOG.error("Error displaying error page", ex);
             }
         }
 
@@ -80,11 +84,11 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
         SLIPrincipal principal = null ;
         if (SecurityContextHolder.getContext().getAuthentication() != null) {
             principal = (SLIPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            warn("Access has been denied to user: {}",principal );
+            LOG.warn("Access has been denied to user: {}",principal );
         } else {
-            warn("Access has been denied to user for being incorrectly associated");
+            LOG.warn("Access has been denied to user for being incorrectly associated");
         }
-        warn("Cause: {}", e.getMessage());
+        LOG.warn("Cause: {}", e.getMessage());
 
         logSecurityEvent(e);
 

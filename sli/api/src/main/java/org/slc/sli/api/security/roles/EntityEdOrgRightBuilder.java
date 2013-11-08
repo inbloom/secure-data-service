@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -41,6 +43,8 @@ import org.slc.sli.domain.enums.Right;
  */
 @Component
 public class EntityEdOrgRightBuilder {
+
+    private static final Logger LOG = LoggerFactory.getLogger(EntityEdOrgRightBuilder.class);
 
     @Autowired
     private EdOrgOwnershipArbiter edOrgOwnershipArbiter;
@@ -132,10 +136,10 @@ public class EntityEdOrgRightBuilder {
             edorgs.retainAll(userEdOrgs);
 
             if(edorgs.isEmpty()) {
-                warn("Attempted access to an entity with no matching edorg association.");
+                LOG.warn("Attempted access to an entity with no matching edorg association.");
             }
         } else {
-            warn("Attempted access to an entity with no matching edorg association.");
+            LOG.warn("Attempted access to an entity with no matching edorg association.");
         }
         return edorgs;
     }

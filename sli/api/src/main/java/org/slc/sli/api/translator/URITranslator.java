@@ -27,6 +27,8 @@ import javax.ws.rs.core.PathSegment;
 import com.sun.jersey.spi.container.ContainerRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriTemplate;
@@ -48,6 +50,8 @@ import org.slc.sli.domain.NeutralQuery;
  */
 @Component
 public class URITranslator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(URITranslator.class);
 
     private Map<String, URITranslation> uriTranslationMap = new HashMap<String, URITranslation>();
 
@@ -237,7 +241,7 @@ public class URITranslator {
                     }
                 }
                 if (translatedIdList.isEmpty()) {
-                    warn("Failed upversioning rewrite {} -> {} due not being able to find intermediate entities", requestPath, this.transformTo);
+                    LOG.warn("Failed upversioning rewrite {} -> {} due not being able to find intermediate entities", requestPath, this.transformTo);
                     throw new EntityNotFoundException("Upversioning rewrite failed.  No target entities found.");
                 }
             }
