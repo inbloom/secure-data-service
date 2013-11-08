@@ -91,6 +91,8 @@
         <jdom.version>1.1</jdom.version>
         <jopt-simple.version>4.3</jopt-simple.version>
         <google.guava.version>13.0</google.guava.version>
+        <opensaml.version>2.6.0</opensaml.version>
+        <velocity.version>1.7</velocity.version>
     </properties>
     <!-- Environment profiles. A profile encapsulates a set of properties and
     filters for a particular build configuration. Per profile properties and

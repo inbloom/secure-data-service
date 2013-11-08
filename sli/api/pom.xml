@@ -251,13 +251,13 @@
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
-            <version>1.7</version>
+            <version>${velocity.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.opensaml</groupId>
             <artifactId>opensaml</artifactId>
-            <version>2.6.0</version>
+            <version>${opensaml.version}</version>
         </dependency>
 
         <dependency>

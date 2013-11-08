@@ -163,22 +163,16 @@ public class SamlFederationResource {
     private void processMetadata() throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException, UnrecoverableEntryException {
         StringWriter writer = new StringWriter();
 
-        Properties props = new Properties();
-        props.setProperty("resource.loader", "class");
-        props.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-        VelocityEngine velocityEngine = new VelocityEngine(props);
-        velocityEngine.init();
-
-        Template veTemplate = velocityEngine.getTemplate(METADATA_TEMPLATE);
+        Template veTemplate = getTemplate();
         VelocityContext context = new VelocityContext();
         context.put(TEMPLATE_ISSUER_REFERENCE, metadataSpIssuerName);
-        context.put(TEMPLATE_CERTIFICATE_REFERENCE, getCertificateText());
+        context.put(TEMPLATE_CERTIFICATE_REFERENCE, fetchCertificateText());
         veTemplate.merge(context, writer);
 
         metadata = writer.toString();
     }
 
-    private String getCertificateText() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
+    private String fetchCertificateText() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
         KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
         FileInputStream fis = new FileInputStream(keystoreFileName);
         char[] password = keystorePassword.toCharArray();
@@ -594,6 +588,16 @@ public class SamlFederationResource {
             }
         }
         return true;
+    }
+
+    private Template getTemplate() {
+        Properties props = new Properties();
+        props.setProperty("resource.loader", "class");
+        props.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        VelocityEngine velocityEngine = new VelocityEngine(props);
+        velocityEngine.init();
+
+        return velocityEngine.getTemplate(METADATA_TEMPLATE);
     }
 
     Repository getRepository() {

@@ -1,13 +1,6 @@
 <EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="$spIssuerName">
-   <SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+   <SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
        <KeyDescriptor use="signing">
-           <ds:KeyInfo>
-               <ds:X509Data>
-                   <ds:X509Certificate>$certificateText</ds:X509Certificate>
-               </ds:X509Data>
-           </ds:KeyInfo>
-       </KeyDescriptor>
-       <KeyDescriptor use="encryption">
            <ds:KeyInfo>
                <ds:X509Data>
                    <ds:X509Certificate>$certificateText</ds:X509Certificate>
