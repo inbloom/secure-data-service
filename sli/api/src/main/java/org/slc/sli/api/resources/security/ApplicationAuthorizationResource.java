@@ -50,6 +50,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
@@ -112,6 +113,9 @@ public class ApplicationAuthorizationResource {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+
+    @Autowired
+    private AuditLogger auditLogger;
 
     @Context
     UriInfo uri;
@@ -360,7 +364,7 @@ public class ApplicationAuthorizationResource {
             // set the list of target ed orgs to hold just the one that was granted. (US5828, TA10431)
             Set<String> targetEdOrgSet = helper.getEdOrgStateOrganizationIds(granted);
             event.setTargetEdOrgList(targetEdOrgSet);
-            audit(event);
+            auditLogger.audit(event);
         }
 
         Set<String> revoked = Sets.difference(oldEO, newEO);
@@ -371,7 +375,7 @@ public class ApplicationAuthorizationResource {
             // set the list of target ed orgs to hold just the one that was revoked. (US5828, TA10431)
             Set<String> targetEdOrgSet = helper.getEdOrgStateOrganizationIds(revoked);
             event.setTargetEdOrgList(targetEdOrgSet);
-            audit(event);
+            auditLogger.audit(event);
         }
 
     }

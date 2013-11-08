@@ -44,6 +44,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +114,9 @@ public class BulkExtract {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+
+    @Autowired
+    private AuditLogger auditLogger;
 
     @Autowired
     private FileResource fileResource;
@@ -652,7 +656,7 @@ public class BulkExtract {
 
 
     void logSecurityEvent(String message) {
-        audit(securityEventBuilder.createSecurityEvent(BulkExtract.class.getName(),
+        auditLogger.audit(securityEventBuilder.createSecurityEvent(BulkExtract.class.getName(),
                 uri.getRequestUri(), message, true));
     }
 

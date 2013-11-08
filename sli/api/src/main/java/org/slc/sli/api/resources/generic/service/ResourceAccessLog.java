@@ -24,6 +24,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.common.util.logging.SecurityEvent;
 
 /**
@@ -40,6 +41,9 @@ public class ResourceAccessLog {
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
 
+    @Autowired
+    private AuditLogger auditLogger;
+
     public void logAccessToRestrictedEntity(final UriInfo uriInfo, final Resource resource, final String loggingClass) {
 
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
@@ -52,7 +56,7 @@ public class ResourceAccessLog {
             if (securityEventBuilder != null) {
                 SecurityEvent event = securityEventBuilder.createSecurityEvent(loggingClass,
                         uriInfo.getRequestUri(), "restricted entity \"" + definition.getResourceName() + "\" is accessed.", true);
-                auditLog(event);
+                auditLogger.auditLog(event);
             } else {
                 warn("Cannot create security event, when restricted entity \"" + definition.getResourceName()
                         + "\" is accessed.");

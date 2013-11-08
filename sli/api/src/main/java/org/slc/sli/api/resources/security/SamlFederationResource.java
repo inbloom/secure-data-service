@@ -64,6 +64,7 @@ import org.slc.sli.api.representation.CustomStatus;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
@@ -133,6 +134,9 @@ public class SamlFederationResource {
     private SecurityEventBuilder securityEventBuilder;
 
     @Autowired
+    private AuditLogger auditLogger;
+
+    @Autowired
     private EdOrgHelper edorgHelper;
 
     @Autowired
@@ -189,7 +193,7 @@ public class SamlFederationResource {
                 event.setLogLevel(LogLevelType.TYPE_ERROR);
             }
 
-            audit(event);
+            auditLogger.audit(event);
 
             generateSamlValidationError(e.getMessage(), targetEdOrg);
         }
@@ -448,7 +452,7 @@ public class SamlFederationResource {
         successfulLogin.setUser(principal.getExternalId());
         successfulLogin.setLogMessage(principal.getExternalId() + " from tenant " + tenant + " logged successfully into " + applicationDetails + ".");
 
-        audit(successfulLogin);
+        auditLogger.audit(successfulLogin);
 
         if (isInstalled) {
             Map<String, Object> resultMap = new HashMap<String, Object>();
