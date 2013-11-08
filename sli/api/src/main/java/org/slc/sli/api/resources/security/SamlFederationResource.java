@@ -661,7 +661,7 @@ public class SamlFederationResource {
         Signature signature = (Signature) Configuration.getBuilderFactory().getBuilder(Signature.DEFAULT_ELEMENT_NAME)
                 .buildObject(Signature.DEFAULT_ELEMENT_NAME);
 
-        Credential signingCredential = intializeCredentialsWithKeystore();
+        Credential signingCredential = intializeCredentials();
         signature.setSigningCredential(signingCredential);
 
         signature.setSignatureAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA1);

@@ -21,27 +21,6 @@
                    </ds:X509Data>
                </ds:KeyInfo>
     </KeyDescriptor>
-     <KeyDescriptor use="encryption">
-                   <ds:KeyInfo>
-                       <ds:X509Data>
-                           <ds:X509Certificate>MIICtjCCAh+gAwIBAgIJANfFo8wYbvCAMA0GCSqGSIb3DQEBBQUAMEcxCzAJBgNV
-                                               BAYTAnVzMQswCQYDVQQIEwJuajELMAkGA1UEBxMCamMxEDAOBgNVBAoTB2FtcGxp
-                                               ZnkxDDAKBgNVBAsTA3NsaTAeFw0xMzExMDExNTI4NDBaFw0xNDExMDExNTI4NDBa
-                                               MEcxCzAJBgNVBAYTAnVzMQswCQYDVQQIEwJuajELMAkGA1UEBxMCamMxEDAOBgNV
-                                               BAoTB2FtcGxpZnkxDDAKBgNVBAsTA3NsaTCBnzANBgkqhkiG9w0BAQEFAAOBjQAw
-                                               gYkCgYEA9RVJckYpxB4wS/2HeiIbjF+faHan8SP1Ajv2wqTONelkPeGXaUzSh6h0
-                                               kYhkdM9FFvevhkiujxTkSxnf4tQrmZOjB1TRY9nSF/2QC6JGTQNUZw4Chl/DO/o7
-                                               owGDyeFUs3UjKjDPUupv0p+QFMWJtW9TLIuXWDX4gcehkpp8bnECAwEAAaOBqTCB
-                                               pjAdBgNVHQ4EFgQU+ZV9COtFCt23IMX0O2lzfMrGt1YwdwYDVR0jBHAwboAU+ZV9
-                                               COtFCt23IMX0O2lzfMrGt1ahS6RJMEcxCzAJBgNVBAYTAnVzMQswCQYDVQQIEwJu
-                                               ajELMAkGA1UEBxMCamMxEDAOBgNVBAoTB2FtcGxpZnkxDDAKBgNVBAsTA3NsaYIJ
-                                               ANfFo8wYbvCAMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADgYEAT81KoInk
-                                               /EudO5gS8w9m613hg+7OBhqiT1Cfr10ZH5rQulTdYmJeBa/KtIpLmlDVjXPyRnAD
-                                               cUAH8Y0BgwQu0Cb3leKcBl04ojlKJDJhtnrhqn/C2+9InZ1dbPUJUOuRMFXJJfeC
-                                               6hxDC42SLZYr1AyD8JO35Zbzpgy6sDqNYYQ=</ds:X509Certificate>
-                       </ds:X509Data>
-                   </ds:KeyInfo>
-        </KeyDescriptor>
       <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="${sli.security.sp.issuerName}/api/rest/saml/slo/redirect"
          ResponseLocation="${sli.security.sp.issuerName}/api/rest/saml/slo/redirect" />
       <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="${sli.security.sp.issuerName}/api/rest/saml/slo/post"
