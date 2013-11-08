@@ -34,11 +34,17 @@ class ApplicationAuthorizationsController < ApplicationController
   #      - authorized (checked) -- appears in app authorizaiton's edorg list
   #
   def edit
+    if !is_admin_realm_authenticated? && is_app_authorizer?
+      edorgs =  get_app_authorizer_edOrgs
 
-    # Get input objects
-    edOrgId = session[:edOrgId]
-    @edOrg = EducationOrganization.find(edOrgId)
-    raise NoUserEdOrgError.new "Educational organization '" + edOrgId + "' not found in educationOrganization collection" if @edOrg.nil?
+        @edOrg = EducationOrganization.find(edorgs[0])
+        raise NoUserEdOrgError.new "Educational organization '" + edOrgId + "' not found in educationOrganization collection" if @edOrg.nil?
+    else
+      # Get input objects
+      edOrgId = session[:edOrgId]
+      @edOrg = EducationOrganization.find(edOrgId)
+      raise NoUserEdOrgError.new "Educational organization '" + edOrgId + "' not found in educationOrganization collection" if @edOrg.nil?
+    end
 
     # Get app data
     load_apps()
@@ -76,10 +82,19 @@ class ApplicationAuthorizationsController < ApplicationController
     end
   end
 
+  def edorg_in_scope(edorgs, id)
+    edorgs.each do |edorg|
+      if @edorgs_in_scope[edorg].has_key?(id)
+         return true
+      end
+    end
+    return false
+  end
   # GET /application_authorizations
   # GET /application_authorizations.json
   def index
 
+    edorgs = []
     userEdOrg = session[:edOrgId]
 
     load_apps()
@@ -87,11 +102,20 @@ class ApplicationAuthorizationsController < ApplicationController
     # Use this in the template to enable buttons
     @isSEAAdmin = is_sea_admin?
     @isLEAAdmin = is_lea_admin?
+    @isAppAuthorizer = is_app_authorizer?
+
+    if @isAppAuthorizer
+      edorgs = get_app_authorizer_edOrgs
+    else
+      edorgs.push(userEdOrg)
+    end
     # Get counts of apps ... have to look up each individually
     # For non-SEA admin apply a filter of the edOrgs in scope for the user
     @app_counts = {}
     @edorgs_in_scope = {}
-    @edorgs_in_scope[userEdOrg] = get_edorgs_in_scope(userEdOrg)
+    edorgs.each do |edorg|
+      @edorgs_in_scope[edorg] = get_edorgs_in_scope(edorg)
+    end
 
     user_app_auths = ApplicationAuthorization.findAllInChunks({})
 
@@ -103,7 +127,8 @@ class ApplicationAuthorizationsController < ApplicationController
         else
           count = 0
           auth2.edorgs.each do |id|
-            count +=1 if @edorgs_in_scope[userEdOrg].has_key?(id.authorizedEdorg)
+            #count +=1 if @edorgs_in_scope[userEdOrg].has_key?(id.authorizedEdorg)
+            count +=1 if edorg_in_scope(edorgs,id.authorizedEdorg)
           end
         end
         @app_counts[auth.id] = count
@@ -148,7 +173,7 @@ class ApplicationAuthorizationsController < ApplicationController
       @edorgs.each { |edorg|
         @application_authorizations[edorg] = ApplicationAuthorization.find(:all, :params => {'edorg' => edorg})
       }
-    elsif is_app_authorizer?
+    elsif !is_admin_realm_authenticated? && is_app_authorizer?
       @edorgs = get_app_authorizer_edOrgs
       @edorgs = @edorgs.sort{|a,b| a.casecmp(b)}
       @edorgs.each { |edorg|
