@@ -289,11 +289,12 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-AttendanceEvent">
 		<xs:annotation>
-			<xs:documentation>AttendanceEvent record with key fields: StudentReference (StudentUniqueStateId), SchoolReference (StateOrganizationId) and EventDate. Made SchoolReference required.
-				Changed types of StudentReference, SchoolReference, SessionReference and SectionReference to SLC reference types.</xs:documentation>
+			<xs:documentation>AttendanceEvent record with key fields: StudentReference (StudentUniqueStateId), SchoolReference (StateOrganizationId), SchoolYear, EventDate, 
+				AttendanceEventCategory	and SectionReference. Made SchoolReference required.  Changed types of StudentReference, SchoolReference, AttendanceEventCategory,
+                EducationalEnvironment and SectionReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>attendanceEvent</sli:recordType>
-				<sli:naturalKeys>StudentReference,SchoolReference,SchoolYear,EventDate,AttendanceEventCategory</sli:naturalKeys>
+				<sli:naturalKeys>StudentReference,SchoolReference,SchoolYear,EventDate,AttendanceEventCategory,SectionReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -301,13 +302,11 @@
 				<xs:sequence>
 					<xs:element name="SchoolYear" type="SchoolYearType"/>
 					<xs:element name="EventDate" type="xs:date"/>
-					<xs:element name="AttendanceEventType" type="AttendanceEventType" minOccurs="0"/>
 					<xs:element name="AttendanceEventCategory" type="SLC-AttendanceEventCategoryType"/>
 					<xs:element name="AttendanceEventReason" type="AttendanceEventReason" minOccurs="0"/>
 					<xs:element name="EducationalEnvironment" type="SLC-EducationalEnvironmentType" minOccurs="0"/>
 					<xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
 					<xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType"/>
-					<xs:element name="SessionReference" type="SLC-SessionReferenceType" minOccurs="0"/>
 					<xs:element name="SectionReference" type="SLC-SectionReferenceType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
@@ -1656,6 +1655,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="SectionReference" type="SLC-SectionReferenceType">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>sectionId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-AttendanceEventReferenceType">
@@ -1663,7 +1669,7 @@
 			<xs:documentation>SLC addition.</xs:documentation>
 			<xs:appinfo>
 				<sli:applyKeyFields>true</sli:applyKeyFields>
-				<sli:refType>assessmentEvent</sli:refType>
+				<sli:refType>attendance</sli:refType>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
