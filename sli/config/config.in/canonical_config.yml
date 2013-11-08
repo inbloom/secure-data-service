@@ -42,6 +42,11 @@ default:
 
         sli.api.cookieDomain: .slidev.org
 
+        # API kesytore settings
+        sli.api.keyStore: ../data-access/dal/keyStore/api.jks
+        sli.api.keystore.password: changeit
+        sli.api.digital.signature.alias: apids
+
         # Sandbox settings
         sli.sandbox.enabled: false
         sli.autoRegisterApps: false
