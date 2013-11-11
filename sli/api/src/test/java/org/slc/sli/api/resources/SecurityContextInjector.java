@@ -17,20 +17,17 @@
 
 package org.slc.sli.api.resources;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.mockito.Mockito;
-import org.slc.sli.api.init.RoleInitializer;
-import org.slc.sli.api.security.EdOrgContextRightsCache;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextValidator;
-import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -40,6 +37,17 @@ import org.springframework.security.oauth2.provider.ClientToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.init.RoleInitializer;
+import org.slc.sli.api.security.EdOrgContextRightsCache;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Simple class for injecting a security context for unit tests.
@@ -75,7 +83,7 @@ public class SecurityContextInjector {
 
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("admin-staff");
-        Mockito.when(entity.getEntityId()).thenReturn("-133");
+        Mockito.when(entity.getEntityId()).thenReturn(SLIPrincipal.NULL_ENTITY_ID);
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new EdOrgContextRightsCache());
 
         principal.setUserType(ADMIN_TYPE);

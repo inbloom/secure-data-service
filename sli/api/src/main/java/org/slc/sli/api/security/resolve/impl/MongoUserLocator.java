@@ -16,6 +16,13 @@
 
 package org.slc.sli.api.security.resolve.impl;
 
+import java.util.HashMap;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
@@ -23,13 +30,11 @@ import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.Set;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Attempts to locate a user in SLI mongo data-store
@@ -89,7 +94,7 @@ public class MongoUserLocator implements UserLocator {
 
          if (user.getEntity() == null) {
              warn("Failed to locate user {} in the datastore", user.getId());
-             Entity entity = new MongoEntity("user", "-133", new HashMap<String, Object>(),
+             Entity entity = new MongoEntity("user", SLIPrincipal.NULL_ENTITY_ID, new HashMap<String, Object>(),
                      new HashMap<String, Object>());
              user.setEntity(entity);
          } else {
@@ -98,7 +103,7 @@ public class MongoUserLocator implements UserLocator {
 
          return user;
     }
-    
+
     @Override
     public SLIPrincipal locate(String tenantId, String externalUserId, String userType) {
     	return locate(tenantId, externalUserId, userType, null);

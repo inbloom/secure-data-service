@@ -341,7 +341,7 @@ public class SamlFederationResource {
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
 
-        if ("-133".equals(principal.getEntity().getEntityId()) && !(isAdminRealm || isDevRealm)) {
+        if (SLIPrincipal.NULL_ENTITY_ID.equals(principal.getEntity().getEntityId()) && !(isAdminRealm || isDevRealm)) {
             // if we couldn't find an Entity for the user and this isn't an admin realm, then we
             // have no valid user
             throw new APIAccessDeniedException("Invalid user.", realm);
