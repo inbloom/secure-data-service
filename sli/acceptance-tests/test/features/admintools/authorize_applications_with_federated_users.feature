@@ -82,10 +82,10 @@ Scenario: Linda Kim encounters Access Denied when attempting to access Applicati
 #check educator seoa exists
 Given "linda.kim" has an active staffEducationOrganizationAssociation of "Educator" for "East Daybreak Junior High" in tenant "Midgar"
 When I hit the Admin Application Authorization Tool
-And I select "inBloom" from the dropdown and click go
-#And I select "Illinois Daybreak School District 4529" from the dropdown and click go
-And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
-#And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+# And I select "inBloom" from the dropdown and click go
+And I select "Illinois Daybreak School District 4529" from the dropdown and click go
+# And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
+And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 #Assert on some error message
 #Assert access denied security event
 
@@ -96,10 +96,10 @@ And a staffEducationOrgAssignmentAssociation is created for user "linda.kim" wit
 
 Scenario: Linda Kim Approves application as Application Authorizer
 When I hit the Admin Application Authorization Tool
-And I select "inBloom" from the dropdown and click go
-#And I select "Illinois Daybreak School District 4529" from the dropdown and click go
-And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
-#And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+#And I select "inBloom" from the dropdown and click go
+And I select "Illinois Daybreak School District 4529" from the dropdown and click go
+#And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
+And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
 And the sli securityEvent collection is empty
@@ -146,10 +146,10 @@ And the group "Educator" contains the "right" rights "EDUCATOR APP AUTH"
 
 Scenario: Linda Kim Approves application as Educator
 When I hit the Admin Application Authorization Tool
-And I select "inBloom" from the dropdown and click go
-#And I select "Illinois Daybreak School District 4529" from the dropdown and click go
-And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
-#And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+#And I select "inBloom" from the dropdown and click go
+And I select "Illinois Daybreak School District 4529" from the dropdown and click go
+#And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
+And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
 And the sli securityEvent collection is empty
@@ -190,10 +190,10 @@ And a staffEducationOrgAssignmentAssociation is created for user "linda.kim" wit
 
 Scenario: Linda Kim Approves application as IT Administrator
 When I hit the Admin Application Authorization Tool
-And I select "inBloom" from the dropdown and click go
-#And I select "Illinois Daybreak School District 4529" from the dropdown and click go
-And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
-#And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+#And I select "inBloom" from the dropdown and click go
+And I select "Illinois Daybreak School District 4529" from the dropdown and click go
+#And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
+And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
 And the sli securityEvent collection is empty
@@ -225,10 +225,10 @@ And in Status it says "Not Approved"
 
 Scenario: Federated SEA Admin Approves application
 When I hit the Admin Application Authorization Tool
-And I select "inBloom" from the dropdown and click go
-#And I select "Illinois Daybreak School District 4529" from the dropdown and click go
-And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
-#And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+#And I select "inBloom" from the dropdown and click go
+And I select "Illinois Daybreak School District 4529" from the dropdown and click go
+#And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
+And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
 And the sli securityEvent collection is empty
