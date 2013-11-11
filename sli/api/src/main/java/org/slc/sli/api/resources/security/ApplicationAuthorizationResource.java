@@ -97,7 +97,7 @@ import org.springframework.util.CollectionUtils;
 @Path("/applicationAuthorization")
 @Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class ApplicationAuthorizationResource {
-
+	
     @Autowired
     private EntityDefinitionStore store;
 
@@ -357,9 +357,9 @@ public class ApplicationAuthorizationResource {
             SecurityEvent event = securityEventBuilder.createSecurityEvent(resourceClassName,
                     path, "Application granted access to EdOrg data!", true);
             event.setAppId(appId);
-            Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(granted);
-            event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
-            event.setTargetEdOrg("");
+            // set the list of target ed orgs to hold just the one that was granted. (US5828, TA10431)
+            Set<String> targetEdOrgSet = helper.getEdOrgStateOrganizationIds(granted);
+            event.setTargetEdOrgList(targetEdOrgSet);
             audit(event);
         }
 
@@ -368,9 +368,9 @@ public class ApplicationAuthorizationResource {
             SecurityEvent event = securityEventBuilder.createSecurityEvent(resourceClassName,
                     path, "EdOrg data access has been revoked!", true);
             event.setAppId(appId);
-            Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(revoked);
-            event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
-            event.setTargetEdOrg("");
+            // set the list of target ed orgs to hold just the one that was revoked. (US5828, TA10431)
+            Set<String> targetEdOrgSet = helper.getEdOrgStateOrganizationIds(revoked);
+            event.setTargetEdOrgList(targetEdOrgSet);
             audit(event);
         }
 
@@ -380,6 +380,14 @@ public class ApplicationAuthorizationResource {
         if (edorg == null) {
             return SecurityUtil.getEdOrgId();
         }
+        // US5894 removed the need for LEA to delegate app approval to SEA
+        /*
+        if (!edorg.equals(SecurityUtil.getEdOrgId()) && !delegation.getAppApprovalDelegateEdOrgs().contains(edorg) ) {
+            Set<String> edOrgIds = new HashSet<String>();
+            edOrgIds.add(edorg);
+            throw new APIAccessDeniedException("Cannot perform authorizations for edorg ", edOrgIds);
+        }
+        */
         return edorg;
     }
 

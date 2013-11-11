@@ -215,19 +215,7 @@ public class SecurityEventContextResolver implements EntityContextResolver {
             }
         }
 
-        Set<String> allAuthorizedEdOrgIds = edOrgHelper.getChildEdOrgs(explicitlyAuthorizedEdOrgIds);
-        allAuthorizedEdOrgIds.addAll(explicitlyAuthorizedEdOrgIds);
-
-        // now get the ed Org names
-
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
-                NeutralCriteria.CRITERIA_IN, allAuthorizedEdOrgIds));
-        Iterable<Entity> allAuthorizedEdOrgEntities = repository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
-
-        Set<String> allAuthorizedEdOrgNames = new HashSet<String>();
-        for (Entity edOrgEntity : allAuthorizedEdOrgEntities) {
-            allAuthorizedEdOrgNames.add((String) edOrgEntity.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID));
-        }
+        Set<String> allAuthorizedEdOrgNames = edOrgHelper.getChildEdOrgsName(explicitlyAuthorizedEdOrgIds, true);
 
         if (allAuthorizedEdOrgNames.size() > 0) {
             NeutralQuery or = new NeutralQuery();

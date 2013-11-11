@@ -114,7 +114,7 @@ public class LoggerCarrierAspectTest {
         SecurityEvent event = new SecurityEvent();
         event.setTenantId("Midgar");
         event.setUser("");
-        event.setTargetEdOrg("");
+        event.setTargetEdOrgList("");
         event.setActionUri("AppProcessing");
         event.setAppId("app");
         event.setOrigin("");
