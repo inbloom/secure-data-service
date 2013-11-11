@@ -325,8 +325,6 @@ public class ApplicationAuthorizationResource {
             entity.put("id", appId);
             entity.put("appId", appId);
             entity.put("authorized", true);
-            List<Map<String,Object>> edOrgs = (List<Map<String,Object>>) body.get("edorgs");
-            entity.put("edorgs", edOrgs); //DE2993
             results.add(entity);
             allApps.remove(appId);
         }

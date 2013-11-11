@@ -28,17 +28,7 @@ Feature: Admin delegation CRUD
     |78f71c9a-8e37-0f86-8560-7783379d96f7 | iladmin              | nil                          |  IL-LONGWOOD  |
 
 
-  Scenario Outline: Read application authorization data from API List endpoint and verify that fields are populated correctly
-    And I am logged in using "iladmin" "iladmin1234" to realm "SLI"
-    When I navigate to GET applicationAuthorization with ""
-    And There is an applicationAuthorization entity for application "<APP_ID>"
-    And There is a correct entry in applicationAuthorization edorg array for district "<EDORG>" for the application "<APP_ID>"
-    And The value of "lastAuthorizingUser" should be "<LAST_AUTHORIZED_USER>"
-    And The value of "lastAuthorizingRealmEdorg" should be "<LAST_AUTHORIZED_REALM_EDORG>"
-  Examples:
-    |APP_ID                               | LAST_AUTHORIZED_USER | LAST_AUTHORIZED_REALM_EDORG  | EDORG         |
-    |78f71c9a-8e37-0f86-8560-7783379d96f7 | iladmin              | nil                          |  IL           |
-    |78f71c9a-8e37-0f86-8560-7783379d96f7 | iladmin              | nil                          |  IL-SUNSET    |
-    |78f71c9a-8e37-0f86-8560-7783379d96f7 | iladmin              | nil                          |  IL-LONGWOOD  |
+
+
 
 
