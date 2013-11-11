@@ -172,12 +172,10 @@ public class ApplicationAuthorizationResource {
     	for (Map<String,Object> edOrgListElement :edOrgList ){
     	   String authorizedEdorg = (String)edOrgListElement.get("authorizedEdorg");
     	        if(authorizedEdorg != null){
-    	        for(String edOrg: myEdorgs) {
-    	        	if(edOrg.equals(authorizedEdorg)){
+    	        	if(myEdorgs.contains(authorizedEdorg)) {
     	        		results.add(edOrgListElement);
     	        	}
     	        }
-    	   }
     	}
     	return results;
     }
@@ -202,11 +200,12 @@ public class ApplicationAuthorizationResource {
 
     private EntityBody getAppAuth(String appId) {
     	Iterable<EntityBody> appAuths = null;
+    	Iterable<EntityBody> apps = null;
 		SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (!principal.isAdminRealmAuthenticated()) {
-        	appAuths = service.listBasedOnContextualRoles(new NeutralQuery(new NeutralCriteria("_id", "=", appId)));
-        	 if(appAuths.iterator().hasNext()) {
+        	apps = service.listBasedOnContextualRoles(new NeutralQuery(new NeutralCriteria("_id", "=", appId)));
+        	 if(apps.iterator().hasNext()) {
         	 {
         		 appAuths = service.list(new NeutralQuery(new NeutralCriteria("applicationId", "=", appId)));
         	 }
@@ -346,7 +345,7 @@ public class ApplicationAuthorizationResource {
     @GET
     @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.APP_AUTHORIZE})
     public Response getAuthorizations(@QueryParam("edorg") String edorg) {
-        String myEdorg = validateEdOrg(edorg);
+        Set<String> myEdorg = validateEdOrg(edorg);
         Iterable<Entity> appQuery = repo.findAll("application", new NeutralQuery());
         Map<String, Entity> allApps = new HashMap<String, Entity>();
         for (Entity ent : appQuery) {
@@ -381,6 +380,7 @@ public class ApplicationAuthorizationResource {
         }
         return Response.status(Status.OK).entity(results).build();
     }
+    
     private void logSecurityEvent(String appId, Collection<String> oldEdOrgs, Collection<String> newEdOrgs) {
         Set<String> oldEO = (oldEdOrgs == null)?Collections.<String>emptySet():new HashSet<String>(oldEdOrgs);
         Set<String> newEO = (newEdOrgs == null)?Collections.<String>emptySet():new HashSet<String>(newEdOrgs);
