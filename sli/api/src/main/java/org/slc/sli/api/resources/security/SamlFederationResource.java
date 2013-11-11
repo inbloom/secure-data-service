@@ -161,7 +161,7 @@ public class SamlFederationResource {
     @Autowired
     private EdOrgContextualRoleBuilder edOrgRoleBuilder;
 
-    @Value("${sli.api.keyStore:../data-access/dal/keyStore/api.jks}")
+    @Value("${sli.api.keyStore:../data-access/dal/keyStore/ciKeyStore.jks}")
     private String keystoreFileName;
 
     @Value("${sli.api.keystore.password:changeit}")
@@ -178,6 +178,7 @@ public class SamlFederationResource {
     private static final String METADATA_TEMPLATE = "saml/samlMetadata-template.vm";
     private static final String TEMPLATE_ISSUER_REFERENCE = "spIssuerName";
     private static final String TEMPLATE_CERTIFICATE_REFERENCE = "certificateText";
+    private static final String KEYSTORE_TYPE = "JCEKS";
 
     @SuppressWarnings("unused")
     @PostConstruct
@@ -767,7 +768,7 @@ public class SamlFederationResource {
     }
 
     private KeyStore.PrivateKeyEntry initializeKeystoreEntry() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
-        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        KeyStore keyStore = KeyStore.getInstance(KEYSTORE_TYPE);
         FileInputStream fis = new FileInputStream(keystoreFileName);
         char[] password = keystorePassword.toCharArray();
 
