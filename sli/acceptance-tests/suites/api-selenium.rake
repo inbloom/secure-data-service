@@ -111,6 +111,11 @@ task :databrowserSmokeTests do
   runTests("test/features/databrowser/student_authentication.feature")
 end
 
+desc "Run databrowser shibboleth login test"
+task :databrowserShibbolethTests => [:realmInit, :importSandboxData] do
+  runTests("test/features/databrowser/databrowser_shibboleth_login.feature")
+end
+
 desc "Run Admin Tool Smoke Tests"
 task :adminSmokeTests do 
   @tags = ["~@wip", "@smoke", "~@sandbox"]
