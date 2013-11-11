@@ -78,6 +78,10 @@ public class ApplicationResourceService extends DefaultResourceService {
                     query.addOrQuery(new NeutralQuery(new NeutralCriteria(AUTHOR_SANDBOX_TENANT, NeutralCriteria.OPERATOR_EQUAL, sandboxTenancy)));
                 }
             }
+        }
+        else if((SecurityUtil.hasRight(Right.APP_AUTHORIZE))) { //A federated(non hosted) user having APP_AUTHORIZE
+            //do nothing
+
         } else if (!SecurityUtil.hasRight(Right.SLC_APP_APPROVE)) {  //realm admin, sees apps that they are either authorized or could be authorized
 
             Set<String> edorgs = new HashSet<String>();
