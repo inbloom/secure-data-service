@@ -11031,6 +11031,23 @@
             </xs:element>
             <xs:element name='event' type='attendanceEventCategoryType'/>
             <xs:element minOccurs='0' name='reason' type='attendanceEventReason'/>
+            <xs:element minOccurs='0' name='sectionId' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>The section the attendanceEvent corresponds to.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>section</sli:ReferenceType>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_GENERAL</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_GENERAL</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>            
         </xs:sequence>
     </xs:complexType>
     <!-- <xs:complexType name="bellSchedule"> <xs:annotation> <xs:documentation>BellSchedule

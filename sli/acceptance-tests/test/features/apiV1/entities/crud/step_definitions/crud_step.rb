@@ -858,7 +858,8 @@ When(/^I POST an attendance of "([^"]*)" for student "([^"]*)" in school "([^"]*
          "attendanceEvent":[
             {
                "date":"-----PLACEHOLDER-----",
-               "event":"-----PLACEHOLDER-----"
+               "event":"-----PLACEHOLDER-----",
+               "sectionId":"-----PLACEHOLDER-----"
             }
          ]
       }
@@ -871,7 +872,7 @@ When(/^I POST an attendance of "([^"]*)" for student "([^"]*)" in school "([^"]*
   attendance['schoolYearAttendance'][0]['schoolYear']      = schoolYear
   events = categories.split(/,/).map{|category|
       category.strip!
-      { 'date' => eventDate, 'event' => category}
+      { 'date' => eventDate, 'event' => category, 'sectionId' => "f048354d-dbcb-0214-791d-b769f521210d_id"}
   }
   attendance['schoolYearAttendance'][0]['attendanceEvent'] = events
   restHttpPost('/v1/attendances', attendance.to_json, 'application/vnd.slc+json')
