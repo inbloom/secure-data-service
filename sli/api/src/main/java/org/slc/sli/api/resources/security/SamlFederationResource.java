@@ -61,9 +61,7 @@ import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.opensaml.saml2.core.ArtifactResolve;
-import org.opensaml.saml2.core.ArtifactResponse;
 import org.opensaml.ws.soap.soap11.Envelope;
-import org.opensaml.ws.soap.soap11.impl.EnvelopeImpl;
 import org.opensaml.xml.XMLObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -640,10 +638,12 @@ public class SamlFederationResource {
         Entity session = sessionManager.getSessionForSamlId(inResponseTo);
         String requestedRealmId = (String) session.getBody().get("requestedRealmId");
         Entity realm = getRealm(getDataFromResponse(response, "Issuer"), requestedRealmId);
+        String targetEdOrg = getTargetEdOrg(realm);
 
         validateCertificate(response);
-        validateConditions(getDataFromResponse(response, "Conditions.NotBefore"), getDataFromResponse(response, "Conditions.NotOnOrAfter"));
-        validateSubject(uriInfo, getDataFromResponse(response, "Subject.SubjectConfirmation.SubjectConfirmationData.Recipient"));
+        validateTimeRange("SAML Conditions failed.", getDataFromResponse(response, "Conditions.NotBefore"), getDataFromResponse(response, "Conditions.NotOnOrAfter"), targetEdOrg);
+        validateSubject(uriInfo.getRequestUri(), getDataFromResponse(response, "Subject.SubjectConfirmation.SubjectConfirmationData.Recipient"),
+                getDataFromResponse(response, "Conditions.NotBefore"), getDataFromResponse(response, "Conditions.NotOnOrAfter"), targetEdOrg);
 
         LinkedMultiValueMap<String, String> attributes = extractAttributesFromResponse(response);
         return authenticateUser(attributes, realm, getTargetEdOrg(realm), inResponseTo, session, uriInfo.getRequestUri());
@@ -690,16 +690,6 @@ public class SamlFederationResource {
 
     /**
      *
-     * @param realm
-     * @return
-     */
-    protected String getTargetEdOrg(Entity realm) {
-        //Method Stub
-        return "";
-    }
-
-    /**
-     *
      * @param response
      * @param name
      * @return
@@ -716,24 +706,6 @@ public class SamlFederationResource {
      */
     protected LinkedMultiValueMap<String, String> extractAttributesFromResponse(XMLObject response) {
         return new LinkedMultiValueMap<String, String>();
-    }
-
-    /**
-     *
-     * @param notBefore
-     * @param notOnOrAfter
-     */
-    protected void validateConditions(String notBefore, String notOnOrAfter) {
-        //Method Stub
-    }
-
-    /**
-     *
-     * @param uriInfo
-     * @param recipient
-     */
-    protected void validateSubject(UriInfo uriInfo, String recipient) {
-        //Method Stub
     }
 
     /**
