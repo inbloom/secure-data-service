@@ -117,18 +117,44 @@ class ApplicationAuthorizationsController < ApplicationController
       @edorgs_in_scope[edorg] = get_edorgs_in_scope(edorg)
     end
 
+    # We first grab all application authorization objects (just for their IDs)
+    # and then look them up individually, because the bulk query does not include
+    # the currently-authorized edOrgs field ...
     user_app_auths = ApplicationAuthorization.findAllInChunks({})
-
     user_app_auths.each do |auth|
-      auth2 = ApplicationAuthorization.find(auth.id)
+      # It is possible that the object is not visible due to its not being
+      # enabled by the developer.  Skip such objects.
+      logger.info("*** Finding appAuth '" + auth.id + "' ...")
+      begin
+        auth2 = ApplicationAuthorization.find(auth.id)
+      rescue ActiveResource::ForbiddenAccess
+        # It's possible that the appAuth object is not accessible because its
+        # app is not enabled for at least one of the admin user's edOrgs.
+        # (that check is not done on the bulk findAll above, so such objects
+        # can creep in)
+        logger.info("*** Forbidden: '" + auth.id + "' ...")
+        next
+      rescue ActiveResource::ResourceNotFound
+        # It's possible that there is a dangling reference from
+        #    <tenantDb>.applicationAuthorization.body.applicationId
+        # to
+        #    sli.application._id
+        # ... in that case, we'll get a 404 from the API.  Ignore those.
+        logger.info("*** Not found: '" + auth.id + "' ...")
+        next
+      # *DO NOT* PUT A CATCH-ALL RESCUE HERE!  IT WILL COST YOU YOUR
+      # SACRED HONOR AS A SOFTWARE DEVELOPER!
+      end
+
+      logger.info("*** OK: '" + auth.id + "' ...")
+      
       if !auth2.edorgs.nil?
         if @isSEAAdmin
           count = auth2.edorgs.length
         else
           count = 0
           auth2.edorgs.each do |id|
-            #count +=1 if @edorgs_in_scope[userEdOrg].has_key?(id.authorizedEdorg)
-            count +=1 if edorg_in_scope(edorgs,id.authorizedEdorg)
+            count +=1 if edorg_in_scope(edorgs, id.authorizedEdorg)
           end
         end
         @app_counts[auth.id] = count
