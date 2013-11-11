@@ -203,15 +203,13 @@ public class ApplicationAuthorizationResource {
     	Iterable<EntityBody> apps = null;
 		SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (!principal.isAdminRealmAuthenticated()) {
+        if (principal.isAdminRealmAuthenticated()) {
+    	    appAuths = service.list(new NeutralQuery(new NeutralCriteria("applicationId", "=", appId)));  	
+        } else {
         	apps = service.listBasedOnContextualRoles(new NeutralQuery(new NeutralCriteria("_id", "=", appId)));
-        	 if(apps.iterator().hasNext()) {
-        	 {
-        		 appAuths = service.list(new NeutralQuery(new NeutralCriteria("applicationId", "=", appId)));
-        	 }
-            } else {
-        	    appAuths = service.list(new NeutralQuery(new NeutralCriteria("applicationId", "=", appId)));
-            }
+       	 	if(apps.iterator().hasNext()) {
+       	 		appAuths = service.list(new NeutralQuery(new NeutralCriteria("applicationId", "=", appId)));
+       	 	}
         }
         for (EntityBody auth : appAuths) {
             return auth;
@@ -419,18 +417,18 @@ public class ApplicationAuthorizationResource {
     	if (edorg == null) {
 			SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-    		if(!principal.isAdminRealmAuthenticated()) {
+    		if(principal.isAdminRealmAuthenticated()) {
+    			String userEdorg = SecurityUtil.getEdOrgId();
+                if(userEdorg !=null) {
+    			    edOrgIds.add(userEdorg);
+                }
+    		} else {
     			Set<String> edorgs =  principal.getEdOrgRights().keySet();
     			for(String edorgId: edorgs) {
     			    if(principal.getEdOrgRights().get(edorgId).contains(Right.APP_AUTHORIZE)) {
     	    		    edOrgIds.add(edorgId);
     			    }
     			}
-    		} else {
-                String userEdorg = SecurityUtil.getEdOrgId();
-                if(userEdorg !=null) {
-    			    edOrgIds.add(userEdorg);
-                }
     		}
     	} else {
     		edOrgIds.add(edorg);
