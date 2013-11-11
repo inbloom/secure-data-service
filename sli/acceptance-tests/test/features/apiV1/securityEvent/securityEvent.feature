@@ -82,7 +82,23 @@ Scenario: IT Administrators can see security events for their edOrgs
   And each entity's "entityType" should be "<ENTITY TYPE>"
   And each securityEvent's targetEdOrgList should contain at least one of "<IL_SUNSET_OR_IL_LONGWOOD_OR_SUNSET_CENTRAL>"
 
+@DE2991
+Scenario: Authorized user can GET security events by ID
+    Given I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
+    And format "application/vnd.slc+json"
+    And parameter "limit" is "0"
+    When I navigate to GET "/securityEvent/268406bf-83b5-4d43-9b56-c428e0998cb2"
+    Then I should receive a return code of 200
 
+@DE2991
+Scenario: Unauthorized user can not get security events by ID
+    Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+    And format "application/vnd.slc+json"
+    And parameter "limit" is "0"
+    When I navigate to GET "/securityEvent/268406bf-83b5-4d43-9b56-c428e0998cb2"
+    Then I should receive a return code of 404
+
+@DE2990
 Scenario: None can DELETE events through security API
     Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
     And format "application/vnd.slc+json"
@@ -90,6 +106,7 @@ Scenario: None can DELETE events through security API
     When I navigate to DELETE "/securityEvent/07623f03-126e-427d-9ed4-29562388cdcc"
     Then I should receive a return code of 405
 
+@DE2990
 Scenario: None can PATCH events through security API
     Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
     And format "application/vnd.slc+json"
@@ -97,6 +114,7 @@ Scenario: None can PATCH events through security API
     When I navigate to PATCH "/securityEvent/07623f03-126e-427d-9ed4-29562388cdcc"
     Then I should receive a return code of 405
 
+@DE2990
 Scenario: None can PUT events through security API
     Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
     And format "application/vnd.slc+json"
@@ -106,6 +124,7 @@ Scenario: None can PUT events through security API
     And I navigate to PUT "/securityEvent/07623f03-126e-427d-9ed4-29562388cdcc"
     Then I should receive a return code of 405
 
+@DE2990
 Scenario: None can POST events through security API
     Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
     And format "application/vnd.slc+json"
