@@ -346,54 +346,41 @@ public class ApplicationAuthorizationResource {
     @GET
     @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.APP_AUTHORIZE})
     public Response getAuthorizations(@QueryParam("edorg") String edorg) {
-        Set<String> myEdorgs = validateEdOrg(edorg);
-        Iterable<EntityBody> appQuery = null;
-		SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String myEdorg = validateEdOrg(edorg);
+        Iterable<Entity> appQuery = repo.findAll("application", new NeutralQuery());
+        Map<String, Entity> allApps = new HashMap<String, Entity>();
+        for (Entity ent : appQuery) {
+            allApps.put(ent.getEntityId(), ent);
+        }
 
-        if (!principal.isAdminRealmAuthenticated()) {
-        	appQuery = service.listBasedOnContextualRoles(new NeutralQuery());
-        } else {
-        	appQuery = service.list(new NeutralQuery());
-        }
-        	
-//        Iterable<Entity> appQuery = repo.findAll("application", new NeutralQuery());
-        Map<String, EntityBody> allApps = new HashMap<String, EntityBody>();
-        for (EntityBody ent : appQuery) {
-            allApps.put((String) ent.get("id"), ent);
-        }
+        Iterable<EntityBody> ents = service.list(new NeutralQuery(new NeutralCriteria("edorgs.authorizedEdorg", "=", myEdorg)));
 
         Set<String> inScopeEdOrgs = getChildEdorgs(edorg);
 
         List<Map> results = new ArrayList<Map>();
-        for(String myEdorg: myEdorgs) {
-        	Iterable<EntityBody> ents = service.list(new NeutralQuery(new NeutralCriteria("edorgs.authorizedEdorg", "=", myEdorg)));
-        	for (EntityBody body : ents) {
-        			HashMap<String, Object> entity = new HashMap<String, Object>();
-        			String appId = (String) body.get("applicationId");
-        			entity.put("id", appId);
-        			entity.put("appId", appId);
-        			entity.put("authorized", true);
-        			results.add(entity);
-        			allApps.remove(appId);
-        	}
+        for (EntityBody body : ents) {
+            HashMap<String, Object> entity = new HashMap<String, Object>();
+            String appId = (String) body.get("applicationId");
+            entity.put("id", appId);
+            entity.put("appId", appId);
+            entity.put("authorized", true);
+            results.add(entity);
+            allApps.remove(appId);
         }
-
-        for (Map.Entry<String, EntityBody> entry : allApps.entrySet()) {
-        	entry.getKey();
-//            Boolean    autoApprove = (Boolean) entry.get("allowed_for_all_edorgs");
-//            List<String> approvedEdorgs = (List<String>) entry.get("id").get("authorized_ed_orgs");
-//            // user has app auth ability for their own edorg and all child edorgs
-//            if ((autoApprove != null && autoApprove) || (approvedEdorgs != null && CollectionUtils.containsAny(approvedEdorgs, inScopeEdOrgs))) {
-//                HashMap<String, Object> entity = new HashMap<String, Object>();
-//                entity.put("id", entry.getKey());
-//                entity.put("appId", entry.getKey());
-//                entity.put("authorized", false);
-//                results.add(entity);
-//            }
+        for (Map.Entry<String, Entity> entry : allApps.entrySet()) {
+            Boolean    autoApprove = (Boolean) entry.getValue().getBody().get("allowed_for_all_edorgs");
+            List<String> approvedEdorgs = (List<String>) entry.getValue().getBody().get("authorized_ed_orgs");
+            // user has app auth ability for their own edorg and all child edorgs
+            if ((autoApprove != null && autoApprove) || (approvedEdorgs != null && CollectionUtils.containsAny(approvedEdorgs, inScopeEdOrgs))) {
+                HashMap<String, Object> entity = new HashMap<String, Object>();
+                entity.put("id", entry.getKey());
+                entity.put("appId", entry.getKey());
+                entity.put("authorized", false);
+                results.add(entity);
+            }
         }
         return Response.status(Status.OK).entity(results).build();
     }
-
     private void logSecurityEvent(String appId, Collection<String> oldEdOrgs, Collection<String> newEdOrgs) {
         Set<String> oldEO = (oldEdOrgs == null)?Collections.<String>emptySet():new HashSet<String>(oldEdOrgs);
         Set<String> newEO = (newEdOrgs == null)?Collections.<String>emptySet():new HashSet<String>(newEdOrgs);
