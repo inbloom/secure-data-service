@@ -17,3 +17,5 @@ Feature: Databrowser login via the shibboleth idp server
     When I submit the credentials "jstevenson" "jstevenson1234" for the "Shibboleth" login page
     Then I should be redirected to the Data Browser home page
     And I should see my available links labeled
+    And I should navigate to "/entities/system/session/debug"
+    And I should see "IT Administrator" on the page
