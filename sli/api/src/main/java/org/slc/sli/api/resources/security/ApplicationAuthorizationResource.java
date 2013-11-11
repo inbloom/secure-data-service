@@ -41,6 +41,7 @@ import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -152,7 +153,12 @@ public class ApplicationAuthorizationResource {
             List<Map<String,Object>> edOrgs = (List<Map<String,Object>>) appAuth.get("edorgs");
             Map<String,Object> authorizingInfo = getAuthorizingInfo(edOrgs, myEdorgs);
             entity.put("authorized", ( authorizingInfo == null)?false:true);
-            entity.put("edorgs", filter(edOrgs, myEdorgs));
+            Set<String> inScopeEdOrgs = new HashSet<String>();
+            for(String edorgId: myEdorgs) {
+            	inScopeEdOrgs.addAll(getChildEdorgs(edorgId));
+            }
+            inScopeEdOrgs.addAll(myEdorgs);
+            entity.put("edorgs", filter(edOrgs, inScopeEdOrgs));
             return Response.status(Status.OK).entity(entity).build();
         }
 
@@ -429,7 +435,7 @@ public class ApplicationAuthorizationResource {
     		if(!principal.isAdminRealmAuthenticated()) {
     			Set<String> edorgs =  principal.getEdOrgRights().keySet();
     			for(String edorgId: edorgs) {
-    			    if(principal.getEdOrgRights().get(edorgId).contains("APP_AUTHORIZE")) {
+    			    if(principal.getEdOrgRights().get(edorgId).contains(Right.APP_AUTHORIZE)) {
     	    		    edOrgIds.add(edorgId);
     			    }
     			}
