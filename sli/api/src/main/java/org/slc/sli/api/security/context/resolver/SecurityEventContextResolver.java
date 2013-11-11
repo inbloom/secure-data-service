@@ -215,10 +215,7 @@ public class SecurityEventContextResolver implements EntityContextResolver {
             }
         }
 
-        Set<String> allAuthorizedEdOrgIds = edOrgHelper.getChildEdOrgs(explicitlyAuthorizedEdOrgIds);
-        allAuthorizedEdOrgIds.addAll(explicitlyAuthorizedEdOrgIds);
-
-        Set<String> allAuthorizedEdOrgNames = edOrgHelper.getChildEdOrgsName(allAuthorizedEdOrgIds, true);
+        Set<String> allAuthorizedEdOrgNames = edOrgHelper.getChildEdOrgsName(explicitlyAuthorizedEdOrgIds, true);
 
         if (allAuthorizedEdOrgNames.size() > 0) {
             NeutralQuery or = new NeutralQuery();
