@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -60,11 +61,25 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.opensaml.DefaultBootstrap;
+import org.opensaml.saml2.core.Artifact;
 import org.opensaml.saml2.core.ArtifactResolve;
-import org.opensaml.saml2.core.ArtifactResponse;
+import org.opensaml.saml2.core.Issuer;
+import org.opensaml.ws.soap.client.BasicSOAPMessageContext;
+import org.opensaml.ws.soap.client.http.HttpClientBuilder;
+import org.opensaml.ws.soap.client.http.HttpSOAPClient;
+import org.opensaml.ws.soap.common.SOAPException;
+import org.opensaml.ws.soap.soap11.Body;
 import org.opensaml.ws.soap.soap11.Envelope;
-import org.opensaml.ws.soap.soap11.impl.EnvelopeImpl;
+import org.opensaml.xml.Configuration;
+import org.opensaml.xml.ConfigurationException;
 import org.opensaml.xml.XMLObject;
+import org.opensaml.xml.XMLObjectBuilderFactory;
+import org.opensaml.xml.io.MarshallingException;
+import org.opensaml.xml.parse.BasicParserPool;
+import org.opensaml.xml.signature.Signature;
+import org.opensaml.xml.signature.SignatureException;
+import org.opensaml.xml.signature.Signer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -102,7 +117,7 @@ import org.slc.sli.domain.Repository;
 public class SamlFederationResource {
 
     @Autowired
-    private SamlHelper saml;
+    private SamlHelper samlHelper;
 
     @Autowired
     @Qualifier("validationRepo")
@@ -121,7 +136,7 @@ public class SamlFederationResource {
     private OauthSessionManager sessionManager;
 
     @Value("${sli.security.sp.issuerName}")
-    private String metadataSpIssuerName;
+    private String issuerName;
 
     @Value("${sli.api.cookieDomain}")
     private String apiCookieDomain;
@@ -138,6 +153,8 @@ public class SamlFederationResource {
 
     private String metadata;
 
+    private  KeyStore.PrivateKeyEntry pkEntry;
+
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
 
@@ -153,6 +170,9 @@ public class SamlFederationResource {
     @Value("${sli.api.digital.signature.alias:apids}")
     private String keystoreAlias;
 
+    @Value("${sli.security.idp.url}")
+    private String idpUrl;
+
     public static SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 
     private static final String METADATA_TEMPLATE = "saml/samlMetadata-template.vm";
@@ -161,34 +181,20 @@ public class SamlFederationResource {
 
     @SuppressWarnings("unused")
     @PostConstruct
-    private void processMetadata() throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException, UnrecoverableEntryException {
+    private void processKeystoreAndMetadata() throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException, UnrecoverableEntryException {
+        pkEntry = initializeKeystoreEntry();
+
         StringWriter writer = new StringWriter();
 
         Template veTemplate = getTemplate();
         VelocityContext context = new VelocityContext();
-        context.put(TEMPLATE_ISSUER_REFERENCE, metadataSpIssuerName);
+        context.put(TEMPLATE_ISSUER_REFERENCE, issuerName);
         context.put(TEMPLATE_CERTIFICATE_REFERENCE, fetchCertificateText());
         veTemplate.merge(context, writer);
 
         metadata = writer.toString();
     }
 
-    private String fetchCertificateText() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
-        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-        FileInputStream fis = new FileInputStream(keystoreFileName);
-        char[] password = keystorePassword.toCharArray();
-
-        keyStore.load(fis, password);
-        IOUtils.closeQuietly(fis);
-
-        KeyStore.PrivateKeyEntry pkEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(keystoreAlias, new KeyStore.PasswordProtection(password));
-        X509Certificate certificate = (X509Certificate) pkEntry.getCertificate();
-
-        Base64 encoder = new Base64(64);
-        String certificateText = new String(encoder.encode(certificate.getEncoded()));
-
-        return certificateText;
-    }
 
     @POST
     @Path("sso/post")
@@ -200,7 +206,7 @@ public class SamlFederationResource {
         String targetEdOrg = null;
 
         try {
-            doc = saml.decodeSamlPost(postData);
+            doc = samlHelper.decodeSamlPost(postData);
         } catch (Exception e) {
             handleSAMLDecodeError(e, uriInfo.getRequestUri());
         }
@@ -573,11 +579,10 @@ public class SamlFederationResource {
      * @param request
      * @param uriInfo
      * @return
-     * @throws APIAccessDeniedException
      */
     @GET
     @Path("sso/artifact")
-    public Response artifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) throws APIAccessDeniedException {
+    public Response processArtifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) {
         String artifact = request.getParameter("SAMLart");
         if (artifact == null) {
             throw new APIAccessDeniedException("No artifact provided by the IdP");
@@ -588,28 +593,73 @@ public class SamlFederationResource {
 
         XMLObject response = sendSOAPCommunication(soapEnvelope);
 
-        String inResponseTo = getDataFromResponse(response, "InResponseTo");
+        String inResponseTo = samlHelper.getDataFromResponse(response, "InResponseTo");
 
         Entity session = sessionManager.getSessionForSamlId(inResponseTo);
         String requestedRealmId = (String) session.getBody().get("requestedRealmId");
-        Entity realm = getRealm(getDataFromResponse(response, "Issuer"), requestedRealmId);
+        Entity realm = getRealm(samlHelper.getDataFromResponse(response, "Issuer"), requestedRealmId);
 
-        validateCertificate(response);
-        validateConditions(getDataFromResponse(response, "Conditions.NotBefore"), getDataFromResponse(response, "Conditions.NotOnOrAfter"));
-        validateSubject(uriInfo, getDataFromResponse(response, "Subject.SubjectConfirmation.SubjectConfirmationData.Recipient"));
+        samlHelper.validateCertificate(response);
+        validateConditions(samlHelper.getDataFromResponse(response, "Conditions.NotBefore"), samlHelper.getDataFromResponse(response, "Conditions.NotOnOrAfter"));
+        validateSubject(uriInfo, samlHelper.getDataFromResponse(response, "Subject.SubjectConfirmation.SubjectConfirmationData.Recipient"));
 
-        LinkedMultiValueMap<String, String> attributes = extractAttributesFromResponse(response);
+        LinkedMultiValueMap<String, String> attributes = samlHelper.extractAttributesFromResponse(response);
         return authenticateUser(attributes, realm, getTargetEdOrg(realm), inResponseTo, session, uriInfo.getRequestUri());
     }
 
     /**
      *
-     * @param artifact
+     * @param artifactString
+     *      String representation of the artifact token.
      * @return
      */
-    protected ArtifactResolve generateArtifactResolveRequest(String artifact) {
-        //Method stub
-        return null;
+    protected ArtifactResolve generateArtifactResolveRequest(String artifactString) {
+        try {
+            DefaultBootstrap.bootstrap();
+        } catch (ConfigurationException ex) {
+            error("Error composing artifact resolution request: xml object configuration initialization failed", ex);
+            throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
+        }
+
+        XMLObjectBuilderFactory xmlObjectBuilderFactory = Configuration.getBuilderFactory();
+        Artifact artifact = (Artifact) xmlObjectBuilderFactory.getBuilder(Artifact.DEFAULT_ELEMENT_NAME).buildObject(Artifact.DEFAULT_ELEMENT_NAME);
+        artifact.setArtifact(artifactString);
+        Issuer issuer = (Issuer) xmlObjectBuilderFactory.getBuilder(Issuer.DEFAULT_ELEMENT_NAME).buildObject(Issuer.DEFAULT_ELEMENT_NAME);
+        issuer.setValue(issuerName);
+
+        //ToDo: Update to obtain the idp url from realm
+        /*String idpUrl = getArtifactEndpointFromRealm();
+        if(idpUrl == null) {
+            error("Error composing artifact resolution request: IdP endpoint not specified");
+            throw new APIAccessDeniedException("Artifact Resolution endpoint has not been specified for this realm");
+        }*/
+
+        ArtifactResolve artifactResolve =  (ArtifactResolve) xmlObjectBuilderFactory.getBuilder(ArtifactResolve.DEFAULT_ELEMENT_NAME).buildObject(ArtifactResolve.DEFAULT_ELEMENT_NAME);
+        artifactResolve.setIssuer(issuer);
+        artifactResolve.setIssueInstant(new DateTime());
+        artifactResolve.setID(UUID.randomUUID().toString());
+        artifactResolve.setDestination(idpUrl);
+        artifactResolve.setArtifact(artifact);
+
+        Signature signature = samlHelper.getDigitalSignature(pkEntry);
+
+        artifactResolve.setSignature(signature);
+
+        try {
+            Configuration.getMarshallerFactory().getMarshaller(artifactResolve).marshall(artifactResolve);
+        } catch (MarshallingException ex) {
+            error("Error composing artifact resolution request: Marshalling artifact resolution request failed", ex);
+            throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
+        }
+
+        try {
+            Signer.signObject(signature);
+        } catch (SignatureException ex) {
+            error("Error composing artifact resolution request: Failed to sign artifact resolution request", ex);
+            throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
+        }
+
+        return artifactResolve;
     }
 
     /**
@@ -618,8 +668,14 @@ public class SamlFederationResource {
      * @return
      */
     protected Envelope generateSOAPEnvelope(ArtifactResolve artifactResolutionRequest) {
-        //Method Stub
-        return null;
+        XMLObjectBuilderFactory xmlObjectBuilderFactory = Configuration.getBuilderFactory();
+        Envelope envelope = (Envelope) xmlObjectBuilderFactory.getBuilder(Envelope.DEFAULT_ELEMENT_NAME).buildObject(Envelope.DEFAULT_ELEMENT_NAME);
+        Body body = (Body) xmlObjectBuilderFactory.getBuilder(Body.DEFAULT_ELEMENT_NAME).buildObject(Body.DEFAULT_ELEMENT_NAME);
+
+        body.getUnknownXMLObjects().add(artifactResolutionRequest);
+        envelope.setBody(body);
+
+        return envelope;
     }
 
     /**
@@ -628,17 +684,24 @@ public class SamlFederationResource {
      * @return
      */
     protected XMLObject sendSOAPCommunication(Envelope soapEnvelope) {
-        //Method stub
-        return null;
-    }
+        BasicSOAPMessageContext soapContext = new BasicSOAPMessageContext();
+        soapContext.setOutboundMessage(soapEnvelope);
 
+        // Build the SOAP client
+        HttpClientBuilder clientBuilder = new HttpClientBuilder();
+        HttpSOAPClient soapClient = new HttpSOAPClient(clientBuilder.buildClient(), new BasicParserPool());
 
-    /**
-     *
-     * @param response
-     */
-    protected void validateCertificate(XMLObject response) {
-        //Method Stub
+        try {
+            soapClient.send(idpUrl, soapContext);
+        } catch (SOAPException ex) {
+            error("SOAP communication with IDP failed");
+            throw new IllegalArgumentException("Access Denied: Communication to IdP failed", ex);
+        } catch (org.opensaml.xml.security.SecurityException ex) {
+            error("SOAP communication with IDP failed");
+            throw new IllegalArgumentException("Access Denied: Communication to IdP failed", ex);
+        }
+
+        return soapContext.getInboundMessage();
     }
 
     /**
@@ -649,26 +712,6 @@ public class SamlFederationResource {
     protected String getTargetEdOrg(Entity realm) {
         //Method Stub
         return "";
-    }
-
-    /**
-     *
-     * @param response
-     * @param name
-     * @return
-     */
-    protected String getDataFromResponse(XMLObject response, String name) {
-        //Method Stub
-        return "";
-    }
-
-    /**
-     *
-     * @param response
-     * @return
-     */
-    protected LinkedMultiValueMap<String, String> extractAttributesFromResponse(XMLObject response) {
-        return new LinkedMultiValueMap<String, String>();
     }
 
     /**
@@ -687,6 +730,26 @@ public class SamlFederationResource {
      */
     protected void validateSubject(UriInfo uriInfo, String recipient) {
         //Method Stub
+    }
+
+    private String fetchCertificateText() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
+        X509Certificate certificate = (X509Certificate) pkEntry.getCertificate();
+
+        Base64 encoder = new Base64(64);
+        String certificateText = new String(encoder.encode(certificate.getEncoded()));
+
+        return certificateText;
+    }
+
+    private KeyStore.PrivateKeyEntry initializeKeystoreEntry() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
+        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        FileInputStream fis = new FileInputStream(keystoreFileName);
+        char[] password = keystorePassword.toCharArray();
+
+        keyStore.load(fis, password);
+        IOUtils.closeQuietly(fis);
+
+        return (KeyStore.PrivateKeyEntry) keyStore.getEntry(keystoreAlias, new KeyStore.PasswordProtection(password));
     }
 
     /**

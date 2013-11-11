@@ -34,7 +34,9 @@ import javax.ws.rs.core.UriInfo;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
+import org.opensaml.saml2.core.ArtifactResolve;
+import org.opensaml.ws.soap.soap11.Envelope;
+import org.opensaml.xml.io.UnmarshallingException;
 import org.jdom.Content;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
@@ -49,6 +51,7 @@ import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -76,6 +79,12 @@ public class SamlFederationResourceTest {
 
     @Autowired
     SamlFederationResource resource;
+
+    @Value("${sli.security.sp.issuerName}")
+    private String issuerName;
+
+    @Value("${sli.security.idp.url}")
+    private String idpUrl;
 
     public static SimpleDateFormat ft = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa");
 
@@ -125,6 +134,24 @@ public class SamlFederationResourceTest {
         Mockito.when(securityEventBuilder.createSecurityEvent(any(String.class), any(URI.class), any(String.class), anyBoolean())).thenReturn(event);
         resource.consume(postData, uriInfo);
         Mockito.verify(securityEventBuilder, times(1)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), anyBoolean());
+    }
+
+    @Test
+    public void generateArtifactRequestTest() throws UnmarshallingException {
+        ArtifactResolve ar = resource.generateArtifactResolveRequest("test1234");
+        Assert.assertEquals("test1234", ar.getArtifact().getArtifact());
+        Assert.assertTrue(ar.isSigned());
+        Assert.assertNotNull(ar.getSignature().getKeyInfo().getX509Datas());
+        Assert.assertEquals(ar.getDestination(), idpUrl);
+        Assert.assertEquals(issuerName, ar.getIssuer().getValue());
+    }
+
+    @Test
+    public void generateSOAPEnvelopeTest() {
+        ArtifactResolve artifactRequest = Mockito.mock(ArtifactResolve.class);
+        Envelope env = resource.generateSOAPEnvelope(artifactRequest);
+        Assert.assertEquals(artifactRequest, env.getBody().getUnknownXMLObjects().get(0));
+        Assert.assertEquals(Envelope.DEFAULT_ELEMENT_NAME, env.getElementQName());
     }
 
 }

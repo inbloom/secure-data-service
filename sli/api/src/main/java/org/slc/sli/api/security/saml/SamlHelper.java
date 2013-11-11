@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URLEncoder;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
 import java.util.UUID;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
@@ -47,10 +50,19 @@ import org.jdom.output.DOMOutputter;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.ISODateTimeFormat;
+import org.opensaml.xml.Configuration;
+import org.opensaml.xml.XMLObject;
+import org.opensaml.xml.security.SecurityConfiguration;
+import org.opensaml.xml.security.SecurityHelper;
+import org.opensaml.xml.security.credential.Credential;
+import org.opensaml.xml.security.x509.BasicX509Credential;
+import org.opensaml.xml.signature.Signature;
+import org.opensaml.xml.signature.SignatureConstants;
 import org.slc.sli.common.encrypt.security.saml2.SAML2Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
@@ -279,4 +291,65 @@ public class SamlHelper {
         return URLEncoder.encode(base64, "UTF-8");
     }
 
+    public Signature getDigitalSignature(KeyStore.PrivateKeyEntry keystoreEntry) {
+        Signature signature = (Signature) Configuration.getBuilderFactory().getBuilder(Signature.DEFAULT_ELEMENT_NAME)
+                .buildObject(Signature.DEFAULT_ELEMENT_NAME);
+
+        Credential signingCredential = initializeCredentialsFromKeystore(keystoreEntry);
+        signature.setSigningCredential(signingCredential);
+
+        signature.setSignatureAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA1);
+
+        SecurityConfiguration secConfig = Configuration.getGlobalSecurityConfiguration();
+        try {
+            SecurityHelper.prepareSignatureParams(signature, signingCredential, secConfig, null);
+        } catch (org.opensaml.xml.security.SecurityException  ex) {
+            error("Error composing artifact resolution request: Failed to generate digital signature");
+            throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
+        }
+
+        return signature;
+    }
+
+    private Credential initializeCredentialsFromKeystore(KeyStore.PrivateKeyEntry keystoreEntry) {
+        BasicX509Credential signingCredential = new BasicX509Credential();
+
+        PrivateKey pk = keystoreEntry.getPrivateKey();
+        X509Certificate certificate = (X509Certificate) keystoreEntry.getCertificate();
+
+        signingCredential.setEntityCertificate(certificate);
+        signingCredential.setPrivateKey(pk);
+
+        return signingCredential;
+    }
+
+    /**
+     *
+     * @param response
+     */
+    public void validateCertificate(XMLObject response) {
+        //Method Stub
+    }
+
+
+
+    /**
+     *
+     * @param response
+     * @param name
+     * @return
+     */
+    public String getDataFromResponse(XMLObject response, String name) {
+        //Method Stub
+        return "";
+    }
+
+    /**
+     *
+     * @param response
+     * @return
+     */
+    public LinkedMultiValueMap<String, String> extractAttributesFromResponse(XMLObject response) {
+        return new LinkedMultiValueMap<String, String>();
+    }
 }
