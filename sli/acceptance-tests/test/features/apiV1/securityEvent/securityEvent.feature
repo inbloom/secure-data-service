@@ -82,3 +82,33 @@ Scenario: IT Administrators can see security events for their edOrgs
   And each entity's "entityType" should be "<ENTITY TYPE>"
   And each securityEvent's targetEdOrgList should contain at least one of "<IL_SUNSET_OR_IL_LONGWOOD_OR_SUNSET_CENTRAL>"
 
+
+Scenario: None can DELETE events through security API
+    Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
+    And format "application/vnd.slc+json"
+    And parameter "limit" is "0"
+    When I navigate to DELETE "/securityEvent/07623f03-126e-427d-9ed4-29562388cdcc"
+    Then I should receive a return code of 405
+
+Scenario: None can PATCH events through security API
+    Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
+    And format "application/vnd.slc+json"
+    And parameter "limit" is "0"
+    When I navigate to PATCH "/securityEvent/07623f03-126e-427d-9ed4-29562388cdcc"
+    Then I should receive a return code of 405
+
+Scenario: None can PUT events through security API
+    Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
+    And format "application/vnd.slc+json"
+    When I navigate to GET "/securityEvent/07623f03-126e-427d-9ed4-29562388cdcc"
+    Then I should receive a return code of 200
+    When I create an empty json object to PUT
+    And I navigate to PUT "/securityEvent/07623f03-126e-427d-9ed4-29562388cdcc"
+    Then I should receive a return code of 405
+
+Scenario: None can POST events through security API
+    Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
+    And format "application/vnd.slc+json"
+    When I create an empty json object to POST
+    And I navigate to POST "/securityEvent"
+    Then I should receive a return code of 405
