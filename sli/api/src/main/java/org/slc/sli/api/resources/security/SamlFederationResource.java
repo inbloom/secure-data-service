@@ -60,6 +60,11 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.opensaml.saml2.core.ArtifactResolve;
+import org.opensaml.saml2.core.ArtifactResponse;
+import org.opensaml.ws.soap.soap11.Envelope;
+import org.opensaml.ws.soap.soap11.impl.EnvelopeImpl;
+import org.opensaml.xml.XMLObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -561,6 +566,127 @@ public class SamlFederationResource {
         }
 
         return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    /**
+     * Handles artifact binding request.
+     * @param request
+     * @param uriInfo
+     * @return
+     * @throws APIAccessDeniedException
+     */
+    @GET
+    @Path("sso/artifact")
+    public Response artifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) throws APIAccessDeniedException {
+        String artifact = request.getParameter("SAMLart");
+        if (artifact == null) {
+            throw new APIAccessDeniedException("No artifact provided by the IdP");
+        }
+
+        ArtifactResolve artifactResolve = generateArtifactResolveRequest(artifact);
+        Envelope soapEnvelope = generateSOAPEnvelope(artifactResolve);
+
+        XMLObject response = sendSOAPCommunication(soapEnvelope);
+
+        String inResponseTo = getDataFromResponse(response, "InResponseTo");
+
+        Entity session = sessionManager.getSessionForSamlId(inResponseTo);
+        String requestedRealmId = (String) session.getBody().get("requestedRealmId");
+        Entity realm = getRealm(getDataFromResponse(response, "Issuer"), requestedRealmId);
+
+        validateCertificate(response);
+        validateConditions(getDataFromResponse(response, "Conditions.NotBefore"), getDataFromResponse(response, "Conditions.NotOnOrAfter"));
+        validateSubject(uriInfo, getDataFromResponse(response, "Subject.SubjectConfirmation.SubjectConfirmationData.Recipient"));
+
+        LinkedMultiValueMap<String, String> attributes = extractAttributesFromResponse(response);
+        return authenticateUser(attributes, realm, getTargetEdOrg(realm), inResponseTo, session, uriInfo.getRequestUri());
+    }
+
+    /**
+     *
+     * @param artifact
+     * @return
+     */
+    protected ArtifactResolve generateArtifactResolveRequest(String artifact) {
+        //Method stub
+        return null;
+    }
+
+    /**
+     *
+     * @param artifactResolutionRequest
+     * @return
+     */
+    protected Envelope generateSOAPEnvelope(ArtifactResolve artifactResolutionRequest) {
+        //Method Stub
+        return null;
+    }
+
+    /**
+     *
+     * @param soapEnvelope
+     * @return
+     */
+    protected XMLObject sendSOAPCommunication(Envelope soapEnvelope) {
+        //Method stub
+        return null;
+    }
+
+
+    /**
+     *
+     * @param response
+     */
+    protected void validateCertificate(XMLObject response) {
+        //Method Stub
+    }
+
+    /**
+     *
+     * @param realm
+     * @return
+     */
+    protected String getTargetEdOrg(Entity realm) {
+        //Method Stub
+        return "";
+    }
+
+    /**
+     *
+     * @param response
+     * @param name
+     * @return
+     */
+    protected String getDataFromResponse(XMLObject response, String name) {
+        //Method Stub
+        return "";
+    }
+
+    /**
+     *
+     * @param response
+     * @return
+     */
+    protected LinkedMultiValueMap<String, String> extractAttributesFromResponse(XMLObject response) {
+        return new LinkedMultiValueMap<String, String>();
+    }
+
+    /**
+     *
+     * @param notBefore
+     * @param notOnOrAfter
+     */
+    protected void validateConditions(String notBefore, String notOnOrAfter) {
+        //Method Stub
+    }
+
+    /**
+     *
+     * @param uriInfo
+     * @param recipient
+     */
+    protected void validateSubject(UriInfo uriInfo, String recipient) {
+        //Method Stub
     }
 
     /**
