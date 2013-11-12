@@ -301,7 +301,8 @@ public class AppInfo extends Annotation {
             if (right.equals(Right.FULL_ACCESS)) {
                 values.put(WRITE_ENFORCEMENT_ELEMENT_NAME, toSet(Right.FULL_ACCESS.toString()));
             } else if (right.equals(Right.ADMIN_ACCESS)) {
-                if (!getWriteAuthorities().contains(Right.FULL_ACCESS)) {
+                //Disable ADMIN_ACCESS inheritance for US5865
+                if (!getWriteAuthorities().contains(Right.FULL_ACCESS) && (parentInfo != null && !parentInfo.getWriteAuthorities().contains(Right.APP_AUTHORIZE))) {
                     values.put(WRITE_ENFORCEMENT_ELEMENT_NAME, toSet(Right.ADMIN_ACCESS.toString()));
                 }
             } else if (right.equals(Right.WRITE_RESTRICTED)) {
