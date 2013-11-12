@@ -209,17 +209,6 @@ module EdorgTreeHelper
         new_children.push(cinf[:id])
         @edinf[cinf[:id]] = cinf
 
-        computed_aggregate_authorized = true
-        computed_aggregate_enabled = false
-
-        @edinf[cinf[:id]][:children].each {| child_id |
-          computed_aggregate_enabled = computed_aggregate_enabled || @edinf[child_id][:enabled]
-          computed_aggregate_authorized = computed_aggregate_authorized && @edinf[child_id][:authorized]
-        }
-
-        @edinf[cinf[:id]][:agg_enabled] = computed_aggregate_enabled
-        @edinf[cinf[:id]][:agg_authorized] = computed_aggregate_authorized
-
         if @forAppAuthorization
           agg_enabled = agg_enabled || cinf[:enabled]
         else
@@ -228,6 +217,16 @@ module EdorgTreeHelper
         if cinf[:enabled]
           agg_authorized = agg_authorized && cinf[:authorized]
         end
+
+        #DE2979
+        computed_aggregate_authorized = true
+        computed_aggregate_enabled = false
+        @edinf[cinf[:id]][:children].each {| child_id |
+          computed_aggregate_enabled = computed_aggregate_enabled || @edinf[child_id][:enabled]
+          computed_aggregate_authorized = computed_aggregate_authorized && @edinf[child_id][:authorized]
+        }
+        @edinf[cinf[:id]][:agg_enabled] = computed_aggregate_enabled
+        @edinf[cinf[:id]][:agg_authorized] = computed_aggregate_authorized
       end
 
       @edinf[id][:children] = new_children
@@ -295,11 +294,12 @@ module EdorgTreeHelper
 
       is_category = id.start_with?(CATEGORY_NODE_PREFIX) || id == ROOT_ID
 
-      isCheckable = if @forAppAuthorization then eo[:enabled] else true end
       if !is_category
+        isCheckable = if @forAppAuthorization then eo[:enabled] else true end
         isChecked = if @forAppAuthorization then eo[:authorized] else eo[:enabled] end
       else
         isChecked = if @forAppAuthorization then eo[:agg_authorized] else eo[:agg_enabled] end
+        isCheckable = if @forAppAuthorization then eo[:agg_enabled] else true end
       end
 
       # <input>
