@@ -3,11 +3,11 @@ Feature: Databrowser login via the shibboleth idp server
 
   Background:
     Given that databrowser has been authorized for all ed orgs
-
-  Scenario:
     Given I have an open web browser
     And I navigated to the Data Browser Home URL
     And I was redirected to the Realm page
+
+  Scenario: Successfully login as an IT Administrator
     And I select "Shibboleth Daybreak" from the dropdown and click go
     And I was redirected to the "Shibboleth" IDP Login page
     When I submit the credentials "wronguser" "wrongpassword" for the "Shibboleth" login page
@@ -18,4 +18,11 @@ Feature: Databrowser login via the shibboleth idp server
     Then I should be redirected to the Data Browser home page
     And I should see my available links labeled
     And I should navigate to "/entities/system/session/debug"
+    And I should see "James Stevenson" on the page
     And I should see "IT Administrator" on the page
+
+  Scenario: Unable to use databrowser as an Educator
+    And I select "Shibboleth Daybreak" from the dropdown and click go
+    And I was redirected to the "Shibboleth" IDP Login page
+    When I submit the credentials "cgray" "cgray1234" for the "Shibboleth" login page
+    Then I get message that I am not authorized
