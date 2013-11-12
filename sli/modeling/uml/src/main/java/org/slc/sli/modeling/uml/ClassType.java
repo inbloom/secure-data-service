@@ -22,10 +22,16 @@ import java.util.List;
 /**
  * The meta-data for a class.
  */
-public class ClassType extends ComplexType implements Navigable {
+public class ClassType extends ComplexType implements Navigable, Comparable<ClassType> {
     private static final List<Attribute> EMPTY_ATTRIBUTE_LIST = Collections.emptyList();
     private static final String BEGIN_DATE = "dataStore.beginDate";
     private static final String END_DATE = "dataStore.endDate";
+
+
+    @Override
+    public int compareTo(ClassType obj) {
+    	return 0;
+    }
     /**
      * Checks the invariant that either both ends are specified or both omitted.
      */
