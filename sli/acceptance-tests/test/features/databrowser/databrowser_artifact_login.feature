@@ -1,5 +1,5 @@
 @RALLY_US5959
-Feature: Databrowser login via the shibboleth idp server
+Feature: Databrowser login via an artifact binding idp server
 
   Background:
     Given that databrowser has been authorized for all ed orgs
@@ -8,7 +8,7 @@ Feature: Databrowser login via the shibboleth idp server
     And I was redirected to the Realm page
 
   Scenario: Successfully login as an IT Administrator
-    And I select "Shibboleth Daybreak" from the dropdown and click go
+    And I select "Artifact Daybreak" from the dropdown and click go
     And I was redirected to the "Shibboleth" IDP Login page
     When I submit the credentials "wronguser" "wrongpassword" for the "Shibboleth" login page
     Then I should see a login failed message
@@ -22,7 +22,7 @@ Feature: Databrowser login via the shibboleth idp server
     And I should see "IT Administrator" on the page
 
   Scenario: Unable to use databrowser as an Educator
-    And I select "Shibboleth Daybreak" from the dropdown and click go
+    And I select "Artifact Daybreak" from the dropdown and click go
     And I was redirected to the "Shibboleth" IDP Login page
     When I submit the credentials "cgray" "cgray1234" for the "Shibboleth" login page
     Then I get message that I am not authorized
