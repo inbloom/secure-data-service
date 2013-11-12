@@ -64,13 +64,19 @@ import org.joda.time.DateTimeZone;
 import org.opensaml.DefaultBootstrap;
 import org.opensaml.saml2.core.Artifact;
 import org.opensaml.saml2.core.ArtifactResolve;
+import org.opensaml.saml2.core.ArtifactResponse;
+import org.opensaml.saml2.core.Assertion;
+import org.opensaml.saml2.core.Conditions;
 import org.opensaml.saml2.core.Issuer;
+import org.opensaml.saml2.core.Subject;
+import org.opensaml.saml2.core.SubjectConfirmationData;
 import org.opensaml.ws.soap.client.BasicSOAPMessageContext;
 import org.opensaml.ws.soap.client.http.HttpClientBuilder;
 import org.opensaml.ws.soap.client.http.HttpSOAPClient;
 import org.opensaml.ws.soap.common.SOAPException;
 import org.opensaml.ws.soap.soap11.Body;
 import org.opensaml.ws.soap.soap11.Envelope;
+import org.opensaml.ws.soap.soap11.impl.EnvelopeImpl;
 import org.opensaml.xml.Configuration;
 import org.opensaml.xml.ConfigurationException;
 import org.opensaml.xml.XMLObject;
@@ -120,6 +126,15 @@ public class SamlFederationResource {
     private SamlHelper samlHelper;
 
     @Autowired
+    private KeystoreHelper keystoreHelper;
+
+    @Autowired
+    private ArtifactBindingHelper artifactBindingHelper;
+
+    @Autowired
+    private SOAPHelper soapHelper;
+
+    @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
@@ -161,15 +176,6 @@ public class SamlFederationResource {
     @Autowired
     private EdOrgContextualRoleBuilder edOrgRoleBuilder;
 
-    @Value("${sli.api.keyStore:../data-access/dal/keyStore/ciKeyStore.jks}")
-    private String keystoreFileName;
-
-    @Value("${sli.api.keystore.password:changeit}")
-    private String keystorePassword;
-
-    @Value("${sli.api.digital.signature.alias:apids}")
-    private String keystoreAlias;
-
     @Value("${sli.security.idp.url}")
     private String idpUrl;
 
@@ -178,12 +184,11 @@ public class SamlFederationResource {
     private static final String METADATA_TEMPLATE = "saml/samlMetadata-template.vm";
     private static final String TEMPLATE_ISSUER_REFERENCE = "spIssuerName";
     private static final String TEMPLATE_CERTIFICATE_REFERENCE = "certificateText";
-    private static final String KEYSTORE_TYPE = "JCEKS";
 
     @SuppressWarnings("unused")
     @PostConstruct
     private void processKeystoreAndMetadata() throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException, UnrecoverableEntryException {
-        pkEntry = initializeKeystoreEntry();
+        pkEntry = keystoreHelper.initializeKeystoreEntry();
 
         StringWriter writer = new StringWriter();
 
@@ -234,7 +239,7 @@ public class SamlFederationResource {
             validateSubject(uriInfo.getRequestUri(), subjConfirmationData.getAttributeValue("Recipient"), subjConfirmationData.getAttributeValue("NotBefore"),
                     subjConfirmationData.getAttributeValue("NotOnOrAfter"), targetEdOrg);
         } else {
-            generateSamlValidationError("SAML response is missing Subject.", targetEdOrg);
+            raiseSamlValidationError("SAML response is missing Subject.", targetEdOrg);
         }
 
         LinkedMultiValueMap<String, String> attributes = getAttributesFromAssertion(assertion);
@@ -267,10 +272,10 @@ public class SamlFederationResource {
 
         audit(event);
 
-        generateSamlValidationError(e.getMessage(), null);
+        raiseSamlValidationError(e.getMessage(), null);
     }
 
-    private void generateSamlValidationError(String message, String targetEdOrg) {
+    private void raiseSamlValidationError(String message, String targetEdOrg) {
         error(message);
         throw new APIAccessDeniedException("Authorization could not be verified.", targetEdOrg);
     }
@@ -285,7 +290,7 @@ public class SamlFederationResource {
 
         Entity realm = repo.findOne("realm", neutralQuery);
         if (realm == null) {
-            generateSamlValidationError("Invalid realm: " + issuer, null);
+            raiseSamlValidationError("Invalid realm: " + issuer, null);
         }
 
         return realm;
@@ -302,14 +307,14 @@ public class SamlFederationResource {
 
     private void validateTimeRange(String errorMessagePrefix, String notBefore, String notOnOrAfter, String targetEdOrg) {
         if (!isTimeInRange(notBefore, notOnOrAfter)) {
-            generateSamlValidationError(errorMessagePrefix + "  Current time not in range " + notBefore + " to "
+            raiseSamlValidationError(errorMessagePrefix + "  Current time not in range " + notBefore + " to "
                     + notOnOrAfter + ".", targetEdOrg);
         }
     }
 
     private void validateSubject(URI uri, String recipient, String notBefore, String notOnOrAfter, String targetEdOrg) {
         if (!uri.toString().equals(recipient)) {
-            generateSamlValidationError("SAML Recipient was invalid, was " + recipient, targetEdOrg);
+            raiseSamlValidationError("SAML Recipient was invalid, was " + recipient, targetEdOrg);
         }
 
         validateTimeRange("SAML Subject failed.", notBefore, notOnOrAfter, targetEdOrg);
@@ -636,127 +641,52 @@ public class SamlFederationResource {
             throw new APIAccessDeniedException("No artifact provided by the IdP");
         }
 
-        ArtifactResolve artifactResolve = generateArtifactResolveRequest(artifact);
-        Envelope soapEnvelope = generateSOAPEnvelope(artifactResolve);
+        ArtifactResolve artifactResolve = artifactBindingHelper.generateArtifactResolveRequest(artifact, pkEntry);
+        Envelope soapEnvelope = artifactBindingHelper.generateSOAPEnvelope(artifactResolve);
 
-        XMLObject response = sendSOAPCommunication(soapEnvelope);
+        XMLObject response = soapHelper.sendSOAPCommunication(soapEnvelope, idpUrl);
 
-        return processResponse(uriInfo, response);
+        ArtifactResponse artifactResponse = (ArtifactResponse)((EnvelopeImpl) response).getBody().getUnknownXMLObjects().get(0);
+        org.opensaml.saml2.core.Response samlResponse = (org.opensaml.saml2.core.Response) artifactResponse.getMessage();
+
+        return processResponse(uriInfo, samlResponse);
     }
 
-    private Response processResponse(UriInfo uriInfo, XMLObject response) {
-        String inResponseTo = samlHelper.getDataFromResponse(response, "InResponseTo");
+    private Response processResponse(UriInfo uriInfo, org.opensaml.saml2.core.Response samlResponse) {
+        samlHelper.validateCertificate(samlResponse);
 
+        String inResponseTo = samlResponse.getInResponseTo();
         Entity session = sessionManager.getSessionForSamlId(inResponseTo);
         String requestedRealmId = (String) session.getBody().get("requestedRealmId");
-        Entity realm = getRealm(samlHelper.getDataFromResponse(response, "Issuer"), requestedRealmId);
+        Entity realm = getRealm(samlResponse.getIssuer().getValue(), requestedRealmId);
         String targetEdOrg = getTargetEdOrg(realm);
 
-        samlHelper.validateCertificate(response);
-        validateTimeRange("SAML Conditions failed.", samlHelper.getDataFromResponse(response, "Conditions.NotBefore"), samlHelper.getDataFromResponse(response, "Conditions.NotOnOrAfter"), targetEdOrg);
-        validateSubject(uriInfo.getRequestUri(), samlHelper.getDataFromResponse(response, "Subject.SubjectConfirmation.SubjectConfirmationData.Recipient"),
-                samlHelper.getDataFromResponse(response, "Conditions.NotBefore"), samlHelper.getDataFromResponse(response, "Conditions.NotOnOrAfter"), targetEdOrg);
+        Assertion assertion = samlResponse.getAssertions().get(0);
 
-        LinkedMultiValueMap<String, String> attributes = samlHelper.extractAttributesFromResponse(response);
+        Conditions conditions = assertion.getConditions();
+        if(conditions != null) {
+            String notBefore = conditions.getNotBefore() == null ? null : conditions.getNotBefore().toString();
+            String notOnOrAfter = conditions.getNotOnOrAfter() == null ? null : conditions.getNotOnOrAfter().toString();
+            validateTimeRange("SAML Conditions failed.", notBefore, notOnOrAfter, targetEdOrg);
+        }
+
+        Subject subject = assertion.getSubject();
+        if (subject != null) {
+            SubjectConfirmationData subjectConfirmationData = subject.getSubjectConfirmations().get(0).getSubjectConfirmationData();
+            String notBefore = subjectConfirmationData.getNotBefore() == null ? null : subjectConfirmationData.getNotBefore().toString();
+            String notOnOrAfter = subjectConfirmationData.getNotOnOrAfter() == null ? null : subjectConfirmationData.getNotOnOrAfter().toString();
+
+            validateSubject(uriInfo.getAbsolutePath(), subjectConfirmationData.getRecipient(), notBefore, notOnOrAfter, targetEdOrg);
+        } else {
+            raiseSamlValidationError("SAML response is missing Subject.", targetEdOrg);
+        }
+
+        LinkedMultiValueMap<String, String> attributes = samlHelper.extractAttributesFromResponse(assertion);
+
         return authenticateUser(attributes, realm, targetEdOrg, inResponseTo, session, uriInfo.getRequestUri());
     }
 
-    /**
-     *
-     * @param artifactString
-     *      String representation of the artifact token.
-     * @return
-     */
-    protected ArtifactResolve generateArtifactResolveRequest(String artifactString) {
-        try {
-            DefaultBootstrap.bootstrap();
-        } catch (ConfigurationException ex) {
-            error("Error composing artifact resolution request: xml object configuration initialization failed", ex);
-            throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
-        }
 
-        XMLObjectBuilderFactory xmlObjectBuilderFactory = Configuration.getBuilderFactory();
-        Artifact artifact = (Artifact) xmlObjectBuilderFactory.getBuilder(Artifact.DEFAULT_ELEMENT_NAME).buildObject(Artifact.DEFAULT_ELEMENT_NAME);
-        artifact.setArtifact(artifactString);
-        Issuer issuer = (Issuer) xmlObjectBuilderFactory.getBuilder(Issuer.DEFAULT_ELEMENT_NAME).buildObject(Issuer.DEFAULT_ELEMENT_NAME);
-        issuer.setValue(issuerName);
-
-        //ToDo: Update to obtain the idp url from realm
-        /*String idpUrl = getArtifactEndpointFromRealm();
-        if(idpUrl == null) {
-            error("Error composing artifact resolution request: IdP endpoint not specified");
-            throw new APIAccessDeniedException("Artifact Resolution endpoint has not been specified for this realm");
-        }*/
-
-        ArtifactResolve artifactResolve =  (ArtifactResolve) xmlObjectBuilderFactory.getBuilder(ArtifactResolve.DEFAULT_ELEMENT_NAME).buildObject(ArtifactResolve.DEFAULT_ELEMENT_NAME);
-        artifactResolve.setIssuer(issuer);
-        artifactResolve.setIssueInstant(new DateTime());
-        artifactResolve.setID(UUID.randomUUID().toString());
-        artifactResolve.setDestination(idpUrl);
-        artifactResolve.setArtifact(artifact);
-
-        Signature signature = samlHelper.getDigitalSignature(pkEntry);
-
-        artifactResolve.setSignature(signature);
-
-        try {
-            Configuration.getMarshallerFactory().getMarshaller(artifactResolve).marshall(artifactResolve);
-        } catch (MarshallingException ex) {
-            error("Error composing artifact resolution request: Marshalling artifact resolution request failed", ex);
-            throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
-        }
-
-        try {
-            Signer.signObject(signature);
-        } catch (SignatureException ex) {
-            error("Error composing artifact resolution request: Failed to sign artifact resolution request", ex);
-            throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
-        }
-
-        return artifactResolve;
-    }
-
-    /**
-     *
-     * @param artifactResolutionRequest
-     * @return
-     */
-    protected Envelope generateSOAPEnvelope(ArtifactResolve artifactResolutionRequest) {
-        XMLObjectBuilderFactory xmlObjectBuilderFactory = Configuration.getBuilderFactory();
-        Envelope envelope = (Envelope) xmlObjectBuilderFactory.getBuilder(Envelope.DEFAULT_ELEMENT_NAME).buildObject(Envelope.DEFAULT_ELEMENT_NAME);
-        Body body = (Body) xmlObjectBuilderFactory.getBuilder(Body.DEFAULT_ELEMENT_NAME).buildObject(Body.DEFAULT_ELEMENT_NAME);
-
-        body.getUnknownXMLObjects().add(artifactResolutionRequest);
-        envelope.setBody(body);
-
-        return envelope;
-    }
-
-    /**
-     *
-     * @param soapEnvelope
-     * @return
-     */
-    protected XMLObject sendSOAPCommunication(Envelope soapEnvelope) {
-        BasicSOAPMessageContext soapContext = new BasicSOAPMessageContext();
-        soapContext.setOutboundMessage(soapEnvelope);
-
-        // Build the SOAP client
-        HttpClientBuilder clientBuilder = new HttpClientBuilder();
-        HttpSOAPClient soapClient = new HttpSOAPClient(clientBuilder.buildClient(), new BasicParserPool());
-
-        try {
-            soapClient.send(idpUrl, soapContext);
-        } catch (SOAPException ex) {
-            error("SOAP communication with IDP failed", ex);
-            throw new IllegalArgumentException("Access Denied: Communication to IdP failed", ex);
-        } catch (org.opensaml.xml.security.SecurityException ex) {
-            error("SOAP communication with IDP failed", ex);
-            throw new IllegalArgumentException("Access Denied: Communication to IdP failed", ex);
-        }
-
-        return soapContext.getInboundMessage();
-    }
 
     private String fetchCertificateText() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
         X509Certificate certificate = (X509Certificate) pkEntry.getCertificate();
@@ -767,16 +697,6 @@ public class SamlFederationResource {
         return certificateText;
     }
 
-    private KeyStore.PrivateKeyEntry initializeKeystoreEntry() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
-        KeyStore keyStore = KeyStore.getInstance(KEYSTORE_TYPE);
-        FileInputStream fis = new FileInputStream(keystoreFileName);
-        char[] password = keystorePassword.toCharArray();
-
-        keyStore.load(fis, password);
-        IOUtils.closeQuietly(fis);
-
-        return (KeyStore.PrivateKeyEntry) keyStore.getEntry(keystoreAlias, new KeyStore.PasswordProtection(password));
-    }
 
     /**
      * Check that the current time is within the specified range.

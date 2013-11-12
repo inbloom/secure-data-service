@@ -80,12 +80,6 @@ public class SamlFederationResourceTest {
     @Autowired
     SamlFederationResource resource;
 
-    @Value("${sli.security.sp.issuerName}")
-    private String issuerName;
-
-    @Value("${sli.security.idp.url}")
-    private String idpUrl;
-
     public static SimpleDateFormat ft = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa");
 
     @Test
@@ -134,24 +128,6 @@ public class SamlFederationResourceTest {
         Mockito.when(securityEventBuilder.createSecurityEvent(any(String.class), any(URI.class), any(String.class), anyBoolean())).thenReturn(event);
         resource.consume(postData, uriInfo);
         Mockito.verify(securityEventBuilder, times(1)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), anyBoolean());
-    }
-
-    @Test
-    public void generateArtifactRequestTest() throws UnmarshallingException {
-        ArtifactResolve ar = resource.generateArtifactResolveRequest("test1234");
-        Assert.assertEquals("test1234", ar.getArtifact().getArtifact());
-        Assert.assertTrue(ar.isSigned());
-        Assert.assertNotNull(ar.getSignature().getKeyInfo().getX509Datas());
-        Assert.assertEquals(ar.getDestination(), idpUrl);
-        Assert.assertEquals(issuerName, ar.getIssuer().getValue());
-    }
-
-    @Test
-    public void generateSOAPEnvelopeTest() {
-        ArtifactResolve artifactRequest = Mockito.mock(ArtifactResolve.class);
-        Envelope env = resource.generateSOAPEnvelope(artifactRequest);
-        Assert.assertEquals(artifactRequest, env.getBody().getUnknownXMLObjects().get(0));
-        Assert.assertEquals(Envelope.DEFAULT_ELEMENT_NAME, env.getElementQName());
     }
 
 }

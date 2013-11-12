@@ -25,6 +25,7 @@ import java.net.URLEncoder;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
+import java.util.List;
 import java.util.UUID;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
@@ -50,6 +51,9 @@ import org.jdom.output.DOMOutputter;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.ISODateTimeFormat;
+import org.opensaml.saml2.core.ArtifactResponse;
+import org.opensaml.saml2.core.Assertion;
+import org.opensaml.saml2.core.AttributeStatement;
 import org.opensaml.xml.Configuration;
 import org.opensaml.xml.XMLObject;
 import org.opensaml.xml.security.SecurityConfiguration;
@@ -325,31 +329,29 @@ public class SamlHelper {
 
     /**
      *
-     * @param response
+     * @param samlResponse
      */
-    public void validateCertificate(XMLObject response) {
-        //Method Stub
-    }
-
-
-
-    /**
-     *
-     * @param response
-     * @param name
-     * @return
-     */
-    public String getDataFromResponse(XMLObject response, String name) {
-        //Method Stub
-        return "";
+    public void validateCertificate(org.opensaml.saml2.core.Response samlResponse) {
+        Signature signature = samlResponse.getAssertions().get(0).getSignature();
     }
 
     /**
      *
-     * @param response
+     * @param samlAssertion
      * @return
      */
-    public LinkedMultiValueMap<String, String> extractAttributesFromResponse(XMLObject response) {
-        return new LinkedMultiValueMap<String, String>();
+    public LinkedMultiValueMap<String, String> extractAttributesFromResponse(Assertion samlAssertion) {
+        LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
+
+        AttributeStatement attributeStatement = samlAssertion.getAttributeStatements().get(0);
+
+        for (org.opensaml.saml2.core.Attribute attribute : attributeStatement.getAttributes()) {
+            String samlAttributeName = attribute.getName();
+            List<XMLObject> valueObjects = attribute.getAttributeValues();
+            for (XMLObject valueXmlObject : valueObjects) {
+                attributes.add(samlAttributeName, valueXmlObject.getDOM().getTextContent());
+            }
+        }
+        return attributes;
     }
 }
