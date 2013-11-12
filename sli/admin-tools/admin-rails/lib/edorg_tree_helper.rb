@@ -219,22 +219,23 @@ module EdorgTreeHelper
         end
 
         #DE2979
-        computed_aggregate_authorized = true
-        computed_aggregate_enabled = false
+        descendants_authorized = true
+        descendants_enabled = false
         @edinf[cinf[:id]][:children].each {| child_id |
-          computed_aggregate_enabled = computed_aggregate_enabled || @edinf[child_id][:enabled]
-          computed_aggregate_authorized = computed_aggregate_authorized && @edinf[child_id][:authorized]
+          descendants_enabled = descendants_enabled || @edinf[child_id][:enabled]
+          descendants_authorized = descendants_authorized && @edinf[child_id][:authorized]
         }
-        @edinf[cinf[:id]][:agg_enabled] = computed_aggregate_enabled
-        @edinf[cinf[:id]][:agg_authorized] = computed_aggregate_authorized
+        @edinf[cinf[:id]][:agg_enabled] = descendants_enabled
+        @edinf[cinf[:id]][:agg_authorized] = descendants_authorized
       end
 
       @edinf[id][:children] = new_children
       is_category = id.start_with?(CATEGORY_NODE_PREFIX) || id == ROOT_ID
       if is_category
-        puts "category with id found as " + id
         @edinf[id][:enabled] = agg_enabled
         @edinf[id][:authorized] = agg_authorized
+        @edinf[id][:agg_enabled] = agg_enabled
+        @edinf[id][:agg_authorized] = agg_authorized
       end
     end
 
@@ -327,8 +328,8 @@ module EdorgTreeHelper
       result += "</a>" if is_repeat_subtree
 
       # Uncomment below for debugging: add ID, show enabled/authorized status, show subtree status
-      result += " [" + eo[:id][0,8] + "]"
-      result += " enabled=" + eo[:enabled].to_s + " authorized=" + eo[:authorized].to_s + " agg_enabled=" + eo[:agg_enabled].to_s + " agg_authorized=" + eo[:agg_authorized].to_s
+      #result += " [" + eo[:id][0,8] + "]"
+      #result += " enabled=" + eo[:enabled].to_s + " authorized=" + eo[:authorized].to_s + " agg_enabled=" + eo[:agg_enabled].to_s + " agg_authorized=" + eo[:agg_authorized].to_s
       # result += " is_anchored=" + is_anchored.to_s + " is_repeat_subtree=" + is_repeat_subtree.to_s
       # result += " parents[0]=[" + parents[0][0,8] + "]" if !parents.empty?
 
