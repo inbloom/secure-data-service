@@ -195,7 +195,12 @@ public class GenericEntityComparator implements Comparator<Map<String, Object>> 
                 if (String.class.equals(this.castingClass)) {
                     o1TypeComparable = (String) o1Type;
                     o2TypeComparable = (String) o2Type;
-                    result = o1TypeComparable.compareTo(o2TypeComparable);
+                    if (o1TypeComparable != null && o2TypeComparable != null) {
+                    	result = o1TypeComparable.compareTo(o2TypeComparable);
+                    } else {
+                    	// Could not be compared
+                    	result = 0;
+                    }
                 } else {
                         // throwing exception is very expensive.
                         // so, check an object is null or not before calling toString method.

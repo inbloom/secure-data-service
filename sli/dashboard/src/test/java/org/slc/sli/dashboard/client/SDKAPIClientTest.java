@@ -68,8 +68,6 @@ public class SDKAPIClientTest {
     }
     
     @Test
-    // us5967 - Test fails in Java 7
-    @Ignore
     public void shouldGetCourseSectionMappings() throws SLIClientException, IOException, URISyntaxException {
         
         List<GenericEntity> sections = new ArrayList<GenericEntity>();
