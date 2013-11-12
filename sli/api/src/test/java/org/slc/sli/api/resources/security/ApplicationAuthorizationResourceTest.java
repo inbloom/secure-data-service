@@ -218,17 +218,17 @@ public class ApplicationAuthorizationResourceTest {
         Assert.assertFalse((Boolean) ent.get("authorized"));
     }
 
-//    @Test
-//    public void testGetAuths() {
-//        Map<String, Object> appBody = new HashMap<String, Object>();
-//        Entity app = repo.create("application", appBody);
-//        Map<String, Object> auth = new HashMap<String, Object>();
-//        auth.put("applicationId", app.getEntityId());
-//        auth.put("edorgs", getAuthList(SecurityUtil.getEdOrgId()));
-//        repo.create("applicationAuthorization", auth);
-//        ResponseImpl resp = (ResponseImpl) res.getAuthorizations(null);
-//        Assert.assertEquals(200, resp.getStatus());
-//        List ents = (List) resp.getEntity();
-//        Assert.assertEquals(1, ents.size());
-//    }
+    @Test
+    public void testGetAuths() {
+        Map<String, Object> appBody = new HashMap<String, Object>();
+        Entity app = repo.create("application", appBody);
+        Map<String, Object> auth = new HashMap<String, Object>();
+        auth.put("applicationId", app.getEntityId());
+        auth.put("edorgs", getAuthList(SecurityUtil.getEdOrgId()));
+        repo.create("applicationAuthorization", auth);
+        ResponseImpl resp = (ResponseImpl) res.getAuthorizations(null);
+        Assert.assertEquals(200, resp.getStatus());
+        List ents = (List) resp.getEntity();
+        Assert.assertEquals(1, ents.size());
+    }
 }
