@@ -26,3 +26,9 @@ Feature: Databrowser login via an artifact binding idp server
     And I was redirected to the "Shibboleth" IDP Login page
     When I submit the credentials "cgray" "cgray1234" for the "Shibboleth" login page
     Then I get message that I am not authorized
+
+  Scenario: Unable to use databrowser as a user with no roles
+    And I select "Artifact Daybreak" from the dropdown and click go
+    And I was redirected to the "Shibboleth" IDP Login page
+    When I submit the credentials "badadmin" "badadmin1234" for the "Shibboleth" login page
+    Then I get an invalid user message
