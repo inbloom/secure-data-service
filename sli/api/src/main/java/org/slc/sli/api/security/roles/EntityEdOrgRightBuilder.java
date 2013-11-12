@@ -118,6 +118,9 @@ public class EntityEdOrgRightBuilder {
                 break;
                 // Return empty set for no context.
             }
+            if(edOrgContextRights.get(edorg).get(Right.APP_AUTHORIZE.name()) != null) {
+                authorities.addAll(edOrgContextRights.get(edorg).get(Right.APP_AUTHORIZE.name()));
+            }
         }
 
         return authorities;
