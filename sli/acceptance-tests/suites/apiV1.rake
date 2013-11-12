@@ -24,6 +24,11 @@ task :longLivedSessionTests => [:realmInit] do
   runTests("test/features/apiV1/long_lived_session")
 end
 
+task :apiAdminCrudTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/crud/admin_crud.feature")
+end
+
 task :apiV1EntityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud")
