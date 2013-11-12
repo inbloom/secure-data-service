@@ -7,24 +7,6 @@
                </ds:X509Data>
            </ds:KeyInfo>
        </KeyDescriptor>
-      <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="$spIssuerName/api/rest/saml/slo/redirect"
-         ResponseLocation="$spIssuerName/api/rest/saml/slo/redirect" />
-      <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="$spIssuerName/api/rest/saml/slo/post"
-         ResponseLocation="$spIssuerName/api/rest/saml/slo/post" />
-      <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="$spIssuerName/api/rest/saml/slo/soap" />
-      <ManageNameIDService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="$spIssuerName/api/rest/saml/SPMniRedirect/metaAlias/sp"
-         ResponseLocation="$spIssuerName/api/rest/saml/SPMniRedirect/metaAlias/sp" />
-      <ManageNameIDService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="$spIssuerName/api/rest/saml/SPMniPOST/metaAlias/sp"
-         ResponseLocation="$spIssuerName/api/rest/saml/SPMniPOST/metaAlias/sp" />
-      <ManageNameIDService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="$spIssuerName/api/rest/saml/SPMniSoap/metaAlias/sp"
-         ResponseLocation="$spIssuerName/api/rest/saml/SPMniSoap/metaAlias/sp" />
-      <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</NameIDFormat>
-      <NameIDFormat> urn:oasis:names:tc:SAML:2.0:nameid-format:transient</NameIDFormat>
-      <NameIDFormat> urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</NameIDFormat>
-      <NameIDFormat> urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</NameIDFormat>
-      <NameIDFormat> urn:oasis:names:tc:SAML:1.1:nameid-format:WindowsDomainQualifiedName</NameIDFormat>
-      <NameIDFormat> urn:oasis:names:tc:SAML:2.0:nameid-format:kerberos</NameIDFormat>
-      <NameIDFormat> urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName</NameIDFormat>
       <AssertionConsumerService index="0" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact" Location="$spIssuerName/api/rest/saml/sso/artifact" />
       <AssertionConsumerService isDefault="true" index="1" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="$spIssuerName/api/rest/saml/sso/post" />
    </SPSSODescriptor>
