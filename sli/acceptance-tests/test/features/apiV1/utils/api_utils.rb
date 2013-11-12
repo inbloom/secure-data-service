@@ -83,12 +83,7 @@ end
 # WHEN WHEN WHEN WHEN WHEN WHEN 2WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
 ###############################################################################
 
-
-When /^I create an empy json object to POST$/ do
-  step "I create an empty json object to POST"
-end
-
-When /^I create an empty json object to (POST|PUT)$/ do | operation |
+When /^I create an empty json object$/ do
   @fields = Hash[]
 end
 

@@ -107,7 +107,7 @@ Scenario: None can PUT events through security API
     And format "application/vnd.slc+json"
     When I navigate to GET "/securityEvent/07623f03-126e-427d-9ed4-29562388cdcc"
     Then I should receive a return code of 200
-    When I create an empty json object to PUT
+    When I create an empty json object
     And I navigate to PUT "/securityEvent/07623f03-126e-427d-9ed4-29562388cdcc"
     Then I should receive a return code of 405
 
@@ -115,7 +115,7 @@ Scenario: None can PUT events through security API
 Scenario: None can POST events through security API
     Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
     And format "application/vnd.slc+json"
-    When I create an empty json object to POST
+    When I create an empty json object
     And I navigate to POST "/securityEvent"
     Then I should receive a return code of 405
 
