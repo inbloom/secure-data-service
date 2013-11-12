@@ -309,7 +309,7 @@ module EdorgTreeHelper
         if !is_category
           result += " class=\"edorgId\""
         end
-        if !id.start_with?(CATEGORY_NODE_PREFIX) && !is_empty(id)
+        if !is_empty(id)
           result += " id=\"" + id + "\""
         end
         result += " checked" if isChecked
