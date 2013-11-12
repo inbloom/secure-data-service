@@ -227,11 +227,15 @@ public class ApplicationAuthorizationResource {
             return Response.status(Status.BAD_REQUEST).build();
         }
 
+    	Set<String> myEdorgs = validateEdOrg(null);
+        Set<String> inScopeEdOrgs = getChildEdorgs(myEdorgs);
+
         List<String> edOrgsToAuthorize = (List<String>) auth.get("edorgs");//(TA10857)
         if( edOrgsToAuthorize == null) {
             edOrgsToAuthorize = Collections.emptyList();
         }
-
+        edOrgsToAuthorize.retainAll(inScopeEdOrgs);
+        
         EntityBody existingAuth = getAppAuth(appId);
         if (existingAuth == null) {
             //See if this is an actual app
