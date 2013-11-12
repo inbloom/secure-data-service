@@ -74,7 +74,9 @@ module EdorgTreeHelper
         # Enable edorgs if the "allowed_for_all_edorgs" flag is set for the application OR
         # the edorg is listed in the application's "authorized" (actually enabled) list
         app_enabled = @app.allowed_for_all_edorgs || @enabled_ed_orgs.has_key?(eo.id)
-        @edinf[eo.id] = { :edOrg => eo, :id => eo.id, :name => eo.nameOfInstitution, :children => [], :enabled => app_enabled, :authorized => @authorized_ed_orgs.has_key?(eo.id)}
+        @edinf[eo.id] = { :edOrg => eo, :id => eo.id, :name => eo.nameOfInstitution, :children => [],
+                          :enabled => app_enabled, :authorized => @authorized_ed_orgs.has_key?(eo.id),
+                          :agg_enabled => nil, :agg_authorized => nil }
 
         parents = eo.parentEducationAgencyReference || []
         parents.flatten!(1)
@@ -169,7 +171,7 @@ module EdorgTreeHelper
           by_type[ctype][:children].push(cid)
           by_type[ctype][:nchild] += 1
           by_type[ctype][:ndesc] += @edinf[cid][:ndesc] + 1
-          # Aggregate the enabled/authorized status.  For authoriztation, enabled aggregates on an "or" basis,
+          # Aggregate the enabled/authorized status.  For authorization, enabled aggregates on an "or" basis,
           # and authorized aggregates on an "and" basis (and then only for enabled children).
           # For enablement screen, aggregate by "and" everywhere.
           if @forAppAuthorization
@@ -184,8 +186,9 @@ module EdorgTreeHelper
         else
           new_id = CATEGORY_NODE_PREFIX + @id_counter.to_s
           @id_counter += 1
-          by_type[ctype] = { :id => new_id, :name => ctype, :parents => [ id ], :children => [ cid ], :nchild => 1, :ndesc => @edinf[cid][:ndesc] + 1,
-                             :enabled => @edinf[cid][:enabled], :authorized => !@edinf[cid][:enabled] || @edinf[cid][:authorized]
+          by_type[ctype] = { :id => new_id, :name => ctype, :parents => [ id ], :children => [ cid ], :nchild => 1,
+                             :ndesc => @edinf[cid][:ndesc] + 1, :enabled => @edinf[cid][:enabled],
+                             :authorized => !@edinf[cid][:enabled] || @edinf[cid][:authorized]
           }
         end
       end
@@ -205,6 +208,18 @@ module EdorgTreeHelper
       by_type.each do |ctype, cinf|
         new_children.push(cinf[:id])
         @edinf[cinf[:id]] = cinf
+
+        computed_aggregate_authorized = true
+        computed_aggregate_enabled = false
+
+        @edinf[cinf[:id]][:children].each {| child_id |
+          computed_aggregate_enabled = computed_aggregate_enabled || @edinf[child_id][:enabled]
+          computed_aggregate_authorized = computed_aggregate_authorized && @edinf[child_id][:authorized]
+        }
+
+        @edinf[cinf[:id]][:agg_enabled] = computed_aggregate_enabled
+        @edinf[cinf[:id]][:agg_authorized] = computed_aggregate_authorized
+
         if @forAppAuthorization
           agg_enabled = agg_enabled || cinf[:enabled]
         else
@@ -214,9 +229,11 @@ module EdorgTreeHelper
           agg_authorized = agg_authorized && cinf[:authorized]
         end
       end
+
       @edinf[id][:children] = new_children
       is_category = id.start_with?(CATEGORY_NODE_PREFIX) || id == ROOT_ID
       if is_category
+        puts "category with id found as " + id
         @edinf[id][:enabled] = agg_enabled
         @edinf[id][:authorized] = agg_authorized
       end
@@ -276,11 +293,16 @@ module EdorgTreeHelper
       result += " class=\"collapsed\"" if collapsed
       result += ">"
 
-      isCheckable = if @forAppAuthorization then eo[:enabled]    else true end
-      isChecked   = if @forAppAuthorization then eo[:authorized] else eo[:enabled] end
+      is_category = id.start_with?(CATEGORY_NODE_PREFIX) || id == ROOT_ID
+
+      isCheckable = if @forAppAuthorization then eo[:enabled] else true end
+      if !is_category
+        isChecked = if @forAppAuthorization then eo[:authorized] else eo[:enabled] end
+      else
+        isChecked = if @forAppAuthorization then eo[:agg_authorized] else eo[:agg_enabled] end
+      end
 
       # <input>
-      is_category = id.start_with?(CATEGORY_NODE_PREFIX) || id == ROOT_ID
       if !is_repeat_subtree && isCheckable
         result += "<input type=\"checkbox\""
         if !is_category
@@ -305,8 +327,8 @@ module EdorgTreeHelper
       result += "</a>" if is_repeat_subtree
 
       # Uncomment below for debugging: add ID, show enabled/authorized status, show subtree status
-      # result += " [" + eo[:id][0,8] + "]"
-      # result += " enabled=" + eo[:enabled].to_s + " authorized=" + eo[:authorized].to_s
+      result += " [" + eo[:id][0,8] + "]"
+      result += " enabled=" + eo[:enabled].to_s + " authorized=" + eo[:authorized].to_s + " agg_enabled=" + eo[:agg_enabled].to_s + " agg_authorized=" + eo[:agg_authorized].to_s
       # result += " is_anchored=" + is_anchored.to_s + " is_repeat_subtree=" + is_repeat_subtree.to_s
       # result += " parents[0]=[" + parents[0][0,8] + "]" if !parents.empty?
 
