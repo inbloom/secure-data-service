@@ -20,11 +20,13 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 import javax.xml.crypto.MarshalException;
 import javax.xml.crypto.dsig.XMLSignature;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Simple interface for SAML2 validation and signing.
@@ -62,4 +64,7 @@ public interface SAML2Validator {
     public boolean isDigestValid(Document samlDocument);
 
     public Document signDocumentWithSAMLSigner(Document samlDocument, SAML2Signer signer);
+
+    boolean isDocumentTrusted(Element element, String issuer) throws KeyStoreException,
+            InvalidAlgorithmParameterException, CertificateException, NoSuchAlgorithmException, MarshalException;
 }

@@ -51,9 +51,9 @@ import org.jdom.output.DOMOutputter;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.ISODateTimeFormat;
-import org.opensaml.saml2.core.ArtifactResponse;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.AttributeStatement;
+import org.opensaml.security.SAMLSignatureProfileValidator;
 import org.opensaml.xml.Configuration;
 import org.opensaml.xml.XMLObject;
 import org.opensaml.xml.security.SecurityConfiguration;
@@ -62,6 +62,8 @@ import org.opensaml.xml.security.credential.Credential;
 import org.opensaml.xml.security.x509.BasicX509Credential;
 import org.opensaml.xml.signature.Signature;
 import org.opensaml.xml.signature.SignatureConstants;
+import org.opensaml.xml.validation.ValidationException;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.common.encrypt.security.saml2.SAML2Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -328,13 +330,37 @@ public class SamlHelper {
     }
 
     /**
-     *
+     * Validates that the certificate in the saml assertion is valid and trusted.
      * @param samlResponse
+     *      SAML response form the IdP.
      */
-    public void validateCertificate(org.opensaml.saml2.core.Response samlResponse) {
-        Signature signature = samlResponse.getAssertions().get(0).getSignature();
+    public void validateCertificate(org.opensaml.saml2.core.Response samlResponse)  {
+        Assertion assertion = samlResponse.getAssertions().get(0);
+
+        validateSignatureFormat(assertion.getSignature());
+
+        try {
+            if(!validator.isDocumentTrusted(assertion.getDOM(), samlResponse.getIssuer().getValue())) {
+                throw new APIAccessDeniedException("Invalid SAML message: Certificate is not trusted");
+            }
+        } catch (Exception e) {
+            handleSignatureValidationErrors();
+        }
     }
 
+    private void validateSignatureFormat(Signature signature) {
+        SAMLSignatureProfileValidator profileValidator = new SAMLSignatureProfileValidator();
+
+        try {
+            profileValidator.validate(signature);
+        } catch (ValidationException e) {
+            handleSignatureValidationErrors();
+        }
+    }
+
+    private void handleSignatureValidationErrors() {
+        throw new IllegalArgumentException("Invalid SAML message: couldn't verify signature");
+    }
     /**
      *
      * @param samlAssertion
