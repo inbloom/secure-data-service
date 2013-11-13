@@ -196,16 +196,12 @@ public class ApplicationAuthorizationResource {
 
     private EntityBody getAppAuth(String appId) {
     	Iterable<EntityBody> appAuths = null;
-    	Iterable<EntityBody> apps = null;
 		SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal.isAdminRealmAuthenticated()) {
     	    appAuths = service.list(new NeutralQuery(new NeutralCriteria("applicationId", "=", appId)));  	
         } else {
-        	apps = service.listBasedOnContextualRoles(new NeutralQuery(new NeutralCriteria("_id", "=", appId)));
-       	 	if(apps.iterator().hasNext()) {
-       	 		appAuths = service.list(new NeutralQuery(new NeutralCriteria("applicationId", "=", appId)));
-       	 	}
+        	appAuths = service.listBasedOnContextualRoles(new NeutralQuery(new NeutralCriteria("applicationId", "=", appId)));
         }
 
         if ( null != appAuths ) {

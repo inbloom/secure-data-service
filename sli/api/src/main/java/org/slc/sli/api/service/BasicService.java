@@ -628,11 +628,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
             entities = getResponseEntities(neutralQuery, isSelf);
             entityContexts = getEntityContexts();
         } else {
-        	if(collectionName.equals("applicationAuthorization")) {	
-        		entities = (Collection<Entity>) repo.findAll("application", neutralQuery);
-        	} else {
-        		entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
-        	}
+
+            entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
 
             if (SecurityUtil.getUserContext() == UserContext.DUAL_CONTEXT) {
                 entityContexts = getEntityContextMap(entities, true);
