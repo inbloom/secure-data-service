@@ -220,6 +220,8 @@ class ApplicationController < ActionController::Base
     session[:roles] = check["sliRoles"]
     session[:edOrg] = check["edOrg"]
     session[:edOrgId] = check["edOrgId"]
+    session[:edOrgRoles] = check["edOrgRoles"]
+    session[:edOrgRights] = check["edOrgRights"]
     session[:external_id] = check["external_id"]
     session[:first_name] = check["first_name"]
     session[:last_name] = check["last_name"]

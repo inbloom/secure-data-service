@@ -92,6 +92,7 @@ public class CommonValidatorTest {
         ignored.add(EntityNames.STUDENT_OBJECTIVE_ASSESSMENT);
         ignored.add(EntityNames.SEARCH);
         ignored.add(EntityNames.CALENDAR_DATE);
+        ignored.add(EntityNames.SECURITY_EVENT);
 
         globalEntities.add(EntityNames.ASSESSMENT);
         globalEntities.add(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR);
