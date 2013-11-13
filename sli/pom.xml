@@ -1161,7 +1161,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.version}</version>
                 <configuration>
-                    <argLine>-Xms256m -Xmx256m</argLine>
+                    <argLine>-Xms256m -Xmx256m -XX:PermSize=128m</argLine>
                     <runOrder>alphabetical</runOrder>
                     <systemPropertyVariables>
                         <emma.rt.control>false</emma.rt.control>

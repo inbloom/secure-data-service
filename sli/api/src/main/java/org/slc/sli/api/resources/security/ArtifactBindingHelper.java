@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.security.KeyStore;
 import java.util.UUID;
 
@@ -52,6 +53,15 @@ public class ArtifactBindingHelper {
     @Value("${sli.security.idp.url}")
     private String idpUrl;
 
+    @PostConstruct
+    private void initializeOpenSAMLLibrary() {
+        try {
+            DefaultBootstrap.bootstrap();
+        } catch (ConfigurationException ex) {
+            error("Error composing artifact resolution request: xml object configuration initialization failed", ex);
+            throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
+        }
+    }
 
     /**
      *
@@ -62,12 +72,6 @@ public class ArtifactBindingHelper {
      * @return
      */
     protected ArtifactResolve generateArtifactResolveRequest(String artifactString, KeyStore.PrivateKeyEntry pkEntry) {
-        try {
-            DefaultBootstrap.bootstrap();
-        } catch (ConfigurationException ex) {
-            error("Error composing artifact resolution request: xml object configuration initialization failed", ex);
-            throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
-        }
 
         XMLObjectBuilderFactory xmlObjectBuilderFactory = Configuration.getBuilderFactory();
         Artifact artifact = (Artifact) xmlObjectBuilderFactory.getBuilder(Artifact.DEFAULT_ELEMENT_NAME).buildObject(Artifact.DEFAULT_ELEMENT_NAME);

@@ -19,6 +19,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.KeyStore;
@@ -35,18 +36,14 @@ import java.security.cert.CertificateException;
 @Component
 public class KeystoreHelper {
 
-    @Value("${sli.api.keyStore:../data-access/dal/keyStore/ciKeyStore.jks}")
-    private String keystoreFileName;
-
-    @Value("${sli.api.keystore.password:changeit}")
-    private String keystorePassword;
-
-    @Value("${sli.api.digital.signature.alias:apids}")
-    private String keystoreAlias;
+    private KeyStore keyStore;
 
     private static final String KEYSTORE_TYPE = "JCEKS";
     /**
-     *
+     * @param keystoreFileName
+     *      the name of the keyStore file.
+     * @param keystorePassword
+     *      the password for the keyStore file.
      * @return
      * @throws KeyStoreException
      * @throws IOException
@@ -54,14 +51,16 @@ public class KeystoreHelper {
      * @throws CertificateException
      * @throws UnrecoverableEntryException
      */
-    public KeyStore.PrivateKeyEntry initializeKeystoreEntry() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
-        KeyStore keyStore = KeyStore.getInstance(KEYSTORE_TYPE);
+    public void initializeKeystoreEntry(String keystoreFileName, String keystorePassword) throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
+        keyStore = KeyStore.getInstance(KEYSTORE_TYPE);
         FileInputStream fis = new FileInputStream(keystoreFileName);
         char[] password = keystorePassword.toCharArray();
 
         keyStore.load(fis, password);
         IOUtils.closeQuietly(fis);
+    }
 
-        return (KeyStore.PrivateKeyEntry) keyStore.getEntry(keystoreAlias, new KeyStore.PasswordProtection(password));
+    public KeyStore.PrivateKeyEntry getPrivateKeyEntry(String keystoreAlias, String keyStorePassword) throws UnrecoverableEntryException, NoSuchAlgorithmException, KeyStoreException {
+        return (KeyStore.PrivateKeyEntry) keyStore.getEntry(keystoreAlias, new KeyStore.PasswordProtection(keyStorePassword.toCharArray()));
     }
 }

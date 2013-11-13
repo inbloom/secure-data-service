@@ -16,7 +16,6 @@
 
 package org.slc.sli.api.resources.security;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.InetAddress;
@@ -36,7 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +50,6 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -61,31 +58,15 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.opensaml.DefaultBootstrap;
-import org.opensaml.saml2.core.Artifact;
 import org.opensaml.saml2.core.ArtifactResolve;
 import org.opensaml.saml2.core.ArtifactResponse;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.Conditions;
-import org.opensaml.saml2.core.Issuer;
 import org.opensaml.saml2.core.Subject;
 import org.opensaml.saml2.core.SubjectConfirmationData;
-import org.opensaml.ws.soap.client.BasicSOAPMessageContext;
-import org.opensaml.ws.soap.client.http.HttpClientBuilder;
-import org.opensaml.ws.soap.client.http.HttpSOAPClient;
-import org.opensaml.ws.soap.common.SOAPException;
-import org.opensaml.ws.soap.soap11.Body;
 import org.opensaml.ws.soap.soap11.Envelope;
 import org.opensaml.ws.soap.soap11.impl.EnvelopeImpl;
-import org.opensaml.xml.Configuration;
-import org.opensaml.xml.ConfigurationException;
 import org.opensaml.xml.XMLObject;
-import org.opensaml.xml.XMLObjectBuilderFactory;
-import org.opensaml.xml.io.MarshallingException;
-import org.opensaml.xml.parse.BasicParserPool;
-import org.opensaml.xml.signature.Signature;
-import org.opensaml.xml.signature.SignatureException;
-import org.opensaml.xml.signature.Signer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -160,6 +141,15 @@ public class SamlFederationResource {
     @Value("${sli.sandbox.enabled}")
     private boolean sandboxEnabled;
 
+    @Value("${sli.api.keyStore}")
+    private String keystoreFileName;
+
+    @Value("${sli.api.keystore.password}")
+    private String keystorePassword;
+
+    @Value("${sli.api.digital.signature.alias}")
+    private String keystoreAlias;
+
     @Autowired
     private RealmHelper realmHelper;
 
@@ -188,7 +178,9 @@ public class SamlFederationResource {
     @SuppressWarnings("unused")
     @PostConstruct
     private void processKeystoreAndMetadata() throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException, UnrecoverableEntryException {
-        pkEntry = keystoreHelper.initializeKeystoreEntry();
+        keystoreHelper.initializeKeystoreEntry(keystoreFileName, keystorePassword);
+
+        pkEntry = keystoreHelper.getPrivateKeyEntry(keystoreAlias, keystorePassword);
 
         StringWriter writer = new StringWriter();
 

@@ -22,6 +22,7 @@ import org.opensaml.ws.soap.common.SOAPException;
 import org.opensaml.ws.soap.soap11.Envelope;
 import org.opensaml.xml.XMLObject;
 import org.opensaml.xml.parse.BasicParserPool;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -47,13 +48,17 @@ public class SOAPHelper {
         try {
             soapClient.send(destinationUrl, soapContext);
         } catch (SOAPException ex) {
-            error("SOAP communication with IDP failed", ex);
-            throw new IllegalArgumentException("Access Denied: Communication to IdP failed", ex);
+            error("SOAP communication failed", ex);
+            handleSOAPCommunicationExceptions(destinationUrl);
         } catch (org.opensaml.xml.security.SecurityException ex) {
-            error("SOAP communication with IDP failed", ex);
-            throw new IllegalArgumentException("Access Denied: Communication to IdP failed", ex);
+            error("SOAP communication failed", ex);
+            handleSOAPCommunicationExceptions(destinationUrl);
         }
 
         return soapContext.getInboundMessage();
+    }
+
+    private void handleSOAPCommunicationExceptions(String url) {
+        throw new APIAccessDeniedException("Access Denied: SOAP communication to " + url + " failed");
     }
 }
