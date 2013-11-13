@@ -46,6 +46,8 @@ Scenario: Create new realms
     When I GET the custom role doc for realm "Realm1"
     Then I should receive a return code of 200
     And I should see only one custom role document
+    # US5459 make sure that the SECURITY_EVENT_VIEW right is there by default for IT Administrators
+    And In the custom role document, the group "IT Administrator" should have the "SECURITY_EVENT_VIEW" right
     #Test multi creation
     When I POST a new realm called "Chicken"
     Then I should receive a return code of 201
