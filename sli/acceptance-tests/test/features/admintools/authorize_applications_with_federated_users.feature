@@ -84,14 +84,15 @@ And the sli securityEvent collection is empty
 When I hit the Admin Application Authorization Tool
 And I select "Illinois Daybreak School District 4529" from the dropdown and click go
 And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
-#Assert on some error message
-#Assert access denied security event
+And the error message "Sorry, you don't have access to this page. if you feel like you are getting this message in error, please contact your administrator." is displayed
+#TODO - Assert access denied security event
+
 
 Scenario: Create Application Authorizer Staff Education Organization Association (set up)
 When I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
 And a staffEducationOrgAssignmentAssociation is created for user "linda.kim" with role "Application Authorizer" for education organization "South Daybreak Elementary" in tenant "Midgar"
 And a staffEducationOrgAssignmentAssociation is created for user "linda.kim" with role "Educator" for education organization "Sunset Central High School" in tenant "Midgar"
-@wip
+
 Scenario: Linda Kim Approves application as Application Authorizer
 When I hit the Admin Application Authorization Tool
 #And I select "inBloom" from the dropdown and click go
