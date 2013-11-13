@@ -54,6 +54,7 @@ import org.slc.sli.api.security.context.resolver.GradingPeriodHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SessionUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.datetime.DateHelper;
@@ -281,21 +282,10 @@ public class UriMutator {
 
     private boolean shouldSkipMutation(List<PathSegment> segments, String queryParameters, SLIPrincipal principal, String clientId) {
         return shouldSkipMutationToEnableSearch(segments, queryParameters) ||
-                ( isAdminApp(clientId) && hasAppAuthRight(principal) && isEducationOrganizationsEndPoint(segments) );
+                ( SessionUtil.isAdminApp(clientId,repo) && hasAppAuthRight(principal) && isEducationOrganizationsEndPoint(segments) );
     }
 
-    // Check the is_admin field in the 'sli' db 'application' collection to determine if the application is
-    // and 'admin' type application
-    private boolean isAdminApp(String clientId) {
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ApplicationResource.CLIENT_ID, "=", clientId));
-        Entity app = repo.findOne(EntityNames.APPLICATION, nq);
 
-        if (app == null) {
-            return false;
-        }
-
-        return (Boolean) app.getBody().get("is_admin");
-    }
 
     // Check whether the principal has the 'APP_AUTHORIZE' right for any of its roles in any edorg
     private boolean hasAppAuthRight(SLIPrincipal principal) {
