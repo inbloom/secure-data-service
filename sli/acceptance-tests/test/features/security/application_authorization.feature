@@ -2,7 +2,7 @@
 Feature: Admin delegation CRUD
 
   Scenario: State administrator granting access to edOrg data
-    And I am logged in using "iladmin" "iladmin1234" to realm "SLI"
+    And I am logged in using "iladmin_adminApp" "iladmin1234" to realm "SLI"
     Then I should revoke all app authorizations for district "IL-SUNSET"
     Then I should revoke all app authorizations for district "IL"
     Then I should revoke all app authorizations for district "IL-LONGWOOD"
