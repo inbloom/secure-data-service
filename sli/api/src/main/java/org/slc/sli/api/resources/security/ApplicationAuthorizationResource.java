@@ -379,9 +379,11 @@ public class ApplicationAuthorizationResource {
         for (EntityBody body : ents) {
             HashMap<String, Object> entity = new HashMap<String, Object>();
             String appId = (String) body.get("applicationId");
+            List<Map<String,Object>> edOrgs = (List<Map<String,Object>>) body.get("edorgs");
             entity.put("id", appId);
             entity.put("appId", appId);
             entity.put("authorized", true);
+            entity.put("edorgs", edOrgs); //DE2993
             results.add(entity);
             allApps.remove(appId);
         }
