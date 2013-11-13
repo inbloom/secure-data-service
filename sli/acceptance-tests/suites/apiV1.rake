@@ -283,6 +283,14 @@ task :apiOdinMultipleParentTests => [:realmInit] do
   runTests("test/features/apiV1/integration/multiple_parents.feature")
 end
 
+desc "Run API Federated Apps Tests"
+task :apiOdinFederatedAppsTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  allLeaAllowApp("Mobile App")
+  authorizeEdorg("Mobile App")
+  runTests("test/features/apiV1/integration/federated_apps.feature")
+end
+
 desc "Run API Performance Tests"
 task :apiPerformanceTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute

@@ -1,33 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
-    attributeFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified" attributeFormDefault="qualified">
 
-    <xs:include schemaLocation="SimpleTypes.xsd" />
+    <xs:include schemaLocation="SimpleTypes.xsd"/>
 
     <xs:element name="application">
-        <xs:annotation>
-            <xs:appinfo>
-                <sli:WriteEnforcement>
-                    <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
-                    <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
-                    <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
-                </sli:WriteEnforcement>
-                <sli:ReadEnforcement>
-                    <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
-                    <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
-                </sli:ReadEnforcement>
-            </xs:appinfo>
-        </xs:annotation>
         <xs:complexType>
-            <xs:annotation>
-                <xs:appinfo>
-                    <sli:SecuritySphere>Admin</sli:SecuritySphere>
-                </xs:appinfo>
-            </xs:annotation>
             <xs:sequence>
-                <xs:element name="name" type="xs:string" minOccurs="1" />
-                <xs:element name="description" minOccurs="1" >
+                <xs:element name="name" type="xs:string" minOccurs="1">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="description" minOccurs="1">
                     <xs:simpleType>
                         <xs:annotation>
                             <xs:appinfo>
@@ -38,16 +31,68 @@
                     </xs:simpleType>
                 </xs:element>
 
-                <xs:element name="bootstrap" type="xs:boolean" minOccurs="0" />
-                <xs:element name="authorized_for_all_edorgs" type="xs:boolean" minOccurs="0" />
-                <xs:element name="allowed_for_all_edorgs" type="xs:boolean" minOccurs="0" />
-                <xs:element name="admin_visible" type="xs:boolean" minOccurs="0" />
+                <xs:element name="bootstrap" type="xs:boolean" minOccurs="0">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="authorized_for_all_edorgs" type="xs:boolean" minOccurs="0">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="allowed_for_all_edorgs" type="xs:boolean" minOccurs="0">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="admin_visible" type="xs:boolean" minOccurs="0">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
                 <xs:element name="behavior" minOccurs="1">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
-                            <xs:enumeration value="iframe App" />
-                            <xs:enumeration value="WSRP App" />
-                            <xs:enumeration value="Full Window App" />
+                            <xs:enumeration value="iframe App"/>
+                            <xs:enumeration value="WSRP App"/>
+                            <xs:enumeration value="Full Window App"/>
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
@@ -59,14 +104,40 @@
                             </xs:appinfo>
                         </xs:annotation>
                         <xs:restriction base="xs:string">
-                            <xs:pattern value="http(s)*://.*" />
+                            <xs:pattern value="http(s)*://.*"/>
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
 
                 <!-- These two are generated during creation -->
-                 <xs:element name="client_id" type="xs:string" minOccurs="1" />
-                 <xs:element name="client_secret" type="xs:string" minOccurs="1" />
+                <xs:element name="client_id" type="xs:string" minOccurs="1">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="client_secret" type="xs:string" minOccurs="1">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
 
                 <xs:element name="application_url" minOccurs="0">
                     <xs:simpleType>
@@ -76,7 +147,7 @@
                             </xs:appinfo>
                         </xs:annotation>
                         <xs:restriction base="xs:string">
-                            <xs:pattern value="http(s)*://.*" />
+                            <xs:pattern value="http(s)*://.*"/>
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
@@ -89,7 +160,7 @@
                             </xs:appinfo>
                         </xs:annotation>
                         <xs:restriction base="xs:string">
-                            <xs:pattern value="http(s)*://.*" />
+                            <xs:pattern value="http(s)*://.*"/>
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
@@ -104,7 +175,7 @@
                             </xs:appinfo>
                         </xs:annotation>
                         <xs:restriction base="xs:string">
-                            <xs:pattern value="http(s)*://.*" />
+                            <xs:pattern value="http(s)*://.*"/>
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
@@ -112,28 +183,170 @@
                 <xs:element name="version" minOccurs="1">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
-                        	<xs:pattern value="^[A-Za-z0-9\.]{1,25}$" />
+                            <xs:pattern value="^[A-Za-z0-9\.]{1,25}$"/>
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
 
-				<xs:element name="created_by" type="xs:string" minOccurs="0" />
-				<xs:element name="author_sandbox_tenant" type="xs:string" minOccurs="0" />
-				<xs:element name="author_first_name" type="xs:string" minOccurs="0" />
-				<xs:element name="author_last_name" type="xs:string" minOccurs="0" />
-                <xs:element name="is_admin" type="xs:boolean" minOccurs="1" />
-                <xs:element name="isBulkExtract" type="xs:boolean" minOccurs="1" />
-                <xs:element name="installed" type="xs:boolean" minOccurs="1" />
-                <xs:element name="vendor" type="xs:string" minOccurs="1" />
-                <xs:element name="registration" type="registration"
-                    minOccurs="0" />
-                <xs:element name="endpoints" type="endpoint" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="created_by" type="xs:string" minOccurs="0">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="author_sandbox_tenant" type="xs:string" minOccurs="0">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="author_first_name" type="xs:string" minOccurs="0">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="author_last_name" type="xs:string" minOccurs="0">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="is_admin" type="xs:boolean" minOccurs="1">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="isBulkExtract" type="xs:boolean" minOccurs="1">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="installed" type="xs:boolean" minOccurs="1">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="vendor" type="xs:string" minOccurs="1">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="registration" type="registration" minOccurs="0">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="endpoints" type="endpoint" minOccurs="0" maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
                 <xs:element name="authorized_ed_orgs" minOccurs="0">
                     <xs:simpleType>
                         <xs:list itemType="xs:string"/>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element name="public_key" minOccurs="0" maxOccurs="1" type="xs:string" />
+                <xs:element name="public_key" minOccurs="0" maxOccurs="1" type="xs:string">
+                    <xs:annotation>
+                        <xs:appinfo>
+                            <sli:WriteEnforcement>
+                                <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                                <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                            </sli:WriteEnforcement>
+                            <sli:ReadEnforcement>
+                                <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                                <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                            </sli:ReadEnforcement>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -143,23 +356,75 @@
             <xs:element name="status" minOccurs="1">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
-                        <xs:enumeration value="PENDING" />
-                        <xs:enumeration value="APPROVED" />
-                        <xs:enumeration value="DENIED" />
-                        <xs:enumeration value="UNREGISTERED" />
+                        <xs:enumeration value="PENDING"/>
+                        <xs:enumeration value="APPROVED"/>
+                        <xs:enumeration value="DENIED"/>
+                        <xs:enumeration value="UNREGISTERED"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="request_date" type="xs:long" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="approval_date" type="xs:long" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="request_date" type="xs:long" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                            <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                            <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="approval_date" type="xs:long" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                            <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                            <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="endpoint">
         <xs:sequence>
-            <xs:element name="name" type="xs:string" minOccurs="1" />
-            <xs:element name="description" type="xs:string" minOccurs="1" />
-            <xs:element name="url" type="xs:string" minOccurs="1" >
+            <xs:element name="name" type="xs:string" minOccurs="1">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                            <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                            <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="description" type="xs:string" minOccurs="1">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
+                            <sli:allowedBy>SLC_APP_APPROVE</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                            <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="url" type="xs:string" minOccurs="1">
                 <xs:annotation>
                     <xs:appinfo>
                         <sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
@@ -168,7 +433,7 @@
             </xs:element>
             <xs:element name="rights" minOccurs="1">
                 <xs:simpleType>
-                    <xs:list itemType="xs:string" />
+                    <xs:list itemType="xs:string"/>
                 </xs:simpleType>
             </xs:element>
         </xs:sequence>

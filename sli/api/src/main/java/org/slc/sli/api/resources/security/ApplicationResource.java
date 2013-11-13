@@ -281,7 +281,7 @@ public class ApplicationResource extends UnversionedResource {
     @SuppressWarnings("unchecked")
     @PUT
     @Path("{" + UUID + "}")
-    @RightsAllowed({ Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE, Right.APP_AUTHORIZE})
+    @RightsAllowed({ Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE})
     @Override
     public Response put(@PathParam(UUID) String uuid, EntityBody app, @Context final UriInfo uriInfo) {
         if (!missingRequiredUrls(app)) {

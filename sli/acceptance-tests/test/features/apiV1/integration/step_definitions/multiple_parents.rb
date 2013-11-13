@@ -41,6 +41,37 @@ def findEdOrgId(stateOrganizationId)
   edOrgIdId = @coll.find_one('body.stateOrganizationId'=>stateOrganizationId)['_id']
 end
 
+When(/^I create a LEA named "([^"]*)"$/) do |lea|
+  edOrg = <<-jsonDelimiter
+    {
+        "address":[
+           {
+              "addressType":"Physical",
+              "city":"Gotham City",
+              "nameOfCounty":"Wake",
+              "postalCode":"27500",
+              "stateAbbreviation":"NC",
+              "streetNumberName":"118 Main St."
+           }
+        ],
+        "nameOfInstitution":"Test School",
+        "organizationCategories":[
+           "School"
+        ],
+        "stateOrganizationId":"-----PLACEHOLDER-------"
+    }
+  jsonDelimiter
+  edOrgBody = JSON.parse(edOrg)
+  edOrgBody['stateOrganizationId']            = lea
+  edOrgBody['organizationCategories']         = ['Local Education Agency']
+  #edOrgBody['parentEducationAgencyReference'] = [findEdOrgId(parent)]
+  restHttpPost('/v1/educationOrganizations', edOrgBody.to_json, 'application/vnd.slc+json')
+  location = @res.raw_headers['location'][0]
+  $createdEntityIds[lea] = location.split(/\//)[-1]
+  restHttpGetAbs(location, 'application/vnd.slc+json')
+  $createdEntities[lea] = JSON.parse @res
+end
+
 When(/^I create a LEA named "([^"]*)" with parent IL$/) do |lea|
   edOrg = <<-jsonDelimiter
     {
@@ -66,7 +97,9 @@ When(/^I create a LEA named "([^"]*)" with parent IL$/) do |lea|
   edOrgBody['organizationCategories']         = ['Local Education Agency']
   edOrgBody['parentEducationAgencyReference'] = [findEdOrgId('IL')]
   restHttpPost('/v1/educationOrganizations', edOrgBody.to_json, 'application/vnd.slc+json')
+  assert(@res.code == 201, "Could not lea #{lea}! HTTP CODE:#{@res.code}  HTP BODY#{@res.body}")
   location = @res.raw_headers['location'][0]
+  $createdEntityIds[lea] = location.split(/\//)[-1]
   restHttpGetAbs(location, 'application/vnd.slc+json')
   $createdEntities[lea] = JSON.parse @res
 end
@@ -98,6 +131,7 @@ When(/^I create a School named "([^"]*)" with parents "([^"]*)"$/) do |schoolNam
   edOrgBody['parentEducationAgencyReference'] = parentLeaIds
   restHttpPost('/v1/educationOrganizations', edOrgBody.to_json, 'application/vnd.slc+json')
   location = @res.raw_headers['location'][0]
+  $createdEntityIds[schoolName] = location.split(/\//)[-1]
   restHttpGetAbs(location, 'application/vnd.slc+json')
   $createdEntities[schoolName] = JSON.parse @res
 end
