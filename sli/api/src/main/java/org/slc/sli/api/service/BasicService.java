@@ -628,11 +628,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
             entities = getResponseEntities(neutralQuery, isSelf);
             entityContexts = getEntityContexts();
         } else {
-        	if(collectionName.equals("applicationAuthorization")) {	
-        		entities = (Collection<Entity>) repo.findAll("application", neutralQuery);
-        	} else {
-        		entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
-        	}
+
+            entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
 
             if (SecurityUtil.getUserContext() == UserContext.DUAL_CONTEXT) {
                 entityContexts = getEntityContextMap(entities, true);
@@ -1249,11 +1246,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         if (query != null) {
             // get the authorities
-            Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
-            auths.addAll(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-            if (isSelf) {
-                auths.addAll(SecurityUtil.getSLIPrincipal().getSelfRights());
-            }
+            Collection<GrantedAuthority> auths = getAuths(isSelf);
 
             rightAccessValidator.checkFieldAccess(query, defn.getType(), auths);
         }

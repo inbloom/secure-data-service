@@ -99,6 +99,7 @@ $SESSION_MAP = {
                 "sandboxdeveloper_SLI" => "a1cf186b-9c8e-4252-9f46-ed4e9f4f597c",
                 "anothersandboxdeveloper_SLI" => "be71e33e-00f5-442a-a0c7-3dc5c63a8a02",
                 "iladmin_SLI" => "9abf3111-0e5d-456a-8b89-004815162342",
+                "iladmin_adminApp_SLI" => "9abf3111-0e5d-456a-8b89-004815162333",
                 "zorkadmin_SLI" => "aaaaaaaa-0e5d-456a-8b89-004815111111",
                 "stweed_IL" => "2cf7a5d4-75a2-ba63-8b53-b5f95131de48",
                 "teach1_SEC" => "00000000-5555-5555-0001-500000000001",
@@ -138,6 +139,7 @@ $SESSION_MAP = {
                 "linda.kim_sandboxadministrator" => "9a87321a-8534-4a0e-b8ab-981ab8716233",
                 "unprovisioned_sunset_admin_SLI" => "261d8a09-a181-4e3f-bcaa-241f409afb8b",
                 "rrogerslimitedwrite_IL" => "03af65a0-5720-4cbc-ae49-f7bcb46c25f1",
+                "rrogersAppAuth_IL" => "00000001-0094-6ba8-810b-000000000000",
                 "mmagic_Midgar" => "7e859615-3487-41b0-a052-cb1beb6fb12d",
                 "morion_Midgar" => "11a45527-9141-491d-8ebd-132f1d105625"
                                     

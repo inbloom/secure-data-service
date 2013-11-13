@@ -28,7 +28,7 @@ require_relative '../../apiV1/long_lived_session/step_definitions/token_generato
 Transform /rights "(.*?)"/ do |arg1|
   # Default rights for SLI Default roles  
   rights = ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC", "TEACHER_CONTEXT"] if arg1 == "Educator"
-  rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT", "APP_AUTHORIZE"] if arg1 == "IT Administrator"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT", "SECURITY_EVENT_VIEW", "APP_AUTHORIZE"] if arg1 == "IT Administrator"
   rights = ["READ_GENERAL", "READ_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "Leader"
   rights = ["AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "Aggregate Viewer"
   rights = ["READ_GENERAL", "TEACHER_CONTEXT"] if arg1 == "New Custom"
@@ -36,13 +36,17 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["READ_GENERAL", "APP_AUTHORIZE"] if arg1 == "New Federated"
 
   # Custom right sets for test roles
-  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "WRITE_PUBLIC", "AGGREGATE_WRITE", "STAFF_CONTEXT", "APP_AUTHORIZE"] if arg1 == "all defaults"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "WRITE_PUBLIC", "AGGREGATE_WRITE", "STAFF_CONTEXT", "SECURITY_EVENT_VIEW", "APP_AUTHORIZE"] if arg1 == "all defaults"
   rights = ["READ_GENERAL", "TEACHER_CONTEXT"] if arg1 == "Read General"
+  # US5459
+  rights = ["READ_GENERAL", "TEACHER_CONTEXT", "SECURITY_EVENT_VIEW"] if arg1 == "Read General and Security Event View"
   rights = ["READ_GENERAL", "STAFF_CONTEXT"] if arg1 == "Staff Read General"
   rights = ["READ_RESTRICTED", "TEACHER_CONTEXT"] if arg1 == "Read Restricted"
   rights = ["READ_RESTRICTED"] if arg1 == "Self Read Restricted"
   rights = ["READ_GENERAL", "WRITE_GENERAL", "TEACHER_CONTEXT"] if arg1 == "Read and Write General"
   rights = ["READ_GENERAL", "TEACHER_CONTEXT", "APP_AUTHORIZE"] if arg1 == "New Read General"
+  # US5459
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "TEACHER_CONTEXT", "SECURITY_EVENT_VIEW"] if arg1 == "Read, Write General, and Security Event View"
   rights = ["READ_GENERAL", "READ_PUBLIC", "READ_AGGREGATE","STAFF_CONTEXT"] if arg1 == "Read General Public and Aggregate"
   rights = ["READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED", "TEACHER_CONTEXT"] if arg1 == "Read Restricted, Write Restricted and Write General"
   rights = ["READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED"] if arg1 == "Self Read Restricted, Write Restricted and Write General"

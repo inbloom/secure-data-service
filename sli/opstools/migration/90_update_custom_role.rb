@@ -19,6 +19,7 @@ require 'mongo'
 DEBUG = true
 CUSTOM_ROLE = "customRole"
 NEW_RIGHT = "APP_AUTHORIZE"
+SECURITY_EVENT_RIGHT = "SECURITY_EVENT_VIEW"
 
 #Update customRole collection,  add new right to "IT Administrator"
 #US5865
@@ -44,6 +45,7 @@ def  update_IT_Admin(roles)
        if group["groupTitle"] == "IT Administrator"
          rights = group["rights"]
          rights.push(NEW_RIGHT).uniq!
+         rights.push(SECURITY_EVENT_RIGHT).uniq!
        end
     end
 end

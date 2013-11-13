@@ -223,5 +223,7 @@ public class ParameterConstants {
     public static final String SCHOOL_YEAR = "schoolYear";
 
     public static final String AUTHORIZED_EDORGS = "authorized_ed_orgs";
+    
+    public static final String APPLICATION_ID = "applicationId";
 
 }

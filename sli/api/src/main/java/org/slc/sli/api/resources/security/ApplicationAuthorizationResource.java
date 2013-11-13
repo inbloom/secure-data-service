@@ -196,16 +196,12 @@ public class ApplicationAuthorizationResource {
 
     private EntityBody getAppAuth(String appId) {
     	Iterable<EntityBody> appAuths = null;
-    	Iterable<EntityBody> apps = null;
 		SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal.isAdminRealmAuthenticated()) {
     	    appAuths = service.list(new NeutralQuery(new NeutralCriteria("applicationId", "=", appId)));  	
         } else {
-        	apps = service.listBasedOnContextualRoles(new NeutralQuery(new NeutralCriteria("_id", "=", appId)));
-       	 	if(apps.iterator().hasNext()) {
-       	 		appAuths = service.list(new NeutralQuery(new NeutralCriteria("applicationId", "=", appId)));
-       	 	}
+        	appAuths = service.listBasedOnContextualRoles(new NeutralQuery(new NeutralCriteria("applicationId", "=", appId)));
         }
 
         if ( null != appAuths ) {
@@ -227,11 +223,21 @@ public class ApplicationAuthorizationResource {
             return Response.status(Status.BAD_REQUEST).build();
         }
 
-        List<String> edOrgsToAuthorize = (List<String>) auth.get("edorgs");//(TA10857)
-        if( edOrgsToAuthorize == null) {
-            edOrgsToAuthorize = Collections.emptyList();
+    	Set<String> myEdorgs = validateEdOrg(null);
+        Set<String> inScopeEdOrgs = getChildEdorgs(myEdorgs);
+        
+        List<Map<String,Object>> edOrgs = (List<Map<String,Object>>) auth.get("edorgs");
+        List<String> edOrgsToAuthorize = new ArrayList();//(TA10857)
+        if( edOrgs != null) {
+        	for (Map<String, Object> edorg : edOrgs) {
+        		String authorizedEdorg = (String)edorg.get("authorizedEdorg");
+        		if(authorizedEdorg != null){
+        			edOrgsToAuthorize.add(authorizedEdorg);
+        		}
+        	}
         }
-
+        edOrgsToAuthorize.retainAll(inScopeEdOrgs);
+        
         EntityBody existingAuth = getAppAuth(appId);
         if (existingAuth == null) {
             //See if this is an actual app
@@ -369,9 +375,11 @@ public class ApplicationAuthorizationResource {
         for (EntityBody body : ents) {
             HashMap<String, Object> entity = new HashMap<String, Object>();
             String appId = (String) body.get("applicationId");
+            List<Map<String,Object>> edOrgs = (List<Map<String,Object>>) body.get("edorgs");
             entity.put("id", appId);
             entity.put("appId", appId);
             entity.put("authorized", true);
+            entity.put("edorgs", edOrgs); //DE2993
             results.add(entity);
             allApps.remove(appId);
         }
