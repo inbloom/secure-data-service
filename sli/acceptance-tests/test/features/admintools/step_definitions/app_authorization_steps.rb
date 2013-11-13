@@ -581,3 +581,9 @@ When /^a staffEducationOrgAssignmentAssociation is created for user "(.*?)" with
   restHttpPost('/v1/staffEducationOrgAssignmentAssociations', seoa_hash.to_json, 'application/vnd.slc+json')
   step "\"#{user}\" has an active staffEducationOrganizationAssociation of \"#{role}\" for \"#{edorg}\" in tenant \"#{tenant}\""
 end
+
+Then /^the error message "(.*?)" is displayed$/ do | expected_message |
+   actual_message = @driver.find_element(:xpath, '/html/body/div/div[2]').text
+   assert(actual_message == expected_message, "Unexpected message found. Expecting: #{expected_message} but got #{actual_message}")
+end
+
