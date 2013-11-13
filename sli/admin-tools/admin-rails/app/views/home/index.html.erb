@@ -2,5 +2,49 @@
 	<%= notice %>
 </div>
 
-<h1>Admin Tool</h1>
+<h1>Admin Tools</h1>
 
+
+<ul>
+
+  <% if controller.is_developer? or controller.is_operator? %>
+    <li><a href="/apps">Apps</a><br/>
+    Setup and enable your inBloom applications.</li>
+  <% end %>
+
+  <% if controller.is_app_authorizer %>
+    <li><a href="/application_authorizations">Application Authorizations</a><br/>
+    Authorize applications to access the datastore.</li>
+  <% end %>
+
+  <% if controller.is_lea_admin? %>
+     <li><a href="/admin_delegations">Admin Delegations</a><br/>
+     Admin Delegations.</li>
+  <% end %>
+
+  <% if controller.is_operator? and APP_CONFIG['is_sandbox'] %>
+    <li><a href="/account_managements">Account Managements</a><br/>
+    Manage sandbox accounts.</li>
+  <% end %>
+
+  <% if session[:rights].include?("CRUD_ROLE") %>
+    <li><a href="/custom_roles">Custom Roles</a><br/>
+    Edit roles and the rights associated with these roles.</li>
+  <% end %>
+
+  <% if controller.is_ingestion_user? %>
+    <li><a href="/landing_zone">Landing Zone</a><br/>
+    Set up a Landing Zone to import data</li>
+  <% end %>
+
+  <% if session[:rights].include?("CRUD_REALM") %>
+     <li><a href="/realm_management">Realm Management</a><br/>
+     Configure Realms, their Identity Providers and user roles.</li>
+  <% end %>
+
+  <% if controller.has_users_access? %>
+      <li><a href="/users">Users</a><br/>
+      Add users and edit their roles</li>
+  <% end %>
+
+</ul>
