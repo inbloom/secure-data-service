@@ -77,17 +77,15 @@ And I enable the educationalOrganization "Illinois State Board of Education" in 
 And I click on Save
 Then "Boyne" is enabled for "200" education organizations
 
-@wip
 Scenario: Linda Kim encounters Access Denied when attempting to access Application Authorization Tool using default Educator role
 #check educator seoa exists
 Given "linda.kim" has an active staffEducationOrganizationAssociation of "Educator" for "East Daybreak Junior High" in tenant "Midgar"
+And the sli securityEvent collection is empty
 When I hit the Admin Application Authorization Tool
-# And I select "inBloom" from the dropdown and click go
 And I select "Illinois Daybreak School District 4529" from the dropdown and click go
-# And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
 And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
-#Assert on some error message
-#Assert access denied security event
+And the error message "Sorry, you don't have access to this page. if you feel like you are getting this message in error, please contact your administrator." is displayed
+#TODO - Assert access denied security event
 
 Scenario: Create Application Authorizer Staff Education Organization Association (set up)
 When I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
@@ -112,7 +110,7 @@ Then there are "1" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-| securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "1" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "1 EdOrg(s)"
@@ -126,7 +124,7 @@ Then there are "0" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-| securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "1" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
@@ -164,7 +162,7 @@ Then there are "2" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-| securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "2" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "2 EdOrg(s)"
@@ -179,7 +177,7 @@ Then there are "0" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-| securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "2" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
@@ -205,7 +203,7 @@ Then there are "45" edOrgs for the "Boyne" application in the applicationAuthori
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-| securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "45" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "45 EdOrg(s)"
@@ -218,7 +216,7 @@ Then there are "0" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-| securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "45" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
@@ -240,7 +238,7 @@ Then there are "200" edOrgs for the "Boyne" application in the applicationAuthor
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-| securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "200" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "200 EdOrg(s)"
@@ -253,7 +251,7 @@ Then there are "0" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-| securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "200" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
