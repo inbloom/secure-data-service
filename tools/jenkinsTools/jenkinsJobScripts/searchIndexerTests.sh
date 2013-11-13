@@ -12,7 +12,7 @@ processApps $APPSTODEPLOY
 
 cd $WORKSPACE/sli/acceptance-tests
 export LANG=en_US.UTF-8
-bundle install --deployment
+nbundle install --full-index --deployment
 bundle exec rake FORCE_COLOR=true api_server_url=https://$NODE_NAME.slidev.org elastic_search_address=http://$NODE_NAME.slidev.org:9200 searchTests
 
 EXITCODE=$?

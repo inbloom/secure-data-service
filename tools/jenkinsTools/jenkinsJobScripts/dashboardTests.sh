@@ -17,7 +17,7 @@ export DISPLAY=:6.0
 cd $WORKSPACE/sli/acceptance-tests/
 export LANG=en_US.UTF-8
 export DEBUG=true
-bundle install --deployment
+nbundle install --full-index --deployment
 bundle exec rake FORCE_COLOR=true api_server_url=https://$NODE_NAME.slidev.org dashboard_server_address=https://$NODE_NAME.slidev.org dashboard_api_server_url=https://$NODE_NAME.slidev.org realm_page_url=https://$NODE_NAME.slidev.org ingestion_landing_zone=/home/ingestion/lz/inbound localDashboardTests TOGGLE_TABLESCANS=true
 
 EXITCODE=$?
