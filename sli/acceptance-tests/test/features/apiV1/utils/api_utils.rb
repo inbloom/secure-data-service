@@ -83,8 +83,7 @@ end
 # WHEN WHEN WHEN WHEN WHEN WHEN 2WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
 ###############################################################################
 
-
-When /^I create an empy json object to POST$/ do
+When /^I create an empty json object$/ do
   @fields = Hash[]
 end
 

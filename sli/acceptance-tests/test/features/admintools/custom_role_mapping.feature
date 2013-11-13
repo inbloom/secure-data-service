@@ -4,6 +4,7 @@
 @RALLY_US2669
 @RALLY_US5810
 @RALLY_US5865
+@RALLY_US5459
 Feature: Custom Role Mapping Tool
 As an SEA/LEA  Admin, I would like to have the Complex Role Mapping admin tool, so that I can map lists of SEA/LEA Directory roles to their associated SLI Access Rights.
 
@@ -59,6 +60,7 @@ When I create a new role <Role> to the group <Group> that allows <User> to acces
 Then I see the mapping in the table
 And That user can now access the API
 
+@RALLY_US5459
 @production
 Scenario: Add rights to group
 When I navigate to the Custom Role Mapping Page
@@ -69,11 +71,13 @@ Then I have navigated to my Custom Role Mapping Page
 And the user "custom" in tenant "IL" can access the API with rights "Read General"
 And I edit the group "New Custom"
 When I add the right "WRITE_GENERAL" to the group "New Custom"
+# US5459
+And I add the right "SECURITY_EVENT_VIEW" to the group "IT Administrator"
 And I check the admin role box
 And I hit the save button
 Then I am no longer in edit mode
-And the group "New Custom" contains the "right" rights "Read and Write General"
-And the user "custom" in tenant "IL" can access the API with rights "Read and Write General"
+And the group "New Custom" contains the "right" rights "Read, Write General, and Security Event View"
+And the user "custom" in tenant "IL" can access the API with rights "Read, Write General, and Security Event View"
 And the group "New Custom" has the admin role box checked
 
 @production
@@ -85,18 +89,20 @@ When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" l
 Then I have navigated to my Custom Role Mapping Page
 When I edit the group "New Custom"
 When I remove the right "WRITE_GENERAL" from the group "New Custom"
-Then the group "New Custom" contains the "right" rights "Read General"
+Then the group "New Custom" contains the "right" rights "Read General and Security Event View"
 And I hit the save button
 Then I am no longer in edit mode
-And the group "New Custom" contains the "right" rights "Read General"
-And the user "custom" in tenant "IL" can access the API with rights "Read General"
+And the group "New Custom" contains the "right" rights "Read General and Security Event View"
+And the user "custom" in tenant "IL" can access the API with rights "Read General and Security Event View"
 When I edit the group "New Custom"
 When I remove the right "TEACHER_CONTEXT" from the group "New Custom"
 And I wait for "1" seconds
 When I remove the right "READ_GENERAL" from the group "New Custom"
 And I wait for "1" seconds
+And I remove the right "SECURITY_EVENT_VIEW" from the group "New Custom"
+And I wait for "1" seconds
 Then I am informed that I must have at least one role and right in the group
-And the user "custom" in tenant "IL" can access the API with rights "Read General"
+And the user "custom" in tenant "IL" can access the API with rights "Read General and Security Event View"
 
 @production
 Scenario: Remove role from group
