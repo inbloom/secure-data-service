@@ -450,9 +450,10 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     And I should receive a return code of 404
 
   Examples:
-    | Entity Type      | Entity Resource URI | Update Field  | Updated Value         |
-    | "gradebookEntry" | "gradebookEntries"  | "description" | "Updated description" |
-
+    | Entity Type         | Entity Resource URI  | Update Field  | Updated Value         |
+    | "gradebookEntry"    | "gradebookEntries"   | "description" | "Updated description" |
+#	| "learningObjective" | "learningObjectives" | "objective"   | "Updated Objective"   |
+#	| "learningStandard"  | "learningStandards"  | "description" | "Updated description" |
 
   Scenario Outline: Get modified grade, reportCard and AcademicRecord entities
 

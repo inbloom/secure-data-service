@@ -2287,7 +2287,7 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element maxOccurs='1' name='schoolId' type='reference'>
+            <xs:element maxOccurs='1' name='educationOrganizationReference' type='reference'>
                 <xs:annotation>
                     <xs:documentation>The education organization referenced by this
                         session.

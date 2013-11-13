@@ -477,13 +477,13 @@ public class EntityRepositoryTest {
         // create a minimal session document
         Map<String, Object> sessionMap = new HashMap<String, Object>();
         sessionMap.put("sessionName", "session1");
-        sessionMap.put("schoolId", "schoolId1");
+        sessionMap.put("educationOrganizationReference", "schoolId1");
         List<String> gradingPeriodRefArray = new ArrayList<String>();
         gradingPeriodRefArray.add("dog");
         sessionMap.put("gradingPeriodReference", gradingPeriodRefArray);
         repository.create("session", sessionMap);
         sessionMap.put("sessionName", "session2");
-        sessionMap.put("schoolId", "schoolId2");
+        sessionMap.put("educationOrganizationReference", "schoolId2");
         gradingPeriodRefArray.add(idToDelete);
         gradingPeriodRefArray.add("mousearama");
         sessionMap.put("gradingPeriodReference", gradingPeriodRefArray);
