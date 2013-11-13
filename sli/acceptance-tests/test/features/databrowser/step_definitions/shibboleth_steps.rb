@@ -17,5 +17,9 @@ limitations under the License.
 =end
 
 Then /^I should see a login failed message$/ do
-  assertWithWait("Could not find invalid user error message") {@driver.find_element(:css, '.form-error').text == 'Login has failed. Double-check your username and password.'}
+  assertWithWait('Could not find login failed error message') {@driver.find_element(:css, '.form-error').text == 'Login has failed. Double-check your username and password.'}
+end
+
+Then /^I get an invalid user message$/ do
+  assertWithWait('Could not find invalid user error message') {@driver.find_element(:tag_name, 'h3').text == 'Invalid user.'}
 end

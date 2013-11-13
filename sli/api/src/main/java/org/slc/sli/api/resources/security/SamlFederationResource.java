@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -60,9 +61,31 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.opensaml.DefaultBootstrap;
+import org.opensaml.saml2.core.Artifact;
 import org.opensaml.saml2.core.ArtifactResolve;
+import org.opensaml.saml2.core.ArtifactResponse;
+import org.opensaml.saml2.core.Assertion;
+import org.opensaml.saml2.core.Conditions;
+import org.opensaml.saml2.core.Issuer;
+import org.opensaml.saml2.core.Subject;
+import org.opensaml.saml2.core.SubjectConfirmationData;
+import org.opensaml.ws.soap.client.BasicSOAPMessageContext;
+import org.opensaml.ws.soap.client.http.HttpClientBuilder;
+import org.opensaml.ws.soap.client.http.HttpSOAPClient;
+import org.opensaml.ws.soap.common.SOAPException;
+import org.opensaml.ws.soap.soap11.Body;
 import org.opensaml.ws.soap.soap11.Envelope;
+import org.opensaml.ws.soap.soap11.impl.EnvelopeImpl;
+import org.opensaml.xml.Configuration;
+import org.opensaml.xml.ConfigurationException;
 import org.opensaml.xml.XMLObject;
+import org.opensaml.xml.XMLObjectBuilderFactory;
+import org.opensaml.xml.io.MarshallingException;
+import org.opensaml.xml.parse.BasicParserPool;
+import org.opensaml.xml.signature.Signature;
+import org.opensaml.xml.signature.SignatureException;
+import org.opensaml.xml.signature.Signer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -100,7 +123,16 @@ import org.slc.sli.domain.Repository;
 public class SamlFederationResource {
 
     @Autowired
-    private SamlHelper saml;
+    private SamlHelper samlHelper;
+
+    @Autowired
+    private KeystoreHelper keystoreHelper;
+
+    @Autowired
+    private ArtifactBindingHelper artifactBindingHelper;
+
+    @Autowired
+    private SOAPHelper soapHelper;
 
     @Autowired
     @Qualifier("validationRepo")
@@ -119,7 +151,7 @@ public class SamlFederationResource {
     private OauthSessionManager sessionManager;
 
     @Value("${sli.security.sp.issuerName}")
-    private String metadataSpIssuerName;
+    private String issuerName;
 
     @Value("${sli.api.cookieDomain}")
     private String apiCookieDomain;
@@ -136,20 +168,16 @@ public class SamlFederationResource {
 
     private String metadata;
 
+    private  KeyStore.PrivateKeyEntry pkEntry;
+
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
 
     @Autowired
     private EdOrgContextualRoleBuilder edOrgRoleBuilder;
 
-    @Value("${sli.api.keyStore:../data-access/dal/keyStore/api.jks}")
-    private String keystoreFileName;
-
-    @Value("${sli.api.keystore.password:changeit}")
-    private String keystorePassword;
-
-    @Value("${sli.api.digital.signature.alias:apids}")
-    private String keystoreAlias;
+    @Value("${sli.security.idp.url}")
+    private String idpUrl;
 
     public static SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -159,34 +187,20 @@ public class SamlFederationResource {
 
     @SuppressWarnings("unused")
     @PostConstruct
-    private void processMetadata() throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException, UnrecoverableEntryException {
+    private void processKeystoreAndMetadata() throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException, UnrecoverableEntryException {
+        pkEntry = keystoreHelper.initializeKeystoreEntry();
+
         StringWriter writer = new StringWriter();
 
         Template veTemplate = getTemplate();
         VelocityContext context = new VelocityContext();
-        context.put(TEMPLATE_ISSUER_REFERENCE, metadataSpIssuerName);
+        context.put(TEMPLATE_ISSUER_REFERENCE, issuerName);
         context.put(TEMPLATE_CERTIFICATE_REFERENCE, fetchCertificateText());
         veTemplate.merge(context, writer);
 
         metadata = writer.toString();
     }
 
-    private String fetchCertificateText() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
-        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-        FileInputStream fis = new FileInputStream(keystoreFileName);
-        char[] password = keystorePassword.toCharArray();
-
-        keyStore.load(fis, password);
-        IOUtils.closeQuietly(fis);
-
-        KeyStore.PrivateKeyEntry pkEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(keystoreAlias, new KeyStore.PasswordProtection(password));
-        X509Certificate certificate = (X509Certificate) pkEntry.getCertificate();
-
-        Base64 encoder = new Base64(64);
-        String certificateText = new String(encoder.encode(certificate.getEncoded()));
-
-        return certificateText;
-    }
 
     @POST
     @Path("sso/post")
@@ -197,7 +211,7 @@ public class SamlFederationResource {
         Document doc = null;
 
         try {
-            doc = saml.decodeSamlPost(postData);
+            doc = samlHelper.decodeSamlPost(postData);
         } catch (Exception e) {
             handleSAMLDecodeError(e, uriInfo.getRequestUri());
         }
@@ -225,7 +239,7 @@ public class SamlFederationResource {
             validateSubject(uriInfo.getRequestUri(), subjConfirmationData.getAttributeValue("Recipient"), subjConfirmationData.getAttributeValue("NotBefore"),
                     subjConfirmationData.getAttributeValue("NotOnOrAfter"), targetEdOrg);
         } else {
-            generateSamlValidationError("SAML response is missing Subject.", targetEdOrg);
+            raiseSamlValidationError("SAML response is missing Subject.", targetEdOrg);
         }
 
         LinkedMultiValueMap<String, String> attributes = getAttributesFromAssertion(assertion);
@@ -258,10 +272,10 @@ public class SamlFederationResource {
 
         audit(event);
 
-        generateSamlValidationError(e.getMessage(), null);
+        raiseSamlValidationError(e.getMessage(), null);
     }
 
-    private void generateSamlValidationError(String message, String targetEdOrg) {
+    private void raiseSamlValidationError(String message, String targetEdOrg) {
         error(message);
         throw new APIAccessDeniedException("Authorization could not be verified.", targetEdOrg);
     }
@@ -276,7 +290,7 @@ public class SamlFederationResource {
 
         Entity realm = repo.findOne("realm", neutralQuery);
         if (realm == null) {
-            generateSamlValidationError("Invalid realm: " + issuer, null);
+            raiseSamlValidationError("Invalid realm: " + issuer, null);
         }
 
         return realm;
@@ -293,14 +307,14 @@ public class SamlFederationResource {
 
     private void validateTimeRange(String errorMessagePrefix, String notBefore, String notOnOrAfter, String targetEdOrg) {
         if (!isTimeInRange(notBefore, notOnOrAfter)) {
-            generateSamlValidationError(errorMessagePrefix + "  Current time not in range " + notBefore + " to "
+            raiseSamlValidationError(errorMessagePrefix + "  Current time not in range " + notBefore + " to "
                     + notOnOrAfter + ".", targetEdOrg);
         }
     }
 
     private void validateSubject(URI uri, String recipient, String notBefore, String notOnOrAfter, String targetEdOrg) {
         if (!uri.toString().equals(recipient)) {
-            generateSamlValidationError("SAML Recipient was invalid, was " + recipient, targetEdOrg);
+            raiseSamlValidationError("SAML Recipient was invalid, was " + recipient, targetEdOrg);
         }
 
         validateTimeRange("SAML Subject failed.", notBefore, notOnOrAfter, targetEdOrg);
@@ -618,95 +632,71 @@ public class SamlFederationResource {
      * @param request
      * @param uriInfo
      * @return
-     * @throws APIAccessDeniedException
      */
     @GET
     @Path("sso/artifact")
-    public Response artifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) throws APIAccessDeniedException {
+    public Response processArtifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) {
         String artifact = request.getParameter("SAMLart");
         if (artifact == null) {
             throw new APIAccessDeniedException("No artifact provided by the IdP");
         }
 
-        ArtifactResolve artifactResolve = generateArtifactResolveRequest(artifact);
-        Envelope soapEnvelope = generateSOAPEnvelope(artifactResolve);
+        ArtifactResolve artifactResolve = artifactBindingHelper.generateArtifactResolveRequest(artifact, pkEntry);
+        Envelope soapEnvelope = artifactBindingHelper.generateSOAPEnvelope(artifactResolve);
 
-        XMLObject response = sendSOAPCommunication(soapEnvelope);
+        XMLObject response = soapHelper.sendSOAPCommunication(soapEnvelope, idpUrl);
 
-        String inResponseTo = getDataFromResponse(response, "InResponseTo");
+        ArtifactResponse artifactResponse = (ArtifactResponse)((EnvelopeImpl) response).getBody().getUnknownXMLObjects().get(0);
+        org.opensaml.saml2.core.Response samlResponse = (org.opensaml.saml2.core.Response) artifactResponse.getMessage();
 
+        return processResponse(uriInfo, samlResponse);
+    }
+
+    private Response processResponse(UriInfo uriInfo, org.opensaml.saml2.core.Response samlResponse) {
+        samlHelper.validateCertificate(samlResponse);
+
+        String inResponseTo = samlResponse.getInResponseTo();
         Entity session = sessionManager.getSessionForSamlId(inResponseTo);
         String requestedRealmId = (String) session.getBody().get("requestedRealmId");
-        Entity realm = getRealm(getDataFromResponse(response, "Issuer"), requestedRealmId);
+        Entity realm = getRealm(samlResponse.getIssuer().getValue(), requestedRealmId);
         String targetEdOrg = getTargetEdOrg(realm);
 
-        validateCertificate(response);
-        validateTimeRange("SAML Conditions failed.", getDataFromResponse(response, "Conditions.NotBefore"), getDataFromResponse(response, "Conditions.NotOnOrAfter"), targetEdOrg);
-        validateSubject(uriInfo.getRequestUri(), getDataFromResponse(response, "Subject.SubjectConfirmation.SubjectConfirmationData.Recipient"),
-                getDataFromResponse(response, "Conditions.NotBefore"), getDataFromResponse(response, "Conditions.NotOnOrAfter"), targetEdOrg);
+        Assertion assertion = samlResponse.getAssertions().get(0);
 
-        LinkedMultiValueMap<String, String> attributes = extractAttributesFromResponse(response);
-        return authenticateUser(attributes, realm, getTargetEdOrg(realm), inResponseTo, session, uriInfo.getRequestUri());
-    }
+        Conditions conditions = assertion.getConditions();
+        if(conditions != null) {
+            String notBefore = conditions.getNotBefore() == null ? null : conditions.getNotBefore().toString();
+            String notOnOrAfter = conditions.getNotOnOrAfter() == null ? null : conditions.getNotOnOrAfter().toString();
+            validateTimeRange("SAML Conditions failed.", notBefore, notOnOrAfter, targetEdOrg);
+        }
 
-    /**
-     *
-     * @param artifact
-     * @return
-     */
-    protected ArtifactResolve generateArtifactResolveRequest(String artifact) {
-        //Method stub
-        return null;
-    }
+        Subject subject = assertion.getSubject();
+        if (subject != null) {
+            SubjectConfirmationData subjectConfirmationData = subject.getSubjectConfirmations().get(0).getSubjectConfirmationData();
+            String notBefore = subjectConfirmationData.getNotBefore() == null ? null : subjectConfirmationData.getNotBefore().toString();
+            String notOnOrAfter = subjectConfirmationData.getNotOnOrAfter() == null ? null : subjectConfirmationData.getNotOnOrAfter().toString();
 
-    /**
-     *
-     * @param artifactResolutionRequest
-     * @return
-     */
-    protected Envelope generateSOAPEnvelope(ArtifactResolve artifactResolutionRequest) {
-        //Method Stub
-        return null;
-    }
+            validateSubject(uriInfo.getAbsolutePath(), subjectConfirmationData.getRecipient(), notBefore, notOnOrAfter, targetEdOrg);
+        } else {
+            raiseSamlValidationError("SAML response is missing Subject.", targetEdOrg);
+        }
 
-    /**
-     *
-     * @param soapEnvelope
-     * @return
-     */
-    protected XMLObject sendSOAPCommunication(Envelope soapEnvelope) {
-        //Method stub
-        return null;
+        LinkedMultiValueMap<String, String> attributes = samlHelper.extractAttributesFromResponse(assertion);
+
+        return authenticateUser(attributes, realm, targetEdOrg, inResponseTo, session, uriInfo.getRequestUri());
     }
 
 
-    /**
-     *
-     * @param response
-     */
-    protected void validateCertificate(XMLObject response) {
-        //Method Stub
+
+    private String fetchCertificateText() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
+        X509Certificate certificate = (X509Certificate) pkEntry.getCertificate();
+
+        Base64 encoder = new Base64(64);
+        String certificateText = new String(encoder.encode(certificate.getEncoded()));
+
+        return certificateText;
     }
 
-    /**
-     *
-     * @param response
-     * @param name
-     * @return
-     */
-    protected String getDataFromResponse(XMLObject response, String name) {
-        //Method Stub
-        return "";
-    }
-
-    /**
-     *
-     * @param response
-     * @return
-     */
-    protected LinkedMultiValueMap<String, String> extractAttributesFromResponse(XMLObject response) {
-        return new LinkedMultiValueMap<String, String>();
-    }
 
     /**
      * Check that the current time is within the specified range.
