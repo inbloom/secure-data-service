@@ -1219,6 +1219,7 @@ team:
         sli.security.truststore.path: /opt/tomcat/encryption/ciTruststore.jks
         sli.security.truststore.password: changeit
 
+        sli.api.keyStore: /opt/tomcat/encryption/ciKeyStore.jks
 
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
