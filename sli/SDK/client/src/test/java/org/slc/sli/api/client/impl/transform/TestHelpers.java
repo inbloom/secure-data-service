@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -73,7 +74,7 @@ public class TestHelpers {
     public static GenericEntity createComplexEntity() {
         GenericEntity rval = null;
         
-        Map<String, Object> body = new HashMap<String, Object>();
+        Map<String, Object> body = new TreeMap<String, Object>();
         
         body.put("loginId", "a");
         body.put("otherName", new LinkedList<Map<String, Object>>());
@@ -84,7 +85,7 @@ public class TestHelpers {
         body.put("yearsOfPriorProfessionalExperience", 20);
         
         List<Map<String, Object>> addresses = new LinkedList<Map<String, Object>>();
-        Map<String, Object> address1 = new HashMap<String, Object>();
+        Map<String, Object> address1 = new TreeMap<String, Object>();
         address1.put("apartmentRoomSuiteNumber", "7B");
         address1.put("streetNumberName", "123 Wall Street");
         address1.put("postalCode", "99999");
@@ -96,7 +97,7 @@ public class TestHelpers {
         
         body.put("address", addresses);
         
-        Map<String, Object> name = new HashMap<String, Object>();
+        Map<String, Object> name = new TreeMap<String, Object>();
         name.put("verification", "Life insurance policy");
         name.put("lastSurname", "Johnson");
         name.put("personalTitlePrefix", "Mr");
@@ -104,7 +105,7 @@ public class TestHelpers {
         body.put("name", name);
         
         List<Map<String, Object>> email = new LinkedList<Map<String, Object>>();
-        Map<String, Object> email1 = new HashMap<String, Object>();
+        Map<String, Object> email1 = new TreeMap<String, Object>();
         email1.put("emailAddressType", "Organization");
         email1.put("emailAddress", "junk@junk.com");
         email.add(email1);
@@ -113,12 +114,12 @@ public class TestHelpers {
         body.put("highestLevelOfEducationCompleted", "No Degree");
         
         List<Map<String, Object>> credentials = new LinkedList<Map<String, Object>>();
-        Map<String, Object> credential = new HashMap<String, Object>();
+        Map<String, Object> credential = new TreeMap<String, Object>();
         
         List<Map<String, Object>> credentialFields = new LinkedList<Map<String, Object>>();
-        Map<String, Object> credentialField1 = new HashMap<String, Object>();
+        Map<String, Object> credentialField1 = new TreeMap<String, Object>();
         credentialField1.put("description", "Linux Superstar");
-        Map<String, Object> credentialField2 = new HashMap<String, Object>();
+        Map<String, Object> credentialField2 = new TreeMap<String, Object>();
         credentialField2.put("codeValue", "IT Admin");
         credentialFields.add(credentialField1);
         credentialFields.add(credentialField2);
@@ -133,7 +134,7 @@ public class TestHelpers {
         body.put("birthDate", "1980-02-01");
         
         List<Map<String, Object>> phoneNumbers = new LinkedList<Map<String, Object>>();
-        Map<String, Object> phoneNumber = new HashMap<String, Object>();
+        Map<String, Object> phoneNumber = new TreeMap<String, Object>();
         phoneNumber.put("telephoneNumberType", "Fax");
         phoneNumber.put("primaryTelephoneNumberIndicator", true);
         phoneNumber.put("telephoneNumber", "a");
@@ -142,7 +143,7 @@ public class TestHelpers {
         body.put("telephone", phoneNumbers);
         
         List<Map<String, Object>> staffCodes = new LinkedList<Map<String, Object>>();
-        Map<String, Object> staffCode = new HashMap<String, Object>();
+        Map<String, Object> staffCode = new TreeMap<String, Object>();
         staffCode.put("identificationSystem", "Selective Service");
         staffCode.put("ID", "a");
         staffCode.put("assigningOrganizationCode", "a");
@@ -174,23 +175,70 @@ public class TestHelpers {
     
     public static final JsonNode SIMPLE_METADATA_JSON_OBJECT = initJsonNode(SIMPLE_METADATA_JSON);
     
-    public static final String COMPLEX_JSON_BODY = "{\"loginId\":\"a\",\"otherName\":[],"
-            + "\"sex\":\"Male\",\"staffUniqueStateId\":\"mjohnson\",\"hispanicLatinoEthnicity\":false,"
-            + "\"yearsOfPriorTeachingExperience\":0,\"yearsOfPriorProfessionalExperience\":20,\"address\":"
-            + "[{\"apartmentRoomSuiteNumber\":\"7B\",\"postalCode\":\"99999\","
-            + "\"streetNumberName\":\"123 Wall Street\",\"stateAbbreviation\":\"IL\",\"countryCode\":\"SI\","
-            + "\"addressType\":\"Work\",\"city\":\"Chicago\"}],\"name\":{"
-            + "\"verification\":\"Life insurance policy\",\"lastSurname\":\"Johnson\","
-            + "\"personalTitlePrefix\":\"Mr\",\"firstName\":\"Michael\"},\"electronicMail\":["
-            + "{\"emailAddress\":\"junk@junk.com\",\"emailAddressType\":\"Organization\"}],"
-            + "\"highestLevelOfEducationCompleted\":\"No Degree\",\"credentials\":[{"
-            + "\"credentialField\":[{\"description\":\"Linux Superstar\"},{\"codeValue\":\"IT Admin\"}"
-            + "],\"level\":\"All Level (Grade Level PK-12)\",\"teachingCredentialType\":\"Standard\","
-            + "\"credentialType\":\"Certification\",\"credentialIssuanceDate\":\"2000-01-01\"}],"
-            + "\"birthDate\":\"1980-02-01\",\"telephone\":[{\"telephoneNumber\":\"a\","
-            + "\"primaryTelephoneNumberIndicator\":true,\"telephoneNumberType\":\"Fax\"}],"
-            + "\"staffIdentificationCode\":[{\"identificationSystem\":\"Selective Service\","
-            + "\"ID\":\"a\",\"assigningOrganizationCode\":\"a\"}]}";
+    public static final String COMPLEX_JSON_BODY = "{\"address\":["
+    		+ "{"
+            + "\"addressType\":\"Work\","
+            + "\"apartmentRoomSuiteNumber\":\"7B\","
+            + "\"city\":\"Chicago\","
+            + "\"countryCode\":\"SI\","
+            + "\"postalCode\":\"99999\","
+            + "\"stateAbbreviation\":\"IL\","
+            + "\"streetNumberName\":\"123 Wall Street\""
+            + "}"
+            + "],"
+            + "\"birthDate\":\"1980-02-01\","
+            + "\"credentials\":["
+            + "{"
+            + "\"credentialField\":["
+            + "{"
+            + "\"description\":\"Linux Superstar\""
+            + "},"
+            + "{"
+            + "\"codeValue\":\"IT Admin\""
+            + "}"
+            + "],"
+            + "\"credentialIssuanceDate\":\"2000-01-01\","
+            + "\"credentialType\":\"Certification\","
+            + "\"level\":\"All Level (Grade Level PK-12)\","
+            + "\"teachingCredentialType\":\"Standard\""
+            + "}"
+            + "],"
+            + "\"electronicMail\":["
+            + "{"
+            + "\"emailAddress\":\"junk@junk.com\","
+            + "\"emailAddressType\":\"Organization\""
+            + "}"
+            + "],"
+            + "\"highestLevelOfEducationCompleted\":\"No Degree\","
+            + "\"hispanicLatinoEthnicity\":false,"
+            + "\"loginId\":\"a\","
+            + "\"name\":{"
+            + "\"firstName\":\"Michael\","
+            + "\"lastSurname\":\"Johnson\","
+            + "\"personalTitlePrefix\":\"Mr\","
+            + "\"verification\":\"Life insurance policy\""
+            + "},"
+            + "\"otherName\":["
+            + "],"
+            + "\"sex\":\"Male\","
+            + "\"staffIdentificationCode\":["
+            + "{"
+            + "\"ID\":\"a\","
+            + "\"assigningOrganizationCode\":\"a\","
+            + "\"identificationSystem\":\"Selective Service\""
+            + "}"
+            + "],"
+            + "\"staffUniqueStateId\":\"mjohnson\","
+            + "\"telephone\":["
+            + "{"
+            + "\"primaryTelephoneNumberIndicator\":true,"
+            + "\"telephoneNumber\":\"a\","
+            + "\"telephoneNumberType\":\"Fax\""
+            + "}"
+            + "],"
+            + "\"yearsOfPriorProfessionalExperience\":20,"
+            + "\"yearsOfPriorTeachingExperience\":0"
+            + "}";
     
     public static final String COMPLEX_JSON = "{\"entityType\":\"staff\",\"body\":" + COMPLEX_JSON_BODY
             + ",\"metaData\":{\"tenantId\":\"IL\",\"externalId\":\"mjohnson\"}}";

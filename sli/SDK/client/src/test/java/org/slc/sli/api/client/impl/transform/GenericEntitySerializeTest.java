@@ -54,8 +54,6 @@ public class GenericEntitySerializeTest {
     }
     
     @Test
-    // us5967 - Failing in Java 7
-    @Ignore
     public void testComplexEntity() throws IOException {
         
         GenericEntity e = TestHelpers.createComplexEntity();
