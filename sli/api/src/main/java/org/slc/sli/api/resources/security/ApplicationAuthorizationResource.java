@@ -225,10 +225,16 @@ public class ApplicationAuthorizationResource {
 
     	Set<String> myEdorgs = validateEdOrg(null);
         Set<String> inScopeEdOrgs = getChildEdorgs(myEdorgs);
-
-        List<String> edOrgsToAuthorize = (List<String>) auth.get("edorgs");//(TA10857)
-        if( edOrgsToAuthorize == null) {
-            edOrgsToAuthorize = Collections.emptyList();
+        
+        List<Map<String,Object>> edOrgs = (List<Map<String,Object>>) auth.get("edorgs");
+        List<String> edOrgsToAuthorize = new ArrayList();//(TA10857)
+        if( edOrgs != null) {
+        	for (Map<String, Object> edorg : edOrgs) {
+        		String authorizedEdorg = (String)edorg.get("authorizedEdorg");
+        		if(authorizedEdorg != null){
+        			edOrgsToAuthorize.add(authorizedEdorg);
+        		}
+        	}
         }
         edOrgsToAuthorize.retainAll(inScopeEdOrgs);
         
@@ -369,9 +375,11 @@ public class ApplicationAuthorizationResource {
         for (EntityBody body : ents) {
             HashMap<String, Object> entity = new HashMap<String, Object>();
             String appId = (String) body.get("applicationId");
+            List<Map<String,Object>> edOrgs = (List<Map<String,Object>>) body.get("edorgs");
             entity.put("id", appId);
             entity.put("appId", appId);
             entity.put("authorized", true);
+            entity.put("edorgs", edOrgs); //DE2993
             results.add(entity);
             allApps.remove(appId);
         }
