@@ -199,7 +199,7 @@ public class SecurityEventBuilder {
             // set targetEdOrgList
             if (targetEdOrgs != null && !targetEdOrgs.isEmpty()) {
                 debug("Setting targetEdOrgList explicitly: " + targetEdOrgs);
-                event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgs));
+                event.setTargetEdOrgList(targetEdOrgs);  // TA10431 Sec Event now handles collections
             } else if (defaultTargetToUserEdOrg) {
                 debug("Setting targetEdOrgList to be userEdOrg" + event.getUserEdOrg());
                 setTargetToUserEdOrg(event);
@@ -207,7 +207,7 @@ public class SecurityEventBuilder {
                 debug("Not explicitly specified, doing a best effort determination of targetEdOrg based on the request uri path: " + requestUri.getPath());
                 Set<String> stateOrgIds = getTargetEdOrgStateIdsFromURI(requestUri);
                 if (stateOrgIds != null && !stateOrgIds.isEmpty()) {
-                    event.setTargetEdOrgList(new ArrayList<String>(stateOrgIds));
+                    event.setTargetEdOrgList(stateOrgIds);		// TA10431 Sec Event now handles collections
                 } else {
                     debug("Defaulting targetEdOrgList to userEdOrg since URI has no specific id.");
                     setTargetToUserEdOrg(event);
@@ -244,9 +244,7 @@ public class SecurityEventBuilder {
 
     private void setTargetToUserEdOrg(SecurityEvent event) {
         if (event != null && event.getUserEdOrg() != null) {
-            List<String> defaultTargetEdOrgs = new ArrayList<String>();
-            defaultTargetEdOrgs.add(event.getUserEdOrg());
-            event.setTargetEdOrgList(defaultTargetEdOrgs);
+            event.setTargetEdOrgList(event.getUserEdOrg());  // TA10431 - Sec Event now handles scalar for list
         }
     }
 

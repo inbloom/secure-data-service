@@ -87,7 +87,7 @@ public class UserResource {
     SecurityEvent createSecurityEvent(String logMessage, String tenantId, String edorg) {
         SecurityEvent securityEvent = securityEventBuilder.createSecurityEvent(UserResource.class.getName(), null, logMessage,false);
         securityEvent.setTenantId(tenantId);
-        securityEvent.setTargetEdOrg(edorg);
+        securityEvent.setTargetEdOrgList(edorg);	//@TA10431 - change targetEdOrg from scalar to list
         return securityEvent;
     }
 
