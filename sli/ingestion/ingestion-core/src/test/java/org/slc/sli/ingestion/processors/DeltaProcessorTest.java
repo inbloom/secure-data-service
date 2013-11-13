@@ -19,6 +19,7 @@ package org.slc.sli.ingestion.processors;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -211,7 +212,7 @@ public class DeltaProcessorTest {
     private NeutralRecord createNeutralRecord(String type) {
         NeutralRecord originalRecord = new NeutralRecord();
         originalRecord.setRecordType(type);
-        originalRecord.setAttributes(new HashMap<String, Object>());
+        originalRecord.setAttributes(new TreeMap<String, Object>());
         return originalRecord;
     }
 }

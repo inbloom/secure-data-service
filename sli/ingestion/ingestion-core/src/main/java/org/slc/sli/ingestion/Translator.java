@@ -17,6 +17,7 @@
 package org.slc.sli.ingestion;
 
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -59,7 +60,7 @@ public final class Translator {
         NeutralRecord neutralRecord = new NeutralRecord();
         neutralRecord.setRecordType(instance.getType());
 
-        Map<String, Object> attributes = new HashMap<String, Object>();
+        Map<String, Object> attributes = new TreeMap<String, Object>();
         Map<String, Object> body = instance.getBody();
 
         attributes.putAll(body);
