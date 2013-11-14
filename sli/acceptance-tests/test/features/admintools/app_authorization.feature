@@ -73,11 +73,10 @@ Scenario: SEA Admin Approves bulk extract application
      And the app "SDK Sample" Status matches "\d+ EdOrg"
      And it is colored "green"
      Then the application is authorized to use data of "Illinois State Board of Education"
-	 #11 edorgs related to SEA, but only 4 direct children
      And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-     And there are "3" educationalOrganizations in the targetEdOrgList
+     And there are "10" educationalOrganizations in the targetEdOrgList
      # TODO - check edOrgs directly
 
 Scenario: SEA Admin Denies bulk extract application (dependant on above scenario)
@@ -102,8 +101,6 @@ Scenario: SEA Admin Denies bulk extract application (dependant on above scenario
       # TODO: enable these when we know no garbage exists
       # And the app "SDK Sample" Status becomes "Not Approved"
       # And it is colored "red"
-
-      #11 edorgs related to SEA, but only 4 direct children
       And I check to find if record is in sli db collection:
        | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
        | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!   |
@@ -129,11 +126,10 @@ Scenario: SEA Admin Approves non-bulk extract application
      And the sli securityEvent collection is empty
      And I click Update
 	Then the application is authorized to use data of "Illinois State Board of Education"
-	 #11 edorgs related to SEA, but only 4 direct children
      And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-     And there are "3" educationalOrganizations in the targetEdOrgList
+     And there are "10" educationalOrganizations in the targetEdOrgList
      # TODO - check edOrgs directly
      And the app "Testing App" Status matches "\d+ EdOrg"
      And it is colored "green"
@@ -157,7 +153,6 @@ Scenario: SEA Admin Denies non-bulk extract application (dependant on above scen
      Then the application is denied to use data of "Illinois State Board of Education"
       And the app "Testing App" Status becomes "Not Approved"
       And it is colored "red"
-      #11 edorgs related to SEA, but only 4 direct children
       And I check to find if record is in sli db collection:
        | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
        | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!   |
