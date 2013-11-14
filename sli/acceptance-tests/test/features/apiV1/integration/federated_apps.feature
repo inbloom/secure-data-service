@@ -99,3 +99,28 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
     And I try to get app "US5865 Application Z1" and get a response code "200"
     And I try to get app "US5865 Application Z2" and get a response code "200"
+
+
+  #jstevenson can access applicationAuthorizations for his schools and leas
+  Scenario: CRUD operations involving developers, slcoperators, and federated users with APP_AUTHORIZE rights
+    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
+    And I create a LEA named "L1"
+    And I create a School named "S1" with parents "L1"
+    And I create a School named "S2" with parents "L1"
+    And I login as developer "developer" and create application named "A1"
+    And I login as slcoperator and approve application named "A1"
+    And I login as developer "developer" and enable application named "A1" for "S1"
+    And I login as developer "developer" and enable application named "A1" for "S2"
+
+    #jstevenson tries to authorize app for a school that he is an IT administrator and succeeds
+    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
+    And I add a "IT Administrator" StaffEducationOrganizationAssociation  between "jstevenson" and "S1"
+    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
+    And I try to read the authorization for "A1" and get a response code of "200"
+    And I try to authorize "A1" to access "S1" and get a response code of "204"
+    And I try to deAuthorize "A1" to access "S1" and get a response code of "204"
+
+    #jstevenson tries to authorize app for a school that he is NOT an IT administrator and fails
+    And I try to authorize "A1" to access "S2" and get a response code of "403"
+
+

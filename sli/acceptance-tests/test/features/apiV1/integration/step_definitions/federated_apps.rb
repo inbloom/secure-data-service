@@ -159,3 +159,35 @@ When(/^I try to get app "([^"]*)" and get a response code "([^"]*)"$/) do |id, r
   restHttpGetAbs(entityLink, 'application/json')
   assert(@res.code.to_s == respCode, "Got [#{@res.code}] while fetching #{entityLink}. Expected [#{respCode}]")
 end
+
+When(/^I try to read the authorization for "([^"]*)" and get a response code of "([^"]*)"$/) do |appName, respCode|
+  appId = $createdEntityIds[appName]
+  authUrl = "/applicationAuthorization/#{appId}"
+  restHttpGet("/applicationAuthorization/#{appId}", 'application/json')
+  assert(@res.code.to_s == respCode, "Got [#{@res.code}] while fetching #{authUrl}. Expected [#{respCode}]")
+end
+
+When(/^I try to ([^ ]*) "([^"]*)" to access "([^"]*)" and get a response code of "([^"]*)"$/) do |authOrDeAuth, appName, edOrgName, respCode|
+
+  auth = case authOrDeAuth
+          when "authorize"
+            true
+          when "deAuthorize"
+            false
+          else
+            raise "Cannot '#{authOrDeAuth}' StaffEducationOrganizationAssociation. Can only 'authorize' or 'deAuthorize'."
+        end
+
+  appId = $createdEntityIds[appName]
+  edOrgId = $createdEntityIds[edOrgName]
+
+  puts "Authorizing app [#{appName} #{appId}] to access [#{edOrgName} #{edOrgId}]"
+  authRequest = {
+      'authorized'    =>auth,
+      'applicationId' =>appId,
+      'edorgs'        =>[edOrgId]
+  }
+  authUrl = "/applicationAuthorization/#{appId}"
+  restHttpPut(authUrl, authRequest.to_json, 'application/vnd.slc+json')
+  assert(@res.code.to_s == respCode, "Got [#{@res.code}] while putting #{authUrl}. Expected [#{respCode}]")
+end

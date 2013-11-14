@@ -67,7 +67,8 @@ When(/^I create a LEA named "([^"]*)"$/) do |lea|
   #edOrgBody['parentEducationAgencyReference'] = [findEdOrgId(parent)]
   restHttpPost('/v1/educationOrganizations', edOrgBody.to_json, 'application/vnd.slc+json')
   location = @res.raw_headers['location'][0]
-  $createdEntityIds[lea] = location.split(/\//)[-1]
+  entityId = location.split(/\//)[-1]
+  $createdEntityIds[lea] = entityId
   restHttpGetAbs(location, 'application/vnd.slc+json')
   $createdEntities[lea] = JSON.parse @res
 end
