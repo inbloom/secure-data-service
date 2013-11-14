@@ -20,8 +20,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -33,17 +35,16 @@ import java.security.cert.CertificateException;
 /**
  * @author: npandey
  */
-@Component
-public class KeystoreHelper {
+public class KeyStoreAccessor {
 
     private KeyStore keyStore;
 
-    private static final String KEYSTORE_TYPE = "JCEKS";
+    private String keyStoreFileName;
+
+    private String keyStorePassword;
+
+    private String keyStoreType ;
     /**
-     * @param keystoreFileName
-     *      the name of the keyStore file.
-     * @param keystorePassword
-     *      the password for the keyStore file.
      * @return
      * @throws KeyStoreException
      * @throws IOException
@@ -51,16 +52,32 @@ public class KeystoreHelper {
      * @throws CertificateException
      * @throws UnrecoverableEntryException
      */
-    public void initializeKeystoreEntry(String keystoreFileName, String keystorePassword) throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
-        keyStore = KeyStore.getInstance(KEYSTORE_TYPE);
-        FileInputStream fis = new FileInputStream(keystoreFileName);
-        char[] password = keystorePassword.toCharArray();
+    @PostConstruct
+    private void initializeKeystoreEntry() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
+        keyStore = KeyStore.getInstance(keyStoreType);
+        InputStream fis = null;
+        try {
+            fis = new BufferedInputStream(new FileInputStream(keyStoreFileName));
+            keyStore.load(fis, keyStorePassword.toCharArray());
+        } finally {
 
-        keyStore.load(fis, password);
-        IOUtils.closeQuietly(fis);
+            IOUtils.closeQuietly(fis);
+        }
     }
 
-    public KeyStore.PrivateKeyEntry getPrivateKeyEntry(String keystoreAlias, String keyStorePassword) throws UnrecoverableEntryException, NoSuchAlgorithmException, KeyStoreException {
-        return (KeyStore.PrivateKeyEntry) keyStore.getEntry(keystoreAlias, new KeyStore.PasswordProtection(keyStorePassword.toCharArray()));
+    public KeyStore.PrivateKeyEntry getPrivateKeyEntry(String keyStoreAlias, String keyStoreEntryPassword) throws UnrecoverableEntryException, NoSuchAlgorithmException, KeyStoreException {
+        return (KeyStore.PrivateKeyEntry) keyStore.getEntry(keyStoreAlias, new KeyStore.PasswordProtection(keyStoreEntryPassword.toCharArray()));
+    }
+
+    public void setKeyStoreFileName(String keyStoreFileName) {
+        this.keyStoreFileName = keyStoreFileName;
+    }
+
+    public void setKeyStorePassword(String keyStorePassword) {
+        this.keyStorePassword = keyStorePassword;
+    }
+
+    public void setKeyStoreType(String keyStoreType) {
+        this.keyStoreType = keyStoreType;
     }
 }

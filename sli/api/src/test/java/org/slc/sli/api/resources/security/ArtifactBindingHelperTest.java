@@ -50,24 +50,20 @@ public class ArtifactBindingHelperTest {
     @Value("${sli.security.idp.url}")
     private String idpUrl;
 
-    @Value("${sli.api.keyStore}")
-    private String keystoreFileName;
-
-    @Value("${sli.api.keystore.password}")
-    private String keystorePassword;
-
     @Value("${sli.api.digital.signature.alias}")
     private String keystoreAlias;
 
+    @Value("#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.keystore.entry.password}')}")
+    String keyStorEntryPassword;
+
     @Autowired
-    KeystoreHelper keystoreHelper;
+    KeyStoreAccessor apiKeyStoreAccessor;
 
     KeyStore.PrivateKeyEntry pkEntry;
 
     @Before
     public void setUp() throws CertificateException, UnrecoverableEntryException, NoSuchAlgorithmException, KeyStoreException, IOException {
-       keystoreHelper.initializeKeystoreEntry(keystoreFileName, keystorePassword);
-       pkEntry = keystoreHelper.getPrivateKeyEntry(keystoreAlias, keystorePassword);
+       pkEntry = apiKeyStoreAccessor.getPrivateKeyEntry(keystoreAlias, keyStorEntryPassword);
     }
 
     @Test

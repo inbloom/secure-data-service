@@ -45,8 +45,9 @@ default:
 
         # API kesytore settings
         sli.api.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
-        sli.api.keystore.password: changeit
+        sli.api.keystore.password: 7348ECFEF1A559318CC37357F95DA712
         sli.api.digital.signature.alias: apids
+        sli.api.keystore.entry.password: 7348ECFEF1A559318CC37357F95DA712
 
         # Sandbox settings
         sli.sandbox.enabled: false

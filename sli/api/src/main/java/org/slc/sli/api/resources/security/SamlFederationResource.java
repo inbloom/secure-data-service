@@ -107,7 +107,7 @@ public class SamlFederationResource {
     private SamlHelper samlHelper;
 
     @Autowired
-    private KeystoreHelper keystoreHelper;
+    private KeyStoreAccessor apiKeyStoreAccessor;
 
     @Autowired
     private ArtifactBindingHelper artifactBindingHelper;
@@ -137,18 +137,15 @@ public class SamlFederationResource {
     @Value("${sli.api.cookieDomain}")
     private String apiCookieDomain;
 
+    @Value("${sli.api.digital.signature.alias}")
+    String keyStoreAlias;
+
+    @Value("#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.keystore.entry.password}')}")
+    String keyStorEntryPassword;
+
     @Autowired
     @Value("${sli.sandbox.enabled}")
     private boolean sandboxEnabled;
-
-    @Value("${sli.api.keyStore}")
-    private String keystoreFileName;
-
-    @Value("${sli.api.keystore.password}")
-    private String keystorePassword;
-
-    @Value("${sli.api.digital.signature.alias}")
-    private String keystoreAlias;
 
     @Autowired
     private RealmHelper realmHelper;
@@ -177,10 +174,8 @@ public class SamlFederationResource {
 
     @SuppressWarnings("unused")
     @PostConstruct
-    private void processKeystoreAndMetadata() throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException, UnrecoverableEntryException {
-        keystoreHelper.initializeKeystoreEntry(keystoreFileName, keystorePassword);
-
-        pkEntry = keystoreHelper.getPrivateKeyEntry(keystoreAlias, keystorePassword);
+    private void processKeyStoreAndMetadata() throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException, UnrecoverableEntryException {
+        pkEntry = apiKeyStoreAccessor.getPrivateKeyEntry(keyStoreAlias, keyStorEntryPassword);
 
         StringWriter writer = new StringWriter();
 
