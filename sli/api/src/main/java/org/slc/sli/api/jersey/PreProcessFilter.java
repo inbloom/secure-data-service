@@ -144,7 +144,8 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
         info("uri: {} -> {}", request.getMethod(), request.getRequestUri().getPath());
         request.getProperties().put("original-request", request.getPath());
-        SessionUtil.checkAccess(SecurityContextHolder.getContext().getAuthentication(), request, repo);
+        // TODO Determine expected behavior for hosted and federated users querying resources from non-admin type apps
+        // SessionUtil.checkAccess(SecurityContextHolder.getContext().getAuthentication(), request, repo);
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
         injectObligations(request);
         validateNotBlockGetRequest(request);
