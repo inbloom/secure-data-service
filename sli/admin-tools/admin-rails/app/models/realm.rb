@@ -52,7 +52,7 @@ class Realm < SessionResource
     validates_presence_of :id, :message => "can't be blank"
     validates_presence_of :redirectEndpoint, :message => "can't be blank"
     schema do
-      string "id", "redirectEndpoint", "artifactResolutionEndpoint"
+      string "id", "sourceId", "redirectEndpoint", "artifactResolutionEndpoint"
     end
   end
 

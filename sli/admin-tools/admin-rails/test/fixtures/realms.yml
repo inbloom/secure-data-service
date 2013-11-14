@@ -12,6 +12,7 @@ one:
     uniqueIdentifier: realm-one
     idp:
       id: http://slidev.org
+      sourceId: federatedIDP1
       redirectEndpoint: http://slidev.org/endpoint
       artifactResolutionEndpoint: http://slidev.org/artifact/endpoint
     realm: "dc=slidev,dc=org"
@@ -27,6 +28,7 @@ two:
     uniqueIdentifier: realm-two
     idp: 
       id: http://timelords.com
+      sourceId: federatedIDP2
       redirectEndpoint: http://timelords.com/gallifrey
       artifactResolutionEndpoint: http://timelords.com/gallifrey/artifact
     realm: "dc=timelors,dc=org"
