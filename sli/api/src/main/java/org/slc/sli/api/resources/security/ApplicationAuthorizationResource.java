@@ -21,6 +21,7 @@ import java.net.URI;
 import java.util.*;
 
 import javax.annotation.PostConstruct;
+import javax.management.relation.RoleStatus;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -153,8 +154,12 @@ public class ApplicationAuthorizationResource {
             List<Map<String,Object>> edOrgs = (List<Map<String,Object>>) appAuth.get("edorgs");
             Map<String,Object> authorizingInfo = getAuthorizingInfo(edOrgs, myEdorgs);
             entity.put("authorized", ( authorizingInfo == null)?false:true);
-            Set<String> inScopeEdOrgs = getChildEdorgs(myEdorgs);
-            entity.put("edorgs", filter(edOrgs, inScopeEdOrgs));
+            if(!isSEAAdmin()) {
+            	Set<String> inScopeEdOrgs = getChildEdorgs(myEdorgs);
+            	entity.put("edorgs", filter(edOrgs, inScopeEdOrgs));
+            } else {
+            	entity.put("edorgs", edOrgs);
+            }
             return Response.status(Status.OK).entity(entity).build();
         }
 
@@ -223,12 +228,13 @@ public class ApplicationAuthorizationResource {
             return Response.status(Status.BAD_REQUEST).build();
         }
 
-    	Set<String> myEdorgs = validateEdOrg(null);
-        Set<String> inScopeEdOrgs = getChildEdorgs(myEdorgs);
-        
-        List<String> edOrgsToAuthorize = (List<String>) auth.get("edorgs");
+    	List<String> edOrgsToAuthorize = (List<String>) auth.get("edorgs");
 
-        edOrgsToAuthorize.retainAll(inScopeEdOrgs);
+        if(!isSEAAdmin()) {
+        	Set<String> myEdorgs = validateEdOrg(null);
+        	Set<String> inScopeEdOrgs = getChildEdorgs(myEdorgs);       
+        	edOrgsToAuthorize.retainAll(inScopeEdOrgs);
+        }
         
         EntityBody existingAuth = getAppAuth(appId);
         if (existingAuth == null) {
@@ -261,6 +267,13 @@ public class ApplicationAuthorizationResource {
         }
     }
 
+    
+    private boolean isSEAAdmin()
+    {
+    	SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	return principal.getRoles().contains("SEA Administrator") && principal.isAdminRealmAuthenticated();
+    }
+    
     private Set<String> getSetOfAuthorizedIds( List<Map<String,Object>> currentAuthList) {
         Set<String> authSet = new HashSet<String>();
         for(Map<String, Object> currentAuthListItem:currentAuthList) {
@@ -381,7 +394,7 @@ public class ApplicationAuthorizationResource {
             Boolean    autoApprove = (Boolean) entry.getValue().getBody().get("allowed_for_all_edorgs");
             List<String> approvedEdorgs = (List<String>) entry.getValue().getBody().get("authorized_ed_orgs");
             // user has app auth ability for their own edorg and all child edorgs
-            if ((autoApprove != null && autoApprove) || (approvedEdorgs != null && CollectionUtils.containsAny(approvedEdorgs, inScopeEdOrgs))) {
+            if ((autoApprove != null && autoApprove) || isSEAAdmin() || (approvedEdorgs != null && CollectionUtils.containsAny(approvedEdorgs, inScopeEdOrgs))) {
                 HashMap<String, Object> entity = new HashMap<String, Object>();
                 entity.put("id", entry.getKey());
                 entity.put("appId", entry.getKey());
@@ -425,6 +438,7 @@ public class ApplicationAuthorizationResource {
 
     }
 
+   
    private Set<String> validateEdOrg(String edorg) {
     	Set<String> edOrgIds = new HashSet<String>();
     	if (edorg == null) {

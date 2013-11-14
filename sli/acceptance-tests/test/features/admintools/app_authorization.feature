@@ -77,7 +77,7 @@ Scenario: SEA Admin Approves bulk extract application
      And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-     And there are "3" educationalOrganizations in the targetEdOrgList
+     And there are "10" educationalOrganizations in the targetEdOrgList
      # TODO - check edOrgs directly
 
 Scenario: SEA Admin Denies bulk extract application (dependant on above scenario)
@@ -133,7 +133,7 @@ Scenario: SEA Admin Approves non-bulk extract application
      And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-     And there are "3" educationalOrganizations in the targetEdOrgList
+     And there are "10" educationalOrganizations in the targetEdOrgList
      # TODO - check edOrgs directly
      And the app "Testing App" Status matches "\d+ EdOrg"
      And it is colored "green"
