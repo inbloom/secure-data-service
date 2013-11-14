@@ -138,6 +138,7 @@ When /^I make the artifact resolution endpoint blank$/ do
 end
 
 When /^I make the artifact resolution endpoint not unique$/ do
+  @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').clear
   @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').send_keys 'https://shibboleth.slidev.org/idp/profile/SAML2/SOAP/ArtifactResolution'
 end
 
