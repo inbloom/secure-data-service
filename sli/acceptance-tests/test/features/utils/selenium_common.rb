@@ -133,17 +133,34 @@ When /^I select "(.*?)" from the dropdown and click go$/ do |arg1|
 end
 
 After do |scenario|
+  base = "./cats_with_lasers" # Maybe a better name, eh?
+  url_fn = base + ".txt"
+  html_fn = base + ".html"
+  screenshot_fn = base + ".png"
+  
   begin
-    File.delete("./cats_with_lasers.png")
+    File.delete(url_fn)
+    File.delete(html_fn)
+    File.delete(screenshot_fn)
   rescue Exception => e
   end
   #puts "Running the After hook for Scenario: #{scenario}"s
   begin
-    File.rm("./cats_with_lasers.png")
+    File.delete(url_fn)
+    File.delete(html_fn)
+    File.delete(screenshot_fn)
   rescue
   end
   if (scenario.failed? and !@driver.nil?)
-    @driver.save_screenshot("./cats_with_lasers.png")
+
+    # Save current URL and source code to file
+    File.open(url_fn, 'w') {|f| f.write("FAILED at URL:\n" + @driver.current_url + "\n") }
+
+    # Save current URL and source code to file
+    File.open(html_fn, 'w') {|f| f.write(@driver.page_source) }
+    
+    # Save screenshot of file
+    @driver.save_screenshot(screenshot_fn)
   else
     File.new("./dummy_placeholder.png", "w")
   end
