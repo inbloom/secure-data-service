@@ -78,9 +78,7 @@ end
 
 Then /^I should update app authorizations for (district "[^"]*")$/ do |district|
   @format = "application/json"
-  edorg_map = {}
-  edorg_map["authorizedEdorg"] = district
-  dataObj = {"appId" => "78f71c9a-8e37-0f86-8560-7783379d96f7", "authorized" => true, :edorgs => [edorg_map]}
+  dataObj = {"appId" => "78f71c9a-8e37-0f86-8560-7783379d96f7", "authorized" => true, :edorgs => [district]}
   data = prepareData("application/json", dataObj)
   puts("The data is #{data}") if ENV['DEBUG']
   restHttpPut("/applicationAuthorization/78f71c9a-8e37-0f86-8560-7783379d96f7", data)
@@ -89,9 +87,7 @@ end
 
 Then /^I should revoke all app authorizations for (district "[^"]*")$/ do |district|
   @format = "application/json"
-  edorg_map = {}
-  edorg_map["authorizedEdorg"] = district
-  dataObj = {"appId" => "78f71c9a-8e37-0f86-8560-7783379d96f7", "authorized" => false, :edorgs => [edorg_map]}
+  dataObj = {"appId" => "78f71c9a-8e37-0f86-8560-7783379d96f7", "authorized" => false, :edorgs => [district]}
   data = prepareData("application/json", dataObj)
   puts("The data is #{data}") if ENV['DEBUG']
   restHttpPut("/applicationAuthorization/78f71c9a-8e37-0f86-8560-7783379d96f7", data)
@@ -100,9 +96,7 @@ end
 
 Then /^I should grant all app authorizations for (district "[^"]*")$/ do |district|
   @format = "application/json"
-  edorg_map = {}
-  edorg_map["authorizedEdorg"] = district
-  dataObj = {"appId" => "78f71c9a-8e37-0f86-8560-7783379d96f7", "authorized" => true, :edorgs => [edorg_map]}
+  dataObj = {"appId" => "78f71c9a-8e37-0f86-8560-7783379d96f7", "authorized" => true, :edorgs => [district]}
   data = prepareData("application/json", dataObj)
   puts("The data is #{data}") if ENV['DEBUG']
   restHttpPut("/applicationAuthorization/78f71c9a-8e37-0f86-8560-7783379d96f7?", data)
