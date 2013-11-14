@@ -55,7 +55,8 @@ When /^I try to authenticate on the Role Mapping Tool$/ do
 end
 
 And /^I login$/ do
-  step "I was redirected to the \"Simple\" IDP Login page"
+  step "I should be redirected to the realm choosing page"
+  step "I select \"inBloom\" from the dropdown and click go"
   step "I submit the credentials \"#@user\" \"#@pass\" for the \"Simple\" login page"
 end
 

@@ -34,11 +34,17 @@ class ApplicationAuthorizationsController < ApplicationController
   #      - authorized (checked) -- appears in app authorizaiton's edorg list
   #
   def edit
+    if !is_admin_realm_authenticated? && is_app_authorizer?
+      edorgs =  get_app_authorizer_edOrgs
 
-    # Get input objects
-    edOrgId = session[:edOrgId]
-    @edOrg = EducationOrganization.find(edOrgId)
-    raise NoUserEdOrgError.new "Educational organization '" + edOrgId + "' not found in educationOrganization collection" if @edOrg.nil?
+        @edOrg = EducationOrganization.find(edorgs[0])
+        raise NoUserEdOrgError.new "Educational organization '" + edOrgId + "' not found in educationOrganization collection" if @edOrg.nil?
+    else
+      # Get input objects
+      edOrgId = session[:edOrgId]
+      @edOrg = EducationOrganization.find(edOrgId)
+      raise NoUserEdOrgError.new "Educational organization '" + edOrgId + "' not found in educationOrganization collection" if @edOrg.nil?
+    end
 
     # Get app data
     load_apps()
@@ -63,23 +69,32 @@ class ApplicationAuthorizationsController < ApplicationController
         @appAuth.edorgs.each do |edorg_entry|
           @appAuth_edorgs.push(edorg_entry.authorizedEdorg)
         end
-    @edorg_tree_html = edOrgTree.get_authorization_tree_html([edOrgId], appId, is_sea_admin?, @appAuth_edorgs || [])
+    @edorg_tree_html = edOrgTree.get_authorization_tree_html(get_app_authorizer_edOrgs, appId, is_sea_admin?, @appAuth_edorgs || [])
   end
   
 
   # NOTE this controller allows ed org super admins to enable/disable apps for their LEA(s)
   # It allows LEA(s) to see (but not change) their app authorizations
   def check_rights
-    unless is_app_authorizer
+    unless is_app_authorizer?
       logger.warn {'User is not lea or sea admin and cannot access application authorizations'}
       raise ActiveResource::ForbiddenAccess, caller
     end
   end
 
+  def edorg_in_scope(edorgs, id)
+    edorgs.each do |edorg|
+      if @edorgs_in_scope[edorg].has_key?(id)
+         return true
+      end
+    end
+    return false
+  end
   # GET /application_authorizations
   # GET /application_authorizations.json
   def index
 
+    edorgs = []
     userEdOrg = session[:edOrgId]
 
     load_apps()
@@ -87,23 +102,59 @@ class ApplicationAuthorizationsController < ApplicationController
     # Use this in the template to enable buttons
     @isSEAAdmin = is_sea_admin?
     @isLEAAdmin = is_lea_admin?
+    @isAppAuthorizer = is_app_authorizer?
+
+    if @isAppAuthorizer
+      edorgs = get_app_authorizer_edOrgs
+    else
+      edorgs.push(userEdOrg)
+    end
     # Get counts of apps ... have to look up each individually
     # For non-SEA admin apply a filter of the edOrgs in scope for the user
     @app_counts = {}
     @edorgs_in_scope = {}
-    @edorgs_in_scope[userEdOrg] = get_edorgs_in_scope(userEdOrg)
+    edorgs.each do |edorg|
+      @edorgs_in_scope[edorg] = get_edorgs_in_scope(edorg)
+    end
 
+    # We first grab all application authorization objects (just for their IDs)
+    # and then look them up individually, because the bulk query does not include
+    # the currently-authorized edOrgs field ...
     user_app_auths = ApplicationAuthorization.findAllInChunks({})
-
     user_app_auths.each do |auth|
-      auth2 = ApplicationAuthorization.find(auth.id)
+      # It is possible that the object is not visible due to its not being
+      # enabled by the developer.  Skip such objects.
+      logger.info("*** Finding appAuth '" + auth.id + "' ...")
+      begin
+        auth2 = ApplicationAuthorization.find(auth.id)
+      rescue ActiveResource::ForbiddenAccess
+        # It's possible that the appAuth object is not accessible because its
+        # app is not enabled for at least one of the admin user's edOrgs.
+        # (that check is not done on the bulk findAll above, so such objects
+        # can creep in)
+        logger.info("*** Forbidden: '" + auth.id + "' ...")
+        next
+      rescue ActiveResource::ResourceNotFound
+        # It's possible that there is a dangling reference from
+        #    <tenantDb>.applicationAuthorization.body.applicationId
+        # to
+        #    sli.application._id
+        # ... in that case, we'll get a 404 from the API.  Ignore those.
+        logger.info("*** Not found: '" + auth.id + "' ...")
+        next
+      # *DO NOT* PUT A CATCH-ALL RESCUE HERE!  IT WILL COST YOU YOUR
+      # SACRED HONOR AS A SOFTWARE DEVELOPER!
+      end
+
+      logger.info("*** OK: '" + auth.id + "' ...")
+      
       if !auth2.edorgs.nil?
         if @isSEAAdmin
           count = auth2.edorgs.length
         else
           count = 0
           auth2.edorgs.each do |id|
-            count +=1 if @edorgs_in_scope[userEdOrg].has_key?(id.authorizedEdorg)
+            count +=1 if edorg_in_scope(edorgs, id.authorizedEdorg)
           end
         end
         @app_counts[auth.id] = count
@@ -148,6 +199,13 @@ class ApplicationAuthorizationsController < ApplicationController
       @edorgs.each { |edorg|
         @application_authorizations[edorg] = ApplicationAuthorization.find(:all, :params => {'edorg' => edorg})
       }
+    elsif !is_admin_realm_authenticated? && is_app_authorizer?
+      @edorgs = get_app_authorizer_edOrgs
+      @edorgs = @edorgs.sort{|a,b| a.casecmp(b)}
+      @edorgs.each { |edorg|
+        @application_authorizations[edorg] = ApplicationAuthorization.find(:all, :params => {'edorg' => edorg})
+
+      }
     else
       raise NoUserEdOrgError.new "No education organization in session -- The user\'s educational organization may not exist. Please confirm that realms are set up properly and relevant educational organizations have been ingested." if !userEdOrg
       @edorgs = [userEdOrg]
@@ -166,7 +224,7 @@ class ApplicationAuthorizationsController < ApplicationController
   def update
 
     # Only allow update by SEA  or LEA admin.
-    unless is_app_authorizer
+    unless is_app_authorizer?
       logger.warn {'User is not SEA or LEA admin and cannot update application authorizations'}
       raise ActiveResource::ForbiddenAccess, caller
     end

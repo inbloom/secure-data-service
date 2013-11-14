@@ -15,6 +15,7 @@ And the following collections are empty in sli datastore:
 
 And I am not authenticated to SLI IDP
 And I have tried to access the default Admin Page
+And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
 Then I am now authenticated to SLI IDP
@@ -31,6 +32,7 @@ And the following collections are empty in sli datastore:
         | securityEvent               |
 And I am not authenticated to SLI IDP
 And I have tried to access the default Admin Page
+And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "InvalidJohnDoe" "badpass" for the "Simple" login page
 Then I am informed that authentication has failed
@@ -49,6 +51,7 @@ And the following collections are empty in sli datastore:
         | securityEvent               |
 And I am not authenticated to SLI IDP
 And I have tried to access the default Admin Page
+And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "leader" "leader1234" for the "Simple" login page
 Then I am informed that authentication has failed

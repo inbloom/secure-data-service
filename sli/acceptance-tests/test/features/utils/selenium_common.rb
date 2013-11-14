@@ -111,7 +111,22 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
 end
 
 When /^I select "(.*?)" from the dropdown and click go$/ do |arg1|
-  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
+  attempts  = 0
+  maxAttempts = 3
+  selectTag = nil
+  begin
+     selectTag = @driver.find_element(:tag_name, "select")
+  rescue
+    attempts += 1
+    if attempts < maxAttempts
+      puts "Attempt #{attempts}. Could not find select tag. Will retry in 5 seconds!"
+      sleep 5
+      retry
+    else
+      puts  "Could not find select tag in #{maxAttempts} attempts!"
+    end
+  end
+  select = Selenium::WebDriver::Support::Select.new(selectTag)
   select.select_by(:text, arg1)
   assertWithWait("Could not find the Go button")  { @driver.find_element(:id, "go") }
   @driver.find_element(:id, "go").click

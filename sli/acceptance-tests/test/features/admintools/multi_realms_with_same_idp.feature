@@ -5,6 +5,7 @@ Feature: Multiple realms with the same IDP should be able to authenticate users.
   Scenario: Grab the IDP redirectEndpoint from Daybreak
   Given I have an open web browser
    When I hit the realm editing URL
+  And I select "inBloom" from the dropdown and click go
   And I was redirected to the "Simple" IDP Login page
   And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
     When I see the realms for "Daybreak School District 4529 (IL-DAYBREAK)"
@@ -14,6 +15,7 @@ Feature: Multiple realms with the same IDP should be able to authenticate users.
   Scenario: Multiple realms with the same IDP authenticates
     Given I have an open web browser
     When I hit the realm editing URL
+  And I select "inBloom" from the dropdown and click go
   And I was redirected to the "Simple" IDP Login page
   And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
     When I see the realms for "Sunset School District 4526 (IL-SUNSET)"
