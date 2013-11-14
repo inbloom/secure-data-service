@@ -17,12 +17,7 @@
 
 package org.slc.sli.api.security.oauth;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -124,6 +119,10 @@ public class ApplicationAuthorizationValidator {
     public Set<String> getAuthorizingEdOrgsForApp(String clientId) {
         //This is called before the SLIPrincipal has been set, so use TenantContext to get tenant rather than SLIPrincipal on SecurityContext
         Entity app = repo.findOne("application", new NeutralQuery(new NeutralCriteria("client_id", "=", clientId)));
+
+        if (app == null) {
+            return Collections.EMPTY_SET;
+        }
 
         if (isAuthorizedForAllEdorgs(app)) {
             debug("App {} is authorized for all edorgs", clientId);
