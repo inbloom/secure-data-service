@@ -39,7 +39,8 @@ Scenario: Mega Multi Realm Test
   Then I should get 5 errors
   When I enter valid data into all fields
   And I should click the "Save" button
-  Then I should not see any errors
+  Then I should be redirected back to the realm listing page
+  And I should receive a notice that the realm was successfully "updated"
   When I click the "Brand New Realm" edit button
   And I should make the unique identifier not unique
   And I should click the "Save" button
@@ -49,7 +50,20 @@ Scenario: Mega Multi Realm Test
   Then I should get 1 error
   And I should make the IDP URL not unique
   And I should click the "Save" button
-  Then I should not see any errors
+  Then I should be redirected back to the realm listing page
+  And I should receive a notice that the realm was successfully "updated"
+  When I click the "Brand New Realm" edit button
+  And I should see that I am on the "Brand New Realm" edit page
+  And I make the artifact resolution endpoint blank
+  And I should click the "Save" button
+  Then I should be redirected back to the realm listing page
+  And I should receive a notice that the realm was successfully "updated"
+  When I click the "Brand New Realm" edit button
+  And I should see that I am on the "Brand New Realm" edit page
+  And I make the artifact resolution endpoint not unique
+  And I should click the "Save" button
+  Then I should be redirected back to the realm listing page
+  And I should receive a notice that the realm was successfully "updated"
 
 #Scenario: Multi Realm creation
 Given I see the realms for "New York State Education System (NY-STATE-NYC)"
