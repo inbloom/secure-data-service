@@ -199,8 +199,6 @@ public class TenantResourceTest {
     }
 
     @SuppressWarnings("unchecked")
-    // us5967 - Test failing in Java 7
-    @Ignore
     @Test
     public void testCreateAppends() throws URISyntaxException {
 
