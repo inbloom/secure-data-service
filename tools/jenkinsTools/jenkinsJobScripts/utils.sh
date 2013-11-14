@@ -88,7 +88,7 @@ adminUnitTests()
 databrowserUnitTests()
 {
   cd $WORKSPACE/sli/databrowser
-  bundle install --full-index --deployment
+  nbundle install --full-index --deployment
   bundle exec rake ci:setup:testunit test
   code=$?
   if [ "$code" != "0" ]; then
