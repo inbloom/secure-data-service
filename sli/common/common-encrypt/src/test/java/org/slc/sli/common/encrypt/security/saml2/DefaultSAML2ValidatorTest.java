@@ -18,16 +18,19 @@ package org.slc.sli.common.encrypt.security.saml2;
 
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.security.cert.X509Certificate;
 
 import javax.security.auth.x500.X500Principal;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.w3c.dom.Document;
@@ -89,10 +92,14 @@ public class DefaultSAML2ValidatorTest {
     }
 
     @Test
-    // us5967 - Test failing in Java 7
-    @Ignore
     public void testIsDigestValidWithValid() throws Exception {
-        Document doc = getDocument("complete-valid.xml");
+    	InputStream is = this.getClass().getClassLoader().getResourceAsStream("complete-valid.xml");
+    	SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+    	Schema schema = schemaFactory.newSchema(new URL("http://docs.oasis-open.org/security/saml/v2.0/saml-schema-protocol-2.0.xsd"));
+    	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    	factory.setNamespaceAware(true);
+    	factory.setSchema(schema);
+    	Document doc = factory.newDocumentBuilder().parse(is);
         Assert.assertTrue(validator.isDigestValid(doc));
     }
 
