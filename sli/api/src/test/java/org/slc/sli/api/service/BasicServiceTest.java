@@ -167,8 +167,6 @@ public class BasicServiceTest {
     }
 
     @Test
-    // us5967 - Failing in Java 7
-    @Ignore
     public void testCheckFieldAccessAdmin() {
         // inject administrator security context for unit testing
         securityContextInjector.setAdminContextWithElevatedRights();
@@ -194,8 +192,6 @@ public class BasicServiceTest {
     }
 
     @Test
-    // us5967 - Failing in Java 7
-    @Ignore
     public void testWriteSelf() {
         BasicService basicService = (BasicService) context.getBean("basicService", "teacher", new ArrayList<Treatment>(), securityRepo);
         basicService.setDefn(definitionStore.lookupByEntityType("teacher"));
