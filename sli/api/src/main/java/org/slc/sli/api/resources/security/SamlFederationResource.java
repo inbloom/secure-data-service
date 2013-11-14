@@ -772,4 +772,8 @@ public class SamlFederationResource {
         this.securityEventBuilder = securityEventBuilder;
     }
 
+    public void setSandboxEnabled(boolean sandboxEnabled) {
+        this.sandboxEnabled = sandboxEnabled;
+    }
+
 }

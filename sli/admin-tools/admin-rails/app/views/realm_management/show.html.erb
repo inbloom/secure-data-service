@@ -4,8 +4,12 @@
   <dd><%= @realm.name %></dd>
   <dt>IDP URL (URL that identifies the federated IDP)</dt>
   <dd><%= @realm.idp.id %></dd>
+  <dt>IDP Source ID (Unique source ID of the federated IDP)</dt>
+  <dd><%= @realm.idp.sourceID %></dd>
   <dt>Redirect Endpoint (URL where authentication requests are sent)</dt>
   <dd><%= @realm.idp.redirectEndpoint %></dd>
+  <dt>Artifact Resolution Endpoint (URL where artifact resolution requests are sent)</dt>
+  <dd><%= @realm.idp.artifactResolutionEndpoint %></dd>
   <dt>Realm Identifier (Used for skipping the realm selection)</dt>
   <dd><%= @realm.uniqueIdentifier %></dd>
 </dl>
