@@ -226,16 +226,8 @@ public class ApplicationAuthorizationResource {
     	Set<String> myEdorgs = validateEdOrg(null);
         Set<String> inScopeEdOrgs = getChildEdorgs(myEdorgs);
         
-        List<Map<String,Object>> edOrgs = (List<Map<String,Object>>) auth.get("edorgs");
-        List<String> edOrgsToAuthorize = new ArrayList();//(TA10857)
-        if( edOrgs != null) {
-        	for (Map<String, Object> edorg : edOrgs) {
-        		String authorizedEdorg = (String)edorg.get("authorizedEdorg");
-        		if(authorizedEdorg != null){
-        			edOrgsToAuthorize.add(authorizedEdorg);
-        		}
-        	}
-        }
+        List<String> edOrgsToAuthorize = (List<String>) auth.get("edorgs");
+
         edOrgsToAuthorize.retainAll(inScopeEdOrgs);
         
         EntityBody existingAuth = getAppAuth(appId);

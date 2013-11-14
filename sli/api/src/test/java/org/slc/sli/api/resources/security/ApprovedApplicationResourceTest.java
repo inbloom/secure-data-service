@@ -98,7 +98,9 @@ public class ApprovedApplicationResourceTest {
         EntityBody auth = new EntityBody();
         auth.put("appId", app1.getEntityId());
         auth.put("authorized", true);
-        auth.put("edorgs", ApplicationAuthorizationResourceTest.getAuthList(lea.getEntityId()));
+        List<String> edorgs = new ArrayList<String>();
+        edorgs.add(lea.getEntityId());
+        auth.put("edorgs", edorgs);
         appAuth.updateAuthorization(app1.getEntityId(), auth);
 
         injector.setStaffContext();
