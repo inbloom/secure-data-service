@@ -23,7 +23,7 @@ task :adminWebTests => [:realmInit] do
   runTests("test/features/admintools/admin_smoke.feature")
   runTests("test/features/admintools/Admin_Welcome_Email.feature")
   runTests("test/features/admintools/admintool_declarative.feature")
-  #runTests("test/features/admintools/app_authorization.feature")
+  runTests("test/features/admintools/app_authorization.feature")
   runTests("test/features/admintools/app_registration.feature")
   runTests("test/features/admintools/bulkExtract.feature")
   runTests("test/features/admintools/custom_role_mapping.feature")
