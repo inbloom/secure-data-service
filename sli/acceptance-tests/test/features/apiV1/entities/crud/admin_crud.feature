@@ -3,7 +3,7 @@ Feature: As a federated user via an admin application, I should NOT be able to p
 
   Scenario Outline: API admin GET endpoints are inaccessible for federated users
     Given I am logged in using "rrogersAppAuth" "rrogers1234" to realm "IL"
-    And format "application/vnd.slc+json"
+    And format "application/json"
     When I navigate to <Action> "/<Resource URI>"
     Then I should receive a return code of <Expected Status>
 
@@ -16,3 +16,15 @@ Feature: As a federated user via an admin application, I should NOT be able to p
     | provision        | POST   | 403             |
     | tenants          | GET    | 403             |
     | users            | GET    | 403             |
+
+   Scenario Outline: API admin GET "application" and "applicationAuthorization" endpoints are inaccessible for federated users with proper rights
+      Given I am logged in using "rrogersAppAuth" "rrogers1234" to realm "IL"
+      And format "application/json"
+      When I navigate to <Action> "/<Resource URI>"
+      Then I should receive a return code of <Expected Status>
+
+    Examples:
+     | Resource URI     | Action | Expected Status |
+     | apps             | GET    | 200             |
+     | apps             | POST   | 403             |
+     | applicationAuthorization| GET | 200         |
