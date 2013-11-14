@@ -83,7 +83,7 @@ public class RealmResourceTest {
         Map<String, Object> idp = new HashMap<String, Object>();
         idp.put("id", "fakerealm");
         idp.put("redirectEndpoint", "fakeRedirectEndpoint");
-        idp.put("artifactEndpoint", "fakeArtifactEndpoint");
+        idp.put("artifactResolutionEndpoint", "fakeArtifactEndpoint");
 
         mapping.put("idp", idp);
         
