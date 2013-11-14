@@ -140,7 +140,10 @@ public class ApplicationAuthorizationValidator {
     }
 
     private boolean isAuthorizedForAllEdorgs(Entity app) {
-        return app.getBody().get("authorized_for_all_edorgs") != null && (Boolean) app.getBody().get("authorized_for_all_edorgs");
+        if (app != null && app.getBody() != null) {
+            return app.getBody().get("authorized_for_all_edorgs") != null && (Boolean) app.getBody().get("authorized_for_all_edorgs");
+        }
+        return false;
     }
 
 }

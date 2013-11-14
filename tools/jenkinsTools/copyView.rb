@@ -1,7 +1,7 @@
 require 'jenkins_api_client'
 
-@client = JenkinsApi::Client.new(:server_url => 'http://jenkins.slidev.org', :server_port => '8080',
-      :username => '', :password => '', :jenkins_path => '/jenkins', :debug => false)
+@client = JenkinsApi::Client.new(:server_url => 'http://jenkinselb.slidev.org', :server_port => '8080',
+      :username => 'jenkins_api_user', :password => 'test1234', :jenkins_path => '/jenkins', :debug => false)
 
 #@client = JenkinsApi::Client.new(:server_url => 'https://jenkins.slidev.org',
 #     :server_port => '443', :username => 'jenkinsapi_user', :password => 'test1234')
