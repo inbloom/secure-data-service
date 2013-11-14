@@ -37,7 +37,7 @@ class RealmTest < ActiveSupport::TestCase
   test "name specific validation" do
     realm = Realm.new
     realm.uniqueIdentifier = "Waffles" #valid
-    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles"})
+    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles", :artifactResolutionEndpoint => "Waffles"})
     realm.name = "Super awesome"
     assert realm.valid?, "Realm should be valid"
     realm.name = "REALM!"
@@ -49,7 +49,7 @@ class RealmTest < ActiveSupport::TestCase
   test "unique identifier validation" do
     realm = Realm.new
     realm.name = "Waffles" #valid
-    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles"})
+    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles", :artifactResolutionEndpoint => "Waffles"})
     realm.uniqueIdentifier = "Super awesome"
     assert realm.valid?, "Realm should be valid: #{realm.errors.to_json}"
     realm.uniqueIdentifier = "REALM!"

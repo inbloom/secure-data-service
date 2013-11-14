@@ -41,17 +41,19 @@ class Realm < SessionResource
   def idp_and_redirect_cannot_be_blank
     idp.valid?
   end
+
   schema do
     string "uniqueIdentifier", "name", "edOrg"
     string "saml"
-    string "id", "redirectEndpoint", "idp"
+    string "id", "redirectEndpoint", "artifactResolutionEndpoint", "idp"
   end
 
   class Idp < SessionResource
     validates_presence_of :id, :message => "can't be blank"
     validates_presence_of :redirectEndpoint, :message => "can't be blank"
     schema do
-      string "id", "redirectEndpoint"
+      string "id", "redirectEndpoint", "artifactResolutionEndpoint"
     end
   end
+
 end

@@ -13,6 +13,7 @@ one:
     idp:
       id: http://slidev.org
       redirectEndpoint: http://slidev.org/endpoint
+      artifactResolutionEndpoint: http://slidev.org/artifact/endpoint
     realm: "dc=slidev,dc=org"
     mappings: {"Educator": ["teacher", "ta"]}
 
@@ -27,6 +28,7 @@ two:
     idp: 
       id: http://timelords.com
       redirectEndpoint: http://timelords.com/gallifrey
+      artifactResolutionEndpoint: http://timelords.com/gallifrey/artifact
     realm: "dc=timelors,dc=org"
     mappings: {"Educator": ["Educator"], "Leader": ["Leader"]}
 #  column: value
