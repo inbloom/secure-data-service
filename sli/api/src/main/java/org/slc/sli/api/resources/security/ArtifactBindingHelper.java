@@ -17,9 +17,14 @@ package org.slc.sli.api.resources.security;
 
 import org.joda.time.DateTime;
 import org.opensaml.DefaultBootstrap;
+import org.opensaml.common.SAMLObject;
+import org.opensaml.common.binding.SAMLMessageContext;
+import org.opensaml.saml2.binding.artifact.*;
+import org.opensaml.saml2.common.SAML2Helper;
 import org.opensaml.saml2.core.Artifact;
 import org.opensaml.saml2.core.ArtifactResolve;
 import org.opensaml.saml2.core.Issuer;
+import org.opensaml.saml2.core.NameID;
 import org.opensaml.ws.soap.soap11.Body;
 import org.opensaml.ws.soap.soap11.Envelope;
 import org.opensaml.xml.Configuration;
@@ -35,6 +40,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.xml.bind.DatatypeConverter;
 import java.security.KeyStore;
 import java.util.UUID;
 
@@ -76,6 +82,7 @@ public class ArtifactBindingHelper {
         XMLObjectBuilderFactory xmlObjectBuilderFactory = Configuration.getBuilderFactory();
         Artifact artifact = (Artifact) xmlObjectBuilderFactory.getBuilder(Artifact.DEFAULT_ELEMENT_NAME).buildObject(Artifact.DEFAULT_ELEMENT_NAME);
         artifact.setArtifact(artifactString);
+
         Issuer issuer = (Issuer) xmlObjectBuilderFactory.getBuilder(Issuer.DEFAULT_ELEMENT_NAME).buildObject(Issuer.DEFAULT_ELEMENT_NAME);
         issuer.setValue(issuerName);
 

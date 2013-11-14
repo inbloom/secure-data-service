@@ -38,6 +38,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -48,6 +49,7 @@ import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.velocity.Template;
@@ -58,6 +60,9 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.opensaml.saml2.binding.decoding.HTTPArtifactDecoder;
+import org.opensaml.saml2.binding.artifact.SAML2ArtifactBuilderFactory;
+import org.opensaml.saml2.binding.artifact.SAML2ArtifactType0004;
 import org.opensaml.saml2.core.ArtifactResolve;
 import org.opensaml.saml2.core.ArtifactResponse;
 import org.opensaml.saml2.core.Assertion;
@@ -624,6 +629,10 @@ public class SamlFederationResource {
     @Path("sso/artifact")
     public Response processArtifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) {
         String artifact = request.getParameter("SAMLart");
+        String realmId = request.getParameter("RelayState");
+
+        String artifactUrl = getArtifactUrl(realmId, artifact);
+
         if (artifact == null) {
             throw new APIAccessDeniedException("No artifact provided by the IdP");
         }
@@ -631,12 +640,41 @@ public class SamlFederationResource {
         ArtifactResolve artifactResolve = artifactBindingHelper.generateArtifactResolveRequest(artifact, pkEntry);
         Envelope soapEnvelope = artifactBindingHelper.generateSOAPEnvelope(artifactResolve);
 
-        XMLObject response = soapHelper.sendSOAPCommunication(soapEnvelope, idpUrl);
+        XMLObject response = soapHelper.sendSOAPCommunication(soapEnvelope, artifactUrl);
 
         ArtifactResponse artifactResponse = (ArtifactResponse)((EnvelopeImpl) response).getBody().getUnknownXMLObjects().get(0);
         org.opensaml.saml2.core.Response samlResponse = (org.opensaml.saml2.core.Response) artifactResponse.getMessage();
 
         return processResponse(uriInfo, samlResponse);
+    }
+
+    private String getArtifactUrl(String realmId, String artifact) {
+
+        SAML2ArtifactBuilderFactory builder  = new SAML2ArtifactBuilderFactory();
+        SAML2ArtifactType0004 art = (SAML2ArtifactType0004) builder.buildArtifact(artifact);
+        byte[] sourceId = art.getSourceID();
+        String hexSource = DatatypeConverter.printHexBinary(sourceId);
+
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setOffset(0);
+        neutralQuery.setLimit(1);
+
+        neutralQuery.addCriteria(new NeutralCriteria("idp.sourceId", "=", hexSource));
+        neutralQuery.addCriteria(new NeutralCriteria("_id", "=", realmId));
+
+        Entity realm = repo.findOne("realm", neutralQuery);
+        if (realm == null) {
+            raiseSamlValidationError("Invalid realm: " + realmId, null);
+        }
+        Map<String, Object> idp = (Map<String, Object>) realm.getBody().get("idp");
+        if (idp == null) {
+            raiseSamlValidationError("Idp information is not correctly set up for realm: " + realmId, null);
+        }
+        String artifactUrl = (String) idp.get("artifactResolutionEndpoint");
+        if (artifactUrl == null || artifactUrl.isEmpty()) {
+            raiseSamlValidationError("Artifact Resolution Endpoint is no configured for the realm: " + realmId, null);
+        }
+        return artifactUrl;
     }
 
     private Response processResponse(UriInfo uriInfo, org.opensaml.saml2.core.Response samlResponse) {

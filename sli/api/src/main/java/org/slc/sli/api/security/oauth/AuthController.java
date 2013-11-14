@@ -303,7 +303,7 @@ public class AuthController {
         debug("redirecting to: {}", endpoint);
 
         String redirectUrl = endpoint.contains("?") ? endpoint + "&SAMLRequest=" + tuple.getRight() : endpoint
-                + "?SAMLRequest=" + tuple.getRight();
+                + "?SAMLRequest=" + tuple.getRight() + "&RelayState=" + realmId;
 
         return "redirect:" + redirectUrl;
     }
