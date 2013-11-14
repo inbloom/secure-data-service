@@ -22,7 +22,9 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -33,6 +35,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -66,7 +69,6 @@ public class RealmResourceTest {
     private EntityService service;
     private EntityBody mapping;
     //private EntityBody realm2;
-    //private UriInfo uriInfo;
 
     @Before
     public void setUp() throws Exception {
@@ -78,7 +80,12 @@ public class RealmResourceTest {
         mapping.put("realm_name", "Waffles");
         mapping.put("edOrg", "fake-ed-org");
         mapping.put("mappings", new HashMap<String, Object>());
-        mapping.put("idp", new HashMap<String, Object>());
+        Map<String, Object> idp = new HashMap<String, Object>();
+        idp.put("id", "fakerealm");
+        idp.put("redirectEndpoint", "fakeRedirectEndpoint");
+        idp.put("artifactEndpoint", "fakeArtifactEndpoint");
+
+        mapping.put("idp", idp);
         
         EntityBody realm2 = new EntityBody();
         realm2.put("id", "other-realm");
