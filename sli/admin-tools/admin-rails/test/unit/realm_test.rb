@@ -85,4 +85,12 @@ class RealmTest < ActiveSupport::TestCase
     assert(!realm.idp.valid?, "Validation should fail")
   end
 
+  test "sourceId with no idp artifactResolutionEndpoint validation" do
+    realm = Realm.new
+    realm.uniqueIdentifier = "Waffles" #valid
+    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles", :sourceId => "Waffles"})
+    realm.name = "Super awesome"
+    assert(!realm.idp.valid?, "Validation should fail")
+  end
+
 end
