@@ -126,6 +126,10 @@ public class EdOrgOwnershipArbiter extends OwnershipArbiter {
      */
     @Override
     protected boolean isBaseType(String type) {
+        if (type == null) {
+            return false;
+        }
+
         return type.equals(EDUCATION_ORGANIZATION) || type.equals(SCHOOL)
                 || type.equals("localEducationAgency") || type.equals("stateEducationAgency");
     }
