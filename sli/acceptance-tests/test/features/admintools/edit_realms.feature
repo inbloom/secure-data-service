@@ -56,11 +56,24 @@ Scenario: Mega Multi Realm Test
   And I should see that I am on the "Brand New Realm" edit page
   And I make the artifact resolution endpoint blank
   And I should click the "Save" button
+  Then I should get 1 error
+  When I make the source id blank
+  And I should click the "Save" button
+  And I should receive a notice that the realm was successfully "updated"
+  When I click the "Brand New Realm" edit button
+  And I should see that I am on the "Brand New Realm" edit page
+  When I add something to the artifact resolution endpoint
+  And I make the source id blank
+  And I should click the "Save" button
+  Then I should get 1 error
+  And I make the artifact resolution endpoint blank
+  And I should click the "Save" button
   Then I should be redirected back to the realm listing page
   And I should receive a notice that the realm was successfully "updated"
   When I click the "Brand New Realm" edit button
   And I should see that I am on the "Brand New Realm" edit page
   And I make the artifact resolution endpoint not unique
+  And I make the source id not unique
   And I should click the "Save" button
   Then I should be redirected back to the realm listing page
   And I should receive a notice that the realm was successfully "updated"
