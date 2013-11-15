@@ -85,8 +85,8 @@ When I hit the Admin Application Authorization Tool
 And I select "Illinois Daybreak School District 4529" from the dropdown and click go
 And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 And the error message "Sorry, you don't have access to this page. if you feel like you are getting this message in error, please contact your administrator." is displayed
-#TODO - Assert access denied security event
-
+#Then I should see a count of "3" in the security event collection
+#TODO - add detailed assertion on access denied security event
 
 Scenario: Create Application Authorizer Staff Education Organization Association (set up)
 When I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
