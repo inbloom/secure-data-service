@@ -43,6 +43,7 @@
             <xs:element name="idpType" type="xs:string" minOccurs="0"/>
             <xs:element name="redirectEndpoint" type="xs:string" minOccurs="1"/>
             <xs:element name="artifactResolutionEndpoint" type="xs:string" minOccurs="0"/>
+            <xs:element name="sourceId" type="xs:string" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="samlMap">

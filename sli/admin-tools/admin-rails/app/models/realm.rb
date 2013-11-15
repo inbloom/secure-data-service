@@ -45,14 +45,16 @@ class Realm < SessionResource
   schema do
     string "uniqueIdentifier", "name", "edOrg"
     string "saml"
-    string "id", "redirectEndpoint", "artifactResolutionEndpoint", "idp"
+    string "id", "redirectEndpoint", "artifactResolutionEndpoint", "sourceId", "idp"
   end
 
   class Idp < SessionResource
     validates_presence_of :id, :message => "can't be blank"
     validates_presence_of :redirectEndpoint, :message => "can't be blank"
+    validates_presence_of :artifactResolutionEndpoint, :unless => proc{|obj| obj.sourceId.blank?}, :message => "can't be blank if sourceId is non-blank"
+    validates_presence_of :sourceId, :unless => proc{|obj| obj.artifactResolutionEndpoint.blank?}, :message => "can't be blank if artifactResolutionEndpoint is non-blank"
     schema do
-      string "id", "sourceId", "redirectEndpoint", "artifactResolutionEndpoint"
+      string "id", "redirectEndpoint", "artifactResolutionEndpoint", "sourceId"
     end
   end
 
