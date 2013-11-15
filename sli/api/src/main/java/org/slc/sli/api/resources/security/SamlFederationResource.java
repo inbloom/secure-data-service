@@ -28,13 +28,7 @@ import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -167,9 +161,6 @@ public class SamlFederationResource {
 
     @Autowired
     private EdOrgContextualRoleBuilder edOrgRoleBuilder;
-
-    @Value("${sli.security.idp.url}")
-    private String idpUrl;
 
     public static SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -631,11 +622,12 @@ public class SamlFederationResource {
         String artifact = request.getParameter("SAMLart");
         String realmId = request.getParameter("RelayState");
 
-        String artifactUrl = getArtifactUrl(realmId, artifact);
-
         if (artifact == null) {
             throw new APIAccessDeniedException("No artifact provided by the IdP");
         }
+
+        String artifactUrl = getArtifactUrl(realmId, artifact);
+
 
         ArtifactResolve artifactResolve = artifactBindingHelper.generateArtifactResolveRequest(artifact, pkEntry);
         Envelope soapEnvelope = artifactBindingHelper.generateSOAPEnvelope(artifactResolve);
@@ -653,13 +645,11 @@ public class SamlFederationResource {
         SAML2ArtifactBuilderFactory builder  = new SAML2ArtifactBuilderFactory();
         SAML2ArtifactType0004 art = (SAML2ArtifactType0004) builder.buildArtifact(artifact);
         byte[] sourceId = art.getSourceID();
-        String hexSource = DatatypeConverter.printHexBinary(sourceId);
 
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
 
-        neutralQuery.addCriteria(new NeutralCriteria("idp.sourceId", "=", hexSource));
         neutralQuery.addCriteria(new NeutralCriteria("_id", "=", realmId));
 
         Entity realm = repo.findOne("realm", neutralQuery);
@@ -670,9 +660,15 @@ public class SamlFederationResource {
         if (idp == null) {
             raiseSamlValidationError("Idp information is not correctly set up for realm: " + realmId, null);
         }
+
+        String realmSourceId = (String) idp.get("sourceId");
+        byte[] realmByteSourceId = DatatypeConverter.parseHexBinary(realmSourceId);
+        if (realmByteSourceId == null || !Arrays.equals(realmByteSourceId, sourceId)) {
+            raiseSamlValidationError("SourceId from Artifact does not match configured SourceId for realm: " + realmId, null);
+        }
         String artifactUrl = (String) idp.get("artifactResolutionEndpoint");
         if (artifactUrl == null || artifactUrl.isEmpty()) {
-            raiseSamlValidationError("Artifact Resolution Endpoint is no configured for the realm: " + realmId, null);
+            raiseSamlValidationError("Artifact Resolution Endpoint is not configured for the realm: " + realmId, null);
         }
         return artifactUrl;
     }

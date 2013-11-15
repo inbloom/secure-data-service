@@ -86,13 +86,6 @@ public class ArtifactBindingHelper {
         Issuer issuer = (Issuer) xmlObjectBuilderFactory.getBuilder(Issuer.DEFAULT_ELEMENT_NAME).buildObject(Issuer.DEFAULT_ELEMENT_NAME);
         issuer.setValue(issuerName);
 
-        //ToDo: Update to obtain the idp url from realm
-        /*String idpUrl = getArtifactEndpointFromRealm();
-        if(idpUrl == null) {
-            error("Error composing artifact resolution request: IdP endpoint not specified");
-            throw new APIAccessDeniedException("Artifact Resolution endpoint has not been specified for this realm");
-        }*/
-
         ArtifactResolve artifactResolve =  (ArtifactResolve) xmlObjectBuilderFactory.getBuilder(ArtifactResolve.DEFAULT_ELEMENT_NAME).buildObject(ArtifactResolve.DEFAULT_ELEMENT_NAME);
         artifactResolve.setIssuer(issuer);
         artifactResolve.setIssueInstant(new DateTime());

@@ -690,15 +690,17 @@ public class SamlFederationResourceTest {
 
     @Test (expected= APIAccessDeniedException.class)
     public void processArtifactBindingInvalidRequest() {
+        setRealm(false);
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
         UriInfo uriInfo = Mockito.mock(UriInfo.class);
-
+        Mockito.when(request.getParameter("RelayState")).thenReturn("My Realm");
         resource.processArtifactBinding(request, uriInfo);
     }
 
 
     @Test
     public void processArtifactBindingValidRequest() throws URISyntaxException {
+        setRealm(false);
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
         UriInfo uriInfo = Mockito.mock(UriInfo.class);
 
@@ -707,7 +709,8 @@ public class SamlFederationResourceTest {
         Mockito.when(uriInfo.getRequestUri()).thenReturn(uri);
         Mockito.when(uriInfo.getAbsolutePath()).thenReturn(uri);
 
-        Mockito.when(request.getParameter("SAMLart")).thenReturn("");
+        Mockito.when(request.getParameter("SAMLart")).thenReturn("AAQAAjh3bwgbBZ+LiIx3/RVwDGy0aRUu+xxuNtTZVbFofgZZVCKJQwQNQ7Q=");
+        Mockito.when(request.getParameter("RelayState")).thenReturn("My Realm");
 
         List<Assertion> assertions = new ArrayList<Assertion>();
 
@@ -726,6 +729,7 @@ public class SamlFederationResourceTest {
 
     @Test
     public void processArtifactBindingInvalidCondition() throws URISyntaxException {
+        setRealm(false);
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
         UriInfo uriInfo = Mockito.mock(UriInfo.class);
 
@@ -734,7 +738,8 @@ public class SamlFederationResourceTest {
         Mockito.when(uriInfo.getRequestUri()).thenReturn(uri);
         Mockito.when(uriInfo.getAbsolutePath()).thenReturn(uri);
 
-        Mockito.when(request.getParameter("SAMLart")).thenReturn("");
+        Mockito.when(request.getParameter("SAMLart")).thenReturn("AAQAAjh3bwgbBZ+LiIx3/RVwDGy0aRUu+xxuNtTZVbFofgZZVCKJQwQNQ7Q=");
+        Mockito.when(request.getParameter("RelayState")).thenReturn("My Realm");
 
         List<Assertion> assertions = new ArrayList<Assertion>();
 
@@ -925,6 +930,10 @@ public class SamlFederationResourceTest {
         realmBody.put("tenantId", "My Tenant");
         realmBody.put("admin", isAdminRealm);
         realmBody.put("developer", Boolean.FALSE);
+        Map<String, Object> idp = new HashMap<String, Object>();
+        idp.put("artifactResolutionEndpoint", "https://example");
+        idp.put("sourceId", "38776f081b059f8b888c77fd15700c6cb469152e");
+        realmBody.put("idp", idp);
         Mockito.when(realm.getBody()).thenReturn(realmBody);
     }
 

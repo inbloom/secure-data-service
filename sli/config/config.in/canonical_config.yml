@@ -13,7 +13,6 @@ default:
         # Security SAML (only used in api)
         ## sli.security.sp.issuerName: http://localhost:8080
         sli.security.sp.issuerName: http://local.slidev.org:8080
-        sli.security.idp.url: https://shibboleth.slidev.org/idp/profile/SAML2/SOAP/ArtifactResolution
 
         # Security grace period for viewing sections (only use in api)
         sli.security.gracePeriod: 2000
