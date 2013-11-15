@@ -151,7 +151,6 @@ And I click on the "Edit Authorizations" button next to it
 And I expand all nodes
 And I deselect hierarchical mode
 And I authorize the educationalOrganization "East Daybreak Junior High"
-#below should not be available
 And I authorize the educationalOrganization "Sunset Central High School"
 And I click Update
 Then there are "2" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
@@ -183,7 +182,7 @@ When I log in to realm "Illinois Daybreak School District 4529" using simple-idp
 And a staffEducationOrgAssignmentAssociation is created for user "linda.kim" with role "IT Administrator" for education organization "Daybreak School District 4529" in tenant "Midgar"
 
 @wip
-Scenario: Linda Kim Approves application as IT Administrator
+Scenario: Linda Kim Approves application as an LEA level IT Administrator
 When I hit the Admin Application Authorization Tool
 And I select "Illinois Daybreak School District 4529" from the dropdown and click go
 And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
@@ -198,7 +197,7 @@ Then there are "45" edOrgs for the "Boyne" application in the applicationAuthori
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+#| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "45" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "45 EdOrg(s)"
