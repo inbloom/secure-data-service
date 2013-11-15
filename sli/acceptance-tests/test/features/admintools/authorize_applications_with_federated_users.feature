@@ -85,8 +85,6 @@ When I hit the Admin Application Authorization Tool
 And I select "Illinois Daybreak School District 4529" from the dropdown and click go
 And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 And the error message "Sorry, you don't have access to this page. if you feel like you are getting this message in error, please contact your administrator." is displayed
-#Then I should see a count of "3" in the security event collection
-#TODO - add detailed assertion on access denied security event
 
 Scenario: Create Application Authorizer Staff Education Organization Association (set up)
 When I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
@@ -95,9 +93,7 @@ And a staffEducationOrgAssignmentAssociation is created for user "linda.kim" wit
 
 Scenario: Linda Kim Approves application as Application Authorizer
 When I hit the Admin Application Authorization Tool
-#And I select "inBloom" from the dropdown and click go
 And I select "Illinois Daybreak School District 4529" from the dropdown and click go
-#And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
 And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
@@ -111,7 +107,7 @@ Then there are "1" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+#| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "1" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "1 EdOrg(s)"
@@ -125,7 +121,7 @@ Then there are "0" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+#| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "1" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
@@ -143,11 +139,10 @@ And I hit the save button
 Then I am no longer in edit mode
 And the group "Educator" contains the "right" rights "EDUCATOR APP AUTH"
 
+@wip
 Scenario: Linda Kim Approves application as Educator
 When I hit the Admin Application Authorization Tool
-#And I select "inBloom" from the dropdown and click go
 And I select "Illinois Daybreak School District 4529" from the dropdown and click go
-#And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
 And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
@@ -163,7 +158,7 @@ Then there are "2" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+#| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "2" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "2 EdOrg(s)"
@@ -178,7 +173,7 @@ Then there are "0" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+#| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "2" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
@@ -187,11 +182,10 @@ Scenario: Create IT Administrator Staff Education Organization Association (set 
 When I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
 And a staffEducationOrgAssignmentAssociation is created for user "linda.kim" with role "IT Administrator" for education organization "Daybreak School District 4529" in tenant "Midgar"
 
+@wip
 Scenario: Linda Kim Approves application as IT Administrator
 When I hit the Admin Application Authorization Tool
-#And I select "inBloom" from the dropdown and click go
 And I select "Illinois Daybreak School District 4529" from the dropdown and click go
-#And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
 And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
@@ -217,16 +211,14 @@ Then there are "0" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+#| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "45" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
 
 Scenario: Federated SEA Admin Approves application
 When I hit the Admin Application Authorization Tool
-#And I select "inBloom" from the dropdown and click go
 And I select "Illinois Daybreak School District 4529" from the dropdown and click go
-#And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
 And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
@@ -239,7 +231,7 @@ Then there are "200" edOrgs for the "Boyne" application in the applicationAuthor
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+#| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "200" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "200 EdOrg(s)"
@@ -252,7 +244,7 @@ Then there are "0" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+#| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "200" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
