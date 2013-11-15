@@ -42,7 +42,7 @@ class AppsController < ApplicationController
     # they use the /application_authorizations controller which applies filters specific to their edOrg(s)
     # So perhaps this next line should be reverted to:
     # unless is_developer? or is_operator?
-    unless is_developer? or is_operator? or is_app_authorizer?
+    unless is_developer? or is_operator?
       raise ActiveResource::ForbiddenAccess, caller
     end
   end
