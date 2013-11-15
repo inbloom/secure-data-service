@@ -107,7 +107,7 @@ Then there are "1" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-#| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "1" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "1 EdOrg(s)"
@@ -121,7 +121,7 @@ Then there are "0" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-#| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "1" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
@@ -157,7 +157,7 @@ Then there are "2" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-#| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "2" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "2 EdOrg(s)"
@@ -172,7 +172,7 @@ Then there are "0" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-#| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "2" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
@@ -197,7 +197,7 @@ Then there are "45" edOrgs for the "Boyne" application in the applicationAuthori
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-#| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "45" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "45 EdOrg(s)"
@@ -210,7 +210,7 @@ Then there are "0" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-#| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "45" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
@@ -230,7 +230,7 @@ Then there are "200" edOrgs for the "Boyne" application in the applicationAuthor
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-#| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "200" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "200 EdOrg(s)"
@@ -243,7 +243,7 @@ Then there are "0" edOrgs for the "Boyne" application in the applicationAuthoriz
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-#| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "200" educationalOrganizations in the targetEdOrgList
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
