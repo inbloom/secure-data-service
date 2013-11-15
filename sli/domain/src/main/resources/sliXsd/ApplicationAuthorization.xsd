@@ -1,48 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
-	attributeFormDefault="qualified">
+           xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
+           attributeFormDefault="qualified">
     <xs:include schemaLocation="SimpleTypes.xsd" />
 
-	<xs:element name="applicationAuthorization">
-		<xs:complexType>
-			<xs:annotation>
-			    <xs:documentation>
-			         Defines that is allowed to use an application.
-			         Typically the application list will be associated with an educational organization.
-
-			    </xs:documentation>
-				<xs:appinfo>
-				  <sli:WriteEnforcement>
-				    <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
-				    <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
-				    <sli:allowedBy>EDORG_APP_AUTHZ</sli:allowedBy>
-				    <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
-				  </sli:WriteEnforcement>
-				  <sli:ReadEnforcement>
-				    <sli:allowedBy>READ_GENERAL</sli:allowedBy>
-				    <sli:allowedBy>DEV_APP_CRUD</sli:allowedBy>
-				    <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
-				    <sli:allowedBy>EDORG_APP_AUTHZ</sli:allowedBy>
-				    <sli:allowedBy>ADMIN_ACCESS</sli:allowedBy>
-				  </sli:ReadEnforcement>
-				</xs:appinfo>
-			</xs:annotation>
+    <xs:element name="applicationAuthorization">
+        <xs:annotation>
+            <xs:appinfo>
+                <sli:WriteEnforcement>
+                    <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                    <sli:allowedBy>EDORG_APP_AUTHZ</sli:allowedBy>
+                </sli:WriteEnforcement>
+                <sli:ReadEnforcement>
+                    <sli:allowedBy>APP_AUTHORIZE</sli:allowedBy>
+                    <sli:allowedBy>EDORG_APP_AUTHZ</sli:allowedBy>
+                </sli:ReadEnforcement>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:annotation>
+                <xs:documentation>
+                    Defines that is allowed to use an application.
+                    Typically the application list will be associated with an educational organization.
+                </xs:documentation>
+                <xs:appinfo>
+                    <sli:SecuritySphere>Admin</sli:SecuritySphere>
+                </xs:appinfo>
+            </xs:annotation>
             <xs:sequence>
                 <xs:element name="applicationId" type="xs:string"/>
                 <xs:element name="edorgs" minOccurs="0" maxOccurs="unbounded">
-                	<xs:complexType>
-                		<xs:sequence>
-                			<xs:element name="authorizedEdorg" type="xs:string"/>
-                			<xs:element name="lastAuthorizingRealmEdorg" type="xs:string" minOccurs="0"/>
-                			<xs:element name="lastAuthorizingUser" type="xs:string" minOccurs="0"/>
-                			<xs:element name="lastAuthorizedDate" type="xs:long" minOccurs="0"/>
-                		</xs:sequence>
-                	</xs:complexType>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="authorizedEdorg" type="xs:string"/>
+                            <xs:element name="lastAuthorizingRealmEdorg" type="xs:string" minOccurs="0"/>
+                            <xs:element name="lastAuthorizingUser" type="xs:string" minOccurs="0"/>
+                            <xs:element name="lastAuthorizedDate" type="xs:long" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
                 </xs:element>
             </xs:sequence>
         </xs:complexType>
-	</xs:element>
+    </xs:element>
 
 </xs:schema>
 
