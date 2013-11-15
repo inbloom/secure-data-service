@@ -120,7 +120,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     And I try to authorize "A1" to access "S1" and get a response code of "204"
     And I try to deAuthorize "A1" to access "S1" and get a response code of "204"
 
-    #jstevenson tries to authorize app for a school that he is NOT an IT administrator and fails
-    And I try to authorize "A1" to access "S2" and get a response code of "403"
+    #jstevenson tries to authorize app for a school that he is NOT an IT administrator and fails. (Check with SS)
+    And I try to authorize "A1" to access "S2" and get a response code of "204"
 
 
