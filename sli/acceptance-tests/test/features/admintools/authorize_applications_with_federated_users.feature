@@ -139,7 +139,6 @@ And I hit the save button
 Then I am no longer in edit mode
 And the group "Educator" contains the "right" rights "EDUCATOR APP AUTH"
 
-@wip
 Scenario: Linda Kim Approves application as Educator
 When I hit the Admin Application Authorization Tool
 And I select "Illinois Daybreak School District 4529" from the dropdown and click go
