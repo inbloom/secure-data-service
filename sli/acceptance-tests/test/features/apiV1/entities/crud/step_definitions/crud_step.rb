@@ -846,6 +846,23 @@ Then /^I delete both studentAssessment and Assessment$/ do
     step "I should receive a return code of 204"
 end
 
+And(/^I GET attendance for student "([^"]*)" in school "([^"]*)" for the schoolYear "([^"]*)" on date "([^"]*)" and verify that it has "([^"]*)" attendance events$/) do |studentId, schoolId, schoolYear, eventDate, eventCount|
+  url = "/v1/students/#{studentId}/attendances?schoolId=#{schoolId}"
+  restHttpGet(url, 'application/vnd.slc+json')
+  assert(@res.code == 200, "Could not fetch attendance #{url}.")
+  attendances = JSON.parse @res
+  attendanceCount = 0
+  attendanceForSchoolYear = attendances.select { |attendance|
+    if attendance.has_key? ('schoolYearAttendance')
+      schoolYear == attendance['schoolYearAttendance'][0]['schoolYear']
+    end
+  }
+
+  attendanceCount =  attendanceForSchoolYear[0]['schoolYearAttendance'][0]['attendanceEvent'].count if attendanceForSchoolYear.count > 0
+  assert(attendanceCount == eventCount.to_i, "Expected #{eventCount} attendanceEvents. Found  #{attendanceCount}")
+
+end
+
 When(/^I POST an attendance of "([^"]*)" for student "([^"]*)" in school "([^"]*)" for the schoolYear "([^"]*)" on date "([^"]*)"$/) do |categories, studentId, schoolId, schoolYear, eventDate|
   attendance = <<-jsonDelimiter
   {
@@ -870,7 +887,7 @@ When(/^I POST an attendance of "([^"]*)" for student "([^"]*)" in school "([^"]*
   attendance['studentId']                                  = studentId
   attendance['schoolId']                                   = schoolId
   attendance['schoolYearAttendance'][0]['schoolYear']      = schoolYear
-  events = categories.split(/,/).map{|category|
+  events = categories.split(/,/).map {|category|
       category.strip!
       { 'date' => eventDate, 'event' => category, 'sectionId' => "f048354d-dbcb-0214-791d-b769f521210d_id"}
   }
@@ -882,19 +899,33 @@ When(/^I POST an attendance of "([^"]*)" for student "([^"]*)" in school "([^"]*
   assert(@res.code == 200, "Could not fetch newly created attendance #{attendance.to_json}.")
 end
 
-When(/^I GET  attendance for student "([^"]*)" in school "([^"]*)" for the schoolYear "([^"]*)" on date "([^"]*)" and verify that it has "([^"]*)" attendance events$/) do |studentId, schoolId, schoolYear, eventDate, eventCount|
+And /^I GET attendance for student "(.*?)" in school "(.*?)" for the schoolYear "(.*?)" on date "(.*?)" and verify that its attendance events are at the section level$/ do |studentId, schoolId, schoolYear, eventDate|
+  url = "/v1/students/#{studentId}/attendances?schoolId=#{schoolId}"
+  restHttpGet(url, 'application/vnd.slc+json')
+  assert(@res.code == 200, "Could not fetch attendance #{url}.")
+
+  section_id = "f048354d-dbcb-0214-791d-b769f521210d_id"
+  attendances = JSON.parse @res
+
+  events = attendances[0]['schoolYearAttendance'][0]['attendanceEvent']
+  events.each {|event|
+    assert(event['date'] == eventDate, "Event date [#{event['date']}] does not match #{eventDate}")
+    assert(section_id == event['sectionId'], "No section found or the section [#{event['sectionId']} does not match expected section[#{section_id}]")
+  }
+end
+
+And /^I DELETE attendance for student "(.*?)" in school "(.*?)" for the schoolYear "(.*?)" on date "(.*?)" and verify that there are no attendance events remaining$/ do |studentId, schoolId, schoolYear, eventDate|
   url = "/v1/students/#{studentId}/attendances?schoolId=#{schoolId}"
   restHttpGet(url, 'application/vnd.slc+json')
   assert(@res.code == 200, "Could not fetch attendance #{url}.")
   attendances = JSON.parse @res
-  attendanceCount = 0
-  attendanceForSchoolYear = attendances.select { |attendance|
-    if attendance.has_key? ('schoolYearAttendance')
-      schoolYear == attendance['schoolYearAttendance'][0]['schoolYear']
-    end
-  }
 
-  attendanceCount =  attendanceForSchoolYear[0]['schoolYearAttendance'][0]['attendanceEvent'].count if attendanceForSchoolYear.count > 0
-  assert(attendanceCount == eventCount.to_i, "Expected #{eventCount} attendanceEvents. Found  #{attendanceCount}")
+  attendances.each {|attendance|
+    attendance_id = attendance['id']
+    restHttpDelete("/v1/attendances/#{attendance_id}")
+    assert(@res.code == 204, "Could not delete with id #{attendance_id}")
+    restHttpGet("/v1/attendances/#{attendance_id}")
+    assert(@res.code == 404, "Attendance #{attendance_id} still exists")
+  }
 
 end
