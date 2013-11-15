@@ -25,12 +25,15 @@ import java.net.URLEncoder;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 
 import javax.annotation.PostConstruct;
+import javax.xml.bind.DatatypeConverter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -41,6 +44,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jdom.Attribute;
 import org.jdom.Document;
@@ -51,6 +55,8 @@ import org.jdom.output.DOMOutputter;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.ISODateTimeFormat;
+import org.opensaml.saml2.binding.artifact.SAML2ArtifactBuilderFactory;
+import org.opensaml.saml2.binding.artifact.SAML2ArtifactType0004;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.AttributeStatement;
 import org.opensaml.security.SAMLSignatureProfileValidator;
@@ -64,7 +70,11 @@ import org.opensaml.xml.signature.Signature;
 import org.opensaml.xml.signature.SignatureConstants;
 import org.opensaml.xml.validation.ValidationException;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.common.encrypt.security.saml2.SAML2Validator;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -100,6 +110,9 @@ public class SamlHelper {
 
     @Autowired
     private SAML2Validator validator;
+
+    @Autowired
+    private RealmHelper realmHelper;
 
     @PostConstruct
     public void init() throws Exception {
@@ -379,5 +392,36 @@ public class SamlHelper {
             }
         }
         return attributes;
+    }
+
+    public String getArtifactUrl(String realmId, String artifact) {
+        byte[] sourceId =  retrieveSourceId(artifact);
+        Entity realm = realmHelper.findRealmById(realmId);
+
+        if (realm == null) {
+            error("Invalid realm: " + realmId);
+            throw new APIAccessDeniedException("Authorization could not be verified.");
+        }
+
+        Map<String, Object> idp = (Map<String, Object>) realm.getBody().get("idp");
+        String realmSourceId = (String) idp.get("sourceId");
+        if (realmSourceId == null || realmSourceId.isEmpty()) {
+            error("SourceId is not configured properly for realm: " + realmId);
+            throw new APIAccessDeniedException("Authorization could not be verified.");
+        }
+
+        byte[] realmByteSourceId = DatatypeConverter.parseHexBinary(realmSourceId);
+        if (!Arrays.equals(realmByteSourceId, sourceId)) {
+            error("SourceId from Artifact does not match configured SourceId for realm: " + realmId);
+            throw new APIAccessDeniedException("Authorization could not be verified.");
+        }
+
+        return (String) idp.get("artifactResolutionEndpoint");
+    }
+
+    private byte[] retrieveSourceId(String artifact) {
+        SAML2ArtifactBuilderFactory builder  = new SAML2ArtifactBuilderFactory();
+        SAML2ArtifactType0004 art = (SAML2ArtifactType0004) builder.buildArtifact(artifact);
+        return art.getSourceID();
     }
 }

@@ -626,7 +626,7 @@ public class SamlFederationResource {
             throw new APIAccessDeniedException("No artifact provided by the IdP");
         }
 
-        String artifactUrl = getArtifactUrl(realmId, artifact);
+        String artifactUrl = samlHelper.getArtifactUrl(realmId, artifact);
 
 
         ArtifactResolve artifactResolve = artifactBindingHelper.generateArtifactResolveRequest(artifact, pkEntry, artifactUrl);
@@ -638,39 +638,6 @@ public class SamlFederationResource {
         org.opensaml.saml2.core.Response samlResponse = (org.opensaml.saml2.core.Response) artifactResponse.getMessage();
 
         return processResponse(uriInfo, samlResponse);
-    }
-
-    private String getArtifactUrl(String realmId, String artifact) {
-
-        SAML2ArtifactBuilderFactory builder  = new SAML2ArtifactBuilderFactory();
-        SAML2ArtifactType0004 art = (SAML2ArtifactType0004) builder.buildArtifact(artifact);
-        byte[] sourceId = art.getSourceID();
-
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(1);
-
-        neutralQuery.addCriteria(new NeutralCriteria("_id", "=", realmId));
-
-        Entity realm = repo.findOne("realm", neutralQuery);
-        if (realm == null) {
-            raiseSamlValidationError("Invalid realm: " + realmId, null);
-        }
-        Map<String, Object> idp = (Map<String, Object>) realm.getBody().get("idp");
-        if (idp == null) {
-            raiseSamlValidationError("Idp information is not correctly set up for realm: " + realmId, null);
-        }
-
-        String realmSourceId = (String) idp.get("sourceId");
-        byte[] realmByteSourceId = DatatypeConverter.parseHexBinary(realmSourceId);
-        if (realmByteSourceId == null || !Arrays.equals(realmByteSourceId, sourceId)) {
-            raiseSamlValidationError("SourceId from Artifact does not match configured SourceId for realm: " + realmId, null);
-        }
-        String artifactUrl = (String) idp.get("artifactResolutionEndpoint");
-        if (artifactUrl == null || artifactUrl.isEmpty()) {
-            raiseSamlValidationError("Artifact Resolution Endpoint is not configured for the realm: " + realmId, null);
-        }
-        return artifactUrl;
     }
 
     private Response processResponse(UriInfo uriInfo, org.opensaml.saml2.core.Response samlResponse) {

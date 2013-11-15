@@ -195,6 +195,7 @@ public class SamlFederationResourceTest {
         Mockito.when(edOrg.getEntityId()).thenReturn(targetEdorg);
         Mockito.when(realm.getEntityId()).thenReturn("My Realm");
         Mockito.when(repo.findOne(eq("realm"), any(NeutralQuery.class))).thenReturn(realm);
+        Mockito.when(repo.findById(eq("realm"), anyString())).thenReturn(realm);
         Mockito.when(repo.findOne(eq(EntityNames.EDUCATION_ORGANIZATION), any(NeutralQuery.class))).thenReturn(edOrg);
 
         attributeNodes.clear();
