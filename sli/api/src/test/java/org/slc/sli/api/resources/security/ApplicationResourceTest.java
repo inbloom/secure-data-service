@@ -406,41 +406,41 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_NO_CONTENT, updated.getStatus());
     }
     
-    @Test
-    public void testSandboxUpdateShouldSanitizeBadEdorgIds() throws Exception {
-        resource.setAutoRegister(true);
-        resource.setSandboxEnabled(true);
-        injector.setDeveloperContext();
-        String uuid = createApp();
-        String edorgId = helper.generateEdorgWithParent(null).getEntityId();
-        String edorgId2 = helper.generateEdorgWithParent(null).getEntityId();
-        Map<String, Object> appBody = repo.findById("application", uuid).getBody();
-        appBody.put(ApplicationResource.AUTHORIZED_ED_ORGS, Arrays.asList(edorgId, edorgId2, "Waffles"));
-        EntityBody body = new EntityBody(appBody);
-        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
-        Response updated = resource.put(uuid, body, uriInfo);
-        assertEquals(STATUS_NO_CONTENT, updated.getStatus());
-        appBody = repo.findById("application", uuid).getBody();
-        assertEquals(((List) appBody.get(ApplicationResource.AUTHORIZED_ED_ORGS)).size(), 2);
-    }
+//    @Test
+//    public void testSandboxUpdateShouldSanitizeBadEdorgIds() throws Exception {
+//        resource.setAutoRegister(true);
+//        resource.setSandboxEnabled(true);
+//        injector.setDeveloperContext();
+//        String uuid = createApp();
+//        String edorgId = helper.generateEdorgWithParent(null).getEntityId();
+//        String edorgId2 = helper.generateEdorgWithParent(null).getEntityId();
+//        Map<String, Object> appBody = repo.findById("application", uuid).getBody();
+//        appBody.put(ApplicationResource.AUTHORIZED_ED_ORGS, Arrays.asList(edorgId, edorgId2, "Waffles"));
+//        EntityBody body = new EntityBody(appBody);
+//        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+//        Response updated = resource.put(uuid, body, uriInfo);
+//        assertEquals(STATUS_NO_CONTENT, updated.getStatus());
+//        appBody = repo.findById("application", uuid).getBody();
+//        assertEquals(((List) appBody.get(ApplicationResource.AUTHORIZED_ED_ORGS)).size(), 2);
+//    }
     
-    @Test
-    public void testSandboxAutoAuthorizeWithNoDuplicates() throws Exception {
-        resource.setAutoRegister(true);
-        resource.setSandboxEnabled(true);
-        injector.setDeveloperContext();
-        String uuid = createApp();
-        String edorgId = helper.generateEdorgWithParent(null).getEntityId();
-        String edorgId2 = helper.generateEdorgWithParent(null).getEntityId();
-        Map<String, Object> appBody = repo.findById("application", uuid).getBody();
-        appBody.put(ApplicationResource.AUTHORIZED_ED_ORGS, Arrays.asList(edorgId, edorgId, edorgId2));
-        EntityBody body = new EntityBody(appBody);
-        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
-        Response updated = resource.put(uuid, body, uriInfo);
-        assertEquals(STATUS_NO_CONTENT, updated.getStatus());
-        appBody = repo.findById("application", uuid).getBody();
-        assertEquals(((List) appBody.get(ApplicationResource.AUTHORIZED_ED_ORGS)).size(), 2);
-    }
+//    @Test
+//    public void testSandboxAutoAuthorizeWithNoDuplicates() throws Exception {
+//        resource.setAutoRegister(true);
+//        resource.setSandboxEnabled(true);
+//        injector.setDeveloperContext();
+//        String uuid = createApp();
+//        String edorgId = helper.generateEdorgWithParent(null).getEntityId();
+//        String edorgId2 = helper.generateEdorgWithParent(null).getEntityId();
+//        Map<String, Object> appBody = repo.findById("application", uuid).getBody();
+//        appBody.put(ApplicationResource.AUTHORIZED_ED_ORGS, Arrays.asList(edorgId, edorgId, edorgId2));
+//        EntityBody body = new EntityBody(appBody);
+//        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+//        Response updated = resource.put(uuid, body, uriInfo);
+//        assertEquals(STATUS_NO_CONTENT, updated.getStatus());
+//        appBody = repo.findById("application", uuid).getBody();
+//        assertEquals(((List) appBody.get(ApplicationResource.AUTHORIZED_ED_ORGS)).size(), 2);
+//    }
 
     private String createApp() throws URISyntaxException {
         when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/"));

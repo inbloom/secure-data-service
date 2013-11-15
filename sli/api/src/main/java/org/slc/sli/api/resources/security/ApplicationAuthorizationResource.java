@@ -235,7 +235,8 @@ public class ApplicationAuthorizationResource {
         	Set<String> inScopeEdOrgs = getChildEdorgs(myEdorgs);       
         	edOrgsToAuthorize.retainAll(inScopeEdOrgs);
         }
-        
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         EntityBody existingAuth = getAppAuth(appId);
         if (existingAuth == null) {
             //See if this is an actual app
@@ -248,8 +249,11 @@ public class ApplicationAuthorizationResource {
                     EntityBody body = new EntityBody();
                     body.put("applicationId", appId);
                     body.put("edorgs", enrichAuthorizedEdOrgsList(edOrgsToAuthorize));
-
-                    service.create(body);
+                    if (principal.isAdminRealmAuthenticated()) {
+                    	service.create(body);
+                    } else {
+                    	service.createBasedOnContextualRoles(body);
+                    }
                     logSecurityEvent(appId, null, edOrgsToAuthorize);
                 }
                 return Response.status(Status.NO_CONTENT).build();
@@ -262,7 +266,11 @@ public class ApplicationAuthorizationResource {
             Set<String>  newAuth = getSetOfAuthorizedIds(modifiedAuthList);
             existingAuth.put("edorgs", modifiedAuthList);
             logSecurityEvent(appId, oldAuth, newAuth);
-            service.update((String) existingAuth.get("id"), existingAuth);
+            if (!principal.isAdminRealmAuthenticated()) {
+            	service.updateBasedOnContextualRoles((String) existingAuth.get("id"), existingAuth);
+            } else {
+            	service.update((String) existingAuth.get("id"), existingAuth);
+            }
             return Response.status(Status.NO_CONTENT).build();
         }
     }
@@ -367,8 +375,14 @@ public class ApplicationAuthorizationResource {
         Set<String> myEdorgs = validateEdOrg(edorg);
         Set<String> inScopeEdOrgs = getChildEdorgs(myEdorgs);
 
-        Iterable<EntityBody> ents = service.list(new NeutralQuery(new NeutralCriteria("edorgs.authorizedEdorg", NeutralCriteria.CRITERIA_IN, inScopeEdOrgs)));
-
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Iterable<EntityBody> ents = null;
+        if (principal.isAdminRealmAuthenticated()) {
+        	 ents = service.list(new NeutralQuery(new NeutralCriteria("edorgs.authorizedEdorg", NeutralCriteria.CRITERIA_IN, inScopeEdOrgs)));
+        } else {
+        	ents = service.listBasedOnContextualRoles(new NeutralQuery(new NeutralCriteria("edorgs.authorizedEdorg", NeutralCriteria.CRITERIA_IN, inScopeEdOrgs)));
+        }
+        	
         // Get all applications
         Iterable<Entity> appQuery = repo.findAll("application", new NeutralQuery());
         Map<String, Entity> allApps = new HashMap<String, Entity>();
