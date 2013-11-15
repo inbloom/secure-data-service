@@ -386,6 +386,7 @@ public class ApplicationAuthorizationResource {
                 entity.put("id", entry.getKey());
                 entity.put("appId", entry.getKey());
                 entity.put("authorized", false);
+                entity.put("edorgs",Collections.emptyList());
                 results.add(entity);
             }
         }
