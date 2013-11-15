@@ -16,7 +16,9 @@ Feature:  RC Integration Tests
     Then I should be on the admin page
     And under System Tools, I click on "Manage Realm"
     And I switch to the iframe
-    And I should see that I am on the new realm page
+    And I should be redirected back to the realm listing page
+    When I click on the Add new realm button
+    Then I should see that I am on the new realm page
     And all of the input fields should be blank
     And I should enter "Daybreak Artifact Test Realm" into the Display Name field
     And I enter "<CI_ARTIFACT_IDP_ID_URL>" in the IDP URL field
