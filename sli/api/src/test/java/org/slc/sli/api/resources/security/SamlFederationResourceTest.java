@@ -265,7 +265,7 @@ public class SamlFederationResourceTest {
 
         ArtifactResolve artifactResolve = Mockito.mock(ArtifactResolve.class);
         Envelope envelope = Mockito.mock(Envelope.class);
-        Mockito.when(artifactBindingHelper.generateArtifactResolveRequest(Mockito.anyString(), Mockito.any(KeyStore.PrivateKeyEntry.class))).thenReturn(artifactResolve);
+        Mockito.when(artifactBindingHelper.generateArtifactResolveRequest(Mockito.anyString(), Mockito.any(KeyStore.PrivateKeyEntry.class), Mockito.anyString())).thenReturn(artifactResolve);
 
         Mockito.when(artifactBindingHelper.generateSOAPEnvelope(artifactResolve)).thenReturn(envelope);
 

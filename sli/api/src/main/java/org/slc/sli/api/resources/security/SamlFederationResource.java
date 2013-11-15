@@ -629,7 +629,7 @@ public class SamlFederationResource {
         String artifactUrl = getArtifactUrl(realmId, artifact);
 
 
-        ArtifactResolve artifactResolve = artifactBindingHelper.generateArtifactResolveRequest(artifact, pkEntry);
+        ArtifactResolve artifactResolve = artifactBindingHelper.generateArtifactResolveRequest(artifact, pkEntry, artifactUrl);
         Envelope soapEnvelope = artifactBindingHelper.generateSOAPEnvelope(artifactResolve);
 
         XMLObject response = soapHelper.sendSOAPCommunication(soapEnvelope, artifactUrl);

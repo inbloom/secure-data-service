@@ -47,8 +47,7 @@ public class ArtifactBindingHelperTest {
     @Value("${sli.security.sp.issuerName}")
     private String issuerName;
 
-    @Value("${sli.security.idp.url}")
-    private String idpUrl;
+    private String idpUrl = "http://testUrl";
 
     @Value("${sli.api.digital.signature.alias}")
     private String keystoreAlias;
@@ -68,7 +67,7 @@ public class ArtifactBindingHelperTest {
 
     @Test
     public void generateArtifactRequestTest() {
-        ArtifactResolve ar = artifactBindingHelper.generateArtifactResolveRequest("test1234", pkEntry);
+        ArtifactResolve ar = artifactBindingHelper.generateArtifactResolveRequest("test1234", pkEntry, idpUrl);
         Assert.assertEquals("test1234", ar.getArtifact().getArtifact());
         Assert.assertTrue(ar.isSigned());
         Assert.assertNotNull(ar.getSignature().getKeyInfo().getX509Datas());

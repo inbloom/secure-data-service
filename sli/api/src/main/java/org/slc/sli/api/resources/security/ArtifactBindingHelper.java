@@ -56,9 +56,6 @@ public class ArtifactBindingHelper {
     @Value("${sli.security.sp.issuerName}")
     private String issuerName;
 
-    @Value("${sli.security.idp.url}")
-    private String idpUrl;
-
     @PostConstruct
     private void initializeOpenSAMLLibrary() {
         try {
@@ -77,7 +74,7 @@ public class ArtifactBindingHelper {
      *      Key entry from the keystore.
      * @return
      */
-    protected ArtifactResolve generateArtifactResolveRequest(String artifactString, KeyStore.PrivateKeyEntry pkEntry) {
+    protected ArtifactResolve generateArtifactResolveRequest(String artifactString, KeyStore.PrivateKeyEntry pkEntry, String idpUrl) {
 
         XMLObjectBuilderFactory xmlObjectBuilderFactory = Configuration.getBuilderFactory();
         Artifact artifact = (Artifact) xmlObjectBuilderFactory.getBuilder(Artifact.DEFAULT_ELEMENT_NAME).buildObject(Artifact.DEFAULT_ELEMENT_NAME);
