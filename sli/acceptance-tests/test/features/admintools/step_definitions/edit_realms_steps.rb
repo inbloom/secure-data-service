@@ -120,6 +120,7 @@ When /^I enter valid data into all fields$/ do
   @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys "RedirectEndpoint"
   @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys "Unique Identifier"
   @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').send_keys "Artifact Resolution Endpoint"
+  @driver.find_element(:name, 'realm[idp][sourceId]').send_keys "IDP Source ID"
 end
 
 When /^I enter data into all fields for realm "([^"]*)"$/ do |realm|
@@ -135,11 +136,13 @@ end
 
 When /^I make the artifact resolution endpoint blank$/ do
   @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').clear
+  @driver.find_element(:name, 'realm[idp][sourceId]').clear
 end
 
 When /^I make the artifact resolution endpoint not unique$/ do
   @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').clear
   @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').send_keys 'https://shibboleth.slidev.org/idp/profile/SAML2/SOAP/ArtifactResolution'
+  @driver.find_element(:name, 'realm[idp][sourceId]').send_keys "IDP Source ID"
 end
 
 Then /^I should get (\d+) errors$/ do |arg1|

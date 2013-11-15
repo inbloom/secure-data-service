@@ -12,9 +12,9 @@ one:
     uniqueIdentifier: realm-one
     idp:
       id: http://slidev.org
-      sourceId: federatedIDP1
       redirectEndpoint: http://slidev.org/endpoint
       artifactResolutionEndpoint: http://slidev.org/artifact/endpoint
+      sourceId: federatedIDP1
     realm: "dc=slidev,dc=org"
     mappings: {"Educator": ["teacher", "ta"]}
 
@@ -28,9 +28,9 @@ two:
     uniqueIdentifier: realm-two
     idp: 
       id: http://timelords.com
-      sourceId: federatedIDP2
       redirectEndpoint: http://timelords.com/gallifrey
       artifactResolutionEndpoint: http://timelords.com/gallifrey/artifact
+      sourceId: federatedIDP2
     realm: "dc=timelors,dc=org"
     mappings: {"Educator": ["Educator"], "Leader": ["Leader"]}
 #  column: value

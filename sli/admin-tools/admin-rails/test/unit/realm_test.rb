@@ -20,10 +20,20 @@ limitations under the License.
 require 'test_helper'
 
 class RealmTest < ActiveSupport::TestCase
+
   test "get realms" do
     realms = Realm.all
     assert_not_nil(realms)
     assert_equal(realms.size, @realm_fixtures.size)
+  end
+
+  test "happy path" do
+    realm = Realm.new
+    realm.idp = Realm::Idp.new
+    realm.name = "Simple"
+    realm.uniqueIdentifier = "Something else"
+    realm.idp.id = nil
+    assert(!realm.idp.valid?, "Validation should fail")
   end
 
   test "simple validation" do
@@ -37,7 +47,7 @@ class RealmTest < ActiveSupport::TestCase
   test "name specific validation" do
     realm = Realm.new
     realm.uniqueIdentifier = "Waffles" #valid
-    realm.idp = Realm::Idp.new({:id => "Waffles", :sourceId => "Waffles", :redirectEndpoint => "Waffles", :artifactResolutionEndpoint => "Waffles"})
+    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles", :artifactResolutionEndpoint => "Waffles", :sourceId => "Waffles"})
     realm.name = "Super awesome"
     assert realm.valid?, "Realm should be valid"
     realm.name = "REALM!"
@@ -49,7 +59,7 @@ class RealmTest < ActiveSupport::TestCase
   test "unique identifier validation" do
     realm = Realm.new
     realm.name = "Waffles" #valid
-    realm.idp = Realm::Idp.new({:id => "Waffles", :sourceId => "Waffles", :redirectEndpoint => "Waffles", :artifactResolutionEndpoint => "Waffles"})
+    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles", :artifactResolutionEndpoint => "Waffles", :sourceId => "Waffles"})
     realm.uniqueIdentifier = "Super awesome"
     assert realm.valid?, "Realm should be valid: #{realm.errors.to_json}"
     realm.uniqueIdentifier = "REALM!"
@@ -58,7 +68,7 @@ class RealmTest < ActiveSupport::TestCase
     assert !realm.valid?, "Realm should not be valid (Length)"
   end
 
-  test "idp validation" do
+  test "idp null idp id validation" do
     realm = Realm.new
     realm.idp = Realm::Idp.new
     realm.name = "Simple"
@@ -66,4 +76,13 @@ class RealmTest < ActiveSupport::TestCase
     realm.idp.id = nil
     assert(!realm.idp.valid?, "Validation should fail")
   end
+
+  test "idp artifactResolutionEndpoint with no sourceId validation" do
+    realm = Realm.new
+    realm.uniqueIdentifier = "Waffles" #valid
+    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles", :artifactResolutionEndpoint => "Waffles"})
+    realm.name = "Super awesome"
+    assert(!realm.idp.valid?, "Validation should fail")
+  end
+
 end

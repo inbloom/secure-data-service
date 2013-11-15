@@ -23,14 +23,14 @@
     		<%= idp.label :id, 'IDP URL <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="URL that identifies the federated IDP"></i>'.html_safe %>
     		<%= idp.text_field :id, :size => 50 %>
 
-        <%= idp.label :sourceId, 'IDP Source ID <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="Unique source ID of the federated IDP"></i>'.html_safe %>
-        <%= idp.text_field :artifactResolutionEndpoint, :size => 50 %>
-
         <%= idp.label :redirectEndpoint, 'Redirect Endpoint <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="URL where authentication requests are sent"></i>'.html_safe %>
         <%= idp.text_field :redirectEndpoint, :size => 50 %>
 
         <%= idp.label :artifactResolutionEndpoint, 'Artifact Resolution Endpoint <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="URL where artifact resolution requests are sent"></i>'.html_safe %>
         <%= idp.text_field :artifactResolutionEndpoint, :size => 50 %>
+
+        <%= idp.label :sourceId, 'IDP Source ID <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="Unique source ID of the federated IDP"></i>'.html_safe %>
+        <%= idp.text_field :sourceId, :size => 20 %>
     <% end %>
 
     <%= f.label :uniqueIdentifier, 'Realm Identifier <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="Used for skipping realm selection"></i>'.html_safe %>
