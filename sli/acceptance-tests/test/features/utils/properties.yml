@@ -157,6 +157,13 @@ ci_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Daybreak
 # IDP and Redirect Endpoint URL for Charter School Realm Management
 ci_charter_idp_redirect_url: https://local.slidev.org/simple-idp?realm=IL-Charter
 
+#Properties for Artifact Binding IdP
+ci_artifact_idp_type: shibboleth
+ci_artifact_idp_artifact_resolution_url: https://shibboleth.slidev.org/idp/profile/SAML2/SOAP/ArtifactResolution
+ci_artifact_idp_redirect_url: https://shibboleth.slidev.org/idp/profile/SAML2/Redirect/SSO
+ci_artifact_idp_id_url: https://shibboleth.slidev.org/idp/shibboleth
+ci_artifact_source_id: 38776f081b059f8b888c77fd15700c6cb469152e
+
 ##For RC environments
 #email_imap_hostname: imap.gmail.com
 #email_imap_portname: 993

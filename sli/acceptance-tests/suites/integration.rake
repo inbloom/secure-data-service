@@ -40,6 +40,11 @@ task :rcAppApprovalTests do
   end
 end
 
+desc "Run Artifact Binding RC Test"
+task :rcArtifactBindingTests do
+  runTests("test/features/cross_app_tests/rc_integration_artifact_idp.feature")
+end
+
 desc "Run Dashboard RC Test"
 task :rcDashboardTests do
   runTests("test/features/cross_app_tests/rc_integration_dashboard.feature")
@@ -197,6 +202,7 @@ task :rcTests do
   Rake::Task["rcAccountRequestTests"].execute
   Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
   Rake::Task["rcAppApprovalTests"].execute
+  Rake::Task["rcArtifactBindingTests"].execute if PropLoader.getProps['ci_artifact_idp_type'].downcase == 'shibboleth'
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcDataBrowserTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
