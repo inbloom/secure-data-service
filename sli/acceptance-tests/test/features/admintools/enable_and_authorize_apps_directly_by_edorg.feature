@@ -808,7 +808,7 @@ Background:
          And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
         Then I see an application "Royal Oak" in the table
          #DE3001 raised on below failing
-         #And in Status it says "2 EdOrg(s)"
+         And in Status it says "2 EdOrg(s)"
         Then I click on the "Edit Authorizations" button next to it
          And I deselect hierarchical mode
          And I expand all nodes
