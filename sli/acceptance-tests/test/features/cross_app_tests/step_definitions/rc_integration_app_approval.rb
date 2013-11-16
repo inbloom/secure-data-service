@@ -150,12 +150,13 @@ Then /^I enter "(.*?)" in the Redirect Endpoint field$/ do |url|
 end
 
 Then /^I enter "(.*?)" in the Artifact Resolution Endpoint field$/ do |url|
-  STDOUT.puts "redirect url : #{url}"
+  STDOUT.puts "artifact resolution endpoint : #{url}"
+  STDOUT.puts "\nPropLoader's props:\n#{PropLoader.getProps}"
   @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').send_keys url
 end
 
 Then /^I enter "(.*?)" in the Source Id field$/ do |url|
-  STDOUT.puts "redirect url : #{url}"
+  STDOUT.puts "source id : #{url}"
   @driver.find_element(:name, 'realm[idp][sourceId]').send_keys url
 end
 
