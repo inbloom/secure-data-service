@@ -28,67 +28,77 @@ require_relative '../../utils/selenium_common.rb'
 require_relative '../../utils/email.rb'
 
 Transform /^<([^>]*)>$/ do |human_readable_text|
- if human_readable_text == "PRIMARY_EMAIL"
-   value = PropLoader.getProps['primary_email_imap_registration_user_email']
-   @email_username = PropLoader.getProps['primary_email_imap_registration_user']
-   @email_password = PropLoader.getProps['primary_email_imap_registration_pass']
- elsif human_readable_text == "PRIMARY_EMAIL_PASS"
-   value = PropLoader.getProps['primary_email_imap_registration_pass']
- elsif human_readable_text == "SECONDARY_EMAIL"
-  value = PropLoader.getProps['secondary_email_imap_registration_user_email']
-  @email_username = PropLoader.getProps['secondary_email_imap_registration_user']
-  @email_password = PropLoader.getProps['secondary_email_imap_registration_pass']
- elsif human_readable_text == "SECONDARY_EMAIL_PASS"
-   value = PropLoader.getProps['secondary_email_imap_registration_pass']
- elsif human_readable_text == "CHARTER_EMAIL"
-   value = PropLoader.getProps['charter_email_imap_registration_user_email']
-   @email_username = PropLoader.getProps['charter_email_imap_registration_user']
-   @email_password = PropLoader.getProps['charter_email_imap_registration_pass']
-  elsif human_readable_text == "CHARTER_EMAIL_PASS"
-    value = PropLoader.getProps['charter_email_imap_registration_pass']
- elsif human_readable_text == "DEVELOPER_EMAIL"
-  value = PropLoader.getProps['developer_email_imap_registration_user_email']
-  @email_username = PropLoader.getProps['developer_email_imap_registration_user']
-  @email_password = PropLoader.getProps['developer_email_imap_registration_pass']
- elsif human_readable_text == "DEVELOPER_EMAIL_PASS"
-   value = PropLoader.getProps['developer_email_imap_registration_pass']
- elsif human_readable_text == "DEVELOPER_SB_EMAIL"
-   value = PropLoader.getProps['developer_sb_email_imap_registration_user_email']
-   @email_username = PropLoader.getProps['developer_sb_email_imap_registration_user']
-   @email_password = PropLoader.getProps['developer_sb_email_imap_registration_pass']
- elsif human_readable_text == "DEVELOPER_SB_EMAIL_PASS"
-   value = PropLoader.getProps['developer_sb_email_imap_registration_pass']
- elsif human_readable_text == "DEVELOPER2_SB_EMAIL"
-   value = PropLoader.getProps['developer2_sb_email_imap_registration_user_email']
-   @email_username = PropLoader.getProps['developer2_sb_email_imap_registration_user']
-   @email_password = PropLoader.getProps['developer2_sb_email_imap_registration_pass']
- elsif human_readable_text == "DEVELOPER2_SB_EMAIL_PASS"
-   value = PropLoader.getProps['developer2_sb_email_imap_registration_pass']
- elsif human_readable_text == "LANDINGZONE"
-  value = PropLoader.getProps['landingzone']
- elsif human_readable_text == "LANDINGZONE_PORT"
-  value = PropLoader.getProps['landingzone_port']
- elsif human_readable_text == "TENANT"
-  puts "Tenant in Transform = #{PropLoader.getProps['tenant']}"
-  value = PropLoader.getProps['tenant']
- elsif human_readable_text == "SANDBOX_TENANT"
-  value = PropLoader.getProps['sandbox_tenant']
- elsif human_readable_text == "CI_IDP_Redirect_URL"
-   value = PropLoader.getProps["ci_idp_redirect_url"]
- elsif human_readable_text == "CI_CHARTER_IDP_Redirect_URL"
-   value = PropLoader.getProps["ci_charter_idp_redirect_url"]
- elsif human_readable_text == "MATT SOLLARS UNIQUE ID"
-   value = "800000025"
- elsif human_readable_text == "CARMEN ORTIZ UNIQUE ID"
-   value = "900000016"
- elsif human_readable_text == "BRANDON SUZUKI UNIQUE ID"
-   value = "100000022"
- elsif human_readable_text == "ZOE LOCUST UNIQUE ID"
-   value = "900000009"
- elsif human_readable_text == "REBECCA BRAVERMAN UNIQUE ID"
-   value = "rbraverman"
- elsif human_readable_text == "AMY KOPEL UNIQUE ID"
-   value = "akopel"
+
+  case human_readable_text
+    when "PRIMARY_EMAIL"
+      value = PropLoader.getProps['primary_email_imap_registration_user_email']
+      @email_username = PropLoader.getProps['primary_email_imap_registration_user']
+      @email_password = PropLoader.getProps['primary_email_imap_registration_pass']
+    when "PRIMARY_EMAIL_PASS"
+      value = PropLoader.getProps['primary_email_imap_registration_pass']
+    when "SECONDARY_EMAIL"
+      value = PropLoader.getProps['secondary_email_imap_registration_user_email']
+      @email_username = PropLoader.getProps['secondary_email_imap_registration_user']
+      @email_password = PropLoader.getProps['secondary_email_imap_registration_pass']
+    when "SECONDARY_EMAIL_PASS"
+      value = PropLoader.getProps['secondary_email_imap_registration_pass']
+    when "CHARTER_EMAIL"
+      value = PropLoader.getProps['charter_email_imap_registration_user_email']
+      @email_username = PropLoader.getProps['charter_email_imap_registration_user']
+      @email_password = PropLoader.getProps['charter_email_imap_registration_pass']
+    when "CHARTER_EMAIL_PASS"
+      value = PropLoader.getProps['charter_email_imap_registration_pass']
+    when "DEVELOPER_EMAIL"
+      value = PropLoader.getProps['developer_email_imap_registration_user_email']
+      @email_username = PropLoader.getProps['developer_email_imap_registration_user']
+      @email_password = PropLoader.getProps['developer_email_imap_registration_pass']
+    when "DEVELOPER_EMAIL_PASS"
+      value = PropLoader.getProps['developer_email_imap_registration_pass']
+    when "DEVELOPER_SB_EMAIL"
+      value = PropLoader.getProps['developer_sb_email_imap_registration_user_email']
+      @email_username = PropLoader.getProps['developer_sb_email_imap_registration_user']
+      @email_password = PropLoader.getProps['developer_sb_email_imap_registration_pass']
+    when "DEVELOPER_SB_EMAIL_PASS"
+      value = PropLoader.getProps['developer_sb_email_imap_registration_pass']
+    when "DEVELOPER2_SB_EMAIL"
+      value = PropLoader.getProps['developer2_sb_email_imap_registration_user_email']
+      @email_username = PropLoader.getProps['developer2_sb_email_imap_registration_user']
+      @email_password = PropLoader.getProps['developer2_sb_email_imap_registration_pass']
+    when "DEVELOPER2_SB_EMAIL_PASS"
+      value = PropLoader.getProps['developer2_sb_email_imap_registration_pass']
+    when "LANDINGZONE"
+      value = PropLoader.getProps['landingzone']
+    when "LANDINGZONE_PORT"
+      value = PropLoader.getProps['landingzone_port']
+    when "TENANT"
+      puts "Tenant in Transform = #{PropLoader.getProps['tenant']}"
+      value = PropLoader.getProps['tenant']
+    when "SANDBOX_TENANT"
+      value = PropLoader.getProps['sandbox_tenant']
+    when "CI_IDP_Redirect_URL"
+      value = PropLoader.getProps["ci_idp_redirect_url"]
+    when "CI_CHARTER_IDP_Redirect_URL"
+      value = PropLoader.getProps["ci_charter_idp_redirect_url"]
+    when "MATT SOLLARS UNIQUE ID"
+      value = "800000025"
+    when "CARMEN ORTIZ UNIQUE ID"
+      value = "900000016"
+    when "BRANDON SUZUKI UNIQUE ID"
+      value = "100000022"
+    when "ZOE LOCUST UNIQUE ID"
+      value = "900000009"
+    when "REBECCA BRAVERMAN UNIQUE ID"
+      value = "rbraverman"
+    when "AMY KOPEL UNIQUE ID"
+      value = "akopel"
+    when 'CI_ARTIFACT_IDP_ID_URL'
+      value = PropLoader.getProps['ci_artifact_idp_id_url']
+    when 'CI_ARTIFACT_IDP_REDIRECT_URL'
+      value = PropLoader.getProps['ci_artifact_idp_redirect_url']
+    when 'CI_ARTIFACT_IDP_ARTIFACT_RESOLUTION_URL'
+      value = PropLoader.getProps['ci_artifact_idp_artifact_resolution_url']
+    when 'CI_ARTIFACT_SOURCE_ID'
+      value = PropLoader.getProps['ci_artifact_source_id']
   end
 
  value

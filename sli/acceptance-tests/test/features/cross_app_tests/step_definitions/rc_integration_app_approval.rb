@@ -32,22 +32,10 @@ $client_id = nil
 $client_secret = nil
 
 Transform /^<([^>]*)>$/ do |human_readable_text|
-  case human_readable_text
-    when 'CI_IDP_Redirect_URL'
-      property = PropLoader.getProps['ci_idp_redirect_url']
-    when 'CI_ARTIFACT_IDP_ID_URL'
-      property = PropLoader.getProps['ci_artifact_idp_id_url']
-    when 'CI_ARTIFACT_IDP_REDIRECT_URL'
-      property = PropLoader.getProps['ci_artifact_idp_redirect_url']
-    when 'CI_ARTIFACT_IDP_ARTIFACT_RESOLUTION_URL'
-      property = PropLoader.getProps['ci_artifact_idp_artifact_resolution_url']
-    when 'CI_ARTIFACT_SOURCE_ID'
-      property = PropLoader.getProps['ci_artifact_source_id']
+ if human_readable_text == "CI_IDP_Redirect_URL"
+   url = PropLoader.getProps["ci_idp_redirect_url"]
   end
-
-  puts "\nHuman Readable Text: #{human_readable_text}\nProperty: #{property}"
-  
-  property
+ url
 end
 
 When /^I make my app an installed app$/ do
