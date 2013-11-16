@@ -44,6 +44,8 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
     when 'CI_ARTIFACT_SOURCE_ID'
       property = PropLoader.getProps['ci_artifact_source_id']
   end
+
+  puts "\nHuman Readable Text: #{human_readable_text}\nProperty: #{property}"
   
   property
 end
@@ -151,7 +153,6 @@ end
 
 Then /^I enter "(.*?)" in the Artifact Resolution Endpoint field$/ do |url|
   STDOUT.puts "artifact resolution endpoint : #{url}"
-  STDOUT.puts "\nPropLoader's props:\n#{PropLoader.getProps}"
   @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').send_keys url
 end
 
