@@ -31,7 +31,7 @@ class ApplicationAuthorizationsControllerTest < ActionController::TestCase
     session[:adminRealmAuthenticated] = true
     get :index
     assert_response :success
-    assert_not_nil assigns(:application_authorizations)
+    assert_not_nil assigns(:app_auth_info)
   end
 
   test "should fail if we are an operator" do
