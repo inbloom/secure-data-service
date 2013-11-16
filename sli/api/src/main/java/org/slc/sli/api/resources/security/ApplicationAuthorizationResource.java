@@ -398,7 +398,11 @@ public class ApplicationAuthorizationResource {
             entity.put("id", appId);
             entity.put("appId", appId);
             entity.put("authorized", true);
-            entity.put("edorgs", edOrgs); //DE2993
+            if(!isSEAAdmin()) {
+                entity.put("edorgs", filter(edOrgs, inScopeEdOrgs));
+            } else {
+                entity.put("edorgs", edOrgs); //DE2993
+            }
             results.add(entity);
             allApps.remove(appId);
         }

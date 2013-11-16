@@ -10,22 +10,13 @@
     end
 %></p>
 
-<% if @edorgs.length == 0 %>
+<% if @app_auth_info.length == 0 %>
     <h3 id='notApprovedStatus'>You are not authorized to make application authorizations</h3>
 <% else %>
     <h3>Please approve inBloom applications to access data</h3>
 <% end %>
-<% if @edorgs.length > 1 %>
-    <select id="districtSelection">
-        <% @edorgs.each do |cur| %>
-            <option value="<%= cur %>" <%= "selected='selected'" if notice == cur %>><%= EducationOrganization.find(cur).nameOfInstitution %></option>
-        <% end %>
-    </select>
-<% end %>
 
-<% @edorgs.each do |edorg| %>
-<h3>Education Organization - <%= EducationOrganization.find(edorg).nameOfInstitution %></h3>
-<table id="AuthorizedAppsTable_<%= edorg  %>" class="AuthorizedAppsTable table">
+<table id="AuthorizedAppsTable" class="AuthorizedAppsTable table">
   <thead>
   <tr>
     <th>Name</th>
@@ -37,40 +28,20 @@
   </thead>
   <tbody>
     <% 
-     @application_authorizations[edorg].sort!{|a,b| 
-       # TODO: if including apps not enabled by developer,
-       # sort on that as the primary key, putting all
-       # such apps at the bottom
-       appA = @apps_map[a.appId]
-       appB = @apps_map[b.appId]
-       appAName = if appA.nil? then "" else appA.name end
-       appBName = if appB.nil? then "" else appB.name end
-       appAName.casecmp(appBName)
-     }
+      @app_auth_info.sort!{|a,b|
+        # TODO: if including apps not enabled by developer,
+        # sort on that as the primary key, putting all
+        # such apps at the bottom
+        a[:name].casecmp(b[:name])
+      }
     %>
-    <% @application_authorizations[edorg].each do |app_auth| %>
-      <% @cur_edorg = edorg %>
-      <% @app_auth = app_auth
-         next if @apps_map[app_auth.appId] == nil
-         isEnabled = edorg_in_scope_enabled?(edorg, app_auth.appId)
-         next if ! isEnabled
+    <% @app_auth_info.each do |auth_info| %>
+      <% @auth_info = auth_info
+         next if @apps_map[auth_info[:edorg_auth].appId] == nil
       %>
       <%= render 'form'%>
     <% end %>
   </tbody>
 </table>
-<% end %>
-<script type="text/javascript" charset="utf-8">
-    $("select").change(function(){
-        $("select option:selected").each(function(){
-            $("table").hide();
-            $("h3").hide();
-            <!--Now figure out how to get an h1 tag in jQuery by its text.  -->
-            $("h3:contains('" + $(this).text() + "')").show();
-            $("#AuthorizedAppsTable_" + $(this).attr('value')).show();
-       });
-     }).change();
-
-</script>
 <br />
 
