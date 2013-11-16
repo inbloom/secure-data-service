@@ -49,22 +49,24 @@
      }
     %>
     <% @application_authorizations[edorg].each do |app_auth| %>
-    <% @cur_edorg = edorg %>
-    <% @app_auth = app_auth
-       next if @apps_map[app_auth.appId] == nil
-       isEnabled = edorg_in_scope_enabled?(edorg, app_auth.appId)
-       next if ! isEnabled
-    %>
-    <%= render 'form'%>
-  <% end %>
+      <% @cur_edorg = edorg %>
+      <% @app_auth = app_auth
+         next if @apps_map[app_auth.appId] == nil
+         isEnabled = edorg_in_scope_enabled?(edorg, app_auth.appId)
+         next if ! isEnabled
+      %>
+      <%= render 'form'%>
+    <% end %>
+  </tbody>
+</table>
 <% end %>
 <script type="text/javascript" charset="utf-8">
     $("select").change(function(){
         $("select option:selected").each(function(){
             $("table").hide();
-            $("h1").hide();
+            $("h3").hide();
             <!--Now figure out how to get an h1 tag in jQuery by its text.  -->
-            $("h1:contains('" + $(this).text() + "')").show();
+            $("h3:contains('" + $(this).text() + "')").show();
             $("#AuthorizedAppsTable_" + $(this).attr('value')).show();
        });
      }).change();

@@ -108,7 +108,7 @@ And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
 #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
-And there are "1" educationalOrganizations in the targetEdOrgList
+And there are "1" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
 And I see an application "Boyne" in the table
 And in Status it says "1 EdOrg(s)"
 Given the sli securityEvent collection is empty
@@ -122,7 +122,7 @@ And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
 #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
-And there are "1" educationalOrganizations in the targetEdOrgList
+And there are "1" educationalOrganizations in the targetEdOrgList of securityEvent "EdOrg data access has been revoked!"
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
 
@@ -157,7 +157,7 @@ And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
 #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
-And there are "2" educationalOrganizations in the targetEdOrgList
+And there are "2" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
 And I see an application "Boyne" in the table
 And in Status it says "2 EdOrg(s)"
 Given the sli securityEvent collection is empty
