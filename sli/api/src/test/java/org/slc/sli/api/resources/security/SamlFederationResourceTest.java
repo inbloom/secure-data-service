@@ -29,9 +29,7 @@ import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.KeyStore;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -46,7 +44,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import junit.extensions.TestSetup;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
@@ -70,7 +67,6 @@ import org.mockito.stubbing.Answer;
 import org.opensaml.saml2.core.ArtifactResolve;
 import org.opensaml.saml2.core.ArtifactResponse;
 import org.opensaml.saml2.core.Assertion;
-import org.opensaml.saml2.core.Condition;
 import org.opensaml.saml2.core.Conditions;
 import org.opensaml.saml2.core.Issuer;
 import org.opensaml.saml2.core.Subject;
@@ -80,8 +76,6 @@ import org.opensaml.ws.soap.soap11.Body;
 import org.opensaml.ws.soap.soap11.Envelope;
 import org.opensaml.ws.soap.soap11.impl.EnvelopeImpl;
 import org.opensaml.xml.XMLObject;
-import org.slc.sli.api.representation.CustomStatus;
-import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
@@ -93,9 +87,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.api.representation.CustomStatus;
 import org.slc.sli.api.security.OauthMongoSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.roles.EdOrgContextualRoleBuilder;
@@ -252,17 +248,9 @@ public class SamlFederationResourceTest {
         Mockito.when(httpServletRequest.getRemoteUser()).thenReturn("My User");
         Mockito.when(httpServletRequest.getHeader(eq("Origin"))).thenReturn("My Origin");
 
-        SecurityEvent event = new SecurityEvent();
-        Mockito.when(securityEventBuilder.createSecurityEvent(any(String.class), any(URI.class), any(String.class), anyBoolean())).thenReturn(event);
-        Mockito.when(securityEventBuilder.createSecurityEvent(any(String.class), any(URI.class), any(String.class), any(SLIPrincipal.class),
-                any(String.class), any(Entity.class), any(Set.class), anyBoolean())).thenReturn(event);
-        resource.setSecurityEventBuilder(securityEventBuilder);
+        setSecurityEventBuilder();
 
-        Field sandboxEnabled = SamlFederationResource.class.getDeclaredField("sandboxEnabled");
-        sandboxEnabled.setAccessible(true);
-        sandboxEnabled.set(resource, false);
-
-
+        setSandboxEnabled(false);
 
         ArtifactResolve artifactResolve = Mockito.mock(ArtifactResolve.class);
         Envelope envelope = Mockito.mock(Envelope.class);
@@ -313,6 +301,7 @@ public class SamlFederationResourceTest {
 
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void getMetadataTest() {
         Response response = resource.getMetadata();
@@ -384,7 +373,7 @@ public class SamlFederationResourceTest {
                 any(String.class), any(Entity.class), any(Set.class), eq(true));
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unchecked")
     @Test
     public void consumeAdminRealmAndSandboxEnabledWithSamlTenantTest() throws URISyntaxException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         String postData = "adminRealmAndSandboxEnabledWithSamlTenant";
@@ -397,9 +386,7 @@ public class SamlFederationResourceTest {
 
         setRealm(Boolean.TRUE);
 
-        Field sandboxEnabled = SamlFederationResource.class.getDeclaredField("sandboxEnabled");
-        sandboxEnabled.setAccessible(true);
-        sandboxEnabled.set(resource, true);
+        setSandboxEnabled(true);
 
         List<String> roles = new ArrayList<String>();
         roles.add("Educator");
@@ -425,9 +412,7 @@ public class SamlFederationResourceTest {
 
         setRealm(Boolean.TRUE);
 
-        Field sandboxEnabled = SamlFederationResource.class.getDeclaredField("sandboxEnabled");
-        sandboxEnabled.setAccessible(true);
-        sandboxEnabled.set(resource, true);
+        setSandboxEnabled(true);
 
         try {
             Response loginResponse = resource.consume(postData, uriInfo);
@@ -438,7 +423,7 @@ public class SamlFederationResourceTest {
         Mockito.verify(securityEventBuilder, times(0)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), eq(false));
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unused")
     @Test
     public void consumeUserNotAllowedToLogInTest() throws URISyntaxException {
         String postData = "userNotAllowedToLogIn";
@@ -597,7 +582,7 @@ public class SamlFederationResourceTest {
         Mockito.verify(securityEventBuilder, times(0)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), eq(false));
     }
 
-    @SuppressWarnings({ "unused" })
+    @SuppressWarnings("unused")
     @Test
     public void consumeInvalidUserTest() throws URISyntaxException {
         String postData = "invalidUser";
@@ -621,7 +606,7 @@ public class SamlFederationResourceTest {
         Mockito.verify(securityEventBuilder, times(0)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), eq(false));
     }
 
-    @SuppressWarnings({ "unused" })
+    @SuppressWarnings("unused")
     @Test
     public void consumeNoUserTest() throws URISyntaxException {
         String postData = "noUser";
@@ -699,6 +684,7 @@ public class SamlFederationResourceTest {
     }
 
 
+    @SuppressWarnings("unchecked")
     @Test
     public void processArtifactBindingValidRequest() throws URISyntaxException {
         setRealm(false);
@@ -800,6 +786,7 @@ public class SamlFederationResourceTest {
         return assertion;
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testAuthenticateUserValid() throws URISyntaxException {
         LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
@@ -817,18 +804,19 @@ public class SamlFederationResourceTest {
 
         appSession.put("installed", true);
         res = spyResource.authenticateUser(attributes, realm, targetEdorg, issuerString, session, uri);
-        Assert.assertEquals(200, res.getStatus());
+        Assert.assertEquals(STATUS_OK, res.getStatus());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
-    public void testAuthenticateUserInvalid() throws URISyntaxException {
+    public void testAuthenticateUserInvalid() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
         LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
         URI uri = new URI(issuerString);
 
         appSession.put("installed", false);
         appSession.put("redirectUri", issuerString);
 
-        resource.setSandboxEnabled(true);
+        setSandboxEnabled(true);
 
         SamlFederationResource spyResource = Mockito.spy(resource);
         Mockito.doReturn(principal).when(spyResource).createPrincipal(Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(LinkedMultiValueMap.class),
@@ -839,6 +827,25 @@ public class SamlFederationResourceTest {
 
         setRealm(true);
         spyResource.authenticateUser(attributes, realm, targetEdorg, issuerString, session, uri);
+    }
+
+
+    private void setSandboxEnabled(boolean sandboxEnabled) throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        Field sandboxEnabledField = SamlFederationResource.class.getDeclaredField("sandboxEnabled");
+        sandboxEnabledField.setAccessible(true);
+        sandboxEnabledField.set(resource, sandboxEnabled);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void setSecurityEventBuilder() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        SecurityEvent event = new SecurityEvent();
+        Mockito.when(securityEventBuilder.createSecurityEvent(any(String.class), any(URI.class), any(String.class), anyBoolean())).thenReturn(event);
+        Mockito.when(securityEventBuilder.createSecurityEvent(any(String.class), any(URI.class), any(String.class), any(SLIPrincipal.class),
+           any(String.class), any(Entity.class), any(Set.class), anyBoolean())).thenReturn(event);
+
+        Field securityEventBuilderField = SamlFederationResource.class.getDeclaredField("securityEventBuilder");
+        securityEventBuilderField.setAccessible(true);
+        securityEventBuilderField.set(resource, securityEventBuilder);
     }
 
     private void constructAttributes(String samlTenant, boolean isAdmin, String userId, String userType, List<String> roles) {

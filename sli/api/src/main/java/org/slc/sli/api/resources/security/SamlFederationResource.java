@@ -28,11 +28,16 @@ import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -43,7 +48,6 @@ import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
-import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.velocity.Template;
@@ -54,9 +58,6 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.opensaml.saml2.binding.decoding.HTTPArtifactDecoder;
-import org.opensaml.saml2.binding.artifact.SAML2ArtifactBuilderFactory;
-import org.opensaml.saml2.binding.artifact.SAML2ArtifactType0004;
 import org.opensaml.saml2.core.ArtifactResolve;
 import org.opensaml.saml2.core.ArtifactResponse;
 import org.opensaml.saml2.core.Assertion;
@@ -725,18 +726,6 @@ public class SamlFederationResource {
         velocityEngine.init();
 
         return velocityEngine.getTemplate(METADATA_TEMPLATE);
-    }
-
-    Repository<Entity> getRepository() {
-        return repo;
-    }
-
-    public void setSecurityEventBuilder(SecurityEventBuilder securityEventBuilder) {
-        this.securityEventBuilder = securityEventBuilder;
-    }
-
-    public void setSandboxEnabled(boolean sandboxEnabled) {
-        this.sandboxEnabled = sandboxEnabled;
     }
 
 }
