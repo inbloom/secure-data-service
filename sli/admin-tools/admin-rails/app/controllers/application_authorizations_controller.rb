@@ -88,7 +88,18 @@ class ApplicationAuthorizationsController < ApplicationController
     @user_edorg = session[:edOrgId]
 
     load_apps()
-    load_app_auth_info()
+
+    # create a list of app auth info including edorgs element, count of authorized edorgs, and app name
+    @app_auth_info = []
+    user_app_auths = ApplicationAuthorization.findAllInChunks({})
+    user_app_auths.each do |auth|
+      info = {}
+      app = @apps_map[auth.appId]
+      info[:edorg_auth] = auth
+      info[:count] = get_edorg_auth_count(auth)
+      info[:name] = if app.nil? then "" else app.name end
+      @app_auth_info.push(info)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -149,20 +160,6 @@ class ApplicationAuthorizationsController < ApplicationController
     @apps_map = {}
     allApps = App.findAllInChunks({})
     allApps.each { |app| @apps_map[app.id] = app }
-  end
-
-  # Create a map of { app_id => {"edorg_auth" => <app_auth.edorgs element>, "count" => <# of authed edorgs>},... }
-  def load_app_auth_info()
-    @app_auth_info = []
-    user_app_auths = ApplicationAuthorization.findAllInChunks({})
-    user_app_auths.each do |auth|
-      info = {}
-      app = @apps_map[auth.appId]
-      info[:edorg_auth] = auth
-      info[:count] = get_edorg_auth_count(auth)
-      info[:name] = if app.nil? then "" else app.name end
-      @app_auth_info.push(info)
-    end
   end
 
   # Calculates the number of authorized edorgs for the auth
