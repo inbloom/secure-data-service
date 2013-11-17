@@ -109,7 +109,6 @@ And I check to find if record is in sli db collection:
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
 #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
 And there are "1" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
-And I wait for user input
 And I see an application "Boyne" in the table
 And in Status it says "1 EdOrg(s)"
 Given the sli securityEvent collection is empty
