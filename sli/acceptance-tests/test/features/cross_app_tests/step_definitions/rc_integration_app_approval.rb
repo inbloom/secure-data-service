@@ -31,13 +31,6 @@ Dir["./test/features/search/step_definitions/*.rb"].each {|file| require file}
 $client_id = nil
 $client_secret = nil
 
-Transform /^<([^>]*)>$/ do |human_readable_text|
- if human_readable_text == "CI_IDP_Redirect_URL"
-   url = PropLoader.getProps["ci_idp_redirect_url"]
-  end
- url
-end
-
 When /^I make my app an installed app$/ do
   @driver.find_element(:css, 'input[id="app_installed"]').click
 end

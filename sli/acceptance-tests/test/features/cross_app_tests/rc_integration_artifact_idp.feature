@@ -36,11 +36,11 @@ Feature:  RC Integration Tests
   Scenario: Users can log into the newly created realm
     When I navigate to the Portal home page
     When I see the realm selector I authenticate to "Daybreak Artifact Test Realm"
-    And I was redirected to the "Shibboleth" IDP Login page
-    When I submit the credentials "jstevenson" "jstevenson1234" for the "Shibboleth" login page
+    And I was redirected to the "<CI_ARTIFACT_IDP_TYPE>" IDP Login page
+    When I submit the credentials "jstevenson" "jstevenson1234" for the "<CI_ARTIFACT_IDP_TYPE>" login page
     Then I should be on Portal home page
-    Then I should not see "inBloom Dashboards"
+    Then I should see "inBloom Dashboards"
     And I click on Admin
     And I should be on the admin page
-    And I should not see "inBloom Data Browser"
+    And I should see "inBloom Data Browser"
     And I click on log out

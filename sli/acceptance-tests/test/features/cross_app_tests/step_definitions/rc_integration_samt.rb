@@ -99,6 +99,8 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
       value = PropLoader.getProps['ci_artifact_idp_artifact_resolution_url']
     when 'CI_ARTIFACT_SOURCE_ID'
       value = PropLoader.getProps['ci_artifact_source_id']
+    when 'CI_ARTIFACT_IDP_TYPE'
+      value = PropLoader.getProps['ci_artifact_idp_type']
   end
 
  value
