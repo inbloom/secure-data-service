@@ -143,10 +143,10 @@ ci_charter_idp_redirect_url: https://pike-sidp.slidev.org/sliidp?realm=IL-Charte
 
 #Properties for Artifact Binding IdP
 ci_artifact_idp_type: none
-ci_artifact_idp_artifact_resolution_url: https://shibboleth-pike.slidev.org/idp/profile/SAML2/SOAP/ArtifactResolution
-ci_artifact_idp_redirect_url: https://shibboleth-pike.slidev.org:8443/idp/profile/SAML2/Redirect/SSO
-ci_artifact_idp_id_url: https://shibboleth-pike.slidev.org/idp/shibboleth
-ci_artifact_source_id: 38776f081b059f8b888c77fd15700c6cb469152e
+ci_artifact_idp_artifact_resolution_url: https://pike-shibboleth.slidev.org/idp/profile/SAML2/SOAP/ArtifactResolution
+ci_artifact_idp_redirect_url: https://pike-shibboleth.slidev.org:8443/idp/profile/SAML2/Redirect/SSO
+ci_artifact_idp_id_url: https://pike-shibboleth.slidev.org/idp/shibboleth
+ci_artifact_source_id: 8bca4d209a5a1b35f80e6961e3dcfdb294459b3c
 
 # for RC environments (amazon)
 #email_imap_host: imap.gmail.com
