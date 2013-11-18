@@ -141,16 +141,18 @@ When(/^I ([^ ]*) a "([^"]*)" StaffEducationOrganizationAssociation  between "([^
     staffEducationOrganizationAssociation['positionTitle' ]                      = role
 
     restHttpPost('/v1/staffEducationOrgAssignmentAssociations', staffEducationOrganizationAssociation.to_json, 'application/vnd.slc+json')
-    assert(@res.code == 201, "Could not create StaffEducationOrganizationAssociation! HTTP CODE:#{@res.code}  HTP BODY#{@res.body}")
+    assert(@res.code == 201, "Could not create StaffEducationOrganizationAssociation! HTTP CODE:#{@res.code}  HTTP BODY#{@res.body}")
     location = @res.raw_headers['location'][0]
     createdId = location.split(/\//)[-1]
     $createdEntityIds[role + staff + edOrg] = createdId
     $createdEntities[role + staff + edOrg]  = location
   else
     location = $createdEntities[role + staff + edOrg]
-    assert(location != nil, "Cannot find URL for StaffEducationOrganizationAssociation. Are you sure you created it in one of the steps? Have URLs for [#{$createdEntities.keys}]")
-    restHttpDeleteAbs(location, 'application/vnd.slc+json')
-    assert(@res.code == 200, "Could not delete StaffEducationOrganizationAssociation! HTTP CODE:#{@res.code}  HTP BODY#{@res.body}")
+    createdId = location.to_s.split("/").last
+    assert(createdId != nil, "Cannot find ID for StaffEducationOrganizationAssociation. Are you sure you created it in one of the steps? Have URLs for [#{$createdEntities.keys}]")
+    puts "staffEducationOrgAssignmentAssociations ID: " + createdId
+    restHttpDelete("/v1/staffEducationOrgAssignmentAssociations/#{createdId}", 'application/vnd.slc+json')
+    assert(@res.code == 204, "Could not delete StaffEducationOrganizationAssociation! HTTP CODE:#{@res.code}  HTTP BODY#{@res.body}")
   end
 end
 

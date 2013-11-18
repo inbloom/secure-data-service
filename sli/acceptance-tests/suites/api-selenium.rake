@@ -23,7 +23,6 @@ task :adminWebTests => [:realmInit] do
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
   runTests("test/features/admintools/authorize_applications_with_federated_users.feature")
-  #if any count mismatches etc, move this test to the end
 
   runTests("test/features/admintools/accountRequest.feature")
   runTests("test/features/admintools/Admin_Edit_Rules.feature")

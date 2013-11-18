@@ -3,7 +3,7 @@
 Feature: Other Urls not accessible by federated users in admin tools
 As an Federated User, I want to test some urls which are not accessible
 
-Scenario: Federated User cannot access some urls
+Scenario: Federated Users cannot access non-application authorization pages
 	Given I have an open web browser
 	When I hit the Admin Application Authorization Tool
 	And I select "Illinois Daybreak School District 4529" from the dropdown and click go
