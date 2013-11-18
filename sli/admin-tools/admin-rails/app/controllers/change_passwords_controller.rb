@@ -96,10 +96,5 @@ class ChangePasswordsController < ApplicationController
   end
 
 
-  def check_allowed_user
-    roles = session[:roles]
-    if roles == nil || !(is_operator? || is_sea_admin? || is_lea_admin? || is_developer? || is_realm_admin? || is_ingestion_user?)
-      raise ActiveResource::ForbiddenAccess, caller
-    end
-  end
+
 end
