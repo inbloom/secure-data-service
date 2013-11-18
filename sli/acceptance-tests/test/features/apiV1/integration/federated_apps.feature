@@ -82,7 +82,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
     And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
     And I add a "IT Administrator" StaffEducationOrganizationAssociation  between "jstevenson" and "ZFLEA1"
-    #And I wait for user input
     And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
     And I try to get app "US5865 Application Z1" and get a response code "200"
     And I try to get app "US5865 Application Z2" and get a response code "200"
@@ -120,7 +119,8 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     And I try to authorize "A1" to access "S1" and get a response code of "204"
     And I try to deAuthorize "A1" to access "S1" and get a response code of "204"
 
-    #jstevenson tries to authorize app for a school that he is NOT an IT administrator and fails. (Check with SS)
+    #jstevenson tries to authorize app for a school that he is NOT an IT administrator and fails.
+    # S2 is filtered out and not authorized
     And I try to authorize "A1" to access "S2" and get a response code of "204"
 
 
