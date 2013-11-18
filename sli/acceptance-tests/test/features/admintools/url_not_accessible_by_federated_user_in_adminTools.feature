@@ -21,16 +21,16 @@ Scenario: Federated User cannot access some urls
 	Then I get message that I am not authorized   
 	When I try to authenticate on the "change_passwords" Tool
 	Then I get message that I am not authorized   		
-	#When I try to authenticate on the "forgot_passwords" Tool
-	#Then I get message that I am not authorized   
+	When I try to authenticate on the "forgot_passwords" Tool
+	Then I get message that I am not authorized
 	When I try to authenticate on the "account_managements" Tool
 	Then I get message that I am not authorized   
 	When I try to authenticate on the "lea" Tool
 	Then I get message that I am not authorized   
 	When I try to authenticate on the "changePassword" Tool
 	Then I get message that I am not authorized   
-	#When I try to authenticate on the "forgotPassword" Tool
-	#Then I get message that I am not authorized   
+	When I try to authenticate on the "forgotPassword" Tool
+	Then I get message that I am not authorized
 	
 	
 	

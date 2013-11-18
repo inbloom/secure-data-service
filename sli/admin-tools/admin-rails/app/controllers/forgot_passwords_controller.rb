@@ -27,6 +27,7 @@ class ForgotPasswordsController < ApplicationController
   include ReCaptcha::AppHelper
 
   skip_filter :handle_oauth
+  before_filter :check_rights
   before_filter :get_user, :only => [:new_account, :update]
   before_filter :token_still_valid, :only => [:new_account, :update]
 
@@ -35,6 +36,15 @@ class ForgotPasswordsController < ApplicationController
     if !@user
       flash[:error] = "Unable to verify user. Please contact inBloom"
       redirect_to forgot_password_notify_path
+    end
+  end
+
+  # NOTE this controller allows ed org super admins to reset passwords
+  # It allows Hosted Users(s) to reset passwords
+  def check_rights
+    unless is_admin_realm_authenticated?
+      logger.warn {'User is not lea or sea admin cannot access reset passwords page'}
+      raise ActiveResource::ForbiddenAccess, caller
     end
   end
 
