@@ -29,6 +29,7 @@ class ForgotPasswordsController < ApplicationController
   skip_filter :handle_oauth
   before_filter :get_user, :only => [:new_account, :update]
   before_filter :token_still_valid, :only => [:new_account, :update]
+  before_filter :check_allowed_user
 
   def get_user
     @user = APP_LDAP_CLIENT.read_user_resetkey(params[:key])

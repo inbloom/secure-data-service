@@ -205,6 +205,13 @@ class ApplicationController < ActionController::Base
     return false
   end
 
+  def check_allowed_user
+    roles = session[:roles]
+    if roles == nil || !(is_operator? || is_sea_admin? || is_lea_admin? || is_developer? || is_realm_admin? || is_ingestion_user?)
+      raise ActiveResource::ForbiddenAccess, caller
+    end
+  end
+
    def get_app_authorizer_edOrgs
      if is_admin_realm_authenticated?
          return [session[:edOrgId]] if session[:rights].include?('EDORG_APP_AUTHZ')

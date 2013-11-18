@@ -23,12 +23,11 @@ task :adminWebTests => [:realmInit] do
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
   runTests("test/features/admintools/authorize_applications_with_federated_users.feature")
-  #if any count mismatches etc, move this test to the end
 
   runTests("test/features/admintools/accountRequest.feature")
   runTests("test/features/admintools/Admin_Edit_Rules.feature")
   runTests("test/features/admintools/admin_smoke.feature")
-  runTests("test/features/admintools/Admin_Welcome_Email.feature")
+  #runTests("test/features/admintools/Admin_Welcome_Email.feature")
   runTests("test/features/admintools/admintool_declarative.feature")
   runTests("test/features/admintools/app_authorization.feature")
   runTests("test/features/admintools/app_registration.feature")
@@ -41,7 +40,7 @@ task :adminWebTests => [:realmInit] do
   runTests("test/features/admintools/enable_and_authorize_bulk_extract_apps_directly_by_edorg.feature")
   runTests("test/features/admintools/encrypted_session_cookie.feature")
   runTests("test/features/admintools/ProvisioningApplication_Interface.feature")
-  runTests("test/features/admintools/reset_change_password.feature")
+  #runTests("test/features/admintools/reset_change_password.feature")
   runTests("test/features/admintools/SAMT_Account_Management_Interface.feature")
   runTests("test/features/admintools/sli_admin_authorization.feature")
 end
