@@ -120,7 +120,7 @@ When /^I enter valid data into all fields$/ do
   @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys "RedirectEndpoint"
   @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys "Unique Identifier"
   @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').send_keys "Artifact Resolution Endpoint"
-  @driver.find_element(:name, 'realm[idp][sourceId]').send_keys "IDP Source ID"
+  @driver.find_element(:name, 'realm[idp][sourceId]').send_keys "38776f081b059f8b888c77fd15700c6cb469152e"
 end
 
 When /^I enter data into all fields for realm "([^"]*)"$/ do |realm|
@@ -140,6 +140,11 @@ end
 
 When /^I make the source id blank$/ do
   @driver.find_element(:name, 'realm[idp][sourceId]').clear
+end
+
+When /^I make the source id a non hex encoded value$/ do
+  @driver.find_element(:name, 'realm[idp][sourceId]').clear
+  @driver.find_element(:name, 'realm[idp][sourceId]').send_keys 'V38776f081b059f8b888c77fd15700c6cb469152'
 end
 
 When /^I add something to the artifact resolution endpoint$/ do
