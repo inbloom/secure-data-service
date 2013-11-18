@@ -93,6 +93,10 @@ When /^I navigate to the Custom Role Mapping Page$/ do
   @driver.get PropLoader.getProps['admintools_server_url']+"/custom_roles"
 end
 
+When /^I try to authenticate on the "(.*?)" Tool$/ do |arg1|
+    @driver.get PropLoader.getProps['admintools_server_url']+"/#{arg1}"
+end
+
 Then /^I am shown the custom roles page for "(.*?)"$/ do |arg1|
     assertWithWait("Failed to be redirected to Role mapping page for realm #{arg1}")  {@driver.page_source.index("Custom Roles for #{arg1}") != nil}
 end
