@@ -45,7 +45,7 @@ Scenario: As a staff member, I can log in and see data for myself, if at least o
       And I should extract the "staff" id from the "self" URI
 
 Scenario: As a staff member, I cannot log in, if none of my roles match
-  Given I modify all SEOA staff classifications for "linda.kim" in tenant "Midgar" to "IT Administrator"
+  Given I modify all SEOA staff classifications for "linda.kim" in tenant "Midgar" to "Leader"
   When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
