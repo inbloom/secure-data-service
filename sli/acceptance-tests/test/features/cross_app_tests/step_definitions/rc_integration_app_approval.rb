@@ -208,3 +208,7 @@ When /^I (enable|disable) the educationalOrganization "([^"]*?)" in production$/
   elt.click()
 end
 
+And /^I manually navigate to "(.*?)" in admin$/ do |endpoint|
+    @driver.get(PropLoader.getProps['admintools_server_url'] + "/" + endpoint)
+end
+
