@@ -51,6 +51,8 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
+import javax.ws.rs.core.Response.Status;
+
 /**
  * Simple test for RealmResource
  */
@@ -70,6 +72,8 @@ public class RealmResourceTest {
     private EntityBody mapping;
     //private EntityBody realm2;
 
+    Map<String, Object> idp = new HashMap<String, Object>();
+
     @Before
     public void setUp() throws Exception {
 
@@ -80,7 +84,7 @@ public class RealmResourceTest {
         mapping.put("realm_name", "Waffles");
         mapping.put("edOrg", "fake-ed-org");
         mapping.put("mappings", new HashMap<String, Object>());
-        Map<String, Object> idp = new HashMap<String, Object>();
+
         idp.put("id", "fakerealm");
         idp.put("redirectEndpoint", "fakeRedirectEndpoint");
         idp.put("artifactResolutionEndpoint", "fakeArtifactEndpoint");
@@ -120,7 +124,30 @@ public class RealmResourceTest {
         }
         UriInfo uriInfo = ResourceTestUtil.buildMockUriInfo("");
         Response res = resource.updateRealm("1234", mapping, uriInfo);
+        Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), res.getStatus());
+
+        idp.put(RealmResource.SOURCE_ID, "ccf4f3895f6e37896e7511ed1d991b1d96f04ac1");
+        res = resource.updateRealm("1234", mapping, uriInfo);
         Assert.assertEquals(204, res.getStatus());
+        idp.remove(RealmResource.SOURCE_ID);
+    }
+
+    @Test
+    public void testvalidateArtifactResolution() {
+        Response res = resource.validateArtifactResolution(null, null);
+        Assert.assertNull(res);
+
+        res = resource.validateArtifactResolution("testEndpoint",  "ccf4f3895f6e37896e7511ed1d991b1d96f04ac1");
+        Assert.assertNull(res);
+
+        res = resource.validateArtifactResolution(null,  "ccf4f3895f6e37896e7511ed1d991b1d96f04ac1");
+        Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), res.getStatus());
+
+        res = resource.validateArtifactResolution("tesetEndpoint",  null);
+        Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), res.getStatus());
+
+        res = resource.validateArtifactResolution("tesetEndpoint",  "ccf4f3895f6e37896e7511ed1d991b1d96f");
+        Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), res.getStatus());
     }
 
 
