@@ -5,7 +5,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
 #Why does this have to be an integration test? Because changes to StaffEducationOrganizationAssociation are reflected only after re-login and re-login requires SimpleIDP.
   #jstevenson can access applications for his schools
-  @wip
   Scenario: CRUD operations involving developers, slcoperators, and federated users with APP_AUTHORIZE rights
     Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
     And format "application/vnd.slc+json"
@@ -61,7 +60,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
 
   #jstevenson can access applications for all schools that are under his LEA
-  @wip
   Scenario: CRUD operations involving developers, slcoperators, and federated users with APP_AUTHORIZE rights
     And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
     And I create a LEA named "ZFLEA1"
@@ -101,7 +99,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
 
   #jstevenson can access applicationAuthorizations for his schools and leas
-  @wip
   Scenario: CRUD operations involving developers, slcoperators, and federated users with APP_AUTHORIZE rights
     And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
     And I create a LEA named "L1"
