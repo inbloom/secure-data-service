@@ -212,9 +212,9 @@ When(/^I login as developer "([^"]*)" and ([^ ]*) application named "([^"]*)" fo
   app = JSON.parse @res
 
   if enable
-    app['authorized_for_all_edorgs'] = true
+    app['allowed_for_all_edorgs'] = true
   else
-    app['authorized_for_all_edorgs'] = false
+    app['allowed_for_all_edorgs'] = false
   end
 
   restHttpPut("/apps/#{appId}", app.to_json, 'application/vnd.slc+json', devSessionId)

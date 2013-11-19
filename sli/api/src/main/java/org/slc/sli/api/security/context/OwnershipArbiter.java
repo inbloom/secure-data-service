@@ -100,8 +100,8 @@ public abstract class OwnershipArbiter {
                 String collectionName = definition.getStoredCollectionName();
                 
                 if(entityType.equals("application")
-                        && entity.getBody().get("authorized_for_all_edorgs") != null
-                        && (Boolean)entity.getBody().get("authorized_for_all_edorgs")) {
+                        && entity.getBody().get("allowed_for_all_edorgs") != null
+                        && (Boolean)entity.getBody().get("allowed_for_all_edorgs")) {
                 	Iterable<Entity> ents = repo.findAll(collectionName, new NeutralQuery());
                     for (Entity e : ents) {
                     	edorgs.add(e);

@@ -51,9 +51,9 @@ public class StaffToApplicationValidator extends AbstractContextValidator {
         }
 
         Set<String> staffEdOrgs                        = edorgHelper.getStaffEdOrgsAndChildren();
-        NeutralCriteria idInAppIdList                  = new NeutralCriteria("_id",                NeutralCriteria.CRITERIA_IN, new LinkedList<String>(ids));
-        NeutralCriteria staffEdOrgsInAuthorizedEdOrgs  = new NeutralCriteria("authorized_ed_orgs", NeutralCriteria.CRITERIA_IN, staffEdOrgs);
-        NeutralCriteria authorizedForAll               = new NeutralCriteria("authorized_for_all_edorgs",NeutralCriteria.OPERATOR_EQUAL, true);
+        NeutralCriteria idInAppIdList                  = new NeutralCriteria("_id",                   NeutralCriteria.CRITERIA_IN, new LinkedList<String>(ids));
+        NeutralCriteria staffEdOrgsInAuthorizedEdOrgs  = new NeutralCriteria("authorized_ed_orgs",    NeutralCriteria.CRITERIA_IN, staffEdOrgs);
+        NeutralCriteria authorizedForAll               = new NeutralCriteria("allowed_for_all_edorgs",NeutralCriteria.OPERATOR_EQUAL, true);
 
         NeutralQuery p                                 = new NeutralQuery();
                                                          p.addCriteria(idInAppIdList);
@@ -61,7 +61,7 @@ public class StaffToApplicationValidator extends AbstractContextValidator {
         NeutralQuery q                                 = new NeutralQuery();
                                                          q.addCriteria(idInAppIdList);
                                                          q.addCriteria(staffEdOrgsInAuthorizedEdOrgs); 
-        NeutralQuery finalQuery      = new NeutralQuery();
+        NeutralQuery finalQuery                        = new NeutralQuery();
                                                          finalQuery.addOrQuery(p);
                                                          finalQuery.addOrQuery(q);
         Iterable<String> myApplicationIds              = getRepo().findAllIds(EntityNames.APPLICATION, finalQuery);
