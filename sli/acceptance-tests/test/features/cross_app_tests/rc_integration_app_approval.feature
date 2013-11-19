@@ -90,8 +90,7 @@ Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
-#And under System Tools, I click on "Authorize Applications"
-And I manually navigate to "application_authorizations" in admin
+And under System Tools, I click on "Authorize Applications"
 And I switch to the iframe
 Then I am redirected to the Admin Application Authorization Tool
 #Authorize the Dashboard
