@@ -139,6 +139,7 @@ Then I am redirected to the Admin Application Authorization Tool
 And I see an application "inBloom Dashboards" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
+And I expand all nodes
 And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
 And I click Update
 # switch back to iframe because of the page reload
@@ -150,6 +151,7 @@ Then there are "199" edOrgs for the "inBloom Dashboards" application in the prod
 And I see an application "inBloom Data Browser" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
+And I expand all nodes
 And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
 And I click Update
 # switch back to iframe because of the page reload
@@ -372,6 +374,7 @@ Then I am redirected to the Admin Application Authorization Tool
 And I see an application "NotABulkExtractApp" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
+And I expand all nodes
 And I authorize the educationalOrganization "Education Agency for RC Tests" in the production tenant
 And I click Update
 # switch back to iframe because of the page reload

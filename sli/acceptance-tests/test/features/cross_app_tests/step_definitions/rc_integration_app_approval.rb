@@ -190,9 +190,7 @@ Then /^"(.*?)" is enabled for "(.*?)" production education organizations$/ do |a
      body = record["body"]
      puts body.to_s
      edorgsArray = body["authorized_ed_orgs"]
-     puts edorgsArray.to_s
      edorgsArrayCount = edorgsArray.count
-     puts edorgsArrayCount
      assert(edorgsArrayCount == edOrgCount.to_i, "Education organization count mismatch in application collection. Expected #{edOrgCount}, actual #{edorgsArrayCount}")
 end
 
