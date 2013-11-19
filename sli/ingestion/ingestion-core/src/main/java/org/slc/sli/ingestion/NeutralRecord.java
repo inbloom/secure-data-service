@@ -35,7 +35,6 @@
 package org.slc.sli.ingestion;
 
 import java.util.HashMap;
-import java.util.TreeMap;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -154,7 +153,7 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
      */
     public NeutralRecord() {
         this.localParentIds = new HashMap<String, Object>();
-        this.attributes = new TreeMap<String, Object>();
+        this.attributes = new HashMap<String, Object>();
         this.metaData = new HashMap<String, Object>();
         this.recordId = null;
     }
@@ -520,7 +519,7 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
         try {
             result = (NeutralRecord) super.clone();
             result.localParentIds = (HashMap<String, Object>) ((HashMap<String, Object>) this.localParentIds).clone();
-            result.attributes = (TreeMap<String, Object>) ((TreeMap<String, Object>) this.attributes).clone();
+            result.attributes = (HashMap<String, Object>) ((HashMap<String, Object>) this.attributes).clone();
             result.metaData = (HashMap<String, Object>) ((HashMap<String, Object>) this.metaData).clone();
         } catch (CloneNotSupportedException e) {
             result = null;

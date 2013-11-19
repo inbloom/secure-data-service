@@ -18,6 +18,7 @@ import static org.mockito.Matchers.any;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.List;
 import java.util.Map;
 
@@ -201,10 +202,13 @@ public class SliDeltaManagerTest {
         originalRecord.setRecordType("recordType");
         originalRecord.getMetaData().put(SliDeltaManager.NRKEYVALUEFIELDNAMES, "key1,key2");
         originalRecord.getMetaData().put(SliDeltaManager.OPTIONALNRKEYVALUEFIELDNAMES, "key3,key4");
-        originalRecord.getAttributes().put("key1", "value1");
-        originalRecord.getAttributes().put("key2", "value2");
-        originalRecord.getAttributes().put("key3", "value3");
-        originalRecord.getAttributes().put("commonAttrib1", "commonAttrib1_value");
+        Map<String, Object> attributes = new HashMap<String, Object>();
+        attributes.put("key1", "value1");
+        attributes.put("key2", "value2");
+        attributes.put("key3", "value3");
+        //attributes.put("commonAttrib1", "commonAttrib1_value");
+        attributes.put("attrib1", "attrib1_value");
+        originalRecord.setAttributes(attributes);
         return originalRecord;
     }
 

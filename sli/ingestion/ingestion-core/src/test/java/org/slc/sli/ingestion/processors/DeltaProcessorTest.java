@@ -212,7 +212,7 @@ public class DeltaProcessorTest {
     private NeutralRecord createNeutralRecord(String type) {
         NeutralRecord originalRecord = new NeutralRecord();
         originalRecord.setRecordType(type);
-        originalRecord.setAttributes(new TreeMap<String, Object>());
+        originalRecord.setAttributes(new HashMap<String, Object>());
         return originalRecord;
     }
 }
