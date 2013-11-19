@@ -863,7 +863,7 @@ And(/^I GET attendance for student "([^"]*)" in school "([^"]*)" for the schoolY
 
 end
 
-When(/^I POST an attendance of "([^"]*)" for student "([^"]*)" in school "([^"]*)" for the schoolYear "([^"]*)" on date "([^"]*)"$/) do |categories, studentId, schoolId, schoolYear, eventDate|
+When(/^I POST an attendance of "([^"]*)" for student "([^"]*)" in school "([^"]*)" for the schoolYear "([^"]*)" on date "([^"]*)" for section "([^"]*)" with educational environment "([^"]*)"$/) do |categories, studentId, schoolId, schoolYear, eventDate, sectionId, educationalEnvironment|
   attendance = <<-jsonDelimiter
   {
    "entityType":"attendance",
@@ -876,6 +876,7 @@ When(/^I POST an attendance of "([^"]*)" for student "([^"]*)" in school "([^"]*
             {
                "date":"-----PLACEHOLDER-----",
                "event":"-----PLACEHOLDER-----",
+               "educationalEnvironment":"-----PLACEHOLDER-----",
                "sectionId":"-----PLACEHOLDER-----"
             }
          ]
@@ -889,7 +890,7 @@ When(/^I POST an attendance of "([^"]*)" for student "([^"]*)" in school "([^"]*
   attendance['schoolYearAttendance'][0]['schoolYear']      = schoolYear
   events = categories.split(/,/).map {|category|
       category.strip!
-      { 'date' => eventDate, 'event' => category, 'sectionId' => "f048354d-dbcb-0214-791d-b769f521210d_id"}
+      { 'date' => eventDate, 'event' => category, 'sectionId' => sectionId, "educationalEnvironment" => educationalEnvironment}
   }
   attendance['schoolYearAttendance'][0]['attendanceEvent'] = events
   restHttpPost('/v1/attendances', attendance.to_json, 'application/vnd.slc+json')
@@ -899,18 +900,17 @@ When(/^I POST an attendance of "([^"]*)" for student "([^"]*)" in school "([^"]*
   assert(@res.code == 200, "Could not fetch newly created attendance #{attendance.to_json}.")
 end
 
-And /^I GET attendance for student "(.*?)" in school "(.*?)" for the schoolYear "(.*?)" on date "(.*?)" and verify that its attendance events are at the section level$/ do |studentId, schoolId, schoolYear, eventDate|
+And /^I GET attendance for student "(.*?)" in school "(.*?)" for the schoolYear "(.*?)" on date "(.*?)" and verify that its attendance events are for section "(.*?)"$/ do |studentId, schoolId, schoolYear, eventDate, sectionId|
   url = "/v1/students/#{studentId}/attendances?schoolId=#{schoolId}"
   restHttpGet(url, 'application/vnd.slc+json')
   assert(@res.code == 200, "Could not fetch attendance #{url}.")
 
-  section_id = "f048354d-dbcb-0214-791d-b769f521210d_id"
   attendances = JSON.parse @res
 
   events = attendances[0]['schoolYearAttendance'][0]['attendanceEvent']
   events.each {|event|
     assert(event['date'] == eventDate, "Event date [#{event['date']}] does not match #{eventDate}")
-    assert(section_id == event['sectionId'], "No section found or the section [#{event['sectionId']} does not match expected section[#{section_id}]")
+    assert(sectionId == event['sectionId'], "No section found or the section [#{event['sectionId']} does not match expected section[#{sectionId}]")
   }
 end
 
