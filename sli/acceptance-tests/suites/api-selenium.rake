@@ -22,6 +22,7 @@ task :adminWebTests => [:realmInit] do
   #us5865 - appAuthWithFederatedUsersTests
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
+  runTests("test/features/admintools/url_not_accessible_by_federated_user_in_adminTools.feature")
   runTests("test/features/admintools/authorize_applications_with_federated_users.feature")
 
   runTests("test/features/admintools/accountRequest.feature")
