@@ -137,8 +137,17 @@ public class RealmResourceTest {
         Response res = resource.validateArtifactResolution(null, null);
         Assert.assertNull(res);
 
+        res = resource.validateArtifactResolution("",  "");
+        Assert.assertNull(res);
+
         res = resource.validateArtifactResolution("testEndpoint",  "ccf4f3895f6e37896e7511ed1d991b1d96f04ac1");
         Assert.assertNull(res);
+
+        res = resource.validateArtifactResolution("",  "ccf4f3895f6e37896e7511ed1d991b1d96f04ac1");
+        Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), res.getStatus());
+
+        res = resource.validateArtifactResolution("testEndpoint",  "");
+        Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), res.getStatus());
 
         res = resource.validateArtifactResolution(null,  "ccf4f3895f6e37896e7511ed1d991b1d96f04ac1");
         Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), res.getStatus());

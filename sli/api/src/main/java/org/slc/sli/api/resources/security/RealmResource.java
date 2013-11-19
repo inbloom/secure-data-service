@@ -314,7 +314,8 @@ public class RealmResource {
         Map<String, String> res = new HashMap<String, String>();
 
         if (artifactResolutionEndpoint != null && sourceId != null) {
-            if (sourceId.length() == SOURCEID_LENGTH) {
+            if ((artifactResolutionEndpoint.isEmpty() && sourceId.isEmpty())
+                    || (sourceId.length() == SOURCEID_LENGTH && !artifactResolutionEndpoint.isEmpty())) {
                 return null;
             } else {
                 res.put(RESPONSE, "Source id needs to be 40 characters long");
@@ -324,7 +325,6 @@ public class RealmResource {
         }
 
         return Response.status(Status.BAD_REQUEST).entity(res).build();
-
     }
 
     private static String uriToString(UriInfo uri) {
