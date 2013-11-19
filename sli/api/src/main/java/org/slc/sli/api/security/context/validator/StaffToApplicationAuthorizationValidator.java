@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.List;
+import java.util.*;
 
 /**
  * Resolves which applications any given staff member can access.
@@ -60,15 +61,20 @@ public class StaffToApplicationAuthorizationValidator extends AbstractContextVal
                                                          p.addCriteria(authorizedForAll); 
         NeutralQuery q                                 = new NeutralQuery();
                                                          q.addCriteria(staffEdOrgsInAuthorizedEdOrgs);
-                                                         q.addOrQuery(p);                             
-        Iterable<String> myApplicationIds              = getRepo().findAllIds(EntityNames.APPLICATION, q);
-        List<String> myAppsList                        = new LinkedList<String>();
+        NeutralQuery finalQuery      = new NeutralQuery();
+        												finalQuery.addOrQuery(p);
+        												finalQuery.addOrQuery(q);
+
+        Iterable<String> myApplicationIds              = getRepo().findAllIds(EntityNames.APPLICATION, finalQuery);
+        Set<String> myAppsList                          = new HashSet<String>();
         if(myApplicationIds != null) {
-            myAppsList = Lists.newLinkedList(myApplicationIds);
+        	for(String appId: myApplicationIds) {
+        		myAppsList.add(appId);
+        	}
         }
 
         NeutralCriteria idInAppAuthIdList              = new NeutralCriteria("_id",                 NeutralCriteria.CRITERIA_IN, new LinkedList<String>(appAuthIds));
-        NeutralCriteria aAuthappIdInMyAppList          = new NeutralCriteria("applicationId",       NeutralCriteria.CRITERIA_IN, myAppsList);
+        NeutralCriteria aAuthappIdInMyAppList          = new NeutralCriteria("applicationId",       NeutralCriteria.CRITERIA_IN, new LinkedList<String>(myAppsList));
         q                                              = new NeutralQuery();
         q.addCriteria(idInAppAuthIdList);
         q.addCriteria(aAuthappIdInMyAppList);
