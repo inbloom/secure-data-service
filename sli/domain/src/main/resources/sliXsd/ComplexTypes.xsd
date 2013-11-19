@@ -11030,6 +11030,7 @@
                 </xs:annotation>
             </xs:element>
             <xs:element name='event' type='attendanceEventCategoryType'/>
+            <xs:element name='educationEnvironment' type='educationalEnvironmentType'/>
             <xs:element minOccurs='0' name='reason' type='attendanceEventReason'/>
             <xs:element minOccurs='0' name='sectionId' type='reference'>
                 <xs:annotation>
