@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.config.entity.SessionTreatment;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -74,6 +75,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     @Autowired
     @Qualifier("searchRepo")
     private Repository<Entity> searchRepo;
+    
+    @Autowired
+    private SessionTreatment sessionTreatment;
 
     @Override
     public EntityDefinition lookupByResourceName(String resourceName) {
@@ -132,7 +136,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition section = factory.makeEntity(EntityNames.SECTION, ResourceNames.SECTIONS).supportsAggregates()
                 .buildAndRegister(this);
         EntityDefinition session = factory.makeEntity(EntityNames.SESSION, ResourceNames.SESSIONS).supportsAggregates()
-                .buildAndRegister(this);
+                .withTreatments(sessionTreatment).buildAndRegister(this);
         EntityDefinition staff = factory.makeEntity(EntityNames.STAFF, ResourceNames.STAFF).buildAndRegister(this);
         EntityDefinition student = factory.makeEntity(EntityNames.STUDENT, ResourceNames.STUDENTS).buildAndRegister(
                 this);

@@ -2304,6 +2304,25 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
+            <xs:element maxOccurs='1' minOccurs='0' name='schoolId' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>DEPRECATED - This field is being deprecated in favor of the educationOrganizationReference
+                        attribute. It will contain a duplicate value of the educationOrganizationReference field in order to maintain
+                        backward compatibility with previous versions of the API. For write API operations (POST, PUT, PATCH, etc.)
+                        the schoolId field will be ignored in favor of the educationOrganizationReference field. If no value
+                        is provided for educationOrganizationReference, the schoolId value will be used instead.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_PUBLIC</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
 

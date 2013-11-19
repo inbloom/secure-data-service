@@ -163,6 +163,7 @@ public class SchemaReferencesMetaDataTest {
                                 new SchemaReferencePath("course.schoolId", "educationOrganization", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("staffEducationOrganizationAssociation.educationOrganizationReference", "educationOrganization", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("session.educationOrganizationReference", "educationOrganization", 1L, 1L,false,false, true) ,
+                                new SchemaReferencePath("session.schoolId", "educationOrganization", 0L, 1L,false,true, false) ,
                                 new SchemaReferencePath("postSecondaryEvent.institutionId", "educationOrganization", 0L, 1L,false,true, false) ,
                                 new SchemaReferencePath("disciplineDescriptor.educationOrganizationId", "educationOrganization", 1L, 9223372036854775807L,true,false, true) ,
                                 new SchemaReferencePath("studentSpecialEdProgramAssociation.educationOrganizationId", "educationOrganization", 1L, 1L,false,false, true) ,
