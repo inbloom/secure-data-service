@@ -18,12 +18,16 @@ package org.slc.sli.api.resources.security;
 import org.opensaml.ws.soap.client.BasicSOAPMessageContext;
 import org.opensaml.ws.soap.client.http.HttpClientBuilder;
 import org.opensaml.ws.soap.client.http.HttpSOAPClient;
+import org.opensaml.ws.soap.client.http.TLSProtocolSocketFactory;
 import org.opensaml.ws.soap.common.SOAPException;
 import org.opensaml.ws.soap.soap11.Envelope;
 import org.opensaml.xml.XMLObject;
 import org.opensaml.xml.parse.BasicParserPool;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.springframework.stereotype.Component;
+
+import java.security.KeyStore;
+import java.security.cert.X509Certificate;
 
 /**
  * @author: npandey
@@ -35,14 +39,20 @@ public class SOAPHelper {
      * Method to open a SOAP channel.
      * @param soapEnvelope
      * @param destinationUrl
+     * @param pkEntry
      * @return
      */
-    protected XMLObject sendSOAPCommunication(Envelope soapEnvelope, String destinationUrl) {
+    protected XMLObject sendSOAPCommunication(Envelope soapEnvelope, String destinationUrl, KeyStore.PrivateKeyEntry pkEntry) {
         BasicSOAPMessageContext soapContext = new BasicSOAPMessageContext();
         soapContext.setOutboundMessage(soapEnvelope);
 
         // Build the SOAP client
         HttpClientBuilder clientBuilder = new HttpClientBuilder();
+
+        X509Certificate x509Certificate = (X509Certificate) pkEntry.getCertificate();
+        ClientCertKeyManager keyManager = new ClientCertKeyManager(pkEntry.getPrivateKey(), x509Certificate);
+        clientBuilder.setHttpsProtocolSocketFactory(new TLSProtocolSocketFactory(keyManager, null));
+
         HttpSOAPClient soapClient = new HttpSOAPClient(clientBuilder.buildClient(), new BasicParserPool());
 
         try {

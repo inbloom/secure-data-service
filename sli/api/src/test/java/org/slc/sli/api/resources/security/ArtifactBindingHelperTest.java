@@ -49,10 +49,10 @@ public class ArtifactBindingHelperTest {
 
     private String idpUrl = "http://testUrl";
 
-    @Value("${sli.api.digital.signature.alias}")
+    @Value("${sli.api.digital.signature.keyAlias}")
     private String keystoreAlias;
 
-    @Value("#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.keystore.entry.password}')}")
+    @Value("#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.digital.signature.keyPass}')}")
     String keyStorEntryPassword;
 
     @Autowired

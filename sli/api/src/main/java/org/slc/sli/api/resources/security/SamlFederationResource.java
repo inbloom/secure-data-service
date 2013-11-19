@@ -137,11 +137,17 @@ public class SamlFederationResource {
     @Value("${sli.api.cookieDomain}")
     private String apiCookieDomain;
 
-    @Value("${sli.api.digital.signature.alias}")
-    String keyStoreAlias;
+    @Value("${sli.api.digital.signature.keyAlias}")
+    String dsKeyStoreAlias;
 
-    @Value("#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.keystore.entry.password}')}")
-    String keyStorEntryPassword;
+    @Value("#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.digital.signature.keyPass}')}")
+    String dsKeyStoreEntryPassword;
+
+    @Value("${sli.api.client.certificate.keyAlias}")
+    String clientCertKeyStoreAlias;
+
+    @Value("#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.client.certificate.keyPass}')}")
+    String clientCertKeyStoreEntryPassword;
 
     @Autowired
     @Value("${sli.sandbox.enabled}")
@@ -155,7 +161,9 @@ public class SamlFederationResource {
 
     private String metadata;
 
-    private  KeyStore.PrivateKeyEntry pkEntry;
+    private  KeyStore.PrivateKeyEntry dsPKEntry;
+
+    private  KeyStore.PrivateKeyEntry clientCertPKEntry;
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
@@ -172,7 +180,8 @@ public class SamlFederationResource {
     @SuppressWarnings("unused")
     @PostConstruct
     private void processKeyStoreAndMetadata() throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException, UnrecoverableEntryException {
-        pkEntry = apiKeyStoreAccessor.getPrivateKeyEntry(keyStoreAlias, keyStorEntryPassword);
+        dsPKEntry = apiKeyStoreAccessor.getPrivateKeyEntry(dsKeyStoreAlias, dsKeyStoreEntryPassword);
+        clientCertPKEntry = apiKeyStoreAccessor.getPrivateKeyEntry(clientCertKeyStoreAlias, clientCertKeyStoreEntryPassword);
 
         StringWriter writer = new StringWriter();
 
@@ -630,10 +639,10 @@ public class SamlFederationResource {
         String artifactUrl = samlHelper.getArtifactUrl(realmId, artifact);
 
 
-        ArtifactResolve artifactResolve = artifactBindingHelper.generateArtifactResolveRequest(artifact, pkEntry, artifactUrl);
+        ArtifactResolve artifactResolve = artifactBindingHelper.generateArtifactResolveRequest(artifact, dsPKEntry, artifactUrl);
         Envelope soapEnvelope = artifactBindingHelper.generateSOAPEnvelope(artifactResolve);
 
-        XMLObject response = soapHelper.sendSOAPCommunication(soapEnvelope, artifactUrl);
+        XMLObject response = soapHelper.sendSOAPCommunication(soapEnvelope, artifactUrl, clientCertPKEntry);
 
         ArtifactResponse artifactResponse = (ArtifactResponse)((EnvelopeImpl) response).getBody().getUnknownXMLObjects().get(0);
         org.opensaml.saml2.core.Response samlResponse = (org.opensaml.saml2.core.Response) artifactResponse.getMessage();
@@ -678,7 +687,7 @@ public class SamlFederationResource {
 
 
     private String fetchCertificateText() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
-        X509Certificate certificate = (X509Certificate) pkEntry.getCertificate();
+        X509Certificate certificate = (X509Certificate) dsPKEntry.getCertificate();
 
         Base64 encoder = new Base64(64);
         String certificateText = new String(encoder.encode(certificate.getEncoded()));

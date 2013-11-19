@@ -259,7 +259,7 @@ public class SamlFederationResourceTest {
         Mockito.when(artifactBindingHelper.generateSOAPEnvelope(artifactResolve)).thenReturn(envelope);
 
         EnvelopeImpl response = Mockito.mock(EnvelopeImpl.class);
-        Mockito.when(soapHelper.sendSOAPCommunication(Mockito.any(Envelope.class), Mockito.anyString())).thenReturn(response);
+        Mockito.when(soapHelper.sendSOAPCommunication(Mockito.any(Envelope.class), Mockito.anyString(), Mockito.any(KeyStore.PrivateKeyEntry.class))).thenReturn(response);
 
 
         ArtifactResponse artifactResponse = Mockito.mock(ArtifactResponse.class);
