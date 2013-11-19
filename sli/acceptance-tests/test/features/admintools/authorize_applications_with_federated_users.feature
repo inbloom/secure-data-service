@@ -74,8 +74,50 @@ And a "In Progress" button is displayed for application "Boyne"
 And I clicked on the button Edit for the application "Boyne"
 And I expand all nodes
 And I enable the educationalOrganization "Illinois State Board of Education" in tenant "Midgar"
+And I enable the educationalOrganization "New York State Education System" in tenant "Hyrule"
 And I click on Save
-Then "Boyne" is enabled for "200" education organizations
+Then "Boyne" is enabled for "208" education organizations
+
+Scenario: NY Hosted User Authorizes App (set up data)
+When I hit the Admin Application Authorization Tool
+And I select "inBloom" from the dropdown and click go
+And I submit the credentials "nyadmin" "nyadmin1234" for the "Simple" login page
+And the sli securityEvent collection is empty
+And I see an application "Boyne" in the table
+And in Status it says "Not Approved"
+And I click on the "Edit Authorizations" button next to it
+And I expand all nodes
+And in tenant "Hyrule" I authorize the educationalOrganization "New York State Education System"
+And I click Update
+Then there are "8" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Hyrule" tenant
+And I check to find if record is in sli db collection:
+| collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+| securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+| securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
+And there are "8" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
+And I see an application "Boyne" in the table
+And in Status it says "8 EdOrg(s)"
+
+Scenario: Federated SEA Admin Approves application for SEA only (set up data)
+When I hit the Admin Application Authorization Tool
+And I select "Illinois Daybreak School District 4529" from the dropdown and click go
+And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+And I see an application "Boyne" in the table
+And in Status it says "Not Approved"
+And the sli securityEvent collection is empty
+And I click on the "Edit Authorizations" button next to it
+And I expand all nodes
+And I deselect hierarchical mode
+And I authorize the educationalOrganization "Illinois State Board of Education"
+And I click Update
+Then there are "1" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
+And I check to find if record is in sli db collection:
+| collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+| securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+And there are "1" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
+And I see an application "Boyne" in the table
+And in Status it says "1 EdOrg(s)"
 
 Scenario: Linda Kim encounters Access Denied Message when attempting to access Application Authorization Tool using default Educator role
 #check educator seoa exists
@@ -103,7 +145,7 @@ And I expand all nodes
 And I deselect hierarchical mode
 And I authorize the educationalOrganization "South Daybreak Elementary"
 And I click Update
-Then there are "1" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
+Then there are "2" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
@@ -117,7 +159,7 @@ And I expand all nodes
 And I deselect hierarchical mode
 And I de-authorize the educationalOrganization "South Daybreak Elementary"
 And I click Update
-Then there are "0" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
+Then there are "1" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
@@ -152,7 +194,7 @@ And I deselect hierarchical mode
 And I authorize the educationalOrganization "East Daybreak Junior High"
 And I authorize the educationalOrganization "Sunset Central High School"
 And I click Update
-Then there are "2" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
+Then there are "3" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
@@ -167,7 +209,7 @@ And I deselect hierarchical mode
 And I de-authorize the educationalOrganization "East Daybreak Junior High"
 And I de-authorize the educationalOrganization "Sunset Central High School"
 And I click Update
-Then there are "0" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
+Then there are "1" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
@@ -193,7 +235,7 @@ And I authorize the educationalOrganization "Daybreak School District 4529"
 And I authorize the educationalOrganization "South Daybreak Elementary"
 And I authorize the educationalOrganization "East Daybreak Junior High"
 And I click Update
-Then there are "45" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
+Then there are "46" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
@@ -208,7 +250,7 @@ And I de-authorize the educationalOrganization "Daybreak School District 4529"
 And I de-authorize the educationalOrganization "South Daybreak Elementary"
 And I de-authorize the educationalOrganization "East Daybreak Junior High"
 And I click Update
-Then there are "0" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
+Then there are "1" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
@@ -228,7 +270,7 @@ And I click on the "Edit Authorizations" button next to it
 And I expand all nodes
 And I authorize the educationalOrganization "Daybreak School District 4529"
 And I click Update
-Then there are "45" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
+Then there are "46" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
@@ -241,7 +283,7 @@ When I click on the "Edit Authorizations" button next to it
 And I expand all nodes
 And I de-authorize the educationalOrganization "Daybreak School District 4529"
 And I click Update
-Then there are "0" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
+Then there are "1" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
 And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
@@ -255,10 +297,11 @@ When I hit the Admin Application Authorization Tool
 And I select "Illinois Daybreak School District 4529" from the dropdown and click go
 And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 And I see an application "Boyne" in the table
-And in Status it says "Not Approved"
+And in Status it says "1 EdOrg(s)"
 And the sli securityEvent collection is empty
 And I click on the "Edit Authorizations" button next to it
 And I expand all nodes
+And I de-authorize the educationalOrganization "Illinois State Board of Education"
 And I authorize the educationalOrganization "Illinois State Board of Education"
 And I click Update
 Then there are "200" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
@@ -266,7 +309,7 @@ And I check to find if record is in sli db collection:
 | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
 | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
 | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
-And there are "200" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
+And there are "199" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
 And I see an application "Boyne" in the table
 And in Status it says "200 EdOrg(s)"
 Given the sli securityEvent collection is empty

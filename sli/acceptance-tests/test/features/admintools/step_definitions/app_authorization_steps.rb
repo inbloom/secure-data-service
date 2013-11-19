@@ -382,6 +382,26 @@ Then /^I authorize the educationalOrganization "(.*?)"$/ do |edOrgName|
   enable_NOTABLESCAN()
 end
 
+Then /^in tenant "(.*?)" I authorize the educationalOrganization "(.*?)"$/ do |tenant, edOrgName|
+  disable_NOTABLESCAN()
+  db = @conn[convertTenantIdToDbName(tenant)]
+  coll = db.collection("educationOrganization")
+  record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
+  #puts record.to_s
+  edOrgId = record["_id"]
+  #puts edOrgId.to_s
+  app = @driver.find_element(:id, edOrgId.to_s).click
+  enable_NOTABLESCAN()
+end
+
+Then /^I authorize the educationalOrganization root node$/ do
+  app = @driver.find_element(:id, 'root').click
+end
+
+Then /^I de-authorize the educationalOrganization root node$/ do
+  app = @driver.find_element(:id, 'root').click
+end
+
 Then /^the checkbox with HTML id "([^"]*?)" is (checked|unchecked)$/ do |id,status|
   elt = @driver.find_element(:id, id)
   assert(elt, "Checkbox with id '" + id + "' not found")
