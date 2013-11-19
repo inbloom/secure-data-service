@@ -328,6 +328,7 @@ Scenario: App developer enables non Bulk Extract App
     And I see an application "Not a bulk extract app" in the table
     And the client ID and shared secret fields are present
     And I clicked on the button Edit for the application "NotABulkExtractApp"
+    And I expand all nodes
     When I enable the educationalOrganization "Education Agency for RC Tests" in production
     When I click on Save
     And I exit out of the iframe
