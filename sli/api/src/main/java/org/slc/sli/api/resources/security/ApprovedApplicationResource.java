@@ -17,7 +17,11 @@
 
 package org.slc.sli.api.resources.security;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -27,7 +31,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.slc.sli.api.security.SLIPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -129,21 +132,16 @@ public class ApprovedApplicationResource {
         return false;
     }
 
-    private Set<GrantedAuthority> getUsersRights() {
-        Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private List<String> getUsersRights() {
 
-        rights.addAll(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        ArrayList<String> rights = new ArrayList<String>();
+        for (GrantedAuthority right : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
+            rights.add(right.toString());
+        }
 
-        if (! principal.isAdminRealmAuthenticated()) {
-            // TODO verify desired behavior
-            // federated users get APP_AUTHORIZE from the union of rights - only allowing the minimal required
-            Collection<Collection<GrantedAuthority>> allRights =  principal.getEdOrgRights().values();
-            for (Collection<GrantedAuthority> edOrgRights: allRights) {
-                if (edOrgRights.contains(Right.APP_AUTHORIZE)) {
-                    rights.add(Right.APP_AUTHORIZE);
-                }
-            }
+        //This is a fake role we use mean that a user is either an LEA admin or an SEA admin with delegated rights
+        if (hasAppAuthorizationRight()) {
+            rights.add("DELEGATED_ADMIN");
         }
 
         return rights;
@@ -158,7 +156,7 @@ public class ApprovedApplicationResource {
     }
 
     private void filterEndpoints(List<Map<String, Object>> endpoints) {
-        Set<GrantedAuthority> userRights = getUsersRights();
+        List<String> userRights = getUsersRights();
 
         for (Iterator<Map<String, Object>> i = endpoints.iterator(); i.hasNext();) {
 
