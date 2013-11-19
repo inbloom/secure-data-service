@@ -83,9 +83,9 @@ And I click on log out
 
 Scenario: SEA approves Dashboard and Databrowser
 When I navigate to the Portal home page
-When I see the realm selector I authenticate to "inBloom"
+When I see the realm selector I authenticate to "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "<PRIMARY_EMAIL>" "<PRIMARY_EMAIL_PASS>" for the "Simple" login page
+When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
