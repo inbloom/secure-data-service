@@ -81,10 +81,6 @@ public class EntityOwnershipValidator {
             return true;
         }
 
-        if(isApplicationAndIsEnabledForAll(entity)) {
-            return true;
-        }
-
         if (isTransitive && globalEntities.contains(entity.getType())) {
             debug("skipping ownership validation --> transitive access to global entity: {}", entity.getType());
             return true;
@@ -103,22 +99,6 @@ public class EntityOwnershipValidator {
             }
         }
         return false;
-    }
-
-
-    private boolean isApplicationAndIsEnabledForAll(Entity entity) {
-       if(entity == null || entity.getBody() == null) {
-           return false;
-       }
-       String type = entity.getType();
-       if(!type.equals("application")) {
-           return false;
-       }
-       Boolean enabledForAll = (Boolean)entity.getBody().get("authorized_for_all_edorgs");
-       if(enabledForAll != null && enabledForAll) {
-           return true;
-       }
-       return false;
     }
 
 }

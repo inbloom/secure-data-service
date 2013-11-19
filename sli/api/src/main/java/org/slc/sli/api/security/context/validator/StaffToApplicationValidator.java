@@ -53,9 +53,15 @@ public class StaffToApplicationValidator extends AbstractContextValidator {
         Set<String> staffEdOrgs                        = edorgHelper.getStaffEdOrgsAndChildren();
         NeutralCriteria idInAppIdList                  = new NeutralCriteria("_id",                NeutralCriteria.CRITERIA_IN, new LinkedList<String>(ids));
         NeutralCriteria staffEdOrgsInAuthorizedEdOrgs  = new NeutralCriteria("authorized_ed_orgs", NeutralCriteria.CRITERIA_IN, staffEdOrgs);
+        NeutralCriteria authorizedForAll               = new NeutralCriteria("authorized_for_all_edorgs",NeutralCriteria.OPERATOR_EQUAL, true);
+
+        NeutralQuery p                                 = new NeutralQuery();
+                                                         p.addCriteria(idInAppIdList);
+                                                         p.addCriteria(authorizedForAll); 
         NeutralQuery q                                 = new NeutralQuery();
                                                          q.addCriteria(idInAppIdList);
-                                                         q.addCriteria(staffEdOrgsInAuthorizedEdOrgs);
+                                                         q.addCriteria(staffEdOrgsInAuthorizedEdOrgs); 
+                                                         q.addOrQuery(p);                             
         Iterable<String> myApplicationIds              = getRepo().findAllIds(EntityNames.APPLICATION, q);
 
         if(myApplicationIds == null) {

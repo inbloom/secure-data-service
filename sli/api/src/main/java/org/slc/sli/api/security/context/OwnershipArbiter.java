@@ -98,36 +98,48 @@ public abstract class OwnershipArbiter {
 
                 EntityDefinition definition = store.lookupByEntityType(ref.toType);
                 String collectionName = definition.getStoredCollectionName();
-                String critField = null;
-                Object critValue = null;
-                if (ref.type == Reference.RefType.LEFT_TO_RIGHT) {
-                    critField = ParameterConstants.ID;
-                    critValue = entity.getBody().get(ref.refField);
-                } else { // RIGHT_TO_LEFT
-                    critField = ref.refField;
-                    critValue = entity.getEntityId();
-                }
-
-                if(critValue != null) {
-                    Iterable<Entity> ents = repo.findAll(collectionName, new NeutralQuery(new NeutralCriteria(critField,
-                            NeutralCriteria.OPERATOR_EQUAL, critValue)));
-                    if (ents.iterator().hasNext()) {
-                        List<Entity> toAdd = findOwner(ents, collectionName, ignoreOrphans);
-                        edorgs.addAll(toAdd);
-                    } else {
-                        // entity does not exist in db so skip
-                        throw new APIAccessDeniedException("Could not find a matching " + collectionName + " where "
-                                + critField + " is " + critValue + ".");
+                
+                if(entityType.equals("application")
+                        && entity.getBody().get("authorized_for_all_edorgs") != null
+                        && (Boolean)entity.getBody().get("authorized_for_all_edorgs")) {
+                	Iterable<Entity> ents = repo.findAll(collectionName, new NeutralQuery());
+                    for (Entity e : ents) {
+                    	edorgs.add(e);
                     }
-                } else {
-                    // the reference field is uninitialized
-                    throw new APIAccessDeniedException("Will not try to find a matching " + collectionName + " because " + entityType + "." + ref.refField + " is null.");
-                }
-            }
-        }
 
-        return edorgs;
-    }
+
+                } else {                             
+                	String critField = null;
+                	Object critValue = null;
+                	    if (ref.type == Reference.RefType.LEFT_TO_RIGHT) {
+                		    critField = ParameterConstants.ID;
+                		    critValue = entity.getBody().get(ref.refField);
+                	    } else { // RIGHT_TO_LEFT
+                		    critField = ref.refField;
+                    	    critValue = entity.getEntityId();
+                	    }
+
+                	    if(critValue != null) {
+                		    Iterable<Entity> ents = repo.findAll(collectionName, new NeutralQuery(new NeutralCriteria(critField,
+                				NeutralCriteria.OPERATOR_EQUAL, critValue)));
+                		    if (ents.iterator().hasNext()) {
+                			    List<Entity> toAdd = findOwner(ents, collectionName, ignoreOrphans);
+                			    edorgs.addAll(toAdd);
+                		    } else {
+                			    // entity does not exist in db so skip
+                                throw new APIAccessDeniedException("Could not find a matching " + collectionName + " where "
+                                    + critField + " is " + critValue + ".");
+                		    }
+                	    } else {
+                		    // the reference field is uninitialized
+                            throw new APIAccessDeniedException("Will not try to find a matching " + collectionName + " because " + entityType + "." + ref.refField + " is null.");
+                	    }
+                   }
+            } //            for (Entity entity : entities)
+        }//isBaseType(entityType)
+
+            return edorgs;
+      }
 
     abstract boolean isBaseType(String type);
 
