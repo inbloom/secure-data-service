@@ -5,7 +5,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
 #Why does this have to be an integration test? Because changes to StaffEducationOrganizationAssociation are reflected only after re-login and re-login requires SimpleIDP.
   #jstevenson can access applications for his schools
-
   Scenario: CRUD operations involving developers, slcoperators, and federated users with APP_AUTHORIZE rights
     Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
     And format "application/vnd.slc+json"
@@ -122,4 +121,49 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     # S2 is filtered out and not authorized
     And I try to authorize "A1" to access "S2" and get a response code of "204"
 
+#jstevenson can access applications that are authorized for all edOrgs
+  Scenario: CRUD operations involving developers, slcoperators, and federated users with APP_AUTHORIZE rights
+    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
+    And I create a LEA named "V1"
+    And I create a School named "H1" with parents "V1"
+    And I create a School named "H2" with parents "V1"
+    And I login as developer "developer" and create application named "D1"
+    And I login as slcoperator and approve application named "D1"
 
+    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
+    And I try to get app "D1" and get a response code "403"
+    #And I try to read the authorization for "D1" and get a response code of "403"
+
+    And I login as developer "developer" and enable application named "D1" for all edOrgs
+    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
+    And I try to read the authorization for "D1" and get a response code of "200"
+    And I try to authorize "D1" to access "H1" and get a response code of "204"
+    #we look at the AA collection and see that H1 IS NOT in the list
+
+    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
+    And I add a "IT Administrator" StaffEducationOrganizationAssociation  between "jstevenson" and "H1"
+    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
+    And I try to read the authorization for "D1" and get a response code of "200"
+    And I try to authorize "D1" to access "H1" and get a response code of "204"
+    #we look at the AA collection and see that H1 IS in the list
+
+    #jstevenson has multiple contexts
+    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
+    And I add a "Educator" StaffEducationOrganizationAssociation  between "jstevenson" and "H1"
+    And I add a "Teacher" StaffEducationOrganizationAssociation  between "jstevenson" and "H1"
+    And I add a "Teacher" StaffEducationOrganizationAssociation  between "jstevenson" and "V1"
+    And I add a "Educator" StaffEducationOrganizationAssociation  between "jstevenson" and "V1"
+    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
+    And I try to read the authorization for "D1" and get a response code of "200"
+    And I try to authorize "D1" to access "H1" and get a response code of "204"
+
+    And I login as developer "developer" and disable application named "D1" for all edOrgs
+    And I try to get app "D1" and get a response code "403"
+
+    And I login as developer "developer" and enable application named "D1" for all edOrgs
+    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
+    And I remove a "IT Administrator" StaffEducationOrganizationAssociation  between "jstevenson" and "H1"
+    And I login as developer "developer" and disable application named "D1" for all edOrgs
+    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
+    And I try to get app "D1" and get a response code "403"
+    #And I try to read the authorization for "D1" and get a response code of "403"

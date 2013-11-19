@@ -193,3 +193,30 @@ When(/^I try to ([^ ]*) "([^"]*)" to access "([^"]*)" and get a response code of
   restHttpPut(authUrl, authRequest.to_json, 'application/vnd.slc+json')
   assert(@res.code.to_s == respCode, "Got [#{@res.code}] while putting #{authUrl}. Expected [#{respCode}]")
 end
+
+When(/^I login as developer "([^"]*)" and ([^ ]*) application named "([^"]*)" for all edOrgs$/) do |devName, enableDisable, appName|
+  enable =  case enableDisable
+              when "enable"
+                true
+              when "disable"
+                false
+              else
+                raise "Cannot '#{enableDisable}' application. Can only 'enable' or 'disable'."
+            end
+
+  appId                    = $createdEntityIds[appName]
+  location                 = "/apps/#{appId}"
+  devSessionId             = findUserToken(devName)
+  restHttpGet(location, 'application/json', devSessionId)
+  assert(@res.code == 200, "#{devName} could not fetch newly created app! HTTP CODE:#{@res.code}  HTP BODY#{@res.body}")
+  app = JSON.parse @res
+
+  if enable
+    app['authorized_for_all_edorgs'] = true
+  else
+    app['authorized_for_all_edorgs'] = false
+  end
+
+  restHttpPut("/apps/#{appId}", app.to_json, 'application/vnd.slc+json', devSessionId)
+  assert(@res.code == 204, "#{devName} could not update app! HTTP CODE:#{@res.code}  HTP BODY#{@res.body}")
+end

@@ -61,15 +61,17 @@ public class StaffToApplicationValidator extends AbstractContextValidator {
         NeutralQuery q                                 = new NeutralQuery();
                                                          q.addCriteria(idInAppIdList);
                                                          q.addCriteria(staffEdOrgsInAuthorizedEdOrgs); 
-                                                         q.addOrQuery(p);                             
-        Iterable<String> myApplicationIds              = getRepo().findAllIds(EntityNames.APPLICATION, q);
-
-        if(myApplicationIds == null) {
-            return Collections.emptySet();
-        } else {
-            Set<String>  myApplicationIdsSet = Sets.newHashSet(myApplicationIds);
-            return  myApplicationIdsSet;
+        NeutralQuery finalQuery      = new NeutralQuery();
+                                                         finalQuery.addOrQuery(p);
+                                                         finalQuery.addOrQuery(q);
+        Iterable<String> myApplicationIds              = getRepo().findAllIds(EntityNames.APPLICATION, finalQuery);
+        
+        Set<String>  myApplicationIdsSet = new HashSet<String>();
+        for(String appId: myApplicationIds) {
+        	myApplicationIdsSet.add(appId);
         }
+
+        return  myApplicationIdsSet;
 
     }
 
