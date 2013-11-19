@@ -164,6 +164,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
     And I remove a "IT Administrator" StaffEducationOrganizationAssociation  between "jstevenson" and "H1"
     And I login as developer "developer" and disable application named "D1" for all edOrgs
-    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
+    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
     And I try to get app "D1" and get a response code "403"
-    #And I try to read the authorization for "D1" and get a response code of "403"
+    And I try to read the authorization for "D1" and get a response code of "403"
