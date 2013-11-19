@@ -97,6 +97,7 @@ Then I am redirected to the Admin Application Authorization Tool
 And I see an application "inBloom Dashboards" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
+And I expand all nodes
 And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
 And the sli securityEvent collection is empty
 And I click Update
@@ -112,6 +113,7 @@ And there are "199" educationalOrganizations in the targetEdOrgList
 And I see an application "inBloom Data Browser" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
+And I expand all nodes
 And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
 And the sli securityEvent collection is empty
 And I click Update
