@@ -37,20 +37,30 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
     <xs:complexType name="idpEndpoints">
         <xs:sequence>
             <xs:element name="id" type="xs:string" minOccurs="1"/>
             <xs:element name="idpType" type="xs:string" minOccurs="0"/>
             <xs:element name="redirectEndpoint" type="xs:string" minOccurs="1"/>
-            <xs:element name="artifactResolutionEndpoint" type="xs:string" minOccurs="0"/>
-            <xs:element name="sourceId" type="xs:string" minOccurs="0"/>
+            <xs:element name="artifactResolutionEndpoint" type="xs:string" minOccurs="0" />
+
+            <xs:element name="sourceId"  minOccurs="0">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="([a-fA-F0-9])*"/>
+                    </xs:restriction> 
+                </xs:simpleType>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
+
     <xs:complexType name="samlMap">
         <xs:sequence>
             <xs:element name="field" type="samlField" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
+
     <xs:complexType name="samlField">
         <xs:sequence>
             <xs:element name="clientName" type="xs:string" minOccurs="1"/>
@@ -58,4 +68,5 @@
             <xs:element name="transform" type="xs:string" minOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
+
 </xs:schema>

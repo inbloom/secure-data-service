@@ -81,7 +81,8 @@ Scenario: Mega Multi Realm Test
   Then I should get 1 error
   When I make the source id blank
   And I should click the "Save" button
-  And I should receive a notice that the realm was successfully "updated"
+  Then I should get 1 error
+  Then I click "Cancel" link
 
   When I click the "Brand New Realm" edit button
   And I should see that I am on the "Brand New Realm" edit page

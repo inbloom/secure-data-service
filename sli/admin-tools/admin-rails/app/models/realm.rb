@@ -50,9 +50,11 @@ class Realm < SessionResource
 
   class Idp < SessionResource
     validates_presence_of :id, :message => "can't be blank"
-    validates_presence_of :redirectEndpoint, :message => "can't be blank"
+    validates_presence_of :redirectEndpoint, :message => "can't be blank"   
     validates_presence_of :artifactResolutionEndpoint, :unless => proc{|obj| obj.sourceId.blank?}, :message => "can't be blank if sourceId is non-blank"
     validates_presence_of :sourceId, :unless => proc{|obj| obj.artifactResolutionEndpoint.blank?}, :message => "can't be blank if artifactResolutionEndpoint is non-blank"
+    validates_format_of :sourceId, :with => /^[a-fA-F0-9]*$/, :unless => proc{|obj| obj.sourceId.blank?}, :message => "needs to be a hex-encoded string"
+    validates_length_of :sourceId, :is => 40, :unless => proc{|obj| obj.sourceId.blank?}, :message => "needs to be of length 40"
     schema do
       string "id", "redirectEndpoint", "artifactResolutionEndpoint", "sourceId"
     end

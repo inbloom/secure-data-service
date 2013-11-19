@@ -14,7 +14,7 @@ one:
       id: http://slidev.org
       redirectEndpoint: http://slidev.org/endpoint
       artifactResolutionEndpoint: http://slidev.org/artifact/endpoint
-      sourceId: federatedIDP1
+      sourceId: ccf4f3895f6e37896e7511ed1d991b1d96f04ac1
     realm: "dc=slidev,dc=org"
     mappings: {"Educator": ["teacher", "ta"]}
 
@@ -30,7 +30,7 @@ two:
       id: http://timelords.com
       redirectEndpoint: http://timelords.com/gallifrey
       artifactResolutionEndpoint: http://timelords.com/gallifrey/artifact
-      sourceId: federatedIDP2
+      sourceId: ccf4f3895f6e37896e7511ed1d991b1d96f04ac1
     realm: "dc=timelors,dc=org"
     mappings: {"Educator": ["Educator"], "Leader": ["Leader"]}
 #  column: value

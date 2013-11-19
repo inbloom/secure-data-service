@@ -47,7 +47,8 @@ class RealmTest < ActiveSupport::TestCase
   test "name specific validation" do
     realm = Realm.new
     realm.uniqueIdentifier = "Waffles" #valid
-    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles", :artifactResolutionEndpoint => "Waffles", :sourceId => "Waffles"})
+    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles", :artifactResolutionEndpoint => "Waffles",
+     :sourceId => "ccf4f3895f6e37896e7511ed1d991b1d96f04ac1"})
     realm.name = "Super awesome"
     assert realm.valid?, "Realm should be valid"
     realm.name = "REALM!"
@@ -59,7 +60,9 @@ class RealmTest < ActiveSupport::TestCase
   test "unique identifier validation" do
     realm = Realm.new
     realm.name = "Waffles" #valid
-    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles", :artifactResolutionEndpoint => "Waffles", :sourceId => "Waffles"})
+    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles", :artifactResolutionEndpoint => "Waffles",
+     :sourceId => "ccf4f3895f6e37896e7511ed1d991b1d96f04ac1"})
+
     realm.uniqueIdentifier = "Super awesome"
     assert realm.valid?, "Realm should be valid: #{realm.errors.to_json}"
     realm.uniqueIdentifier = "REALM!"
@@ -88,7 +91,25 @@ class RealmTest < ActiveSupport::TestCase
   test "sourceId with no idp artifactResolutionEndpoint validation" do
     realm = Realm.new
     realm.uniqueIdentifier = "Waffles" #valid
-    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles", :sourceId => "Waffles"})
+    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles", :sourceId => "ccf4f3895f6e37896e7511ed1d991b1d96f04ac1"})
+    realm.name = "Super awesome"
+    assert(!realm.idp.valid?, "Validation should fail")
+  end
+
+  test "Invalid sourceId length validation" do
+    realm = Realm.new
+    realm.uniqueIdentifier = "Waffles" #valid
+    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles", :artifactResolutionEndpoint => "Waffles", :sourceId => "ccf4f"})
+    realm.name = "Super awesome"
+    assert(!realm.idp.valid?, "Validation should fail")
+  end
+
+  test "sourceId with invalid character" do
+    realm = Realm.new
+    realm.uniqueIdentifier = "Waffles" #valid
+    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles", :artifactResolutionEndpoint => "Waffles",
+     :sourceId => "ccf4f3895f6e37896e7511ed1d991b1d96f04acg"})
+
     realm.name = "Super awesome"
     assert(!realm.idp.valid?, "Validation should fail")
   end
