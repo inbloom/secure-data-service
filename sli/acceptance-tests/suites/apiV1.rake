@@ -24,9 +24,16 @@ task :longLivedSessionTests => [:realmInit] do
   runTests("test/features/apiV1/long_lived_session")
 end
 
+task :apiAdminCrudTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/crud/admin_crud.feature")
+end
+
 task :apiV1EntityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/crud")
+  runTests("test/features/apiV1/entities/crud/admin_crud.feature")
+  runTests("test/features/apiV1/entities/crud/crud.feature")
+  runTests("test/features/apiV1/entities/crud/multipleAttendanceEventCategories.feature")
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud_auto")
   runTests("test/features/apiV1/search")
@@ -281,6 +288,14 @@ task :apiOdinMultipleParentTests => [:realmInit] do
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
   runTests("test/features/apiV1/integration/multiple_parents.feature")
+end
+
+desc "Run API Federated Apps Tests"
+task :apiOdinFederatedAppsTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  allLeaAllowApp("Mobile App")
+  authorizeEdorg("Mobile App")
+  runTests("test/features/apiV1/integration/federated_apps.feature")
 end
 
 desc "Run API Performance Tests"

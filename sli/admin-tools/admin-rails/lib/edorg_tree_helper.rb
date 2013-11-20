@@ -55,7 +55,7 @@ module EdorgTreeHelper
       @id_counter = 0
       # Compile counts across whole tree and build "by-type" category nodes
       build_tree(ROOT_ID, {}, {})
-      edorg_tree_html = "<ul>\n  #{render_html(nil, ROOT_ID, 0)} </ul>\n"
+      edorg_tree_html = "<ul>\n  #{render_html(ROOT_ID, ROOT_ID, 0)} </ul>\n"
     end
 
     # Load up all the edOrgs.  Creates:
@@ -251,7 +251,7 @@ module EdorgTreeHelper
       # real node will appear first in a depth first traversal, i.e.,
       # as the user scans a fully expanded tree from top to bottom.
       parents = eo[:parents]
-      is_repeat_subtree = parents.length > 1 && parent_id != parents[0]
+      is_repeat_subtree = id != ROOT_ID && (parents[0] == ROOT_ID || parents.length > 1) && parent_id != parents[0]
       is_anchored = parents.length > 1 && parent_id == parents[0]
       if is_repeat_subtree
         anc_id = parents[0]
@@ -306,11 +306,13 @@ module EdorgTreeHelper
 
       # Uncomment below for debugging: add ID, show enabled/authorized status, show subtree status
       # result += " [" + eo[:id][0,8] + "]"
+      # result += " parents.length=" + parents.length.to_s() + " parent_id=[" + parent_id.to_s()[0,8] + "]"
       # result += " enabled=" + eo[:enabled].to_s + " authorized=" + eo[:authorized].to_s
       # result += " is_anchored=" + is_anchored.to_s + " is_repeat_subtree=" + is_repeat_subtree.to_s
       # result += " parents[0]=[" + parents[0][0,8] + "]" if !parents.empty?
 
-      result += ", under \"" + path_to_root + "\" above)" if is_repeat_subtree
+      result += ", under \"" + path_to_root + "\"" if is_repeat_subtree && !path_to_root.empty?
+      result += " above)" if is_repeat_subtree
       result += "</i>" if !isCheckable
       # Add counts.  Note that eo[:nchild] is the number of direct child EdOrgs not the number of child display nodes
       nchild = eo[:nchild]

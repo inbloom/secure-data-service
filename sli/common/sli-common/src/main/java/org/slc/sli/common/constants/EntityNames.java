@@ -29,6 +29,7 @@ public final class EntityNames {
     public static final String AGGREGATION = "aggregation";
     public static final String AGGREGATION_DEFINITION = "aggregationDefinition";
     public static final String APPLICATION = "application";
+    public static final String APPLICATION_AUTHORIZATION = "applicationAuthorization";    
     public static final String ASSESSMENT = "assessment";
     public static final String ASSESSMENT_FAMILY = "assessmentFamily";
     public static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
