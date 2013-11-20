@@ -83,9 +83,9 @@ And I click on log out
 
 Scenario: SEA approves Dashboard and Databrowser
 When I navigate to the Portal home page
-When I see the realm selector I authenticate to "inBloom"
+When I see the realm selector I authenticate to "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "<PRIMARY_EMAIL>" "<PRIMARY_EMAIL_PASS>" for the "Simple" login page
+When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
@@ -97,6 +97,7 @@ Then I am redirected to the Admin Application Authorization Tool
 And I see an application "inBloom Dashboards" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
+And I expand all nodes
 And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
 And the sli securityEvent collection is empty
 And I click Update
@@ -112,6 +113,7 @@ And there are "199" educationalOrganizations in the targetEdOrgList
 And I see an application "inBloom Data Browser" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
+And I expand all nodes
 And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
 And the sli securityEvent collection is empty
 And I click Update

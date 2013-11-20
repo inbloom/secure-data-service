@@ -517,6 +517,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         Map<String, Collection<GrantedAuthority>> contextRights = new HashMap<String, Collection<GrantedAuthority>>();
         contextRights.put(Right.STAFF_CONTEXT.name(), new HashSet<GrantedAuthority>());
         contextRights.put(Right.TEACHER_CONTEXT.name(), new HashSet<GrantedAuthority>());
+        contextRights.put(Right.APP_AUTHORIZE.name(), new HashSet<GrantedAuthority>());
+
         for (String edOrg : edOrgs) {  // For each edOrg....
             for (String role : principal.getEdOrgRoles().get(edOrg)) {  // For each edOrg role....
                 Collection<GrantedAuthority> roleAuthorities = new HashSet<GrantedAuthority>();
@@ -527,6 +529,9 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                 }
                 if (roleAuthorities.contains(Right.TEACHER_CONTEXT)) {
                     contextRights.get(Right.TEACHER_CONTEXT.name()).addAll(roleAuthorities);
+                }
+                if (roleAuthorities.contains(Right.APP_AUTHORIZE)) {
+                    contextRights.get(Right.APP_AUTHORIZE.name()).addAll(roleAuthorities);
                 }
             }
         }

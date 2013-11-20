@@ -28,12 +28,15 @@ require_relative '../../apiV1/long_lived_session/step_definitions/token_generato
 Transform /rights "(.*?)"/ do |arg1|
   # Default rights for SLI Default roles  
   rights = ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC", "TEACHER_CONTEXT"] if arg1 == "Educator"
-  rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT", "SECURITY_EVENT_VIEW"] if arg1 == "IT Administrator"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT", "SECURITY_EVENT_VIEW", "APP_AUTHORIZE"] if arg1 == "IT Administrator"
   rights = ["READ_GENERAL", "READ_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "Leader"
   rights = ["AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "Aggregate Viewer"
   rights = ["READ_GENERAL", "TEACHER_CONTEXT"] if arg1 == "New Custom"
+  rights = ["READ_GENERAL", "TEACHER_CONTEXT"] if arg1 == "Old Custom"
+  rights = ["READ_GENERAL", "APP_AUTHORIZE"] if arg1 == "New Federated"
+
   # Custom right sets for test roles
-  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "WRITE_PUBLIC", "AGGREGATE_WRITE", "STAFF_CONTEXT", "SECURITY_EVENT_VIEW"] if arg1 == "all defaults"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "WRITE_PUBLIC", "AGGREGATE_WRITE", "STAFF_CONTEXT", "SECURITY_EVENT_VIEW", "APP_AUTHORIZE"] if arg1 == "all defaults"
   rights = ["READ_GENERAL", "TEACHER_CONTEXT"] if arg1 == "Read General"
   # US5459
   rights = ["READ_GENERAL", "TEACHER_CONTEXT", "SECURITY_EVENT_VIEW"] if arg1 == "Read General and Security Event View"
@@ -41,6 +44,7 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["READ_RESTRICTED", "TEACHER_CONTEXT"] if arg1 == "Read Restricted"
   rights = ["READ_RESTRICTED"] if arg1 == "Self Read Restricted"
   rights = ["READ_GENERAL", "WRITE_GENERAL", "TEACHER_CONTEXT"] if arg1 == "Read and Write General"
+  rights = ["READ_GENERAL", "TEACHER_CONTEXT", "APP_AUTHORIZE"] if arg1 == "New Read General"
   # US5459
   rights = ["READ_GENERAL", "WRITE_GENERAL", "TEACHER_CONTEXT", "SECURITY_EVENT_VIEW"] if arg1 == "Read, Write General, and Security Event View"
   rights = ["READ_GENERAL", "READ_PUBLIC", "READ_AGGREGATE","STAFF_CONTEXT"] if arg1 == "Read General Public and Aggregate"
@@ -50,19 +54,26 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "BULK_EXTRACT", "STAFF_CONTEXT"] if arg1 == "Bulk IT Administrator"
   rights = ["BULK_EXTRACT","STAFF_CONTEXT"] if arg1 == "BULK_EXTRACT"
   rights = ["TEACHER_CONTEXT"] if arg1 == "TEACHER CONTEXT"
+  rights = ["READ_GENERAL","APP_AUTHORIZE"] if arg1 == "APP AUTH"
+  rights = ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC", "TEACHER_CONTEXT", "APP_AUTHORIZE"] if arg1 == "EDUCATOR APP AUTH"
   rights = [] if arg1 == "none"
   rights
 end
 
 Transform /roles "(.*?)"/ do |arg1|
   roles = ["Dummy"] if arg1 == "Dummy"
+  roles = ["Silly"]  if arg1 == "Silly"
+  roles = ["HOLL"]  if arg1 == "HOLL"
   roles = ["Test Role"] if arg1 == "Test Role"
   roles = ["Educator"] if arg1 == "Educator"
   roles = ["Leader"] if arg1 == "Leader"
   roles = ["Aggregate Viewer"] if arg1 == "Aggregate Viewer"
   roles = ["IT Administrator"] if arg1 == "IT Administrator"
   roles = ["Dummy"] if arg1 == "New Custom"
+  roles = ["HOLL"] if arg1 == "New Federated"
+  roles = ["Silly"] if arg1 == "Old Federated"
   roles = ["Educator", "Teacher"] if arg1 == "Educator,Teacher"
+  roles = ["Application Authorizer"] if arg1 == "Application Authorizer"
   roles = [] if arg1 == "none"
   roles
 end
@@ -80,6 +91,10 @@ end
 
 When /^I navigate to the Custom Role Mapping Page$/ do
   @driver.get PropLoader.getProps['admintools_server_url']+"/custom_roles"
+end
+
+When /^I try to authenticate on the "(.*?)" Tool$/ do |arg1|
+    @driver.get PropLoader.getProps['admintools_server_url']+"/#{arg1}"
 end
 
 Then /^I am shown the custom roles page for "(.*?)"$/ do |arg1|
@@ -118,7 +133,6 @@ end
 
 Then /^the group "([^"]*)" contains the (roles "[^"]*")$/ do |title, roles|
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
-
   assertWithWait("Expected #{roles.size} roles, but saw #{group.find_elements(:class, "role").size} in group #{title}") {group.find_elements(:class, "role").size == roles.size}
   roles.each do |role|
     group.find_elements(:xpath, "//span[text()='#{role}']")
@@ -133,7 +147,6 @@ end
 Then /^the group "([^"]*)" contains the "([^"]*)" (rights "[^"]*")$/ do |title,  css_class, rights|
   retryOnFailure() do
     group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
-
     assertWithWait("Expected #{rights.size} roles, but saw #{group.find_elements(:class, css_class).size} in group #{title}") {group.find_elements(:class, css_class).size == rights.size}
     puts "Group is currently #{group}"
     puts "Rights are currently #{group.find_elements(:class, css_class)}"

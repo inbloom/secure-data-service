@@ -12,6 +12,7 @@ Feature: Reset and Change Password
 
     Given I am a SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
     When I hit the Admin URL
+    And I select "inBloom" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
     Then I click the "forgotPassword" link
     Then I am redirected to the Forgot Password page
@@ -40,6 +41,7 @@ Feature: Reset and Change Password
 
     Given I am a SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
     When I hit the Change Password URL
+    And I select "inBloom" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
     Then I see change password is disabled for production developers
@@ -50,6 +52,7 @@ Feature: Reset and Change Password
     
     Given I am a SLC Admin "sunsetadmin" from the "SLI" hosted directory logging in for the first time
     When I hit the Admin URL
+    And I select "inBloom" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
     When I am forced to change password
@@ -61,6 +64,7 @@ Feature: Reset and Change Password
  Scenario: I can navigate to reset password page after failed login attempts
     Given I am a SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
     When I hit the Admin URL
+    And I select "inBloom" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "Iforgotmyusername" "Iforgotmypassword" for the "Simple" login page
     Then I check for message  "Invalid User Name or password"
