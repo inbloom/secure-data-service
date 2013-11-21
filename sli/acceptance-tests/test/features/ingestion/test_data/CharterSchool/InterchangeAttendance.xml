@@ -1,10 +1,8 @@
 <?xml version="1.0"?>
-<InterchangeStudentAttendance xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAttendance.xsd">
+<InterchangeStudentAttendance xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAttendance.xsd">
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-04</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -22,7 +20,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-10</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -40,7 +37,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-11</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -58,7 +54,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-26</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -76,7 +71,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-04</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -94,7 +88,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-11</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -112,7 +105,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-13</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -130,7 +122,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-12-05</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -148,7 +139,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-12-17</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -166,7 +156,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-07</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -184,7 +173,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-30</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -202,7 +190,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-02-07</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -220,7 +207,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-02-14</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -238,7 +224,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-02-21</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -256,7 +241,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-04</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -274,7 +258,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-27</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -292,7 +275,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-23</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -310,7 +292,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-24</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -328,7 +309,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-02</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -346,7 +326,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-06</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -364,7 +343,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-16</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -382,7 +360,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-17</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -400,7 +377,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-19</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -418,7 +394,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-10-02</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -436,7 +411,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-10-07</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -454,7 +428,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-10-25</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -472,7 +445,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-18</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -490,7 +462,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-12-10</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -508,7 +479,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-12-17</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -526,7 +496,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-12-19</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -544,7 +513,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-12-27</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -562,7 +530,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-17</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -580,7 +547,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-29</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -598,7 +564,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-24</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -616,7 +581,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-14</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -634,7 +598,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-17</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -652,7 +615,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-05</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -670,7 +632,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-07</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -688,7 +649,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-08</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -706,7 +666,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-13</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -724,7 +683,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-23</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -742,7 +700,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-27</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -760,7 +717,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-10-15</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -778,7 +734,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-10-21</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -796,7 +751,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-10-23</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -814,7 +768,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-04</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -832,7 +785,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-26</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -850,7 +802,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-12-10</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -868,7 +819,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-12-19</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -886,7 +836,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-17</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -904,7 +853,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-27</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -922,7 +870,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-02-04</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -940,7 +887,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-02-13</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -958,7 +904,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-12</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -976,7 +921,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-31</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -994,7 +938,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-15</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1012,7 +955,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-21</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1030,7 +972,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-25</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1048,7 +989,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-23</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1066,7 +1006,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-13</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1084,7 +1023,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-30</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1102,7 +1040,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-10-01</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1120,7 +1057,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-10-04</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1138,7 +1074,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-14</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1156,7 +1091,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-20</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1174,7 +1108,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-12-17</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1192,7 +1125,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-03</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1210,7 +1142,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-27</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1228,7 +1159,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-11</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1246,7 +1176,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-24</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1264,7 +1193,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-30</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1282,7 +1210,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-05</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1300,7 +1227,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-16</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1318,7 +1244,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-06</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1336,7 +1261,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-10-17</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1354,7 +1278,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-01</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1372,7 +1295,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-12</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1390,7 +1312,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-08</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1408,7 +1329,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-14</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1426,7 +1346,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-27</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1444,7 +1363,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-02-20</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1462,7 +1380,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-02-21</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1480,7 +1397,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-02-28</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1498,7 +1414,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-28</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1516,7 +1431,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-04</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1534,7 +1448,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-05</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1552,7 +1465,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-14</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1570,7 +1482,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-21</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1588,7 +1499,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-20</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1606,7 +1516,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-10-01</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1624,7 +1533,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-10-10</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1642,7 +1550,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-10-23</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1660,7 +1567,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-14</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1678,7 +1584,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-20</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1696,7 +1601,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-12-10</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1714,7 +1618,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-03</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1732,7 +1635,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-22</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1750,7 +1652,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-07</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1768,7 +1669,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-27</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1786,7 +1686,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-10</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1804,7 +1703,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-08</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1822,7 +1720,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-09</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1840,7 +1737,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-15</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1858,7 +1754,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-08-27</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1876,7 +1771,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-12</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1894,7 +1788,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-21</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1912,7 +1805,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-11</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1930,7 +1822,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-11</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1948,7 +1839,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-25</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1966,7 +1856,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-10-23</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -1984,7 +1873,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-20</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2002,7 +1890,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-28</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2020,7 +1907,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-02-14</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2038,7 +1924,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-05</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2056,7 +1941,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-24</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2074,7 +1958,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-01</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2092,7 +1975,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-21</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2110,7 +1992,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-04</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2128,7 +2009,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-25</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2146,7 +2026,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-10-04</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2164,7 +2043,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-25</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2182,7 +2060,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-12-05</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2200,7 +2077,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-12-11</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2218,7 +2094,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-13</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2236,7 +2111,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-05</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2254,7 +2128,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-25</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2272,7 +2145,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-27</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2290,7 +2162,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-22</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2308,7 +2179,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-01</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2326,7 +2196,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-09-09</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2344,7 +2213,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-10-02</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2362,7 +2230,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-20</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2380,7 +2247,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-22</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2398,7 +2264,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-23</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2416,7 +2281,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-02-17</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2434,7 +2298,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-04</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2452,7 +2315,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-26</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2470,7 +2332,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-09</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2488,7 +2349,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-23</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2506,7 +2366,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-15</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2524,7 +2383,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-04</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2542,7 +2400,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2013-11-21</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2560,7 +2417,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-03</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2578,7 +2434,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-01-06</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2596,7 +2451,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-02-06</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2614,7 +2468,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-04</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2632,7 +2485,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-03-05</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2650,7 +2502,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-15</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2668,7 +2519,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-18</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2686,7 +2536,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-04-23</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Excused: sick</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -2704,7 +2553,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AttendanceEvent>
     <SchoolYear>2013-2014</SchoolYear>
     <EventDate>2014-05-14</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
     <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
