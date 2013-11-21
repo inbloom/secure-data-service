@@ -32,6 +32,7 @@ import org.slc.sli.api.security.roles.RightAccessValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -149,9 +150,13 @@ public class ApprovedApplicationResource {
                 rights.add("DELEGATED_ADMIN");
             }
         } else {
-            // Add appropriate contextual rights for federated users
-            Collection<GrantedAuthority> userAuthorities = rightAccessValidator.getContextualAuthorities(false, app, SecurityUtil.getUserContext(), true);
-            authorities.addAll(userAuthorities);
+            try {
+            	// Add appropriate contextual rights for federated users
+            	Collection<GrantedAuthority> userAuthorities = rightAccessValidator.getContextualAuthorities(false, app, SecurityUtil.getUserContext(), true);
+            	authorities.addAll(userAuthorities);
+            } catch (AccessDeniedException aex) {
+                error(aex.getMessage());
+            }
         }
 
         // convert to String for comparison with rights in DB
