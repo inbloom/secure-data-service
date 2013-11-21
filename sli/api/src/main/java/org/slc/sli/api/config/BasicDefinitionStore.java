@@ -158,6 +158,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         factory.makeEntity(EntityNames.SEARCH, ResourceNames.SEARCH).storeIn(searchRepo).skipContextValidation()
                 .wrapperEntity().buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADUATION_PLAN, ResourceNames.GRADUATION_PLANS).buildAndRegister(this);
+        factory.makeEntity(EntityNames.SECURITY_EVENT, ResourceNames.SECURITY_EVENT).buildAndRegister(this);
 
         // adding the association definitions
         AssociationDefinition studentSchoolAssociation = factory

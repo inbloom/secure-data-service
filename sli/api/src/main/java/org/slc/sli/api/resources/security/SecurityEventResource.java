@@ -18,12 +18,14 @@
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -32,14 +34,20 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.constants.Constraints;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
+import org.slc.sli.api.resources.generic.UnversionedResource;
+import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.util.ResourceTemplate;
+import org.slc.sli.api.resources.v1.CustomEntityResource;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.context.resolver.SecurityEventContextResolver;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.query.UriInfoToApiQueryConverter;
+import org.slc.sli.api.util.PATCH;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -51,29 +59,28 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 /**
  * Provides read access to SecurityEvents through the /securityEvent path.
  * For more information, see the schema for the $$securityEvent$$ entity.
  *
- * This is an unversioned resource, however it does not extend
- * {@link org.slc.sli.api.resources.generic.UnversionedResource}, because
- * that extends {@link org.slc.sli.api.resources.generic.DefaultResource} and has
- * implementations for several completely inappropriate HTTP methods for security events,
- * such as DELETE, POST, PUT, and PATCH.
+ * Caution must be exercised so that nothing from any parent classes of this class exposes
+ * anything unwanted.
  *
  * @author ldalgado
  * @author Andrew D. Ball
  */
 @Component
-@Path("securityEvent")
+@Scope("request") // TODO Why does this need request scope?
+@Path(ResourceNames.SECURITY_EVENT)
 @Produces({ HypermediaType.JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
-public class SecurityEventResource {
+public class SecurityEventResource extends UnversionedResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(SecurityEventResource.class);
 
-    public static final String RESOURCE_NAME = "securityEvent";
+    public static final String RESOURCE_NAME = ResourceNames.SECURITY_EVENT;
 
     @Autowired
     @Qualifier("validationRepo")
@@ -88,6 +95,7 @@ public class SecurityEventResource {
         this.queryConverter = new UriInfoToApiQueryConverter();
     }
 
+    @Override
     @GET
     @RightsAllowed({ Right.SECURITY_EVENT_VIEW })
     public Response getAll(@Context final UriInfo uriInfo) {
@@ -96,6 +104,7 @@ public class SecurityEventResource {
         return Response.ok(new EntityResponse(RESOURCE_NAME, results)).build();
     }
 
+    @Override
     @GET
     @Path("{id}")
     @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
@@ -177,6 +186,47 @@ public class SecurityEventResource {
 
         return result;
 
+    }
+
+    @Override
+    @POST
+    @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
+    public Response post(final EntityBody entityBody, @Context final UriInfo uriInfo) {
+        throw new AccessDeniedException("HTTP POST is forbidden for security events");
+    }
+
+    @PUT
+    @Path("{id}")
+    @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
+    public Response put(@PathParam("id") final String id, final EntityBody entityBody,
+            @Context final UriInfo uriInfo) {
+        throw new AccessDeniedException("HTTP PUT is forbidden for security events");
+    }
+
+    @Override
+    @DELETE
+    @Path("{id}")
+    @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
+    public Response delete(@PathParam("id") final String id, @Context final UriInfo uriInfo) {
+        throw new AccessDeniedException("HTTP DELETE is forbidden for security events");
+    }
+
+    @Override
+    @PATCH
+    @Path("{id}")
+    @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
+    public Response patch(@PathParam("id") final String id,
+                          final EntityBody entityBody,
+                          @Context final UriInfo uriInfo) {
+        throw new AccessDeniedException("HTTP PATCH is forbidden for security events");
+    }
+
+    @Override
+    @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
+    public CustomEntityResource getCustomResource(final String id, final UriInfo uriInfo) {
+        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.UNVERSIONED_CUSTOM);
+        return new CustomEntityResource(id,
+                resourceHelper.getEntityDefinition(resource.getResourceType()), resourceHelper);
     }
 
 }

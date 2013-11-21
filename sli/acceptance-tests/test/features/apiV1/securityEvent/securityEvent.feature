@@ -97,25 +97,25 @@ Scenario Outline: DE2990 no spurious HTTP methods are allowed and DE2991 GET by 
 # DE2991 - Unauthorized user can not get security events by ID
 | GET            | 268406bf-83b5-4d43-9b56-c428e0998cb2 | jstevenson     | jstevenson1234  | IL        | 404        |
 # DE2990 - None can DELETE events through security API
-| DELETE         | 07623f03-126e-427d-9ed4-29562388cdcc |   iladmin      |  iladmin1234    |    SLI    |   405      |
+| DELETE         | 07623f03-126e-427d-9ed4-29562388cdcc | operator       | operator1234    | SLI       | 403        |
 # DE2990 - None can PATCH events through security API
-| PATCH          | 07623f03-126e-427d-9ed4-29562388cdcc |   iladmin      |  iladmin1234    |    SLI    |   405      |
+| PATCH          | 07623f03-126e-427d-9ed4-29562388cdcc | operator       | operator1234    | SLI       | 403        |
 
 @DE2990
 Scenario: None can PUT events through security API
-    Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
+    Given I am logged in using "operator" "operator1234" to realm "SLI"
     And format "application/vnd.slc+json"
     When I navigate to GET "/securityEvent/07623f03-126e-427d-9ed4-29562388cdcc"
     Then I should receive a return code of 200
     When I create an empty json object
     And I navigate to PUT "/securityEvent/07623f03-126e-427d-9ed4-29562388cdcc"
-    Then I should receive a return code of 405
+    Then I should receive a return code of 403
 
 @DE2990
 Scenario: None can POST events through security API
-    Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
+    Given I am logged in using "operator" "operator1234" to realm "SLI"
     And format "application/vnd.slc+json"
     When I create an empty json object
     And I navigate to POST "/securityEvent"
-    Then I should receive a return code of 405
+    Then I should receive a return code of 403
 
