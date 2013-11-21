@@ -11,6 +11,7 @@ Given there is an production Ingestion Admin account in ldap
 And the account has a tenantId "<TENANTID>"
 And the account has a edorg of "<PROD_EDORG>"
 When the developer go to the provisioning application web page
+And I select "inBloom" from the dropdown and click go
 And the developer is authenticated to Simple IDP as user "<USERID>" with pass "<PASSWORD>"
 And I provision a Landing zone
 Then the user gets a success message

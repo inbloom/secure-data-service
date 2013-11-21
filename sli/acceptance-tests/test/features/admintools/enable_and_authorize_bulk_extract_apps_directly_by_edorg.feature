@@ -8,6 +8,7 @@ Background:
 	Scenario: Create new bulk extract application (set up data)
         Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
+        And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
         And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
         Then I am redirected to the Application Registration Tool page
@@ -26,6 +27,7 @@ Background:
     Scenario: SLC Operator accepts bulk extract application registration request (set up data)
         Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
+        And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
         And I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
         Then I am redirected to the Application Approval Tool page
@@ -39,6 +41,7 @@ Background:
     Scenario: Developer registers bulk extract application (set up data)
         Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
+        And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
         And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
         Then I am redirected to the Application Registration Tool page
@@ -50,6 +53,7 @@ Background:
         
     Scenario: SEA Admin Approves application
          When I hit the Admin Application Authorization Tool
+         And I select "inBloom" from the dropdown and click go
          And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
          And I see an application "Aboukir" in the table
          And in Status it says "Not Approved"
@@ -117,6 +121,7 @@ Background:
 
     Scenario: LEA Admin Approves application
           When I hit the Admin Application Authorization Tool
+          And I select "inBloom" from the dropdown and click go
           And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
           And I see an application "Aboukir" in the table
           And in Status it says "Not Approved"
