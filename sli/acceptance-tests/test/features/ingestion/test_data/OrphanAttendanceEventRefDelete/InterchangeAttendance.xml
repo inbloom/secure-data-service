@@ -17,16 +17,6 @@
                         <StateOrganizationId>AE Orphan Daybreak Central High</StateOrganizationId>
                     </EducationalOrgIdentity>
                 </SchoolReference>
-                <SectionReference>
-                    <SectionIdentity>
-                        <EducationalOrgReference>
-                            <EducationalOrgIdentity>
-                                <StateOrganizationId>AE Orphan Daybreak Central High</StateOrganizationId>
-                            </EducationalOrgIdentity>
-                        </EducationalOrgReference>
-                        <UniqueSectionCode>AE Orphan 3</UniqueSectionCode>
-                    </SectionIdentity>
-                </SectionReference>
             </AttendanceEventIdentity>
         </AttendanceEventReference>
     </Action>
