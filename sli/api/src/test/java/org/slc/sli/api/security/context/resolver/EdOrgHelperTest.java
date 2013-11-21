@@ -177,31 +177,37 @@ public class EdOrgHelperTest {
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("State Education Agency"));
+        body.put(ParameterConstants.STATE_ORGANIZATION_ID, "sea1");
         sea1 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
         body.put("parentEducationAgencyReference", Arrays.asList(sea1.getEntityId()));
+        body.put(ParameterConstants.STATE_ORGANIZATION_ID, "lea1");
         lea1 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
         body.put("parentEducationAgencyReference", Arrays.asList(lea1.getEntityId()));
+        body.put(ParameterConstants.STATE_ORGANIZATION_ID, "lea2");
         lea2 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
         body.put("parentEducationAgencyReference", Arrays.asList(lea2.getEntityId()));
+        body.put(ParameterConstants.STATE_ORGANIZATION_ID, "lea3");
         lea3 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
         body.put("parentEducationAgencyReference", Arrays.asList(sea1.getEntityId()));
+        body.put(ParameterConstants.STATE_ORGANIZATION_ID, "lea4");
         lea4 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("School"));
         body.put("parentEducationAgencyReference", Arrays.asList(lea1.getEntityId()));
+        body.put(ParameterConstants.STATE_ORGANIZATION_ID, "school1");
         Map<String, Object> metadata = new HashMap<String, Object>();
         metadata.put("edOrgs", Arrays.asList(lea1.getEntityId()));
         school1 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body, metadata, EntityNames.EDUCATION_ORGANIZATION);
@@ -209,11 +215,13 @@ public class EdOrgHelperTest {
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("School"));
         body.put("parentEducationAgencyReference", Arrays.asList(lea2.getEntityId()));
+        body.put(ParameterConstants.STATE_ORGANIZATION_ID, "school2");
         school2 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("School"));
         body.put("parentEducationAgencyReference", Arrays.asList(lea3.getEntityId()));
+        body.put(ParameterConstants.STATE_ORGANIZATION_ID, "school3");
         school3 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
@@ -272,16 +280,19 @@ public class EdOrgHelperTest {
         // entities for lea cycle
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
+        body.put(ParameterConstants.STATE_ORGANIZATION_ID, "leaCycle1");
         leaCycle1 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
         body.put("parentEducationAgencyReference", Arrays.asList(leaCycle1.getEntityId()));
+        body.put(ParameterConstants.STATE_ORGANIZATION_ID, "leaCycle2");
         leaCycle2 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
         body.put("parentEducationAgencyReference", Arrays.asList(leaCycle2.getEntityId()));
+        body.put(ParameterConstants.STATE_ORGANIZATION_ID, "leaCycle3");
         leaCycle3 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         // update the parent ref now that we know the id
@@ -467,6 +478,48 @@ public class EdOrgHelperTest {
         }
 
         return seoa;
+    }
+
+    @Test
+    public void testGetChildEdOrgsNameWithoutParents() {
+
+        Set<String> children = helper.getChildEdOrgsName(Arrays.asList(lea2.getEntityId(), leaCycle1.getEntityId()));
+
+        assertTrue("expected to see school2 in the list of children",
+                children.contains(school2.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID)));
+        assertTrue("expected to see lea3 in the list of children",
+                children.contains(lea3.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID)));
+        assertTrue("expected to see school3 in the list of children",
+                children.contains(school3.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID)));
+        assertTrue("expected to see leaCycle2 in the list of children",
+                children.contains(leaCycle2.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID)));
+        assertTrue("expected to see leaCycle3 in the list of children",
+                children.contains(leaCycle3.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID)));
+
+        assertEquals(5, children.size());
+    }
+
+    @Test
+    public void testGetChildEdOrgsNameWithParents() {
+        Set<String> children = helper.getChildEdOrgsName(Arrays.asList(lea2.getEntityId(), leaCycle1.getEntityId()),
+                true);
+
+        assertTrue("expected to see lea2 in the list of children",
+                children.contains(lea2.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID)));
+        assertTrue("expected to see leaCycle1 in the list of children",
+                children.contains(leaCycle1.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID)));
+        assertTrue("expected to see school2 in the list of children",
+                children.contains(school2.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID)));
+        assertTrue("expected to see lea3 in the list of children",
+                children.contains(lea3.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID)));
+        assertTrue("expected to see school3 in the list of children",
+                children.contains(school3.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID)));
+        assertTrue("expected to see leaCycle2 in the list of children",
+                children.contains(leaCycle2.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID)));
+        assertTrue("expected to see leaCycle3 in the list of children",
+                children.contains(leaCycle3.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID)));
+
+        assertEquals(7, children.size());
     }
 
 

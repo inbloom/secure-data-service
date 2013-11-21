@@ -111,24 +111,56 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
 end
 
 When /^I select "(.*?)" from the dropdown and click go$/ do |arg1|
-  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
+  attempts  = 0
+  maxAttempts = 3
+  selectTag = nil
+  begin
+     selectTag = @driver.find_element(:tag_name, "select")
+  rescue
+    attempts += 1
+    if attempts < maxAttempts
+      puts "Attempt #{attempts}. Could not find select tag. Will retry in 5 seconds!"
+      sleep 5
+      retry
+    else
+      puts  "Could not find select tag in #{maxAttempts} attempts!"
+    end
+  end
+  select = Selenium::WebDriver::Support::Select.new(selectTag)
   select.select_by(:text, arg1)
   assertWithWait("Could not find the Go button")  { @driver.find_element(:id, "go") }
   @driver.find_element(:id, "go").click
 end
 
 After do |scenario|
+  base = "./cats_with_lasers" # Maybe a better name, eh?
+  url_fn = base + ".txt"
+  html_fn = base + ".html"
+  screenshot_fn = base + ".png"
+  
   begin
-    File.delete("./cats_with_lasers.png")
+    File.delete(url_fn)
+    File.delete(html_fn)
+    File.delete(screenshot_fn)
   rescue Exception => e
   end
   #puts "Running the After hook for Scenario: #{scenario}"s
   begin
-    File.rm("./cats_with_lasers.png")
+    File.delete(url_fn)
+    File.delete(html_fn)
+    File.delete(screenshot_fn)
   rescue
   end
   if (scenario.failed? and !@driver.nil?)
-    @driver.save_screenshot("./cats_with_lasers.png")
+
+    # Save current URL and source code to file
+    File.open(url_fn, 'w') {|f| f.write("FAILED at URL:\n" + @driver.current_url + "\n") }
+
+    # Save current URL and source code to file
+    File.open(html_fn, 'w') {|f| f.write(@driver.page_source) }
+    
+    # Save screenshot of file
+    @driver.save_screenshot(screenshot_fn)
   else
     File.new("./dummy_placeholder.png", "w")
   end

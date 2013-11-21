@@ -190,9 +190,7 @@ Then /^"(.*?)" is enabled for "(.*?)" production education organizations$/ do |a
      body = record["body"]
      puts body.to_s
      edorgsArray = body["authorized_ed_orgs"]
-     puts edorgsArray.to_s
      edorgsArrayCount = edorgsArray.count
-     puts edorgsArrayCount
      assert(edorgsArrayCount == edOrgCount.to_i, "Education organization count mismatch in application collection. Expected #{edOrgCount}, actual #{edorgsArrayCount}")
 end
 
@@ -206,5 +204,9 @@ When /^I (enable|disable) the educationalOrganization "([^"]*?)" in production$/
   assert(elt, "Educational organization element for '" + edOrgName + "' (" + edOrgId + ") not found")
   assert(action == "enable" && !elt.selected? || action == "disable" && elt.selected?, "Cannot " + action + " educationalOrganization element with id '" + edOrgId + "' whose checked status is " + elt.selected?.to_s())
   elt.click()
+end
+
+And /^I manually navigate to "(.*?)" in admin$/ do |endpoint|
+    @driver.get(PropLoader.getProps['admintools_server_url'] + "/" + endpoint)
 end
 

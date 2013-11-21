@@ -32,12 +32,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.validator.ValidatorTestHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -87,14 +89,18 @@ public class ApprovedApplicationResourceTest {
         body.put("authorized_ed_orgs", Arrays.asList(SecurityUtil.getEdOrgId()));
         body.put("installed", false);
         body.put("name", "MyApp");
+        body.put("admin_visible", true);
         app1 = repo.create("application", body);
 
         injector.setAdminContextWithElevatedRights();
         SecurityUtil.getSLIPrincipal().setEdOrgId(lea.getEntityId());
+        SecurityUtil.getSLIPrincipal().setAdminRealmAuthenticated(true);
         EntityBody auth = new EntityBody();
         auth.put("appId", app1.getEntityId());
         auth.put("authorized", true);
-        auth.put("edorgs", Arrays.asList(lea.getEntityId()));
+        List<String> edorgs = new ArrayList<String>();
+        edorgs.add(lea.getEntityId());
+        auth.put("edorgs", edorgs);
         appAuth.updateAuthorization(app1.getEntityId(), auth);
 
         injector.setStaffContext();
