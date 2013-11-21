@@ -125,11 +125,13 @@ end
 
 Then /^I can navigate to the User Management Page with that production user$/ do
   step "I navigate to the sandbox user account management page"
+  step  "I select \"inBloom\" from the dropdown and click go"
   step "I submit the credentials \"#{@user_info[:email]}\" \"test1234\" for the \"Simple\" login page"
 end
 
 When /^I navigate to the User Management Page$/ do
   step "I navigate to the sandbox user account management page"
+  step  "I select \"inBloom\" from the dropdown and click go"
 end
 
 Given /^the prod testing user does not already exists in LDAP$/ do

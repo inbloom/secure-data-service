@@ -33,8 +33,13 @@ import javax.ws.rs.core.PathSegment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slc.sli.api.resources.security.ApplicationResource;
+import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
@@ -49,6 +54,7 @@ import org.slc.sli.api.security.context.resolver.GradingPeriodHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SessionUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.datetime.DateHelper;
@@ -110,10 +116,11 @@ public class UriMutator {
      * @param user
      *            User requesting resource.
      * @return MutatedContainer representing {mutated path (if necessary), mutated
-     *         parameters (if necessary)}, where path or parameters will be null if they didn't need
+     *         parameters (if necessary)}, where path will be null or parameters the empty string if they didn't need
      *         to be rewritten.
      */
-    public MutatedContainer mutate(List<PathSegment> segments, String queryParameters, Entity user) {
+    public MutatedContainer mutate(List<PathSegment> segments, String queryParameters, SLIPrincipal principal, String clientId) {
+        Entity user = principal.getEntity();
         MutatedContainer mutated = new MutatedContainer();
         mutated.setQueryParameters(queryParameters);
         if (mutated.getQueryParameters() == null) {
@@ -156,7 +163,7 @@ public class UriMutator {
         }
         else if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
 
-            if (!shouldSkipMutationToEnableSearch(segments, mutated.getQueryParameters())) {
+            if (!shouldSkipMutation(segments, mutated.getQueryParameters(), principal, clientId)) {
                 if (segments.size() == 1) {
                     // api/v1
                     mutated = mutateBaseUri(segments.get(0).getPath(), ResourceNames.HOME,
@@ -271,6 +278,30 @@ public class UriMutator {
             }
         };
 
+    }
+
+    private boolean shouldSkipMutation(List<PathSegment> segments, String queryParameters, SLIPrincipal principal, String clientId) {
+        return shouldSkipMutationToEnableSearch(segments, queryParameters) ||
+                ( SessionUtil.isAdminApp(clientId,repo) && hasAppAuthRight(principal) && isEducationOrganizationsEndPoint(segments) );
+    }
+
+
+
+    // Check whether the principal has the 'APP_AUTHORIZE' right for any of its roles in any edorg
+    private boolean hasAppAuthRight(SLIPrincipal principal) {
+        return principal.getAllRights(true).contains(Right.APP_AUTHORIZE);
+    }
+
+    // Check whether the 'educationOrganizations' endpoint is hit directly
+    private boolean isEducationOrganizationsEndPoint(List<PathSegment> segments) {
+        boolean skipMutation = false;
+        if (segments.size() == NUM_SEGMENTS_IN_ONE_PART_REQUEST) {
+            final int baseResourceIndex = 1;
+            if (ResourceNames.EDUCATION_ORGANIZATIONS.equals(segments.get(baseResourceIndex).getPath())) {
+                skipMutation = true;
+            }
+        }
+        return skipMutation;
     }
 
     private boolean shouldSkipMutationToEnableSearch(List<PathSegment> segments, String queryParameters) {
