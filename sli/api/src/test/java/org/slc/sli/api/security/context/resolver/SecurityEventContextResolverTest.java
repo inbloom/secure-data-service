@@ -68,7 +68,7 @@ public class SecurityEventContextResolverTest {
 
 	@Test
 	public void testFindAccessibleForSEAAdministrator() {
-		setAuth("SEA Administrator","IL");
+		setAuth("SEA Administrator", "IL", "IL-id");
 		PagingRepositoryDelegate<Entity> repository = Mockito
 				.mock(PagingRepositoryDelegate.class);
 		Set<String> homeEdOrgs = new HashSet<String>();
@@ -103,7 +103,7 @@ public class SecurityEventContextResolverTest {
 
 	@Test
 	public void testFindAccessibleForSEAAdministratorWithDelegation() {
-		setAuth("SEA Administrator","IL");
+		setAuth("SEA Administrator", "IL", "IL-id");
 		PagingRepositoryDelegate<Entity> repository = Mockito
 				.mock(PagingRepositoryDelegate.class);
 		Set<String> delegatedEdOrgs = new HashSet<String>();
@@ -133,7 +133,7 @@ public class SecurityEventContextResolverTest {
 
 	@Test
 	public void testFindAccessibleForOperator() {
-		setAuth("SLC Operator",null);
+		setAuth("SLC Operator", null, null);
 		PagingRepositoryDelegate<Entity> repository = Mockito
 				.mock(PagingRepositoryDelegate.class);
 		NeutralQuery or = new NeutralQuery();
@@ -166,7 +166,7 @@ public class SecurityEventContextResolverTest {
 
 	@Test
 	public void testFindAccessibleForLEAAdministrator() {
-		setAuth("LEA Administrator","IL-SUNSET");
+		setAuth("LEA Administrator", "IL-SUNSET", "IL-SUNSET-id");
 		PagingRepositoryDelegate<Entity> repository = Mockito
 				.mock(PagingRepositoryDelegate.class);
 		Set<String> homeEdOrgs = new HashSet<String>();
@@ -203,9 +203,10 @@ public class SecurityEventContextResolverTest {
 		return result;
 	}
 
-	private void setAuth(String role, String edOrg) {
+	private void setAuth(String role, String edOrg, String edOrgId) {
 		SLIPrincipal principal = new SLIPrincipal();
 		principal.setEdOrg(edOrg);
+        principal.setEdOrgId(edOrgId);
 		ArrayList<String> roles = new ArrayList<String>();
 		roles.add(role);
 		principal.setRoles(roles);

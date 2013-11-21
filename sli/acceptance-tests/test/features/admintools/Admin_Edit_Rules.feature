@@ -8,7 +8,7 @@ And I already have a SLC Operator account
 
 Scenario Outline: As a SLC Operator I am able to edit any field
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
-When I navigate to the User Management Page 
+When I navigate to the User Management Page
 And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
 Then I am redirected to "Manage Administrator Accounts" page 
 When I click the "edit" link for "<USER_FULL_NAME>"
@@ -49,7 +49,7 @@ And the user has Roles as "<NEW_ROLE>"
 
 Scenario Outline: As a SEA Admin I am able to edit any field for accounts in my tenancy
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
-When I navigate to the User Management Page 
+When I navigate to the User Management Page
 And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
 Then I am redirected to "Manage Administrator Accounts" page 
 When I click the "edit" link for "<USER_FULL_NAME>"

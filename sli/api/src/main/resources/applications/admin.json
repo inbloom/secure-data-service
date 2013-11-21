@@ -53,7 +53,8 @@
          "description":"Manage which applications a district's users can see.",
          "url":"${bootstrap.app.admin.url}/application_authorizations",
          "rights":[
-            "DELEGATED_ADMIN"
+            "DELEGATED_ADMIN",
+            "APP_AUTHORIZE"
          ]
       },
       {

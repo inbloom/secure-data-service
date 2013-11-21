@@ -150,8 +150,12 @@ public class SecuritySessionResource {
             sessionDetails.put("email", getUserEmail(principal));
             sessionDetails.put("rights", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
             sessionDetails.put("selfRights", principal.getSelfRights());
+            sessionDetails.put("adminRealmAuthenticated", principal.isAdminRealmAuthenticated());
             sessionDetails.put("isAdminUser", principal.isAdminUser());
             sessionDetails.put("userType", principal.getEntity().getType());
+            sessionDetails.put("edOrgRoles", principal.getEdOrgRoles());
+            sessionDetails.put("edOrgRights", principal.getEdOrgRights());
+
 
             if (principal.getFirstName() != null) {
                 sessionDetails.put("first_name", principal.getFirstName());
