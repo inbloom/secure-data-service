@@ -904,16 +904,18 @@ And /^I GET attendance for student "(.*?)" in school "(.*?)" for the schoolYear 
   url = "/v1/students/#{studentId}/attendances?schoolId=#{schoolId}"
   restHttpGet(url, 'application/vnd.slc+json')
   assert(@res.code == 200, "Could not fetch attendance #{url}.")
-  expected_count = 1
+  expected_count = 2
   actual_count = 0
   attendances = JSON.parse @res
   attendances.each do |attendance|
     schoolYearAttendances = attendance['schoolYearAttendance']
     schoolYearAttendances.each do |schoolYearAttendance|
-      events = schoolYearAttendance['attendanceEvent']
-      events.each do |event|
-        if event['date'] == eventDate && event['sectionId'] == sectionId
-          actual_count =+ 1
+      if schoolYearAttendance['schoolYear'] = schoolYear
+        events = schoolYearAttendance['attendanceEvent']
+        events.each do |event|
+          if event['date'] == eventDate && event['sectionId'] == sectionId
+            actual_count += 1
+          end
         end
       end
     end
