@@ -28,6 +28,8 @@ import com.sun.jersey.spi.container.ResourceFilter;
 import com.sun.jersey.spi.container.ResourceFilterFactory;
 
 import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
@@ -54,6 +56,8 @@ import org.slc.sli.domain.enums.Right;
 @Component
 public class RightCheckFilterFactory implements ResourceFilterFactory {
 
+    private static final Logger LOG = LoggerFactory.getLogger(RightCheckFilterFactory.class);
+
     @Autowired
     SecurityEventBuilder builder;
 
@@ -65,7 +69,7 @@ public class RightCheckFilterFactory implements ResourceFilterFactory {
         if (check != null) {
             rolesFilters.add(new RightCheckResourceFilter(check.value(), am.getResource()));
             if (check.value().length == 0 && !check.any()) {
-                warn("Class {} should be specifying any=true in the {} annotation.", am.getResource().getClass().getName(), RightsAllowed.class.getSimpleName());
+                LOG.warn("Class {} should be specifying any=true in the {} annotation.", am.getResource().getClass().getName(), RightsAllowed.class.getSimpleName());
             }
 
         } else {
@@ -100,7 +104,7 @@ public class RightCheckFilterFactory implements ResourceFilterFactory {
         if (GenericResource.class.isAssignableFrom(resourceClass)) {
             return;
         }
-        debug("No RightsAllowed specified for {} of {}.",
+        LOG.debug("No RightsAllowed specified for {} of {}.",
                 am.getMethod().getName(),
                 am.getResource().getResourceClass().getName());
     }
@@ -150,7 +154,7 @@ public class RightCheckFilterFactory implements ResourceFilterFactory {
 
             for (Right right : rightList) {
                 if (SecurityUtil.hasRight(right)) {
-                    info("User has needed right {} to access {}.", right, request.getPath());
+                    LOG.info("User has needed right {} to access {}.", right, request.getPath());
                     return request;
                 }
             }

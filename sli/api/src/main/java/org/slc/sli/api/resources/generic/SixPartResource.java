@@ -24,6 +24,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -42,6 +44,8 @@ import org.slc.sli.api.resources.generic.util.ResourceTemplate;
 @Scope("request")
 public class SixPartResource extends GenericResource {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SixPartResource.class);
+
     @Autowired
     private FourPartResource four;
 
@@ -52,7 +56,7 @@ public class SixPartResource extends GenericResource {
         segments.add(2, ids);
         String newUri = String.format("/rest/%s/%s/%s/%s/%s", segments.toArray());
         String queryString = getEncodedQueryParameters(uriInfo.getRequestUri().getQuery());
-        info("Executing: " + newUri + queryString);
+        LOG.info("Executing: " + newUri + queryString);
         Response res = four.get(new ChangedUriInfo(newUri + queryString, uriInfo), ids);
         return res;
     }
