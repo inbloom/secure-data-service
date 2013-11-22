@@ -8,6 +8,7 @@ As an SEA, I want to be able to allow specific applications access to my data
 	
 	Given I have an open web browser
 	When I hit the Admin Application Authorization Tool
+	And I select "inBloom" from the dropdown and click go
 	And I was redirected to the "Simple" IDP Login page
 	When I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
 	Then I am redirected to the Admin Application Authorization Tool
@@ -22,6 +23,7 @@ Scenario: Non SLI-hosted valid user tries to access the Application Authorizatio
 	Given I have an open web browser
 	And the sli securityEvent collection is empty
 	When I hit the Admin Application Authorization Tool
+	 And I select "inBloom" from the dropdown and click go
      And I submit the credentials "administrator" "administrator1234" for the "Simple" login page
      Then the api should generate a 403 error
       And I should see a count of "2" in the security event collection
@@ -37,6 +39,7 @@ Scenario: SEA Admin Approves bulk extract application
 	
    Given I have an open web browser
     When I hit the Admin Application Authorization Tool
+     And I select "inBloom" from the dropdown and click go
      And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
      And I see an application "SDK Sample" in the table
      # denying app to clean out incorrect fixture data
@@ -70,7 +73,6 @@ Scenario: SEA Admin Approves bulk extract application
      And the app "SDK Sample" Status matches "\d+ EdOrg"
      And it is colored "green"
      Then the application is authorized to use data of "Illinois State Board of Education"
-	 #11 edorgs related to SEA, but only 4 direct children
      And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
@@ -82,6 +84,7 @@ Scenario: SEA Admin Denies bulk extract application (dependant on above scenario
      Given I have an open web browser
       And the sli securityEvent collection is empty
      When I hit the Admin Application Authorization Tool
+      And I select "inBloom" from the dropdown and click go
       And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
       And I see an application "SDK Sample" in the table
       # TODO: enable these if we can determine what status should be true
@@ -98,8 +101,6 @@ Scenario: SEA Admin Denies bulk extract application (dependant on above scenario
       # TODO: enable these when we know no garbage exists
       # And the app "SDK Sample" Status becomes "Not Approved"
       # And it is colored "red"
-
-      #11 edorgs related to SEA, but only 4 direct children
       And I check to find if record is in sli db collection:
        | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
        | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!   |
@@ -113,6 +114,7 @@ Scenario: SEA Admin Approves non-bulk extract application
 
 	Given I have an open web browser
     When I hit the Admin Application Authorization Tool
+     And I select "inBloom" from the dropdown and click go
      And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
      And I see an application "Testing App" in the table
      And in Status it says "Not Approved"
@@ -124,7 +126,6 @@ Scenario: SEA Admin Approves non-bulk extract application
      And the sli securityEvent collection is empty
      And I click Update
 	Then the application is authorized to use data of "Illinois State Board of Education"
-	 #11 edorgs related to SEA, but only 4 direct children
      And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
       | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
@@ -138,6 +139,7 @@ Scenario: SEA Admin Denies non-bulk extract application (dependant on above scen
      Given I have an open web browser
       And the sli securityEvent collection is empty
      When I hit the Admin Application Authorization Tool
+      And I select "inBloom" from the dropdown and click go
       And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
       And I see an application "Testing App" in the table
       And the app "Testing App" Status matches "\d+ EdOrg"
@@ -151,7 +153,6 @@ Scenario: SEA Admin Denies non-bulk extract application (dependant on above scen
      Then the application is denied to use data of "Illinois State Board of Education"
       And the app "Testing App" Status becomes "Not Approved"
       And it is colored "red"
-      #11 edorgs related to SEA, but only 4 direct children
       And I check to find if record is in sli db collection:
        | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
        | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!   |

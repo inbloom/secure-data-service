@@ -58,6 +58,7 @@ And the user is redirected to "<URL_TO_APPLICATION_REGISTRATION>" after "5" seco
 Scenario: District admin provisions LZ for an Ed-Org
 Given the "<DISTRICT_ADMIN_USER>" has "<STATE_ED_ORG>" defined in LDAP by the operator
 When the state super admin accesses the "<URL_TO_PROVISIONING_APPLICATION>"
+And I select "inBloom" from the dropdown and click go
 Then the state super admin authenticates as "<DISTRICT_ADMIN_USER>" and "<DISTRICT_ADMIN_PASS>"
 And clicks on "Provision"
 And a request for a Landing zone is made with "<Tenant_ID>" and "<STATE_ED_ORG>"

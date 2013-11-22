@@ -522,6 +522,10 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     private NeutralSchema parseComplexType(XmlSchemaComplexType schemaComplexType, NeutralSchema complexSchema,
             XmlSchema schema) {
 
+        //if(complexSchema != null && complexSchema.getType() != null && complexSchema.getType().equals("application")) {
+            //boolean isRequiredSchema = true; //for debugging
+        //}
+
         if ((schemaComplexType.getContentModel() != null) && (schemaComplexType.getContentModel().getContent() != null)) {
             XmlSchemaContent content = schemaComplexType.getContentModel().getContent();
             if (content instanceof XmlSchemaComplexContentExtension) {

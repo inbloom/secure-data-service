@@ -27,6 +27,7 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,11 +91,11 @@ public class SecurityEventResourceTest {
         repo.deleteAll("securityEvent", null);
 
         // create entities
-        resource.createSecurityEvent(new EntityBody(sampleEntity1()), uriInfo);
-        resource.createSecurityEvent(new EntityBody(sampleEntity2()), uriInfo);
-        resource.createSecurityEvent(new EntityBody(sampleEntity3()), uriInfo);
-        resource.createSecurityEvent(new EntityBody(sampleEntity4()), uriInfo);
-        resource.createSecurityEvent(new EntityBody(sampleEntity5()), uriInfo);
+        repo.create(EntityNames.SECURITY_EVENT, sampleEntity1());
+        repo.create(EntityNames.SECURITY_EVENT, sampleEntity2());
+        repo.create(EntityNames.SECURITY_EVENT, sampleEntity3());
+        repo.create(EntityNames.SECURITY_EVENT, sampleEntity4());
+        repo.create(EntityNames.SECURITY_EVENT, sampleEntity5());
     }
 
     private Map<String, Object> sampleEntity1() {

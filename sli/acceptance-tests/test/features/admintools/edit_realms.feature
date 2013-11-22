@@ -5,6 +5,7 @@ Feature: Edit Realms Page
 Scenario: Mega Multi Realm Test
   Given I have an open web browser
    When I hit the realm editing URL
+   And I select "inBloom" from the dropdown and click go
   And I was redirected to the "Simple" IDP Login page
   And I submit the credentials "nyadmin" "nyadmin1234" for the "Simple" login page
 #Scenario: Realm administrator editing an existing realm

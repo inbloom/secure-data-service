@@ -17,11 +17,7 @@
 
 package org.slc.sli.api.resources.security;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -31,6 +27,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.roles.RightAccessValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +59,11 @@ import org.slc.sli.domain.enums.Right;
 @Path("/userapps")
 @Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class ApprovedApplicationResource {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(ApprovedApplicationResource.class);
+
+    @Autowired
+    private RightAccessValidator rightAccessValidator;
 
     public static final String RESOURCE_NAME = "application";
 
@@ -88,7 +89,7 @@ public class ApprovedApplicationResource {
         for (Entity result : repo.findAll("application", query)) {
             if (appValidator.isAuthorizedForApp(result, SecurityUtil.getSLIPrincipal())) {
                 EntityBody body = new EntityBody(result.getBody());
-                if (!shouldFilterApp(body, adminFilter)) {
+                if (!shouldFilterApp(result, adminFilter)) {
 
                     filterAttributes(body);
                     results.add(body);
@@ -99,11 +100,12 @@ public class ApprovedApplicationResource {
     }
 
     @SuppressWarnings("unchecked")
-    private boolean shouldFilterApp(EntityBody result, String adminFilter) {
-        if (result.containsKey("endpoints")) {
+    private boolean shouldFilterApp(Entity app, String adminFilter) {
+        EntityBody body = new EntityBody(app.getBody());
 
-            List<Map<String, Object>> endpoints = (List<Map<String, Object>>) result.get("endpoints");
-            filterEndpoints(endpoints);
+        if (body.containsKey("endpoints")) {
+            List<Map<String, Object>> endpoints = (List<Map<String, Object>>) body.get("endpoints");
+            filterEndpoints(app);
 
             //we ended up filtering out all the endpoints - no reason to display the app
             if (endpoints.size() == 0) {
@@ -111,7 +113,7 @@ public class ApprovedApplicationResource {
             }
         }
 
-        boolean isAdminApp = result.containsKey("is_admin") ? Boolean.valueOf((Boolean) result.get("is_admin")) : false;
+        boolean isAdminApp = body.containsKey("is_admin") ? Boolean.valueOf((Boolean) body.get("is_admin")) : false;
 
         //is_admin query param specified
         if (!adminFilter.equals("")) {
@@ -129,23 +131,36 @@ public class ApprovedApplicationResource {
         }
 
         // don't allow "installed" apps
-        if (result.get("installed") == null || (Boolean) result.get("installed")) {
+        if (body.get("installed") == null || (Boolean) body.get("installed")) {
             return true;
         }
 
         return false;
     }
 
-    private List<String> getUsersRights() {
+    private Set<String> getUsersRights(Entity app) {
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+        Set<String> rights = new HashSet<String>();
 
-        ArrayList<String> rights = new ArrayList<String>();
-        for (GrantedAuthority right : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
-            rights.add(right.toString());
+        if (principal.isAdminRealmAuthenticated()) {
+            for (GrantedAuthority right : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
+                authorities.add(right);
+            }
+
+            //This is a fake role we use mean that a user is either an LEA admin or an SEA admin with delegated rights
+            if (hasAppAuthorizationRight()) {
+                rights.add("DELEGATED_ADMIN");
+            }
+        } else {
+            // Add appropriate contextual rights for federated users
+            Collection<GrantedAuthority> userAuthorities = rightAccessValidator.getContextualAuthorities(false, app, SecurityUtil.getUserContext(), true);
+            authorities.addAll(userAuthorities);
         }
 
-        //This is a fake role we use mean that a user is either an LEA admin or an SEA admin with delegated rights
-        if (hasAppAuthorizationRight()) {
-            rights.add("DELEGATED_ADMIN");
+        // convert to String for comparison with rights in DB
+        for (GrantedAuthority authority: authorities) {
+            rights.add(authority.toString());
         }
 
         return rights;
@@ -159,8 +174,14 @@ public class ApprovedApplicationResource {
         return false;
     }
 
-    private void filterEndpoints(List<Map<String, Object>> endpoints) {
-        List<String> userRights = getUsersRights();
+    private void filterEndpoints(Entity app) {
+        List<Map<String, Object>> endpoints = Collections.EMPTY_LIST;
+        EntityBody body = new EntityBody(app.getBody());
+        Set<String> userRights = getUsersRights(app);
+
+        if (body.containsKey("endpoints")) {
+            endpoints = (List<Map<String, Object>>) body.get("endpoints");
+        }
 
         for (Iterator<Map<String, Object>> i = endpoints.iterator(); i.hasNext();) {
 

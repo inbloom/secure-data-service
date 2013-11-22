@@ -34,6 +34,8 @@ import com.sun.jersey.spi.container.ContainerRequestFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,6 +48,7 @@ import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
 import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
+import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
@@ -55,12 +58,15 @@ import org.slc.sli.api.security.pdp.EndpointMutator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.translator.URITranslator;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SessionUtil;
 import org.slc.sli.api.validation.URLValidator;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
@@ -112,8 +118,12 @@ public class PreProcessFilter implements ContainerRequestFilter {
     @Autowired
     private ResourceEndPoint resourceEndPoint;
 
+    @Autowired
+    @Qualifier("validationRepo")
+    private Repository<Entity> repo;
+   
     private final Pattern ID_REPLACEMENT_PATTERN = Pattern.compile("([^/]+/[^/]+/)[^/]+(/.*)");
-
+    
     @Override
     public ContainerRequest filter(ContainerRequest request) {
         recordStartTime(request);
@@ -138,6 +148,8 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
         LOG.info("uri: {} -> {}", request.getMethod(), request.getRequestUri().getPath());
         request.getProperties().put("original-request", request.getPath());
+        // TODO Determine expected behavior for hosted and federated users querying resources from non-admin type apps
+        // SessionUtil.checkAccess(SecurityContextHolder.getContext().getAuthentication(), request, repo);
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
         injectObligations(request);
         validateNotBlockGetRequest(request);
@@ -156,6 +168,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         return request;
     }
 
+    
     private void injectObligations(ContainerRequest request) {
         // Create obligations
         SLIPrincipal prince = SecurityUtil.getSLIPrincipal();

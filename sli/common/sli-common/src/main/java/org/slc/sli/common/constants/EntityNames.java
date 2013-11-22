@@ -29,6 +29,7 @@ public final class EntityNames {
     public static final String AGGREGATION = "aggregation";
     public static final String AGGREGATION_DEFINITION = "aggregationDefinition";
     public static final String APPLICATION = "application";
+    public static final String APPLICATION_AUTHORIZATION = "applicationAuthorization";    
     public static final String ASSESSMENT = "assessment";
     public static final String ASSESSMENT_FAMILY = "assessmentFamily";
     public static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
@@ -56,6 +57,7 @@ public final class EntityNames {
     public static final String SCHOOL = "school";
     public static final String SEARCH = "search";
     public static final String SECTION = "section";
+    public static final String SECURITY_EVENT = "securityEvent";
     public static final String SESSION = "session";
     public static final String STAFF = "staff";
     public static final String STAFF_COHORT_ASSOCIATION = "staffCohortAssociation";

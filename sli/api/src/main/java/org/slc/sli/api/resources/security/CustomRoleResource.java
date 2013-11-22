@@ -137,7 +137,7 @@ public class CustomRoleResource {
         Set<String> myRealms = realmHelper.getAssociatedRealmIds();
         Set<String> realmsToQuery = null;
         if (!realmId.isEmpty() && !myRealms.contains(realmId)) {
-            return buildBadRequest(ERROR_INVALID_REALM_ID);
+            return buildBadRequest(ERROR_INVALID_REALM_ID + ": '" + realmId + "'");
         } else {
             if (realmId.isEmpty()) {
                 realmsToQuery = myRealms;
@@ -199,7 +199,7 @@ public class CustomRoleResource {
         Entity existingRoleDoc = repo.findOne(RESOURCE_NAME, existingCustomRoleQuery);
         if (existingRoleDoc != null) {
             auditSecEvent(uriInfo, "Failed to create custom role Already exists.",realmId);
-            return buildBadRequest(ERROR_MULTIPLE_DOCS);
+            return buildBadRequest(ERROR_MULTIPLE_DOCS + ": Realm '" + realmId + "'");
         }
 
         String id = service.create(newCustomRole);
@@ -239,7 +239,7 @@ public class CustomRoleResource {
         if (!updatedRealmId.equals(oldRealmId)) {
             auditSecEvent(uriInfo, "Failed to update realmId { from: " + oldRealmId + ", to: " + updatedRealmId
                     + " } for role with id:" + id, oldRealmId);
-            return buildBadRequest(ERROR_CHANGING_REALM_ID);
+            return buildBadRequest(ERROR_CHANGING_REALM_ID + ": '" + oldRealmId + "' -> '" + updatedRealmId + "'");
         }
 
         if (service.update(id, updated)) {
@@ -275,11 +275,11 @@ public class CustomRoleResource {
                 try {
                     right = Right.valueOf(rightName);
                 } catch (IllegalArgumentException iae) {
-                    return buildBadRequest(ERROR_INVALID_RIGHT);
+                    return buildBadRequest(ERROR_INVALID_RIGHT + ": '" + rightName + "'");
                 }
 
                 if (rightsSet.contains(right)) {
-                    return buildBadRequest(ERROR_DUPLICATE_RIGHTS);
+                    return buildBadRequest(ERROR_DUPLICATE_RIGHTS + ": '" + rightName + "'");
                 } else {
                     rightsSet.add(right);
                 }
@@ -296,7 +296,7 @@ public class CustomRoleResource {
             List<String> names = cur.get("names");
             for (String name : names) {
                 if (roleNames.contains(name)) {
-                    return buildBadRequest(ERROR_DUPLICATE_ROLE);
+                    return buildBadRequest(ERROR_DUPLICATE_ROLE + ": '" + name + "'");
                 } else {
                     roleNames.add(name);
                 }
