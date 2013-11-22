@@ -20,11 +20,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.List;
 import java.util.*;
 
 /**
@@ -62,15 +65,11 @@ public class StaffToApplicationAuthorizationValidator extends AbstractContextVal
         												finalQuery.addOrQuery(p);
         												finalQuery.addOrQuery(q);
 
-        Iterable<Entity> myApplications                = getRepo().findAll(EntityNames.APPLICATION, finalQuery);
+        Iterable<String> myApplicationIds              = getRepo().findAllIds(EntityNames.APPLICATION, finalQuery);
         Set<String> myAppsList                         = new HashSet<String>();
-        if(myApplications != null) {
-        	for(Entity app: myApplications) {
-                Boolean authorized_for_all_edorgs = (Boolean)app.getBody().get("authorized_for_all_edorgs");
-                if(authorized_for_all_edorgs == null || !authorized_for_all_edorgs) {
-                    String appId = app.getEntityId();
-                    myAppsList.add(appId);
-                }
+        if(myApplicationIds != null) {
+        	for(String appId: myApplicationIds) {
+        		myAppsList.add(appId);
         	}
         }
 
