@@ -161,22 +161,40 @@ Scenario: SEA Admin Denies non-bulk extract application (dependant on above scen
       #And the app "SDK Sample" Status becomes "Not Approved"
       #And it is colored "red"
 
-Scenario: Category node status in the authorization tree is dependant upon the status of descendants
-
+Scenario: EducationOrganization node status in the authorization tree is dependant upon the status of parents
 Given I have an open web browser
 When I hit the Admin Application Authorization Tool
+  And I select "inBloom" from the dropdown and click go
   And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
-  And I see an application "Sample" in the table
+  And I see an application "SDK Sample" in the table
   And I click on the "Edit Authorizations" button next to it
   And I am redirected to the Admin Application Authorization Edit Page
-  And the checkbox with HTML id "cat_1" is unchecked
-  And I check the checkbox with HTML id "cat_1"
-  And the checkbox with HTML id "cat_1" is checked
-  And I uncheck the checkbox with HTML id "0a922b8a-7a3b-4320-8b34-0f7749b8b062"
-  And the checkbox with HTML id "0a922b8a-7a3b-4320-8b34-0f7749b8b062" is unchecked
+  And the checkbox with HTML id "root" is unchecked
+  And I check the checkbox with HTML id "root"
+  And the checkbox with HTML id "root" is checked
   And I click Update
-Then I see an application "Sample" in the table
+Then I see an application "SDK Sample" in the table
   And I click on the "Edit Authorizations" button next to it
   And I am redirected to the Admin Application Authorization Edit Page
-  And the checkbox with HTML id "cat_1" is unchecked
+  And the checkbox with HTML id "cat_1" is checked
+  And the checkbox with HTML id "cat_15" is checked
+  And the checkbox with HTML id "bd086bae-ee82-4cf2-baf9-221a9407ea07" is checked
 
+Scenario: Category node status in the authorization tree is dependant upon the status of descendants
+Given I have an open web browser
+When I hit the Admin Application Authorization Tool
+  And I select "inBloom" from the dropdown and click go
+  And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
+  And I see an application "SDK Sample" in the table
+  And I click on the "Edit Authorizations" button next to it
+  And I am redirected to the Admin Application Authorization Edit Page
+  And the checkbox with HTML id "root" is checked
+  And I uncheck the checkbox with HTML id "bd086bae-ee82-4cf2-baf9-221a9407ea07"
+  And I click Update
+Then I see an application "SDK Sample" in the table
+  And I click on the "Edit Authorizations" button next to it
+  And I am redirected to the Admin Application Authorization Edit Page
+  And the checkbox with HTML id "root" is unchecked
+  And the checkbox with HTML id "cat_1" is unchecked
+  And the checkbox with HTML id "cat_15" is unchecked
+  And the checkbox with HTML id "bd086bae-ee82-4cf2-baf9-221a9407ea07" is unchecked
