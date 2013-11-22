@@ -135,7 +135,8 @@ public class ApplicationAuthorizationResource {
         if (appAuth == null) {
             //See if this is an actual app
             Entity appEntity = repo.findOne("application", new NeutralQuery(new NeutralCriteria("_id", "=", appId)));
-            if (appEntity == null) {
+            if (appEntity == null ||
+            		isAutoAuthorizedApp(appEntity)) {
                 return Response.status(Status.NOT_FOUND).build();
             } else {
                 HashMap<String, Object> entity = new HashMap<String, Object>();
@@ -181,6 +182,29 @@ public class ApplicationAuthorizationResource {
         return null;
     }
 
+
+    private List<EntityBody> filterOutAutoAuthorized(Iterable<EntityBody> ents) {
+    	List<EntityBody> nonAutoAuthorizedEntities = new ArrayList<EntityBody>();
+    	for(EntityBody auth: ents) {
+            Entity appEntity = repo.findOne("application", new NeutralQuery(new NeutralCriteria("_id", "=", auth.get("applicationId"))));
+           
+            if(isAutoAuthorizedApp(appEntity)) {
+            	continue;
+            } else {
+            	nonAutoAuthorizedEntities.add(auth);
+            }
+    	}
+    	return nonAutoAuthorizedEntities;
+    }
+
+	public boolean isAutoAuthorizedApp(Entity appEntity) {
+		if(appEntity==null) {
+			return false;
+		} else {
+			return appEntity.getBody().get("authorized_for_all_edorgs")!=null && (Boolean)appEntity.getBody().get("authorized_for_all_edorgs");
+		}
+	}
+    
     @PUT
     @Path("{appId}")
     @RightsAllowed({Right.EDORG_APP_AUTHZ})
@@ -311,7 +335,9 @@ public class ApplicationAuthorizationResource {
         Iterable<Entity> appQuery = repo.findAll("application", new NeutralQuery());
         Map<String, Entity> allApps = new HashMap<String, Entity>();
         for (Entity ent : appQuery) {
-            allApps.put(ent.getEntityId(), ent);
+        		if(!isAutoAuthorizedApp(ent)) {
+            		allApps.put(ent.getEntityId(), ent);	
+        		}
         }
 
         Iterable<EntityBody> ents = service.list(new NeutralQuery(new NeutralCriteria("edorgs.authorizedEdorg", "=", myEdorg)));
