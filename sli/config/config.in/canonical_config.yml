@@ -49,6 +49,8 @@ default:
         sli.api.digital.signature.keyPass: 7348ECFEF1A559318CC37357F95DA712
         sli.api.client.certificate.keyAlias: apids
         sli.api.client.certificate.keyPass: 7348ECFEF1A559318CC37357F95DA712
+        sli.api.encryption.certificate.keyAlias: apids
+        sli.api.encryption.certificate.keyPass: 7348ECFEF1A559318CC37357F95DA712
 
         # Sandbox settings
         sli.sandbox.enabled: false

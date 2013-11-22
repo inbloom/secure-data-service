@@ -59,12 +59,20 @@ import org.opensaml.saml2.binding.artifact.SAML2ArtifactBuilderFactory;
 import org.opensaml.saml2.binding.artifact.SAML2ArtifactType0004;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.AttributeStatement;
+import org.opensaml.saml2.core.EncryptedAssertion;
+import org.opensaml.saml2.encryption.Decrypter;
+import org.opensaml.saml2.encryption.EncryptedElementTypeEncryptedKeyResolver;
 import org.opensaml.security.SAMLSignatureProfileValidator;
 import org.opensaml.xml.Configuration;
 import org.opensaml.xml.XMLObject;
+import org.opensaml.xml.encryption.ChainingEncryptedKeyResolver;
+import org.opensaml.xml.encryption.DecryptionException;
+import org.opensaml.xml.encryption.InlineEncryptedKeyResolver;
+import org.opensaml.xml.encryption.SimpleRetrievalMethodEncryptedKeyResolver;
 import org.opensaml.xml.security.SecurityConfiguration;
 import org.opensaml.xml.security.SecurityHelper;
 import org.opensaml.xml.security.credential.Credential;
+import org.opensaml.xml.security.keyinfo.StaticKeyInfoCredentialResolver;
 import org.opensaml.xml.security.x509.BasicX509Credential;
 import org.opensaml.xml.signature.Signature;
 import org.opensaml.xml.signature.SignatureConstants;
@@ -347,13 +355,11 @@ public class SamlHelper {
      * @param samlResponse
      *      SAML response form the IdP.
      */
-    public void validateCertificate(org.opensaml.saml2.core.Response samlResponse)  {
-        Assertion assertion = samlResponse.getAssertions().get(0);
-
+    public void validateCertificate(Assertion assertion, String issuer)  {
         validateSignatureFormat(assertion.getSignature());
 
         try {
-            if(!validator.isDocumentTrusted(assertion.getDOM(), samlResponse.getIssuer().getValue())) {
+            if(!validator.isDocumentTrusted(assertion.getDOM(), issuer)) {
                 throw new APIAccessDeniedException("Invalid SAML message: Certificate is not trusted");
             }
         } catch (Exception e) {
@@ -423,5 +429,39 @@ public class SamlHelper {
         SAML2ArtifactBuilderFactory builder  = new SAML2ArtifactBuilderFactory();
         SAML2ArtifactType0004 art = (SAML2ArtifactType0004) builder.buildArtifact(artifact);
         return art.getSourceID();
+    }
+
+    public Assertion decryptAssertion(EncryptedAssertion encryptedAssertion, KeyStore.PrivateKeyEntry keystoreEntry) {
+        BasicX509Credential decryptionCredential = new BasicX509Credential();
+
+        decryptionCredential.setPrivateKey(keystoreEntry.getPrivateKey());
+
+        StaticKeyInfoCredentialResolver resolver = new StaticKeyInfoCredentialResolver(decryptionCredential);
+
+        ChainingEncryptedKeyResolver keyResolver = new ChainingEncryptedKeyResolver();
+        keyResolver.getResolverChain().add(new InlineEncryptedKeyResolver());
+        keyResolver.getResolverChain().add(new EncryptedElementTypeEncryptedKeyResolver());
+        keyResolver.getResolverChain().add(new SimpleRetrievalMethodEncryptedKeyResolver());
+
+        Decrypter decrypter = new Decrypter(null, resolver, keyResolver);
+        Assertion assertion = null;
+        try {
+            assertion = decrypter.decrypt(encryptedAssertion);
+        } catch (DecryptionException e) {
+            raiseSamlValidationError("Unable to decrypt SAML assertion", null);
+        }
+        return assertion;
+    }
+
+    public boolean isAssertionEncrypted(org.opensaml.saml2.core.Response samlResponse) {
+        if(samlResponse.getEncryptedAssertions() != null && samlResponse.getEncryptedAssertions().size() != 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private void raiseSamlValidationError(String message, String targetEdOrg) {
+        error(message);
+        throw new APIAccessDeniedException("Authorization could not be verified.", targetEdOrg);
     }
 }

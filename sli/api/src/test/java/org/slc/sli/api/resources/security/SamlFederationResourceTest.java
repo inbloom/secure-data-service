@@ -277,7 +277,7 @@ public class SamlFederationResourceTest {
         Mockito.when(samlResponse.getIssuer()).thenReturn(issuer);
         Mockito.when(issuer.getValue()).thenReturn(issuerString);
 
-        Mockito.doNothing().when(samlHelper).validateCertificate(Mockito.any(org.opensaml.saml2.core.Response.class));
+        Mockito.doNothing().when(samlHelper).validateCertificate(Mockito.any(Assertion.class), Mockito.any(String.class));
 
         session = Mockito.mock(Entity.class);
         Mockito.when(sessionManager.getSessionForSamlId(Mockito.anyString())).thenReturn(session);

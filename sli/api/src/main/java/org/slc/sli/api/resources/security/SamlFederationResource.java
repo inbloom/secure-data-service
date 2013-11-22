@@ -149,6 +149,12 @@ public class SamlFederationResource {
     @Value("#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.client.certificate.keyPass}')}")
     String clientCertKeyStoreEntryPassword;
 
+    @Value("${sli.api.encryption.certificate.keyAlias}")
+    String encryptionCertKeyStoreAlias;
+
+    @Value("#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.encryption.certificate.keyPass}')}")
+    String encryptionCertKeyStoreEntryPassword;
+
     @Autowired
     @Value("${sli.sandbox.enabled}")
     private boolean sandboxEnabled;
@@ -165,6 +171,8 @@ public class SamlFederationResource {
 
     private  KeyStore.PrivateKeyEntry clientCertPKEntry;
 
+    private  KeyStore.PrivateKeyEntry encryptPKEntry;
+
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
 
@@ -175,25 +183,27 @@ public class SamlFederationResource {
 
     private static final String METADATA_TEMPLATE = "saml/samlMetadata-template.vm";
     private static final String TEMPLATE_ISSUER_REFERENCE = "spIssuerName";
-    private static final String TEMPLATE_CERTIFICATE_REFERENCE = "certificateText";
+    private static final String TEMPLATE_SIGNING_CERTIFICATE_REFERENCE = "signingCertificateText";
+    private static final String TEMPLATE_ENCRYPTION_CERTIFICATE_REFERENCE = "encryptionCertificateText";
 
     @SuppressWarnings("unused")
     @PostConstruct
     private void processKeyStoreAndMetadata() throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException, UnrecoverableEntryException {
         dsPKEntry = apiKeyStoreAccessor.getPrivateKeyEntry(dsKeyStoreAlias, dsKeyStoreEntryPassword);
         clientCertPKEntry = apiKeyStoreAccessor.getPrivateKeyEntry(clientCertKeyStoreAlias, clientCertKeyStoreEntryPassword);
+        encryptPKEntry = apiKeyStoreAccessor.getPrivateKeyEntry(encryptionCertKeyStoreAlias, encryptionCertKeyStoreEntryPassword);
 
         StringWriter writer = new StringWriter();
 
         Template veTemplate = getTemplate();
         VelocityContext context = new VelocityContext();
         context.put(TEMPLATE_ISSUER_REFERENCE, issuerName);
-        context.put(TEMPLATE_CERTIFICATE_REFERENCE, fetchCertificateText());
+        context.put(TEMPLATE_SIGNING_CERTIFICATE_REFERENCE, fetchCertificateText(dsPKEntry));
+        context.put(TEMPLATE_ENCRYPTION_CERTIFICATE_REFERENCE, fetchCertificateText(encryptPKEntry));
         veTemplate.merge(context, writer);
 
         metadata = writer.toString();
     }
-
 
     @POST
     @Path("sso/post")
@@ -651,7 +661,15 @@ public class SamlFederationResource {
     }
 
     private Response processResponse(UriInfo uriInfo, org.opensaml.saml2.core.Response samlResponse) {
-        samlHelper.validateCertificate(samlResponse);
+        Assertion assertion;
+
+        if(samlHelper.isAssertionEncrypted(samlResponse)) {
+            assertion = samlHelper.decryptAssertion(samlResponse.getEncryptedAssertions().get(0), encryptPKEntry);
+        } else {
+            assertion = samlResponse.getAssertions().get(0);
+        }
+
+        samlHelper.validateCertificate(assertion, samlResponse.getIssuer().getValue());
 
         String inResponseTo = samlResponse.getInResponseTo();
         Entity session = sessionManager.getSessionForSamlId(inResponseTo);
@@ -659,7 +677,7 @@ public class SamlFederationResource {
         Entity realm = getRealm(samlResponse.getIssuer().getValue(), requestedRealmId);
         String targetEdOrg = getTargetEdOrg(realm);
 
-        Assertion assertion = samlResponse.getAssertions().get(0);
+
 
         Conditions conditions = assertion.getConditions();
         if(conditions != null) {
@@ -686,8 +704,8 @@ public class SamlFederationResource {
 
 
 
-    private String fetchCertificateText() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
-        X509Certificate certificate = (X509Certificate) dsPKEntry.getCertificate();
+    private String fetchCertificateText(KeyStore.PrivateKeyEntry keystoreEntry) throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
+        X509Certificate certificate = (X509Certificate) keystoreEntry.getCertificate();
 
         Base64 encoder = new Base64(64);
         String certificateText = new String(encoder.encode(certificate.getEncoded()));

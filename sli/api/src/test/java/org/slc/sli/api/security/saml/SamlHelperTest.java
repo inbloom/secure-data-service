@@ -23,14 +23,33 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.opensaml.Configuration;
+import org.opensaml.saml2.core.Assertion;
+import org.opensaml.saml2.core.EncryptedAssertion;
+import org.opensaml.saml2.core.Response;
+import org.opensaml.xml.XMLObject;
+import org.opensaml.xml.io.Unmarshaller;
+import org.opensaml.xml.io.UnmarshallingException;
+import org.slc.sli.api.resources.security.KeyStoreAccessor;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.LinkedMultiValueMap;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +68,9 @@ public class SamlHelperTest {
     @Mock
     RealmHelper realmHelper;
 
+    @Autowired
+    private KeyStoreAccessor apiKeyStoreAccessor;
+
     private Entity realm = Mockito.mock(Entity.class);
 
     private static final String REALM_ID = "REALM_ID";
@@ -59,6 +81,13 @@ public class SamlHelperTest {
     private static final String INCORRECT_SOURCEID = "59886f081b059f8b888c77fd15700c6cb469152e";
     private static final String NOT_HEX_SOURCEID = "49887f091b059f8b888c77fd15700c6vf469152f";
 
+    @Value("${sli.api.encryption.certificate.keyAlias}")
+    String encryptionCertKeyStoreAlias;
+
+    @Value("#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.encryption.certificate.keyPass}')}")
+    String encryptionCertKeyStoreEntryPassword;
+
+    KeyStore.PrivateKeyEntry encryptPKEntry;
 
     @SuppressWarnings("unchecked")
     @Before
@@ -67,6 +96,11 @@ public class SamlHelperTest {
         Mockito.when(realmHelper.findRealmById(Mockito.anyString())).thenReturn(realm);
         Mockito.when(realm.getEntityId()).thenReturn(REALM_ID);
 
+        try {
+            encryptPKEntry = apiKeyStoreAccessor.getPrivateKeyEntry(encryptionCertKeyStoreAlias, encryptionCertKeyStoreEntryPassword);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Test
@@ -96,6 +130,56 @@ public class SamlHelperTest {
 
     }
 
+    @Test
+    public void testInlineDecryption() {
+        Resource inlineAssertionResource = new ClassPathResource("saml/inlineEncryptedAssertion.xml");
+        EncryptedAssertion encAssertion = createAssertion(inlineAssertionResource);
+
+        Assertion assertion = samlHelper.decryptAssertion(encAssertion, encryptPKEntry);
+        verifyAssertion(assertion);
+    }
+
+    private void verifyAssertion(Assertion assertion) {
+        Assert.assertNotNull(assertion);
+        Assert.assertNotNull(assertion.getSubject());
+        Assert.assertEquals("http://local.slidev.org:8080/api/rest/saml/sso/artifact", assertion.getSubject().getSubjectConfirmations().get(0).getSubjectConfirmationData().getRecipient());
+        Assert.assertNotNull(assertion.getConditions());
+        Assert.assertNotNull(assertion.getSignature());
+
+        LinkedMultiValueMap<String, String> attributes = samlHelper.extractAttributesFromResponse(assertion);
+        Assert.assertEquals(3, attributes.size());
+    }
+
+    @Test
+    public void testPeerDecryption() {
+        Resource peerAssertionResource = new ClassPathResource("saml/peerEncryptedAssertion.xml");
+        EncryptedAssertion encAssertion = createAssertion(peerAssertionResource);
+
+        Assertion assertion = samlHelper.decryptAssertion(encAssertion, encryptPKEntry);
+        verifyAssertion(assertion);
+    }
+
+    @Test
+    public void testIsAssertionEncrypted() {
+        Response samlResponse = Mockito.mock(Response.class);
+        Mockito.when(samlResponse.getEncryptedAssertions()).thenReturn(null);
+
+        boolean result = samlHelper.isAssertionEncrypted(samlResponse);
+        Assert.assertFalse(result);
+
+        Mockito.when(samlResponse.getEncryptedAssertions()).thenReturn(new ArrayList<EncryptedAssertion>());
+        result = samlHelper.isAssertionEncrypted(samlResponse);
+        Assert.assertFalse(result);
+
+        EncryptedAssertion encryptedAssertion = Mockito.mock(EncryptedAssertion.class);
+        List<EncryptedAssertion> assertionList = new ArrayList<EncryptedAssertion>();
+        assertionList.add(encryptedAssertion);
+
+        Mockito.when(samlResponse.getEncryptedAssertions()).thenReturn(assertionList);
+        result = samlHelper.isAssertionEncrypted(samlResponse);
+        Assert.assertTrue(result);
+    }
+
     private void setRealm(String sourceId) {
         Map<String, Object> realmBody = new HashMap<String, Object>();
         realmBody.put("edOrg", "My School");
@@ -110,6 +194,25 @@ public class SamlHelperTest {
         idp.put("sourceId", sourceId);
         realmBody.put("idp", idp);
         Mockito.when(realm.getBody()).thenReturn(realmBody);
+    }
+
+    private EncryptedAssertion createAssertion(Resource encAssertionResource) {
+        EncryptedAssertion encryptedAssertion = null;
+
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            dbFactory.setNamespaceAware(true);
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(encAssertionResource.getInputStream());
+            Unmarshaller unm = Configuration.getUnmarshallerFactory().getUnmarshaller(EncryptedAssertion.DEFAULT_ELEMENT_NAME);
+            XMLObject obj = unm.unmarshall(doc.getDocumentElement());
+            encryptedAssertion = (EncryptedAssertion) obj;
+            encryptedAssertion = (EncryptedAssertion) Configuration.getUnmarshallerFactory().getUnmarshaller(EncryptedAssertion.DEFAULT_ELEMENT_NAME).unmarshall(doc.getDocumentElement());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return encryptedAssertion;
     }
 
 }
