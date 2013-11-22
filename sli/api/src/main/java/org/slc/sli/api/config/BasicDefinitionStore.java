@@ -22,6 +22,8 @@ import java.util.Map.Entry;
 import javax.annotation.PostConstruct;
 
 import org.slc.sli.domain.NeutralCriteria;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -62,6 +64,8 @@ import org.slc.sli.validation.schema.ReferenceSchema;
  */
 @Component
 public class BasicDefinitionStore implements EntityDefinitionStore {
+
+    private static final Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
 
     private Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
 
@@ -306,7 +310,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     private void registerDirectReferences() {
 
         //
-        debug("Registering direct entity references");
+        LOG.debug("Registering direct entity references");
 
         int referencesLoaded = 0;
 
@@ -323,7 +327,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 }
                 for (String resource : resources) {
                     EntityDefinition referencedEntity = mapping.get(resource);
-                    debug("* New reference: {}.{} -> {}._id",
+                    LOG.debug("* New reference: {}.{} -> {}._id",
                             new Object[] { referringDefinition.getStoredCollectionName(), fieldSchema.getKey(),
                                     schema.getEntityType() });
                     // tell the referenced entity that some entity definition refers to it
@@ -332,7 +336,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                         referencedEntity.addReferencingEntity(referringDefinition);
                         referencesLoaded++;
                     } else {
-                        warn("* Failed to add, null entity: {}.{} -> {}._id",
+                        LOG.warn("* Failed to add, null entity: {}.{} -> {}._id",
                                 new Object[] { referringDefinition.getStoredCollectionName(), fieldSchema.getKey(),
                                         schema.getEntityType() });
                     }
@@ -341,11 +345,11 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         }
 
         // print stats
-        debug("{} direct references loaded.", referencesLoaded);
+        LOG.debug("{} direct references loaded.", referencesLoaded);
     }
 
     public void addDefinition(EntityDefinition defn) {
-        debug("adding definition for {}", defn.getResourceName());
+        LOG.debug("adding definition for {}", defn.getResourceName());
         NeutralSchema schema = repo.getSchema(defn.getStoredCollectionName());
         defn.setSchema(schema);
 
