@@ -699,10 +699,8 @@ public class SamlFederationResourceTest {
         Mockito.when(request.getParameter("SAMLart")).thenReturn("AAQAAjh3bwgbBZ+LiIx3/RVwDGy0aRUu+xxuNtTZVbFofgZZVCKJQwQNQ7Q=");
         Mockito.when(request.getParameter("RelayState")).thenReturn("My Realm");
 
-        List<Assertion> assertions = new ArrayList<Assertion>();
-
-        assertions.add(createAssertion("01/01/2011", "01/10/2011", issuerString));
-        Mockito.when(samlResponse.getAssertions()).thenReturn(assertions);
+        Assertion assertion = createAssertion("01/01/2011", "01/10/2011", issuerString);
+        Mockito.when(samlHelper.getAssertion(Mockito.any(org.opensaml.saml2.core.Response.class), Mockito.any(KeyStore.PrivateKeyEntry.class))).thenReturn(assertion);
 
         Response response = Mockito.mock(Response.class);
 
@@ -735,7 +733,7 @@ public class SamlFederationResourceTest {
         datetime = datetime.plusMonths(2) ;
         Assertion assertion = createAssertion(datetime.toString(fmt), "01/10/2011", issuerString);
         assertions.add(assertion);
-        Mockito.when(samlResponse.getAssertions()).thenReturn(assertions);
+        Mockito.when(samlHelper.getAssertion(Mockito.any(org.opensaml.saml2.core.Response.class), Mockito.any(KeyStore.PrivateKeyEntry.class))).thenReturn(assertion);
 
         //invalid condition
         expectedException.expect(APIAccessDeniedException.class);

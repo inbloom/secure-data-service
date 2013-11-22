@@ -661,13 +661,7 @@ public class SamlFederationResource {
     }
 
     private Response processResponse(UriInfo uriInfo, org.opensaml.saml2.core.Response samlResponse) {
-        Assertion assertion;
-
-        if(samlHelper.isAssertionEncrypted(samlResponse)) {
-            assertion = samlHelper.decryptAssertion(samlResponse.getEncryptedAssertions().get(0), encryptPKEntry);
-        } else {
-            assertion = samlResponse.getAssertions().get(0);
-        }
+        Assertion assertion = samlHelper.getAssertion(samlResponse, encryptPKEntry);
 
         samlHelper.validateCertificate(assertion, samlResponse.getIssuer().getValue());
 
@@ -676,8 +670,6 @@ public class SamlFederationResource {
         String requestedRealmId = (String) session.getBody().get("requestedRealmId");
         Entity realm = getRealm(samlResponse.getIssuer().getValue(), requestedRealmId);
         String targetEdOrg = getTargetEdOrg(realm);
-
-
 
         Conditions conditions = assertion.getConditions();
         if(conditions != null) {
@@ -701,8 +693,6 @@ public class SamlFederationResource {
 
         return authenticateUser(attributes, realm, targetEdOrg, inResponseTo, session, uriInfo.getRequestUri());
     }
-
-
 
     private String fetchCertificateText(KeyStore.PrivateKeyEntry keystoreEntry) throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
         X509Certificate certificate = (X509Certificate) keystoreEntry.getCertificate();

@@ -453,6 +453,16 @@ public class SamlHelper {
         return assertion;
     }
 
+    public Assertion getAssertion(org.opensaml.saml2.core.Response samlResponse, KeyStore.PrivateKeyEntry keystoreEntry) {
+        Assertion assertion;
+        if(isAssertionEncrypted(samlResponse)) {
+            assertion = decryptAssertion(samlResponse.getEncryptedAssertions().get(0), keystoreEntry);
+        } else {
+            assertion = samlResponse.getAssertions().get(0);
+        }
+        return assertion;
+    }
+
     public boolean isAssertionEncrypted(org.opensaml.saml2.core.Response samlResponse) {
         if(samlResponse.getEncryptedAssertions() != null && samlResponse.getEncryptedAssertions().size() != 0) {
             return true;
