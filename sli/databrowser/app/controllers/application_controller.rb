@@ -127,6 +127,7 @@ class ApplicationController < ActionController::Base
           logger.warn {"We couldn't load the portal header and footer #{e.message}"}
         end
         SessionResource.access_token = oauth.token
+        logger.info {"*********  Token is #{oauth.token}"}
         Check.url_type = "check"
         check = Check.get("")
         session[:full_name] = check["full_name"]

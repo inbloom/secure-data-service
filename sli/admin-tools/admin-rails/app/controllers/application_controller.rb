@@ -109,8 +109,7 @@ class ApplicationController < ActionController::Base
         SessionResource.access_token = oauth.get_token(params[:code])
         set_session
       else
-        admin_realm = "#{APP_CONFIG['admin_realm']}"
-        @url = oauth.authorize_url + "&Realm=" + CGI::escape(admin_realm) + "&state=" + CGI::escape(form_authenticity_token)
+        @url = oauth.authorize_url + "&state=" + CGI::escape(form_authenticity_token)
         respond_to do |format|
           format.html {redirect_to @url}
           format.js { render 'layouts/redirect_to_login', :layout => false}
@@ -192,8 +191,36 @@ class ApplicationController < ActionController::Base
     session[:roles].include?("IT Administrator")
   end
 
-  def is_app_authorizer
-    session[:rights].include?("EDORG_APP_AUTHZ")
+  # (1) hosted user with global EDORG_APP_AUTHZ right
+  # (2) federated user with the right APP_AUTHORIZE for at least one edOrg (see edOrgRights in session check)
+  def is_app_authorizer?
+    if is_admin_realm_authenticated?
+      return session[:rights].include?('EDORG_APP_AUTHZ')
+    elsif ! session[:edOrgRights].nil? && ! session[:edOrgRights].empty?
+      anyAppAuth =  session[:edOrgRights].any? do |edorg, rights|
+        rights.include?('APP_AUTHORIZE')
+      end
+      return anyAppAuth
+    end
+    return false
+  end
+
+
+   def get_app_authorizer_edOrgs
+     if is_admin_realm_authenticated?
+         return [session[:edOrgId]] if session[:rights].include?('EDORG_APP_AUTHZ')
+     end
+     if session[:edOrgRights]
+       edOrgsWithAppAuth = session[:edOrgRights].select do |edorg, rights|
+         rights.include?('APP_AUTHORIZE')
+       end
+       return edOrgsWithAppAuth.keys
+     end
+     return []
+   end
+
+  def is_admin_realm_authenticated?
+    session[:adminRealmAuthenticated]
   end
 
   def get_tenant
@@ -216,10 +243,13 @@ class ApplicationController < ActionController::Base
     session[:support_email] = email
     session[:full_name] ||= check["full_name"]
     session[:email] ||= check["email"]
+    session[:adminRealmAuthenticated] = check["adminRealmAuthenticated"]
     session[:adminRealm] = check["adminRealm"]
     session[:roles] = check["sliRoles"]
     session[:edOrg] = check["edOrg"]
     session[:edOrgId] = check["edOrgId"]
+    session[:edOrgRoles] = check["edOrgRoles"]
+    session[:edOrgRights] = check["edOrgRights"]
     session[:external_id] = check["external_id"]
     session[:first_name] = check["first_name"]
     session[:last_name] = check["last_name"]

@@ -53,6 +53,8 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -73,6 +75,8 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class TenantResourceTest {
+
+    private static final Logger LOG = LoggerFactory.getLogger(TenantResourceTest.class);
 
     @Autowired
     private TenantResourceImpl tenantResource; // class under test
@@ -367,7 +371,7 @@ public class TenantResourceTest {
         try {
             response = tenantResource.createLandingZone(entity, false);
         } catch (TenantResourceCreationException e) {
-            error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         assertNotNull(response);
         assertTrue(response instanceof String);

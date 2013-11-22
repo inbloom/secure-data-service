@@ -21,6 +21,8 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +32,8 @@ import org.slc.sli.domain.Entity;
 
 @Component
 public class EntityOwnershipValidator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(EntityOwnershipValidator.class);
 
     private Set<String> globalEntities;
 
@@ -82,19 +86,19 @@ public class EntityOwnershipValidator {
         }
 
         if (isTransitive && globalEntities.contains(entity.getType())) {
-            debug("skipping ownership validation --> transitive access to global entity: {}", entity.getType());
+            LOG.debug("skipping ownership validation --> transitive access to global entity: {}", entity.getType());
             return true;
         }
 
         Set<String> owningEdorgs = arbiter.determineEdorgs(Arrays.asList(entity), entity.getType());
         if (owningEdorgs.size() == 0) {
-            warn("Potentially bad data found.");
+            LOG.warn("Potentially bad data found.");
             return true;
         }
 
         for (String edOrgId : owningEdorgs) {
             if (SecurityUtil.getSLIPrincipal().getAuthorizingEdOrgs().contains(edOrgId)) {
-                debug("discovered owning education organization: {}", edOrgId);
+                LOG.debug("discovered owning education organization: {}", edOrgId);
                 return true;
             }
         }

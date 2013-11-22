@@ -1602,7 +1602,7 @@ Scenario: Trigger a SEA delta extract and check security events
      | securityEvent   | 2                   | body.actionUri          | Writing extract file to the file system                                      | string          |
      | securityEvent   | 1                   | body.logMessage         | Generating archive for app 19cca28d-7357-4044-8df9-caad4b1c8ee4              | string          |
      | securityEvent   | 1                   | body.logMessage         | Generating archive for app 22c2a28d-7327-4444-8ff9-caad4b1c7aa3              | string          |
-     | securityEvent   | 2                   | body.targetEdOrg        | 884daa27d806c2d725bc469b273d840493f84b4d_id                                  | string          |
+     | securityEvent   | 2                   | body.targetEdOrgList    | 884daa27d806c2d725bc469b273d840493f84b4d_id                                  | string          |
 
 Scenario: Verify that the TeacherContextResolver works properly
   Given I clean the bulk extract file system and database

@@ -130,6 +130,22 @@ Then /^I should see only one custom role document$/ do
   assert(result.size == 1, "Expected only see one custom role doc, got #{result.size}")
 end
 
+Then /^In the custom role document, the group "([^"]+)" should have the "([^"]+)" right$/ do |groupTitle, rightName|
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result.size == 1, "Expected only see one custom role doc, got #{result.size}")
+
+  foundGroup = false
+  result[0]['roles'].each do |role|
+    if role['groupTitle'] == groupTitle then
+      foundGroup = true
+      assert(role['rights'].include?(rightName), "Did not see the right #{rightName} for group #{groupTitle}")
+    end
+  end
+
+  assert(foundGroup == true, "Did not find the group #{groupTitle}")
+end
+
 When /^I GET a specific (realm "[^"]*")$/ do |arg1|
   restHttpGet("/realm/" + arg1)
   assert(@res != nil, "Response from rest-client GET is nil")

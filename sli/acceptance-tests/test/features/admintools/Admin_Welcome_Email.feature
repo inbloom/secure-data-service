@@ -30,7 +30,7 @@ Feature: Tailored welcome email, user is able to log in
     When I set my password
     Then I get a welcome email of <template_type>
     And the email has a link to "portal"
-    And I can log in with my username and password
+    And I can log in with my sandbox username and password
   Examples:
     |groups                                                          |template_type                              |
     |Application Developer, Ingestion User                           |Application Developer and Sandbox Ingestion|
