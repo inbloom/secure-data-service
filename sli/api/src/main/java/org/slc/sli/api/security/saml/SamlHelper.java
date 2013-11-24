@@ -44,7 +44,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jdom.Attribute;
 import org.jdom.Document;
@@ -77,18 +76,17 @@ import org.opensaml.xml.security.x509.BasicX509Credential;
 import org.opensaml.xml.signature.Signature;
 import org.opensaml.xml.signature.SignatureConstants;
 import org.opensaml.xml.validation.ValidationException;
-import org.slc.sli.api.security.context.APIAccessDeniedException;
-import org.slc.sli.api.security.context.resolver.RealmHelper;
-import org.slc.sli.common.encrypt.security.saml2.SAML2Validator;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
+
+import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.security.context.resolver.RealmHelper;
+import org.slc.sli.common.encrypt.security.saml2.SAML2Validator;
+import org.slc.sli.domain.Entity;
 
 /**
  * Handles Saml composing, parsing and validating (signatures)
@@ -359,7 +357,7 @@ public class SamlHelper {
         validateSignatureFormat(assertion.getSignature());
 
         try {
-            if(!validator.isDocumentTrusted(assertion.getDOM(), issuer)) {
+            if (!validator.isDocumentTrusted(assertion.getDOM(), issuer)) {
                 throw new APIAccessDeniedException("Invalid SAML message: Certificate is not trusted");
             }
         } catch (Exception e) {
@@ -444,6 +442,7 @@ public class SamlHelper {
         keyResolver.getResolverChain().add(new SimpleRetrievalMethodEncryptedKeyResolver());
 
         Decrypter decrypter = new Decrypter(null, resolver, keyResolver);
+        decrypter.setRootInNewDocument(true);
         Assertion assertion = null;
         try {
             assertion = decrypter.decrypt(encryptedAssertion);
@@ -455,7 +454,7 @@ public class SamlHelper {
 
     public Assertion getAssertion(org.opensaml.saml2.core.Response samlResponse, KeyStore.PrivateKeyEntry keystoreEntry) {
         Assertion assertion;
-        if(isAssertionEncrypted(samlResponse)) {
+        if (isAssertionEncrypted(samlResponse)) {
             assertion = decryptAssertion(samlResponse.getEncryptedAssertions().get(0), keystoreEntry);
         } else {
             assertion = samlResponse.getAssertions().get(0);
@@ -464,7 +463,7 @@ public class SamlHelper {
     }
 
     public boolean isAssertionEncrypted(org.opensaml.saml2.core.Response samlResponse) {
-        if(samlResponse.getEncryptedAssertions() != null && samlResponse.getEncryptedAssertions().size() != 0) {
+        if (samlResponse.getEncryptedAssertions() != null && samlResponse.getEncryptedAssertions().size() != 0) {
             return true;
         }
         return false;

@@ -23,7 +23,7 @@ Feature: Databrowser login via an artifact binding idp server
   Examples:
     | Realm                                 |
     | Artifact Daybreak                     |
-    #| Encrypted Assertion Artifact Daybreak |
+    | Encrypted Assertion Artifact Daybreak |
 
   Scenario Outline: Unable to use databrowser as an Educator
     And I select "<Realm>" from the dropdown and click go
@@ -33,7 +33,7 @@ Feature: Databrowser login via an artifact binding idp server
   Examples:
     | Realm                                 |
     | Artifact Daybreak                     |
-    #| Encrypted Assertion Artifact Daybreak |
+    | Encrypted Assertion Artifact Daybreak |
 
   Scenario Outline: Unable to use databrowser as a user not in the database
     And I select "<Realm>" from the dropdown and click go
@@ -43,7 +43,7 @@ Feature: Databrowser login via an artifact binding idp server
   Examples:
     | Realm                                 |
     | Artifact Daybreak                     |
-    #| Encrypted Assertion Artifact Daybreak |
+    | Encrypted Assertion Artifact Daybreak |
 
   Scenario Outline: Unable to use databrowser as a user with no roles
     And I select "<Realm>" from the dropdown and click go
@@ -53,4 +53,4 @@ Feature: Databrowser login via an artifact binding idp server
   Examples:
     | Realm                                 |
     | Artifact Daybreak                     |
-    #| Encrypted Assertion Artifact Daybreak |
+    | Encrypted Assertion Artifact Daybreak |
