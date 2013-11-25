@@ -291,6 +291,50 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
   },
 
+  "sessionSchoolId" => {
+      "sessionName" => "Spring 2012 SID",
+      "schoolYear" => "2011-2012",
+      "term" => "Spring Semester",
+      "beginDate" => "2012-01-01",
+      "endDate" => "2012-06-30",
+      "totalInstructionalDays" => 85,
+      "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"],
+      "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+  },
+
+  "sessionEdOrgRef" => {
+      "sessionName" => "Spring 2012 EOR",
+      "schoolYear" => "2011-2012",
+      "term" => "Spring Semester",
+      "beginDate" => "2012-01-01",
+      "endDate" => "2012-06-30",
+      "totalInstructionalDays" => 75,
+      "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"],
+      "educationOrganizationReference" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+  },
+
+  "sessionEdOrgRefPlusSchoolId" => {
+      "sessionName" => "Spring 2012 EOR and SID",
+      "schoolYear" => "2011-2012",
+      "term" => "Spring Semester",
+      "beginDate" => "2012-01-01",
+      "endDate" => "2012-06-30",
+      "totalInstructionalDays" => 70,
+      "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"],
+      "educationOrganizationReference" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
+      "schoolId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731"
+  },
+
+  "sessionInvalid" => {
+      "sessionName" => "Spring 2012 Invalid",
+      "schoolYear" => "2011-2012",
+      "term" => "Spring Semester",
+      "beginDate" => "2012-01-01",
+      "endDate" => "2012-06-30",
+      "totalInstructionalDays" => 70,
+      "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"]
+  },
+
   "staff" => {
     "staffUniqueStateId" => "EMPLOYEE123456789",
     "sex" => "Male",

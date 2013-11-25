@@ -450,10 +450,9 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     And I should receive a return code of 404
 
   Examples:
-    | Entity Type         | Entity Resource URI  | Update Field  | Updated Value         |
-    | "gradebookEntry"    | "gradebookEntries"   | "description" | "Updated description" |
-#	| "learningObjective" | "learningObjectives" | "objective"   | "Updated Objective"   |
-#	| "learningStandard"  | "learningStandards"  | "description" | "Updated description" |
+    | Entity Type      | Entity Resource URI | Update Field  | Updated Value         |
+    | "gradebookEntry" | "gradebookEntries"  | "description" | "Updated description" |
+
 
   Scenario Outline: Get modified grade, reportCard and AcademicRecord entities
 
@@ -508,3 +507,64 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     | learningObjectives          | /search/learningObjectives                               |
     | learningStandards           | /search/learningStandards                                |
     | studentCompetencyObjectives | /educationOrganizations/@ids/studentCompetencyObjectives |
+
+
+    @DE2793
+    Scenario: Session entity handles CRUD actions with both educationOrganizationReference and schoolId
+      Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+      And entity URI "sessions"
+      And an entity json document for a "sessionSchoolId"
+    # Create using entity with school Id only.
+      When I navigate to POST "/<ENTITY URI>"
+      Then I should receive a return code of 201
+      And I should receive a new entity URI
+      When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+      Then I should receive a return code of 200
+      And the response should contain the appropriate fields and values
+      And "educationOrganizationReference" should be "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+      And "schoolId" should be "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+
+      Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+      And entity URI "sessions"
+      And an entity json document for a "sessionEdOrgRef"
+    # Create using entity with edOrgRef only.
+      When I navigate to POST "/<ENTITY URI>"
+      Then I should receive a return code of 201
+      And I should receive a new entity URI
+      When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+      Then I should receive a return code of 200
+      And the response should contain the appropriate fields and values
+      And "educationOrganizationReference" should be "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+      And "schoolId" should be "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+
+      Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+      And entity URI "sessions"
+      And an entity json document for a "sessionEdOrgRefPlusSchoolId"
+    # Create using entity with school Id and edOrgRef only.
+      When I navigate to POST "/<ENTITY URI>"
+      Then I should receive a return code of 201
+      And I should receive a new entity URI
+      When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+      Then I should receive a return code of 200
+      And "educationOrganizationReference" should be "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+      And "schoolId" should be "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+      #test updating the schoolId (should not take effect)
+      When I set the "schoolId" to "ec2e4218-6483-4e9c-8954-0aecccfd4731"
+      And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+      Then I should receive a return code of 204
+      When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+      Then I should receive a return code of 200
+      And "educationOrganizationReference" should be "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+      And "schoolId" should be "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+      #test updating the edOrgRef (should result in a conflict due to updating a natural key)
+      When I set the "educationOrganizationReference" to "ec2e4218-6483-4e9c-8954-0aecccfd4731"
+      And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+      Then I should receive a return code of 409
+
+
+      Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+      And entity URI "sessions"
+      And an entity json document for a "sessionInvalid"
+    # Create using entity with school Id and edOrgRef only.
+      When I navigate to POST "/<ENTITY URI>"
+      Then I should receive a return code of 400

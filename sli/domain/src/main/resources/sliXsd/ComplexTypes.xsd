@@ -2304,7 +2304,7 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element maxOccurs='1' minOccurs='0' name='schoolId' type='reference'>
+            <xs:element maxOccurs='1' minOccurs='0' name='schoolId' type="xs:string">
                 <xs:annotation>
                     <xs:documentation>DEPRECATED - This field is being deprecated in favor of the educationOrganizationReference
                         attribute. It will contain a duplicate value of the educationOrganizationReference field in order to maintain
@@ -2313,7 +2313,6 @@
                         is provided for educationOrganizationReference, the schoolId value will be used instead.
                     </xs:documentation>
                     <xs:appinfo>
-                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
                         </sli:WriteEnforcement>
