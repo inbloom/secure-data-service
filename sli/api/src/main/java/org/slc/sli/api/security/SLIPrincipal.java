@@ -19,7 +19,16 @@ package org.slc.sli.api.security;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.security.Principal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -72,6 +81,8 @@ public class SLIPrincipal implements Principal, Serializable {
     private boolean studentAccessFlag = true;
     private Set<String> ownedStudentIds = new HashSet<String>();
     private Set<Entity> ownedStudents = new HashSet<Entity>();
+
+    public static final String NULL_ENTITY_ID = "-133";
 
     public SLIPrincipal() {
         // Empty default constructor is used in various places.

@@ -160,6 +160,11 @@ task :databrowserSmokeTests do
   runTests("test/features/databrowser/student_authentication.feature")
 end
 
+desc "Run databrowser artifact binding login test"
+task :databrowserArtifactTests => [:realmInit, :importSandboxData] do
+  runTests("test/features/databrowser/databrowser_artifact_login.feature")
+end
+
 desc "Run Admin Tool Smoke Tests"
 task :adminSmokeTests do 
   @tags = ["~@wip", "@smoke", "~@sandbox"]
