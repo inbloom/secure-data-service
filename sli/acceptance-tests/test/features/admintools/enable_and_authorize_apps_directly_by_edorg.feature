@@ -827,8 +827,3 @@ Background:
         Then there are "0" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
 
         #Timestamps should be checked manually
-
-
-
-
-     

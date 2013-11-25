@@ -60,7 +60,7 @@ public class SessionUtil {
 
         return (Boolean) app.getBody().get("is_admin");
     }
-    
+
     private  static boolean isAdminRequest(String request) {
         for(String rq: ADMIN_REQUESTS) {
             if(request.contains(rq)) {
@@ -69,8 +69,4 @@ public class SessionUtil {
         }
         return false;
     }
-    
-
-
-
 }
