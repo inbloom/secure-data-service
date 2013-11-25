@@ -24,6 +24,8 @@ import org.opensaml.ws.soap.soap11.Envelope;
 import org.opensaml.xml.XMLObject;
 import org.opensaml.xml.parse.BasicParserPool;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.security.KeyStore;
@@ -34,6 +36,7 @@ import java.security.cert.X509Certificate;
  */
 @Component
 public class SOAPHelper {
+    private static final Logger LOG = LoggerFactory.getLogger(SOAPHelper.class);
 
     /**
      * Method to open a SOAP channel.
@@ -58,10 +61,10 @@ public class SOAPHelper {
         try {
             soapClient.send(destinationUrl, soapContext);
         } catch (SOAPException ex) {
-            error("SOAP communication failed", ex);
+            LOG.error("SOAP communication failed", ex);
             handleSOAPCommunicationExceptions(destinationUrl);
         } catch (org.opensaml.xml.security.SecurityException ex) {
-            error("SOAP communication failed", ex);
+            LOG.error("SOAP communication failed", ex);
             handleSOAPCommunicationExceptions(destinationUrl);
         }
 

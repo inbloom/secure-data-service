@@ -35,6 +35,8 @@ import org.opensaml.xml.signature.Signature;
 import org.opensaml.xml.signature.SignatureException;
 import org.opensaml.xml.signature.Signer;
 import org.slc.sli.api.security.saml.SamlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -49,6 +51,7 @@ import java.util.UUID;
  */
 @Component
 public class ArtifactBindingHelper {
+    private static final Logger LOG = LoggerFactory.getLogger(ArtifactBindingHelper.class);
 
     @Autowired
     private SamlHelper samlHelper;
@@ -61,7 +64,7 @@ public class ArtifactBindingHelper {
         try {
             DefaultBootstrap.bootstrap();
         } catch (ConfigurationException ex) {
-            error("Error composing artifact resolution request: xml object configuration initialization failed", ex);
+            LOG.error("Error composing artifact resolution request: xml object configuration initialization failed", ex);
             throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
         }
     }
@@ -97,14 +100,14 @@ public class ArtifactBindingHelper {
         try {
             Configuration.getMarshallerFactory().getMarshaller(artifactResolve).marshall(artifactResolve);
         } catch (MarshallingException ex) {
-            error("Error composing artifact resolution request: Marshalling artifact resolution request failed", ex);
+            LOG.error("Error composing artifact resolution request: Marshalling artifact resolution request failed", ex);
             throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
         }
 
         try {
             Signer.signObject(signature);
         } catch (SignatureException ex) {
-            error("Error composing artifact resolution request: Failed to sign artifact resolution request", ex);
+            LOG.error("Error composing artifact resolution request: Failed to sign artifact resolution request", ex);
             throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
         }
 

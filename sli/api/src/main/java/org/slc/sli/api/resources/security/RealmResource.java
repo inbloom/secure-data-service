@@ -155,10 +155,10 @@ public class RealmResource {
             return validateUniqueness;
         }
 
-        Map<String, Object> idp = (Map<String, Object>)updatedRealm.get(IDP);
+        Map<String, Object> idp = (Map<String, Object>) updatedRealm.get(IDP);
         Response validateArtifactResolution = validateArtifactResolution((String) idp.get(ARTIFACT_RESOLUTION_ENDPOINT), (String) idp.get(SOURCE_ID));
         if (validateArtifactResolution != null) {
-            debug("Invalid artifact resolution information");
+            LOG.debug("Invalid artifact resolution information");
             return validateArtifactResolution;
         }
 
@@ -208,7 +208,7 @@ public class RealmResource {
 
         Response validateArtifactResolution = validateArtifactResolution((String) newRealm.get(ARTIFACT_RESOLUTION_ENDPOINT), (String) newRealm.get(SOURCE_ID));
         if (validateArtifactResolution != null) {
-            debug("Invalid artifact resolution information");
+            LOG.debug("Invalid artifact resolution information");
             return validateArtifactResolution;
         }
 
