@@ -315,7 +315,9 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-BellSchedule">
 		<xs:annotation>
-			<xs:documentation>Changed types of SessionReference, MeetingTimeReference and CalendarDateReference to SLC reference types.</xs:documentation>
+			<xs:documentation>BellSchedule with key fields: BellScheduleName, ClassPeriodReference (within MeetingTime),
+                and CalendarDateReference (Date, EducationOrganizationReference)
+                Changed types of GradeLevels, MeetingTime and CalendarDateReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>bellSchedule</sli:recordType>
 			</xs:appinfo>
@@ -324,18 +326,9 @@
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
 					<xs:element name="BellScheduleName" type="BellScheduleName"/>
-					<xs:element name="GradeLevels" type="SLC-GradeLevelsType"/>
-					<xs:element name="WeeksInCycle">
-						<xs:simpleType>
-							<xs:restriction base="xs:int">
-								<xs:minInclusive value="1"/>
-								<xs:maxInclusive value="52"/>
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:element>
-					<xs:element name="SessionReference" type="SLC-SessionReferenceType"/>
-					<xs:element name="MeetingTimeReference" type="SLC-MeetingTimeReferenceType" maxOccurs="unbounded"/>
-					<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="GradeLevels" type="SLC-GradeLevelsType" maxOccurs="unbounded"/>
+					<xs:element name="MeetingTime" type="SLC-MeetingTime"/>
+					<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -358,6 +351,23 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+    <xs:complexType name="SLC-ClassPeriod">
+        <xs:annotation>
+            <xs:documentation>This entity represents the designation of a regularly scheduled series of class meetings at designated times and days of the week.</xs:documentation>
+            <xs:appinfo>
+                <sli:recordType>classPeriod</sli:recordType>
+                <sli:naturalKeys>ClassPeriodName,EducationOrganizationReference</sli:naturalKeys>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="ClassPeriodName" type="ClassPeriodNameType"/>
+                    <xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 	<xs:complexType name="SLC-Cohort">
 		<xs:annotation>
 			<xs:documentation>Cohort record with key fields: EducationOrgReference (StateOrganizationId) and CohortIdentifier. Changed types of EducationOrgReference and ProgramReference to SLC
@@ -1670,6 +1680,46 @@
 			<xs:element name="AttendanceEventIdentity" type="SLC-AttendanceEventIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
+    <xs:complexType name="SLC-BellScheduleIdentityType">
+        <xs:annotation>
+            <xs:documentation>SLC addition.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="BellScheduleName" type="BellScheduleName">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>bellScheduleName</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>classPeriodId</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>calendarDateId</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="SLC-BellScheduleReferenceType">
+        <xs:annotation>
+            <xs:documentation>SLC addition.</xs:documentation>
+            <xs:appinfo>
+                <sli:applyKeyFields>true</sli:applyKeyFields>
+                <sli:refType>bellSchedule</sli:refType>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="BellScheduleIdentity" type="SLC-BellScheduleIdentityType"/>
+        </xs:sequence>
+    </xs:complexType>
 	<xs:complexType name="SLC-CalendarDateIdentityType">
 		<xs:annotation>
 			<xs:documentation>Changed to contain only Date and an embedded EducationOrgReference.</xs:documentation>
@@ -1715,13 +1765,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="StateOrganizationId" type="IdentificationCode">
-				<xs:annotation>
-					<xs:appinfo>
-						<sli:keyFieldName>schoolId</sli:keyFieldName>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
+            <xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>educationOrganizationId</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-ClassPeriodReferenceType">
@@ -4433,6 +4483,42 @@
             <xs:enumeration value="Other"/>
         </xs:restriction>
     </xs:simpleType>
+    <xs:complexType name="SLC-MeetingTime">
+        <xs:annotation>
+            <xs:documentation>This entity represents the set of elements defining the meeting time for a class period.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType">
+                        <xs:annotation>
+                            <xs:documentation>The class period associated with the meeting time for a bell schedule.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="AlternateDayName" type="AlternateDayName" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>An alternate name for the day (e.g., Red, Blue)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="StartTime" type="xs:time">
+                        <xs:annotation>
+                            <xs:documentation>An indication of the time of day the class begins.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="EndTime" type="xs:time">
+                        <xs:annotation>
+                            <xs:documentation>An indication of the time of day the class ends.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="OfficialAttendancePeriod" type="xs:boolean" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Indicator of whether this meeting time is used for official daily attendance.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 	<xs:simpleType name="SLC-ProgramId">
 		<xs:annotation>
 			<xs:documentation>A unique number or alphanumeric code assigned to a program by a school, school system, a state, or other agency or entity.</xs:documentation>
