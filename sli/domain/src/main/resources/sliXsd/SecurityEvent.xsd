@@ -5,14 +5,18 @@
 
 	<xs:element name="securityEvent">
 		<xs:complexType>
-			<xs:annotation>
-				<xs:appinfo>
-					<sli:SecuritySphere>Admin</sli:SecuritySphere>
-				</xs:appinfo>
-			</xs:annotation>
+            <!--
+                 re US5459 this entity was removed from the "Admin" data sphere.
+                 The SECURITY_EVENT_VIEW right should be required for reading any of the fields
+                 and nothing should be writable through the API.
+
+                 Note that the security enforcement for this entity is in the SecurityEventResource class.
+
+                 No updates or deletions should ever be allowed.
+             -->
 			<xs:sequence>
 			    <xs:element name="tenantId"        type="xs:string"     minOccurs="0"></xs:element>
-				<xs:element name="user"            type="xs:string"     minOccurs="0"></xs:element>				
+				<xs:element name="user"            type="xs:string"     minOccurs="0"></xs:element>
 				<xs:element name="roles"           type="roleList"      minOccurs="0"></xs:element>
                 <xs:element name="targetEdOrg"     type="xs:string"      minOccurs="0"></xs:element>
 				<xs:element name="targetEdOrgList" type="targetEdOrgList"     minOccurs="0"></xs:element>

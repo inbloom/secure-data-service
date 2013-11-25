@@ -76,6 +76,9 @@ import org.opensaml.xml.security.x509.BasicX509Credential;
 import org.opensaml.xml.signature.Signature;
 import org.opensaml.xml.signature.SignatureConstants;
 import org.opensaml.xml.validation.ValidationException;
+import org.slc.sli.common.encrypt.security.saml2.SAML2Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -85,7 +88,6 @@ import org.xml.sax.InputSource;
 
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
-import org.slc.sli.common.encrypt.security.saml2.SAML2Validator;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -96,6 +98,8 @@ import org.slc.sli.domain.Entity;
  */
 @Component
 public class SamlHelper {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SamlHelper.class);
 
     private static final String POST_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST";
     private static final String SUCCESS_STATUS = "urn:oasis:names:tc:SAML:2.0:status:Success";
@@ -178,7 +182,7 @@ public class SamlHelper {
             Element statusCode = status.getChild("StatusCode", SAMLP_NS);
             String statusValue = statusCode.getAttributeValue("Value");
             if (!statusValue.equals(SUCCESS_STATUS)) {
-                error("SAML Response did not have a success status, instead status was {}", statusValue);
+                LOG.error("SAML Response did not have a success status, instead status was {}", statusValue);
             }
 
             synchronized (validator) {
@@ -189,7 +193,7 @@ public class SamlHelper {
             }
             return jdomDocument;
         } catch (Exception e) {
-            error("Error unmarshalling saml post", e);
+            LOG.error("Error unmarshalling saml post", e);
             throw (RuntimeException) new IllegalArgumentException("Posted SAML isn't valid").initCause(e);
         }
     }
@@ -261,10 +265,10 @@ public class SamlHelper {
                 w3Doc = domer.output(doc);
             }
             String xmlString = nodeToXmlString(w3Doc);
-            debug(xmlString);
+            LOG.debug(xmlString);
             return Pair.of(id, xmlToEncodedString(xmlString));
         } catch (Exception e) {
-            error("Error composing AuthnRequest", e);
+            LOG.error("Error composing AuthnRequest", e);
             throw new IllegalArgumentException("Couldn't compose AuthnRequest", e);
         }
     }
@@ -278,7 +282,7 @@ public class SamlHelper {
         String trimmed = postData.replaceAll("\r\n", "");
         String base64Decoded = new String(Base64.decodeBase64(trimmed));
 
-        debug("Decrypted SAML: \n{}\n", base64Decoded);
+        LOG.debug("Decrypted SAML: \n{}\n", base64Decoded);
         return base64Decoded;
     }
 
@@ -329,7 +333,7 @@ public class SamlHelper {
         try {
             SecurityHelper.prepareSignatureParams(signature, signingCredential, secConfig, null);
         } catch (org.opensaml.xml.security.SecurityException  ex) {
-            error("Error composing artifact resolution request: Failed to generate digital signature");
+            LOG.error("Error composing artifact resolution request: Failed to generate digital signature");
             throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
         }
 
@@ -403,20 +407,20 @@ public class SamlHelper {
         Entity realm = realmHelper.findRealmById(realmId);
 
         if (realm == null) {
-            error("Invalid realm: " + realmId);
+            LOG.error("Invalid realm: " + realmId);
             throw new APIAccessDeniedException("Authorization could not be verified.");
         }
 
         Map<String, Object> idp = (Map<String, Object>) realm.getBody().get("idp");
         String realmSourceId = (String) idp.get("sourceId");
         if (realmSourceId == null || realmSourceId.isEmpty()) {
-            error("SourceId is not configured properly for realm: " + realmId);
+            LOG.error("SourceId is not configured properly for realm: " + realmId);
             throw new APIAccessDeniedException("Authorization could not be verified.");
         }
 
         byte[] realmByteSourceId = DatatypeConverter.parseHexBinary(realmSourceId);
         if (!Arrays.equals(realmByteSourceId, sourceId)) {
-            error("SourceId from Artifact does not match configured SourceId for realm: " + realmId);
+            LOG.error("SourceId from Artifact does not match configured SourceId for realm: " + realmId);
             throw new APIAccessDeniedException("Authorization could not be verified.");
         }
 
@@ -470,7 +474,7 @@ public class SamlHelper {
     }
 
     private void raiseSamlValidationError(String message, String targetEdOrg) {
-        error(message);
+        LOG.error(message);
         throw new APIAccessDeniedException("Authorization could not be verified.", targetEdOrg);
     }
 }

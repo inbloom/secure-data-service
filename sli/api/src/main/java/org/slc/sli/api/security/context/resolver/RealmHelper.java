@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -42,6 +44,9 @@ import org.slc.sli.domain.NeutralQuery;
  */
 @Component
 public class RealmHelper {
+
+    private static final Logger LOG = LoggerFactory.getLogger(RealmHelper.class);
+
 	public static final String USER_SESSION = "userSession";
 
 	@Value("${sli.sandbox.enabled}")
@@ -144,7 +149,7 @@ public class RealmHelper {
                 Iterable<Entity> realms = getRealms(edOrgEntity);
                 for (Entity realm : realms) {
                     toReturn.add(realm.getEntityId());
-                    debug("User is directly associated with realm: {} through edorg: {}", realm.getBody().get("name"),
+                    LOG.debug("User is directly associated with realm: {} through edorg: {}", realm.getBody().get("name"),
                             edOrgEntity.getBody().get("nameOfInstitution"));
                 }
             }
@@ -211,12 +216,12 @@ public class RealmHelper {
 			Entity edorgEntity = repo.findById("educationOrganization", id);
 
 			if (isValidForLogin(edorgEntity, realm)) {
-				debug("User is allowed to login to realm: {} through edorg: {}",
+				LOG.debug("User is allowed to login to realm: {} through edorg: {}",
 						realm.getBody().get("name"),
 						edorgEntity.getBody().get("nameOfInstitution"));
 				return true;
 			} else {
-				debug("User cannot login to realm: {} through edorg: {}", realm
+				LOG.debug("User cannot login to realm: {} through edorg: {}", realm
 						.getBody().get("name"),
 						edorgEntity.getBody().get("nameOfInstitution"));
 			}
@@ -274,7 +279,7 @@ public class RealmHelper {
 		} else {
 			NeutralQuery realmQuery = new NeutralQuery();
 			String edOrg = SecurityUtil.getEdOrg();
-			debug("Looking up realms for edorg {}.", edOrg);
+			LOG.debug("Looking up realms for edorg {}.", edOrg);
 			realmQuery.addCriteria(new NeutralCriteria("edOrg",
 					NeutralCriteria.OPERATOR_EQUAL, edOrg));
 			realmQuery

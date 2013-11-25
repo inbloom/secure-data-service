@@ -32,6 +32,8 @@ import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.EdOrgOwnershipArbiter;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.common.constants.ParameterConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,6 +53,9 @@ import javax.ws.rs.core.UriInfo;
  */
 @Component
 public class SecurityEventBuilder {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SecurityEventBuilder.class);
+
     @Autowired
     private CallingApplicationInfoProvider callingApplicationInfoProvider;
 
@@ -82,7 +87,7 @@ public class SecurityEventBuilder {
             InetAddress host = InetAddress.getLocalHost();
             thisNode = host.getHostName();
         } catch (UnknownHostException e) {
-            info("Could not find hostname/process for SecurityEventLogging!");
+            LOG.info("Could not find hostname/process for SecurityEventLogging!");
         }
         thisProcess = ManagementFactory.getRuntimeMXBean().getName();
     }
@@ -131,7 +136,7 @@ public class SecurityEventBuilder {
      */
     public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage,
                                              Entity explicitRealmEntity, String entityType, Set<Entity> entities) {
-        debug("Creating security event with targetEdOrgList determined from entities of type " + entityType);
+        LOG.debug("Creating security event with targetEdOrgList determined from entities of type " + entityType);
         Set<String> targetEdOrgs = getTargetEdOrgStateIds(entityType, entities);
         return createSecurityEvent(loggingClass, requestUri, slMessage, null, null, explicitRealmEntity, targetEdOrgs, false);
     }
@@ -177,14 +182,14 @@ public class SecurityEventBuilder {
 
 				// override the userEdOrg if explicit realm passed
 				if (explicitRealmEntity != null) {
-					debug("Using explicit realm entity to get userEdOrg");
+					LOG.debug("Using explicit realm entity to get userEdOrg");
 					Map<String, Object> body = explicitRealmEntity.getBody();
 					if (body != null && body.get("edOrg") != null) {
 						event.setUserEdOrg((String) body.get("edOrg"));
 					}
 				} else if (event.getUserEdOrg() == null
 						&& principal.getSessionId() != null) {
-					debug("Determining userEdOrg from the current session");
+					LOG.debug("Determining userEdOrg from the current session");
 					Entity realmEntity = realmHelper
 							.getRealmFromSession(principal.getSessionId());
 					if (realmEntity != null) {
@@ -198,22 +203,22 @@ public class SecurityEventBuilder {
 
             // set targetEdOrgList
             if (targetEdOrgs != null && !targetEdOrgs.isEmpty()) {
-                debug("Setting targetEdOrgList explicitly: " + targetEdOrgs);
+                LOG.debug("Setting targetEdOrgList explicitly: " + targetEdOrgs);
                 event.setTargetEdOrgList(targetEdOrgs);  // TA10431 Sec Event now handles collections
             } else if (defaultTargetToUserEdOrg) {
-                debug("Setting targetEdOrgList to be userEdOrg" + event.getUserEdOrg());
+                LOG.debug("Setting targetEdOrgList to be userEdOrg" + event.getUserEdOrg());
                 setTargetToUserEdOrg(event);
             } else if (requestUri != null && requestUri.getPath() != null) {
-                debug("Not explicitly specified, doing a best effort determination of targetEdOrg based on the request uri path: " + requestUri.getPath());
+                LOG.debug("Not explicitly specified, doing a best effort determination of targetEdOrg based on the request uri path: " + requestUri.getPath());
                 Set<String> stateOrgIds = getTargetEdOrgStateIdsFromURI(requestUri);
                 if (stateOrgIds != null && !stateOrgIds.isEmpty()) {
                     event.setTargetEdOrgList(stateOrgIds);		// TA10431 Sec Event now handles collections
                 } else {
-                    debug("Defaulting targetEdOrgList to userEdOrg since URI has no specific id.");
+                    LOG.debug("Defaulting targetEdOrgList to userEdOrg since URI has no specific id.");
                     setTargetToUserEdOrg(event);
                 }
             } else {
-                debug("Unable to determine targetEdOrgList");
+                LOG.debug("Unable to determine targetEdOrgList");
             }
 
             if (auth != null) {
@@ -230,14 +235,14 @@ public class SecurityEventBuilder {
 
             setSecurityEvent(loggingClass, requestUri, slMessage, event);
 
-            info(String.format("Security event created: %s", event.toString()));
+            LOG.info(String.format("Security event created: %s", event.toString()));
 
         } catch (Exception e) {
             final Writer result = new StringWriter();
             final PrintWriter printWriter = new PrintWriter(result);
             e.printStackTrace(printWriter);
-            debug("Security event creation failed: \n" + result.toString());
-            info(String.format("Could not build SecurityEvent for [%s] [%s]", requestUri, slMessage));
+            LOG.debug("Security event creation failed: \n" + result.toString());
+            LOG.info(String.format("Could not build SecurityEvent for [%s] [%s]", requestUri, slMessage));
         }
         return event;
     }
@@ -253,7 +258,7 @@ public class SecurityEventBuilder {
 
         if (requestURI != null) {
             String uriPath = requestURI.getPath();
-            debug("Using URI path: " + uriPath + " to determine targetEdOrgs");
+            LOG.debug("Using URI path: " + uriPath + " to determine targetEdOrgs");
             if (uriPath != null) {
                 String[] uriPathSegments = uriPath.split("/");
 
@@ -271,7 +276,7 @@ public class SecurityEventBuilder {
 
             }
         }
-        debug("From URI: " + requestURI + " got targetEdOrg state ids: " + targetEdOrgStateIds);
+        LOG.debug("From URI: " + requestURI + " got targetEdOrg state ids: " + targetEdOrgStateIds);
         return targetEdOrgStateIds;
     }
 
@@ -297,11 +302,11 @@ public class SecurityEventBuilder {
             targetEdOrgStateIds = getEdOrgStateIds(arbiter.findOwner(entities, entityType, false));
         } catch (APIAccessDeniedException nestedE) {
             // we were unable to determine the targetEdOrgs
-            warn(nestedE.getMessage());
+            LOG.warn(nestedE.getMessage());
             return null;
         } catch (RuntimeException nestedE) {
             // we were unable to determine the targetEdOrgs
-            warn(nestedE.getMessage());
+            LOG.warn(nestedE.getMessage());
             return null;
         }
 
@@ -337,7 +342,7 @@ public class SecurityEventBuilder {
                     String collectionName = entityDefinitionStore.lookupByEntityType(entityType).getStoredCollectionName();
                     Entity entity = repository.findById(collectionName, id.trim());
                     if (entity == null) {
-                        warn("Entity of type " + entityType + " with id " + id + " could not be found in the database.");
+                        LOG.warn("Entity of type " + entityType + " with id " + id + " could not be found in the database.");
                     } else {
                         entities.add(entity);
                     }

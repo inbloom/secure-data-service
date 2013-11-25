@@ -28,7 +28,8 @@ And a verify email notification is sent to user
 Scenario: An admin creates a production account with a valid email, initial notification is sent
 
 Given the prod testing user "peacefrog@slidev.org" does not already exists in LDAP
-When I navigate to the User Management Page 
+When I navigate to the User Management Page
+And I select "inBloom" from the dropdown and click go
 And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
 Then I am redirected to "Manage Administrator Accounts" page 
 Then I click on "Add User" button

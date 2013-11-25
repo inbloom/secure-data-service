@@ -18,10 +18,34 @@ limitations under the License.
 
 class HomeController < ApplicationController
 
+
+  SANDBOX_ADMINISTRATOR = "Sandbox Administrator"
+  SLC_OPERATOR = "SLC Operator"
+  SEA_ADMINISTRATOR = "SEA Administrator"
+  LEA_ADMINISTRATOR = "LEA Administrator"
+  SANDBOX_ALLOWED_ROLES = [SANDBOX_ADMINISTRATOR]
+  PRODUCTION_ALLOWED_ROLES = [SLC_OPERATOR, SEA_ADMINISTRATOR, LEA_ADMINISTRATOR]
+
+
   def index
     respond_to do |format|
       format.html # index.html.erb
     end
   end
+
+  def has_users_access?
+    if APP_CONFIG['is_sandbox']
+      allowed_roles = SANDBOX_ALLOWED_ROLES
+    else
+      allowed_roles = PRODUCTION_ALLOWED_ROLES
+    end
+    overlap_roles = allowed_roles & session[:roles]
+    if overlap_roles.length>0
+      true
+    else
+      false
+    end
+  end
+
 
 end

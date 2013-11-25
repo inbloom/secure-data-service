@@ -22,6 +22,8 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.provider.ClientToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -118,9 +120,12 @@ public class EndpointMutatorTest {
     public void testNoPathSegments() throws URISyntaxException {
         // Test /api/rest with no additional path segments.
         SLIPrincipal principle = mock(SLIPrincipal.class);
-        Authentication auth = mock(Authentication.class);
+        ClientToken clientToken = mock(ClientToken.class);
+        when(clientToken.getClientId()).thenReturn("theAppId");
+        OAuth2Authentication auth = mock(OAuth2Authentication.class);
         when(auth.getPrincipal()).thenReturn(principle);
-        
+        when(auth.getClientAuthentication()).thenReturn(clientToken);
+
         ContainerRequest request = mock(ContainerRequest.class);
         List<PathSegment> segments = Collections.emptyList();
         when(request.getPathSegments()).thenReturn(segments);

@@ -138,6 +138,20 @@ When /^I navigate to GET applicationAuthorization with "([^"]*)"$/ do |app_id|
   #puts @result
 end
 
+And /^There is an applicationAuthorization entity for application "([^"]*)"$/ do |app_id|
+   found=false
+   @result.each do |appAuthEntry|
+     if appAuthEntry["appId"]==app_id
+       found = true
+       @result = appAuthEntry
+       break;
+     end
+   end
+
+   assert(found=true,"Application #{app_id} was not found in the results");
+
+end
+
 And /^There is a correct entry in applicationAuthorization edorg array for (district "[^"]*") for the application "([^"]*)"$/ do |edorg, app_id|
   edorgs = @result["edorgs"]
   found = false
