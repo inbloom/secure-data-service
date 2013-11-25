@@ -19,6 +19,8 @@ package org.slc.sli.api.security.context.validator;
 import java.util.*;
 
 import org.slc.sli.api.util.SecurityUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +36,8 @@ import org.slc.sli.domain.NeutralQuery;
  */
 @Component
 public class TeacherToCourseTranscriptValidator extends AbstractContextValidator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(TeacherToCourseTranscriptValidator.class);
 
     @Autowired
     private TeacherToSubStudentEntityValidator validator;
@@ -65,7 +69,7 @@ public class TeacherToCourseTranscriptValidator extends AbstractContextValidator
                 studentAcademicRecordToCT.get(id).add(entity.getEntityId());
             } else {
                 //studentacademicrecord ID was not a string, this is unexpected
-                warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
+                LOG.warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
             }
         }
 

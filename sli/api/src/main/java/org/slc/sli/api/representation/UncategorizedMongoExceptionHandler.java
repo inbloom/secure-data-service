@@ -20,6 +20,8 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.springframework.stereotype.Component;
 
@@ -33,10 +35,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class UncategorizedMongoExceptionHandler implements ExceptionMapper<UncategorizedMongoDbException> {
 
+    private static final Logger LOG = LoggerFactory.getLogger(UncategorizedMongoExceptionHandler.class);
+
     @Override
     public Response toResponse(UncategorizedMongoDbException exception) {
         Status errorStatus = Status.SERVICE_UNAVAILABLE;
-        error("Could not access database", exception);
+        LOG.error("Could not access database", exception);
         return Response
                 .status(errorStatus)
                 .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),

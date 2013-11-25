@@ -27,7 +27,11 @@ import com.sun.jersey.core.header.InBoundHeaders;
 import com.sun.jersey.spi.container.ContainerRequest;
 
 import org.slc.sli.api.constants.ResourceNames;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.PathConstants;
@@ -40,6 +44,8 @@ import org.slc.sli.api.security.SLIPrincipal;
  */
 @Component
 public class EndpointMutator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(EndpointMutator.class);
 
     private static final String POST = "POST";
     private static final String REQUESTED_PATH = "requestedPath";
@@ -68,6 +74,7 @@ public class EndpointMutator {
         }
 
         SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
+        String clientId = ((OAuth2Authentication) auth).getClientAuthentication().getClientId();
         List<PathSegment> segments = sanitizePathSegments(request);
         String parameters = request.getRequestUri().getQuery();
         
@@ -80,7 +87,7 @@ public class EndpointMutator {
             if (!request.getProperties().containsKey(REQUESTED_PATH)) {
                 request.getProperties().put(REQUESTED_PATH, request.getPath());
             }
-            MutatedContainer mutated = uriMutator.mutate(segments, parameters, user.getEntity());
+            MutatedContainer mutated = uriMutator.mutate(segments, parameters, user, clientId);
 
             if (mutated != null && mutated.isModified()) {
 
@@ -97,13 +104,13 @@ public class EndpointMutator {
 
                 if (mutated.getPath() != null) {
                     if (mutated.getQueryParameters() != null && !mutated.getQueryParameters().isEmpty()) {
-                        info("URI Rewrite: {}?{} --> {}?{}", new Object[] { request.getPath(), parameters, mutated.getPath(),
+                        LOG.info("URI Rewrite: {}?{} --> {}?{}", new Object[] { request.getPath(), parameters, mutated.getPath(),
                                 mutated.getQueryParameters() });
                         request.setUris(request.getBaseUri(),
                                 request.getBaseUriBuilder().path(version).path(mutated.getPath())
                                     .replaceQuery(mutated.getQueryParameters()).build());
                     } else {
-                        info("URI Rewrite: {} --> {}", new Object[] { request.getPath(), mutated.getPath() });
+                        LOG.info("URI Rewrite: {} --> {}", new Object[] { request.getPath(), mutated.getPath() });
                         request.setUris(request.getBaseUri(),
                                 request.getBaseUriBuilder().path(version).path(mutated.getPath()).build());
                     }

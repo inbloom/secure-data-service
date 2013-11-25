@@ -1,34 +1,37 @@
     <tr>
-      <td><%= @apps_map[@app_auth.appId].name %><% if @apps_map[@app_auth.appId].registration.status != 'APPROVED' %>
+      <%
+        auth = @auth_info[:edorg_auth]
+        app_id = auth.appId
+        count = @auth_info[:count]
+        name = @auth_info[:name]
+        app = @apps_map[app_id]
+      %>
+      <td><%= name %><% if app.registration.status != 'APPROVED' %>
           <div class="alert">Application has been denied by operator</div>
-        <% end %><% if @apps_map[@app_auth.appId].isBulkExtract %>
+        <% end %><% if app.isBulkExtract %>
           <div class="alert alert-info">Bulk Extract application request</div>
         <% end %>
       </td>
-      <td><%= @apps_map[@app_auth.appId].version  %></td>
-      <td><%= @apps_map[@app_auth.appId].vendor %></td>
+      <td><%= app.version  %></td>
+      <td><%= app.vendor %></td>
       <%=
-          isApproved = @app_auth.authorized
-	  isEnabled = edorg_in_scope_enabled?(@cur_edorg, @app_auth.appId)
-  	  app = @apps_map[@app_auth.appId]
-	  if @app_counts[@app_auth.appId].nil?
-	    count = 0
-	  else
-	    count = @app_counts[@app_auth.appId]
-	  end
           if count > 0
+            # enabled and authorized for some in-scope edorg(s)
             content_tag(:td, count.to_s + " EdOrg(s)", :id => "approvedStatus")
-          elsif isEnabled
+          elsif count == 0
+            # enabled but not authorized for any in-scope edorgs
             content_tag(:td, "Not Approved", :id => "notApprovedStatus")
           else
             content_tag(:td, "Not Enabled By Developer", :id => "notEnabledStatus")
           end
       %>
       <td><%=
-          form_for @app_auth, :method =>"GET", :url => "/application_authorizations/" + @app_auth.id + "/edit" do |f|
+          form_for auth, :method =>"GET", :url => "/application_authorizations/" + auth.id + "/edit" do |f|
           %>
-            <%= f.hidden_field :appId, :value => @app_auth.appId %>
-            <%= f.hidden_field :edorg, :value => @cur_edorg %>
+            <%= f.hidden_field :appId, :value => app_id %>
+            <!-- TODO remove if not needed by edit logic
+            <%= f.hidden_field :edorg, :value => @user_edorg %>
+            -->
             <%= f.submit "Edit Authorizations" %>
           <% end %>
       </td>
