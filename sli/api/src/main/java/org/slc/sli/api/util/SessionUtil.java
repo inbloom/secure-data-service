@@ -41,7 +41,7 @@ public class SessionUtil {
 
     public static void checkAccess(Authentication auth, ContainerRequest request, Repository<Entity> repo) {
         
-    	String clientId = ((OAuth2Authentication) auth).getClientAuthentication().getClientId();
+        String clientId = ((OAuth2Authentication) auth).getClientAuthentication().getClientId();
 
         if(isAdminApp(clientId, repo)==false&&isAdminRequest(request.getRequestUri().toString())==true) {
             throw new APIAccessDeniedException(String.format("url %s is not accessible to non-Admin Applications.", request.getRequestUri().toString()));
@@ -62,12 +62,12 @@ public class SessionUtil {
     }
     
     private  static boolean isAdminRequest(String request) {
-    	for(String rq: ADMIN_REQUESTS) {
-    		if(request.contains(rq)) {
-    			return true; 
-    		}
-    	}
-    	return false;
+        for(String rq: ADMIN_REQUESTS) {
+            if(request.contains(rq)) {
+                return true;
+            }
+        }
+        return false;
     }
     
 

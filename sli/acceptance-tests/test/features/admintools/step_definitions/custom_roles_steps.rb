@@ -26,7 +26,7 @@ require_relative '../../bulk_extract/features/step_definitions/bulk_extract_api_
 require_relative '../../apiV1/long_lived_session/step_definitions/token_generator_steps.rb'
 
 Transform /rights "(.*?)"/ do |arg1|
-  # Default rights for SLI Default roles  
+  # Default rights for SLI Default roles
   rights = ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC", "TEACHER_CONTEXT"] if arg1 == "Educator"
   rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT", "SECURITY_EVENT_VIEW", "APP_AUTHORIZE"] if arg1 == "IT Administrator"
   rights = ["READ_GENERAL", "READ_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "Leader"

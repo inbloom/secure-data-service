@@ -105,9 +105,9 @@ Background:
     ##########################################################################################
     #All edOrgs from SEA downwards
     ##########################################################################################
-    	 And I authorize the educationalOrganization "Illinois State Board of Education"
-    	 And I click Update
-    	Then there are "200" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
+         And I authorize the educationalOrganization "Illinois State Board of Education"
+         And I click Update
+         Then there are "200" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
          And I check to find if record is in sli db collection:
           | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
           | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
@@ -145,9 +145,9 @@ Background:
          And I click Update
         Then there are "1" edOrgs for the "Royal Oak" application in the applicationAuthorization collection for the "Midgar" tenant
         Then The following edOrgs are authorized for the application "Royal Oak" in tenant "Midgar"
-			|edorgs|
- 	        |Illinois State Board of Education |
- 	     #And only below is present in the application authorization edOrgs array for the application "Royal Oak" in tenant "Midgar"
+            |edorgs|
+            |Illinois State Board of Education |
+        #And only below is present in the application authorization edOrgs array for the application "Royal Oak" in tenant "Midgar"
             #| edOrg                             | user    | realm edOrg                          |
             #| Illinois State Board of Education | iladmin | fakeab32-b493-999b-a6f3-sliedorg1234 |
          And I check to find if record is in sli db collection:
@@ -498,12 +498,10 @@ Background:
     And there are "45" educationalOrganizations in the targetEdOrgList
     And I see an application "Royal Oak" in the table
     And in Status it says "Not Approved"
-    
 
   ############################################################
   ######LEA only
   ############################################################
-
     Then I click on the "Edit Authorizations" button next to it
     And the sli securityEvent collection is empty
     And I deselect hierarchical mode
@@ -834,5 +832,3 @@ Background:
 
 
      
-          
-
