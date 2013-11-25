@@ -25,6 +25,9 @@ import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.api.constants.Constraints;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
@@ -40,6 +43,8 @@ import org.slc.sli.domain.QueryParseException;
  *
  */
 public class UriInfoToApiQueryConverter {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UriInfoToApiQueryConverter.class);
 
     //private SelectionConverter selectionConverter = new Selector2MapOfMaps();
 
@@ -183,10 +188,10 @@ public class UriInfoToApiQueryConverter {
                     }
                 }
             } catch (RuntimeException re) {
-                error("error parsing query String {} {}", re.getMessage(), queryString);
+                LOG.error("error parsing query String {} {}", re.getMessage(), queryString);
                 throw (QueryParseException) new QueryParseException(re.getMessage(), queryString).initCause(re);
             } catch (UnsupportedEncodingException e) {
-                error("Unable to decode query string as UTF-8: {}", queryString);
+                LOG.error("Unable to decode query string as UTF-8: {}", queryString);
                 throw (QueryParseException) new QueryParseException(e.getMessage(), queryString).initCause(e);
             }
 

@@ -31,6 +31,8 @@ import javax.ws.rs.core.PathSegment;
 import com.sun.jersey.spi.container.ContainerRequest;
 
 import org.apache.commons.lang.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -58,6 +60,8 @@ import org.slc.sli.domain.NeutralQuery;
  */
 @Component
 public class ContextValidator implements ApplicationContextAware {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ContextValidator.class);
 
     protected static final Set<String> GLOBAL_RESOURCES = new HashSet<String>(
             Arrays.asList(ResourceNames.ASSESSMENTS,
@@ -205,7 +209,7 @@ public class ContextValidator implements ApplicationContextAware {
         if (isGlobal && request.getMethod().equals("GET")) {
             // The entity has global context, just return and don't call the
             // validators
-            debug("Call to {} is of global context, skipping validation", request.getAbsolutePath().toString());
+            LOG.debug("Call to {} is of global context, skipping validation", request.getAbsolutePath().toString());
             return;
         }
 
@@ -362,10 +366,10 @@ public class ContextValidator implements ApplicationContextAware {
                 Collection<String> userEdOrgs = edOrgHelper.getDirectEdorgs(ent);
                 if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
                         && "true".equals(ent.getMetaData().get("isOrphaned"))) {
-                    debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
+                    LOG.debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
                 } else if (SecurityUtil.getSLIPrincipal().getEntity() != null
                         && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
-                    debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
+                    LOG.debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
                 } else {
                     if (ownership.canAccess(ent, isTransitive)) {
                         entityIdsToValidate.add(ent.getEntityId());
@@ -376,7 +380,7 @@ public class ContextValidator implements ApplicationContextAware {
             }
 
             if (found != ids.size()) {
-                debug("Invalid reference, an entity does not exist. collection: {} entities: {}",
+                LOG.debug("Invalid reference, an entity does not exist. collection: {} entities: {}",
                         def.getStoredCollectionName(), entities);
                 throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + ids);
             }
@@ -399,17 +403,17 @@ public class ContextValidator implements ApplicationContextAware {
         for (Entity ent : entities) {
             if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
                     && "true".equals(ent.getMetaData().get("isOrphaned"))) {
-                debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
+                LOG.debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
             } else if (SecurityUtil.getSLIPrincipal().getEntity() != null
                     && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
-                debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
+                LOG.debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
             } else {
                 try{
                     if (ownership.canAccess(ent, isTransitive)) {
                         entityIdsToValidate.add(ent.getEntityId());
                     }
                 } catch (AccessDeniedException aex) {
-                    error(aex.getMessage());
+                    LOG.error(aex.getMessage());
                 }
             }
         }
@@ -466,14 +470,14 @@ public class ContextValidator implements ApplicationContextAware {
         IContextValidator found = null;
         for (IContextValidator validator : this.validators) {
             if (validator.canValidate(toType, isTransitive)) {
-                info("Using {} to validate {}", new Object[] { validator.getClass().toString(), toType });
+                LOG.info("Using {} to validate {}", new Object[] { validator.getClass().toString(), toType });
                 found = validator;
                 break;
             }
         }
 
         if (found == null) {
-            warn("No {} validator to {}.", isTransitive ? "TRANSITIVE" : "NOT TRANSITIVE", toType);
+            LOG.warn("No {} validator to {}.", isTransitive ? "TRANSITIVE" : "NOT TRANSITIVE", toType);
         }
 
         return found;
@@ -502,13 +506,13 @@ public class ContextValidator implements ApplicationContextAware {
         List<IContextValidator> validators = new ArrayList<IContextValidator>();
         for (IContextValidator validator : this.validators) {
             if (validator.canValidate(toType, isTransitive)) {
-                info("Using {} to validate {}", new Object[] { validator.getClass().toString(), toType });
+                LOG.info("Using {} to validate {}", new Object[] { validator.getClass().toString(), toType });
                 validators.add(validator);
             }
         }
 
         if (validators.isEmpty()) {
-            warn("No {} validator to {}.", isTransitive ? "TRANSITIVE" : "NOT TRANSITIVE", toType);
+            LOG.warn("No {} validator to {}.", isTransitive ? "TRANSITIVE" : "NOT TRANSITIVE", toType);
         }
 
         return validators;
