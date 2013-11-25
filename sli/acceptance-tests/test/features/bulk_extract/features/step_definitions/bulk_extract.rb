@@ -174,11 +174,24 @@ Given /^I have delta bulk extract files generated for today$/ do
   @coll.save(bulk_delta_file_entry)
 end
 
-Given /^The bulk extract app has been approved for "([^"]*)" with client id "([^"]*)"$/ do |lea, clientId|
+Given /^The bulk extract app (has|hasn't)? been approved for "([^"]*)" with client id "([^"]*)"$/ do |hasnot, lea, clientId|
   @lea = Hash.new
   @lea["name"] = lea
   @lea["clientId"] = clientId
-  puts "stubbed out"
+
+  @orgId = getEntityId(lea)
+
+  @conn ||= Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb ||= @conn.db(DATABASE_NAME)
+  @coll ||= @sliDb.collection("applicationAuthorizations")
+
+  appauth_edorg = @coll.find({"body.applicationId" => clientId, "body.edorgs" => {"$elemMatch" => {"authorizedEdorg" => @orgId}} })
+
+  if(hasnot == "has" && appauth_edorg == nil)
+    @coll.update({'body.applicationId' => clientId}, {'$push' => {'body.authorized_ed_orgs' => @orgId}})
+  elsif(hasnot == "hasn't" && appauth_edorg != nil)
+    @coll.update({'body.applicationId' => clientId}, {'$pull' => {'body.authorized_ed_orgs' => @orgId}})
+  end
 end
 
 Given /^The X509 cert (.*?) has been installed in the trust store and aliased$/ do |cert|
@@ -1197,7 +1210,8 @@ def getEntityId(entity)
       "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
       "IL-Highwind" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
       "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
-      "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
+      "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+      "STANDARD_SEA" => "884daa27d806c2d725bc469b273d840493f84b4d_id"
   }
   return entity_to_id_map[entity]
 end

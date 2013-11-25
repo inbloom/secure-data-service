@@ -188,7 +188,7 @@ public class BulkExtract {
 
         if (helper.isSEA(entity)) {
             isPublicData = true;
-            canAccessSEAExtract(entity);
+            //canAccessSEAExtract(entity);  DE2995
         } else {
         	canAccessEdOrgExtract(edOrgId);
         }
@@ -248,7 +248,7 @@ public class BulkExtract {
 
             if (helper.isSEA(entity)) {
                 isPublicData = true;
-                canAccessSEAExtract(entity);
+                //canAccessSEAExtract(entity); DE2995
             } else {
             	canAccessEdOrgExtract(edOrgId);
             }
@@ -264,7 +264,10 @@ public class BulkExtract {
      * Validate if the user can access SEA extract
      *
      * @param seaEntity the SEA Entity
+     *
+     * DE2995: Anyone with BULK_EXTRACT right can extract public sea data, provided the app is authd for sea.
      */
+    /*
     void canAccessSEAExtract(final Entity seaEntity) {
 
         boolean approvedLEAExists = false;
@@ -282,6 +285,7 @@ public class BulkExtract {
             throw new APIAccessDeniedException("User is not authorized to access SEA public extract", EntityNames.EDUCATION_ORGANIZATION, seaEntity);
         }
     }
+    */
 
     /**
      * Validate if the user can access LEA extract
