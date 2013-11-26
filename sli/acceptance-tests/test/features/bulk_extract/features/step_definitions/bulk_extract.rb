@@ -3223,15 +3223,18 @@ def get_post_body_by_entity_name(entity_name)
         "attendanceEvent" => [{
           "reason" => "Missed school bus",
           "event" => "Tardy",
-          "date" => "2013-08-30"
+          "date" => "2013-08-30",
+          "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
         }, {
           "reason" => "Excused: sick",
           "event" => "Excused Absence",
-          "date" => "2013-12-19"
+          "date" => "2013-12-19",
+          "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
         }, {
           "reason" => "Missed school bus",
           "event" => "Tardy",
-          "date" => "2014-05-19"
+          "date" => "2014-05-19",
+          "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
         }]
       }]
     },
