@@ -295,4 +295,8 @@ public class RealmHelper {
 
 	}
 
+    public Entity findRealmById(String id) {
+        return repo.findById("realm", id);
+    }
+
 }

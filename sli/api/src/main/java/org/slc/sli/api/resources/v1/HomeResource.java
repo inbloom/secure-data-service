@@ -29,6 +29,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceConstants;
@@ -36,11 +41,8 @@ import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.Home;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -107,7 +109,7 @@ public class HomeResource {
 
         // get the Entity for the logged in user
         Entity entity = ResourceUtil.getSLIPrincipalFromSecurityContext().getEntity();
-        if (entity != null && !entity.getEntityId().equals("-133")) {
+        if (entity != null && !entity.getEntityId().equals(SLIPrincipal.NULL_ENTITY_ID)) {
             EntityDefinition entityDefinition = this.entityDefs.lookupByEntityType(entity.getType());
             pair = Pair.of(entity.getEntityId(), entityDefinition);
         }
