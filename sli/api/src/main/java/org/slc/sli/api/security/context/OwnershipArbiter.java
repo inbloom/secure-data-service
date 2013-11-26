@@ -24,6 +24,8 @@ import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +39,8 @@ import java.util.*;
 
 @Component
 public abstract class OwnershipArbiter {
+
+    private static final Logger LOG = LoggerFactory.getLogger(OwnershipArbiter.class);
 
     protected Map<String, Reference> typeToReference = new HashMap<String, OwnershipArbiter.Reference>();
 
@@ -74,7 +78,7 @@ public abstract class OwnershipArbiter {
 
     public List<Entity> findOwner(Iterable<Entity> entities, String entityType, boolean ignoreOrphans) {
         List<Entity> edorgs = new ArrayList<Entity>();
-        debug("checking ownership for entities of type: {}", entityType);
+        LOG.debug("checking ownership for entities of type: {}", entityType);
 
         if (isBaseType(entityType)) {
             // No need to do an actual mongo lookup since we have the IDs we need
@@ -84,7 +88,7 @@ public abstract class OwnershipArbiter {
         } else {
             Reference ref = typeToReference.get(entityType);
             if (ref == null) {
-                warn("Cannot handle ownership for entity type {}.", entityType);
+                LOG.warn("Cannot handle ownership for entity type {}.", entityType);
                 throw new RuntimeException("No ownership for " + entityType);
             }
 
@@ -92,7 +96,7 @@ public abstract class OwnershipArbiter {
                 // Ignore orphaned entities created by the principal.
                 if (entity.getMetaData() != null && SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
                         && "true".equals(entity.getMetaData().get("isOrphaned")) && ignoreOrphans) {
-                    debug("Entity is orphaned: id {} of type {}", entity.getEntityId(), entity.getType());
+                    LOG.debug("Entity is orphaned: id {} of type {}", entity.getEntityId(), entity.getType());
                     continue;
                 }
 
@@ -102,38 +106,38 @@ public abstract class OwnershipArbiter {
                 if(entityType.equals("application")
                         && entity.getBody().get("allowed_for_all_edorgs") != null
                         && (Boolean)entity.getBody().get("allowed_for_all_edorgs")) {
-                	Iterable<Entity> ents = repo.findAll(collectionName, new NeutralQuery());
+                    Iterable<Entity> ents = repo.findAll(collectionName, new NeutralQuery());
                     for (Entity e : ents) {
-                    	edorgs.add(e);
+                        edorgs.add(e);
                     }
 
 
                 } else {                             
-                	String critField = null;
-                	Object critValue = null;
-                	    if (ref.type == Reference.RefType.LEFT_TO_RIGHT) {
-                		    critField = ParameterConstants.ID;
-                		    critValue = entity.getBody().get(ref.refField);
-                	    } else { // RIGHT_TO_LEFT
-                		    critField = ref.refField;
-                    	    critValue = entity.getEntityId();
-                	    }
+                    String critField = null;
+                    Object critValue = null;
+                        if (ref.type == Reference.RefType.LEFT_TO_RIGHT) {
+                            critField = ParameterConstants.ID;
+                            critValue = entity.getBody().get(ref.refField);
+                        } else { // RIGHT_TO_LEFT
+                            critField = ref.refField;
+                            critValue = entity.getEntityId();
+                        }
 
-                	    if(critValue != null) {
-                		    Iterable<Entity> ents = repo.findAll(collectionName, new NeutralQuery(new NeutralCriteria(critField,
-                				NeutralCriteria.OPERATOR_EQUAL, critValue)));
-                		    if (ents.iterator().hasNext()) {
-                			    List<Entity> toAdd = findOwner(ents, collectionName, ignoreOrphans);
-                			    edorgs.addAll(toAdd);
-                		    } else {
-                			    // entity does not exist in db so skip
+                        if(critValue != null) {
+                            Iterable<Entity> ents = repo.findAll(collectionName, new NeutralQuery(new NeutralCriteria(critField,
+                                NeutralCriteria.OPERATOR_EQUAL, critValue)));
+                                if (ents.iterator().hasNext()) {
+                                List<Entity> toAdd = findOwner(ents, collectionName, ignoreOrphans);
+                                edorgs.addAll(toAdd);
+                        } else {
+                            // entity does not exist in db so skip
                                 throw new APIAccessDeniedException("Could not find a matching " + collectionName + " where "
                                     + critField + " is " + critValue + ".");
-                		    }
-                	    } else {
-                		    // the reference field is uninitialized
+                            }
+                        } else {
+                            // the reference field is uninitialized
                             throw new APIAccessDeniedException("Will not try to find a matching " + collectionName + " because " + entityType + "." + ref.refField + " is null.");
-                	    }
+                        }
                    }
             } //            for (Entity entity : entities)
         }//isBaseType(entityType)

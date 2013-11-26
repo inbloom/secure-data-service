@@ -32,6 +32,8 @@ import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
 
 import org.bson.BasicBSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -53,6 +55,9 @@ import org.slc.sli.domain.Repository;
 @Component("validationRepo")
 @Primary
 public class MockRepo implements Repository<Entity> {
+
+    private static final Logger LOG = LoggerFactory.getLogger(MockRepo.class);
+
     @Override
     public boolean collectionExists(String collection) {
         return false;
@@ -426,7 +431,7 @@ public class MockRepo implements Repository<Entity> {
                 }
             }
         } else {
-            warn("Unsupported operator: {}", criteria.getOperator());
+            LOG.warn("Unsupported operator: {}", criteria.getOperator());
         }
 
         return toReturn;

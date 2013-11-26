@@ -24,8 +24,11 @@ import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.EdOrgOwnershipArbiter;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -46,8 +49,13 @@ import java.util.*;
 @Component
 public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAccessDeniedException> {
 
+    private static final Logger LOG = LoggerFactory.getLogger(APIAccessDeniedExceptionHandler.class);
+
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+
+    @Autowired
+    private AuditLogger auditLogger;
 
     @Context
     UriInfo uriInfo;
@@ -68,7 +76,7 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
                 logSecurityEvent(e);
                 return null;    //the error page handles the response, so no need to return a response
             } catch (IOException ex) {
-                error("Error displaying error page", ex);
+                LOG.error("Error displaying error page", ex);
             }
         }
 
@@ -76,11 +84,11 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
         SLIPrincipal principal = null ;
         if (SecurityContextHolder.getContext().getAuthentication() != null) {
             principal = (SLIPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            warn("Access has been denied to user: {}",principal );
+            LOG.warn("Access has been denied to user: {}",principal );
         } else {
-            warn("Access has been denied to user for being incorrectly associated");
+            LOG.warn("Access has been denied to user for being incorrectly associated");
         }
-        warn("Cause: {}", e.getMessage());
+        LOG.warn("Cause: {}", e.getMessage());
 
         logSecurityEvent(e);
 
@@ -96,24 +104,24 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
 
         if (e.getTargetEdOrgIds() != null) {
             // if we already have the target edOrgs - good to go
-            audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
+            auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
                     + e.getMessage(), e.getRealm(), EntityNames.EDUCATION_ORGANIZATION, e.getTargetEdOrgIds().toArray(new String[0])));
 
         } else if (e.getEntityType() != null) {
 
             if (e.getEntities() != null && !e.getEntities().isEmpty()) {
-                audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
+                auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
                         + e.getMessage(), e.getRealm(), e.getEntityType(), e.getEntities()));
 
             } else if (e.getEntityIds() != null && !e.getEntityIds().isEmpty()) {
-                audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
+                auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
                         + e.getMessage(), e.getRealm(), e.getEntityType(), e.getEntityIds().toArray(new String[0])));
             } else {
-                audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
+                auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
                         + e.getMessage(), e.getPrincipal(), e.getClientId(), e.getRealm(), null, e.isTargetIsUserEdOrg()));
             }
         } else {
-            audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
+            auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
                     + e.getMessage(), e.getPrincipal(), e.getClientId(), e.getRealm(), null, e.isTargetIsUserEdOrg()));
         }
     }

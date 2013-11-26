@@ -23,6 +23,8 @@ import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +47,8 @@ import java.util.*;
  */
 @Component
 public class TeacherToSubStudentEntityValidator extends AbstractContextValidator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(TeacherToSubStudentEntityValidator.class);
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
@@ -83,7 +87,7 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
                 students = putStudents((List<String>) body.get(ParameterConstants.STUDENT_ID), entity.getEntityId(), students);
             } else {
                 //Student ID was not a string or a list of strings, this is unexpected
-                warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
+                LOG.warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
             }
         }
 
