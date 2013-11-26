@@ -37,6 +37,7 @@
         <jb:value property="date" data="attributes EventDate _value"></jb:value>
         <jb:value property="event" data="attributes AttendanceEventCategory _value"></jb:value>
         <jb:value property="reason" data="attributes AttendanceEventReason _value"></jb:value>
+        <jb:value property="educationalEnvironment" data="attributes EducationalEnvironment _value"></jb:value>
         <jb:value property="sectionId" data="attributes SectionReference"></jb:value>
     </jb:bean>
 
