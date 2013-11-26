@@ -191,6 +191,8 @@ Then /^I will delete the realm for this tenant from the collection$/ do
   if RUN_ON_RC
      sli_db['realm'].remove("body.uniqueIdentifier" => "RC-IL-Charter-School")
      assert(sli_db['realm'].find("body.uniqueIdentifier" => "RC-IL-Charter-School").count == 0, "Realm document not deleted.")
+     sli_db['realm'].remove("body.uniqueIdentifier" => "RC-Artifact-IL-Daybreak")
+     assert(sli_db['realm'].find("body.uniqueIdentifier" => "RC-Artifact-IL-Daybreak").count == 0, "Realm document not deleted.")
   end
 end
 

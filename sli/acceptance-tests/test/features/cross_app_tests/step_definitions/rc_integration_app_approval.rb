@@ -31,13 +31,6 @@ Dir["./test/features/search/step_definitions/*.rb"].each {|file| require file}
 $client_id = nil
 $client_secret = nil
 
-Transform /^<([^>]*)>$/ do |human_readable_text|
- if human_readable_text == "CI_IDP_Redirect_URL"
-   url = PropLoader.getProps["ci_idp_redirect_url"]
- end
- url
-end
-
 When /^I make my app an installed app$/ do
   @driver.find_element(:css, 'input[id="app_installed"]').click
 end
@@ -139,6 +132,15 @@ Then /^I enter "(.*?)" in the Redirect Endpoint field$/ do |url|
   @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys url
 end
 
+Then /^I enter "(.*?)" in the Artifact Resolution Endpoint field$/ do |url|
+  STDOUT.puts "artifact resolution endpoint : #{url}"
+  @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').send_keys url
+end
+
+Then /^I enter "(.*?)" in the Source Id field$/ do |url|
+  STDOUT.puts "source id : #{url}"
+  @driver.find_element(:name, 'realm[idp][sourceId]').send_keys url
+end
 
 Then /^I request and download a "(.*?)" extract file for the edorg$/ do |arg1|
   env_key = PropLoader.getProps['rc_env']
@@ -190,9 +192,7 @@ Then /^"(.*?)" is enabled for "(.*?)" production education organizations$/ do |a
      body = record["body"]
      puts body.to_s
      edorgsArray = body["authorized_ed_orgs"]
-     puts edorgsArray.to_s
      edorgsArrayCount = edorgsArray.count
-     puts edorgsArrayCount
      assert(edorgsArrayCount == edOrgCount.to_i, "Education organization count mismatch in application collection. Expected #{edOrgCount}, actual #{edorgsArrayCount}")
 end
 
@@ -206,5 +206,9 @@ When /^I (enable|disable) the educationalOrganization "([^"]*?)" in production$/
   assert(elt, "Educational organization element for '" + edOrgName + "' (" + edOrgId + ") not found")
   assert(action == "enable" && !elt.selected? || action == "disable" && elt.selected?, "Cannot " + action + " educationalOrganization element with id '" + edOrgId + "' whose checked status is " + elt.selected?.to_s())
   elt.click()
+end
+
+And /^I manually navigate to "(.*?)" in admin$/ do |endpoint|
+    @driver.get(PropLoader.getProps['admintools_server_url'] + "/" + endpoint)
 end
 

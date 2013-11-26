@@ -44,7 +44,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     private PagingRepositoryDelegate<Entity> repo;
 
     @Autowired
-    private EdOrgHelper edorgHelper;
+    protected EdOrgHelper edorgHelper;
 
     protected String getFilterDate(boolean useGracePeriod) {
         return dateHelper.getFilterDate(useGracePeriod);

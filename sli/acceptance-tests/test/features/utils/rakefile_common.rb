@@ -81,7 +81,7 @@ def allLeaAllowAppForTenant(appName, tenantName)
     neededEdOrgs.push(edorg_entry)
   end
   appAuthColl.remove("body.applicationId" => appId)
-  newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"applicationId" => appId, "edorgs" => neededEdOrgs}, "metaData" => {"tenantId" => tenantName}}
+  newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"applicationId" => appId, "edorgs" => neededEdOrgs}, "metaData" => {"tenantId" => tenantName}, "type" => "applicationAuthorization"}
   appAuthColl.insert(newAppAuth)
   conn.close
   enable_NOTABLESCAN()

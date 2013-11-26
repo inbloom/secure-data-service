@@ -20,6 +20,8 @@ import net.sf.ehcache.config.Configuration;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
@@ -32,6 +34,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SessionCache {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SessionCache.class);
 
     @Value("${sli.session.cache.ttl:900}")
     private int timeToLive;
@@ -93,7 +97,7 @@ public class SessionCache {
 
                         ObjectMessage msg = (ObjectMessage) consumer.receive();
 
-                        debug("Received replication message: {}", msg);
+                        LOG.debug("Received replication message: {}", msg);
 
                         if (PUT.equals(msg.getStringProperty(ACTION_KEY))) {
                             sessions.put(new Element(msg.getStringProperty(TOKEN_KEY), msg.getObject()));
@@ -103,7 +107,7 @@ public class SessionCache {
 
                     }
                 } catch (JMSException e) {
-                    error("Error reading replication message", e);
+                    LOG.error("Error reading replication message", e);
                 }
             }
         };
@@ -123,7 +127,7 @@ public class SessionCache {
             this.sessions.put(new Element(token, auth));
             replicate(token, auth);
         } else {
-            warn("Attempting to cache null session!");
+            LOG.warn("Attempting to cache null session!");
         }
     }
 
@@ -133,7 +137,7 @@ public class SessionCache {
         if (element != null) {
             return (OAuth2Authentication) element.getObjectValue();
         } else {
-            warn("Session cache MISS");
+            LOG.warn("Session cache MISS");
             return null;
         }
     }
@@ -145,7 +149,7 @@ public class SessionCache {
             ObjectMessage msg = createMessage(token, null, REMOVE);
             tp.send(msg);
         } catch (JMSException e) {
-            error("Failed to replicate session cache entry", e);
+            LOG.error("Failed to replicate session cache entry", e);
         }
     }
 
@@ -158,7 +162,7 @@ public class SessionCache {
             ObjectMessage msg = createMessage(token, auth, PUT);
             tp.send(msg);
         } catch (JMSException e) {
-            error("Failed to replicate session cache entry", e);
+            LOG.error("Failed to replicate session cache entry", e);
         }
     }
 
