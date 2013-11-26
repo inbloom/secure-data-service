@@ -887,6 +887,7 @@ task :ingestionTests => [
         :IngestionIndexValidationTest,
         :corruptZip,
         :genericEdOrgs,
+        :ingestionSectionLevelAttendanceEventsTest,
         :ingestionAttendanceEventCategoriesTest,
         :ingestionDeletionTests,
         :ingestionTenantPurgeTests,
