@@ -31,7 +31,6 @@ public class InterchangeStudentAttendanceTest {
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentAttendance.xsd");
         Resource inputXml = new ClassPathResource("parser/InterchangeStudentAttendance/AttendanceEvent.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeStudentAttendance/AttendanceEvent.json");
-
         EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 

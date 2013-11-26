@@ -4,7 +4,7 @@
   <AttendanceEvent id="ID000">
     <SchoolYear>2011-2012</SchoolYear>
     <EventDate>2013-07-10</EventDate>
-    <AttendanceEventType>Section Attendance</AttendanceEventType>
+    <!--<AttendanceEventType>Section Attendance</AttendanceEventType>-->
     <AttendanceEventCategory>Unexcused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Top_xpy</AttendanceEventReason>
     <EducationalEnvironment>Homebound</EducationalEnvironment>
@@ -18,16 +18,6 @@
         <StateOrganizationId>Ok5bDpJ</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>buhCN0xRKGRpQuNFMe.tTz0xmdxyfgR2W</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>UrIppL-gjLEvjJo-w1uVESILqiWqa0EwchT4ARdO8</SessionName>
-      </SessionIdentity>
-    </SessionReference>
     <SectionReference>
       <SectionIdentity>
         <EducationalOrgReference>
