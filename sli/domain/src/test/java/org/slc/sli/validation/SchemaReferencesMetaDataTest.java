@@ -321,10 +321,13 @@ public class SchemaReferencesMetaDataTest {
                 0,
                 Sets.symmetricDifference(
                         Sets.newHashSet(
+                                new SchemaReferencePath("attendance.attendanceEvent.attendanceEvent.sectionId", "section", 0L, 1L,false,true, false)  ,
                                 new SchemaReferencePath("grade.sectionId", "section", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("gradebookEntry.sectionId", "section", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("studentGradebookEntry.sectionId", "section", 1L, 1L,false,false, true) ,
+                                new SchemaReferencePath("schoolYearAttendanceType.attendanceEvent.attendanceEvent.sectionId", "section", 0L, 1L,false,true, false)  ,
                                 new SchemaReferencePath("studentSectionAssociation.sectionId", "section", 1L, 1L,false,false, true) ,
+                                new SchemaReferencePath("attendanceEvent.sectionId", "section", 0L, 1L,false,true, false)  ,
                                 new SchemaReferencePath("teacherSectionAssociation.sectionId", "section", 1L, 1L,false,false, true) ),
                         Sets.newHashSet(schemaRefMetaData.getReferencesTo("section"))).size()
         );
