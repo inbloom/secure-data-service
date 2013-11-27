@@ -904,14 +904,23 @@ And /^I GET attendance for student "(.*?)" in school "(.*?)" for the schoolYear 
   url = "/v1/students/#{studentId}/attendances?schoolId=#{schoolId}"
   restHttpGet(url, 'application/vnd.slc+json')
   assert(@res.code == 200, "Could not fetch attendance #{url}.")
-
+  expected_count = 2
+  actual_count = 0
   attendances = JSON.parse @res
-
-  events = attendances[0]['schoolYearAttendance'][0]['attendanceEvent']
-  events.each {|event|
-    assert(event['date'] == eventDate, "Event date [#{event['date']}] does not match #{eventDate}")
-    assert(sectionId == event['sectionId'], "No section found or the section [#{event['sectionId']} does not match expected section[#{sectionId}]")
-  }
+  attendances.each do |attendance|
+    schoolYearAttendances = attendance['schoolYearAttendance']
+    schoolYearAttendances.each do |schoolYearAttendance|
+      if schoolYearAttendance['schoolYear'] = schoolYear
+        events = schoolYearAttendance['attendanceEvent']
+        events.each do |event|
+          if event['date'] == eventDate && event['sectionId'] == sectionId
+            actual_count += 1
+          end
+        end
+      end
+    end
+  end
+  assert(expected_count == actual_count, "#{expected_count.to_s} expected, got #{actual_count.to_s}")
 end
 
 And /^I DELETE attendance for student "(.*?)" in school "(.*?)" for the schoolYear "(.*?)" on date "(.*?)" and verify that there are no attendance events remaining$/ do |studentId, schoolId, schoolYear, eventDate|

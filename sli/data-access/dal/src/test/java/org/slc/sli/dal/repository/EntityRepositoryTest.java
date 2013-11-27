@@ -509,14 +509,31 @@ public class EntityRepositoryTest {
     }
 
     @Test
-    public void testDeleteAttendanceEventWithBogusField() {
-        // Result is success, but Attendance record should remain unchanged in DB.
+    public void testDeleteAttendanceEventWithDiffKeyField() {
+        // Result is success, Attendance record should have natural key match attendanceEvent deleted in DB.
         String attendanceRecordId = insertAttendanceEventData(false);
-        Entity bogusDeleteAssessment = createDeleteAttendanceEntity("Excused: dead",
-                "Excused Absence", "2012-04-18", attendanceRecordId);
-        CascadeResult bogusDeleteResult = repository.safeDelete(bogusDeleteAssessment,
+        Entity bogusDeleteAttendance = createDeleteAttendanceEntity("Excused: sick",
+                "Excused Absence", "2012-11-13", attendanceRecordId);
+        CascadeResult bogusDeleteResult = repository.safeDelete(bogusDeleteAttendance,
                 attendanceRecordId, false, false, false, false, 1, null);
         List<Map<String, String>> attendanceEvents = getAttendanceEvents(false);
+        Entity attendanceRecord = getAttendanceRecord(attendanceRecordId);
+        Assert.assertEquals("Delete result should be success", CascadeResult.Status.SUCCESS,
+                bogusDeleteResult.getStatus());
+        Assert.assertNotNull("Attendance record should exist in DB", attendanceRecord);
+        Assert.assertEquals("Field attendanceEvent mismatch", attendanceEvents, attendanceRecord
+                .getBody().get("attendanceEvent"));
+    }
+
+    @Test
+    public void testDeleteAttendanceEventWithDiffNonKeyField() {
+        // Result is success, Attendance record should have natural key match attendanceEvent deleted in DB.
+        String attendanceRecordId = insertAttendanceEventData(false);
+        Entity bogusDeleteAttendance = createDeleteAttendanceEntity("Excused: dead",
+                "Excused Absence", "2012-04-18", attendanceRecordId);
+        CascadeResult bogusDeleteResult = repository.safeDelete(bogusDeleteAttendance,
+                attendanceRecordId, false, false, false, false, 1, null);
+        List<Map<String, String>> attendanceEvents = getAttendanceEvents(true);
         Entity attendanceRecord = getAttendanceRecord(attendanceRecordId);
         Assert.assertEquals("Delete result should be success", CascadeResult.Status.SUCCESS,
                 bogusDeleteResult.getStatus());

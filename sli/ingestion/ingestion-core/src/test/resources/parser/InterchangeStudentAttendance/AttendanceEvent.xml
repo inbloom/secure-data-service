@@ -4,7 +4,6 @@
   <AttendanceEvent id="ID000">
     <SchoolYear>2011-2012</SchoolYear>
     <EventDate>2013-07-10</EventDate>
-    <!--<AttendanceEventType>Section Attendance</AttendanceEventType>-->
     <AttendanceEventCategory>Unexcused Absence</AttendanceEventCategory>
     <AttendanceEventReason>Top_xpy</AttendanceEventReason>
     <EducationalEnvironment>Homebound</EducationalEnvironment>

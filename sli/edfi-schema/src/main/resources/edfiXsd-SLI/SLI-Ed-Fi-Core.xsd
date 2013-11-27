@@ -1655,7 +1655,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="SectionReference" type="SLC-SectionReferenceType">
+			<xs:element name="SectionReference" type="SLC-SectionReferenceType" minOccurs="0">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>sectionId</sli:keyFieldName>
@@ -2067,7 +2067,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="EducationalOrgIdentity" type="SLC-EducationalOrgIdentityType" minOccurs="0"/>
+			<xs:element name="EducationalOrgIdentity" type="SLC-EducationalOrgIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-GradebookEntryIdentityType">
@@ -2508,7 +2508,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-SectionIdentityType">
 		<xs:annotation>
-			<xs:documentation>Changed to use only embbedded EducationalOrgReference and UniqueSectionCode.</xs:documentation>
+			<xs:documentation>Changed to use only embedded EducationalOrgReference and UniqueSectionCode.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
@@ -2541,7 +2541,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-SessionIdentityType">
 		<xs:annotation>
-			<xs:documentation>Changed to use only embbedded EducationalOrgReference and SessionName.</xs:documentation>
+			<xs:documentation>Changed to use only embedded EducationalOrgReference and SessionName.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType" minOccurs="0">
