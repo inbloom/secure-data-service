@@ -148,6 +148,8 @@ public class ResourceTestUtil {
         });
 
         when(mock.getQueryParameters(true)).thenReturn(new MultivaluedMapImpl());
+        when(mock.getQueryParameters()).thenReturn(new MultivaluedMapImpl());
+
         when(mock.getRequestUri()).thenReturn(new UriBuilderImpl().replaceQuery(queryString).build(new Object[] {}));
         return mock;
     }
