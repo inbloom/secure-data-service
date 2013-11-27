@@ -104,7 +104,9 @@ public class CustomEntityResource {
             return Response.status(Status.NOT_FOUND).build();
         }
         entityDefinition.getService().createOrUpdateCustom(entityId, customEntity);
-        // FIXME This is unlikely to work for unversioned resources, as resourceHelper#extractVersion just gives the first path element
+        // FIXME This barely works for unversioned resources not in PathConstants.TEMP_MAP -- extractVersion
+        // gives the resource name and null gets joined to that from looking up a non-existent entry in
+        // PathConstants.TEMP_MAP.
         String uri = ResourceUtil.getURI(uriInfo, resourceHelper.extractVersion(uriInfo.getPathSegments()),
                 PathConstants.TEMP_MAP.get(entityDefinition.getResourceName()), entityId, PathConstants.CUSTOM_ENTITIES)
                 .toString();
