@@ -35,8 +35,8 @@ When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" l
 Then I have navigated to my Custom Role Mapping Page
 When I click on the Add Group button
 And I type the name "New Custom" in the Group name textbox
-When I add the right "READ_GENERAL" to the group "New Custom" 
-When I add the right "TEACHER_CONTEXT" to the group "New Custom"   
+When I add the right "READ_GENERAL" to the group "New Custom"
+When I add the right "TEACHER_CONTEXT" to the group "New Custom"
 And I add the role "Dummy" to the group "New Custom"
 And I hit the save button
 Then I am no longer in edit mode

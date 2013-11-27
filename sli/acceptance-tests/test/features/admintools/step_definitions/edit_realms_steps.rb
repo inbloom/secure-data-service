@@ -119,6 +119,8 @@ When /^I enter valid data into all fields$/ do
   @driver.find_element(:name, 'realm[idp][id]').send_keys "IDPID"
   @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys "RedirectEndpoint"
   @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys "Unique Identifier"
+  @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').send_keys "Artifact Resolution Endpoint"
+  @driver.find_element(:name, 'realm[idp][sourceId]').send_keys "38776f081b059f8b888c77fd15700c6cb469152e"
 end
 
 When /^I enter data into all fields for realm "([^"]*)"$/ do |realm|
@@ -130,6 +132,34 @@ end
 
 When /^I should remove all of the fields$/ do
   @driver.find_elements(:css, 'input[type="text"]').each {|field| field.clear}
+end
+
+When /^I make the artifact resolution endpoint blank$/ do
+  @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').clear
+end
+
+When /^I make the source id blank$/ do
+  @driver.find_element(:name, 'realm[idp][sourceId]').clear
+end
+
+When /^I make the source id a non hex encoded value$/ do
+  @driver.find_element(:name, 'realm[idp][sourceId]').clear
+  @driver.find_element(:name, 'realm[idp][sourceId]').send_keys 'V38776f081b059f8b888c77fd15700c6cb469152'
+end
+
+When /^I add something to the artifact resolution endpoint$/ do
+  @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').clear
+  @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').send_keys 'Some dummy value'
+end
+
+When /^I make the artifact resolution endpoint not unique$/ do
+  @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').clear
+  @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').send_keys 'https://shibboleth.slidev.org/idp/profile/SAML2/SOAP/ArtifactResolution'
+end
+
+When /^I make the source id not unique$/ do
+  @driver.find_element(:name, 'realm[idp][sourceId]').clear
+  @driver.find_element(:name, 'realm[idp][sourceId]').send_keys '38776f081b059f8b888c77fd15700c6cb469152e'
 end
 
 Then /^I should get (\d+) errors$/ do |arg1|
