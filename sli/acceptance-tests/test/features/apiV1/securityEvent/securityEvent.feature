@@ -119,3 +119,33 @@ Scenario: None can POST events through security API
     And I navigate to POST "/securityEvent"
     Then I should receive a return code of 403
 
+Scenario: IT Administrator creates, views, updates, and deletes a custom entity for a security event
+    Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+    And format "application/vnd.slc+json"
+    When I create an empty json object
+    And "key1" is "value1"
+    And "key2" is "value2"
+    And I navigate to POST "/securityEvent/07623f03-126e-427d-9ed4-29562388reak/custom"
+    Then I should receive a return code of 201
+    When I navigate to GET "/securityEvent/07623f03-126e-427d-9ed4-29562388reak/custom"
+    Then I should receive a return code of 200
+    And the "key1" should be "value1"
+    And the "key2" should be "value2"
+    When I create an empty json object
+    And "key3" is "value3"
+    And "key4" is "value4"
+    And I navigate to PUT "/securityEvent/07623f03-126e-427d-9ed4-29562388reak/custom"
+    Then I should receive a return code of 204
+    When I navigate to DELETE "/securityEvent/07623f03-126e-427d-9ed4-29562388reak/custom"
+    Then I should receive a return code of 204
+    When I navigate to GET "/securityEvent/07623f03-126e-427d-9ed4-29562388reak/custom"
+    Then I should receive a return code of 404
+
+Scenario: Security prevents an IT Administrator from adding a custom entity for a security event for which they have no context
+    Given I am logged in using "jwashington" "jwashington1234" to realm "IL"
+    And format "application/vnd.slc+json"
+    When I create an empty json object
+    And "key1" is "value1"
+    And "key2" is "value2"
+    And I navigate to POST "/securityEvent/07623f03-126e-427d-9ed4-29562388reak/custom"
+    Then I should receive a return code of 403
