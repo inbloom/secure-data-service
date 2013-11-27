@@ -63,6 +63,8 @@ Feature: Users can receive bulk extracts in sandbox mode
     When I navigate to the Portal home page
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page
+    Then I should be on Portal home page
+    When I click on log out
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
     And I want to select "jstevenson" from the "SmallDatasetUsers" in automatic mode
