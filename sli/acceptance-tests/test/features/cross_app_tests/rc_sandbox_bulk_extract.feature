@@ -51,10 +51,6 @@ Feature: Users can receive bulk extracts in sandbox mode
     When the most recent batch job for file "StaffAppend.zip" has completed successfully
     Then I should not see an error log file created
     And I should not see a warning log file created
-    And I drop the file "DeleteDaybreakElementary.zip" into the landingzone
-    When the most recent batch job for file "DeleteDaybreakElementary.zip" has completed successfully
-    Then I should not see an error log file created
-    And I should not see a warning log file created
     Given I drop the file "NewSimplePublicEntities.zip" into the landingzone
     When the most recent batch job for file "NewSimplePublicEntities.zip" has completed successfully
     Then I should not see an error log file created
@@ -120,7 +116,6 @@ Feature: Users can receive bulk extracts in sandbox mode
     And the extract contains a file for each of the following entities:
       |  entityType                            |
       |  staffEducationOrganizationAssociation |
-      |  deleted                               |
 
     #SEA Public Full Extract
     When there is no bulk extract files in the local directory
@@ -162,4 +157,3 @@ Feature: Users can receive bulk extracts in sandbox mode
       |  learningStandard                      |
       |  program                               |
       |  calendarDate                          |
-      |  deleted                               |

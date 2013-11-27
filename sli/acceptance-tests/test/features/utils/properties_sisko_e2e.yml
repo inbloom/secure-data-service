@@ -40,7 +40,7 @@ ingestion_timeout_override_seconds: 0
 #Bulk Extract Configuration
 bulk_extract_script: "/opt/bulkextract/local_bulk_extract.sh"
 bulk_extract_output_directory: "/bulkextract/extracts/"
-bulk_extract_jar_loc: "opt/bulkextract/bulk_extract.tar.gz"
+bulk_extract_jar_loc: "/opt/bulkextract/bulk_extract.tar.gz"
 bulk_extract_properties_file: "/opt/tomcat/apache-tomcat-7.0.27/conf/sli.properties"
 bulk_extract_keystore_file: "/opt/tomcat/encryption/ciKeyStore.jks"
 
