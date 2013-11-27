@@ -100,6 +100,9 @@ Scenario Outline: DE2990 no spurious HTTP methods are allowed and DE2991 GET by 
 | DELETE         | 07623f03-126e-427d-9ed4-29562388cdcc | operator       | operator1234    | SLI       | 403        |
 # DE2990 - None can PATCH events through security API
 | PATCH          | 07623f03-126e-427d-9ed4-29562388cdcc | operator       | operator1234    | SLI       | 403        |
+| HEAD           | 07623f03-126e-427d-9ed4-29562388cdcc | operator       | operator1234    | SLI       | 403        |
+| HEAD           |                                      | operator       | operator1234    | SLI       | 403        |
+| OPTIONS        |                                      | operator       | operator1234    | SLI       | 403        |
 
 @DE2990
 Scenario: None can PUT events through security API
