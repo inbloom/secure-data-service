@@ -217,5 +217,5 @@ Then /^I enable all education organizations for this app$/ do
 end
 
 Then /^I click on the checkbox labeled "([^"]*)"$/ do |text|
-  @driver.find_element(:xpath, "//label[text()='#{text}']/preceding-sibling::input[@type='checkbox']").click
+  @driver.find_element(:xpath, "//span[text()='#{text}']/preceding-sibling::input[@type='checkbox']").click
 end
