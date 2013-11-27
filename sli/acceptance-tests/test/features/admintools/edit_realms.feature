@@ -37,7 +37,7 @@ Scenario: Mega Multi Realm Test
   And I should see that I am on the "Brand New Realm" edit page
   And I should remove all of the fields
   And I should click the "Save" button
-  Then I should get 5 errors
+  Then I should get 4 errors
   When I enter valid data into all fields
   And I should click the "Save" button
   Then I should be redirected back to the realm listing page

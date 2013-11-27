@@ -6,10 +6,16 @@
 
       <ul>
       <% @realm.errors.full_messages.each do |msg| %>
-        <li><%= msg.gsub /Uniqueidentifier/, "Realm Identifier" %></li>
+        <li><%= if msg.start_with?("Name"); msg.gsub(/Name/, "Display Name"); \
+                elsif msg.start_with?("Uniqueidentifier"); msg.gsub(/Uniqueidentifier/, "Realm Identifier"); \
+                else; msg; end %></li>
       <% end %>
       <% @realm.idp.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+        <li><%= if msg.start_with?("Id"); msg.gsub(/Id/, "IDP URL"); \
+                elsif msg.start_with?("Redirectendpoint"); msg.gsub(/Redirectendpoint/, "Redirect Endpoint"); \
+                elsif msg.start_with?("Artifactresolutionendpoint"); msg.gsub(/Artifactresolutionendpoint/, "Artifact Resolution Endpoint"); \
+                elsif msg.start_with?("Sourceid"); msg.gsub(/Sourceid/, "IDP Source ID"); \
+                else; msg; end %></li>
       <% end %>
       </ul>
     </div>
