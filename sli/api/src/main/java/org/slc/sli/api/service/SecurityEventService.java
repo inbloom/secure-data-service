@@ -94,6 +94,7 @@ public class SecurityEventService extends BasicService {
                         values.add(idValue);
                     }
                     values.retainAll(idsToFilter);
+                    criterion.setValue(values);
                 } else if (NeutralCriteria.OPERATOR_EQUAL.equals(criterion.getOperator())) {
                     Set<String> values = new HashSet<String>();
                     values.add((String) criterion.getValue());
@@ -125,6 +126,22 @@ public class SecurityEventService extends BasicService {
         }
 
         return results;
+    }
+
+    /**
+     * This particular service doesn't really use the contextual roles system, with the list method
+     * handling all that is needed for security checks through the SecurityEventContextResolver.
+     *
+     * However, {@link org.slc.sli.api.resources.generic.service.DefaultResourceService#getEntityBodies}
+     * will use listBasedOnContextualRoles if SecurityUtil.isStaffUser() returns true, so we need to
+     * have a suitable listBasedOnContextualRoles implementation as well.
+     *
+     * @param neutralQuery
+     * @return
+     */
+    @Override
+    public Iterable<EntityBody> listBasedOnContextualRoles(NeutralQuery neutralQuery) {
+        return list(neutralQuery);
     }
 
     @Override

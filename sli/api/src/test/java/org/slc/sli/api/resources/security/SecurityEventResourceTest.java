@@ -77,7 +77,7 @@ public class SecurityEventResourceTest {
 
     @Before
     public void setup() throws Exception {
-        uriInfo = ResourceTestUtil.buildMockUriInfo(null);
+        uriInfo = ResourceTestUtil.buildMockUriInfo("");
 
         // inject SLC Operator security context for unit testing
         injector.setAdminContextWithElevatedRights();
