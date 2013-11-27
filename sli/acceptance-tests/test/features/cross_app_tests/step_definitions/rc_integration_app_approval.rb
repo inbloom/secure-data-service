@@ -76,7 +76,7 @@ Given /^the testing device app key has been created$/ do
   @oauthRedirectURI = "http://device"
 end
 
-Given /^the pre-existing bulk extrac testing app key has been created$/ do
+Given /^the pre-existing bulk extract testing app key has been created$/ do
   @oauthClientId = PropLoader.getProps['bulk_extract_testapp_client_id']
   @oauthClientSecret = PropLoader.getProps['bulk_extract_testapp_secret']
   @oauthRedirectURI = "http://device"
@@ -210,5 +210,9 @@ end
 
 And /^I manually navigate to "(.*?)" in admin$/ do |endpoint|
     @driver.get(PropLoader.getProps['admintools_server_url'] + "/" + endpoint)
+end
+
+Then /^I enable all education organizations for this app$/ do
+  @driver.find_element(:id, 'root').click
 end
 
