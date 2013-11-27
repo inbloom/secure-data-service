@@ -60,6 +60,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -117,7 +118,6 @@ public class DefaultSAML2Validator implements SAML2Validator {
     @Override
     public boolean isSignatureTrusted(XMLSignature signature, String issuer) throws KeyStoreException,
             InvalidAlgorithmParameterException, CertificateException, NoSuchAlgorithmException {
-        boolean trusted = false;
         X509Certificate certificate = null;
 
         @SuppressWarnings("unchecked")
@@ -138,6 +138,11 @@ public class DefaultSAML2Validator implements SAML2Validator {
             }
         }
 
+        return isCertificateTrusted(issuer, certificate);
+    }
+
+    private boolean isCertificateTrusted(String issuer, X509Certificate certificate) throws KeyStoreException, InvalidAlgorithmParameterException, CertificateException, NoSuchAlgorithmException {
+        boolean trusted = false;
         if (certificate != null) {
             if (issuerMatchesSubject(certificate, issuer)) {
                 if (cacerts == null) {
@@ -246,6 +251,12 @@ public class DefaultSAML2Validator implements SAML2Validator {
     }
 
     @Override
+    public boolean isDocumentTrusted(Element element, String issuer) throws KeyStoreException,
+            InvalidAlgorithmParameterException, CertificateException, NoSuchAlgorithmException, MarshalException {
+        return isSignatureTrusted(getSignature(element), issuer);
+    }
+
+    @Override
     public boolean isDocumentValid(Document samlDocument) {
         try {
             return getSignature(samlDocument).validate(valContext);
@@ -293,6 +304,21 @@ public class DefaultSAML2Validator implements SAML2Validator {
     @Override
     public Document signDocumentWithSAMLSigner(Document samlDocument, SAML2Signer signer) {
         return null;
+    }
+
+    private Node getSignatureElement(Element element) {
+        return element.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature").item(0);
+    }
+
+
+    private void createContext(Element element) {
+        valContext = new DOMValidateContext(new KeyValueKeySelector(), getSignatureElement(element));
+    }
+
+    private XMLSignature getSignature(Element element) throws MarshalException {
+        createContext(element);
+        XMLSignatureFactory factory = XMLSignatureFactory.getInstance("DOM");
+        return factory.unmarshalXMLSignature(valContext);
     }
 
     private static class KeyValueKeySelector extends KeySelector {

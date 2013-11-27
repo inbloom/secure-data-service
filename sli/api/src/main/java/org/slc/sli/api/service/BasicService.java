@@ -1283,7 +1283,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         Map<String, Object> metadata = new HashMap<String, Object>();
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String createdBy = principal.getEntity().getEntityId();
-        if (createdBy != null && createdBy.equals("-133")) {
+        if (createdBy != null && createdBy.equals(SLIPrincipal.NULL_ENTITY_ID)) {
             createdBy = principal.getExternalId();
         }
         metadata.put("createdBy", createdBy);

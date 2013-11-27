@@ -62,7 +62,7 @@ public class ApplicationAuthorizationResourceTest {
     
     @Autowired
     private SecurityContextInjector injector;
-    
+
     Entity sea, lea1, lea2, school11, school12, school21, school22;
 
     public static List<Map<String,Object>> getAuthList(String... edOrgs){
@@ -88,9 +88,8 @@ public class ApplicationAuthorizationResourceTest {
         school22 = helper.generateEdorgWithParent(lea2.getEntityId());
         SecurityUtil.getSLIPrincipal().setEdOrgId(lea1.getEntityId());
         SecurityUtil.getSLIPrincipal().setAdminRealmAuthenticated(true);
-        
     }
-    
+
     @After
     public void cleanup() throws Exception {
         helper.resetRepo();
@@ -137,7 +136,7 @@ public class ApplicationAuthorizationResourceTest {
         Assert.assertEquals(200, resp.getStatus());
         Map ent = (Map) resp.getEntity();
         Assert.assertFalse((Boolean) ent.get("authorized"));
-        
+
     }
 
     @Test
@@ -191,13 +190,12 @@ public class ApplicationAuthorizationResourceTest {
         //create app
         Map<String, Object> appBody = new HashMap<String, Object>();
         Entity app = repo.create("application", appBody);
-        
+
         //create app auth
         Map<String, Object> auth = new HashMap<String, Object>();
         auth.put("applicationId", app.getEntityId());
         auth.put("edorgs", getAuthList(SecurityUtil.getEdOrgId()));
         repo.create("applicationAuthorization", auth);
-        
         //query app auth
         ResponseImpl resp = (ResponseImpl) res.getAuthorization(app.getEntityId(), null);
         Assert.assertEquals(200, resp.getStatus());
