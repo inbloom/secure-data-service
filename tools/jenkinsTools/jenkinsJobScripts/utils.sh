@@ -1,3 +1,10 @@
+# function to abstract away 'bundle install', as we have a special way to do
+# that for US5980 (use RubyGems mirror)
+bundleInstall()
+{
+  nbundle install --full-index $*
+}
+
 curlStop()
 {
   APP=$1
@@ -77,7 +84,7 @@ noTableScanAndCleanTomcat()
 adminUnitTests()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
-  bundle install --path $WORKSPACE/../vendors/
+  bundleInstall --path $WORKSPACE/../vendors/
   bundle exec rake ci:setup:testunit test
   code=$?
   if [ "$code" != "0" ]; then
@@ -88,7 +95,7 @@ adminUnitTests()
 databrowserUnitTests()
 {
   cd $WORKSPACE/sli/databrowser
-  bundle install --deployment
+  bundleInstall --full-index --deployment
   bundle exec rake ci:setup:testunit test
   code=$?
   if [ "$code" != "0" ]; then
@@ -104,14 +111,14 @@ profileSwap(){
 deployAdmin()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
-  bundle install --path $WORKSPACE/../vendors/
+  bundleInstall --path $WORKSPACE/../vendors/
   bundle exec thin start -C config/thin.yml -e team
 }
 
 unDeployAdmin()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
-  bundle install --path $WORKSPACE/../vendors/
+  bundleInstall --path $WORKSPACE/../vendors/
   bundle exec thin stop -C config/thin.yml
 
   ln=`ls /tmp/pid-admin/thin-admin.pid | wc -l`
@@ -129,14 +136,14 @@ unDeployAdmin()
 deployAdminSB()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
-  bundle install --path $WORKSPACE/../vendors/
+  bundleInstall --path $WORKSPACE/../vendors/
   bundle exec thin start -C config/thin.yml -e team_sb
 }
 
 deployDatabrowser()
 {
   cd $WORKSPACE/sli/databrowser
-  bundle install --deployment
+  bundleInstall --deployment
   bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
 }
 
