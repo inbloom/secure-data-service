@@ -136,7 +136,7 @@ Feature: Users can receive bulk extracts in sandbox mode
       |  course                                |
       |  courseOffering                        |
       |  educationOrganization                 |
-      |  graduationPlan                        |
+      |  gradingPeriod                         |
       |  session                               |
       |  calendarDate                          |
       |  school                                |
