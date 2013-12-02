@@ -130,7 +130,6 @@ Feature: Users can receive bulk extracts in sandbox mode
       |  assessment                            |
       |  learningObjective                     |
       |  learningStandard                      |
-      |  competencyLevelDescriptor             |
       |  studentCompetencyObjective            |
       |  program                               |
       |  calendarDate                          |
