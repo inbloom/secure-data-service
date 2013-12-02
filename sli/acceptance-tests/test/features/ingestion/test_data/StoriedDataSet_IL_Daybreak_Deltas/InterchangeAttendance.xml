@@ -1,11 +1,10 @@
-<?xml version='1.0'?>
+<?xml version="1.0"?>
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
-<InterchangeStudentAttendance xmlns='http://ed-fi.org/0100' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://ed-fi.org/0100 ../../../../../../edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAttendance.xsd'>
+<InterchangeStudentAttendance xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAttendance.xsd">
   <!-- Original unmodified-->
   <AttendanceEvent>
     <SchoolYear>2011-2012</SchoolYear>
     <EventDate>2011-09-06</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <StudentReference>
@@ -22,7 +21,6 @@
   <AttendanceEvent>
     <SchoolYear>2011-2012</SchoolYear>
     <EventDate>2011-09-07</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <StudentReference>
@@ -40,7 +38,6 @@
   <AttendanceEvent>
     <SchoolYear>2011-2012</SchoolYear>
     <EventDate>2011-09-08</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
     <AttendanceEventReason>test for 100000000</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -59,7 +56,6 @@
   <AttendanceEvent>
     <SchoolYear>2011-2012</SchoolYear>
     <EventDate>2011-12-11</EventDate>
-    <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <StudentReference>
