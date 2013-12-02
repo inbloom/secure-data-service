@@ -260,15 +260,11 @@ public class ContainerDocumentAccessor {
             return getLocation(type).doUpdate(query, update);
         }
 
-        //empty attendanceEvent array
+        //empty attendanceEvent(or other) array
         DBObject emptyArray = new BasicDBObject();
         emptyArray.put("body." + containerDocument.getFieldToPersist(), new ArrayList());
         DBObject setEmptyArray = new BasicDBObject("$set", emptyArray);
-        boolean makeEntyArray = mongoTemplate.getCollection(collectionName).update(query.getQueryObject(),
-                setEmptyArray, false, false, WriteConcern.SAFE)
-                    .getLastError().ok();
-
-        if(!makeEntyArray) return false;
+        mongoTemplate.getCollection(collectionName).update(query.getQueryObject(),setEmptyArray, false, false, WriteConcern.SAFE);
 
         TenantContext.setIsSystemCall(false);
         final String fieldToPersist = containerDocument.getFieldToPersist();
