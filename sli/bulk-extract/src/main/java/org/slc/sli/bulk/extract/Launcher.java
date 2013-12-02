@@ -30,7 +30,6 @@ import org.slc.sli.bulk.extract.extractor.StatePublicDataExtractor;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
@@ -73,7 +72,7 @@ public class Launcher {
     public void execute(String tenant, boolean isDelta) {
         audit(securityEventUtil.createSecurityEvent(Launcher.class.getName(), "Bulk extract execution",
                 LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0001));
-
+        
         Entity tenantEntity = bulkExtractMongoDA.getTenant(tenant);
         if (tenantEntity != null) {
             DateTime startTime = new DateTime();
@@ -143,14 +142,11 @@ public class Launcher {
             LOG.error(USAGE);
             return;
         }
-
-        String tenantId = args[0];
-        TenantContext.setTenantId(tenantId);
-
+        
         ApplicationContext context = new ClassPathXmlApplicationContext("spring/application-context.xml");
         
         Launcher main = context.getBean(Launcher.class);
-
+        String tenantId = args[0];
         boolean isDelta = false;
         if (args.length == 2) {
             isDelta = Boolean.parseBoolean(args[1]);

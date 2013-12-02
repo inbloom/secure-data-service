@@ -14,5 +14,4 @@ Scenario: Delete tenant from sli.tenant and drop tenant database
   And I will clean my tenants recordHash documents from ingestion_batch_job db
   And I will drop the tenant document from the collection
   And I will delete the applications "Schlemiel,NotTheAppYoureLookingFor" from the collection
-  And I clean up the sandbox tenant's bulk extract file entries in the database
   And I close all open Mongo connections
