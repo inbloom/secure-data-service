@@ -17,20 +17,17 @@
 
 package org.slc.sli.api.resources;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.mockito.Mockito;
-import org.slc.sli.api.init.RoleInitializer;
-import org.slc.sli.api.security.EdOrgContextRightsCache;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextValidator;
-import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -41,6 +38,20 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.init.RoleInitializer;
+import org.slc.sli.api.security.EdOrgContextRightsCache;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Simple class for injecting a security context for unit tests.
  *
@@ -48,6 +59,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SecurityContextInjector {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SecurityContextInjector.class);
+
     public static final String ED_ORG_ID = "1111-1111-1111";
     private static final String DEFAULT_REALM_ID = "dc=slidev,dc=net";
     public static final String TENANT_ID = "Midgar";
@@ -75,7 +89,7 @@ public class SecurityContextInjector {
 
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("admin-staff");
-        Mockito.when(entity.getEntityId()).thenReturn("-133");
+        Mockito.when(entity.getEntityId()).thenReturn(SLIPrincipal.NULL_ENTITY_ID);
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new EdOrgContextRightsCache());
 
         principal.setUserType(ADMIN_TYPE);
@@ -164,7 +178,7 @@ public class SecurityContextInjector {
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
 
-        debug("elevating rights to {}", Arrays.toString(rights));
+        LOG.debug("elevating rights to {}", Arrays.toString(rights));
         SecurityContextHolder.getContext().setAuthentication(token);
         SecurityUtil.setUserContext(SecurityUtil.UserContext.NO_CONTEXT);
     }
@@ -187,7 +201,7 @@ public class SecurityContextInjector {
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
 
-        debug("elevating rights to {}", Arrays.toString(rights));
+        LOG.debug("elevating rights to {}", Arrays.toString(rights));
         SecurityContextHolder.getContext().setAuthentication(token);
         SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
@@ -210,7 +224,7 @@ public class SecurityContextInjector {
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
 
-        debug("elevating rights to {}", Arrays.toString(rights));
+        LOG.debug("elevating rights to {}", Arrays.toString(rights));
         SecurityContextHolder.getContext().setAuthentication(token);
         SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
@@ -233,7 +247,7 @@ public class SecurityContextInjector {
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
 
-        debug("elevating rights to {}", Arrays.toString(rights));
+        LOG.debug("elevating rights to {}", Arrays.toString(rights));
         SecurityContextHolder.getContext().setAuthentication(token);
     }
 
@@ -268,7 +282,7 @@ public class SecurityContextInjector {
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(Right.FULL_ACCESS));
 
-        debug("elevating rights to {}", Right.FULL_ACCESS);
+        LOG.debug("elevating rights to {}", Right.FULL_ACCESS);
         SecurityContextHolder.getContext().setAuthentication(token);
         SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
 
@@ -281,7 +295,7 @@ public class SecurityContextInjector {
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(Right.FULL_ACCESS));
 
-        debug("elevating rights to {}", Right.FULL_ACCESS);
+        LOG.debug("elevating rights to {}", Right.FULL_ACCESS);
         SecurityContextHolder.getContext().setAuthentication(token);
 
     }
@@ -390,7 +404,7 @@ public class SecurityContextInjector {
     public SLIPrincipal setSecurityContext(SLIPrincipal principal, boolean isAdminRealm) {
         String token = "AQIC5wM2LY4SfczsoqTgHpfSEciO4J34Hc5ThvD0QaM2QUI.*AAJTSQACMDE.*";
 
-        debug("assembling authentication token");
+        LOG.debug("assembling authentication token");
         PreAuthenticatedAuthenticationToken authenticationToken = getAuthenticationToken(token, principal, isAdminRealm);
         ClientToken clientToken = new ClientToken("BOOP", null, null, null, null);
         OAuth2Authentication auth = new OAuth2Authentication(clientToken, authenticationToken);
@@ -403,7 +417,7 @@ public class SecurityContextInjector {
 
     public SLIPrincipal setOauthSecurityContext(SLIPrincipal principal, boolean  isAdminRealm) {
         String token = "AQIC5wM2LY4SfczsoqTgHpfSEciO4J34Hc5ThvD0QaM2QUI.*AAJTSQACMDE.*";
-        debug("assembling authentication token");
+        LOG.debug("assembling authentication token");
         PreAuthenticatedAuthenticationToken authenticationToken = getAuthenticationToken(token, principal, isAdminRealm);
         OAuth2Authentication oauth = new OAuth2Authentication(new ClientToken("clientId", "clientSecret", Collections.singleton("scope")), authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(oauth);
@@ -421,7 +435,7 @@ public class SecurityContextInjector {
     private SLIPrincipal setSecurityContext(SLIPrincipal principal, Set<GrantedAuthority> rights) {
         String token = "AQIC5wM2LY4SfczsoqTgHpfSEciO4J34Hc5ThvD0QaM2QUI.*AAJTSQACMDE.*";
 
-        debug("assembling authentication token");
+        LOG.debug("assembling authentication token");
         PreAuthenticatedAuthenticationToken authenticationToken = getAuthenticationToken(token, principal, rights);
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);

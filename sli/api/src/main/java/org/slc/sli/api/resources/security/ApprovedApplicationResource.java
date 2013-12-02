@@ -29,6 +29,8 @@ import javax.ws.rs.core.Response.Status;
 
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.roles.RightAccessValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -57,6 +59,8 @@ import org.slc.sli.domain.enums.Right;
 @Path("/userapps")
 @Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class ApprovedApplicationResource {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(ApprovedApplicationResource.class);
 
     @Autowired
     private RightAccessValidator rightAccessValidator;
@@ -192,7 +196,7 @@ public class ApprovedApplicationResource {
             List<String> intersection = new ArrayList<String>(reqRights);
             intersection.retainAll(userRights);
             if (userRights.size() == 0 || intersection.size() == 0) {
-                debug("Removing endpoint because users rights {} did not match required rights {}.", userRights, reqRights);
+                LOG.debug("Removing endpoint because users rights {} did not match required rights {}.", userRights, reqRights);
                 i.remove();
             }
         }

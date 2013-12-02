@@ -49,6 +49,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.common.util.logging.SecurityEvent;
@@ -77,6 +78,9 @@ public class CustomRoleResource {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+
+    @Autowired
+    private AuditLogger auditLogger;
 
     @Autowired
     private RoleInitializer roleInitializer;
@@ -316,7 +320,7 @@ public class CustomRoleResource {
             String targetEdOrg = realmHelper.getEdOrgIdFromRealm(RealmId);
             event.setTargetEdOrgList(targetEdOrg); //@TA10431 - change targetEdOrg from scalar to list 
     	}
-        audit(event);
+        auditLogger.audit(event);
     }
 
 

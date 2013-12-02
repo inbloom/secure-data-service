@@ -38,7 +38,7 @@ import java.util.*;
  */
 @Component
 public class StaffToApplicationAuthorizationValidator extends AbstractContextValidator {
-    
+
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
         return isStaff() && EntityNames.APPLICATION_AUTHORIZATION.equals(entityType);
@@ -62,15 +62,15 @@ public class StaffToApplicationAuthorizationValidator extends AbstractContextVal
         NeutralQuery q                                 = new NeutralQuery();
                                                          q.addCriteria(staffEdOrgsInAuthorizedEdOrgs);
         NeutralQuery finalQuery                        = new NeutralQuery();
-        												finalQuery.addOrQuery(p);
-        												finalQuery.addOrQuery(q);
+                                                            finalQuery.addOrQuery(p);
+                                                            finalQuery.addOrQuery(q);
 
         Iterable<String> myApplicationIds              = getRepo().findAllIds(EntityNames.APPLICATION, finalQuery);
         Set<String> myAppsList                         = new HashSet<String>();
         if(myApplicationIds != null) {
-        	for(String appId: myApplicationIds) {
-        		myAppsList.add(appId);
-        	}
+            for(String appId: myApplicationIds) {
+                myAppsList.add(appId);
+            }
         }
 
         NeutralCriteria idInAppAuthIdList              = new NeutralCriteria("_id",                 NeutralCriteria.CRITERIA_IN, new LinkedList<String>(appAuthIds));
