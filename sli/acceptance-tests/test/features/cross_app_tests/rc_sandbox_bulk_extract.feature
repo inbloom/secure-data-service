@@ -77,37 +77,37 @@ Feature: Users can receive bulk extracts in sandbox mode
     And there is no bulk extract files in the local directory
 
     #Edorg Full Extract
-    When I get the id for the edorg "South%20Daybreak%20Elementary"
-    And I request and download a "bulk" extract file for the edorg
-    Then there is a metadata file in the extract
-    And the extract contains a file for each of the following entities:
-      |  entityType                            |
-      |  attendance                            |
-      |  courseTranscript                      |
-      |  disciplineIncident                    |
-      |  disciplineAction                      |
-      |  grade                                 |
-      |  gradebookEntry                        |
-      |  parent                                |
-      |  reportCard                            |
-      |  staff                                 |
-      |  staffCohortAssociation                |
-      |  staffEducationOrganizationAssociation |
-      |  staffProgramAssociation               |
-      |  student                               |
-      |  studentAcademicRecord                 |
-      |  studentAssessment                     |
-      |  studentCohortAssociation              |
-      |  studentCompetency                     |
-      |  studentDisciplineIncidentAssociation  |
-      |  studentProgramAssociation             |
-      |  studentGradebookEntry                 |
-      |  studentSchoolAssociation              |
-      |  studentSectionAssociation             |
-      |  studentParentAssociation              |
-      |  teacher                               |
-      |  teacherSchoolAssociation              |
-      |  teacherSectionAssociation             |
+    When I get the id for the edorg "IL-DAYBREAK"
+    #And I request and download a "bulk" extract file for the edorg
+    #Then there is a metadata file in the extract
+    #And the extract contains a file for each of the following entities:
+      #|  entityType                            |
+      #|  attendance                            |
+      #|  courseTranscript                      |
+      #|  disciplineIncident                    |
+      #|  disciplineAction                      |
+      #|  grade                                 |
+      #|  gradebookEntry                        |
+      #|  parent                                |
+      #|  reportCard                            |
+      #|  staff                                 |
+      #|  staffCohortAssociation                |
+      #|  staffEducationOrganizationAssociation |
+      #|  staffProgramAssociation               |
+      #|  student                               |
+      #|  studentAcademicRecord                 |
+      #|  studentAssessment                     |
+      #|  studentCohortAssociation              |
+      #|  studentCompetency                     |
+      #|  studentDisciplineIncidentAssociation  |
+      #|  studentProgramAssociation             |
+      #|  studentGradebookEntry                 |
+      #|  studentSchoolAssociation              |
+      #|  studentSectionAssociation             |
+      #|  studentParentAssociation              |
+      #|  teacher                               |
+      #|  teacherSchoolAssociation              |
+      #|  teacherSectionAssociation             |
 
     #Edorg Delta Extract
     When there is no bulk extract files in the local directory
