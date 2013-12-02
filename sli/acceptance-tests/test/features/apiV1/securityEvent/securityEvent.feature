@@ -82,6 +82,34 @@ Scenario: IT Administrators can see security events for their edOrgs
   And each entity's "entityType" should be "<ENTITY TYPE>"
   And each securityEvent's targetEdOrgList should contain at least one of "<IL_SUNSET_OR_IL_LONGWOOD_OR_SUNSET_CENTRAL>"
 
+Scenario: IT Administrator makes an HTTP HEAD request to a security event in their purview
+    Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+    And format "application/vnd.slc+json"
+    And parameter "limit" is "0"
+    When I navigate to HEAD "/securityEvent/07623f03-126e-427d-9ed4-29562388reak"
+    Then I should receive a return code of 200
+
+Scenario: IT Administrator makes an HTTP HEAD request to the security event resource (collection)
+    Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+    And format "application/vnd.slc+json"
+    And parameter "limit" is "0"
+    When I navigate to HEAD "/securityEvent/"
+    Then I should receive a return code of 200
+
+Scenario: IT Administrator makes an HTTP HEAD request to a security event not in their purview
+    Given I am logged in using "jwashington" "jwashington1234" to realm "IL"
+    And format "application/vnd.slc+json"
+    And parameter "limit" is "0"
+    When I navigate to HEAD "/securityEvent/07623f03-126e-427d-9ed4-29562388reak"
+    Then I should receive a return code of 404
+
+Scenario: Non-admin user (without SECURITY_EVENT_VIEW right) makes an unsuccessful HTTP HEAD request to the security event resource (collection)
+    Given I am logged in using "cgray" "cgray1234" to realm "IL"
+    And format "application/vnd.slc+json"
+    And parameter "limit" is "0"
+    When I navigate to HEAD "/securityEvent/"
+    Then I should receive a return code of 403
+
 @DE2991
 Scenario Outline: DE2990 no spurious HTTP methods are allowed and DE2991 GET by id does not bypass security
     Given I am logged in using "<user>" "<password>" to realm "<realm>"
@@ -100,8 +128,6 @@ Scenario Outline: DE2990 no spurious HTTP methods are allowed and DE2991 GET by 
 | DELETE         | 07623f03-126e-427d-9ed4-29562388cdcc | operator       | operator1234    | SLI       | 403        |
 # DE2990 - None can PATCH events through security API
 | PATCH          | 07623f03-126e-427d-9ed4-29562388cdcc | operator       | operator1234    | SLI       | 403        |
-| HEAD           | 07623f03-126e-427d-9ed4-29562388cdcc | operator       | operator1234    | SLI       | 403        |
-| HEAD           |                                      | operator       | operator1234    | SLI       | 403        |
 | OPTIONS        |                                      | operator       | operator1234    | SLI       | 403        |
 
 @DE2990

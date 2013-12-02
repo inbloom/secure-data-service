@@ -21,7 +21,6 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
-import javax.ws.rs.HEAD;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -130,25 +129,6 @@ public class SecurityEventResource extends UnversionedResource {
     @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
     public CustomEntityResource getCustomResource(final String id, final UriInfo uriInfo) {
         return new CustomEntityResource(id, resourceHelper.getEntityDefinition(RESOURCE_NAME), resourceHelper);
-    }
-
-    /**
-     * Make sure that HTTP HEAD requests are forbidden.
-     */
-    @HEAD
-    @RightsAllowed({Right.SECURITY_EVENT_VIEW})
-    public Response head() {
-        throw new AccessDeniedException("HTTP HEAD is forbidden");
-    }
-
-    /**
-     * Make sure that HTTP HEAD requests with id's specified are forbidden.
-     */
-    @HEAD
-    @Path("{id}")
-    @RightsAllowed({Right.SECURITY_EVENT_VIEW})
-    public Response headWithId() {
-        throw new AccessDeniedException("HTTP HEAD is forbidden");
     }
 
     /**
