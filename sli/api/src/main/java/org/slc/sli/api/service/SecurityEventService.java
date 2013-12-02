@@ -16,9 +16,7 @@
 
 package org.slc.sli.api.service;
 
-import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.SecurityEventContextResolver;
 import org.slc.sli.domain.Entity;
@@ -26,16 +24,12 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.EntityValidationException;
-import org.slc.sli.validation.ValidationError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -77,10 +71,20 @@ public class SecurityEventService extends BasicService {
      */
     @Override
     public Iterable<EntityBody> list(NeutralQuery neutralQuery) {
-
         neutralQuery.setSortBy("timeStamp");
         neutralQuery.setSortOrder(NeutralQuery.SortOrder.descending);
 
+        return super.list(neutralQuery);
+    }
+
+    /**
+     * Uses the {@link SecurityEventContextResolver} to add conditions to neutralQuery to
+     * limit the security events which the current user can view.
+     *
+     * @param neutralQuery
+     */
+    @Override
+    protected void listSecurityCheck(NeutralQuery neutralQuery) {
         Set<String> idsToFilter = new HashSet<String>();
         idsToFilter.addAll(securityEventContextResolver.findAccessible(null));
 
@@ -116,20 +120,6 @@ public class SecurityEventService extends BasicService {
         if (!foundIdInQuery) {
             neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, idsToFilter));
         }
-
-        Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
-
-        List<EntityBody> results = new ArrayList<EntityBody>();
-
-        for (Entity entity : entities) {
-            results.add(makeEntityBody(entity));
-        }
-
-        if (results.isEmpty()) {
-            return noEntitiesFound(neutralQuery);
-        }
-
-        return results;
     }
 
     /**
@@ -149,151 +139,41 @@ public class SecurityEventService extends BasicService {
     }
 
     /**
-     * Returns the custom entity associated with a security event and the application associated with the
-     * user's session.
-     *
-     * This is very similar to {@link BasicService#getCustom(String)}, but it does security checking
-     * differently.
+     * Determines whether the current user can access the custom document associated with the
+     * entity with a given id, without concerning itself with the client id of the application
+     * the user is using.
      *
      * @param id
      * @return
+     * @throws APIAccessDeniedException
      */
     @Override
-    public EntityBody getCustom(String id) {
+    protected void getCustomSecurityCheck(String id) {
         checkWhetherUserHasAccessToSecurityEvent(id);
-
-        String clientId = null;
-        try {
-            clientId = getClientId(id);
-        } catch (APIAccessDeniedException e) {
-            // set custom entity data for security event targetEdOrgList
-            APIAccessDeniedException wrapperE = new APIAccessDeniedException("Custom entity get denied.", e);
-            Set<String> entityIds = new HashSet<String>();
-            entityIds.add(id);
-            wrapperE.setEntityType(defn.getType());
-            wrapperE.setEntityIds(entityIds);
-            throw wrapperE;
-        }
-
-        LOG.debug("Reading custom entity: entity={}, entityId={}, clientId={}", new Object[]{
-                getEntityDefinition().getType(), id, clientId});
-
-        Entity customEntity = getCustomEntity(id, clientId);
-
-        if (customEntity != null) {
-            EntityBody clonedBody = new EntityBody(customEntity.getBody());
-            return clonedBody;
-        } else {
-            return null;
-        }
     }
 
 
     /**
-     * Deletes the custom entity associated with a security event and the application associated with the
-     * user's session.
-     *
-     * This is very similar to {@link BasicService#deleteCustom(String)}, but it does security checking
-     * differently.
+     * Uses the SecurityEventContextResolver to determine whether the current user can delete the custom
+     * document attached to the entity with a given id.
      *
      * @param id
-     * @return
      */
     @Override
-    public void deleteCustom(String id) {
+    public void deleteCustomSecurityCheck(String id) {
         checkWhetherUserHasAccessToSecurityEvent(id);
-
-        String clientId = null;
-        try {
-            clientId = getClientId(id);
-        } catch (APIAccessDeniedException e) {
-            // set custom entity data for security event targetEdOrgList
-            APIAccessDeniedException wrapperE = new APIAccessDeniedException("Custom entity delete denied.", e);
-            Set<String> entityIds = new HashSet<String>();
-            entityIds.add(id);
-            wrapperE.setEntityType(defn.getType());
-            wrapperE.setEntityIds(entityIds);
-            throw wrapperE;
-        }
-
-        Entity customEntity = getCustomEntity(id, clientId);
-
-        if (customEntity == null) {
-            throw new EntityNotFoundException(id);
-        }
-
-        boolean deleted = getRepo().delete(CUSTOM_ENTITY_COLLECTION, customEntity.getEntityId());
-
-        LOG.debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new Object[]{
-                getEntityDefinition().getType(), id, clientId, String.valueOf(deleted)});
     }
 
     /**
-     * Creates or updates the custom entity associated with a security event and the application associated with the
-     * user's session.
-     *
-     * This is very similar to {@link BasicService#createOrUpdateCustom(String, EntityBody)}, but it does security checking
-     * differently.
+     * Uses the SecurityEventContextResolver to determine whether the current user can create or update
+     * a custom document attached to the entity with a given id.
      *
      * @param id
      * @return
      */
     @Override
-    public void createOrUpdateCustom(String id, EntityBody customEntity) throws EntityValidationException {
+    public void createOrUpdateCustomSecurityCheck(String id, EntityBody customEntity) throws EntityValidationException {
         checkWhetherUserHasAccessToSecurityEvent(id);
-
-        String clientId = null;
-        Entity parentEntity = getEntity(id);
-
-        try {
-            clientId = getClientId(id);
-        } catch (APIAccessDeniedException e) {
-            // set custom entity data for security event targetEdOrgList
-            APIAccessDeniedException wrapperE = new APIAccessDeniedException("Custom entity write denied.", e);
-            Set<String> entityIds = new HashSet<String>();
-            entityIds.add(id);
-            wrapperE.setEntityType(defn.getType());
-            wrapperE.setEntityIds(entityIds);
-            throw wrapperE;
-        }
-
-        Entity entity = getCustomEntity(id, clientId);
-
-        if (entity != null && entity.getBody().equals(customEntity)) {
-            LOG.debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}",
-                    new Object[]{getEntityDefinition().getType(), id, clientId});
-
-            return;
-        }
-
-        // Verify field names contain no blacklisted components.
-        List<ValidationError> errorList = customEntityValidator.validate(customEntity);
-        if (!errorList.isEmpty()) {
-            LOG.debug("Blacklist validation failed for custom entity {}", id);
-            throw new EntityValidationException(id, PathConstants.CUSTOM_ENTITIES, errorList);
-        }
-
-        EntityBody clonedEntity = new EntityBody(customEntity);
-
-        if (entity != null) {
-            LOG.debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new Object[]{
-                    getEntityDefinition().getType(), id, clientId});
-            entity.getBody().clear();
-            entity.getBody().putAll(clonedEntity);
-            // custom entity is not superdoc
-            getRepo().update(CUSTOM_ENTITY_COLLECTION, entity, false);
-        } else {
-            LOG.debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new Object[]{
-                    getEntityDefinition().getType(), id, clientId});
-            EntityBody metaData = new EntityBody();
-
-            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
-            metaData.put(CUSTOM_ENTITY_CLIENT_ID, clientId);
-            metaData.put(CUSTOM_ENTITY_ENTITY_ID, id);
-            metaData.put("tenantId", principal.getTenantId());
-            getRepo().create(CUSTOM_ENTITY_COLLECTION, clonedEntity, metaData, CUSTOM_ENTITY_COLLECTION);
-        }
     }
 
 }
