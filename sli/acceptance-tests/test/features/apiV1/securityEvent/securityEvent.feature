@@ -6,7 +6,7 @@ LEA Admins should be able to see all securityEvents related to their LEA and hav
 SLI Operators should be able to see all securityEvents
 Non Admins should not be able to see any securityEvents
  
-Scenario: Read all entities as SEA Admin
+Scenario: Read all entities as SEA Admin and ensure that HATEOAS links are present
     Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
     And format "application/vnd.slc+json"
     And parameter "limit" is "0"
@@ -14,6 +14,11 @@ Scenario: Read all entities as SEA Admin
     Then I should receive a return code of 200
     And I should receive a collection of "4" entities
     And each entity's "entityType" should be "<ENTITY TYPE>"
+    And in each entity, I should receive a link named "custom" for a value from array "<SEA_admin_security_event_ids>" with URI prefix "securityEvent" and URI suffix "custom"
+    And in an entity, I should receive a link named "self" with URI "/securityEvent/d0bea921-3ee5-487d-b4db-cb126a705a29"
+    And in an entity, I should receive a link named "self" with URI "/securityEvent/f93b2fe8-321b-4ab8-a0de-bbb7f2ddae50"
+    And in an entity, I should receive a link named "self" with URI "/securityEvent/d0bea921-3ee5-487d-b4db-cb126a705a30"
+    And in an entity, I should receive a link named "self" with URI "/securityEvent/d0bea921-3ee5-487d-b4db-cb126a705a31"
     And each securityEvent's targetEdOrgList should contain at least one of "<IL>"
     And each entity's "roles" should contain "SEA Administrator"
 
