@@ -176,7 +176,7 @@ And in Status it says "3 EdOrg(s)"
 Then there are "3" edOrgs for the "Bulk Extract 2 End" application in the production applicationAuthorization collection
 
 Scenario: SEA admin makes an api call to PATCH the SEA
-  Given the pre-existing bulk extrac testing app key has been created
+  Given the pre-existing bulk extract testing app key has been created
   When I navigate to the API authorization endpoint with my client ID
   And I select "Daybreak Test Realm" and click go
   And I was redirected to the "Simple" IDP Login page
@@ -404,7 +404,7 @@ And the operator triggers a delta for the production tenant
 
    Scenario: App makes an api call to retrieve an lea level bulk extract
    #Get a session to trigger a bulk extract
-   Given the pre-existing bulk extrac testing app key has been created
+   Given the pre-existing bulk extract testing app key has been created
    When I navigate to the API authorization endpoint with my client ID
    When I select "Daybreak Test Realm" and click go
    And I was redirected to the "Simple" IDP Login page
@@ -453,7 +453,7 @@ And the operator triggers a delta for the production tenant
 
 Scenario: Charter School - App makes an api call to retrieve an lea level bulk extract
    #Get a session to trigger a bulk extract
-   Given the pre-existing bulk extrac testing app key has been created
+   Given the pre-existing bulk extract testing app key has been created
    When I navigate to the API authorization endpoint with my client ID
    When I select "Daybreak Test Realm" and click go
    And I was redirected to the "Simple" IDP Login page
@@ -497,7 +497,7 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
 
 Scenario: App makes an api call to retrieve a SEA public data bulk extract
    #Get a session to trigger a bulk extract
-   Given the pre-existing bulk extrac testing app key has been created
+   Given the pre-existing bulk extract testing app key has been created
    When I navigate to the API authorization endpoint with my client ID
    When I select "Daybreak Test Realm" and click go
    And I was redirected to the "Simple" IDP Login page
@@ -524,14 +524,14 @@ Scenario: App makes an api call to retrieve a SEA public data bulk extract
       |  educationOrganization                 |
       |  graduationPlan                        |
       |  session                               |
-      |  calendarDate                          |
+      |  gradingPeriod                         |
       |  school                                |
       |  cohort                                |
       |  section                               |
 
 Scenario: App makes an api call to retrieve a bulk extract delta
 #Get a session to trigger a bulk extract
-Given the pre-existing bulk extrac testing app key has been created
+Given the pre-existing bulk extract testing app key has been created
   When I navigate to the API authorization endpoint with my client ID
    And I select "Daybreak Test Realm" and click go
    And I was redirected to the "Simple" IDP Login page
@@ -546,7 +546,7 @@ Given the pre-existing bulk extrac testing app key has been created
   Then I should receive a return code of 204
   When the operator triggers a delta for the production tenant
    #And I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
-   And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "pike"
+   And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "<RC Server>"
    And I get back a response code of "200"
    And I store the URL for the latest delta for the LEA
    And the number of returned URLs is correct:
@@ -567,7 +567,7 @@ Scenario: Ingestion user ingests additional public entities
   And I should not see a warning log file created
 
   Scenario: SEA admin makes an api call to PATCH the SEA
-    Given the pre-existing bulk extrac testing app key has been created
+    Given the pre-existing bulk extract testing app key has been created
     When I navigate to the API authorization endpoint with my client ID
     And I select "Daybreak Test Realm" and click go
     And I was redirected to the "Simple" IDP Login page
@@ -581,7 +581,7 @@ Scenario: Ingestion user ingests additional public entities
 
 Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
   #Get a session to trigger a bulk extract
-  Given the pre-existing bulk extrac testing app key has been created
+  Given the pre-existing bulk extract testing app key has been created
   When I navigate to the API authorization endpoint with my client ID
   And I select "Daybreak Test Realm" and click go
   And I was redirected to the "Simple" IDP Login page
@@ -593,7 +593,7 @@ Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
   And I get the id for the edorg "STANDARD-SEA"
 
   When the operator triggers a delta for the production tenant
-  And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "pike"
+  And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "<RC Server>"
   And I get back a response code of "200"
   And I store the URL for the latest delta for the SEA
   And the number of returned URLs is correct:

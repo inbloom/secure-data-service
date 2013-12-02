@@ -131,6 +131,11 @@ Given /^I trigger a delta extract$/ do
   bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
 end
 
+Given /^I trigger a delta extract for tenant "([^"]*)"$/ do |tenant|
+  options = " -d -t#{tenant}"
+  bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
+end
+
 Given /^the extraction zone is empty$/ do
   if (Dir.exists?(OUTPUT_DIRECTORY))
     puts "#{OUTPUT_DIRECTORY} cleaned"
@@ -345,6 +350,14 @@ end
 ############################################################
 # When
 ############################################################
+
+When /^I insert the tenant for developer-email@slidev.org$/ do
+  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  db = conn['sli']
+  tenant_coll = db.collection('tenant')
+  new_tenant = {'_id'=>'57b2dac7-e337-40a1-9f9f-7fdbb6274651','type'=>'tenant','body'=>{'landingZone'=>[{'educationOrganization'=>'IL','ingestionServer'=>'demoIngestionServer','path'=>'/home/ingestion/lz/inbound/developeremailslidevorg','desc'=>'Landing zone for NY','userNames'=>['johndoe']}],'tenantId'=>'developer-email@slidev.org','dbName'=>'e4b96dfb6c102e5cd98859ff4e92710cd6efded2','tenantIsReady'=>true},'metaData'=>{}}
+  tenant_coll.insert(new_tenant)
+end
 
 When /^I only remove bulk extract file for tenant:"(.*?)", edorg:"(.*?)", app:"(.*?)", date:"(.*?)"$/ do |tenant, edorg, app, date|
   path = File.expand_path(createCleanupFile(@parentDir, tenant, edorg, app, date))
@@ -1670,6 +1683,7 @@ end
 When /^I set the header format to "(.*?)"$/ do |format|
   puts "DEBUG: format is #{format}"
   @format = format
+  @api_version = "v1"
 end
 
 
