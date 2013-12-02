@@ -38,10 +38,10 @@ import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.resources.v1.CustomEntityResource;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.util.PATCH;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -93,10 +93,16 @@ public class SecurityEventResource extends UnversionedResource {
     }
 
     @Override
+    @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
+    public CustomEntityResource getCustomResource(final String id, final UriInfo uriInfo) {
+        return new CustomEntityResource(id, resourceHelper.getEntityDefinition(RESOURCE_NAME), resourceHelper);
+    }
+
+    @Override
     @POST
     @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
     public Response post(final EntityBody entityBody, @Context final UriInfo uriInfo) {
-        throw new AccessDeniedException("HTTP POST is forbidden for security events");
+        throw new APIAccessDeniedException("HTTP POST is forbidden for security events");
     }
 
     @PUT
@@ -104,7 +110,7 @@ public class SecurityEventResource extends UnversionedResource {
     @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
     public Response put(@PathParam("id") final String id, final EntityBody entityBody,
             @Context final UriInfo uriInfo) {
-        throw new AccessDeniedException("HTTP PUT is forbidden for security events");
+        throw new APIAccessDeniedException("HTTP PUT is forbidden for security events");
     }
 
     @Override
@@ -112,7 +118,7 @@ public class SecurityEventResource extends UnversionedResource {
     @Path("{id}")
     @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
     public Response delete(@PathParam("id") final String id, @Context final UriInfo uriInfo) {
-        throw new AccessDeniedException("HTTP DELETE is forbidden for security events");
+        throw new APIAccessDeniedException("HTTP DELETE is forbidden for security events");
     }
 
     @Override
@@ -122,13 +128,7 @@ public class SecurityEventResource extends UnversionedResource {
     public Response patch(@PathParam("id") final String id,
                           final EntityBody entityBody,
                           @Context final UriInfo uriInfo) {
-        throw new AccessDeniedException("HTTP PATCH is forbidden for security events");
-    }
-
-    @Override
-    @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
-    public CustomEntityResource getCustomResource(final String id, final UriInfo uriInfo) {
-        return new CustomEntityResource(id, resourceHelper.getEntityDefinition(RESOURCE_NAME), resourceHelper);
+        throw new APIAccessDeniedException("HTTP PATCH is forbidden for security events");
     }
 
     /**
@@ -137,7 +137,7 @@ public class SecurityEventResource extends UnversionedResource {
     @OPTIONS
     @RightsAllowed({Right.SECURITY_EVENT_VIEW})
     public Response options() {
-        throw new AccessDeniedException("HTTP OPTIONS is forbidden");
+        throw new APIAccessDeniedException("HTTP OPTIONS is forbidden");
     }
 
 }
