@@ -67,6 +67,10 @@ public class SecurityEventService extends BasicService {
     }
 
     /**
+     * Generic function to list security events based on a NeutralQuery.
+     *
+     * This is mostly the same as the corresponding method in BasicService, except that
+     * it does security checking differently, based on the SecurityEventContextResolver.
      *
      * @param neutralQuery
      * @return
@@ -144,6 +148,16 @@ public class SecurityEventService extends BasicService {
         return list(neutralQuery);
     }
 
+    /**
+     * Returns the custom entity associated with a security event and the application associated with the
+     * user's session.
+     *
+     * This is very similar to {@link BasicService#getCustom(String)}, but it does security checking
+     * differently.
+     *
+     * @param id
+     * @return
+     */
     @Override
     public EntityBody getCustom(String id) {
         checkWhetherUserHasAccessToSecurityEvent(id);
@@ -175,6 +189,16 @@ public class SecurityEventService extends BasicService {
     }
 
 
+    /**
+     * Deletes the custom entity associated with a security event and the application associated with the
+     * user's session.
+     *
+     * This is very similar to {@link BasicService#deleteCustom(String)}, but it does security checking
+     * differently.
+     *
+     * @param id
+     * @return
+     */
     @Override
     public void deleteCustom(String id) {
         checkWhetherUserHasAccessToSecurityEvent(id);
@@ -204,6 +228,16 @@ public class SecurityEventService extends BasicService {
                 getEntityDefinition().getType(), id, clientId, String.valueOf(deleted)});
     }
 
+    /**
+     * Creates or updates the custom entity associated with a security event and the application associated with the
+     * user's session.
+     *
+     * This is very similar to {@link BasicService#createOrUpdateCustom(String, EntityBody)}, but it does security checking
+     * differently.
+     *
+     * @param id
+     * @return
+     */
     @Override
     public void createOrUpdateCustom(String id, EntityBody customEntity) throws EntityValidationException {
         checkWhetherUserHasAccessToSecurityEvent(id);
