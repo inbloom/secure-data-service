@@ -15,12 +15,12 @@ Feature: Security events are logged when bulk extract is run
     And I trigger a bulk extract
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName              | count |
-      | securityEvent               | 5    |
+      | securityEvent               | 6    |
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
       | securityEvent   | 1                   | body.logMessage         | Beginning bulk extract execution                                             | string          |
       | securityEvent   | 1                   | body.logMessage         | Unable to trigger SEA public data extract                                    | string          |
-      | securityEvent   | 1                   | body.logMessage         | No SEA is available for the tenant                                           | string          |
+      | securityEvent   | 2                   | body.logMessage         | No SEA is available for the tenant                                           | string          |
 
   Scenario: Trigger a full extract and check security event
     And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
@@ -37,7 +37,7 @@ Feature: Security events are logged when bulk extract is run
     And I trigger a bulk extract
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName              | count |
-      | securityEvent               | 51    |
+      | securityEvent               | 50    |
 
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
@@ -108,11 +108,11 @@ Feature: Security events are logged when bulk extract is run
     And I trigger an extract for tenant "Hyrule"
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName              | count |
-      | securityEvent               | 6     |
+      | securityEvent               | 5     |
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
-      | securityEvent   | 6                   | body.appId              | BulkExtract                                                                  | string          |
-      | securityEvent   | 4                   | body.tenantId           | Hyrule                                                                       | string          |
+      | securityEvent   | 5                   | body.appId              | BulkExtract                                                                  | string          |
+      | securityEvent   | 5                   | body.tenantId           | Hyrule                                                                       | string          |
       | securityEvent   | 1                   | body.logMessage         | Beginning bulk extract execution                                             | string          |
       | securityEvent   | 1                   | body.logMessage         | No authorized application to extract data                                    | string          |
       | securityEvent   | 0                   | body.logMessage         | No authorized application to extract data Hyrule                             | string          |
