@@ -21,12 +21,13 @@ Feature: Users can receive bulk extracts in sandbox mode
     When I clicked on the button Edit for the application "<Pre-installed Bulk Extract App Name>"
     And I expand all nodes
     And I enable all education organizations for this app
+    And I click on the checkbox labeled "School"
     And I click on Save
     Then my new apps client ID is present
     And my new apps shared secret is present
     When I switch to the iframe
     Then I am redirected to the Application Registration Tool page
-    And "<Pre-installed Bulk Extract App Name>" is enabled for "5" education organizations
+    And "<Pre-installed Bulk Extract App Name>" is enabled for "2" education organizations
 
     #Add Bulk Extract role to IT Admin
     And I exit out of the iframe
@@ -138,7 +139,6 @@ Feature: Users can receive bulk extracts in sandbox mode
       |  educationOrganization                 |
       |  gradingPeriod                         |
       |  session                               |
-      |  calendarDate                          |
       |  school                                |
       |  cohort                                |
       |  section                               |
@@ -147,7 +147,7 @@ Feature: Users can receive bulk extracts in sandbox mode
     When there is no bulk extract files in the local directory
     And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "<RC Server>"
     And I get back a response code of "200"
-    And I store the URL for the latest delta for the LEA
+    And I store the URL for the latest delta for the SEA
     And I request and download a "delta" extract file for the edorg
     Then there is a metadata file in the extract
     And the extract contains a file for each of the following entities:

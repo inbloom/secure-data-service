@@ -524,7 +524,7 @@ Scenario: App makes an api call to retrieve a SEA public data bulk extract
       |  educationOrganization                 |
       |  graduationPlan                        |
       |  session                               |
-      |  calendarDate                          |
+      |  gradingPeriod                         |
       |  school                                |
       |  cohort                                |
       |  section                               |
