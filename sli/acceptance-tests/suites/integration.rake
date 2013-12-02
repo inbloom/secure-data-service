@@ -127,11 +127,6 @@ task :rcSandboxDatabrowserTests do
   runTests("test/features/cross_app_tests/rc_sandbox_databrowser.feature")
 end
 
-desc "Run RC Sandbox Bulk Extract Test"
-task :rcSandboxBulkExtractTests do
-  runTests("test/features/cross_app_tests/rc_sandbox_bulk_extract.feature")
-end
-
 desc "Run RC Sandbox Tenant Purge Test"
 task :rcSandboxPurgeTests do
   runTests("test/features/cross_app_tests/rc_sandbox_purge.feature")
@@ -231,7 +226,6 @@ task :rcSandboxTests do
   Rake::Task["rcSandboxProvisionTests"].execute
   Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
   Rake::Task["rcSandboxAppApprovalTests"].execute
-  Rake::Task["rcSandboxBulkExtractTests"].execute if RUN_ON_RC
   Rake::Task["rcSandboxStudentLoginTests"].execute
   Rake::Task["rcSandboxDamtTests"].execute
   Rake::Task["rcSandboxDashboardTests"].execute
