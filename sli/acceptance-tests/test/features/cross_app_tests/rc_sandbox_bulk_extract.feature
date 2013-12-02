@@ -21,12 +21,13 @@ Feature: Users can receive bulk extracts in sandbox mode
     When I clicked on the button Edit for the application "<Pre-installed Bulk Extract App Name>"
     And I expand all nodes
     And I enable all education organizations for this app
+    And I click on the checkbox labeled "School"
     And I click on Save
     Then my new apps client ID is present
     And my new apps shared secret is present
     When I switch to the iframe
     Then I am redirected to the Application Registration Tool page
-    And "<Pre-installed Bulk Extract App Name>" is enabled for "5" education organizations
+    And "<Pre-installed Bulk Extract App Name>" is enabled for "2" education organizations
 
     #Add Bulk Extract role to IT Admin
     And I exit out of the iframe
