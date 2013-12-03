@@ -2,17 +2,15 @@
 <InterchangeStudentAttendance xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
                               xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAttendance.xsd">
     <Action ActionType="DELETE" Cascade="false" Force="false">
-
         <AttendanceEvent>
-            <SchoolYear>2001-2002</SchoolYear>
-            <EventDate>2001-12-25</EventDate>
-            <AttendanceEventType>Daily Attendance</AttendanceEventType>
+            <SchoolYear>2011-2012</SchoolYear>
+            <EventDate>2011-12-25</EventDate>
             <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
             <AttendanceEventReason>Excused: sick</AttendanceEventReason>
             <EducationalEnvironment>Classroom</EducationalEnvironment>
             <StudentReference>
                 <StudentIdentity>
-                    <StudentUniqueStateId>AE Orphan 1</StudentUniqueStateId>
+                    <StudentUniqueStateId>AE Orphan 2</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
             <SchoolReference>
@@ -20,16 +18,6 @@
                     <StateOrganizationId>AE Orphan Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <SessionReference>
-                <SessionIdentity>
-                    <EducationalOrgReference>
-                        <EducationalOrgIdentity>
-                            <StateOrganizationId>AE Orphan Daybreak Central High</StateOrganizationId>
-                        </EducationalOrgIdentity>
-                    </EducationalOrgReference>
-                    <SessionName>AE Orphan 2001-2002 Year Round: IL-DAYBREAK</SessionName>
-                </SessionIdentity>
-            </SessionReference>
             <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
@@ -41,6 +29,5 @@
                 </SectionIdentity>
             </SectionReference>
         </AttendanceEvent>
-
     </Action>
 </InterchangeStudentAttendance>

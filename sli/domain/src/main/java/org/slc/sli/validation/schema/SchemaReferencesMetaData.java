@@ -170,8 +170,18 @@ public class SchemaReferencesMetaData {
                 pathNode.setMinOccurs(minOccurs); pathNode.setMaxOccurs(maxOccurs);
                 pathNode.setReferences(elementType);
                 currentPath.push(pathNode);
-                collectReferences(fieldSchema, currentPath, refMap);
-                currentPath.pop();
+
+                if(fieldSchema.getType().equals("list")) {
+                    Map<String, NeutralSchema> listFields = fieldSchema.getFields();
+                    for(NeutralSchema listFieldSchema:listFields.values()) {
+                        collectReferences(listFieldSchema, currentPath, refMap);
+                        currentPath.pop();
+                    }
+                } else {
+                    collectReferences(fieldSchema, currentPath, refMap);
+                    currentPath.pop();
+                }
+
             }
         }
     }

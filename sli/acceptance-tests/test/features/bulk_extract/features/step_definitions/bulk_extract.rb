@@ -131,11 +131,6 @@ Given /^I trigger a delta extract$/ do
   bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
 end
 
-Given /^I trigger a delta extract for tenant "([^"]*)"$/ do |tenant|
-  options = " -d -t#{tenant}"
-  bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
-end
-
 Given /^the extraction zone is empty$/ do
   if (Dir.exists?(OUTPUT_DIRECTORY))
     puts "#{OUTPUT_DIRECTORY} cleaned"
@@ -179,11 +174,26 @@ Given /^I have delta bulk extract files generated for today$/ do
   @coll.save(bulk_delta_file_entry)
 end
 
-Given /^The bulk extract app has been approved for "([^"]*)" with client id "([^"]*)"$/ do |lea, clientId|
+Given /^The bulk extract app (has|hasn't)? been approved for "([^"]*)" with client id "([^"]*)"$/ do |hasnot, lea, clientId|
+  disable_NOTABLESCAN()
   @lea = Hash.new
   @lea["name"] = lea
   @lea["clientId"] = clientId
-  puts "stubbed out"
+
+  @orgId = getEntityId(lea)
+
+  @conn ||= Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb ||= @conn.db(DATABASE_NAME)
+  @coll ||= @sliDb.collection("applicationAuthorizations")
+
+  appauth_edorg = @coll.find({"body.applicationId" => clientId, "body.edorgs" => {"$elemMatch" => {"authorizedEdorg" => @orgId}} })
+
+  if(hasnot == "has" && appauth_edorg == nil)
+    @coll.update({'body.applicationId' => clientId}, {'$push' => {'body.authorized_ed_orgs' => @orgId}})
+  elsif(hasnot == "hasn't" && appauth_edorg != nil)
+    @coll.update({'body.applicationId' => clientId}, {'$pull' => {'body.authorized_ed_orgs' => @orgId}})
+  end
+  enable_NOTABLESCAN()
 end
 
 Given /^The X509 cert (.*?) has been installed in the trust store and aliased$/ do |cert|
@@ -337,14 +347,6 @@ end
 ############################################################
 # When
 ############################################################
-
-When /^I insert the tenant for developer-email@slidev.org$/ do
-  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
-  db = conn['sli']
-  tenant_coll = db.collection('tenant')
-  new_tenant = {'_id'=>'57b2dac7-e337-40a1-9f9f-7fdbb6274651','type'=>'tenant','body'=>{'landingZone'=>[{'educationOrganization'=>'IL','ingestionServer'=>'demoIngestionServer','path'=>'/home/ingestion/lz/inbound/developeremailslidevorg','desc'=>'Landing zone for NY','userNames'=>['johndoe']}],'tenantId'=>'developer-email@slidev.org','dbName'=>'e4b96dfb6c102e5cd98859ff4e92710cd6efded2','tenantIsReady'=>true},'metaData'=>{}}
-  tenant_coll.insert(new_tenant)
-end
 
 When /^I only remove bulk extract file for tenant:"(.*?)", edorg:"(.*?)", app:"(.*?)", date:"(.*?)"$/ do |tenant, edorg, app, date|
   path = File.expand_path(createCleanupFile(@parentDir, tenant, edorg, app, date))
@@ -1210,7 +1212,8 @@ def getEntityId(entity)
       "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
       "IL-Highwind" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
       "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
-      "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
+      "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+      "STANDARD_SEA" => "884daa27d806c2d725bc469b273d840493f84b4d_id"
   }
   return entity_to_id_map[entity]
 end
@@ -1669,7 +1672,6 @@ end
 When /^I set the header format to "(.*?)"$/ do |format|
   puts "DEBUG: format is #{format}"
   @format = format
-  @api_version = "v1"
 end
 
 
@@ -3237,15 +3239,18 @@ def get_post_body_by_entity_name(entity_name)
         "attendanceEvent" => [{
           "reason" => "Missed school bus",
           "event" => "Tardy",
-          "date" => "2013-08-30"
+          "date" => "2013-08-30",
+          "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
         }, {
           "reason" => "Excused: sick",
           "event" => "Excused Absence",
-          "date" => "2013-12-19"
+          "date" => "2013-12-19",
+          "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
         }, {
           "reason" => "Missed school bus",
           "event" => "Tardy",
-          "date" => "2014-05-19"
+          "date" => "2014-05-19",
+          "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
         }]
       }]
     },
