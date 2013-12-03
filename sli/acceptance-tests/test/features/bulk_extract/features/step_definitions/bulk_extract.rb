@@ -175,6 +175,7 @@ Given /^I have delta bulk extract files generated for today$/ do
 end
 
 Given /^The bulk extract app (has|hasn't)? been approved for "([^"]*)" with client id "([^"]*)"$/ do |hasnot, lea, clientId|
+  disable_NOTABLESCAN()
   @lea = Hash.new
   @lea["name"] = lea
   @lea["clientId"] = clientId
@@ -192,6 +193,7 @@ Given /^The bulk extract app (has|hasn't)? been approved for "([^"]*)" with clie
   elsif(hasnot == "hasn't" && appauth_edorg != nil)
     @coll.update({'body.applicationId' => clientId}, {'$pull' => {'body.authorized_ed_orgs' => @orgId}})
   end
+  enable_NOTABLESCAN()
 end
 
 Given /^The X509 cert (.*?) has been installed in the trust store and aliased$/ do |cert|
