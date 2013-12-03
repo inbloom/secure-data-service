@@ -177,6 +177,16 @@ Then /^I clean my tenant's landing zone$/ do
   end
 end
 
+Then /^I clean up the (production|sandbox) tenant's bulk extract file entries in the database$/ do |environment|
+  if environment.downcase == 'sandbox'
+    tenant = PropLoader.getProps['sandbox_tenant']
+  else
+    tenant = PropLoader.getProps['tenant']
+  end
+  sli_db = @conn.db(PropLoader.getProps['sli_database_name'])
+  sli_db['bulkExtractFiles'].remove('body.tenantId' => tenant)
+  assert(sli_db['application'].find('body.tenantId' => tenant).count == 0, "Bulk extract file entries for tenant '#{tenant}' have not been deleted.")
+end
 
 Then /^I will drop the tenant document from the collection$/ do
   sli_db = @conn.db(PropLoader.getProps['sli_database_name'])
