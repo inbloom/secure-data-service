@@ -23,6 +23,7 @@ import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
 import org.apache.commons.lang.StringUtils;
+import org.slc.sli.validation.SchemaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -110,6 +111,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Autowired
     private SchemaReferencesMetaData schemaRefMetaData;
 
+    @Autowired
+    private SchemaRepository schemaRepo;
+
     @Value("${sli.maxCascadeDeleteDepth:200}")
     private Integer maxCascadeDeleteDepth;
 
@@ -133,7 +137,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         setWriteConcern(writeConcern);
         subDocs = new SubDocAccessor(getTemplate(), uuidGeneratorStrategy, naturalKeyExtractor);
         denormalizer = new Denormalizer(getTemplate());
-        containerDocumentAccessor = new ContainerDocumentAccessor(uuidGeneratorStrategy, naturalKeyExtractor, template);
+        containerDocumentAccessor = new ContainerDocumentAccessor(uuidGeneratorStrategy, naturalKeyExtractor, template, schemaRepo);
     }
 
     @Override
