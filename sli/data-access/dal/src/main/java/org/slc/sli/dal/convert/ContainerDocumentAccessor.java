@@ -132,6 +132,18 @@ public class ContainerDocumentAccessor {
         return deleteContainerDoc(entity);
     }
 
+    /**
+     * Generate query criteria for the container-embedded doc (e.g. attendanceEvent) based on natural key fields
+     * specified in schema for the 'embeddedDocType'.
+     *
+     * @param embeddedDocType
+     *        Container document type
+     * @param doc
+     *        Container-embedded document (e.g. single attendanceEvent)
+     *
+     * @return
+     *        Query criteria for the container-embedded doc based on the natural key fields.
+     */
     private Map<String, Object> filterByNaturalKeys(String embeddedDocType, Map<String, Object> doc) {
         Map<String, Object> filteredDoc = new HashMap<String, Object>();
         List<Map<String, Object>> fieldCriteria = new ArrayList<Map<String, Object>>();

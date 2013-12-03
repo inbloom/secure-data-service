@@ -39,6 +39,19 @@ And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
 Then "NotTheAppYoureLookingFor" is enabled for "5" education organizations
 
+#Add Bulk Extract role to IT Admin
+And I exit out of the iframe
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Create Custom Roles"
+And I switch to the iframe
+And I edit the group "IT Administrator"
+When I add the right "BULK_EXTRACT" to the group "IT Administrator"
+And I hit the save button
+Then I am no longer in edit mode
+And I switch to the iframe
+And the group "IT Administrator" contains the "right" rights "Bulk IT Administrator"
+
 #Full Window App
 And I exit out of the iframe
 And I click on Admin
