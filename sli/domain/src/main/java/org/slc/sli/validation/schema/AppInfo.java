@@ -48,11 +48,11 @@ public class AppInfo extends Annotation {
     protected static final String COLLECTION_TYPE_ELEMENT_NAME = "CollectionType";
     protected static final String SECURITY_SPHERE = "SecuritySphere";
     protected static final String RESTRICTED_ELEMENT_NAME = "RestrictedForLogging";
-    protected static final String NATURAL_KEY = "naturalKey";
     protected static final String APPLY_NATURAL_KEYS = "applyNaturalKeys";
     protected static final String SELF_REFERENCE = "SelfReference";
     public static final String SCHEMA_VERSION = "schemaVersion";
     public static final String HIDDEN = "hidden";
+    public static final String NATURAL_KEY = "naturalKey";
 
     public static final int NOT_VERSIONED = -1;
 

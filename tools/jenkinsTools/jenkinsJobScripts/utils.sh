@@ -114,14 +114,14 @@ unDeployAdmin()
   bundle install --path $WORKSPACE/../vendors/
   bundle exec thin stop -C config/thin.yml
 
-  ln=`ls /tmp/pid/thin-admin.pid | wc -l`
+  ln=`ls /tmp/pid-admin/thin-admin.pid | wc -l`
 
   if [ "$ln" -ne "0" ]
   then
     echo "admin is still running, killing"
-    pid=`cat /tmp/pid/thin-admin.pid`
+    pid=`cat /tmp/pid-admin/thin-admin.pid`
     sudo kill $pid
-    rm /tmp/pid/thin-admin.pid
+    rm /tmp/pid-admin/thin-admin.pid
   fi
   echo "Admin is shutdown"
 }

@@ -16,17 +16,20 @@
 
 package org.slc.sli.dal.convert;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.DBObject;
-import com.mongodb.WriteConcern;
+import com.mongodb.*;
 
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.NeutralSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -38,6 +41,7 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import org.springframework.stereotype.Component;
 
 /**
  * @author pghosh
@@ -54,18 +58,21 @@ public class ContainerDocumentAccessor {
 
     private SubDocAccessor subDocAccessor;
 
+    private SchemaRepository schemaRepo;
+
     private final Map<String, SubDocAccessor.Location> locationMap = new HashMap<String, SubDocAccessor.Location>();
 
     private static final Logger LOG = LoggerFactory.getLogger(ContainerDocumentAccessor.class);
 
     public ContainerDocumentAccessor(final UUIDGeneratorStrategy strategy, final INaturalKeyExtractor extractor,
-                                     final MongoTemplate mongoTemplate) {
+                                     final MongoTemplate mongoTemplate, final SchemaRepository schemaRepo) {
         this.generatorStrategy = strategy;
         this.naturalKeyExtractor = extractor;
         this.mongoTemplate = mongoTemplate;
         //TODO: Fix (springify)
         this.containerDocumentHolder = new ContainerDocumentHolder();
         this.subDocAccessor = new SubDocAccessor(mongoTemplate, strategy, extractor);
+        this.schemaRepo = schemaRepo;
     }
 
     public boolean isContainerDocument(final String entity) {
@@ -126,6 +133,54 @@ public class ContainerDocumentAccessor {
     }
 
     /**
+     * Generate query criteria for the container-embedded doc (e.g. attendanceEvent) based on natural key fields
+     * specified in schema for the 'embeddedDocType'.
+     *
+     * @param embeddedDocType
+     *        Container document type
+     * @param doc
+     *        Container-embedded document (e.g. single attendanceEvent)
+     *
+     * @return
+     *        Query criteria for the container-embedded doc based on the natural key fields.
+     */
+    private Map<String, Object> filterByNaturalKeys(String embeddedDocType, Map<String, Object> doc) {
+        Map<String, Object> filteredDoc = new HashMap<String, Object>();
+        List<Map<String, Object>> fieldCriteria = new ArrayList<Map<String, Object>>();
+
+        // get natural key fields from schema
+        NeutralSchema schema = schemaRepo.getSchema(embeddedDocType);
+
+        // don't filter if the natural keys are unknown
+        if (schema == null) {
+            return doc;
+        }
+        
+        // loop over natural key fields
+        Map<String, NeutralSchema> fieldSchemas = schema.getFields();
+        for(Map.Entry<String, NeutralSchema> fieldSchema: fieldSchemas.entrySet()) {
+            AppInfo appInfo = (fieldSchema.getValue() == null) ? null : fieldSchema.getValue().getAppInfo();
+            if (appInfo != null && appInfo.isNaturalKey()) {
+                Map<String, Object> naturalKeyCriteria = new HashMap<String, Object>();
+                if (doc.containsKey(fieldSchema.getKey())) {
+                    // add it to the update criteria
+                    naturalKeyCriteria.put(fieldSchema.getKey(), doc.get(fieldSchema.getKey()));
+                    fieldCriteria.add(naturalKeyCriteria);
+                } else {
+                    Map<String, Object> nonExistCriteria = new HashMap<String, Object>();
+                    nonExistCriteria.put(QueryOperators.EXISTS, false);
+                    // explicitly exclude missing natural key fields
+                    naturalKeyCriteria.put(fieldSchema.getKey(), nonExistCriteria);
+                    fieldCriteria.add(naturalKeyCriteria);
+                }
+            }
+        }
+
+        filteredDoc.put(QueryOperators.AND, fieldCriteria);
+        return filteredDoc;
+    }
+
+    /**
      * Delete embedded documents from container doc record.
      *
      * @param containerDoc
@@ -147,7 +202,9 @@ public class ContainerDocumentAccessor {
         query.put("_id", containerDocId);
         DBObject result = null;
         for (Map<String, Object> docToDelete : embeddedDocs) {
-            BasicDBObject dBDocToDelete = new BasicDBObject("body." + embeddedDocType, docToDelete);
+            // filter update to include natural key values and explicitly exclude missing natural keys
+            Map<String, Object> filteredDocToDelete = filterByNaturalKeys(embeddedDocType, docToDelete);
+            BasicDBObject dBDocToDelete = new BasicDBObject("body." + embeddedDocType, filteredDocToDelete);
             final BasicDBObject update = new BasicDBObject("$pull", dBDocToDelete);
             result = this.mongoTemplate.getCollection(collection).findAndModify(query, null, null, false, update,
                     true, false);
@@ -159,9 +216,9 @@ public class ContainerDocumentAccessor {
         }
 
         // If this was the last embedded document, delete the container doc as well.
-        List<Map<String, String>> remainingAttendanceEvents = (List<Map<String, String>>) ((Map<String, Object>) result
+        List<Map<String, Object>> remainingAttendanceEvents = (List<Map<String, Object>>) ((Map<String, Object>) result
                 .get("body")).get(embeddedDocType);
-        if (remainingAttendanceEvents.isEmpty()) {
+        if (remainingAttendanceEvents == null || remainingAttendanceEvents.isEmpty()) {
             Query frQuery = new Query(Criteria.where("_id").is(containerDocId));
             Entity deleted = this.mongoTemplate.findAndRemove(frQuery, Entity.class, collection);
             if (deleted == null) {
@@ -242,24 +299,15 @@ public class ContainerDocumentAccessor {
 
     protected String updateContainerDoc(final Entity entity) {
         TenantContext.setIsSystemCall(false);
-        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
-        final String fieldToPersist = containerDocument.getFieldToPersist();
-
         String parentKey = entity.getEntityId();
 
         final Query query = Query.query(Criteria.where("_id").is(parentKey));
-        final Map<String, Object> entityBody = entity.getBody();
 
-        DBObject pullObject = BasicDBObjectBuilder.start().push("$pullAll").
-                add("body." + fieldToPersist, entityBody.get(fieldToPersist)).get();
-        boolean persisted = true;
-        persisted &= mongoTemplate.getCollection(entity.getType()).update(query.getQueryObject(),
-                pullObject, false, false, WriteConcern.SAFE)
-                .getLastError().ok();
+        // delete the embedded docs to update
+        boolean removed = deleteContainerNonSubDocs(entity);
 
-
-        //persisted &= updateContainerDoc(query, entityBody, entity.getType(), entity.getType());
-        if (persisted) {
+        // insert updated embedded docs
+        if (removed) {
             return insertContainerDoc(query.getQueryObject(), entity);
         } else {
             return "";

@@ -248,6 +248,17 @@
 			<artifactId>aspectjweaver</artifactId>
 		</dependency>
 
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>${velocity.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.opensaml</groupId>
+            <artifactId>opensaml</artifactId>
+            <version>${opensaml.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.google.code.findbugs</groupId>

@@ -56,19 +56,19 @@ public class SchemaReferencesMetaDataTest {
                 Sets.symmetricDifference(
                         Sets.newHashSet(
 
-                                new SchemaReferencePath("studentAssessment.studentObjectiveAssessments.subdoc_studentObjectiveAssessment.objectiveAssessment.assessmentId", "assessment", 1L, 1L,false,false, true) ,
-                                new SchemaReferencePath("studentAssessment.studentObjectiveAssessments.subdoc_studentObjectiveAssessment.objectiveAssessment.assessmentItem.assessmentItem.assessmentId", "assessment", 1L, 1L,false,false, true) ,
-                                new SchemaReferencePath("studentAssessment.studentAssessmentItems.subdoc_studentAssessmentItem.assessmentItem.assessmentId", "assessment", 1L, 1L,false,false, true) ,
+                                new SchemaReferencePath("studentAssessment.studentObjectiveAssessments.objectiveAssessment.assessmentId", "assessment", 1L, 1L,false,false, true) ,
+                                new SchemaReferencePath("studentAssessment.studentObjectiveAssessments.objectiveAssessment.assessmentItem.assessmentId", "assessment", 1L, 1L,false,false, true) ,
+                                new SchemaReferencePath("studentAssessment.studentAssessmentItems.assessmentItem.assessmentId", "assessment", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("studentAssessment.assessmentId", "assessment", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("objectiveAssessment.assessmentId", "assessment", 1L, 1L,false,false, true) ,
-                                new SchemaReferencePath("objectiveAssessment.assessmentItem.assessmentItem.assessmentId", "assessment", 1L, 1L,false,false, true) ,
-                                new SchemaReferencePath("objectiveAssessment.objectiveAssessments.objectiveAssessment.assessmentId", "assessment", 1L, 1L,false,false, true) ,
-                                new SchemaReferencePath("objectiveAssessment.objectiveAssessments.objectiveAssessment.assessmentItem.assessmentItem.assessmentId", "assessment", 1L, 1L,false,false, true) ,
-                                new SchemaReferencePath("assessment.objectiveAssessment.objectiveAssessment.assessmentId", "assessment", 1L, 1L,false,false, true) ,
-                                new SchemaReferencePath("assessment.objectiveAssessment.objectiveAssessment.assessmentItem.assessmentItem.assessmentId", "assessment", 1L, 1L,false,false, true) ,
-                                new SchemaReferencePath("assessment.assessmentItem.assessmentItem.assessmentId", "assessment", 1L, 1L,false,false, true) ,
+                                new SchemaReferencePath("objectiveAssessment.assessmentItem.assessmentId", "assessment", 1L, 1L,false,false, true) ,
+                                new SchemaReferencePath("objectiveAssessment.objectiveAssessments.assessmentId", "assessment", 1L, 1L,false,false, true) ,
+                                new SchemaReferencePath("objectiveAssessment.objectiveAssessments.assessmentItem.assessmentId", "assessment", 1L, 1L,false,false, true) ,
+                                new SchemaReferencePath("assessment.objectiveAssessment.assessmentId", "assessment", 1L, 1L,false,false, true) ,
+                                new SchemaReferencePath("assessment.objectiveAssessment.assessmentItem.assessmentId", "assessment", 1L, 1L,false,false, true) ,
+                                new SchemaReferencePath("assessment.assessmentItem.assessmentId", "assessment", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("subdoc_studentObjectiveAssessment.objectiveAssessment.assessmentId", "assessment", 1L, 1L,false,false, true) ,
-                                new SchemaReferencePath("subdoc_studentObjectiveAssessment.objectiveAssessment.assessmentItem.assessmentItem.assessmentId", "assessment", 1L, 1L,false,false, true) ,
+                                new SchemaReferencePath("subdoc_studentObjectiveAssessment.objectiveAssessment.assessmentItem.assessmentId", "assessment", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("assessmentItem.assessmentId", "assessment", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("subdoc_studentAssessmentItem.assessmentItem.assessmentId", "assessment", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("section.assessmentReferences", "assessment", 0L, 9223372036854775807L,true,true, false) ),
@@ -80,10 +80,10 @@ public class SchemaReferencesMetaDataTest {
                 0,
                 Sets.symmetricDifference(
                         Sets.newHashSet(
-                                new SchemaReferencePath("studentAssessment.studentObjectiveAssessments.subdoc_studentObjectiveAssessment.objectiveAssessment.assessmentItemRefs", "assessmentItem", 0L, 9223372036854775807L,true,true, false) ,
+                                new SchemaReferencePath("studentAssessment.studentObjectiveAssessments.objectiveAssessment.assessmentItemRefs", "assessmentItem", 0L, 9223372036854775807L,true,true, false) ,
                                 new SchemaReferencePath("objectiveAssessment.assessmentItemRefs", "assessmentItem", 0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("objectiveAssessment.objectiveAssessments.objectiveAssessment.assessmentItemRefs", "assessmentItem", 0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("assessment.objectiveAssessment.objectiveAssessment.assessmentItemRefs", "assessmentItem", 0L, 9223372036854775807L,true,true, false) ,
+                                new SchemaReferencePath("objectiveAssessment.objectiveAssessments.assessmentItemRefs", "assessmentItem", 0L, 9223372036854775807L,true,true, false) ,
+                                new SchemaReferencePath("assessment.objectiveAssessment.assessmentItemRefs", "assessmentItem", 0L, 9223372036854775807L,true,true, false) ,
                                 new SchemaReferencePath("subdoc_studentObjectiveAssessment.objectiveAssessment.assessmentItemRefs", "assessmentItem", 0L, 9223372036854775807L,true,true, false) ,
                                 new SchemaReferencePath("studentAssessmentItem.assessmentItemId", "assessmentItem", 1L, 1L,false,false, true) ),
                         Sets.newHashSet(schemaRefMetaData.getReferencesTo("assessmentItem"))).size()
@@ -220,10 +220,10 @@ public class SchemaReferencesMetaDataTest {
                 Sets.symmetricDifference(
                         Sets.newHashSet(
                                 new SchemaReferencePath("gradebookEntry.learningObjectives", "learningObjective", 0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("studentAssessment.studentObjectiveAssessments.subdoc_studentObjectiveAssessment.objectiveAssessment.learningObjectives", "learningObjective", 0L, 9223372036854775807L,true,true, false) ,
+                                new SchemaReferencePath("studentAssessment.studentObjectiveAssessments.objectiveAssessment.learningObjectives", "learningObjective", 0L, 9223372036854775807L,true,true, false) ,
                                 new SchemaReferencePath("objectiveAssessment.learningObjectives", "learningObjective", 0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("objectiveAssessment.objectiveAssessments.objectiveAssessment.learningObjectives", "learningObjective", 0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("assessment.objectiveAssessment.objectiveAssessment.learningObjectives", "learningObjective", 0L, 9223372036854775807L,true,true, false) ,
+                                new SchemaReferencePath("objectiveAssessment.objectiveAssessments.learningObjectives", "learningObjective", 0L, 9223372036854775807L,true,true, false) ,
+                                new SchemaReferencePath("assessment.objectiveAssessment.learningObjectives", "learningObjective", 0L, 9223372036854775807L,true,true, false) ,
                                 new SchemaReferencePath("subdoc_studentObjectiveAssessment.objectiveAssessment.learningObjectives", "learningObjective", 0L, 9223372036854775807L,true,true, false) ,
                                 new SchemaReferencePath("studentCompetency.objectiveId.learningObjectiveId", "learningObjective", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("learningObjective.parentLearningObjective", "learningObjective", 0L, 1L,false,true, false) ,
@@ -237,13 +237,13 @@ public class SchemaReferencesMetaDataTest {
                 Sets.symmetricDifference(
                         Sets.newHashSet(
                                 new SchemaReferencePath("gradebookEntry.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("studentAssessment.studentObjectiveAssessments.subdoc_studentObjectiveAssessment.objectiveAssessment.assessmentItem.assessmentItem.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("studentAssessment.studentAssessmentItems.subdoc_studentAssessmentItem.assessmentItem.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("objectiveAssessment.assessmentItem.assessmentItem.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("objectiveAssessment.objectiveAssessments.objectiveAssessment.assessmentItem.assessmentItem.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("assessment.objectiveAssessment.objectiveAssessment.assessmentItem.assessmentItem.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("assessment.assessmentItem.assessmentItem.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("subdoc_studentObjectiveAssessment.objectiveAssessment.assessmentItem.assessmentItem.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
+                                new SchemaReferencePath("studentAssessment.studentObjectiveAssessments.objectiveAssessment.assessmentItem.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
+                                new SchemaReferencePath("studentAssessment.studentAssessmentItems.assessmentItem.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
+                                new SchemaReferencePath("objectiveAssessment.assessmentItem.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
+                                new SchemaReferencePath("objectiveAssessment.objectiveAssessments.assessmentItem.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
+                                new SchemaReferencePath("assessment.objectiveAssessment.assessmentItem.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
+                                new SchemaReferencePath("assessment.assessmentItem.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
+                                new SchemaReferencePath("subdoc_studentObjectiveAssessment.objectiveAssessment.assessmentItem.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
                                 new SchemaReferencePath("assessmentItem.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
                                 new SchemaReferencePath("subdoc_studentAssessmentItem.assessmentItem.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ,
                                 new SchemaReferencePath("learningObjective.learningStandards", "learningStandard", 0L, 9223372036854775807L,true,true, false) ),
@@ -255,11 +255,11 @@ public class SchemaReferencesMetaDataTest {
                 0,
                 Sets.symmetricDifference(
                         Sets.newHashSet(
-                                new SchemaReferencePath("studentAssessment.studentObjectiveAssessments.subdoc_studentObjectiveAssessment.objectiveAssessment.subObjectiveAssessment", "objectiveAssessment", 0L, 9223372036854775807L,true,true, false) ,
+                                new SchemaReferencePath("studentAssessment.studentObjectiveAssessments.objectiveAssessment.subObjectiveAssessment", "objectiveAssessment", 0L, 9223372036854775807L,true,true, false) ,
                                 new SchemaReferencePath("studentObjectiveAssessment.objectiveAssessmentId", "objectiveAssessment", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("objectiveAssessment.subObjectiveAssessment", "objectiveAssessment", 0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("objectiveAssessment.objectiveAssessments.objectiveAssessment.subObjectiveAssessment", "objectiveAssessment", 0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("assessment.objectiveAssessment.objectiveAssessment.subObjectiveAssessment", "objectiveAssessment", 0L, 9223372036854775807L,true,true, false) ,
+                                new SchemaReferencePath("objectiveAssessment.objectiveAssessments.subObjectiveAssessment", "objectiveAssessment", 0L, 9223372036854775807L,true,true, false) ,
+                                new SchemaReferencePath("assessment.objectiveAssessment.subObjectiveAssessment", "objectiveAssessment", 0L, 9223372036854775807L,true,true, false) ,
                                 new SchemaReferencePath("subdoc_studentObjectiveAssessment.objectiveAssessment.subObjectiveAssessment", "objectiveAssessment", 0L, 9223372036854775807L,true,true, false) ),
                         Sets.newHashSet(schemaRefMetaData.getReferencesTo("objectiveAssessment"))).size()
         );
@@ -321,10 +321,13 @@ public class SchemaReferencesMetaDataTest {
                 0,
                 Sets.symmetricDifference(
                         Sets.newHashSet(
+                                new SchemaReferencePath("attendance.attendanceEvent.sectionId", "section", 0L, 1L,false,true, false)  ,
                                 new SchemaReferencePath("grade.sectionId", "section", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("gradebookEntry.sectionId", "section", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("studentGradebookEntry.sectionId", "section", 1L, 1L,false,false, true) ,
+                                new SchemaReferencePath("schoolYearAttendanceType.attendanceEvent.sectionId", "section", 0L, 1L,false,true, false)  ,
                                 new SchemaReferencePath("studentSectionAssociation.sectionId", "section", 1L, 1L,false,false, true) ,
+                                new SchemaReferencePath("attendanceEvent.sectionId", "section", 0L, 1L,false,true, false)  ,
                                 new SchemaReferencePath("teacherSectionAssociation.sectionId", "section", 1L, 1L,false,false, true) ),
                         Sets.newHashSet(schemaRefMetaData.getReferencesTo("section"))).size()
         );
