@@ -17,29 +17,25 @@ package org.slc.sli.api.resources.generic.custom;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.DefaultResource;
-import org.slc.sli.api.resources.v1.HypermediaType;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
- * @author jstokes
- * @author pghosh
- * @author srupasinghe
+ * @author ben morgan
  *
+ * This endpoint disallows PUT for entities mapped to it and returns a 405
  */
 @Component
 @Scope("request")
 @Path("/attendances")
-@Produces({ HypermediaType.JSON + ";charset=utf-8" })
-public class AttendanceResource extends DefaultResource {
+public class NoPutResource extends DefaultResource {
 
     @Override
     @PUT

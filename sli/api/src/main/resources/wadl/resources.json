@@ -404,13 +404,15 @@
       "path": "/attendances",
       "queryable": true,
       "doc": "Represents the definition of an attendance resource. An attendance resource represents both daily and class period (section) attendance. For more information, see the schema for $$Attendance$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/attendances. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/attendances. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated. For students, this is /students/{IDs}/attendance. {IDs} represents the ID of the student user making this call.",
-      "resourceClass": "org.slc.sli.api.resources.generic.custom.AttendanceResource"
+      "resourceClass": "org.slc.sli.api.resources.generic.custom.NoPutResource"
     },
     {
       "path": "/yearlyAttendances",
       "queryable": true,
       "blockGetRequest": true,
-      "doc": "Represents the definition of a yearly attendance resource. A yearly attendance resource represents attendance events for a school year. For more information, see the schema for $$YearlyAttendance$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/yearlyAttendances. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/yearlyAttendances. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated. For students, this is /students/{IDs}/yearlyAttendances. {IDs} represents the ID of the student user making this call."
+      "doc": "Represents the definition of a yearly attendance resource. A yearly attendance resource represents attendance events for a school year. For more information, see the schema for $$YearlyAttendance$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/yearlyAttendances. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/yearlyAttendances. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated. For students, this is /students/{IDs}/yearlyAttendances. {IDs} represents the ID of the student user making this call.",
+      "resourceClass": "org.slc.sli.api.resources.generic.custom.NoPutResource"
+
     },
     {
       "path": "/studentSchoolAssociations",
