@@ -233,8 +233,8 @@ public class BulkExtract {
         if (deltasEnabled) {
             LOG.info("Retrieving delta bulk extract for {}, at date {}", edOrgId, date);
             if (edOrgId == null || edOrgId.isEmpty()) {
-                logSecurityEvent("Failed delta request, missing leadId");
-                throw new IllegalArgumentException("leaId cannot be missing");
+                logSecurityEvent("Failed delta request, missing edOrgId");
+                throw new IllegalArgumentException("edOrgId cannot be missing");
             }
             if (date == null || date.isEmpty()) {
                 logSecurityEvent("Failed delta request, missing date");
@@ -243,17 +243,40 @@ public class BulkExtract {
 
             validateRequestCertificate(request);
 
-            boolean isPublicData = false;
-            Entity entity = helper.byId(edOrgId);
+            canAccessEdOrgExtract(edOrgId);
 
-            if (helper.isSEA(entity)) {
-                isPublicData = true;
-                //canAccessSEAExtract(entity); DE2995
-            } else {
-            	canAccessEdOrgExtract(edOrgId);
+            return getExtractResponse(context.getRequest(), date, edOrgId, false);
+
+        }
+        logSecurityEvent("Failed request for Edorg delta bulk extract data");
+        return Response.status(404).build();
+    }
+
+    /**
+     * Stream a delta public extract response.
+     *
+     * @param date the date of the delta
+     * @return A response with a delta extract file.
+     */
+    @GET
+    @Path("extract/public/delta/{date}")
+    @RightsAllowed({ Right.BULK_EXTRACT })
+    public Response getPublicDelta(@Context HttpServletRequest request, @Context HttpContext context,
+                              @PathParam("date") String date) {
+        logSecurityEvent("Received request to stream public delta bulk extract data");
+        if (deltasEnabled) {
+            LOG.info("Retrieving delta public bulk extract at date {}", date);
+
+            if (date == null || date.isEmpty()) {
+                logSecurityEvent("Failed delta request, missing date");
+                throw new IllegalArgumentException("date cannot be missing");
             }
 
-            return getExtractResponse(context.getRequest(), date, edOrgId, isPublicData);
+            validateRequestCertificate(request);
+
+            boolean isPublicData = true;
+
+            return getExtractResponse(context.getRequest(), date, null, isPublicData);
 
         }
         logSecurityEvent("Failed request for Edorg delta bulk extract data");

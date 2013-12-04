@@ -122,7 +122,7 @@ Scenario Outline: Extract received through the API should have all the valid ten
 Scenario: As a valid user get SEA public data delta extract using BEEP
   Given in my list of rights I have BULK_EXTRACT
   When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id/delta/2013-04-30T17:22:26.391Z"
+  When I make a call to the bulk extract end point "/bulk/extract/public/delta/2013-04-30T17:22:26.391Z"
   Then I get back a response code of "404"
 
   Scenario: API call to the SEA BEEP with an invalid edOrg
@@ -147,7 +147,7 @@ Scenario: Invalid user tries to access SEA public data
 Scenario: SEA public data delta extract using BEEP with invalid users
   Given in my list of rights I have BULK_EXTRACT
   When I log into "SDK Sample" with a token of "linda.kim", a "Teacher" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id/delta/2013-04-30T17:22:26.391Z"
+  When I make a call to the bulk extract end point "/bulk/extract/public/delta/2013-04-30T17:22:26.391Z"
   Then I get back a response code of "403"
 
 Scenario: Bulk extract should fail if there is more than 1 SEA in the tenant.

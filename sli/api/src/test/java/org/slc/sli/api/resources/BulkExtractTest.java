@@ -387,7 +387,7 @@ public class BulkExtractTest {
         Mockito.when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockAppAuth);
 
-        Response res = bulkExtract.getDelta(req, CONTEXT, edOrgId, "2013-05-14T11:00:00.000Z");
+        Response res = bulkExtract.getPublicDelta(req, CONTEXT, "2013-05-14T11:00:00.000Z");
 
         assertEquals(200, res.getStatus());
     }
