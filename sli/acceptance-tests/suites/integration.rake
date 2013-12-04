@@ -40,6 +40,11 @@ task :rcAppApprovalTests do
   end
 end
 
+desc "Run Artifact Binding RC Test"
+task :rcArtifactBindingTests do
+  runTests("test/features/cross_app_tests/rc_integration_artifact_idp.feature")
+end
+
 desc "Run Dashboard RC Test"
 task :rcDashboardTests do
   runTests("test/features/cross_app_tests/rc_integration_dashboard.feature")
@@ -122,6 +127,11 @@ task :rcSandboxDatabrowserTests do
   runTests("test/features/cross_app_tests/rc_sandbox_databrowser.feature")
 end
 
+desc "Run RC Sandbox Bulk Extract Test"
+task :rcSandboxBulkExtractTests do
+  runTests("test/features/cross_app_tests/rc_sandbox_bulk_extract.feature")
+end
+
 desc "Run RC Sandbox Tenant Purge Test"
 task :rcSandboxPurgeTests do
   runTests("test/features/cross_app_tests/rc_sandbox_purge.feature")
@@ -197,6 +207,7 @@ task :rcTests do
   Rake::Task["rcAccountRequestTests"].execute
   Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
   Rake::Task["rcAppApprovalTests"].execute
+  Rake::Task["rcArtifactBindingTests"].execute unless PropLoader.getProps['ci_artifact_idp_type'].downcase == 'none'
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcDataBrowserTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
@@ -220,6 +231,7 @@ task :rcSandboxTests do
   Rake::Task["rcSandboxProvisionTests"].execute
   Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
   Rake::Task["rcSandboxAppApprovalTests"].execute
+  Rake::Task["rcSandboxBulkExtractTests"].execute if RUN_ON_RC
   Rake::Task["rcSandboxStudentLoginTests"].execute
   Rake::Task["rcSandboxDamtTests"].execute
   Rake::Task["rcSandboxDashboardTests"].execute

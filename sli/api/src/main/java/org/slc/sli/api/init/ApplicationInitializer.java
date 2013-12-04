@@ -30,6 +30,8 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,6 +61,8 @@ import com.mongodb.util.JSON;
 @Component
 public class ApplicationInitializer {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ApplicationInitializer.class);
+
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repository;
@@ -77,10 +81,10 @@ public class ApplicationInitializer {
                 sliProp = PropertiesLoaderUtils.loadProperties(bootstrapProperties);
                 processTemplates(sliProp);
             } catch (IOException e) {
-                error("Could not load boostrap properties.", e);
+                LOG.error("Could not load boostrap properties.", e);
             }
         } else {
-            warn("Could not find bootstrap properties at {}.", bootstrapProperties);
+            LOG.warn("Could not find bootstrap properties at {}.", bootstrapProperties);
         }
     }
 
@@ -102,7 +106,7 @@ public class ApplicationInitializer {
                             is.close();
                         }
                     } catch (IOException e) {
-                        error("Problem loading JSON template.", e);
+                        LOG.error("Problem loading JSON template.", e);
                     }
                 }
             }
@@ -117,14 +121,14 @@ public class ApplicationInitializer {
         Entity app = findExistingApp(appData);
 
         if (app == null) {
-            info("Creating boostrap application data for {}", appData.get("name"));
+            LOG.info("Creating boostrap application data for {}", appData.get("name"));
             repository.create(APP_RESOURCE, appData);
         } else {
             //check if we need to update it
             long oldAppHash = InitializerUtils.checksum(app.getBody());
             long newAppHash = InitializerUtils.checksum(appData);
             if (oldAppHash != newAppHash) {
-                info("Updating bootstrap application data for {}", appData.get("name"));
+                LOG.info("Updating bootstrap application data for {}", appData.get("name"));
                 app.getBody().clear();
                 app.getBody().putAll(appData);
                 repository.update(APP_RESOURCE, app, false);

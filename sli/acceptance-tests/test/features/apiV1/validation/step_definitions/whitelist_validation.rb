@@ -104,7 +104,7 @@ $entityData = {
             "emailAddress" => "student@abcdef.com",
             "emailAddressType" => "Home/Personal"
         ],
-        "profileThumbnail" => "http://www.google.com/photo.jpg"
+        "profileThumbnail" => "https://inbloom.org/sites/all/themes/SLC/logo.png"
     },
     "educationOrganization" => {
         "organizationCategories" => ["State Education Agency"],
@@ -118,7 +118,7 @@ $entityData = {
             "nameOfCounty" => "Wake",
             "countyFIPSCode" => "00183"
         ],
-        "webSite" => "http://www.google.com",
+        "webSite" => "https://inbloom.org/",
         "agencyHierarchyName" => "agency.h.name"
     },
     "staff" => {

@@ -82,6 +82,27 @@ When /^I navigate to GET "([^\"]*)"$/ do |uri|
   end
 end
 
+When /^I navigate to HEAD "([^\"]*)"$/ do |uri|
+  if defined? @queryParams
+    uri = uri + "?#{@queryParams.join('&')}"
+  end
+  restHttpHead(uri)
+  assert(@res != nil, "Response from rest-client GET is nil")
+
+  @headers=@res.raw_headers.to_hash()
+end
+
+When /^I navigate to OPTIONS "([^\"]*)"$/ do |uri|
+  if defined? @queryParams
+    uri = uri + "?#{@queryParams.join('&')}"
+  end
+  restHttpOptions(uri)
+  assert(@res != nil, "Response from rest-client GET is nil")
+
+  @headers=@res.raw_headers.to_hash()
+end
+
+
 Given /^parameter "([^\"]*)" is "([^\"]*)"$/ do |param, value|
   step %Q{parameter "#{param}" "=" "#{value}"}
 end

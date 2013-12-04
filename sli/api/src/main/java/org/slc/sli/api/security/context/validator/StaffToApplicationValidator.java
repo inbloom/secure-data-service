@@ -35,12 +35,12 @@ import java.util.*;
  */
 @Component
 public class StaffToApplicationValidator extends AbstractContextValidator {
-    
+
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
         return isStaff() && EntityNames.APPLICATION.equals(entityType);
     }
-    
+
     /**
      * The rule is you can see those applications that have YOUR edOrg in application.body.authorized_ed_orgs
      */
@@ -68,7 +68,7 @@ public class StaffToApplicationValidator extends AbstractContextValidator {
         
         Set<String>  myApplicationIdsSet = new HashSet<String>();
         for(String appId: myApplicationIds) {
-        	myApplicationIdsSet.add(appId);
+            myApplicationIdsSet.add(appId);
         }
 
         return  myApplicationIdsSet;

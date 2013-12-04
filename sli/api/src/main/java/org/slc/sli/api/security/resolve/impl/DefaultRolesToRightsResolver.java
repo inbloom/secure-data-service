@@ -31,6 +31,8 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
@@ -43,6 +45,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
+
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultRolesToRightsResolver.class);
 
     @Autowired
     private RoleRightAccess roleRightAccess;
@@ -86,7 +90,7 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
                 }
             }
         }
-        debug("Final auth list {}", auths);
+        LOG.debug("Final auth list {}", auths);
         if (auths == null) {
             return new HashSet<GrantedAuthority>();
         }
@@ -135,7 +139,7 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
         Entity realm = findRealm(realmId);
         if (isAdminRealm) {
             roles.addAll(roleRightAccess.findAdminRoles(roleNames));
-            debug("Mapped admin roles {} to {}.", roleNames, roles);
+            LOG.debug("Mapped admin roles {} to {}.", roleNames, roles);
         } else if (isDeveloperRealm(realm)) {
             roles.addAll(roleRightAccess.findAdminRoles(roleNames));
             boolean canLoginAsDeveloper = false;
@@ -149,12 +153,12 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
             if (canLoginAsDeveloper) {
                 roles = new HashSet<Role>();
                 roles.addAll(roleRightAccess.findAdminRoles(Arrays.asList(SecureRoleRightAccessImpl.APP_DEVELOPER)));
-                debug("With PRODUCTION_LOGIN right, converted {} to {}.", roleNames, roles);
+                LOG.debug("With PRODUCTION_LOGIN right, converted {} to {}.", roleNames, roles);
             }
             
         } else {
             roles.addAll(roleRightAccess.findRoles(tenantId, realmId, roleNames));
-            debug("Mapped user roles {} to {}.", roleNames, roles);
+            LOG.debug("Mapped user roles {} to {}.", roleNames, roles);
         }
         return roles;
     }

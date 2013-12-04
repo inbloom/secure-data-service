@@ -31,13 +31,6 @@ Dir["./test/features/search/step_definitions/*.rb"].each {|file| require file}
 $client_id = nil
 $client_secret = nil
 
-Transform /^<([^>]*)>$/ do |human_readable_text|
- if human_readable_text == "CI_IDP_Redirect_URL"
-   url = PropLoader.getProps["ci_idp_redirect_url"]
- end
- url
-end
-
 When /^I make my app an installed app$/ do
   @driver.find_element(:css, 'input[id="app_installed"]').click
 end
@@ -83,7 +76,7 @@ Given /^the testing device app key has been created$/ do
   @oauthRedirectURI = "http://device"
 end
 
-Given /^the pre-existing bulk extrac testing app key has been created$/ do
+Given /^the pre-existing bulk extract testing app key has been created$/ do
   @oauthClientId = PropLoader.getProps['bulk_extract_testapp_client_id']
   @oauthClientSecret = PropLoader.getProps['bulk_extract_testapp_secret']
   @oauthRedirectURI = "http://device"
@@ -139,6 +132,15 @@ Then /^I enter "(.*?)" in the Redirect Endpoint field$/ do |url|
   @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys url
 end
 
+Then /^I enter "(.*?)" in the Artifact Resolution Endpoint field$/ do |url|
+  STDOUT.puts "artifact resolution endpoint : #{url}"
+  @driver.find_element(:name, 'realm[idp][artifactResolutionEndpoint]').send_keys url
+end
+
+Then /^I enter "(.*?)" in the Source Id field$/ do |url|
+  STDOUT.puts "source id : #{url}"
+  @driver.find_element(:name, 'realm[idp][sourceId]').send_keys url
+end
 
 Then /^I request and download a "(.*?)" extract file for the edorg$/ do |arg1|
   env_key = PropLoader.getProps['rc_env']
@@ -210,3 +212,10 @@ And /^I manually navigate to "(.*?)" in admin$/ do |endpoint|
     @driver.get(PropLoader.getProps['admintools_server_url'] + "/" + endpoint)
 end
 
+Then /^I enable all education organizations for this app$/ do
+  @driver.find_element(:id, 'root').click
+end
+
+Then /^I click on the checkbox labeled "([^"]*)"$/ do |text|
+  @driver.find_element(:xpath, "//span[text()='#{text}']/preceding-sibling::input[@type='checkbox']").click
+end

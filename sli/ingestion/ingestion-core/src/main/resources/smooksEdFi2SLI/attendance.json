@@ -40,5 +40,47 @@
                 ]
             ]
         }
+    },
+    {
+        "fieldPath" : "body.SectionReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "section",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.uniqueSectionCode",
+                        "values" :
+                        [{
+                            "valueSource" : "body.SectionReference.SectionIdentity.UniqueSectionCode"
+                        }]
+                    },
+                    {
+                        "path" : "body.schoolId",
+                        "values" :
+                        [{
+                            "ref":
+                             {
+                                 "entityType" : "school",
+                                 "choiceOfFields" :
+                                  [
+                                      [
+                                          {
+                                              "path" : "body.stateOrganizationId",
+                                              "values" :
+                                               [{
+                                                    "valueSource" : "body.SectionReference.SectionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"
+                                               }]
+                                          }
+                                      ]
+                                  ]
+                             }
+                        }]
+                    }
+                ]
+            ]
+        }
     }]
 }

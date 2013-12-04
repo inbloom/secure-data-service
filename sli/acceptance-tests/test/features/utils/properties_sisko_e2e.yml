@@ -40,9 +40,17 @@ ingestion_timeout_override_seconds: 0
 #Bulk Extract Configuration
 bulk_extract_script: "/opt/bulkextract/local_bulk_extract.sh"
 bulk_extract_output_directory: "/bulkextract/extracts/"
-bulk_extract_jar_loc: "opt/bulkextract/bulk_extract.tar.gz"
-bulk_extract_properties_file: "/opt/tomcat/apache-tomcat-7.0.29/conf/sli.properties"
+bulk_extract_jar_loc: "/opt/bulkextract/bulk_extract.tar.gz"
+bulk_extract_properties_file: "/opt/tomcat/apache-tomcat-7.0.27/conf/sli.properties"
 bulk_extract_keystore_file: "/opt/tomcat/encryption/ciKeyStore.jks"
+
+#Bulk Extract Pre-existing App, used in RC E2E Tests
+bulk_extract_testapp_name: "El_Extractor"
+bulk_extract_testapp_client_id: "b4one148r0"
+bulk_extract_testapp_secret: "b11ti2ir8luhoswoy00cgnf6ehqv1gpwfm8tblrk6q7otzs4"
+
+ssh_user: jenkins@rcingest01.sisko
+extract_to_directory: /jenkins
 
 sif_db: "localhost"
 sif_port: 27018

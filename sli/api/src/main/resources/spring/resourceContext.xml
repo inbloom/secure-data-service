@@ -9,4 +9,10 @@
   <!-- <bean id="studentResource" class="org.slc.sli.api.resources.StudentResource"> <property name="studentService" ref="studentTorqueService" 
     /> </bean> -->
 
+    <bean id="apiKeyStoreAccessor" class="org.slc.sli.api.resources.security.KeyStoreAccessor">
+        <property name="keyStoreFileName" value="${sli.api.keyStore}"/>
+        <property name="keyStorePassword" value="#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.keystore.password}')}"/>
+        <property name="keyStoreType" value="JCEKS"/>
+    </bean>
+
 </beans>
