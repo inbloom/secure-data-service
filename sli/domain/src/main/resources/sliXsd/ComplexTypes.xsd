@@ -962,7 +962,7 @@
 		minOccurs="0"> <xs:annotation> <xs:documentation>The number of seats that
 		is most favorable to the class. </xs:documentation> </xs:annotation> </xs:element>
 		</xs:sequence> </xs:complexType> -->
-    <xs:complexType name="meetingTime">
+    <!--xs:complexType name="meetingTime">
         <xs:annotation>
             <xs:documentation>This entity represents the set of elements defining the meeting time for a class
                 period for a bell schedule.
@@ -1003,7 +1003,7 @@
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
-    </xs:complexType>
+    </xs:complexType-->
 
     <xs:complexType name='miscellaneousEvent'>
         <xs:annotation>
@@ -11160,7 +11160,7 @@
             </xs:element>
             <xs:element name='meetingTime'>
                 <xs:annotation>
-                    <xs:documentation>This entity represents the set of elements defining the meeting time for a class period.</xs:documentation>
+                    <xs:documentation>This element represents the set of elements defining the meeting time for a class period.</xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                         <xs:sequence>
