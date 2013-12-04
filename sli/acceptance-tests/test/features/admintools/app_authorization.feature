@@ -177,7 +177,7 @@ Then I see an application "SDK Sample" in the table
   And I click on the "Edit Authorizations" button next to it
   And I am redirected to the Admin Application Authorization Edit Page
   And the checkbox with HTML id "cat_1" is checked
-  And the checkbox with HTML id "cat_15" is checked
+  And the checkbox with HTML id "cat_14" is checked
   And the checkbox with HTML id "bd086bae-ee82-4cf2-baf9-221a9407ea07" is checked
 
 Scenario: Category node status in the authorization tree is dependant upon the status of descendants
@@ -196,5 +196,5 @@ Then I see an application "SDK Sample" in the table
   And I am redirected to the Admin Application Authorization Edit Page
   And the checkbox with HTML id "root" is unchecked
   And the checkbox with HTML id "cat_1" is unchecked
-  And the checkbox with HTML id "cat_15" is unchecked
+  And the checkbox with HTML id "cat_14" is unchecked
   And the checkbox with HTML id "bd086bae-ee82-4cf2-baf9-221a9407ea07" is unchecked
