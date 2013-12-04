@@ -170,7 +170,38 @@ Scenario: API call to SEA BEEP when there is more than one SEA in the tenant
   Then I get back a response code of "404"
   Then I remove the edorg with id "IL-Test" from the "Midgar" database
 
-Scenario: Where the public entity has no edOrg reference, verify the entity is still extracted for the SEA
+  Scenario: A public data extract can be retrieved from the api by a user with the BULK_EXTRACT right when the app is approved only for the SEA
+    Given in my list of rights I have BULK_EXTRACT
+    And the bulk extract files in the database are scrubbed
+    And The bulk extract app hasn't been approved for "Midgar-DAYBREAK" with client id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    And The bulk extract app has been approved for "IL" with client id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    And I trigger a bulk extract
+    And I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    And I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
+    Then the return code is 200 I get expected tar downloaded
+    And I decrypt and save the extracted file
+    And I verify that an extract tar file was created for the tenant "Midgar"
+    And there is a metadata file in the extract
+    And the extract contains a file for each of the following entities:
+      |  entityType                            |
+      |  course                                |
+      |  courseOffering                        |
+      |  educationOrganization                 |
+      |  graduationPlan                        |
+      |  session                               |
+      |  assessment                            |
+      |  learningObjective                     |
+      |  learningStandard                      |
+      |  competencyLevelDescriptor             |
+      |  studentCompetencyObjective            |
+      |  program                               |
+      |  gradingPeriod                         |
+      |  calendarDate                          |
+      |  school                                |
+      |  cohort                                |
+      |  section                               |
+
+  Scenario: Where the public entity has no edOrg reference, verify the entity is still extracted for the SEA
     Given the extraction zone is empty
     And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "19cca28d-7357-4044-8df9-caad4b1c8ee4"

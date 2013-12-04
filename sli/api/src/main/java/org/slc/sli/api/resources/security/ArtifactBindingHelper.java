@@ -1,0 +1,132 @@
+/*
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.slc.sli.api.resources.security;
+
+import org.joda.time.DateTime;
+import org.opensaml.DefaultBootstrap;
+import org.opensaml.common.SAMLObject;
+import org.opensaml.common.binding.SAMLMessageContext;
+import org.opensaml.saml2.binding.artifact.*;
+import org.opensaml.saml2.common.SAML2Helper;
+import org.opensaml.saml2.core.Artifact;
+import org.opensaml.saml2.core.ArtifactResolve;
+import org.opensaml.saml2.core.Issuer;
+import org.opensaml.saml2.core.NameID;
+import org.opensaml.ws.soap.soap11.Body;
+import org.opensaml.ws.soap.soap11.Envelope;
+import org.opensaml.xml.Configuration;
+import org.opensaml.xml.ConfigurationException;
+import org.opensaml.xml.XMLObjectBuilderFactory;
+import org.opensaml.xml.io.MarshallingException;
+import org.opensaml.xml.signature.Signature;
+import org.opensaml.xml.signature.SignatureException;
+import org.opensaml.xml.signature.Signer;
+import org.slc.sli.api.security.saml.SamlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.xml.bind.DatatypeConverter;
+import java.security.KeyStore;
+import java.util.UUID;
+
+/**
+ * @author: npandey
+ */
+@Component
+public class ArtifactBindingHelper {
+    private static final Logger LOG = LoggerFactory.getLogger(ArtifactBindingHelper.class);
+
+    @Autowired
+    private SamlHelper samlHelper;
+
+    @Value("${sli.security.sp.issuerName}")
+    private String issuerName;
+
+    @PostConstruct
+    private void initializeOpenSAMLLibrary() {
+        try {
+            DefaultBootstrap.bootstrap();
+        } catch (ConfigurationException ex) {
+            LOG.error("Error composing artifact resolution request: xml object configuration initialization failed", ex);
+            throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
+        }
+    }
+
+    /**
+     *
+     * @param artifactString
+     *      String representation of the artifact token.
+     * @param pkEntry
+     *      Key entry from the keystore.
+     * @return
+     */
+    protected ArtifactResolve generateArtifactResolveRequest(String artifactString, KeyStore.PrivateKeyEntry pkEntry, String idpUrl) {
+
+        XMLObjectBuilderFactory xmlObjectBuilderFactory = Configuration.getBuilderFactory();
+        Artifact artifact = (Artifact) xmlObjectBuilderFactory.getBuilder(Artifact.DEFAULT_ELEMENT_NAME).buildObject(Artifact.DEFAULT_ELEMENT_NAME);
+        artifact.setArtifact(artifactString);
+
+        Issuer issuer = (Issuer) xmlObjectBuilderFactory.getBuilder(Issuer.DEFAULT_ELEMENT_NAME).buildObject(Issuer.DEFAULT_ELEMENT_NAME);
+        issuer.setValue(issuerName);
+
+        ArtifactResolve artifactResolve =  (ArtifactResolve) xmlObjectBuilderFactory.getBuilder(ArtifactResolve.DEFAULT_ELEMENT_NAME).buildObject(ArtifactResolve.DEFAULT_ELEMENT_NAME);
+        artifactResolve.setIssuer(issuer);
+        artifactResolve.setIssueInstant(new DateTime());
+        artifactResolve.setID(UUID.randomUUID().toString());
+        artifactResolve.setDestination(idpUrl);
+        artifactResolve.setArtifact(artifact);
+
+        Signature signature = samlHelper.getDigitalSignature(pkEntry);
+
+        artifactResolve.setSignature(signature);
+
+        try {
+            Configuration.getMarshallerFactory().getMarshaller(artifactResolve).marshall(artifactResolve);
+        } catch (MarshallingException ex) {
+            LOG.error("Error composing artifact resolution request: Marshalling artifact resolution request failed", ex);
+            throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
+        }
+
+        try {
+            Signer.signObject(signature);
+        } catch (SignatureException ex) {
+            LOG.error("Error composing artifact resolution request: Failed to sign artifact resolution request", ex);
+            throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
+        }
+
+        return artifactResolve;
+    }
+
+    /**
+     *
+     * @param artifactResolutionRequest
+     * @return
+     */
+    protected Envelope generateSOAPEnvelope(ArtifactResolve artifactResolutionRequest) {
+        XMLObjectBuilderFactory xmlObjectBuilderFactory = Configuration.getBuilderFactory();
+        Envelope envelope = (Envelope) xmlObjectBuilderFactory.getBuilder(Envelope.DEFAULT_ELEMENT_NAME).buildObject(Envelope.DEFAULT_ELEMENT_NAME);
+        Body body = (Body) xmlObjectBuilderFactory.getBuilder(Body.DEFAULT_ELEMENT_NAME).buildObject(Body.DEFAULT_ELEMENT_NAME);
+
+        body.getUnknownXMLObjects().add(artifactResolutionRequest);
+        envelope.setBody(body);
+
+        return envelope;
+    }
+}

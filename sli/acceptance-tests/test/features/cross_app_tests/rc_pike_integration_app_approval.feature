@@ -125,9 +125,9 @@ Scenario:  LEA gives IT Admins bulk extract permissions
 
 Scenario:  SEA approves Dashboard, Databrowser and Bulk Extract 2 End Applications
 When I navigate to the Portal home page
-When I see the realm selector I authenticate to "inBloom"
+When I see the realm selector I authenticate to "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "<PRIMARY_EMAIL>" "<PRIMARY_EMAIL_PASS>" for the "Simple" login page
+When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
@@ -139,6 +139,7 @@ Then I am redirected to the Admin Application Authorization Tool
 And I see an application "inBloom Dashboards" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
+And I expand all nodes
 And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
 And I click Update
 # switch back to iframe because of the page reload
@@ -150,6 +151,7 @@ Then there are "199" edOrgs for the "inBloom Dashboards" application in the prod
 And I see an application "inBloom Data Browser" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
+And I expand all nodes
 And I authorize the educationalOrganization "Standard State Education Agency" in the production tenant
 And I click Update
 # switch back to iframe because of the page reload
@@ -174,7 +176,7 @@ And in Status it says "3 EdOrg(s)"
 Then there are "3" edOrgs for the "Bulk Extract 2 End" application in the production applicationAuthorization collection
 
 Scenario: SEA admin makes an api call to PATCH the SEA
-  Given the pre-existing bulk extrac testing app key has been created
+  Given the pre-existing bulk extract testing app key has been created
   When I navigate to the API authorization endpoint with my client ID
   And I select "Daybreak Test Realm" and click go
   And I was redirected to the "Simple" IDP Login page
@@ -328,6 +330,7 @@ Scenario: App developer enables non Bulk Extract App
     And I see an application "Not a bulk extract app" in the table
     And the client ID and shared secret fields are present
     And I clicked on the button Edit for the application "NotABulkExtractApp"
+    And I expand all nodes
     When I enable the educationalOrganization "Education Agency for RC Tests" in production
     When I click on Save
     And I exit out of the iframe
@@ -358,9 +361,9 @@ Scenario: SLC Operator Approves Application Registration
 
 Scenario:  SEA approves freshly registered Applications
 When I navigate to the Portal home page
-When I see the realm selector I authenticate to "inBloom"
+When I see the realm selector I authenticate to "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "<PRIMARY_EMAIL>" "<PRIMARY_EMAIL_PASS>" for the "Simple" login page
+When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
@@ -372,6 +375,7 @@ Then I am redirected to the Admin Application Authorization Tool
 And I see an application "NotABulkExtractApp" in the table
 And in Status it says "Not Approved"
 And I click on the "Edit Authorizations" button next to it
+And I expand all nodes
 And I authorize the educationalOrganization "Education Agency for RC Tests" in the production tenant
 And I click Update
 # switch back to iframe because of the page reload
@@ -400,7 +404,7 @@ And the operator triggers a delta for the production tenant
 
    Scenario: App makes an api call to retrieve an lea level bulk extract
    #Get a session to trigger a bulk extract
-   Given the pre-existing bulk extrac testing app key has been created
+   Given the pre-existing bulk extract testing app key has been created
    When I navigate to the API authorization endpoint with my client ID
    When I select "Daybreak Test Realm" and click go
    And I was redirected to the "Simple" IDP Login page
@@ -449,7 +453,7 @@ And the operator triggers a delta for the production tenant
 
 Scenario: Charter School - App makes an api call to retrieve an lea level bulk extract
    #Get a session to trigger a bulk extract
-   Given the pre-existing bulk extrac testing app key has been created
+   Given the pre-existing bulk extract testing app key has been created
    When I navigate to the API authorization endpoint with my client ID
    When I select "Daybreak Test Realm" and click go
    And I was redirected to the "Simple" IDP Login page
@@ -493,7 +497,7 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
 
 Scenario: App makes an api call to retrieve a SEA public data bulk extract
    #Get a session to trigger a bulk extract
-   Given the pre-existing bulk extrac testing app key has been created
+   Given the pre-existing bulk extract testing app key has been created
    When I navigate to the API authorization endpoint with my client ID
    When I select "Daybreak Test Realm" and click go
    And I was redirected to the "Simple" IDP Login page
@@ -520,14 +524,14 @@ Scenario: App makes an api call to retrieve a SEA public data bulk extract
       |  educationOrganization                 |
       |  graduationPlan                        |
       |  session                               |
-      |  calendarDate                          |
+      |  gradingPeriod                         |
       |  school                                |
       |  cohort                                |
       |  section                               |
 
 Scenario: App makes an api call to retrieve a bulk extract delta
 #Get a session to trigger a bulk extract
-Given the pre-existing bulk extrac testing app key has been created
+Given the pre-existing bulk extract testing app key has been created
   When I navigate to the API authorization endpoint with my client ID
    And I select "Daybreak Test Realm" and click go
    And I was redirected to the "Simple" IDP Login page
@@ -542,7 +546,7 @@ Given the pre-existing bulk extrac testing app key has been created
   Then I should receive a return code of 204
   When the operator triggers a delta for the production tenant
    #And I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
-   And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "pike"
+   And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "<RC Server>"
    And I get back a response code of "200"
    And I store the URL for the latest delta for the LEA
    And the number of returned URLs is correct:
@@ -563,7 +567,7 @@ Scenario: Ingestion user ingests additional public entities
   And I should not see a warning log file created
 
   Scenario: SEA admin makes an api call to PATCH the SEA
-    Given the pre-existing bulk extrac testing app key has been created
+    Given the pre-existing bulk extract testing app key has been created
     When I navigate to the API authorization endpoint with my client ID
     And I select "Daybreak Test Realm" and click go
     And I was redirected to the "Simple" IDP Login page
@@ -577,7 +581,7 @@ Scenario: Ingestion user ingests additional public entities
 
 Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
   #Get a session to trigger a bulk extract
-  Given the pre-existing bulk extrac testing app key has been created
+  Given the pre-existing bulk extract testing app key has been created
   When I navigate to the API authorization endpoint with my client ID
   And I select "Daybreak Test Realm" and click go
   And I was redirected to the "Simple" IDP Login page
@@ -589,7 +593,7 @@ Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
   And I get the id for the edorg "STANDARD-SEA"
 
   When the operator triggers a delta for the production tenant
-  And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "pike"
+  And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "<RC Server>"
   And I get back a response code of "200"
   And I store the URL for the latest delta for the SEA
   And the number of returned URLs is correct:

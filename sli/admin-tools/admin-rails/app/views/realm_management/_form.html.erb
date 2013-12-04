@@ -6,10 +6,16 @@
 
       <ul>
       <% @realm.errors.full_messages.each do |msg| %>
-        <li><%= msg.gsub /Uniqueidentifier/, "Realm Identifier" %></li>
+        <li><%= if msg.start_with?("Name"); msg.gsub(/Name/, "Display Name"); \
+                elsif msg.start_with?("Uniqueidentifier"); msg.gsub(/Uniqueidentifier/, "Realm Identifier"); \
+                else; msg; end %></li>
       <% end %>
       <% @realm.idp.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+        <li><%= if msg.start_with?("Id"); msg.gsub(/Id/, "IDP URL"); \
+                elsif msg.start_with?("Redirectendpoint"); msg.gsub(/Redirectendpoint/, "Redirect Endpoint"); \
+                elsif msg.start_with?("Artifactresolutionendpoint"); msg.gsub(/Artifactresolutionendpoint/, "Artifact Resolution Endpoint"); \
+                elsif msg.start_with?("Sourceid"); msg.gsub(/Sourceid/, "IDP Source ID"); \
+                else; msg; end %></li>
       <% end %>
       </ul>
     </div>
@@ -25,6 +31,12 @@
 
         <%= idp.label :redirectEndpoint, 'Redirect Endpoint <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="URL where authentication requests are sent"></i>'.html_safe %>
         <%= idp.text_field :redirectEndpoint, :size => 50 %>
+
+        <%= idp.label :artifactResolutionEndpoint, 'Artifact Resolution Endpoint <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="URL where artifact resolution requests are sent"></i>'.html_safe %>
+        <%= idp.text_field :artifactResolutionEndpoint, :size => 50 %>
+
+        <%= idp.label :sourceId, 'IDP Source ID <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="Unique source ID of the federated IDP"></i>'.html_safe %>
+        <%= idp.text_field :sourceId, :size => 20 %>
     <% end %>
 
     <%= f.label :uniqueIdentifier, 'Realm Identifier <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="Used for skipping realm selection"></i>'.html_safe %>

@@ -99,6 +99,7 @@ $SESSION_MAP = {
                 "sandboxdeveloper_SLI" => "a1cf186b-9c8e-4252-9f46-ed4e9f4f597c",
                 "anothersandboxdeveloper_SLI" => "be71e33e-00f5-442a-a0c7-3dc5c63a8a02",
                 "iladmin_SLI" => "9abf3111-0e5d-456a-8b89-004815162342",
+                "iladmin_adminApp_SLI" => "9abf3111-0e5d-456a-8b89-004815162333",
                 "zorkadmin_SLI" => "aaaaaaaa-0e5d-456a-8b89-004815111111",
                 "stweed_IL" => "2cf7a5d4-75a2-ba63-8b53-b5f95131de48",
                 "teach1_SEC" => "00000000-5555-5555-0001-500000000001",
@@ -138,6 +139,7 @@ $SESSION_MAP = {
                 "linda.kim_sandboxadministrator" => "9a87321a-8534-4a0e-b8ab-981ab8716233",
                 "unprovisioned_sunset_admin_SLI" => "261d8a09-a181-4e3f-bcaa-241f409afb8b",
                 "rrogerslimitedwrite_IL" => "03af65a0-5720-4cbc-ae49-f7bcb46c25f1",
+                "rrogersAppAuth_IL" => "00000001-0094-6ba8-810b-000000000000",
                 "mmagic_Midgar" => "7e859615-3487-41b0-a052-cb1beb6fb12d",
                 "morion_Midgar" => "11a45527-9141-491d-8ebd-132f1d105625"
                                     
@@ -148,6 +150,7 @@ $CASCADE_DELETE_REFERENCE_MAP = {
 }
 
 $createdEntities = {}
+$createdEntityIds = {}
 
 def convertTenantIdToDbName(tenantId)
   db_name = Digest::SHA1.hexdigest tenantId
@@ -294,6 +297,26 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
   urlHeader = makeUrlAndHeaders('get',id,sessionId,format)
   puts "GET urlHeader: #{urlHeader}" if $SLI_DEBUG
   @res = RestClient.get(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+  return @res
+end
+
+# Function restHttpOptions
+# Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
+# Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
+#                               Can be manually overwritten
+# Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
+#                               Can be manually overwritten
+# Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
+# Returns: puts response in @res member variable
+# Description: Helper function that calls the REST API specified in id using an HTTP OPTIONS request
+def restHttpOptions(id, format = @format, sessionId = @sessionId)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into GET was nil")
+
+  urlHeader = makeUrlAndHeaders('get',id,sessionId,format)
+  puts "GET urlHeader: #{urlHeader}" if $SLI_DEBUG
+  @res = RestClient.options(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
   return @res
 end

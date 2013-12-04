@@ -102,4 +102,5 @@ class ChangePasswordsController < ApplicationController
       raise ActiveResource::ForbiddenAccess, caller
     end
   end
+
 end

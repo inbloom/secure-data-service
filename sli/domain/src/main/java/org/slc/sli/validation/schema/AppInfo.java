@@ -48,11 +48,11 @@ public class AppInfo extends Annotation {
     protected static final String COLLECTION_TYPE_ELEMENT_NAME = "CollectionType";
     protected static final String SECURITY_SPHERE = "SecuritySphere";
     protected static final String RESTRICTED_ELEMENT_NAME = "RestrictedForLogging";
-    protected static final String NATURAL_KEY = "naturalKey";
     protected static final String APPLY_NATURAL_KEYS = "applyNaturalKeys";
     protected static final String SELF_REFERENCE = "SelfReference";
     public static final String SCHEMA_VERSION = "schemaVersion";
     public static final String HIDDEN = "hidden";
+    public static final String NATURAL_KEY = "naturalKey";
 
     public static final int NOT_VERSIONED = -1;
 
@@ -281,7 +281,8 @@ public class AppInfo extends Annotation {
             if (right.equals(Right.FULL_ACCESS)) {
                 values.put(READ_ENFORCEMENT_ELEMENT_NAME, toSet(Right.FULL_ACCESS.toString()));
             } else if (right.equals(Right.ADMIN_ACCESS)) {
-                if (!getReadAuthorities().contains(Right.FULL_ACCESS)) {
+                //Disable ADMIN_ACCESS inheritance for US5865
+                if (!getReadAuthorities().contains(Right.FULL_ACCESS) && (parentInfo != null && !parentInfo.getReadAuthorities().contains(Right.APP_AUTHORIZE))) {
                     values.put(READ_ENFORCEMENT_ELEMENT_NAME, toSet(Right.ADMIN_ACCESS.toString()));
                 }
             } else if (right.equals(Right.READ_RESTRICTED)) {
@@ -300,7 +301,8 @@ public class AppInfo extends Annotation {
             if (right.equals(Right.FULL_ACCESS)) {
                 values.put(WRITE_ENFORCEMENT_ELEMENT_NAME, toSet(Right.FULL_ACCESS.toString()));
             } else if (right.equals(Right.ADMIN_ACCESS)) {
-                if (!getWriteAuthorities().contains(Right.FULL_ACCESS)) {
+                //Disable ADMIN_ACCESS inheritance for US5865
+                if (!getWriteAuthorities().contains(Right.FULL_ACCESS) && (parentInfo != null && !parentInfo.getWriteAuthorities().contains(Right.APP_AUTHORIZE))) {
                     values.put(WRITE_ENFORCEMENT_ELEMENT_NAME, toSet(Right.ADMIN_ACCESS.toString()));
                 }
             } else if (right.equals(Right.WRITE_RESTRICTED)) {

@@ -62,7 +62,7 @@ public class ApplicationAuthorizationResourceTest {
     
     @Autowired
     private SecurityContextInjector injector;
-    
+
     Entity sea, lea1, lea2, school11, school12, school21, school22;
 
     public static List<Map<String,Object>> getAuthList(String... edOrgs){
@@ -87,15 +87,15 @@ public class ApplicationAuthorizationResourceTest {
         school21 = helper.generateEdorgWithParent(lea2.getEntityId());
         school22 = helper.generateEdorgWithParent(lea2.getEntityId());
         SecurityUtil.getSLIPrincipal().setEdOrgId(lea1.getEntityId());
-        
+        SecurityUtil.getSLIPrincipal().setAdminRealmAuthenticated(true);
     }
-    
+
     @After
     public void cleanup() throws Exception {
         helper.resetRepo();
         repo.deleteAll("applicationAuthorization", new NeutralQuery());
     }
-    
+
     @Test
     public void testGetAuthForNonExistingAppAndNonExistingAuth() {
         ResponseImpl resp = (ResponseImpl) res.getAuthorization("someAppId", null);
@@ -114,7 +114,7 @@ public class ApplicationAuthorizationResourceTest {
         Map ent = (Map) resp.getEntity();
         Assert.assertFalse((Boolean) ent.get("authorized"));
     }
-    
+
     @Test
     //Authorized for my edorg
     public void testGetAuthForNonExistingAppAndExistingAuth2() {
@@ -127,7 +127,7 @@ public class ApplicationAuthorizationResourceTest {
         Map ent = (Map) resp.getEntity();
         Assert.assertTrue((Boolean) ent.get("authorized"));
     }
-    
+
     @Test
     public void testGetAuthForExistingAppAndNonExistingAuth() {
         Map<String, Object> appBody = new HashMap<String, Object>();
@@ -136,9 +136,9 @@ public class ApplicationAuthorizationResourceTest {
         Assert.assertEquals(200, resp.getStatus());
         Map ent = (Map) resp.getEntity();
         Assert.assertFalse((Boolean) ent.get("authorized"));
-        
+
     }
-    
+
     @Test
     //Authorized for my edorg
     public void testGetAuthForExistingAppAndExistingAuth() {
@@ -153,7 +153,7 @@ public class ApplicationAuthorizationResourceTest {
         Map ent = (Map) resp.getEntity();
         Assert.assertTrue((Boolean) ent.get("authorized"));
     }
-    
+
     @Test
     //Authorized for other edorg
     public void testGetAuthForExistingAppAndExistingAuth2() {
@@ -168,7 +168,7 @@ public class ApplicationAuthorizationResourceTest {
         Map ent = (Map) resp.getEntity();
         Assert.assertFalse((Boolean) ent.get("authorized"));
     }
-    
+
     @Test
     //Authorized for other edorg
     public void testGetAuthForExistingAppAndExistingAuthAndEdorg() {
@@ -183,20 +183,19 @@ public class ApplicationAuthorizationResourceTest {
         Map ent = (Map) resp.getEntity();
         Assert.assertFalse((Boolean) ent.get("authorized"));
     }
-    
+
     @Test
     //Authorized for my edorg
     public void testUpdate() {
         //create app
         Map<String, Object> appBody = new HashMap<String, Object>();
         Entity app = repo.create("application", appBody);
-        
+
         //create app auth
         Map<String, Object> auth = new HashMap<String, Object>();
         auth.put("applicationId", app.getEntityId());
         auth.put("edorgs", getAuthList(SecurityUtil.getEdOrgId()));
         repo.create("applicationAuthorization", auth);
-        
         //query app auth
         ResponseImpl resp = (ResponseImpl) res.getAuthorization(app.getEntityId(), null);
         Assert.assertEquals(200, resp.getStatus());
@@ -216,7 +215,7 @@ public class ApplicationAuthorizationResourceTest {
         ent = (Map) resp.getEntity();
         Assert.assertFalse((Boolean) ent.get("authorized"));
     }
-    
+
     @Test
     public void testGetAuths() {
         Map<String, Object> appBody = new HashMap<String, Object>();

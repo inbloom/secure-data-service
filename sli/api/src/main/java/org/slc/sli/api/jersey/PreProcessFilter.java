@@ -31,7 +31,11 @@ import javax.xml.bind.DatatypeConverter;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,6 +48,7 @@ import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
 import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
+import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
@@ -53,12 +58,15 @@ import org.slc.sli.api.security.pdp.EndpointMutator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.translator.URITranslator;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SessionUtil;
 import org.slc.sli.api.validation.URLValidator;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
@@ -71,6 +79,8 @@ import org.slc.sli.validation.ValidationError;
  */
 @Component
 public class PreProcessFilter implements ContainerRequestFilter {
+
+    private static final Logger LOG = LoggerFactory.getLogger(PreProcessFilter.class);
 
     private static final List<String> UPDATE_DELETE_OPERATIONS = Arrays.asList(ResourceMethod.PUT.toString(),
             ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString());
@@ -108,6 +118,9 @@ public class PreProcessFilter implements ContainerRequestFilter {
     @Autowired
     private ResourceEndPoint resourceEndPoint;
 
+    @Autowired
+    @Qualifier("validationRepo")
+    private Repository<Entity> repo;
     private final Pattern ID_REPLACEMENT_PATTERN = Pattern.compile("([^/]+/[^/]+/)[^/]+(/.*)");
 
     @Override
@@ -132,8 +145,10 @@ public class PreProcessFilter implements ContainerRequestFilter {
             SecurityUtil.setUserContext(SecurityUtil.UserContext.NO_CONTEXT);
         }
 
-        info("uri: {} -> {}", request.getMethod(), request.getRequestUri().getPath());
+        LOG.info("uri: {} -> {}", request.getMethod(), request.getRequestUri().getPath());
         request.getProperties().put("original-request", request.getPath());
+        // TODO Determine expected behavior for hosted and federated users querying resources from non-admin type apps
+        // SessionUtil.checkAccess(SecurityContextHolder.getContext().getAuthentication(), request, repo);
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
         injectObligations(request);
         validateNotBlockGetRequest(request);
@@ -162,7 +177,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
             String assoc = request.getPathSegments().get(3).getPath();
 
             if (CONTEXTERS.contains(base)) {
-                info("Skipping date-based obligation injection because association {} is base level URI", base);
+                LOG.info("Skipping date-based obligation injection because association {} is base level URI", base);
                 return;
             }
 
@@ -194,7 +209,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
                         prince.addObligation(resourceName.replaceAll("s$", ""), construct("endDate"));
                     }
 
-                    info("Injected a date-based obligation on association: {}", resourceName);
+                    LOG.info("Injected a date-based obligation on association: {}", resourceName);
                 }
             }
         }

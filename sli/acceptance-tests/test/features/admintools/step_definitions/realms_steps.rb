@@ -78,3 +78,7 @@ end
 When /^I click on the browser Back button$/ do
   pending # express the regexp above with the code you wish you had
 end
+
+When /^I click on the Custom Roles button next to Illinois Daybreak School District 4529$/ do
+  @driver.find_element(:xpath, '//*[@id="45b02cb0-1bad-4606-a936-094331bd47fe"]/td[3]/a[2]').click
+end

@@ -44,6 +44,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,6 +116,9 @@ public class BulkExtract {
     private SecurityEventBuilder securityEventBuilder;
 
     @Autowired
+    private AuditLogger auditLogger;
+
+    @Autowired
     private FileResource fileResource;
 
     private SLIPrincipal getPrincipal() {
@@ -184,7 +188,7 @@ public class BulkExtract {
 
         if (helper.isSEA(entity)) {
             isPublicData = true;
-            canAccessSEAExtract(entity);
+            //canAccessSEAExtract(entity);  DE2995
         } else {
         	canAccessEdOrgExtract(edOrgId);
         }
@@ -203,7 +207,7 @@ public class BulkExtract {
     @Path("extract/list")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getSEAOrLEAList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
-        info("Received request for list of links for all SEAs and LEAs for this user/app");
+        LOG.info("Received request for list of links for all SEAs and LEAs for this user/app");
         logSecurityEvent("Received request for list of links for all SEAs and LEAs for this user/app");
         validateRequestAndApplicationAuthorization(request);
 
@@ -244,7 +248,7 @@ public class BulkExtract {
 
             if (helper.isSEA(entity)) {
                 isPublicData = true;
-                canAccessSEAExtract(entity);
+                //canAccessSEAExtract(entity); DE2995
             } else {
             	canAccessEdOrgExtract(edOrgId);
             }
@@ -260,7 +264,10 @@ public class BulkExtract {
      * Validate if the user can access SEA extract
      *
      * @param seaEntity the SEA Entity
+     *
+     * DE2995: Anyone with BULK_EXTRACT right can extract public sea data, provided the app is authd for sea.
      */
+    /*
     void canAccessSEAExtract(final Entity seaEntity) {
 
         boolean approvedLEAExists = false;
@@ -278,6 +285,7 @@ public class BulkExtract {
             throw new APIAccessDeniedException("User is not authorized to access SEA public extract", EntityNames.EDUCATION_ORGANIZATION, seaEntity);
         }
     }
+    */
 
     /**
      * Validate if the user can access LEA extract
@@ -511,10 +519,10 @@ public class BulkExtract {
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
         query.setSortBy("date");
         query.setSortOrder(SortOrder.ascending);
-        debug("Bulk Extract query is {}", query);
+        LOG.debug("Bulk Extract query is {}", query);
         Iterable<Entity> entities = mongoEntityRepository.findAll(BULK_EXTRACT_FILES, query);
         if (!entities.iterator().hasNext()) {
-            debug("Could not find any bulk extract entities");
+            LOG.debug("Could not find any bulk extract entities");
         }
         return entities;
     }
@@ -545,10 +553,10 @@ public class BulkExtract {
         }
 
         query.addCriteria(new NeutralCriteria("isPublicData", NeutralCriteria.OPERATOR_EQUAL, isPublicData));
-        debug("Bulk Extract query is {}", query);
+        LOG.debug("Bulk Extract query is {}", query);
         Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, query);
         if (entity == null) {
-            debug("Could not find a bulk extract entity");
+            LOG.debug("Could not find a bulk extract entity");
         }
         return entity;
     }
@@ -605,7 +613,7 @@ public class BulkExtract {
             super();
             this.lastModified = lastModified;
             this.fileName = fileName;
-            debug("The file is " + fileName + " and lastModified is " + lastModified);
+            LOG.debug("The file is " + fileName + " and lastModified is " + lastModified);
         }
 
         public String getLastModified() {
@@ -614,7 +622,7 @@ public class BulkExtract {
 
         public File getBulkExtractFile(ExtractFile bulkExtractFileEntity) {
             File bulkExtractFile = new File(fileName);
-            debug("Length of bulk extract file is " + bulkExtractFile.length());
+            LOG.debug("Length of bulk extract file is " + bulkExtractFile.length());
             return bulkExtractFile;
         }
 
@@ -652,7 +660,7 @@ public class BulkExtract {
 
 
     void logSecurityEvent(String message) {
-        audit(securityEventBuilder.createSecurityEvent(BulkExtract.class.getName(),
+        auditLogger.audit(securityEventBuilder.createSecurityEvent(BulkExtract.class.getName(),
                 uri.getRequestUri(), message, true));
     }
 

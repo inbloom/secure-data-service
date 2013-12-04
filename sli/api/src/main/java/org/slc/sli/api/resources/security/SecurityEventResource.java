@@ -17,36 +17,30 @@
 
 package org.slc.sli.api.resources.security;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.generic.UnversionedResource;
+import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.representation.ServiceResponse;
+import org.slc.sli.api.resources.generic.util.ResourceMethod;
+import org.slc.sli.api.resources.v1.CustomEntityResource;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.api.security.context.resolver.SecurityEventContextResolver;
-import org.slc.sli.api.service.query.UriInfoToApiQueryConverter;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.NeutralQuery.SortOrder;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.util.PATCH;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -54,58 +48,96 @@ import org.springframework.stereotype.Component;
  * Provides read access to SecurityEvents through the /securityEvent path.
  * For more information, see the schema for the $$securityEvent$$ entity.
  *
+ * Caution must be exercised so that nothing from any parent classes of this class exposes
+ * anything unwanted.
+ *
+ * This has been changed to use a custom SecurityEventService rather than BasicService, with
+ * most of the security checking moved to that service.
+ *
  * @author ldalgado
+ * @author Andrew D. Ball
  */
 @Component
-@Scope("request")
-@Path("securityEvent")
+@Scope("request") // TODO Why does this need request scope?
+@Path(ResourceNames.SECURITY_EVENT)
 @Produces({ HypermediaType.JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
 public class SecurityEventResource extends UnversionedResource {
 
-    public static final String RESOURCE_NAME = "securityEvent";
-    /*WATCHED_APP: restricts retrieval of security events only to those whose appId is listed, this is in addition to the normal accessibility rules*/
-    public static final List<String> WATCHED_APP = Arrays.asList("SimpleIDP","Ingestion");
-    private final EntityDefinitionStore entityDefs;
+    public static final String RESOURCE_NAME = ResourceNames.SECURITY_EVENT;
 
-    @Autowired
-    @Qualifier("validationRepo")
-    Repository<Entity> repo;
-    
-    
-    @Autowired
-    SecurityEventContextResolver resolver;
-    private final UriInfoToApiQueryConverter queryConverter;
-
-    @Autowired
-    public SecurityEventResource(EntityDefinitionStore entityDefs) {
-        this.entityDefs = entityDefs;
-        this.queryConverter = new UriInfoToApiQueryConverter();
-    }
-
-    public Response createSecurityEvent(EntityBody newSecurityEvent, @Context final UriInfo uriInfo) {
-        return super.post(newSecurityEvent, uriInfo);
-    }
-
+    @Override
     @GET
     @RightsAllowed({ Right.SECURITY_EVENT_VIEW })
-    @Override
     public Response getAll(@Context final UriInfo uriInfo) {
-        return retrieveEntities(uriInfo);
+
+        return getAllResponseBuilder.build(uriInfo, getOnePartTemplate(), ResourceMethod.GET, new GetResourceLogic() {
+            @Override
+            public ServiceResponse run(Resource resource) {
+                return resourceService.getEntities(resource, uriInfo.getRequestUri(), false);
+            }
+        });
+
     }
 
-    private Response retrieveEntities(final UriInfo uriInfo) {
-        EntityDefinition entityDef = entityDefs.lookupByResourceName(RESOURCE_NAME);
-        NeutralQuery mainQuery = queryConverter.convert(uriInfo);
-        mainQuery.setSortBy("timeStamp");
-        mainQuery.setSortOrder(SortOrder.descending);
-
-        mainQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, resolver.findAccessible(null)));
-
-        List<EntityBody> results = new ArrayList<EntityBody>();
-        for (EntityBody body : entityDef.getService().list(mainQuery)) {
-            results.add(body);
-        }
-        debug("Found [{}] SecurityEvents!", results.size());
-        return Response.ok(new EntityResponse(entityDef.getType(), results)).build();
+    @Override
+    @GET
+    @Path("{id}")
+    @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
+    public Response getWithId(@PathParam("id") final String idList, @Context final UriInfo uriInfo) {
+        return getResponseBuilder.build(uriInfo, getTwoPartTemplate(), ResourceMethod.GET, new GetResourceLogic() {
+            @Override
+            public ServiceResponse run(Resource resource) {
+                return resourceService.getEntitiesByIds(resource, idList, uriInfo.getRequestUri());
+            }
+        });
     }
+
+    @Override
+    @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
+    public CustomEntityResource getCustomResource(final String id, final UriInfo uriInfo) {
+        return new CustomEntityResource(id, resourceHelper.getEntityDefinition(RESOURCE_NAME), resourceHelper);
+    }
+
+    @Override
+    @POST
+    @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
+    public Response post(final EntityBody entityBody, @Context final UriInfo uriInfo) {
+        throw new APIAccessDeniedException("HTTP POST is forbidden for security events");
+    }
+
+    @PUT
+    @Path("{id}")
+    @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
+    public Response put(@PathParam("id") final String id, final EntityBody entityBody,
+            @Context final UriInfo uriInfo) {
+        throw new APIAccessDeniedException("HTTP PUT is forbidden for security events");
+    }
+
+    @Override
+    @DELETE
+    @Path("{id}")
+    @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
+    public Response delete(@PathParam("id") final String id, @Context final UriInfo uriInfo) {
+        throw new APIAccessDeniedException("HTTP DELETE is forbidden for security events");
+    }
+
+    @Override
+    @PATCH
+    @Path("{id}")
+    @RightsAllowed({ Right.SECURITY_EVENT_VIEW})
+    public Response patch(@PathParam("id") final String id,
+                          final EntityBody entityBody,
+                          @Context final UriInfo uriInfo) {
+        throw new APIAccessDeniedException("HTTP PATCH is forbidden for security events");
+    }
+
+    /**
+     * Make sure that HTTP OPTIONS requests are forbidden.
+     */
+    @OPTIONS
+    @RightsAllowed({Right.SECURITY_EVENT_VIEW})
+    public Response options() {
+        throw new APIAccessDeniedException("HTTP OPTIONS is forbidden");
+    }
+
 }

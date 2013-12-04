@@ -17,12 +17,7 @@
 
 package org.slc.sli.api.security.oauth;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -32,6 +27,8 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -44,6 +41,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ApplicationAuthorizationValidator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ApplicationAuthorizationValidator.class);
 
     @Autowired
     @Qualifier("validationRepo")
@@ -125,8 +124,12 @@ public class ApplicationAuthorizationValidator {
         //This is called before the SLIPrincipal has been set, so use TenantContext to get tenant rather than SLIPrincipal on SecurityContext
         Entity app = repo.findOne("application", new NeutralQuery(new NeutralCriteria("client_id", "=", clientId)));
 
+        if (app == null) {
+            return Collections.EMPTY_SET;
+        }
+
         if (isAuthorizedForAllEdorgs(app)) {
-            debug("App {} is authorized for all edorgs", clientId);
+            LOG.debug("App {} is authorized for all edorgs", clientId);
             return null;
         }
 
@@ -140,7 +143,10 @@ public class ApplicationAuthorizationValidator {
     }
 
     private boolean isAuthorizedForAllEdorgs(Entity app) {
-        return app.getBody().get("authorized_for_all_edorgs") != null && (Boolean) app.getBody().get("authorized_for_all_edorgs");
+        if (app != null && app.getBody() != null) {
+            return app.getBody().get("authorized_for_all_edorgs") != null && (Boolean) app.getBody().get("authorized_for_all_edorgs");
+        }
+        return false;
     }
 
 }

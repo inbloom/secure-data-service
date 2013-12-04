@@ -21,6 +21,15 @@ task :simpleIdpSandboxTests do
   Rake::Task["importSandboxData"].invoke
   runTests("test/features/simple_idp/SimpleIDP.feature")
 end
+
+desc "Run Sandbox API tests"
+task :bulkExtractSandboxTests do
+  @tags = ["~@wip", "@sandbox", "~@rc"]
+  Rake::Task["realmInit"].execute
+  Rake::Task["importSandboxBulkExtractData"].execute
+  runTests("test/features/bulk_extract/features/bulk_extract_sandbox.feature")
+end
+
 ############################################################
 # API Sandbox Tests end
 ############################################################
