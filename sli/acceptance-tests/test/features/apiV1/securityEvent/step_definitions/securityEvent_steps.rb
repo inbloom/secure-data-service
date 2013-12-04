@@ -44,6 +44,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
     ["IL-SUNSET", "IL-LONGWOOD", "Sunset Central High School"]
   elsif human_readable_id == "IL"
     ["IL"]
+  elsif human_readable_id == "SEA_admin_security_event_ids"
+    ["d0bea921-3ee5-487d-b4db-cb126a705a29", "f93b2fe8-321b-4ab8-a0de-bbb7f2ddae50", "d0bea921-3ee5-487d-b4db-cb126a705a30", "d0bea921-3ee5-487d-b4db-cb126a705a31"]
   else
     raise "unrecognized pattern for transform, #{human_readable_id}"
   end
