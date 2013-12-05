@@ -1299,16 +1299,10 @@ When /^I POST a "(.*?)" of type "(.*?)"$/ do |entity_name, entity_type|
   # POST is a special case. We are creating a brand-new entity.
   # Get the entity json body from the map specified in get_post_body_by_entity_name()
   body = get_post_body_by_entity_name(entity_name)
-                                          puts "+++++++++++++++++++++++++++"
-                                          puts body
-                                           puts "+++++++++++++++++++++++++++"
   # Get the endpoint that corresponds to the desired entity
   endpoint = get_entity_endpoint(entity_type)
   puts prepareData(@format, body).to_s
   restHttpPost("/#{@api_version}/#{endpoint}", prepareData(@format, body))
-                                          puts "{{{{{{{{{{{{{{{{{{{{{{"
-                                          puts @res
-                                          puts "}}}}}}}}}}}}}}}}}}}}}}"
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
