@@ -125,16 +125,16 @@ def iterateThroughFiles(entityType, fileList):
 	print(str(data["count"] - data["dup"]) + " unique entities")
 	if data["dup"] > 0:
 		data["count"] = 0
-		print "Printing Duplicates"
+		print("Printing Duplicates")
 		for i in range(0,len(fileList)):
-			print "Processing File: " + fileList[i]
+			print("Processing File: " + fileList[i])
 			f = open(fileList[i])
 			createCourseOfferingHashes(f, data, strip=True, report=True)
 			f.close()
 		for hash in data["dupXML"]:
-			print "The following " + str(data["hashes"][hash]) + " records are duplicates"
+			print("The following " + str(data["hashes"][hash]) + " records are duplicates")
 			for xml in data["dupXML"][hash]:
-				print xml
+				print (xml)
 		print(str(data["count"]) + " " + entityType + " checked.")
 		print(str(data["dup"]) + " duplicates found")
 		print(str(data["count"] - data["dup"]) + " unique entities")
