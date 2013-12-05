@@ -231,13 +231,13 @@ public class BulkExtract {
     @GET
     @Path("extract/list")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getSEAOrLEAList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
+    public Response getBulkExtractList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
         LOG.info("Received request for list of links for all SEAs and LEAs for this user/app");
         logSecurityEvent("Received request for list of links for all SEAs and LEAs for this user/app");
         validateRequestAndApplicationAuthorization(request);
 
         logSecurityEvent("Successful request for list of links for all SEAs and LEAs for this user/app");
-        return getSLEAListResponse(context);
+        return getPublicAndEdOrgListResponse(context);
     }
 
 
@@ -416,7 +416,7 @@ public class BulkExtract {
      * @param context - the http request context
      * @return - the jax-rs response to send back
      */
-    Response getSLEAListResponse(final HttpContext context) {
+    Response getPublicAndEdOrgListResponse(final HttpContext context) {
 
         List<String> userEdOrgs = retrieveUserAssociatedEdOrgs();
 
@@ -431,14 +431,9 @@ public class BulkExtract {
 
         List<String> authorizedUserSEdOrgs = new LinkedList<String>();
         authorizedUserSEdOrgs.addAll(appAuthorizedUserEdOrgs);
-        Entity edOrg = helper.byId(appAuthorizedUserEdOrgs.get(0));  // First LEA is as good as any.
-        String seaId = helper.getSEAOfEdOrg(edOrg);
-        if (seaId != null) {
-            authorizedUserSEdOrgs.add(seaId);
-        }
 
         logSecurityEvent("Successfully retrieved SEA/LEA list for " + appId);
-        return assembleSLEALinksResponse(context, appId, authorizedUserSEdOrgs);
+        return assembleLinksResponse(context, appId, authorizedUserSEdOrgs);
     }
 
     /**
@@ -453,8 +448,8 @@ public class BulkExtract {
      *
      * @return the jax-rs response to send back.
      */
-    private Response assembleSLEALinksResponse(final HttpContext context, final String appId, final List<String> authorizedUserSLEAs) {
-        EntityBody list = assembleSLEALinks(context, appId, authorizedUserSLEAs);
+    private Response assembleLinksResponse(final HttpContext context, final String appId, final List<String> authorizedUserSLEAs) {
+        EntityBody list = assembleLinks(context, appId, authorizedUserSLEAs);
 
         ResponseBuilder builder = Response.ok(list);
         builder.header("content-type", MediaType.APPLICATION_JSON + "; charset=utf-8");
@@ -474,45 +469,50 @@ public class BulkExtract {
      *
      * @return the jax-rs response to send back.
      */
-    private EntityBody assembleSLEALinks(final HttpContext context, final String appId, final List<String> authorizedUserSLEAs) {
+    private EntityBody assembleLinks(final HttpContext context, final String appId, final List<String> authorizedUserSLEAs) {
         EntityBody list = new EntityBody();
 
         UriInfo uriInfo = context.getUriInfo();
         String linkBase = ResourceUtil.getURI(uriInfo, ResourceUtil.getApiVersion(uriInfo)).toString() + "/bulk/extract/";
-        Map<String, Map<String, String>> leaFullLinks = new HashMap<String, Map<String, String>>();
-        Map<String, Set<Map<String, String>>> leaDeltaLinks = new HashMap<String, Set<Map<String, String>>>();
-        Map<String, Map<String, String>> seaFullLinks = new HashMap<String, Map<String, String>>();
-        Map<String, Set<Map<String, String>>> seaDeltaLinks = new HashMap<String, Set<Map<String, String>>>();
+        String publicDataLinkBase = linkBase + "public";
+        Map<String, Map<String, String>> edOrgFullLinks = new HashMap<String, Map<String, String>>();
+        Map<String, Set<Map<String, String>>> edOrgDeltaLinks = new HashMap<String, Set<Map<String, String>>>();
+        Map<String, Map<String, String>> publicFullLinks = new HashMap<String, Map<String, String>>();
+        Map<String, Set<Map<String, String>>> publicDeltaLinks = new HashMap<String, Set<Map<String, String>>>();
 
         for (String edOrgId : authorizedUserSLEAs) {
             Map<String, String> fullLink = new HashMap<String, String>();
             Set<Map<String, String>> deltaLinks = newDeltaLinkSet();
-            Iterable<Entity> edOrgFileEntities = getEdOrgBulkExtractEntities(appId, edOrgId);
+            Iterable<Entity> edOrgFileEntities = getEdOrgBulkExtractEntities(appId, edOrgId, false);
+
             if (edOrgFileEntities.iterator().hasNext()) {
                 addLinks(linkBase + edOrgId, edOrgFileEntities, fullLink, deltaLinks);
-                Entity entity = helper.byId(edOrgId);
                 if (!fullLink.isEmpty()) {
-                    if (helper.isSEA(entity)) {
-                        seaFullLinks.put(edOrgId, fullLink);
-                    } else {
-                        leaFullLinks.put(edOrgId, fullLink);
-                    }
+                    edOrgFullLinks.put(edOrgId, fullLink);
                 }
                 if (!deltaLinks.isEmpty()) {
-                    if (helper.isSEA(entity)) {
-                        seaDeltaLinks.put(edOrgId, deltaLinks);
-                    } else {
-                        leaDeltaLinks.put(edOrgId, deltaLinks);
-                    }
+                    edOrgDeltaLinks.put(edOrgId, deltaLinks);
                 }
             }
         }
 
-        list.put("fullSea", seaFullLinks);
-        list.put("deltaSea", seaDeltaLinks);
-        list.put("fullEdOrgs", leaFullLinks);
-        list.put("deltaEdOrgs", leaDeltaLinks);
+        list.put("fullEdOrgs", edOrgFullLinks);
+        list.put("deltaEdOrgs", edOrgDeltaLinks);
 
+        Iterable<Entity> publicFileEntities = getEdOrgBulkExtractEntities(appId, null, true);
+        Map<String, String> fullLink = new HashMap<String, String>();
+        Set<Map<String, String>> deltaLinks = newDeltaLinkSet();
+        if(publicFileEntities.iterator().hasNext()) {
+            addLinks(publicDataLinkBase, publicFileEntities, fullLink, deltaLinks);
+            if (!fullLink.isEmpty()) {
+                publicFullLinks.put(getPrincipal().getTenantId(), fullLink);
+            }
+            if (!deltaLinks.isEmpty()) {
+                publicDeltaLinks.put(getPrincipal().getTenantId(), deltaLinks);
+            }
+        }
+        list.put("fullPublic", publicFullLinks);
+        list.put("deltaPublic", publicDeltaLinks);
         return list;
     }
 
@@ -575,11 +575,17 @@ public class BulkExtract {
      *
      * @return - All bulk extract entities for the App and EdOrg
      */
-    private Iterable<Entity> getEdOrgBulkExtractEntities(String appId, String edOrgId) {
+    private Iterable<Entity> getEdOrgBulkExtractEntities(String appId, String edOrgId, boolean isPublicData) {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 getPrincipal().getTenantId()));
-        query.addCriteria(new NeutralCriteria("edorg", NeutralCriteria.OPERATOR_EQUAL, edOrgId));
+
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
+        query.addCriteria(new NeutralCriteria("isPublicData", NeutralCriteria.OPERATOR_EQUAL, isPublicData));
+
+        if(!isPublicData) {
+            query.addCriteria(new NeutralCriteria("edorg", NeutralCriteria.OPERATOR_EQUAL, edOrgId));
+        }
+
         query.setSortBy("date");
         query.setSortOrder(SortOrder.ascending);
         LOG.debug("Bulk Extract query is {}", query);
