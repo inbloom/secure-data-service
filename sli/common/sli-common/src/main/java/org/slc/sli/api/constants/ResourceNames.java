@@ -31,6 +31,8 @@ import java.util.Set;
  */
 public final class ResourceNames {
 
+    public static final String CLASS_PERIOD = "classPeriods";
+    public static final String BELL_SCHEDULE = "bellSchedules";
     public static final String CALENDAR_DATES = "calendarDates";
 	public static final String AGGREGATIONS = "aggregations";
     public static final String AGGREGATION_DEFINITIONS = "aggregationDefinitions";

@@ -698,4 +698,27 @@
       "doc": "This URI, /calendarDates, represents a day in the school calendar."
     }
   ] 
-}]
+},
+{
+    "nameSpace": ["v1.3"],
+    "resources": [
+        {
+            "path": "/bellSchedules",
+            "queryable": true,
+            "availableSince" : "v1.3",
+            "doc": "This URI, /bellSchedules, represents an appointment."
+        }
+    ]
+},
+{
+    "nameSpace": ["v1.3"],
+    "resources": [
+        {
+            "path": "/classPeriods",
+            "queryable": true,
+            "availableSince" : "v1.3",
+            "doc": "The URI, /classPeriods, represents an appointment."
+        }
+    ]
+}
+]
