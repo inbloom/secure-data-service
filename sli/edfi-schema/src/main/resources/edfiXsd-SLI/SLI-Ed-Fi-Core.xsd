@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ed-fi.org/0100" xmlns:sli="http://slc-sli/ed-org/0.1" targetNamespace="http://ed-fi.org/0100" elementFormDefault="qualified" attributeFormDefault="unqualified">
-    <!--
+	<!--
       * Copyright 2012-2013 inBloom, Inc. and its affiliates
       *
       * Licensed under the Apache License, Version 2.0 (the "License");
@@ -350,23 +350,23 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-    <xs:complexType name="SLC-ClassPeriod">
-        <xs:annotation>
-            <xs:documentation>ClassPeriod record with key fields: ClassPeriodName and EducationOrganizationReference (StateOrganizationId). Added EducationOrganizationReference.</xs:documentation>
-            <xs:appinfo>
-                <sli:recordType>classPeriod</sli:recordType>
-                <sli:naturalKeys>ClassPeriodName,EducationOrganizationReference</sli:naturalKeys>
-            </xs:appinfo>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
-                <xs:sequence>
-                    <xs:element name="ClassPeriodName" type="ClassPeriodNameType"/>
-                    <xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
+	<xs:complexType name="SLC-ClassPeriod">
+		<xs:annotation>
+			<xs:documentation>ClassPeriod record with key fields: ClassPeriodName and EducationOrganizationReference (StateOrganizationId). Added EducationOrganizationReference.</xs:documentation>
+			<xs:appinfo>
+				<sli:recordType>classPeriod</sli:recordType>
+				<sli:naturalKeys>ClassPeriodName,EducationOrganizationReference</sli:naturalKeys>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="ClassPeriodName" type="ClassPeriodNameType"/>
+					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<xs:complexType name="SLC-Cohort">
 		<xs:annotation>
 			<xs:documentation>Cohort record with key fields: EducationOrgReference (StateOrganizationId) and CohortIdentifier. Changed types of EducationOrgReference and ProgramReference to SLC
@@ -573,16 +573,15 @@
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
-
 					<xs:element name="StateOrganizationId" type="IdentificationCode"/>
 					<xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="NameOfInstitution" type="NameOfInstitution"/>
 					<xs:element name="ShortNameOfInstitution" type="NameOfInstitution" minOccurs="0"/>
 					<xs:choice maxOccurs="unbounded">
-					  <xs:element name="OrganizationCategories" type="EducationOrganizationCategoriesType"/>
-					  <xs:element name="OtherOrganizationCategories" type="SLC-OtherEducationOrganizationCategoriesType"/>
+						<xs:element name="OrganizationCategories" type="EducationOrganizationCategoriesType"/>
+						<xs:element name="OtherOrganizationCategories" type="SLC-OtherEducationOrganizationCategoriesType"/>
 					</xs:choice>
-				      <xs:element name="ParentEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ParentEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="Address" type="Address" maxOccurs="unbounded"/>
 					<xs:element name="Telephone" type="InstitutionTelephone" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="WebSite" type="WebSite" minOccurs="0"/>
@@ -1644,13 +1643,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-            <xs:element name="AttendanceEventCategory" type="SLC-AttendanceEventCategoryType">
-                <xs:annotation>
-                    <xs:appinfo>
-                        <sli:keyFieldName>event</sli:keyFieldName>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
+			<xs:element name="AttendanceEventCategory" type="SLC-AttendanceEventCategoryType">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>event</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="StudentReference" type="SLC-StudentReferenceType">
 				<xs:annotation>
 					<xs:appinfo>
@@ -1686,46 +1685,46 @@
 			<xs:element name="AttendanceEventIdentity" type="SLC-AttendanceEventIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
-    <xs:complexType name="SLC-BellScheduleIdentityType">
-        <xs:annotation>
-            <xs:documentation>SLC addition.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="BellScheduleName" type="BellScheduleName">
-                <xs:annotation>
-                    <xs:appinfo>
-                        <sli:keyFieldName>bellScheduleName</sli:keyFieldName>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType">
-                <xs:annotation>
-                    <xs:appinfo>
-                        <sli:keyFieldName>classPeriodId</sli:keyFieldName>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType">
-                <xs:annotation>
-                    <xs:appinfo>
-                        <sli:keyFieldName>calendarDateId</sli:keyFieldName>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="SLC-BellScheduleReferenceType">
-        <xs:annotation>
-            <xs:documentation>SLC addition.</xs:documentation>
-            <xs:appinfo>
-                <sli:applyKeyFields>true</sli:applyKeyFields>
-                <sli:refType>bellSchedule</sli:refType>
-            </xs:appinfo>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="BellScheduleIdentity" type="SLC-BellScheduleIdentityType"/>
-        </xs:sequence>
-    </xs:complexType>
+	<xs:complexType name="SLC-BellScheduleIdentityType">
+		<xs:annotation>
+			<xs:documentation>SLC addition.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BellScheduleName" type="BellScheduleName">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>bellScheduleName</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>classPeriodId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>calendarDateId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SLC-BellScheduleReferenceType">
+		<xs:annotation>
+			<xs:documentation>SLC addition.</xs:documentation>
+			<xs:appinfo>
+				<sli:applyKeyFields>true</sli:applyKeyFields>
+				<sli:refType>bellSchedule</sli:refType>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BellScheduleIdentity" type="SLC-BellScheduleIdentityType"/>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="SLC-CalendarDateIdentityType">
 		<xs:annotation>
 			<xs:documentation>Changed to contain only Date and an embedded EducationOrgReference.</xs:documentation>
@@ -1771,13 +1770,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-            <xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType">
-                <xs:annotation>
-                    <xs:appinfo>
-                        <sli:keyFieldName>educationOrganizationId</sli:keyFieldName>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
+			<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>educationOrganizationId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-ClassPeriodReferenceType">
@@ -2623,12 +2622,12 @@
 			<xs:element name="SessionIdentity" type="SLC-SessionIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
-    <xs:simpleType name="SLC-StaffClassificationType">
-        <xs:annotation>
-            <xs:documentation>An individual's title of employment, official status or rank.  This field designates the individual's custom role name within a particular EdOrg, which defines their CRUD rights to access entity data within that EdOrg.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string" />
-    </xs:simpleType>
+	<xs:simpleType name="SLC-StaffClassificationType">
+		<xs:annotation>
+			<xs:documentation>An individual's title of employment, official status or rank.  This field designates the individual's custom role name within a particular EdOrg, which defines their CRUD rights to access entity data within that EdOrg.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
 	<xs:complexType name="SLC-StaffIdentityType">
 		<xs:annotation>
 			<xs:documentation>Changed to use only a required StaffUniqueStateId.</xs:documentation>
@@ -3478,16 +3477,16 @@
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
-    <xs:complexType name="SLC-AdministrationLanguageType">
-        <xs:annotation>
-            <xs:documentation>The language in which an assessment is written and/or administered.</xs:documentation>
-        </xs:annotation>
-        <xs:simpleContent>
-            <xs:extension base="SLC-LanguageItemSimpleType">
-                <xs:attribute name="IdentificationSystem" type="SLC-LanguageIdentificationSystemType" use="optional"/>
-            </xs:extension>
-        </xs:simpleContent>
-    </xs:complexType>
+	<xs:complexType name="SLC-AdministrationLanguageType">
+		<xs:annotation>
+			<xs:documentation>The language in which an assessment is written and/or administered.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="SLC-LanguageItemSimpleType">
+				<xs:attribute name="IdentificationSystem" type="SLC-LanguageIdentificationSystemType" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
 	<xs:complexType name="SLC-BirthData">
 		<xs:annotation>
 			<xs:documentation>The set of elements that capture relevant data regarding a person's birth, including birth date and place of birth.</xs:documentation>
@@ -3525,50 +3524,50 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-    <xs:complexType name="SLC-LanguageItemComplexType">
-        <xs:simpleContent>
-            <xs:extension base="SLC-LanguageItemSimpleType">
-                <xs:attribute name="IdentificationSystem" type="SLC-LanguageIdentificationSystemType" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>The standard used to identify the language, preferably one of the ISO 639 standard lists.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:simpleContent>
-    </xs:complexType>
-    <xs:complexType name="SLC-LanguagesType">
-        <xs:annotation>
-            <xs:documentation>Language the individual uses to communicate.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="Language" type="SLC-LanguageItemComplexType" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="SLC-LinguisticAccommodationsType">
-        <xs:annotation>
-            <xs:documentation>Linguistic accommodations used with the student for the test. </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="LinguisticAccommodation" type="SLC-LinguisticAccommodationItemType" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Linguistic accommodations used with the student for the test. </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="SLC-OtherEducationOrganizationCategoriesType">
-        <xs:annotation>
-            <xs:documentation>The other classification(s) of the education agency within the geographic boundaries of a state according to the level of administrative and operational control granted by the state.
+	<xs:complexType name="SLC-LanguageItemComplexType">
+		<xs:simpleContent>
+			<xs:extension base="SLC-LanguageItemSimpleType">
+				<xs:attribute name="IdentificationSystem" type="SLC-LanguageIdentificationSystemType" use="optional">
+					<xs:annotation>
+						<xs:documentation>The standard used to identify the language, preferably one of the ISO 639 standard lists.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="SLC-LanguagesType">
+		<xs:annotation>
+			<xs:documentation>Language the individual uses to communicate.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Language" type="SLC-LanguageItemComplexType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SLC-LinguisticAccommodationsType">
+		<xs:annotation>
+			<xs:documentation>Linguistic accommodations used with the student for the test. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LinguisticAccommodation" type="SLC-LinguisticAccommodationItemType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Linguistic accommodations used with the student for the test. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SLC-OtherEducationOrganizationCategoriesType">
+		<xs:annotation>
+			<xs:documentation>The other classification(s) of the education agency within the geographic boundaries of a state according to the level of administrative and operational control granted by the state.
             </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="OtherOrganizationCategory" type="SLC-OtherEducationOrganizationCategoryType" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The other classification(s) of the education agency within the geographic boundaries of a state according to the level of administrative and operational control granted by the state</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OtherOrganizationCategory" type="SLC-OtherEducationOrganizationCategoryType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The other classification(s) of the education agency within the geographic boundaries of a state according to the level of administrative and operational control granted by the state</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="SLC-RaceType">
 		<xs:annotation>
 			<xs:documentation>The general racial category which most clearly reflects the individual's recognition of his or her community or with which the individual most identifies.
@@ -3582,35 +3581,35 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-    <xs:complexType name="SLC-SchoolCategoriesType">
-        <xs:annotation>
-            <xs:documentation>The one or more categories of school. For example: High School, Middle School, and/or Elementary School.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="SchoolCategory" type="SLC-SchoolCategoryItemType" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The one or more categories of school. For example: High School, Middle School, and/or Elementary School.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="SLC-SecondaryBehavior">
-        <xs:annotation>
-            <xs:documentation>Definition of the behavior coded for use in describing an incident.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="SecondaryBehavior" type="SecondaryBehaviorsType">
-                <xs:annotation>
-                    <xs:documentation>The description of the behavior of a student for a discipline incident.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="BehaviorCategory" type="SLC-BehaviorCategoryType" use="required">
-            <xs:annotation>
-                <xs:documentation>The category of the incident behavior for classification purposes</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
+	<xs:complexType name="SLC-SchoolCategoriesType">
+		<xs:annotation>
+			<xs:documentation>The one or more categories of school. For example: High School, Middle School, and/or Elementary School.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SchoolCategory" type="SLC-SchoolCategoryItemType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The one or more categories of school. For example: High School, Middle School, and/or Elementary School.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SLC-SecondaryBehavior">
+		<xs:annotation>
+			<xs:documentation>Definition of the behavior coded for use in describing an incident.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SecondaryBehavior" type="SecondaryBehaviorsType">
+				<xs:annotation>
+					<xs:documentation>The description of the behavior of a student for a discipline incident.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="BehaviorCategory" type="SLC-BehaviorCategoryType" use="required">
+			<xs:annotation>
+				<xs:documentation>The category of the incident behavior for classification purposes</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
 	<xs:complexType name="SLC-StaffIdentificationCode">
 		<xs:annotation>
 			<xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to staff member.</xs:documentation>
@@ -3698,39 +3697,39 @@
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
-    <xs:simpleType name="SLC-AdministrationEnvironmentType">
-        <xs:annotation>
-            <xs:documentation>The environment in which the test was administered.  For example:
+	<xs:simpleType name="SLC-AdministrationEnvironmentType">
+		<xs:annotation>
+			<xs:documentation>The environment in which the test was administered.  For example:
                 Electronic
                 Classroom
                 Testing Center
                 Other
                 ...</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:token">
-            <xs:enumeration value="Classroom"/>
-            <xs:enumeration value="School"/>
-            <xs:enumeration value="Testing Center"/>
-            <xs:enumeration value="Other"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="SLC-AssessmentItemResultType">
-        <xs:annotation>
-            <xs:documentation>The analyzed result of a student's response to an assessment item.. For example:
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Classroom"/>
+			<xs:enumeration value="School"/>
+			<xs:enumeration value="Testing Center"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SLC-AssessmentItemResultType">
+		<xs:annotation>
+			<xs:documentation>The analyzed result of a student's response to an assessment item.. For example:
                 Correct
                 Incorrect
                 Met standard
                 ...
             </xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:token">
-            <xs:enumeration value="Correct"/>
-            <xs:enumeration value="Incorrect"/>
-            <xs:enumeration value="Met standard"/>
-            <xs:enumeration value="Did not meet standard"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="SLC-AttendanceEventCategoryType">
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Correct"/>
+			<xs:enumeration value="Incorrect"/>
+			<xs:enumeration value="Met standard"/>
+			<xs:enumeration value="Did not meet standard"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SLC-AttendanceEventCategoryType">
 		<xs:annotation>
 			<xs:documentation>A code categorizing the attendance event (e.g., excused absence, unexcused absence)</xs:documentation>
 		</xs:annotation>
@@ -3745,18 +3744,18 @@
 			<xs:enumeration value="Out-of-School Suspension"/>
 		</xs:restriction>
 	</xs:simpleType>
-    <xs:simpleType name="SLC-BehaviorCategoryType">
-        <xs:annotation>
-            <xs:documentation>Enumeration items defining the categories of behavior coded for use in describing an incident.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:token">
-            <xs:enumeration value="State Law Crime"/>
-            <xs:enumeration value="State Offense"/>
-            <xs:enumeration value="School Violation"/>
-            <xs:enumeration value="School Code of Conduct"/>
-            <xs:enumeration value="Other"/>
-        </xs:restriction>
-    </xs:simpleType>
+	<xs:simpleType name="SLC-BehaviorCategoryType">
+		<xs:annotation>
+			<xs:documentation>Enumeration items defining the categories of behavior coded for use in describing an incident.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="State Law Crime"/>
+			<xs:enumeration value="State Offense"/>
+			<xs:enumeration value="School Violation"/>
+			<xs:enumeration value="School Code of Conduct"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="SLC-ContentStandardType">
 		<xs:annotation>
 			<xs:documentation>An indication as to whether an assessment conforms to a standard. For example: Local standard Statewide standard Regional standard Association standard School standard
@@ -4290,26 +4289,26 @@
 			<xs:enumeration value="ZIMBABWE"/>
 		</xs:restriction>
 	</xs:simpleType>
-    <xs:simpleType name="SLC-EducationalEnvironmentType">
-        <xs:annotation>
-            <xs:documentation>The setting in which a child receives education and related services.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:token">
-            <xs:enumeration value="Classroom"/>
-            <xs:enumeration value="Homebound"/>
-            <xs:enumeration value="Hospital class"/>
-            <xs:enumeration value="In-school suspension"/>
-            <xs:enumeration value="Laboratory"/>
-            <xs:enumeration value="Mainstream (Special Education)"/>
-            <xs:enumeration value="Off-school center"/>
-            <xs:enumeration value="Pull-out class"/>
-            <xs:enumeration value="Resource room"/>
-            <xs:enumeration value="Self-contained (Special Education)"/>
-            <xs:enumeration value="Self-study"/>
-            <xs:enumeration value="Shop"/>
-            <xs:enumeration value="Other"/>
-        </xs:restriction>
-    </xs:simpleType>
+	<xs:simpleType name="SLC-EducationalEnvironmentType">
+		<xs:annotation>
+			<xs:documentation>The setting in which a child receives education and related services.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Classroom"/>
+			<xs:enumeration value="Homebound"/>
+			<xs:enumeration value="Hospital class"/>
+			<xs:enumeration value="In-school suspension"/>
+			<xs:enumeration value="Laboratory"/>
+			<xs:enumeration value="Mainstream (Special Education)"/>
+			<xs:enumeration value="Off-school center"/>
+			<xs:enumeration value="Pull-out class"/>
+			<xs:enumeration value="Resource room"/>
+			<xs:enumeration value="Self-contained (Special Education)"/>
+			<xs:enumeration value="Self-study"/>
+			<xs:enumeration value="Shop"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="SLC-ExitWithdrawType">
 		<xs:annotation>
 			<xs:documentation>The circumstances under which the student exited from membership in an educational institution.</xs:documentation>
@@ -4378,74 +4377,74 @@
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
-    <xs:simpleType name="SLC-GradeType">
-        <xs:annotation>
-            <xs:documentation>The type of grade in a report card or transcript (e.g., Final, Exam, Grading Period, ...)</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:token">
-            <xs:enumeration value="Conduct"/>
-            <xs:enumeration value="Exam"/>
-            <xs:enumeration value="Final"/>
-            <xs:enumeration value="Grading Period"/>
-            <xs:enumeration value="Mid-Term Grade"/>
-            <xs:enumeration value="Progress Report"/>
-            <xs:enumeration value="Semester"/>
-            <xs:enumeration value="Other"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="SLC-IncidentLocationType">
-        <xs:annotation>
-            <xs:documentation>Identifies where the incident occurred and whether or not it occurred on school.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:token">
-            <xs:enumeration value="On School"/>
-            <xs:enumeration value="Administrative offices area"/>
-            <xs:enumeration value="Cafeteria area"/>
-            <xs:enumeration value="Classroom"/>
-            <xs:enumeration value="Hallway or stairs"/>
-            <xs:enumeration value="Locker room or gym areas"/>
-            <xs:enumeration value="Restroom"/>
-            <xs:enumeration value="Library/media center"/>
-            <xs:enumeration value="Computer lab"/>
-            <xs:enumeration value="Auditorium"/>
-            <xs:enumeration value="On-School other inside area"/>
-            <xs:enumeration value="Athletic field or playground"/>
-            <xs:enumeration value="Stadium"/>
-            <xs:enumeration value="Parking lot"/>
-            <xs:enumeration value="On-School other outside area"/>
-            <xs:enumeration value="Off School"/>
-            <xs:enumeration value="Bus stop"/>
-            <xs:enumeration value="School bus"/>
-            <xs:enumeration value="Walking to or from school"/>
-            <xs:enumeration value="Off-School at other school"/>
-            <xs:enumeration value="Off-School at other school district facility"/>
-            <xs:enumeration value="Online"/>
-            <xs:enumeration value="Unknown"/>
-            <xs:enumeration value="Other"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="SLC-ItemCategoryType">
-        <xs:annotation>
-            <xs:documentation>Category or type of the assessment item.  For example:
+	<xs:simpleType name="SLC-GradeType">
+		<xs:annotation>
+			<xs:documentation>The type of grade in a report card or transcript (e.g., Final, Exam, Grading Period, ...)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Conduct"/>
+			<xs:enumeration value="Exam"/>
+			<xs:enumeration value="Final"/>
+			<xs:enumeration value="Grading Period"/>
+			<xs:enumeration value="Mid-Term Grade"/>
+			<xs:enumeration value="Progress Report"/>
+			<xs:enumeration value="Semester"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SLC-IncidentLocationType">
+		<xs:annotation>
+			<xs:documentation>Identifies where the incident occurred and whether or not it occurred on school.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="On School"/>
+			<xs:enumeration value="Administrative offices area"/>
+			<xs:enumeration value="Cafeteria area"/>
+			<xs:enumeration value="Classroom"/>
+			<xs:enumeration value="Hallway or stairs"/>
+			<xs:enumeration value="Locker room or gym areas"/>
+			<xs:enumeration value="Restroom"/>
+			<xs:enumeration value="Library/media center"/>
+			<xs:enumeration value="Computer lab"/>
+			<xs:enumeration value="Auditorium"/>
+			<xs:enumeration value="On-School other inside area"/>
+			<xs:enumeration value="Athletic field or playground"/>
+			<xs:enumeration value="Stadium"/>
+			<xs:enumeration value="Parking lot"/>
+			<xs:enumeration value="On-School other outside area"/>
+			<xs:enumeration value="Off School"/>
+			<xs:enumeration value="Bus stop"/>
+			<xs:enumeration value="School bus"/>
+			<xs:enumeration value="Walking to or from school"/>
+			<xs:enumeration value="Off-School at other school"/>
+			<xs:enumeration value="Off-School at other school district facility"/>
+			<xs:enumeration value="Online"/>
+			<xs:enumeration value="Unknown"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SLC-ItemCategoryType">
+		<xs:annotation>
+			<xs:documentation>Category or type of the assessment item.  For example:
                 Multiple choice
                 Analytic
                 Prose
                 ....
             </xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:token">
-            <xs:enumeration value="Analytic"/>
-            <xs:enumeration value="List Question"/>
-            <xs:enumeration value="Math Matrix"/>
-            <xs:enumeration value="Matching"/>
-            <xs:enumeration value="Multiple Choice"/>
-            <xs:enumeration value="Prose"/>
-            <xs:enumeration value="Rubric"/>
-            <xs:enumeration value="True-False"/>
-            <xs:enumeration value="Other"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="SLC-LanguageIdentificationSystemType">
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Analytic"/>
+			<xs:enumeration value="List Question"/>
+			<xs:enumeration value="Math Matrix"/>
+			<xs:enumeration value="Matching"/>
+			<xs:enumeration value="Multiple Choice"/>
+			<xs:enumeration value="Prose"/>
+			<xs:enumeration value="Rubric"/>
+			<xs:enumeration value="True-False"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SLC-LanguageIdentificationSystemType">
 		<xs:annotation>
 			<xs:documentation>The standard used to identify the language, preferably one of the ISO 639 standard lists.</xs:documentation>
 		</xs:annotation>
@@ -4454,18 +4453,18 @@
 			<xs:maxLength value="60"/>
 		</xs:restriction>
 	</xs:simpleType>
-    <xs:simpleType name="SLC-LanguageItemSimpleType">
-        <xs:annotation>
-            <xs:documentation>The item(s) denoting language(s) spoken or written.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:minLength value="1"/>
-            <xs:maxLength value="75"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="SLC-LinguisticAccommodationItemType">
-        <xs:annotation>
-            <xs:documentation>The item(s) denoting the linguistic accommodations used with the student for the test. For example:
+	<xs:simpleType name="SLC-LanguageItemSimpleType">
+		<xs:annotation>
+			<xs:documentation>The item(s) denoting language(s) spoken or written.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="75"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SLC-LinguisticAccommodationItemType">
+		<xs:annotation>
+			<xs:documentation>The item(s) denoting the linguistic accommodations used with the student for the test. For example:
                 Bilingual dictionary
                 English dictonary
                 Reading Aloud - Word or Phrase
@@ -4473,58 +4472,58 @@
                 Oral Translation - Word or phrase
                 Clarification - Word or phrase
             </xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:token">
-            <xs:enumeration value="Bilingual Dictionary"/>
-            <xs:enumeration value="English Dictionary"/>
-            <xs:enumeration value="Reading Aloud - Word or Phrase"/>
-            <xs:enumeration value="Reading Aloud - Entire Test Item"/>
-            <xs:enumeration value="Oral Translation - Word or Phrase"/>
-            <xs:enumeration value="Clarification - Word or Phrase"/>
-            <xs:enumeration value="Linguistic Accommodations allowed but not used"/>
-            <xs:enumeration value="Linguistic Simplification"/>
-            <xs:enumeration value="Reading Assistance"/>
-            <xs:enumeration value="Bilingual Glossary"/>
-            <xs:enumeration value="English and Spanish tests side-by-side"/>
-            <xs:enumeration value="Other"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:complexType name="SLC-MeetingTime">
-        <xs:annotation>
-            <xs:documentation>This entity represents the set of elements defining the meeting time for a class period.</xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
-                <xs:sequence>
-                    <xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType">
-                        <xs:annotation>
-                            <xs:documentation>The class period associated with the meeting time for a bell schedule.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="AlternateDayName" type="AlternateDayName" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>An alternate name for the day (e.g., Red, Blue)</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="StartTime" type="xs:time">
-                        <xs:annotation>
-                            <xs:documentation>An indication of the time of day the class begins.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="EndTime" type="xs:time">
-                        <xs:annotation>
-                            <xs:documentation>An indication of the time of day the class ends.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="OfficialAttendancePeriod" type="xs:boolean" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>Indicator of whether this meeting time is used for official daily attendance.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Bilingual Dictionary"/>
+			<xs:enumeration value="English Dictionary"/>
+			<xs:enumeration value="Reading Aloud - Word or Phrase"/>
+			<xs:enumeration value="Reading Aloud - Entire Test Item"/>
+			<xs:enumeration value="Oral Translation - Word or Phrase"/>
+			<xs:enumeration value="Clarification - Word or Phrase"/>
+			<xs:enumeration value="Linguistic Accommodations allowed but not used"/>
+			<xs:enumeration value="Linguistic Simplification"/>
+			<xs:enumeration value="Reading Assistance"/>
+			<xs:enumeration value="Bilingual Glossary"/>
+			<xs:enumeration value="English and Spanish tests side-by-side"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SLC-MeetingTime">
+		<xs:annotation>
+			<xs:documentation>This entity represents the set of elements defining the meeting time for a class period.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType">
+						<xs:annotation>
+							<xs:documentation>The class period associated with the meeting time for a bell schedule.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AlternateDayName" type="AlternateDayName" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>An alternate name for the day (e.g., Red, Blue)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StartTime" type="xs:time">
+						<xs:annotation>
+							<xs:documentation>An indication of the time of day the class begins.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EndTime" type="xs:time">
+						<xs:annotation>
+							<xs:documentation>An indication of the time of day the class ends.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="OfficialAttendancePeriod" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicator of whether this meeting time is used for official daily attendance.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<xs:simpleType name="SLC-ProgramId">
 		<xs:annotation>
 			<xs:documentation>A unique number or alphanumeric code assigned to a program by a school, school system, a state, or other agency or entity.</xs:documentation>
@@ -4533,7 +4532,7 @@
 			<xs:minLength value="1"/>
 			<xs:maxLength value="60"/>
 		</xs:restriction>
-	</xs:simpleType>    
+	</xs:simpleType>
 	<xs:simpleType name="SLC-RelationType">
 		<xs:annotation>
 			<xs:documentation>The nature of an individual's relationship to a student.</xs:documentation>
@@ -4614,27 +4613,27 @@
 			<xs:enumeration value="Wife"/>
 		</xs:restriction>
 	</xs:simpleType>
-    <xs:simpleType name="SLC-SchoolCategoryItemType">
-        <xs:annotation>
-            <xs:documentation>The category of school. For example: High School, Middle School, Elementary School</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:token">
-            <xs:enumeration value="Elementary/Secondary School"/>
-            <xs:enumeration value="Elementary School"/>
-            <xs:enumeration value="High School"/>
-            <xs:enumeration value="Middle School"/>
-            <xs:enumeration value="Junior High School"/>
-            <xs:enumeration value="SecondarySchool"/>
-            <xs:enumeration value="Ungraded"/>
-            <xs:enumeration value="Adult School"/>
-            <xs:enumeration value="Infant/toddler School"/>
-            <xs:enumeration value="Preschool/early childhood"/>
-            <xs:enumeration value="Primary School"/>
-            <xs:enumeration value="Intermediate School"/>
-            <xs:enumeration value="All Levels"/>
-            <xs:enumeration value="Other"/>
-        </xs:restriction>
-    </xs:simpleType>
+	<xs:simpleType name="SLC-SchoolCategoryItemType">
+		<xs:annotation>
+			<xs:documentation>The category of school. For example: High School, Middle School, Elementary School</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Elementary/Secondary School"/>
+			<xs:enumeration value="Elementary School"/>
+			<xs:enumeration value="High School"/>
+			<xs:enumeration value="Middle School"/>
+			<xs:enumeration value="Junior High School"/>
+			<xs:enumeration value="SecondarySchool"/>
+			<xs:enumeration value="Ungraded"/>
+			<xs:enumeration value="Adult School"/>
+			<xs:enumeration value="Infant/toddler School"/>
+			<xs:enumeration value="Preschool/early childhood"/>
+			<xs:enumeration value="Primary School"/>
+			<xs:enumeration value="Intermediate School"/>
+			<xs:enumeration value="All Levels"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="SLC-StaffIdentificationSystemType">
 		<xs:annotation>
 			<xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to a staff member.</xs:documentation>
@@ -4738,31 +4737,31 @@
 			<xs:enumeration value="State Migrant"/>
 		</xs:restriction>
 	</xs:simpleType>
-    <xs:simpleType name="SLC-TermType">
-        <xs:annotation>
-            <xs:documentation>The type of the session during the school year (e.g., Fall Semester).</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:token">
-            <xs:enumeration value="Fall Semester"/>
-            <xs:enumeration value="Spring Semester"/>
-            <xs:enumeration value="Summer Semester"/>
-            <xs:enumeration value="First Trimester"/>
-            <xs:enumeration value="Second Trimester"/>
-            <xs:enumeration value="Third Trimester"/>
-            <xs:enumeration value="Year Round"/>
-            <xs:enumeration value="MiniTerm"/>
-            <xs:enumeration value="Term 0"/>
-            <xs:enumeration value="Term 1"/>
-            <xs:enumeration value="Term 2"/>
-            <xs:enumeration value="Term 3"/>
-            <xs:enumeration value="Term 4"/>
-            <xs:enumeration value="Term 5"/>
-            <xs:enumeration value="Term 6"/>
-            <xs:enumeration value="Term 7"/>
-            <xs:enumeration value="Term 8"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="SLC-UniqueCourseId">
+	<xs:simpleType name="SLC-TermType">
+		<xs:annotation>
+			<xs:documentation>The type of the session during the school year (e.g., Fall Semester).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Fall Semester"/>
+			<xs:enumeration value="Spring Semester"/>
+			<xs:enumeration value="Summer Semester"/>
+			<xs:enumeration value="First Trimester"/>
+			<xs:enumeration value="Second Trimester"/>
+			<xs:enumeration value="Third Trimester"/>
+			<xs:enumeration value="Year Round"/>
+			<xs:enumeration value="MiniTerm"/>
+			<xs:enumeration value="Term 0"/>
+			<xs:enumeration value="Term 1"/>
+			<xs:enumeration value="Term 2"/>
+			<xs:enumeration value="Term 3"/>
+			<xs:enumeration value="Term 4"/>
+			<xs:enumeration value="Term 5"/>
+			<xs:enumeration value="Term 6"/>
+			<xs:enumeration value="Term 7"/>
+			<xs:enumeration value="Term 8"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SLC-UniqueCourseId">
 		<xs:annotation>
 			<xs:documentation>A unique number or alphanumeric code assigned to a course by a school, school system, a state, or other agency or entity.</xs:documentation>
 		</xs:annotation>
