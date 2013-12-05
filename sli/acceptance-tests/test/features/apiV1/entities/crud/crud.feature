@@ -228,6 +228,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
   Examples:
     | Entity Type                  | Entity Resource URI           | Count | Rewrite URI                                                                          |
     | "assessment"                 | "assessments"                 | 18    | /search/assessments                                                                  |
+    | "attendance"                 | "attendances"                 | 4     | /sections/@ids/studentSectionAssociations/students/attendances                       |
     | "cohort"                     | "cohorts"                     | 4     | /staff/@ids/staffCohortAssociations/cohorts                                          |
     | "course"                     | "courses"                     | 92    | /search/courses                                                                      |
     | "disciplineAction"           | "disciplineActions"           | 0     | /staff/@ids/disciplineActions                                                        |
