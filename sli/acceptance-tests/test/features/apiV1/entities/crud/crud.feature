@@ -89,7 +89,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
   Examples:
     | Entity Type             | Entity Resource URI      | Update Field         | Updated Value                                |
     | "assessment"            | "assessments"            | "assessmentTitle"    | "Advanced Placement Test - Subject: Writing" |
-#    | "attendance"            | "attendances"            | "studentId"          | "274f4c71-1984-4607-8c6f-0a91db2d240a_id"    |
     | "gradebookEntry"        | "gradebookEntries"       | "gradebookEntryType" | "Homework"                                   |
     | "studentAcademicRecord" | "studentAcademicRecords" | "sessionId"          | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
     | "grade"                 | "grades"                 | "schoolYear"         | "2008-2009"                                  |
@@ -229,7 +228,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
   Examples:
     | Entity Type                  | Entity Resource URI           | Count | Rewrite URI                                                                          |
     | "assessment"                 | "assessments"                 | 18    | /search/assessments                                                                  |
-#    | "attendance"                 | "attendances"                 | 4     | /sections/@ids/studentSectionAssociations/students/attendances                       |
     | "cohort"                     | "cohorts"                     | 4     | /staff/@ids/staffCohortAssociations/cohorts                                          |
     | "course"                     | "courses"                     | 92    | /search/courses                                                                      |
     | "disciplineAction"           | "disciplineActions"           | 0     | /staff/@ids/disciplineActions                                                        |
