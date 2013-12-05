@@ -56,7 +56,7 @@ def compareAndStoreHash(data, hstring, xmlnode):
 		else:
 			data["hashes"][hash] = 1
 	except UnicodeEncodeError:
-		print sys.exc_info()
+		print(sys.exc_info())
 		#print et.tostring(xmlnode)
 
 def collectDuplicates(data, hstring, xmlnode, filename):
@@ -69,7 +69,7 @@ def collectDuplicates(data, hstring, xmlnode, filename):
 def createCourseOfferingHashes(source, data, strip=True, report=False):
 	tree = et.parse(source)	
 	root = tree.getroot()
-	print root
+	print(root)
 	for courseOffering in root:
 		data["count"] += 1
 		localCourseCode = u""
@@ -99,11 +99,11 @@ def createCourseOfferingHashes(source, data, strip=True, report=False):
 					sessionName = SessionName.text.encode("UTF-8")
 				sessionSchoolId = getStateEdOrgId(SessionIdentity.find("{0}EducationalOrgReference".format(ns))).encode("UTF-8")
 		if len(localCourseCode) < 1:
-			print "Empty CourseCode"
+			print("Empty CourseCode")
 		if len(schoolId) < 1:
-			print "Empty SchoolId"
+			print("Empty SchoolId")
 		if len(sessionName) < 1:
-			print "Empty sessionName"
+			print("Empty sessionName")
 		hstring = localCourseCode + schoolId + sessionName
 		
 		#print hstring
@@ -116,13 +116,13 @@ def iterateThroughFiles(entityType, fileList):
 	data = {}
 	initData(data)
 	for i in range(0,len(fileList)):
-		print "Processing File: " + fileList[i]
+		print("Processing File: " + fileList[i])
 		f = open(fileList[i])
 		createCourseOfferingHashes(f, data, strip=True)
 		f.close()
-	print str(data["count"]) + " " + entityType + " checked."
-	print str(data["dup"]) + " duplicates found"
-	print str(data["count"] - data["dup"]) + " unique entities"
+	print(str(data["count"]) + " " + entityType + " checked.")
+	print(str(data["dup"]) + " duplicates found")
+	print(str(data["count"] - data["dup"]) + " unique entities")
 	if data["dup"] > 0:
 		data["count"] = 0
 		print "Printing Duplicates"
@@ -135,14 +135,14 @@ def iterateThroughFiles(entityType, fileList):
 			print "The following " + str(data["hashes"][hash]) + " records are duplicates"
 			for xml in data["dupXML"][hash]:
 				print xml
-		print str(data["count"]) + " " + entityType + " checked."
-		print str(data["dup"]) + " duplicates found"
-		print str(data["count"] - data["dup"]) + " unique entities"
+		print(str(data["count"]) + " " + entityType + " checked.")
+		print(str(data["dup"]) + " duplicates found")
+		print(str(data["count"] - data["dup"]) + " unique entities")
 
 	
 if __name__ == '__main__':
 	validEntityTypes = ["courseoffering"]
 	if len(sys.argv) <= 1: 
-		print 'usage: ' + sys.argv[0] + ' datafile.xml ...'
+		print('usage: ' + sys.argv[0] + ' datafile.xml ...')
 	else:
 		iterateThroughFiles("CourseOffering", sys.argv[1:])
