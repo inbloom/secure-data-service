@@ -3591,6 +3591,10 @@ Then /^the data from "(.*?)" is imported$/ do |directory|
     }
 end
 
+Then /^the data from tenant "(.*?)"is exported to "(.*?)"$/ do |tenant, directory|
+  `./exportMongoDb.sh #{convertTenantIdToDbName(tenant)} #{directory} 2>&1 /dev/null`
+end
+
 Given /^the "(.*?)" tenant db is empty$/ do |tenant|
      tenant_db = @conn.db(convertTenantIdToDbName(tenant))
      coll_names = tenant_db.collection_names
