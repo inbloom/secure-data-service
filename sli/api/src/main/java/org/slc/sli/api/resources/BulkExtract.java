@@ -21,7 +21,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.X509Certificate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -43,8 +52,6 @@ import com.sun.jersey.api.core.HttpRequestContext;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-import org.slc.sli.api.security.context.APIAccessDeniedException;
-import org.slc.sli.api.security.service.AuditLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,16 +66,18 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.AppAuthHelper;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.encrypt.security.CertificateValidationHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.NeutralQuery.SortOrder;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -162,38 +171,48 @@ public class BulkExtract {
     }
 
     /**
-     * Send an LEA extract or a SEA public data extract
+     * Send an LEA private data extract.
      *
-     * @param edOrgId
-     *            The uuid of the lea/sea to get the extract
-     * @return
-     *         A response with a lea/sea tar file
-     * @throws Exception
-     *             On Error
+     * @param context - HTTP context of request
+     * @param request - HTTP servlet request for public bulk extract file
+     * @param edOrgId - The uuid of the lea/sea to get the extract
+     *
+     * @return - A response with a lea/sea tar file
      */
     @GET
     @Path("extract/{edOrgId}")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getEdOrgExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("edOrgId") String edOrgId) {
-
         logSecurityEvent("Received request to stream Edorg data");
+
         if (edOrgId == null || edOrgId.isEmpty()) {
-            logSecurityEvent("Failed request to stream SEA public data, missing edOrgId");
+            logSecurityEvent("Failed request to stream edOrg data, missing edOrgId");
             throw new IllegalArgumentException("edOrgId cannot be missing");
         }
+
+        validateRequestCertificate(request);
+        validateCanAccessEdOrgExtract(edOrgId);
+
+        return getExtractResponse(context.getRequest(), null, edOrgId, false);
+    }
+
+    /**
+     * Send a tenant public data full extract.
+     *
+     * @param context - HTTP context of request
+     * @param request - HTTP servlet request for public bulk extract file
+     *
+     * @return - A response with a public extract tar file
+     */
+    @GET
+    @Path("extract/public")
+    @RightsAllowed({ Right.BULK_EXTRACT })
+    public Response getPublicExtract(@Context HttpContext context, @Context HttpServletRequest request) {
+        logSecurityEvent("Received request to stream public data");
+
         validateRequestCertificate(request);
 
-        boolean isPublicData = false;
-        Entity entity = helper.byId(edOrgId);
-
-        if (helper.isSEA(entity)) {
-            isPublicData = true;
-            //canAccessSEAExtract(entity);  DE2995
-        } else {
-        	canAccessEdOrgExtract(edOrgId);
-        }
-
-        return getExtractResponse(context.getRequest(), null, edOrgId, isPublicData);
+        return getExtractResponse(context.getRequest(), null, null, true);
     }
 
     /**
@@ -250,7 +269,7 @@ public class BulkExtract {
                 isPublicData = true;
                 //canAccessSEAExtract(entity); DE2995
             } else {
-            	canAccessEdOrgExtract(edOrgId);
+                validateCanAccessEdOrgExtract(edOrgId);
             }
 
             return getExtractResponse(context.getRequest(), date, edOrgId, isPublicData);
@@ -304,31 +323,37 @@ public class BulkExtract {
      *
      * @param edOrgId the edOrg id
      */
-    void canAccessEdOrgExtract(String edOrgId) {
+    private void validateCanAccessEdOrgExtract(String edOrgId) {
             if (edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(edOrgId))).isEmpty()) {
                 throw new APIAccessDeniedException("User is not authorized to access this extract", EntityNames.EDUCATION_ORGANIZATION, edOrgId);
             }
         appAuthHelper.checkApplicationAuthorization(edOrgId);
     }
-    
+
     /**
      * Get the bulk extract response
      *
-     * @param req       the http request context
-     * @param deltaDate the date of the delta, or null to get the full extract
-     * @param leaId     the LEA id
+     * @param req          the http request context
+     * @param deltaDate    the date of the delta, or null to get the full extract
+     * @param edOrgId      the Ed Org id (if private extract)
      * @param isPublicData indicates if the extract is for public data
      * @return the jax-rs response to send back.
      */
-    Response getExtractResponse(final HttpRequestContext req, final String deltaDate, final String leaId, boolean isPublicData) {
+    Response getExtractResponse(final HttpRequestContext req, final String deltaDate, final String edOrgId, boolean isPublicData) {
 
         String appId = appAuthHelper.getApplicationId();
 
-        Entity entity = getBulkExtractFileEntity(deltaDate, appId, leaId, false, isPublicData);
+        Entity entity = getBulkExtractFileEntity(deltaDate, appId, edOrgId, false, isPublicData);
 
+        String tenant = getPrincipal().getTenantId();
         if (entity == null) {
-            logSecurityEvent("No bulk extract support for : " + leaId);
-            LOG.info("No bulk extract support for : {}", leaId);
+            if (isPublicData) {
+                logSecurityEvent("No public bulk extract support for : " + tenant);
+                LOG.info("No public bulk extract support for : {}", tenant);
+            } else {
+                logSecurityEvent("No bulk extract support for : " + edOrgId);
+                LOG.info("No bulk extract support for : {}", edOrgId);
+            }
             return Response.status(Status.NOT_FOUND).build();
         }
 
@@ -336,8 +361,13 @@ public class BulkExtract {
 
         final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
         if (!bulkExtractFile.exists()) {
-            logSecurityEvent("No bulk extract support for : " + leaId);
-            LOG.info("No bulk extract file found for : {}", leaId);
+            if (isPublicData) {
+                logSecurityEvent("No public bulk extract file found for : " + tenant);
+                LOG.info("No public bulk extract file found for : {}", tenant);
+            } else {
+                logSecurityEvent("No bulk extract file found for : " + edOrgId);
+                LOG.info("No bulk extract file found for : {}", edOrgId);
+            }
             return Response.status(Status.NOT_FOUND).build();
         }
 
@@ -355,7 +385,7 @@ public class BulkExtract {
     Response getSLEAListResponse(final HttpContext context) {
 
     	List<String> userEdOrgs = retrieveUserAssociatedEdOrgs();
-    	
+
         String appId = appAuthHelper.getApplicationId();
 
         List<String> appAuthorizedUserEdOrgs = getApplicationAuthorizedUserEdOrgs(userEdOrgs, appId);
@@ -539,8 +569,7 @@ public class BulkExtract {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 getPrincipal().getTenantId()));
         if (leaId != null && !leaId.isEmpty()) {
-            query.addCriteria(new NeutralCriteria("edorg",
-                    NeutralCriteria.OPERATOR_EQUAL, leaId));
+            query.addCriteria(new NeutralCriteria("edorg", NeutralCriteria.OPERATOR_EQUAL, leaId));
         }
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
         if (!ignoreIsDelta) {
@@ -577,14 +606,14 @@ public class BulkExtract {
         }
         return userEdOrgs;
     }
-    
+
 
     private List<String> getApplicationAuthorizedUserEdOrgs(List<String> userEdOrgs, String appId) {
         List<String> appAuthorizedEdorgIds = appAuthHelper.getApplicationAuthorizationEdorgIds(appId);
         appAuthorizedEdorgIds.retainAll(userEdOrgs);
         return appAuthorizedEdorgIds;
     }
-    
+
     /**
      * @return the mongoEntityRepository
      */

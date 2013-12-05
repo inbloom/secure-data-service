@@ -6,14 +6,14 @@
 Feature: As an bulk extract user, I want to be able to get the state public entities
 
 
-Scenario: As a valid user unsuccessful attempt to get SEA public data extract using BEEP when extract has not been triggered
+Scenario: As a valid user unsuccessful attempt to get public data extract using BEEP when extract has not been triggered
     Given The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
     And the extraction zone is empty
     And the bulk extract files in the database are scrubbed
     And in my list of rights I have BULK_EXTRACT
     When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-    When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
+    When I make a call to the bulk extract end point "/bulk/extract/public"
     Then I get back a response code of "404"
 
 Scenario: As an bulk extract user, I want to be able to get the state public entities
@@ -68,10 +68,10 @@ Scenario Outline: Extract should have all public tenant data for certain entitie
       |  section                               |
       |  cohort                                |
 
-Scenario: As a valid user get SEA public data extract using BEEP
+Scenario: As a valid user get public data extract using BEEP
     Given in my list of rights I have BULK_EXTRACT
     When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-    When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
+    When I make a call to the bulk extract end point "/bulk/extract/public"
     And the return code is 200 I get expected tar downloaded
     And I decrypt and save the extracted file
     And I verify that an extract tar file was created for the tenant "Midgar"
@@ -119,7 +119,7 @@ Scenario Outline: Extract received through the API should have all the valid ten
       |  section                               |
 
 
-Scenario: As a valid user get SEA public data delta extract using BEEP
+Scenario: As a valid user get public data delta extract using BEEP
   Given in my list of rights I have BULK_EXTRACT
   When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id/delta/2013-04-30T17:22:26.391Z"
@@ -137,10 +137,10 @@ Scenario: API call to the SEA BEEP with a non SEA but valid EdOrg
   When I make a call to the bulk extract end point "/bulk/extract/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
   Then I get back a response code of "200"
 
-Scenario: Invalid user tries to access SEA public data
+Scenario: Invalid user tries to access public data
     Given I am a valid 'service' user with an authorized long-lived token "438e472e-a888-46d1-8087-0195f4e37089"
     And in my list of rights I have BULK_EXTRACT
-    When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
+    When I make a call to the bulk extract end point "/bulk/extract/public"
     When I get back a response code of "403"
 
 
@@ -166,7 +166,7 @@ Scenario: Bulk extract should fail if there is more than 1 SEA in the tenant.
 Scenario: API call to SEA BEEP when there is more than one SEA in the tenant
   Given in my list of rights I have BULK_EXTRACT
   When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
+  When I make a call to the bulk extract end point "/bulk/extract/public"
   Then I get back a response code of "404"
   Then I remove the edorg with id "IL-Test" from the "Midgar" database
 
@@ -177,7 +177,7 @@ Scenario: API call to SEA BEEP when there is more than one SEA in the tenant
     And The bulk extract app has been approved for "IL" with client id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
     And I trigger a bulk extract
     And I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-    And I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
+    And I make a call to the bulk extract end point "/bulk/extract/public"
     Then the return code is 200 I get expected tar downloaded
     And I decrypt and save the extracted file
     And I verify that an extract tar file was created for the tenant "Midgar"
@@ -249,6 +249,6 @@ Scenario: No SEA is available for the tenant
    Then I trigger a bulk extract
    Then I should see "0" bulk extract SEA-public data file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
 
-Scenario: Clean up the SEA public data in the database
+Scenario: Clean up the public data in the database
     Given all collections are empty
 

@@ -68,12 +68,12 @@ Scenario: An authorized bulk extract user logs in and gets the information for t
 #         | securityEvent   | 2                   | body.className          | org.slc.sli.api.resources.BulkExtract                             | string     |
 #       And "2" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id" should be in the sli db
 
-  Scenario: Security Event is logged when I retrieve SEA data
+  Scenario: Security Event is logged when I retrieve public data
     Given in my list of rights I have BULK_EXTRACT
     When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-    When I make a call to the bulk extract end point "/bulk/extract/SEA_IL_ID"
+    When I make a call to the bulk extract end point "/bulk/extract/public"
     When I get back a response code of "200"
-    Then a security event matching "Received request to stream Edorg data" should be in the sli db
+    Then a security event matching "Received request to stream public data" should be in the sli db
     Then a security event matching "Successful request for singlePartFileResponse" should be in the sli db
 
   Scenario: Security Event is logged when I retrieve SEA/LEA list
@@ -111,7 +111,7 @@ Scenario: An authorized bulk extract user logs in and gets the information for t
     And in my list of rights I have BULK_EXTRACT
     When I make a call to the bulk extract end point "/bulk/extract/LEA_DAYBREAK_ID"
     Then I get back a response code of "404"
-    Then a security event matching "No bulk extract support for : LEA_DAYBREAK_ID" should be in the sli db
+    Then a security event matching "No bulk extract file found for : LEA_DAYBREAK_ID" should be in the sli db
 
 Scenario: SecurityEvent is logged when BE file is missing
     Given the extraction zone is empty

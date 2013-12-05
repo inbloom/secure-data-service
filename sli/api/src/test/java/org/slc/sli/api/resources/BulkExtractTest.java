@@ -36,7 +36,16 @@ import java.net.URISyntaxException;
 import java.security.Principal;
 import java.security.cert.X509Certificate;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
@@ -72,7 +81,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.api.resources.security.ApplicationAuthorizationResourceTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
@@ -83,6 +91,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.security.ApplicationAuthorizationResource;
+import org.slc.sli.api.resources.security.ApplicationAuthorizationResourceTest;
 import org.slc.sli.api.security.context.resolver.AppAuthHelper;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
@@ -735,23 +744,21 @@ public class BulkExtractTest {
     }
 
     @Test
-    public void testSEAPublicDataExtract() throws IOException, ParseException {
+    public void testLEAFullDataExtract() throws IOException, ParseException {
         injector.setOauthAuthenticationWithEducationRole();
         mockApplicationEntity();
         Entity mockedEntity = mockBulkExtractEntity(null);
-        Mockito.when(edOrgHelper.byId(eq("SeaPub"))).thenReturn(mockedEntity);
-        Mockito.when(edOrgHelper.isSEA(mockedEntity)).thenReturn(true);
-        Mockito.when(edOrgHelper.getDirectChildLEAsOfEdOrg(mockedEntity)).thenReturn(Arrays.asList("lea123"));
+        Mockito.when(edOrgHelper.byId(eq("ONE"))).thenReturn(mockedEntity);
 
         Map<String, Object> authBody = new HashMap<String, Object>();
         authBody.put("applicationId", "App1");
-        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, ApplicationAuthorizationResourceTest.getAuthList("lea123"));
+        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, ApplicationAuthorizationResourceTest.getAuthList("ONE"));
         Entity mockAppAuth = Mockito.mock(Entity.class);
         Mockito.when(mockAppAuth.getBody()).thenReturn(authBody);
         Mockito.when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockAppAuth);
 
-        Response res = bulkExtract.getEdOrgExtract(CONTEXT, req, "SeaPub");
+        Response res = bulkExtract.getEdOrgExtract(CONTEXT, req, "ONE");
 
         assertEquals(200, res.getStatus());
         MultivaluedMap<String, Object> headers = res.getMetadata();
@@ -775,6 +782,39 @@ public class BulkExtractTest {
 
         assertEquals(BULK_DATA, s);
     }
+
+    @Test
+    public void testPublicDataExtract() throws IOException, ParseException {
+        injector.setOauthAuthenticationWithEducationRole();
+        mockApplicationEntity();
+        Entity mockedEntity = mockBulkExtractEntity(null);
+        Mockito.when(edOrgHelper.byId(eq("ONE"))).thenReturn(mockedEntity);
+
+        Response res = bulkExtract.getPublicExtract(CONTEXT, req);
+
+        assertEquals(200, res.getStatus());
+        MultivaluedMap<String, Object> headers = res.getMetadata();
+        assertNotNull(headers);
+        assertTrue(headers.containsKey("content-disposition"));
+        assertTrue(headers.containsKey("last-modified"));
+        String header = (String) headers.getFirst("content-disposition");
+        assertNotNull(header);
+        assertTrue(header.startsWith("attachment"));
+        assertTrue(header.indexOf(INPUT_FILE_NAME) > 0);
+
+        Object entity = res.getEntity();
+        assertNotNull(entity);
+
+        StreamingOutput out = (StreamingOutput) entity;
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        out.write(os);
+        os.flush();
+        byte[] responseData = os.toByteArray();
+        String s = new String(responseData);
+
+        assertEquals(BULK_DATA, s);
+    }
+
 
     private Entity mockApplicationEntity() {
         Entity mockEntity = Mockito.mock(Entity.class);
