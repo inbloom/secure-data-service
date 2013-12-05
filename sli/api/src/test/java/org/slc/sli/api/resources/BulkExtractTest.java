@@ -396,7 +396,7 @@ public class BulkExtractTest {
         Mockito.when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockAppAuth);
 
-        Response res = bulkExtract.getDelta(req, CONTEXT, edOrgId, "2013-05-14T11:00:00.000Z");
+        Response res = bulkExtract.getPublicDelta(req, CONTEXT, "2013-05-14T11:00:00.000Z");
 
         assertEquals(200, res.getStatus());
     }
@@ -744,7 +744,7 @@ public class BulkExtractTest {
     }
 
     @Test
-    public void testLEAFullDataExtract() throws IOException, ParseException {
+    public void testEdOrgFullExtract() throws IOException, ParseException {
         injector.setOauthAuthenticationWithEducationRole();
         mockApplicationEntity();
         Entity mockedEntity = mockBulkExtractEntity(null);
@@ -784,7 +784,7 @@ public class BulkExtractTest {
     }
 
     @Test
-    public void testPublicDataExtract() throws IOException, ParseException {
+    public void testPublicExtract() throws IOException, ParseException {
         injector.setOauthAuthenticationWithEducationRole();
         mockApplicationEntity();
         Entity mockedEntity = mockBulkExtractEntity(null);

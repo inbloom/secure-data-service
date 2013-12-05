@@ -137,7 +137,10 @@ public class BulkExtract {
     /**
      * Creates a streaming response for the sample data file.
      *
+     * @param request - HTTP servlet request for public bulk extract file
+     *
      * @return A response with the sample extract file
+     *
      * @throws Exception On Error
      */
     @GET
@@ -218,6 +221,9 @@ public class BulkExtract {
     /**
      * Send the list of BE file links for all LEAs for which the calling user and application have access.
      *
+     * @param context - HTTP context of request
+     * @param request - HTTP servlet request for public bulk extract file
+     *
      * @return A response with the complete list of BE file links for all LEAs/SEAs for this user/app.
      *
      * @throws Exception On Error.
@@ -238,10 +244,12 @@ public class BulkExtract {
     /**
      * Stream a delta response.
      *
+     * @param context - HTTP context of request
+     * @param request - HTTP servlet request for public bulk extract file
      * @param date the date of the delta
      * @param edOrgId the uuid of the lea/sea to get delta extract for
+     *
      * @return A response with a delta extract file.
-     * @throws Exception On Error
      */
     @GET
     @Path("extract/{edOrgId}/delta/{date}")
@@ -252,8 +260,8 @@ public class BulkExtract {
         if (deltasEnabled) {
             LOG.info("Retrieving delta bulk extract for {}, at date {}", edOrgId, date);
             if (edOrgId == null || edOrgId.isEmpty()) {
-                logSecurityEvent("Failed delta request, missing leadId");
-                throw new IllegalArgumentException("leaId cannot be missing");
+                logSecurityEvent("Failed delta request, missing edOrgId");
+                throw new IllegalArgumentException("edOrgId cannot be missing");
             }
             if (date == null || date.isEmpty()) {
                 logSecurityEvent("Failed delta request, missing date");
@@ -262,17 +270,43 @@ public class BulkExtract {
 
             validateRequestCertificate(request);
 
-            boolean isPublicData = false;
-            Entity entity = helper.byId(edOrgId);
+            validateCanAccessEdOrgExtract(edOrgId);
 
-            if (helper.isSEA(entity)) {
-                isPublicData = true;
-                //canAccessSEAExtract(entity); DE2995
-            } else {
-                validateCanAccessEdOrgExtract(edOrgId);
+            return getExtractResponse(context.getRequest(), date, edOrgId, false);
+
+        }
+        logSecurityEvent("Failed request for Edorg delta bulk extract data");
+        return Response.status(404).build();
+    }
+
+    /**
+     * Stream a delta public extract response.
+     *
+     * @param context - HTTP context of request
+     * @param request - HTTP servlet request for public bulk extract file
+     * @param date the date of the delta
+     *
+     * @return A response with a delta extract file.
+     */
+    @GET
+    @Path("extract/public/delta/{date}")
+    @RightsAllowed({ Right.BULK_EXTRACT })
+    public Response getPublicDelta(@Context HttpServletRequest request, @Context HttpContext context,
+                              @PathParam("date") String date) {
+        logSecurityEvent("Received request to stream public delta bulk extract data");
+        if (deltasEnabled) {
+            LOG.info("Retrieving delta public bulk extract at date {}", date);
+
+            if (date == null || date.isEmpty()) {
+                logSecurityEvent("Failed delta request, missing date");
+                throw new IllegalArgumentException("date cannot be missing");
             }
 
-            return getExtractResponse(context.getRequest(), date, edOrgId, isPublicData);
+            validateRequestCertificate(request);
+
+            boolean isPublicData = true;
+
+            return getExtractResponse(context.getRequest(), date, null, isPublicData);
 
         }
         logSecurityEvent("Failed request for Edorg delta bulk extract data");
@@ -384,7 +418,7 @@ public class BulkExtract {
      */
     Response getSLEAListResponse(final HttpContext context) {
 
-    	List<String> userEdOrgs = retrieveUserAssociatedEdOrgs();
+        List<String> userEdOrgs = retrieveUserAssociatedEdOrgs();
 
         String appId = appAuthHelper.getApplicationId();
 
@@ -400,7 +434,7 @@ public class BulkExtract {
         Entity edOrg = helper.byId(appAuthorizedUserEdOrgs.get(0));  // First LEA is as good as any.
         String seaId = helper.getSEAOfEdOrg(edOrg);
         if (seaId != null) {
-        	authorizedUserSEdOrgs.add(seaId);
+            authorizedUserSEdOrgs.add(seaId);
         }
 
         logSecurityEvent("Successfully retrieved SEA/LEA list for " + appId);
@@ -419,7 +453,6 @@ public class BulkExtract {
      *
      * @return the jax-rs response to send back.
      */
-    @SuppressWarnings("unchecked")
     private Response assembleSLEALinksResponse(final HttpContext context, final String appId, final List<String> authorizedUserSLEAs) {
         EntityBody list = assembleSLEALinks(context, appId, authorizedUserSLEAs);
 
@@ -615,14 +648,18 @@ public class BulkExtract {
     }
 
     /**
-     * @return the mongoEntityRepository
+     * Getter for our mongo entity repository.
+     *
+     * @return the mongoEntityRepository.
      */
     public Repository<Entity> getMongoEntityRepository() {
         return mongoEntityRepository;
     }
 
     /**
-     * @param mongoEntityRepository the mongoEntityRepository to set
+     * Setter for our mongo entity repository.
+     *
+     * @param mongoEntityRepository the mongoEntityRepository to set.
      */
     public void setMongoEntityRepository(Repository<Entity> mongoEntityRepository) {
         this.mongoEntityRepository = mongoEntityRepository;
@@ -658,9 +695,9 @@ public class BulkExtract {
     }
 
     /**
-     * Setter for our edorg validator
+     * Setter for our edorg validator.
      *
-     * @param validator
+     * @param validator - EdOrg validator
      */
     public void setEdorgValidator(GenericToEdOrgValidator validator) {
         this.edorgValidator = validator;
@@ -683,6 +720,11 @@ public class BulkExtract {
         }
     }
 
+    /**
+     * Setter for our file resource.
+     *
+     * @param fileResource - File resource
+     */
     public void setFileResource(FileResource fileResource) {
         this.fileResource = fileResource;
     }
