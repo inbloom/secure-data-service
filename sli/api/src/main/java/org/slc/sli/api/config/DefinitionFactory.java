@@ -96,6 +96,7 @@ public class DefinitionFactory {
         private boolean skipContextValidation;
         private boolean wrapperEntity;
         private NeutralCriteria typeCriteria;
+        private String serviceName;
 
         /**
          * Create a builder for an entity definition. The collection name and resource name will
@@ -127,6 +128,7 @@ public class DefinitionFactory {
             this.readRight = Right.READ_GENERAL;
             this.writeRight = Right.WRITE_GENERAL;
             this.supportsAggregates = false;
+            this.serviceName = "basicService";
         }
 
         /**
@@ -214,6 +216,12 @@ public class DefinitionFactory {
             this.typeCriteria = typeCriteria;
             return  this;
         }
+
+        public EntityBuilder withServiceName(String serviceName) {
+            this.serviceName = serviceName;
+            return this;
+        }
+
         /**
          * Create the actual entity definition
          *
@@ -221,7 +229,7 @@ public class DefinitionFactory {
          */
         public EntityDefinition build() {
 
-            BasicService entityService = (BasicService) DefinitionFactory.this.beanFactory.getBean("basicService",
+            BasicService entityService = (BasicService) DefinitionFactory.this.beanFactory.getBean(serviceName,
                     collectionName, treatments, this.repo);
 
             String dbType = this.dbType != null?this.dbType:type;

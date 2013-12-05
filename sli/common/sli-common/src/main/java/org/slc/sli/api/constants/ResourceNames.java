@@ -52,6 +52,7 @@ public final class ResourceNames {
     public static final String REPORT_CARDS = "reportCards";
     public static final String SCHOOLS = "schools";
     public static final String SECTIONS = "sections";
+    public static final String SECURITY_EVENT = "securityEvent";
     public static final String SESSIONS = "sessions";
     public static final String STAFF = "staff";
     public static final String STUDENTS = "students";
