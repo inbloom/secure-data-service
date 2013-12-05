@@ -962,48 +962,81 @@
 		minOccurs="0"> <xs:annotation> <xs:documentation>The number of seats that
 		is most favorable to the class. </xs:documentation> </xs:annotation> </xs:element>
 		</xs:sequence> </xs:complexType> -->
-    <!--xs:complexType name="meetingTime">
+
+    <xs:complexType name='meetingTime'>
         <xs:annotation>
-            <xs:documentation>This entity represents the set of elements defining the meeting time for a class
-                period for a bell schedule.
-            </xs:documentation>
+            <xs:documentation>This element represents the set of elements defining the meeting time for a class period.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="classPeriodName" type="xs:string">
+            <xs:element name='classPeriodId' type='xs:string'>
                 <xs:annotation>
-                    <xs:documentation>The class period associated with the meeting time for a bell schedule.
-                    </xs:documentation>
+                    <xs:documentation>The class period associated with the meeting time for a bell schedule.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>classPeriod</sli:ReferenceType>
+                        <sli:naturalKey>true</sli:naturalKey>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_PUBLIC</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="meetingDates">
+            <xs:element name='alternateDayName' type='alternateDayName' minOccurs='0'>
                 <xs:annotation>
-                    <xs:documentation>Dates the meetings occur
-                    </xs:documentation>
-                </xs:annotation>
-                <xs:simpleType>
-                    <xs:list itemType="xs:date"></xs:list>
-                </xs:simpleType>
-            </xs:element>
-            <xs:element name="startTime" type="xs:time">
-                <xs:annotation>
-                    <xs:documentation>An indication of the time of day the class begins.
-                    </xs:documentation>
+                    <xs:documentation>An alternate name for the day (e.g., Red, Blue)</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_PUBLIC</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="endTime" type="xs:time">
+            <xs:element name='startTime' type='xs:time'>
                 <xs:annotation>
-                    <xs:documentation>An indication of the time of day the class ends.
-                    </xs:documentation>
+                    <xs:documentation>An indication of the time of day the class begins.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_PUBLIC</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="officialAttendancePeriod" type="xs:boolean" minOccurs="0">
+            <xs:element name='endTime' type='xs:time'>
                 <xs:annotation>
-                    <xs:documentation>Indicator of whether this meeting time is used for official daily attendance.
-                    </xs:documentation>
+                    <xs:documentation>An indication of the time of day the class ends.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_PUBLIC</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name='officialAttendancePeriod' type='xs:boolean' minOccurs='0'>
+                <xs:annotation>
+                    <xs:documentation>Indicator of whether this meeting time is used for official daily attendance.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_PUBLIC</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
-    </xs:complexType-->
+    </xs:complexType>
 
     <xs:complexType name='miscellaneousEvent'>
         <xs:annotation>
@@ -11158,81 +11191,19 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element name='meetingTime'>
+            <xs:element name='meetingTime' type='meetingTime'>
                 <xs:annotation>
                     <xs:documentation>This element represents the set of elements defining the meeting time for a class period.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_PUBLIC</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
                 </xs:annotation>
-                <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name='classPeriodId' type='xs:string'>
-                                <xs:annotation>
-                                    <xs:documentation>The class period associated with the meeting time for a bell schedule.</xs:documentation>
-                                    <xs:appinfo>
-                                        <sli:ReferenceType>classPeriod</sli:ReferenceType>
-                                        <sli:naturalKey>true</sli:naturalKey>
-                                        <sli:WriteEnforcement>
-                                            <sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
-                                        </sli:WriteEnforcement>
-                                        <sli:ReadEnforcement>
-                                            <sli:allowedBy>READ_PUBLIC</sli:allowedBy>
-                                        </sli:ReadEnforcement>
-                                    </xs:appinfo>
-                                </xs:annotation>
-                            </xs:element>
-                            <xs:element name='alternateDayName' type='alternateDayName' minOccurs='0'>
-                                <xs:annotation>
-                                    <xs:documentation>An alternate name for the day (e.g., Red, Blue)</xs:documentation>
-                                    <xs:appinfo>
-                                        <sli:WriteEnforcement>
-                                            <sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
-                                        </sli:WriteEnforcement>
-                                        <sli:ReadEnforcement>
-                                            <sli:allowedBy>READ_PUBLIC</sli:allowedBy>
-                                        </sli:ReadEnforcement>
-                                    </xs:appinfo>
-                                </xs:annotation>
-                            </xs:element>
-                            <xs:element name='startTime' type='xs:time'>
-                                <xs:annotation>
-                                    <xs:documentation>An indication of the time of day the class begins.</xs:documentation>
-                                    <xs:appinfo>
-                                        <sli:WriteEnforcement>
-                                            <sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
-                                        </sli:WriteEnforcement>
-                                        <sli:ReadEnforcement>
-                                            <sli:allowedBy>READ_PUBLIC</sli:allowedBy>
-                                        </sli:ReadEnforcement>
-                                    </xs:appinfo>
-                                </xs:annotation>
-                            </xs:element>
-                            <xs:element name='endTime' type='xs:time'>
-                                <xs:annotation>
-                                    <xs:documentation>An indication of the time of day the class ends.</xs:documentation>
-                                    <xs:appinfo>
-                                        <sli:WriteEnforcement>
-                                            <sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
-                                        </sli:WriteEnforcement>
-                                        <sli:ReadEnforcement>
-                                            <sli:allowedBy>READ_PUBLIC</sli:allowedBy>
-                                        </sli:ReadEnforcement>
-                                    </xs:appinfo>
-                                </xs:annotation>
-                            </xs:element>
-                            <xs:element name='officialAttendancePeriod' type='xs:boolean' minOccurs='0'>
-                                <xs:annotation>
-                                    <xs:documentation>Indicator of whether this meeting time is used for official daily attendance.</xs:documentation>
-                                    <xs:appinfo>
-                                        <sli:WriteEnforcement>
-                                            <sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
-                                        </sli:WriteEnforcement>
-                                        <sli:ReadEnforcement>
-                                            <sli:allowedBy>READ_PUBLIC</sli:allowedBy>
-                                        </sli:ReadEnforcement>
-                                    </xs:appinfo>
-                                </xs:annotation>
-                            </xs:element>
-                        </xs:sequence>
-                </xs:complexType>
             </xs:element>
             <xs:element maxOccurs='unbounded' name='gradeLevels' type='gradeLevelType'>
                 <xs:annotation>
