@@ -60,3 +60,25 @@ Scenario: Delete Staff with cascade
     And I should not see "3a780cebc8f98982f9b7a5d548fecff42ed8f2f1_id" in the "Midgar" database
     And I should not see any entity mandatorily referring to "3a780cebc8f98982f9b7a5d548fecff42ed8f2f1_id" in the "Midgar" database
     And I should see entities optionally referring to "3a780cebc8f98982f9b7a5d548fecff42ed8f2f1_id" be updated in the "Midgar" database
+    @wip
+    Scenario: Delete Orphan Staff with cascade = false
+    Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And the "Midgar" tenant db is empty
+    When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
+    Then there exist "1" "staff" records like below in "Midgar" tenant. And I save this query as "staff"
+        |field                                     |value                                                                                 |
+        |_id                                       |63d4be8a233db1fd14676f1535fa21fe4c5dd466_id                                           |
+    And I save the collection counts in "Midgar" tenant
+    And I post "OrphanStaffDelete.zip" file as the payload of the ingestion job
+    When zip file is scp to ingestion landing zone
+    And a batch job for file "OrphanStaffDelete.zip" is completed in database
+	And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
+    And I should not see an error log file created
+	And I should not see a warning log file created
+    And I re-execute saved query "staff" to get "0" records
+    And I see that collections counts have changed as follows in tenant "Midgar"
+        | collection                              |     delta|
+        | staff                                   |        -1|
+#       | recordHash                              |        -1|
