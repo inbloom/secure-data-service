@@ -97,15 +97,15 @@ def compareAndStoreHash(data, naturalKeyString, entityString, naturalKeyStringSt
 					data["entityEventHash"][entityHash] = 1		
 
 	except UnicodeEncodeError:
-		print sys.exc_info()
-		#print et.tostring(xmlnode)
+		print(sys.aexc_info())
+		#print(et.tostring(xmlnode))
 
 def createAttendanceHashes(source, data, strip=True, compareEntity=False):
 	tree = et.parse(source)	
 	root = tree.getroot()
 	entityStringStrip = ""
 	entityString = ""
-	print root
+	print(root)
 	for attendance in root:
 		data["count"] += 1
 		schoolId = u""
@@ -136,11 +136,11 @@ def createAttendanceHashes(source, data, strip=True, compareEntity=False):
 					date = child.text.encode("UTF-8")
 
 		if len(schoolId) < 1 | len(schoolIdStrip) <1:
-			print "Empty School Id"
+			print("Empty School Id")
 		if len(studentId) < 1 | len(studentIdStrip)<1:
-			print "Empty Student Id"
+			print("Empty Student Id")
 		if len(schoolYear) < 1 | len(schoolYearStrip)<1:
-			print "Empty School Year"
+			print("Empty School Year")
 		naturalKeyString = schoolId + studentId + schoolYear
 		naturalKeyStringStrip = schoolIdStrip + studentIdStrip + schoolYearStrip
 		if compareEntity:
@@ -153,33 +153,33 @@ def iterateThroughFiles(fileList, strip=True, checkEntities=False):
 	data = {}
 	initData(data)
 	for i in range(0,len(fileList)):
-		print "Processing File: " + fileList[i] 
+		print("Processing File: " + fileList[i])
 		f = open(fileList[i])
 		createAttendanceHashes(f, data, strip, checkEntities)
-		print 'Cumulative Entites:' + str(data["count"])+ ', Cumulative unique natural key combos:' + str(data["count"] - data["naturalKeyDupStrip"])
+		print('Cumulative Entites:' + str(data["count"])+ ', Cumulative unique natural key combos:' + str(data["count"] - data["naturalKeyDupStrip"]))
 		f.close()
-	print str(data["count"]) + " attendance " + " checked."
-	print str(data["naturalKeyDupStrip"]) + " Natural Key duplicates found"
-	print str(data["count"] - data["naturalKeyDupStrip"]) + " unique attendance documents"
+	print(str(data["count"]) + " attendance " + " checked.")
+	print(str(data["naturalKeyDupStrip"]) + " Natural Key duplicates found")
+	print(str(data["count"] - data["naturalKeyDupStrip"]) + " unique attendance documents")
 	if not checkEntities:
-		print str(data["attendanceEventDupStrip"]) + " duplicate attendance events found"
+		print(str(data["attendanceEventDupStrip"]) + " duplicate attendance events found")
 
-	print "\nWithout Whitespace Stripped:"
-	print str(data["naturalKeyDup"]) + " Natural Key duplicates found"
-	print str(data["count"] - data["naturalKeyDup"]) + " unique attendance documents"
-	print str(data["attendanceEventDup"]) + " duplicate attendance events found"
+	print ("\nWithout Whitespace Stripped:")
+	print (str(data["naturalKeyDup"]) + " Natural Key duplicates found")
+	print (str(data["count"] - data["naturalKeyDup"]) + " unique attendance documents")
+	print (str(data["attendanceEventDup"]) + " duplicate attendance events found")
 	if data["naturalKeyDupStrip"] != data["naturalKeyDup"]:
-		print "Without Stripping Whitespace, different counts for natural keys of Attendance docs.  Check for leading or trailing whitespace in source system"
+		print("Without Stripping Whitespace, different counts for natural keys of Attendance docs.  Check for leading or trailing whitespace in source system")
 	if not checkEntities:
 		if data["attendanceEventDupStrip"] != data["attendanceEventDup"]:
-			print "Without Stripping Whitespace, different counts AttendanceEvent (subdocs).  Check for leading or trailing whitespace in source system"
+			print("Without Stripping Whitespace, different counts AttendanceEvent (subdocs).  Check for leading or trailing whitespace in source system")
 	
 	return (data["count"] - data["naturalKeyDup"])
 
 	
 if __name__ == '__main__':
 	if len(sys.argv) <= 1: 
-		print 'usage: ' + sys.argv[0] + ' datafile.xml ...' 
+		print('usage: ' + sys.argv[0] + ' datafile.xml ...')
 	else:
 		unique = iterateThroughFiles(sys.argv[1:])
 		
