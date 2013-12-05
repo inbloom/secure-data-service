@@ -699,7 +699,7 @@ When /I check that the staff extract for "(.*?)" has the correct number of recor
   puts(query)
   query  = JSON.parse(query)
   result = @tenantDb.collection('staffEducationOrganizationAssociation').aggregate(query)
-                                          puts result
+     puts result
      result.each{ |schoolIdToStaffs|
                                           
      schoolId = schoolIdToStaffs['_id']
@@ -1299,10 +1299,16 @@ When /^I POST a "(.*?)" of type "(.*?)"$/ do |entity_name, entity_type|
   # POST is a special case. We are creating a brand-new entity.
   # Get the entity json body from the map specified in get_post_body_by_entity_name()
   body = get_post_body_by_entity_name(entity_name)
+                                          puts "+++++++++++++++++++++++++++"
+                                          puts body
+                                           puts "+++++++++++++++++++++++++++"
   # Get the endpoint that corresponds to the desired entity
   endpoint = get_entity_endpoint(entity_type)
   puts prepareData(@format, body).to_s
   restHttpPost("/#{@api_version}/#{endpoint}", prepareData(@format, body))
+                                          puts "{{{{{{{{{{{{{{{{{{{{{{"
+                                          puts @res
+                                          puts "}}}}}}}}}}}}}}}}}}}}}}"
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
@@ -1454,6 +1460,24 @@ def get_patch_body_by_entity_name(field, value)
                   "addressType"=>"Physical",
                   "city"=>"Chicago"
                  }]
+    },
+      "date" => {
+        "attendanceEvent" =>[{
+            "reason" => "Missed school bus",
+            "event" => "Tardy",
+            "date" => value,
+            "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
+        },{
+            "reason" => "Excused: sick",
+            "event" => "Excused Absence",
+            "date" => "2013-12-19",
+            "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
+        }, {
+            "reason" => "Missed school bus",
+            "event" => "Tardy",
+            "date" => "2014-05-19",
+            "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
+        }]
     },
     "calendarEvent" => {
             "calendarEvent" => value
