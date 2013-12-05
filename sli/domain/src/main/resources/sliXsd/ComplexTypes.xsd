@@ -968,7 +968,7 @@
             <xs:documentation>This element represents the set of elements defining the meeting time for a class period.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name='classPeriodId' type='xs:string'>
+            <xs:element name='classPeriodId' type='reference'>
                 <xs:annotation>
                     <xs:documentation>The class period associated with the meeting time for a bell schedule.</xs:documentation>
                     <xs:appinfo>
@@ -11177,7 +11177,7 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name='bellScheduleName' type='reference'>
+            <xs:element name='bellScheduleName' type='bellScheduleName'>
                 <xs:annotation>
                     <xs:documentation> Name or title of the bell schedule. </xs:documentation>
                     <xs:appinfo>
