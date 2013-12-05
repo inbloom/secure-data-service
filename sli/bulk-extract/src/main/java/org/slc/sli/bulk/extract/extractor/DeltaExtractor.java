@@ -131,12 +131,20 @@ public class DeltaExtractor implements InitializingBean {
 
     }
 
+    // TODO: Remove this method (and its calls) once US5996 is played out.
     //made public so it can be used in unit tests
     public boolean isSea(String edOrgId) {
         Entity edOrg = repo.findById(EntityNames.EDUCATION_ORGANIZATION, edOrgId);
         return edOrg != null && edOrgHelper.isSEA(edOrg);
     }
 
+    /**
+     * Creates delta data bulk extract files if any are needed for the given tenant.
+     *
+     * @param tenant - name of tenant to extract
+     * @param deltaUptoTime - Extract for all deltas up to this time
+     * @param baseDirectory - Base directory of the tenant
+     */
     public void execute(String tenant, DateTime deltaUptoTime, String baseDirectory) {
 
         TenantContext.setTenantId(tenant);
@@ -300,9 +308,14 @@ public class DeltaExtractor implements InitializingBean {
 
     /**
      * Given the tenant, appId, the education organization id being extracted and a timestamp, give
-     * me an extractFile for this combo
+     * me an extractFile for this combo.
      *
-     * @param
+     * @param tenant - Tenant name
+     * @param edorg - EdOrg name
+     * @param startTime - Start time for extract
+     * @param appsForEdOrg - Apps authorized for edOrg
+     *
+     * @return - Extract file for the edOrg.
      */
     public ExtractFile getExtractFilePerEdOrg(String tenant, String edorg, DateTime startTime, Set<String> appsForEdOrg) {
         List<String> edorgList = Arrays.asList(edorg);
@@ -311,7 +324,7 @@ public class DeltaExtractor implements InitializingBean {
             appKeyMap.putAll(bulkExtractMongoDA.getClientIdAndPublicKey(appId, edorgList));
         }
         ExtractFile extractFile = new ExtractFile(getTenantDirectory(tenant),
-                getArchiveName(edorg, startTime.toDate()), appKeyMap, securityEventUtil, isSea(edorg));
+                getArchiveName(edorg, startTime.toDate()), appKeyMap, securityEventUtil);
         extractFile.setEdorg(edorg);
         return extractFile;
     }
@@ -346,17 +359,17 @@ public class DeltaExtractor implements InitializingBean {
             Entity lea = repo.findById(EntityNames.EDUCATION_ORGANIZATION, leaId);
             if (lea != null && lea.getBody() != null) {
                 // performance hack assumes the top-level LEA entities parent refs are the SEAs
-            	@SuppressWarnings("unchecked")
-            	List<String> seaIds = (List<String>) lea.getBody().get(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE);
-            	if (seaIds != null) {
-            		for ( String seaId : seaIds ) {
-            			if (!appsPerSEA.containsKey(seaId)) {
-            				appsPerSEA.put(seaId, appsPerTopLevelLEA.get(leaId));
-            			} else {
-            				appsPerSEA.get(seaId).addAll(appsPerTopLevelLEA.get(leaId));
-            			}
-            		}
-            	}
+                @SuppressWarnings("unchecked")
+                List<String> seaIds = (List<String>) lea.getBody().get(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE);
+                if (seaIds != null) {
+                    for ( String seaId : seaIds ) {
+                        if (!appsPerSEA.containsKey(seaId)) {
+                            appsPerSEA.put(seaId, appsPerTopLevelLEA.get(leaId));
+                        } else {
+                            appsPerSEA.get(seaId).addAll(appsPerTopLevelLEA.get(leaId));
+                        }
+                    }
+                }
             }
         }
         return appsPerSEA;
