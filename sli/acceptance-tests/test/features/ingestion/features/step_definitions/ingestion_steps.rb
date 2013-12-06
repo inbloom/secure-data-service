@@ -1493,9 +1493,19 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
   data_basename = batch_file.chomp(zip_suffix)
 
   intervalTime = 5 #seconds
-  #If @maxTimeout set in previous step def, then use it, otherwise default to 900s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 240
-  iters = (1.0*@maxTimeout/intervalTime).ceil
+  timeout_extension = PropLoader.getProps['ingestion_timeout_override_seconds']
+  if timeout_extension
+    timeout_extension = timeout_extension.to_i
+  else
+    timeout_extension = 0
+  end
+
+  #If @maxTimeout set in previous step def, then use it, otherwise default to 900s + the configurable 'ingestion_timeout_override_seconds'
+  timeout = (@maxTimeout ? @maxTimeout : 900 + timeout_extension)
+  iters = (1.0*timeout/intervalTime).ceil
+  if iters <= 0
+    iters = 1
+  end
   status = nil
   job_id = nil
   id_pattern = "#{data_basename}.*#{zip_suffix}.*"
@@ -1517,17 +1527,18 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
       job_record = job_collection.find_one({"_id" => job_id}, :fields => ["status"])
     end
 
-    status = job_record['status']
+    tmp_status = job_record['status']
 
-    if status == 'CompletedSuccessfully' || status == 'CompletedWithErrors'
+    if tmp_status == 'CompletedSuccessfully' || status == 'CompletedWithErrors'
       puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete" if $SLI_DEBUG
+      status = tmp_status
       break
     end
   end
 
   enable_NOTABLESCAN()
 
-  assert(!status.nil?, "Batch log did not complete either successfully or with errors within #{@maxTimeout} seconds. Test has timed out. Please check ingestion.log for root cause.")
+  assert(!status.nil?, "Batch log did not complete either successfully or with errors within #{timeout} seconds. Test has timed out. You may need to increase the 'ingestion_timeout_override_seconds' configuration in the Properties.yml for your environment. Please check ingestion.log for root cause.")
   assert(status == 'CompletedSuccessfully', "Job completed with errors.")
 
 end
