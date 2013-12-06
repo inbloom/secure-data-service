@@ -61,10 +61,10 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
 
 /**
- * This class should be concerned about how to generate the delta files per LEA
- * per app
+ * This class should be concerned about how to generate the delta files per EdOrg
+ * per app, and the public delta files.
  *
- * It gets an iterator of deltas, and determine which app / LEA would need this
+ * It gets an iterator of deltas, and determine which app/EdOrg would need this
  * delta entity. It does not care about how to retrieve the deltas nor how the
  * delta files are generated.
  *
@@ -117,7 +117,7 @@ public class DeltaExtractor implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        // Public entities number one!
+        // Public entities list.
         for (PublicEntityDefinition entity : PublicEntityDefinition.values()) {
             publicEntityTypes.add(entity.getEntityName());
         }
@@ -131,60 +131,25 @@ public class DeltaExtractor implements InitializingBean {
      * @param deltaUptoTime - Extract for all deltas up to this time
      */
     public void execute(String tenant, File tenantDirectory, DateTime deltaUptoTime) {
-
         TenantContext.setTenantId(tenant);
 
         audit(securityEventUtil.createSecurityEvent(this.getClass().getName(), "Delta Extract Initiation",
                 LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0019, DATE_TIME_FORMATTER.print(deltaUptoTime)));
 
-        Map<String, Set<String>> edOrgsPerApp = helper.getBulkExtractEdOrgsPerApp();
-        Map<String, Set<String>> appsPerEdOrg = reverse(edOrgsPerApp);
-        Map<String, PublicKey> publicClientKeys = bulkExtractMongoDA.getAppPublicKeys();
+        Map<String, Set<String>> appsPerEdOrg = appsPerEdOrg();
 
-        if (publicClientKeys == null || publicClientKeys.isEmpty()) {
-            audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    "Public delta data extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0014));
-            LOG.info("No authorized application to extract data.");
-        }
-
-        ExtractFile publicDeltaExtractFile = createPublicExtractFile(tenantDirectory, deltaUptoTime, publicClientKeys);
+        ExtractFile publicDeltaExtractFile = createPublicExtractFile(tenantDirectory, deltaUptoTime);
 
         deltaEntityIterator.init(tenant, deltaUptoTime);
         while (deltaEntityIterator.hasNext()) {
             DeltaRecord delta = deltaEntityIterator.next();
 
             if (delta.getOp() == Operation.UPDATE) {
-                // Extract public entities separately.
-                if (isPublicEntity(delta.getEntity().getType())) {
-                    if (delta.isSpamDelete()) {
-                        spamPublicDeletes(delta, tenant, deltaUptoTime, publicDeltaExtractFile);
-                    }
-
-                    EntityExtractor.CollectionWrittenRecord record = getCollectionRecord("public", delta.getType());
-                    entityExtractor.write(delta.getEntity(), publicDeltaExtractFile, record, null);
-                }
-
-                if (delta.isSpamDelete()) {
-                    spamDeletes(delta, delta.getBelongsToEdOrgs(), tenantDirectory, deltaUptoTime, appsPerEdOrg);
-                }
-
-                for (String edOrg : delta.getBelongsToEdOrgs()) {
-                    // we have apps for this edOrg
-                    if (appsPerEdOrg.containsKey(edOrg)) {
-                        ExtractFile extractFile = getExtractFile(edOrg, tenantDirectory, deltaUptoTime, appsPerEdOrg.get(edOrg));
-                        EntityExtractor.CollectionWrittenRecord record = getCollectionRecord(edOrg, delta.getType());
-                        entityExtractor.write(delta.getEntity(), extractFile, record, null);
-                    }
-                }
+                extractUpdate(delta, publicDeltaExtractFile, appsPerEdOrg, tenantDirectory, deltaUptoTime);
             } else if (delta.getOp() == Operation.DELETE) {
-                // Extract public entities separately.
-                if (isPublicEntity(delta.getEntity().getType())) {
-                    spamPublicDeletes(delta, tenant, deltaUptoTime, publicDeltaExtractFile);
-                }
-
-                spamDeletes(delta, Collections.<String> emptySet(), tenantDirectory, deltaUptoTime, appsPerEdOrg);
+                extractDelete(delta, publicDeltaExtractFile, appsPerEdOrg, tenantDirectory, deltaUptoTime);
             } else if (delta.getOp() == Operation.PURGE) {
-                logPurge(delta, Collections.<String> emptySet(), tenantDirectory, deltaUptoTime, appsPerEdOrg);
+                extractPurge(delta, publicDeltaExtractFile, appsPerEdOrg, tenantDirectory, deltaUptoTime);
             }
         }
 
@@ -192,9 +157,67 @@ public class DeltaExtractor implements InitializingBean {
 
         audit(securityEventUtil.createSecurityEvent(this.getClass().getName(), "Delta Extract Finished",
                 LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0021, DATE_TIME_FORMATTER.print(deltaUptoTime)));
+
         finalizeExtraction(tenant, deltaUptoTime);
     }
 
+
+    private void extractUpdate(DeltaRecord delta, ExtractFile publicDeltaExtractFile, Map<String, Set<String>> appsPerEdOrg,
+            File tenantDirectory, DateTime deltaUptoTime) {
+        // Extract public entities separately.
+        if (isPublicEntity(delta.getEntity().getType())) {
+            if (delta.isSpamDelete()) {
+                spamDeletes(delta, publicDeltaExtractFile);
+            }
+
+            writeUpdate("public", delta, publicDeltaExtractFile);
+        }
+
+        if (delta.isSpamDelete()) {
+            spamPrivateDeletes(delta, delta.getBelongsToEdOrgs(), tenantDirectory, deltaUptoTime, appsPerEdOrg);
+        }
+
+        for (String edOrg : delta.getBelongsToEdOrgs()) {
+            // We have apps for this edOrg.
+            if (appsPerEdOrg.containsKey(edOrg)) {
+                ExtractFile extractFile = getExtractFile(edOrg, tenantDirectory, deltaUptoTime, appsPerEdOrg.get(edOrg));
+
+                writeUpdate(edOrg, delta, extractFile);
+            }
+        }
+    }
+
+    private void extractDelete(DeltaRecord delta, ExtractFile publicDeltaExtractFile, Map<String, Set<String>> appsPerEdOrg,
+            File tenantDirectory, DateTime deltaUptoTime) {
+        // Extract public entities separately.
+        if (isPublicEntity(delta.getEntity().getType())) {
+            spamDeletes(delta, publicDeltaExtractFile);
+        }
+
+        spamPrivateDeletes(delta, Collections.<String> emptySet(), tenantDirectory, deltaUptoTime, appsPerEdOrg);
+    }
+
+    private void extractPurge(DeltaRecord delta, ExtractFile publicDeltaExtractFile, Map<String, Set<String>> appsPerEdOrg,
+            File tenantDirectory, DateTime deltaUptoTime) {
+        // Extract public entities separately.
+        if (isPublicEntity(delta.getEntity().getType())) {
+            logPurge(delta, publicDeltaExtractFile);
+        }
+
+        logPrivatePurge(delta, tenantDirectory, deltaUptoTime, appsPerEdOrg);
+    }
+
+    private Map<String, Set<String>> appsPerEdOrg() {
+        Map<String, Set<String>> edOrgsPerApp = helper.getBulkExtractEdOrgsPerApp();
+        Map<String, Set<String>> appsPerEdOrg = reverse(edOrgsPerApp);
+
+        return appsPerEdOrg;
+    }
+
+    private void writeUpdate(String edOrg, DeltaRecord delta, ExtractFile extractFile) {
+        EntityExtractor.CollectionWrittenRecord record = getCollectionRecord(edOrg, delta.getType());
+        entityExtractor.write(delta.getEntity(), extractFile, record, null);
+    }
 
     private void logEntityCounts() {
         for (Map.Entry<String, EntityExtractor.CollectionWrittenRecord> entry : appPerLeaCollectionRecords.entrySet()) {
@@ -203,7 +226,7 @@ public class DeltaExtractor implements InitializingBean {
         }
     }
 
-    private void spamDeletes(DeltaRecord delta, Set<String> exceptions, File tenantDirectory, DateTime deltaUptoTime,
+    private void spamPrivateDeletes(DeltaRecord delta, Set<String> exceptions, File tenantDirectory, DateTime deltaUptoTime,
             Map<String, Set<String>> appsPerEdOrg) {
         for (Map.Entry<String, Set<String>> entry : appsPerEdOrg.entrySet()) {
             String edOrg = entry.getKey();
@@ -213,58 +236,42 @@ public class DeltaExtractor implements InitializingBean {
             }
 
             ExtractFile extractFile = getExtractFile(edOrg, tenantDirectory, deltaUptoTime, entry.getValue());
-            // for some entities we have to spam delete the same id in two
-            // collections since we cannot reliably retrieve the "type". For example,
-            // teacher/staff or edorg/school, if the entity has been deleted, all we know
-            // if it a staff or edorg, but it may be stored as teacher or school in vendor
-            // db, so we must spam delete the id in both teacher/staff or edorg/school
-            // collection
-            Entity entity = delta.getEntity();
-            Set<String> types = typeResolver.resolveType(entity.getType());
-            for (String type : types) {
-                // filter out obvious subdocs that don't make sense...
-                // a subdoc must have an id that is double the normal id size
-                if (!subdocs.contains(type) || entity.getEntityId().length() == edOrg.length() * 2) {
-                    Entity e = new MongoEntity(type, entity.getEntityId(), new HashMap<String, Object>(), null);
-                    entityWriteManager.writeDeleteFile(e, extractFile);
-                }
-            }
+
+            spamDeletes(delta, extractFile);
         }
     }
 
-    private void spamPublicDeletes(DeltaRecord delta, String tenant, DateTime deltaUptoTime, ExtractFile publicDeltaExtractFile) {
-        // for some entities we have to spam delete the same id in two
+    private void spamDeletes(DeltaRecord delta, ExtractFile extractFile) {
+        // For some entities we have to spam delete the same id in two
         // collections since we cannot reliably retrieve the "type". For example,
-        // teacher/staff or edorg/school, if the entity has been deleted, all we know
-        // if it a staff or edorg, but it may be stored as teacher or school in vendor
-        // db, so we must spam delete the id in both teacher/staff or edorg/school
-        // collection
+        // teacher/staff or edorg/school, if the entity has been deleted, all we know is
+        // it a staff or edorg, but it may be stored as teacher or school in vendor db,
+        // so we must spam delete the id in both teacher/staff or edorg/school collection.
         Entity entity = delta.getEntity();
+
         Set<String> types = typeResolver.resolveType(entity.getType());
         for (String type : types) {
             Entity e = new MongoEntity(type, entity.getEntityId(), new HashMap<String, Object>(), null);
-            entityWriteManager.writeDeleteFile(e, publicDeltaExtractFile);
+            entityWriteManager.writeDeleteFile(e, extractFile);
         }
     }
 
-    private void logPurge(DeltaRecord delta, Set<String> exceptions, File tenantDirectory, DateTime deltaUptoTime,
-            Map<String, Set<String>> appsPerLEA) {
-        for (Map.Entry<String, Set<String>> entry : appsPerLEA.entrySet()) {
-            String lea = entry.getKey();
+    private void logPrivatePurge(DeltaRecord delta, File tenantDirectory, DateTime deltaUptoTime,
+            Map<String, Set<String>> appsPerEdOrg) {
+        for (Map.Entry<String, Set<String>> entry : appsPerEdOrg.entrySet()) {
+            String edOrg = entry.getKey();
+            ExtractFile extractFile = getExtractFile(edOrg, tenantDirectory, deltaUptoTime, entry.getValue());
 
-            if (exceptions.contains(lea)) {
-                continue;
-            }
-
-            ExtractFile extractFile = getExtractFile(lea, tenantDirectory, deltaUptoTime, entry.getValue());
-
-            DateTime date = new DateTime(delta.getEntity().getBody().get(TIME_FIELD));
-
-            Entity purgeEntity = new MongoEntity(DeltaJournal.PURGE, null, new HashMap<String, Object>(), null);
-            purgeEntity.getBody().put(DATE_FIELD, DATE_TIME_FORMATTER.print(date));
-
-            entityWriteManager.writeDeleteFile(purgeEntity, extractFile);
+            logPurge(delta, extractFile);
         }
+    }
+
+    private void logPurge(DeltaRecord delta, ExtractFile extractFile) {
+        DateTime date = new DateTime(delta.getEntity().getBody().get(TIME_FIELD));
+        Entity purgeEntity = new MongoEntity(DeltaJournal.PURGE, null, new HashMap<String, Object>(), null);
+        purgeEntity.getBody().put(DATE_FIELD, DATE_TIME_FORMATTER.print(date));
+
+        entityWriteManager.writeDeleteFile(purgeEntity, extractFile);
     }
 
     // finalize the extraction, if any error occured, do not wipe the delta
@@ -272,6 +279,7 @@ public class DeltaExtractor implements InitializingBean {
     // rerun it if we decided to
     private void finalizeExtraction(String tenant, DateTime startTime) {
         boolean allSuccessful = true;
+
         for (ExtractFile extractFile : appPerEdOrgExtractFiles.values()) {
             extractFile.closeWriters();
             boolean success = extractFile.finalizeExtraction(startTime);
@@ -297,6 +305,7 @@ public class DeltaExtractor implements InitializingBean {
 
     private CollectionWrittenRecord getCollectionRecord(String lea, String type) {
         String key = lea + "|" + type;
+
         if (!appPerLeaCollectionRecords.containsKey(key)) {
             EntityExtractor.CollectionWrittenRecord collectionRecord = new EntityExtractor.CollectionWrittenRecord(type);
             appPerLeaCollectionRecords.put(key, collectionRecord);
@@ -316,6 +325,7 @@ public class DeltaExtractor implements InitializingBean {
 
     private Map<String, Set<String>> reverse(Map<String, Set<String>> leasPerApp) {
         Map<String, Set<String>> result = new HashMap<String, Set<String>>();
+
         for (Map.Entry<String, Set<String>> entry : leasPerApp.entrySet()) {
             for (String lea : entry.getValue()) {
                 if (!result.containsKey(lea)) {
@@ -326,29 +336,21 @@ public class DeltaExtractor implements InitializingBean {
                 result.get(lea).add(entry.getKey());
             }
         }
+
         return result;
     }
 
-    /**
-     * Given the tenant, appId, the education organization id being extracted and a timestamp, give
-     * me an extractFile for this combo.
-     *
-     * @param tenantDirectory - The parent directory of the file
-     * @param edorg - EdOrg name
-     * @param startTime - Start time for extract
-     * @param appsForEdOrg - Apps authorized for edOrg
-     *
-     * @return - Extract file for the edOrg.
-     */
-    public ExtractFile getExtractFilePerEdOrg(File tenantDirectory, String edorg, DateTime startTime, Set<String> appsForEdOrg) {
+    private ExtractFile getExtractFilePerEdOrg(File tenantDirectory, String edorg, DateTime startTime, Set<String> appsForEdOrg) {
         List<String> edorgList = Arrays.asList(edorg);
         Map<String, PublicKey> appKeyMap = new HashMap<String, PublicKey>();
         for (String appId : appsForEdOrg) {
             appKeyMap.putAll(bulkExtractMongoDA.getClientIdAndPublicKey(appId, edorgList));
         }
+
         ExtractFile extractFile = new ExtractFile(tenantDirectory,
                 getArchiveName(edorg, startTime.toDate()), appKeyMap, securityEventUtil);
         extractFile.setEdorg(edorg);
+
         return extractFile;
     }
 
@@ -360,16 +362,14 @@ public class DeltaExtractor implements InitializingBean {
         return publicEntityTypes.contains(entityType);
     }
 
-    /**
-     * Creates the public extract file instance.
-     *
-     * @param tenantDirectory - The parent directory of the file
-     * @param deltaUptoTime - Extract for all deltas up to this time
-     * @param clientKeys - The public keys for registered apps.
-     *
-     * @return the public extract file instance.
-     */
-    protected ExtractFile createPublicExtractFile(File tenantDirectory, DateTime deltaUptoTime, Map<String, PublicKey> clientKeys) {
+    private ExtractFile createPublicExtractFile(File tenantDirectory, DateTime deltaUptoTime) {
+        Map<String, PublicKey> clientKeys = bulkExtractMongoDA.getAppPublicKeys();
+        if (clientKeys == null || clientKeys.isEmpty()) {
+            audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    "Public delta data extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0014));
+            LOG.info("No authorized application to extract data.");
+        }
+
         ExtractFile file = new ExtractFile(tenantDirectory, getPublicArchiveName(deltaUptoTime.toDate()), clientKeys, securityEventUtil);
         file.setEdorg(null);
 
@@ -391,4 +391,5 @@ public class DeltaExtractor implements InitializingBean {
     public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
         this.securityEventUtil = securityEventUtil;
     }
+
 }

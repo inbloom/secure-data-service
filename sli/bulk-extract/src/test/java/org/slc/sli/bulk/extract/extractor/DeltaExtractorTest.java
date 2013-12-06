@@ -33,10 +33,14 @@ import com.google.common.base.Predicate;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.context.resolver.TypeResolver;
@@ -57,8 +61,11 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class DeltaExtractorTest {
 
+    @Autowired
     @InjectMocks
     DeltaExtractor extractor = new DeltaExtractor();
 
@@ -151,11 +158,6 @@ public class DeltaExtractorTest {
         Map<String, PublicKey> publicClientKeys = new HashMap<String, PublicKey>();
         publicClientKeys.put("app1", null);
         when(bulkExtractMongoDA.getAppPublicKeys()).thenReturn(publicClientKeys);
-
-        // when(leaExtractor.getExtractFilePerAppPerLEA(anyString(), anyString(), anyString(),
-        // any(DateTime.class), anyBoolean())).thenReturn(extractFile);
-
-        extractor.afterPropertiesSet();
     }
 
     private DeltaRecord buildUpdatePublicRecord() {
