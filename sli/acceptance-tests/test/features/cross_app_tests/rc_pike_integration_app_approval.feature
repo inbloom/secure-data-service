@@ -495,7 +495,7 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
       |  teacherSchoolAssociation              |
       |  teacherSectionAssociation             |
 
-Scenario: App makes an api call to retrieve a SEA public data bulk extract
+Scenario: App makes an api call to retrieve a public data bulk extract
    #Get a session to trigger a bulk extract
    Given the pre-existing bulk extract testing app key has been created
    When I navigate to the API authorization endpoint with my client ID
@@ -505,10 +505,9 @@ Scenario: App makes an api call to retrieve a SEA public data bulk extract
    Then I should receive a json response containing my authorization code
    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
    Then I should receive a json response containing my authorization token
-   Then I get the id for the edorg "STANDARD-SEA"
    #Get bulk extract tar file
    Then there is no bulk extract files in the local directory
-   And I request and download a "bulk" extract file for the edorg
+   And I request and download a "public" extract file for the edorg
    And there is a metadata file in the extract
    And the extract contains a file for each of the following entities:
       |  entityType                            |
@@ -579,7 +578,7 @@ Scenario: Ingestion user ingests additional public entities
     When I PATCH the postalCode for the current edorg entity to 99999
     Then I should receive a return code of 204
 
-Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
+Scenario: App makes an api call to retrieve a bulk extract public data delta
   #Get a session to trigger a bulk extract
   Given the pre-existing bulk extract testing app key has been created
   When I navigate to the API authorization endpoint with my client ID
@@ -590,15 +589,14 @@ Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
   When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
   Then I should receive a json response containing my authorization token
   And there is no bulk extract files in the local directory
-  And I get the id for the edorg "STANDARD-SEA"
 
   When the operator triggers a delta for the production tenant
   And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "<RC Server>"
   And I get back a response code of "200"
-  And I store the URL for the latest delta for the SEA
+  And I store the URL for the latest delta for the Public
   And the number of returned URLs is correct:
-    |   fieldName  | count |
-    |   deltaSea   |  1    |
+    |   fieldName     | count |
+    |   deltaPublic   |  1    |
   And I request and download a "delta" extract file for the edorg
   And there is a metadata file in the extract
   And the extract contains a file for each of the following entities:

@@ -61,8 +61,8 @@ When /^the operator triggers a delta for the (production|sandbox) tenant$/ do |e
   executeShellCommand("ssh #{SSH_USER} sudo #{command}")
 end
 
-When /^I store the URL for the latest delta for the (LEA|SEA)$/ do |edorg|
-  edorg == 'LEA' ? delta = 'deltaEdOrgs' : delta = 'deltaSea'
+When /^I store the URL for the latest delta for the (LEA|Public)$/ do |edorg|
+  edorg == 'LEA' ? delta = 'deltaEdOrgs' : delta = 'deltaPublic'
   puts "result body from previous API call is #{@res}"
   @delta_uri = JSON.parse(@res)
   @list_url  = @delta_uri[delta][@lea][0]["uri"]
