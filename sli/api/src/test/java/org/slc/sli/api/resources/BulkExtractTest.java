@@ -105,7 +105,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 /**
- * Test for support BulkExtract
+ * Test for support BulkExtract.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -117,7 +117,7 @@ public class BulkExtractTest {
     private static final String INPUT_FILE_NAME = "mock.in.tar.gz";
     private static final String URI_PATH = "http://local.slidev.org:8080/api/rest/v1.2";
 
-    public static final String BULK_DATA = "12345";
+    private static final String BULK_DATA = "12345";
 
     @Autowired
     @InjectMocks
@@ -228,7 +228,7 @@ public class BulkExtractTest {
           }
       };
 
-      Response res = bulkExtract.getExtractResponse(context, null, null, false);
+      Response res = bulkExtract.getEdOrgExtractResponse(context, null, null);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -265,7 +265,7 @@ public class BulkExtractTest {
           }
       };
 
-        Response res = bulkExtract.getExtractResponse(context, null, null, false);
+      Response res = bulkExtract.getEdOrgExtractResponse(context, null, null);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -290,21 +290,21 @@ public class BulkExtractTest {
       Mockito.when(failureContext.getMethod()).thenReturn("HEAD");
       Mockito.when(failureContext.getHeaderValue("Range")).thenReturn("bytes=0");
 
-        Response failureRes = bulkExtract.getExtractResponse(failureContext, null, null, false);
+      Response failureRes = bulkExtract.getEdOrgExtractResponse(failureContext, null, null);
       assertEquals(416, failureRes.getStatus());
 
       HttpRequestContext validContext = Mockito.mock(HttpRequestContext.class);
       Mockito.when(validContext.getMethod()).thenReturn("HEAD");
       Mockito.when(validContext.getHeaderValue("Range")).thenReturn("bytes=0-5");
 
-        Response validRes = bulkExtract.getExtractResponse(validContext, null, null, false);
+      Response validRes = bulkExtract.getEdOrgExtractResponse(validContext, null, null);
       assertEquals(200, validRes.getStatus());
 
       HttpRequestContext multiRangeContext = Mockito.mock(HttpRequestContext.class);
       Mockito.when(multiRangeContext.getMethod()).thenReturn("HEAD");
       Mockito.when(multiRangeContext.getHeaderValue("Range")).thenReturn("bytes=0-5,6-10");
 
-        Response multiRangeRes = bulkExtract.getExtractResponse(validContext, null, null, false);
+      Response multiRangeRes = bulkExtract.getEdOrgExtractResponse(validContext, null, null);
       assertEquals(200, multiRangeRes.getStatus());
 
   }
@@ -322,7 +322,7 @@ public class BulkExtractTest {
           }
       };
 
-        Response res = bulkExtract.getExtractResponse(context, null, null, false);
+      Response res = bulkExtract.getEdOrgExtractResponse(context, null, null);
       assertEquals(412, res.getStatus());
   }
 

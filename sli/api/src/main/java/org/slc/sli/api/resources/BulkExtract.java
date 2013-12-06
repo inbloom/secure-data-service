@@ -196,7 +196,7 @@ public class BulkExtract {
         validateRequestCertificate(request);
         validateCanAccessEdOrgExtract(edOrgId);
 
-        return getExtractResponse(context.getRequest(), null, edOrgId, false);
+        return getEdOrgExtractResponse(context.getRequest(), edOrgId, null);
     }
 
     /**
@@ -215,7 +215,7 @@ public class BulkExtract {
 
         validateRequestCertificate(request);
 
-        return getExtractResponse(context.getRequest(), null, null, true);
+        return getPublicExtractResponse(context.getRequest(), null);
     }
 
     /**
@@ -272,7 +272,7 @@ public class BulkExtract {
 
             validateCanAccessEdOrgExtract(edOrgId);
 
-            return getExtractResponse(context.getRequest(), date, edOrgId, false);
+            return getEdOrgExtractResponse(context.getRequest(), edOrgId, date);
 
         }
         logSecurityEvent("Failed request for Edorg delta bulk extract data");
@@ -304,52 +304,11 @@ public class BulkExtract {
 
             validateRequestCertificate(request);
 
-            boolean isPublicData = true;
-
-            return getExtractResponse(context.getRequest(), date, null, isPublicData);
+            return getPublicExtractResponse(context.getRequest(), date);
 
         }
         logSecurityEvent("Failed request for Edorg delta bulk extract data");
         return Response.status(404).build();
-    }
-
-    /**
-     * Validate if the user can access SEA extract
-     *
-     * @param seaEntity the SEA Entity
-     *
-     * DE2995: Anyone with BULK_EXTRACT right can extract public sea data, provided the app is authd for sea.
-     */
-    /*
-    void canAccessSEAExtract(final Entity seaEntity) {
-
-        boolean approvedLEAExists = false;
-        for (String leaId : helper.getDirectChildLEAsOfEdOrg(seaEntity)) {
-            LOG.debug("Checking lea: {} for sea: {}", leaId, seaEntity.getEntityId());
-                try {
-                    canAccessLEAExtract(leaId);
-                    approvedLEAExists = true;
-                    break;
-                } catch (AccessDeniedException e) {
-                    approvedLEAExists = false;
-                }
-        }
-        if (!approvedLEAExists) {
-            throw new APIAccessDeniedException("User is not authorized to access SEA public extract", EntityNames.EDUCATION_ORGANIZATION, seaEntity);
-        }
-    }
-    */
-
-    /**
-     * Validate if the user can access LEA extract
-     *
-     * @param leaId the LEA id
-     */
-    void canAccessLEAExtract(String leaId) {
-            if (edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId))).isEmpty()) {
-                throw new APIAccessDeniedException("User is not authorized to access this extract", EntityNames.EDUCATION_ORGANIZATION, leaId);
-            }
-        appAuthHelper.checkApplicationAuthorization(leaId);
     }
 
     /**
@@ -373,41 +332,87 @@ public class BulkExtract {
      * @param isPublicData indicates if the extract is for public data
      * @return the jax-rs response to send back.
      */
-    Response getExtractResponse(final HttpRequestContext req, final String deltaDate, final String edOrgId, boolean isPublicData) {
+    Response getEdOrgExtractResponse(final HttpRequestContext req, final String edOrgId, final String deltaDate) {
+        ExtractFile ef = getEdOrgExtractFile(edOrgId, deltaDate);
 
-        String appId = appAuthHelper.getApplicationId();
-
-        Entity entity = getBulkExtractFileEntity(deltaDate, appId, edOrgId, false, isPublicData);
-
-        String tenant = getPrincipal().getTenantId();
-        if (entity == null) {
-            if (isPublicData) {
-                logSecurityEvent("No public bulk extract support for : " + tenant);
-                LOG.info("No public bulk extract support for : {}", tenant);
-            } else {
-                logSecurityEvent("No bulk extract support for : " + edOrgId);
-                LOG.info("No bulk extract support for : {}", edOrgId);
-            }
+        if (ef == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        ExtractFile bulkExtractFileEntity =  new ExtractFile(entity.getBody().get(BULK_EXTRACT_DATE).toString(), entity.getBody().get(BULK_EXTRACT_FILE_PATH).toString());
+        return fileResource.getFileResponse(req, ef, ef.lastModified(), ef.getLastModified(), uri);
+    }
 
-        final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
-        if (!bulkExtractFile.exists()) {
-            if (isPublicData) {
-                logSecurityEvent("No public bulk extract file found for : " + tenant);
-                LOG.info("No public bulk extract file found for : {}", tenant);
-            } else {
+    /**
+     * Get the bulk extract response
+     *
+     * @param req          the http request context
+     * @param deltaDate    the date of the delta, or null to get the full extract
+     * @param edOrgId      the Ed Org id (if private extract)
+     * @param isPublicData indicates if the extract is for public data
+     * @return the jax-rs response to send back.
+     */
+    Response getPublicExtractResponse(final HttpRequestContext req, final String deltaDate) {
+        ExtractFile ef = getPublicExtractFile(deltaDate);
+
+        if (ef == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+
+        return fileResource.getFileResponse(req, ef, ef.lastModified(), ef.getLastModified(), uri);
+    }
+
+    private ExtractFile getEdOrgExtractFile(final String edOrgId, final String deltaDate) {
+        ExtractFile ef = null;
+
+        Entity efEntity = getEdOrgExtractFileEntity(appAuthHelper.getApplicationId(), edOrgId, deltaDate);
+
+        if (efEntity == null) {
+            logSecurityEvent("No bulk extract support for : " + edOrgId);
+            LOG.info("No bulk extract support for : {}", edOrgId);
+        } else {
+            ef = getExtractFile(efEntity);
+
+            if (ef == null) {
                 logSecurityEvent("No bulk extract file found for : " + edOrgId);
                 LOG.info("No bulk extract file found for : {}", edOrgId);
             }
-            return Response.status(Status.NOT_FOUND).build();
         }
 
-        return fileResource.getFileResponse(req, bulkExtractFile,
-                bulkExtractFile.lastModified(), bulkExtractFileEntity.getLastModified(), uri);
+        return ef;
+    }
 
+    private ExtractFile getPublicExtractFile(final String deltaDate) {
+        ExtractFile ef = null;
+
+        Entity efEntity = getPublicExtractFileEntity(appAuthHelper.getApplicationId(), deltaDate);
+
+        if (efEntity == null) {
+            String tenant = getPrincipal().getTenantId();
+
+            logSecurityEvent("No public bulk extract support for : " + tenant);
+            LOG.info("No public bulk extract support for : {}", tenant);
+        } else {
+            ef = getExtractFile(efEntity);
+
+            if (ef == null) {
+                String tenant = getPrincipal().getTenantId();
+
+                logSecurityEvent("No public bulk extract file found for : " + tenant);
+                LOG.info("No public bulk extract file found for : {}", tenant);
+            }
+        }
+
+        return ef;
+    }
+
+    private ExtractFile getExtractFile(Entity efEntity) {
+        ExtractFile bulkExtractFileEntity = new ExtractFile((String) efEntity.getBody().get(BULK_EXTRACT_FILE_PATH), String.valueOf(efEntity.getBody().get(BULK_EXTRACT_DATE)));
+
+        if (bulkExtractFileEntity.exists()) {
+            return bulkExtractFileEntity;
+        }
+
+        return null;
     }
 
     /**
@@ -599,28 +604,54 @@ public class BulkExtract {
     /**
      * Get the bulk extract file
      *
-     * @param deltaDate the date of the delta, or null to retrieve a full extract
      * @param appId
+     * @param edOrgId
+     * @param deltaDate the date of the delta, or null to retrieve a full extract
      * @return
      */
-    private Entity getBulkExtractFileEntity(String deltaDate, String appId, String leaId, boolean ignoreIsDelta, boolean isPublicData) {
+    private Entity getEdOrgExtractFileEntity(String appId, String edOrgId, String deltaDate) {
         boolean isDelta = deltaDate != null;
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 getPrincipal().getTenantId()));
-        if (leaId != null && !leaId.isEmpty()) {
-            query.addCriteria(new NeutralCriteria("edorg", NeutralCriteria.OPERATOR_EQUAL, leaId));
-        }
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
-        if (!ignoreIsDelta) {
-            query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, isDelta));
-        }
+        query.addCriteria(new NeutralCriteria("edorg", NeutralCriteria.OPERATOR_EQUAL, edOrgId));
+        query.addCriteria(new NeutralCriteria("isPublicData", NeutralCriteria.OPERATOR_EQUAL, false));
+        query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, isDelta));
 
         if (isDelta) {
             DateTime d = DATE_TIME_FORMATTER.parseDateTime(deltaDate);
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.OPERATOR_EQUAL, d.toDate()));
         }
 
-        query.addCriteria(new NeutralCriteria("isPublicData", NeutralCriteria.OPERATOR_EQUAL, isPublicData));
+        LOG.debug("Bulk Extract query is {}", query);
+        Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, query);
+        if (entity == null) {
+            LOG.debug("Could not find a bulk extract entity");
+        }
+        return entity;
+    }
+
+    /**
+     * Get the bulk extract file
+     *
+     * @param appId
+     * @param deltaDate the date of the delta, or null to retrieve a full extract
+     * @return
+     */
+    private Entity getPublicExtractFileEntity(String appId, String deltaDate) {
+        boolean isDelta = deltaDate != null;
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
+                getPrincipal().getTenantId()));
+
+        query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
+        query.addCriteria(new NeutralCriteria("isPublicData", NeutralCriteria.OPERATOR_EQUAL, true));
+        query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, isDelta));
+
+        if (isDelta) {
+            DateTime d = DATE_TIME_FORMATTER.parseDateTime(deltaDate);
+            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.OPERATOR_EQUAL, d.toDate()));
+        }
+
         LOG.debug("Bulk Extract query is {}", query);
         Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, query);
         if (entity == null) {
@@ -677,27 +708,21 @@ public class BulkExtract {
      * @author nbrown
      *
      */
-    private class ExtractFile {
-        private final String lastModified;
-        private final String fileName;
+    private class ExtractFile extends File {
+        private static final long serialVersionUID = 1L;
 
-        public ExtractFile(String lastModified, String fileName) {
-            super();
+        private final String lastModified;
+
+        public ExtractFile(String fileName, String lastModified) {
+            super(fileName);
             this.lastModified = lastModified;
-            this.fileName = fileName;
-            LOG.debug("The file is " + fileName + " and lastModified is " + lastModified);
+            LOG.debug("The file is {} and lastModified is {}", fileName, lastModified);
+            LOG.debug("Length of bulk extract file is {}", length());
         }
 
         public String getLastModified() {
             return lastModified;
         }
-
-        public File getBulkExtractFile(ExtractFile bulkExtractFileEntity) {
-            File bulkExtractFile = new File(fileName);
-            LOG.debug("Length of bulk extract file is " + bulkExtractFile.length());
-            return bulkExtractFile;
-        }
-
     }
 
     /**
