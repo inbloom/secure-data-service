@@ -1329,7 +1329,7 @@ Given I clean the bulk extract file system and database
     | d913396aef918602b8049027dbdce8826c054402_id | schoolId = 1b5de2516221069fd8f690349ef0cc1cffbb6dca_id   |
     | d913396aef918602b8049027dbdce8826c054402_id | exitWithdrawDate = 2014-05-22                            |
     | d913396aef918602b8049027dbdce8826c054402_id | entryDate = 2013-08-27                                   |
-
+  And I verify this "staff" file should contain:
     | id                                          | condition                                                |
     | e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id | entityType = staff                                       |
   And I verify this "staffEducationOrganizationAssociation" file should contain:
