@@ -2094,7 +2094,7 @@ Then /^I have a fake bulk extract tar file for the following tenants and differe
     destFile = createCleanupFile(@parentDir, row["tenant"], row["Edorg"], row["app"], row["date"])
     puts destFile
     FileUtils.cp(testData, destFile)
-    addFakeBEEntry(row["tenant"], row["Edorg"], row["app"], false, false, row["date"], File.expand_path(destFile))
+    addFakeBEEntry(row["tenant"], row["Edorg"], row["app"], false, row["isPublic"], row["date"], File.expand_path(destFile))
   end
 end
 
@@ -4115,11 +4115,17 @@ def createCleanupFile(baseDir, tenant, edorg, app, date)
   date.gmtime
   dateString = date.strftime("%Y-%m-%d-%H-%M-%S")
   puts dateString
+  puts edorg
   return baseDir + "/" + tenant + "/" + edorg + "/" + edorg + "-" + app + "-" + dateString + ".tar"
 end
 
 def addFakeBEEntry(tenant, edorg, app, isDelta, isPublic, date, path)
-  edorg_id = getEdorgId(tenant, edorg)
+  if isPublic == true
+    edorg_id = nil
+  else
+    edorg_id = getEdorgId(tenant, edorg)
+  end
+
   query = {"type" => "bulkExtractEntity", "body" =>{"tenantId"=>tenant, "edorg" => edorg_id,
            "applicationId" => app, "isDelta" => isDelta, "isPublicData" => isPublic,
            "path" => path, "date" => Time.iso8601(date)}}

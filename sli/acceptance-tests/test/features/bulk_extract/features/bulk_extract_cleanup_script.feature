@@ -6,13 +6,15 @@ Feature: As an bulk extract user, I will be able to cleanup bulk extract file wi
     Given the extraction zone is empty
     And the bulk extract files in the database are scrubbed
     And I have a fake bulk extract tar file for the following tenants and different dates:
-     |  tenant     |    app   |          date              |    Edorg               |
-     |  Midgar     |    a1    | 2013-04-08T14:07:43.870Z   |    Daybreak-clean-test |
-     |  Midgar     |    a1    | 2013-05-08T14:07:43.870Z   |    Sunset-clean-test   |
-     |  Midgar     |    a2    | 2013-03-08T14:07:43.870Z   |    Daybreak-clean-test |
-     |  Hyrule     |    a1    | 2013-04-08T14:07:43.870Z   |    NY-clean-test       |
-     |  Hyrule     |    a1    | 2013-05-08T14:07:43.870Z   |    NY-clean-test       |
-     |  Hyrule     |    a2    | 2013-03-08T14:07:43.870Z   |    NY-clean-test       |
+     |  tenant     |    app   |          date              |    Edorg               |   isPublic   |
+     |  Midgar     |    a1    | 2013-04-08T14:07:43.870Z   |    Daybreak-clean-test |   false   |
+     |  Midgar     |    a1    | 2013-05-08T14:07:43.870Z   |    Sunset-clean-test   |   false   |
+     |  Midgar     |    a2    | 2013-03-08T14:07:43.870Z   |    Daybreak-clean-test |   false   |
+     |  Midgar     |    a1    | 2013-04-08T14:08:00.900Z   |    Public              |   true    |
+     |  Midgar     |    a2    | 2013-05-12T14:08:00.900Z   |    Public              |   true    |
+     |  Hyrule     |    a1    | 2013-04-08T14:07:43.870Z   |    NY-clean-test       |   false   |
+     |  Hyrule     |    a1    | 2013-05-08T14:07:43.870Z   |    NY-clean-test       |   false   |
+     |  Hyrule     |    a2    | 2013-03-08T14:07:43.870Z   |    NY-clean-test       |   false   |
 
   Scenario: I clean up all bulk extract file for the tenant
     Given the following test tenant and edorg are clean:
@@ -31,6 +33,8 @@ Feature: As an bulk extract user, I will be able to cleanup bulk extract file wi
       |  Midgar     |    a1    | 2013-04-08T14:07:43.870Z   |    Daybreak-clean-test |
       |  Midgar     |    a1    | 2013-05-08T14:07:43.870Z   |    Sunset-clean-test   |
       |  Midgar     |    a2    | 2013-03-08T14:07:43.870Z   |    Daybreak-clean-test |
+      |  Midgar     |    a1    | 2013-04-08T14:08:00.900Z   |    Public              |
+      |  Midgar     |    a2    | 2013-05-12T14:08:00.900Z   |    Public              |
     And I should see the following tenant bulk extract file:
       |  tenant     |    app   |          date              |    Edorg               |
       |  Hyrule     |    a1    | 2013-04-08T14:07:43.870Z   |    NY-clean-test       |
@@ -47,6 +51,8 @@ Feature: As an bulk extract user, I will be able to cleanup bulk extract file wi
     And I should see the following tenant bulk extract file:
       |  tenant     |    app   |          date              |    Edorg               |
       |  Midgar     |    a1    | 2013-05-08T14:07:43.870Z   |    Sunset-clean-test   |
+      |  Midgar     |    a1    | 2013-04-08T14:08:00.900Z   |    Public              |
+      |  Midgar     |    a2    | 2013-05-12T14:08:00.900Z   |    Public              |
       |  Hyrule     |    a1    | 2013-04-08T14:07:43.870Z   |    NY-clean-test       |
       |  Hyrule     |    a1    | 2013-05-08T14:07:43.870Z   |    NY-clean-test       |
       |  Hyrule     |    a2    | 2013-03-08T14:07:43.870Z   |    NY-clean-test       |
@@ -60,6 +66,8 @@ Feature: As an bulk extract user, I will be able to cleanup bulk extract file wi
     And I should see the following tenant bulk extract file:
       |  tenant     |    app   |          date              |    Edorg               |
       |  Midgar     |    a1    | 2013-05-08T14:07:43.870Z   |    Sunset-clean-test   |
+      |  Midgar     |    a1    | 2013-04-08T14:08:00.900Z   |    Public              |
+      |  Midgar     |    a2    | 2013-05-12T14:08:00.900Z   |    Public              |
       |  Hyrule     |    a1    | 2013-04-08T14:07:43.870Z   |    NY-clean-test       |
       |  Hyrule     |    a1    | 2013-05-08T14:07:43.870Z   |    NY-clean-test       |
       |  Hyrule     |    a2    | 2013-03-08T14:07:43.870Z   |    NY-clean-test       |
@@ -73,6 +81,8 @@ Feature: As an bulk extract user, I will be able to cleanup bulk extract file wi
     And I should see the following tenant bulk extract file:
       |  tenant     |    app   |          date              |    Edorg               |
       |  Midgar     |    a1    | 2013-05-08T14:07:43.870Z   |    Sunset-clean-test   |
+      |  Midgar     |    a1    | 2013-04-08T14:08:00.900Z   |    Public              |
+      |  Midgar     |    a2    | 2013-05-12T14:08:00.900Z   |    Public              |
       |  Hyrule     |    a1    | 2013-04-08T14:07:43.870Z   |    NY-clean-test       |
       |  Hyrule     |    a1    | 2013-05-08T14:07:43.870Z   |    NY-clean-test       |
       |  Hyrule     |    a2    | 2013-03-08T14:07:43.870Z   |    NY-clean-test       |
@@ -84,8 +94,10 @@ Feature: As an bulk extract user, I will be able to cleanup bulk extract file wi
       |  Midgar     |    a1    | 2013-04-08T14:07:43.870Z   |    Daybreak-clean-test |
       |  Midgar     |    a1    | 2013-05-08T14:07:43.870Z   |    Sunset-clean-test   |
       |  Midgar     |    a2    | 2013-03-08T14:07:43.870Z   |    Daybreak-clean-test |
+      |  Midgar     |    a1    | 2013-04-08T14:08:00.900Z   |    Public              |
     And I should see the following tenant bulk extract file:
       |  tenant     |    app   |          date              |    Edorg               |
+      |  Midgar     |    a2    | 2013-05-12T14:08:00.900Z   |    Public              |
       |  Hyrule     |    a1    | 2013-04-08T14:07:43.870Z   |    NY-clean-test       |
       |  Hyrule     |    a1    | 2013-05-08T14:07:43.870Z   |    NY-clean-test       |
       |  Hyrule     |    a2    | 2013-03-08T14:07:43.870Z   |    NY-clean-test       |
@@ -100,13 +112,16 @@ Feature: As an bulk extract user, I will be able to cleanup bulk extract file wi
     When I only remove bulk extract file for tenant:"Midgar", edorg:"Sunset-clean-test", app:"a1", date:"2013-05-08T14:07:43.870Z"
     When I execute cleanup script for tenant:"Midgar", edorg:"Sunset-clean-test", date:"2013-05-08T14:07:43.870Z", path:""
     Then I should see warning message
+    When I execute cleanup script for tenant:"Midgar", edorg:"", date:"", path:"Public/Public-a2-2013-05-12-14-08-00.tar"
     Then I should not see the following tenant bulk extract file:
       |  tenant     |    app   |          date              |    Edorg               |
       |  Midgar     |    a1    | 2013-04-08T14:07:43.870Z   |    Daybreak-clean-test |
       |  Midgar     |    a1    | 2013-05-08T14:07:43.870Z   |    Sunset-clean-test   |
+      |  Midgar     |    a2    | 2013-05-12T14:08:00.900Z   |    Public              |
     And I should see the following tenant bulk extract file:
       |  tenant     |    app   |          date              |    Edorg               |
       |  Midgar     |    a2    | 2013-03-08T14:07:43.870Z   |    Daybreak-clean-test |
+      |  Midgar     |    a1    | 2013-04-08T14:08:00.900Z   |    Public              |
       |  Hyrule     |    a1    | 2013-04-08T14:07:43.870Z   |    NY-clean-test       |
       |  Hyrule     |    a1    | 2013-05-08T14:07:43.870Z   |    NY-clean-test       |
       |  Hyrule     |    a2    | 2013-03-08T14:07:43.870Z   |    NY-clean-test       |
@@ -123,6 +138,8 @@ Feature: As an bulk extract user, I will be able to cleanup bulk extract file wi
       |  Midgar     |    a1    | 2013-04-08T14:07:43.870Z   |    Daybreak-clean-test |
       |  Midgar     |    a1    | 2013-05-08T14:07:43.870Z   |    Sunset-clean-test   |
       |  Midgar     |    a2    | 2013-03-08T14:07:43.870Z   |    Daybreak-clean-test |
+      |  Midgar     |    a1    | 2013-04-08T14:08:00.900Z   |    Public              |
+      |  Midgar     |    a2    | 2013-05-12T14:08:00.900Z   |    Public              |
       |  Hyrule     |    a1    | 2013-04-08T14:07:43.870Z   |    NY-clean-test       |
       |  Hyrule     |    a1    | 2013-05-08T14:07:43.870Z   |    NY-clean-test       |
       |  Hyrule     |    a2    | 2013-03-08T14:07:43.870Z   |    NY-clean-test       |
