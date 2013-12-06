@@ -75,50 +75,50 @@ import org.slc.sli.validation.ValidationError;
 @Scope("prototype")
 @Component("basicService")
 public class BasicService implements EntityService, AccessibilityCheck {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
 
-    private static final int MAX_RESULT_SIZE = 0;
-    private static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
-    private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
-    private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
-    private static final List<String> STUDENT_SELF = Arrays.asList(EntityNames.STUDENT, EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION,
+    protected static final int MAX_RESULT_SIZE = 0;
+    protected static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
+    protected static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
+    protected static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
+    protected static final List<String> STUDENT_SELF = Arrays.asList(EntityNames.STUDENT, EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION,
             EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.PARENT, EntityNames.STUDENT_PARENT_ASSOCIATION);
-    private String collectionName;
-    private List<Treatment> treatments;
-    private EntityDefinition defn;
-    private Repository<Entity> repo;
+    protected String collectionName;
+    protected List<Treatment> treatments;
+    protected EntityDefinition defn;
+    protected Repository<Entity> repo;
 
     @Autowired
-    private ContextValidator contextValidator;
+    protected ContextValidator contextValidator;
 
     @Autowired
-    private SchemaDataProvider provider;
+    protected SchemaDataProvider provider;
 
     @Autowired
-    private CallingApplicationInfoProvider clientInfo;
+    protected CallingApplicationInfoProvider clientInfo;
 
     @Autowired
-    private BasicDefinitionStore definitionStore;
+    protected BasicDefinitionStore definitionStore;
 
     @Autowired
-    private CustomEntityValidator customEntityValidator;
+    protected CustomEntityValidator customEntityValidator;
 
     @Autowired
-    private RightAccessValidator rightAccessValidator;
+    protected RightAccessValidator rightAccessValidator;
 
     @Autowired
-    private EntityRightsFilter entityRightsFilter;
+    protected EntityRightsFilter entityRightsFilter;
 
     // The size limit of GET returns for dual contexts/differing user rights across edOrgs.
     @Value("${sli.api.service.countLimit:10000}")
-    private long countLimit;
+    protected long countLimit;
 
     // The size limit of GET returns for dual contexts/differing user rights across edOrgs.
     @Value("${sli.api.service.batchSize:10000}")
-    private int batchSize;
+    protected int batchSize;
 
-    private static ThreadLocal<ContextualRolesListingCache> rolesListingCacheTL = new ThreadLocal<ContextualRolesListingCache>() {
+    protected static ThreadLocal<ContextualRolesListingCache> rolesListingCacheTL = new ThreadLocal<ContextualRolesListingCache>() {
         @Override
         protected ContextualRolesListingCache initialValue()
         {
@@ -254,7 +254,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
      *
      * @return Whether or not the user has multiple contexts, or differing sets of rights per role
      */
-    private boolean userHasMultipleContextsOrDifferingRights() {
+    protected boolean userHasMultipleContextsOrDifferingRights() {
         if (SecurityUtil.getUserContext() == UserContext.DUAL_CONTEXT) {
             return true;
         }
@@ -281,14 +281,14 @@ public class BasicService implements EntityService, AccessibilityCheck {
      * @param isSelf  whether operation is being done in "self" context
      * @param content item under inspection
      */
-    private void checkAccess(boolean isRead, boolean isSelf, EntityBody content) {
+    protected void checkAccess(boolean isRead, boolean isSelf, EntityBody content) {
 
         Collection<GrantedAuthority> auths = getAuths(isSelf);
 
         rightAccessValidator.checkAccess(isRead, content, defn.getType(), auths);
     }
 
-    private void checkAccess(boolean isRead, String entityId, EntityBody content) {
+    protected void checkAccess(boolean isRead, String entityId, EntityBody content) {
         rightAccessValidator.checkSecurity(isRead, entityId, defn.getType(), collectionName, getRepo());
 
         try {
@@ -531,7 +531,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return makeEntityBody(entity);
     }
 
-    private Entity getEntity(String id, final NeutralQuery neutralQuery) {
+    protected Entity getEntity(String id, final NeutralQuery neutralQuery) {
         checkAccess(true, id, null);
         checkFieldAccess(neutralQuery, isSelf(id));
 
@@ -545,7 +545,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return entity;
     }
 
-    private Iterable<EntityBody> noEntitiesFound(NeutralQuery neutralQuery) {
+    protected Iterable<EntityBody> noEntitiesFound(NeutralQuery neutralQuery) {
         // this.addDefaultQueryParams(neutralQuery, collectionName);
         if (!repo.findAll(collectionName, neutralQuery).iterator().hasNext()) {
             return new ArrayList<EntityBody>();
@@ -554,7 +554,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
-    private Iterable<EntityBody> noEntitiesFound(Boolean noDataInDB) {
+    protected Iterable<EntityBody> noEntitiesFound(Boolean noDataInDB) {
         if (noDataInDB) {
             return new ArrayList<EntityBody>();
         } else {
@@ -614,11 +614,19 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Override
     public Iterable<EntityBody> list(NeutralQuery neutralQuery) {
+        listSecurityCheck(neutralQuery);
+        return listImplementationAfterSecurityChecks(neutralQuery);
+    }
+
+    protected void listSecurityCheck(NeutralQuery neutralQuery) {
         boolean isSelf = isSelf(neutralQuery);
         checkAccess(true, isSelf, null);
         checkFieldAccess(neutralQuery, isSelf);
 
         injectSecurity(neutralQuery);
+    }
+
+    protected Iterable<EntityBody> listImplementationAfterSecurityChecks(NeutralQuery neutralQuery) {
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
         setAccessibleEntitiesCount(collectionName, entities.size());
 
@@ -649,7 +657,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
             entities = getResponseEntities(neutralQuery, isSelf);
             entityContexts = getEntityContexts();
         } else {
-
             entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
 
             if (SecurityUtil.getUserContext() == UserContext.DUAL_CONTEXT) {
@@ -693,7 +700,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return results;
     }
 
-    private Collection<Entity> getResponseEntities(NeutralQuery neutralQuery, boolean isSelf) throws AccessDeniedException {
+    protected Collection<Entity> getResponseEntities(NeutralQuery neutralQuery, boolean isSelf) throws AccessDeniedException {
         Collection<Entity> responseEntities = new ArrayList<Entity>();
         Map<String, UserContext> entityContexts = new HashMap<String, UserContext>();
         final int limit = neutralQuery.getLimit();
@@ -752,7 +759,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return responseEntities;
     }
 
-    private Collection<Entity> getBatchedEntities(NeutralQuery neutralQuery, int limit, int offset) {
+    protected Collection<Entity> getBatchedEntities(NeutralQuery neutralQuery, int limit, int offset) {
         neutralQuery.setOffset(offset);
         neutralQuery.setLimit(limit);
         Collection<Entity> batchedEntities = (Collection<Entity>) getRepo().findAll(collectionName, neutralQuery);
@@ -760,7 +767,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return batchedEntities;
     }
 
-    private void validateEntity(Entity entity, boolean isSelf, NeutralQuery neutralQuery, Map<String, UserContext> entityContexts) {
+    protected void validateEntity(Entity entity, boolean isSelf, NeutralQuery neutralQuery, Map<String, UserContext> entityContexts) {
         UserContext context = getEntityContext(entity.getEntityId(), entityContexts);
         Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, context, true);
         rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
@@ -768,7 +775,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         setEntityAuthorities(entity.getEntityId(), auths);
     }
 
-    private UserContext getEntityContext(String entityId, Map<String, UserContext> entityContext) {
+    protected UserContext getEntityContext(String entityId, Map<String, UserContext> entityContext) {
         UserContext context = SecurityUtil.getUserContext();
         if ((SecurityUtil.getUserContext() == UserContext.DUAL_CONTEXT) && (entityContext != null)) {
             if (entityContext.containsKey(entityId)) {
@@ -780,7 +787,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return context;
     }
 
-    private void validateQuery(NeutralQuery neutralQuery, boolean self) {
+    protected void validateQuery(NeutralQuery neutralQuery, boolean self) {
         NeutralQuery newQuery = new NeutralQuery(neutralQuery);
         boolean removableCriteriaExists = false;
         for (NeutralCriteria cr : neutralQuery.getCriteria()) {
@@ -817,24 +824,23 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return exists;
     }
 
+    /**
+     * Returns the custom entity associated with a security event and the application associated with the
+     * user's session.
+     *
+     * @param id
+     * @return
+     */
     @Override
     public EntityBody getCustom(String id) {
-        if (SecurityUtil.isStaffUser()) {
-            Entity entity = getEntity(id);
-
-            Collection<GrantedAuthority> auths = getEntityContextAuthorities(entity, isSelf(id), true);
-
-            rightAccessValidator.checkAccess(true, id, null, defn.getType(), collectionName, getRepo(), auths);
-        } else {
-            checkAccess(true, id, null);
-        }
+        getCustomSecurityCheck(id);
 
         String clientId = null;
         try {
             clientId = getClientId(id);
         } catch (APIAccessDeniedException e) {
             // set custom entity data for security event targetEdOrgList
-            APIAccessDeniedException wrapperE = new APIAccessDeniedException("Custom entity get denied.", e);
+            APIAccessDeniedException wrapperE = new APIAccessDeniedException("Custom entity HTTP GET request denied.", e);
             Set<String> entityIds = new HashSet<String>();
             entityIds.add(id);
             wrapperE.setEntityType(defn.getType());
@@ -855,16 +861,35 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
-    @Override
-    public void deleteCustom(String id) {
+    /**
+     * Does security checks other than retrieving the client id for the application which the
+     * current user is using.
+     *
+     * @param id of the entity for which to fetch the custom document
+     */
+    protected void getCustomSecurityCheck(String id) {
         if (SecurityUtil.isStaffUser()) {
             Entity entity = getEntity(id);
-            Collection<GrantedAuthority> auths = getEntityContextAuthorities(entity, isSelf(id), false);
 
-            rightAccessValidator.checkAccess(false, id, null, defn.getType(), collectionName, getRepo(), auths);
+            Collection<GrantedAuthority> auths = getEntityContextAuthorities(entity, isSelf(id), true);
+
+            rightAccessValidator.checkAccess(true, id, null, defn.getType(), collectionName, getRepo(), auths);
         } else {
-            checkAccess(false, id, null);
+            checkAccess(true, id, null);
         }
+    }
+
+    /**
+     * Deletes the custom entity associated with a security event and the application associated with the
+     * user's session.
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public void deleteCustom(String id) {
+
+        deleteCustomSecurityCheck(id);
 
         String clientId = null;
         try {
@@ -891,17 +916,35 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 getEntityDefinition().getType(), id, clientId, String.valueOf(deleted)});
     }
 
+    /*
+     * Does security checks other than retrieving the client id for the application which the
+     * current user is using.
+     *
+     * @param id of the entity for which to fetch the custom document
+     */
+    protected void deleteCustomSecurityCheck(String id) {
+        if (SecurityUtil.isStaffUser()) {
+            Entity entity = getEntity(id);
+            Collection<GrantedAuthority> auths = getEntityContextAuthorities(entity, isSelf(id), false);
+
+            rightAccessValidator.checkAccess(false, id, null, defn.getType(), collectionName, getRepo(), auths);
+        } else {
+            checkAccess(false, id, null);
+        }
+    }
+
+    /**
+     * Creates or updates the custom entity associated with a security event and the application associated with the
+     * user's session.
+     *
+     * @param id
+     * @return
+     */
     @Override
     public void createOrUpdateCustom(String id, EntityBody customEntity) throws EntityValidationException {
-        String clientId = null;
-        if(SecurityUtil.isStaffUser()) {
-            Entity parentEntity = getEntity(id);
-            Collection<GrantedAuthority> auths = getEntityContextAuthorities(parentEntity, isSelf(id), false);
+        createOrUpdateCustomSecurityCheck(id, customEntity);
 
-            rightAccessValidator.checkAccess(false, id, customEntity, defn.getType(), collectionName, getRepo(), auths);
-        } else {
-            checkAccess(false, id, customEntity);
-        }
+        String clientId = null;
 
         try {
             clientId = getClientId(id);
@@ -954,7 +997,24 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
-    private void checkReferences(String entityId, EntityBody eb) {
+    /*
+     * Does security checks other than retrieving the client id for the application which the
+     * current user is using.
+     *
+     * @param id of the entity for which to fetch the custom document
+     */
+    protected void createOrUpdateCustomSecurityCheck(String id, EntityBody customEntity) {
+        if (SecurityUtil.isStaffUser()) {
+            Entity parentEntity = getEntity(id);
+            Collection<GrantedAuthority> auths = getEntityContextAuthorities(parentEntity, isSelf(id), false);
+
+            rightAccessValidator.checkAccess(false, id, customEntity, defn.getType(), collectionName, getRepo(), auths);
+        } else {
+            checkAccess(false, id, customEntity);
+        }
+    }
+
+    protected void checkReferences(String entityId, EntityBody eb) {
         /* TODO: MAKE BETTER
          * Note that this is a workaround to allow students to validate
          * only their own student ID when checking references, else they'd never
@@ -1053,7 +1113,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
-    private String getClientId(String id) {
+    protected String getClientId(String id) {
         String clientId = null;
         try {
             clientId = clientInfo.getClientId();
@@ -1080,7 +1140,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
      * @param entity
      * @return
      */
-    private EntityBody makeEntityBody(Entity entity) {
+    protected EntityBody makeEntityBody(Entity entity) {
 
         Collection<GrantedAuthority> selfAuths = getAuths(isSelf(entity.getEntityId()));
         Collection<GrantedAuthority> nonSelfAuths = getAuths(false);
@@ -1095,7 +1155,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
      * @param content
      * @return
      */
-    private EntityBody sanitizeEntityBody(EntityBody content) {
+    protected EntityBody sanitizeEntityBody(EntityBody content) {
 
         for (Treatment treatment : treatments) {
             treatment.toStored(content, defn);
@@ -1110,7 +1170,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
      *
      * @param sourceId ID that was deleted, where anything else with that ID should also be deleted
      */
-    private void cascadeDelete(String sourceId) {
+    protected void cascadeDelete(String sourceId) {
         // loop for every EntityDefinition that references the deleted entity's type
         for (EntityDefinition referencingEntity : defn.getReferencingEntities()) {
             // loop for every reference field that COULD reference the deleted ID
@@ -1180,7 +1240,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
-    private void deleteAttachedCustomEntities(String sourceId) {
+    protected void deleteAttachedCustomEntities(String sourceId) {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", sourceId, false));
         Iterable<String> ids = getRepo().findAllIds(CUSTOM_ENTITY_COLLECTION, query);
@@ -1215,7 +1275,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return false;
     }
 
-    private boolean isSelf(String entityId) {
+    protected boolean isSelf(String entityId) {
         SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
         String selfId = principal.getEntity().getEntityId();
         Collection<String> studentIds = principal.getOwnedStudentIds();
@@ -1246,7 +1306,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return false;
     }
 
-    private Collection<GrantedAuthority> getAuths(boolean isSelf) {
+    protected Collection<GrantedAuthority> getAuths(boolean isSelf) {
         Collection<GrantedAuthority> result = new HashSet<GrantedAuthority>();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         result.addAll(auth.getAuthorities());
@@ -1297,7 +1357,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
      *
      * @return Map containing important metadata for the created entity.
      */
-    private Map<String, Object> createMetadata() {
+    protected Map<String, Object> createMetadata() {
         Map<String, Object> metadata = new HashMap<String, Object>();
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String createdBy = principal.getEntity().getEntityId();
@@ -1311,7 +1371,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return metadata;
     }
 
-    private Entity getEntity(String id) {
+    protected Entity getEntity(String id) {
         NeutralQuery entityQuery = new NeutralQuery();
         entityQuery.addCriteria(new NeutralCriteria("_id", "=", id));
 
@@ -1323,7 +1383,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return entity;
     }
 
-    private Entity getCustomEntity(String id, String clientId) {
+    protected Entity getCustomEntity(String id, String clientId) {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", id, false));
@@ -1386,7 +1446,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return getRepo().collectionExists(collection);
     }
 
-    private void injectSecurity(NeutralQuery nq) {
+    protected void injectSecurity(NeutralQuery nq) {
         SLIPrincipal prince = SecurityUtil.getSLIPrincipal();
         List<NeutralQuery> obligations = prince.getObligation(this.collectionName);
 

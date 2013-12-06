@@ -101,6 +101,10 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
       value = PropLoader.getProps['ci_artifact_source_id']
     when 'CI_ARTIFACT_IDP_TYPE'
       value = PropLoader.getProps['ci_artifact_idp_type']
+    when 'Pre-installed Bulk Extract App Name'
+      value = PropLoader.getProps['bulk_extract_testapp_name']
+    when 'RC Server'
+      value = PropLoader.getProps['rc_env']
   end
 
  value

@@ -19,12 +19,10 @@ package org.slc.sli.dal.convert;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
@@ -41,6 +39,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.NeutralSchema;
+import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
@@ -81,6 +83,9 @@ public class ContainerDocumentAccessorTest {
     @Mock
     private MongoTemplate mongoTemplate;
 
+    @Mock
+    private SchemaRepository schemaRepo;
+
     private Entity entity;
 
     private WriteResult writeResult;
@@ -94,7 +99,7 @@ public class ContainerDocumentAccessorTest {
         mockCollection = Mockito.mock(DBCollection.class);
         writeResult = Mockito.mock(WriteResult.class);
         commandResult = Mockito.mock(CommandResult.class);
-        testAccessor = new ContainerDocumentAccessor(generatorStrategy, naturalKeyExtractor, mongoTemplate);
+        testAccessor = new ContainerDocumentAccessor(generatorStrategy, naturalKeyExtractor, mongoTemplate, schemaRepo);
         MockitoAnnotations.initMocks(this);
         when(mockHolder.getContainerDocument(ATTENDANCE)).thenReturn(createContainerDocAttendance());
         entity = createAttendanceEntity();
@@ -154,18 +159,84 @@ public class ContainerDocumentAccessorTest {
         Mockito.verify(mockCollection, Mockito.times(1)).update(Mockito.any(DBObject.class), Mockito.eq(docToPersist), Mockito.eq(true), Mockito.eq(false), Mockito.eq(WriteConcern.SAFE));
     }
 
+    private DBObject createResultAttendance(String date) {
+        Map<String, Object> attendanceBody = new HashMap<String, Object>();
+        List<Map<String, Object>> attendanceEvent = new ArrayList<Map<String, Object>>();
+        if (date != null) {
+            Map<String, Object> attendanceElement = new HashMap<String, Object>();
+            attendanceElement.put("date", date);
+            attendanceEvent.add(attendanceElement);
+        }
+        attendanceBody.put("attendanceEvent", attendanceEvent);
+        return BasicDBObjectBuilder.start().add("body", attendanceBody).get();
+    }
+
+    @Test
+    public void testDeleteEntity() {
+        ContainerDocumentAccessor cda = Mockito.spy(testAccessor);
+        Map<String, Object> updateDocCriteria = new HashMap<String, Object>();
+        updateDocCriteria.put("event", "Tardy");
+        DBObject pullObject = BasicDBObjectBuilder.start().push("$pull").add("body.attendanceEvent", updateDocCriteria).get();
+
+        DBObject resultingAttendanceEvent = createResultAttendance("10-04-2013");
+
+        NeutralSchema attendanceSchema = createMockAttendanceSchema();
+
+        when(mongoTemplate.getCollection(ATTENDANCE)).thenReturn(mockCollection);
+        when(mockCollection.findAndModify(Mockito.any(DBObject.class), (DBObject) Mockito.isNull(), (DBObject) Mockito.isNull(),
+                Mockito.eq(false), Mockito.eq(pullObject),Mockito.eq(true), Mockito.eq(false))).thenReturn(resultingAttendanceEvent);
+        when(schemaRepo.getSchema(EntityNames.ATTENDANCE)).thenReturn(attendanceSchema);
+
+        boolean result = cda.deleteContainerNonSubDocs(entity);
+
+        Mockito.verify(mockCollection, Mockito.times(1)).findAndModify(Mockito.any(DBObject.class), (DBObject) Mockito.isNull(), (DBObject) Mockito.isNull(),
+                Mockito.eq(false), Mockito.eq(pullObject), Mockito.eq(true), Mockito.eq(false));
+        assertTrue(result);
+    }
+
+    @Test
+    public void testDeleteEntityAndContainerDoc() {
+        ContainerDocumentAccessor cda = Mockito.spy(testAccessor);
+        Map<String, Object> updateDocCriteria = new HashMap<String, Object>();
+        updateDocCriteria.put("event", "Tardy");
+        DBObject pullObject = BasicDBObjectBuilder.start().push("$pull").add("body.attendanceEvent", updateDocCriteria).get();
+        DBObject resultingAttendanceEvent = createResultAttendance(null);
+
+        NeutralSchema attendanceSchema = createMockAttendanceSchema();
+
+        when(mongoTemplate.getCollection(ATTENDANCE)).thenReturn(mockCollection);
+        when(mockCollection.findAndModify(Mockito.any(DBObject.class), (DBObject) Mockito.isNull(), (DBObject) Mockito.isNull(),
+                Mockito.eq(false), Mockito.eq(pullObject), Mockito.eq(true), Mockito.eq(false))).thenReturn(resultingAttendanceEvent);
+        when(mongoTemplate.findAndRemove(Mockito.any(Query.class), Mockito.eq(Entity.class), Mockito.eq(ATTENDANCE))).thenReturn(entity); // just return something non-null
+        when(schemaRepo.getSchema(EntityNames.ATTENDANCE)).thenReturn(attendanceSchema);
+
+        boolean result = cda.deleteContainerNonSubDocs(entity);
+
+        Mockito.verify(mockCollection, Mockito.times(1)).findAndModify(Mockito.any(DBObject.class), (DBObject) Mockito.isNull(), (DBObject) Mockito.isNull(),
+                Mockito.eq(false), Mockito.eq(pullObject), Mockito.eq(true), Mockito.eq(false));
+        Mockito.verify(mongoTemplate, Mockito.times(1)).findAndRemove(Mockito.any(Query.class), Mockito.eq(Entity.class), Mockito.eq(ATTENDANCE));
+        assertTrue(result);
+    }
+
     @Test
     public void testUpdateEntity() {
         ContainerDocumentAccessor cda = Mockito.spy(testAccessor);
-        DBObject pullObject = BasicDBObjectBuilder.start().push("$pullAll").add("body.attendanceEvent", "Tardy").get();
+        Map<String, Object> updateDocCriteria = new HashMap<String, Object>();
+        updateDocCriteria.put("event", "Tardy");
+        DBObject pullObject = BasicDBObjectBuilder.start().push("$pull").add("body.attendanceEvent", updateDocCriteria).get();
+        DBObject resultingAttendanceEvent = createResultAttendance(null);
+        NeutralSchema attendanceSchema = createMockAttendanceSchema();
 
         when(mongoTemplate.getCollection(ATTENDANCE)).thenReturn(mockCollection);
-        when(mockCollection.update(Mockito.any(DBObject.class), Mockito.eq(pullObject), Mockito.eq(false), Mockito.eq(false), Mockito.eq(WriteConcern.SAFE))).thenReturn(writeResult);
+        when(mockCollection.findAndModify(Mockito.any(DBObject.class), (DBObject) Mockito.isNull(), (DBObject) Mockito.isNull(),
+                Mockito.eq(false), Mockito.eq(pullObject), Mockito.eq(true), Mockito.eq(false))).thenReturn(resultingAttendanceEvent);
+        when(mongoTemplate.findAndRemove(Mockito.any(Query.class), Mockito.eq(Entity.class), Mockito.eq(ATTENDANCE))).thenReturn(entity); // just return something non-null
         when(mockCollection.update(Mockito.any(DBObject.class), Mockito.any(DBObject.class), Mockito.eq(true), Mockito.eq(false), Mockito.eq(WriteConcern.SAFE))).thenReturn(writeResult);
+        when(schemaRepo.getSchema(EntityNames.ATTENDANCE)).thenReturn(attendanceSchema);
 
         String result = cda.updateContainerDoc(entity);
 
-        Mockito.verify(mockCollection, Mockito.times(1)).update(Mockito.any(DBObject.class), Mockito.eq(pullObject), Mockito.eq(false), Mockito.eq(false), Mockito.eq(WriteConcern.SAFE));
+        Mockito.verify(cda, Mockito.times(1)).deleteContainerNonSubDocs(Mockito.eq(entity));
         Mockito.verify(cda, Mockito.times(1)).insertContainerDoc(Mockito.any(DBObject.class), Mockito.eq(entity));
         assertTrue(result.equals(ID));
     }
@@ -207,7 +278,12 @@ public class ContainerDocumentAccessorTest {
                 fields.put("body." + entry.getKey(), entry.getValue());
             }
         }
-        DBObject docsToPersist = BasicDBObjectBuilder.start().push("$pushAll").add("body.attendanceEvent", "Tardy").get();
+        final Map<String, Object> attendanceEvent = new HashMap<String, Object>();
+        final List<Map<String, Object>> attendanceEvents = new ArrayList<Map<String, Object>>();
+        attendanceEvent.put("event", "Tardy");
+        attendanceEvents.add(attendanceEvent);
+
+        DBObject docsToPersist = BasicDBObjectBuilder.start().push("$pushAll").add("body.attendanceEvent", attendanceEvents).get();
         DBObject bodyFields = new BasicDBObject("$set", new BasicDBObject(fields));
         docsToPersist.putAll(bodyFields);
 
@@ -221,12 +297,38 @@ public class ContainerDocumentAccessorTest {
         Mockito.verify(mockCollection, Mockito.times(1)).update(Mockito.eq(queryObject), Mockito.eq(docsToPersist), Mockito.eq(true), Mockito.eq(false), Mockito.eq(WriteConcern.SAFE));
     }
 
+    private NeutralSchema createMockAttendanceSchema() {
+        NeutralSchema mockAttendanceSchema = mock(NeutralSchema.class);
+        Map<String, NeutralSchema> fieldSchemas = new HashMap<String, NeutralSchema>();
+        fieldSchemas.put("date", createMockFieldSchema(true));
+        fieldSchemas.put("event", createMockFieldSchema(true));
+        fieldSchemas.put("sectionId", createMockFieldSchema(true));
+        when(mockAttendanceSchema.getFields()).thenReturn(fieldSchemas);
+        return mockAttendanceSchema;
+    }
+
+    private NeutralSchema createMockFieldSchema(boolean isNaturalKey) {
+        NeutralSchema mockFieldSchema = mock(NeutralSchema.class);
+        when(mockFieldSchema.getAppInfo()).thenReturn(this.createAppInfo(isNaturalKey));
+        return mockFieldSchema;
+    }
+
+    private AppInfo createAppInfo(boolean isNaturalKey) {
+        AppInfo appInfo = new AppInfo(null);
+        appInfo.put(AppInfo.NATURAL_KEY, isNaturalKey);
+        return appInfo;
+    }
+
     private MongoEntity createAttendanceEntity() {
         final Map<String, Object> body = new HashMap<String, Object>();
+        final Map<String, Object> attendanceEvent = new HashMap<String, Object>();
+        final List<Map<String, Object>> attendanceEvents = new ArrayList<Map<String, Object>>();
+        attendanceEvent.put("event", "Tardy");
+        attendanceEvents.add(attendanceEvent);
         body.put("studentId", "student1");
         body.put("schoolId", "school1");
         body.put("schoolYear", "schoolyear1");
-        body.put("attendanceEvent", "Tardy");
+        body.put("attendanceEvent", attendanceEvents);
         return new MongoEntity(ATTENDANCE, ID, body, new HashMap<String, Object>());
     }
 

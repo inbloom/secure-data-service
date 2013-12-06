@@ -490,6 +490,7 @@ Scenario: Triggering deltas via ingestion
     And I verify this "attendance" file should contain:
       | id                                          | condition                                |
       | aefc3c964b1caf4754c8792be9886edaa2f84d4c_id | schoolYearAttendance.attendanceEvent.reason = change_2       |
+      | aefc3c964b1caf4754c8792be9886edaa2f84d4c_id | schoolYearAttendance.attendanceEvent.sectionId = 95147c130335e0656b0d8e9ab79622a22c3a3fab_id       |
 
     And I verify this "attendance" file should not contain:
       | id                                          | condition                                |
@@ -616,7 +617,8 @@ Scenario: Triggering deltas via ingestion
     And I verify this "attendance" file should contain:
       | id                                          | condition                                |
       | 07185fb3e72af3e0c2f48cf64b474b1731c52b20_id | schoolYearAttendance.attendanceEvent.reason = change_1       |
-
+      | 07185fb3e72af3e0c2f48cf64b474b1731c52b20_id | schoolYearAttendance.attendanceEvent.sectionId = 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id       |
+      
     # This course transcript has a direct edorg reference to IL-HIGHWIND, but belongs to a student
     # only in IL-DAYBREAK, so it only shows up in IL-DAYBREAK
     And I verify this "courseTranscript" file should contain:
@@ -1278,6 +1280,8 @@ Given I clean the bulk extract file system and database
     | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | entityType = attendance                                  |
     | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id  |
     | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | schoolId = a13489364c2eb015c219172d561c62350f0453f3_id   |
+    | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | schoolYearAttendance.attendanceEvent.sectionId = 4030207003b03d055bba0b5019b31046164eff4e_id   |
+
   And I verify this "staffCohortAssociation" file should contain:
     | id                                          | condition                                                |
     | 5e7d5f12cefbcb749069f2e5db63c1003df3c917_id | entityType = staffCohortAssociation                      |
