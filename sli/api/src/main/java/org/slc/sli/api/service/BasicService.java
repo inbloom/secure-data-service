@@ -457,6 +457,14 @@ public class BasicService implements EntityService, AccessibilityCheck {
         sanitizeEntityBody(content);
 
         LOG.info("patch value(s): ", content);
+        //run this check after sanitization
+        if(content.isEmpty()) {
+            //in this case there are no fields included for the PATCH request. This is a problem
+            // because the update is built without an update operator expression which mongodb
+            // interprets as a request to replace the entire document
+            LOG.info("Entity body was empty on PATCH request for {}", id);
+            return false;
+        }
 
         // don't check references until things are combined
         checkReferences(id, content);
@@ -488,6 +496,15 @@ public class BasicService implements EntityService, AccessibilityCheck {
         sanitizeEntityBody(content);
 
         LOG.info("patch value(s): ", content);
+
+        //run this check after sanitization
+        if(content.isEmpty()) {
+            //in this case there are no fields included for the PATCH request. This is a problem
+            // because the update is built without an update operator expression which mongodb
+            // interprets as a request to replace the entire document
+            LOG.info("Entity body was empty on PATCH request for {}", id);
+            return false;
+        }
 
         // don't check references until things are combined
         checkReferences(id, content);

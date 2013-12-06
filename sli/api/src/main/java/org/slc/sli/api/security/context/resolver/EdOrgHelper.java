@@ -523,6 +523,7 @@ public class EdOrgHelper {
      * @return True if the principal is of type 'teacher', false otherwise.
      */
     private boolean isTeacher(Entity principal) {
+        //return EntityNames.TEACHER.equals(principal.getType());
         return principal.getType().equals(EntityNames.TEACHER);
     }
 
@@ -535,6 +536,7 @@ public class EdOrgHelper {
      * @return True if the principal is of type 'staff', false otherwise.
      */
     private boolean isStaff(Entity principal) {
+        //return EntityNames.STAFF.equals(principal.getType());
         return principal.getType().equals(EntityNames.STAFF);
     }
 
@@ -547,6 +549,7 @@ public class EdOrgHelper {
      * @return True if the principal is of type 'student', false otherwise.
      */
     private boolean isStudent(Entity principal) {
+        //return EntityNames.STUDENT.equals(principal.getType());
         return principal.getType().equals(EntityNames.STUDENT);
     }
 
@@ -559,6 +562,7 @@ public class EdOrgHelper {
      * @return True if the principal is of type 'parent', false otherwise.
      */
     private boolean isParent(Entity principal) {
+        //return EntityNames.PARENT.equals(principal.getType());
         return principal.getType().equals(EntityNames.PARENT);
     }
 
