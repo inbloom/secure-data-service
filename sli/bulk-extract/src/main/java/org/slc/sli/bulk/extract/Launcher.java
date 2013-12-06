@@ -33,7 +33,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.slc.sli.bulk.extract.extractor.DeltaExtractor;
 import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
-import org.slc.sli.bulk.extract.extractor.StatePublicDataExtractor;
+import org.slc.sli.bulk.extract.extractor.TenantPublicDataExtractor;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.util.logging.LogLevelType;
@@ -65,7 +65,7 @@ public class Launcher {
     private SecurityEventUtil securityEventUtil;
 
     @Autowired
-    private StatePublicDataExtractor statePublicDataExtractor;
+    private TenantPublicDataExtractor tenantPublicDataExtractor;
 
     /**
      * Actually execute the extraction.
@@ -87,11 +87,11 @@ public class Launcher {
                 deltaExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
             } else {
                 // TODO: Remove this reference once US5996 is played out.
-                String sea = statePublicDataExtractor.retrieveSEAId();
+                String sea = tenantPublicDataExtractor.retrieveSEAId();
                 LOG.info("isDelta=false ... localEdOrgExtractor.execute()");
                 localEdOrgExtractor.execute(tenant, getTenantDirectory(tenant), startTime, sea);
                 LOG.info("Starting public data extract...");
-                statePublicDataExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
+                tenantPublicDataExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
             }
         } else {
             audit(securityEventUtil.createSecurityEvent(Launcher.class.getName(), "Bulk extract execution",
@@ -168,8 +168,8 @@ public class Launcher {
         return localEdOrgExtractor;
     }
 
-    public void setStatePublicDataExtractor(StatePublicDataExtractor statePublicDataExtractor) {
-        this.statePublicDataExtractor = statePublicDataExtractor;
+    public void setTenantPublicDataExtractor(TenantPublicDataExtractor tenantPublicDataExtractor) {
+        this.tenantPublicDataExtractor = tenantPublicDataExtractor;
     }
 
     /**

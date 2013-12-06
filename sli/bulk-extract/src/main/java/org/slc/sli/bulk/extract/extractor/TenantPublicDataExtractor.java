@@ -51,13 +51,13 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 /**
- * Extract the Public Data for the State Education Agency.
+ * Extract the Public Data for the tenant.
  * @author ablum
  */
 @Component
-public class StatePublicDataExtractor {
+public class TenantPublicDataExtractor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StatePublicDataExtractor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TenantPublicDataExtractor.class);
 
     @Autowired
     private BulkExtractMongoDA bulkExtractMongoDA;
@@ -78,7 +78,7 @@ public class StatePublicDataExtractor {
     private SecurityEventUtil securityEventUtil;
 
     /**
-     * Creates unencrypted SEA public data bulk extract files if any are needed for the given tenant.
+     * Creates encrypted tenant public data bulk extract files if any are needed.
      *
      * @param tenant name of tenant to extract
      * @param tenantDirectory for the extract

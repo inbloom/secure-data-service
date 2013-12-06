@@ -53,11 +53,11 @@ import org.slc.sli.domain.Repository;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-public class StatePublicDataExtractorTest {
+public class TenantPublicDataExtractorTest {
 
     @Autowired
     @InjectMocks
-    private StatePublicDataExtractor statePublicDataExtractor;
+    private TenantPublicDataExtractor statePublicDataExtractor;
 
     @Mock
     private BulkExtractMongoDA bulkExtractMongoDA;
@@ -79,7 +79,7 @@ public class StatePublicDataExtractorTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testBadManifestFile() throws IOException {
-        StatePublicDataExtractor extractor = Mockito.spy(statePublicDataExtractor);
+        TenantPublicDataExtractor extractor = Mockito.spy(statePublicDataExtractor);
         String seaId = "123_id";
         Map<String, PublicKey> clientKeys = new HashMap<String, PublicKey>();
         PublicKey key = Mockito.mock(PublicKey.class);
@@ -166,7 +166,7 @@ public class StatePublicDataExtractorTest {
      */
     @Test
     public void testExecuteNoValidApp() {
-        StatePublicDataExtractor extractor = Mockito.spy(statePublicDataExtractor);
+        TenantPublicDataExtractor extractor = Mockito.spy(statePublicDataExtractor);
         String seaId = "123_id";
         Mockito.doReturn(seaId).when(extractor).retrieveSEAId();
         Mockito.when(bulkExtractMongoDA.getAppPublicKeys()).thenReturn(new HashMap<String, PublicKey>());
@@ -181,7 +181,7 @@ public class StatePublicDataExtractorTest {
      */
     @Test
     public void testValidExecutionConditions() throws Exception {
-        StatePublicDataExtractor extractor = Mockito.spy(statePublicDataExtractor);
+        TenantPublicDataExtractor extractor = Mockito.spy(statePublicDataExtractor);
         ExtractFile file = Mockito.mock(ExtractFile.class);
         ManifestFile meta = Mockito.mock(ManifestFile.class);
         Mockito.when(file.getManifestFile()).thenReturn(meta);
