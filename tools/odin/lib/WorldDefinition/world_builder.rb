@@ -980,6 +980,10 @@ class WorldBuilder
     create_course_offerings_work_order("elementary")
     create_course_offerings_work_order("middle")
     create_course_offerings_work_order("high")
+
+    create_bell_schedule_work_order("elementary")
+    create_bell_schedule_work_order("middle")
+    create_bell_schedule_work_order("high")
   end
 
   # writes ed-fi xml interchange: staff association entities:
@@ -1170,6 +1174,28 @@ class WorldBuilder
             title = GradeLevelType.to_string(grade) if GradeLevelType.is_elementary_school_grade(grade)
 
             @queue.push_work_order({:type=>CourseOffering, :id=>id, :title=>title, :edOrgId=>ed_org_id, :session=>session, :course=>course})
+          end
+        end
+      end
+    end
+  end
+
+  # writes the bell schedules
+  def create_bell_schedule_work_order(type)
+    @world[type].each do |school|
+      if !school["offerings"].nil? and school["offerings"].size > 0
+        school["offerings"].each do |year, course_offerings|
+          course_offerings.each do |course_offering|
+            id        = course_offering["id"]
+            ed_org_id = course_offering["ed_org_id"]
+            session   = course_offering["session"]
+            course    = course_offering["course"]
+            grade     = course_offering["grade"]
+
+            title = GradeLevelType.to_string(grade) + " " + course["title"]
+            title = GradeLevelType.to_string(grade) if GradeLevelType.is_elementary_school_grade(grade)
+
+            @queue.push_work_order({:type=>BellSchedule, :id=>id, :session=>session})
           end
         end
       end

@@ -56,6 +56,9 @@ class EntityFactory
         when [CalendarDate]
           rval << CalendarDate.new(work_order[:date], work_order[:event], work_order[:edOrgId])
 
+        when [BellSchedule]
+          rval << BellSchedule.new(work_order[:id], work_order[:session])
+
         when [CourseOffering]
           rval << CourseOffering.new(work_order[:id], work_order[:title], work_order[:edOrgId], work_order[:session], work_order[:course])
 
