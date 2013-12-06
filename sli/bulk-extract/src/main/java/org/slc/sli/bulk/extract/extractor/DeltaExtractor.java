@@ -37,7 +37,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
@@ -51,18 +50,15 @@ import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.PublicEntityDefinition;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.DeltaJournal;
-import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 
 /**
  * This class should be concerned about how to generate the delta files per LEA
@@ -110,73 +106,85 @@ public class DeltaExtractor implements InitializingBean {
 
     Set<String> subdocs = EmbeddedDocumentRelations.getSubDocuments();
 
-    @Value("${sli.bulk.extract.output.directory:extract}")
-    private String baseDirectory;
-
     private Map<String, ExtractFile> appPerEdOrgExtractFiles = new HashMap<String, ExtractFile>();
     private Map<String, EntityExtractor.CollectionWrittenRecord> appPerLeaCollectionRecords = new HashMap<String, EntityExtractor.CollectionWrittenRecord>();
+    private Set<String> publicEntityTypes = new HashSet<String>();
 
     public static final DateTimeFormatter DATE_TIME_FORMATTER = ISODateTimeFormat.dateTime();
 
     public static final String DATE_FIELD = "date";
     public static final String TIME_FIELD = "t";
 
-    private EdOrgHierarchyHelper edOrgHelper;
-
     @Override
     public void afterPropertiesSet() throws Exception {
-        edOrgHelper = new EdOrgHierarchyHelper(repo);
-        // this is supposed to go away once all the Delta-SEA stories played out
-
-
-    }
-
-    // TODO: Remove this method (and its calls) once US5996 is played out.
-    //made public so it can be used in unit tests
-    public boolean isSea(String edOrgId) {
-        Entity edOrg = repo.findById(EntityNames.EDUCATION_ORGANIZATION, edOrgId);
-        return edOrg != null && edOrgHelper.isSEA(edOrg);
+        // Public entities number one!
+        for (PublicEntityDefinition entity : PublicEntityDefinition.values()) {
+            publicEntityTypes.add(entity.getEntityName());
+        }
     }
 
     /**
      * Creates delta data bulk extract files if any are needed for the given tenant.
      *
      * @param tenant - name of tenant to extract
+     * @param tenantDirectory - Base directory of the tenant
      * @param deltaUptoTime - Extract for all deltas up to this time
-     * @param baseDirectory - Base directory of the tenant
      */
-    public void execute(String tenant, DateTime deltaUptoTime, String baseDirectory) {
+    public void execute(String tenant, File tenantDirectory, DateTime deltaUptoTime) {
 
         TenantContext.setTenantId(tenant);
 
         audit(securityEventUtil.createSecurityEvent(this.getClass().getName(), "Delta Extract Initiation",
                 LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0019, DATE_TIME_FORMATTER.print(deltaUptoTime)));
 
-        Map<String, Set<String>> set1 = helper.getBulkExtractEdOrgsPerApp();
-        // Map<String, Set<String>> set2 = filter(set1);
-        Map<String, Set<String>> appsPerEdOrg = reverse(set1);
-       //  Map<String, Set<String>> appsPerEdOrg = addAppsPerSEA(reverse(filter(helper.getBulkExtractEdOrgsPerApp())));
+        Map<String, Set<String>> edOrgsPerApp = helper.getBulkExtractEdOrgsPerApp();
+        Map<String, Set<String>> appsPerEdOrg = reverse(edOrgsPerApp);
+        Map<String, PublicKey> publicClientKeys = bulkExtractMongoDA.getAppPublicKeys();
+
+        if (publicClientKeys == null || publicClientKeys.isEmpty()) {
+            audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    "Public delta data extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0014));
+            LOG.info("No authorized application to extract data.");
+        }
+
+        ExtractFile publicDeltaExtractFile = createPublicExtractFile(tenantDirectory, deltaUptoTime, publicClientKeys);
+
         deltaEntityIterator.init(tenant, deltaUptoTime);
         while (deltaEntityIterator.hasNext()) {
             DeltaRecord delta = deltaEntityIterator.next();
+
             if (delta.getOp() == Operation.UPDATE) {
-                if (delta.isSpamDelete()) {
-                    spamDeletes(delta, delta.getBelongsToEdOrgs(), tenant, deltaUptoTime, appsPerEdOrg);
+                // Extract public entities separately.
+                if (isPublicEntity(delta.getEntity().getType())) {
+                    if (delta.isSpamDelete()) {
+                        spamPublicDeletes(delta, tenant, deltaUptoTime, publicDeltaExtractFile);
+                    }
+
+                    EntityExtractor.CollectionWrittenRecord record = getCollectionRecord("public", delta.getType());
+                    entityExtractor.write(delta.getEntity(), publicDeltaExtractFile, record, null);
                 }
+
+                if (delta.isSpamDelete()) {
+                    spamDeletes(delta, delta.getBelongsToEdOrgs(), tenantDirectory, deltaUptoTime, appsPerEdOrg);
+                }
+
                 for (String edOrg : delta.getBelongsToEdOrgs()) {
                     // we have apps for this edOrg
                     if (appsPerEdOrg.containsKey(edOrg)) {
-                        ExtractFile extractFile = getExtractFile(edOrg, tenant, deltaUptoTime, appsPerEdOrg.get(edOrg));
+                        ExtractFile extractFile = getExtractFile(edOrg, tenantDirectory, deltaUptoTime, appsPerEdOrg.get(edOrg));
                         EntityExtractor.CollectionWrittenRecord record = getCollectionRecord(edOrg, delta.getType());
                         entityExtractor.write(delta.getEntity(), extractFile, record, null);
-
                     }
                 }
             } else if (delta.getOp() == Operation.DELETE) {
-                spamDeletes(delta, Collections.<String> emptySet(), tenant, deltaUptoTime, appsPerEdOrg);
+                // Extract public entities separately.
+                if (isPublicEntity(delta.getEntity().getType())) {
+                    spamPublicDeletes(delta, tenant, deltaUptoTime, publicDeltaExtractFile);
+                }
 
+                spamDeletes(delta, Collections.<String> emptySet(), tenantDirectory, deltaUptoTime, appsPerEdOrg);
             } else if (delta.getOp() == Operation.PURGE) {
-                logPurge(delta, Collections.<String> emptySet(), tenant, deltaUptoTime, appsPerEdOrg);
+                logPurge(delta, Collections.<String> emptySet(), tenantDirectory, deltaUptoTime, appsPerEdOrg);
             }
         }
 
@@ -195,7 +203,7 @@ public class DeltaExtractor implements InitializingBean {
         }
     }
 
-    private void spamDeletes(DeltaRecord delta, Set<String> exceptions, String tenant, DateTime deltaUptoTime,
+    private void spamDeletes(DeltaRecord delta, Set<String> exceptions, File tenantDirectory, DateTime deltaUptoTime,
             Map<String, Set<String>> appsPerEdOrg) {
         for (Map.Entry<String, Set<String>> entry : appsPerEdOrg.entrySet()) {
             String edOrg = entry.getKey();
@@ -204,7 +212,7 @@ public class DeltaExtractor implements InitializingBean {
                 continue;
             }
 
-            ExtractFile extractFile = getExtractFile(edOrg, tenant, deltaUptoTime, entry.getValue());
+            ExtractFile extractFile = getExtractFile(edOrg, tenantDirectory, deltaUptoTime, entry.getValue());
             // for some entities we have to spam delete the same id in two
             // collections since we cannot reliably retrieve the "type". For example,
             // teacher/staff or edorg/school, if the entity has been deleted, all we know
@@ -224,7 +232,22 @@ public class DeltaExtractor implements InitializingBean {
         }
     }
 
-    private void logPurge(DeltaRecord delta, Set<String> exceptions, String tenant, DateTime deltaUptoTime,
+    private void spamPublicDeletes(DeltaRecord delta, String tenant, DateTime deltaUptoTime, ExtractFile publicDeltaExtractFile) {
+        // for some entities we have to spam delete the same id in two
+        // collections since we cannot reliably retrieve the "type". For example,
+        // teacher/staff or edorg/school, if the entity has been deleted, all we know
+        // if it a staff or edorg, but it may be stored as teacher or school in vendor
+        // db, so we must spam delete the id in both teacher/staff or edorg/school
+        // collection
+        Entity entity = delta.getEntity();
+        Set<String> types = typeResolver.resolveType(entity.getType());
+        for (String type : types) {
+            Entity e = new MongoEntity(type, entity.getEntityId(), new HashMap<String, Object>(), null);
+            entityWriteManager.writeDeleteFile(e, publicDeltaExtractFile);
+        }
+    }
+
+    private void logPurge(DeltaRecord delta, Set<String> exceptions, File tenantDirectory, DateTime deltaUptoTime,
             Map<String, Set<String>> appsPerLEA) {
         for (Map.Entry<String, Set<String>> entry : appsPerLEA.entrySet()) {
             String lea = entry.getKey();
@@ -233,7 +256,7 @@ public class DeltaExtractor implements InitializingBean {
                 continue;
             }
 
-            ExtractFile extractFile = getExtractFile(lea, tenant, deltaUptoTime, entry.getValue());
+            ExtractFile extractFile = getExtractFile(lea, tenantDirectory, deltaUptoTime, entry.getValue());
 
             DateTime date = new DateTime(delta.getEntity().getBody().get(TIME_FIELD));
 
@@ -257,7 +280,7 @@ public class DeltaExtractor implements InitializingBean {
                 for (Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
                     bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(),
                             archiveFile.getKey(), startTime.toDate(), true, extractFile.getEdorg(),
-                            isSea(extractFile.getEdorg()));
+                            (extractFile.getEdorg() == null));
                 }
             }
             allSuccessful &= success;
@@ -282,9 +305,9 @@ public class DeltaExtractor implements InitializingBean {
         return appPerLeaCollectionRecords.get(key);
     }
 
-    private ExtractFile getExtractFile(String edOrg, String tenant, DateTime deltaUptoTime, Set<String> appsForEdOrg) {
+    private ExtractFile getExtractFile(String edOrg, File tenantDirectory, DateTime deltaUptoTime, Set<String> appsForEdOrg) {
         if (!appPerEdOrgExtractFiles.containsKey(edOrg)) {
-            ExtractFile appPerEdOrgExtractFile = getExtractFilePerEdOrg(tenant, edOrg, deltaUptoTime, appsForEdOrg);
+            ExtractFile appPerEdOrgExtractFile = getExtractFilePerEdOrg(tenantDirectory, edOrg, deltaUptoTime, appsForEdOrg);
             appPerEdOrgExtractFiles.put(edOrg, appPerEdOrgExtractFile);
         }
 
@@ -310,20 +333,20 @@ public class DeltaExtractor implements InitializingBean {
      * Given the tenant, appId, the education organization id being extracted and a timestamp, give
      * me an extractFile for this combo.
      *
-     * @param tenant - Tenant name
+     * @param tenantDirectory - The parent directory of the file
      * @param edorg - EdOrg name
      * @param startTime - Start time for extract
      * @param appsForEdOrg - Apps authorized for edOrg
      *
      * @return - Extract file for the edOrg.
      */
-    public ExtractFile getExtractFilePerEdOrg(String tenant, String edorg, DateTime startTime, Set<String> appsForEdOrg) {
+    public ExtractFile getExtractFilePerEdOrg(File tenantDirectory, String edorg, DateTime startTime, Set<String> appsForEdOrg) {
         List<String> edorgList = Arrays.asList(edorg);
         Map<String, PublicKey> appKeyMap = new HashMap<String, PublicKey>();
         for (String appId : appsForEdOrg) {
             appKeyMap.putAll(bulkExtractMongoDA.getClientIdAndPublicKey(appId, edorgList));
         }
-        ExtractFile extractFile = new ExtractFile(getTenantDirectory(tenant),
+        ExtractFile extractFile = new ExtractFile(tenantDirectory,
                 getArchiveName(edorg, startTime.toDate()), appKeyMap, securityEventUtil);
         extractFile.setEdorg(edorg);
         return extractFile;
@@ -333,56 +356,30 @@ public class DeltaExtractor implements InitializingBean {
         return edorg + "-" + Launcher.getTimeStamp(startTime) + "-delta";
     }
 
-    private File getTenantDirectory(String tenant) {
-        String tenantPath = baseDirectory + File.separator;
-        File tenantDirectory = new File(tenantPath, TenantAwareMongoDbFactory.getTenantDatabaseName(tenant));
-        tenantDirectory.mkdirs();
-        return tenantDirectory;
-    }
-
-    private Map<String, Set<String>> addAppsPerSEA(Map<String, Set<String>> appsPerTopLevelLEA) {
-        if (appsPerTopLevelLEA == null || appsPerTopLevelLEA.isEmpty()) {
-            return Collections.EMPTY_MAP;
-        }
-        appsPerTopLevelLEA.putAll(getBulkExtractAppsPerSEA(appsPerTopLevelLEA));
-        return appsPerTopLevelLEA;
+    private boolean isPublicEntity(String entityType) {
+        return publicEntityTypes.contains(entityType);
     }
 
     /**
-     * Populates a map of BE enabled apps per SEA from a map of BE apps per top level LEA
+     * Creates the public extract file instance.
      *
-     * @return a set of the SEA ids that need a bulk extract per app
+     * @param tenantDirectory - The parent directory of the file
+     * @param deltaUptoTime - Extract for all deltas up to this time
+     * @param clientKeys - The public keys for registered apps.
+     *
+     * @return the public extract file instance.
      */
-    private Map<String, Set<String>> getBulkExtractAppsPerSEA(Map<String, Set<String>> appsPerTopLevelLEA) {
-        Map<String, Set<String>> appsPerSEA = new HashMap<String, Set<String>>();
-        for (String leaId : appsPerTopLevelLEA.keySet()) {
-            Entity lea = repo.findById(EntityNames.EDUCATION_ORGANIZATION, leaId);
-            if (lea != null && lea.getBody() != null) {
-                // performance hack assumes the top-level LEA entities parent refs are the SEAs
-                @SuppressWarnings("unchecked")
-                List<String> seaIds = (List<String>) lea.getBody().get(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE);
-                if (seaIds != null) {
-                    for ( String seaId : seaIds ) {
-                        if (!appsPerSEA.containsKey(seaId)) {
-                            appsPerSEA.put(seaId, appsPerTopLevelLEA.get(leaId));
-                        } else {
-                            appsPerSEA.get(seaId).addAll(appsPerTopLevelLEA.get(leaId));
-                        }
-                    }
-                }
-            }
-        }
-        return appsPerSEA;
+    protected ExtractFile createPublicExtractFile(File tenantDirectory, DateTime deltaUptoTime, Map<String, PublicKey> clientKeys) {
+        ExtractFile file = new ExtractFile(tenantDirectory, getPublicArchiveName(deltaUptoTime.toDate()), clientKeys, securityEventUtil);
+        file.setEdorg(null);
+
+        appPerEdOrgExtractFiles.put("public", file);
+
+        return file;
     }
 
-    /**
-     * Set base dir.
-     *
-     * @param baseDirectory
-     *            Base directory of all bulk extract processes
-     */
-    public void setBaseDirectory(String baseDirectory) {
-        this.baseDirectory = baseDirectory;
+    private String getPublicArchiveName(Date startTime) {
+        return "public-" + Launcher.getTimeStamp(startTime) + "-delta";
     }
 
     /**

@@ -150,7 +150,7 @@ Scenario: SEA public data delta extract using BEEP with invalid users
   When I make a call to the bulk extract end point "/bulk/extract/public/delta/2013-04-30T17:22:26.391Z"
   Then I get back a response code of "403"
 
-Scenario: Bulk extract should fail if there is more than 1 SEA in the tenant.
+Scenario: Bulk extract should not fail if there is more than 1 SEA in the tenant.
     Given I am using local data store
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "ExtendedSEA.zip" file as the payload of the ingestion job
@@ -161,13 +161,13 @@ Scenario: Bulk extract should fail if there is more than 1 SEA in the tenant.
     And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
     Then I trigger a bulk extract
-    Then I should see "0" bulk extract SEA-public data file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    Then I should see "1" bulk extract SEA-public data file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
 
 Scenario: API call to SEA BEEP when there is more than one SEA in the tenant
   Given in my list of rights I have BULK_EXTRACT
   When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   When I make a call to the bulk extract end point "/bulk/extract/public"
-  Then I get back a response code of "404"
+  Then I get back a response code of "200"
   Then I remove the edorg with id "IL-Test" from the "Midgar" database
 
   Scenario: A public data extract can be retrieved from the api by a user with the BULK_EXTRACT right when the app is approved only for the SEA
@@ -247,7 +247,7 @@ Scenario: No SEA is available for the tenant
    And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
    And There is no SEA for the tenant "Midgar"
    Then I trigger a bulk extract
-   Then I should see "0" bulk extract SEA-public data file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+   Then I should see "1" bulk extract SEA-public data file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
 
 Scenario: Clean up the public data in the database
     Given all collections are empty

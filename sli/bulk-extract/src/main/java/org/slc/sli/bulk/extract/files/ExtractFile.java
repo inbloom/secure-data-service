@@ -92,7 +92,7 @@ public class ExtractFile {
      *          Security event utility
      */
     public ExtractFile(File parentDir, String archiveName, Map<String, PublicKey> clientKeys, SecurityEventUtil securityEventUtil) {
-        init( parentDir, archiveName, clientKeys, securityEventUtil);
+        init(parentDir, archiveName, clientKeys, securityEventUtil);
     }
 
     private void init(File parentDir, String archiveName, Map<String, PublicKey> clientKeys, SecurityEventUtil securityEventUtil) {

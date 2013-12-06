@@ -118,8 +118,9 @@ public class StatePublicDataExtractor {
     }
 
     /**
-     * Extract the public data for the SEA.
-     * @param extractFile the extract file to extract to
+     * Extract the public data for the tenant.
+     *
+     * @param extractFile -The extract file to which to extract
      */
     protected void extractPublicData(ExtractFile extractFile) {
         for (PublicDataExtractor data : factory.buildPublicDataExtracts(extractor)) {
@@ -139,8 +140,10 @@ public class StatePublicDataExtractor {
 
     /**
      * Creates an extract file instance.
+     *
      * @param tenantDirectory the parent directory of the file.
      * @param clientKeys the public keys for registered apps.
+     *
      * @return an extract file instance.
      */
     protected ExtractFile createExtractFile(File tenantDirectory, Map<String, PublicKey> clientKeys) {

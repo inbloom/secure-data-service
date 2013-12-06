@@ -27,6 +27,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -50,6 +51,7 @@ public class Launcher {
     private static final String USAGE = "Usage: bulk-extract <tenant> [isDelta]";
     private static final Logger LOG = LoggerFactory.getLogger(Launcher.class);
 
+    @Value("${sli.bulk.extract.output.directory:extract}")
     private String baseDirectory;
 
     @Autowired
@@ -82,7 +84,7 @@ public class Launcher {
             DateTime startTime = new DateTime();
             if (isDelta) {
                 LOG.info("isDelta=true ... deltaExtractor.execute()");
-                deltaExtractor.execute(tenant, startTime, baseDirectory);
+                deltaExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
             } else {
                 // TODO: Remove this reference once US5996 is played out.
                 String sea = statePublicDataExtractor.retrieveSEAId();
