@@ -27,6 +27,7 @@ import hashlib
 import sys
 import xml.etree.cElementTree as et
 import re
+from glob import glob
 
 whitespaceToStrip = ' \t\n'
 tag_re = re.compile('\{.*\}')
@@ -181,5 +182,12 @@ if __name__ == '__main__':
 	if len(sys.argv) <= 1: 
 		print('usage: ' + sys.argv[0] + ' datafile.xml ...')
 	else:
-		unique = iterateThroughFiles(sys.argv[1:])
+		fileList = sys.argv[1:]
+		# windows does not expand wildcards from the command line.  Check for this case.
+		# NOTE: on windows, the code will only check for wildcards in the first command line argument.
+		# ToDo: update this code to check for all wildcard characters on all arguments
+		if ('*' in sys.argv[1]) | ('?' in sys.argv[1]):
+			fileList = glob(sys.argv[1])
+			#print("Expanding wildcard in first file argument to " + str(fileList))
+		unique = iterateThroughFiles(fileList)
 		
