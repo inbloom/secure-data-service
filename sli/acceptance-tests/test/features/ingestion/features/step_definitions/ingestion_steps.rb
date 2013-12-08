@@ -3635,7 +3635,6 @@ def getEntityCounts(tenant)
                      "roles",
                      "applicationAuthorization",
                      "custom_entities",
-                     "recordHash",
                      "customRole",
                      "adminDelegation"]
      disable_NOTABLESCAN
@@ -3660,6 +3659,7 @@ def getEntityCounts(tenant)
 end
 
 And /I save the collection counts in "([^"]*)" tenant/ do |tenant|
+    @db         = @conn[convertTenantIdToDbName(tenant)]
     @beforeEntityCounts = getEntityCounts(tenant)
 end
 
@@ -3695,6 +3695,7 @@ And /I see that collections counts have changed as follows in tenant "([^"]*)"/ 
             assert(old == new, "The change in count for #{entityType} was #{actualDelta}. It was expected to be 0.")
         end
     end
+    condHash.each_key { |key| assert(unionOfEntities.include?(key), "Delta check of non-existing entity \"#{key}\"") }
 end
 
 ############################################################

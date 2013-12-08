@@ -28,7 +28,7 @@ Scenario: Delete staffEducationOrganizationAssociation with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                  |delta|
         |staffEducationOrganizationAssociation        |   -1|
-        #|recordHash                                  |    -1
+        |recordHash                                   |   -1|
 	And I re-execute saved query "staffEducationOrganizationAssociation" to get "0" records
 	And I should not see "e8ce901a42119bcca2516c2e0c6e606f0fd5343c_id" in the "Midgar" database
 
@@ -56,7 +56,7 @@ Scenario: Delete staffEducationOrganizationAssociation with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                  |delta|
         |staffEducationOrganizationAssociation        |   -1|
-        #|recordHash                                  |    -1
+        |recordHash                                   |   -1|
     And I re-execute saved query "staffEducationOrganizationAssociation" to get "0" records
     And I should not see "e8ce901a42119bcca2516c2e0c6e606f0fd5343c_id" in the "Midgar" database
 
@@ -84,6 +84,6 @@ Scenario: Delete staffEducationOrganizationAssociation with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                  |delta|
         |staffEducationOrganizationAssociation        |   -1|
-        #|recordHash                                  |    -1
+        |recordHash                                   |   -1|
     And I re-execute saved query "staffEducationOrganizationAssociation" to get "0" records
     And I should not see "e8ce901a42119bcca2516c2e0c6e606f0fd5343c_id" in the "Midgar" database

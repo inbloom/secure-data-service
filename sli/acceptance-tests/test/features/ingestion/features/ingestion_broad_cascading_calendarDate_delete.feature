@@ -3,6 +3,7 @@ Feature: Safe Deletion and Cascading Deletion
 
 Background: I have a landing zone route configured
 Given I am using local data store
+
 @wip
 Scenario: Delete Calendar Date with cascade,  gradingPeriod with one calendarDateReference should be deleted; gradingPeriod with more calendarDateReference should be deleted
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -32,8 +33,8 @@ Scenario: Delete Calendar Date with cascade,  gradingPeriod with one calendarDat
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                             |delta     |
 	|calendarDate                           |        -1|
-	#|gradingPeriod                          |        -1|
-	|recordHash                             |         0|
+	|gradingPeriod                          |        -1|
+	|recordHash                             |        -2|
 	And I should not see "68afcad771ff07a4d988d8ff44434248a900fb5c_id" in the "Midgar" database
 	
 Scenario: Delete Calendar Date with cascade = false
@@ -89,9 +90,9 @@ Scenario: Delete Orphan Calendar Date with cascade = false
 	And I re-execute saved query "calendarDate" to get "0" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                             |delta     |
-	|calendarDate                           |         -1|
-	|recordHash                             |         0|
-@wip	
+	|calendarDate                           |        -1|
+	|recordHash                             |        -1|
+
 Scenario: Delete Orphan Calendar Date Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -115,5 +116,5 @@ Scenario: Delete Orphan Calendar Date Reference with cascade = false
 	And I re-execute saved query "calendarDate" to get "0" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                             |delta     |
-	|calendarDate                           |         -1|
-	|recordHash                             |         0|
+	|calendarDate                           |        -1|
+	|recordHash                             |        -1|

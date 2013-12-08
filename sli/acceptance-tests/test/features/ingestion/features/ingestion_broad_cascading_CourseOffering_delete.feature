@@ -41,20 +41,8 @@ Scenario: Delete CourseOffering with cascade
         |grade        |    -1|
         |teacherSectionAssociation|-1|
         |studentSectionAssociation|-1|
-        #|recordHash  |    -1|
+        |recordHash  |    -1|
 	And I should not see "644c4b7a7ffa3863ec22af9aeef918ef962f6d9c_id" in the "Midgar" database
-
-@wip    
-Scenario: Load Data
-
-Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    And I post "BroadSetOfTypes.zip" file as the payload of the ingestion job
-And the "Midgar" tenant db is empty
-    When zip file is scp to ingestion landing zone
-    Then a batch job for file "BroadSetOfTypes.zip" is completed in database
-    And I should not see an error log file created
-And I should not see a warning log file created    
-
 
 Scenario: Delete CourseOffering with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -75,9 +63,9 @@ Scenario: Delete CourseOffering with cascade = false
 	And I should see "records deleted successfully: 0" in the resulting batch job file
 	And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "records not considered for processing: 0" in the resulting batch job file
-	And I should see "All records processed successfully." in the resulting batch job file
+	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
 	And I should see "Processed 1 records." in the resulting batch job file
-    And I should not see an error log file created
+    And I should see "CORE_0066" in the resulting error log file for "InterchangeMasterSchedule.xml"
 	And I should not see a warning log file created
     And I re-execute saved query "courseOffering" to get "1" records
     And I re-execute saved query "section" to get "1" records
@@ -108,9 +96,9 @@ Scenario: Delete Orphan CourseOffering with cascade = false
 	And I should not see a warning log file created
     And I re-execute saved query "courseOffering" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
-        | collection |delta|
-        |courseOffering|  -1|  
-        |recordHash    |   0|    
+        | collection   |delta|
+        |courseOffering|   -1|
+        |recordHash    |   -1|
     
 @wip       
 Scenario: Delete Orphan CourseOffering Reference with cascade = false
@@ -137,4 +125,4 @@ Scenario: Delete Orphan CourseOffering Reference with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection |delta|
         |courseOffering|  -1|  
-        |recordHash    |   0|    
+        |recordHash    |  -1|

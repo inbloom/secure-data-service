@@ -24,25 +24,29 @@ public enum ReferenceConverter {
 
     STUDENT( "StudentReference", "student" ),
     PARENT( "ParentReference", "parent"),
-    COURSE( "CourseReferece", "course"),
-    TECHER( "TeacherReference", "teacher");
+    COURSE( "CourseReference", "course"),
+    CALENDAR_DATE( "CalendarDateReference", "calendarDate"),
+    EDORG( "EducationalOrgReference", "educationOrganization"),
+    ASSESSMENT( "AssessmentReference", "assessment"),
+    TEACHER( "TeacherReference", "teacher"),
+    ASSESSMENTFAMILY( "AssessmentFamilyReference", "assessmentFamily"),
+    SCHOOL( "SchoolReference", "school"),
+    COHORT("CohortReference","cohort");
 
     /*
-    ASSESSMENT( "AsessmentReference","assesment"),
-    ASSESMENT_FAMILY("AssessmentFamilyReference","assesmentFamily"),
-    PERFORMANCE_LEVEL( "PerformanceLevelReference", "???"),  // !!!!
-    ATTENDANCE("AttendanceRefernece", "attendance"), // !!!!
-    CLASS_PERIOD("ClassPeriodRerence", "classPeriod"),
-
-    SCHOOL( "SchoolReferece", "school"),
-    CALENDAR_DATE( "CalendarDateReferece", "calendarDate"),
+    CLASS_PERIOD("ClassPeriodReference", "classPeriod"),
+    SCHOOL( "SchoolReference", "school"),
     GRADING_PERIOD( "GradingPeriodReference", "gradingPeriod"),
     SESSION( "SessionReference", "session"),
-    COURSE_OFFERING(),
+    COURSE_OFFERING(""),
     SECTION(),
     STUDENT_ASSESSMENT(),
     COHORT(),
-    STUDENT_GRADES()
+    STUDENT_GRADES(),
+
+    /*
+    ATTENDANCE("AttendanceRefernece", "attendance"), // !!!!
+    PERFORMANCE_LEVEL( "PerformanceLevelReference", "???"),  // !!!!
     */
 
 
@@ -69,7 +73,7 @@ public enum ReferenceConverter {
 
 
     public static boolean isReferenceType( String typeName ) {
-        return( typeName.endsWith(REFERENCE ) ? true : false );
+        return( (typeName != null && typeName.endsWith(REFERENCE )) ? true : false );
     }
 
     public static ReferenceConverter fromReferenceName(String refName) {

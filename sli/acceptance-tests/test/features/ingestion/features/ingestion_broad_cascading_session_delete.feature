@@ -163,6 +163,7 @@ Scenario: Delete Orphan Session with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |session                    |   -1|
+        |recordHash                 |   -1|
 @wip        
 Scenario: Delete Orphan Session Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -188,3 +189,4 @@ Scenario: Delete Orphan Session Reference with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |session                    |   -1|
+        |recordHash                 |   -1|

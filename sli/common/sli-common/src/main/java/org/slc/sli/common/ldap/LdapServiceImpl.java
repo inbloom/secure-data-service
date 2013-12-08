@@ -16,6 +16,17 @@
 
 package org.slc.sli.common.ldap;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.naming.directory.SearchControls;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -28,16 +39,6 @@ import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.OrFilter;
 import org.springframework.stereotype.Component;
-
-import javax.naming.directory.SearchControls;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * implementation of LdapService interface for basic CRUD and search operations on LDAP directory
@@ -361,14 +362,13 @@ public class LdapServiceImpl implements LdapService {
     }
 
     private List<String> getGroupNames(Collection<Group> groups) {
-        if (groups != null && groups.size() > 0) {
-            List<String> groupNames = new ArrayList<String>();
+        List<String> groupNames = new ArrayList<String>();
+        if (groups != null) {
             for (Group group : groups) {
                 groupNames.add(group.getGroupName());
             }
-            return groupNames;
         }
-        return null;
+        return groupNames;
     }
 
     @Override

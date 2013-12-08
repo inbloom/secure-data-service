@@ -4,12 +4,14 @@
     <Action ActionType="DELETE" Cascade="false">
 
         <CourseReference>
-            <EducationalOrgReference>
-                <EducationalOrgIdentity>
-                    <StateOrganizationId>Course-South Daybreak Elementary</StateOrganizationId>
-                </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <UniqueCourseId>CRS-1</UniqueCourseId>
+            <CourseIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Course-South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>CRS-1</UniqueCourseId>
+            </CourseIdentity>
         </CourseReference>
 
     </Action>

@@ -67,7 +67,9 @@
  		<xs:element name="StudentObjectiveAssessmentReference" type="SLC-StudentObjectiveAssessmentReferenceType"/>
   		<xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
   		<xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType"/>
-	  
+
+        <xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType"/>
+
 
 		<!-- All top level entity types from the Interchange schemas -->
 		<xs:element name="Assessment" type="SLC-Assessment"/>
