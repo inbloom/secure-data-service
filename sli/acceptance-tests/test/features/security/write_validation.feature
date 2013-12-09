@@ -45,7 +45,6 @@ Feature: As an SEA/LEA end user I would like to be able to write only to data wi
 
   Examples:
     | Entity Type                    | Entity Resource URI          |
-    | "attendance"                   | "attendances"                |
     | "cohort"                       | "cohorts"                    |
     | "course"                       | "courses"                    |
     | "courseOffering"               | "courseOfferings"            |
