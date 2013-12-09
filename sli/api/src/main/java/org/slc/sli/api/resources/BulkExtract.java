@@ -339,7 +339,7 @@ public class BulkExtract {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        return fileResource.getFileResponse(req, ef, ef.lastModified(), ef.getLastModified(), uri);
+        return fileResource.getFileResponse(req, ef, ef.getLastModified());
     }
 
     /**
@@ -358,7 +358,7 @@ public class BulkExtract {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        return fileResource.getFileResponse(req, ef, ef.lastModified(), ef.getLastModified(), uri);
+        return fileResource.getFileResponse(req, ef, ef.getLastModified());
     }
 
     private ExtractFile getEdOrgExtractFile(final String edOrgId, final String deltaDate) {
@@ -406,7 +406,7 @@ public class BulkExtract {
     }
 
     private ExtractFile getExtractFile(Entity efEntity) {
-        ExtractFile bulkExtractFileEntity = new ExtractFile((String) efEntity.getBody().get(BULK_EXTRACT_FILE_PATH), String.valueOf(efEntity.getBody().get(BULK_EXTRACT_DATE)));
+        ExtractFile bulkExtractFileEntity = new ExtractFile((String) efEntity.getBody().get(BULK_EXTRACT_FILE_PATH), (Date) efEntity.getBody().get(BULK_EXTRACT_DATE));
 
         if (bulkExtractFileEntity.exists()) {
             return bulkExtractFileEntity;
@@ -711,16 +711,16 @@ public class BulkExtract {
     private class ExtractFile extends File {
         private static final long serialVersionUID = 1L;
 
-        private final String lastModified;
+        private final Date lastModified;
 
-        public ExtractFile(String fileName, String lastModified) {
+        public ExtractFile(String fileName, Date lastModified) {
             super(fileName);
             this.lastModified = lastModified;
             LOG.debug("The file is {} and lastModified is {}", fileName, lastModified);
             LOG.debug("Length of bulk extract file is {}", length());
         }
 
-        public String getLastModified() {
+        public Date getLastModified() {
             return lastModified;
         }
     }
