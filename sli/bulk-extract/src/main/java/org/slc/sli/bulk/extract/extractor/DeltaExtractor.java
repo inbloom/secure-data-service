@@ -393,10 +393,15 @@ public class DeltaExtractor implements InitializingBean {
     }
 
     private String getSEAId() {
+        String seaId = null;
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(ParameterConstants.ORGANIZATION_CATEGORIES, NeutralCriteria.OPERATOR_EQUAL, "State Education Agency"));
 
-        return repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query).getEntityId();
+        Entity seaEntity = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query);
+        if(seaEntity != null) {
+            seaId = seaEntity.getEntityId();
+        }
+        return seaId;
     }
 
     /**
