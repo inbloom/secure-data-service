@@ -88,7 +88,7 @@ Scenario: Retrieve the SEA public extract through the api
     And The "student" delta was extracted in the same format as the api
     And The "studentAssessment" delta was extracted in the same format as the api
 
-    When I untar and decrypt the "inBloom" public delta tarfile for tenant "developer-email@slidev.org" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "884daa27d806c2d725bc469b273d840493f84b4d_id"
+    When I untar and decrypt the "inBloom" public delta tarfile for tenant "developer-email@slidev.org" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
     Then The "educationOrganization" delta was extracted in the same format as the api
     And The "section" delta was extracted in the same format as the api
 

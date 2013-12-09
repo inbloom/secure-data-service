@@ -223,13 +223,15 @@ end
 
 Then /^the extract contains a file for each of the following entities:$/ do |table|
   Minitar.unpack(@filePath, @unpackDir)
+  expected_files = Set.new
 
   table.hashes.map do |entity|
-  exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
-  assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
+    exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
+    assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
+    expected_files << entity
   end
 
-  fileList = Dir.entries(@unpackDir)
+  fileList = Dir.glob("#{@unpackDir}/*.json.gz")
   puts "Files in upackDir:  #{fileList}"
-  assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
+  assert(fileList.size==expected_files.size, "Expected " + expected_files.size.to_s + " extract files, Actual:" + fileList.size.to_s)
 end

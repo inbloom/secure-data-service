@@ -96,8 +96,8 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
   Then each record in the full extract is present and matches the delta extract
 
 
-  Scenario: Generate a SEA bulk extract delta after day 1 ingestion
-    When I untar and decrypt the "inBloom" public delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>"
+  Scenario: Generate a public delta extract after day 1 ingestion
+    When I untar and decrypt the "inBloom" public delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
      And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then The "educationOrganization" delta was extracted in the same format as the api
      And The "learningObjective" delta was extracted in the same format as the api
@@ -130,7 +130,7 @@ Scenario: SEA - Ingest additional entities in preparation for subsequent update 
    Given the extraction zone is empty
 	When I ingest "SEAAppend.zip"
      And I trigger a delta extract
-    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
       |  session                               |
@@ -172,7 +172,7 @@ Scenario: SEA - Update entities
    Given the extraction zone is empty
 	When I ingest "SEAUpdate.zip"
      And I trigger a delta extract
-    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  assessment                            |
        |  calendarDate                          |
@@ -205,7 +205,7 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
     Given the extraction zone is empty
     When I ingest "SEAAssessment.zip"
     And I trigger a delta extract
-    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
     And I verify this "assessment" file only contains:
@@ -225,7 +225,7 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
 	 #second ingestion to control order of events
 	 And I ingest "SEAAssessmentDeleteAndUpdate2.zip"
      And I trigger a delta extract
-     Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+     Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  assessment                            |
        |  deleted                               |
@@ -251,7 +251,7 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
     #second ingestion to control order of events
     Then I ingest "AssessmentFamilyDeltaDeleted.zip"
      And I trigger a delta extract
-    And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+    And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
       |  deleted                               |
@@ -273,7 +273,7 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
    Given the extraction zone is empty
 	 When I ingest "AssessmentItemDeltaDeleted.zip"
      And I trigger a delta extract
-       Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+       Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  assessment                            |
        |  deleted                               |
@@ -291,7 +291,7 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
     And I trigger a delta extract
    When I ingest "AssessmentPeriodDescriptorUpdate.zip"
     And I trigger a delta extract
-   When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+   When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
     And I verify this "assessment" file should contain:
@@ -318,7 +318,7 @@ Scenario: Triggering deltas via ingestion
       And I verify "2" delta bulk extract files are generated for Edorg "<IL-DAYBREAK>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for Edorg "<IL-HIGHWIND>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for Edorg "<STANDARD-SEA>" in "Midgar"
-     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  assessment                            |
        |  learningObjective                     |
@@ -800,7 +800,7 @@ Scenario: Generate a bulk extract in a different LEA
     And a batch job log has been created
     Then I should not see an error log file created
     And I should not see a warning log file created
-    And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
+    And I generate and retrieve the bulk extract delta via API for "the public extract"
     Then I should see "2" bulk extract files
 
   And I ingested "deltas_move_between_edorg.zip" dataset
@@ -1024,8 +1024,8 @@ Given I clean the bulk extract file system and database
     | newStudentGradebookEntry       |  studentGradebookEntry                 |  201         |
 
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
-  And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+  And I generate and retrieve the bulk extract delta via API for "the public extract"
+  And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  program                               |
         |  gradingPeriod                         |
@@ -1115,8 +1115,8 @@ Given I clean the bulk extract file system and database
 
  Given the unpack directory is empty
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
-   And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+   And I generate and retrieve the bulk extract delta via API for "the public extract"
+   And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  program                               |
         |  gradingPeriod                         |
@@ -1406,8 +1406,8 @@ Given I clean the bulk extract file system and database
     | c7af73b8f98390a6d695a9e458529d6a149f0a21_id                                            | entityType = calendarDate              |
 
   When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
-  Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+   And I generate and retrieve the bulk extract delta via API for "the public extract"
+  Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  deleted                               |
   And I verify this "deleted" file should contain:
