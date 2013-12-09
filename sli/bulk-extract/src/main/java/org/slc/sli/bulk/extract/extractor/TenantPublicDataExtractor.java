@@ -170,14 +170,14 @@ public class TenantPublicDataExtractor {
 
         if (entities == null || !entities.iterator().hasNext()) {
             audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    "SEA public data extract", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0016));
+                    "Tenant public data extract", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0016));
             LOG.error("No SEA is available for the tenant");
         } else {
             Iterator<Entity> iterator = entities.iterator();
             Entity seaEntity = iterator.next();
             if (iterator.hasNext()) {
                 audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                        "SEA public data extract", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0017));
+                        "Tenant public data extract", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0017));
                 LOG.error("More than one SEA is found for the tenant");
             } else {
                 seaId = seaEntity.getEntityId();
