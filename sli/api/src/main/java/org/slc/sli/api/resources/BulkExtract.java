@@ -174,13 +174,13 @@ public class BulkExtract {
     }
 
     /**
-     * Send an LEA private data extract.
+     * Send an edOrg private data extract.
      *
      * @param context - HTTP context of request
      * @param request - HTTP servlet request for public bulk extract file
-     * @param edOrgId - The uuid of the lea/sea to get the extract
+     * @param edOrgId - The uuid of the edOrg to get the extract
      *
-     * @return - A response with a lea/sea tar file
+     * @return - A response with an edOrg tar file
      */
     @GET
     @Path("extract/{edOrgId}")
@@ -219,12 +219,12 @@ public class BulkExtract {
     }
 
     /**
-     * Send the list of BE file links for all LEAs for which the calling user and application have access.
+     * Send the list of BE file links for all edOrgs and public data for which the calling user and application have access.
      *
      * @param context - HTTP context of request
      * @param request - HTTP servlet request for public bulk extract file
      *
-     * @return A response with the complete list of BE file links for all LEAs/SEAs for this user/app.
+     * @return A response with the complete list of BE file links for all edOrgs and public data for this user/app.
      *
      * @throws Exception On Error.
      */
@@ -232,11 +232,11 @@ public class BulkExtract {
     @Path("extract/list")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getBulkExtractList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
-        LOG.info("Received request for list of links for all SEAs and LEAs for this user/app");
-        logSecurityEvent("Received request for list of links for all SEAs and LEAs for this user/app");
+        LOG.info("Received request for list of links for all edOrgs and public data for this user/app");
+        logSecurityEvent("Received request for list of links for all edOrgs and public data for this user/app");
         validateRequestAndApplicationAuthorization(request);
 
-        logSecurityEvent("Successful request for list of links for all SEAs and LEAs for this user/app");
+        logSecurityEvent("Successful request for list of links for all edOrgs and public data for this user/app");
         return getPublicAndEdOrgListResponse(context);
     }
 
@@ -247,7 +247,7 @@ public class BulkExtract {
      * @param context - HTTP context of request
      * @param request - HTTP servlet request for public bulk extract file
      * @param date the date of the delta
-     * @param edOrgId the uuid of the lea/sea to get delta extract for
+     * @param edOrgId the uuid of the edOrg to get delta extract for
      *
      * @return A response with a delta extract file.
      */
@@ -416,7 +416,7 @@ public class BulkExtract {
     }
 
     /**
-     * Get the SEA/LEA list response.
+     * Get the edOrg and public list response.
      *
      * @param context - the http request context
      * @return - the jax-rs response to send back
@@ -430,31 +430,31 @@ public class BulkExtract {
         List<String> appAuthorizedUserEdOrgs = getApplicationAuthorizedUserEdOrgs(userEdOrgs, appId);
         if (appAuthorizedUserEdOrgs.size() == 0) {
             logSecurityEvent("No authorized EdOrgs for application:" + appId);
-            LOG.info("No authorized LEAs for application: {}", appId);
+            LOG.info("No authorized EdOrgs for application: {}", appId);
             return Response.status(Status.NOT_FOUND).build();
         }
 
         List<String> authorizedUserSEdOrgs = new LinkedList<String>();
         authorizedUserSEdOrgs.addAll(appAuthorizedUserEdOrgs);
 
-        logSecurityEvent("Successfully retrieved SEA/LEA list for " + appId);
+        logSecurityEvent("Successfully retrieved edOrgs and public list for " + appId);
         return assembleLinksResponse(context, appId, authorizedUserSEdOrgs);
     }
 
     /**
-     * Assemble the SEA/LEA HATEOAS links response.
+     * Assemble the edOrgs and public HATEOAS links response.
      *
      * @param context
      *        Original HTTP Request Context.
      * @param appId
      *        Authorized application ID.
-     * @param authorizedUserSLEAs
-     *        List of SEAs and LEAs authorized to use and authorizing the specified application.
+     * @param authorizedUserEdOrgs
+     *        List of edOrgs authorized to use and authorizing the specified application.
      *
      * @return the jax-rs response to send back.
      */
-    private Response assembleLinksResponse(final HttpContext context, final String appId, final List<String> authorizedUserSLEAs) {
-        EntityBody list = assembleLinks(context, appId, authorizedUserSLEAs);
+    private Response assembleLinksResponse(final HttpContext context, final String appId, final List<String> authorizedUserEdOrgs) {
+        EntityBody list = assembleLinks(context, appId, authorizedUserEdOrgs);
 
         ResponseBuilder builder = Response.ok(list);
         builder.header("content-type", MediaType.APPLICATION_JSON + "; charset=utf-8");
@@ -463,18 +463,18 @@ public class BulkExtract {
     }
 
     /**
-     * Assemble the SEA/LEA HATEOAS links entity body.
+     * Assemble the edOrg and public HATEOAS links entity body.
      *
      * @param context
      *        Original HTTP Request Context.
      * @param appId
      *        Authorized application ID.
-     * @param authorizedUserSLEAs
-     *        List of SEAs and LEAs authorized to use and authorizing the specified application.
+     * @param authorizedUserEdOrgs
+     *        List of edOrgs authorized to use and authorizing the specified application.
      *
      * @return the jax-rs response to send back.
      */
-    private EntityBody assembleLinks(final HttpContext context, final String appId, final List<String> authorizedUserSLEAs) {
+    private EntityBody assembleLinks(final HttpContext context, final String appId, final List<String> authorizedUserEdOrgs) {
         EntityBody list = new EntityBody();
 
         UriInfo uriInfo = context.getUriInfo();
@@ -485,7 +485,7 @@ public class BulkExtract {
         Map<String, Map<String, String>> publicFullLinks = new HashMap<String, Map<String, String>>();
         Map<String, Set<Map<String, String>>> publicDeltaLinks = new HashMap<String, Set<Map<String, String>>>();
 
-        for (String edOrgId : authorizedUserSLEAs) {
+        for (String edOrgId : authorizedUserEdOrgs) {
             Map<String, String> fullLink = new HashMap<String, String>();
             Set<Map<String, String>> deltaLinks = newDeltaLinkSet();
             Iterable<Entity> edOrgFileEntities = getEdOrgBulkExtractEntities(appId, edOrgId, false);
@@ -522,9 +522,9 @@ public class BulkExtract {
     }
 
     /**
-     * Create the delta links list for an SEA/LEA.
+     * Create the delta links list for an edOrg or public extract.
      *
-     * return - Empty set to hold delta links for an LEA, sorted in reverse chronological order.
+     * return - Empty set to hold delta links for an edOrg or public extract, sorted in reverse chronological order.
      */
     private Set<Map<String, String>> newDeltaLinkSet() {
         return new TreeSet<Map<String, String>>(new Comparator<Map<String, String>>() {
@@ -537,23 +537,23 @@ public class BulkExtract {
     }
 
     /**
-     * Create the full and delta links for each specified SEA or LEA.
+     * Create the full and delta links for each specified edOrg or public extract.
      *
-     * @param linkBase - Base name of SEA or LEA links.
-     * @param edOrgFileEntities - All eligible SEA or LEA entities.
-     * @param fullLink - SEA or LEA full link.
-     * @param deltaLinks - Set of SEA or LEA delta links.
+     * @param linkBase - Base name of edOrg or public links.
+     * @param bulkExtractFileEntities - All eligible bulk extract file entities.
+     * @param fullLink - EdOrg or public full link.
+     * @param deltaLinks - Set of edOrg or public delta links.
      */
-    private void addLinks(final String linkBase, final Iterable<Entity> edOrgFileEntities,
+    private void addLinks(final String linkBase, final Iterable<Entity> bulkExtractFileEntities,
             final Map<String, String> fullLink, Set<Map<String, String>> deltaLinks) {
-        for (Entity edOrgFileEntity : edOrgFileEntities) {
+        for (Entity bulkExtractFileEntity : bulkExtractFileEntities) {
             Map<String, String> deltaLink = new HashMap<String, String>();
-            String timeStamp = getTimestamp(edOrgFileEntity);
-            if (Boolean.TRUE.equals(edOrgFileEntity.getBody().get("isDelta"))) {
+            String timeStamp = getTimestamp(bulkExtractFileEntity);
+            if (Boolean.TRUE.equals(bulkExtractFileEntity.getBody().get("isDelta"))) {
                 deltaLink.put("uri", linkBase + "/delta/" + timeStamp);
                 deltaLink.put("timestamp", timeStamp);
                 deltaLinks.add(deltaLink);
-            } else {  // Assume only one full extract per SEA or LEA.
+            } else {  // Assume only one full extract per edOrg.
                 fullLink.put("uri", linkBase);
                 fullLink.put("timestamp", timeStamp);
             }
@@ -561,14 +561,14 @@ public class BulkExtract {
     }
 
     /**
-     * Get timestamp string from LEA entity.
+     * Get timestamp string from bulk extract file entity.
      *
-     * @param leaFileEntity - LEA entity.
+     * @param bulkExtractFileEntity - Bulk extract entity.
      *
-     * @return - LEA extract timestamp in ISO8601 format.
+     * @return - Bulk extract timestamp in ISO8601 format.
      */
-    private String getTimestamp(final Entity leaFileEntity) {
-        Date date = (Date)leaFileEntity.getBody().get("date");
+    private String getTimestamp(final Entity bulkExtractFileEntity) {
+        Date date = (Date)bulkExtractFileEntity.getBody().get("date");
         return DATE_TIME_FORMATTER.print(new DateTime(date));
     }
 
@@ -672,7 +672,7 @@ public class BulkExtract {
 
         List<String> userEdOrgs = helper.getUserEdorgs(getPrincipal().getEntity());
         if (userEdOrgs.size() == 0) {
-            throw new APIAccessDeniedException("User is not authorized for a list of available SEA/EdOrgs extracts", userEdOrgs);
+            throw new APIAccessDeniedException("User is not authorized for a list of available EdOrgs extracts", userEdOrgs);
         }
         return userEdOrgs;
     }
