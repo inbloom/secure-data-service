@@ -42,7 +42,9 @@
             <xs:element name="AssessmentPeriodDescriptorReference" type="SLC-AssessmentPeriodDescriptorReferenceType"/>
             <xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType"/>
             <xs:element name="AttendanceEventReference" type="SLC-AttendanceEventReferenceType"/>
+            <xs:element name="BellScheduleReference" type="SLC-BellScheduleReferenceType"/>
             <xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType"/>
+            <xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType"/>
             <xs:element name="CohortReference" type="SLC-CohortReferenceType"/>
             <xs:element name="CompetencyLevelDescriptorReference" type="SLC-CompetencyLevelDescriptorReferenceType"/>
             <xs:element name="CourseOfferingReference" type="SLC-CourseOfferingReferenceType"/>
