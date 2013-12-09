@@ -15,13 +15,15 @@ Feature: Security events are logged when bulk extract is run
     And I trigger a bulk extract
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName              | count |
-      | securityEvent               | 22    |
+      | securityEvent               | 23    |
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
       | securityEvent   | 1                   | body.logMessage         | Beginning bulk extract execution                                             | string          |
       | securityEvent   | 1                   | body.logMessage         | No SEA is available for the tenant                                           | string          |
-      | securityEvent   | 1                   | body.logMessage         | Beginning SEA public data extract                                           | string          |
-      | securityEvent   | 1                   | body.logMessage         | Completed SEA public data extract                                           | string          |
+      | securityEvent   | 1                   | body.logMessage         | Beginning SEA public data extract                                            | string          |
+      | securityEvent   | 1                   | body.logMessage         | Completed SEA public data extract                                            | string          |
+      | securityEvent   | 1                   | body.logMessage         | Generating archive for app 22c2a28d-7327-4444-8ff9-caad4b1c7aa3              | string          |
+      | securityEvent   | 1                   | body.logMessage         | Generating archive for app 19cca28d-7357-4044-8df9-caad4b1c8ee4              | string          |
 
 
 
