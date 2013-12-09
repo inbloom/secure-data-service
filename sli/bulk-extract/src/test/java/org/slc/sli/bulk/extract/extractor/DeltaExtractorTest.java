@@ -73,9 +73,6 @@ public class DeltaExtractorTest {
     DeltaEntityIterator deltaEntityIterator;
 
     @Mock
-    LocalEdOrgExtractor leaExtractor;
-
-    @Mock
     EdOrgExtractHelper helper;
 
     @Mock
@@ -127,7 +124,6 @@ public class DeltaExtractorTest {
     @Before
     public void setUp() throws Exception {
         deltaEntityIterator = Mockito.mock(DeltaEntityIterator.class);
-        leaExtractor = Mockito.mock(LocalEdOrgExtractor.class);
         entityExtractor = Mockito.mock(EntityExtractor.class);
         bulkExtractMongoDA = Mockito.mock(BulkExtractMongoDA.class);
         entityWriteManager = Mockito.mock(EntityWriterManager.class);

@@ -22,16 +22,13 @@ import static org.slc.sli.bulk.extract.LogUtil.audit;
 import java.io.File;
 import java.io.IOException;
 import java.security.PublicKey;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
@@ -41,14 +38,8 @@ import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.pub.PublicDataExtractor;
 import org.slc.sli.bulk.extract.pub.PublicDataFactory;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 
 /**
  * Extract the Public Data for the tenant.
@@ -63,16 +54,10 @@ public class TenantPublicDataExtractor {
     private BulkExtractMongoDA bulkExtractMongoDA;
 
     @Autowired
-    @Qualifier("secondaryRepo")
-    private Repository<Entity> entityRepository;
-
-    @Autowired
     private EntityExtractor extractor;
 
     private PublicDataFactory factory = new PublicDataFactory();
     private DateTime startTime;
-
-    private static final String STATE_EDUCATION_AGENCY = "State Education Agency";
 
     @Autowired
     private SecurityEventUtil securityEventUtil;
@@ -154,37 +139,6 @@ public class TenantPublicDataExtractor {
 
     private String getArchiveName(Date startTime) {
         return "public-" + Launcher.getTimeStamp(startTime);
-    }
-
-    // TODO: Remove this method (and its call from Launcher) once US5996 is played out.
-    /**
-     * Retrieve the SEA's id for the tenant. Fails if more than one SEA found.
-     * @return
-     *      SEA Id
-     */
-    public String retrieveSEAId() {
-        String seaId = null;
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ORGANIZATION_CATEGORIES,
-                NeutralCriteria.CRITERIA_IN, Arrays.asList(STATE_EDUCATION_AGENCY)));
-        final Iterable<Entity> entities = entityRepository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
-
-        if (entities == null || !entities.iterator().hasNext()) {
-            audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    "SEA public data extract", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0016));
-            LOG.error("No SEA is available for the tenant");
-        } else {
-            Iterator<Entity> iterator = entities.iterator();
-            Entity seaEntity = iterator.next();
-            if (iterator.hasNext()) {
-                audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                        "SEA public data extract", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0017));
-                LOG.error("More than one SEA is found for the tenant");
-            } else {
-                seaId = seaEntity.getEntityId();
-            }
-        }
-
-        return seaId;
     }
 
     /**

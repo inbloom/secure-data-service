@@ -80,9 +80,6 @@ public class DeltaExtractor implements InitializingBean {
     DeltaEntityIterator deltaEntityIterator;
 
     @Autowired
-    LocalEdOrgExtractor leaExtractor;
-
-    @Autowired
     EdOrgExtractHelper helper;
 
     @Autowired
