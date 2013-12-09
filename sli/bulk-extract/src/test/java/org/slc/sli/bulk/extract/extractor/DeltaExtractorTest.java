@@ -38,6 +38,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -88,9 +89,6 @@ public class DeltaExtractorTest {
     TypeResolver typeResolver;
 
     @Mock
-    EdOrgHierarchyHelper edOrgHelper;
-
-    @Mock
     Repository<Entity> repo;
 
     @Mock
@@ -132,9 +130,12 @@ public class DeltaExtractorTest {
         extractFile = Mockito.mock(ExtractFile.class);
         metaDataFile = Mockito.mock(ManifestFile.class);
         securityEventUtil = Mockito.mock(SecurityEventUtil.class);
-        edOrgHelper = Mockito.mock( EdOrgHierarchyHelper.class);
 
         MockitoAnnotations.initMocks(this);
+
+        Entity seaEntity = Mockito.mock(Entity.class);
+        when(seaEntity.getEntityId()).thenReturn("sea");
+        when(repo.findOne(anyString(), Mockito.any(NeutralQuery.class))).thenReturn(seaEntity);
 
         Map<String, Set<String>> appsToLEA = buildAppToLEAMap();
         when(helper.getBulkExtractEdOrgsPerApp()).thenReturn(appsToLEA);

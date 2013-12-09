@@ -169,7 +169,7 @@ public class BulkExtractTest {
         bulkExtract = Mockito.spy(bulkExtractToBeSpied);
         Mockito.doNothing().when(bulkExtract).logSecurityEvent(Mockito.anyString());
         FileResource spyFileResource = Mockito.spy(fileResource);
-        Mockito.doNothing().when(spyFileResource).logSecurityEvent(Mockito.anyString());
+        Mockito.doNothing().when(spyFileResource).logSecurityEvent(Mockito.any(URI.class), Mockito.anyString());
         bulkExtract.setFileResource(spyFileResource);
 
         Set<String> dummySet = new HashSet<String>();
@@ -337,7 +337,7 @@ public class BulkExtractTest {
 
         try {
             body.put(BulkExtract.BULK_EXTRACT_FILE_PATH, f.getAbsolutePath());
-            body.put(BulkExtract.BULK_EXTRACT_DATE, "Sun Apr 22 11:00:00 GMT 2013");
+            body.put(BulkExtract.BULK_EXTRACT_DATE, ISODateTimeFormat.dateTime().parseDateTime("2013-04-22T11:00:00.000Z").toDate());
             Entity e = new MongoEntity("bulkExtractEntity", body);
             final DateTime d = ISODateTimeFormat.dateTime().parseDateTime("2013-03-31T11:00:00.000Z");
             when(

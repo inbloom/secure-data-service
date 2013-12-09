@@ -32,6 +32,11 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -141,6 +146,11 @@ public class DeltaExtractor implements InitializingBean {
         while (deltaEntityIterator.hasNext()) {
             DeltaRecord delta = deltaEntityIterator.next();
 
+            //To-Do: Remove this logic when implementing top level extract in US5996
+            if(delta.getBelongsToEdOrgs() != null) {
+                delta.getBelongsToEdOrgs().remove(getSEAId());
+            }
+
             if (delta.getOp() == Operation.UPDATE) {
                 extractUpdate(delta, publicDeltaExtractFile, appsPerEdOrg, tenantDirectory, deltaUptoTime);
             } else if (delta.getOp() == Operation.DELETE) {
@@ -191,7 +201,7 @@ public class DeltaExtractor implements InitializingBean {
             spamDeletes(delta, publicDeltaExtractFile);
         }
 
-        spamPrivateDeletes(delta, Collections.<String> emptySet(), tenantDirectory, deltaUptoTime, appsPerEdOrg);
+        spamPrivateDeletes(delta, Collections.<String>emptySet(), tenantDirectory, deltaUptoTime, appsPerEdOrg);
     }
 
     private void extractPurge(DeltaRecord delta, ExtractFile publicDeltaExtractFile, Map<String, Set<String>> appsPerEdOrg,
@@ -377,6 +387,18 @@ public class DeltaExtractor implements InitializingBean {
 
     private String getPublicArchiveName(Date startTime) {
         return "public-" + Launcher.getTimeStamp(startTime) + "-delta";
+    }
+
+    private String getSEAId() {
+        String seaId = null;
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria(ParameterConstants.ORGANIZATION_CATEGORIES, NeutralCriteria.OPERATOR_EQUAL, "State Education Agency"));
+
+        Entity seaEntity = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query);
+        if(seaEntity != null) {
+            seaId = seaEntity.getEntityId();
+        }
+        return seaId;
     }
 
     /**

@@ -643,7 +643,7 @@ Then /^there are (\d+) total number of delta links in the list/ do |value|
   hash_body['deltaEdOrgs'].each_value do |links|
     count += links.size
   end
-  assert(count.to_i == value.to_i, "Response contains wrong number of URLs for deltaEdOrgs. Expected: #{value}; Actual: #{count}")
+  assert(count.to_i == value.to_i, "Response contains wrong number of URLs for deltaEdOrgs. Expected: #{value}; Actual: #{count}\nResponse: #{@res.body}")
 end
 
 After("@TempFileCleanup") do
