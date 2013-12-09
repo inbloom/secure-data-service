@@ -474,7 +474,7 @@ public class FileResource {
 
         @Override
         public String toString() {
-            return MessageFormat.format("Range: start={0} end={1} length={2} total={3}", start, end, (end - start + 1), total);
+            return MessageFormat.format("Range: start={0} end={1} length={2} total={3}", start, end, getLength(), total);
         }
 
         @Override
