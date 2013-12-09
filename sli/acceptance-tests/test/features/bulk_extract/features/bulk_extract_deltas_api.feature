@@ -1406,7 +1406,7 @@ Given I clean the bulk extract file system and database
     | c7af73b8f98390a6d695a9e458529d6a149f0a21_id                                            | entityType = calendarDate              |
 
   When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   And I generate and retrieve the bulk extract delta via API for "the public extract"
+   And I retrieve the bulk extract delta via API for "the public extract"
   Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  deleted                               |
@@ -1587,7 +1587,7 @@ Scenario: Test access to the api
   And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id paved>" clientId "<client id paved>"
   Then I should receive a return code of 403
 
-Scenario: Trigger a SEA delta extract and check security events
+Scenario: Trigger a public delta extract and check security events
    Given I ingest "bulk_extract_sea_delta_security_event.zip"
    And the following collections are empty in sli datastore:
      | collectionName              |
@@ -1606,7 +1606,7 @@ Scenario: Trigger a SEA delta extract and check security events
      | securityEvent   | 2                   | body.actionUri          | Writing extract file to the file system                                      | string          |
      | securityEvent   | 1                   | body.logMessage         | Generating archive for app 19cca28d-7357-4044-8df9-caad4b1c8ee4              | string          |
      | securityEvent   | 1                   | body.logMessage         | Generating archive for app 22c2a28d-7327-4444-8ff9-caad4b1c7aa3              | string          |
-     | securityEvent   | 2                   | body.targetEdOrgList    | 884daa27d806c2d725bc469b273d840493f84b4d_id                                  | string          |
+     | securityEvent   | 0                   | body.targetEdOrgList    | 884daa27d806c2d725bc469b273d840493f84b4d_id                                  | string          |
 
 Scenario: Verify that the TeacherContextResolver works properly
   Given I clean the bulk extract file system and database

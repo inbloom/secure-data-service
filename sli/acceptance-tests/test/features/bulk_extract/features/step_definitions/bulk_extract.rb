@@ -1626,24 +1626,28 @@ end
 
 When /^I generate and retrieve the bulk extract delta via API for "(.*?)"$/ do |lea|
   #client_id = $APP_CONVERSION_MAP[app_id]
-  step "I trigger a delta extract" 
-  # Request path for IL-Daybreak Admins
-  if lea == "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
-    step "I log into \"SDK Sample\" with a token of \"jstevenson\", a \"Noldor\" for \"IL-DAYBREAK\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
-    step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
+  step "I trigger a delta extract"
+  step "I retrieve the bulk extract delta via API for \"#{lea}\""
+end
+
+When /^I retrieve the bulk extract delta via API for "(.*?)"$/ do |lea|
+# Request path for IL-Daybreak Admins
+if lea == "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+  step "I log into \"SDK Sample\" with a token of \"jstevenson\", a \"Noldor\" for \"IL-DAYBREAK\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+  step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
   # Request path for IL-Highwind Admins
-  elsif lea == "99d527622dcb51c465c515c0636d17e085302d5e_id"
-    step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-HIGHWIND\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
-    step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
-  elsif lea == "the public extract"
-    step "I log into \"SDK Sample\" with a token of \"rrogers\", a \"Noldor\" for \"STANDARD-SEA\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
-    step "I request latest public delta via API for tenant \"Midgar\", with appId \"<app id>\" and clientId \"<client id>\""
+elsif lea == "99d527622dcb51c465c515c0636d17e085302d5e_id"
+  step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-HIGHWIND\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+  step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
+elsif lea == "the public extract"
+  step "I log into \"SDK Sample\" with a token of \"rrogers\", a \"Noldor\" for \"STANDARD-SEA\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+  step "I request latest public delta via API for tenant \"Midgar\", with appId \"<app id>\" and clientId \"<client id>\""
   # Catch invalid LEA
-  else 
-    assert(false, "Did not recognize that LEA, cannot request extract")
-  end
-  step "I should receive a return code of 200"
-  step "I download and decrypt the delta"
+else
+  assert(false, "Did not recognize that LEA, cannot request extract")
+end
+step "I should receive a return code of 200"
+step "I download and decrypt the delta"
 end
 
 When /^I request the latest bulk extract delta via API for "(.*?)"$/ do |lea|
