@@ -78,6 +78,8 @@ public class PathConstants {
     public static final String GRADUATION_PLANS = "graduationPlans";
     public static final String CALENDAR_DATES = "calendarDates";
     public static final String CUSTOM_ENTITIES = "custom";
+    public static final String CLASS_PERIODS = "classPeriods";
+    public static final String BELL_SCHEDULES = "bellSchedules";
 
     public static final String CALCULATED_VALUES = "calculatedValues";
 
@@ -154,6 +156,8 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.CALENDAR_DATES, CALENDAR_DATES);
         TEMP_MAP.put(ResourceNames.GRADUATION_PLANS, GRADUATION_PLANS);
         TEMP_MAP.put(ResourceNames.YEARLY_ATTENDANCES, YEARLY_ATTENDANCES);
+        TEMP_MAP.put(ResourceNames.CLASS_PERIODS, CLASS_PERIODS);
+        TEMP_MAP.put(ResourceNames.BELL_SCHEDULES, BELL_SCHEDULES);
     }
 
     public static final String V1 = "v1";

@@ -81,7 +81,9 @@ public class ContextValidator implements ApplicationContextAware {
             ResourceNames.STUDENT_COMPETENCY_OBJECTIVES,
             ResourceNames.CUSTOM,
             "parentLearningObjectives",
-            "childLearningObjectives"));
+            "childLearningObjectives",
+            ResourceNames.CLASS_PERIODS,
+            ResourceNames.BELL_SCHEDULES));
 
     private List<IContextValidator> validators;
 

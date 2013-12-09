@@ -78,6 +78,8 @@ public class EdOrgOwnershipArbiter extends OwnershipArbiter {
         typeToReference.put(TEACHER,                                 new Reference(TEACHER, STAFF_ED_ORG_ASSOCIATION,        STAFF_REFERENCE, RIGHT_TO_LEFT));
         typeToReference.put(APPLICATION,                             new Reference(APPLICATION, EDUCATION_ORGANIZATION,      AUTHORIZED_EDORGS, LEFT_TO_RIGHT));
         typeToReference.put(APPLICATION_AUTHORIZATION,               new Reference(APPLICATION_AUTHORIZATION, APPLICATION,   APPLICATION_ID, LEFT_TO_RIGHT));
+        typeToReference.put(CLASS_PERIOD,                            new Reference(CLASS_PERIOD, EDUCATION_ORGANIZATION,     EDUCATION_ORGANIZATION_ID, LEFT_TO_RIGHT));
+        typeToReference.put(BELL_SCHEDULE,                           new Reference(BELL_SCHEDULE, CLASS_PERIOD,              "meetingTime.classPeriodId", LEFT_TO_RIGHT));
     }
 
     /**

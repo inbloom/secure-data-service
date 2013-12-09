@@ -407,7 +407,7 @@ end
 Then /^I perform PUT,GET and Natural Key Update for each resource available$/ do
   resources.each do |resource|
     puts("Performing PUT, GET and Natural Key Update for #{resource}") if $SLI_DEBUG
-    if @context_hash.has_key? resource[1..-1] == false
+    if (@context_hash.has_key? resource[1..-1]) == false
       next
     end
     if skip_resource(resource) or resource == "/calendarDates" or resource == "/competencyLevelDescriptor" or resource == "/teacherSectionAssociations" or resource == "/studentGradebookEntries" or resource == "/staffProgramAssociations" or resource == "/yearlyAttendances"

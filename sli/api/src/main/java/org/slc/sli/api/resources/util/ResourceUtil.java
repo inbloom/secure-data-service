@@ -58,7 +58,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * and resolving a new URI based on parameters.
  * 
  * @author kmyers <kmyers@wgen.net>
- * 
+ *
  */
 public class ResourceUtil {
 

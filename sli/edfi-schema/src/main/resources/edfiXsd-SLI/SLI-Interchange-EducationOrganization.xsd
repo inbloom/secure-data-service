@@ -29,7 +29,7 @@
 				<xs:element name="Course" type="SLC-Course"/>
 				<xs:element name="CompetencyLevelDescriptor" type="SLC-CompetencyLevelDescriptor"/>
 				<xs:element name="Program" type="SLC-Program"/>
-				<xs:element name="ClassPeriod" type="SLI-ClassPeriod"/>
+				<!--<xs:element name="ClassPeriod" type="SLI-ClassPeriod"/>  Commenting out for now. Causing UT failure org.slc.sli.ingestion.parser.impl.InterchangeEducationOrganizationTest-->
 				<xs:element name="Action" type="SLC-ActionType"/>
 			</xs:choice>
 		</xs:complexType>
