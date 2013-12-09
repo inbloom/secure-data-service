@@ -260,7 +260,8 @@ Given /^There is no SEA for the tenant "(.*?)"$/ do |tenant|
   collection.remove({'body.organizationCategories' => 'State Education Agency'})
 end
 
-Given /^none of the following entities reference any edorg:$/ do |table|
+Given /^none of the following entities reference any edorg in the tenant "(.*?)":$/ do |tenant, table|
+  @tenant_db = @conn.db(convertTenantIdToDbName(tenant))
   table.hashes.map do |row|
     collection = @tenant_db.collection(row['entity'])
     collection.update({'$exists' => {row['path'] => 1}},{'$unset' => {row['path'] => ''}}, {:multi => true})
@@ -1815,6 +1816,15 @@ Then /^I verify "(.*?)" delta bulk extract files are generated for Edorg "(.*?)"
   @sliDb ||= @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
   query = {"body.tenantId"=>tenant, "body.isDelta"=>true, "body.edorg"=>lea}
+  assert(count == @coll.count({query: query}), "Found #{@coll.count({query: query})}, expected #{count}")
+end
+
+Then /^I verify "(.*?)" public delta bulk extract files are generated in "(.*?)"$/ do |count, tenant|
+  count = count.to_i
+  @conn ||= Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb ||= @conn.db(DATABASE_NAME)
+  @coll = @sliDb.collection("bulkExtractFiles")
+  query = {"body.tenantId"=>tenant, "body.isDelta"=>true, "body.isPublicData"=>true}
   assert(count == @coll.count({query: query}), "Found #{@coll.count({query: query})}, expected #{count}")
 end
 

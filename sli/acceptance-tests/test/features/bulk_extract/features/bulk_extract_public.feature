@@ -204,7 +204,7 @@ Scenario: public data delta extract using BEEP with invalid users
     Given the extraction zone is empty
     And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
-    And none of the following entities reference any edorg:
+    And none of the following entities reference any edorg in the tenant "Midgar":
       | entity                                 | path                                   |
       |  graduationPlan                        | body.educationOrganizationId           |
     Then I trigger a bulk extract
