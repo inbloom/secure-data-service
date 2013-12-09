@@ -131,11 +131,20 @@ Then /^I perform CRUD for each resource available$/ do
     get_resource resource
 
     @fields[@updates['field']] = @updates['value']
-    steps %Q{
-    When I navigate to PUT \"/v1#{resource}/#{@newId}\"
-    Then I should receive a return code of 204
-    Given a valid entity json document for a \"#{resource_type}\"
-    }
+
+    unless skip_resource_put(resource)
+      steps %Q{
+      When I navigate to PUT \"/v1#{resource}/#{@newId}\"
+      Then I should receive a return code of 204
+      Given a valid entity json document for a \"#{resource_type}\"
+      }
+    else
+      steps %Q{
+      When I navigate to PUT \"/v1#{resource}/#{@newId}\"
+      Then I should receive a return code of 405
+      }
+    end
+
     delete_resource resource
     puts  "|#{get_resource_type(resource)}|"
     if resource == target
@@ -148,6 +157,10 @@ def skip_resource(resource)
   #We don't need to do CRUD for these resources
   return (resource == "/system/support" or resource == "/system/session" or resource == "/search" or resource == "/bulk") 
 
+end
+
+def skip_resource_put(resource)
+  return (resource == "/attendances" or resource == "/yearlyAttendances")
 end
 
 def resources
@@ -408,10 +421,19 @@ Then /^I perform PUT,GET and Natural Key Update for each resource available$/ do
     @fields = @context_hash[resource[1..-1]]["BODY"]
     get_resource resource
     @fields[@updates['field']] = @updates['value']
-    steps %Q{
-        When I navigate to PUT \"/v1.3#{resource}/#{@newId}\"
-        Then I should receive a return code of 204
-    }
+
+    unless skip_resource_put(resource)
+      steps %Q{
+          When I navigate to PUT \"/v1.3#{resource}/#{@newId}\"
+          Then I should receive a return code of 204
+      }
+    else
+      steps %Q{
+      When I navigate to PUT \"/v1#{resource}/#{@newId}\"
+      Then I should receive a return code of 405
+      }
+    end
+
     @fields = @context_hash[resource[1..-1]]["BODY"]
   end
 end

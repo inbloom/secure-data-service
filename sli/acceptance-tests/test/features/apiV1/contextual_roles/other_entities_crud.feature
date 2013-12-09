@@ -462,7 +462,6 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | disciplineIncident                    | disciplineIncidents                     | incidentLocation         | Off School                              | School bus                              |
     | disciplineAction                      | disciplineActions                       | disciplineDate           | 2013-02-01                              | 2013-03-01                              |
     | gradebookEntry                        | gradebookEntries                        | description              | Quiz entry                              | First quiz entry                        |
-    | attendance                            | attendances                             | attendanceEvent          | [{'event':'Tardy','date':'2011-12-13'}] | [{'event':'Tardy','date':'2011-12-14'}] |
     | studentAssessment                     | studentAssessments                      | gradeLevelWhenAssessed   | Ninth grade                             | Adult Education                         |
     | studentCohortAssociation              | studentCohortAssociations               | endDate                  | 2013-12-31                              | 2012-05-08                              |
     | studentDisciplineIncidentAssociation  | studentDisciplineIncidentAssociations   | studentParticipationCode | Victim                                  | Reporter                                |
