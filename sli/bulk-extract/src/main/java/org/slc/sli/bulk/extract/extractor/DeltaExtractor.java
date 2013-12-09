@@ -32,6 +32,10 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,15 +109,11 @@ public class DeltaExtractor implements InitializingBean {
     @Autowired
     private SecurityEventUtil securityEventUtil;
 
-    private EdOrgHierarchyHelper edOrgHierarchyHelper;
-
     Set<String> subdocs = EmbeddedDocumentRelations.getSubDocuments();
 
     private Map<String, ExtractFile> appPerEdOrgExtractFiles = new HashMap<String, ExtractFile>();
     private Map<String, EntityExtractor.CollectionWrittenRecord> appPerLeaCollectionRecords = new HashMap<String, EntityExtractor.CollectionWrittenRecord>();
     private Set<String> publicEntityTypes = new HashSet<String>();
-
-    private String seaId;
 
     public static final DateTimeFormatter DATE_TIME_FORMATTER = ISODateTimeFormat.dateTime();
 
@@ -126,9 +126,6 @@ public class DeltaExtractor implements InitializingBean {
         for (PublicEntityDefinition entity : PublicEntityDefinition.values()) {
             publicEntityTypes.add(entity.getEntityName());
         }
-        //To-Do: Remove SEA logic below in US5996
-        edOrgHierarchyHelper = new EdOrgHierarchyHelper(repo);
-        seaId = edOrgHierarchyHelper.getSEA().getEntityId();
     }
 
     /**
@@ -151,7 +148,12 @@ public class DeltaExtractor implements InitializingBean {
         deltaEntityIterator.init(tenant, deltaUptoTime);
         while (deltaEntityIterator.hasNext()) {
             DeltaRecord delta = deltaEntityIterator.next();
-            delta.getBelongsToEdOrgs().remove(seaId);
+
+            //To-Do: Remove this logic when implementing top level extract in US5996
+            if(delta.getBelongsToEdOrgs() != null) {
+                delta.getBelongsToEdOrgs().remove(getSEAId());
+            }
+
             if (delta.getOp() == Operation.UPDATE) {
                 extractUpdate(delta, publicDeltaExtractFile, appsPerEdOrg, tenantDirectory, deltaUptoTime);
             } else if (delta.getOp() == Operation.DELETE) {
@@ -388,6 +390,13 @@ public class DeltaExtractor implements InitializingBean {
 
     private String getPublicArchiveName(Date startTime) {
         return "public-" + Launcher.getTimeStamp(startTime) + "-delta";
+    }
+
+    private String getSEAId() {
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria(ParameterConstants.ORGANIZATION_CATEGORIES, NeutralCriteria.OPERATOR_EQUAL, "State Education Agency"));
+
+        return repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query).getEntityId();
     }
 
     /**
