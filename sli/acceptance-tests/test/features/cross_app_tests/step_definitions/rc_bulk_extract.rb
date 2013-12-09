@@ -62,10 +62,13 @@ When /^the operator triggers a delta for the (production|sandbox) tenant$/ do |e
 end
 
 When /^I store the URL for the latest delta for the (LEA|Public)$/ do |edorg|
-  edorg == 'LEA' ? delta = 'deltaEdOrgs' : delta = 'deltaPublic'
   puts "result body from previous API call is #{@res}"
   @delta_uri = JSON.parse(@res)
-  @list_url  = @delta_uri[delta][@lea][0]["uri"]
+  if edorg == 'LEA'
+    @list_url = @delta_uri['deltaEdOrgs'][@lea][0]["uri"]
+  else
+    @list_url = @delta_uri['deltaPublic'].values[0][0]["uri"]
+  end
   # @list_irl is in the format https://<url>/api/rest/v1.3/bulk/extract/<lea>/delta/<timestamp>
   # -> strip off everything before v1.3, store: bulk/extract/<lea>/delta/<timestamp>
   @list_url.match(/api\/rest\/v(.*?)\/(.*)$/)
