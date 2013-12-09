@@ -28,6 +28,7 @@ import sys
 import xml.etree.cElementTree as et
 import re
 from glob import glob
+import time
 
 whitespaceToStrip = ' \t\n'
 tag_re = re.compile('\{.*\}')
@@ -101,64 +102,92 @@ def compareAndStoreHash(data, naturalKeyString, entityString, naturalKeyStringSt
 		print(sys.aexc_info())
 		#print(et.tostring(xmlnode))
 
-def createAttendanceHashes(source, data, strip=True, compareEntity=False):
-	tree = et.parse(source)	
-	root = tree.getroot()
-	entityStringStrip = ""
-	entityString = ""
-	print(root)
-	for attendance in root:
-		data["count"] += 1
-		schoolId = u""
-		schoolYear = u""
-		studentId = u""
-		category = u""
-		date = u""
-		schoolIdStrip = u""
-		schoolYearStrip = u""
-		studentIdStrip = u""
-		categoryStrip = u""
-		dateStrip = u""
-		for child in attendance:
-			if child.tag.lower().endswith('schoolyear'):
-					schoolYearStrip = child.text.strip(whitespaceToStrip).encode("UTF-8")
-					schoolYear = child.text.encode("UTF-8")
-			elif child.tag.lower().endswith('schoolreference'):
-					schoolIdStrip = getStateEdOrgId(child).strip(whitespaceToStrip).encode("UTF-8")
-					schoolId = getStateEdOrgId(child).encode("UTF-8")
-			elif child.tag.lower().endswith('studentreference'):
-					studentIdStrip = getStudentId(child).strip(whitespaceToStrip).encode("UTF-8")
-					studentId = getStudentId(child).encode("UTF-8")
-			elif child.tag.lower().endswith('AttendanceEventCategory'.lower()):
-					categoryStrip = child.text.strip(whitespaceToStrip).encode("UTF-8")
-					category = child.text.encode("UTF-8")
-			elif child.tag.lower().endswith('EventDate'.lower()):
-					dateStrip = child.text.strip(whitespaceToStrip).encode("UTF-8")
-					date = child.text.encode("UTF-8")
 
-		if len(schoolId) < 1 | len(schoolIdStrip) <1:
-			print("Empty School Id")
-		if len(studentId) < 1 | len(studentIdStrip)<1:
-			print("Empty Student Id")
-		if len(schoolYear) < 1 | len(schoolYearStrip)<1:
-			print("Empty School Year")
-		naturalKeyString = schoolId + studentId + schoolYear
-		naturalKeyStringStrip = schoolIdStrip + studentIdStrip + schoolYearStrip
-		if compareEntity:
-			entityStringStrip = schoolIdStrip + studentIdStrip + schoolYearStrip + dateStrip + categoryStrip
-			entityString = schoolId + studentId + schoolYear + date + category
-			
-		compareAndStoreHash(data, naturalKeyString, entityString, naturalKeyStringStrip, entityStringStrip, attendance, compareEntity)
+def createAttendanceHashes(filename, data, strip=True, compareEntity=False):
+	f = open(filename)
+	it = et.iterparse(f)
+	elem = ()
+	if sys.version_info[0] > 2:
+		elem = it.__next__()
+	else:
+		elem = it.next()
+	ns = get_namespace(elem[1])
+	syt = "{0}SchoolYear".format(ns)
+	schrt = "{0}SchoolReference".format(ns)
+	sturt = "{0}StudentReference".format(ns)
+	aect = "{0}AttendanceEventCategory".format(ns)
+	edt = "{0}EventDate".format(ns)
+	aet = "{0}AttendanceEvent".format(ns)
+	f.close()
+	#recreate the iterator so we start at the beginning
+	f = open(filename)
+	it = et.iterparse(f)
+	
+	schoolId = u""
+	schoolYear = u""
+	studentId = u""
+	category = u""
+	date = u""
+	schoolIdStrip = u""
+	schoolYearStrip = u""
+	studentIdStrip = u""
+	categoryStrip = u""
+	dateStrip = u""
+	for elem in it:
+		child = elem[1]
+		if elem[1].tag == syt:
+			schoolYearStrip = child.text.strip(whitespaceToStrip).encode("UTF-8")
+			schoolYear = child.text.encode("UTF-8")
+		elif elem[1].tag == schrt:
+			schoolIdStrip = getStateEdOrgId(child).strip(whitespaceToStrip).encode("UTF-8")
+			schoolId = getStateEdOrgId(child).encode("UTF-8")
+		elif elem[1].tag == sturt:
+			studentIdStrip = getStudentId(child).strip(whitespaceToStrip).encode("UTF-8")
+			studentId = getStudentId(child).encode("UTF-8")
+		elif elem[1].tag == aect:
+			categoryStrip = child.text.strip(whitespaceToStrip).encode("UTF-8")
+			category = child.text.encode("UTF-8")
+		elif elem[1].tag == edt:
+			dateStrip = child.text.strip(whitespaceToStrip).encode("UTF-8")
+			date = child.text.encode("UTF-8")
+		elif elem[1].tag == aet:
+			data["count"] += 1
 
+			if len(schoolId) < 1:
+				print("Empty School Id")
+			if len(studentId) < 1:
+				print("Empty Student Id")
+			if len(schoolYear) < 1:
+				print("Empty School Year")
+			naturalKeyString = schoolId + studentId + schoolYear
+			naturalKeyStringStrip = schoolIdStrip + studentIdStrip + schoolYearStrip
+			if compareEntity:
+				entityStringStrip = schoolIdStrip + studentIdStrip + schoolYearStrip + dateStrip + categoryStrip
+				entityString = schoolId + studentId + schoolYear + date + category
+				categoryStrip = u""
+				dateStrip = u""
+				category = u""
+				date = u""
+				compareAndStoreHash(data, naturalKeyString, entityString, naturalKeyStringStrip, entityStringStrip, attendance, compareEntity)
+			else:
+				compareAndStoreHash(data, naturalKeyString, "", naturalKeyStringStrip, "", child, compareEntity)
+			schoolId = u""
+			schoolYear = u""
+			studentId = u""
+			schoolIdStrip = u""
+			studentIdStrip = u""
+			schoolYearStrip = u""
+			#this signifcantly reduces memory usage
+			child.clear()
+	f.close()
+	
 def iterateThroughFiles(fileList, strip=True, checkEntities=False):	  
 	data = {}
 	initData(data)
 	for i in range(0,len(fileList)):
 		print("Processing File: " + fileList[i])
-		f = open(fileList[i])
-		createAttendanceHashes(f, data, strip, checkEntities)
+		createAttendanceHashes(fileList[i], data, strip, checkEntities)
 		print('Cumulative Entites:' + str(data["count"])+ ', Cumulative unique natural key combos:' + str(data["count"] - data["naturalKeyDupStrip"]))
-		f.close()
 	print(str(data["count"]) + " attendance " + " checked.")
 	print(str(data["naturalKeyDupStrip"]) + " Natural Key duplicates found")
 	print(str(data["count"] - data["naturalKeyDupStrip"]) + " unique attendance documents")
@@ -182,6 +211,7 @@ if __name__ == '__main__':
 	if len(sys.argv) <= 1: 
 		print('usage: ' + sys.argv[0] + ' datafile.xml ...')
 	else:
+		start = time.clock()
 		fileList = sys.argv[1:]
 		# windows does not expand wildcards from the command line.  Check for this case.
 		# NOTE: on windows, the code will only check for wildcards in the first command line argument.
@@ -190,4 +220,4 @@ if __name__ == '__main__':
 			fileList = glob(sys.argv[1])
 			#print("Expanding wildcard in first file argument to " + str(fileList))
 		unique = iterateThroughFiles(fileList)
-		
+		print("Processed in " + str(time.clock() - start) + " seconds")
