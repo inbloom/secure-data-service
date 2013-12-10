@@ -406,7 +406,7 @@ public class ResourceUtil {
                                 }
                                 if (!linkName.isEmpty()) {
                                     links.add(new EmbeddedLink(linkName, getURI(uriInfo, getApiVersion(uriInfo),
-                                            PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
+                                            resourceName, referenceGuid).toString()));
                                 }
 
                             }
