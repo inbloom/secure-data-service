@@ -105,3 +105,5 @@ Background: Logged in as IT Admin James Stevenson
     When I change the field "id" to "some other value"
     And I navigate to PATCH "/educationOrganizations/<EDORG ID DAYBREAK DIST 4529>"
     Then I should receive a return code of 204
+    And  I navigate to GET "/educationOrganizations/<EDORG ID DAYBREAK DIST 4529>"
+    Then I should receive a return code of 200
