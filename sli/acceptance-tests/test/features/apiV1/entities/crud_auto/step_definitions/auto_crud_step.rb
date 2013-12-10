@@ -160,7 +160,7 @@ def skip_resource(resource)
 end
 
 def skip_resource_put(resource)
-  return (resource == "/attendances" or resource == "/yearlyAttendances")
+  return (resource == "/attendances" or resource == "/yearlyAttendances" or resource == "/classPeriods")
 end
 
 def resources
