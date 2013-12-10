@@ -321,6 +321,7 @@
                 Changed types of GradeLevels, MeetingTime and CalendarDateReference to SLC reference types.</xs:documentation>
             <xs:appinfo>
                 <sli:recordType>bellSchedule</sli:recordType>
+                <sli:naturalKeys>BellScheduleName,MeetingTime.ClassPeriodReference,CalendarDateReference</sli:naturalKeys>
             </xs:appinfo>
         </xs:annotation>
         <xs:complexContent>
