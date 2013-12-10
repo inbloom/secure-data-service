@@ -146,6 +146,8 @@ Then /^I request and download a "(.*?)" extract file for the edorg$/ do |arg1|
   env_key = PropLoader.getProps['rc_env']
   restTls("/bulk/extract/#{@lea}", nil, "application/x-tar", @sessionId, env_key) if arg1 == "bulk"
   restTls("/#{@list_uri}", nil, "application/x-tar", @sessionId, env_key) if arg1 == "delta"
+  restTls("/bulk/extract/public", nil, "application/x-tar", @sessionId, env_key) if arg1 == "public"
+
   assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
   @filePath = PropLoader.getProps['extract_to_directory'] + "/extract.tar"
   @unpackDir = File.dirname(@filePath) + '/unpack'

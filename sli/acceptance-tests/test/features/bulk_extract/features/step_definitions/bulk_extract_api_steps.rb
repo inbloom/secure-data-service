@@ -572,8 +572,8 @@ When /^I make a head request with each returned URL$/ do
     step "the return code is 200 I get expected tar downloaded"
   end
 
-  hash_body['fullSea'].each do |seaId, link|
-    puts "Checking full extracts for SEA #{seaId}"
+  hash_body['fullPublic'].each do |tenantId, link|
+    puts "Checking full extracts for public data of #{tenantId}"
     puts link
     uri = link['uri']
     puts "Link: #{uri}"
@@ -591,8 +591,8 @@ When /^I make a head request with each returned URL$/ do
     end
   end
 
-    hash_body['deltaSea'].each do |seaId, link_list|
-    puts "Checking delta extracts for SEA #{seaId}"
+    hash_body['deltaPublic'].each do |tenantId, link_list|
+    puts "Checking delta extracts for public data of #{tenantId}"
     link_list.each do |link|
       uri = link["uri"]
       puts "Link: #{uri}"
@@ -643,7 +643,7 @@ Then /^there are (\d+) total number of delta links in the list/ do |value|
   hash_body['deltaEdOrgs'].each_value do |links|
     count += links.size
   end
-  assert(count.to_i == value.to_i, "Response contains wrong number of URLs for deltaEdOrgs. Expected: #{value}; Actual: #{count}")
+  assert(count.to_i == value.to_i, "Response contains wrong number of URLs for deltaEdOrgs. Expected: #{value}; Actual: #{count}\nResponse: #{@res.body}")
 end
 
 After("@TempFileCleanup") do

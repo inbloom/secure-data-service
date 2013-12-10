@@ -31,11 +31,11 @@ Feature: As an API user, I want to be able to get a list of links available to t
   	When I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
 	When I get back a response code of "200"
 	When the number of returned URLs is correct:
-	|   fieldName  | count |
+	|   fieldName    | count |
 	|   fullEdOrgs   |  5    |
 	|   deltaEdOrgs  |  4    |
-	|   fullSea    |  1    |
-	|   deltaSea   |  1    |
+	|   fullPublic   |  1    |
+	|   deltaPublic  |  1    |
     When I set the header format to "application/x-tar"
 	And I make a head request with each returned URL
 
@@ -44,11 +44,11 @@ Scenario: Login as a user not directly associated with the SEA, SEA extract shou
   When I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
   When I get back a response code of "200"
   When the number of returned URLs is correct:
-  |   fieldName  | count |
+  |   fieldName    | count |
   |   fullEdOrgs   |  5    |
   |   deltaEdOrgs  |  4    |
-  |   fullSea    |  1    |
-  |   deltaSea   |  1    |
+  |   fullPublic   |  1    |
+  |   deltaPublic  |  1    |
   And I make a head request with each returned URL
 
   Scenario: Validate that the delta extracts are in time order, most recent first

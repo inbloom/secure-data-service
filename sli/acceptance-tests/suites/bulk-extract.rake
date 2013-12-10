@@ -96,11 +96,11 @@ task :bulkExtractDeltasTest do
 end
 
 desc "Extract SEA only public data"
-task :bulkExtractSEAPublicTest do
+task :bulkExtractPublicTest do
   runTests("test/features/bulk_extract/features/bulk_extract_sea_ingest.feature")
   allLeaAllowApp("SDK Sample")
   authorizeEdorg("SDK Sample")
-  runTests("test/features/bulk_extract/features/bulk_extract_sea_public.feature")
+  runTests("test/features/bulk_extract/features/bulk_extract_public.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
@@ -238,7 +238,7 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractSchedulerTest"].execute
   Rake::Task["bulkExtractNegativeTests"].execute
   Rake::Task["bulkExtractTlsTests"].execute
-  Rake::Task["bulkExtractSEAPublicTest"].execute
+  Rake::Task["bulkExtractPublicTest"].execute
   Rake::Task["bulkExtractCleanupTests"].execute
   Rake::Task["bulkExtractSecurityEventTests"].execute
   Rake::Task["bulkExtractDeltaPurgeTests"].execute
