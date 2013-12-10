@@ -99,3 +99,19 @@ end
 When /^I try the not supported PATCH for custom bell schedule$/ do
   patch_custom_entity("bellSchedules")
 end
+
+When /^I try the not supported POST for the bell schedule id endpoint$/ do
+  post_id("bellSchedules")
+end
+
+When /^I try the not supported PUT for the bell schedule list endpoint$/ do
+  put_list("bellSchedules")
+end
+
+When /^I try the not supported PATCH for the bell schedule list endpoint$/ do
+  patch_list("bellSchedules")
+end
+
+When /^I try the not supported DELETE for the bell schedule list endpoint$/ do
+  delete_list("bellSchedules")
+end

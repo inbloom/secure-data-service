@@ -6,9 +6,6 @@ When /^I POST a class period$/ do
   post_entity("classPeriods")
 end
 
-#test 30 and 31 character for string
-#test missing fields
-
 When /^I GET the class period$/ do
   get_entity
 end
@@ -48,4 +45,21 @@ end
 When /^I try the not supported PATCH for custom class period$/ do
   patch_custom_entity("classPeriods")
 end
+
+When /^I try the not supported POST for the class period id endpoint$/ do
+  post_id("classPeriods")
+end
+
+When /^I try the not supported PUT for the class period list endpoint$/ do
+  put_list("classPeriods")
+end
+
+When /^I try the not supported PATCH for the class period list endpoint$/ do
+  patch_list("classPeriods")
+end
+
+When /^I try the not supported DELETE for the class period list endpoint$/ do
+  delete_list("classPeriods")
+end
+
 
