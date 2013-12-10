@@ -91,5 +91,27 @@ def patch_custom_entity(endpoint)
    assert(@res.code == 405, "Unexpected HTTP code returned: #{@res.code}.")
 end
 
+def patch_list(endpoint)
+   restHttpPatch("/v1/#{endpoint}", Hash.new.to_json, 'application/vnd.slc+json')
+   assert(@res.code == 405, "Unexpected HTTP code returned: #{@res.code}.")
+end
+
+def put_list(endpoint)
+   restHttpPut("/v1/#{endpoint}", @expected_entity.to_json, 'application/vnd.slc+json')
+   assert(@res.code == 405, "Unexpected HTTP code returned: #{@res.code}.")
+end
+
+def delete_list(endpoint)
+   restHttpDelete("/v1/#{endpoint}", @expected_entity.to_json, 'application/vnd.slc+json')
+   assert(@res.code == 405, "Unexpected HTTP code returned: #{@res.code}.")
+end
+
+def post_id(endpoint)
+   restHttpPost("/v1/#{endpoint}/#{@id}", @expected_entity.to_json, 'application/vnd.slc+json')
+   assert(@res.code == 405, "Unexpected HTTP code returned: #{@res.code}.")
+end
+
+
+
 
 
