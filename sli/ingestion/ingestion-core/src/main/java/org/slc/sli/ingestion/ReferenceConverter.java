@@ -29,6 +29,7 @@ public enum ReferenceConverter {
     ASSESSMENTPERIODDESCRIPTORREFERENCE("AssessmentPeriodDescriptorReference","assessmentPeriodDescriptor"),
     ATTENDANCEEVENT( "AttendanceEventReference", "attendanceEvent"),
     CALENDAR_DATE( "CalendarDateReference", "calendarDate"),
+    CLASS_PERIOD("ClassPeriodReference", "classPeriod"),
     COHORT("CohortReference","cohort"),
     COMPETENCYLEVELDESCRIPTOR( "CompetencyLevelDescriptorReference", "competencyLevelDescriptor"),
     COURSE( "CourseReference", "course"),
@@ -77,7 +78,6 @@ public enum ReferenceConverter {
     /*
      *
     EDORG( "EducationalOrgReference", "educationOrganization"),
-    CLASS_PERIOD("ClassPeriodReference", "classPeriod"),
     SCHOOL( "SchoolReference", "school"),
     GRADING_PERIOD( "GradingPeriodReference", "gradingPeriod"),
     SESSION( "SessionReference", "session"),
