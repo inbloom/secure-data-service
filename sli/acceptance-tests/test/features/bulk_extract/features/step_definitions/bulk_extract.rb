@@ -687,7 +687,7 @@ When /I check that the staff extract for "(.*?)" has the correct number of recor
   puts(query)
   query  = JSON.parse(query)
   result = @tenantDb.collection('staffEducationOrganizationAssociation').aggregate(query)
-                                          puts result
+     puts result
      result.each{ |schoolIdToStaffs|
                                           
      schoolId = schoolIdToStaffs['_id']
@@ -1442,6 +1442,24 @@ def get_patch_body_by_entity_name(field, value)
                   "addressType"=>"Physical",
                   "city"=>"Chicago"
                  }]
+    },
+      "date" => {
+        "attendanceEvent" =>[{
+            "reason" => "Missed school bus",
+            "event" => "Tardy",
+            "date" => value,
+            "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
+        },{
+            "reason" => "Excused: sick",
+            "event" => "Excused Absence",
+            "date" => "2013-12-19",
+            "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
+        }, {
+            "reason" => "Missed school bus",
+            "event" => "Tardy",
+            "date" => "2014-05-19",
+            "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
+        }]
     },
     "calendarEvent" => {
             "calendarEvent" => value
