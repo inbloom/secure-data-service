@@ -13,6 +13,8 @@ When I POST a custom class period
 Then I GET the custom class period
 When I PUT a custom class period
 Then I GET the custom class period
+When I try the not supported PATCH for custom class period
+Then I GET the custom class period
 When I DELETE the custom class period
 Then I GET the deleted custom class period
 When I POST a custom class period

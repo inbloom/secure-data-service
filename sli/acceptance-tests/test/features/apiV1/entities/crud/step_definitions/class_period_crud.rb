@@ -44,3 +44,8 @@ end
 Then /^I GET the deleted custom class period$/ do
   get_deleted_custom_entity("classPeriods")
 end
+
+When /^I try the not supported PATCH for custom class period$/ do
+  patch_custom_entity("classPeriods")
+end
+

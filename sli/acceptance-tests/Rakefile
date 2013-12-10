@@ -1404,7 +1404,7 @@ task :importSandboxMidgarData do
     "studentCompetencyObjective" => "Midgar_data/studentCompetencyObjective_fixture.json",
     "competencyLevelDescriptor" => "Midgar_data/competencyLevelDescriptor_fixture.json",
     "yearlyTranscript" => "Midgar_data/yearlyTranscript_fixture.json",
-    "classPeriod" => "Midgar_data/classPeriods_fixture.json"
+    "classPeriod" => "Midgar_data/classPeriod_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
