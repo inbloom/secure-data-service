@@ -175,7 +175,7 @@ deployDatabrowser()
   echo "**** begin deployDatabrowser with args $* ****"
   cd $WORKSPACE/sli/databrowser
   bundleInstall --deployment
-  bundle exec thin start -C config/thin.yml -e team
+  bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
   echo "**** end deployDatabrowser with args $* ****"
 }
 
