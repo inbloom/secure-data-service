@@ -121,10 +121,9 @@ Feature: Users can receive bulk extracts in sandbox mode
       |  entityType                            |
       |  staffEducationOrganizationAssociation |
 
-    #SEA Public Full Extract
+    #Public Full Extract
     When there is no bulk extract files in the local directory
-    And I get the id for the edorg "STANDARD-SEA"
-    And I request and download a "bulk" extract file for the edorg
+    And I request and download a "public" extract file for the edorg
     Then there is a metadata file in the extract
     And the extract contains a file for each of the following entities:
       |  entityType                            |
@@ -143,11 +142,11 @@ Feature: Users can receive bulk extracts in sandbox mode
       |  cohort                                |
       |  section                               |
 
-    #SEA Public Delta Extract
+    #Public Delta Extract
     When there is no bulk extract files in the local directory
     And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "<RC Server>"
     And I get back a response code of "200"
-    And I store the URL for the latest delta for the SEA
+    And I store the URL for the latest delta for the Public
     And I request and download a "delta" extract file for the edorg
     Then there is a metadata file in the extract
     And the extract contains a file for each of the following entities:

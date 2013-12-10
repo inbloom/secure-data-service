@@ -40,7 +40,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    |  teacher                               |
    |  teacherSchoolAssociation              |
    |  teacherSectionAssociation             |
-  When I make a call to the bulk extract end point "/bulk/extract/SEA_IL_ID"
+  When I make a call to the bulk extract end point "/bulk/extract/public"
   When the return code is 200 I get expected tar downloaded
   Then I check the http response headers
   When I decrypt and save the extracted file
