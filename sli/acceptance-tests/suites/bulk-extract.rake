@@ -13,6 +13,11 @@ task :bulkExtractSchedulerTest do
   runTests("test/features/bulk_extract/features/bulk_extract_scheduler.feature")
 end
 
+desc "Test the Bulk Extract Scheduler"
+task :bulkExtractSeaPrivateDataTest do
+  runTests("test/features/bulk_extract/features/bulk_extract_sea_private_data.feature")
+end
+
 desc "Cleanup the extracts"
 task :bulkExtractCleanup do
   runTests("test/features/bulk_extract/features/bulk_extract_cleanup.feature")

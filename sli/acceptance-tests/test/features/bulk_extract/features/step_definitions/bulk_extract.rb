@@ -886,6 +886,15 @@ When /I check that the "(.*?)" extract for "(.*?)" has the correct number of rec
   enable_NOTABLESCAN()
 end
 
+When /I remove the parent for the education organization "(.*?)"/ do |edOrgId|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+
+  result = @tenantDb.collection("educationOrganization").update({'_id' => edOrgId}, {'$unset' => {'body.parentEducationAgencyReference' => 1}})
+  puts result
+  enable_NOTABLESCAN()
+end
+
 When /I check that the "(.*?)" extract for "(.*?)" has "(.*?)" records/ do |entity, edOrgId, expected|
 
   zipFile  = "#{@unpackDir}/#{entity}.json.gz"
