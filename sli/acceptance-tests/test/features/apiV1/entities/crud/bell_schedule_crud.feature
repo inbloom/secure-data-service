@@ -5,12 +5,16 @@ Scenario: Verify CRUD for attendance event on attendance endpoint for attendance
 Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
 When I POST a bell schedule
 Then I GET the bell schedule
+When I try the not supported POST for the bell schedule id endpoint
 #When I PATCH the bell schedule
 Then I GET the bell schedule
 #When I PUT the bell schedule
 Then I GET the bell schedule
 #When I PATCH the bell schedule
 Then I GET the bell schedule
+When I try the not supported PUT for the bell schedule list endpoint
+When I try the not supported PATCH for the bell schedule list endpoint
+When I try the not supported DELETE for the bell schedule list endpoint
 When I POST a custom bell schedule
 Then I GET the custom bell schedule
 When I PUT a custom bell schedule

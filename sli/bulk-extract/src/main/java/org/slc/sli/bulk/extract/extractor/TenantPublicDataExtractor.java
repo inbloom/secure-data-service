@@ -23,13 +23,11 @@ import java.io.File;
 import java.io.IOException;
 import java.security.PublicKey;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.slc.sli.bulk.extract.message.BEMessageCode;
-import org.slc.sli.bulk.extract.util.SecurityEventUtil;
-import org.slc.sli.common.util.logging.LogLevelType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +37,13 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.pub.PublicDataExtractor;
 import org.slc.sli.bulk.extract.pub.PublicDataFactory;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -50,13 +51,13 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 /**
- * Extract the Public Data for the State Education Agency.
+ * Extract the Public Data for the tenant.
  * @author ablum
  */
 @Component
-public class StatePublicDataExtractor {
+public class TenantPublicDataExtractor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StatePublicDataExtractor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TenantPublicDataExtractor.class);
 
     @Autowired
     private BulkExtractMongoDA bulkExtractMongoDA;
@@ -77,7 +78,7 @@ public class StatePublicDataExtractor {
     private SecurityEventUtil securityEventUtil;
 
     /**
-     * Creates unencrypted SEA public data bulk extract files if any are needed for the given tenant.
+     * Creates encrypted tenant public data bulk extract files if any are needed.
      *
      * @param tenant name of tenant to extract
      * @param tenantDirectory for the extract
@@ -86,30 +87,19 @@ public class StatePublicDataExtractor {
     public void execute(String tenant, File tenantDirectory, DateTime startTime) {
         TenantContext.setTenantId(tenant);
         this.startTime = startTime;
-        String seaId = retrieveSEAId();
-
-        if(seaId == null) {
-            audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    "SEA public data extract", LogLevelType.TYPE_ERROR,
-                    BEMessageCode.BE_SE_CODE_0012));
-            LOG.error("Unable to trigger extract for the tenant");
-            return;
-        }
 
         audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                seaId + " SEA public data extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0013));
-
+                "Public data extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0013));
 
         Map<String, PublicKey> clientKeys = bulkExtractMongoDA.getAppPublicKeys();
-        if(clientKeys == null || clientKeys.isEmpty()) {
+        if (clientKeys == null || clientKeys.isEmpty()) {
             audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    "SEA public data extract", LogLevelType.TYPE_INFO,
-                    BEMessageCode.BE_SE_CODE_0014));
+                    "Public data extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0014));
             LOG.info("No authorized application to extract data.");
             return;
         }
 
-        ExtractFile extractFile = createExtractFile(tenantDirectory, seaId, clientKeys);
+        ExtractFile extractFile = createExtractFile(tenantDirectory, clientKeys);
 
         extractPublicData(extractFile);
 
@@ -123,13 +113,14 @@ public class StatePublicDataExtractor {
         extractFile.generateArchive();
 
         audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                seaId + " SEA public data extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0015));
-        updateBulkExtractDb(seaId, extractFile);
+                "Public data extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0015));
+        updateBulkExtractDb(extractFile);
     }
 
     /**
-     * Extract the public data for the SEA.
-     * @param extractFile the extract file to extract to
+     * Extract the public data for the tenant.
+     *
+     * @param extractFile -The extract file to which to extract
      */
     protected void extractPublicData(ExtractFile extractFile) {
         for (PublicDataExtractor data : factory.buildPublicDataExtracts(extractor)) {
@@ -137,6 +128,35 @@ public class StatePublicDataExtractor {
         }
     }
 
+    /**
+     * Update the bulk extract files db record.
+     * @param extractFile the extract file
+     */
+    protected void updateBulkExtractDb(ExtractFile extractFile) {
+        for(Map.Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
+            bulkExtractMongoDA.updateDBRecord(TenantContext.getTenantId(), archiveFile.getValue().getAbsolutePath(), archiveFile.getKey(), startTime.toDate(), false, null, true);
+        }
+    }
+
+    /**
+     * Creates an extract file instance.
+     *
+     * @param tenantDirectory the parent directory of the file.
+     * @param clientKeys the public keys for registered apps.
+     *
+     * @return an extract file instance.
+     */
+    protected ExtractFile createExtractFile(File tenantDirectory, Map<String, PublicKey> clientKeys) {
+        ExtractFile file = new ExtractFile(tenantDirectory, getArchiveName(startTime.toDate()), clientKeys, securityEventUtil);
+        file.setEdorg(null);
+        return file;
+    }
+
+    private String getArchiveName(Date startTime) {
+        return "public-" + Launcher.getTimeStamp(startTime);
+    }
+
+    // TODO: Remove this method (and its call from Launcher) once US5996 is played out.
     /**
      * Retrieve the SEA's id for the tenant. Fails if more than one SEA found.
      * @return
@@ -150,14 +170,14 @@ public class StatePublicDataExtractor {
 
         if (entities == null || !entities.iterator().hasNext()) {
             audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    "SEA public data extract", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0016));
+                    "Tenant public data extract", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0016));
             LOG.error("No SEA is available for the tenant");
         } else {
             Iterator<Entity> iterator = entities.iterator();
             Entity seaEntity = iterator.next();
             if (iterator.hasNext()) {
                 audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                        "SEA public data extract", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0017));
+                        "Tenant public data extract", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0017));
                 LOG.error("More than one SEA is found for the tenant");
             } else {
                 seaId = seaEntity.getEntityId();
@@ -168,31 +188,6 @@ public class StatePublicDataExtractor {
     }
 
     /**
-     * Update the bulk extract files db record.
-     * @param seaId the SEA Id
-     * @param extractFile the extract file
-     */
-    protected void updateBulkExtractDb(String seaId, ExtractFile extractFile) {
-        for(Map.Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
-            bulkExtractMongoDA.updateDBRecord(TenantContext.getTenantId(), archiveFile.getValue().getAbsolutePath(), archiveFile.getKey(), startTime.toDate(), false, seaId, true);
-        }
-    }
-
-    /**
-     * Creates an extract file instance.
-     * @param tenantDirectory the parent directory of the file.
-     * @param seaId the SEA Id.
-     * @param clientKeys the public keys for registered apps.
-     * @return an extract file instance.
-     */
-    protected ExtractFile createExtractFile(File tenantDirectory, String seaId, Map<String, PublicKey> clientKeys) {
-        ExtractFile file = new ExtractFile(tenantDirectory, Launcher.getArchiveName(seaId,
-                startTime.toDate()), clientKeys, securityEventUtil);
-        file.setEdorg(seaId);
-        return file;
-    }
-
-    /**
      * Set securityEventUtil.
      * @param securityEventUtil
      *          securityEventUtil
@@ -200,4 +195,6 @@ public class StatePublicDataExtractor {
     public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
         this.securityEventUtil = securityEventUtil;
     }
+
+
 }
