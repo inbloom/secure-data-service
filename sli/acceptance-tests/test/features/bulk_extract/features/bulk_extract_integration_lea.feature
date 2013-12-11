@@ -6,9 +6,9 @@
 
       And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
       And in my list of rights I have BULK_EXTRACT
-      #When I make lea bulk extract API call for lea "BLOOP"
+      #When I make a full bulk extract API call for edorg "BLOOP"
       #Then I get back a response code of "403"
-      When I make lea bulk extract API call for lea "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+      When I make a full bulk extract API call for edorg "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
       When the return code is 200 I get expected tar downloaded
       Then I check the http response headers
       When I decrypt and save the extracted file

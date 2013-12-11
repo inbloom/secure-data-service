@@ -47,7 +47,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
   Given I trigger a bulk extract
    When I set the header format to "application/x-tar"
    Then I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   When I make lea bulk extract API call for lea "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+   When I make a full bulk extract API call for edorg "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
     And the return code is 200 I get expected tar downloaded
    Then I check the http response headers
    When I decrypt and save the full extract
@@ -87,7 +87,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
 
   When I set the header format to "application/x-tar"
   Then I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  When I make lea bulk extract API call for lea "<Daybreak Central High>"
+  When I make a full bulk extract API call for edorg "<Daybreak Central High>"
   And the return code is 200 I get expected tar downloaded
   Then I check the http response headers
   When I decrypt and save the full extract

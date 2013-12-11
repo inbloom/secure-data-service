@@ -8,6 +8,7 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
     When zip file is scp to ingestion landing zone
     And a batch job for file "SEAFullDataset.zip" is completed in database
     And a batch job log has been created
+    And all edorgs in "Midgar" are authorized for "SDK Sample"
 
  Scenario: I trigger a full bulk extract, and verify the SEA file has the correct private data
   Then I trigger a bulk extract
@@ -56,6 +57,25 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
      | id                                          |
      #sbantu - Staff at IL-DAYBREAK
      | 77d027fa7ebb00aac5b2887c9ffc2f1a19b8d8cd_id |
+
+   Scenario: Valid bulk extract user at the SEA can retrieve the SEA full private extract via the API
+     Given I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+     When I make a full bulk extract API call for edorg "<IL>"
+     And the return code is 200 I get expected tar downloaded
+     Then I check the http response headers
+     When I decrypt and save the full extract
+     And I verify that an extract tar file was created for the tenant "Midgar"
+     Then the extract contains a file for each of the following entities:
+       | entityType                            |
+       | staff                                 |
+       | staffCohortAssociation                |
+       | staffEducationOrganizationAssociation |
+       | staffProgramAssociation               |
+
+  Scenario: Valid bulk extract user not at the SEA cannot retrieve the SEA full private extract
+    Given I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    When I make a full bulk extract API call for edorg "<IL>"
+    And I should receive a return code of 403
 
   Scenario: I trigger a full bulk extract on an education organization that loses its parent
     Given I clean the bulk extract file system and database
@@ -235,6 +255,23 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
       | id                                          |
       #sbantu - Staff at IL-DAYBREAK
       | 77d027fa7ebb00aac5b2887c9ffc2f1a19b8d8cd_id |
+
+  Scenario: Valid bulk extract user at the SEA can retrieve the SEA delta private extract via the API
+    Given I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    When I request latest delta via API for tenant "Midgar", lea "<IL>" with appId "<app id>" clientId "<client id>"
+    And I should receive a return code of 200
+    And I download and decrypt the delta
+    Then I verify the last delta bulk extract by app "<app id>" for "<IL>" in "Midgar" contains a file for each of the following entities:
+      | entityType                            |
+      | staff                                 |
+      | staffCohortAssociation                |
+      | staffEducationOrganizationAssociation |
+      | staffProgramAssociation               |
+
+  Scenario: Valid bulk extract user not at the SEA cannot retrieve the SEA delta private extract
+    Given I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    When I request latest delta via API for tenant "Midgar", lea "<IL>" with appId "<app id>" clientId "<client id>"
+    And I should receive a return code of 403
 
   Scenario: As an bulk extract user, I want to initialize my database with test data.
     Given I clean the bulk extract file system and database
