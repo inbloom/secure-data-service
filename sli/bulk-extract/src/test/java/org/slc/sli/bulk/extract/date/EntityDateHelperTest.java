@@ -52,10 +52,45 @@ public class EntityDateHelperTest {
 
     @Test
     public void testIsPastOrCurrentDateWithYear() {
+        DateTime dt = DateTime.now();
         Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2009-2010", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.GRADE));
         Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2010-2011", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.GRADE));
+        Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate(dt.getYear()-1 + "-" + dt.getYear(), null, EntityNames.GRADE));
+        Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate(dt.getYear() + "-" + dt.getYear() + 1, null, EntityNames.GRADE));
         Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate("2011-2012", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.GRADE));
         Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate("2012-2013", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.GRADE));
+        Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2010-2009", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.GRADE));
+
+        Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate("2009-2010", new DateTime(2008, 1, 31, 9, 0), EntityNames.GRADE));
+        Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate("2009-2010", new DateTime(2009, 1, 1, 0, 0).minusMillis(1), EntityNames.GRADE));
+        Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate("2009-2010", new DateTime(2010, 1, 1, 0, 0).minusMillis(1), EntityNames.GRADE));
+        Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2009-2010", new DateTime(2010, 1, 1, 0, 0), EntityNames.GRADE));
+        Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate("2010-2011", new DateTime(2009, 1, 31, 9, 0), EntityNames.GRADE));
+        Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2009-2010", new DateTime(2010, 1, 31, 9, 0), EntityNames.GRADE));
+        Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2007-2008", new DateTime(2010, 1, 1, 0, 0), EntityNames.GRADE));
+        Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2008-2009", new DateTime(2010, 1, 1, 0, 0), EntityNames.GRADE));
+        Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2009-2010", new DateTime(2010, 1, 1, 0, 0), EntityNames.GRADE));
+    }
+
+    @Test
+    public void testIsBeforeOrEqualYear() {
+        Assert.assertTrue(EntityDateHelper.isBeforeOrEqualYear("2008-2009", 2011));
+        Assert.assertTrue(EntityDateHelper.isBeforeOrEqualYear("2008-2008", 2011));
+        Assert.assertTrue(EntityDateHelper.isBeforeOrEqualYear("2009-2008", 2011));
+
+        Assert.assertTrue(EntityDateHelper.isBeforeOrEqualYear("2009-2010", 2011));
+        Assert.assertTrue(EntityDateHelper.isBeforeOrEqualYear("2009-2009", 2011));
+        Assert.assertTrue(EntityDateHelper.isBeforeOrEqualYear("2010-2009", 2011));
+
+        Assert.assertTrue(EntityDateHelper.isBeforeOrEqualYear("2010-2011", 2011));
+        Assert.assertTrue(EntityDateHelper.isBeforeOrEqualYear("2010-2010", 2011));
+        Assert.assertFalse(EntityDateHelper.isBeforeOrEqualYear("2011-2010", 2011));
+
+        Assert.assertFalse(EntityDateHelper.isBeforeOrEqualYear("2011-2012", 2011));
+        Assert.assertFalse(EntityDateHelper.isBeforeOrEqualYear("2012-2011", 2011));
+
+        Assert.assertFalse(EntityDateHelper.isBeforeOrEqualYear("2012-2013", 2011));
+        Assert.assertFalse(EntityDateHelper.isBeforeOrEqualYear("2013-2012", 2011));
     }
 
 }

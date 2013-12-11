@@ -56,7 +56,7 @@ public class EntityDateHelper {
         return !beginDate.isAfter(upToDate);
     }
 
-    private static boolean isBeforeOrEqualYear(String yearSpan, int upToYear) {
+    protected static boolean isBeforeOrEqualYear(String yearSpan, int upToYear) {
         int fromYear = Integer.parseInt(yearSpan.split("-")[0]);
         int toYear = Integer.parseInt(yearSpan.split("-")[1]);
         return ((upToYear >= toYear) && (upToYear > fromYear));
