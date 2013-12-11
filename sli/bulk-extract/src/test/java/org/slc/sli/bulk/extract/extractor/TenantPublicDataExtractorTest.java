@@ -15,7 +15,12 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
-import junit.framework.Assert;
+import java.io.File;
+import java.io.IOException;
+import java.security.PublicKey;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,25 +29,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.slc.sli.bulk.extract.BulkExtractMongoDA;
+import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 
 /**
  * JUnit test for StatePublicDataExtractor.
@@ -51,11 +46,11 @@ import java.util.Map;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-public class StatePublicDataExtractorTest {
+public class TenantPublicDataExtractorTest {
 
     @Autowired
     @InjectMocks
-    private StatePublicDataExtractor statePublicDataExtractor;
+    private TenantPublicDataExtractor statePublicDataExtractor;
 
     @Mock
     private BulkExtractMongoDA bulkExtractMongoDA;
@@ -77,7 +72,7 @@ public class StatePublicDataExtractorTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testBadManifestFile() throws IOException {
-        StatePublicDataExtractor extractor = Mockito.spy(statePublicDataExtractor);
+        TenantPublicDataExtractor extractor = Mockito.spy(statePublicDataExtractor);
         String seaId = "123_id";
         Map<String, PublicKey> clientKeys = new HashMap<String, PublicKey>();
         PublicKey key = Mockito.mock(PublicKey.class);
@@ -86,9 +81,9 @@ public class StatePublicDataExtractorTest {
         ManifestFile maniFile = Mockito.mock(ManifestFile.class);
         Mockito.when(file.getManifestFile()).thenReturn(maniFile);
 
-        Mockito.doReturn(seaId).when(extractor).retrieveSEAId();
+        // TODO: Remove this reference once US5996 is played out.
         Mockito.doReturn(clientKeys).when(bulkExtractMongoDA).getAppPublicKeys();
-        Mockito.doReturn(file).when(extractor).createExtractFile(Mockito.any(File.class), Mockito.anyString(), Mockito.anyMap());
+        Mockito.doReturn(file).when(extractor).createExtractFile(Mockito.any(File.class), Mockito.anyMap());
 
         extractor.execute("tenant", new File("temp"), new DateTime());
 
@@ -100,82 +95,11 @@ public class StatePublicDataExtractorTest {
     }
 
     /**
-     * Test one SEA.
-     */
-    @Test
-    public void testOneSEA() {
-        List<Entity> seaList = new ArrayList<Entity>();
-        seaList.add(new MongoEntity(EntityNames.EDUCATION_ORGANIZATION, "123_id", null, null));
-        Mockito.when(entityRepository.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn(seaList);
-
-        String id = statePublicDataExtractor.retrieveSEAId();
-
-        Assert.assertEquals("123_id", id);
-    }
-
-    /**
-     * Test no SEA.
-     */
-    @Test
-    public void testNoSEA() {
-        List<Entity> seaList = null;
-        Mockito.when(entityRepository.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn(seaList);
-
-        String id = statePublicDataExtractor.retrieveSEAId();
-
-        Assert.assertNull(id);
-    }
-
-    /**
-     * Test Empty SEA List.
-     */
-    @Test
-    public void testEmptySEA() {
-        List<Entity> seaList = new ArrayList<Entity>();
-        Mockito.when(entityRepository.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn(seaList);
-
-        String id = statePublicDataExtractor.retrieveSEAId();
-
-        Assert.assertNull(id);
-    }
-
-    /**
-     * Test multiple SEA.
-     */
-    @Test
-    public void testMultipleSEA() {
-        List<Entity> seaList = new ArrayList<Entity>();
-        seaList.add(new MongoEntity(EntityNames.EDUCATION_ORGANIZATION, "123_id", null, null));
-        seaList.add(new MongoEntity(EntityNames.EDUCATION_ORGANIZATION, "456_id", null, null));
-        Mockito.when(entityRepository.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn(seaList);
-
-        String id = statePublicDataExtractor.retrieveSEAId();
-
-        Assert.assertNull(id);
-    }
-
-    /**
-     * Test when the SEA condition fails.
-     */
-    @Test
-    public void testExecuteInvalidSEA() {
-        StatePublicDataExtractor extractor = Mockito.spy(statePublicDataExtractor);
-        Mockito.when(extractor.retrieveSEAId()).thenReturn(null);
-
-        extractor.execute("tenant", new File("temp"), new DateTime());
-
-        Mockito.verify(bulkExtractMongoDA, Mockito.never()).getAppPublicKeys();
-        Mockito.verify(extractor, Mockito.never()).extractPublicData(Mockito.any(ExtractFile.class));
-    }
-
-    /**
      * Test when the app condition fails.
      */
     @Test
     public void testExecuteNoValidApp() {
-        StatePublicDataExtractor extractor = Mockito.spy(statePublicDataExtractor);
-        String seaId = "123_id";
-        Mockito.doReturn(seaId).when(extractor).retrieveSEAId();
+        TenantPublicDataExtractor extractor = Mockito.spy(statePublicDataExtractor);
         Mockito.when(bulkExtractMongoDA.getAppPublicKeys()).thenReturn(new HashMap<String, PublicKey>());
 
         extractor.execute("tenant", new File("temp"), new DateTime());
@@ -186,19 +110,18 @@ public class StatePublicDataExtractorTest {
     /**
      * Test valid case when all pre conditions are met.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testValidExecutionConditions() throws Exception {
-        StatePublicDataExtractor extractor = Mockito.spy(statePublicDataExtractor);
+        TenantPublicDataExtractor extractor = Mockito.spy(statePublicDataExtractor);
         ExtractFile file = Mockito.mock(ExtractFile.class);
         ManifestFile meta = Mockito.mock(ManifestFile.class);
         Mockito.when(file.getManifestFile()).thenReturn(meta);
-        Mockito.doReturn(file).when(extractor).createExtractFile(Mockito.any(File.class), Mockito.anyString(), Mockito.anyMap());
-        String seaId = "123_id";
+        Mockito.doReturn(file).when(extractor).createExtractFile(Mockito.any(File.class), Mockito.anyMap());
         Map<String, PublicKey> clientKeys = new HashMap<String, PublicKey>();
         PublicKey key = Mockito.mock(PublicKey.class);
         clientKeys.put("app_id", key);
 
-        Mockito.doReturn(seaId).when(extractor).retrieveSEAId();
         Mockito.doReturn(clientKeys).when(bulkExtractMongoDA).getAppPublicKeys();
 
         extractor.execute("tenant", new File("temp"), new DateTime());

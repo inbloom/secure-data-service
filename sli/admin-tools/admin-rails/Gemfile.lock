@@ -61,7 +61,7 @@ GEM
       actionpack (~> 3.0)
       activesupport (~> 3.0)
     erubis (2.7.0)
-    eventmachine (1.0.0)
+    eventmachine (1.0.3)
     execjs (1.4.0)
       multi_json (~> 1.0)
     faraday (0.8.4)
@@ -190,6 +190,7 @@ DEPENDENCIES
   ci_reporter
   coffee-rails
   encrypted-cookie-store
+  eventmachine (= 1.0.3)
   execjs
   jquery-rails
   json

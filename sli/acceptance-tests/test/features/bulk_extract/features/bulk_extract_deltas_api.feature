@@ -15,7 +15,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
-  Then I should see "24" bulk extract files
+  Then I should see "26" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    And The "parent" delta was extracted in the same format as the api
    And The "studentParentAssociation" delta was extracted in the same format as the api
@@ -47,7 +47,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
   Given I trigger a bulk extract
    When I set the header format to "application/x-tar"
    Then I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   When I make lea bulk extract API call for lea "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+   When I make a full bulk extract API call for edorg "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
     And the return code is 200 I get expected tar downloaded
    Then I check the http response headers
    When I decrypt and save the full extract
@@ -87,7 +87,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
 
   When I set the header format to "application/x-tar"
   Then I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  When I make lea bulk extract API call for lea "<Daybreak Central High>"
+  When I make a full bulk extract API call for edorg "<Daybreak Central High>"
   And the return code is 200 I get expected tar downloaded
   Then I check the http response headers
   When I decrypt and save the full extract
@@ -96,8 +96,8 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
   Then each record in the full extract is present and matches the delta extract
 
 
-  Scenario: Generate a SEA bulk extract delta after day 1 ingestion
-    When I untar and decrypt the "inBloom" public delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>"
+  Scenario: Generate a public delta extract after day 1 ingestion
+    When I untar and decrypt the "inBloom" public delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
      And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then The "educationOrganization" delta was extracted in the same format as the api
      And The "learningObjective" delta was extracted in the same format as the api
@@ -117,7 +117,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
   Given I trigger a bulk extract
    When I set the header format to "application/x-tar"
    Then I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   When I make lea bulk extract API call for lea "884daa27d806c2d725bc469b273d840493f84b4d_id"
+   When I make a call to the bulk extract end point "/bulk/extract/public"
     And the return code is 200 I get expected tar downloaded
    Then I check the http response headers
    When I decrypt and save the full extract
@@ -130,7 +130,7 @@ Scenario: SEA - Ingest additional entities in preparation for subsequent update 
    Given the extraction zone is empty
 	When I ingest "SEAAppend.zip"
      And I trigger a delta extract
-    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
       |  session                               |
@@ -172,7 +172,7 @@ Scenario: SEA - Update entities
    Given the extraction zone is empty
 	When I ingest "SEAUpdate.zip"
      And I trigger a delta extract
-    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  assessment                            |
        |  calendarDate                          |
@@ -205,7 +205,7 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
     Given the extraction zone is empty
     When I ingest "SEAAssessment.zip"
     And I trigger a delta extract
-    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
     And I verify this "assessment" file only contains:
@@ -225,7 +225,7 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
 	 #second ingestion to control order of events
 	 And I ingest "SEAAssessmentDeleteAndUpdate2.zip"
      And I trigger a delta extract
-     Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+     Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  assessment                            |
        |  deleted                               |
@@ -251,7 +251,7 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
     #second ingestion to control order of events
     Then I ingest "AssessmentFamilyDeltaDeleted.zip"
      And I trigger a delta extract
-    And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+    And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
       |  deleted                               |
@@ -273,7 +273,7 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
    Given the extraction zone is empty
 	 When I ingest "AssessmentItemDeltaDeleted.zip"
      And I trigger a delta extract
-       Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+       Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  assessment                            |
        |  deleted                               |
@@ -291,7 +291,7 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
     And I trigger a delta extract
    When I ingest "AssessmentPeriodDescriptorUpdate.zip"
     And I trigger a delta extract
-   When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+   When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
     And I verify this "assessment" file should contain:
@@ -317,8 +317,8 @@ Scenario: Triggering deltas via ingestion
       And I verify "2" delta bulk extract files are generated for Edorg "<Daybreak Central High>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for Edorg "<IL-DAYBREAK>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for Edorg "<IL-HIGHWIND>" in "Midgar"
-      And I verify "2" delta bulk extract files are generated for Edorg "<STANDARD-SEA>" in "Midgar"
-     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      And I verify "2" public delta bulk extract files are generated in "Midgar"
+     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  assessment                            |
        |  learningObjective                     |
@@ -784,7 +784,7 @@ Scenario: Generate a bulk extract in a different LEA
    And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
    And I should receive a return code of 200
    And I download and decrypt the delta
-   Then I should see "4" bulk extract files
+   Then I should see "6" bulk extract files
    And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    And I verify this "staffEducationOrganizationAssociation" file should contain:
     | id                                          | condition                             |
@@ -800,13 +800,13 @@ Scenario: Generate a bulk extract in a different LEA
     And a batch job log has been created
     Then I should not see an error log file created
     And I should not see a warning log file created
-    And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
+    And I generate and retrieve the bulk extract delta via API for "the public extract"
     Then I should see "2" bulk extract files
 
   And I ingested "deltas_move_between_edorg.zip" dataset
     When I trigger a delta extract
       And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "22c2a28d-7327-4444-8ff9-caad4b1c7aa3" for "<IL-HIGHWIND>"
-      And I verify "4" delta bulk extract files are generated for Edorg "<STANDARD-SEA>" in "Midgar"
+      And I verify "4" public delta bulk extract files are generated in "Midgar"
       And I verify "2" delta bulk extract files are generated for Edorg "<IL-DAYBREAK>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for Edorg "<IL-HIGHWIND>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for Edorg "<10 School District>" in "Midgar"
@@ -861,7 +861,7 @@ Given I clean the bulk extract file system and database
     |  newStudentMotherAssociation  |  studentParentAssociation  |  201         |
     
   When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
-  And I verify "2" delta bulk extract files are generated for Edorg "<STANDARD-SEA>" in "Midgar"
+  And I verify "2" public delta bulk extract files are generated in "Midgar"
   And I verify "2" delta bulk extract files are generated for Edorg "<IL-DAYBREAK>" in "Midgar"
    And I verify "0" delta bulk extract files are generated for Edorg "<IL-HIGHWIND>" in "Midgar"
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -883,7 +883,7 @@ Given I clean the bulk extract file system and database
      |  postalCode       |  newEducationOrganization     |  11012                           |  204         | educationOrganizations/a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id |
 
   When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
-   And I verify "2" delta bulk extract files are generated for Edorg "<STANDARD-SEA>" in "Midgar"
+   And I verify "2" public delta bulk extract files are generated in "Midgar"
    And I verify "2" delta bulk extract files are generated for Edorg "<IL-DAYBREAK>" in "Midgar"
    And I verify "0" delta bulk extract files are generated for Edorg "<IL-HIGHWIND>" in "Midgar"
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -904,7 +904,7 @@ Given I clean the bulk extract file system and database
     |  dadLoginId       |  parent                   | average_dad_youre_ok@bazinga.com      |  204         | parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id                |
     |  contactPriority  |  studentParentAssociation | 1                                     |  204         | studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id |
   When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
-   And I verify "2" delta bulk extract files are generated for Edorg "<STANDARD-SEA>" in "Midgar"
+   And I verify "2" public delta bulk extract files are generated in "Midgar"
    And I verify "2" delta bulk extract files are generated for Edorg "<IL-DAYBREAK>" in "Midgar"
    And I verify "0" delta bulk extract files are generated for Edorg "<IL-HIGHWIND>" in "Midgar"
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -1033,8 +1033,8 @@ Given I clean the bulk extract file system and database
     
 
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
-  And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+  And I generate and retrieve the bulk extract delta via API for "the public extract"
+  And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  program                               |
         |  gradingPeriod                         |
@@ -1124,8 +1124,8 @@ Given I clean the bulk extract file system and database
 
  Given the unpack directory is empty
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
-   And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+   And I generate and retrieve the bulk extract delta via API for "the public extract"
+   And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  program                               |
         |  gradingPeriod                         |
@@ -1415,8 +1415,8 @@ Given I clean the bulk extract file system and database
     | c7af73b8f98390a6d695a9e458529d6a149f0a21_id                                            | entityType = calendarDate              |
 
   When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
-  Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+   And I retrieve the bulk extract delta via API for "the public extract"
+  Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  deleted                               |
   And I verify this "deleted" file should contain:
@@ -1596,7 +1596,7 @@ Scenario: Test access to the api
   And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id paved>" clientId "<client id paved>"
   Then I should receive a return code of 403
 
-Scenario: Trigger a SEA delta extract and check security events
+Scenario: Trigger a public delta extract and check security events
    Given I ingest "bulk_extract_sea_delta_security_event.zip"
    And the following collections are empty in sli datastore:
      | collectionName              |
@@ -1615,7 +1615,7 @@ Scenario: Trigger a SEA delta extract and check security events
      | securityEvent   | 2                   | body.actionUri          | Writing extract file to the file system                                      | string          |
      | securityEvent   | 1                   | body.logMessage         | Generating archive for app 19cca28d-7357-4044-8df9-caad4b1c8ee4              | string          |
      | securityEvent   | 1                   | body.logMessage         | Generating archive for app 22c2a28d-7327-4444-8ff9-caad4b1c7aa3              | string          |
-     | securityEvent   | 2                   | body.targetEdOrgList    | 884daa27d806c2d725bc469b273d840493f84b4d_id                                  | string          |
+     | securityEvent   | 0                   | body.targetEdOrgList    | 884daa27d806c2d725bc469b273d840493f84b4d_id                                  | string          |
 
 Scenario: Verify that the TeacherContextResolver works properly
   Given I clean the bulk extract file system and database

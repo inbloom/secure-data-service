@@ -1,34 +1,30 @@
 package org.slc.sli.bulk.extract.util;
 
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
-
-public class LocalEdOrgExtractHelperTest {
-
-    private static final String STATE_EDUCATION_AGENCY = "State Education Agency";
+public class EdOrgExtractHelperTest {
 
     @InjectMocks
     EdOrgExtractHelper helper = new EdOrgExtractHelper();
@@ -43,28 +39,7 @@ public class LocalEdOrgExtractHelperTest {
     }
 
     @Test
-    public void getTopLevelLEAsTest() {
-        String seaId = "1234";
-
-        when(repository.findAllIds(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery(
-                new NeutralCriteria(ParameterConstants.ORGANIZATION_CATEGORIES,
-                        NeutralCriteria.CRITERIA_IN, Arrays.asList(STATE_EDUCATION_AGENCY)))))
-                .thenReturn(Arrays.asList(seaId));
-
-        final List<String> edOrgIds = Arrays.asList("1", "2", "3", "4");
-        when(repository.findAllIds(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery(new NeutralCriteria(
-                ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, NeutralCriteria.CRITERIA_IN,
-                Arrays.asList(seaId))))).thenReturn(edOrgIds);
-
-
-        final Set<String> topLevelLEAs = helper.getTopLevelLEAs();
-        topLevelLEAs.removeAll(edOrgIds);
-        assertTrue(topLevelLEAs.isEmpty());
-    }
-
-    @Test
     public void getBulkExtractAppsTest() {
-
         when(repository.findAll("application", new NeutralQuery())).thenReturn(
                 Arrays.asList(
                         buildAppEntity("1", true, true),
@@ -78,17 +53,16 @@ public class LocalEdOrgExtractHelperTest {
         Set<String> bulkExtractApps = helper.getBulkExtractApps();
         bulkExtractApps.removeAll(Arrays.asList("1","5"));
         assertTrue(bulkExtractApps.isEmpty());
-
     }
 
     @Test
     public void getBulkExtractEdOrgsPerAppTest() {
-
         getBulkExtractAppsTest(); // mock applications
         Map<String, Object> edorg1 = new HashMap<String, Object>();
         edorg1.put("authorizedEdorg", "edOrg1");
         Map<String, Object> edorg2 = new HashMap<String, Object>();
         edorg2.put("authorizedEdorg", "edOrg2");
+        @SuppressWarnings("unchecked")
         Entity authOne = buildAuthEntity("1", Arrays.asList(edorg1, edorg2));
         Entity authTwo = buildAuthEntity("5", new ArrayList<Map<String, Object>>());
 
@@ -101,7 +75,6 @@ public class LocalEdOrgExtractHelperTest {
         assertTrue(bulkExtractEdOrgsPerApp.get(authOne.getBody().get("applicationId")).containsAll(
                 Arrays.asList("edOrg1","edOrg2")));
         assertTrue(bulkExtractEdOrgsPerApp.get(authTwo.getBody().get("applicationId")).isEmpty());
-
     }
 
     private Entity buildAuthEntity(String applicationId, List<Map<String, Object>> edOrgs) {

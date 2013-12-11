@@ -19,7 +19,7 @@ import com.google.common.base.Predicate;
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.date.EntityDateHelper;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
+import org.slc.sli.bulk.extract.extractor.EdOrgExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
