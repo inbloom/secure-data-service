@@ -248,6 +248,7 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractSecurityEventTests"].execute
   Rake::Task["bulkExtractDeltaPurgeTests"].execute
   Rake::Task["bulkExtractPriorTest"].execute
+  Rake::Task["bulkExtractTopPrivateDataTest"].execute
   Rake::Task["bulkExtractCleanup"].execute
   displayFailureReport()
   if $SUCCESS

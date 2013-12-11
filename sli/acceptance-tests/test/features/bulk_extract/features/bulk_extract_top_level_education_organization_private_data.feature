@@ -12,8 +12,7 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
 
  Scenario: I trigger a full bulk extract, and verify the top level edorg file has the correct private data
   Then I trigger a bulk extract
-  #Given I am a valid 'service' user with an authorized long-lived token "-------"
-  When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
+  When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "<app id>" and edorg with id "<IL>"
   And I verify that an extract tar file was created for the tenant "Midgar"
    Then the extract contains a file for each of the following entities:
      | entityType                            |
@@ -79,10 +78,9 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
 
   Scenario: I trigger a full bulk extract on an education organization that loses its parent
     Given I clean the bulk extract file system and database
-    When I remove the parent for the education organization "1b223f577827204a1c7e9c851dba06bea6b031fe_id" for tenant "Midgar"
+    When I remove the parent for the education organization "<IL-DAYBREAK>" for tenant "Midgar"
     Then I trigger a bulk extract
-  #Given I am a valid 'service' user with an authorized long-lived token "-------"
-    When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+    When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "<app id>" and edorg with id "<IL-DAYBREAK>"
     And I verify that an extract tar file was created for the tenant "Midgar"
     Then the extract contains a file for each of the following entities:
       | entityType                            |
@@ -106,11 +104,10 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
       #cgray - Teacher at Daybreak Central High
       | c38c41cbb2a2f6b28f951ea7ba0fe054185fbdb1_id |
 
-    When I set the parent for the education organization "1b223f577827204a1c7e9c851dba06bea6b031fe_id" to "b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id" for tenant "Midgar"
+    When I set the parent for the education organization "<IL-DAYBREAK>" to "<IL>" for tenant "Midgar"
     Given I clean the bulk extract file system and database
     Then I trigger a bulk extract
-  #Given I am a valid 'service' user with an authorized long-lived token "-------"
-    When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+    When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "<app id>" and edorg with id "<IL-DAYBREAK>"
     And I verify that an extract tar file was created for the tenant "Midgar"
     Then the extract contains a file for each of the following entities:
       | entityType                            |
@@ -141,10 +138,9 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
 
   Scenario: I trigger a full bulk extract on a school that loses its parent (thereby becoming an orphan education organization)
     Given I clean the bulk extract file system and database
-    When I remove the parent for the education organization "352e8570bd1116d11a72755b987902440045d346_id" for tenant "Midgar"
+    When I remove the parent for the education organization "<South Daybreak Elementary>" for tenant "Midgar"
     Then I trigger a bulk extract
-  #Given I am a valid 'service' user with an authorized long-lived token "-------"
-    When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "352e8570bd1116d11a72755b987902440045d346_id"
+    When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "<app id>" and edorg with id "<South Daybreak Elementary>"
     And I verify that an extract tar file was created for the tenant "Midgar"
     Then the extract contains a file for each of the following entities:
       | entityType                            |
@@ -205,13 +201,14 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
     When zip file is scp to ingestion landing zone
     And a batch job for file "SEAFullDatasetDelta.zip" is completed in database
     And a batch job log has been created
+    And I post "DeleteMattSollarsMom.zip" file as the payload of the ingestion job
+    When zip file is scp to ingestion landing zone
+    And a batch job for file "DeleteMattSollarsMom.zip" is completed in database
+    And a batch job log has been created
 
   Scenario: I trigger a delta bulk extract, and verify the top level edorg file has the correct private data
     Then I trigger a delta extract
-
-  #Given I am a valid 'service' user with an authorized long-lived token "-------"
-    And I request the latest bulk extract delta using the api
-    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
+    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "<app id>" for "<IL>"
     And I verify that an extract tar file was created for the tenant "Midgar"
     Then the extract contains a file for each of the following entities:
       | entityType                            |
@@ -219,6 +216,7 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
       | staffCohortAssociation                |
       | staffEducationOrganizationAssociation |
       | staffProgramAssociation               |
+      | deleted                               |
     And I check that the "staff" extract for "IL" has "3" records
     And I verify this "staff" file should contain:
       | id                                          | condition          |
@@ -255,6 +253,10 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
       | id                                          |
       #sbantu - Staff at IL-DAYBREAK
       | 77d027fa7ebb00aac5b2887c9ffc2f1a19b8d8cd_id |
+    And I check that the "deleted" extract for "IL" has "1" records
+    And I verify this "deleted" file should contain:
+      | id                                          | condition          |
+      | 067198fd6da91e1aa8d67e28e850f224d6851713_id6435d34a6aeaec26b49e2f31d79674b43ce1e140_id | entityType = studentParentAssociation |
 
   Scenario: Valid bulk extract user at the top level edorg can retrieve the top level edorg delta private extract via the API
     Given I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -267,6 +269,7 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
       | staffCohortAssociation                |
       | staffEducationOrganizationAssociation |
       | staffProgramAssociation               |
+      | deleted                               |
 
   Scenario: Valid bulk extract user not at the top level edorg cannot retrieve the top level edorg delta private extract
     Given I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -283,11 +286,11 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
     And a batch job log has been created
 
   Scenario: I trigger a delta bulk extract on an education organization that loses its parent
-    When I remove the parent for the education organization "1b223f577827204a1c7e9c851dba06bea6b031fe_id" for tenant "Midgar"
+    When I remove the parent for the education organization "<IL-DAYBREAK>" for tenant "Midgar"
     Then I trigger a delta extract
   #Given I am a valid 'service' user with an authorized long-lived token "-------"
     And I request the latest bulk extract delta using the api
-    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "<app id>" for "<IL-DAYBREAK>"
     And I verify that an extract tar file was created for the tenant "Midgar"
     Then the extract contains a file for each of the following entities:
       | entityType                            |
@@ -297,16 +300,98 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
     And I check that the "staff" extract for "IL-DAYBREAK" has "4" records
     And I verify this "staff" file should contain:
       | id                                          | condition          |
+      #sbantu - Staff at IL-DAYBREAK
       | 72ceaa42bae51d1c066141f4874567fccc7e8fdc_id | entityType = staff |
     And I verify this "staff" file should not contain:
       | id                                          |
       #cgray - Teacher at Daybreak Central High
       | b49545f9d443dfbf93358851c903a9923f6af4dd_id |
+      #rbraverman - Teacher at South Daybreak Elementary (now orphaned)
+      | 8107c5ce31cec58d4ac0b647e91b786b03091f02_id |
     And I check that the "staffEducationOrganizationAssociation" extract for "IL-DAYBREAK" has "4" records
     And I verify this "staffEducationOrganizationAssociation" file should contain:
       | id                                          | condition          |
+      #sbantu - Staff at IL-DAYBREAK
       | 7b824815fb67933529d518324141549c36da9602_id | entityType = staffEducationOrganizationAssociation |
     And I verify this "staffEducationOrganizationAssociation" file should not contain:
       | id                                          |
       #cgray - Teacher at Daybreak Central High
       | c38c41cbb2a2f6b28f951ea7ba0fe054185fbdb1_id |
+      #rbraverman - Teacher at South Daybreak Elementary (now orphaned)
+      | f026e95f4c316533ce7945971cdda0bbb1c41386_id |
+
+    #Get the parent back, then the delta extract should data from its children
+    When I set the parent for the education organization "<IL-DAYBREAK>" to "<IL>" for tenant "Midgar"
+    Given I clean the bulk extract file system and database
+    Given I am using local data store
+    And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And I post "SEAFullDatasetDelta.zip" file as the payload of the ingestion job
+    When zip file is scp to ingestion landing zone
+    And a batch job for file "SEAFullDatasetDelta.zip" is completed in database
+    And a batch job log has been created
+    Then I trigger a delta extract
+    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "<app id>" for "<IL-DAYBREAK>"
+    And I verify that an extract tar file was created for the tenant "Midgar"
+    Then the extract contains a file for each of the following entities:
+      | entityType                            |
+      | staff                                 |
+      | staffEducationOrganizationAssociation |
+      | staffProgramAssociation               |
+      | teacher                               |
+      | studentCohortAssociation              |
+      | teacherSchoolAssociation              |
+      | teacherSectionAssociation             |
+    And I verify this "staff" file should contain:
+      | id                                          | condition          |
+      #sbantu - Staff at IL-DAYBREAK
+      | 72ceaa42bae51d1c066141f4874567fccc7e8fdc_id | entityType = staff |
+      #cgray - Teacher at Daybreak Central High
+      | b49545f9d443dfbf93358851c903a9923f6af4dd_id | entityType = staff |
+    And I verify this "staff" file should not contain:
+      | id                                          |
+      #rbraverman - Teacher at South Daybreak Elementary (now orphaned)
+      | 8107c5ce31cec58d4ac0b647e91b786b03091f02_id |
+    And I verify this "staffEducationOrganizationAssociation" file should contain:
+      | id                                          | condition          |
+      #sbantu - Staff at IL-DAYBREAK
+      | 7b824815fb67933529d518324141549c36da9602_id | entityType = staffEducationOrganizationAssociation |
+      #cgray - Teacher at Daybreak Central High
+      | c38c41cbb2a2f6b28f951ea7ba0fe054185fbdb1_id | entityType = staffEducationOrganizationAssociation |
+    And I verify this "staffEducationOrganizationAssociation" file should not contain:
+      | id                                          |
+      #rbraverman - Teacher at South Daybreak Elementary (now orphaned)
+      | f026e95f4c316533ce7945971cdda0bbb1c41386_id |
+
+    #Orphaned School should only have data for itself
+    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "<app id>" for "<South Daybreak Elementary>"
+    And I verify that an extract tar file was created for the tenant "Midgar"
+    Then the extract contains a file for each of the following entities:
+      | entityType                            |
+      | staff                                 |
+      | staffCohortAssociation                |
+      | staffEducationOrganizationAssociation |
+      | studentCohortAssociation              |
+      | teacher                               |
+      | teacherSchoolAssociation              |
+      | teacherSectionAssociation             |
+    And I verify this "staff" file should contain:
+      | id                                          | condition           |
+      #rbraverman - Teacher at South Daybreak Elementary (now orphaned)
+      | 8107c5ce31cec58d4ac0b647e91b786b03091f02_id | entityType = staff  |
+    And I verify this "staff" file should not contain:
+      | id                                          |
+      #sbantu - Staff at IL-DAYBREAK
+      | 72ceaa42bae51d1c066141f4874567fccc7e8fdc_id |
+      #cgray - Teacher at Daybreak Central High
+      | b49545f9d443dfbf93358851c903a9923f6af4dd_id |
+    And I verify this "staffEducationOrganizationAssociation" file should contain:
+      | id                                          | condition                                           |
+      #rbraverman - Teacher at South Daybreak Elementary (now orphaned)
+      | f026e95f4c316533ce7945971cdda0bbb1c41386_id | entityType = staffEducationOrganizationAssociation  |
+    And I verify this "staffEducationOrganizationAssociation" file should not contain:
+      | id                                          |
+      #sbantu - Staff at IL-DAYBREAK
+      | 7b824815fb67933529d518324141549c36da9602_id |
+      #cgray - Teacher at Daybreak Central High
+      | c38c41cbb2a2f6b28f951ea7ba0fe054185fbdb1_id |
+

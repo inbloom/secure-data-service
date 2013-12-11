@@ -477,8 +477,11 @@ When /^the extract contains a file for each of the following entities:$/ do |tab
     expected_files << entity
 	end
 
-  fileList = Dir.glob("#{@unpackDir}/*.json.gz")
-	assert(fileList.size==expected_files.size, "Expected " + expected_files.size.to_s + " extract files, Actual:" + fileList.size.to_s+" and they are: #{fileList}")
+  file_list = []
+  Dir.chdir(@unpackDir) do
+    file_list = Dir.glob("*.json.gz")
+  end
+	assert(file_list.size==expected_files.size, "Expected " + expected_files.size.to_s + " extract files, Actual:" + file_list.size.to_s+" and they are: #{file_list}")
 end
 
 When /^the extract contains a file for each of the following entities with the appropriate count and does not have certain ids:$/ do |table|
