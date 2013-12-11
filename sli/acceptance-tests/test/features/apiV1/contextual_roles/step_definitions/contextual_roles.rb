@@ -1092,11 +1092,10 @@ Then /^I remove the new entity from "([^"]*)"$/ do |collection|
     db = conn[db_name]
     coll_split = collection.split('.')
     coll = db.collection(coll_split[0])
-    query = {"#{coll_split[1]}._id" => @newId}
-    entity = coll.find_one(query)
+    entity = coll.find_one({"#{coll_split[1]}._id" => @newId})
     subdocs = entity[coll_split[1]]
     subdocs.delete_if {|entry| entry['_id'] == @newId}
-    update_mongo_operation(db_name, coll_split[0], query, coll_split[1],false, subdocs)
+    update_mongo_operation(db_name, coll_split[0], { "_id" => entity["_id"]}, coll_split[1],false, subdocs)
     conn.close
     enable_NOTABLESCAN
   else
