@@ -784,7 +784,7 @@ Scenario: Generate a bulk extract in a different LEA
    And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
    And I should receive a return code of 200
    And I download and decrypt the delta
-   Then I should see "4" bulk extract files
+   Then I should see "6" bulk extract files
    And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    And I verify this "staffEducationOrganizationAssociation" file should contain:
     | id                                          | condition                             |

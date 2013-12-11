@@ -204,8 +204,8 @@ public class DeltaExtractorTest {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void testPublicAndPrivate() {
-        when(deltaEntityIterator.hasNext()).thenReturn(true, true, false);
-        when(deltaEntityIterator.next()).thenReturn(buildUpdatePublicRecord(), buildDeleteRecord());
+        when(deltaEntityIterator.hasNext()).thenReturn(true, true, true, false);
+        when(deltaEntityIterator.next()).thenReturn(buildUpdatePublicRecord(), buildDeleteRecord(), buildUpdatePrivateRecord());
 
         extractor.execute("Midgar", null, new DateTime());
 

@@ -33,7 +33,7 @@ Feature: As an API user, I want to be able to get a list of links available to t
 	When the number of returned URLs is correct:
 	|   fieldName    | count |
 	|   fullEdOrgs   |  6    |
-	|   deltaEdOrgs  |  4    |
+	|   deltaEdOrgs  |  5    |
 	|   fullPublic   |  1    |
 	|   deltaPublic  |  1    |
     When I set the header format to "application/x-tar"
@@ -58,6 +58,7 @@ Scenario: Login as a user not directly associated with the SEA, Public extract s
     Then I should not see an error log file created
     And I should not see a warning log file created
     And I trigger a delta extract
+    Then I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     When I make a call to the bulk extract end point "/bulk/extract/list"
     And I get back a response code of "200"
     Then there are 6 total number of delta links in the list

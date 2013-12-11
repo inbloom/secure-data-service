@@ -170,21 +170,23 @@ public class DeltaExtractor implements InitializingBean {
         if (isPublicEntity(delta.getEntity().getType())) {
             if (delta.isSpamDelete()) {
                 spamDeletes(delta, publicDeltaExtractFile);
+                spamPrivateDeletes(delta, delta.getBelongsToEdOrgs(), tenantDirectory, deltaUptoTime, appsPerEdOrg);
             }
 
             writeUpdate("public", delta, publicDeltaExtractFile);
-        }
+        } else {
 
-        if (delta.isSpamDelete()) {
-            spamPrivateDeletes(delta, delta.getBelongsToEdOrgs(), tenantDirectory, deltaUptoTime, appsPerEdOrg);
-        }
+            if (delta.isSpamDelete()) {
+                spamPrivateDeletes(delta, delta.getBelongsToEdOrgs(), tenantDirectory, deltaUptoTime, appsPerEdOrg);
+            }
 
-        for (String edOrg : delta.getBelongsToEdOrgs()) {
-            // We have apps for this edOrg.
-            if (appsPerEdOrg.containsKey(edOrg)) {
-                ExtractFile extractFile = getExtractFile(edOrg, tenantDirectory, deltaUptoTime, appsPerEdOrg.get(edOrg));
+            for (String edOrg : delta.getBelongsToEdOrgs()) {
+                // We have apps for this edOrg.
+                if (appsPerEdOrg.containsKey(edOrg)) {
+                    ExtractFile extractFile = getExtractFile(edOrg, tenantDirectory, deltaUptoTime, appsPerEdOrg.get(edOrg));
 
-                writeUpdate(edOrg, delta, extractFile);
+                    writeUpdate(edOrg, delta, extractFile);
+                }
             }
         }
     }
