@@ -14,8 +14,8 @@ task :bulkExtractSchedulerTest do
 end
 
 desc "Test the Bulk Extract Scheduler"
-task :bulkExtractSeaPrivateDataTest do
-  runTests("test/features/bulk_extract/features/bulk_extract_sea_private_data.feature")
+task :bulkExtractTopPrivateDataTest do
+  runTests("test/features/bulk_extract/features/bulk_extract_top_level_education_organization_private_data.feature")
 end
 
 desc "Cleanup the extracts"
