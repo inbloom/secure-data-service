@@ -85,9 +85,6 @@ public class DeltaExtractor implements InitializingBean {
     DeltaEntityIterator deltaEntityIterator;
 
     @Autowired
-    LocalEdOrgExtractor leaExtractor;
-
-    @Autowired
     EdOrgExtractHelper helper;
 
     @Autowired
@@ -149,11 +146,6 @@ public class DeltaExtractor implements InitializingBean {
         while (deltaEntityIterator.hasNext()) {
             DeltaRecord delta = deltaEntityIterator.next();
 
-            //To-Do: Remove this logic when implementing top level extract in US5996
-            if(delta.getBelongsToEdOrgs() != null) {
-                delta.getBelongsToEdOrgs().remove(getSEAId());
-            }
-
             if (delta.getOp() == Operation.UPDATE) {
                 extractUpdate(delta, publicDeltaExtractFile, appsPerEdOrg, tenantDirectory, deltaUptoTime);
             } else if (delta.getOp() == Operation.DELETE) {
@@ -178,21 +170,23 @@ public class DeltaExtractor implements InitializingBean {
         if (isPublicEntity(delta.getEntity().getType())) {
             if (delta.isSpamDelete()) {
                 spamDeletes(delta, publicDeltaExtractFile);
+                spamPrivateDeletes(delta, delta.getBelongsToEdOrgs(), tenantDirectory, deltaUptoTime, appsPerEdOrg);
             }
 
             writeUpdate("public", delta, publicDeltaExtractFile);
-        }
+        } else {
 
-        if (delta.isSpamDelete()) {
-            spamPrivateDeletes(delta, delta.getBelongsToEdOrgs(), tenantDirectory, deltaUptoTime, appsPerEdOrg);
-        }
+            if (delta.isSpamDelete()) {
+                spamPrivateDeletes(delta, delta.getBelongsToEdOrgs(), tenantDirectory, deltaUptoTime, appsPerEdOrg);
+            }
 
-        for (String edOrg : delta.getBelongsToEdOrgs()) {
-            // We have apps for this edOrg.
-            if (appsPerEdOrg.containsKey(edOrg)) {
-                ExtractFile extractFile = getExtractFile(edOrg, tenantDirectory, deltaUptoTime, appsPerEdOrg.get(edOrg));
+            for (String edOrg : delta.getBelongsToEdOrgs()) {
+                // We have apps for this edOrg.
+                if (appsPerEdOrg.containsKey(edOrg)) {
+                    ExtractFile extractFile = getExtractFile(edOrg, tenantDirectory, deltaUptoTime, appsPerEdOrg.get(edOrg));
 
-                writeUpdate(edOrg, delta, extractFile);
+                    writeUpdate(edOrg, delta, extractFile);
+                }
             }
         }
     }
@@ -390,18 +384,6 @@ public class DeltaExtractor implements InitializingBean {
 
     private String getPublicArchiveName(Date startTime) {
         return "public-" + Launcher.getTimeStamp(startTime) + "-delta";
-    }
-
-    private String getSEAId() {
-        String seaId = null;
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria(ParameterConstants.ORGANIZATION_CATEGORIES, NeutralCriteria.OPERATOR_EQUAL, "State Education Agency"));
-
-        Entity seaEntity = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query);
-        if(seaEntity != null) {
-            seaId = seaEntity.getEntityId();
-        }
-        return seaId;
     }
 
     /**

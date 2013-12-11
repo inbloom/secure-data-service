@@ -70,11 +70,7 @@ Given /^in my list of rights I have BULK_EXTRACT$/ do
   #  Explanatory step
 end
 
-When /^I make lea bulk extract API call for lea "(.*?)"$/ do |arg1|
-  restTls("/bulk/extract/#{arg1}")
-end
-
-When /^I make lea bulk extract API call for edorg "(.*?)"$/ do |arg1|
+When /^I make a full bulk extract API call for edorg "(.*?)"$/ do |arg1|
   restTls("/bulk/extract/#{arg1}")
 end
 
