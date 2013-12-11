@@ -7,6 +7,30 @@ When /^I POST a class period$/ do
 end
 
 When /^I GET the class period$/ do
+  @expected_links = { "links" => [
+                                   {
+                                     "rel" => "self",
+                                     "href" =>  "classPeriods/#{@id}"
+                                   },
+                                   {
+                                     "rel" => "custom",
+                                     "href" =>  "classPeriods/#{@id}/custom"
+                                   },
+                                   {
+                                     "rel" => "getSchool",
+                                     "href" =>  "schools/" + @expected_entity['educationOrganizationId']
+                                   },
+                                   {
+                                     "rel" => "getEducationOrganization",
+                                     "href" =>  "educationOrganizations/" + @expected_entity['educationOrganizationId']
+                                   },
+                                   {
+                                     "rel" => "getSections",
+                                     "href" =>  "sections?classPeriodId=#{@id}"
+                                   }
+                                 ]
+                     }
+  puts "expected links: " + @expected_links["links"].to_json
   get_entity
 end
 
