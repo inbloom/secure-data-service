@@ -477,8 +477,11 @@ When /^the extract contains a file for each of the following entities:$/ do |tab
     expected_files << entity
 	end
 
-  fileList = Dir.glob("#{@unpackDir}/*.json.gz")
-	assert(fileList.size==expected_files.size, "Expected " + expected_files.size.to_s + " extract files, Actual:" + fileList.size.to_s+" and they are: #{fileList}")
+  file_list = []
+  Dir.chdir(@unpackDir) do
+    file_list = Dir.glob("*.json.gz")
+  end
+	assert(file_list.size==expected_files.size, "Expected " + expected_files.size.to_s + " extract files, Actual:" + file_list.size.to_s+" and they are: #{file_list}")
 end
 
 When /^the extract contains a file for each of the following entities with the appropriate count and does not have certain ids:$/ do |table|
@@ -883,6 +886,28 @@ When /I check that the "(.*?)" extract for "(.*?)" has the correct number of rec
   comment = "Expected #{entity} extract for #{edOrgId} to have #{expected}. Found #{json.size}"
   assert(json.size == expected, comment)
   puts (comment)
+  enable_NOTABLESCAN()
+end
+
+When /I remove the parent for the education organization "(.*?)" for tenant "(.*?)"/ do |edOrgId, tenant|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(tenant))
+
+  result = @tenantDb.collection("educationOrganization").update({'_id' => edOrgId}, {'$unset' => {'body.parentEducationAgencyReference' => 1}})
+  puts result
+
+  result = @tenantDb.collection("educationOrganization").update({'_id' => edOrgId}, {'$unset' => {'metaData.edOrgs' => 1}})
+
+  puts result
+  enable_NOTABLESCAN()
+end
+
+When /I set the parent for the education organization "(.*?)" to "(.*?)" for tenant "(.*?)"/ do |edOrgId, parentId, tenant|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(tenant))
+
+  result = @tenantDb.collection("educationOrganization").update({'_id' => edOrgId}, {'$set' => {'body.parentEducationAgencyReference' => [parentId]}})
+  puts result
   enable_NOTABLESCAN()
 end
 

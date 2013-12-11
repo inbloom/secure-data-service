@@ -27,41 +27,11 @@ import org.slc.sli.domain.NeutralQuery;
  */
 @Component
 public class SimpleEntityTypeContextResolver extends ReferrableResolver {
-    
-    private final Set<String> cache = new HashSet<String>();
-    
-    /**
-     * @param args
-     */
-    
-    private void init() {
-        
-        synchronized (cache) {
-            if (cache.isEmpty()) {
-                String sea = "State Education Agency";          // Should be a constant
-                String orgField = "body.organizationCategories";    // ""
-                NeutralQuery query = new NeutralQuery(new NeutralCriteria(orgField, NeutralCriteria.OPERATOR_EQUAL, sea, false));
-                
-                Iterable<Entity> edOrgs = getRepo().findAll(EntityNames.EDUCATION_ORGANIZATION, query);
-                
-                for (Entity edOrg : edOrgs) {
-                    cache.add(edOrg.getEntityId());
-                }
-            }
-        }
-    }
-    
+
     @Override
     public Set<String> findGoverningEdOrgs(Entity entity) {
-        if (entity == null) {
-            return Collections.emptySet();
-        }
         
-        if (cache.isEmpty()) {
-            init();
-        }
-        
-        return cache;
+        return Collections.emptySet();
         
     }
     
