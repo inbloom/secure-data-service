@@ -175,7 +175,8 @@ COMPETENCY_LEVEL_DESCRIPTORS: [
 
 ENTITY_BLACKLIST: [
 "BehaviorDescriptor",
-"DisciplineDescriptor"
+"DisciplineDescriptor",
+"BellSchedule"
 ]
 
 #likelyhood for random optional fields most people don't care about

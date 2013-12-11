@@ -1,5 +1,5 @@
 [{
-  "nameSpace": ["v1.0","v1.1", "v1.2", "v1.3"],
+  "nameSpace": ["v1.0","v1.1", "v1.2", "v1.3", "v1.4"],
   "resources": [
    {
       "path": "/bulk",
@@ -613,7 +613,7 @@
   ]
 },
 {
-  "nameSpace": ["v1.1", "v1.2", "v1.3"],
+  "nameSpace": ["v1.1", "v1.2", "v1.3", "v1.4"],
   "resources": [
     {
       "path": "/search",
@@ -678,7 +678,7 @@
   ]
 },
 {
-  "nameSpace": ["v1.2", "v1.3"],
+  "nameSpace": ["v1.2", "v1.3", "v1.4"],
   "resources": [
     {
       "path": "/students",
@@ -692,7 +692,7 @@
   ]
 },
 {
-  "nameSpace": ["v1.3"],
+  "nameSpace": ["v1.3", "v1.4"],
   "resources": [
     {
       "path": "/calendarDates",
@@ -703,23 +703,23 @@
   ] 
 },
 {
-    "nameSpace": ["v1.3"],
+    "nameSpace": ["v1.4"],
     "resources": [
       {
         "path": "/classPeriods",
         "queryable": true,
-        "availableSince" : "v1.3",
+        "availableSince" : "v1.4",
         "doc": "The URI, /classPeriods, represents an appointment."
       }
     ]
 },
 {
-    "nameSpace": ["v1.3"],
+    "nameSpace": ["v1.4"],
     "resources": [
       {
         "path": "/bellSchedules",
         "queryable": true,
-        "availableSince" : "v1.3",
+        "availableSince" : "v1.4",
         "doc": "This URI, /bellSchedules, represents an appointment."
       }
     ]
