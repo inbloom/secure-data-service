@@ -886,11 +886,24 @@ When /I check that the "(.*?)" extract for "(.*?)" has the correct number of rec
   enable_NOTABLESCAN()
 end
 
-When /I remove the parent for the education organization "(.*?)"/ do |edOrgId|
+When /I remove the parent for the education organization "(.*?)" for tenant "(.*?)"/ do |edOrgId, tenant|
   disable_NOTABLESCAN()
-  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+  @tenantDb = @conn.db(convertTenantIdToDbName(tenant))
 
   result = @tenantDb.collection("educationOrganization").update({'_id' => edOrgId}, {'$unset' => {'body.parentEducationAgencyReference' => 1}})
+  puts result
+
+  result = @tenantDb.collection("educationOrganization").update({'_id' => edOrgId}, {'$unset' => {'metaData.edOrgs' => 1}})
+
+  puts result
+  enable_NOTABLESCAN()
+end
+
+When /I set the parent for the education organization "(.*?)" to "(.*?)" for tenant "(.*?)"/ do |edOrgId, parentId, tenant|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(tenant))
+
+  result = @tenantDb.collection("educationOrganization").update({'_id' => edOrgId}, {'$set' => {'body.parentEducationAgencyReference' => [parentId]}})
   puts result
   enable_NOTABLESCAN()
 end
