@@ -10,7 +10,7 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
     And a batch job log has been created
     And all edorgs in "Midgar" are authorized for "SDK Sample"
 
- Scenario: I trigger a full bulk extract, and verify the SEA file has the correct private data
+ Scenario: I trigger a full bulk extract, and verify the top level edorg file has the correct private data
   Then I trigger a bulk extract
   #Given I am a valid 'service' user with an authorized long-lived token "-------"
   When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
@@ -58,7 +58,7 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
      #sbantu - Staff at IL-DAYBREAK
      | 77d027fa7ebb00aac5b2887c9ffc2f1a19b8d8cd_id |
 
-   Scenario: Valid bulk extract user at the SEA can retrieve the SEA full private extract via the API
+   Scenario: Valid bulk extract user at the top level edorg can retrieve the top level edorg full private extract via the API
      Given I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
      When I make a full bulk extract API call for edorg "<IL>"
      And the return code is 200 I get expected tar downloaded
@@ -72,7 +72,7 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
        | staffEducationOrganizationAssociation |
        | staffProgramAssociation               |
 
-  Scenario: Valid bulk extract user not at the SEA cannot retrieve the SEA full private extract
+  Scenario: Valid bulk extract user not at the top level edorg cannot retrieve the top level edorg full private extract
     Given I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     When I make a full bulk extract API call for edorg "<IL>"
     And I should receive a return code of 403
@@ -139,7 +139,7 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
       | teacherSectionAssociation             |
       | teacherSchoolAssociation              |
 
-  Scenario: I trigger a full bulk extract on an education organization that loses its parent
+  Scenario: I trigger a full bulk extract on a school that loses its parent (thereby becoming an orphan education organization)
     Given I clean the bulk extract file system and database
     When I remove the parent for the education organization "352e8570bd1116d11a72755b987902440045d346_id" for tenant "Midgar"
     Then I trigger a bulk extract
@@ -206,7 +206,7 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
     And a batch job for file "SEAFullDatasetDelta.zip" is completed in database
     And a batch job log has been created
 
-  Scenario: I trigger a delta bulk extract, and verify the SEA file has the correct private data
+  Scenario: I trigger a delta bulk extract, and verify the top level edorg file has the correct private data
     Then I trigger a delta extract
 
   #Given I am a valid 'service' user with an authorized long-lived token "-------"
@@ -256,7 +256,7 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
       #sbantu - Staff at IL-DAYBREAK
       | 77d027fa7ebb00aac5b2887c9ffc2f1a19b8d8cd_id |
 
-  Scenario: Valid bulk extract user at the SEA can retrieve the SEA delta private extract via the API
+  Scenario: Valid bulk extract user at the top level edorg can retrieve the top level edorg delta private extract via the API
     Given I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     When I request latest delta via API for tenant "Midgar", lea "<IL>" with appId "<app id>" clientId "<client id>"
     And I should receive a return code of 200
@@ -268,7 +268,7 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
       | staffEducationOrganizationAssociation |
       | staffProgramAssociation               |
 
-  Scenario: Valid bulk extract user not at the SEA cannot retrieve the SEA delta private extract
+  Scenario: Valid bulk extract user not at the top level edorg cannot retrieve the top level edorg delta private extract
     Given I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     When I request latest delta via API for tenant "Midgar", lea "<IL>" with appId "<app id>" clientId "<client id>"
     And I should receive a return code of 403
