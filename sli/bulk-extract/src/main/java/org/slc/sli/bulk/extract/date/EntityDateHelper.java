@@ -52,8 +52,8 @@ public class EntityDateHelper {
     }
 
     private static boolean isBeforeOrEqualDate(String begin, DateTime upToDate) {
-        DateTime beginDate = (begin == null) ? DateTime.now() : DateTime.parse(begin, DateHelper.getDateTimeFormat());
-        return !beginDate.isAfter(upToDate);
+        DateTime beginDate = (begin == null) ? DateTime.now().toDateMidnight().toDateTime() : DateTime.parse(begin, DateHelper.getDateTimeFormat());
+        return !beginDate.isAfter(upToDate.toDateMidnight().toDateTime());
     }
 
     private static boolean isBeforeOrEqualYear(String yearSpan, int upToYear) {

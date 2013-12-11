@@ -47,15 +47,24 @@ public class EntityDateHelperTest {
     public void testIsPastOrCurrentDateWithDate() {
         Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2010-05-23", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.DISCIPLINE_INCIDENT));
         Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2011-05-23", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.DISCIPLINE_INCIDENT));
-        Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate("2012-05-23", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.DISCIPLINE_INCIDENT));
+        Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate(null, DateTime.now(), EntityNames.DISCIPLINE_INCIDENT));  // Assuming there's no date changeover between date creation and usage.
+        Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2012-11-11", DateTime.parse("2012-11-11T00:00:00"), EntityNames.DISCIPLINE_INCIDENT));  // Assuming there's no date changeover between date creation and usage.
+        Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2012-11-11", DateTime.parse("2012-11-11T23:59:59.999"), EntityNames.DISCIPLINE_INCIDENT));  // Assuming there's no date changeover between date creation and usage.
+        Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate(null, DateTime.now().minusMillis(1), EntityNames.DISCIPLINE_INCIDENT));  // Assuming there's no date changeover between date creation and usage.
+        DateTime tomorrow = DateTime.now().plusDays(1);
+        Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate(tomorrow.getYear() + "-" + String.format("%2d", tomorrow.getMonthOfYear()) + "-" + String.format("%2d", tomorrow.getDayOfMonth()), DateTime.now(), EntityNames.DISCIPLINE_INCIDENT));  // Assuming there's no date changeover between date creation and usage.
+        Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate(null, DateTime.now().minusDays(1), EntityNames.DISCIPLINE_INCIDENT));
+        Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate(null, DateTime.parse("2012-11-11"), EntityNames.DISCIPLINE_INCIDENT));  // Assuming no one sets the date on this machine before December 11th, 2012.
     }
 
     @Test
     public void testIsPastOrCurrentDateWithYear() {
         Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2009-2010", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.GRADE));
         Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2010-2011", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.GRADE));
+        Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate((DateTime.now().getYear() - 1) + "-" + DateTime.now().getYear(), null, EntityNames.GRADE));
         Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate("2011-2012", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.GRADE));
         Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate("2012-2013", DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat()), EntityNames.GRADE));
+        Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate(DateTime.now().getYear() + "-" + (DateTime.now().getYear() + 1), null, EntityNames.GRADE));
     }
 
 }
