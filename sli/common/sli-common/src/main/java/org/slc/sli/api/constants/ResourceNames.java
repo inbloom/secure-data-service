@@ -137,6 +137,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.LEARNINGSTANDARDS, "getLearningStandard");
         SINGULAR_LINK_NAMES.put(ResourceNames.REPORT_CARDS, "getReportCard");
         SINGULAR_LINK_NAMES.put(ResourceNames.SESSIONS, "getSession");
+        SINGULAR_LINK_NAMES.put(ResourceNames.CLASS_PERIODS, "getClassPeriod");
         SINGULAR_LINK_NAMES.put(ResourceNames.SCHOOLS, "getSchool");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENTS, "getStudent");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_ACADEMIC_RECORDS, "getStudentAcademicRecord");

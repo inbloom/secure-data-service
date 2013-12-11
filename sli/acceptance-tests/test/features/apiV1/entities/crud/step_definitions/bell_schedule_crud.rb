@@ -20,6 +20,27 @@ When /^I POST a bell schedule$/ do
 end
 
 When /^I GET the bell schedule$/ do
+  @expected_links = { "links" => [
+                                   {
+                                     "rel" => "self",
+                                     "href" =>  "bellSchedules/#{@id}"
+                                   },
+                                   {
+                                     "rel" => "custom",
+                                     "href" =>  "bellSchedules/#{@id}/custom"
+                                   },
+                                   {
+                                     "rel" => "getCalendar",
+                                     "href" =>  "calendarDates/" + @expected_entity['calendarDateReference']
+                                   },
+                                   {
+                                     "rel" => "getClassPeriod",
+                                     "href" =>  "classPeriods/" + @expected_entity['meetingTime']['classPeriodId']
+                                   }
+                                 ]
+                     }
+
+  puts "expected links: " + @expected_links["links"].to_json
   get_entity
 end
 
