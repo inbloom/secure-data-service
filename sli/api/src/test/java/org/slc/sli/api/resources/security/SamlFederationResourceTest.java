@@ -18,10 +18,8 @@
 package org.slc.sli.api.resources.security;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.times;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -34,7 +32,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
@@ -44,12 +41,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.jdom.Document;
-import org.jdom.Element;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.jdom.filter.ElementFilter;
 import org.jdom.input.DOMBuilder;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.Assert;
@@ -77,7 +73,6 @@ import org.opensaml.ws.soap.soap11.Envelope;
 import org.opensaml.ws.soap.soap11.impl.EnvelopeImpl;
 import org.opensaml.xml.XMLObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -90,7 +85,6 @@ import org.xml.sax.SAXException;
 import org.slc.sli.api.representation.CustomStatus;
 import org.slc.sli.api.security.OauthMongoSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.security.resolve.UserLocator;
@@ -99,7 +93,6 @@ import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
@@ -152,20 +145,12 @@ public class SamlFederationResourceTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    private SecurityEventBuilder securityEventBuilder = Mockito.mock(SecurityEventBuilder.class);
-
     private Entity realm = Mockito.mock(Entity.class);
     private Entity edOrg = Mockito.mock(Entity.class);
 
-    private Element rootElement = Mockito.mock(Element.class);
-    private Element assertion = Mockito.mock(Element.class);
-    private Element conditions = Mockito.mock(Element.class);
-    private Element subject = Mockito.mock(Element.class);
-    private Element subjConfirmation = Mockito.mock(Element.class);
-    private Element subjConfirmationData = Mockito.mock(Element.class);
-    private Element statement = Mockito.mock(Element.class);
-    private List<Element> attributeNodes = new ArrayList<Element>();
     private Document doc = Mockito.mock(Document.class);
+    private Element rootElement = Mockito.mock(Element.class);
+
 
     private SLIPrincipal principal;
 
@@ -194,17 +179,7 @@ public class SamlFederationResourceTest {
         Mockito.when(repo.findById(eq("realm"), anyString())).thenReturn(realm);
         Mockito.when(repo.findOne(eq(EntityNames.EDUCATION_ORGANIZATION), any(NeutralQuery.class))).thenReturn(edOrg);
 
-        attributeNodes.clear();
-        Mockito.when(subjConfirmation.getChild("SubjectConfirmationData", SamlHelper.SAML_NS)).thenReturn(subjConfirmationData);
-        Mockito.when(subject.getChild("SubjectConfirmation", SamlHelper.SAML_NS)).thenReturn(subjConfirmation);
-        Mockito.when(statement.getChildren("Attribute", SamlHelper.SAML_NS)).thenReturn(attributeNodes);
-        Mockito.when(assertion.getChild("Conditions", SamlHelper.SAML_NS)).thenReturn(conditions);
-        Mockito.when(assertion.getChild("Subject", SamlHelper.SAML_NS)).thenReturn(subject);
-        Mockito.when(assertion.getChild("AttributeStatement", SamlHelper.SAML_NS)).thenReturn(statement);
-        Mockito.when(rootElement.getAttributeValue("InResponseTo")).thenReturn("My Request");
-        Mockito.when(rootElement.getChildText("Issuer", SamlHelper.SAML_NS)).thenReturn("My Issuer");
-        Mockito.when(rootElement.getChild("Assertion", SamlHelper.SAML_NS)).thenReturn(assertion);
-        Mockito.when(doc.getRootElement()).thenReturn(rootElement);
+        Mockito.when(doc.getDocumentElement()).thenReturn(rootElement);
 
         principal = new SLIPrincipal();
         Mockito.when(users.locate(anyString(), anyString(), anyString())).thenReturn(principal);
@@ -213,20 +188,14 @@ public class SamlFederationResourceTest {
 
         List<String> roles = new ArrayList<String>();
         roles.add("Educator");
-        constructAttributes(null, false, "My User", null, roles);
+        //constructAttributes(null, false, "My User", null, roles);
         Entity entity = new MongoEntity("user", "My User", new HashMap<String, Object>(), new HashMap<String, Object>());
         principal.setEntity(entity);
         principal.setRoles(roles);
 
-        Mockito.when(conditions.getAttributeValue("NotBefore")).thenReturn(DateTime.now(DateTimeZone.UTC).minusHours(1).toString());
-        Mockito.when(conditions.getAttributeValue("NotOnOrAfter")).thenReturn(DateTime.now(DateTimeZone.UTC).plusHours(1).toString());
 
         Mockito.when(realmHelper.isUserAllowedLoginToRealm(any(Entity.class), eq(realm))).thenReturn(true);
-        Mockito.when(subjConfirmationData.getAttributeValue(eq("Recipient"))).thenReturn("http://myapi.com");
-        Mockito.when(subjConfirmationData.getAttributeValue(eq("NotBefore"))).thenReturn(DateTime.now(DateTimeZone.UTC).minusHours(1).toString());
-        Mockito.when(subjConfirmationData.getAttributeValue(eq("NotOnOrAfter"))).thenReturn(DateTime.now(DateTimeZone.UTC).plusHours(1).toString());
 
-        Mockito.when(samlHelper.decodeSamlPost(anyString())).thenReturn(doc);
 
         Mockito.when(sessionManager.getAppSession(anyString(), any(Entity.class))).thenCallRealMethod();
 
@@ -248,8 +217,6 @@ public class SamlFederationResourceTest {
         Mockito.when(httpServletRequest.getRemoteUser()).thenReturn("My User");
         Mockito.when(httpServletRequest.getHeader(eq("Origin"))).thenReturn("My Origin");
 
-        setSecurityEventBuilder();
-
         setSandboxEnabled(false);
 
         ArtifactResolve artifactResolve = Mockito.mock(ArtifactResolve.class);
@@ -261,6 +228,8 @@ public class SamlFederationResourceTest {
         EnvelopeImpl response = Mockito.mock(EnvelopeImpl.class);
         Mockito.when(soapHelper.sendSOAPCommunication(Mockito.any(Envelope.class), Mockito.anyString(), Mockito.any(KeyStore.PrivateKeyEntry.class))).thenReturn(response);
 
+        Mockito.when(samlHelper.parseToDoc(anyString())).thenReturn(doc);
+        Mockito.when(doc.getDocumentElement()).thenReturn(rootElement);
 
         ArtifactResponse artifactResponse = Mockito.mock(ArtifactResponse.class);
         List<XMLObject> artifactResponses = new ArrayList<XMLObject>();
@@ -318,10 +287,10 @@ public class SamlFederationResourceTest {
             org.w3c.dom.Document doc = db.parse(is);
             DOMBuilder builder = new DOMBuilder();
             org.jdom.Document jdomDocument = builder.build(doc);
-            Iterator<Element> itr = jdomDocument.getDescendants(new ElementFilter());
+            Iterator<org.jdom.Element> itr = jdomDocument.getDescendants(new ElementFilter());
 
             while (itr.hasNext()) {
-                Element el = itr.next();
+                org.jdom.Element el = itr.next();
                 if(el.getName().equals("X509Certificate")) {
                     Assert.assertNotNull(el.getText());
                 }
@@ -336,342 +305,51 @@ public class SamlFederationResourceTest {
         Assert.assertNull(exception);
     }
 
-
-    @SuppressWarnings("unchecked")
     @Test
-    public void consumeNonAdminNonDevRealmInstalledTest() throws URISyntaxException {
-        String postData = "nonAdminNonDevRealmInstalled";
+    public void testValidPost() {
+        String postData = "9A66FHO12BSO3NFH";
+        String decodedData = "Test";
 
-        URI requestUri = new URI("http://myapi.com");
+        org.opensaml.saml2.core.Response samlResponse = Mockito.mock(org.opensaml.saml2.core.Response.class);
         UriInfo uriInfo = Mockito.mock(UriInfo.class);
-        Mockito.when(uriInfo.getRequestUri()).thenReturn(requestUri);
+        SamlFederationResource spyResource = Mockito.spy(resource);
 
-        setSession(Boolean.TRUE);
+        Mockito.when(samlHelper.decode(postData)).thenReturn(decodedData);
+        Mockito.when(samlHelper.parseToDoc(postData)).thenReturn(doc);
+        Mockito.when(samlHelper.convertToSAMLResponse(rootElement)).thenReturn(samlResponse);
 
-        Response loginResponse = resource.consume(postData, uriInfo);
+        Mockito.doReturn(Mockito.mock(Response.class)).when(spyResource).processSAMLResponse(Mockito.any(org.opensaml.saml2.core.Response.class), Mockito.any(UriInfo.class));
 
-        Assert.assertEquals(STATUS_OK, loginResponse.getStatus());
-        Mockito.verify(securityEventBuilder, times(1)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), any(SLIPrincipal.class),
-                any(String.class), any(Entity.class), any(Set.class), eq(true));
+        spyResource.processPostBinding(postData, uriInfo);
+
+        Mockito.verify(spyResource, Mockito.times(1)).processSAMLResponse(samlResponse, uriInfo);
     }
 
-    @SuppressWarnings("unchecked")
-    @Test
-    public void consumeNonAdminNonDevRealmNotInstalledTest() throws URISyntaxException {
-        String postData = "nonAdminNonDevRealmNotInstalled";
-
-        URI requestUri = new URI("http://myapi.com");
+    @Test (expected= APIAccessDeniedException.class)
+    public void testInvalidEncodedPost() {
+        String postData = "9A66FHO12BSO3NFH";
+        String decodedData = "Test";
+        org.opensaml.saml2.core.Response samlResponse = Mockito.mock(org.opensaml.saml2.core.Response.class);
         UriInfo uriInfo = Mockito.mock(UriInfo.class);
-        Mockito.when(uriInfo.getRequestUri()).thenReturn(requestUri);
+        SamlFederationResource spyResource = Mockito.spy(resource);
 
-        setSession(Boolean.FALSE);
+        Mockito.when(samlHelper.decode(postData)).thenReturn(decodedData);
+        Mockito.when(samlHelper.parseToDoc(decodedData)).thenThrow(new IllegalArgumentException("exception"));
 
-        Response loginResponse = resource.consume(postData, uriInfo);
+        spyResource.processPostBinding(postData, uriInfo);
 
-        Assert.assertEquals(STATUS_FOUND, loginResponse.getStatus());
-        Mockito.verify(securityEventBuilder, times(1)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), any(SLIPrincipal.class),
-                any(String.class), any(Entity.class), any(Set.class), eq(true));
+        Mockito.verify(spyResource, Mockito.never()).processSAMLResponse(samlResponse, uriInfo);
     }
 
-    @SuppressWarnings("unchecked")
-    @Test
-    public void consumeAdminRealmAndSandboxEnabledWithSamlTenantTest() throws URISyntaxException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        String postData = "adminRealmAndSandboxEnabledWithSamlTenant";
-
-        URI requestUri = new URI("http://myapi.com");
+    @Test (expected = IllegalArgumentException.class)
+    public void testInvalidDataFromIdp() {
         UriInfo uriInfo = Mockito.mock(UriInfo.class);
-        Mockito.when(uriInfo.getRequestUri()).thenReturn(requestUri);
 
-        setSession(Boolean.TRUE);
+        resource.processPostBinding(null, uriInfo);
+        Mockito.verify(resource, Mockito.never()).processSAMLResponse(samlResponse, uriInfo);
 
-        setRealm(Boolean.TRUE);
-
-        setSandboxEnabled(true);
-
-        List<String> roles = new ArrayList<String>();
-        roles.add("Educator");
-        constructAttributes("My Tenant", false, "My User", null, roles);
-
-        Response loginResponse = resource.consume(postData, uriInfo);
-
-        Assert.assertEquals(STATUS_OK, loginResponse.getStatus());
-        Mockito.verify(securityEventBuilder, times(1)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), any(SLIPrincipal.class),
-                any(String.class), any(Entity.class), any(Set.class), eq(true));
-    }
-
-    @SuppressWarnings("unused")
-    @Test
-    public void consumeisAdminRealmAndSandboxEnabledNoSamlTenantTest() throws URISyntaxException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        String postData = "adminRealmAndSandboxEnabledNoSamlTenant";
-
-        URI requestUri = new URI("http://myapi.com");
-        UriInfo uriInfo = Mockito.mock(UriInfo.class);
-        Mockito.when(uriInfo.getRequestUri()).thenReturn(requestUri);
-
-        setSession(Boolean.TRUE);
-
-        setRealm(Boolean.TRUE);
-
-        setSandboxEnabled(true);
-
-        try {
-            Response loginResponse = resource.consume(postData, uriInfo);
-        } catch (AccessDeniedException ade) {
-            Assert.assertEquals("Invalid user configuration.", ade.getMessage());
-        }
-
-        Mockito.verify(securityEventBuilder, times(0)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), eq(false));
-    }
-
-    @SuppressWarnings("unused")
-    @Test
-    public void consumeUserNotAllowedToLogInTest() throws URISyntaxException {
-        String postData = "userNotAllowedToLogIn";
-
-        URI requestUri = new URI("http://myapi.com");
-        UriInfo uriInfo = Mockito.mock(UriInfo.class);
-        Mockito.when(uriInfo.getRequestUri()).thenReturn(requestUri);
-
-        setSession(Boolean.TRUE);
-
-        Mockito.when(realmHelper.isUserAllowedLoginToRealm(any(Entity.class), eq(realm))).thenReturn(false);
-
-        try {
-            Response loginResponse = resource.consume(postData, uriInfo);
-        } catch (AccessDeniedException ade) {
-            Assert.assertEquals("User is not associated with realm.", ade.getMessage());
-        }
-
-        Mockito.verify(securityEventBuilder, times(0)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), eq(false));
-    }
-
-    @SuppressWarnings("unused")
-    @Test
-    public void consumeNoRealmTest() throws URISyntaxException {
-        String postData = "noRealm";
-
-        URI requestUri = new URI("http://myapi.com");
-        UriInfo uriInfo = Mockito.mock(UriInfo.class);
-        Mockito.when(uriInfo.getRequestUri()).thenReturn(requestUri);
-
-        setSession(Boolean.TRUE);
-
-        Mockito.when(repo.findOne(eq("realm"), any(NeutralQuery.class))).thenReturn(null);
-
-        try {
-            Response loginResponse = resource.consume(postData, uriInfo);
-        } catch (AccessDeniedException ade) {
-            Assert.assertEquals("Authorization could not be verified.", ade.getMessage());
-        }
-
-        Mockito.verify(securityEventBuilder, times(0)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), eq(false));
-    }
-
-    @SuppressWarnings("unused")
-    @Test
-    public void consumeNoSubjectTest() throws URISyntaxException {
-        String postData = "noSubject";
-
-        URI requestUri = new URI("http://myapi.com");
-        UriInfo uriInfo = Mockito.mock(UriInfo.class);
-        Mockito.when(uriInfo.getRequestUri()).thenReturn(requestUri);
-
-        setSession(Boolean.TRUE);
-
-        Mockito.when(assertion.getChild("Subject", SamlHelper.SAML_NS)).thenReturn(null);
-
-        try {
-            Response loginResponse = resource.consume(postData, uriInfo);
-        } catch (AccessDeniedException ade) {
-            Assert.assertEquals("Authorization could not be verified.", ade.getMessage());
-        }
-
-        Mockito.verify(securityEventBuilder, times(0)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), eq(false));
-    }
-
-    @SuppressWarnings("unused")
-    @Test
-    public void consumeInvalidRecipientTest() throws URISyntaxException {
-        String postData = "invalidRecipient";
-
-        URI requestUri = new URI("http://myapi.com");
-        UriInfo uriInfo = Mockito.mock(UriInfo.class);
-        Mockito.when(uriInfo.getRequestUri()).thenReturn(requestUri);
-
-        setSession(Boolean.TRUE);
-
-        Mockito.when(subjConfirmationData.getAttributeValue(eq("Recipient"))).thenReturn("http://notmyapi.com");
-
-        try {
-            Response loginResponse = resource.consume(postData, uriInfo);
-        } catch (AccessDeniedException ade) {
-            Assert.assertEquals("Authorization could not be verified.", ade.getMessage());
-        }
-
-        Mockito.verify(securityEventBuilder, times(0)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), eq(false));
-    }
-
-    @SuppressWarnings("unused")
-    @Test
-    public void consumeNoRolesTest() throws URISyntaxException {
-        String postData = "noRoles";
-
-        URI requestUri = new URI("http://myapi.com");
-        UriInfo uriInfo = Mockito.mock(UriInfo.class);
-        Mockito.when(uriInfo.getRequestUri()).thenReturn(requestUri);
-
-        setSession(Boolean.TRUE);
-
-        constructAttributes(null, false, "My User", null, new ArrayList<String>());
-
-        try {
-            Response loginResponse = resource.consume(postData, uriInfo);
-        } catch (AccessDeniedException ade) {
-            Assert.assertEquals("Invalid user. No roles specified for user.", ade.getMessage());
-        }
-
-        Mockito.verify(securityEventBuilder, times(0)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), eq(false));
-    }
-
-    @SuppressWarnings("unused")
-    @Test
-    public void consumeNoMatchingRolesTest() throws URISyntaxException {
-        String postData = "noMatchingRoles";
-
-        URI requestUri = new URI("http://myapi.com");
-        UriInfo uriInfo = Mockito.mock(UriInfo.class);
-        Mockito.when(uriInfo.getRequestUri()).thenReturn(requestUri);
-
-        setSession(Boolean.TRUE);
-
-        List<String> samlRoles = new ArrayList<String>();
-        samlRoles.add("IT Administrator");
-        constructAttributes(null, false, "My User", null, samlRoles);
-        Entity entity = new MongoEntity("user", "My User", new HashMap<String, Object>(), new HashMap<String, Object>());
-        principal.setEntity(entity);
-        principal.setRoles(samlRoles);
-
-        try {
-            Response loginResponse = resource.consume(postData, uriInfo);
-        } catch (AccessDeniedException ade) {
-            Assert.assertEquals("Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.", ade.getMessage());
-        }
-
-        Mockito.verify(securityEventBuilder, times(0)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), eq(false));
-    }
-
-    @SuppressWarnings({ "unused", "unchecked" })
-    @Test
-    public void consumeNoEdOrgTest() throws URISyntaxException {
-        String postData = "noEdOrg";
-
-        URI requestUri = new URI("http://myapi.com");
-        UriInfo uriInfo = Mockito.mock(UriInfo.class);
-        Mockito.when(uriInfo.getRequestUri()).thenReturn(requestUri);
-
-        setSession(Boolean.TRUE);
-
-        Mockito.when(edOrgRoleBuilder.buildValidStaffRoles(anyString(), anyString(), anyString(), any(List.class))).thenReturn(new HashMap<String, List<String>>());
-
-        try {
-            Response loginResponse = resource.consume(postData, uriInfo);
-        } catch (AccessDeniedException ade) {
-            Assert.assertEquals("No Matching Roles", ade.getMessage());
-        }
-
-        Mockito.verify(securityEventBuilder, times(0)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), eq(false));
-    }
-
-    @SuppressWarnings("unused")
-    @Test
-    public void consumeInvalidUserTest() throws URISyntaxException {
-        String postData = "invalidUser";
-
-        URI requestUri = new URI("http://myapi.com");
-        UriInfo uriInfo = Mockito.mock(UriInfo.class);
-        Mockito.when(uriInfo.getRequestUri()).thenReturn(requestUri);
-
-        setSession(Boolean.TRUE);
-
-        List<String> roles = new ArrayList<String>();
-        roles.add("Educator");
-        constructAttributes(null, false, "Bad User", null, roles);
-
-        try {
-            Response loginResponse = resource.consume(postData, uriInfo);
-        } catch (AccessDeniedException ade) {
-            Assert.assertEquals("Invalid user.", ade.getMessage());
-        }
-
-        Mockito.verify(securityEventBuilder, times(0)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), eq(false));
-    }
-
-    @SuppressWarnings("unused")
-    @Test
-    public void consumeNoUserTest() throws URISyntaxException {
-        String postData = "noUser";
-
-        URI requestUri = new URI("http://myapi.com");
-        UriInfo uriInfo = Mockito.mock(UriInfo.class);
-        Mockito.when(uriInfo.getRequestUri()).thenReturn(requestUri);
-
-        setSession(Boolean.TRUE);
-
-        Entity entity = new MongoEntity("user", SLIPrincipal.NULL_ENTITY_ID, new HashMap<String, Object>(), new HashMap<String, Object>());
-        principal.setEntity(entity);
-
-        try {
-            Response loginResponse = resource.consume(postData, uriInfo);
-        } catch (AccessDeniedException ade) {
-            Assert.assertEquals("Invalid user.", ade.getMessage());
-        }
-
-        Mockito.verify(securityEventBuilder, times(0)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), eq(false));
-    }
-
-    @SuppressWarnings("unused")
-    @Test
-    public void consumeBadConditionsTest() throws URISyntaxException {
-        String postData = "badConditions";
-
-        URI requestUri = new URI("http://myapi.com");
-        UriInfo uriInfo = Mockito.mock(UriInfo.class);
-        Mockito.when(uriInfo.getRequestUri()).thenReturn(requestUri);
-
-        setSession(Boolean.TRUE);
-
-        Mockito.when(conditions.getAttributeValue("NotBefore")).thenReturn(DateTime.now(DateTimeZone.UTC).minusHours(1).toString());
-        Mockito.when(conditions.getAttributeValue("NotOnOrAfter")).thenReturn(DateTime.now(DateTimeZone.UTC).toString());
-
-        try {
-            Response loginResponse = resource.consume(postData, uriInfo);
-        } catch (AccessDeniedException ade) {
-            Assert.assertEquals("Authorization could not be verified.", ade.getMessage());
-        }
-
-        Mockito.verify(securityEventBuilder, times(0)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), eq(false));
-    }
-
-    @SuppressWarnings("unused")
-    @Test
-    public void consumeBadSAMLPostDataTest() throws URISyntaxException {
-        String postData = "badSAMLPostData";
-
-        URI requestUri = new URI("http://myapi.com");
-        UriInfo uriInfo = Mockito.mock(UriInfo.class);
-        Mockito.when(uriInfo.getRequestUri()).thenReturn(requestUri);
-
-        setSession(Boolean.TRUE);
-
-        Mockito.when(samlHelper.decodeSamlPost(anyString())).thenThrow(new IllegalArgumentException("Invalid SAML message"));
-
-        try {
-            Response loginResponse = resource.consume(postData, uriInfo);
-        } catch (AccessDeniedException ade) {
-            Assert.assertEquals("Authorization could not be verified.", ade.getMessage());
-        }
-
-        Mockito.verify(securityEventBuilder, times(1)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), eq(false));
+        resource.processPostBinding("", uriInfo);
+        Mockito.verify(resource, Mockito.never()).processSAMLResponse(samlResponse, uriInfo);
     }
 
     @Test (expected= APIAccessDeniedException.class)
@@ -834,7 +512,7 @@ public class SamlFederationResourceTest {
         sandboxEnabledField.set(resource, sandboxEnabled);
     }
 
-    @SuppressWarnings("unchecked")
+   /* @SuppressWarnings("unchecked")
     private void setSecurityEventBuilder() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         SecurityEvent event = new SecurityEvent();
         Mockito.when(securityEventBuilder.createSecurityEvent(any(String.class), any(URI.class), any(String.class), anyBoolean())).thenReturn(event);
@@ -846,10 +524,26 @@ public class SamlFederationResourceTest {
         securityEventBuilderField.set(resource, securityEventBuilder);
     }
 
-    private void constructAttributes(String samlTenant, boolean isAdmin, String userId, String userType, List<String> roles) {
+    private void constructSAMLResponse(String samlTenant, boolean isAdmin, String userId, String userType, List<String> roles) {
+        org.opensaml.saml2.core.Response samlResponse = Mockito.mock(org.opensaml.saml2.core.Response.class);
+        Assertion assertion = Mockito.mock(Assertion.class);
+        List<Assertion> assertions = new ArrayList<Assertion>();
+        assertions.add(assertion);
+        AttributeStatement attributeStatement = Mockito.mock(AttributeStatement.class);
+        List<AttributeStatement> attributeStatements = new ArrayList<AttributeStatement>();
+        attributeStatements.add(attributeStatement);
+        List<Attribute> attributes = new ArrayList<Attribute>();
+
+
+        Mockito.when(samlResponse.getAssertions()).thenReturn(assertions);
+        Mockito.when(assertion.getAttributeStatements()).thenReturn(attributeStatements);
+        Mockito.when(attributeStatement.getAttributes()).thenReturn(attributes);
+
         // Set SAML tenant.
         if (samlTenant != null) {
-            Element samlTenantAttributeNode = Mockito.mock(Element.class);
+            Attribute samlTenantAttr = Mockito.mock(Attribute.class);
+            Mockito.when(samlTenantAttr.getName()).thenReturn("tenant");
+
             Element samlTenantValueNode = Mockito.mock(Element.class);
             Mockito.when(samlTenantValueNode.getText()).thenReturn(samlTenant);
             List<Element> samlTenantValueNodes = new ArrayList<Element>();
@@ -908,7 +602,7 @@ public class SamlFederationResourceTest {
             Mockito.when(rolesAttributeNode.getChildren("AttributeValue", SamlHelper.SAML_NS)).thenReturn(rolesValueNodes);
             attributeNodes.add(rolesAttributeNode);
         }
-    }
+    }    **/
 
     private void setSession(Boolean installed) {
         Map<String, Object> appSessionCode = new HashMap<String, Object>();
