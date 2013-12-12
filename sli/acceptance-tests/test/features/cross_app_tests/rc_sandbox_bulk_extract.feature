@@ -114,7 +114,7 @@ Feature: Users can receive bulk extracts in sandbox mode
     When there is no bulk extract files in the local directory
     And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "<RC Server>"
     And I get back a response code of "200"
-    And I store the URL for the latest delta for the LEA
+    And I store the URL for the latest delta for the edorg
     And I request and download a "delta" extract file for the edorg
     Then there is a metadata file in the extract
     And the extract contains a file for each of the following entities:
@@ -136,7 +136,7 @@ Feature: Users can receive bulk extracts in sandbox mode
     When there is no bulk extract files in the local directory
     And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "<RC Server>"
     And I get back a response code of "200"
-    And I store the URL for the latest delta for the LEA
+    And I store the URL for the latest delta for the edorg
     And I request and download a "delta" extract file for the edorg
     Then there is a metadata file in the extract
     And the extract contains a file for each of the following entities:
