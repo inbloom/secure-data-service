@@ -32,7 +32,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.slc.sli.bulk.extract.extractor.DeltaExtractor;
-import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
+import org.slc.sli.bulk.extract.extractor.EdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantPublicDataExtractor;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
@@ -59,7 +59,7 @@ public class Launcher {
 
     private BulkExtractMongoDA bulkExtractMongoDA;
 
-    private LocalEdOrgExtractor localEdOrgExtractor;
+    private EdOrgExtractor edOrgExtractor;
 
     @Autowired
     private SecurityEventUtil securityEventUtil;
@@ -87,9 +87,8 @@ public class Launcher {
                 deltaExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
             } else {
                 // TODO: Remove this reference once US5996 is played out.
-                String sea = tenantPublicDataExtractor.retrieveSEAId();
                 LOG.info("isDelta=false ... localEdOrgExtractor.execute()");
-                localEdOrgExtractor.execute(tenant, getTenantDirectory(tenant), startTime, sea);
+                edOrgExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
                 LOG.info("Starting public data extract...");
                 tenantPublicDataExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
             }
@@ -160,12 +159,12 @@ public class Launcher {
 
     }
 
-    public void setLocalEdOrgExtractor(LocalEdOrgExtractor localEdOrgExtractor) {
-        this.localEdOrgExtractor = localEdOrgExtractor;
+    public void setEdOrgExtractor(EdOrgExtractor edOrgExtractor) {
+        this.edOrgExtractor = edOrgExtractor;
     }
 
-    public LocalEdOrgExtractor getLocalEdOrgExtractor() {
-        return localEdOrgExtractor;
+    public EdOrgExtractor getEdOrgExtractor() {
+        return edOrgExtractor;
     }
 
     public void setTenantPublicDataExtractor(TenantPublicDataExtractor tenantPublicDataExtractor) {

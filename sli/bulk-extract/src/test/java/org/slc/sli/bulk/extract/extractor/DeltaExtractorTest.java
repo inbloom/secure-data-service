@@ -74,9 +74,6 @@ public class DeltaExtractorTest {
     DeltaEntityIterator deltaEntityIterator;
 
     @Mock
-    LocalEdOrgExtractor leaExtractor;
-
-    @Mock
     EdOrgExtractHelper helper;
 
     @Mock
@@ -125,7 +122,6 @@ public class DeltaExtractorTest {
     @Before
     public void setUp() throws Exception {
         deltaEntityIterator = Mockito.mock(DeltaEntityIterator.class);
-        leaExtractor = Mockito.mock(LocalEdOrgExtractor.class);
         entityExtractor = Mockito.mock(EntityExtractor.class);
         bulkExtractMongoDA = Mockito.mock(BulkExtractMongoDA.class);
         entityWriteManager = Mockito.mock(EntityWriterManager.class);
@@ -208,8 +204,8 @@ public class DeltaExtractorTest {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void testPublicAndPrivate() {
-        when(deltaEntityIterator.hasNext()).thenReturn(true, true, false);
-        when(deltaEntityIterator.next()).thenReturn(buildUpdatePublicRecord(), buildDeleteRecord());
+        when(deltaEntityIterator.hasNext()).thenReturn(true, true, true, false);
+        when(deltaEntityIterator.next()).thenReturn(buildUpdatePublicRecord(), buildDeleteRecord(), buildUpdatePrivateRecord());
 
         extractor.execute("Midgar", null, new DateTime());
 

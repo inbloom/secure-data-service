@@ -1,1 +1,10 @@
-errors.txt
+.settings
+.project
+.gitignore
+.checkstyle
+.classpath
+target
+.git
+.pydevproject
+.pmdruleset
+activemq-data

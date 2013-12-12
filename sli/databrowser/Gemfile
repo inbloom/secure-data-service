@@ -68,3 +68,5 @@ group :development, :test do
 	gem 'simplecov-rcov', :require=>false, :group=>:test
 	# gem 'turn', "~> 0.9.4"
 end
+
+gem 'eventmachine', '1.0.3'
