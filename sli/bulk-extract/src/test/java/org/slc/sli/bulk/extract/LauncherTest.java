@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.context.MessageSource;
 
-import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
+import org.slc.sli.bulk.extract.extractor.EdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantPublicDataExtractor;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.domain.Entity;
@@ -39,7 +39,7 @@ public class LauncherTest {
 
     Launcher launcher;
     BulkExtractMongoDA bulkExtractMongoDA;
-    LocalEdOrgExtractor localEdOrgExtractor;
+    EdOrgExtractor localEdOrgExtractor;
     private TenantPublicDataExtractor tenantPublicDataExtractor;
     private SecurityEventUtil securityEventUtil;
 
@@ -53,7 +53,7 @@ public class LauncherTest {
         launcher = new Launcher();
 
         bulkExtractMongoDA = Mockito.mock(BulkExtractMongoDA.class);
-        localEdOrgExtractor = Mockito.mock(LocalEdOrgExtractor.class);
+        localEdOrgExtractor = Mockito.mock(EdOrgExtractor.class);
         tenantPublicDataExtractor = Mockito.mock(TenantPublicDataExtractor.class);
 
         MessageSource messageSource = Mockito.mock(MessageSource.class);
@@ -62,7 +62,7 @@ public class LauncherTest {
         Mockito.when(messageSource.getMessage(Mockito.anyString(), Mockito.any(Object[].class), Mockito.anyString(), Mockito.any(Locale.class))).thenReturn("TestMessage");
 
         launcher.setBulkExtractMongoDA(bulkExtractMongoDA);
-        launcher.setLocalEdOrgExtractor(localEdOrgExtractor);
+        launcher.setEdOrgExtractor(localEdOrgExtractor);
         launcher.setTenantPublicDataExtractor(tenantPublicDataExtractor);
         launcher.setBaseDirectory("./");
         launcher.setSecurityEventUtil(securityEventUtil);
@@ -79,7 +79,7 @@ public class LauncherTest {
 
         launcher.execute(tenantId, false);
 
-        Mockito.verify(localEdOrgExtractor, Mockito.never()).execute(Mockito.eq("tenant"), Mockito.any(File.class), Mockito.any(DateTime.class), Mockito.anyString());
+        Mockito.verify(localEdOrgExtractor, Mockito.never()).execute(Mockito.eq("tenant"), Mockito.any(File.class), Mockito.any(DateTime.class));
     }
 
     /**
@@ -88,14 +88,14 @@ public class LauncherTest {
     @Test
     public void testValidTenant() {
         String tenantId = "Midgar";
-        Mockito.doNothing().when(localEdOrgExtractor).execute(Mockito.eq("tenant"), Mockito.any(File.class), Mockito.any(DateTime.class), Mockito.anyString());
+        Mockito.doNothing().when(localEdOrgExtractor).execute(Mockito.eq("tenant"), Mockito.any(File.class), Mockito.any(DateTime.class));
 
 
         Mockito.when(bulkExtractMongoDA.getTenant(tenantId)).thenReturn(testTenantEntity);
 
         launcher.execute(tenantId, false);
 
-        Mockito.verify(localEdOrgExtractor, Mockito.times(1)).execute(Mockito.eq(tenantId), Mockito.any(File.class), Mockito.any(DateTime.class), Mockito.anyString());
+        Mockito.verify(localEdOrgExtractor, Mockito.times(1)).execute(Mockito.eq(tenantId), Mockito.any(File.class), Mockito.any(DateTime.class));
     }
 
 }

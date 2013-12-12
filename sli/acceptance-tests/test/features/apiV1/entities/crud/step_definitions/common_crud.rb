@@ -1,6 +1,6 @@
 def post_entity(endpoint)
   puts "token: " + @sessionId
-  puts @expected_entity.to_json.to_s
+  puts "expected entity body: " + @expected_entity.to_json.to_s
   restHttpPost("/v1/#{endpoint}", @expected_entity.to_json, 'application/vnd.slc+json')
   assert(@res.code == 201, "#{@res.code} - Could not create entity #{@expected_entity.to_json}.")
   @location = @res.raw_headers['location'][0]
@@ -16,9 +16,18 @@ def get_entity
   assert(@res.code == 200, "#{@res.code} - Could not fetch entity #{@expected_entity.to_json}.")
   actual = JSON.parse @res
   actual.delete('id')
+  compare_links(actual) if !@expected_links.nil?
   actual.delete('links')
   actual.delete('entityType')
   assert(actual.eql?(@expected_entity),"GET contents different to that expected #{actual.to_json}.")
+end
+
+def compare_links(actual)
+  actual["links"].each do |link|
+    href = link["href"]
+    link["href"] = href.sub(PropLoader.getProps['api_server_url'] + "/api/rest/v1.4/", '')
+  end
+  assert(actual["links"].eql?(@expected_links["links"]),"links contents different to that expected #{actual["links"].to_json}.")
 end
 
 def unsupported_put(endpoint)
@@ -102,7 +111,7 @@ def put_list(endpoint)
 end
 
 def delete_list(endpoint)
-   restHttpDelete("/v1/#{endpoint}", @expected_entity.to_json, 'application/vnd.slc+json')
+   restHttpDelete("/v1/#{endpoint}", 'application/vnd.slc+json')
    assert(@res.code == 405, "Unexpected HTTP code returned: #{@res.code}.")
 end
 

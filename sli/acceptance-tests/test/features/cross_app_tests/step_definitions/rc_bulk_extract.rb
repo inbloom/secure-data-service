@@ -69,8 +69,8 @@ When /^I store the URL for the latest delta for the (LEA|Public)$/ do |edorg|
   else
     @list_url = @delta_uri['deltaPublic'].values[0][0]["uri"]
   end
-  # @list_irl is in the format https://<url>/api/rest/v1.3/bulk/extract/<lea>/delta/<timestamp>
-  # -> strip off everything before v1.3, store: bulk/extract/<lea>/delta/<timestamp>
+  # @list_irl is in the format https://<url>/api/rest/v1.4/bulk/extract/<lea>/delta/<timestamp>
+  # -> strip off everything before v1.4, store: bulk/extract/<lea>/delta/<timestamp>
   @list_url.match(/api\/rest\/v(.*?)\/(.*)$/)
   puts "Bulk Extract Delta URI suffix: #{$2}"
   @list_uri = $2
@@ -234,7 +234,10 @@ Then /^the extract contains a file for each of the following entities:$/ do |tab
     expected_files << entity
   end
 
-  fileList = Dir.glob("#{@unpackDir}/*.json.gz")
-  puts "Files in upackDir:  #{fileList}"
-  assert(fileList.size==expected_files.size, "Expected " + expected_files.size.to_s + " extract files, Actual:" + fileList.size.to_s)
+  file_list = []
+  Dir.chdir(@unpackDir) do
+    file_list = Dir.glob("*.json.gz")
+  end
+  puts "Files in upackDir:  #{file_list}"
+  assert(file_list.size==expected_files.size, "Expected " + expected_files.size.to_s + " extract files, Actual:" + file_list.size.to_s)
 end

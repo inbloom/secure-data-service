@@ -1,6 +1,7 @@
 @RALLY_US5250
 Feature: Verify CRUD operations for bell schedule
 
+@wip
 Scenario: Verify CRUD for attendance event on attendance endpoint for attendance events with section id
 Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
 When I POST a bell schedule

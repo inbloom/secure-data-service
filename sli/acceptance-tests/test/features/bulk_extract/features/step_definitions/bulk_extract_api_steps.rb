@@ -70,11 +70,7 @@ Given /^in my list of rights I have BULK_EXTRACT$/ do
   #  Explanatory step
 end
 
-When /^I make lea bulk extract API call for lea "(.*?)"$/ do |arg1|
-  restTls("/bulk/extract/#{arg1}")
-end
-
-When /^I make lea bulk extract API call for edorg "(.*?)"$/ do |arg1|
+When /^I make a full bulk extract API call for edorg "(.*?)"$/ do |arg1|
   restTls("/bulk/extract/#{arg1}")
 end
 
@@ -477,7 +473,7 @@ Then /^I combine the file contents$/ do
 end
 
 Then /^I check the version of http response headers$/ do
-  LATEST_API_VERSION = "v1.3"
+  LATEST_API_VERSION = "v1.4"
 
   returned_version = @res.headers[:x_executedpath].split("/").first
 

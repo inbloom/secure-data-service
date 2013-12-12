@@ -1,7 +1,7 @@
 @RALLY_US5250
 Feature: Verify CRUD operations for class period
 
-Scenario: Verify CRUD for attendance event on attendance endpoint for attendance events with section id
+Scenario: Verify CRUD for class period
 Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
 When I POST a class period
 Then I GET the class period
@@ -23,3 +23,10 @@ Then I GET the custom class period
 When I DELETE the class period
 Then I GET the deleted entity
 Then I GET the deleted custom class period
+
+Scenario: Verify CRUD for class period
+  Given I am logged in using "rbraverman" "rbraverman1234" to realm "IL"
+  Then I GET the class periods
+  And the result contains the only class period in the context of the user
+  Then I GET the class periods using education organization
+  And the result contains the only class period in the context of the user
