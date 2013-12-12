@@ -21,7 +21,6 @@ require_relative '../../../ingestion/features/step_definitions/clean_database.rb
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../odin/step_definitions/data_generation_steps.rb'
 require_relative '../../../security/step_definitions/securityevent_util_steps.rb'
-require 'zip/zip'
 require 'archive/tar/minitar'
 require 'zlib'
 require 'open3'
