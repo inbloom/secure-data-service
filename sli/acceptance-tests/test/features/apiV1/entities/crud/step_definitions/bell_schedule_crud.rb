@@ -39,7 +39,6 @@ When /^I GET the bell schedule$/ do
                                    }
                                  ]
                      }
-
   puts "expected links: " + @expected_links["links"].to_json
   get_entity
 end
