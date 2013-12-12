@@ -234,7 +234,9 @@ public class SamlFederationResource {
     /**
      * Handle IdP response when using POST Binding
      * @param postData
+     *          Response received from the IdP
      * @param uriInfo
+     *          Information about the URI
      * @return
      */
     @POST
@@ -247,15 +249,16 @@ public class SamlFederationResource {
             throw new IllegalArgumentException("Empty SAML message");
         }
 
-        String decodedData = samlHelper.decode(postData);
-        Document document = null;
+        String decodedData = samlHelper.decodeSAMLPostResponse(postData);
+
+        Document samlDocument = null;
         try {
-            document = samlHelper.parseToDoc(decodedData);
+            samlDocument = samlHelper.parseToDoc(decodedData);
         } catch (Exception e) {
-            handleSAMLDecodeError(e, uriInfo.getRequestUri());
+            handleSAMLProcessingError(e, uriInfo.getRequestUri());
         }
 
-        org.opensaml.saml2.core.Response samlResponse = samlHelper.convertToSAMLResponse(document.getDocumentElement());
+        org.opensaml.saml2.core.Response samlResponse = samlHelper.convertToSAMLResponse(samlDocument.getDocumentElement());
 
         return processSAMLResponse(samlResponse, uriInfo);
     }
@@ -292,6 +295,10 @@ public class SamlFederationResource {
     }
 
     protected Response processSAMLResponse(org.opensaml.saml2.core.Response samlResponse, UriInfo uriInfo) {
+        if(!samlResponse.hasChildren()) {
+            handleSAMLProcessingError(new APIAccessDeniedException("Empty SAML Response body"), uriInfo.getRequestUri());
+        }
+
         samlHelper.validateStatus(samlResponse);
 
         Assertion assertion = samlHelper.getAssertion(samlResponse, encryptPKEntry);
@@ -327,7 +334,7 @@ public class SamlFederationResource {
         return authenticateUser(attributes, realm, targetEdOrg, inResponseTo, session, uriInfo.getRequestUri());
     }
 
-    private void handleSAMLDecodeError(Exception e, URI uri) {
+    private void handleSAMLProcessingError(Exception e, URI uri) {
         SecurityEvent event = securityEventBuilder.createSecurityEvent(this.getClass().getName(), uri, "", false);
 
         try {

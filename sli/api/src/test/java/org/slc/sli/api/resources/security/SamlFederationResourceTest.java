@@ -172,31 +172,12 @@ public class SamlFederationResourceTest {
     public void init() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         MockitoAnnotations.initMocks(this);
 
-        Mockito.when(edOrg.getEntityId()).thenReturn(targetEdorg);
-        Mockito.when(realm.getEntityId()).thenReturn("My Realm");
-        Mockito.when(repo.findOne(eq("realm"), any(NeutralQuery.class))).thenReturn(realm);
-        Mockito.when(repo.findById(eq("realm"), anyString())).thenReturn(realm);
-        Mockito.when(repo.findOne(eq(EntityNames.EDUCATION_ORGANIZATION), any(NeutralQuery.class))).thenReturn(edOrg);
-
-        Mockito.when(doc.getDocumentElement()).thenReturn(rootElement);
-
-        principal = new SLIPrincipal();
-        Mockito.when(users.locate(anyString(), anyString(), anyString())).thenReturn(principal);
-
-        setRealm(Boolean.FALSE);
-
         List<String> roles = new ArrayList<String>();
         roles.add("Educator");
-        //constructAttributes(null, false, "My User", null, roles);
         Entity entity = new MongoEntity("user", "My User", new HashMap<String, Object>(), new HashMap<String, Object>());
+        principal = new SLIPrincipal();
         principal.setEntity(entity);
         principal.setRoles(roles);
-
-
-        Mockito.when(realmHelper.isUserAllowedLoginToRealm(any(Entity.class), eq(realm))).thenReturn(true);
-
-
-        Mockito.when(sessionManager.getAppSession(anyString(), any(Entity.class))).thenCallRealMethod();
 
         Mockito.when(transformer.apply(eq(realm), any(LinkedMultiValueMap.class)))
             .thenAnswer(new Answer<LinkedMultiValueMap<String, String>>() {
@@ -210,13 +191,6 @@ public class SamlFederationResourceTest {
         sliEdOrgRoleMap.put("My EdOrg", roles);
         Mockito.when(edOrgRoleBuilder.buildValidStaffRoles(anyString(), anyString(), anyString(), eq(roles))).thenReturn(sliEdOrgRoleMap);
 
-        Mockito.when(httpServletRequest.getRemoteHost()).thenReturn("My Host");
-        Mockito.when(httpServletRequest.getRemotePort()).thenReturn(10101);
-        Mockito.when(httpServletRequest.getHeader(eq("User-Agent"))).thenReturn("My User-Agent");
-        Mockito.when(httpServletRequest.getRemoteUser()).thenReturn("My User");
-        Mockito.when(httpServletRequest.getHeader(eq("Origin"))).thenReturn("My Origin");
-
-        setSandboxEnabled(false);
 
         ArtifactResolve artifactResolve = Mockito.mock(ArtifactResolve.class);
         Envelope envelope = Mockito.mock(Envelope.class);
@@ -228,7 +202,6 @@ public class SamlFederationResourceTest {
         Mockito.when(soapHelper.sendSOAPCommunication(Mockito.any(Envelope.class), Mockito.anyString(), Mockito.any(KeyStore.PrivateKeyEntry.class))).thenReturn(response);
 
         Mockito.when(samlHelper.parseToDoc(anyString())).thenReturn(doc);
-        Mockito.when(doc.getDocumentElement()).thenReturn(rootElement);
 
         ArtifactResponse artifactResponse = Mockito.mock(ArtifactResponse.class);
         List<XMLObject> artifactResponses = new ArrayList<XMLObject>();
@@ -242,6 +215,7 @@ public class SamlFederationResourceTest {
         issuer = Mockito.mock(Issuer.class);
 
         Mockito.when(artifactResponse.getMessage()).thenReturn(samlResponse);
+        Mockito.when(samlResponse.hasChildren()).thenReturn(true);
         Mockito.when(samlResponse.getIssuer()).thenReturn(issuer);
         Mockito.when(issuer.getValue()).thenReturn(issuerString);
 
@@ -266,7 +240,6 @@ public class SamlFederationResourceTest {
         appSession.put("samlId", issuerString);
 
         Mockito.when(session.getBody()).thenReturn(sessionBody);
-
     }
 
     @SuppressWarnings("unchecked")
@@ -309,11 +282,13 @@ public class SamlFederationResourceTest {
         String postData = "9A66FHO12BSO3NFH";
         String decodedData = "Test";
 
+        Mockito.when(doc.getDocumentElement()).thenReturn(rootElement);
+
         org.opensaml.saml2.core.Response samlResponse = Mockito.mock(org.opensaml.saml2.core.Response.class);
         UriInfo uriInfo = Mockito.mock(UriInfo.class);
         SamlFederationResource spyResource = Mockito.spy(resource);
 
-        Mockito.when(samlHelper.decode(postData)).thenReturn(decodedData);
+        Mockito.when(samlHelper.decodeSAMLPostResponse(postData)).thenReturn(decodedData);
         Mockito.when(samlHelper.parseToDoc(postData)).thenReturn(doc);
         Mockito.when(samlHelper.convertToSAMLResponse(rootElement)).thenReturn(samlResponse);
 
@@ -332,7 +307,7 @@ public class SamlFederationResourceTest {
         UriInfo uriInfo = Mockito.mock(UriInfo.class);
         SamlFederationResource spyResource = Mockito.spy(resource);
 
-        Mockito.when(samlHelper.decode(postData)).thenReturn(decodedData);
+        Mockito.when(samlHelper.decodeSAMLPostResponse(postData)).thenReturn(decodedData);
         Mockito.when(samlHelper.parseToDoc(decodedData)).thenThrow(new IllegalArgumentException("exception"));
 
         spyResource.processPostBinding(postData, uriInfo);
@@ -365,6 +340,13 @@ public class SamlFederationResourceTest {
     @Test
     public void processArtifactBindingValidRequest() throws URISyntaxException {
         setRealm(false);
+
+        Mockito.when(edOrg.getEntityId()).thenReturn(targetEdorg);
+        Mockito.when(realm.getEntityId()).thenReturn("My Realm");
+        Mockito.when(repo.findOne(eq("realm"), any(NeutralQuery.class))).thenReturn(realm);
+        Mockito.when(repo.findById(eq("realm"), anyString())).thenReturn(realm);
+        Mockito.when(repo.findOne(eq(EntityNames.EDUCATION_ORGANIZATION), any(NeutralQuery.class))).thenReturn(edOrg);
+
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
         UriInfo uriInfo = Mockito.mock(UriInfo.class);
 
@@ -467,6 +449,7 @@ public class SamlFederationResourceTest {
         LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
         URI uri = new URI(issuerString);
 
+        Mockito.when(sessionManager.getAppSession(anyString(), any(Entity.class))).thenCallRealMethod();
         appSession.put("installed", false);
         appSession.put("redirectUri", issuerString);
 

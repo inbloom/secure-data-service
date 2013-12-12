@@ -157,10 +157,10 @@ public class SamlHelper {
     }
 
     /**
-     * Converts post data containing saml xml data to a document
+     * Converts a string representation of xml content to a w3c document object
      *
-     * @param data String representing base 64 encoded saml data.
-     * @return document representation of the saml data.
+     * @param data String representing xml.
+     * @return document representation of the xml data.
      * @throws Exception
      */
     public org.w3c.dom.Document parseToDoc(String data) {
@@ -250,15 +250,15 @@ public class SamlHelper {
     /**
      * Decodes post body in accordance to SAML 2 spec
      *
-     * @param postData
+     * @param encodedReponse
      * @return decoded string
      */
-    public String decode(String postData) {
-        String trimmed = postData.replaceAll("\r\n", "");
-        String base64Decoded = new String(Base64.decodeBase64(trimmed));
+    public String decodeSAMLPostResponse(String encodedReponse) {
+        String trimmed = encodedReponse.replaceAll("\r\n", "");
+        String base64DecodedResponse = new String(Base64.decodeBase64(trimmed));
 
-        LOG.debug("Decrypted SAML: \n{}\n", base64Decoded);
-        return base64Decoded;
+        LOG.debug("Decoded SAML: \n{}\n", base64DecodedResponse);
+        return base64DecodedResponse;
     }
 
     /**
@@ -346,7 +346,7 @@ public class SamlHelper {
         }
     }
 
-    private void validateFormatAndCertificate(Signature signature, org.w3c.dom.Element element, String issuer) {
+    protected void validateFormatAndCertificate(Signature signature, org.w3c.dom.Element element, String issuer) {
         validateSignatureFormat(signature);
 
         try {
@@ -422,10 +422,16 @@ public class SamlHelper {
         return art.getSourceID();
     }
 
+    /**
+     * Convert w3c element to a SAML response
+     * @param element
+     * @return
+     */
     public org.opensaml.saml2.core.Response convertToSAMLResponse(org.w3c.dom.Element element) {
         UnmarshallerFactory unmarshallerFactory = Configuration.getUnmarshallerFactory();
         Unmarshaller unmarshaller = unmarshallerFactory.getUnmarshaller(element);
         XMLObject responseXmlObj = null;
+
         try {
             responseXmlObj = unmarshaller.unmarshall(element);
         } catch (UnmarshallingException e) {
