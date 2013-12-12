@@ -1,5 +1,5 @@
 @RALLY_US5959
-Feature: Databrowser login via an artifact binding idp server
+Feature: Databrowser login via an artifact binding idp server and encrypted POST idp server
 
   Background:
     Given that databrowser has been authorized for all ed orgs
@@ -24,6 +24,7 @@ Feature: Databrowser login via an artifact binding idp server
     | Realm                                 |
     | Artifact Daybreak                     |
     | Encrypted Assertion Artifact Daybreak |
+    | Encrypted POST Daybreak               |
 
   Scenario Outline: Unable to use databrowser as an Educator
     And I select "<Realm>" from the dropdown and click go
@@ -34,6 +35,7 @@ Feature: Databrowser login via an artifact binding idp server
     | Realm                                 |
     | Artifact Daybreak                     |
     | Encrypted Assertion Artifact Daybreak |
+    | Encrypted POST Daybreak               |
 
   Scenario Outline: Unable to use databrowser as a user not in the database
     And I select "<Realm>" from the dropdown and click go
@@ -44,6 +46,7 @@ Feature: Databrowser login via an artifact binding idp server
     | Realm                                 |
     | Artifact Daybreak                     |
     | Encrypted Assertion Artifact Daybreak |
+    | Encrypted POST Daybreak               |
 
   Scenario Outline: Unable to use databrowser as a user with no roles
     And I select "<Realm>" from the dropdown and click go
@@ -54,3 +57,4 @@ Feature: Databrowser login via an artifact binding idp server
     | Realm                                 |
     | Artifact Daybreak                     |
     | Encrypted Assertion Artifact Daybreak |
+    | Encrypted POST Daybreak               |
