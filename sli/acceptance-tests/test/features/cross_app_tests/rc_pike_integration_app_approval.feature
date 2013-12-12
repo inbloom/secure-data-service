@@ -402,7 +402,7 @@ Given the production extraction zone is empty
 And the operator triggers a bulk extract for the production tenant
 And the operator triggers a delta for the production tenant
 
-   Scenario: App makes an api call to retrieve an lea level bulk extract
+   Scenario: App makes an api call to retrieve an non-top level edorg bulk extract
    #Get a session to trigger a bulk extract
    Given the pre-existing bulk extract testing app key has been created
    When I navigate to the API authorization endpoint with my client ID
@@ -451,7 +451,7 @@ And the operator triggers a delta for the production tenant
       |  teacherSchoolAssociation              |
       |  teacherSectionAssociation             |
 
-Scenario: Charter School - App makes an api call to retrieve an lea level bulk extract
+Scenario: Charter School - App makes an api call to retrieve an non-top level edorg bulk extract
    #Get a session to trigger a bulk extract
    Given the pre-existing bulk extract testing app key has been created
    When I navigate to the API authorization endpoint with my client ID
@@ -569,11 +569,11 @@ Given the pre-existing bulk extract testing app key has been created
    #And I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
    And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "<RC Server>"
    And I get back a response code of "200"
-   And I store the URL for the latest delta for the LEA
+   And I store the URL for the latest delta for the edorg
    And the number of returned URLs is correct:
    |   fieldName    | count |
-   |   fullEdOrgs   |  2    |
-   |   deltaEdOrgs  |  2    |
+   |   fullEdOrgs   |  1    |
+   |   deltaEdOrgs  |  1    |
    And I request and download a "delta" extract file for the edorg
    And there is a metadata file in the extract
    And the extract contains a file for each of the following entities:
@@ -592,23 +592,23 @@ Given the pre-existing bulk extract testing app key has been created
     Then I should receive a json response containing my authorization token
     And there is no bulk extract files in the local directory
 
-    Then I get the id for the edorg "STANDARD-SEA"
-    When I PATCH the postalCode for the current edorg entity to 11111
+    Then I get the id for the staff "rrogers"
+    When I PATCH the telephone number for the current staff entity to "555-555-5555"
     Then I should receive a return code of 204
     When the operator triggers a delta for the production tenant
   #And I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
     And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "<RC Server>"
     And I get back a response code of "200"
-    And I store the URL for the latest delta for the LEA
+    And I store the URL for the latest delta for the edorg
     And the number of returned URLs is correct:
       |   fieldName    | count |
-      |   fullEdOrgs   |  2    |
-      |   deltaEdOrgs  |  2    |
+      |   fullEdOrgs   |  3    |
+      |   deltaEdOrgs  |  3    |
     And I request and download a "delta" extract file for the edorg
     And there is a metadata file in the extract
     And the extract contains a file for each of the following entities:
-      |  entityType                   |
-      |  educationOrganization        |
+      |  entityType            |
+      |  staff                 |
 
 Scenario: Ingestion user ingests additional public entities
   Given a landing zone
