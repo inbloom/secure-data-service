@@ -439,7 +439,7 @@ When /^I retrieve the path to and decrypt the LEA "(.*?)" data extract file for 
   openDecryptedFile(appId)
 end
 
-When /^I fetch the path to and decrypt the LEA data extract file for the tenant "(.*?)" and application with id "(.*?)" and edorg with id "(.*?)"$/ do |tenant, appId, edOrgId|
+When /^I fetch the path to and decrypt the edorg data extract file for the tenant "(.*?)" and application with id "(.*?)" and edorg with id "(.*?)"$/ do |tenant, appId, edOrgId|
   @tenant = tenant
   getExtractInfoFromMongo(build_bulk_query(tenant,appId,edOrgId))
   openDecryptedFile(appId)
