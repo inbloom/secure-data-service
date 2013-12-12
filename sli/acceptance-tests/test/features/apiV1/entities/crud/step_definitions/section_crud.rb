@@ -7,6 +7,13 @@ When /^I POST a class period for a section$/ do
   @class_period_id = @id
 end
 
+When /^I DELETE the class period for the section$/ do
+  restHttpDelete("/v1/classPeriods/#{@class_period_id}", 'application/vnd.slc+json')
+  assert(@res.code == 204, "Unexpected HTTP code returned: #{@res.code}.")
+  restHttpGet("/v1/classPeriods/#{@class_period_id}", 'application/vnd.slc+json')
+  assert(@res.code == 404, "Unexpected HTTP code returned: #{@res.code}.")
+end
+
 When /^I POST a section$/ do
   @expected_entity = {
     "educationalEnvironment" => "Classroom",
@@ -127,4 +134,8 @@ end
 
 Then /^I GET the deleted custom section$/ do
   get_deleted_custom_entity("sections")
+end
+
+When /^I try the not supported PATCH for custom section$/ do
+  patch_custom_entity("sections")
 end
