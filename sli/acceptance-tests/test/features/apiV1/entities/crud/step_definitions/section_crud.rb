@@ -26,6 +26,74 @@ end
 #test missing fields
 
 When /^I GET the section$/ do
+  @expected_links = { "links" => [
+                                   {
+                                     "rel" => "self",
+                                     "href" =>  "sections/#{@id}"
+                                   },
+                                   {
+                                     "rel" => "custom",
+                                     "href" =>  "sections/#{@id}/custom"
+                                   },
+                                   {
+                                     "rel" => "getSchool",
+                                     "href" =>  "schools/" + @expected_entity['schoolId']
+                                   },
+                                   {
+                                     "rel" => "getEducationOrganization",
+                                     "href" =>  "educationOrganizations/" + @expected_entity['schoolId']
+                                   },
+                                   {
+                                     "rel" => "getSession",
+                                     "href" =>  "sessions/" + @expected_entity['sessionId']
+                                   },
+                                   {
+                                     "rel" => "getClassPeriod",
+                                     "href" =>  "classPeriods/" + @expected_entity['classPeriodId']
+                                   },
+                                   {
+                                     "rel" => "getCourseOffering",
+                                     "href" =>  "courseOfferings/" + @expected_entity['courseOfferingId']
+                                   },
+                                   {
+                                     "rel" => "getGradebookEntries",
+                                     "href" =>  "gradebookEntries?sectionId=#{@id}"
+                                   },
+                                   {
+                                     "rel" => "getStudentSectionAssociations",
+                                     "href" =>  "sections/#{@id}/studentSectionAssociations"
+                                   },
+                                   {
+                                     "rel" => "getStudents",
+                                     "href" =>  "sections/#{@id}/studentSectionAssociations/students"
+                                   },
+                                   {
+                                     "rel" => "getTeacherSectionAssociations",
+                                      "href" => "sections/#{@id}/teacherSectionAssociations"
+                                   },
+                                   {
+                                     "rel" => "getTeachers",
+                                     "href" =>  "sections/#{@id}/teacherSectionAssociations/teachers"
+                                   },
+                                   {
+                                     "rel" => "getStudentGradebookEntries",
+                                     "href" =>  "studentGradebookEntries?sectionId=#{@id}"
+                                   },
+                                   {
+                                     "rel" => "getAttendances",
+                                     "href" =>  "attendances?attendanceEvent.sectionId=#{@id}"
+                                   },
+                                   {
+                                     "rel" => "getYearlyAttendances",
+                                     "href" =>  "yearlyAttendances?attendanceEvent.sectionId=#{@id}"
+                                   },
+                                   {
+                                     "rel" => "getGrades",
+                                     "href" =>  "grades?sectionId=#{@id}"
+                                   }
+                                 ]
+                     }
+  puts "expected links: " + @expected_links["links"].to_json
   get_entity
 end
 
