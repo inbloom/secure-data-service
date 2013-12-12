@@ -62,6 +62,12 @@ public class ValidatorTestHelper {
         DateTime past = DateTime.now().minusYears(10);
         return past.toString(fmt);
     }
+    
+    public String getName() {
+        String cpName = "fake classPeriodName";
+        return cpName;
+    }
+
 
     public Entity generateStaffEdorg(String staffId, String edOrgId, boolean isExpired) {
         Map<String, Object> staffEdorg = new HashMap<String, Object>();
@@ -417,6 +423,13 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.CALENDAR_DATE, cdBody);
     }
 
+    public Entity generateClassPeriod(String edorgId) {
+        Map<String, Object> cdBody = new HashMap<String, Object>();
+        cdBody.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edorgId);
+        cdBody.put(ParameterConstants.NAME, getName());
+        return repo.create(EntityNames.CLASS_PERIOD, cdBody);
+    }
+    
     protected void setUpTeacherContext() {
         String user = "fake staff";
         String fullName = "Fake Staff";
