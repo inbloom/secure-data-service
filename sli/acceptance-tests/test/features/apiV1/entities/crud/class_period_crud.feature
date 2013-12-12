@@ -28,3 +28,5 @@ Scenario: Verify CRUD for class period
   Given I am logged in using "rbraverman" "rbraverman1234" to realm "IL"
   Then I GET the class periods
   And the result contains the only class period in the context of the user
+  Then I GET the class periods using education organization
+  And the result contains the only class period in the context of the user

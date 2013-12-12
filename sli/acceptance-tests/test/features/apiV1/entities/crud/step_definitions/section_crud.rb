@@ -27,12 +27,6 @@ When /^I POST a section$/ do
     "schoolId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731"
                      }
   post_entity("sections")
-end
-
-#test 30 and 31 character for string
-#test missing fields
-
-When /^I GET the section$/ do
   @expected_links = { "links" => [
                                    {
                                      "rel" => "self",
@@ -101,6 +95,9 @@ When /^I GET the section$/ do
                                  ]
                      }
   puts "expected links: " + @expected_links["links"].to_json
+end
+
+When /^I GET the section$/ do
   get_entity
 end
 

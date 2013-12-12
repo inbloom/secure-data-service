@@ -17,9 +17,6 @@ When /^I POST a bell schedule$/ do
                        "calendarDateReference" => "2012ai-7963b924-ceb0-11e1-8af5-0a0027000000"
                      }
   post_entity("bellSchedules")
-end
-
-When /^I GET the bell schedule$/ do
   @expected_links = { "links" => [
                                    {
                                      "rel" => "self",
@@ -40,6 +37,9 @@ When /^I GET the bell schedule$/ do
                                  ]
                      }
   puts "expected links: " + @expected_links["links"].to_json
+end
+
+When /^I GET the bell schedule$/ do
   get_entity
 end
 

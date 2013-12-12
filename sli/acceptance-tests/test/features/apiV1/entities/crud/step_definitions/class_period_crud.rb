@@ -4,9 +4,6 @@ When /^I POST a class period$/ do
                        "educationOrganizationId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
                      }
   post_entity("classPeriods")
-end
-
-When /^I GET the class period$/ do
   @expected_links = { "links" => [
                                    {
                                      "rel" => "self",
@@ -31,11 +28,20 @@ When /^I GET the class period$/ do
                                  ]
                      }
   puts "expected links: " + @expected_links["links"].to_json
+end
+
+When /^I GET the class period$/ do
   get_entity
 end
 
 When /^I GET the class periods$/ do
+  puts "token: " + @sessionId
   restHttpGet("/v1/classPeriods", 'application/vnd.slc+json')
+  assert(@res.code == 200, "#{@res.code} - Could not fetch entity #{@expected_entity.to_json}.")
+end
+
+When /^I GET the class periods using education organization/ do
+  restHttpGet("/v1/educationOrganizations/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb/classPeriods", 'application/vnd.slc+json')
   assert(@res.code == 200, "#{@res.code} - Could not fetch entity #{@expected_entity.to_json}.")
 end
 
