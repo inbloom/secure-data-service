@@ -597,6 +597,7 @@ Given the pre-existing bulk extract testing app key has been created
     Then I should receive a return code of 204
     When the operator triggers a delta for the production tenant
   #And I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
+    Then I get the id for the edorg "STANDARD-SEA"
     And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "<RC Server>"
     And I get back a response code of "200"
     And I store the URL for the latest delta for the edorg
