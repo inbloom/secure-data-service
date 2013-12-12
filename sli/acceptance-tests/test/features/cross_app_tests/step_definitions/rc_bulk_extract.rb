@@ -154,7 +154,7 @@ When /^I PATCH the telephone number for the current staff entity to "(.*?)"$/ do
   patch_body = {
           'telephone' => [{'telephoneNumber' => value,
                          'primaryTelephoneNumberIndicator' => true,
-                         'telephoneNumberType' => 'Main'}]
+                         'telephoneNumberType' => 'Home'}]
   }
   @format = "application/json"
   puts "PATCHing body #{patch_body} to /v1/staff/#{@staff}"
