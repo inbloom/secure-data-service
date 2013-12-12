@@ -602,8 +602,8 @@ Given the pre-existing bulk extract testing app key has been created
     And I store the URL for the latest delta for the LEA
     And the number of returned URLs is correct:
       |   fieldName    | count |
-      |   fullEdOrgs   |  2    |
-      |   deltaEdOrgs  |  2    |
+      |   fullEdOrgs   |  3    |
+      |   deltaEdOrgs  |  3    |
     And I request and download a "delta" extract file for the edorg
     And there is a metadata file in the extract
     And the extract contains a file for each of the following entities:
