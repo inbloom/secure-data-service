@@ -158,7 +158,7 @@ When /^I PATCH the telephone number for the current staff entity to "(.*?)"$/ do
   }
   @format = "application/json"
   puts "PATCHing body #{patch_body} to /v1/staff/#{@staff}"
-  restHttpPatch("/v1/staff/#{@staff}", prepareData(@format, patch_body[field]), @format)
+  restHttpPatch("/v1/staff/#{@staff}", prepareData(@format, patch_body), @format)
   puts @res
   assert(@res != nil, "Patch failed: Received no response from API.")
 end
