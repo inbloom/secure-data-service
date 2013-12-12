@@ -111,7 +111,7 @@ def put_list(endpoint)
 end
 
 def delete_list(endpoint)
-   restHttpDelete("/v1/#{endpoint}", @expected_entity.to_json, 'application/vnd.slc+json')
+   restHttpDelete("/v1/#{endpoint}", 'application/vnd.slc+json')
    assert(@res.code == 405, "Unexpected HTTP code returned: #{@res.code}.")
 end
 

@@ -219,7 +219,7 @@
           "dateSearchDisallowed": true,
           "doc": "This URI, /educationOrganizations/{id}/calendarDates, provides the calendarDates associated with the EducationOrganization."
         },
-        { 
+        {
           "path": "/{id}/cohorts",
           "dateSearchDisallowed": true,
           "doc": "This URI, /educationOrganizations/{id}/cohorts, should only be called in the context of a staff member, and should not be used in the context of a teacher. Use /teachers/{id}/staffCohortAssociations/cohorts instead, as this URI is used internally instead of /educationOrganizations/{id}/cohorts (for teachers)."
@@ -703,25 +703,35 @@
   ] 
 },
 {
-    "nameSpace": ["v1.4"],
-    "resources": [
-      {
-        "path": "/classPeriods",
-        "queryable": true,
-        "availableSince" : "v1.4",
-        "doc": "The URI, /classPeriods, represents an appointment."
-      }
-    ]
-},
-{
-    "nameSpace": ["v1.4"],
-    "resources": [
-      {
-        "path": "/bellSchedules",
-        "queryable": true,
-        "availableSince" : "v1.4",
-        "doc": "This URI, /bellSchedules, represents an appointment."
-      }
-    ]
+  "nameSpace": ["v1.4"],
+  "resources": [
+    {
+      "path": "/educationOrganizations",
+      "queryable": true,
+      "dateSearchDisallowed": true,
+      "doc": "Represents any public or private institution, organization, or agency that provides instructional or support services to students or staff at any level. Caution: The educationOrganizations entity is public in the SLI API. Any metadata associated with an educationOrganization can be viewed by anyone within the tenant to which the educationOrganization belongs. For more information, see the schema for $$EducationOrganization$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /teachers/{ID}/teacherSchoolAssociations/schools and for staff, this is /staff/{ID}/staffEducationOrgAssignmentAssociations/educationOrganizations. {ID} is the unique ID of the teacher or staff.  For students, this is /schools/{ID} where {ID} represents a list of the school or education organization IDs to which the student is currently associated.",
+      "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
+      "availableSince" : "v1.1",
+      "subResources": [
+        { "path": "/{id}/classPeriods",
+          "dateSearchDisallowed": true,
+          "availableSince" : "v1.4",
+          "doc": "This URI, /educationOrganizations/{id}/classPeriods, provides the classPeriods associated with the EducationOrganization."
+        }
+      ]
+    },
+    {
+      "path": "/classPeriods",
+      "queryable": true,
+      "availableSince" : "v1.4",
+      "doc": "The URI, /classPeriods, represents the designation of regularly scheduled series of class meetings at designated times and days of the week."
+    },
+    {
+      "path": "/bellSchedules",
+      "queryable": true,
+      "availableSince" : "v1.4",
+      "doc": "This URI, /bellSchedules, represents the schedule of class period meeting times."
+    }
+  ]
 }
 ]

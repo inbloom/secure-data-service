@@ -71,7 +71,7 @@ Background: Nothing yet
     | reportCard                              | reportCards                              | 0     |/schools/@ids/studentSchoolAssociations/students/reportCards|
     | studentCompetencyObjective              | studentCompetencyObjectives              | 1     |/search/studentCompetencyObjectives    |
     | calendarDates                           | calendarDates                            | 4     |/educationOrganizations/@ids/calendarDates|
-    | classPeriods                            | classPeriods                             | 2     |/classPeriods|
+    | classPeriods                            | classPeriods                             | 1     |/educationOrganizations/@ids/classPeriods|
     | bellSchedules                           | bellSchedules                            | 0     |/bellSchedules|
     Then the staff queries and rewrite rules work
 
