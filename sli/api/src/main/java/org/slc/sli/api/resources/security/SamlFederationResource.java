@@ -296,7 +296,7 @@ public class SamlFederationResource {
 
         Assertion assertion = samlHelper.getAssertion(samlResponse, encryptPKEntry);
 
-        samlHelper.validateCertificate(assertion, samlResponse.getIssuer().getValue());
+        samlHelper.validateSignature(samlResponse, assertion);
 
         String inResponseTo = samlResponse.getInResponseTo();
         Entity session = sessionManager.getSessionForSamlId(inResponseTo);

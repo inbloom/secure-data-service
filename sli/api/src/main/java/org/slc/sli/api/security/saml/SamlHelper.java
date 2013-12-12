@@ -58,6 +58,7 @@ import org.opensaml.saml2.binding.artifact.SAML2ArtifactType0004;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.AttributeStatement;
 import org.opensaml.saml2.core.EncryptedAssertion;
+import org.opensaml.saml2.core.Response;
 import org.opensaml.saml2.core.Status;
 import org.opensaml.saml2.core.StatusCode;
 import org.opensaml.saml2.encryption.Decrypter;
@@ -330,12 +331,26 @@ public class SamlHelper {
      * Validates that the certificate in the saml assertion is valid and trusted.
      * @param samlResponse
      *      SAML response form the IdP.
+     * @param assertion
+     *      SAML assertion
      */
-    public void validateCertificate(Assertion assertion, String issuer)  {
-        validateSignatureFormat(assertion.getSignature());
+    public void validateSignature(Response samlResponse, Assertion assertion)  {
+        String issuer = samlResponse.getIssuer().getValue();
+
+        if(samlResponse.getSignature() != null) {
+            validateFormatAndCertificate(samlResponse.getSignature(), samlResponse.getDOM(), issuer);
+        }
+
+        if(assertion.getSignature() != null) {
+            validateFormatAndCertificate(assertion.getSignature(), assertion.getDOM(), issuer);
+        }
+    }
+
+    private void validateFormatAndCertificate(Signature signature, org.w3c.dom.Element element, String issuer) {
+        validateSignatureFormat(signature);
 
         try {
-            if (!validator.isDocumentTrusted(assertion.getDOM(), issuer)) {
+            if (!validator.isDocumentTrusted(element, issuer)) {
                 throw new APIAccessDeniedException("Invalid SAML message: Certificate is not trusted");
             }
         } catch (Exception e) {

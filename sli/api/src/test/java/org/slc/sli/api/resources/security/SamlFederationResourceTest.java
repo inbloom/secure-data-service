@@ -155,7 +155,6 @@ public class SamlFederationResourceTest {
     private SLIPrincipal principal;
 
     private static final int STATUS_OK = 200;
-    private static final int STATUS_FOUND = 302;
 
     private org.opensaml.saml2.core.Response samlResponse;
 
@@ -246,7 +245,7 @@ public class SamlFederationResourceTest {
         Mockito.when(samlResponse.getIssuer()).thenReturn(issuer);
         Mockito.when(issuer.getValue()).thenReturn(issuerString);
 
-        Mockito.doNothing().when(samlHelper).validateCertificate(Mockito.any(Assertion.class), Mockito.any(String.class));
+        Mockito.doNothing().when(samlHelper).validateSignature(Mockito.any(org.opensaml.saml2.core.Response.class), Mockito.any(Assertion.class));
 
         session = Mockito.mock(Entity.class);
         Mockito.when(sessionManager.getSessionForSamlId(Mockito.anyString())).thenReturn(session);
@@ -510,115 +509,6 @@ public class SamlFederationResourceTest {
         Field sandboxEnabledField = SamlFederationResource.class.getDeclaredField("sandboxEnabled");
         sandboxEnabledField.setAccessible(true);
         sandboxEnabledField.set(resource, sandboxEnabled);
-    }
-
-   /* @SuppressWarnings("unchecked")
-    private void setSecurityEventBuilder() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        SecurityEvent event = new SecurityEvent();
-        Mockito.when(securityEventBuilder.createSecurityEvent(any(String.class), any(URI.class), any(String.class), anyBoolean())).thenReturn(event);
-        Mockito.when(securityEventBuilder.createSecurityEvent(any(String.class), any(URI.class), any(String.class), any(SLIPrincipal.class),
-           any(String.class), any(Entity.class), any(Set.class), anyBoolean())).thenReturn(event);
-
-        Field securityEventBuilderField = SamlFederationResource.class.getDeclaredField("securityEventBuilder");
-        securityEventBuilderField.setAccessible(true);
-        securityEventBuilderField.set(resource, securityEventBuilder);
-    }
-
-    private void constructSAMLResponse(String samlTenant, boolean isAdmin, String userId, String userType, List<String> roles) {
-        org.opensaml.saml2.core.Response samlResponse = Mockito.mock(org.opensaml.saml2.core.Response.class);
-        Assertion assertion = Mockito.mock(Assertion.class);
-        List<Assertion> assertions = new ArrayList<Assertion>();
-        assertions.add(assertion);
-        AttributeStatement attributeStatement = Mockito.mock(AttributeStatement.class);
-        List<AttributeStatement> attributeStatements = new ArrayList<AttributeStatement>();
-        attributeStatements.add(attributeStatement);
-        List<Attribute> attributes = new ArrayList<Attribute>();
-
-
-        Mockito.when(samlResponse.getAssertions()).thenReturn(assertions);
-        Mockito.when(assertion.getAttributeStatements()).thenReturn(attributeStatements);
-        Mockito.when(attributeStatement.getAttributes()).thenReturn(attributes);
-
-        // Set SAML tenant.
-        if (samlTenant != null) {
-            Attribute samlTenantAttr = Mockito.mock(Attribute.class);
-            Mockito.when(samlTenantAttr.getName()).thenReturn("tenant");
-
-            Element samlTenantValueNode = Mockito.mock(Element.class);
-            Mockito.when(samlTenantValueNode.getText()).thenReturn(samlTenant);
-            List<Element> samlTenantValueNodes = new ArrayList<Element>();
-            samlTenantValueNodes.add(samlTenantValueNode);
-            Mockito.when(samlTenantAttributeNode.getAttributeValue("Name")).thenReturn("tenant");
-            Mockito.when(samlTenantAttributeNode.getChildren("AttributeValue", SamlHelper.SAML_NS)).thenReturn(samlTenantValueNodes);
-            attributeNodes.add(samlTenantAttributeNode);
-        }
-
-        // Set isAdmin flag.
-        {
-            Element isAdminAttributeNode = Mockito.mock(Element.class);
-            Element isAdminValueNode = Mockito.mock(Element.class);
-            Mockito.when(isAdminValueNode.getText()).thenReturn(Boolean.toString(isAdmin));
-            List<Element> isAdminValueNodes = new ArrayList<Element>();
-            isAdminValueNodes.add(isAdminValueNode);
-            Mockito.when(isAdminAttributeNode.getAttributeValue("Name")).thenReturn("isAdmin");
-            Mockito.when(isAdminAttributeNode.getChildren("AttributeValue", SamlHelper.SAML_NS)).thenReturn(isAdminValueNodes);
-            attributeNodes.add(isAdminAttributeNode);
-        }
-
-        // Set user ID.
-        if (userId != null) {
-            Element userIdAttributeNode = Mockito.mock(Element.class);
-            Element userIdValueNode = Mockito.mock(Element.class);
-            Mockito.when(userIdValueNode.getText()).thenReturn(userId);
-            List<Element> userIdValueNodes = new ArrayList<Element>();
-            userIdValueNodes.add(userIdValueNode);
-            Mockito.when(userIdAttributeNode.getAttributeValue("Name")).thenReturn("userId");
-            Mockito.when(userIdAttributeNode.getChildren("AttributeValue", SamlHelper.SAML_NS)).thenReturn(userIdValueNodes);
-            attributeNodes.add(userIdAttributeNode);
-        }
-
-        // Set user type.
-        if (userType != null) {
-            Element userTypeAttributeNode = Mockito.mock(Element.class);
-            Element userTypeValueNode = Mockito.mock(Element.class);
-            Mockito.when(userTypeValueNode.getText()).thenReturn(userType);
-            List<Element> userTypeValueNodes = new ArrayList<Element>();
-            userTypeValueNodes.add(userTypeValueNode);
-            Mockito.when(userTypeAttributeNode.getAttributeValue("Name")).thenReturn("userType");
-            Mockito.when(userTypeAttributeNode.getChildren("AttributeValue", SamlHelper.SAML_NS)).thenReturn(userTypeValueNodes);
-            attributeNodes.add(userTypeAttributeNode);
-        }
-
-        // Set user roles.
-        if (roles != null) {
-            Element rolesAttributeNode = Mockito.mock(Element.class);
-            List<Element> rolesValueNodes = new ArrayList<Element>();
-            for (String role : roles) {
-                Element rolesValueNode = Mockito.mock(Element.class);
-                Mockito.when(rolesValueNode.getText()).thenReturn(role);
-                rolesValueNodes.add(rolesValueNode);
-            }
-            Mockito.when(rolesAttributeNode.getAttributeValue("Name")).thenReturn("roles");
-            Mockito.when(rolesAttributeNode.getChildren("AttributeValue", SamlHelper.SAML_NS)).thenReturn(rolesValueNodes);
-            attributeNodes.add(rolesAttributeNode);
-        }
-    }    **/
-
-    private void setSession(Boolean installed) {
-        Map<String, Object> appSessionCode = new HashMap<String, Object>();
-        appSessionCode.put("value", "My Code");
-        Map<String, Object> appSession = new HashMap<String, Object>();
-        appSession.put("samlId", "My Request");
-        appSession.put("code", appSessionCode);
-        appSession.put("installed", installed);
-        appSession.put("redirectUri", "My.Redirect.URI");
-        List<Map<String, Object>> appSessions = new ArrayList<Map<String, Object>>();
-        appSessions.add(appSession);
-        Map<String, Object> sessionBody = new HashMap<String, Object>();
-        sessionBody.put("requestedRealmId", "My Realm");
-        sessionBody.put("appSession", appSessions);
-        Entity session = new MongoEntity("user", "My User", sessionBody, new HashMap<String, Object>());
-        Mockito.when(sessionManager.getSessionForSamlId(eq("My Request"))).thenReturn(session);
     }
 
     private void setRealm(Boolean isAdminRealm) {
