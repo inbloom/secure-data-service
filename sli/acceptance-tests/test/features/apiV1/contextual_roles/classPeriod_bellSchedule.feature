@@ -56,11 +56,13 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
 
     And I log in as "jmacey"
     And I try to delete classPeriod "ILD Physics 1" and get "403"
+    #TODO Add step to check SecurityEvent
     And I try to delete classPeriod "ILD-EDH Chemistry 1 JM" and get "204"
     And I try to delete classPeriod "ILD-DCH Biology 1 JM" and get "204"
 
     And I log in as "linda.kim"
     And I try to delete classPeriod "ILD Physics 1" and get "403"
+    #TODO Add step to check SecurityEvent
     And I try to delete classPeriod "ILD-EDH Chemistry 1 LK" and get "403"
     And I try to delete classPeriod "ILD-DCH Biology 1 LK" and get "204"
 
