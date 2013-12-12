@@ -20,13 +20,9 @@ import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import com.google.common.collect.Lists;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +56,6 @@ public class BulkExtractMongoDA {
     private static final String IS_PUBLIC_DATA = "isPublicData";
 
     private static final String APP_AUTH_COLLECTION = "applicationAuthorization";
-    private static final String TENANT_EDORG_FIELD = "edorgs";
     private static final String EDORG = "edorg";
     private static final String AUTH_EDORGS_FIELD = "authorized_ed_orgs";
     private static final String APP_COLLECTION = "application";
@@ -120,12 +115,11 @@ public class BulkExtractMongoDA {
      * Get the public keys for all the bulk extract applications.
      * @return A map from clientId to public key
      */
-    @SuppressWarnings("unchecked")
     public Map<String, PublicKey> getAppPublicKeys() {
         Map<String, PublicKey> appKeys = new HashMap<String, PublicKey>();
 
         Iterator<Entity> cursor = entityRepository.findEach(APP_AUTH_COLLECTION, new NeutralQuery());
-        while(cursor.hasNext()){
+        while (cursor.hasNext()) {
             Entity appAuth = cursor.next();
             String appId = (String) appAuth.getBody().get(APP_ID);
             List<String> edorgs = getAuthorizedEdOrgIds(appAuth);
@@ -137,12 +131,12 @@ public class BulkExtractMongoDA {
     }
 
     public static List<String> getAuthorizedEdOrgIds(Entity appAuth) {
-    	List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<String>();
         List<Map<String, Object>> acls = (List<Map<String, Object>>)appAuth.getBody().get("edorgs");
-        if(acls != null) {
-            for(Map<String, Object> acl:acls) {
+        if (acls != null) {
+            for (Map<String, Object> acl:acls) {
                 String edOrg = (String)acl.get("authorizedEdorg");
-                if(edOrg != null) {
+                if (edOrg != null) {
                     result.add(edOrg);
                 }
             }
@@ -150,7 +144,7 @@ public class BulkExtractMongoDA {
         return result;
     }
 
-    
+
     @SuppressWarnings("boxing")
     public Map<String, PublicKey> getClientIdAndPublicKey(String appId, List<String> edorgs) {
         Map<String, PublicKey> clientPubKeys = new HashMap<String, PublicKey>();
@@ -163,28 +157,28 @@ public class BulkExtractMongoDA {
         Entity app = this.entityRepository.findOne(APP_COLLECTION, query);
         TenantContext.setIsSystemCall(false);
 
-        if(app != null){
+        if (app != null) {
             Map<String, Object> body = app.getBody();
             if (body.containsKey(IS_BULKEXTRACT)) {
-                if((Boolean) body.get(IS_BULKEXTRACT)) {
-                	String clientId = (String) body.get("client_id");
+                if ((Boolean) body.get(IS_BULKEXTRACT)) {
+                    String clientId = (String) body.get("client_id");
                     try {
                         List<String> authorizedTenantEdorgs = getAuthorizedTenantEdorgs(app, edorgs);
 
-                        if(authorizedTenantEdorgs.isEmpty()) {
+                        if (authorizedTenantEdorgs.isEmpty()) {
                             LOG.info("No education organization is authorized, skipping application {}", appId);
                         }
 
-                    	PublicKey key = certHelper.getPublicKeyForApp(clientId);
-						if (null != key) {
-							clientPubKeys.put(appId, key);
-						} else {
-							LOG.error("X509 Certificate for alias {} does not contain a public key", clientId);
-						}
+                        PublicKey key = certHelper.getPublicKeyForApp(clientId);
+                        if (null != key) {
+                            clientPubKeys.put(appId, key);
+                        } else {
+                            LOG.error("X509 Certificate for alias {} does not contain a public key", clientId);
+                        }
 
                     } catch (IllegalStateException e) {
-                    	LOG.error("App {} doesn't have X509 Certificate or public key", appId);
-                    	LOG.error("", e);
+                        LOG.error("App {} doesn't have X509 Certificate or public key", appId);
+                        LOG.error("", e);
                     }
                 }
             }
@@ -236,26 +230,41 @@ public class BulkExtractMongoDA {
 
 
     public CertificateValidationHelper getCertHelper() {
-		return certHelper;
-	}
+        return certHelper;
+    }
 
-	public void setCertHelper(CertificateValidationHelper certHelper) {
-		this.certHelper = certHelper;
-	}
+    public void setCertHelper(CertificateValidationHelper certHelper) {
+        this.certHelper = certHelper;
+    }
 
     public Map<String, List<String>> getEdOrgLineages() {
         Map<String, List<String>> edOrgLineages = new HashMap<String, List<String>>();
-        NeutralQuery query = new NeutralQuery();
-        query.setIncludeFields(Lists.newArrayList("_id", "metaData.edOrgs"));
-        Iterable<Entity> edOrgs = entityRepository.findAll("educationOrganization", query);
-        if(edOrgs != null) {
-            for(Entity edOrg:edOrgs) {
-                if( edOrg.getMetaData().containsKey(ParameterConstants.EDORGS_ARRAY) &&
-                        edOrg.getMetaData().get( ParameterConstants.EDORGS_ARRAY) instanceof List ) {
-                    edOrgLineages.put(edOrg.getEntityId(), (List<String>)edOrg.getMetaData().get(ParameterConstants.EDORGS_ARRAY));
+        Iterable<Entity> edOrgs = entityRepository.findAll("educationOrganization", new NeutralQuery());
+
+        if (edOrgs != null) {
+            List<String> topLevelEdOrgs = topLevelEdOrgs(edOrgs);
+
+            for (Entity edOrg : edOrgs) {
+                if (edOrg.getMetaData().containsKey(ParameterConstants.EDORGS_ARRAY) &&
+                        edOrg.getMetaData().get(ParameterConstants.EDORGS_ARRAY) instanceof List) {
+                    List<String> edOrgLineage = new ArrayList<String>((List<String>) edOrg.getMetaData().get(ParameterConstants.EDORGS_ARRAY));
+                    edOrgLineage.removeAll(topLevelEdOrgs);
+                    edOrgLineages.put(edOrg.getEntityId(), edOrgLineage);
                 }
             }
         }
         return edOrgLineages;
+    }
+
+    private List<String> topLevelEdOrgs(Iterable<Entity> edOrgs) {
+        List<String> topLevelEdOrgs = new ArrayList<String>();
+
+        for (Entity edOrg : edOrgs) {
+            if (edOrg.getBody().get(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE) == null) {
+                topLevelEdOrgs.add(edOrg.getEntityId());
+            }
+        }
+
+        return topLevelEdOrgs;
     }
 }

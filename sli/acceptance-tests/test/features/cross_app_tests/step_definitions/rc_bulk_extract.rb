@@ -234,7 +234,10 @@ Then /^the extract contains a file for each of the following entities:$/ do |tab
     expected_files << entity
   end
 
-  fileList = Dir.glob("#{@unpackDir}/*.json.gz")
-  puts "Files in upackDir:  #{fileList}"
-  assert(fileList.size==expected_files.size, "Expected " + expected_files.size.to_s + " extract files, Actual:" + fileList.size.to_s)
+  file_list = []
+  Dir.chdir(@unpackDir) do
+    file_list = Dir.glob("*.json.gz")
+  end
+  puts "Files in upackDir:  #{file_list}"
+  assert(file_list.size==expected_files.size, "Expected " + expected_files.size.to_s + " extract files, Actual:" + file_list.size.to_s)
 end

@@ -15,7 +15,9 @@
  */
 package org.slc.sli.bulk.extract.date;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -37,32 +39,23 @@ public class AttendanceExtractVerifierTest {
     private AttendanceExtractVerifier attendanceExtractVerifier = new AttendanceExtractVerifier();
 
     @Test
-    public void testshouldExtractEntityWithYear() {
+    public void testshouldExtractEntityBeforeAndAfterTreatment() {
         Map<String, Object> entityBody = new HashMap<String, Object>();
         entityBody.put(ParameterConstants.SCHOOL_YEAR, "2009-2010");
         Entity attendance = Mockito.mock(Entity.class);
         Mockito.when(attendance.getType()).thenReturn(EntityNames.ATTENDANCE);
         Mockito.when(attendance.getBody()).thenReturn(entityBody);
 
-        Assert.assertTrue(attendanceExtractVerifier.shouldExtract(attendance, DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat())));
-        Assert.assertTrue(attendanceExtractVerifier.shouldExtract(attendance, DateTime.parse("2010-05-23", DateHelper.getDateTimeFormat())));
-        Assert.assertFalse(attendanceExtractVerifier.shouldExtract(attendance, DateTime.parse("2009-05-24", DateHelper.getDateTimeFormat())));
-        Assert.assertFalse(attendanceExtractVerifier.shouldExtract(attendance, DateTime.parse("2008-05-24", DateHelper.getDateTimeFormat())));
-    }
-
-    @Test
-    public void testshouldExtractSubsequentEntityWithoutYear() {
-        Map<String, Object> entityBody = new HashMap<String, Object>();
-        entityBody.put(ParameterConstants.SCHOOL_YEAR, "2009-2010");
-        Entity attendance = Mockito.mock(Entity.class);
-        Mockito.when(attendance.getType()).thenReturn(EntityNames.ATTENDANCE);
-        Mockito.when(attendance.getBody()).thenReturn(entityBody);
-
-        // First call contains the attendance year.
+        // First call contains untreated attendance.
         Assert.assertTrue(attendanceExtractVerifier.shouldExtract(attendance, DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat())));
 
-        // Erase the attendance year for subsequent calls.
-        Mockito.when(attendance.getBody()).thenReturn(new HashMap<String, Object>());
+        // Mimic attendance treatment transformation for subsequent calls.
+        entityBody.clear();
+        List<Map<String, Object>> schoolYearAttendances = new ArrayList<Map<String, Object>>();
+        Map<String, Object> schoolYearAttendance = new HashMap<String, Object>();
+        schoolYearAttendance.put(ParameterConstants.SCHOOL_YEAR, "2009-2010");
+        schoolYearAttendances.add(schoolYearAttendance);
+        entityBody.put("schoolYearAttendance", schoolYearAttendances);
 
         Assert.assertTrue(attendanceExtractVerifier.shouldExtract(attendance, DateTime.parse("2011-05-23", DateHelper.getDateTimeFormat())));
         Assert.assertTrue(attendanceExtractVerifier.shouldExtract(attendance, DateTime.parse("2010-05-23", DateHelper.getDateTimeFormat())));

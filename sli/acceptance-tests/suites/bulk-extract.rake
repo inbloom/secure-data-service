@@ -13,6 +13,11 @@ task :bulkExtractSchedulerTest do
   runTests("test/features/bulk_extract/features/bulk_extract_scheduler.feature")
 end
 
+desc "Test the Bulk Extract Scheduler"
+task :bulkExtractTopPrivateDataTest do
+  runTests("test/features/bulk_extract/features/bulk_extract_top_level_education_organization_private_data.feature")
+end
+
 desc "Cleanup the extracts"
 task :bulkExtractCleanup do
   runTests("test/features/bulk_extract/features/bulk_extract_cleanup.feature")
@@ -243,6 +248,7 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractSecurityEventTests"].execute
   Rake::Task["bulkExtractDeltaPurgeTests"].execute
   Rake::Task["bulkExtractPriorTest"].execute
+  Rake::Task["bulkExtractTopPrivateDataTest"].execute
   Rake::Task["bulkExtractCleanup"].execute
   displayFailureReport()
   if $SUCCESS

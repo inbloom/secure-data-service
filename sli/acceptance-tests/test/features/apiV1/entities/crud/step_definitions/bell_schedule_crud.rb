@@ -17,6 +17,26 @@ When /^I POST a bell schedule$/ do
                        "calendarDateReference" => "2012ai-7963b924-ceb0-11e1-8af5-0a0027000000"
                      }
   post_entity("bellSchedules")
+  @expected_links = { "links" => [
+                                   {
+                                     "rel" => "self",
+                                     "href" =>  "bellSchedules/#{@id}"
+                                   },
+                                   {
+                                     "rel" => "custom",
+                                     "href" =>  "bellSchedules/#{@id}/custom"
+                                   },
+                                   {
+                                     "rel" => "getCalendar",
+                                     "href" =>  "calendarDates/" + @expected_entity['calendarDateReference']
+                                   },
+                                   {
+                                     "rel" => "getClassPeriod",
+                                     "href" =>  "classPeriods/" + @expected_entity['meetingTime']['classPeriodId']
+                                   }
+                                 ]
+                     }
+  puts "expected links: " + @expected_links["links"].to_json
 end
 
 When /^I GET the bell schedule$/ do

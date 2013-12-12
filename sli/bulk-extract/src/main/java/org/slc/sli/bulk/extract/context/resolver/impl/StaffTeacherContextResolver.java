@@ -80,14 +80,6 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
                 }
             }
         }
-        return removeSEA(edOrgs);
-    }
-
-    private Set<String> removeSEA(Set<String> edOrgs) {
-        Entity sea = edOrgHierarchyHelper.getSEA();
-        if (sea != null) {
-            edOrgs.remove(sea.getEntityId());
-        }
         return edOrgs;
     }
 
