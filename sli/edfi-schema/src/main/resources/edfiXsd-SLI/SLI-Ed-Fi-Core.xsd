@@ -250,6 +250,7 @@
         <xs:annotation>
             <xs:documentation>This descriptor holds the period or window in which an assessment is supposed to be administered (e.g., Beginning of Year, Middle of Year, End of
 				Year).</xs:documentation>
+<<<<<<< HEAD
             <xs:appinfo>
                 <sli:recordType>assessmentPeriodDescriptor</sli:recordType>
                 <sli:naturalKeys>CodeValue</sli:naturalKeys>
@@ -292,6 +293,50 @@
     <xs:complexType name="SLC-AttendanceEvent">
         <xs:annotation>
             <xs:documentation>AttendanceEvent record with key fields: StudentReference (StudentUniqueStateId), SchoolReference (StateOrganizationId), SchoolYear, EventDate, 
+=======
+			<xs:appinfo>
+				<sli:recordType>assessmentPeriodDescriptor</sli:recordType>
+				<sli:naturalKeys>CodeValue</sli:naturalKeys>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="CodeValue" type="CodeValue"/>
+					<xs:element name="Description" type="Description"/>
+					<xs:element name="ShortDescription" type="ShortDescription" minOccurs="0"/>
+					<xs:element name="BeginDate" type="xs:date" minOccurs="0"/>
+					<xs:element name="EndDate" type="xs:date" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SLC-AssessmentItem">
+		<xs:annotation>
+			<xs:documentation>AssessmentItem record with key field: IdentificationCode. Changed types of AssessmentReference and LearningStandardReference to SLC reference types.</xs:documentation>
+			<xs:appinfo>
+				<sli:recordType>assessmentItem</sli:recordType>
+				<sli:naturalKeys>IdentificationCode</sli:naturalKeys>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType"/>
+					<xs:element name="IdentificationCode" type="IdentificationCode"/>
+					<xs:element name="ItemCategory" type="SLC-ItemCategoryType"/>
+					<xs:element name="MaxRawScore" type="xs:int"/>
+					<xs:element name="CorrectResponse" type="CorrectResponse" minOccurs="0"/>
+					<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SLC-AttendanceEvent">
+		<xs:annotation>
+			<xs:documentation>AttendanceEvent record with key fields: StudentReference (StudentUniqueStateId), SchoolReference (StateOrganizationId), SchoolYear, EventDate, 
+>>>>>>> master
 				AttendanceEventCategory	and SectionReference. Made SchoolReference required.  Changed types of StudentReference, SchoolReference, AttendanceEventCategory,
                 EducationalEnvironment and SectionReference to SLC reference types.</xs:documentation>
             <xs:appinfo>
