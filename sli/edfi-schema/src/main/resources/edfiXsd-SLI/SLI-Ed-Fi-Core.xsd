@@ -280,7 +280,7 @@
 					<xs:element name="IdentificationCode" type="IdentificationCode"/>
 					<xs:element name="ItemCategory" type="SLC-ItemCategoryType"/>
 					<xs:element name="MaxRawScore" type="xs:int"/>
-					<xs:element name="CorrectResponse" type="CorrectResponse"/>
+					<xs:element name="CorrectResponse" type="CorrectResponse" minOccurs="0"/>
 					<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
 				</xs:sequence>
