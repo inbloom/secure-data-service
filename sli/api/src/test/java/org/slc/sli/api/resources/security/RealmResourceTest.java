@@ -22,7 +22,6 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +34,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -101,8 +99,8 @@ public class RealmResourceTest {
 
         resource.setService(service);
 
-        when(service.update("-1", mapping)).thenReturn(true);
-        when(service.update("1234", mapping)).thenReturn(true);
+        when(service.update("-1", mapping, false)).thenReturn(true);
+        when(service.update("1234", mapping, false)).thenReturn(true);
         when(service.get("-1")).thenReturn(null);
         when(service.get("1234")).thenReturn(mapping);
         when(service.get("other-realm")).thenReturn(realm2);

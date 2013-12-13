@@ -166,7 +166,7 @@ public class AdminDelegationResource {
 
         } else {
             String delgId = (String)del.get("id");
-            if (!service.update(delgId, body)) {
+            if (!service.update(delgId, body, false)) {
                 return Response.status(Status.BAD_REQUEST).build();
             }
         }
