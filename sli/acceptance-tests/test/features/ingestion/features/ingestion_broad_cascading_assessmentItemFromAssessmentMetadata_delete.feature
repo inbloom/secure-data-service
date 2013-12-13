@@ -162,8 +162,11 @@ Scenario: Delete Assessment Item from Assessment Metadata with default settings 
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
 	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "assessmentItem"
 	|field                                                           |value                                                                                          |
-	|assessmentItem._id                                              |58346902a070426a109f451129eeeb1268daed21_id406e5f1c9ff1339aaf93fc8f3fe21ff6fead0439_id          |
-	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "objectiveAssessmentRefs"
+	|assessmentItem._id                                              |58346902a070426a109f451129eeeb1268daed21_id406e5f1c9ff1339aaf93fc8f3fe21ff6fead0439_id         |
+  Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "assessmentItemNoResponse"
+    |field                                                           |value                                                                                          |
+    |assessmentItem._id                                              |96bf74faf70dffa00128dd1eeffde9e2b544632a_id13b2b0ff391548f6b12cbbda6fab64eb6cd00d6c_id         |
+  Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "objectiveAssessmentRefs"
 	|field                                                           |value                                                                                          |
 	|objectiveAssessment.body.assessmentItemRefs                     |58346902a070426a109f451129eeeb1268daed21_id406e5f1c9ff1339aaf93fc8f3fe21ff6fead0439_id          |
 	Then there exist "2" "studentAssessment" records like below in "Midgar" tenant. And I save this query as "studentAssessment"
@@ -173,16 +176,17 @@ Scenario: Delete Assessment Item from Assessment Metadata with default settings 
     And I post "ForceAssessmentItemFromAssessmentMetadataInterchangeDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "ForceAssessmentItemFromAssessmentMetadataInterchangeDelete.zip" is completed in database
-    And I should see "Processed 1 records." in the resulting batch job file
-    And I should see "records deleted successfully: 1" in the resulting batch job file
+    And I should see "Processed 2 records." in the resulting batch job file
+    And I should see "records deleted successfully: 2" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeAssessmentMetadata.xml"
     And I re-execute saved query "assessmentItem" to get "0" records
+    And I re-execute saved query "assessmentItemNoResponse" to get "0" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
-	|assessmentItem                         |        -1|
-	|recordHash                             |        -1|
+	|assessmentItem                         |        -2|
+	|recordHash                             |        -2|
 
 
 Scenario: Delete Assessment Item Reference from Assessment Metadata with default settings (Confirm that by default cascade = false, force = true and log violations = true)
