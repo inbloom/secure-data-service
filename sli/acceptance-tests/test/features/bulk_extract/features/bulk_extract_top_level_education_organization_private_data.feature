@@ -3,16 +3,16 @@ Feature: As an bulk extract user, I want to be able to get the state public enti
 Scenario: As an bulk extract user, I want to initialize my database with test data.
     Given I am using local data store
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    And I post "SEAFullDataset.zip" file as the payload of the ingestion job
+    And I post "TopLevelFullDataset.zip" file as the payload of the ingestion job
     And all collections are empty
     When zip file is scp to ingestion landing zone
-    And a batch job for file "SEAFullDataset.zip" is completed in database
+    And a batch job for file "TopLevelFullDataset.zip" is completed in database
     And a batch job log has been created
     And all edorgs in "Midgar" are authorized for "SDK Sample"
 
  Scenario: I trigger a full bulk extract, and verify the top level edorg file has the correct private data
   Then I trigger a bulk extract
-  When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "<app id>" and edorg with id "<IL>"
+  When I fetch the path to and decrypt the edorg data extract file for the tenant "Midgar" and application with id "<app id>" and edorg with id "<IL>"
   And I verify that an extract tar file was created for the tenant "Midgar"
    Then the extract contains a file for each of the following entities:
      | entityType                            |
@@ -80,7 +80,7 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
     Given I clean the bulk extract file system and database
     When I remove the parent for the education organization "<IL-DAYBREAK>" for tenant "Midgar"
     Then I trigger a bulk extract
-    When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "<app id>" and edorg with id "<IL-DAYBREAK>"
+    When I fetch the path to and decrypt the edorg data extract file for the tenant "Midgar" and application with id "<app id>" and edorg with id "<IL-DAYBREAK>"
     And I verify that an extract tar file was created for the tenant "Midgar"
     Then the extract contains a file for each of the following entities:
       | entityType                            |
@@ -104,10 +104,11 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
       #cgray - Teacher at Daybreak Central High
       | c38c41cbb2a2f6b28f951ea7ba0fe054185fbdb1_id |
 
+  Scenario: Trigger a full bulk extract on an edorg that gains a parent, it contains its childrens data
     When I set the parent for the education organization "<IL-DAYBREAK>" to "<IL>" for tenant "Midgar"
     Given I clean the bulk extract file system and database
     Then I trigger a bulk extract
-    When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "<app id>" and edorg with id "<IL-DAYBREAK>"
+    When I fetch the path to and decrypt the edorg data extract file for the tenant "Midgar" and application with id "<app id>" and edorg with id "<IL-DAYBREAK>"
     And I verify that an extract tar file was created for the tenant "Midgar"
     Then the extract contains a file for each of the following entities:
       | entityType                            |
@@ -140,7 +141,7 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
     Given I clean the bulk extract file system and database
     When I remove the parent for the education organization "<South Daybreak Elementary>" for tenant "Midgar"
     Then I trigger a bulk extract
-    When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "<app id>" and edorg with id "<South Daybreak Elementary>"
+    When I fetch the path to and decrypt the edorg data extract file for the tenant "Midgar" and application with id "<app id>" and edorg with id "<South Daybreak Elementary>"
     And I verify that an extract tar file was created for the tenant "Midgar"
     Then the extract contains a file for each of the following entities:
       | entityType                            |
@@ -197,9 +198,9 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
     Given I clean the bulk extract file system and database
     Given I am using local data store
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    And I post "SEAFullDatasetDelta.zip" file as the payload of the ingestion job
+    And I post "TopLevelDeltaDataset.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
-    And a batch job for file "SEAFullDatasetDelta.zip" is completed in database
+    And a batch job for file "TopLevelDeltaDataset.zip" is completed in database
     And a batch job log has been created
     And I post "DeleteMattSollarsMom.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
@@ -280,9 +281,9 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
     Given I clean the bulk extract file system and database
     Given I am using local data store
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    And I post "SEAFullDatasetDelta.zip" file as the payload of the ingestion job
+    And I post "TopLevelDeltaDataset.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
-    And a batch job for file "SEAFullDatasetDelta.zip" is completed in database
+    And a batch job for file "TopLevelDeltaDataset.zip" is completed in database
     And a batch job log has been created
 
   Scenario: I trigger a delta bulk extract on an education organization that loses its parent
@@ -320,14 +321,14 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
       #rbraverman - Teacher at South Daybreak Elementary (now orphaned)
       | f026e95f4c316533ce7945971cdda0bbb1c41386_id |
 
-    #Get the parent back, then the delta extract should data from its children
+  Scenario: Trigger a full bulk extract on an edorg that gains a parent, it contains its childrens data
     When I set the parent for the education organization "<IL-DAYBREAK>" to "<IL>" for tenant "Midgar"
     Given I clean the bulk extract file system and database
     Given I am using local data store
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    And I post "SEAFullDatasetDelta.zip" file as the payload of the ingestion job
+    And I post "TopLevelDeltaDataset.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
-    And a batch job for file "SEAFullDatasetDelta.zip" is completed in database
+    And a batch job for file "TopLevelDeltaDataset.zip" is completed in database
     And a batch job log has been created
     Then I trigger a delta extract
     And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "<app id>" for "<IL-DAYBREAK>"
