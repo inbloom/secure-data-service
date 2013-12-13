@@ -1,6 +1,7 @@
 When /^I POST a bell schedule$/ do
   @expected_entity = {
                        "bellScheduleName" => "Grade School Schedule",
+                       "educationOrganizationId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
                        "meetingTime"  =>  {
                                             "classPeriodId" => "97094f3eb0e089264bbc1d937a1d22b5c7f668af_id",
                                              "alternateDayName" => "Beige",
@@ -25,6 +26,14 @@ When /^I POST a bell schedule$/ do
                                    {
                                      "rel" => "custom",
                                      "href" =>  "bellSchedules/#{@id}/custom"
+                                   },
+                                   {
+                                     "rel" => "getSchool",
+                                     "href" => "schools/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+                                   },
+                                   {
+                                     "rel" => "getEducationOrganization",
+                                     "href" => "educationOrganizations/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
                                    },
                                    {
                                      "rel" => "getCalendar",
@@ -78,6 +87,7 @@ end
 When /^I PUT the bell schedule$/ do
   @expected_entity = {
                        "bellScheduleName" => "Updated Grade School Schedule",
+                       "educationOrganizationId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
                        "meetingTime"  =>  {
                                             "classPeriodId" => "97094f3eb0e089264bbc1d937a1d22b5c7f668af_id",
                                              "startTime" => "09:55:00.000",
@@ -98,6 +108,7 @@ Then /^I PATCH the bell schedule$/ do
                   }
   @expected_entity = {
                         "bellScheduleName" => @expected_patch_entity["bellScheduleName"],
+                        "educationOrganizationId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
                         "meetingTime"  =>  {
                                              "classPeriodId" => "97094f3eb0e089264bbc1d937a1d22b5c7f668af_id",
                                               "alternateDayName" => "Beige",

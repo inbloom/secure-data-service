@@ -11205,6 +11205,23 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
+            <xs:element name='educationOrganizationId' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>The Education Organization that defines the
+                        bell schedule - often a school.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                        <sli:naturalKey>true</sli:naturalKey>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_PUBLIC</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
             <xs:element name='meetingTime' type='meetingTime'>
                 <xs:annotation>
                     <xs:documentation>This element represents the set of elements defining the meeting time for a class period.</xs:documentation>
