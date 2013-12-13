@@ -28,6 +28,7 @@
 @RALLY_DE2150
 @RALLY_DE2218
 @RALLY_DE2227
+@RALLY_US6005
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -169,7 +170,7 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessment | 24                 | studentAssessmentItem.body.assessmentResponse                | True                | string |
        | studentParentAssociation     | 2                  | body.contactRestrictions                                      | NO CONTACT ALLOWED  | string |
        | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
-    And I should see "Processed 10147 records." in the resulting batch job file
+    And I should see "Processed 10148 records." in the resulting batch job file
     And I should not see an error log file created
     And I should not see a warning log file created
     And I should see "InterchangeStudent.xml records considered for processing: 78" in the resulting batch job file
@@ -199,8 +200,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeAssessmentMetadata-StateTest.xml records considered for processing: 7" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateTest.xml records ingested successfully: 7" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateTest.xml records failed processing: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-ACT.xml records considered for processing: 18" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 18" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml records considered for processing: 19" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 19" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ACT.xml records failed processing: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records considered for processing: 38" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records ingested successfully: 38" in the resulting batch job file
@@ -345,6 +346,7 @@ And I check to find if record is in collection:
      | assessment                  | 1                   | assessmentItem.body.identificationCode       | AssessmentItem-2 |   string              |
      | assessment                  | 1                   | assessmentItem.body.identificationCode       | AssessmentItem-3 |   string              |
      | assessment                  | 1                   | assessmentItem.body.identificationCode       | AssessmentItem-4 |   string              |
+     | assessment                  | 1                   | assessmentItem.body.identificationCode       | AssessmentItem-5 |   string              |
  And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue              | searchType           |
      | courseOffering              | 1                   | body.localCourseCode        | 3rd Grade Homeroom       | string               |

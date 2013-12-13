@@ -21,7 +21,6 @@ require_relative '../../../ingestion/features/step_definitions/clean_database.rb
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../odin/step_definitions/data_generation_steps.rb'
 require_relative '../../../security/step_definitions/securityevent_util_steps.rb'
-require 'zip/zip'
 require 'archive/tar/minitar'
 require 'zlib'
 require 'open3'
@@ -439,7 +438,7 @@ When /^I retrieve the path to and decrypt the LEA "(.*?)" data extract file for 
   openDecryptedFile(appId)
 end
 
-When /^I fetch the path to and decrypt the LEA data extract file for the tenant "(.*?)" and application with id "(.*?)" and edorg with id "(.*?)"$/ do |tenant, appId, edOrgId|
+When /^I fetch the path to and decrypt the edorg data extract file for the tenant "(.*?)" and application with id "(.*?)" and edorg with id "(.*?)"$/ do |tenant, appId, edOrgId|
   @tenant = tenant
   getExtractInfoFromMongo(build_bulk_query(tenant,appId,edOrgId))
   openDecryptedFile(appId)

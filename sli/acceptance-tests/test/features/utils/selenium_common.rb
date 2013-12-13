@@ -81,6 +81,12 @@ When /^I submit the developer credentials "([^"]*)" "([^"]*)" for the impersonat
   @driver.find_element(:id, "login_button").click
 end
 
+def ignore_security_alert
+  #This function may be useful when Firefox generates a security alert
+  @driver.switch_to.alert.accept
+rescue Exception => e
+end
+
 When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page$/ do |user, pass, idpType|
   disable_NOTABLESCAN
   puts "Logging in with credentials \"#{user}\" \"#{pass}\"" if $SLI_DEBUG
@@ -111,6 +117,7 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
   else
     raise "IDP type '#{arg1}' not implemented yet"
   end
+  ignore_security_alert
   sleep 3 # wait 3 seconds before enabling notablescan flag again
   enable_NOTABLESCAN
 

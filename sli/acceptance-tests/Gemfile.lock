@@ -53,7 +53,7 @@ GEM
       text-table (~> 1.2)
     mongo (1.8.2)
       bson (~> 1.8.2)
-    multi_json (1.7.2)
+    multi_json (1.8.2)
     multipart-post (1.1.5)
     mustache (0.99.4)
     net-ldap (0.3.1)
@@ -98,13 +98,13 @@ GEM
     rspec-mocks (2.11.2)
     ruby-ole (1.2.11.4)
     rubyvis (0.5.2)
-    rubyzip (0.9.9)
+    rubyzip (1.1.0)
     rumbster (1.0.2)
       mail
-    selenium-webdriver (2.34.0)
+    selenium-webdriver (2.38.0)
       childprocess (>= 0.2.5)
       multi_json (~> 1.0)
-      rubyzip
+      rubyzip (~> 1.0)
       websocket (~> 1.0.4)
     simplecov (0.6.4)
       multi_json (~> 1.0)
@@ -161,7 +161,7 @@ DEPENDENCIES
   rest-client
   rspec
   rumbster
-  selenium-webdriver
+  selenium-webdriver (= 2.38.0)
   simplecov
   statsample
   stomp
