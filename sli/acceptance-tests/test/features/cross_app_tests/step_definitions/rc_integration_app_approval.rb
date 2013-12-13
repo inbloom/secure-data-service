@@ -172,6 +172,19 @@ Then /I get the id for the edorg "(.*?)"$/ do |arg1|
   end
 end
 
+Then /I get the id for the staff "(.*?)"$/ do |arg1|
+  restHttpGet("/v1/staff?staffUniqueStateId=#{arg1}", "application/json", @sessionId)
+  assert(@res.code == 200)
+  json = JSON.parse(@res.body)
+  puts @res.headers
+  puts json
+  if json.is_a? Array
+    @staff = json[0]['id']
+  else
+    @staff = json['id']
+  end
+end
+
 Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the production applicationAuthorization collection$/ do |expected_count, application|
    db = @conn.db("sli")
    coll = db.collection("application")

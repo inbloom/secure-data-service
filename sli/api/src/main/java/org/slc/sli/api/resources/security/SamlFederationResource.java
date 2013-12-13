@@ -54,8 +54,6 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.jdom.Document;
-import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.opensaml.saml2.core.ArtifactResolve;
@@ -83,7 +81,6 @@ import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.service.AuditLogger;
-import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
@@ -98,6 +95,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.w3c.dom.Document;
 
 /**
  * Process SAML assertions
@@ -215,52 +213,128 @@ public class SamlFederationResource {
         metadata = writer.toString();
     }
 
+    /**
+     * Get metadata describing saml federation.
+     * This is an unsecured (public) resource.
+     *
+     * @return Response containing saml metadata
+     */
+    @GET
+    @Path("metadata")
+    @Produces({ "text/xml" })
+    public Response getMetadata() {
+
+        if (!metadata.isEmpty()) {
+            return Response.ok(metadata).build();
+        }
+
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    /**
+     * Handle IdP response when using POST Binding
+     * @param postData
+     *          Response received from the IdP
+     * @param uriInfo
+     *          Information about the URI
+     * @return
+     */
     @POST
     @Path("sso/post")
-    @SuppressWarnings("unchecked")
-    public Response consume(@FormParam("SAMLResponse") String postData, @Context UriInfo uriInfo) {
+    public Response processPostBinding(@FormParam("SAMLResponse") String postData, @Context UriInfo uriInfo) {
         LOG.info("Received a SAML post for SSO...");
         TenantContext.setTenantId(null);
-        Document doc = null;
 
-        try {
-            doc = samlHelper.decodeSamlPost(postData);
-        } catch (Exception e) {
-            handleSAMLDecodeError(e, uriInfo.getRequestUri());
+        if (postData == null || postData.isEmpty()) {
+            throw new IllegalArgumentException("Empty SAML message");
         }
 
-        String inResponseTo = doc.getRootElement().getAttributeValue("InResponseTo");
-        String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
+        String decodedData = samlHelper.decodeSAMLPostResponse(postData);
 
+        Document samlDocument = null;
+        try {
+            samlDocument = samlHelper.parseToDoc(decodedData);
+        } catch (Exception e) {
+            handleSAMLProcessingError(e, uriInfo.getRequestUri());
+        }
+
+        org.opensaml.saml2.core.Response samlResponse = samlHelper.convertToSAMLResponse(samlDocument.getDocumentElement());
+
+        return processSAMLResponse(samlResponse, uriInfo);
+    }
+
+
+    /**
+     * Handles artifact binding request.
+     * @param request
+     * @param uriInfo
+     * @return
+     */
+    @GET
+    @Path("sso/artifact")
+    public Response processArtifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) {
+        String artifact = request.getParameter("SAMLart");
+        String realmId = request.getParameter("RelayState");
+
+        if (artifact == null) {
+            throw new APIAccessDeniedException("No artifact provided by the IdP");
+        }
+
+        String artifactUrl = samlHelper.getArtifactUrl(realmId, artifact);
+
+
+        ArtifactResolve artifactResolve = artifactBindingHelper.generateArtifactResolveRequest(artifact, dsPKEntry, artifactUrl);
+        Envelope soapEnvelope = artifactBindingHelper.generateSOAPEnvelope(artifactResolve);
+
+        XMLObject response = soapHelper.sendSOAPCommunication(soapEnvelope, artifactUrl, clientCertPKEntry);
+
+        ArtifactResponse artifactResponse = (ArtifactResponse)((EnvelopeImpl) response).getBody().getUnknownXMLObjects().get(0);
+        org.opensaml.saml2.core.Response samlResponse = (org.opensaml.saml2.core.Response) artifactResponse.getMessage();
+
+        return processSAMLResponse(samlResponse, uriInfo);
+    }
+
+    protected Response processSAMLResponse(org.opensaml.saml2.core.Response samlResponse, UriInfo uriInfo) {
+        if(!samlResponse.hasChildren()) {
+            handleSAMLProcessingError(new APIAccessDeniedException("Empty SAML Response body"), uriInfo.getRequestUri());
+        }
+
+        samlHelper.validateStatus(samlResponse);
+
+        Assertion assertion = samlHelper.getAssertion(samlResponse, encryptPKEntry);
+
+        samlHelper.validateSignature(samlResponse, assertion);
+
+        String inResponseTo = samlResponse.getInResponseTo();
         Entity session = sessionManager.getSessionForSamlId(inResponseTo);
-
         String requestedRealmId = (String) session.getBody().get("requestedRealmId");
-        Entity realm = getRealm(issuer, requestedRealmId);
-
+        Entity realm = getRealm(samlResponse.getIssuer().getValue(), requestedRealmId);
         String targetEdOrg = getTargetEdOrg(realm);
 
-        Element assertion = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS);
-
-        Element conditions = assertion.getChild("Conditions", SamlHelper.SAML_NS);
+        Conditions conditions = assertion.getConditions();
         if (conditions != null) {
-            validateTimeRange("SAML Conditions failed.", conditions.getAttributeValue("NotBefore"), conditions.getAttributeValue("NotOnOrAfter"), targetEdOrg);
+            String notBefore = conditions.getNotBefore() == null ? null : conditions.getNotBefore().toString();
+            String notOnOrAfter = conditions.getNotOnOrAfter() == null ? null : conditions.getNotOnOrAfter().toString();
+            validateTimeRange("SAML Conditions failed.", notBefore, notOnOrAfter, targetEdOrg);
         }
 
-        Element subject = assertion.getChild("Subject", SamlHelper.SAML_NS);
+        Subject subject = assertion.getSubject();
         if (subject != null) {
-            Element subjConfirmationData = subject.getChild("SubjectConfirmation", SamlHelper.SAML_NS).getChild("SubjectConfirmationData", SamlHelper.SAML_NS);
-            validateSubject(uriInfo.getRequestUri(), subjConfirmationData.getAttributeValue("Recipient"), subjConfirmationData.getAttributeValue("NotBefore"),
-                    subjConfirmationData.getAttributeValue("NotOnOrAfter"), targetEdOrg);
+            SubjectConfirmationData subjectConfirmationData = subject.getSubjectConfirmations().get(0).getSubjectConfirmationData();
+            String notBefore = subjectConfirmationData.getNotBefore() == null ? null : subjectConfirmationData.getNotBefore().toString();
+            String notOnOrAfter = subjectConfirmationData.getNotOnOrAfter() == null ? null : subjectConfirmationData.getNotOnOrAfter().toString();
+
+            validateSubject(uriInfo.getAbsolutePath(), subjectConfirmationData.getRecipient(), notBefore, notOnOrAfter, targetEdOrg);
         } else {
             raiseSamlValidationError("SAML response is missing Subject.", targetEdOrg);
         }
 
-        LinkedMultiValueMap<String, String> attributes = getAttributesFromAssertion(assertion);
+        LinkedMultiValueMap<String, String> attributes = samlHelper.extractAttributesFromResponse(assertion);
 
         return authenticateUser(attributes, realm, targetEdOrg, inResponseTo, session, uriInfo.getRequestUri());
     }
 
-    private void handleSAMLDecodeError(Exception e, URI uri) {
+    private void handleSAMLProcessingError(Exception e, URI uri) {
         SecurityEvent event = securityEventBuilder.createSecurityEvent(this.getClass().getName(), uri, "", false);
 
         try {
@@ -331,22 +405,6 @@ public class SamlFederationResource {
         }
 
         validateTimeRange("SAML Subject failed.", notBefore, notOnOrAfter, targetEdOrg);
-    }
-
-    private LinkedMultiValueMap<String, String> getAttributesFromAssertion(Element assertion) {
-        Element stmt = assertion.getChild("AttributeStatement", SamlHelper.SAML_NS);
-        List<Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
-
-        LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
-        for (Element attributeNode : attributeNodes) {
-            String samlAttributeName = attributeNode.getAttributeValue("Name");
-            List<Element> valueNodes = attributeNode.getChildren("AttributeValue", SamlHelper.SAML_NS);
-            for (Element valueNode : valueNodes) {
-                attributes.add(samlAttributeName, valueNode.getText());
-            }
-        }
-
-        return attributes;
     }
 
     /**
@@ -619,88 +677,6 @@ public class SamlFederationResource {
                     .cookie(new NewCookie("_tla", sessionId, "/", apiCookieDomain, "", -1, runningSsl))
                     .location(redirect).build();
         }
-    }
-
-    /**
-     * Get metadata describing saml federation.
-     * This is an unsecured (public) resource.
-     *
-     * @return Response containing saml metadata
-     */
-    @GET
-    @Path("metadata")
-    @Produces({ "text/xml" })
-    public Response getMetadata() {
-
-        if (!metadata.isEmpty()) {
-            return Response.ok(metadata).build();
-        }
-
-        return Response.status(Response.Status.NOT_FOUND).build();
-    }
-
-    /**
-     * Handles artifact binding request.
-     * @param request
-     * @param uriInfo
-     * @return
-     */
-    @GET
-    @Path("sso/artifact")
-    public Response processArtifactBinding(@Context HttpServletRequest request, @Context UriInfo uriInfo) {
-        String artifact = request.getParameter("SAMLart");
-        String realmId = request.getParameter("RelayState");
-
-        if (artifact == null) {
-            throw new APIAccessDeniedException("No artifact provided by the IdP");
-        }
-
-        String artifactUrl = samlHelper.getArtifactUrl(realmId, artifact);
-
-
-        ArtifactResolve artifactResolve = artifactBindingHelper.generateArtifactResolveRequest(artifact, dsPKEntry, artifactUrl);
-        Envelope soapEnvelope = artifactBindingHelper.generateSOAPEnvelope(artifactResolve);
-
-        XMLObject response = soapHelper.sendSOAPCommunication(soapEnvelope, artifactUrl, clientCertPKEntry);
-
-        ArtifactResponse artifactResponse = (ArtifactResponse)((EnvelopeImpl) response).getBody().getUnknownXMLObjects().get(0);
-        org.opensaml.saml2.core.Response samlResponse = (org.opensaml.saml2.core.Response) artifactResponse.getMessage();
-
-        return processResponse(uriInfo, samlResponse);
-    }
-
-    private Response processResponse(UriInfo uriInfo, org.opensaml.saml2.core.Response samlResponse) {
-        Assertion assertion = samlHelper.getAssertion(samlResponse, encryptPKEntry);
-
-        samlHelper.validateCertificate(assertion, samlResponse.getIssuer().getValue());
-
-        String inResponseTo = samlResponse.getInResponseTo();
-        Entity session = sessionManager.getSessionForSamlId(inResponseTo);
-        String requestedRealmId = (String) session.getBody().get("requestedRealmId");
-        Entity realm = getRealm(samlResponse.getIssuer().getValue(), requestedRealmId);
-        String targetEdOrg = getTargetEdOrg(realm);
-
-        Conditions conditions = assertion.getConditions();
-        if (conditions != null) {
-            String notBefore = conditions.getNotBefore() == null ? null : conditions.getNotBefore().toString();
-            String notOnOrAfter = conditions.getNotOnOrAfter() == null ? null : conditions.getNotOnOrAfter().toString();
-            validateTimeRange("SAML Conditions failed.", notBefore, notOnOrAfter, targetEdOrg);
-        }
-
-        Subject subject = assertion.getSubject();
-        if (subject != null) {
-            SubjectConfirmationData subjectConfirmationData = subject.getSubjectConfirmations().get(0).getSubjectConfirmationData();
-            String notBefore = subjectConfirmationData.getNotBefore() == null ? null : subjectConfirmationData.getNotBefore().toString();
-            String notOnOrAfter = subjectConfirmationData.getNotOnOrAfter() == null ? null : subjectConfirmationData.getNotOnOrAfter().toString();
-
-            validateSubject(uriInfo.getAbsolutePath(), subjectConfirmationData.getRecipient(), notBefore, notOnOrAfter, targetEdOrg);
-        } else {
-            raiseSamlValidationError("SAML response is missing Subject.", targetEdOrg);
-        }
-
-        LinkedMultiValueMap<String, String> attributes = samlHelper.extractAttributesFromResponse(assertion);
-
-        return authenticateUser(attributes, realm, targetEdOrg, inResponseTo, session, uriInfo.getRequestUri());
     }
 
     private String fetchCertificateText(KeyStore.PrivateKeyEntry keystoreEntry) throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {

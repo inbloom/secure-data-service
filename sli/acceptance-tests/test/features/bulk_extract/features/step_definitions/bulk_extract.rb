@@ -21,7 +21,6 @@ require_relative '../../../ingestion/features/step_definitions/clean_database.rb
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../odin/step_definitions/data_generation_steps.rb'
 require_relative '../../../security/step_definitions/securityevent_util_steps.rb'
-require 'zip/zip'
 require 'archive/tar/minitar'
 require 'zlib'
 require 'open3'
@@ -439,7 +438,7 @@ When /^I retrieve the path to and decrypt the LEA "(.*?)" data extract file for 
   openDecryptedFile(appId)
 end
 
-When /^I fetch the path to and decrypt the LEA data extract file for the tenant "(.*?)" and application with id "(.*?)" and edorg with id "(.*?)"$/ do |tenant, appId, edOrgId|
+When /^I fetch the path to and decrypt the edorg data extract file for the tenant "(.*?)" and application with id "(.*?)" and edorg with id "(.*?)"$/ do |tenant, appId, edOrgId|
   @tenant = tenant
   getExtractInfoFromMongo(build_bulk_query(tenant,appId,edOrgId))
   openDecryptedFile(appId)
@@ -3325,6 +3324,14 @@ def get_post_body_by_entity_name(entity_name)
            "calendarEvent" => "Instructional day",
            "date" => "2015-04-02",
            "educationOrganizationId" => "884daa27d806c2d725bc469b273d840493f84b4d_id"
+    },
+    "newClassPeriod" => {
+      "classPeriodName" => "Fifth Period",
+      "educationOrganizationId" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
+    },
+    "newClassPeriod2" => {
+      "classPeriodName" => "Sixth Period",
+      "educationOrganizationId" => "352e8570bd1116d11a72755b987902440045d346_id"
     },
     "newCohort" => {
       "academicSubject" => "Communication and Audio/Visual Technology",

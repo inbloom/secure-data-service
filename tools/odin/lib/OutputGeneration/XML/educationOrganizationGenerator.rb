@@ -36,6 +36,7 @@ class EducationOrganizationGenerator < InterchangeGenerator
     @writers[ Course ] = EntityWriter.new("course.mustache")
     @writers[ Program ] = EntityWriter.new("program.mustache")
     @writers[ CompetencyLevelDescriptor ] = EntityWriter.new("competency_level_descriptor.mustache")
+    @writers[ ClassPeriod ] = EntityWriter.new("class_period.mustache")
   end
 
 end

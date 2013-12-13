@@ -195,32 +195,16 @@ public class EdOrgExtractor {
         this.repository = repository;
     }
 
-    public Repository<Entity> getRepository() {
-        return repository;
-    }
-
     private String getArchiveName(String edOrg, Date startTime) {
         return edOrg + "-" + Launcher.getTimeStamp(startTime);
-    }
-
-    public EntityExtractor getEntityExtractor() {
-        return entityExtractor;
     }
 
     public void setEntityExtractor(EntityExtractor entityExtractor) {
         this.entityExtractor = entityExtractor;
     }
 
-    public Map<String, String> getEntitiesToCollections() {
-        return entitiesToCollections;
-    }
-
     public void setEntitiesToCollections(Map<String, String> entitiesToCollections) {
         this.entitiesToCollections = entitiesToCollections;
-    }
-
-    public BulkExtractMongoDA getBulkExtractMongoDA() {
-        return bulkExtractMongoDA;
     }
 
     /**
@@ -243,14 +227,6 @@ public class EdOrgExtractor {
 
     public void setEdOrgToExtractMap(ExtractFileMap map) {
         this.edOrgToExtractFileMap = map;
-    }
-
-    /**
-     * Set securityEventUtil.
-     * @param securityEventUtil the securityEventUtil to set
-     */
-    public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
-        this.securityEventUtil = securityEventUtil;
     }
 
 }

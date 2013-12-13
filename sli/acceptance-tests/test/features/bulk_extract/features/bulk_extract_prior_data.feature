@@ -27,7 +27,7 @@ Feature: An edorg's extract file should contain student and staff data from prev
 #  897755cae2f689c2d565a35a48ea69d5dd3928d6_id - Sunset Central High (SCH)
 
   Scenario: The extract for an edorg should contain data for a student or staff from a previously enrolled school
-    When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "897755cae2f689c2d565a35a48ea69d5dd3928d6_id"
+    When I fetch the path to and decrypt the edorg data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "897755cae2f689c2d565a35a48ea69d5dd3928d6_id"
     And I verify that an extract tar file was created for the tenant "Midgar"
     Then the extract contains a file for each of the following entities:
       | entityType                            |
@@ -174,7 +174,7 @@ Feature: An edorg's extract file should contain student and staff data from prev
       | 1545605a8763219b5f73d4f01c85fc8bab5f4a1e_id | entityType = staffCohortAssociation |
 
   Scenario: The extract for an edorg should not contain data for a former student or staff that's dated after the person has left
-    When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
+    When I fetch the path to and decrypt the edorg data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
     And I verify that an extract tar file was created for the tenant "Midgar"
     Then the extract contains a file for each of the following entities:
       | entityType                            |
@@ -337,7 +337,7 @@ Feature: An edorg's extract file should contain student and staff data from prev
 #  b78524194f38795a5c2e422cb7fc8becece062d0_id - West Side High (WSH)
 
   Scenario: Edge Cases for student and staff enrollment
-    When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
+    When I fetch the path to and decrypt the edorg data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
     And there is a metadata file in the extract
     And I verify this "student" file should contain:
       | id                                          | condition            |
@@ -537,7 +537,7 @@ Feature: An edorg's extract file should contain student and staff data from prev
     And I trigger an extract for tenant "Midgar"
 
   Scenario: Verify deletes don't cause full extract to barf
-    When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
+    When I fetch the path to and decrypt the edorg data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "a13489364c2eb015c219172d561c62350f0453f3_id"
     And there is a metadata file in the extract
     And I check that the "studentSectionAssociation" extract for "Daybreak Central High" has "102" records
     And I check that the "studentAcademicRecord" extract for "Daybreak Central High" has "7" records

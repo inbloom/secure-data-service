@@ -61,10 +61,10 @@ When /^the operator triggers a delta for the (production|sandbox) tenant$/ do |e
   executeShellCommand("ssh #{SSH_USER} sudo #{command}")
 end
 
-When /^I store the URL for the latest delta for the (LEA|Public)$/ do |edorg|
+When /^I store the URL for the latest delta for the (edorg|Public)$/ do |edorg|
   puts "result body from previous API call is #{@res}"
   @delta_uri = JSON.parse(@res)
-  if edorg == 'LEA'
+  if edorg.downcase == 'edorg'
     @list_url = @delta_uri['deltaEdOrgs'][@lea][0]["uri"]
   else
     @list_url = @delta_uri['deltaPublic'].values[0][0]["uri"]
@@ -146,6 +146,19 @@ When /^I PATCH the (postalCode|name) for the current edorg entity to (.*?)$/ do 
   @format = "application/json"
   puts "PATCHing body #{patch_body[field]} to /v1/educationOrganizations/#{@lea}"
   restHttpPatch("/v1/educationOrganizations/#{@lea}", prepareData(@format, patch_body[field]), @format)
+  puts @res
+  assert(@res != nil, "Patch failed: Received no response from API.")
+end
+
+When /^I PATCH the telephone number for the current staff entity to "(.*?)"$/ do |value|
+  patch_body = {
+          'telephone' => [{'telephoneNumber' => value,
+                         'primaryTelephoneNumberIndicator' => true,
+                         'telephoneNumberType' => 'Home'}]
+  }
+  @format = "application/json"
+  puts "PATCHing body #{patch_body} to /v1/staff/#{@staff}"
+  restHttpPatch("/v1/staff/#{@staff}", prepareData(@format, patch_body), @format)
   puts @res
   assert(@res != nil, "Patch failed: Received no response from API.")
 end

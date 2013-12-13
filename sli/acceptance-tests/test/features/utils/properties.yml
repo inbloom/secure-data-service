@@ -164,6 +164,11 @@ ci_artifact_idp_redirect_url: https://shibboleth.slidev.org/idp2/profile/SAML2/R
 ci_artifact_idp_id_url: https://shibboleth.slidev.org/idp2/shibboleth
 ci_artifact_source_id: 3605606709cf2df22c208f5f472f7f3ce0b5a3ea
 
+#Properties for encrypted POST IdP
+post_encrypt_idp_type: Shibboleth
+post_encrypt_idp_id_url: https://shibboleth.slidev.org/idp3/shibboleth
+post_encrypt_idp_redirect_url: https://shibboleth.slidev.org/idp3/profile/SAML2/Redirect/SSO
+
 ##For RC environments
 #email_imap_hostname: imap.gmail.com
 #email_imap_portname: 993

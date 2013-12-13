@@ -880,6 +880,7 @@ class WorldBuilder
   # - School [Elementary, Middle, High]
   # - Course
   # - [not yet implemented] Program
+  # - ClassPeriod
   def create_education_organization_work_orders
     # write state education agencies
     begin_year   = @scenarioYAML["BEGIN_YEAR"]
@@ -904,6 +905,8 @@ class WorldBuilder
     @world["leas"].each       { |edOrg|
       @queue.push_work_order({ :type => LocalEducationAgency, :id => edOrg["id"], :parent => edOrg["parent"], :programs => get_program_ids(edOrg["programs"]), :years => school_years })
       create_program_work_orders(edOrg["programs"])
+
+      create_class_period_work_orders("LEA", edOrg["id"])
     }
 
     # write elementary, middle, and high schools
@@ -913,8 +916,11 @@ class WorldBuilder
         create_program_work_orders(edOrg["programs"])
         create_course_work_orders(edOrg['id'], edOrg["courses"] || [])
         create_cohorts DataUtility.get_school_id(edOrg['id'], classification), classification
+        create_class_period_work_orders("School", edOrg["id"])
       }
     }
+
+
   end
 
   # writes ed-fi xml interchange: education organization calendar entities:
@@ -1270,6 +1276,28 @@ class WorldBuilder
       courses[grade] = current_grade_courses
     end
     courses
+  end
+
+  # creates class-period work orders for edOrg with given ID
+  def create_class_period_work_orders(edOrgType, edOrgId)
+
+    # Before school
+    period_names = [ "Early Morning Period" ]
+
+    # Regular day
+    nperiod = @scenarioYAML['NUM_CLASS_PERIODS']
+    for p in 1..nperiod
+      period_names.push("Class Period No. " + p.to_s())
+    end
+
+    # After school
+    period_names.push("After School Athletic Session")
+    period_names.push("Detention")
+    
+    # Add class periods
+    period_names.each do |class_period_name|
+      @queue.push_work_order({:type => ClassPeriod, :class_period_name => class_period_name, :ed_org_id => edOrgId})
+    end
   end
 
   # creates course work orders to be written to the education organization interchange
