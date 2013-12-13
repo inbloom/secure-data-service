@@ -33,6 +33,11 @@
                 <AssessmentItemIdentificationCode>AssessmentItem-4</AssessmentItemIdentificationCode>
             </AssessmentItemIdentity>
         </AssessmentItemReference>
+        <AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-5</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 				<ObjectiveAssessmentIdentificationCode>ACT-English</ObjectiveAssessmentIdentificationCode>
@@ -347,6 +352,24 @@
         <LearningStandardReference>
             <LearningStandardIdentity>
                 <IdentificationCode>67FB2AF6552C4CB0AF5ECD83287A91AA</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </AssessmentItem>
+
+    <AssessmentItem>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>ACT</AssessmentTitle>
+		        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		        <Version>1</Version>
+		    </AssessmentIdentity>
+		</AssessmentReference>
+        <IdentificationCode>AssessmentItem-5</IdentificationCode>
+        <ItemCategory>True-False</ItemCategory>
+        <MaxRawScore>5</MaxRawScore>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>5EEC5B34D81048C481BF69158104FA25</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
     </AssessmentItem>

@@ -1762,6 +1762,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <MaxRawScore>10</MaxRawScore>
     <CorrectResponse>true</CorrectResponse>
 </AssessmentItem>
+<AssessmentItem>
+    <AssessmentReference>
+        <AssessmentIdentity>
+            <AssessmentTitle>2002-Twelfth grade Assessment 1</AssessmentTitle>
+            <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+        </AssessmentIdentity>
+    </AssessmentReference>
+    <IdentificationCode>2002-Twelfth grade Assessment 2#2</IdentificationCode>
+    <ItemCategory>True-False</ItemCategory>
+    <MaxRawScore>10</MaxRawScore>
+</AssessmentItem>
 <ObjectiveAssessment>
   <IdentificationCode>2001-Kindergarten Assessment 1.OA-0</IdentificationCode>
   <MaxRawScore>50</MaxRawScore>
