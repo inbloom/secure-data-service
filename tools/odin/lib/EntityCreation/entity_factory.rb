@@ -59,6 +59,9 @@ class EntityFactory
         when [BellSchedule]
           rval << BellSchedule.new(work_order[:id], work_order[:session])
 
+        when [ClassPeriod]
+          rval << ClassPeriod.new(work_order[:class_period_name], work_order[:ed_org_id])
+
         when [CourseOffering]
           rval << CourseOffering.new(work_order[:id], work_order[:title], work_order[:edOrgId], work_order[:session], work_order[:course])
 
