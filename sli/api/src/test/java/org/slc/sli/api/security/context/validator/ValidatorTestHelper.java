@@ -64,7 +64,7 @@ public class ValidatorTestHelper {
     }
     
     public String getName() {
-        String cpName = "fake classPeriodName";
+        String cpName = "fake Name";
         return cpName;
     }
 
@@ -422,7 +422,7 @@ public class ValidatorTestHelper {
         cdBody.put(ParameterConstants.DATE, getBadDate());
         return repo.create(EntityNames.CALENDAR_DATE, cdBody);
     }
-
+ 
     public Entity generateClassPeriod(String edorgId) {
         Map<String, Object> cdBody = new HashMap<String, Object>();
         cdBody.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edorgId);
@@ -430,6 +430,23 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.CLASS_PERIOD, cdBody);
     }
     
+    public Entity generateMeetingTime(Entity classPeriod)  {
+        Map<String, Object> cdBody = new HashMap<String, Object>();
+        cdBody.put(ParameterConstants.END_TIME, "11:00:00:000");
+        cdBody.put(ParameterConstants.BEGIN_TIME, "10:00:00:000");
+        cdBody.put(ParameterConstants.CLASS_PERIOD_ID, classPeriod.getEntityId());
+        return repo.create(EntityNames.MEETING_TIME, cdBody);
+    }
+
+    public Entity generateBellSchedule(Entity calendarDate, Entity meetingTime) {
+        Map<String, Object> cdBody = new HashMap<String, Object>();
+        cdBody.put(ParameterConstants.NAME, getName());
+        cdBody.put(ParameterConstants.CALENDARDATE, calendarDate.getBody());       
+        cdBody.put(ParameterConstants.MEETING_TIME, meetingTime.getBody());
+                
+        return repo.create(EntityNames.BELL_SCHEDULE, cdBody);
+    }
+        
     protected void setUpTeacherContext() {
         String user = "fake staff";
         String fullName = "Fake Staff";

@@ -58,7 +58,7 @@ public class GenericToGlobalClassPeriodWriteValidatorTest {
     private PagingRepositoryDelegate<Entity> repo;
 
     Entity lea = null;
-    Entity schoolParenLea = null;
+    Entity schoolParentLea = null;
     Entity schoolNoParent = null;
 
     Entity classPeriodLea= null;
@@ -72,12 +72,13 @@ public class GenericToGlobalClassPeriodWriteValidatorTest {
     public void setup() {
         lea = helper.generateEdorgWithParent(null);
 
-        schoolParenLea = helper.generateSchoolEdOrg(lea.getEntityId());
+        schoolParentLea = helper.generateSchoolEdOrg(lea.getEntityId());
         schoolNoParent = helper.generateSchoolEdOrg(null);
 
         classPeriodLea = helper.generateClassPeriod(lea.getEntityId());  
-        classPeriodSchoolLea = helper.generateClassPeriod(schoolParenLea.getEntityId());
+        classPeriodSchoolLea = helper.generateClassPeriod(schoolParentLea.getEntityId());
         classPeriodSchoolNoParent = helper.generateClassPeriod(schoolNoParent.getEntityId());
+        
         classPeriodIds.add(classPeriodLea.getEntityId());
         classPeriodIds.add(classPeriodSchoolNoParent.getEntityId());
         classPeriodIds.add(classPeriodSchoolLea.getEntityId());
@@ -87,7 +88,7 @@ public class GenericToGlobalClassPeriodWriteValidatorTest {
         staffSchoolNoParent = helper.generateStaff();
 
         helper.generateStaffEdorg(staffLea.getEntityId(), lea.getEntityId(), false);
-        helper.generateStaffEdorg(staffSchoolLea.getEntityId(), schoolParenLea.getEntityId(), false);
+        helper.generateStaffEdorg(staffSchoolLea.getEntityId(), schoolParentLea.getEntityId(), false);
         helper.generateStaffEdorg(staffSchoolNoParent.getEntityId(), schoolNoParent.getEntityId(), false);
 
     }
@@ -101,7 +102,7 @@ public class GenericToGlobalClassPeriodWriteValidatorTest {
 
     @Test
     public void testFilterClassPeriodDataFromLEA() {
-       // setupStaff(staffLea, lea.getEntityId());
+       setupStaff(staffLea, lea.getEntityId());
         Set<String> expectedIds = new HashSet<String>(Arrays.asList(classPeriodLea.getEntityId(), classPeriodSchoolLea.getEntityId()));
 
         Set<String> actual = validator.validate(EntityNames.CLASS_PERIOD, classPeriodIds);
@@ -111,7 +112,7 @@ public class GenericToGlobalClassPeriodWriteValidatorTest {
 
     @Test
     public void testFilterClassPeriodDataFromSchool() {
-        //setupStaff(staffSchoolLea, schoolParenLea.getEntityId());
+        setupStaff(staffSchoolLea, schoolParentLea.getEntityId());
         Set<String> expectedIds = new HashSet<String>(Arrays.asList(classPeriodSchoolLea.getEntityId()));
 
         Set<String> actual = validator.validate(EntityNames.CLASS_PERIOD, classPeriodIds);
