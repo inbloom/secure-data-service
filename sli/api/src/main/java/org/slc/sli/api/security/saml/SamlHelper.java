@@ -335,6 +335,10 @@ public class SamlHelper {
      *      SAML assertion
      */
     public void validateSignature(Response samlResponse, Assertion assertion)  {
+        if(samlResponse.getSignature() == null && assertion.getSignature() == null) {
+            raiseSamlValidationError("Invalid SAML message: Response is not signed", null);
+        }
+
         String issuer = samlResponse.getIssuer().getValue();
 
         if(samlResponse.getSignature() != null) {
@@ -428,8 +432,15 @@ public class SamlHelper {
      * @return
      */
     public org.opensaml.saml2.core.Response convertToSAMLResponse(org.w3c.dom.Element element) {
+        org.opensaml.saml2.core.Response samlResponse = null;
+
         UnmarshallerFactory unmarshallerFactory = Configuration.getUnmarshallerFactory();
         Unmarshaller unmarshaller = unmarshallerFactory.getUnmarshaller(element);
+
+        if(unmarshaller == null) {
+            raiseSamlValidationError("Invalid SAML Response", null);
+        }
+
         XMLObject responseXmlObj = null;
 
         try {
@@ -438,7 +449,13 @@ public class SamlHelper {
             raiseSamlValidationError("Error unmarshalling response from IdP", null);
         }
 
-        return (org.opensaml.saml2.core.Response) responseXmlObj;
+        if (responseXmlObj instanceof org.opensaml.saml2.core.Response) {
+            samlResponse = (org.opensaml.saml2.core.Response) responseXmlObj;
+        } else {
+            raiseSamlValidationError("Response is in an improper format", null);
+        }
+
+        return samlResponse;
     }
 
     public Assertion getAssertion(org.opensaml.saml2.core.Response samlResponse, KeyStore.PrivateKeyEntry keystoreEntry) {
