@@ -71,13 +71,13 @@ public class MockBasicService implements EntityService {
     }
 
     @Override
-    public boolean update(String id, EntityBody content, boolean obeyContextualRoles) {
+    public boolean update(String id, EntityBody content, boolean applySecurityContext) {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public boolean patch(String id, EntityBody content, boolean obeyContextualRoles) {
+    public boolean patch(String id, EntityBody content, boolean applySecurityContext) {
         // TODO Auto-generated method stub
         return false;
     }
