@@ -24,7 +24,6 @@ import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.service.AuditLogger;
-import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.util.logging.SecurityEvent;
@@ -37,7 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
+import org.springframework.security.access.AccessDeniedException;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -48,6 +47,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -107,10 +107,7 @@ public class AdminDelegationResource {
         if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
 
             String edOrg = SecurityUtil.getEdOrg();
-            if (edOrg == null) {
-                throw new EntityNotFoundException("No edorg exists on principal.");
-            }
-
+            if (edOrg != null) {
             List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
             NeutralQuery query = new NeutralQuery();
             Set<String> delegatedEdorgs = new HashSet<String>();
@@ -122,7 +119,9 @@ public class AdminDelegationResource {
             }
 
             return Response.ok(results).build();
-
+            }else {
+             throw new AccessDeniedException("Can not grant access because no edOrg exists on principal.");
+            }
         } else if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
             EntityBody entity = getEntity();
             if (entity == null) {
@@ -204,21 +203,19 @@ public class AdminDelegationResource {
 
     private EntityBody getDelegationRecordForPrincipal() {
         String edOrgId = SecurityUtil.getEdOrgId();
-        if (edOrgId == null) {
-            throw new EntityNotFoundException("No edorg exists on principal.");
-        }
-
+        if (edOrgId != null) {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(LEA_ID, "=", edOrgId));
         Iterator<EntityBody> it = service.list(query).iterator();
         //Iterator<String> it = service.listIds(query).iterator();
         if (it.hasNext()){
             return it.next();
-        } else {
+        }else {
             return null;
         }
+        }
+        throw new AccessDeniedException("Can not grant access because no edOrg exists on principal.");
     }
-
 
     private EntityBody getEntity() {
         if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
