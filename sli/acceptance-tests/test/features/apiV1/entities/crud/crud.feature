@@ -337,6 +337,24 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     And "administrationEnvironment" should be "School"
     Then I delete both studentAssessment and Assessment
 
+  Scenario: crud on assessmentItem
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And entity URI "/v1/assessments"
+    And format "application/vnd.slc+json"
+    And a valid entity json document for a "assessment_item"
+    When I navigate to POST "<ENTITY URI>"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+    When I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+    And I set the "correctResponse" to "true" in the first "assessmentItem" subdoc
+    And I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    And I remove the "correctResponse" field in the first "assessmentItem" subdoc
+    And I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    When I navigate to DELETE "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
 #yearlyAttendance CRUD
 
   @us5389
