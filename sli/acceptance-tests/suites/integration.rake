@@ -212,8 +212,8 @@ task :rcTests do
   Rake::Task["rcAccountRequestTests"].execute
   Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
   Rake::Task["rcAppApprovalTests"].execute
-  Rake::Task["rcArtifactBindingTests"].execute unless PropLoader.getProps['ci_artifact_idp_type'].downcase == 'none'
-  Rake::Task["rcPostEncryptionTests"].execute unless PropLoader.getProps['post_encrypt_idp_type'].downcase == 'none'
+  Rake::Task["rcArtifactBindingTests"].execute unless PropLoader.getProps['ci_artifact_idp_type'].nil? || PropLoader.getProps['ci_artifact_idp_type'].downcase == 'none'
+  Rake::Task["rcPostEncryptionTests"].execute unless PropLoader.getProps['post_encrypt_idp_type'].nil? || PropLoader.getProps['post_encrypt_idp_type'].downcase == 'none'
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcDataBrowserTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
