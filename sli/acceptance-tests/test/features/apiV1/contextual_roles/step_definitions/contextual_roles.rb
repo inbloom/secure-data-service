@@ -1154,3 +1154,85 @@ end
 When /^I attempt to delete the new entity$/ do
   restHttpDelete("/v1/students/#{@result['id']}")
 end
+
+ $edOrgIds = {
+'Daybreak Apocalypse'   => '7ba3a918acc8ce02ea105a6c1afac1ab081a465f_id',
+'Daybreak Bayside High' => '67e56f15a44cf12b6b9eecd8510b243177bce057_id',
+'Daybreak Center'       => '6ca55671dc00fd613c578c977f650f67f6e1063c_id',
+'Daybreak Central High' => 'a13489364c2eb015c219172d561c62350f0453f3_id',
+'Daybreak Ragnarok'     => '29fecddc0c7d1e3563f3eb98743bf65b13c742fe_id',
+'District 31'           => '264b869a22b74b4ab5b3b6620b3d31d1a98dc4a0_id',
+'District 9'            => '99a4ec9d3ba372993b2860a798b550c77bb73a09_id',
+'East Daybreak High'    => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id',
+'IL-DAYBREAK'           => '1b223f577827204a1c7e9c851dba06bea6b031fe_id'
+ }
+
+And(/^I delete all classPeriods$/) do
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  tenant = convertTenantIdToDbName @tenant
+  db = conn[tenant]
+  role_coll = db.collection('classPeriod')
+  role_coll.remove()
+  conn.close()
+end
+
+And(/^I delete all bellSchedules$/) do
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  tenant = convertTenantIdToDbName @tenant
+  db = conn[tenant]
+  role_coll = db.collection('bellSchedule')
+  role_coll.remove()
+  conn.close()
+end
+
+And(/^I create a "([^"]*)" classPeriod for "([^"]*)"$/) do |classPeriodName, edOrg|
+  edOrgId = $edOrgIds[edOrg]
+  classPeriod = {:classPeriodName=>classPeriodName, :educationOrganizationId => edOrgId}
+  data = prepareData('application/json', classPeriod)
+  restHttpPost('/v1/classPeriods', data, 'Application/json')
+  assert(@res.code == 201, "Expected return code 201!")
+  location = @res.raw_headers['location'][0]
+  id = location.split(/\//)[-1]
+  $createdEntityIds[classPeriodName] = id
+  $createdLocations[classPeriodName] = location
+end
+
+And(/^I try to delete ([^ ]*) "([^"]*)" and get "([^"]*)"$/) do |entityType, entityName, codeStr|
+  restHttpDelete("/v1/#{entityType}s/#{$createdEntityIds[entityName]}", 'Application/json')
+  assert(@res.code == codeStr.to_i, 'Expected return code 200!')
+end
+
+And(/^I create a "([^"]*)" bellSchedule for "([^"]*)"$/) do |bellScheduleName, classPeriod|
+  #create a calendarDate that can be used for all bellSchedules
+  if (not $calId) then
+      calDate = { :calendarEvent => "Instructional day",
+                  :date => '2014-04-24',
+                  :educationOrganizationId => $edOrgIds['IL-DAYBREAK']
+      }
+
+      data = prepareData('application/json',calDate)
+      restHttpPost("/v1/calendarDates/", data, 'Application/json')
+      assert(@res.code == 201, "Expected return code 201!")
+      location = @res.raw_headers['location'][0]
+      $calId = location.split(/\//)[-1]
+    end
+
+  bellSchedule = {
+        :bellScheduleName => bellScheduleName,
+        :meetingTime =>  {
+        :classPeriodId => $createdEntityIds[classPeriod],
+        :startTime => '13:20:00-05:00',
+        :endTime => '13:20:00-05:00'
+        },
+        :gradeLevels => ['Tenth grade'],
+        :calendarDateReference => $calId
+    }
+    data = prepareData('application/json',bellSchedule)
+    restHttpPost('/v1/bellSchedules', data, 'Application/json')
+    assert(@res.code == 201, 'Expected return code 201!')
+    location = @res.raw_headers['location'][0]
+    id = location.split(/\//)[-1]
+    $createdEntityIds[bellScheduleName] = id
+    $createdLocations[bellScheduleName] = location
+end
+
