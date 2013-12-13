@@ -5,7 +5,7 @@ Feature:  RC Integration Tests
   Background:
     Given I have an open web browser
 
-  Scenario: Realm Admin Logins to create realm that supports artifact binding
+  Scenario: Realm Admin Logins to create realm that supports encryption for post
     When I navigate to the Portal home page
     When I see the realm selector I authenticate to "inBloom"
     And I was redirected to the "Simple" IDP Login page
