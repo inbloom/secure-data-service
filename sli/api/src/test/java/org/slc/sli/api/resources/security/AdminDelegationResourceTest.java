@@ -33,6 +33,7 @@ import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -58,19 +59,18 @@ public class AdminDelegationResourceTest {
     @Autowired
     private SecurityContextInjector securityContextInjector;
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test(expected = AccessDeniedException.class)
     public void testGetDelegationsNoEdOrg() throws Exception {
 
         securityContextInjector.setLeaAdminContext();
         resource.getDelegations();
-
     }
 
     @Test
     public void testGetDelegationsBadRole() throws Exception {
 
         securityContextInjector.setEducatorContext();
-        Assert.assertEquals(resource.getDelegations().getStatus(), Response.Status.FORBIDDEN.getStatusCode());
+        Assert.assertEquals(Response.Status.FORBIDDEN.getStatusCode(), resource.getDelegations().getStatus());
 
     }
 
