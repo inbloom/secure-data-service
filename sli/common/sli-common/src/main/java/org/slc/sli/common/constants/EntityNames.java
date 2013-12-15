@@ -82,7 +82,8 @@ public final class EntityNames {
     public static final String CALENDAR_DATE = "calendarDate";
     public static final String CLASS_PERIOD = "classPeriod";
     public static final String BELL_SCHEDULE = "bellSchedule";
-    
+    public static final String MEETING_TIME = "meetingTime";
+                              
     public static final Set<String> PUBLIC_ENTITIES = new HashSet<String>(Arrays.asList(
             ASSESSMENT,
             ASSESSMENT_FAMILY,
@@ -105,8 +106,10 @@ public final class EntityNames {
             "stateEducationAgency",
             CALENDAR_DATE,
             CLASS_PERIOD,
-            BELL_SCHEDULE
+            BELL_SCHEDULE,
+            MEETING_TIME
             ));
+
 
     public static boolean isPublic(String entityType) {
         return PUBLIC_ENTITIES.contains(entityType);

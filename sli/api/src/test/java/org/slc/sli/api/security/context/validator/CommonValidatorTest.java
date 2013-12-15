@@ -96,6 +96,7 @@ public class CommonValidatorTest {
         ignored.add(EntityNames.SECURITY_EVENT);
         ignored.add(EntityNames.CLASS_PERIOD);
         ignored.add(EntityNames.BELL_SCHEDULE);
+        ignored.add(EntityNames.MEETING_TIME);
 
         globalEntities.add(EntityNames.ASSESSMENT);
         globalEntities.add(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR);
@@ -109,6 +110,7 @@ public class CommonValidatorTest {
         globalEntities.add(EntityNames.STUDENT_COMPETENCY_OBJECTIVE);
         globalEntities.add(EntityNames.CLASS_PERIOD);
         globalEntities.add(EntityNames.BELL_SCHEDULE);
+        globalEntities.add(EntityNames.MEETING_TIME);
     }
 
     @After

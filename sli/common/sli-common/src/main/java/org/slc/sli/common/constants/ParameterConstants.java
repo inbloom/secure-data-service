@@ -193,7 +193,9 @@ public class ParameterConstants {
     public static final String GRADE_ID = "gradeId";
     public static final String ID = "_id";
     public static final String END_DATE = "endDate";
-    public static final String BEGIN_DATE = "beginDate";
+    public static final String BEGIN_DATE = "beginDate";   
+    public static final String END_TIME = "endTime";
+    public static final String BEGIN_TIME = "beginTime";
     public static final String STUDENT_RECORD_ACCESS = "studentRecordAccess";
     public static final String PARENT_EDUCATION_AGENCY_REFERENCE = "parentEducationAgencyReference";
     public static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
@@ -201,6 +203,10 @@ public class ParameterConstants {
     public static final String STAFF_UNIQUE_STATE_ID = "staffUniqueStateId";
     public static final String PARENT_UNIQUE_STATE_ID = "parentUniqueStateId";
     public static final String STATE_ORGANIZATION_ID = "stateOrganizationId";
+    public static final String CLASS_PERIOD_ID = "classPeriodId";
+    public static final String MEETING_TIME = "meetingTime";
+    public static final String CALENDARDATE = "calendarDate";
+    
 
     public static final String TEACHER_REFERENCE = "teacherReference";
 
@@ -217,6 +223,7 @@ public class ParameterConstants {
     public static final String STAFF_EDORG_ASSOC_END_DATE = "endDate";
 
     public static final String DATE = "date";
+    public static final String NAME = "fakeName";
     public static final String INCIDENT_DATE = "incidentDate";
     public static final String DISCIPLINE_DATE = "disciplineDate";
 

@@ -381,6 +381,27 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "version" => 2 
   },
 
+  "assessment_item" => {
+      "assessmentIdentificationCode"=> [{
+                                            "identificationSystem"=> "State",
+                                            "ID"=> "2001-Seventh grade Assessment 2"
+                                        }],
+      "assessmentPerformanceLevel"=> [],
+      "gradeLevelAssessed"=> "Seventh grade",
+      "assessmentTitle"=> "2001-Seventh grade Assessment 2",
+      "assessmentPeriodDescriptor"=>{
+          "codeValue"=>"codeGreen",
+          "description"=>"describes this descriptor"
+      },
+      "assessmentItem"=> [{
+                              "identificationCode"=> "2001-Seventh grade Assessment 2#3",
+                              "learningStandards"=> [],
+                              "maxRawScore"=> 10,
+                              "itemCategory"=> "True-False"
+                          }],
+      "version" => 2
+  },
+
   "studentAssessment" => {
       "administrationDate" => "2001-08-28",
       "administrationLanguage" => {
@@ -942,6 +963,7 @@ And /^I DELETE attendance for student "(.*?)" in school "(.*?)" for the schoolYe
 
 end
 
+
 When /^I POST a "([^"]*)"$/ do |entityType|
   @expected_entity_bs = {
       "bellScheduleName" => "Grade School Schedule",
@@ -974,3 +996,14 @@ When /^I POST a "([^"]*)"$/ do |entityType|
     assert(@res != nil, "Response from rest-client POST is nil")
     end
 end
+
+Then /^I set the "(.*?)" to "(.*?)" in the first "(.*?)" subdoc$/ do |key, value, subdoc|
+  @fields = {} if !defined? @fields
+  @fields[subdoc][0].merge!(key=>value)
+end
+
+Then /^I remove the "(.*?)" field in the first "(.*?)" subdoc$/ do |key, subdoc|
+  @fields = {} if !defined? @fields
+  @fields[subdoc][0].delete(key)
+end
+

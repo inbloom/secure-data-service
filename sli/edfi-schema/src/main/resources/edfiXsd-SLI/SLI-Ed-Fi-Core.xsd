@@ -188,7 +188,7 @@
     <xs:complexType name="SLC-Assessment">
         <xs:annotation>
             <xs:documentation>Assessment record with key fields: AssessmentTitle, AcademicSubject, GradeLevelAssessed and Version. Changed types of ObjectiveAssessmentReference, SectionReference and
-				AssessmentItemReference to SLC reference types.</xs:documentation>
+                AssessmentItemReference to SLC reference types.</xs:documentation>
             <xs:appinfo>
                 <sli:recordType>assessment</sli:recordType>
                 <sli:naturalKeys>AssessmentTitle,AcademicSubject,GradeLevelAssessed,Version</sli:naturalKeys>
@@ -249,7 +249,7 @@
     <xs:complexType name="SLC-AssessmentPeriodDescriptor">
         <xs:annotation>
             <xs:documentation>This descriptor holds the period or window in which an assessment is supposed to be administered (e.g., Beginning of Year, Middle of Year, End of
-				Year).</xs:documentation>
+                Year).</xs:documentation>
             <xs:appinfo>
                 <sli:recordType>assessmentPeriodDescriptor</sli:recordType>
                 <sli:naturalKeys>CodeValue</sli:naturalKeys>
@@ -282,7 +282,7 @@
                     <xs:element name="IdentificationCode" type="IdentificationCode"/>
                     <xs:element name="ItemCategory" type="SLC-ItemCategoryType"/>
                     <xs:element name="MaxRawScore" type="xs:int"/>
-                    <xs:element name="CorrectResponse" type="CorrectResponse"/>
+                    <xs:element name="CorrectResponse" type="CorrectResponse" minOccurs="0"/>
                     <xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
                 </xs:sequence>
@@ -291,8 +291,8 @@
     </xs:complexType>
     <xs:complexType name="SLC-AttendanceEvent">
         <xs:annotation>
-            <xs:documentation>AttendanceEvent record with key fields: StudentReference (StudentUniqueStateId), SchoolReference (StateOrganizationId), SchoolYear, EventDate, 
-				AttendanceEventCategory	and SectionReference. Made SchoolReference required.  Changed types of StudentReference, SchoolReference, AttendanceEventCategory,
+            <xs:documentation>AttendanceEvent record with key fields: StudentReference (StudentUniqueStateId), SchoolReference (StateOrganizationId), SchoolYear, EventDate,
+                AttendanceEventCategory	and SectionReference. Made SchoolReference required.  Changed types of StudentReference, SchoolReference, AttendanceEventCategory,
                 EducationalEnvironment and SectionReference to SLC reference types.</xs:documentation>
             <xs:appinfo>
                 <sli:recordType>attendanceEvent</sli:recordType>
@@ -316,12 +316,12 @@
     </xs:complexType>
     <xs:complexType name="SLC-BellSchedule">
         <xs:annotation>
-            <xs:documentation>BellSchedule with key fields: BellScheduleName, ClassPeriodReference (within MeetingTime),
-                and CalendarDateReference (Date, EducationOrganizationReference)
-                Changed types of GradeLevels, MeetingTime and CalendarDateReference to SLC reference types.</xs:documentation>
+            <xs:documentation>BellSchedule with key fields: BellScheduleName, EducationOrganizationReference,
+                ClassPeriodReference (within MeetingTime), and CalendarDateReference (Date, EducationOrganizationReference)
+                Changed types of GradeLevels, EducationOrganizationReference, MeetingTime and CalendarDateReference to SLC reference types.</xs:documentation>
             <xs:appinfo>
                 <sli:recordType>bellSchedule</sli:recordType>
-                <sli:naturalKeys>BellScheduleName,MeetingTime.ClassPeriodReference,CalendarDateReference</sli:naturalKeys>
+                <sli:naturalKeys>BellScheduleName,EducationOrganizationReference,MeetingTime.ClassPeriodReference,CalendarDateReference</sli:naturalKeys>
             </xs:appinfo>
         </xs:annotation>
         <xs:complexContent>
@@ -329,6 +329,7 @@
                 <xs:sequence>
                     <xs:element name="BellScheduleName" type="BellScheduleName"/>
                     <xs:element name="GradeLevels" type="SLC-GradeLevelsType"/>
+                    <xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType"/>
                     <xs:element name="MeetingTime" type="SLC-MeetingTime"/>
                     <xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType"/>
                 </xs:sequence>
@@ -1697,6 +1698,13 @@
                 <xs:annotation>
                     <xs:appinfo>
                         <sli:keyFieldName>bellScheduleName</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>educationOrganizationId</sli:keyFieldName>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>

@@ -13,7 +13,7 @@ task :bulkExtractSchedulerTest do
   runTests("test/features/bulk_extract/features/bulk_extract_scheduler.feature")
 end
 
-desc "Test the Bulk Extract Scheduler"
+desc "Trigger an extract and verify the contents are correct for the top level extract"
 task :bulkExtractTopPrivateDataTest do
   runTests("test/features/bulk_extract/features/bulk_extract_top_level_education_organization_private_data.feature")
 end

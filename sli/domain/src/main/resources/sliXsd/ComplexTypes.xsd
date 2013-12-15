@@ -763,7 +763,7 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element name='correctResponse' type='correctResponse'>
+            <xs:element minOccurs='0' name='correctResponse' type='correctResponse'>
                 <xs:annotation>
                     <xs:documentation>The correct response for the assessment item.
                     </xs:documentation>
@@ -11195,6 +11195,23 @@
                 <xs:annotation>
                     <xs:documentation> Name or title of the bell schedule. </xs:documentation>
                     <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_PUBLIC</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name='educationOrganizationId' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>The Education Organization that defines the
+                        bell schedule - often a school.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
