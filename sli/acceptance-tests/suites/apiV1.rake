@@ -424,8 +424,20 @@ end
 
 desc "Run contextual roles acceptance tests"
 task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinContextualRolesIngestion, :runSearchBulkExtract] do
-#  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
-  runTests("test/features/apiV1/contextual_roles")
+  runTests("test/features/apiV1/contextual_roles/classPeriod_bellSchedule.feature")
+  runTests("test/features/apiV1/contextual_roles/custom_entities.feature")
+  runTests("test/features/apiV1/contextual_roles/matchRoles.feature")
+  runTests("test/features/apiV1/contextual_roles/other_entities_crud.feature")
+  runTests("test/features/apiV1/contextual_roles/student_delete.feature")
+  runTests("test/features/apiV1/contextual_roles/student_gets.feature")
+  runTests("test/features/apiV1/contextual_roles/student_patch.feature")
+  runTests("test/features/apiV1/contextual_roles/student_post.feature")
+  runTests("test/features/apiV1/contextual_roles/student_put.feature")
+  setFixture("calendarDate", "Midgar_data/calendarDate_fixture.json")
+  setFixture("staff", "staff_fixture.json")
+  setFixture("educationOrganization", "educationOrganization_fixture.json")
+  setFixture("staffEducationOrganizationAssociation",  "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
+  runTests("test/features/apiV1/contextual_roles/classPeriod_bellSchedule_crud.feature")
   if $SUCCESS
     puts "Completed All Tests"
   else

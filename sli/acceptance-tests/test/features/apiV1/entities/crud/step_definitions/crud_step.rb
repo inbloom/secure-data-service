@@ -25,6 +25,9 @@ require 'uri'
 include REXML
 require_relative '../../../../utils/sli_utils.rb'
 require_relative '../../../utils/api_utils.rb'
+require_relative  'bell_schedule_crud.rb'
+require_relative  'class_period_crud.rb'
+require_relative  'common_crud.rb'
 
 Before do
   @attendance_event_array = [
@@ -937,4 +940,37 @@ And /^I DELETE attendance for student "(.*?)" in school "(.*?)" for the schoolYe
     assert(@res.code == 404, "Attendance #{attendance_id} still exists")
   }
 
+end
+
+When /^I POST a "([^"]*)"$/ do |entityType|
+  @expected_entity_bs = {
+      "bellScheduleName" => "Grade School Schedule",
+      "meetingTime"  =>  {
+          "classPeriodId" => "7a0dde6bfdd4ad85281452a5aa0ae992903af89b_id",
+          "alternateDayName" => "Beige",
+          "startTime" => "09:00:00.000",
+          "endTime" => "09:55:00.000",
+          "officialAttendancePeriod" => true
+      },
+      "gradeLevels" => [
+          "First grade",
+          "Second grade",
+          "Third grade",
+          "Fourth grade"
+      ],
+      "calendarDateReference" => "2012ai-7963b924-ceb0-11e1-8af5-0a0027000000"
+  }
+
+  @expected_entity_cp = {
+      "classPeriodName" => "First Period",
+      "educationOrganizationId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+  }
+
+  if  entityType == "classPeriod"
+    restHttpPost("/v1/classPeriods", @expected_entity_cp.to_json, 'application/vnd.slc+json')
+    assert(@res != nil, "Response from rest-client POST is nil")
+  elsif entityType == "bellSchedule"
+    restHttpPost("/v1/bellSchedules", @expected_entity_bs.to_json, 'application/vnd.slc+json')
+    assert(@res != nil, "Response from rest-client POST is nil")
+    end
 end
