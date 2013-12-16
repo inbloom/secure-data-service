@@ -431,6 +431,14 @@ task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinConte
   end
 end
 
+desc "Run API V1 Elastic Search Limits Tests"
+task :apiV1SearchLimitTests => [:realmInit] do
+  Rake::Task["ingestionSmallSampleDataSet"].execute
+  Rake::Task["runSearchBulkExtract"].execute
+  runTests("test/features/apiV1/search/search_limits.feature")
+end
+
+
 ############################################################
 # API V1 tests end
 ############################################################

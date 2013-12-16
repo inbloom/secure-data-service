@@ -16,7 +16,6 @@
 package org.slc.sli.api.search.service;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
-import static org.mockito.Matchers.argThat;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -37,20 +36,13 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.client.Client;
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.constants.ResourceNames;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -63,18 +55,21 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.web.client.HttpClientErrorException;
 
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.search.service.SearchResourceService.Embedded;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.enums.Right;
 
@@ -208,6 +203,33 @@ public class SearchResourceServiceTest {
         Assert.assertEquals(2L, serviceResponse.getEntityCount());
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testExtendedSearch() throws URISyntaxException {
+        setupAuth(EntityNames.STAFF);
+
+        EntityBody assessmentBody = new EntityBody();
+
+        EntityService mockEntityService = Mockito.mock(EntityService.class);
+        Mockito.when(mockEntityService.listBasedOnContextualRoles(Mockito.any(ApiQuery.class))).thenReturn(Arrays.asList(assessmentBody));
+
+        SearchResourceService rs = Mockito.spy(resourceService);
+        Mockito.when(rs.filterResultsBySecurity(Mockito.isA(List.class), Mockito.anyInt(), Mockito.anyInt())).thenAnswer(new Answer<List<EntityBody>>() {
+            @Override
+            public List<EntityBody> answer(InvocationOnMock invocation) throws Throwable {
+                Object[] args = invocation.getArguments();
+                return (List<EntityBody>) args[0];
+            }
+        });
+
+        URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?offset=0&limit=2000");
+        ApiQuery apiQuery = new ApiQuery(queryUri);
+
+        Pair<? extends List<EntityBody>, Boolean> result = rs.retrieveResults(ResourceNames.ASSESSMENTS.toLowerCase(), apiQuery);
+
+        Assert.assertEquals(assessmentBody, result.getLeft().get(0));
+    }
+
     @Test(expected = HttpClientErrorException.class)
     @Ignore
     public void testNotEnoughToken() throws URISyntaxException {
@@ -264,6 +286,14 @@ public class SearchResourceServiceTest {
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=David%20Wu&offset=0&limit=300");
         ApiQuery apiQuery = new ApiQuery(queryUri);
         resourceService.retrieveResults(EntityNames.STAFF.toLowerCase(), apiQuery);
+    }
+
+    @Test(expected = PreConditionFailedException.class)
+    public void testExtendedSearchLimits() throws URISyntaxException {
+        setupAuth(EntityNames.STAFF);
+        URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?offset=0&limit=6000");
+        ApiQuery apiQuery = new ApiQuery(queryUri);
+        resourceService.retrieveResults(EntityNames.ASSESSMENT.toLowerCase(), apiQuery);
     }
 
     private static void setupAuth(String type) {
