@@ -17,7 +17,14 @@ package org.slc.sli.api.search.service;
 
 import java.io.File;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -30,15 +37,14 @@ import com.google.common.collect.Table;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.slc.sli.api.constants.ResourceNames;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.collect.Lists;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -48,6 +54,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 
 import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.constants.Constraints;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.criteriaGenerator.GranularAccessFilter;
 import org.slc.sli.api.criteriaGenerator.GranularAccessFilterProvider;
 import org.slc.sli.api.representation.EntityBody;
@@ -64,7 +72,6 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.api.constants.Constraints;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.domain.Entity;
@@ -111,7 +118,7 @@ public class SearchResourceService {
     +  TODO Refactor (refer to class level note).
     */
    protected static class ExtendedSearchEntities {
-       private static final Set EXTENDED_LIMIT_ENTITIES = new HashSet<String>();
+       private static final Set<String> EXTENDED_LIMIT_ENTITIES = new HashSet<String>();
 
        static {
            EXTENDED_LIMIT_ENTITIES.add(ResourceNames.ASSESSMENTS.toLowerCase());
@@ -122,8 +129,10 @@ public class SearchResourceService {
        }
 
        /**
-        * Returns true if ResourceName should use the extended search value
-        * @param resourceName
+        * Returns true if ResourceName should use the extended search value.
+        *
+        * @param resourceName - Resource name
+        *
         * @return true if the extended search value should be used.
         */
        public static boolean find(final String resourceName) {
@@ -146,6 +155,9 @@ public class SearchResourceService {
    // "q" is the query parameter in the url (i.e. /api/rest/v1/search?q=Matt)
    private static final List<String> WHITE_LIST_PARAMETERS = Arrays.asList(new String[]{"q"});
 
+   /**
+    * Initialize class.
+    */
    @PostConstruct
    public void init() {
       searchEntityDefinition = resourceHelper.getEntityDefinition(EntityNames.SEARCH);
@@ -160,14 +172,14 @@ public class SearchResourceService {
    }
 
    /**
-    * Main entry point for retrieving search results
+    * Main entry point for retrieving search results.
     *
-    * @param resource
-    * @param entity The entity to search on.
-    * @param queryUri
+    * @param resource - Resource
+    * @param entity - The entity upon which to search
+    * @param queryUri - URI of query
     * @param routeToDefaultApp - get ids via search app and route the request to the default
     *                          app, attaching the ids
-    * @return
+    * @return - Service Response
     */
    public ServiceResponse list(Resource resource, final String entity, URI queryUri, boolean routeToDefaultApp) {
       LOG.debug("   entity: {}", entity);
@@ -251,35 +263,35 @@ public class SearchResourceService {
     * Takes an ApiQuery and retrieve results. Includes logic for pagination and
     * calls methods to filter by security context.
     *
-    * @param entity The entity to search on.
-    * @param apiQuery
-    * @return
+    * @param entity - The entity upon which to search
+    * @param apiQuery - API query
+    *
+    * @return - Result of query
     */
    public Pair<? extends List<EntityBody>, Boolean> retrieveResults(final String entity, ApiQuery apiQuery) {
        LOG.debug(">>>SearchResourceService.retrieveResults()");
 
        int maxSearchResultCount =  this.maxFilteredSearchResultCount;
 
-       /* DE2300 - Use local max value if the more obvious HARD_ENTITY_COUNT_LIMIT or 0 was specified. */
-       if(SearchResourceService.ExtendedSearchEntities.find(entity)) {
+       /* DE2300 - Use maxFilteredSearchResultOverrideCount as the search limit if this is an extended search entity. */
+       if (SearchResourceService.ExtendedSearchEntities.find(entity)) {
            maxSearchResultCount = this.maxFilteredSearchResultOverrideCount;
        }
 
-       /* get the offset and limit requested. */
+       /* Get the offset and limit requested. */
        int limit = apiQuery.getLimit();
 
         /* Use local max value if the more obvious HARD_ENTITY_COUNT_LIMIT or 0 was specified. */
        if (limit == 0 || limit == Constraints.HARD_ENTITY_COUNT_LIMIT) {
          limit = maxFilteredSearchResultCount;
-
-          if (limit > maxSearchResultCount) {
-            String errorMessage = "Invalid condition, limit [" + limit
-                  + "] cannot be greater than maxFilteredResults [" + maxSearchResultCount + "] on search";
-            LOG.error(errorMessage);
-            throw new PreConditionFailedException(errorMessage);
-         }
       }
 
+       if (limit > maxSearchResultCount) {
+         String errorMessage = "Invalid condition, limit [" + limit
+               + "] cannot be greater than maxFilteredResults [" + maxSearchResultCount + "] on search";
+         LOG.error(errorMessage);
+         throw new PreConditionFailedException(errorMessage);
+      }
 
       int offset = apiQuery.getOffset();
       int totalLimit = limit + offset + 1;
@@ -348,8 +360,11 @@ public class SearchResourceService {
     * ApiQuery from the query URI, sets query criteria and security context
     * criteria.
     *
-    * @param queryUri
-    * @return
+    * @param resource - Resource
+    * @param entities - Entities
+    * @param queryUri - URI of query
+    *
+    * @return - API query
     */
    public ApiQuery prepareQuery(Resource resource, String entities, URI queryUri) {
       ApiQuery apiQuery = new ApiQuery(queryUri);
@@ -387,9 +402,11 @@ public class SearchResourceService {
     * context. Original list may by cross-collection. Retains the original
     * order of entities.
     *
-    * @param offset -
-    * @param limit  - total requested
-    * @return
+    * @param entityBodies - Total entities to query
+    * @param offset - Query offset
+    * @param limit  -Total requested entities
+    *
+    * @return - Filter result
     */
    public Collection<EntityBody> filterResultsBySecurity(List<EntityBody> entityBodies, int offset, int limit) {
       if (entityBodies == null || entityBodies.isEmpty()) {
@@ -461,11 +478,12 @@ public class SearchResourceService {
    }
 
    /**
-    * Filter id set to get accessible ids
+    * Filter id set to get accessible ids.
     *
-    * @param toType
-    * @param ids
-    * @return
+    * @param toType - Entity type
+    * @param ids - Entity IDs
+    *
+    * @return - Accessible IDs
     */
    public Set<String> filterOutInaccessibleIds(String toType, Set<String> ids) {
 
@@ -480,9 +498,9 @@ public class SearchResourceService {
    }
 
    /**
-    * NeutralCriteria filter. Keep NeutralCriteria only on the White List
+    * NeutralCriteria filter.  Keep NeutralCriteria only on the White List.
     *
-    * @param apiQuery
+    * @param apiQuery - API query
     */
    public void filterCriteria(ApiQuery apiQuery) {
 
@@ -492,7 +510,7 @@ public class SearchResourceService {
 
          // set doFilter true if "q" is in the list of NetralCriteria
          boolean doFilter = false;
-         List<NeutralCriteria> removalList = new LinkedList<NeutralCriteria>();
+         List<NeutralCriteria> removalList = new ArrayList<NeutralCriteria>();
          for (NeutralCriteria criteria : criterias) {
             if (!WHITE_LIST_PARAMETERS.contains(criteria.getKey())) {
                removalList.add(criteria);
