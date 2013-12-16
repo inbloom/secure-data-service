@@ -29,6 +29,8 @@ import xml.etree.cElementTree as et
 import re
 from glob import glob
 import time
+from os import listdir
+from os.path import isfile, join
 
 whitespaceToStrip = ' \t\n'
 tag_re = re.compile('\{.*\}')
@@ -36,8 +38,13 @@ tag_re = re.compile('\{.*\}')
 def initData(data):
 	data["count"] = 0
 	data["naturalKeyDup"] = 0
+	data["deletes"] = 0
+	data["deletesDup"] = 0
+	data["deletesDupStrip"] = 0
 	data["attendanceEventDup"] = 0
 	data["naturalKeyHash"] = {}
+	data["deleteNaturalKeyHash"] = {}
+	data["deleteNaturalKeyHashStrip"] = {}
 	data["entityEventHash"] = {}
 	data["naturalKeyDupStrip"] = 0
 	data["attendanceEventDupStrip"] = 0
@@ -62,39 +69,39 @@ def getStudentId(StudentReferenceNode):
 	StudentUniqueStateId = StudentIdentity.find("{0}StudentUniqueStateId".format(ns))
 	return StudentUniqueStateId.text
 
-def compareAndStoreHash(data, naturalKeyString, entityString, naturalKeyStringStrip, entityStringStrip, xmlnode, compareEntity=False):
+def compareAndStoreHash(data, naturalKeyString, entityString, naturalKeyStringStrip, entityStringStrip, xmlnode, isDelete, compareEntity=False):
 	try:
-		hash = hashlib.sha256(naturalKeyString).hexdigest()
-		hashStrip = hashlib.sha256(naturalKeyStringStrip).hexdigest()
+			hash = hashlib.sha256(naturalKeyString).hexdigest()
+			hashStrip = hashlib.sha256(naturalKeyStringStrip).hexdigest()
 		
-		if hash in data["naturalKeyHash"]:
-			data["naturalKeyDup"] += 1
-			data["naturalKeyHash"][hash] += 1
-		else:
-			data["naturalKeyHash"][hash] = 1
-			
-		if hashStrip in data["naturalKeyHashStrip"]:
-			data["naturalKeyDupStrip"] += 1
-			data["naturalKeyHashStrip"][hashStrip] += 1
-		else:
-			data["naturalKeyHashStrip"][hashStrip] = 1
+			if hash in data["naturalKeyHash"]:
+				data["naturalKeyDup"] += 1
+				data["naturalKeyHash"][hash] += 1
+			else:
+				data["naturalKeyHash"][hash] = 1
 
-		if compareEntity:
-			entityHashStrip = hashlib.sha256(entityStringStrip).hexdigest()
-			entityHash = hashlib.sha256(entityString).hexdigest()
-			if entityHashStrip in data["entityEventHashStrip"]:
-				data["attendanceEventDupStrip"] += 1
-				data["entityEventHashStrip"][entityHashStrip] +=1
-				if (entityHash not in data["dupXMLStrip"]):
-					data["dupXMLStrip"][entityHashStrip] = []
+			if hashStrip in data["naturalKeyHashStrip"]:
+				data["naturalKeyDupStrip"] += 1
+				data["naturalKeyHashStrip"][hashStrip] += 1
+			else:
+				data["naturalKeyHashStrip"][hashStrip] = 1
+
+			if compareEntity:
+				entityHashStrip = hashlib.sha256(entityStringStrip).hexdigest()
+				entityHash = hashlib.sha256(entityString).hexdigest()
+				if entityHashStrip in data["entityEventHashStrip"]:
+					data["attendanceEventDupStrip"] += 1
+					data["entityEventHashStrip"][entityHashStrip] +=1
+					if (entityHash not in data["dupXMLStrip"]):
+						data["dupXMLStrip"][entityHashStrip] = []
 				else:
 					data["entityEventHashStrip"][entityHashStrip] = 1
 
-			if entityHash in data["entityEventHash"]:
-				data["attendanceEventDup"] += 1
-				data["entityEventHash"][entityHash] +=1
-				if (entityHash not in data["dupXML"]):
-					data["dupXML"][entityHash] = []
+				if entityHash in data["entityEventHash"]:
+					data["attendanceEventDup"] += 1
+					data["entityEventHash"][entityHash] +=1
+					if (entityHash not in data["dupXML"]):
+						data["dupXML"][entityHash] = []
 				else:
 					data["entityEventHash"][entityHash] = 1		
 
@@ -104,14 +111,24 @@ def compareAndStoreHash(data, naturalKeyString, entityString, naturalKeyStringSt
 
 
 def createAttendanceHashes(filename, data, strip=True, compareEntity=False):
+	isDelete = False
 	f = open(filename)
-	it = et.iterparse(f)
+	it = et.iterparse(f, events=('start','end'))
 	elem = ()
-	if sys.version_info[0] > 2:
-		elem = it.__next__()
-	else:
-		elem = it.next()
-	ns = get_namespace(elem[1])
+	
+	#look in the first 10 tags for an <Action> tag
+	for i in range(0,10):
+		if sys.version_info[0] > 2:
+			elem = it.__next__()
+		else:
+			elem = it.next()
+		ns = get_namespace(elem[1])
+		actt = "{0}Action".format(ns)
+		#print(elem[1].tag)
+		if elem[1].tag == actt:
+			isDelete = True
+
+	#ns was acuqired while looking for Action tag
 	syt = "{0}SchoolYear".format(ns)
 	schrt = "{0}SchoolReference".format(ns)
 	sturt = "{0}StudentReference".format(ns)
@@ -168,9 +185,9 @@ def createAttendanceHashes(filename, data, strip=True, compareEntity=False):
 				dateStrip = u""
 				category = u""
 				date = u""
-				compareAndStoreHash(data, naturalKeyString, entityString, naturalKeyStringStrip, entityStringStrip, attendance, compareEntity)
+				compareAndStoreHash(data, naturalKeyString, entityString, naturalKeyStringStrip, entityStringStrip, child, isDelete, compareEntity)
 			else:
-				compareAndStoreHash(data, naturalKeyString, "", naturalKeyStringStrip, "", child, compareEntity)
+				compareAndStoreHash(data, naturalKeyString, "", naturalKeyStringStrip, "", child, isDelete, compareEntity)
 			schoolId = u""
 			schoolYear = u""
 			studentId = u""
@@ -188,30 +205,38 @@ def iterateThroughFiles(fileList, strip=True, checkEntities=False):
 		print("Processing File: " + fileList[i])
 		createAttendanceHashes(fileList[i], data, strip, checkEntities)
 		print('Cumulative Entites:' + str(data["count"])+ ', Cumulative unique natural key combos:' + str(data["count"] - data["naturalKeyDupStrip"]))
+
+	outputData(data, checkEntities)
+	
+	return (data["count"] - data["naturalKeyDup"])
+
+def outputData(data, checkEntities=False):
 	print(str(data["count"]) + " attendance " + " checked.")
 	print(str(data["naturalKeyDupStrip"]) + " Natural Key duplicates found")
-	print(str(data["count"] - data["naturalKeyDupStrip"]) + " unique attendance documents")
-	if not checkEntities:
+	print(str(data["count"] - data["naturalKeyDupStrip"]) + " unique attendance documents (" + str(len(data["naturalKeyHashStrip"])) + ")")
+	if checkEntities:
 		print(str(data["attendanceEventDupStrip"]) + " duplicate attendance events found")
 
 	print ("\nWithout Whitespace Stripped:")
 	print (str(data["naturalKeyDup"]) + " Natural Key duplicates found")
-	print (str(data["count"] - data["naturalKeyDup"]) + " unique attendance documents")
-	print (str(data["attendanceEventDup"]) + " duplicate attendance events found")
+	print (str(data["count"] - data["naturalKeyDup"]) + " unique attendance documents (" + str(len(data["naturalKeyHash"])) + ")")
 	if data["naturalKeyDupStrip"] != data["naturalKeyDup"]:
 		print("Without Stripping Whitespace, different counts for natural keys of Attendance docs.  Check for leading or trailing whitespace in source system")
-	if not checkEntities:
-		if data["attendanceEventDupStrip"] != data["attendanceEventDup"]:
+	if checkEntities:
+		print (str(data["attendanceEventDup"]) + " duplicate attendance events found")
+		if data["attendanceEventDupStrip"] == data["attendanceEventDup"]:
+			print("Whitespace does not effect the number of unique attendance natural keys")
+		else:
 			print("Without Stripping Whitespace, different counts AttendanceEvent (subdocs).  Check for leading or trailing whitespace in source system")
-	
-	return (data["count"] - data["naturalKeyDup"])
 
 	
 if __name__ == '__main__':
+	fileList = []
+	start = time.clock()
 	if len(sys.argv) <= 1: 
-		print('usage: ' + sys.argv[0] + ' datafile.xml ...')
+		print("No files specified.  Using all xml files in current directory")
+		fileList = [ f for f in listdir('.') if isfile(join('.',f)) & f.endswith(".xml") ]
 	else:
-		start = time.clock()
 		fileList = sys.argv[1:]
 		# windows does not expand wildcards from the command line.  Check for this case.
 		# NOTE: on windows, the code will only check for wildcards in the first command line argument.
@@ -219,5 +244,6 @@ if __name__ == '__main__':
 		if ('*' in sys.argv[1]) | ('?' in sys.argv[1]):
 			fileList = glob(sys.argv[1])
 			#print("Expanding wildcard in first file argument to " + str(fileList))
-		unique = iterateThroughFiles(fileList)
-		print("Processed in " + str(time.clock() - start) + " seconds")
+	unique = iterateThroughFiles(fileList, checkEntities=True)
+	print("Processed in " + str(time.clock() - start) + " seconds")
+		

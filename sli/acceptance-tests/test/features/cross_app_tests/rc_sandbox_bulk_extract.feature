@@ -69,7 +69,7 @@ Feature: Users can receive bulk extracts in sandbox mode
     When I click on log out
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
-    And I want to select "jstevenson" from the "SmallDatasetUsers" in automatic mode
+    And I want to select "rrogers" from the "SmallDatasetUsers" in automatic mode
     Given the pre-existing bulk extract testing app key has been created
     When I navigate to the API authorization endpoint with my client ID
     Then I should receive a json response containing my authorization code
@@ -114,17 +114,38 @@ Feature: Users can receive bulk extracts in sandbox mode
     When there is no bulk extract files in the local directory
     And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "<RC Server>"
     And I get back a response code of "200"
-    And I store the URL for the latest delta for the LEA
+    And I store the URL for the latest delta for the edorg
     And I request and download a "delta" extract file for the edorg
     Then there is a metadata file in the extract
     And the extract contains a file for each of the following entities:
       |  entityType                            |
       |  staffEducationOrganizationAssociation |
 
-    #SEA Public Full Extract
-    When there is no bulk extract files in the local directory
-    And I get the id for the edorg "STANDARD-SEA"
+  #Top Level Edorg Full Extract
+    When I get the id for the edorg "STANDARD-SEA"
     And I request and download a "bulk" extract file for the edorg
+    Then there is a metadata file in the extract
+    And the extract contains a file for each of the following entities:
+      |  entityType                            |
+      |  staff                                 |
+      |  staffCohortAssociation                |
+      |  staffEducationOrganizationAssociation |
+      |  staffProgramAssociation               |
+
+  #Top Level Edorg Delta Extract
+    When there is no bulk extract files in the local directory
+    And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "<RC Server>"
+    And I get back a response code of "200"
+    And I store the URL for the latest delta for the edorg
+    And I request and download a "delta" extract file for the edorg
+    Then there is a metadata file in the extract
+    And the extract contains a file for each of the following entities:
+      |  entityType                            |
+      |  staffEducationOrganizationAssociation |
+
+    #Public Full Extract
+    When there is no bulk extract files in the local directory
+    And I request and download a "public" extract file for the edorg
     Then there is a metadata file in the extract
     And the extract contains a file for each of the following entities:
       |  entityType                            |
@@ -143,11 +164,11 @@ Feature: Users can receive bulk extracts in sandbox mode
       |  cohort                                |
       |  section                               |
 
-    #SEA Public Delta Extract
+    #Public Delta Extract
     When there is no bulk extract files in the local directory
     And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "<RC Server>"
     And I get back a response code of "200"
-    And I store the URL for the latest delta for the SEA
+    And I store the URL for the latest delta for the Public
     And I request and download a "delta" extract file for the edorg
     Then there is a metadata file in the extract
     And the extract contains a file for each of the following entities:

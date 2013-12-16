@@ -19,12 +19,10 @@ import static org.slc.sli.bulk.extract.LogUtil.audit;
 
 import java.io.File;
 import java.security.PublicKey;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -36,7 +34,6 @@ import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.lea.EntityDatedExtract;
 import org.slc.sli.bulk.extract.lea.EntityExtract;
-import org.slc.sli.bulk.extract.lea.EntityToEdOrgCache;
 import org.slc.sli.bulk.extract.lea.EntityToEdOrgDateCache;
 import org.slc.sli.bulk.extract.lea.ExtractFileMap;
 import org.slc.sli.bulk.extract.lea.ExtractorFactory;
@@ -54,17 +51,17 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
 /**
- * Creates local ed org tarballs.
+ * Creates top-level ed org tarballs.
  */
-public class LocalEdOrgExtractor {
+public class EdOrgExtractor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(LocalEdOrgExtractor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EdOrgExtractor.class);
     private Repository<Entity> repository;
 
     @Autowired
     private EdOrgExtractHelper helper;
 
-    private ExtractFileMap leaToExtractFileMap;
+    private ExtractFileMap edOrgToExtractFileMap;
     private EntityExtractor entityExtractor;
     private Map<String, String> entitiesToCollections;
     private BulkExtractMongoDA bulkExtractMongoDA;
@@ -77,154 +74,137 @@ public class LocalEdOrgExtractor {
     private DateTime startTime;
 
     /**
-     * Creates unencrypted LEA bulk extract files if any are needed for the given tenant.
+     * Creates encrypted edOrg bulk extract files for the given tenant.
      *
      * @param tenant - name of tenant to extract
      * @param tenantDirectory - name of directory into which to extract
      * @param startTime - Start time of extract
-     * @param sea - SEA ID of tenant
      */
-    public void execute(String tenant, File tenantDirectory, DateTime startTime, String sea) {
+    public void execute(String tenant, File tenantDirectory, DateTime startTime) {
         // 1. SETUP
         TenantContext.setTenantId(tenant);
         this.tenantDirectory = tenantDirectory;
         this.startTime = startTime;
 
-        audit(securityEventUtil.createSecurityEvent(this.getClass().getName(), "LEA level extract initiated", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0008));
+        audit(securityEventUtil.createSecurityEvent(this.getClass().getName(), "Top-level extract initiated", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0008));
 
         if (factory == null) {
             factory = new ExtractorFactory();
         }
-        if (leaToExtractFileMap == null) {
-            leaToExtractFileMap = new ExtractFileMap(buildLEAToExtractFile(sea));
+        if (edOrgToExtractFileMap == null) {
+            edOrgToExtractFileMap = new ExtractFileMap(buildEdOrgToExtractFile());
         }
 
         // 2. EXTRACT
         // Student
-        StudentExtractor student = factory.buildStudentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
+        StudentExtractor student = factory.buildStudentExtractor(entityExtractor, edOrgToExtractFileMap, repository, helper);
         student.extractEntities(null);
 
-        EntityDatedExtract attendanceExtractor = factory.buildAttendanceExtractor(entityExtractor, leaToExtractFileMap,
+        EntityDatedExtract attendanceExtractor = factory.buildAttendanceExtractor(entityExtractor, edOrgToExtractFileMap,
                 repository, helper);
         attendanceExtractor.extractEntities(student.getStudentDatedCache());
 
         EntityDatedExtract studentSchoolAssociation = factory.buildStudentSchoolAssociationExtractor(entityExtractor,
-                leaToExtractFileMap, repository, helper);
+                edOrgToExtractFileMap, repository, helper);
         studentSchoolAssociation.extractEntities(student.getStudentDatedCache());
 
-        EntityDatedExtract studentAssessmentExtractor = factory.buildStudentAssessmentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
+        EntityDatedExtract studentAssessmentExtractor = factory.buildStudentAssessmentExtractor(entityExtractor, edOrgToExtractFileMap, repository, helper);
         studentAssessmentExtractor.extractEntities(student.getStudentDatedCache());
 
-        StudentGradebookEntryExtractor studentGradebookExtractor = factory.buildStudentGradebookEntryExtractor(entityExtractor, leaToExtractFileMap,
+        StudentGradebookEntryExtractor studentGradebookExtractor = factory.buildStudentGradebookEntryExtractor(entityExtractor, edOrgToExtractFileMap,
                 repository, helper);
         studentGradebookExtractor.extractEntities(student.getStudentDatedCache());
 
         // Discipline
-        EntityDatedExtract discipline = factory.buildDisciplineExtractor(entityExtractor, leaToExtractFileMap, repository, student.getStudentDatedCache());
+        EntityDatedExtract discipline = factory.buildDisciplineExtractor(entityExtractor, edOrgToExtractFileMap, repository, student.getStudentDatedCache());
         discipline.extractEntities(student.getDiDateCache());
 
         // Yearly Transcript
-        YearlyTranscriptExtractor yearlyTranscript = factory.buildYearlyTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
+        YearlyTranscriptExtractor yearlyTranscript = factory.buildYearlyTranscriptExtractor(entityExtractor, edOrgToExtractFileMap, repository, helper);
         yearlyTranscript.extractEntities(student.getStudentDatedCache());
         EntityToEdOrgDateCache studentAcademicRecordDateCache = yearlyTranscript.getStudentAcademicRecordDateCache();
 
         // Course Transcript
-        EntityDatedExtract courseTranscriptExtractor = factory.buildCourseTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository,
+        EntityDatedExtract courseTranscriptExtractor = factory.buildCourseTranscriptExtractor(entityExtractor, edOrgToExtractFileMap, repository,
                 student.getStudentDatedCache());
         courseTranscriptExtractor.extractEntities(studentAcademicRecordDateCache);
 
-        EntityExtract genericExtractor = factory.buildParentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
+        EntityExtract genericExtractor = factory.buildParentExtractor(entityExtractor, edOrgToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(student.getParentCache());
 
         // Staff
-        StaffEdorgAssignmentExtractor seaExtractor = factory.buildStaffAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        seaExtractor.extractEntities(null);
+        StaffEdorgAssignmentExtractor seoaExtractor = factory.buildStaffAssociationExtractor(entityExtractor, edOrgToExtractFileMap, repository, helper);
+        seoaExtractor.extractEntities(null);
 
-        EntityDatedExtract staffExtractor = factory.buildStaffExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        staffExtractor.extractEntities(seaExtractor.getStaffDatedCache());
+        EntityDatedExtract staffExtractor = factory.buildStaffExtractor(entityExtractor, edOrgToExtractFileMap, repository, helper);
+        staffExtractor.extractEntities(seoaExtractor.getStaffDatedCache());
 
-        EntityDatedExtract teacherSchoolAssociationExtractor = factory.buildTeacherSchoolAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        teacherSchoolAssociationExtractor.extractEntities(seaExtractor.getStaffDatedCache());
+        EntityDatedExtract teacherSchoolAssociationExtractor = factory.buildTeacherSchoolAssociationExtractor(entityExtractor, edOrgToExtractFileMap, repository, helper);
+        teacherSchoolAssociationExtractor.extractEntities(seoaExtractor.getStaffDatedCache());
 
-        EntityDatedExtract staffProgramExtractor = factory.buildStaffProgramAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        staffProgramExtractor.extractEntities(seaExtractor.getStaffDatedCache());
+        EntityDatedExtract staffProgramExtractor = factory.buildStaffProgramAssociationExtractor(entityExtractor, edOrgToExtractFileMap, repository, helper);
+        staffProgramExtractor.extractEntities(seoaExtractor.getStaffDatedCache());
 
-        EntityDatedExtract staffCohortExtractor = factory.buildStaffCohortAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
-        staffCohortExtractor.extractEntities(seaExtractor.getStaffDatedCache());
+        EntityDatedExtract staffCohortExtractor = factory.buildStaffCohortAssociationExtractor(entityExtractor, edOrgToExtractFileMap, repository, helper);
+        staffCohortExtractor.extractEntities(seoaExtractor.getStaffDatedCache());
 
         // Section
-        SectionEmbeddedDocsExtractor sectionExtractor = factory.buildSectionExtractor(entityExtractor, leaToExtractFileMap, repository, student.getStudentDatedCache(),
-                helper, seaExtractor.getStaffDatedCache());
+        SectionEmbeddedDocsExtractor sectionExtractor = factory.buildSectionExtractor(entityExtractor, edOrgToExtractFileMap, repository, student.getStudentDatedCache(),
+                helper, seoaExtractor.getStaffDatedCache());
         sectionExtractor.extractEntities(studentGradebookExtractor.getGradebookEntryCache());
 
-        EntityDatedExtract studentCompetencyExtractor = factory.buildStudentCompetencyExtractor(entityExtractor, leaToExtractFileMap, repository);
+        EntityDatedExtract studentCompetencyExtractor = factory.buildStudentCompetencyExtractor(entityExtractor, edOrgToExtractFileMap, repository);
         studentCompetencyExtractor.extractEntities(sectionExtractor.getStudentSectionAssociationDateCache());
 
-        leaToExtractFileMap.closeFiles();
+        edOrgToExtractFileMap.closeFiles();
 
-        leaToExtractFileMap.buildManifestFiles(startTime);
-        leaToExtractFileMap.archiveFiles();
+        edOrgToExtractFileMap.buildManifestFiles(startTime);
+        edOrgToExtractFileMap.archiveFiles();
 
         // 3. ARCHIVE
-        updateBulkExtractDb(tenant, startTime, sea);
-        LOG.info("Finished LEA based extract in: {} seconds",
+        updateBulkExtractDb(tenant, startTime);
+        LOG.info("Finished top-level extract in: {} seconds",
                 (new DateTime().getMillis() - this.startTime.getMillis()) / 1000);
-        audit(securityEventUtil.createSecurityEvent(this.getClass().getName(), "Marks the end of LEA level extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0009));
+        audit(securityEventUtil.createSecurityEvent(this.getClass().getName(), "Marks the end of top-level extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0009));
     }
 
-    private void updateBulkExtractDb(String tenant, DateTime startTime, String sea) {
-        for (String lea : helper.getBulkExtractEdOrgs(sea)) {
+    private void updateBulkExtractDb(String tenant, DateTime startTime) {
+        for (String edOrg : helper.getBulkExtractEdOrgs()) {
             // update db to point to new archive
-            for (Entry<String, File> archiveFile : leaToExtractFileMap.getExtractFileForEdOrg(lea).getArchiveFiles()
+            for (Entry<String, File> archiveFile : edOrgToExtractFileMap.getExtractFileForEdOrg(edOrg).getArchiveFiles()
                     .entrySet()) {
                 bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), archiveFile.getKey(),
-                        startTime.toDate(), false, lea, false);
+                        startTime.toDate(), false, edOrg, false);
             }
         }
     }
 
-    private Map<String, ExtractFile> buildLEAToExtractFile(String sea) {
-        Map<String, ExtractFile> edOrgToLEAExtract = new HashMap<String, ExtractFile>();
+    private Map<String, ExtractFile> buildEdOrgToExtractFile() {
+        Map<String, ExtractFile> edOrgToExtractFile = new HashMap<String, ExtractFile>();
 
         Map<String, PublicKey> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
-        for (String lea : helper.getBulkExtractEdOrgs(sea)) {
-            ExtractFile file = factory.buildLEAExtractFile(tenantDirectory.getAbsolutePath(), lea,
-                    getArchiveName(lea, startTime.toDate()), appPublicKeys, securityEventUtil);
-            edOrgToLEAExtract.put(lea, file);
+        for (String edOrg : helper.getBulkExtractEdOrgs()) {
+            ExtractFile file = factory.buildEdOrgExtractFile(tenantDirectory.getAbsolutePath(), edOrg,
+                    getArchiveName(edOrg, startTime.toDate()), appPublicKeys, securityEventUtil);
+            edOrgToExtractFile.put(edOrg, file);
         }
-        return edOrgToLEAExtract;
+        return edOrgToExtractFile;
     }
 
     public void setRepository(Repository<Entity> repository) {
         this.repository = repository;
     }
 
-    public Repository<Entity> getRepository() {
-        return repository;
-    }
-
     private String getArchiveName(String edOrg, Date startTime) {
         return edOrg + "-" + Launcher.getTimeStamp(startTime);
-    }
-
-    public EntityExtractor getEntityExtractor() {
-        return entityExtractor;
     }
 
     public void setEntityExtractor(EntityExtractor entityExtractor) {
         this.entityExtractor = entityExtractor;
     }
 
-    public Map<String, String> getEntitiesToCollections() {
-        return entitiesToCollections;
-    }
-
     public void setEntitiesToCollections(Map<String, String> entitiesToCollections) {
         this.entitiesToCollections = entitiesToCollections;
-    }
-
-    public BulkExtractMongoDA getBulkExtractMongoDA() {
-        return bulkExtractMongoDA;
     }
 
     /**
@@ -245,16 +225,8 @@ public class LocalEdOrgExtractor {
         this.factory = factory;
     }
 
-    public void setLeaToExtractMap(ExtractFileMap map) {
-        this.leaToExtractFileMap = map;
-    }
-
-    /**
-     * Set securityEventUtil.
-     * @param securityEventUtil the securityEventUtil to set
-     */
-    public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
-        this.securityEventUtil = securityEventUtil;
+    public void setEdOrgToExtractMap(ExtractFileMap map) {
+        this.edOrgToExtractFileMap = map;
     }
 
 }
