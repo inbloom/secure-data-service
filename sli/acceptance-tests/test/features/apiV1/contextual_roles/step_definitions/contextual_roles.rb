@@ -1220,6 +1220,7 @@ And(/^I create a "([^"]*)" bellSchedule for "([^"]*)"$/) do |bellScheduleName, c
 
   bellSchedule = {
         :bellScheduleName => bellScheduleName,
+        :educationOrganizationId => $edOrgIds['IL-DAYBREAK'],
         :meetingTime =>  {
         :classPeriodId => $createdEntityIds[classPeriod],
         :startTime => '13:20:00-05:00',
