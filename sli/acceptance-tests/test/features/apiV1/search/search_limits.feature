@@ -17,9 +17,9 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | session                     | search/sessions                    | 22    |
     | gradingPeriod               | search/gradingPeriods              | 17    |
 
-  Scenario Outline: Ensure Extended Search Entities Can Be Queried with a Limit Greater Than 250
+  Scenario Outline: Ensure Extended Search Entities Can Be Queried with a Limit of 5000
     Given I am logged in using "ckoch" "ckoch1234" to realm "IL"
-    And parameter "limit" is "2000"
+    And parameter "limit" is "5000"
     When I navigate to GET "/v1.3/<Entity URI>"
     Then I should receive a return code of 200
     And each entity's "entityType" should be "<Entity Type>"
@@ -35,7 +35,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
 
   Scenario Outline: Ensure Normal Search Entities Cannot Be Queried with a Limit Greater Than 250
     Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
-    And parameter "limit" is "2000"
+    And parameter "limit" is "500"
     When I navigate to GET "/v1.3/<Entity URI>"
     Then I should receive a return code of 412
 
