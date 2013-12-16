@@ -25,9 +25,6 @@ require 'uri'
 include REXML
 require_relative '../../../../utils/sli_utils.rb'
 require_relative '../../../utils/api_utils.rb'
-require_relative  'bell_schedule_crud.rb'
-require_relative  'class_period_crud.rb'
-require_relative  'common_crud.rb'
 
 Before do
   @attendance_event_array = [
