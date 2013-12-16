@@ -964,6 +964,7 @@ end
 When /^I POST a "([^"]*)"$/ do |entityType|
   @expected_entity_bs = {
       "bellScheduleName" => "Grade School Schedule",
+      "educationOrganizationId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
       "meetingTime"  =>  {
           "classPeriodId" => "7a0dde6bfdd4ad85281452a5aa0ae992903af89b_id",
           "alternateDayName" => "Beige",
