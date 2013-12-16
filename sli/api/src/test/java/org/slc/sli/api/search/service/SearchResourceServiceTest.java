@@ -209,7 +209,6 @@ public class SearchResourceServiceTest {
         setupAuth(EntityNames.STAFF);
 
         EntityBody assessmentBody = new EntityBody();
-
         EntityService mockEntityService = Mockito.mock(EntityService.class);
         Mockito.when(mockEntityService.listBasedOnContextualRoles(Mockito.any(ApiQuery.class))).thenReturn(Arrays.asList(assessmentBody));
 
@@ -221,6 +220,7 @@ public class SearchResourceServiceTest {
                 return (List<EntityBody>) args[0];
             }
         });
+        Mockito.when(rs.getService()).thenReturn(mockEntityService);
 
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?offset=0&limit=2000");
         ApiQuery apiQuery = new ApiQuery(queryUri);
