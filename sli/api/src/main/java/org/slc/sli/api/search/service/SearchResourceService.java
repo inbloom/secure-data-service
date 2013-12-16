@@ -17,14 +17,7 @@ package org.slc.sli.api.search.service;
 
 import java.io.File;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -37,6 +30,7 @@ import com.google.common.collect.Table;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.elasticsearch.client.Client;
@@ -76,6 +70,7 @@ import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+
 /**
  * Service class to handle all API search requests. Retrieves results using data
  * access classes. Queries and filters results based on the user's security
@@ -85,548 +80,601 @@ import org.slc.sli.domain.NeutralQuery;
 @Component
 public class SearchResourceService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SearchResourceService.class);
+   private static final Logger LOG = LoggerFactory.getLogger(SearchResourceService.class);
 
-    private static final String CONTEXT_SCHOOL_ID = "context.schoolId";
+   private static final String CONTEXT_SCHOOL_ID = "context.schoolId";
 
-    // Minimum limit on results to retrieve from Elasticsearch each trip
-    private static final int MINIMUM_ES_LIMIT_PER_QUERY = 10;
+   // Minimum limit on results to retrieve from Elasticsearch each trip
+   private static final int MINIMUM_ES_LIMIT_PER_QUERY = 10;
 
-    @Autowired
-    DefaultResourceService defaultResourceService;
+   @Autowired
+   DefaultResourceService defaultResourceService;
 
-    @Autowired
-    private ResourceHelper resourceHelper;
+   @Autowired
+   private ResourceHelper resourceHelper;
 
-    @Autowired
-    private EdOrgHelper edOrgHelper;
+   @Autowired
+   private EdOrgHelper edOrgHelper;
 
-    @Value("${sli.search.maxUnfilteredResults:15000}")
-    private int maxUnfilteredSearchResultCount;
+   @Value("${sli.search.maxUnfilteredResults:15000}")
+   private int maxUnfilteredSearchResultCount;
 
-    @Value("${sli.search.maxFilteredResults:250}")
-    private int maxFilteredSearchResultCount;
+   @Value("${sli.search.maxFilteredResults:250}")
+   private int maxFilteredSearchResultCount;
 
-    @Autowired
-    private ContextValidator contextValidator;
+   @Value("${sli.search.maxFilteredResultsOverride:5000}")
+   private int maxFilteredSearchResultOverrideCount;
 
-    @Autowired
-    GranularAccessFilterProvider granularAccessFilterProvider;
+   /**
+    * Static class that defines the list of entities that should use the extended search limit.
+    +  The business said to increase the value from 250 (DE2300).
+    +  TODO Refactor (refer to class level note).
+    */
+   protected static class ExtendedSearchEntities {
+       private static final Set EXTENDED_LIMIT_ENTITIES = new HashSet<String>();
 
-    private EntityDefinition searchEntityDefinition;
+       static {
+           EXTENDED_LIMIT_ENTITIES.add(ResourceNames.ASSESSMENTS.toLowerCase());
+           EXTENDED_LIMIT_ENTITIES.add(ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.toLowerCase());
+           EXTENDED_LIMIT_ENTITIES.add(ResourceNames.LEARNINGOBJECTIVES.toLowerCase());
+           EXTENDED_LIMIT_ENTITIES.add(ResourceNames.LEARNINGSTANDARDS.toLowerCase());
+           EXTENDED_LIMIT_ENTITIES.add(ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.toLowerCase());
+       }
 
-    // keep parameters for ElasticSearch
-    // "q" is the query parameter in the url (i.e. /api/rest/v1/search?q=Matt)
-    private static final List<String> WHITE_LIST_PARAMETERS = Arrays.asList(new String[] { "q" });
+       /**
+        * Returns true if ResourceName should use the extended search value
+        * @param resourceName
+        * @return true if the extended search value should be used.
+        */
+       public static boolean find(final String resourceName) {
+           if (StringUtils.isEmpty(resourceName)) {
+               return false;
+           }
+           return ExtendedSearchEntities.EXTENDED_LIMIT_ENTITIES.contains(resourceName.toLowerCase());
+       }
+   }
 
-    @PostConstruct
-    public void init() {
-        searchEntityDefinition = resourceHelper.getEntityDefinition(EntityNames.SEARCH);
-    }
+   @Autowired
+   private ContextValidator contextValidator;
 
-    protected EntityService getService() {
-        return searchEntityDefinition.getService();
-    }
+   @Autowired
+   GranularAccessFilterProvider granularAccessFilterProvider;
 
-    protected String getType() {
-        return searchEntityDefinition.getType();
-    }
+   private EntityDefinition searchEntityDefinition;
 
-    /**
-     * Main entry point for retrieving search results
-     *
-     * @param resource
-     * @param resourcesToSearch
-     * @param queryUri
-     * @param routeToDefaultApp
-     *            - get ids via search app and route the request to the default
-     *            app, attaching the ids
-     * @return
-     */
-    public ServiceResponse list(Resource resource, String resourcesToSearch, URI queryUri, boolean routeToDefaultApp) {
-        List<EntityBody> finalEntities = null;
-        Boolean moreEntities;
-        // set up query criteria, make query
-        try {
-            Pair<? extends List<EntityBody>, Boolean> resultPair = retrieveResults(prepareQuery(resource,
-                    resourcesToSearch, queryUri));
-            finalEntities = resultPair.getLeft();
-            moreEntities = resultPair.getRight();
-            if (routeToDefaultApp) {
-                finalEntities = routeToDefaultApp(finalEntities, new ApiQuery(queryUri));
-            } else {
-                setRealEntityTypes(finalEntities);
-            }
-        } catch (HttpStatusCodeException hsce) { // TODO: create some sli
-            // exception for this
-            // warn("Error retrieving results from ES: " + hsce.getMessage());
-            // if item not indexed, throw Illegal
-            if (hsce.getStatusCode() == HttpStatus.NOT_FOUND || hsce.getStatusCode().value() >= 500) {
-                throw (IllegalArgumentException) new IllegalArgumentException(
-                        "Search is not available for the user at this moment.").initCause(hsce);
-            }
-            throw hsce;
-        }
+   // keep parameters for ElasticSearch
+   // "q" is the query parameter in the url (i.e. /api/rest/v1/search?q=Matt)
+   private static final List<String> WHITE_LIST_PARAMETERS = Arrays.asList(new String[]{"q"});
 
-        if (moreEntities) {
-            ApiQuery query = new ApiQuery(queryUri);
-            return new ServiceResponse(finalEntities, finalEntities.size() + query.getLimit() + query.getOffset());
-        } else {
-            return new ServiceResponse(finalEntities, finalEntities.size());
-        }
-    }
+   @PostConstruct
+   public void init() {
+      searchEntityDefinition = resourceHelper.getEntityDefinition(EntityNames.SEARCH);
+   }
 
-    private List<EntityBody> routeToDefaultApp(List<EntityBody> entities, ApiQuery query) {
-        List<EntityBody> fullEntities = new ArrayList<EntityBody>();
-        Table<String, String, EntityBody> entityMap = getEntityTable(entities);
-        NeutralCriteria criteria = null;
-        // got through each type and execute list() for the list of ids provided
-        // by search
+   protected EntityService getService() {
+      return searchEntityDefinition.getService();
+   }
 
-        toSubDocCompatible(query, EmbeddedDocumentRelations.getSubDocuments());
+   protected String getType() {
+      return searchEntityDefinition.getType();
+   }
 
-        for (String type : entityMap.rowKeySet()) {
-            if (criteria != null) {
-                query.removeCriteria(criteria);
-            }
-            criteria = new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, entityMap.row(type).keySet());
-            query.addCriteria(criteria);
-            query.setOffset(0);
-            Iterables.addAll(fullEntities, resourceHelper.getEntityDefinitionByType(type).getService().listBasedOnContextualRoles(query));
-        }
-        return fullEntities;
-    }
+   /**
+    * Main entry point for retrieving search results
+    *
+    * @param resource
+    * @param entity The entity to search on.
+    * @param queryUri
+    * @param routeToDefaultApp - get ids via search app and route the request to the default
+    *                          app, attaching the ids
+    * @return
+    */
+   public ServiceResponse list(Resource resource, final String entity, URI queryUri, boolean routeToDefaultApp) {
+      LOG.debug("   entity: {}", entity);
+      List<EntityBody> finalEntities = null;
+      Boolean moreEntities;
 
-    private void toSubDocCompatible(NeutralQuery query, Set<String> subdocs) {
-        List<NeutralCriteria> newCriteria = new ArrayList<NeutralCriteria>();
-        for (NeutralCriteria criteria : query.getCriteria()) {
-            String key = criteria.getKey().split("\\.")[0];
-            if (invalidCriteria(key)) {
-                continue;
-            }
-            if (subdocs.contains(key)) {
-                criteria.setCanBePrefixed(false);
-                criteria.setKey(key+".body"+criteria.getKey().substring(key.length()));
-            }
-            newCriteria.add(criteria);
-        }
-        query.setQueryCriteria(newCriteria);
-    }
+      // set up query criteria, make query
+      try {
+         ApiQuery apiQuery = prepareQuery(resource, entity, queryUri);
+         Pair<? extends List<EntityBody>, Boolean> resultPair = retrieveResults(entity, apiQuery);
+         finalEntities = resultPair.getLeft();
+         moreEntities = resultPair.getRight();
+         if (routeToDefaultApp) {
+            finalEntities = routeToDefaultApp(finalEntities, new ApiQuery(queryUri));
+         } else {
+            setRealEntityTypes(finalEntities);
+         }
+      } catch (HttpStatusCodeException hsce) { // TODO: create some sli
+         // exception for this
+         // warn("Error retrieving results from ES: " + hsce.getMessage());
+         // if item not indexed, throw Illegal
+         if (hsce.getStatusCode() == HttpStatus.NOT_FOUND || hsce.getStatusCode().value() >= 500) {
+            throw (IllegalArgumentException) new IllegalArgumentException(
+                  "Search is not available for the user at this moment.").initCause(hsce);
+         }
+         throw hsce;
+      }
 
-    private boolean invalidCriteria(String key) {
-        //assessmentPeriodDescriptor and assessmentFamilyHierarchyName is no longer in assessment,
-        //can't query on those two fields anymore, they will not yield correct result
-        return "assessmentPeriodDescriptor".equals(key) || "assessmentFamilyHierarchyName".equals(key);
-    }
+      if (moreEntities) {
+         ApiQuery query = new ApiQuery(queryUri);
+         return new ServiceResponse(finalEntities, finalEntities.size() + query.getLimit() + query.getOffset());
+      } else {
+         return new ServiceResponse(finalEntities, finalEntities.size());
+      }
+   }
 
-    /**
-     * Takes an ApiQuery and retrieve results. Includes logic for pagination and
-     * calls methods to filter by security context.
-     *
-     * @param apiQuery
-     * @return
-     */
-    public Pair<? extends List<EntityBody>, Boolean> retrieveResults(ApiQuery apiQuery) {
+   private List<EntityBody> routeToDefaultApp(List<EntityBody> entities, ApiQuery query) {
+      List<EntityBody> fullEntities = new ArrayList<EntityBody>();
+      Table<String, String, EntityBody> entityMap = getEntityTable(entities);
+      NeutralCriteria criteria = null;
+      // got through each type and execute list() for the list of ids provided
+      // by search
 
-        // get the offset and limit requested
-        int limit = apiQuery.getLimit();
-        // Use local max value if the more obvious HARD_ENTITY_COUNT_LIMIT or 0 was specified.
-        if (limit == 0 || limit == Constraints.HARD_ENTITY_COUNT_LIMIT) {
-            limit = maxFilteredSearchResultCount;
-        }
-        if (limit > maxFilteredSearchResultCount) {
+      toSubDocCompatible(query, EmbeddedDocumentRelations.getSubDocuments());
+
+      for (String type : entityMap.rowKeySet()) {
+         if (criteria != null) {
+            query.removeCriteria(criteria);
+         }
+         criteria = new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, entityMap.row(type).keySet());
+         query.addCriteria(criteria);
+         query.setOffset(0);
+         Iterables.addAll(fullEntities, resourceHelper.getEntityDefinitionByType(type).getService().listBasedOnContextualRoles(query));
+      }
+      return fullEntities;
+   }
+
+   private void toSubDocCompatible(NeutralQuery query, Set<String> subdocs) {
+      List<NeutralCriteria> newCriteria = new ArrayList<NeutralCriteria>();
+      for (NeutralCriteria criteria : query.getCriteria()) {
+         String key = criteria.getKey().split("\\.")[0];
+         if (invalidCriteria(key)) {
+            continue;
+         }
+         if (subdocs.contains(key)) {
+            criteria.setCanBePrefixed(false);
+            criteria.setKey(key + ".body" + criteria.getKey().substring(key.length()));
+         }
+         newCriteria.add(criteria);
+      }
+      query.setQueryCriteria(newCriteria);
+   }
+
+   private boolean invalidCriteria(String key) {
+      //assessmentPeriodDescriptor and assessmentFamilyHierarchyName is no longer in assessment,
+      //can't query on those two fields anymore, they will not yield correct result
+      return "assessmentPeriodDescriptor".equals(key) || "assessmentFamilyHierarchyName".equals(key);
+   }
+
+   /**
+    * Takes an ApiQuery and retrieve results. Includes logic for pagination and
+    * calls methods to filter by security context.
+    *
+    * @param entity The entity to search on.
+    * @param apiQuery
+    * @return
+    */
+   public Pair<? extends List<EntityBody>, Boolean> retrieveResults(final String entity, ApiQuery apiQuery) {
+       LOG.debug(">>>SearchResourceService.retrieveResults()");
+
+       int maxSearchResultCount =  this.maxFilteredSearchResultCount;
+
+       /* DE2300 - Use local max value if the more obvious HARD_ENTITY_COUNT_LIMIT or 0 was specified. */
+       if(SearchResourceService.ExtendedSearchEntities.find(entity)) {
+           maxSearchResultCount = this.maxFilteredSearchResultOverrideCount;
+       }
+
+       /* get the offset and limit requested. */
+       int limit = apiQuery.getLimit();
+
+        /* Use local max value if the more obvious HARD_ENTITY_COUNT_LIMIT or 0 was specified. */
+       if (limit == 0 || limit == Constraints.HARD_ENTITY_COUNT_LIMIT) {
+         limit = maxFilteredSearchResultCount;
+
+          if (limit > maxSearchResultCount) {
             String errorMessage = "Invalid condition, limit [" + limit
-                    + "] cannot be greater than maxFilteredResults [" + maxFilteredSearchResultCount + "] on search";
+                  + "] cannot be greater than maxFilteredResults [" + maxSearchResultCount + "] on search";
             LOG.error(errorMessage);
             throw new PreConditionFailedException(errorMessage);
-        }
+         }
+      }
 
-        int offset = apiQuery.getOffset();
-        int totalLimit = limit + offset + 1;
 
-        // now, based on the requested offset and limit, calculate
-        // new offset and limit for retrieving data in batches from
-        // Elasticsearch.
-        // this is necessary because some Elasticsearch results will be
-        // filtered out based on security context.
-        int limitPerQuery = totalLimit * 2;
-        if (limitPerQuery < MINIMUM_ES_LIMIT_PER_QUERY) {
-            limitPerQuery = MINIMUM_ES_LIMIT_PER_QUERY;
-        }
-        apiQuery.setLimit(limitPerQuery);
-        apiQuery.setOffset(0);
+      int offset = apiQuery.getOffset();
+      int totalLimit = limit + offset + 1;
+      LOG.debug("   totalLimit: {}", totalLimit);
 
-        List<EntityBody> entityBodies = null;
-        List<EntityBody> finalEntities = new ArrayList<EntityBody>();
+        /* Based on the requested offset and limit, calculate new offset and limit for retrieving data in batches from
+        * Elasticsearch.  this is necessary because some Elasticsearch results will be filtered out based on
+        * security context.
+        */
+      int limitPerQuery = totalLimit * 2;
+      if (limitPerQuery < MINIMUM_ES_LIMIT_PER_QUERY) {
+         limitPerQuery = MINIMUM_ES_LIMIT_PER_QUERY;
+      }
+      apiQuery.setLimit(limitPerQuery);
+      apiQuery.setOffset(0);
 
-        while (finalEntities.size() <= totalLimit
-                && apiQuery.getOffset() + limitPerQuery < this.maxUnfilteredSearchResultCount) {
+      List<EntityBody> entityBodies = null;
+      List<EntityBody> finalEntities = new ArrayList<EntityBody>();
 
-            // call BasicService to query the elastic search repo
-            entityBodies = (List<EntityBody>) getService().listBasedOnContextualRoles(apiQuery);
-            LOG.debug("Got {} entities back", entityBodies.size());
-            int lastSize = entityBodies.size();
-            finalEntities.addAll(filterResultsBySecurity(entityBodies, offset, limit));
+      while (finalEntities.size() <= totalLimit
+            && apiQuery.getOffset() + limitPerQuery < this.maxUnfilteredSearchResultCount) {
 
-            // if no more results to grab, then we're done
-            if (lastSize < limitPerQuery && lastSize < limit) {
-                break;
-            }
+         // call BasicService to query the elastic search repo
+         entityBodies = (List<EntityBody>) getService().listBasedOnContextualRoles(apiQuery);
+         LOG.debug("Got {} entities back", entityBodies.size());
+         int lastSize = entityBodies.size();
+         finalEntities.addAll(filterResultsBySecurity(entityBodies, offset, limit));
 
-            apiQuery.setOffset(apiQuery.getOffset() + apiQuery.getLimit());
-        }
+         // if no more results to grab, then we're done
+         if (lastSize < limitPerQuery && lastSize < limit) {
+            break;
+         }
 
-        // debug("finalEntities " + finalEntities.size() + " totalLimit " +
-        // totalLimit + " offset " + offset);
-        if (finalEntities.size() < offset) {
-            return Pair.of(new ArrayList<EntityBody>(), false);
-        }
+         apiQuery.setOffset(apiQuery.getOffset() + apiQuery.getLimit());
+      }
 
-        finalEntities.subList(0, offset).clear();
-        if (finalEntities.size() <= limit) {
-            return Pair.of(finalEntities, false);
-        } else {
-            int upperBound = limit > finalEntities.size() ? finalEntities.size() : limit;
-            return Pair.of(finalEntities.subList(0, upperBound), true);
-        }
-    }
+      // debug("finalEntities " + finalEntities.size() + " totalLimit " +
+      // totalLimit + " offset " + offset);
+      if (finalEntities.size() < offset) {
+         return Pair.of(new ArrayList<EntityBody>(), false);
+      }
 
-    /**
-     * Replace entity type 'search' with the real entity types
-     *
-     * @param entities
-     */
-    private void setRealEntityTypes(List<EntityBody> entities) {
-        for (EntityBody entity : entities) {
-            entity.put("entityType", entity.get("type"));
-            entity.remove("type");
-        }
-    }
+      finalEntities.subList(0, offset).clear();
+      if (finalEntities.size() <= limit) {
+         return Pair.of(finalEntities, false);
+      } else {
+         int upperBound = limit > finalEntities.size() ? finalEntities.size() : limit;
+         return Pair.of(finalEntities.subList(0, upperBound), true);
+      }
+   }
 
-    /**
-     * Prepare an ApiQuery to send to the search repository. Creates the
-     * ApiQuery from the query URI, sets query criteria and security context
-     * criteria.
-     *
-     * @param queryUri
-     * @return
-     */
-    public ApiQuery prepareQuery(Resource resource, String entities, URI queryUri) {
-        ApiQuery apiQuery = new ApiQuery(queryUri);
-        addGranularAccessCriteria(entities,apiQuery);
-        filterCriteria(apiQuery);
-        addSecurityContext(apiQuery);
-        if (entities != null) {
-            apiQuery.addCriteria(new NeutralCriteria("_type", NeutralCriteria.CRITERIA_IN, getEntityTypes(resource,
-                    entities)));
-        }
-        return apiQuery;
-    }
+   /**
+    * Replace entity type 'search' with the real entity types
+    *
+    * @param entities
+    */
+   private void setRealEntityTypes(List<EntityBody> entities) {
+      for (EntityBody entity : entities) {
+         entity.put("entityType", entity.get("type"));
+         entity.remove("type");
+      }
+   }
 
-    /**
-     * Given string of resource names, get corresponding string of entity types
-     *
-     * @param resourceNames
-     * @return
-     */
-    private Collection<String> getEntityTypes(Resource resource, String resourceNames) {
-        List<String> entityTypes = new ArrayList<String>();
-        EntityDefinition def;
-        for (String resourceName : resourceNames.split(",")) {
-            def = resourceHelper.getEntityDefinition(resourceName);
-            if (def == null || !searchEntityDefinition.getService().collectionExists(def.getType())) {
-                throw new EntityNotFoundException(resourceName);
-            }
-            entityTypes.add(def.getType());
-        }
-        return entityTypes;
-    }
+   /**
+    * Prepare an ApiQuery to send to the search repository. Creates the
+    * ApiQuery from the query URI, sets query criteria and security context
+    * criteria.
+    *
+    * @param queryUri
+    * @return
+    */
+   public ApiQuery prepareQuery(Resource resource, String entities, URI queryUri) {
+      ApiQuery apiQuery = new ApiQuery(queryUri);
+      addGranularAccessCriteria(entities, apiQuery);
+      filterCriteria(apiQuery);
+      addSecurityContext(apiQuery);
+      if (entities != null) {
+         apiQuery.addCriteria(new NeutralCriteria("_type", NeutralCriteria.CRITERIA_IN, getEntityTypes(resource,
+               entities)));
+      }
+      return apiQuery;
+   }
 
-    /**
-     * Return list of accessible entities, filtered through the security
-     * context. Original list may by cross-collection. Retains the original
-     * order of entities.
-     *
-     * @param offset
-     *            -
-     * @param limit
-     *            - total requested
-     * @return
-     */
-    public Collection<EntityBody> filterResultsBySecurity(List<EntityBody> entityBodies, int offset, int limit) {
-        if (entityBodies == null || entityBodies.isEmpty()) {
-            return entityBodies;
-        }
+   /**
+    * Given string of resource names, get corresponding string of entity types
+    *
+    * @param resourceNames
+    * @return
+    */
+   private Collection<String> getEntityTypes(Resource resource, String resourceNames) {
+      List<String> entityTypes = new ArrayList<String>();
+      EntityDefinition def;
+      for (String resourceName : resourceNames.split(",")) {
+         def = resourceHelper.getEntityDefinition(resourceName);
+         if (def == null || !searchEntityDefinition.getService().collectionExists(def.getType())) {
+            throw new EntityNotFoundException(resourceName);
+         }
+         entityTypes.add(def.getType());
+      }
+      return entityTypes;
+   }
 
-        int total = offset + limit + 1;
-        List<EntityBody> sublist;
-        // this collection will be filtered out based on security context but
-        // the original order will be preserved
-        List<EntityBody> finalEntities = new ArrayList<EntityBody>(entityBodies);
-        final HashBasedTable<String, String, EntityBody> filterMap = HashBasedTable.create();
-        Table<String, String, EntityBody> entitiesByType = HashBasedTable.create();
-        // filter results through security context
-        // security checks are expensive, so do min checks necessary at a time
-        while (!entityBodies.isEmpty() && filterMap.size() < total) {
-            sublist = new ArrayList<EntityBody>(entityBodies.subList(0, Math.min(entityBodies.size(), limit)));
-            entitiesByType = getEntityTable(sublist);
+   /**
+    * Return list of accessible entities, filtered through the security
+    * context. Original list may by cross-collection. Retains the original
+    * order of entities.
+    *
+    * @param offset -
+    * @param limit  - total requested
+    * @return
+    */
+   public Collection<EntityBody> filterResultsBySecurity(List<EntityBody> entityBodies, int offset, int limit) {
+      if (entityBodies == null || entityBodies.isEmpty()) {
+         return entityBodies;
+      }
 
-            for (String type : entitiesByType.rowKeySet()) {
+      int total = offset + limit + 1;
+      List<EntityBody> sublist;
+      // this collection will be filtered out based on security context but
+      // the original order will be preserved
+      List<EntityBody> finalEntities = new ArrayList<EntityBody>(entityBodies);
+      final HashBasedTable<String, String, EntityBody> filterMap = HashBasedTable.create();
+      Table<String, String, EntityBody> entitiesByType = HashBasedTable.create();
+      // filter results through security context
+      // security checks are expensive, so do min checks necessary at a time
+      while (!entityBodies.isEmpty() && filterMap.size() < total) {
+         sublist = new ArrayList<EntityBody>(entityBodies.subList(0, Math.min(entityBodies.size(), limit)));
+         entitiesByType = getEntityTable(sublist);
+
+         for (String type : entitiesByType.rowKeySet()) {
                 /*
                  * Skip validation for global entities.
                  */
-                if (contextValidator.isGlobalEntity(type)) {
-                    LOG.debug("search: skipping validation --> global entity: {}", type);
-                    Map<String, EntityBody> row = entitiesByType.row(type);
-                    Set<String> accessible = row.keySet();
-                    for (String id : accessible) {
-                        if (row.containsKey(id)) {
-                            filterMap.put(id, type, row.get(id));
-                        }
-                    }
-                } else {
-                    LOG.debug("search: validating entity: {}", type);
-                    Map<String, EntityBody> row = entitiesByType.row(type);
-                    Set<String> accessible = filterOutInaccessibleIds(type, row.keySet());
-                    for (String id : accessible) {
-                        if (row.containsKey(id)) {
-                            filterMap.put(id, type, row.get(id));
-                        }
-                    }
-                }
+            if (contextValidator.isGlobalEntity(type)) {
+               LOG.debug("search: skipping validation --> global entity: {}", type);
+               Map<String, EntityBody> row = entitiesByType.row(type);
+               Set<String> accessible = row.keySet();
+               for (String id : accessible) {
+                  if (row.containsKey(id)) {
+                     filterMap.put(id, type, row.get(id));
+                  }
+               }
+            } else {
+               LOG.debug("search: validating entity: {}", type);
+               Map<String, EntityBody> row = entitiesByType.row(type);
+               Set<String> accessible = filterOutInaccessibleIds(type, row.keySet());
+               for (String id : accessible) {
+                  if (row.containsKey(id)) {
+                     filterMap.put(id, type, row.get(id));
+                  }
+               }
             }
-            entityBodies.removeAll(sublist);
-            entitiesByType.clear();
-        }
+         }
+         entityBodies.removeAll(sublist);
+         entitiesByType.clear();
+      }
 
-        // use filter map to return final entity list
-        return Lists.newArrayList(Iterables.filter(finalEntities, new Predicate<EntityBody>() {
-            @Override
-            public boolean apply(EntityBody input) {
-                return (filterMap.contains(input.get("id"), input.get("type")));
+      // use filter map to return final entity list
+      return Lists.newArrayList(Iterables.filter(finalEntities, new Predicate<EntityBody>() {
+         @Override
+         public boolean apply(EntityBody input) {
+            return (filterMap.contains(input.get("id"), input.get("type")));
+         }
+      }));
+   }
+
+   /**
+    * Get entities table by type, by ids
+    *
+    * @param entityList
+    * @return
+    */
+   private Table<String, String, EntityBody> getEntityTable(List<EntityBody> entityList) {
+      HashBasedTable<String, String, EntityBody> entitiesByType = HashBasedTable.create();
+      for (EntityBody entity : entityList) {
+         entitiesByType.put((String) entity.get("type"), (String) entity.get("id"), entity);
+      }
+      return entitiesByType;
+   }
+
+   /**
+    * Filter id set to get accessible ids
+    *
+    * @param toType
+    * @param ids
+    * @return
+    */
+   public Set<String> filterOutInaccessibleIds(String toType, Set<String> ids) {
+
+      // get validator
+      // TODO: FIND OUT IF THIS IS ACTUALLY TRANSITIVE == TRUE
+      IContextValidator validator = contextValidator.findValidator(toType, true);
+      // validate. if accessible, add to list
+      if (validator != null) {
+         return validator.getValid(toType, ids);
+      }
+      return Collections.emptySet();
+   }
+
+   /**
+    * NeutralCriteria filter. Keep NeutralCriteria only on the White List
+    *
+    * @param apiQuery
+    */
+   public void filterCriteria(ApiQuery apiQuery) {
+
+      // keep only whitelist parameters
+      List<NeutralCriteria> criterias = apiQuery.getCriteria();
+      if (criterias != null) {
+
+         // set doFilter true if "q" is in the list of NetralCriteria
+         boolean doFilter = false;
+         List<NeutralCriteria> removalList = new LinkedList<NeutralCriteria>();
+         for (NeutralCriteria criteria : criterias) {
+            if (!WHITE_LIST_PARAMETERS.contains(criteria.getKey())) {
+               removalList.add(criteria);
+
+            } else if ("q".equals(criteria.getKey())) {
+               doFilter = true;
+               applyDefaultPattern(criteria);
             }
-        }));
-    }
+         }
+         if (doFilter) {
+            criterias.removeAll(removalList);
+         }
+      }
+   }
 
-    /**
-     * Get entities table by type, by ids
-     *
-     * @param entityList
-     * @return
-     */
-    private Table<String, String, EntityBody> getEntityTable(List<EntityBody> entityList) {
-        HashBasedTable<String, String, EntityBody> entitiesByType = HashBasedTable.create();
-        for (EntityBody entity : entityList) {
-            entitiesByType.put((String) entity.get("type"), (String) entity.get("id"), entity);
-        }
-        return entitiesByType;
-    }
+   /**
+    * Apply default query pattern for ElasticSearch. Query strategy -
+    * start-of-word match on each query token
+    *
+    * @param criteria
+    */
+   private static void applyDefaultPattern(NeutralCriteria criteria) {
+      String queryString = ((String) criteria.getValue()).trim().toLowerCase();
 
-    /**
-     * Filter id set to get accessible ids
-     *
-     * @param toType
-     * @param ids
-     * @return
-     */
-    public Set<String> filterOutInaccessibleIds(String toType, Set<String> ids) {
+      // filter rule:
+      // first, token must be at least 1 tokens
 
-        // get validator
-        // TODO: FIND OUT IF THIS IS ACTUALLY TRANSITIVE == TRUE
-        IContextValidator validator = contextValidator.findValidator(toType, true);
-        // validate. if accessible, add to list
-        if (validator != null) {
-            return validator.getValid(toType, ids);
-        }
-        return Collections.emptySet();
-    }
+      // if double-quotes string has been passed, we want to search exactly as-is
 
-    /**
-     * NeutralCriteria filter. Keep NeutralCriteria only on the White List
-     *
-     * @param apiQuery
-     */
-    public void filterCriteria(ApiQuery apiQuery) {
+      NeutralCriteria.SearchType qType = criteria.getType();
 
-        // keep only whitelist parameters
-        List<NeutralCriteria> criterias = apiQuery.getCriteria();
-        if (criterias != null) {
+      if (queryString.startsWith("\"") && queryString.endsWith("\"")) {
+         qType = NeutralCriteria.SearchType.EXACT;
+         queryString = queryString.replaceAll("\"", "");
+      }
 
-            // set doFilter true if "q" is in the list of NetralCriteria
-            boolean doFilter = false;
-            List<NeutralCriteria> removalList = new LinkedList<NeutralCriteria>();
-            for (NeutralCriteria criteria : criterias) {
-                if (!WHITE_LIST_PARAMETERS.contains(criteria.getKey())) {
-                    removalList.add(criteria);
+      if (queryString.matches(".*\\d.*")) {
+         qType = (qType == NeutralCriteria.SearchType.EXACT) ? NeutralCriteria.SearchType.EXACT_NUMERIC
+               : NeutralCriteria.SearchType.NUMERIC;
+      }
 
-                } else if ("q".equals(criteria.getKey())) {
-                    doFilter = true;
-                    applyDefaultPattern(criteria);
-                }
+      String useValue = queryString;
+      if (qType != NeutralCriteria.SearchType.EXACT && qType != NeutralCriteria.SearchType.EXACT_NUMERIC) {
+         String[] tokens = queryString.split("\\s+");
+         if (tokens == null || tokens.length < 1 || queryString.length() < 1) {
+            throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
+         }
+         // append wildcard '*' to each token
+         useValue = StringUtils.join(tokens, "* ");
+      }
+
+      criteria.setValue(useValue + "*");
+      criteria.setType(qType);
+   }
+
+   /**
+    * Add security context criteria to query. The security context is
+    * determined by the user's accessible schools. The list of accessible
+    * school ids is added to the query, and records in Elasticsearch must match
+    * an id in order to be returned.
+    *
+    * @param apiQuery
+    */
+   private void addSecurityContext(ApiQuery apiQuery) {
+      SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+      Entity principalEntity = principal.getEntity();
+      // get schools for user
+      List<String> schoolIds = new ArrayList<String>();
+      schoolIds.addAll(edOrgHelper.getUserEdOrgs(principalEntity));
+      // a special marker for global entities
+      schoolIds.add("ALL");
+      apiQuery.addCriteria(new NeutralCriteria(CONTEXT_SCHOOL_ID, NeutralCriteria.CRITERIA_IN, new ArrayList<String>(
+            schoolIds)));
+   }
+
+   /**
+    * Run an embedded ElasticSearch instance, if enabled by configuration.
+    *
+    * @author dwu
+    */
+   @Component
+   static final class Embedded {
+      private static final String ES_DIR = "es";
+      private Node node;
+
+      @Value(value = "${sli.search.embedded:false}")
+      private boolean embeddedEnabled;
+
+      @Value("${sli.search.embedded.http.port:9200}")
+      private int elasticSearchHttpPort;
+
+      @PostConstruct
+      public void init() {
+         if (embeddedEnabled) {
+            LOG.info("Starting embedded ElasticSearch node");
+
+            String tmpDir = System.getProperty("java.io.tmpdir");
+            File elasticsearchDir = new File(tmpDir, ES_DIR);
+            LOG.debug(String.format("ES data tmp dir is %s", elasticsearchDir.getAbsolutePath()));
+
+            if (elasticsearchDir.exists()) {
+               deleteDirectory(elasticsearchDir);
             }
-            if (doFilter) {
-                criterias.removeAll(removalList);
-            }
-        }
-    }
 
-    /**
-     * Apply default query pattern for ElasticSearch. Query strategy -
-     * start-of-word match on each query token
-     *
-     * @param criteria
-     */
-    private static void applyDefaultPattern(NeutralCriteria criteria) {
-        String queryString = ((String) criteria.getValue()).trim().toLowerCase();
-
-        // filter rule:
-        // first, token must be at least 1 tokens
-
-        // if double-quotes string has been passed, we want to search exactly as-is
-
-        NeutralCriteria.SearchType qType = criteria.getType();
-
-        if (queryString.startsWith("\"") && queryString.endsWith("\"")) {
-            qType = NeutralCriteria.SearchType.EXACT;
-            queryString = queryString.replaceAll("\"", "");
-        }
-
-        if (queryString.matches(".*\\d.*")) {
-            qType = (qType == NeutralCriteria.SearchType.EXACT) ? NeutralCriteria.SearchType.EXACT_NUMERIC
-                    : NeutralCriteria.SearchType.NUMERIC;
-        }
-
-        String useValue = queryString;
-        if (qType != NeutralCriteria.SearchType.EXACT && qType != NeutralCriteria.SearchType.EXACT_NUMERIC) {
-            String[] tokens = queryString.split("\\s+");
-            if (tokens == null || tokens.length < 1 || queryString.length() < 1) {
-                throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
-            }
-            // append wildcard '*' to each token
-            useValue = StringUtils.join(tokens, "* ");
-        }
-
-        criteria.setValue(useValue + "*");
-        criteria.setType( qType );
-    }
-
-    /**
-     * Add security context criteria to query. The security context is
-     * determined by the user's accessible schools. The list of accessible
-     * school ids is added to the query, and records in Elasticsearch must match
-     * an id in order to be returned.
-     *
-     * @param apiQuery
-     */
-    private void addSecurityContext(ApiQuery apiQuery) {
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Entity principalEntity = principal.getEntity();
-        // get schools for user
-        List<String> schoolIds = new ArrayList<String>();
-        schoolIds.addAll(edOrgHelper.getUserEdOrgs(principalEntity));
-        // a special marker for global entities
-        schoolIds.add("ALL");
-        apiQuery.addCriteria(new NeutralCriteria(CONTEXT_SCHOOL_ID, NeutralCriteria.CRITERIA_IN, new ArrayList<String>(
-                schoolIds)));
-    }
-
-    public void setMaxUnfilteredSearchResultCount(int maxUnfilteredSearchResultCount) {
-        this.maxUnfilteredSearchResultCount = maxUnfilteredSearchResultCount;
-    }
-
-    /**
-     * Run an embedded ElasticSearch instance, if enabled by configuration.
-     *
-     * @author dwu
-     */
-    @Component
-    static final class Embedded {
-        private static final String ES_DIR = "es";
-        private Node node;
-
-        @Value(value = "${sli.search.embedded:false}")
-        private boolean embeddedEnabled;
-
-        @Value("${sli.search.embedded.http.port:9200}")
-        private int elasticSearchHttpPort;
-
-        @PostConstruct
-        public void init() {
-            if (embeddedEnabled) {
-                LOG.info("Starting embedded ElasticSearch node");
-
-                String tmpDir = System.getProperty("java.io.tmpdir");
-                File elasticsearchDir = new File(tmpDir, ES_DIR);
-                LOG.debug(String.format("ES data tmp dir is %s", elasticsearchDir.getAbsolutePath()));
-
-                if (elasticsearchDir.exists()) {
-                    deleteDirectory(elasticsearchDir);
-                }
-
-                Settings settings = ImmutableSettings.settingsBuilder().put("node.http.enabled", true)
-                        .put("http.port", this.elasticSearchHttpPort)
-                        .put("path.data", elasticsearchDir.getAbsolutePath() + "/data").put("gateway.type", "none")
+            Settings settings = ImmutableSettings.settingsBuilder().put("node.http.enabled", true)
+                  .put("http.port", this.elasticSearchHttpPort)
+                  .put("path.data", elasticsearchDir.getAbsolutePath() + "/data").put("gateway.type", "none")
                         // .put("index.store.type", "memory")
-                        .put("index.number_of_shards", 1).put("index.number_of_replicas", 1).build();
+                  .put("index.number_of_shards", 1).put("index.number_of_replicas", 1).build();
 
-                node = NodeBuilder.nodeBuilder().local(true).settings(settings).node();
+            node = NodeBuilder.nodeBuilder().local(true).settings(settings).node();
+         }
+      }
+
+      public Client getClient() {
+         return node.client();
+      }
+
+      @PreDestroy
+      public void destroy() {
+         if (embeddedEnabled && node != null) {
+            node.close();
+         }
+      }
+
+      private void deleteDirectory(File folder) {
+         try {
+            FileUtils.forceDelete(folder);
+            if (folder.exists()) {
+               LOG.warn("Unable to delete data directory for embedded elasticsearch");
             }
-        }
+         } catch (Exception e) {
+            LOG.error("Unable to delete data directory for embedded elasticsearch", e);
+         }
+      }
+   }
 
-        public Client getClient() {
-            return node.client();
-        }
+   /**
+    * This method will apply the date filter for schoolYears query param.
+    * Assumption: the entities for which the criteria is valid have the end date i.e endDate $exists check is ignored
+    *
+    * @param entities
+    * @param apiQuery
+    */
+   private void addGranularAccessCriteria(String entities, ApiQuery apiQuery) {
 
-        @PreDestroy
-        public void destroy() {
-            if (embeddedEnabled && node != null) {
-                node.close();
+      if (granularAccessFilterProvider.hasFilter()) {
+         GranularAccessFilter filter = granularAccessFilterProvider.getFilter();
+
+         if (entities.contains(filter.getEntityName())) {
+
+            if (filter.isNoSessionsFoundForSchoolYear()) {
+               //throw new NoGranularAccessDatesException();
             }
-        }
 
-        private void deleteDirectory(File folder) {
-            try {
-                FileUtils.forceDelete(folder);
-                if (folder.exists()) {
-                    LOG.warn("Unable to delete data directory for embedded elasticsearch");
-                }
-            } catch (Exception e) {
-                LOG.error("Unable to delete data directory for embedded elasticsearch", e);
+            NeutralQuery dateQuery = filter.getNeutralQuery();
+            for (NeutralCriteria criteria : dateQuery.getCriteria()) {
+               apiQuery.addCriteria(criteria);
             }
-        }
-    }
-
-    /**
-     * This method will apply the date filter for schoolYears query param.
-     * Assumption: the entities for which the criteria is valid have the end date i.e endDate $exists check is ignored
-     * @param entities
-     * @param apiQuery
-     */
-    private void addGranularAccessCriteria(String entities, ApiQuery apiQuery) {
-
-        if (granularAccessFilterProvider.hasFilter()) {
-            GranularAccessFilter filter = granularAccessFilterProvider.getFilter();
-
-            if (entities.contains(filter.getEntityName())) {
-
-                if (filter.isNoSessionsFoundForSchoolYear()) {
-                    //throw new NoGranularAccessDatesException();
-                }
-
-                NeutralQuery dateQuery = filter.getNeutralQuery();
-                for (NeutralCriteria criteria : dateQuery.getCriteria()) {
-                    apiQuery.addCriteria(criteria);
-                }
-                for (NeutralQuery dateOrQuery : dateQuery.getOrQueries()) {
-                   for( NeutralCriteria dateOrCriteria : dateOrQuery.getCriteria()) {
-                       if(ParameterConstants.SCHOOL_YEARS.equals(dateOrCriteria.getKey())) {
-                           continue;
-                       } else {
-                        apiQuery.addCriteria(dateOrCriteria);
-                       }
-                   }
-                }
+            for (NeutralQuery dateOrQuery : dateQuery.getOrQueries()) {
+               for (NeutralCriteria dateOrCriteria : dateOrQuery.getCriteria()) {
+                  if (ParameterConstants.SCHOOL_YEARS.equals(dateOrCriteria.getKey())) {
+                     continue;
+                  } else {
+                     apiQuery.addCriteria(dateOrCriteria);
+                  }
+               }
             }
-        }
-    }
+         }
+      }
+   }
+
+   public void setMaxUnfilteredSearchResultCount(int maxUnfilteredSearchResultCount) {
+      this.maxUnfilteredSearchResultCount = maxUnfilteredSearchResultCount;
+   }
+
+   public void setMaxFilteredSearchResultCount(int maxFilteredSearchResultCount) {
+      this.maxFilteredSearchResultCount = maxFilteredSearchResultCount;
+   }
+
+   public void setMaxFilteredSearchResultOverrideCount(int maxFilteredSearchResultOverrideCount) {
+      this.maxFilteredSearchResultOverrideCount = maxFilteredSearchResultOverrideCount;
+   }
+
 }

@@ -43,6 +43,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.constants.ResourceNames;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -262,7 +263,7 @@ public class SearchResourceServiceTest {
         setupAuth(EntityNames.STAFF);
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=David%20Wu&offset=0&limit=300");
         ApiQuery apiQuery = new ApiQuery(queryUri);
-        resourceService.retrieveResults(apiQuery);
+        resourceService.retrieveResults(EntityNames.STAFF.toLowerCase(), apiQuery);
     }
 
     private static void setupAuth(String type) {
@@ -414,7 +415,7 @@ public class SearchResourceServiceTest {
             }
         });
         ApiQuery apiQuery = rs.prepareQuery(new Resource("v1", "student"), null, queryUri);
-        Pair<? extends List<EntityBody>, Boolean> resultPair = rs.retrieveResults(apiQuery);
+        Pair<? extends List<EntityBody>, Boolean> resultPair = rs.retrieveResults("student", apiQuery);
         List<EntityBody> results = resultPair.getLeft();
         Boolean hasMore = resultPair.getRight();
         Assert.assertEquals(numResults, results.size());
@@ -424,4 +425,57 @@ public class SearchResourceServiceTest {
     private List<EntityBody> getResults(List<EntityBody> list, int num) {
         return new ArrayList<EntityBody>(list.subList(0, Math.min(num, list.size())));
     }
+
+    /**
+    * Unit test for method added to resolve DE2300.
+    */
+    @Test
+    public void testDisallowHardEntityCountLimitDE2300() {
+        Boolean result = null;
+        String entityName = "";
+
+        //test assessments
+        entityName = ResourceNames.ASSESSMENTS.toUpperCase();
+        result = SearchResourceService.ExtendedSearchEntities.find(entityName);
+        Assert.assertEquals(result, Boolean.TRUE);
+
+        //test competency level descriptions
+        entityName = ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.toUpperCase();
+        result = SearchResourceService.ExtendedSearchEntities.find(entityName);
+        Assert.assertEquals(result, Boolean.TRUE);
+
+        //test learning objectives
+        entityName = ResourceNames.LEARNINGOBJECTIVES.toUpperCase();
+        result = SearchResourceService.ExtendedSearchEntities.find(entityName);
+        Assert.assertEquals(result, Boolean.TRUE);
+
+        //test learning standards
+        entityName = ResourceNames.LEARNINGSTANDARDS.toUpperCase();
+        result = SearchResourceService.ExtendedSearchEntities.find(entityName);
+         Assert.assertEquals(result, Boolean.TRUE);
+
+        //test student competency objectives
+        entityName = ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.toUpperCase();
+        result = SearchResourceService.ExtendedSearchEntities.find(entityName);
+        Assert.assertEquals(result, Boolean.TRUE);
+
+        //test null entity
+        entityName = null;
+        result = SearchResourceService.ExtendedSearchEntities.find(entityName);
+         Assert.assertEquals(result, Boolean.FALSE);
+
+        //test empty entity
+        entityName = "";
+        result = SearchResourceService.ExtendedSearchEntities.find(entityName);
+        Assert.assertEquals(result, Boolean.FALSE);
+
+        //test a few other entities that should not disallow use of the hard limit.
+        entityName = ResourceNames.STUDENTS.toUpperCase();
+        result = SearchResourceService.ExtendedSearchEntities.find(entityName);
+        Assert.assertEquals(result, Boolean.FALSE);
+        entityName = ResourceNames.COURSES.toUpperCase();
+        result = SearchResourceService.ExtendedSearchEntities.find(entityName);
+        Assert.assertEquals(result, Boolean.FALSE);
+    }
+
 }
