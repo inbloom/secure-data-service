@@ -212,3 +212,4 @@ educationOrganization,false,false,type:1,body.nameOfInstitution:1
 #Adding new entities US5975
 classPeriod,false,false,body.educationOrganizationId:1
 bellSchedule,false,false,body.meetingTime.classPeriodId:1
+bellSchedule,false,false,body.educationOrganizationId:1
