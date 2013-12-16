@@ -27,8 +27,6 @@ Feature: Use the APi to successfully post student data while having roles over m
     Then I remove the posted student
 
   Scenario: Role with different roles in a school can post a student
-    And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
-
     When I log in as "jmacey"
 
     Given format "application/json"
