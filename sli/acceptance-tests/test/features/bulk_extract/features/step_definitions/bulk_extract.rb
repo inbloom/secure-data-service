@@ -1382,7 +1382,6 @@ When /^I PATCH the "(.*?)" entity of type "(.*?)" to "(.*?)" at endpoint "(.*?)"
   entity_response_body = get_response_body(endpoint)
   # We will set the PATCH body to ONLY the field_values map we get from get_patch_body_by_entity_name()
   patch_body = get_patch_body_by_entity_name(field_name, value)
-  puts patch_body.to_s
   # Get the endpoint that corresponds to the desired entity
   endpoint = get_entity_endpoint(entity_type)
   restHttpPatch("/#{@api_version}/#{endpoint}/#{entity_response_body["id"]}", prepareData(@format, patch_body))
