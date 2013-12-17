@@ -4,7 +4,7 @@ Feature: Users can access public entities
     Given I update the "calendarDate" with ID "7629c5951c8af6dac204cf636d5a81acb64fc6ef_id" field "body.educationOrganizationId" to "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
     Given I update the "calendarDate" with ID "6f93d0a3e53c2d9c3409646eaab94155fe079e87_id" field "body.educationOrganizationId" to "352e8570bd1116d11a72755b987902440045d346_id"
 
-  Scenario: Class Period Create
+  Scenario: Class Period Creation
     Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
      And format "application/json"
      And I am using api version "v1"
@@ -24,6 +24,41 @@ Feature: Users can access public entities
        | entityType              | classPeriod                                 |
        | classPeriodName         | Sixth Period                                |
        | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
+
+  Scenario: Bell Schedule Creates
+    Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
+     And format "application/json"
+     And I am using api version "v1"
+    When I POST and validate the following entities:
+       | entityName       | entityType   | returnCode |
+       | newBellSchedule  | bellSchedule | 201        |
+       | newBellSchedule2 | bellSchedule | 201        |
+    Then I verify the following response body fields in "/bellSchedules/ab9e672f9bc3e9cc988763041a4435743d8a8e34_id":
+       | field                                | value                                       |
+       | id                                   | ab9e672f9bc3e9cc988763041a4435743d8a8e34_id |
+       | entityType                           | bellSchedule                                |
+       | bellScheduleName                     | English 42                                  |
+       | educationOrganizationId              | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+       | meetingTime.classPeriodId            | 42921d6ca01bcee753d5bc81e2f3e1592ed05492_id |
+       | meetingTime.alternateDayName         | Beige                                       |
+       | meetingTime.startTime                | 09:00:00.000                                |
+       | meetingTime.endTime                  | 09:55:00.000                                |
+       | meetingTime.officialAttendancePeriod | true                                        |
+       | gradeLevels.0                        | First grade                                 |
+       | gradeLevels.1                        | Second grade                                |
+       | calendarDateReference                | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+    Then I verify the following response body fields in "/bellSchedules/6e9a1c5a88fc1e007d4bd5e1640f721a3cdc7022_id":
+       | field                                | value                                       |
+       | id                                   | 6e9a1c5a88fc1e007d4bd5e1640f721a3cdc7022_id |
+       | entityType                           | bellSchedule                                |
+       | bellScheduleName                     | Maths 17                                    |
+       | educationOrganizationId              | 352e8570bd1116d11a72755b987902440045d346_id |
+       | meetingTime.classPeriodId            | a78690d5d75f709066534ab6dbf4a69a0f69989f_id |
+       | meetingTime.startTime                | 13:00:00.000                                |
+       | meetingTime.endTime                  | 13:55:00.000                                |
+       | gradeLevels.0                        | Third grade                                 |
+       | gradeLevels.1                        | Fourth grade                                |
+       | calendarDateReference                | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
 
   Scenario Outline: User access of public entities via direct id calls
     Given I log in to realm "<REALM>" using simple-idp as "<TYPE>" "<USERNAME>" with password "<PASSWORD>"
@@ -51,15 +86,21 @@ Feature: Users can access public entities
       | educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/calendarDates |                                             |                                                                           |
       | gradingPeriods/19b56717877893f8d13bcfe6cfc256811c60c8ff_id/calendarDates         |                                             |                                                                           |
      #| classPeriods                                                                     |                                             |                                                                           |
-      | classPeriods                                                                     |42921d6ca01bcee753d5bc81e2f3e1592ed05492_id  |                                                                           |
-      | classPeriods                                                                     |a78690d5d75f709066534ab6dbf4a69a0f69989f_id  |                                                                           |
+      | classPeriods                                                                     | 42921d6ca01bcee753d5bc81e2f3e1592ed05492_id |                                                                           |
+      | classPeriods                                                                     | a78690d5d75f709066534ab6dbf4a69a0f69989f_id |                                                                           |
      #| educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/classPeriods  |                                             |                                                                           |
      #| educationOrganizations/352e8570bd1116d11a72755b987902440045d346_id/classPeriods  |                                             |                                                                           |
+     #| bellSchedules                                                                    |                                             |                                                                           |
+      | bellSchedules                                                                    | ab9e672f9bc3e9cc988763041a4435743d8a8e34_id |                                                                           |
+      | bellSchedules                                                                    | 6e9a1c5a88fc1e007d4bd5e1640f721a3cdc7022_id |                                                                           |
+     #| educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/bellSchedules |                                             |                                                                           |
+     #| educationOrganizations/352e8570bd1116d11a72755b987902440045d346_id/bellSchedules |                                             |                                                                           |
 
     Then I validate that I am denied access to certain endpoints via API:
        | uri                        | rc  | description                |
        | /v1/calendarDates/1        | 404 | Non-existent calendar date |
        | /v1/classPeriods/1         | 404 | Non-existent class period  |
+       | /v1/bellSchedules/1        | 404 | Non-existent bell schedule |
 
     Then I verify the following response body fields in "/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id":
        | field                                                 | value                                       |
@@ -89,6 +130,32 @@ Feature: Users can access public entities
        | entityType              | classPeriod                                 |
        | classPeriodName         | Sixth Period                                |
        | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
+    Then I verify the following response body fields in "/bellSchedules/ab9e672f9bc3e9cc988763041a4435743d8a8e34_id":
+       | field                                | value                                       |
+       | id                                   | ab9e672f9bc3e9cc988763041a4435743d8a8e34_id |
+       | entityType                           | bellSchedule                                |
+       | bellScheduleName                     | English 42                                  |
+       | educationOrganizationId              | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+       | meetingTime.classPeriodId            | 42921d6ca01bcee753d5bc81e2f3e1592ed05492_id |
+       | meetingTime.alternateDayName         | Beige                                       |
+       | meetingTime.startTime                | 09:00:00.000                                |
+       | meetingTime.endTime                  | 09:55:00.000                                |
+       | meetingTime.officialAttendancePeriod | true                                        |
+       | gradeLevels.0                        | First grade                                 |
+       | gradeLevels.1                        | Second grade                                |
+       | calendarDateReference                | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+    Then I verify the following response body fields in "/bellSchedules/6e9a1c5a88fc1e007d4bd5e1640f721a3cdc7022_id":
+       | field                                | value                                       |
+       | id                                   | 6e9a1c5a88fc1e007d4bd5e1640f721a3cdc7022_id |
+       | entityType                           | bellSchedule                                |
+       | bellScheduleName                     | Maths 17                                    |
+       | educationOrganizationId              | 352e8570bd1116d11a72755b987902440045d346_id |
+       | meetingTime.classPeriodId            | a78690d5d75f709066534ab6dbf4a69a0f69989f_id |
+       | meetingTime.startTime                | 13:00:00.000                                |
+       | meetingTime.endTime                  | 13:55:00.000                                |
+       | gradeLevels.0                        | Third grade                                 |
+       | gradeLevels.1                        | Fourth grade                                |
+       | calendarDateReference                | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
 
     #Verify base endpoint only contains calendarDates for the directly associated edOrgs
     When I navigate to GET "/v1/calendarDates"
@@ -100,11 +167,17 @@ Feature: Users can access public entities
    #Then I should receive a return code of 200
     #And I should receive a collection with <COUNT> elements
 
+     #Verify base endpoint only contains bellSchedules for the directly associated edOrgs
+    #When I navigate to GET "/v1/bellSchedules"
+    #Then I should receive a return code of 200
+     #And I should receive a collection with <COUNT> elements
+
     #Verify rewrites
     When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
        | Entity                       | URI                                           |
        | /calendarDates               | /educationOrganizations/<EDORG>/calendarDates |
       #| /classPeriods                | /educationOrganizations/<EDORG>/classPeriods  |
+      #| /bellSchedules               | /educationOrganizations/<EDORG>/bellSchedules |
 
     Examples: User Credentials and Expected Counts
        | REALM                                   | TYPE              | USERNAME          | PASSWORD              | COUNT | EDORG             |
