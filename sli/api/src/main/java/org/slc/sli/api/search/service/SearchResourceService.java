@@ -283,7 +283,7 @@ public class SearchResourceService {
 
         /* Use local max value if the more obvious HARD_ENTITY_COUNT_LIMIT or 0 was specified. */
        if (limit == 0 || limit == Constraints.HARD_ENTITY_COUNT_LIMIT) {
-         limit = maxFilteredSearchResultCount;
+         limit = maxSearchResultCount;
       }
 
        if (limit > maxSearchResultCount) {
