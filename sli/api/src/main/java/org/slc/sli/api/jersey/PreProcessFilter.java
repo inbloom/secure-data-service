@@ -195,8 +195,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         return true;
 
     }
-   
-    
+
     private void injectObligations(ContainerRequest request) {
         // Create obligations
         SLIPrincipal prince = SecurityUtil.getSLIPrincipal();
