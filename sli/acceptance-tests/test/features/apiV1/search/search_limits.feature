@@ -1,6 +1,5 @@
 @DE2300
-Feature: As an SLI API, I want to be able to provide granular access to data.
-  This means the user is able to request all the data within a school year range.
+Feature: As an SLI API, I want to be able to query search entities up to the configured limits.
 
   Background: Use JSON format
     Given format "application/json"
