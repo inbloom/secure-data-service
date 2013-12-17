@@ -326,20 +326,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "contentStandard" => "LEA Standard",
     "version" => 2
   },
-  "base_super_assessment" => {
-      "assessmentIdentificationCode"=> [{
-                                            "identificationSystem"=> "State",
-                                            "ID"=> "2001-Seventh grade Assessment 2"
-                                        }],
-      "assessmentPerformanceLevel"=> [],
-      "gradeLevelAssessed"=> "Seventh grade",
-      "assessmentTitle"=> "2001-Seventh grade Assessment 2",
-      "assessmentPeriodDescriptor"=>{
-          "codeValue"=>"codeGreen",
-          "description"=>"describes this descriptor"
-      },
-      "version" => 2
-  },
 
   "super_assessment" => {
      "assessmentIdentificationCode"=> [{
@@ -347,14 +333,12 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
         "ID"=> "2001-Seventh grade Assessment 2"
      }],
      "objectiveAssessment"=> [{
-        "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
         "nomenclature"=> "Nomenclature",
         "percentOfAssessment"=> 50,
         "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2",
         "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
         "maxRawScore"=> 50,
         "objectiveAssessments"=> [{
-          "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
           "nomenclature"=> "Nomenclature",
           "percentOfAssessment"=> 50,
           "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2 Sub",
@@ -363,7 +347,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
           "objectiveAssessments"=> []
         }],
         "assessmentItem"=> [{
-           "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
            "identificationCode"=> "2001-Seventh grade Assessment 2#3",
            "correctResponse"=> "true",
            "learningStandards"=> [],
@@ -373,14 +356,12 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       }],
       #"assessmentFamilyHierarchyName"=>"2001 Standard.2001 Seventh grade Standard",
       "assessmentItem"=> [{
-        "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
         "identificationCode"=> "2001-Seventh grade Assessment 2#3",
         "correctResponse"=> "true",
         "learningStandards"=> [],
         "maxRawScore"=> 10,
         "itemCategory"=> "True-False"
         }, {
-        "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
         "identificationCode"=> "2001-Seventh grade Assessment 2#1",
         "correctResponse"=> "true",
         "learningStandards"=> [],
@@ -409,31 +390,13 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
           "codeValue"=>"codeGreen",
           "description"=>"describes this descriptor"
       },
-      "assessmentItem"=> [{   "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
+      "assessmentItem"=> [{
                               "identificationCode"=> "2001-Seventh grade Assessment 2#3",
                               "learningStandards"=> [],
                               "maxRawScore"=> 10,
                               "itemCategory"=> "True-False"
                           }],
       "version" => 2
-  },
-  "invalid_nested_objective_assessment" => {
-      "objectiveAssessment"=> [{
-          "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
-          "nomenclature"=> "Nomenclature",
-          "percentOfAssessment"=> 50,
-          "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2",
-          "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
-          "maxRawScore"=> 50,
-          "objectiveAssessments"=> [{
-                "nomenclature"=> "Nomenclature",
-                "percentOfAssessment"=> 50,
-                "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2 Sub",
-                "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
-                "maxRawScore"=> 50,
-                "objectiveAssessments"=> []
-          }]
-      }]
   },
 
   "studentAssessment" => {
@@ -456,7 +419,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
           "assessmentItemResult" => "Correct",
           "rawScoreResult" => 10,
           "assessmentItem" => {
-            "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
             "identificationCode"=> "2001-Seventh grade Assessment 2#3",
             "correctResponse"=> "true",
             "learningStandards"=> [],
@@ -478,8 +440,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
             "assessmentReportingMethod" => "Scale score"
           }],
           "objectiveAssessment" => {
-            "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
-            "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2",
              "assessmentPerformanceLevel"=>[
                {
                 "performanceLevelDescriptor"=> [{
@@ -487,8 +447,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
                }],
               "assessmentReportingMethod"=> "Number score",
               "minimumScore"=> 0,
-              "maximumScore"=> 50,
-               }],
+              "maximumScore"=> 50
+             }],
             "nomenclature"=> "Nomenclature",
             "percentOfAssessment"=> 50,
             "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2",
@@ -503,7 +463,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
             "assessmentReportingMethod" => "Scale score"
           }],
           "objectiveAssessment" => {
-            "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
             "nomenclature"=> "Nomenclature",
             "percentOfAssessment"=> 50,
             "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2 Sub",
@@ -512,36 +471,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
             "objectiveAssessments"=> []
           }
         }]
-  },
-
-  "missing_req_field_studentOA" => {
-      "administrationDate" => "2002-08-28",
-      "administrationLanguage" => {
-          "language" => "English"
-      },
-      "studentId" => "274f4c71-1984-4607-8c6f-0a91db2d240a_id",
-      "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
-      "scoreResults" => [
-          {
-              "result" => "68",
-              "assessmentReportingMethod" => "Scale score"
-          }],
-      "administrationEnvironment" => "Classroom",
-      "retestIndicator" => "Primary Administration",
-      "linguisticAccommodations" => [ ],
-      "studentObjectiveAssessments" => [
-          {
-              "scoreResults" => [],
-              "objectiveAssessment" => {
-                  "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
-                  "nomenclature"=> "Nomenclature",
-                  "percentOfAssessment"=> 50,
-                  "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2 Sub",
-                  "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
-                  "maxRawScore"=> 50,
-                  "objectiveAssessments"=> []
-              }
-          }]
   },
 
   "parent" => {
@@ -653,7 +582,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     }
 }
   @fields = @entityData[arg1]
-  @patch_body = @entityData[arg1]
 end
 
 When /^I create an association of type "([^"]*)"$/ do |type|

@@ -112,7 +112,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   @context = @entityData[arg1]["context"]
   @teacherAccess = @entityData[arg1]["teacherAccess"]
 end
-
 Then /^I perform CRUD for each resource available$/ do
 
   target = ""
