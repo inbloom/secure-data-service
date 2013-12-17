@@ -4,7 +4,7 @@ Feature: Users can access public entities
     Given I update the "calendarDate" with ID "7629c5951c8af6dac204cf636d5a81acb64fc6ef_id" field "body.educationOrganizationId" to "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
     Given I update the "calendarDate" with ID "6f93d0a3e53c2d9c3409646eaab94155fe079e87_id" field "body.educationOrganizationId" to "352e8570bd1116d11a72755b987902440045d346_id"
 
-  Scenario: Class Period Creation
+    Scenario: Class Period Creation
     Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
      And format "application/json"
      And I am using api version "v1"
@@ -240,7 +240,7 @@ Feature: Users can access public entities
     When I PATCH and validate the following entities:
        |  fieldName      |  entityType    | value            |  returnCode  | endpoint                                                  |
        |  calendarEvent  |  calendarDate  | Holiday          |  403         | calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
-      #| classPeriodName |  classPeriod   | First Period     |  405         | classPeriods/a78690d5d75f709066534ab6dbf4a69a0f69989f_id  |
+       | classPeriodName |  classPeriod   | First Period     |  405         | classPeriods/a78690d5d75f709066534ab6dbf4a69a0f69989f_id  |
        | gradeLevels     |  bellSchedule  | patchGradeLevels |  403         | bellSchedules/ab9e672f9bc3e9cc988763041a4435743d8a8e34_id  |
     Then I verify the following response body fields in "/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id":
        | field                   | value                                       |
@@ -464,8 +464,8 @@ Feature: Users can access public entities
          | Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
          | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         |
          | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         |
-         #| Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
-         #| Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
+         | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
+         | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
 
   Scenario: Deletes - Part 2
     Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
