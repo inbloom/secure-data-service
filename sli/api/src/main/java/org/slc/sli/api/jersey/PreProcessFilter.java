@@ -101,7 +101,6 @@ public class PreProcessFilter implements ContainerRequestFilter {
     {
         AVAILABILITY_CHECK_ENTITIES_METHODS.put(ResourceNames.CLASS_PERIODS, Arrays.asList(ResourceMethod.PUT.toString(),  ResourceMethod.PATCH.toString()));
     }
-    
     @Resource(name = "urlValidators")
     private List<URLValidator> urlValidators;
 
