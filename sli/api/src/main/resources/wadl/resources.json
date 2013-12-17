@@ -713,6 +713,11 @@
       "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
       "availableSince" : "v1.1",
       "subResources": [
+        { "path": "/{id}/bellSchedules",
+          "dateSearchDisallowed": true,
+          "availableSince" : "v1.4",
+          "doc": "This URI, /educationOrganizations/{id}/bellSchedules, provides the bellSchedules associated with the EducationOrganization."
+        },
         { "path": "/{id}/classPeriods",
           "dateSearchDisallowed": true,
           "availableSince" : "v1.4",

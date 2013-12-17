@@ -2405,39 +2405,6 @@
             <xs:element name="LearningStandardIdentity" type="SLC-LearningStandardIdentityType"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="SLC-MeetingTimeIdentityType">
-        <xs:annotation>
-            <xs:documentation>New SLC identity type for MeetingTime. Contains keyfields: embedded ClassPeriodReference and WeekNumber.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType">
-                <xs:annotation>
-                    <xs:appinfo>
-                        <sli:keyFieldName>classPeriodId</sli:keyFieldName>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="WeekNumber" type="xs:int">
-                <xs:annotation>
-                    <xs:appinfo>
-                        <sli:keyFieldName>weekNumber</sli:keyFieldName>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="SLC-MeetingTimeReferenceType">
-        <xs:annotation>
-            <xs:documentation>New SLC natural reference type for MeetingTime.</xs:documentation>
-            <xs:appinfo>
-                <sli:applyKeyFields>true</sli:applyKeyFields>
-                <sli:refType>meetingTime</sli:refType>
-            </xs:appinfo>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="MeetingTimeIdentity" type="SLC-MeetingTimeIdentityType"/>
-        </xs:sequence>
-    </xs:complexType>
     <xs:complexType name="SLC-ObjectiveAssessmentIdentityType">
         <xs:annotation>
             <xs:documentation/>
@@ -3566,6 +3533,42 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="SLC-MeetingTime">
+        <xs:annotation>
+            <xs:documentation>This entity represents the set of elements defining the meeting time for a class period.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType">
+                        <xs:annotation>
+                            <xs:documentation>The class period associated with the meeting time for a bell schedule.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="AlternateDayName" type="AlternateDayName" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>An alternate name for the day (e.g., Red, Blue)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="StartTime" type="xs:time">
+                        <xs:annotation>
+                            <xs:documentation>An indication of the time of day the class begins.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="EndTime" type="xs:time">
+                        <xs:annotation>
+                            <xs:documentation>An indication of the time of day the class ends.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="OfficialAttendancePeriod" type="xs:boolean" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Indicator of whether this meeting time is used for official daily attendance.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
     <xs:complexType name="SLC-OtherEducationOrganizationCategoriesType">
         <xs:annotation>
             <xs:documentation>The other classification(s) of the education agency within the geographic boundaries of a state according to the level of administrative and operational control granted by the state.
@@ -4499,42 +4502,6 @@
             <xs:enumeration value="Other"/>
         </xs:restriction>
     </xs:simpleType>
-    <xs:complexType name="SLC-MeetingTime">
-        <xs:annotation>
-            <xs:documentation>This entity represents the set of elements defining the meeting time for a class period.</xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
-                <xs:sequence>
-                    <xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType">
-                        <xs:annotation>
-                            <xs:documentation>The class period associated with the meeting time for a bell schedule.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="AlternateDayName" type="AlternateDayName" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>An alternate name for the day (e.g., Red, Blue)</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="StartTime" type="xs:time">
-                        <xs:annotation>
-                            <xs:documentation>An indication of the time of day the class begins.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="EndTime" type="xs:time">
-                        <xs:annotation>
-                            <xs:documentation>An indication of the time of day the class ends.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="OfficialAttendancePeriod" type="xs:boolean" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>Indicator of whether this meeting time is used for official daily attendance.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
     <xs:simpleType name="SLC-ProgramId">
         <xs:annotation>
             <xs:documentation>A unique number or alphanumeric code assigned to a program by a school, school system, a state, or other agency or entity.</xs:documentation>

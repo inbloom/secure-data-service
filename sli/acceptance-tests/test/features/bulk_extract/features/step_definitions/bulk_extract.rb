@@ -3333,6 +3333,36 @@ def get_post_body_by_entity_name(entity_name)
       "classPeriodName" => "Sixth Period",
       "educationOrganizationId" => "352e8570bd1116d11a72755b987902440045d346_id"
     },
+    "newBellSchedule" => {
+                           "bellScheduleName" => "English 42",
+                           "educationOrganizationId"  =>  "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id",
+                           "meetingTime"  =>  {
+                                                "classPeriodId" => "42921d6ca01bcee753d5bc81e2f3e1592ed05492_id",
+                                                "alternateDayName" => "Beige",
+                                                "startTime" => "09:00:00.000",
+                                                "endTime" => "09:55:00.000",
+                                                "officialAttendancePeriod" => true
+                                              },
+                           "gradeLevels" => [
+                                              "First grade",
+                                              "Second grade"
+                                            ],
+                           "calendarDateReference" => "7629c5951c8af6dac204cf636d5a81acb64fc6ef_id"
+                         },
+    "newBellSchedule2" => {
+                            "bellScheduleName" => "Maths 17",
+                            "educationOrganizationId"  =>  "352e8570bd1116d11a72755b987902440045d346_id",
+                            "meetingTime"  =>  {
+                                                 "classPeriodId" => "a78690d5d75f709066534ab6dbf4a69a0f69989f_id",
+                                                 "startTime" => "13:00:00.000",
+                                                 "endTime" => "13:55:00.000"
+                                               },
+                            "gradeLevels" => [
+                                               "Third grade",
+                                               "Fourth grade"
+                                             ],
+                            "calendarDateReference" => "6f93d0a3e53c2d9c3409646eaab94155fe079e87_id"
+                          },
     "newCohort" => {
       "academicSubject" => "Communication and Audio/Visual Technology",
       "cohortType" => "Extracurricular Activity",

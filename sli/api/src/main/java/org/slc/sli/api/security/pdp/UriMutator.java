@@ -404,6 +404,8 @@ public class UriMutator {
                 mutated = generateMutatedUrl(queryParameters, "/educationOrganizations/%s/calendarDates", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ","));
             } else if (baseEntity.equals(PathConstants.CLASS_PERIODS)) {
                 mutated = generateMutatedUrl(queryParameters, "/educationOrganizations/%s/classPeriods", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ","));
+            } else if (baseEntity.equals(PathConstants.BELL_SCHEDULES)) {
+                mutated = generateMutatedUrl(queryParameters, "/educationOrganizations/%s/bellSchedules", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ","));
             }
         }
         else if (segmentSize == 4) {
