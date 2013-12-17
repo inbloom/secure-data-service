@@ -47,31 +47,6 @@ When /^I GET the class periods using education organization/ do
   assert(@res.code == 200, "#{@res.code} - Could not fetch entity #{@expected_entity.to_json}.")
 end
 
-# Returns whether the expected number of results are returned
-# and ALL the results contain the specified field and value
-def resultsContain?(field, value, expected_count = 1)
-  matches_all = true
-  results = JSON.parse @res
-
-  # handle non-array single result - not tested
-  if ! results.is_a? Array
-    results = [results]
-  end
-
-  if results.count != expected_count
-    return false
-  end
-
-  results.each { |result|
-    if result[field] != value
-      matches_all = false
-      break
-    end
-  }
-
-  return matches_all
-end
-
 When /^the result contains the only class period in the context of the user$/ do
   field = "educationOrganizationId"
   value = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"

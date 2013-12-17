@@ -925,3 +925,32 @@ def check_records_in_sli_collection(table)
   assert(result == "true", "Some records are not found in collection.")
   enable_NOTABLESCAN()
 end
+
+# Returns whether the expected number of results are returned
+# and ALL the results contain the specified field and value
+def resultsContain?(field, value, expected_count = 1)
+  matches_all = true
+  results = JSON.parse @res
+
+puts "The results:"
+puts results.to_s
+
+  # handle non-array single result - not tested
+  if ! results.is_a? Array
+    results = [results]
+  end
+
+  if results.count != expected_count
+    return false
+  end
+
+  results.each { |result|
+    if result[field] != value
+      matches_all = false
+      break
+    end
+  }
+
+  return matches_all
+end
+

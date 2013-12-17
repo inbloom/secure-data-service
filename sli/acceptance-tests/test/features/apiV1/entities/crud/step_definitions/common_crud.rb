@@ -1,3 +1,11 @@
+# structure to hold posted ids for cleanup
+# Hash of <endpoint> => [<id0>,...]
+$posted_ids = {}
+
+def clear_posted_ids
+  $posted_ids = {}
+end
+
 def post_entity(endpoint)
   puts "token: " + @sessionId
   puts "expected entity body: " + @expected_entity.to_json.to_s
@@ -7,6 +15,15 @@ def post_entity(endpoint)
   puts "location: " + @location
   @id = @location.split("/").last
   puts "id: " + @id
+
+  # save the posted id in a stack in cased needed for cleanup
+  if $posted_ids[endpoint].nil?
+    $posted_ids[endpoint] = [@id]
+  else
+    # pre-pend so we can just use 'each' to cleanup in reverse order
+    $posted_ids[endpoint].unshift(@id)
+  end
+
   restHttpGetAbs(@location, 'application/vnd.slc+json')
   assert(@res.code == 200, "#{@res.code} - Could not fetch newly created entity #{@expected_entity.to_json}.")
 end
@@ -48,6 +65,15 @@ end
 def deleteEntity(endpoint)
   restHttpDelete("/v1/#{endpoint}/#{@id}", 'application/vnd.slc+json')
   assert(@res.code == 204, "Unexpected HTTP code returned: #{@res.code}.")
+end
+
+def delete_posted_ids()
+  $posted_ids.each_pair do |endpoint, ids|
+    ids.each { |id|
+      restHttpDelete("/v1/#{endpoint}/#{id}", 'application/vnd.slc+json')
+      assert(@res.code == 204, "Unexpected HTTP code returned: #{@res.code}.")
+    }
+  end
 end
 
 def post_custom_entity(endpoint)
