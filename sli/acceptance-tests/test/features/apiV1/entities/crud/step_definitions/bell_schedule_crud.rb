@@ -86,7 +86,7 @@ end
 
 When /^I PUT the bell schedule$/ do
   @expected_entity = {
-                       "bellScheduleName" => "Updated Grade School Schedule",
+                       "bellScheduleName" => "Grade School Schedule",
                        "educationOrganizationId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
                        "meetingTime"  =>  {
                                             "classPeriodId" => "97094f3eb0e089264bbc1d937a1d22b5c7f668af_id",
@@ -95,7 +95,9 @@ When /^I PUT the bell schedule$/ do
                                           },
                        "gradeLevels" => [
                                          "First grade",
-                                         "Fifth grade"
+                                         "Second grade",
+                                         "Third grade",
+                                         "Fourth grade"
                                        ],
                        "calendarDateReference" => "2012ai-7963b924-ceb0-11e1-8af5-0a0027000000"
                      }
@@ -104,10 +106,13 @@ end
 
 Then /^I PATCH the bell schedule$/ do
   @expected_patch_entity = {
-                     "bellScheduleName" => "Tweaked Grade School Schedule"
+                        "gradeLevels" => [
+                                         "First grade",
+                                         "Fifth grade"
+                                        ]
                   }
   @expected_entity = {
-                        "bellScheduleName" => @expected_patch_entity["bellScheduleName"],
+                        "bellScheduleName" => "Grade School Schedule",
                         "educationOrganizationId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
                         "meetingTime"  =>  {
                                              "classPeriodId" => "97094f3eb0e089264bbc1d937a1d22b5c7f668af_id",
@@ -116,12 +121,7 @@ Then /^I PATCH the bell schedule$/ do
                                               "endTime" => "09:55:00.000",
                                               "officialAttendancePeriod" => true
                                            },
-                        "gradeLevels" => [
-                                          "First grade",
-                                          "Second grade",
-                                          "Third grade",
-                                          "Fourth grade"
-                                        ],
+                        "gradeLevels" => @expected_patch_entity["gradeLevels"],
                         "calendarDateReference" => "2012ai-7963b924-ceb0-11e1-8af5-0a0027000000"
                       }
   patch_entity("bellSchedules")
