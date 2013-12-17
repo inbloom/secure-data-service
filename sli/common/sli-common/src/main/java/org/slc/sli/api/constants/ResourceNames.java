@@ -119,7 +119,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS,
                 ResourceNames.STUDENT_COHORT_ASSOCIATION_GETTER);
         
-        SINGULAR_LINK_NAMES.put(ResourceNames.CALENDAR_DATES, "getCalendar");
+        SINGULAR_LINK_NAMES.put(ResourceNames.CALENDAR_DATES, "getCalendarDate");
         SINGULAR_LINK_NAMES.put(ResourceNames.ASSESSMENTS, "getAssessment");
         SINGULAR_LINK_NAMES.put(ResourceNames.ATTENDANCES, "getAttendance");
         SINGULAR_LINK_NAMES.put(ResourceNames.YEARLY_ATTENDANCES, "getYearlyAttendance");
