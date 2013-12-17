@@ -1494,6 +1494,9 @@ def get_patch_body_by_entity_name(field, value)
     "diagnosticStatement" => {
       "diagnosticStatement" => value
     },
+    "patchGradeLevels" => {
+          "gradeLevels" => [value]
+     },
     "gradeLevelWhenAssessed" => {
       "gradeLevelWhenAssessed" => value
     },
