@@ -450,6 +450,12 @@ task :apiV1SearchLimitTests => [:realmInit] do
   Rake::Task["ingestionSmallSampleDataSet"].execute
   Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/search/search_limits.feature")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 
