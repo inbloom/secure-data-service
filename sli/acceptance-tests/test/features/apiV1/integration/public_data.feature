@@ -50,11 +50,11 @@ Feature: Users can access public entities
       | calendarDates                                                                    | dcaab0add72ad8d37de0dafa312b4d23d35ddb21_id | associated to LEA IL-HIGHWIND 99d527622dcb51c465c515c0636d17e085302d5e_id |
       | educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/calendarDates |                                             |                                                                           |
       | gradingPeriods/19b56717877893f8d13bcfe6cfc256811c60c8ff_id/calendarDates         |                                             |                                                                           |
-     #| classPeriods                                                                     |                                             |                                                                           |
+      | classPeriods                                                                     |                                             |                                                                           |
       | classPeriods                                                                     |42921d6ca01bcee753d5bc81e2f3e1592ed05492_id  |                                                                           |
       | classPeriods                                                                     |a78690d5d75f709066534ab6dbf4a69a0f69989f_id  |                                                                           |
-     #| educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/classPeriods  |                                             |                                                                           |
-     #| educationOrganizations/352e8570bd1116d11a72755b987902440045d346_id/classPeriods  |                                             |                                                                           |
+      | educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/classPeriods  |                                             |                                                                           |
+      | educationOrganizations/352e8570bd1116d11a72755b987902440045d346_id/classPeriods  |                                             |                                                                           |
 
     Then I validate that I am denied access to certain endpoints via API:
        | uri                        | rc  | description                |
@@ -96,15 +96,15 @@ Feature: Users can access public entities
      And I should receive a collection with <COUNT> elements
 
     #Verify base endpoint only contains classPeriods for the directly associated edOrgs
-   #When I navigate to GET "/v1/classPeriods"
-   #Then I should receive a return code of 200
-    #And I should receive a collection with <COUNT> elements
+    When I navigate to GET "/v1/classPeriods"
+    Then I should receive a return code of 200
+    And I should receive a collection with <COUNT> elements
 
     #Verify rewrites
     When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
        | Entity                       | URI                                           |
        | /calendarDates               | /educationOrganizations/<EDORG>/calendarDates |
-      #| /classPeriods                | /educationOrganizations/<EDORG>/classPeriods  |
+       | /classPeriods                | /educationOrganizations/<EDORG>/classPeriods  |
 
     Examples: User Credentials and Expected Counts
        | REALM                                   | TYPE              | USERNAME          | PASSWORD              | COUNT | EDORG             |
