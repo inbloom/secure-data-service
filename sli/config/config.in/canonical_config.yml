@@ -2,6 +2,10 @@
 default:
     api: &API-DEFAULT
 
+        sli.search.maxUnfilteredResults: 15000
+        sli.search.maxFilteredResults: 250
+        sli.search.maxFilteredResultsOverride: 5000
+
         # used to specify the location of performance log (only used in api)
         ## api.perf.log.path: target/apilogs/logs
         api.perf.log.path: target/apilogs/logs
