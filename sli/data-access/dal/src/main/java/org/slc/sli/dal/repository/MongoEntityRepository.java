@@ -323,12 +323,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 result = entity;
             }
         } else {
+            validator.validate(entity);
+            validator.validateNaturalKeys(entity, true);
+
             SuperdocConverter converter = converterReg.getConverter(collectionName);
             if (converter != null) {
                 converter.bodyFieldToSubdoc(entity);
             }
-            validator.validate(entity);
-            validator.validateNaturalKeys(entity, true);
 
             result = super.insert(entity, collectionName);
 
@@ -1042,6 +1043,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         this.updateTimestamp(entity);
 
+        validator.validate(entity);
         // convert subdoc from superdoc body to outside body
         SuperdocConverter converter = converterReg.getConverter(entity.getType());
         if (converter != null && isSuperdoc) {
@@ -1056,7 +1058,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             	converter.bodyFieldToSubdoc(entity, option);
             }
         }
-        validator.validate(entity);
         if (denormalizer.isDenormalizedDoc(collection)) {
             denormalizer.denormalization(collection).create(entity);
         }
