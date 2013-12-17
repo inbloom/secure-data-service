@@ -18,6 +18,7 @@ def get_entity
   actual.delete('id')
   compare_links(actual) if !@expected_links.nil?
   actual.delete('links')
+  compare_type(actual) if !@expected_type.nil?
   actual.delete('entityType')
   assert(actual.eql?(@expected_entity),"GET contents different to that expected #{actual.to_json}.")
 end
@@ -28,6 +29,10 @@ def compare_links(actual)
     link["href"] = href.sub(PropLoader.getProps['api_server_url'] + "/api/rest/v1.4/", '')
   end
   assert(actual["links"].eql?(@expected_links["links"]),"links contents different to that expected #{actual["links"].to_json}.")
+end
+
+def compare_type(actual)
+  assert(actual['entityType'].eql?(@expected_type),"Entity Type contents different to that expected #{actual["entityType"].to_json}.")
 end
 
 def unsupported_put(endpoint)

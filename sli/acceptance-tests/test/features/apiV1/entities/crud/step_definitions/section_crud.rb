@@ -95,6 +95,8 @@ When /^I POST a section$/ do
                                  ]
                      }
   puts "expected links: " + @expected_links["links"].to_json
+  @expected_type = 'section'
+  puts "expected type: " + @expected_type
 end
 
 When /^I GET the section$/ do

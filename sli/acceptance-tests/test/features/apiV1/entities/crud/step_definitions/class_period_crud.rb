@@ -28,6 +28,8 @@ When /^I POST a class period$/ do
                                  ]
                      }
   puts "expected links: " + @expected_links["links"].to_json
+  @expected_type = 'classPeriod'
+  puts "expected type: " + @expected_type
 end
 
 When /^I GET the class period$/ do
@@ -71,8 +73,6 @@ def resultsContain?(field, value, expected_count = 1)
 end
 
 When /^the result contains the only class period in the context of the user$/ do
-  restHttpGet("/v1/classPeriods", 'application/vnd.slc+json')
-  assert(@res.code == 200, "#{@res.code} - Could not fetch entity #{@expected_entity.to_json}.")
   field = "educationOrganizationId"
   value = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
   assert(resultsContain?(field, value),"GET contents do not contain \"#{field}\" => \"#{value}\".")

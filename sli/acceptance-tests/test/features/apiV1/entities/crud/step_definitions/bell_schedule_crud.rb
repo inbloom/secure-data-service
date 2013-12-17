@@ -29,11 +29,11 @@ When /^I POST a bell schedule$/ do
                                    },
                                    {
                                      "rel" => "getSchool",
-                                     "href" => "schools/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+                                     "href" => "schools/" + @expected_entity['educationOrganizationId']
                                    },
                                    {
                                      "rel" => "getEducationOrganization",
-                                     "href" => "educationOrganizations/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+                                     "href" => "educationOrganizations/" + @expected_entity['educationOrganizationId']
                                    },
                                    {
                                      "rel" => "getCalendar",
@@ -46,6 +46,8 @@ When /^I POST a bell schedule$/ do
                                  ]
                      }
   puts "expected links: " + @expected_links["links"].to_json
+  @expected_type = 'bellSchedule'
+  puts "expected type: " + @expected_type
 end
 
 When /^I GET the bell schedule$/ do
