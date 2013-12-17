@@ -273,5 +273,5 @@ Scenario Outline: Confirm direct references work
      And I should receive a collection with <count> elements
      And each entity's "entityType" should be "<target entity type>"
     Examples:
-        | source resource | target entity type | target link name                                | id                                         | count |
-        | assessments     | learningObjective  | objectiveAssessment.SAT-Math.learningObjectives | b94b5194d45cd707465627c0cd6c4f68f3558600_id| 2     |
+        | source resource | target entity type | target link name     | id                                         | count |
+        | assessments     | learningObjective  | getLearningObjective | b94b5194d45cd707465627c0cd6c4f68f3558600_id| 2     |
