@@ -295,10 +295,13 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And entity URI "/v1/assessments"
     And format "application/vnd.slc+json"
-    And a valid entity json document for a "super_assessment"
+    And a valid entity json document for a "base_super_assessment"
     When I navigate to POST "<ENTITY URI>"
     Then I should receive a return code of 201
     And I should receive a new entity URI
+    And a valid entity json document for a "super_assessment"
+    When I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
     And I verify "objectiveAssessment" and "assessmentItem" should be subdoc'ed in mongo for this new "assessment"
     And I verify there are "1" "assessmentPeriodDescriptor" with "codeValue=codeGreen" in mongo
     When I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
@@ -341,10 +344,13 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And entity URI "/v1/assessments"
     And format "application/vnd.slc+json"
-    And a valid entity json document for a "assessment_item"
+    And a valid entity json document for a "base_super_assessment"
     When I navigate to POST "<ENTITY URI>"
     Then I should receive a return code of 201
     And I should receive a new entity URI
+    And a valid entity json document for a "assessment_item"
+    When I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
     When I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 200
     And I set the "correctResponse" to "true" in the first "assessmentItem" subdoc
@@ -356,6 +362,34 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     When I navigate to DELETE "/assessments/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 204
 #yearlyAttendance CRUD
+
+  Scenario: Validate AssessmentItem, ObjectiveAssessment, StudentAssessmentItem, StudentObjectiveAssessment are validated correctly
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And entity URI "/v1/assessments"
+    And format "application/vnd.slc+json"
+    And a valid entity json document for a "base_super_assessment"
+    When I navigate to POST "<ENTITY URI>"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+
+    And a valid entity json document for a "assessment_item"
+    And I remove the "identificationCode" field in the first "assessmentItem" subdoc
+    When I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 400
+    #Invalid Reference error
+    And a valid entity json document for a "assessment_item"
+    And I set the "assessmentId" to "IncorrectAssessmentId" in the first "assessmentItem" subdoc
+    And I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 400
+
+    Given a valid entity json document for a "invalid_nested_objective_assessment"
+    And I navigate to PATCH "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 400
+
+    Given entity URI "/v1/studentAssessments"
+    And a valid entity json document for a "missing_req_field_studentOA"
+    When I navigate to POST "<ENTITY URI>"
+    Then I should receive a return code of 400
 
   @us5389
   Scenario: yearlyAttendance CRUD
