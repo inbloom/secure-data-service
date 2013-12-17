@@ -50,7 +50,7 @@ When /^I navigate to PUT with invalid id for each resource available$/ do
   resources.each do |resource|
 
     #PUT is not allowed for /home
-    if (resource.include? "home" or skip_resource(resource)) 
+    if (resource.include? "home" or skip_resource(resource))
       next
     end
 
@@ -66,11 +66,20 @@ When /^I navigate to PUT with invalid id for each resource available$/ do
     }
     # split the steps calls so that @updates will have been populated
     @fields[@updates['field']] = @updates['value']
-    steps %Q{
-      When I navigate to PUT \"#{uri}\"
-      Then I should receive a return code of 404
 
-    }
+    if resource.include? "classPeriods"
+      puts resource
+      puts "classPeriods"
+      steps %Q{
+        When I navigate to PUT \"#{uri}\"
+        Then I should receive a return code of 405
+      }
+    else
+      steps %Q{
+        When I navigate to PUT \"#{uri}\"
+        Then I should receive a return code of 404
+      }
+    end
     #step "I should receive a return code of 404"
   end
 end

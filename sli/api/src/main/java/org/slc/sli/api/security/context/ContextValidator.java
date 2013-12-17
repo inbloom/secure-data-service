@@ -164,7 +164,7 @@ public class ContextValidator implements ApplicationContextAware {
         return false;
     }
 
-    private List<PathSegment> cleanEmptySegments(List<PathSegment> pathSegments) {
+    public List<PathSegment> cleanEmptySegments(List<PathSegment> pathSegments) {
         for (Iterator<PathSegment> i = pathSegments.iterator(); i.hasNext();) {
             if (i.next().getPath().isEmpty()) {
                 i.remove();

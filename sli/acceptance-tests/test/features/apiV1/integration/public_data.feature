@@ -238,7 +238,7 @@ Feature: Users can access public entities
      When I PATCH and validate the following entities:
         |  fieldName      |  entityType   | value        |  returnCode  | endpoint                                                  |
         | calendarEvent   |  calendarDate | Holiday      |  403         | calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
-       #| classPeriodName |  classPeriod  | First Period |  405         | classPeriods/a78690d5d75f709066534ab6dbf4a69a0f69989f_id  |
+        | classPeriodName |  classPeriod  | First Period |  405         | classPeriods/a78690d5d75f709066534ab6dbf4a69a0f69989f_id  |
 
      Then I verify the following response body fields in "/calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id":
         | field                   | value                                       |
@@ -258,7 +258,7 @@ Feature: Users can access public entities
      When I PUT and validate the following entities:
         | field           | entityName      |  value            | returnCode | endpoint                                                  |
         | calendarEvent   | newCalendarDate | Holiday           | 403        | calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
-       #| classPeriodName | newClassPeriod  | First Period      | 405        | classPeriods/a78690d5d75f709066534ab6dbf4a69a0f69989f_id |
+        | classPeriodName | newClassPeriod  | First Period      | 405        | classPeriods/a78690d5d75f709066534ab6dbf4a69a0f69989f_id |
 
      Then I verify the following response body fields in "/calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id":
         | field                   | value                                       |
@@ -300,8 +300,8 @@ Feature: Users can access public entities
          | Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
          | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         |
          | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         |
-         | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
-         | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
+         #| Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
+         #| Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
 
   Scenario: Class Period Delete - Part 2
     Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"

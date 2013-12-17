@@ -17,6 +17,8 @@
 package org.slc.sli.api.jersey;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
@@ -71,6 +73,8 @@ import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 
+import java.util.Iterator;
+
 /**
  * Pre-request processing filter. Adds security information for the user Records
  * start time of the request
@@ -91,6 +95,13 @@ public class PreProcessFilter implements ContainerRequestFilter {
     public static final List<String> DATE_RESTRICTED_ENTITIES = Arrays.asList(EntityNames.STAFF_PROGRAM_ASSOCIATION, EntityNames.STAFF_COHORT_ASSOCIATION,
             EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION, EntityNames.TEACHER_SCHOOL_ASSOCIATION);
 
+    //For some resource, some methods are disabled.  Bypass context check for those resources and methods.
+    public static final Map<String, List<String>> AVAILABILITY_CHECK_ENTITIES_METHODS = new HashMap<String, List<String>>();
+    static
+    {
+        AVAILABILITY_CHECK_ENTITIES_METHODS.put(ResourceNames.CLASS_PERIODS, Arrays.asList(ResourceMethod.PUT.toString(),  ResourceMethod.PATCH.toString()));
+    }
+    
     @Resource(name = "urlValidators")
     private List<URLValidator> urlValidators;
 
@@ -158,8 +169,10 @@ public class PreProcessFilter implements ContainerRequestFilter {
             throw new APIAccessDeniedException(String.format("url %s is not accessible.", request.getAbsolutePath().toString()));
         }
 
-        if (isUpdateOrDelete(request.getMethod())) {
-            contextValidator.validateContextToUri(request, principal);
+        if(availalibityCheck(request)) {
+            if (isUpdateOrDelete(request.getMethod())) {
+                contextValidator.validateContextToUri(request, principal);
+            }
         }
 
         translator.translate(request);
@@ -167,6 +180,23 @@ public class PreProcessFilter implements ContainerRequestFilter {
         return request;
     }
 
+    private boolean availalibityCheck(ContainerRequest request) {
+        List<PathSegment> segs = request.getPathSegments();
+        segs = contextValidator.cleanEmptySegments(segs);
+
+        for (PathSegment seg : segs) {
+
+           for(String resource: AVAILABILITY_CHECK_ENTITIES_METHODS.keySet()) {
+               if (resource.contains(seg.getPath()) && AVAILABILITY_CHECK_ENTITIES_METHODS.get(resource).contains(request.getMethod())) {
+                   return false;
+               }
+           }
+        }
+        return true;
+
+    }
+   
+    
     private void injectObligations(ContainerRequest request) {
         // Create obligations
         SLIPrincipal prince = SecurityUtil.getSLIPrincipal();
