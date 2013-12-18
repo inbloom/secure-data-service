@@ -27,7 +27,7 @@
         <jb:value property="bellScheduleName" data="attributes BellScheduleName _value" />
         <jb:wiring property="gradeLevels" beanIdRef="GradeLevels" />
         <jb:wiring property="meetingTime" beanIdRef="MeetingTime" />
-        <jb:wiring property="educationOrganizationId" beanIdRef="attributes EducationOrganizationReference" />
+        <jb:value property="educationOrganizationId" data="attributes EducationOrganizationReference" />
         <jb:value property="calendarDateReference" data="attributes CalendarDateReference" />
     </jb:bean>
     
