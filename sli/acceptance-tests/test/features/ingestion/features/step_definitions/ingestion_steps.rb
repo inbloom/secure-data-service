@@ -3825,7 +3825,11 @@ Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. A
 	    condHash[field] = $1.to_f
 	elsif value =~ /int\((.*)\)/
 	    condHash[field] = $1.to_i
-	end
+	elsif value == "true"
+    	condHash[field] = true
+    elsif value == "false"
+        condHash[field] = false
+    end
     end
 
     elemMatch = autovivifying_hash
