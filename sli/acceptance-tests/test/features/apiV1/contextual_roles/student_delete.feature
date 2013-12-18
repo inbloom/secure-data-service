@@ -28,6 +28,7 @@ Feature: Use the API to successfully delete students  while having roles over ma
   Scenario: User with write rights in first school and no write rights in second
     Given I remove the SEOA with role "IT Administrator" for staff "tcuyper" in "Daybreak Central High"
     And I add a SEOA for "tcuyper" in "East Daybreak High" as a "IT Administrator"
+    And I change the custom role of "Leader" to remove the "WRITE_GENERAL" right
 
     When I log in as "tcuyper"
 
@@ -77,6 +78,7 @@ Feature: Use the API to successfully delete students  while having roles over ma
   Scenario: User with writes in LEA and no writes in school (writes should trickle down to school level)
     Given I change the custom role of "Aggregate Viewer" to add the "WRITE_GENERAL" right
     And I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
+    And I change the custom role of "Leader" to remove the "WRITE_GENERAL" right
 
     When I log in as "msmith"
 
@@ -126,6 +128,7 @@ Feature: Use the API to successfully delete students  while having roles over ma
     Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
     And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
     And I change the custom role of "Educator" to add the "WRITE_PUBLIC" right
+    And I change the custom role of "Educator" to remove the "WRITE_GENERAL" right
     Given the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
       | bert.jakeman    | rbelding             | Daybreak Central High | yes                   |

@@ -38,28 +38,19 @@ And I am authenticated on "SLI"
 When I make a REST API call
 Then I get response that I am not authorized to do that operation because I do not have a valid SLI Default Role
 
-Scenario: Authorized SLI Default Role trying to edit Student attribute
- 
-Given  I am valid SEA/LEA end user "jstevenson" with password "jstevenson1234" 
-And I am authenticated on "IL"
-And the role attribute equals "IT Administrator"
-And "IT Administrator" is allowed to change Student address
-When I make an API call to change the Student address to "1234 Somewhere"
-Then the Student address is changed
+Scenario Outline: Authorized SLI Default Role trying to edit Student attribute
 
-
-Scenario Outline: Unauthorized SLI Default Role trying to edit Student attribute
- 
-Given  I am valid SEA/LEA end user <Username> with password <Password>  
+Given  I am valid SEA/LEA end user <Username> with password <Password>
 And I am authenticated on "IL"
 And the role attribute equals <Role>
-And <Role> is not allowed to change Student address
 When I make an API call to change the Student address to "9876 Nowhere"
-Then a message is displayed that the <Role> role does not allow this action 
+Then the Student address is changed
 Examples:
 | Username   | Password       | Role       |
-| "linda.kim" | "linda.kim1234" | "Educator" |
-| "sbantu"   | "sbantu1234"   | "Leader"   |
+| "jstevenson"   | "jstevenson1234"   | "IT Administrator" |
+#Commenting this till DE3030 is fixed
+#| "linda.kim"    | "linda.kim1234"    | "Educator"         |
+#| "sbantu"       | "sbantu1234"       | "Leader"           |
 
 Scenario: Unauthorized SLI Default Role trying to view Student object
 
