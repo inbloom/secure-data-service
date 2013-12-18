@@ -136,27 +136,15 @@ When /^I make an API call to get (the student "[^"]*")$/ do |arg1|
 end
 
 When /^I make an API call to update (the student "[^"]*")$/ do |arg1|
-  @format = "application/vnd.slc+json"
   student_uri ="/v1/students/"+arg1
-  restHttpGet(student_uri)
- 
-  assert(@res != nil, "Response from rest-client GET is nil")
-  
-  if (@res.code == 403) 
-    data = $studentHash.to_json 
-  else
-    dataH = JSON.parse(@res.body)
-    
-    dataH['address'] = [{"streetNumberName" => "arg1",
+  data = { "address" => [{"streetNumberName" => "arg1",
                            "city" => "Urbania",
                            "stateAbbreviation" => "NC",
                            "postalCode" => "12345"}]
-    
-    data = dataH.to_json
-  end
+    }
 
-  restHttpPut(student_uri, data, "application/json")
-  assert(@res != nil, "Response from rest-client PUT is nil")  
+  restHttpPatch(student_uri, data.to_json, "application/json")
+  assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
 Then /^I see the response "([^"]*)" restricted data and "([^"]*)" general data$/ do |arg1, arg2|

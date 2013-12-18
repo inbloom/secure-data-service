@@ -3109,7 +3109,6 @@ def get_post_body_by_entity_name(entity_name)
       "administrationEnvironment" => "Classroom",
       "retestIndicator" => "Primary Administration",
       "studentObjectiveAssessments" => [{
-        "entityType" => "studentAssessment",
         "performanceLevelDescriptors" => [
           [{
             "codeValue" => "code1"
@@ -3813,7 +3812,6 @@ def get_post_body_by_entity_name(entity_name)
       "administrationEnvironment" => "Classroom",
       "retestIndicator" => "Primary Administration",
       "studentObjectiveAssessments" => [{
-        "entityType" => "studentAssessment",
         "performanceLevelDescriptors" => [
           [{
             "codeValue" => "code1"
@@ -3922,7 +3920,6 @@ def get_post_body_by_entity_name(entity_name)
       "administrationEnvironment" => "Classroom",
       "retestIndicator" => "Primary Administration",
       "studentObjectiveAssessments" => [{
-        "entityType" => "studentAssessment",
         "performanceLevelDescriptors" => [
           [{
             "codeValue" => "code1"

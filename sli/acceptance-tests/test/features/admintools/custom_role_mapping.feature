@@ -178,10 +178,10 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I edit the group "Educator"
-When I add the right "WRITE_GENERAL" to the group "Educator"
+When I add the right "WRITE_RESTRICTED" to the group "Educator"
 And I add the role "EnglishTeacher" to the group "Educator"
 And I click the cancel button
-Then the group "Educator" contains the "right" rights "Read General Public and Aggregate"
+Then the group "Educator" contains the "right" rights "Read & Write General, Read Public, Read Aggregate, Teacher Context"
 And the group "Educator" contains the roles "Educator,Teacher"
 
 @production
@@ -189,19 +189,18 @@ Scenario: An Educator is given WRITE_GENERAL in self context, they can write to 
 When I navigate to the Custom Role Mapping Page
 And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
-When the user "cgray" in tenant "IL" tries to update the "firstName" for staff "cgray" to "Chuck"
+When the user "cgray" in tenant "IL" tries to update the "sex" for staff "cgray" to "Female"
 Then I should receive a return code of 403
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 And I edit the group "Educator"
-And I add the self right "WRITE_GENERAL" to the group "Educator"
 And I add the self right "WRITE_RESTRICTED" to the group "Educator"
 And I hit the save button
-Then the user "cgray" in tenant "IL" can access the API with self rights "Self Read Restricted, Write Restricted and Write General"
-And  the user "cgray" in tenant "IL" tries to update the "firstName" for staff "cgray" to "Chuck"
+Then the user "cgray" in tenant "IL" can access the API with self rights "Self Read and Write Restricted"
+And  the user "cgray" in tenant "IL" tries to update the "sex" for staff "cgray" to "Female"
 Then I should receive a return code of 204
-And I should see that the "firstName" for staff "cgray" is "Chuck"
-When the user "cgray" in tenant "IL" tries to update the "firstName" for staff "stweed" to "Chuck"
+And I should see that the "sex" for staff "cgray" is "Female"
+When the user "cgray" in tenant "IL" tries to update the "sex" for staff "stweed" to "Female"
 Then I should receive a return code of 403
 
 @production
@@ -217,7 +216,7 @@ When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" l
 Then I have navigated to my Custom Role Mapping Page
 And I edit the group "Aggregate Viewer"
 And I remove the right "READ_GENERAL" from the group "Aggregate Viewer"
-Then the group "Aggregate Viewer" contains the "self-right" rights "Read Restricted"
+Then the group "Aggregate Viewer" contains the "self-right" rights "Self Read Restricted"
 And I remove the right "READ_RESTRICTED" from the group "Aggregate Viewer"
 Then the group "Aggregate Viewer" contains the "self-right" rights "none"
 And I hit the save button

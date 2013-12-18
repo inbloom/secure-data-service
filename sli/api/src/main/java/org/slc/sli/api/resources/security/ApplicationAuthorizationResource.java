@@ -21,7 +21,6 @@ import java.net.URI;
 import java.util.*;
 
 import javax.annotation.PostConstruct;
-import javax.management.relation.RoleStatus;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -37,14 +36,11 @@ import com.google.common.collect.Sets;
 
 import org.slc.sli.api.security.SLIPrincipal;
 
-import org.slc.sli.api.security.context.APIAccessDeniedException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -299,11 +295,9 @@ public class ApplicationAuthorizationResource {
             Set<String>  newAuth = getSetOfAuthorizedIds(modifiedAuthList);
             existingAuth.put("edorgs", modifiedAuthList);
             logSecurityEvent(appId, oldAuth, newAuth);
-            if (!principal.isAdminRealmAuthenticated()) {
-                service.updateBasedOnContextualRoles((String) existingAuth.get("id"), existingAuth);
-            } else {
-                service.update((String) existingAuth.get("id"), existingAuth);
-            }
+
+            service.update((String) existingAuth.get("id"), existingAuth, !principal.isAdminRealmAuthenticated());
+
             return Response.status(Status.NO_CONTENT).build();
         }
     }
