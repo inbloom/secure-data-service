@@ -1,15 +1,20 @@
 {
-    "referenceSources" :
-        [
-            {
-                "entityType" : "assessmentPeriodDescriptor",
-                "sourceRefPath": "body.AssessmentPeriod",
-                "optional" : true
-            },
-            {
-                "entityType" : "assessmentFamily",
-                "sourceRefPath": "body.AssessmentFamilyReference",
-                "optional" : true
-            }
-        ]
+    "referenceSources" :
+        [
+            {
+                "entityType" : "educationOrganization",
+                "sourceRefPath": "body.EducationOrganizationReference",
+                "optional" : false
+            },
+            {
+                "entityType" : "classPeriod",
+                "sourceRefPath": "body.MeetingTime.ClassPeriodReference",
+                "optional" : false
+            },
+            {
+                 "entityType" : "calendarDate",
+                 "sourceRefPath": "body.CalendarDateReference",
+                 "optional" : false
+            }
+        ]
 }
