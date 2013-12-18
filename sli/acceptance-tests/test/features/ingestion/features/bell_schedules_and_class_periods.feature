@@ -60,6 +60,8 @@ And I should see "InterchangeEducationOrgCalendar.xml calendarDate 1 deltas!" in
 And I should see "InterchangeMasterSchedule.xml bellSchedule 1 deltas!" in the resulting batch job file
 And I should see "InterchangeMasterSchedule.xml section 1 deltas!" in the resulting batch job file
 And I re-execute saved query "bellSchedule" to get "1" records
+And I re-execute saved query "classPeriod" to get "1" records
+And I re-execute saved query "section" to get "1" records
 
 #updates through ingestion
 Then I ingest "BellScheduleUpdates.zip"
