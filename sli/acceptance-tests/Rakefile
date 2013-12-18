@@ -888,6 +888,7 @@ task :ingestionTests => [
         :IngestionIndexValidationTest,
         :corruptZip,
         :genericEdOrgs,
+        :ingestionBellSchedulesAndClassPeriodsTest,
         :ingestionSectionLevelAttendanceEventsTest,
         :ingestionAttendanceEventCategoriesTest,
         :ingestionDeletionTests,
