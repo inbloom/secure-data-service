@@ -1,11 +1,13 @@
 {
-    id: "sedorgInfo",
-    type: "PANEL",
-    data: {
-        entity: "sedorgInfo",
-        cacheKey: "sedorgInfo"
+    "id": "sedorgInfo",
+    "type": "PANEL",
+    "data": {
+        "entity": "sedorgInfo",
+        "cacheKey": "sedorgInfo"
     },
-    params: {
-      layout: ["sedorg"]
-   }
+    "params": {
+        "layout": [
+            "sedorg"
+        ]
+    }
 }

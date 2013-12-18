@@ -1,11 +1,13 @@
 {
-  id : "csi",
-  type : "PANEL",
-  data :{
-    entity: "student",
-    cacheKey: "student"
-  },
-  params: {
-    layout: ["student"]
-  }
+    "id": "csi",
+    "type": "PANEL",
+    "data": {
+        "entity": "student",
+        "cacheKey": "student"
+    },
+    "params": {
+        "layout": [
+            "student"
+        ]
+    }
 }

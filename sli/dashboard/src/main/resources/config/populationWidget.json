@@ -1,11 +1,15 @@
 {
-  id : "populationWidget",
-  type : "PANEL",
-  data :{
-    entity: "userEdOrg",
-    cacheKey: "userEdOrg"
-  },
-  params: {
-      layout: ["school","section","teacher"]
-  }
+    "id": "populationWidget",
+    "type": "PANEL",
+    "data": {
+        "entity": "userEdOrg",
+        "cacheKey": "userEdOrg"
+    },
+    "params": {
+        "layout": [
+            "school",
+            "section",
+            "teacher"
+        ]
+    }
 }

@@ -1,11 +1,13 @@
 {
-    id: "edorgInfo",
-    type: "PANEL",
-    data: {
-        entity: "edorgInfo",
-        cacheKey: "edorgInfo"
+    "id": "edorgInfo",
+    "type": "PANEL",
+    "data": {
+        "entity": "edorgInfo",
+        "cacheKey": "edorgInfo"
     },
-    params: {
-      layout: ["edorg"]
+    "params": {
+        "layout": [
+            "edorg"
+        ]
     }
 }

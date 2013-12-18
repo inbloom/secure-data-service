@@ -1,11 +1,13 @@
 {
-  id : "schoolInfo",
-  type : "PANEL",
-  data :{
-    entity: "schoolInfo",
-    cacheKey: "schoolInfo"
-  },
-  params: {
-      layout: ["school"]
-  }
+    "id": "schoolInfo",
+    "type": "PANEL",
+    "data": {
+        "entity": "schoolInfo",
+        "cacheKey": "schoolInfo"
+    },
+    "params": {
+        "layout": [
+            "school"
+        ]
+    }
 }

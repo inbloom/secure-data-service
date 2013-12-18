@@ -1,8 +1,12 @@
 {
-  id : "studentSearch",
-  type: "LAYOUT",
-  name: "inBloom - Search",
-  items: [
-    {id: "studentSearchResults", name: "Student Search", type: "GRID"}
-  ]
+    "id": "studentSearch",
+    "type": "LAYOUT",
+    "name": "inBloom - Search",
+    "items": [
+        {
+            "id": "studentSearchResults",
+            "name": "Student Search",
+            "type": "GRID"
+        }
+    ]
 }
