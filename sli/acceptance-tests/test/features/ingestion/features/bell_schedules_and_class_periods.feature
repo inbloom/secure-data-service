@@ -28,3 +28,17 @@ Then there exist "1" "bellSchedule" records like below in "Midgar" tenant. And I
     |body.bellScheduleName          								  |Some Bell Schedule Name                             |
     |body.calendarDateReference    							          |83df3b52534ead7445a26da2a74c5f077d059753_id         |
     |body.educationOrganizationId                                     |2897f482a59f833370562b33e2f7478c3fb25aed_id         |
+
+#duplicate ingestion
+When I post "BellSchedulesAndClassPeriods.zip" file as the payload of the ingestion job
+And zip file is scp to ingestion landing zone with name "BellSchedulesAndClassPeriods2.zip"
+Then a batch job for file "BellSchedulesAndClassPeriods2.zip" is completed in database
+And I should not see an error log file created
+And I should not see a warning log file created
+And I should see "InterchangeEducationOrganization.xml classPeriod 1 deltas!" in the resulting batch job file
+And I should see "InterchangeEducationOrganization.xml educationOrganization 1 deltas!" in the resulting batch job file
+And I should see "InterchangeEducationOrgCalendar.xml calendarDate 1 deltas!" in the resulting batch job file
+And I should see "InterchangeMasterSchedule.xml bellSchedule 1 deltas!" in the resulting batch job file
+And I should see "InterchangeMasterSchedule.xml section 1 deltas!" in the resulting batch job file
+
+And I re-execute saved query "bellSchedule" to get "1" records
