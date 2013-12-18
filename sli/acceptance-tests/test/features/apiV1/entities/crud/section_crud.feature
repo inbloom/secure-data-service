@@ -16,7 +16,6 @@ When I DELETE the custom section
 Then I GET the deleted custom section
 When I POST a custom section
 Then I GET the custom section
-#When I DELETE the class period for the section
 Then I GET the section
 When I DELETE the section
 Then I GET the deleted entity
