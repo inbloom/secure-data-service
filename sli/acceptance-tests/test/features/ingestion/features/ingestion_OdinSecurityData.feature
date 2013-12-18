@@ -12,8 +12,10 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | assessmentFamily                          |
      | assessmentPeriodDescriptor                |
      | attendance                                |
+     | bellSchedule                              |
      | calendarDate                              |
      | cohort                                    |
+     | classPeriod                               |
      | competencyLevelDescriptor                 |
      | course                                    |
      | courseOffering                            |
