@@ -1287,21 +1287,21 @@ class WorldBuilder
   # Returns list of edOrg's periods incl. meeting times, for later use with bell schedule generation
   def create_class_period_work_orders(edOrgType, edOrgId)
 
-    std_time = [ [ "08:45", "09:25" ],
-                 [ "09:30", "10:15" ],
-                 [ "10:20", "11:00" ],
-                 [ "11:05", "11:50" ],
-                 [ "13:05", "13:45" ],
-                 [ "13:50", "14:30" ],
-                 [ "14:35", "15:10" ],
-                 [ "15:15", "16:00" ],
-                 [ "16:05", "16:35" ],
+    std_time = [ [ "08:45:00", "09:25:00" ],
+                 [ "09:30:00", "10:15:00" ],
+                 [ "10:20:00", "11:00:00" ],
+                 [ "11:05:00", "11:50:00" ],
+                 [ "13:05:00", "13:45:00" ],
+                 [ "13:50:00", "14:30:00" ],
+                 [ "14:35:00", "15:10:00" ],
+                 [ "15:15:00", "16:00:00" ],
+                 [ "16:05:00", "16:35:00" ],
                ]
 
     # Before school
     periods = [ { :name => "Early Morning Period",
-                  :start_time => "07:15",
-                  :end_time => "07:45"
+                  :start_time => "07:15:00",
+                  :end_time => "07:45:00"
                 } ]
 
     # Regular day
@@ -1315,11 +1315,11 @@ class WorldBuilder
 
     # After school
     periods.push( { :name => "After School Athletic Session",
-                    :start_time => "16:00",
-                    :end_time => "18:00" })
+                    :start_time => "16:00:00",
+                    :end_time => "18:00:00" })
     periods.push( { :name => "Detention",
-                    :start_time => "15:30",
-                    :end_time => "16:30" })
+                    :start_time => "15:30:00",
+                    :end_time => "16:30:00" })
     
     # Add class periods
     periods.each do |period|
