@@ -28,7 +28,26 @@ Then there exist "1" "bellSchedule" records like below in "Midgar" tenant. And I
     |body.bellScheduleName          								  |Some Bell Schedule Name                             |
     |body.calendarDateReference    							          |83df3b52534ead7445a26da2a74c5f077d059753_id         |
     |body.educationOrganizationId                                     |2897f482a59f833370562b33e2f7478c3fb25aed_id         |
-
+Then there exist "1" "classPeriod" records like below in "Midgar" tenant. And I save this query as "classPeriod"
+    |field       													  |value                                               |
+    |_id         													  |0c7523f4f74e6e5de117b6af88115cf98b5b1e2c_id         |
+    |type										                      |classPeriod                                         |
+    |body.classPeriodName                                             |Some Class Period Name                              |
+    |body.educationOrganizationId                                     |2897f482a59f833370562b33e2f7478c3fb25aed_id         |
+ Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "section"
+    |field       													  |value                                               |
+    |_id         													  |004f6c78a56037e462cee1691ab6251a2bb69222_id         |
+    |body.educationalEnvironment                                      |Classroom                                           |
+	|body.sessionId                                                   |825e239fdaae87b8f8317659edb39c29e354ee6d_id         |
+	|body.courseOfferingId                                            |57a0006dda47488da9b42543185a0675935af99c_id         |
+	|body.classPeriodId                                               |0c7523f4f74e6e5de117b6af88115cf98b5b1e2c_id         |
+	|body.populationServed                                            |Regular Students                                    |
+	|body.mediumOfInstruction                                         |Face-to-face instruction                            |
+	|body.uniqueSectionCode                                           |12345                                               |
+	|body.programReference.0                                          |2e88f28a4eae4d3ee3e54a4b49552b92b043e8f2_id         |
+	|body.schoolId                                                    |2897f482a59f833370562b33e2f7478c3fb25aed_id         |
+	|body.availableCredit.creditType                                  |Carnegie unit                                       |
+    
 #duplicate ingestion
 When I post "BellSchedulesAndClassPeriods.zip" file as the payload of the ingestion job
 And zip file is scp to ingestion landing zone with name "BellSchedulesAndClassPeriods2.zip"
@@ -42,3 +61,6 @@ And I should see "InterchangeMasterSchedule.xml bellSchedule 1 deltas!" in the r
 And I should see "InterchangeMasterSchedule.xml section 1 deltas!" in the resulting batch job file
 
 And I re-execute saved query "bellSchedule" to get "1" records
+
+
+
