@@ -897,7 +897,7 @@
                     <xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType"/>
                     <xs:element name="SessionReference" type="SLC-SessionReferenceType" minOccurs="0"/>
                     <xs:element name="LocationReference" type="LocationReferenceType" minOccurs="0"/>
-                    <xs:element name="ClassPeriodReference" type="ClassPeriodReferenceType" minOccurs="0"/>
+                    <xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType" minOccurs="0"/>
                     <xs:element name="ProgramReference" type="SLC-ProgramReferenceType" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
             </xs:extension>
