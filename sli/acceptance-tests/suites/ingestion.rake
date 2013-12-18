@@ -73,6 +73,10 @@ task :ingestionBatchJobTest do
   runTests("test/features/ingestion/features/ingestion_BatchJob.feature")
 end
 
+desc "Run Ingestion Section Level Attendance Events Tests"
+task :ingestionSectionLevelAttendanceEventsTest do
+  runTests("test/features/ingestion/features/section_level_attendance_events.feature")
+end
 
 desc "Run Ingestion Delta Tests"
 task :ingestionDeltaTest do

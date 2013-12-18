@@ -22,11 +22,18 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URLEncoder;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 
 import javax.annotation.PostConstruct;
+import javax.xml.bind.DatatypeConverter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -42,19 +49,51 @@ import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
-import org.jdom.input.DOMBuilder;
 import org.jdom.output.DOMOutputter;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.ISODateTimeFormat;
+import org.opensaml.saml2.binding.artifact.SAML2ArtifactBuilderFactory;
+import org.opensaml.saml2.binding.artifact.SAML2ArtifactType0004;
+import org.opensaml.saml2.core.Assertion;
+import org.opensaml.saml2.core.AttributeStatement;
+import org.opensaml.saml2.core.EncryptedAssertion;
+import org.opensaml.saml2.core.Response;
+import org.opensaml.saml2.core.Status;
+import org.opensaml.saml2.core.StatusCode;
+import org.opensaml.saml2.encryption.Decrypter;
+import org.opensaml.saml2.encryption.EncryptedElementTypeEncryptedKeyResolver;
+import org.opensaml.security.SAMLSignatureProfileValidator;
+import org.opensaml.xml.Configuration;
+import org.opensaml.xml.XMLObject;
+import org.opensaml.xml.encryption.ChainingEncryptedKeyResolver;
+import org.opensaml.xml.encryption.DecryptionException;
+import org.opensaml.xml.encryption.InlineEncryptedKeyResolver;
+import org.opensaml.xml.encryption.SimpleRetrievalMethodEncryptedKeyResolver;
+import org.opensaml.xml.io.Unmarshaller;
+import org.opensaml.xml.io.UnmarshallerFactory;
+import org.opensaml.xml.io.UnmarshallingException;
+import org.opensaml.xml.security.SecurityConfiguration;
+import org.opensaml.xml.security.SecurityHelper;
+import org.opensaml.xml.security.credential.Credential;
+import org.opensaml.xml.security.keyinfo.StaticKeyInfoCredentialResolver;
+import org.opensaml.xml.security.x509.BasicX509Credential;
+import org.opensaml.xml.signature.Signature;
+import org.opensaml.xml.signature.SignatureConstants;
+import org.opensaml.xml.validation.ValidationException;
 import org.slc.sli.common.encrypt.security.saml2.SAML2Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
+
+import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.security.context.resolver.RealmHelper;
+import org.slc.sli.domain.Entity;
 
 /**
  * Handles Saml composing, parsing and validating (signatures)
@@ -73,8 +112,6 @@ public class SamlHelper {
     public static final Namespace SAML_NS = Namespace.getNamespace("saml", "urn:oasis:names:tc:SAML:2.0:assertion");
     public static final Namespace SAMLP_NS = Namespace.getNamespace("samlp", "urn:oasis:names:tc:SAML:2.0:protocol");
 
-    // Jdom converters - not thread safe?
-    private DOMBuilder builder = new DOMBuilder();
     private DOMOutputter domer = new DOMOutputter();
 
     // W3c stuff - not thread safe
@@ -86,6 +123,9 @@ public class SamlHelper {
 
     @Autowired
     private SAML2Validator validator;
+
+    @Autowired
+    private RealmHelper realmHelper;
 
     @PostConstruct
     public void init() throws Exception {
@@ -117,50 +157,22 @@ public class SamlHelper {
     }
 
     /**
-     * Converts post data containing saml xml data to a jdom document
+     * Converts a string representation of xml content to a w3c document object
      *
-     * @param postData String representing base 64 encoded SAML assertion.
-     * @return jdom document representation of the SAML assertion POSTed.
+     * @param data String representing xml.
+     * @return document representation of the xml data.
      * @throws Exception
      */
-    public Document decodeSamlPost(String postData) {
-
-        if (postData == null || postData.isEmpty()) {
-            throw new IllegalArgumentException("Empty SAML message");
-        }
-
-        String base64Decoded = decode(postData);
+    public org.w3c.dom.Document parseToDoc(String data) {
+        org.w3c.dom.Document doc = null;
         try {
-            org.w3c.dom.Document doc = null;
-            synchronized (domBuilder) {
-                doc = domBuilder.parse(new InputSource(new StringReader(base64Decoded)));
-            }
-
-            Document jdomDocument = null;
-            synchronized (builder) {
-                jdomDocument = builder.build(doc);
-            }
-
-            Element status = jdomDocument.getRootElement().getChild("Status", SAMLP_NS);
-            Element statusCode = status.getChild("StatusCode", SAMLP_NS);
-            String statusValue = statusCode.getAttributeValue("Value");
-            if (!statusValue.equals(SUCCESS_STATUS)) {
-                LOG.error("SAML Response did not have a success status, instead status was {}", statusValue);
-            }
-
-            synchronized (validator) {
-                String issuer = jdomDocument.getRootElement().getChildText("Issuer", SAML_NS);
-                if (!validator.isDocumentTrustedAndValid(doc, issuer)) {
-                    throw new IllegalArgumentException("Invalid SAML message");
-                }
-            }
-            return jdomDocument;
+            doc = domBuilder.parse(new InputSource(new StringReader(data)));
         } catch (Exception e) {
-            LOG.error("Error unmarshalling saml post", e);
+            LOG.error("Error parsing saml post", e);
             throw (RuntimeException) new IllegalArgumentException("Posted SAML isn't valid").initCause(e);
         }
+        return doc;
     }
-
 
     /**
      * Generates AuthnRequest and converts it to valid form for HTTP-Redirect binding
@@ -238,15 +250,15 @@ public class SamlHelper {
     /**
      * Decodes post body in accordance to SAML 2 spec
      *
-     * @param postData
+     * @param encodedReponse
      * @return decoded string
      */
-    private String decode(String postData) {
-        String trimmed = postData.replaceAll("\r\n", "");
-        String base64Decoded = new String(Base64.decodeBase64(trimmed));
+    public String decodeSAMLPostResponse(String encodedReponse) {
+        String trimmed = encodedReponse.replaceAll("\r\n", "");
+        String base64DecodedResponse = new String(Base64.decodeBase64(trimmed));
 
-        LOG.debug("Decrypted SAML: \n{}\n", base64Decoded);
-        return base64Decoded;
+        LOG.debug("Decoded SAML: \n{}\n", base64DecodedResponse);
+        return base64DecodedResponse;
     }
 
     /**
@@ -283,4 +295,221 @@ public class SamlHelper {
         return URLEncoder.encode(base64, "UTF-8");
     }
 
+    public Signature getDigitalSignature(KeyStore.PrivateKeyEntry keystoreEntry) {
+        Signature signature = (Signature) Configuration.getBuilderFactory().getBuilder(Signature.DEFAULT_ELEMENT_NAME)
+                .buildObject(Signature.DEFAULT_ELEMENT_NAME);
+
+        Credential signingCredential = initializeCredentialsFromKeystore(keystoreEntry);
+        signature.setSigningCredential(signingCredential);
+
+        signature.setSignatureAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA1);
+
+        SecurityConfiguration secConfig = Configuration.getGlobalSecurityConfiguration();
+        try {
+            SecurityHelper.prepareSignatureParams(signature, signingCredential, secConfig, null);
+        } catch (org.opensaml.xml.security.SecurityException  ex) {
+            LOG.error("Error composing artifact resolution request: Failed to generate digital signature");
+            throw new IllegalArgumentException("Couldn't compose artifact resolution request", ex);
+        }
+
+        return signature;
+    }
+
+    private Credential initializeCredentialsFromKeystore(KeyStore.PrivateKeyEntry keystoreEntry) {
+        BasicX509Credential signingCredential = new BasicX509Credential();
+
+        PrivateKey pk = keystoreEntry.getPrivateKey();
+        X509Certificate certificate = (X509Certificate) keystoreEntry.getCertificate();
+
+        signingCredential.setEntityCertificate(certificate);
+        signingCredential.setPrivateKey(pk);
+
+        return signingCredential;
+    }
+
+    /**
+     * Validates that the certificate in the saml assertion is valid and trusted.
+     * @param samlResponse
+     *      SAML response form the IdP.
+     * @param assertion
+     *      SAML assertion
+     */
+    public void validateSignature(Response samlResponse, Assertion assertion)  {
+        if(samlResponse.getSignature() == null && assertion.getSignature() == null) {
+            raiseSamlValidationError("Invalid SAML message: Response is not signed", null);
+        }
+
+        String issuer = samlResponse.getIssuer().getValue();
+
+        if(samlResponse.getSignature() != null) {
+            validateFormatAndCertificate(samlResponse.getSignature(), samlResponse.getDOM(), issuer);
+        }
+
+        if(assertion.getSignature() != null) {
+            validateFormatAndCertificate(assertion.getSignature(), assertion.getDOM(), issuer);
+        }
+    }
+
+    protected void validateFormatAndCertificate(Signature signature, org.w3c.dom.Element element, String issuer) {
+        validateSignatureFormat(signature);
+
+        try {
+            if (!validator.isDocumentTrusted(element, issuer)) {
+                throw new APIAccessDeniedException("Invalid SAML message: Certificate is not trusted");
+            }
+        } catch (Exception e) {
+            handleSignatureValidationErrors();
+        }
+    }
+
+    private void validateSignatureFormat(Signature signature) {
+        SAMLSignatureProfileValidator profileValidator = new SAMLSignatureProfileValidator();
+
+        try {
+            profileValidator.validate(signature);
+        } catch (ValidationException e) {
+            handleSignatureValidationErrors();
+        }
+    }
+
+    private void handleSignatureValidationErrors() {
+        throw new IllegalArgumentException("Invalid SAML message: couldn't verify signature");
+    }
+    /**
+     *
+     * @param samlAssertion
+     * @return
+     */
+    public LinkedMultiValueMap<String, String> extractAttributesFromResponse(Assertion samlAssertion) {
+        LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
+
+        AttributeStatement attributeStatement = samlAssertion.getAttributeStatements().get(0);
+
+        for (org.opensaml.saml2.core.Attribute attribute : attributeStatement.getAttributes()) {
+            String samlAttributeName = attribute.getName();
+            List<XMLObject> valueObjects = attribute.getAttributeValues();
+            for (XMLObject valueXmlObject : valueObjects) {
+                attributes.add(samlAttributeName, valueXmlObject.getDOM().getTextContent());
+            }
+        }
+        return attributes;
+    }
+
+    public String getArtifactUrl(String realmId, String artifact) {
+        byte[] sourceId =  retrieveSourceId(artifact);
+        Entity realm = realmHelper.findRealmById(realmId);
+
+        if (realm == null) {
+            LOG.error("Invalid realm: " + realmId);
+            throw new APIAccessDeniedException("Authorization could not be verified.");
+        }
+
+        Map<String, Object> idp = (Map<String, Object>) realm.getBody().get("idp");
+        String realmSourceId = (String) idp.get("sourceId");
+        if (realmSourceId == null || realmSourceId.isEmpty()) {
+            LOG.error("SourceId is not configured properly for realm: " + realmId);
+            throw new APIAccessDeniedException("Authorization could not be verified.");
+        }
+
+        byte[] realmByteSourceId = DatatypeConverter.parseHexBinary(realmSourceId);
+        if (!Arrays.equals(realmByteSourceId, sourceId)) {
+            LOG.error("SourceId from Artifact does not match configured SourceId for realm: " + realmId);
+            throw new APIAccessDeniedException("Authorization could not be verified.");
+        }
+
+        return (String) idp.get("artifactResolutionEndpoint");
+    }
+
+    private byte[] retrieveSourceId(String artifact) {
+        SAML2ArtifactBuilderFactory builder  = new SAML2ArtifactBuilderFactory();
+        SAML2ArtifactType0004 art = (SAML2ArtifactType0004) builder.buildArtifact(artifact);
+        return art.getSourceID();
+    }
+
+    /**
+     * Convert w3c element to a SAML response
+     * @param element
+     * @return
+     */
+    public org.opensaml.saml2.core.Response convertToSAMLResponse(org.w3c.dom.Element element) {
+        org.opensaml.saml2.core.Response samlResponse = null;
+
+        UnmarshallerFactory unmarshallerFactory = Configuration.getUnmarshallerFactory();
+        Unmarshaller unmarshaller = unmarshallerFactory.getUnmarshaller(element);
+
+        if(unmarshaller == null) {
+            raiseSamlValidationError("Invalid SAML Response", null);
+        }
+
+        XMLObject responseXmlObj = null;
+
+        try {
+            responseXmlObj = unmarshaller.unmarshall(element);
+        } catch (UnmarshallingException e) {
+            raiseSamlValidationError("Error unmarshalling response from IdP", null);
+        }
+
+        if (responseXmlObj instanceof org.opensaml.saml2.core.Response) {
+            samlResponse = (org.opensaml.saml2.core.Response) responseXmlObj;
+        } else {
+            raiseSamlValidationError("Response is in an improper format", null);
+        }
+
+        return samlResponse;
+    }
+
+    public Assertion getAssertion(org.opensaml.saml2.core.Response samlResponse, KeyStore.PrivateKeyEntry keystoreEntry) {
+        Assertion assertion;
+        if (isAssertionEncrypted(samlResponse)) {
+            assertion = decryptAssertion(samlResponse.getEncryptedAssertions().get(0), keystoreEntry);
+        } else {
+            assertion = samlResponse.getAssertions().get(0);
+        }
+        return assertion;
+    }
+
+    protected boolean isAssertionEncrypted(org.opensaml.saml2.core.Response samlResponse) {
+        if (samlResponse.getEncryptedAssertions() != null && samlResponse.getEncryptedAssertions().size() != 0) {
+            return true;
+        }
+        return false;
+    }
+
+    protected Assertion decryptAssertion(EncryptedAssertion encryptedAssertion, KeyStore.PrivateKeyEntry keystoreEntry) {
+        BasicX509Credential decryptionCredential = new BasicX509Credential();
+
+        decryptionCredential.setPrivateKey(keystoreEntry.getPrivateKey());
+
+        StaticKeyInfoCredentialResolver resolver = new StaticKeyInfoCredentialResolver(decryptionCredential);
+
+        ChainingEncryptedKeyResolver keyResolver = new ChainingEncryptedKeyResolver();
+        keyResolver.getResolverChain().add(new InlineEncryptedKeyResolver());
+        keyResolver.getResolverChain().add(new EncryptedElementTypeEncryptedKeyResolver());
+        keyResolver.getResolverChain().add(new SimpleRetrievalMethodEncryptedKeyResolver());
+
+        Decrypter decrypter = new Decrypter(null, resolver, keyResolver);
+        decrypter.setRootInNewDocument(true);
+        Assertion assertion = null;
+        try {
+            assertion = decrypter.decrypt(encryptedAssertion);
+        } catch (DecryptionException e) {
+            raiseSamlValidationError("Unable to decrypt SAML assertion", null);
+        }
+        return assertion;
+    }
+
+    public void validateStatus(org.opensaml.saml2.core.Response samlResponse) {
+        Status responseStatus = samlResponse.getStatus();
+        StatusCode statusCode = responseStatus.getStatusCode();
+        String statusValue = statusCode.getValue();
+
+        if (!statusValue.equals(SUCCESS_STATUS)) {
+            LOG.error("SAML Response did not have a success status, instead status was {}", statusValue);
+        }
+    }
+
+    private void raiseSamlValidationError(String message, String targetEdOrg) {
+        LOG.error(message);
+        throw new APIAccessDeniedException("Authorization could not be verified.", targetEdOrg);
+    }
 }

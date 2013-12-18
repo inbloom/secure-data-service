@@ -183,4 +183,11 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
         this.twoPartTemplate = twoPartTemplate;
     }
 
+    protected ResourceTemplate getOnePartTemplate() {
+        return onePartTemplate;
+    }
+
+    protected ResourceTemplate getTwoPartTemplate() {
+        return twoPartTemplate;
+    }
 }

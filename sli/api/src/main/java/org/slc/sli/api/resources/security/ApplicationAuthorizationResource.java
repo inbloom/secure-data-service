@@ -21,7 +21,6 @@ import java.net.URI;
 import java.util.*;
 
 import javax.annotation.PostConstruct;
-import javax.management.relation.RoleStatus;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -37,14 +36,11 @@ import com.google.common.collect.Sets;
 
 import org.slc.sli.api.security.SLIPrincipal;
 
-import org.slc.sli.api.security.context.APIAccessDeniedException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -92,7 +88,7 @@ import org.springframework.util.CollectionUtils;
  * }
  *
  * The content is based on the user's edOrg.
- * 
+ *
  * If the caller needs to specify the user's edOrg(s), a
  * ?edorgs=... query parameter can be used on all operations.
  *
@@ -104,7 +100,6 @@ import org.springframework.util.CollectionUtils;
 public class ApplicationAuthorizationResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(ApplicationAuthorizationResource.class);
-	
     @Autowired
     private EntityDefinitionStore store;
 
@@ -140,12 +135,13 @@ public class ApplicationAuthorizationResource {
     @Path("{appId}")
     @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.APP_AUTHORIZE})
     public Response getAuthorization(@PathParam("appId") String appId, @QueryParam("edorg") String edorg) {
-    	Set<String> myEdorgs = validateEdOrg(edorg);
+        Set<String> myEdorgs = validateEdOrg(edorg);
         EntityBody appAuth = getAppAuth(appId);
         if (appAuth == null) {
             //See if this is an actual app
             Entity appEntity = repo.findOne("application", new NeutralQuery(new NeutralCriteria("_id", "=", appId)));
-            if (appEntity == null) {
+            if (appEntity == null ||
+                isAutoAuthorizedApp(appEntity)) {
                 return Response.status(Status.NOT_FOUND).build();
             } else {
                 HashMap<String, Object> entity = new HashMap<String, Object>();
@@ -163,10 +159,10 @@ public class ApplicationAuthorizationResource {
             Map<String,Object> authorizingInfo = getAuthorizingInfo(edOrgs, myEdorgs);
             entity.put("authorized", ( authorizingInfo == null)?false:true);
             if(!isSEAAdmin()) {
-            	Set<String> inScopeEdOrgs = getChildEdorgs(myEdorgs);
-            	entity.put("edorgs", filter(edOrgs, inScopeEdOrgs));
+                Set<String> inScopeEdOrgs = getChildEdorgs(myEdorgs);
+                entity.put("edorgs", filter(edOrgs, inScopeEdOrgs));
             } else {
-            	entity.put("edorgs", edOrgs);
+                entity.put("edorgs", edOrgs);
             }
             return Response.status(Status.OK).entity(entity).build();
         }
@@ -174,19 +170,19 @@ public class ApplicationAuthorizationResource {
     }
 
     private List<Map<String,Object>> filter(List<Map<String,Object>>  edOrgList, Set<String> myEdorgs) {
-    	if( edOrgList == null || myEdorgs == null ) {
-    	     return null;
-    	}
-    	List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
-    	for (Map<String,Object> edOrgListElement :edOrgList ){
-    	   String authorizedEdorg = (String)edOrgListElement.get("authorizedEdorg");
-    	        if(authorizedEdorg != null){
-    	        	if(myEdorgs.contains(authorizedEdorg)) {
-    	        		results.add(edOrgListElement);
-    	        	}
-    	        }
-    	}
-    	return results;
+        if( edOrgList == null || myEdorgs == null ) {
+             return null;
+        }
+        List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
+        for (Map<String,Object> edOrgListElement :edOrgList ){
+           String authorizedEdorg = (String)edOrgListElement.get("authorizedEdorg");
+                if(authorizedEdorg != null){
+                    if(myEdorgs.contains(authorizedEdorg)) {
+                         results.add(edOrgListElement);
+                    }
+                }
+        }
+        return results;
     }
 
     
@@ -197,54 +193,60 @@ public class ApplicationAuthorizationResource {
         for (Map<String,Object> edOrgListElement :edOrgList ){
             String authorizedEdorg = (String)edOrgListElement.get("authorizedEdorg");
             if(authorizedEdorg != null){
-            	for(String edOrg: edOrgs) {
-            		if(edOrg.equals(authorizedEdorg)){
-            		    return edOrgListElement;
-            		}
-            	}
+                for(String edOrg: edOrgs) {
+                    if(edOrg.equals(authorizedEdorg)){
+                        return edOrgListElement;
+                    }
+                }
             }
         }
         return null;
     }
 
     private EntityBody getAppAuth(String appId) {
-    	Iterable<EntityBody> appAuths = null;
-		SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Iterable<EntityBody> appAuths = null;
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal.isAdminRealmAuthenticated()) {
-    	    appAuths = service.list(new NeutralQuery(new NeutralCriteria("applicationId", "=", appId)));  	
+            appAuths = service.list(new NeutralQuery(new NeutralCriteria("applicationId", "=", appId)));
         } else {
-        	appAuths = filterOutAutoAuthorized(service.listBasedOnContextualRoles(new NeutralQuery(new NeutralCriteria("applicationId", "=", appId))));
+            appAuths = filterOutAutoAuthorized(service.listBasedOnContextualRoles(new NeutralQuery(new NeutralCriteria("applicationId", "=", appId))));
         }
 
         if ( null != appAuths ) {
-        	for (EntityBody auth : appAuths) {
-        		// If there are multiple objects w/ the same appId (which there should not be, since the appId is a logically unique key),
-        		// arbitrarily return the first one.
-        		return auth;
-        	}
+            for (EntityBody auth : appAuths) {
+                // If there are multiple objects w/ the same appId (which there should not be, since the appId is a logically unique key),
+                // arbitrarily return the first one.
+                return auth;
+            }
         }
         
         return null;
     }
 
+
     private List<EntityBody> filterOutAutoAuthorized(Iterable<EntityBody> ents) {
-    	List<EntityBody> nonAutoAuthorizedEntities = new ArrayList<EntityBody>();
-    	for(EntityBody auth: ents) {
+        List<EntityBody> nonAutoAuthorizedEntities = new ArrayList<EntityBody>();
+        for(EntityBody auth: ents) {
             Entity appEntity = repo.findOne("application", new NeutralQuery(new NeutralCriteria("_id", "=", auth.get("applicationId"))));
            
             if(isAutoAuthorizedApp(appEntity)) {
-            	continue;
+                continue;
             } else {
-            	nonAutoAuthorizedEntities.add(auth);
+                nonAutoAuthorizedEntities.add(auth);
             }
-    	}
-    	return nonAutoAuthorizedEntities;
+        }
+        return nonAutoAuthorizedEntities;
     }
 
-	public boolean isAutoAuthorizedApp(Entity appEntity) {
-		return appEntity.getBody().get("authorized_for_all_edorgs")!=null && (Boolean)appEntity.getBody().get("authorized_for_all_edorgs");
-	}
+    public boolean isAutoAuthorizedApp(Entity appEntity) {
+        if(appEntity==null) {
+            return false;
+        } else {
+            return appEntity.getBody().get("authorized_for_all_edorgs")!=null && (Boolean)appEntity.getBody().get("authorized_for_all_edorgs");
+        }
+    }
+
     
     @PUT
     @Path("{appId}")
@@ -254,12 +256,12 @@ public class ApplicationAuthorizationResource {
             return Response.status(Status.BAD_REQUEST).build();
         }
 
-    	List<String> edOrgsToAuthorize = (List<String>) auth.get("edorgs");
+        List<String> edOrgsToAuthorize = (List<String>) auth.get("edorgs");
 
         if(!isSEAAdmin()) {
-        	Set<String> myEdorgs = validateEdOrg(null);
-        	Set<String> inScopeEdOrgs = getChildEdorgs(myEdorgs);       
-        	edOrgsToAuthorize.retainAll(inScopeEdOrgs);
+            Set<String> myEdorgs = validateEdOrg(null);
+            Set<String> inScopeEdOrgs = getChildEdorgs(myEdorgs);
+            edOrgsToAuthorize.retainAll(inScopeEdOrgs);
         }
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -268,7 +270,7 @@ public class ApplicationAuthorizationResource {
             //See if this is an actual app
             Entity appEntity = repo.findOne("application", new NeutralQuery(new NeutralCriteria("_id", "=", appId)));
             if (appEntity == null||
-            		isAutoAuthorizedApp(appEntity)) {
+                    isAutoAuthorizedApp(appEntity)) {
                 return Response.status(Status.NOT_FOUND).build();
             } else {
                 if (((Boolean) auth.get("authorized")).booleanValue()) { //being set to true. if false, there's no work to be done
@@ -277,9 +279,9 @@ public class ApplicationAuthorizationResource {
                     body.put("applicationId", appId);
                     body.put("edorgs", enrichAuthorizedEdOrgsList(edOrgsToAuthorize));
                     if (principal.isAdminRealmAuthenticated()) {
-                    	service.create(body);
+                        service.create(body);
                     } else {
-                    	service.createBasedOnContextualRoles(body);
+                        service.createBasedOnContextualRoles(body);
                     }
                     logSecurityEvent(appId, null, edOrgsToAuthorize);
                 }
@@ -293,11 +295,9 @@ public class ApplicationAuthorizationResource {
             Set<String>  newAuth = getSetOfAuthorizedIds(modifiedAuthList);
             existingAuth.put("edorgs", modifiedAuthList);
             logSecurityEvent(appId, oldAuth, newAuth);
-            if (!principal.isAdminRealmAuthenticated()) {
-            	service.updateBasedOnContextualRoles((String) existingAuth.get("id"), existingAuth);
-            } else {
-            	service.update((String) existingAuth.get("id"), existingAuth);
-            }
+
+            service.update((String) existingAuth.get("id"), existingAuth, !principal.isAdminRealmAuthenticated());
+
             return Response.status(Status.NO_CONTENT).build();
         }
     }
@@ -305,8 +305,8 @@ public class ApplicationAuthorizationResource {
     
     private boolean isSEAAdmin()
     {
-    	SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    	return principal.getRoles().contains("SEA Administrator") && principal.isAdminRealmAuthenticated();
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return principal.getRoles().contains("SEA Administrator") && principal.isAdminRealmAuthenticated();
     }
     
     private Set<String> getSetOfAuthorizedIds( List<Map<String,Object>> currentAuthList) {
@@ -389,11 +389,11 @@ public class ApplicationAuthorizationResource {
     }
 
     Set<String> getChildEdorgs(Set<String> rootEdorgs) {
-    	Set<String> result = new HashSet<String>(rootEdorgs);
-    	for( String rootEdorg : rootEdorgs ) {
-    		result.addAll(getChildEdorgs(rootEdorg));	
-    	}
-    	return result;
+        Set<String> result = new HashSet<String>(rootEdorgs);
+        for( String rootEdorg : rootEdorgs ) {
+            result.addAll(getChildEdorgs(rootEdorg));
+        }
+        return result;
     }
 
     @GET
@@ -405,22 +405,17 @@ public class ApplicationAuthorizationResource {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Iterable<EntityBody> ents = null;
         if (principal.isAdminRealmAuthenticated()) {
-        	 ents = service.list(new NeutralQuery(new NeutralCriteria("edorgs.authorizedEdorg", NeutralCriteria.CRITERIA_IN, inScopeEdOrgs)));
+             ents = service.list(new NeutralQuery(new NeutralCriteria("edorgs.authorizedEdorg", NeutralCriteria.CRITERIA_IN, inScopeEdOrgs)));
         } else {
-        	 ents = filterOutAutoAuthorized(service.listBasedOnContextualRoles(new NeutralQuery(new NeutralCriteria("edorgs.authorizedEdorg", NeutralCriteria.CRITERIA_IN, inScopeEdOrgs))));
+             ents = filterOutAutoAuthorized(service.listBasedOnContextualRoles(new NeutralQuery(new NeutralCriteria("edorgs.authorizedEdorg", NeutralCriteria.CRITERIA_IN, inScopeEdOrgs))));
         }
-        	
         // Get all applications
         Iterable<Entity> appQuery = repo.findAll("application", new NeutralQuery());
         Map<String, Entity> allApps = new HashMap<String, Entity>();
         for (Entity ent : appQuery) {
-        	if(!principal.isAdminRealmAuthenticated()) {
-        		if(!isAutoAuthorizedApp(ent)) {
-            		allApps.put(ent.getEntityId(), ent);	
-        		}
-        	} else {
-        		allApps.put(ent.getEntityId(), ent);
-        	}
+            if(!isAutoAuthorizedApp(ent)) {
+                    allApps.put(ent.getEntityId(), ent);
+            }
         }
         
         List<Map> results = new ArrayList<Map>();
@@ -491,26 +486,26 @@ public class ApplicationAuthorizationResource {
 
    
    private Set<String> validateEdOrg(String edorg) {
-    	Set<String> edOrgIds = new HashSet<String>();
-    	if (edorg == null) {
-			SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Set<String> edOrgIds = new HashSet<String>();
+        if (edorg == null) {
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-    		if(principal.isAdminRealmAuthenticated()) {
-    			String userEdorg = SecurityUtil.getEdOrgId();
+            if(principal.isAdminRealmAuthenticated()) {
+                String userEdorg = SecurityUtil.getEdOrgId();
                 if(userEdorg !=null) {
-    			    edOrgIds.add(userEdorg);
+                    edOrgIds.add(userEdorg);
                 }
-    		} else {
-    			Set<String> edorgs =  principal.getEdOrgRights().keySet();
-    			for(String edorgId: edorgs) {
-    			    if(principal.getEdOrgRights().get(edorgId).contains(Right.APP_AUTHORIZE)) {
-    	    		    edOrgIds.add(edorgId);
-    			    }
-    			}
-    		}
-    	} else {
-    		edOrgIds.add(edorg);
-    	}
+            } else {
+                Set<String> edorgs =  principal.getEdOrgRights().keySet();
+                for(String edorgId: edorgs) {
+                    if(principal.getEdOrgRights().get(edorgId).contains(Right.APP_AUTHORIZE)) {
+                        edOrgIds.add(edorgId);
+                    }
+                }
+            }
+        } else {
+            edOrgIds.add(edorg);
+        }
         // US5894 removed the need for LEA to delegate app approval to SEA
         /*
         if (!edorg.equals(SecurityUtil.getEdOrgId()) && !delegation.getAppApprovalDelegateEdOrgs().contains(edorg) ) {

@@ -21,7 +21,6 @@ require_relative '../../../ingestion/features/step_definitions/clean_database.rb
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../odin/step_definitions/data_generation_steps.rb'
 require_relative '../../../security/step_definitions/securityevent_util_steps.rb'
-require 'zip/zip'
 require 'archive/tar/minitar'
 require 'zlib'
 require 'open3'
@@ -131,6 +130,11 @@ Given /^I trigger a delta extract$/ do
   bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
 end
 
+Given /^I trigger a delta extract for tenant "([^"]*)"$/ do |tenant|
+  options = " -d -t#{tenant}"
+  bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
+end
+
 Given /^the extraction zone is empty$/ do
   if (Dir.exists?(OUTPUT_DIRECTORY))
     puts "#{OUTPUT_DIRECTORY} cleaned"
@@ -174,11 +178,26 @@ Given /^I have delta bulk extract files generated for today$/ do
   @coll.save(bulk_delta_file_entry)
 end
 
-Given /^The bulk extract app has been approved for "([^"]*)" with client id "([^"]*)"$/ do |lea, clientId|
+Given /^The bulk extract app (has|hasn't)? been approved for "([^"]*)" with client id "([^"]*)"$/ do |hasnot, lea, clientId|
+  disable_NOTABLESCAN()
   @lea = Hash.new
   @lea["name"] = lea
   @lea["clientId"] = clientId
-  puts "stubbed out"
+
+  @orgId = getEntityId(lea)
+
+  @conn ||= Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb ||= @conn.db(DATABASE_NAME)
+  @coll ||= @sliDb.collection("applicationAuthorizations")
+
+  appauth_edorg = @coll.find({"body.applicationId" => clientId, "body.edorgs" => {"$elemMatch" => {"authorizedEdorg" => @orgId}} })
+
+  if(hasnot == "has" && appauth_edorg == nil)
+    @coll.update({'body.applicationId' => clientId}, {'$push' => {'body.authorized_ed_orgs' => @orgId}})
+  elsif(hasnot == "hasn't" && appauth_edorg != nil)
+    @coll.update({'body.applicationId' => clientId}, {'$pull' => {'body.authorized_ed_orgs' => @orgId}})
+  end
+  enable_NOTABLESCAN()
 end
 
 Given /^The X509 cert (.*?) has been installed in the trust store and aliased$/ do |cert|
@@ -240,18 +259,11 @@ Given /^There is no SEA for the tenant "(.*?)"$/ do |tenant|
   collection.remove({'body.organizationCategories' => 'State Education Agency'})
 end
 
-Given /^I get the SEA Id for the tenant "(.*?)"$/ do |tenant|
+Given /^none of the following entities reference any edorg in the tenant "(.*?)":$/ do |tenant, table|
   @tenant_db = @conn.db(convertTenantIdToDbName(tenant))
-  edOrgcollection = @tenant_db.collection('educationOrganization')
-  @seaId = edOrgcollection.find_one({'body.organizationCategories' => 'State Education Agency'})["_id"]
-  assert (@seaId != nil)
-  puts @seaId
-end
-
-Given /^none of the following entities reference the SEA:$/ do |table|
   table.hashes.map do |row|
-    collection = @tenant_db.collection(row["entity"])
-    collection.remove({row["path"] => @seaId})
+    collection = @tenant_db.collection(row['entity'])
+    collection.update({'$exists' => {row['path'] => 1}},{'$unset' => {row['path'] => ''}}, {:multi => true})
   end
 end
 
@@ -333,6 +345,14 @@ end
 # When
 ############################################################
 
+When /^I insert the tenant for developer-email@slidev.org$/ do
+  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  db = conn['sli']
+  tenant_coll = db.collection('tenant')
+  new_tenant = {'_id'=>'57b2dac7-e337-40a1-9f9f-7fdbb6274651','type'=>'tenant','body'=>{'landingZone'=>[{'educationOrganization'=>'IL','ingestionServer'=>'demoIngestionServer','path'=>'/home/ingestion/lz/inbound/developeremailslidevorg','desc'=>'Landing zone for NY','userNames'=>['johndoe']}],'tenantId'=>'developer-email@slidev.org','dbName'=>'e4b96dfb6c102e5cd98859ff4e92710cd6efded2','tenantIsReady'=>true},'metaData'=>{}}
+  tenant_coll.insert(new_tenant)
+end
+
 When /^I only remove bulk extract file for tenant:"(.*?)", edorg:"(.*?)", app:"(.*?)", date:"(.*?)"$/ do |tenant, edorg, app, date|
   path = File.expand_path(createCleanupFile(@parentDir, tenant, edorg, app, date))
   FileUtils.rm(path)
@@ -390,23 +410,17 @@ When /^I get the path to the extract file for the tenant "(.*?)" and application
   assert(File.exists?(@unpackDir + "/metadata.txt"), "Cannot find metadata file in extract")
 end
 
-When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)" for sea "(.*?)"$/ do |tenant, appId, sea|
-  getExtractInfoFromMongo(build_bulk_query(tenant,appId,sea,false, true))
+When /^I get the path to the public extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
+  getExtractInfoFromMongo(build_bulk_query(tenant,appId,nil,false, true))
   openDecryptedFile(appId)
   Minitar.unpack(@filePath, @unpackDir)
   assert(File.exists?(@unpackDir + "/metadata.txt"), "Cannot find metadata file in extract")
 end
 
 
-When /^I retrieve the path to and decrypt the SEA public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
+When /^I retrieve the path to and decrypt the public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   @tenant = tenant
   getExtractInfoFromMongo(build_bulk_query(tenant,appId,nil,false, true))
-  openDecryptedFile(appId)
-end
-
-When /^I fetch the path to and decrypt the SEA public data extract file for the tenant "(.*?)" and application with id "(.*?)" and edorg with id "(.*?)"$/ do |tenant, appId, edOrgId|
-  @tenant = tenant
-  getExtractInfoFromMongo(build_bulk_query(tenant,appId,edOrgId,false, true))
   openDecryptedFile(appId)
 end
 
@@ -424,7 +438,7 @@ When /^I retrieve the path to and decrypt the LEA "(.*?)" data extract file for 
   openDecryptedFile(appId)
 end
 
-When /^I fetch the path to and decrypt the LEA data extract file for the tenant "(.*?)" and application with id "(.*?)" and edorg with id "(.*?)"$/ do |tenant, appId, edOrgId|
+When /^I fetch the path to and decrypt the edorg data extract file for the tenant "(.*?)" and application with id "(.*?)" and edorg with id "(.*?)"$/ do |tenant, appId, edOrgId|
   @tenant = tenant
   getExtractInfoFromMongo(build_bulk_query(tenant,appId,edOrgId))
   openDecryptedFile(appId)
@@ -454,14 +468,19 @@ end
 
 When /^the extract contains a file for each of the following entities:$/ do |table|
   Minitar.unpack(@filePath, @unpackDir)
+  expected_files = Set.new
 
 	table.hashes.map do |entity|
     exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
     assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
+    expected_files << entity
 	end
 
-  fileList = Dir.entries(@unpackDir)
-	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s+" and they are: #{fileList}")
+  file_list = []
+  Dir.chdir(@unpackDir) do
+    file_list = Dir.glob("*.json.gz")
+  end
+	assert(file_list.size==expected_files.size, "Expected " + expected_files.size.to_s + " extract files, Actual:" + file_list.size.to_s+" and they are: #{file_list}")
 end
 
 When /^the extract contains a file for each of the following entities with the appropriate count and does not have certain ids:$/ do |table|
@@ -522,8 +541,6 @@ When /^the correct number of "([^"]*?)" "([^"]*?)" was extracted from the databa
       count = 6
     when "cohort"
       count = 1
-    when "educationOrganization"
-      count = 5
     when "staff"
       count = 10
     else
@@ -625,6 +642,7 @@ end
 $schoolStaffEdorgAssignment = {}
 When /I check that the staffEdorgAssignment extract for "(.*?)" has the correct number of records/ do |edOrgId|
   disable_NOTABLESCAN()
+  disable_NOTABLESCAN()
   @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
   query     = <<-jsonDelimiter
   [
@@ -671,7 +689,7 @@ When /I check that the staff extract for "(.*?)" has the correct number of recor
   puts(query)
   query  = JSON.parse(query)
   result = @tenantDb.collection('staffEducationOrganizationAssociation').aggregate(query)
-                                          puts result
+     puts result
      result.each{ |schoolIdToStaffs|
                                           
      schoolId = schoolIdToStaffs['_id']
@@ -867,6 +885,28 @@ When /I check that the "(.*?)" extract for "(.*?)" has the correct number of rec
   comment = "Expected #{entity} extract for #{edOrgId} to have #{expected}. Found #{json.size}"
   assert(json.size == expected, comment)
   puts (comment)
+  enable_NOTABLESCAN()
+end
+
+When /I remove the parent for the education organization "(.*?)" for tenant "(.*?)"/ do |edOrgId, tenant|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(tenant))
+
+  result = @tenantDb.collection("educationOrganization").update({'_id' => edOrgId}, {'$unset' => {'body.parentEducationAgencyReference' => 1}})
+  puts result
+
+  result = @tenantDb.collection("educationOrganization").update({'_id' => edOrgId}, {'$unset' => {'metaData.edOrgs' => 1}})
+
+  puts result
+  enable_NOTABLESCAN()
+end
+
+When /I set the parent for the education organization "(.*?)" to "(.*?)" for tenant "(.*?)"/ do |edOrgId, parentId, tenant|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(tenant))
+
+  result = @tenantDb.collection("educationOrganization").update({'_id' => edOrgId}, {'$set' => {'body.parentEducationAgencyReference' => [parentId]}})
+  puts result
   enable_NOTABLESCAN()
 end
 
@@ -1197,7 +1237,8 @@ def getEntityId(entity)
       "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
       "IL-Highwind" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
       "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
-      "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
+      "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+      "STANDARD_SEA" => "884daa27d806c2d725bc469b273d840493f84b4d_id"
   }
   return entity_to_id_map[entity]
 end
@@ -1245,10 +1286,10 @@ When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appI
   @deltaDir = @fileDir
 end
 
-When /^I untar and decrypt the "(.*?)" public delta tarfile for tenant "(.*?)" and appId "(.*?)" for "(.*?)"$/ do |data_store, tenant, appId, lea|
+When /^I untar and decrypt the "(.*?)" public delta tarfile for tenant "(.*?)" and appId "(.*?)"$/ do |data_store, tenant, appId|
   sleep 1
   opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
-  query = build_bulk_query(tenant, appId, lea, true, true)
+  query = build_bulk_query(tenant, appId, nil, true, true)
   getExtractInfoFromMongo(query, opts)
   openDecryptedFile(appId)
   @fileDir = OUTPUT_DIRECTORY if data_store == "API"
@@ -1426,6 +1467,24 @@ def get_patch_body_by_entity_name(field, value)
                   "city"=>"Chicago"
                  }]
     },
+      "date" => {
+        "attendanceEvent" =>[{
+            "reason" => "Missed school bus",
+            "event" => "Tardy",
+            "date" => value,
+            "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
+        },{
+            "reason" => "Excused: sick",
+            "event" => "Excused Absence",
+            "date" => "2013-12-19",
+            "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
+        }, {
+            "reason" => "Missed school bus",
+            "event" => "Tardy",
+            "date" => "2014-05-19",
+            "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
+        }]
+    },
     "calendarEvent" => {
             "calendarEvent" => value
     },
@@ -1547,21 +1606,20 @@ When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId
   restTls("/bulk/extract/#{lea}/delta/#{@timestamp}", nil, 'application/x-tar', @sessionId, client_id)
 end
 
-When /^I request latest public delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)" clientId "(.*?)"$/ do |tenant, lea, app_id, client_id|
-  @lea = lea
+When /^I request latest public delta via API for tenant "(.*?)", with appId "(.*?)" and clientId "(.*?)"$/ do |tenant, app_id, client_id|
   @app_id = app_id
 
   query_opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
   # Get the edorg and timestamp from bulk extract collection in mongo
-  getExtractInfoFromMongo(build_bulk_query(tenant, app_id, lea, true, true), query_opts)
+  getExtractInfoFromMongo(build_bulk_query(tenant, app_id, nil, true, true), query_opts)
   # Set the download path to stream the delta file from API
-  @delta_file = "delta_#{lea}_#{@timestamp}.tar"
+  @delta_file = "delta_public_#{@timestamp}.tar"
   @download_path = OUTPUT_DIRECTORY + @delta_file
   @fileDir = OUTPUT_DIRECTORY + "decrypt"
   @filePath = @fileDir + "/" + @delta_file
   @unpackDir = @fileDir
   # Assemble the API URI and make API call
-  restTls("/bulk/extract/#{lea}/delta/#{@timestamp}", nil, 'application/x-tar', @sessionId, client_id)
+  restTls("/bulk/extract/public/delta/#{@timestamp}", nil, 'application/x-tar', @sessionId, client_id)
 end
 
 When /^I store the URL for the latest delta for LEA "(.*?)"$/ do |lea|
@@ -1610,24 +1668,28 @@ end
 
 When /^I generate and retrieve the bulk extract delta via API for "(.*?)"$/ do |lea|
   #client_id = $APP_CONVERSION_MAP[app_id]
-  step "I trigger a delta extract" 
-  # Request path for IL-Daybreak Admins
-  if lea == "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
-    step "I log into \"SDK Sample\" with a token of \"jstevenson\", a \"Noldor\" for \"IL-DAYBREAK\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
-    step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
+  step "I trigger a delta extract"
+  step "I retrieve the bulk extract delta via API for \"#{lea}\""
+end
+
+When /^I retrieve the bulk extract delta via API for "(.*?)"$/ do |lea|
+# Request path for IL-Daybreak Admins
+if lea == "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+  step "I log into \"SDK Sample\" with a token of \"jstevenson\", a \"Noldor\" for \"IL-DAYBREAK\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+  step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
   # Request path for IL-Highwind Admins
-  elsif lea == "99d527622dcb51c465c515c0636d17e085302d5e_id"
-    step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-HIGHWIND\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
-    step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
-  elsif lea == "884daa27d806c2d725bc469b273d840493f84b4d_id"
-    step "I log into \"SDK Sample\" with a token of \"rrogers\", a \"Noldor\" for \"STANDARD-SEA\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
-    step "I request latest public delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
+elsif lea == "99d527622dcb51c465c515c0636d17e085302d5e_id"
+  step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-HIGHWIND\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+  step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
+elsif lea == "the public extract"
+  step "I log into \"SDK Sample\" with a token of \"rrogers\", a \"Noldor\" for \"STANDARD-SEA\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+  step "I request latest public delta via API for tenant \"Midgar\", with appId \"<app id>\" and clientId \"<client id>\""
   # Catch invalid LEA
-  else 
-    assert(false, "Did not recognize that LEA, cannot request extract")
-  end
-  step "I should receive a return code of 200"
-  step "I download and decrypt the delta"
+else
+  assert(false, "Did not recognize that LEA, cannot request extract")
+end
+step "I should receive a return code of 200"
+step "I download and decrypt the delta"
 end
 
 When /^I request the latest bulk extract delta via API for "(.*?)"$/ do |lea|
@@ -1656,6 +1718,7 @@ end
 When /^I set the header format to "(.*?)"$/ do |format|
   puts "DEBUG: format is #{format}"
   @format = format
+  @api_version = "v1"
 end
 
 
@@ -1760,7 +1823,7 @@ Then /^I should see "(.*?)" bulk extract files$/ do |count|
   checkTarfileCounts(directory, count)
 end
 
-Then /^I should see "(.*?)" bulk extract SEA-public data file for the tenant "(.*?)" and application with id "(.*?)"$/ do |count, tenant, app_id|
+Then /^I should see "(.*?)" bulk extract public data file for the tenant "(.*?)" and application with id "(.*?)"$/ do |count, tenant, app_id|
   count = count.to_i
   @tenant = tenant
   query = build_bulk_query(tenant, app_id, nil, false, true)
@@ -1802,6 +1865,15 @@ Then /^I verify "(.*?)" delta bulk extract files are generated for Edorg "(.*?)"
   assert(count == @coll.count({query: query}), "Found #{@coll.count({query: query})}, expected #{count}")
 end
 
+Then /^I verify "(.*?)" public delta bulk extract files are generated in "(.*?)"$/ do |count, tenant|
+  count = count.to_i
+  @conn ||= Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb ||= @conn.db(DATABASE_NAME)
+  @coll = @sliDb.collection("bulkExtractFiles")
+  query = {"body.tenantId"=>tenant, "body.isDelta"=>true, "body.isPublicData"=>true}
+  assert(count == @coll.count({query: query}), "Found #{@coll.count({query: query})}, expected #{count}")
+end
+
 Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table|
     opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
     getExtractInfoFromMongo(build_bulk_query(tenant, appId, lea, true), opts)
@@ -1811,9 +1883,9 @@ Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)
 end
 
 
-Then /^I verify the last public delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table|
+Then /^I verify the last public delta bulk extract by app "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, tenant, table|
     opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
-    getExtractInfoFromMongo(build_bulk_query(tenant, appId, lea, true, true), opts)
+    getExtractInfoFromMongo(build_bulk_query(tenant, appId, nil, true, true), opts)
     openDecryptedFile(appId)
     step "the extract contains a file for each of the following entities:", table
 end
@@ -2064,7 +2136,7 @@ Then /^I have a fake bulk extract tar file for the following tenants and differe
     destFile = createCleanupFile(@parentDir, row["tenant"], row["Edorg"], row["app"], row["date"])
     puts destFile
     FileUtils.cp(testData, destFile)
-    addFakeBEEntry(row["tenant"], row["Edorg"], row["app"], false, false, row["date"], File.expand_path(destFile))
+    addFakeBEEntry(row["tenant"], row["Edorg"], row["app"], false, row["isPublic"], row["date"], File.expand_path(destFile))
   end
 end
 
@@ -3037,7 +3109,6 @@ def get_post_body_by_entity_name(entity_name)
       "administrationEnvironment" => "Classroom",
       "retestIndicator" => "Primary Administration",
       "studentObjectiveAssessments" => [{
-        "entityType" => "studentAssessment",
         "performanceLevelDescriptors" => [
           [{
             "codeValue" => "code1"
@@ -3223,15 +3294,18 @@ def get_post_body_by_entity_name(entity_name)
         "attendanceEvent" => [{
           "reason" => "Missed school bus",
           "event" => "Tardy",
-          "date" => "2013-08-30"
+          "date" => "2013-08-30",
+          "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
         }, {
           "reason" => "Excused: sick",
           "event" => "Excused Absence",
-          "date" => "2013-12-19"
+          "date" => "2013-12-19",
+          "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
         }, {
           "reason" => "Missed school bus",
           "event" => "Tardy",
-          "date" => "2014-05-19"
+          "date" => "2014-05-19",
+          "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id"
         }]
       }]
     },
@@ -3738,7 +3812,6 @@ def get_post_body_by_entity_name(entity_name)
       "administrationEnvironment" => "Classroom",
       "retestIndicator" => "Primary Administration",
       "studentObjectiveAssessments" => [{
-        "entityType" => "studentAssessment",
         "performanceLevelDescriptors" => [
           [{
             "codeValue" => "code1"
@@ -3847,7 +3920,6 @@ def get_post_body_by_entity_name(entity_name)
       "administrationEnvironment" => "Classroom",
       "retestIndicator" => "Primary Administration",
       "studentObjectiveAssessments" => [{
-        "entityType" => "studentAssessment",
         "performanceLevelDescriptors" => [
           [{
             "codeValue" => "code1"
@@ -4082,11 +4154,17 @@ def createCleanupFile(baseDir, tenant, edorg, app, date)
   date.gmtime
   dateString = date.strftime("%Y-%m-%d-%H-%M-%S")
   puts dateString
+  puts edorg
   return baseDir + "/" + tenant + "/" + edorg + "/" + edorg + "-" + app + "-" + dateString + ".tar"
 end
 
 def addFakeBEEntry(tenant, edorg, app, isDelta, isPublic, date, path)
-  edorg_id = getEdorgId(tenant, edorg)
+  if isPublic == true
+    edorg_id = nil
+  else
+    edorg_id = getEdorgId(tenant, edorg)
+  end
+
   query = {"type" => "bulkExtractEntity", "body" =>{"tenantId"=>tenant, "edorg" => edorg_id,
            "applicationId" => app, "isDelta" => isDelta, "isPublicData" => isPublic,
            "path" => path, "date" => Time.iso8601(date)}}

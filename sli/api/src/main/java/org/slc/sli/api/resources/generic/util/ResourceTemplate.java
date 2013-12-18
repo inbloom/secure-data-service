@@ -31,7 +31,8 @@ public enum ResourceTemplate {
     CALCULATED_VALUES("/rest/{version}/{resource}/{id}/calculatedValues"),
     SEARCH("/rest/{version}/{resource}/{entity}"),
     UNVERSIONED_ONE_PART("/rest/{resource}"),
-    UNVERSIONED_TWO_PART("/rest/{resource}/{id}");
+    UNVERSIONED_TWO_PART("/rest/{resource}/{id}"),
+    UNVERSIONED_CUSTOM("/rest/{resource}/{id}/custom");
 
     private final String template;
 

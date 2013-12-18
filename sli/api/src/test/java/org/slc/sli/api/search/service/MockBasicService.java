@@ -71,19 +71,13 @@ public class MockBasicService implements EntityService {
     }
 
     @Override
-    public boolean update(String id, EntityBody content) {
+    public boolean update(String id, EntityBody content, boolean applySecurityContext) {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public boolean patch(String id, EntityBody content) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean patchBasedOnContextualRoles(String id, EntityBody content) {
+    public boolean patch(String id, EntityBody content, boolean applySecurityContext) {
         // TODO Auto-generated method stub
         return false;
     }
@@ -194,11 +188,6 @@ public class MockBasicService implements EntityService {
     public String createBasedOnContextualRoles(EntityBody content) {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    @Override
-    public boolean updateBasedOnContextualRoles(String id, EntityBody content) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

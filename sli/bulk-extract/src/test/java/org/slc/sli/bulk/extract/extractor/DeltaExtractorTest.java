@@ -21,6 +21,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,10 +33,15 @@ import com.google.common.base.Predicate;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.context.resolver.TypeResolver;
@@ -56,16 +62,16 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class DeltaExtractorTest {
 
+    @Autowired
     @InjectMocks
     DeltaExtractor extractor = new DeltaExtractor();
 
     @Mock
     DeltaEntityIterator deltaEntityIterator;
-
-    @Mock
-    LocalEdOrgExtractor leaExtractor;
 
     @Mock
     EdOrgExtractHelper helper;
@@ -81,9 +87,6 @@ public class DeltaExtractorTest {
 
     @Mock
     TypeResolver typeResolver;
-
-    @Mock
-    EdOrgHierarchyHelper edOrgHelper;
 
     @Mock
     Repository<Entity> repo;
@@ -119,7 +122,6 @@ public class DeltaExtractorTest {
     @Before
     public void setUp() throws Exception {
         deltaEntityIterator = Mockito.mock(DeltaEntityIterator.class);
-        leaExtractor = Mockito.mock(LocalEdOrgExtractor.class);
         entityExtractor = Mockito.mock(EntityExtractor.class);
         bulkExtractMongoDA = Mockito.mock(BulkExtractMongoDA.class);
         entityWriteManager = Mockito.mock(EntityWriterManager.class);
@@ -128,9 +130,12 @@ public class DeltaExtractorTest {
         extractFile = Mockito.mock(ExtractFile.class);
         metaDataFile = Mockito.mock(ManifestFile.class);
         securityEventUtil = Mockito.mock(SecurityEventUtil.class);
-        edOrgHelper = Mockito.mock( EdOrgHierarchyHelper.class);
 
         MockitoAnnotations.initMocks(this);
+
+        Entity seaEntity = Mockito.mock(Entity.class);
+        when(seaEntity.getEntityId()).thenReturn("sea");
+        when(repo.findOne(anyString(), Mockito.any(NeutralQuery.class))).thenReturn(seaEntity);
 
         Map<String, Set<String>> appsToLEA = buildAppToLEAMap();
         when(helper.getBulkExtractEdOrgsPerApp()).thenReturn(appsToLEA);
@@ -141,27 +146,26 @@ public class DeltaExtractorTest {
         when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "lea2")).thenReturn(LEA2);
         when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "lea3")).thenReturn(LEA3);
 
-        when(deltaEntityIterator.hasNext()).thenReturn(true, true, false);
-        when(deltaEntityIterator.next()).thenReturn(buildUpdateRecord(), buildDeleteRecord());
-
-
         when(typeResolver.resolveType("educationOrganization")).thenReturn(new HashSet<String>(Arrays.asList("school", "educationOrganization")));
         when(extractFile.getManifestFile()).thenReturn(metaDataFile);
         SecurityEvent event = new SecurityEvent();
         event.setLogLevel(LogLevelType.TYPE_INFO);
         when(securityEventUtil.createSecurityEvent(anyString(), anyString(), any(LogLevelType.class), any(BEMessageCode.class), anyString())).thenReturn(event);
-        when(extractor.isSea("lea1")).thenReturn(false);
-        when(extractor.isSea("lea2")).thenReturn(false);
-        when(extractor.isSea("lea3")).thenReturn(false);
 
-        // when(leaExtractor.getExtractFilePerAppPerLEA(anyString(), anyString(), anyString(),
-        // any(DateTime.class), anyBoolean())).thenReturn(extractFile);
-
+        Map<String, PublicKey> publicClientKeys = new HashMap<String, PublicKey>();
+        publicClientKeys.put("app1", null);
+        when(bulkExtractMongoDA.getAppPublicKeys()).thenReturn(publicClientKeys);
     }
 
-    private DeltaRecord buildUpdateRecord() {
+    private DeltaRecord buildUpdatePublicRecord() {
         DeltaEntityIterator.DeltaRecord update = new DeltaEntityIterator.DeltaRecord(buildEdorgEntity("lea1"),
                 new HashSet<String>(Arrays.asList("lea1")), DeltaEntityIterator.Operation.UPDATE, true, "educationOrganization");
+        return update;
+    }
+
+    private DeltaRecord buildUpdatePrivateRecord() {
+        DeltaEntityIterator.DeltaRecord update = new DeltaEntityIterator.DeltaRecord(buildStudentEntity("stud1"),
+                new HashSet<String>(Arrays.asList("lea1")), DeltaEntityIterator.Operation.UPDATE, true, "student");
         return update;
     }
 
@@ -182,6 +186,10 @@ public class DeltaExtractorTest {
         return new MongoEntity("educationOrganization", id, new HashMap<String, Object>(), null);
     }
 
+    private Entity buildStudentEntity(String id) {
+        return new MongoEntity("student", id, new HashMap<String, Object>(), null);
+    }
+
     private Map<String, Set<String>> buildAppToLEAMap() {
         Set<String> app1 = new HashSet<String>(Arrays.asList("lea1", "lea2"));
         Set<String> app2 = new HashSet<String>(Arrays.asList("lea2", "lea3"));
@@ -192,11 +200,29 @@ public class DeltaExtractorTest {
         return result;
     }
 
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
-    public void test() {
-        extractor.execute("Midgar", new DateTime(), "");
+    public void testPublicAndPrivate() {
+        when(deltaEntityIterator.hasNext()).thenReturn(true, true, true, false);
+        when(deltaEntityIterator.next()).thenReturn(buildUpdatePublicRecord(), buildDeleteRecord(), buildUpdatePrivateRecord());
+
+        extractor.execute("Midgar", null, new DateTime());
+
+        verify(entityExtractor, times(2)).write(any(Entity.class), any(ExtractFile.class), any(EntityExtractor.CollectionWrittenRecord.class), (Predicate) Mockito.isNull());
+        verify(entityWriteManager, times(14)).writeDeleteFile(any(Entity.class), any(ExtractFile.class));
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Test
+    public void testPrivateOnly() {
+        when(deltaEntityIterator.hasNext()).thenReturn(true, true, false);
+        when(deltaEntityIterator.next()).thenReturn(buildUpdatePrivateRecord(), buildDeleteRecord());
+
+        extractor.execute("Midgar", null, new DateTime());
+
         verify(entityExtractor, times(1)).write(any(Entity.class), any(ExtractFile.class), any(EntityExtractor.CollectionWrittenRecord.class), (Predicate) Mockito.isNull());
-        verify(entityWriteManager, times(10)).writeDeleteFile(any(Entity.class), any(ExtractFile.class));
+        verify(entityWriteManager, times(8)).writeDeleteFile(any(Entity.class), any(ExtractFile.class));
     }
 
     @Test
@@ -204,7 +230,7 @@ public class DeltaExtractorTest {
         when(deltaEntityIterator.hasNext()).thenReturn(true, false);
         when(deltaEntityIterator.next()).thenReturn(buildPurgeRecord());
 
-        extractor.execute("Midgar", new DateTime(), "");
+        extractor.execute("Midgar", null, new DateTime());
 
         verify(entityWriteManager, times(3)).writeDeleteFile(any(Entity.class), any(ExtractFile.class));
     }

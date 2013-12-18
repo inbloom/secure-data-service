@@ -125,7 +125,6 @@ When zip file is scp to ingestion landing zone
     | collectionName              | expectedRecordCount | searchParameter                                  | searchValue         | searchType |
     | attendance                  | 1                   | body.attendanceEvent.event  | Tardy               | string     |
     | attendance                  | 1                   | body.attendanceEvent.reason | Missed school bus   | string     |
-    | attendance                  | 1                   | body.attendanceEvent.reason | Dentist appointment | string     |
     | attendance                  | 1                   | body.attendanceEvent.event  | In Attendance       | string     |
     | attendance                  | 1                   | body.attendanceEvent.reason | On Time             | string     |
     | attendance                  | 1                   | body.attendanceEvent.date   | 2010-09-09          | string     |

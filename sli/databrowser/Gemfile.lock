@@ -51,7 +51,7 @@ GEM
     coffee-script-source (1.4.0)
     daemons (1.1.9)
     erubis (2.7.0)
-    eventmachine (1.0.0)
+    eventmachine (1.0.3)
     execjs (1.4.0)
       multi_json (~> 1.0)
     faraday (0.8.7)
@@ -171,6 +171,7 @@ DEPENDENCIES
   capistrano-ext
   ci_reporter
   coffee-rails
+  eventmachine (= 1.0.3)
   execjs
   jquery-datatables-rails
   jquery-rails

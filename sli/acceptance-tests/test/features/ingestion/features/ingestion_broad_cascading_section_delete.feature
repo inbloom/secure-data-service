@@ -287,8 +287,17 @@ Scenario: Delete Section with cascade = false
 	|teacherSectionAssociation.body.sectionId                        |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |	
 	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "studentSectionAssociation"
 	|field                                                           |value                                                |
-	|studentSectionAssociation.body.sectionId                        |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |	
-	And I save the collection counts in "Midgar" tenant
+	|studentSectionAssociation.body.sectionId                        |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
+
+    And I post "SectionAttendance.zip" file as the payload of the ingestion job
+    When zip file is scp to ingestion landing zone
+    And a batch job for file "SectionAttendance.zip" is completed in database
+    And I should see "Processed 1 records." in the resulting batch job file
+    Then there exist "1" "attendance" records like below in "Midgar" tenant. And I save this query as "attendance"
+    |field                                                          |value                                                 |
+    |body.attendanceEvent.sectionId                                 |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id           |
+
+   And I save the collection counts in "Midgar" tenant
     And I post "ForceSectionRefDelete.zip" file as the payload of the ingestion job
    When zip file is scp to ingestion landing zone
     And a batch job for file "ForceSectionRefDelete.zip" is completed in database
@@ -297,7 +306,8 @@ Scenario: Delete Section with cascade = false
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "Processed 1 records." in the resulting batch job file
-    And I should see "CORE_0066" in the resulting warning log file for "InterchangeMasterSchedule.xml"	
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeMasterSchedule.xml"
+    And I should see "Child reference of entity type attendance" in the resulting warning log file for "InterchangeMasterSchedule.xml"
     And I re-execute saved query "section" to get "1" records
     And I re-execute saved query "student" to get "1" records
     And I re-execute saved query "studentGradebookEntry" to get "24" records

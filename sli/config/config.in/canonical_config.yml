@@ -2,6 +2,10 @@
 default:
     api: &API-DEFAULT
 
+        sli.search.maxUnfilteredResults: 15000
+        sli.search.maxFilteredResults: 250
+        sli.search.maxFilteredResultsOverride: 5000
+
         # used to specify the location of performance log (only used in api)
         ## api.perf.log.path: target/apilogs/logs
         api.perf.log.path: target/apilogs/logs
@@ -41,6 +45,16 @@ default:
         sli.security.writeValidation: true
 
         sli.api.cookieDomain: .slidev.org
+
+        # API kesytore settings
+        sli.api.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
+        sli.api.keystore.password: 7348ECFEF1A559318CC37357F95DA712
+        sli.api.digital.signature.keyAlias: apids
+        sli.api.digital.signature.keyPass: 7348ECFEF1A559318CC37357F95DA712
+        sli.api.client.certificate.keyAlias: apids
+        sli.api.client.certificate.keyPass: 7348ECFEF1A559318CC37357F95DA712
+        sli.api.encryption.certificate.keyAlias: apids
+        sli.api.encryption.certificate.keyPass: 7348ECFEF1A559318CC37357F95DA712
 
         # Sandbox settings
         sli.sandbox.enabled: false
@@ -1213,6 +1227,7 @@ team:
         sli.security.truststore.path: /opt/tomcat/encryption/ciTruststore.jks
         sli.security.truststore.password: changeit
 
+        sli.api.keyStore: /opt/tomcat/encryption/ciKeyStore.jks
 
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT

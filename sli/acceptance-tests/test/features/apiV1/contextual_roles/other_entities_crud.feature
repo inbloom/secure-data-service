@@ -267,6 +267,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
 
   Scenario Outline: Ensure POST cannot be performed on edorg or student related entities without WRITE_GENERAL and WRITE_RESTRICTED rights
     Given I add a SEOA for "xbell" in "District 9" as a "Leader"
+    And I change the custom role of "Leader" to remove the "WRITE_GENERAL" right
     And I log in as "xbell"
     Given a valid formatted entity json document for a "<ENTITY TYPE>"
     When I navigate to POST "/v1/<ENTITY URI>"
@@ -401,8 +402,10 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
 
   Scenario Outline: PUTs, PATCHes, and DELETEs on /entity/{id}
     Given I change the custom role of "Aggregate Viewer" to add the "WRITE_PUBLIC" right
-    Given I change the custom role of "Aggregate Viewer" to add the "WRITE_GENERAL" right
-    Given I change the custom role of "Aggregate Viewer" to add the "WRITE_RESTRICTED" right
+    And I change the custom role of "Aggregate Viewer" to add the "WRITE_GENERAL" right
+    And I change the custom role of "Aggregate Viewer" to add the "WRITE_RESTRICTED" right
+    And I change the custom role of "Leader" to remove the "WRITE_GENERAL" right
+    And I change the custom role of "Educator" to remove the "WRITE_GENERAL" right
     And format "application/json"
     And a valid json document for entity "<ENTITY TYPE>"
 
@@ -462,7 +465,6 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | disciplineIncident                    | disciplineIncidents                     | incidentLocation         | Off School                              | School bus                              |
     | disciplineAction                      | disciplineActions                       | disciplineDate           | 2013-02-01                              | 2013-03-01                              |
     | gradebookEntry                        | gradebookEntries                        | description              | Quiz entry                              | First quiz entry                        |
-    | attendance                            | attendances                             | attendanceEvent          | [{'event':'Tardy','date':'2011-12-13'}] | [{'event':'Tardy','date':'2011-12-14'}] |
     | studentAssessment                     | studentAssessments                      | gradeLevelWhenAssessed   | Ninth grade                             | Adult Education                         |
     | studentCohortAssociation              | studentCohortAssociations               | endDate                  | 2013-12-31                              | 2012-05-08                              |
     | studentDisciplineIncidentAssociation  | studentDisciplineIncidentAssociations   | studentParticipationCode | Victim                                  | Reporter                                |

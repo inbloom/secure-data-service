@@ -20,11 +20,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.List;
 import java.util.*;
 
 /**
@@ -35,7 +38,7 @@ import java.util.*;
  */
 @Component
 public class StaffToApplicationAuthorizationValidator extends AbstractContextValidator {
-    
+
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
         return isStaff() && EntityNames.APPLICATION_AUTHORIZATION.equals(entityType);
@@ -59,19 +62,15 @@ public class StaffToApplicationAuthorizationValidator extends AbstractContextVal
         NeutralQuery q                                 = new NeutralQuery();
                                                          q.addCriteria(staffEdOrgsInAuthorizedEdOrgs);
         NeutralQuery finalQuery                        = new NeutralQuery();
-        												finalQuery.addOrQuery(p);
-        												finalQuery.addOrQuery(q);
+                                                            finalQuery.addOrQuery(p);
+                                                            finalQuery.addOrQuery(q);
 
-        Iterable<Entity> myApplications                = getRepo().findAll(EntityNames.APPLICATION, finalQuery);
+        Iterable<String> myApplicationIds              = getRepo().findAllIds(EntityNames.APPLICATION, finalQuery);
         Set<String> myAppsList                         = new HashSet<String>();
-        if(myApplications != null) {
-        	for(Entity app: myApplications) {
-                Boolean authorized_for_all_edorgs = (Boolean)app.getBody().get("authorized_for_all_edorgs");
-                if(authorized_for_all_edorgs == null || !authorized_for_all_edorgs) {
-                    String appId = app.getEntityId();
-                    myAppsList.add(appId);
-                }
-        	}
+        if(myApplicationIds != null) {
+            for(String appId: myApplicationIds) {
+                myAppsList.add(appId);
+            }
         }
 
         NeutralCriteria idInAppAuthIdList              = new NeutralCriteria("_id",                 NeutralCriteria.CRITERIA_IN, new LinkedList<String>(appAuthIds));

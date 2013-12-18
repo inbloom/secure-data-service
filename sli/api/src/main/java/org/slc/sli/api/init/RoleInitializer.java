@@ -162,7 +162,7 @@ public class RoleInitializer {
         roleNames.add(TEACHER);
         Role role = RoleBuilder.makeRole(roleNames)
                 .addGroupTitle(EDUCATOR)
-                .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL, Right.TEACHER_CONTEXT })
+                .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL, Right.WRITE_GENERAL, Right.TEACHER_CONTEXT })
                 .addSelfRights(new Right[]{ Right.READ_RESTRICTED}).build();
         role.setAdmin(false);
         return role;
@@ -178,7 +178,7 @@ public class RoleInitializer {
                 .addGroupTitle(LEADER)
                 .addRights(
                         new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL,
-                                Right.READ_RESTRICTED, Right.STAFF_CONTEXT }).build();
+                                Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.STAFF_CONTEXT }).build();
         role.setAdmin(false);
         return role;
     }

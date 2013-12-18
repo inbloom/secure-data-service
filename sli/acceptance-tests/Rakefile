@@ -632,7 +632,7 @@ end
 
 
 desc "Run all sandbox tests"
-task :sandboxTests => [:realmInit, :simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests] do
+task :sandboxTests => [:realmInit, :simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests, :bulkExtractSandboxTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -676,7 +676,7 @@ task :apiV1Tests => [
                      :longLivedSessionTests,
                      :apiVersionTests,
                      :apiV1GranularAccessTests,
-                     :apiV1YearlyTranscriptTests] do                     
+                     :apiV1YearlyTranscriptTests] do
   displayFailureReport()
 end
 
@@ -687,7 +687,7 @@ task :apiV1EntitySecurityTests do
 end
 
 desc "Run API Tests using Odin ingested data"
-task :apiOdinTests => [:apiOdinFederatedAppsTests, :apiOdinPrep, :apiOdinFederatedAppsTests, :apiOdinSuperAssessment, :apiOdinSecurityTests, :apiOdinMultipleParentTests, :apiOdinHybridEdOrgTests] do
+task :apiOdinTests => [:apiOdinFederatedAppsTests, :apiOdinPrep, :apiOdinFederatedAppsTests, :apiOdinSuperAssessment, :apiOdinSecurityTests, :apiOdinMultipleParentTests, :apiOdinHybridEdOrgTests, :apiV1SearchLimitTests] do
     displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -794,6 +794,7 @@ task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser/databrowser_selective_deny.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
   runTests("test/features/databrowser/student_authentication.feature")
+  runTests("test/features/databrowser/databrowser_external_idp_login.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -887,6 +888,7 @@ task :ingestionTests => [
         :IngestionIndexValidationTest,
         :corruptZip,
         :genericEdOrgs,
+        :ingestionSectionLevelAttendanceEventsTest,
         :ingestionAttendanceEventCategoriesTest,
         :ingestionDeletionTests,
         :ingestionTenantPurgeTests,
@@ -1579,6 +1581,24 @@ task :importUnifiedData => [:realmInit] do
   if TODROP
     Rake::Task["runDbIndexingScript"].execute
   end
+end
+
+desc "Import Bulk Extract"
+task :importSandboxBulkExtractData => [:realmInit] do
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer-email@slidev.org")
+
+  testHash = Hash[]
+  $collectionSet.each do |collection|
+    testHash["#{collection}"] = "bulk_extract_data/sds_#{collection}.json"
+  end
+  setMultipleFixtureFiles(testHash)
+  testHash = Hash[
+      "applicationAuthorization" => "applicationAuthorization_developer-email_fixture.json",
+  ]
+  setMultipleFixtureFiles(testHash)
+
+  cleanseApps()
+  setFixture("application", "application_sandbox_BE.json", "test/data", false)
 end
 
 desc "Run indexing script on databases, no drop"

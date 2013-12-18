@@ -83,9 +83,7 @@ public class DeltaJournal implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        if (isSandbox) {
-            deltasEnabled = false;
-        }
+
         subdocCollectionsToCollapse.put("assessmentItem", "assessment");
         subdocCollectionsToCollapse.put("objectiveAssessment", "assessment");
         subdocCollectionsToCollapse.put("studentAssessmentItem", "studentAssessment");

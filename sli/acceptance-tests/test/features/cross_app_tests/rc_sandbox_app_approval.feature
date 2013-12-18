@@ -39,19 +39,6 @@ And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
 Then "NotTheAppYoureLookingFor" is enabled for "5" education organizations
 
-#Add Bulk Extract role to IT Admin
-And I exit out of the iframe
-And I click on Admin
-Then I should be on the admin page
-And under System Tools, I click on "Create Custom Roles"
-And I switch to the iframe
-And I edit the group "IT Administrator"
-When I add the right "BULK_EXTRACT" to the group "IT Administrator"
-And I hit the save button
-Then I am no longer in edit mode
-And I switch to the iframe
-And the group "IT Administrator" contains the "right" rights "Bulk IT Administrator"
-
 #Full Window App
 And I exit out of the iframe
 And I click on Admin
@@ -64,8 +51,8 @@ And I am redirected to a new application page
 When I entered the name "Schlemiel" into the field titled "Name"
 And I entered the name "Yes, I totally made Schlemiel the painter's algorithm for SLI'" into the field titled "Description"
 And I entered the name "1.0" into the field titled "Version"
-And I entered the name "https://www.google.com" into the field titled "Application_URL"
-And I entered the name "https://wwww.google.com" into the field titled "Redirect_URI"
+And I entered the name "https://inbloom.org" into the field titled "Application_URL"
+And I entered the name "https://inbloom.org" into the field titled "Redirect_URI"
 And I select the app display method to "Full Window App" 
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
@@ -87,7 +74,7 @@ And I want to select "cgray" from the "SmallDatasetUsers" in automatic mode
 Then I should be on Portal home page
 And under My Applications, I see the following apps: "inBloom Dashboards;Schlemiel"
 And under My Applications, I click on "Schlemiel"
-Then my current url is "https://www.google.com/"
+Then my current url is "https://inbloom.org/"
 
 #assert all edOrgs explicitly authorized
 #bulk extract app is "NotTheAppYoureLookingFor", SSDS expected count is 5 (SEA, LEA & 3 schools)

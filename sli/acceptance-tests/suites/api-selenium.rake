@@ -44,6 +44,7 @@ task :adminWebTests => [:realmInit] do
   runTests("test/features/admintools/reset_change_password.feature")
   runTests("test/features/admintools/SAMT_Account_Management_Interface.feature")
   runTests("test/features/admintools/sli_admin_authorization.feature")
+  runTests("test/features/admintools/multi_realms_with_same_idp.feature")
 end
 
 desc "Run Admin Tool Apps Tests (Subset of adminWebTests)"
@@ -158,6 +159,11 @@ task :databrowserSmokeTests do
   @tags = ["~@wip", "@smoke", "~@sandbox"]
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/student_authentication.feature")
+end
+
+desc "Run databrowser artifact binding login test"
+task :databrowserExternalIdpTests => [:realmInit, :importSandboxData] do
+  runTests("test/features/databrowser/databrowser_external_idp_login.feature")
 end
 
 desc "Run Admin Tool Smoke Tests"

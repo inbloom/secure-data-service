@@ -23,6 +23,7 @@ import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
 import org.apache.commons.lang.StringUtils;
+import org.slc.sli.validation.SchemaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -110,6 +111,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Autowired
     private SchemaReferencesMetaData schemaRefMetaData;
 
+    @Autowired
+    private SchemaRepository schemaRepo;
+
     @Value("${sli.maxCascadeDeleteDepth:200}")
     private Integer maxCascadeDeleteDepth;
 
@@ -133,7 +137,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         setWriteConcern(writeConcern);
         subDocs = new SubDocAccessor(getTemplate(), uuidGeneratorStrategy, naturalKeyExtractor);
         denormalizer = new Denormalizer(getTemplate());
-        containerDocumentAccessor = new ContainerDocumentAccessor(uuidGeneratorStrategy, naturalKeyExtractor, template);
+        containerDocumentAccessor = new ContainerDocumentAccessor(uuidGeneratorStrategy, naturalKeyExtractor, template, schemaRepo);
     }
 
     @Override
@@ -319,12 +323,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 result = entity;
             }
         } else {
+            validator.validate(entity);
+            validator.validateNaturalKeys(entity, true);
+
             SuperdocConverter converter = converterReg.getConverter(collectionName);
             if (converter != null) {
                 converter.bodyFieldToSubdoc(entity);
             }
-            validator.validate(entity);
-            validator.validateNaturalKeys(entity, true);
 
             result = super.insert(entity, collectionName);
 
@@ -1038,6 +1043,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         this.updateTimestamp(entity);
 
+        validator.validate(entity);
         // convert subdoc from superdoc body to outside body
         SuperdocConverter converter = converterReg.getConverter(entity.getType());
         if (converter != null && isSuperdoc) {
@@ -1052,7 +1058,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             	converter.bodyFieldToSubdoc(entity, option);
             }
         }
-        validator.validate(entity);
         if (denormalizer.isDenormalizedDoc(collection)) {
             denormalizer.denormalization(collection).create(entity);
         }

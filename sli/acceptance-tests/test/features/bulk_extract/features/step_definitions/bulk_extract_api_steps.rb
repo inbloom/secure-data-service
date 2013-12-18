@@ -70,11 +70,7 @@ Given /^in my list of rights I have BULK_EXTRACT$/ do
   #  Explanatory step
 end
 
-When /^I make lea bulk extract API call for lea "(.*?)"$/ do |arg1|
-  restTls("/bulk/extract/#{arg1}")
-end
-
-When /^I make lea bulk extract API call for edorg "(.*?)"$/ do |arg1|
+When /^I make a full bulk extract API call for edorg "(.*?)"$/ do |arg1|
   restTls("/bulk/extract/#{arg1}")
 end
 
@@ -484,10 +480,18 @@ Then /^I check the version of http response headers$/ do
   assert(returned_version==LATEST_API_VERSION, "Returned version is wrong. Actual: #{returned_version} Expected: #{LATEST_API_VERSION}")
 end
 
-Then /^I check the http response headers$/ do  
+Then /^I check the http response headers$/ do
+  EXPECTED_LAST_MODIFIED = "Not Specified"
+  check_response_header
+end
 
+Then /^I check the http response headers for tenant "([^"]*)"$/ do |tenant|
+  EXPECTED_LAST_MODIFIED = "Not Specified"
+  check_response_header tenant
+end
+
+def check_response_header(tenant = 'Midgar')
   if @zip_file_name == "sample-extract.tar"
-    EXPECTED_LAST_MODIFIED = "Not Specified"
     assert(@res.headers[:last_modified].to_s==EXPECTED_LAST_MODIFIED, "Last Modified date is wrong! Actual: #{@res.headers[:last_modified]} Expected: #{EXPECTED_LAST_MODIFIED}" )
   elsif @res.code == 200
     @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
@@ -495,19 +499,19 @@ Then /^I check the http response headers$/ do
     src_coll = @db[coll]
     raise "Could not find #{coll} collection" if src_coll.count == 0
 
-    ref_doc = src_coll.find({"body.tenantId" => "Midgar"}).to_a
-    raise "Could not find #{coll} document with tenant #{"Midgar"}" if ref_doc.count == 0
+    ref_doc = src_coll.find({"body.tenantId" => tenant}).to_a
+    raise "Could not find #{coll} document with tenant #{tenant}" if ref_doc.count == 0
 
     puts "bulkExtractFiles record: #{ref_doc}"
-    
+
     found = false
     ref_doc.each do |row|
-      
+
       path = row['body']['path']
       assert(path != nil, "A mongo record doesn't have data for a bulk extract file's location")
-      
+
       file_name = File.basename(path)
-      
+
       if file_name == @zip_file_name
 
         dateFromMongo = row['body']['date'].to_datetime.to_time.to_s
@@ -515,16 +519,17 @@ Then /^I check the http response headers$/ do
           @last_modified = DateTime.parse(@last_modified).to_time.to_s
           assert(@last_modified==dateFromMongo, "last-modified must be #{dateFromMongo} was #{@last_modified}")
         end
-        
+
         found = true
-        
+
       end
     end
-    
+
     assert(found, "A bulk extract with #{@zip_file_name} was not found in the mongo database")
-    
+
   end
 end
+
 
 Then /^the response is decrypted$/ do
   @plain = decrypt(@res.body) 
@@ -563,8 +568,8 @@ When /^I make a head request with each returned URL$/ do
     step "the return code is 200 I get expected tar downloaded"
   end
 
-  hash_body['fullSea'].each do |seaId, link|
-    puts "Checking full extracts for SEA #{seaId}"
+  hash_body['fullPublic'].each do |tenantId, link|
+    puts "Checking full extracts for public data of #{tenantId}"
     puts link
     uri = link['uri']
     puts "Link: #{uri}"
@@ -582,8 +587,8 @@ When /^I make a head request with each returned URL$/ do
     end
   end
 
-    hash_body['deltaSea'].each do |seaId, link_list|
-    puts "Checking delta extracts for SEA #{seaId}"
+    hash_body['deltaPublic'].each do |tenantId, link_list|
+    puts "Checking delta extracts for public data of #{tenantId}"
     link_list.each do |link|
       uri = link["uri"]
       puts "Link: #{uri}"
@@ -634,7 +639,7 @@ Then /^there are (\d+) total number of delta links in the list/ do |value|
   hash_body['deltaEdOrgs'].each_value do |links|
     count += links.size
   end
-  assert(count.to_i == value.to_i, "Response contains wrong number of URLs for deltaEdOrgs. Expected: #{value}; Actual: #{count}")
+  assert(count.to_i == value.to_i, "Response contains wrong number of URLs for deltaEdOrgs. Expected: #{value}; Actual: #{count}\nResponse: #{@res.body}")
 end
 
 After("@TempFileCleanup") do

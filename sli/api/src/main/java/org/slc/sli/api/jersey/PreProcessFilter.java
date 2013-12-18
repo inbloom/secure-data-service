@@ -121,9 +121,8 @@ public class PreProcessFilter implements ContainerRequestFilter {
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
-   
     private final Pattern ID_REPLACEMENT_PATTERN = Pattern.compile("([^/]+/[^/]+/)[^/]+(/.*)");
-    
+
     @Override
     public ContainerRequest filter(ContainerRequest request) {
         recordStartTime(request);
@@ -168,7 +167,6 @@ public class PreProcessFilter implements ContainerRequestFilter {
         return request;
     }
 
-    
     private void injectObligations(ContainerRequest request) {
         // Create obligations
         SLIPrincipal prince = SecurityUtil.getSLIPrincipal();

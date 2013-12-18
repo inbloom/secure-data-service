@@ -326,6 +326,20 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "contentStandard" => "LEA Standard",
     "version" => 2
   },
+  "base_super_assessment" => {
+      "assessmentIdentificationCode"=> [{
+                                            "identificationSystem"=> "State",
+                                            "ID"=> "2001-Seventh grade Assessment 2"
+                                        }],
+      "assessmentPerformanceLevel"=> [],
+      "gradeLevelAssessed"=> "Seventh grade",
+      "assessmentTitle"=> "2001-Seventh grade Assessment 2",
+      "assessmentPeriodDescriptor"=>{
+          "codeValue"=>"codeGreen",
+          "description"=>"describes this descriptor"
+      },
+      "version" => 2
+  },
 
   "super_assessment" => {
      "assessmentIdentificationCode"=> [{
@@ -333,12 +347,14 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
         "ID"=> "2001-Seventh grade Assessment 2"
      }],
      "objectiveAssessment"=> [{
+        "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
         "nomenclature"=> "Nomenclature",
         "percentOfAssessment"=> 50,
         "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2",
         "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
         "maxRawScore"=> 50,
         "objectiveAssessments"=> [{
+          "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
           "nomenclature"=> "Nomenclature",
           "percentOfAssessment"=> 50,
           "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2 Sub",
@@ -347,6 +363,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
           "objectiveAssessments"=> []
         }],
         "assessmentItem"=> [{
+           "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
            "identificationCode"=> "2001-Seventh grade Assessment 2#3",
            "correctResponse"=> "true",
            "learningStandards"=> [],
@@ -356,12 +373,14 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       }],
       #"assessmentFamilyHierarchyName"=>"2001 Standard.2001 Seventh grade Standard",
       "assessmentItem"=> [{
+        "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
         "identificationCode"=> "2001-Seventh grade Assessment 2#3",
         "correctResponse"=> "true",
         "learningStandards"=> [],
         "maxRawScore"=> 10,
         "itemCategory"=> "True-False"
         }, {
+        "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
         "identificationCode"=> "2001-Seventh grade Assessment 2#1",
         "correctResponse"=> "true",
         "learningStandards"=> [],
@@ -376,6 +395,45 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
         "description"=>"describes this descriptor"
       },
       "version" => 2 
+  },
+
+  "assessment_item" => {
+      "assessmentIdentificationCode"=> [{
+                                            "identificationSystem"=> "State",
+                                            "ID"=> "2001-Seventh grade Assessment 2"
+                                        }],
+      "assessmentPerformanceLevel"=> [],
+      "gradeLevelAssessed"=> "Seventh grade",
+      "assessmentTitle"=> "2001-Seventh grade Assessment 2",
+      "assessmentPeriodDescriptor"=>{
+          "codeValue"=>"codeGreen",
+          "description"=>"describes this descriptor"
+      },
+      "assessmentItem"=> [{   "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
+                              "identificationCode"=> "2001-Seventh grade Assessment 2#3",
+                              "learningStandards"=> [],
+                              "maxRawScore"=> 10,
+                              "itemCategory"=> "True-False"
+                          }],
+      "version" => 2
+  },
+  "invalid_nested_objective_assessment" => {
+      "objectiveAssessment"=> [{
+          "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
+          "nomenclature"=> "Nomenclature",
+          "percentOfAssessment"=> 50,
+          "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2",
+          "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
+          "maxRawScore"=> 50,
+          "objectiveAssessments"=> [{
+                "nomenclature"=> "Nomenclature",
+                "percentOfAssessment"=> 50,
+                "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2 Sub",
+                "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
+                "maxRawScore"=> 50,
+                "objectiveAssessments"=> []
+          }]
+      }]
   },
 
   "studentAssessment" => {
@@ -398,6 +456,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
           "assessmentItemResult" => "Correct",
           "rawScoreResult" => 10,
           "assessmentItem" => {
+            "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
             "identificationCode"=> "2001-Seventh grade Assessment 2#3",
             "correctResponse"=> "true",
             "learningStandards"=> [],
@@ -419,6 +478,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
             "assessmentReportingMethod" => "Scale score"
           }],
           "objectiveAssessment" => {
+            "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
+            "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2",
              "assessmentPerformanceLevel"=>[
                {
                 "performanceLevelDescriptor"=> [{
@@ -426,8 +487,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
                }],
               "assessmentReportingMethod"=> "Number score",
               "minimumScore"=> 0,
-              "maximumScore"=> 50
-             }],
+              "maximumScore"=> 50,
+               }],
             "nomenclature"=> "Nomenclature",
             "percentOfAssessment"=> 50,
             "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2",
@@ -442,6 +503,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
             "assessmentReportingMethod" => "Scale score"
           }],
           "objectiveAssessment" => {
+            "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
             "nomenclature"=> "Nomenclature",
             "percentOfAssessment"=> 50,
             "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2 Sub",
@@ -450,6 +512,36 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
             "objectiveAssessments"=> []
           }
         }]
+  },
+
+  "missing_req_field_studentOA" => {
+      "administrationDate" => "2002-08-28",
+      "administrationLanguage" => {
+          "language" => "English"
+      },
+      "studentId" => "274f4c71-1984-4607-8c6f-0a91db2d240a_id",
+      "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
+      "scoreResults" => [
+          {
+              "result" => "68",
+              "assessmentReportingMethod" => "Scale score"
+          }],
+      "administrationEnvironment" => "Classroom",
+      "retestIndicator" => "Primary Administration",
+      "linguisticAccommodations" => [ ],
+      "studentObjectiveAssessments" => [
+          {
+              "scoreResults" => [],
+              "objectiveAssessment" => {
+                  "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
+                  "nomenclature"=> "Nomenclature",
+                  "percentOfAssessment"=> 50,
+                  "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2 Sub",
+                  "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
+                  "maxRawScore"=> 50,
+                  "objectiveAssessments"=> []
+              }
+          }]
   },
 
   "parent" => {
@@ -561,6 +653,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     }
 }
   @fields = @entityData[arg1]
+  @patch_body = @entityData[arg1]
 end
 
 When /^I create an association of type "([^"]*)"$/ do |type|
@@ -846,42 +939,7 @@ Then /^I delete both studentAssessment and Assessment$/ do
     step "I should receive a return code of 204"
 end
 
-When(/^I POST an attendance of "([^"]*)" for student "([^"]*)" in school "([^"]*)" for the schoolYear "([^"]*)" on date "([^"]*)"$/) do |categories, studentId, schoolId, schoolYear, eventDate|
-  attendance = <<-jsonDelimiter
-  {
-   "entityType":"attendance",
-   "studentId":"-----PLACEHOLDER-----",
-   "schoolId":"-----PLACEHOLDER-----",
-   "schoolYearAttendance":[
-      {
-         "schoolYear":"-----PLACEHOLDER-----",
-         "attendanceEvent":[
-            {
-               "date":"-----PLACEHOLDER-----",
-               "event":"-----PLACEHOLDER-----"
-            }
-         ]
-      }
-   ]
-  }
-  jsonDelimiter
-  attendance = JSON.parse(attendance)
-  attendance['studentId']                                  = studentId
-  attendance['schoolId']                                   = schoolId
-  attendance['schoolYearAttendance'][0]['schoolYear']      = schoolYear
-  events = categories.split(/,/).map{|category|
-      category.strip!
-      { 'date' => eventDate, 'event' => category}
-  }
-  attendance['schoolYearAttendance'][0]['attendanceEvent'] = events
-  restHttpPost('/v1/attendances', attendance.to_json, 'application/vnd.slc+json')
-  assert(@res.code == 201, "Could not create attendance #{attendance.to_json}.")
-  location = @res.raw_headers['location'][0]
-  restHttpGetAbs(location, 'application/vnd.slc+json')
-  assert(@res.code == 200, "Could not fetch newly created attendance #{attendance.to_json}.")
-end
-
-When(/^I GET  attendance for student "([^"]*)" in school "([^"]*)" for the schoolYear "([^"]*)" on date "([^"]*)" and verify that it has "([^"]*)" attendance events$/) do |studentId, schoolId, schoolYear, eventDate, eventCount|
+And(/^I GET attendance for student "([^"]*)" in school "([^"]*)" for the schoolYear "([^"]*)" on date "([^"]*)" and verify that it has "([^"]*)" attendance events$/) do |studentId, schoolId, schoolYear, eventDate, eventCount|
   url = "/v1/students/#{studentId}/attendances?schoolId=#{schoolId}"
   restHttpGet(url, 'application/vnd.slc+json')
   assert(@res.code == 200, "Could not fetch attendance #{url}.")
@@ -896,4 +954,90 @@ When(/^I GET  attendance for student "([^"]*)" in school "([^"]*)" for the schoo
   attendanceCount =  attendanceForSchoolYear[0]['schoolYearAttendance'][0]['attendanceEvent'].count if attendanceForSchoolYear.count > 0
   assert(attendanceCount == eventCount.to_i, "Expected #{eventCount} attendanceEvents. Found  #{attendanceCount}")
 
+end
+
+When(/^I POST an attendance of "([^"]*)" for student "([^"]*)" in school "([^"]*)" for the schoolYear "([^"]*)" on date "([^"]*)" for section "([^"]*)" with educational environment "([^"]*)"$/) do |categories, studentId, schoolId, schoolYear, eventDate, sectionId, educationalEnvironment|
+  attendance = <<-jsonDelimiter
+  {
+   "entityType":"attendance",
+   "studentId":"-----PLACEHOLDER-----",
+   "schoolId":"-----PLACEHOLDER-----",
+   "schoolYearAttendance":[
+      {
+         "schoolYear":"-----PLACEHOLDER-----",
+         "attendanceEvent":[
+            {
+               "date":"-----PLACEHOLDER-----",
+               "event":"-----PLACEHOLDER-----",
+               "educationalEnvironment":"-----PLACEHOLDER-----",
+               "sectionId":"-----PLACEHOLDER-----"
+            }
+         ]
+      }
+   ]
+  }
+  jsonDelimiter
+  attendance = JSON.parse(attendance)
+  attendance['studentId']                                  = studentId
+  attendance['schoolId']                                   = schoolId
+  attendance['schoolYearAttendance'][0]['schoolYear']      = schoolYear
+  events = categories.split(/,/).map {|category|
+      category.strip!
+      { 'date' => eventDate, 'event' => category, 'sectionId' => sectionId, "educationalEnvironment" => educationalEnvironment}
+  }
+  attendance['schoolYearAttendance'][0]['attendanceEvent'] = events
+  restHttpPost('/v1/attendances', attendance.to_json, 'application/vnd.slc+json')
+  assert(@res.code == 201, "Could not create attendance #{attendance.to_json}.")
+  location = @res.raw_headers['location'][0]
+  restHttpGetAbs(location, 'application/vnd.slc+json')
+  assert(@res.code == 200, "Could not fetch newly created attendance #{attendance.to_json}.")
+end
+
+And /^I GET attendance for student "(.*?)" in school "(.*?)" for the schoolYear "(.*?)" on date "(.*?)" and verify that its attendance events are for section "(.*?)"$/ do |studentId, schoolId, schoolYear, eventDate, sectionId|
+  url = "/v1/students/#{studentId}/attendances?schoolId=#{schoolId}"
+  restHttpGet(url, 'application/vnd.slc+json')
+  assert(@res.code == 200, "Could not fetch attendance #{url}.")
+  expected_count = 2
+  actual_count = 0
+  attendances = JSON.parse @res
+  attendances.each do |attendance|
+    schoolYearAttendances = attendance['schoolYearAttendance']
+    schoolYearAttendances.each do |schoolYearAttendance|
+      if schoolYearAttendance['schoolYear'] = schoolYear
+        events = schoolYearAttendance['attendanceEvent']
+        events.each do |event|
+          if event['date'] == eventDate && event['sectionId'] == sectionId
+            actual_count += 1
+          end
+        end
+      end
+    end
+  end
+  assert(expected_count == actual_count, "#{expected_count.to_s} expected, got #{actual_count.to_s}")
+end
+
+And /^I DELETE attendance for student "(.*?)" in school "(.*?)" for the schoolYear "(.*?)" on date "(.*?)" and verify that there are no attendance events remaining$/ do |studentId, schoolId, schoolYear, eventDate|
+  url = "/v1/students/#{studentId}/attendances?schoolId=#{schoolId}"
+  restHttpGet(url, 'application/vnd.slc+json')
+  assert(@res.code == 200, "Could not fetch attendance #{url}.")
+  attendances = JSON.parse @res
+
+  attendances.each {|attendance|
+    attendance_id = attendance['id']
+    restHttpDelete("/v1/attendances/#{attendance_id}")
+    assert(@res.code == 204, "Could not delete with id #{attendance_id}")
+    restHttpGet("/v1/attendances/#{attendance_id}")
+    assert(@res.code == 404, "Attendance #{attendance_id} still exists")
+  }
+
+end
+
+Then /^I set the "(.*?)" to "(.*?)" in the first "(.*?)" subdoc$/ do |key, value, subdoc|
+  @fields = {} if !defined? @fields
+  @fields[subdoc][0].merge!(key=>value)
+end
+
+Then /^I remove the "(.*?)" field in the first "(.*?)" subdoc$/ do |key, subdoc|
+  @fields = {} if !defined? @fields
+  @fields[subdoc][0].delete(key)
 end

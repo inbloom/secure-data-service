@@ -35,7 +35,6 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Sets;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.init.RoleInitializer;
@@ -86,6 +85,13 @@ public class RealmResource {
     public static final String NAME = "name";
     public static final String UNIQUE_IDENTIFIER = "uniqueIdentifier";
     public static final String IDP_ID = "idp.id";
+
+    public static final String ARTIFACT_RESOLUTION_ENDPOINT = "artifactResolutionEndpoint";
+    public static final String SOURCE_ID = "sourceId";
+
+    public static final String IDP = "idp";
+
+    private static final int SOURCEID_LENGTH = 40;
     
     @Autowired
     private EntityDefinitionStore store;
@@ -148,11 +154,18 @@ public class RealmResource {
             return validateUniqueness;
         }
 
+        Map<String, Object> idp = (Map<String, Object>) updatedRealm.get(IDP);
+        Response validateArtifactResolution = validateArtifactResolution((String) idp.get(ARTIFACT_RESOLUTION_ENDPOINT), (String) idp.get(SOURCE_ID));
+        if (validateArtifactResolution != null) {
+            LOG.debug("Invalid artifact resolution information");
+            return validateArtifactResolution;
+        }
+
         // set the tenant and edOrg
         updatedRealm.put("tenantId", SecurityUtil.getTenantId());
         updatedRealm.put(ED_ORG, SecurityUtil.getEdOrg());
 
-        if (service.update(realmId, updatedRealm)) {
+        if (service.update(realmId, updatedRealm, false)) {
             logSecurityEvent(uriInfo, oldRealm, updatedRealm);
             return Response.status(Status.NO_CONTENT).build();
         }
@@ -190,6 +203,12 @@ public class RealmResource {
         if (validateUniqueness != null) {
             LOG.debug("On realm create, uniqueId is not unique");
             return validateUniqueness;
+        }
+
+        Response validateArtifactResolution = validateArtifactResolution((String) newRealm.get(ARTIFACT_RESOLUTION_ENDPOINT), (String) newRealm.get(SOURCE_ID));
+        if (validateArtifactResolution != null) {
+            LOG.debug("Invalid artifact resolution information");
+            return validateArtifactResolution;
         }
 
         // set the tenant and edOrg
@@ -292,6 +311,27 @@ public class RealmResource {
         }
 
         return null;
+    }
+
+    protected Response validateArtifactResolution(String artifactResolutionEndpoint, String sourceId) {
+
+        if (artifactResolutionEndpoint == null && sourceId == null) {
+            return null;
+        }
+        Map<String, String> res = new HashMap<String, String>();
+
+        if (artifactResolutionEndpoint != null && sourceId != null) {
+            if ((artifactResolutionEndpoint.isEmpty() && sourceId.isEmpty())
+                    || (sourceId.length() == SOURCEID_LENGTH && !artifactResolutionEndpoint.isEmpty())) {
+                return null;
+            } else {
+                res.put(RESPONSE, "Source id needs to be 40 characters long");
+            }
+        } else {
+            res.put(RESPONSE, "artifactResolutionEndpoint and sourceId need to be present together.");
+        }
+
+        return Response.status(Status.BAD_REQUEST).entity(res).build();
     }
 
     private static String uriToString(UriInfo uri) {

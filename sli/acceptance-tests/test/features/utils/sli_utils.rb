@@ -301,6 +301,26 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
   return @res
 end
 
+# Function restHttpOptions
+# Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
+# Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
+#                               Can be manually overwritten
+# Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
+#                               Can be manually overwritten
+# Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
+# Returns: puts response in @res member variable
+# Description: Helper function that calls the REST API specified in id using an HTTP OPTIONS request
+def restHttpOptions(id, format = @format, sessionId = @sessionId)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into GET was nil")
+
+  urlHeader = makeUrlAndHeaders('get',id,sessionId,format)
+  puts "GET urlHeader: #{urlHeader}" if $SLI_DEBUG
+  @res = RestClient.options(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+  return @res
+end
+
 def restHttpCustomHeadersGet(id, customHeaders, format = @format, sessionId = @sessionId)
   restTls(id, customHeaders, format, sessionId)
   return @res
@@ -313,10 +333,7 @@ def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId, 
   puts "Loading Key and Certificate for client ID #{client_id}"
   client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
   private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
-  puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-  puts client_cert
-  puts private_key
-  puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+  puts sessionId
 
   urlHeader = makeUrlAndHeaders('get',url,sessionId,format,true)
 

@@ -89,7 +89,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
   Examples:
     | Entity Type             | Entity Resource URI      | Update Field         | Updated Value                                |
     | "assessment"            | "assessments"            | "assessmentTitle"    | "Advanced Placement Test - Subject: Writing" |
-    | "attendance"            | "attendances"            | "studentId"          | "274f4c71-1984-4607-8c6f-0a91db2d240a_id"    |
     | "gradebookEntry"        | "gradebookEntries"       | "gradebookEntryType" | "Homework"                                   |
     | "studentAcademicRecord" | "studentAcademicRecords" | "sessionId"          | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
     | "grade"                 | "grades"                 | "schoolYear"         | "2008-2009"                                  |
@@ -296,10 +295,13 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And entity URI "/v1/assessments"
     And format "application/vnd.slc+json"
-    And a valid entity json document for a "super_assessment"
+    And a valid entity json document for a "base_super_assessment"
     When I navigate to POST "<ENTITY URI>"
     Then I should receive a return code of 201
     And I should receive a new entity URI
+    And a valid entity json document for a "super_assessment"
+    When I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
     And I verify "objectiveAssessment" and "assessmentItem" should be subdoc'ed in mongo for this new "assessment"
     And I verify there are "1" "assessmentPeriodDescriptor" with "codeValue=codeGreen" in mongo
     When I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
@@ -338,7 +340,56 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     And "administrationEnvironment" should be "School"
     Then I delete both studentAssessment and Assessment
 
+  Scenario: crud on assessmentItem
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And entity URI "/v1/assessments"
+    And format "application/vnd.slc+json"
+    And a valid entity json document for a "base_super_assessment"
+    When I navigate to POST "<ENTITY URI>"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+    And a valid entity json document for a "assessment_item"
+    When I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    When I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+    And I set the "correctResponse" to "true" in the first "assessmentItem" subdoc
+    And I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    And I remove the "correctResponse" field in the first "assessmentItem" subdoc
+    And I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    When I navigate to DELETE "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
 #yearlyAttendance CRUD
+
+  Scenario: Validate AssessmentItem, ObjectiveAssessment, StudentAssessmentItem, StudentObjectiveAssessment are validated correctly
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And entity URI "/v1/assessments"
+    And format "application/vnd.slc+json"
+    And a valid entity json document for a "base_super_assessment"
+    When I navigate to POST "<ENTITY URI>"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+
+    And a valid entity json document for a "assessment_item"
+    And I remove the "identificationCode" field in the first "assessmentItem" subdoc
+    When I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 400
+    #Invalid Reference error
+    And a valid entity json document for a "assessment_item"
+    And I set the "assessmentId" to "IncorrectAssessmentId" in the first "assessmentItem" subdoc
+    And I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 400
+
+    Given a valid entity json document for a "invalid_nested_objective_assessment"
+    And I navigate to PATCH "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 400
+
+    Given entity URI "/v1/studentAssessments"
+    And a valid entity json document for a "missing_req_field_studentOA"
+    When I navigate to POST "<ENTITY URI>"
+    Then I should receive a return code of 400
 
   @us5389
   Scenario: yearlyAttendance CRUD
@@ -355,10 +406,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     And the response should contain the appropriate fields and values
     And "entityType" should be "attendance"
     And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-  # Update
-    When I set the "attendanceEvent" array to "<ATT_EVENT_ARRAY>"
-    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-    Then I should receive a return code of 204
   # Delete
     When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 204
@@ -395,13 +442,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     And the response should contain the appropriate fields and values
     And "entityType" should be "attendance"
     And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-  # Update. Should be able to update the entity multiple times.
-    When I set the "attendanceEvent" array to "<ATT_EVENT_ARRAY>"
-    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-    Then I should receive a return code of 204
-    When I set the "attendanceEvent" array to "<ATT_EVENT_ARRAY>"
-    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-    Then I should receive a return code of 204
   # Delete
     When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 204
