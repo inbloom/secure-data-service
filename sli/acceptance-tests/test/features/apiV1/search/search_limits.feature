@@ -32,6 +32,22 @@ Feature: As an SLI API, I want to be able to query search entities up to the con
     | learningStandard            | search/learningStandards           | 1499  |
     | studentCompetencyObjective  | search/studentCompetencyObjectives | 4     |
 
+  Scenario: Ensure Extended Search Entity Can Be Queried with no Limit, and Return All Records
+    Given I am logged in using "ckoch" "ckoch1234" to realm "IL"
+    And parameter "limit" is "0"
+    When I navigate to GET "/v1.3/search/learningStandards"
+    Then I should receive a return code of 200
+    And each entity's "entityType" should be "learningStandard"
+    And I should receive a collection of "1499" entities
+
+  Scenario: Ensure When Extended Search Entity Is Queried with a Limit, Limit Entities are Returned
+    Given I am logged in using "ckoch" "ckoch1234" to realm "IL"
+    And parameter "limit" is "1000"
+    When I navigate to GET "/v1.3/search/learningStandards"
+    Then I should receive a return code of 200
+    And each entity's "entityType" should be "learningStandard"
+    And I should receive a collection of "1000" entities
+
   Scenario Outline: Ensure Normal Search Entities Cannot Be Queried with a Limit Greater Than 250
     Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
     And parameter "limit" is "500"

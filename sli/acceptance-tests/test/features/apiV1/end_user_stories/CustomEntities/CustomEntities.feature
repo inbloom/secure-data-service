@@ -163,8 +163,8 @@ Scenario Outline: As an user, I want to delete a custom entity associated with a
 		
 	Examples:
 	| Username      | Password          | AnyDefaultSLIRole  | ClientID     | Key            | Value    | DelCode   | ReadCode |
-	| "sbantu"      | "sbantu1234"      | "Leader"           | "demoClient" | "Drives"       | "True"   |  403      |  200     |
-	| "rbraverman"  | "rbraverman1234"  | "Educator"         | "demoClient" | "Drives"       | "True"   |  403      |  200     |
+	| "sbantu"      | "sbantu1234"      | "Leader"           | "demoClient" | ""             | ""   |  204      |  404     |
+	| "rbraverman"  | "rbraverman1234"  | "Educator"         | "demoClient" | ""             | ""   |  204      |  404     |
 	| "msmith"      | "msmith1234"      | "AggregateViewer"  | "demoClient" | ""             | ""       |  403      |  403     |
 	| "rrogers"     | "rrogers1234"     | "ITAdmin"          | "demoClient" | ""             | ""       |  204      |  404     |
 
@@ -268,10 +268,10 @@ Scenario Outline: As an user, I want to delete and then read a custom entity ass
 		
 	Examples:
 	| Username  | Password      | AnyDefaultSLIRole  | ClientID     | Key                       | Value     | Code   | Action | ReadCode |
-	| "sbantu"  | "sbantu1234"  | "Educator"         | "demoClient" | "currentlyEnrolled"       | "True"    |  403   | DELETE |  200     |
-	| "rbraverman"  | "rbraverman1234"  | "Educator" | "demoClient" | "currentlyEnrolled"       | "True"    |  403   | DELETE |  200     |
-	| "msmith"  | "msmith1234"  | "AggregateViewer"  | "demoClient" | ""                        | ""        |  403   | DELETE |  403     |
-	| "rrogers" | "rrogers1234" | "ITAdmin"          | "demoClient" | ""                        | ""        |  204   | DELETE |  404     |    
+	| "sbantu"  | "sbantu1234"  | "Educator"         | "demoClient" | ""                        | ""    |  204   | DELETE |  404     |
+	| "rbraverman"  | "rbraverman1234"  | "Educator" | "demoClient" | ""                        | ""    |  204   | DELETE |  404     |
+	| "msmith"  | "msmith1234"  | "AggregateViewer"  | "demoClient" | ""                        | ""    |  403   | DELETE |  403     |
+	| "rrogers" | "rrogers1234" | "ITAdmin"          | "demoClient" | ""                        | ""    |  204   | DELETE |  404     |
 
 
 Scenario:  As an IT Admin, I want to add a large custom entitiy to a core entity belonging to my application

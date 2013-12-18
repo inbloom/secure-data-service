@@ -374,17 +374,28 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     @Override
-    public boolean update(String id, EntityBody content) {
+    public boolean update(String id, EntityBody content, boolean applySecurityContext) {
         LOG.debug("Updating {} in {} with {}", new Object[] {id, collectionName, SecurityUtil.getSLIPrincipal()});
-        checkAccess(false, id, content);
+
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
         Entity entity = getRepo().findOne(collectionName, query);
-        // Entity entity = repo.findById(collectionName, id);
+
         if (entity == null) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
+        }
+
+
+        if(applySecurityContext){
+            boolean isSelf = isSelf(id);
+            Collection<GrantedAuthority> auths = getEntityContextAuthorities(entity, isSelf, false);
+
+            rightAccessValidator.checkAccess(false, id, content, defn.getType(), collectionName, getRepo(), auths);
+        }
+        else{
+            checkAccess(false, id, content);
         }
 
         sanitizeEntityBody(content);
@@ -406,74 +417,11 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     @Override
-    public boolean updateBasedOnContextualRoles(String id, EntityBody content) {
-        LOG.debug("Updating {} in {} with {}", new Object[] {id, collectionName, SecurityUtil.getSLIPrincipal()});
-
-        boolean isSelf = isSelf(id);
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("_id", "=", id));
-        Entity entity = getRepo().findOne(collectionName, query);
-        // Entity entity = repo.findById(collectionName, id);
-        if (entity == null) {
-            LOG.info("Could not find {}", id);
-            throw new EntityNotFoundException(id);
-        }
-
-        Collection<GrantedAuthority> auths = getEntityContextAuthorities(entity, isSelf, false);
-
-        rightAccessValidator.checkAccess(false, id, content, defn.getType(), collectionName, getRepo(), auths);
-
-        sanitizeEntityBody(content);
-
-        boolean success = false;
-        if (entity.getBody().equals(content)) {
-            LOG.info("No change detected to {}", id);
-            return false;
-        }
-
-        checkReferences(id, content);
-
-        LOG.info("new body is {}", content);
-        entity.getBody().clear();
-        entity.getBody().putAll(content);
-
-        success = repo.update(collectionName, entity, FullSuperDoc.isFullSuperdoc(entity));
-        return success;
-    }
-
-    @Override
-    public boolean patch(String id, EntityBody content) {
-        LOG.debug("Patching {} in {}", id, collectionName);
-        checkAccess(false, id, content);
-
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("_id", "=", id));
-
-        if (repo.findOne(collectionName, query) == null) {
-            LOG.info("Could not find {}", id);
-            throw new EntityNotFoundException(id);
-        }
-
-        sanitizeEntityBody(content);
-
-        LOG.info("patch value(s): ", content);
-
-        // don't check references until things are combined
-        checkReferences(id, content);
-
-        repo.patch(defn.getType(), collectionName, id, content);
-
-        return true;
-    }
-
-    @Override
-    public boolean patchBasedOnContextualRoles(String id, EntityBody content) {
+    public boolean patch(String id, EntityBody content, boolean applySecurityContext) {
         LOG.debug("Patching {} in {}", id, collectionName);
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
-
-        boolean isSelf = isSelf(query);
 
         Entity entity = repo.findOne(collectionName, query);
         if (entity == null) {
@@ -481,13 +429,27 @@ public class BasicService implements EntityService, AccessibilityCheck {
             throw new EntityNotFoundException(id);
         }
 
-        Collection<GrantedAuthority> auths = getEntityContextAuthorities(entity, isSelf, false);
+        if(applySecurityContext){
+            boolean isSelf = isSelf(query);
+            Collection<GrantedAuthority> auths = getEntityContextAuthorities(entity, isSelf, false);
 
-        rightAccessValidator.checkAccess(false, id, content, defn.getType(), collectionName, getRepo(), auths);
+            rightAccessValidator.checkAccess(false, id, content, defn.getType(), collectionName, getRepo(), auths);
+        }
+        else{
+            checkAccess(false, id, content);
+        }
 
         sanitizeEntityBody(content);
 
         LOG.info("patch value(s): ", content);
+        //run this check after sanitization
+        if(content.isEmpty()) {
+            //in this case there are no fields included for the PATCH request. This is a problem
+            // because the update is built without an update operator expression which mongodb
+            // interprets as a request to replace the entire document
+            LOG.info("Entity body was empty on PATCH request for {}", id);
+            return false;
+        }
 
         // don't check references until things are combined
         checkReferences(id, content);
@@ -1187,11 +1149,9 @@ public class BasicService implements EntityService, AccessibilityCheck {
                             basicDBList.remove(sourceId);
                             EntityBody patchEntityBody = new EntityBody();
                             patchEntityBody.put(referenceField, basicDBList);
-                            if (SecurityUtil.isStaffUser()) {
-                                referencingEntityService.patchBasedOnContextualRoles(idToBePatched, patchEntityBody);
-                            } else {
-                                referencingEntityService.patch(idToBePatched, patchEntityBody);
-                            }
+
+                            //if isStaffUser == true then enforce contextual roles, otherwise do not
+                            referencingEntityService.patch(idToBePatched, patchEntityBody, SecurityUtil.isStaffUser());
                         }
                     } else {
                         // list all entities that have the deleted entity's ID in their reference

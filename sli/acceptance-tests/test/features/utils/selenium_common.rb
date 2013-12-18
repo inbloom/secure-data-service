@@ -83,8 +83,11 @@ end
 
 def ignore_security_alert
   #This function may be useful when Firefox generates a security alert
-  @driver.switch_to.alert.accept
-rescue Exception => e
+  begin
+    @driver.switch_to.alert.accept
+    puts 'Browser alert message accepted.'
+  rescue
+  end
 end
 
 When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page$/ do |user, pass, idpType|
@@ -94,10 +97,7 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
     @driver.find_element(:id, "IDToken1").send_keys user
     @driver.find_element(:id, "IDToken2").send_keys pass
     @driver.find_element(:name, "Login.Submit").click
-    begin
-      @driver.switch_to.alert.accept
-    rescue
-    end
+    ignore_security_alert
   elsif idpType=="ADFS"
     @driver.find_element(:id, "ctl00_ContentPlaceHolder1_UsernameTextBox").send_keys user
     @driver.find_element(:id, "ctl00_ContentPlaceHolder1_PasswordTextBox").send_keys pass
@@ -114,10 +114,10 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
     @driver.find_element(:name, "j_username").send_keys user
     @driver.find_element(:name, "j_password").send_keys pass
     @driver.find_element(:css, ".form-button").click
+    ignore_security_alert
   else
     raise "IDP type '#{arg1}' not implemented yet"
   end
-  ignore_security_alert
   sleep 3 # wait 3 seconds before enabling notablescan flag again
   enable_NOTABLESCAN
 

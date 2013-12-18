@@ -36,12 +36,12 @@ When /^I POST a bell schedule$/ do
                                      "href" => "educationOrganizations/" + @expected_entity['educationOrganizationId']
                                    },
                                    {
-                                     "rel" => "getCalendar",
-                                     "href" =>  "calendarDates/" + @expected_entity['calendarDateReference']
+                                       "rel" => "getClassPeriod",
+                                       "href" =>  "classPeriods/" + @expected_entity['meetingTime']['classPeriodId']
                                    },
                                    {
-                                     "rel" => "getClassPeriod",
-                                     "href" =>  "classPeriods/" + @expected_entity['meetingTime']['classPeriodId']
+                                     "rel" => "getCalendarDate",
+                                     "href" =>  "calendarDates/" + @expected_entity['calendarDateReference']
                                    }
                                  ]
                      }

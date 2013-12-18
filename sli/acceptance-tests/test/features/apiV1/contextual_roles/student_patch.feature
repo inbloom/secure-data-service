@@ -8,6 +8,7 @@ Feature: Use the APi to successfully patch student data while having roles over 
     And format "application/json"
 
   Scenario: Role with all the write rights in school can patch a student with restricted data
+    Given I change the custom role of "Leader" to remove the "WRITE_GENERAL" right
     When I log in as "msmith"
 
     When I change the field "sex" to "Male"
@@ -110,7 +111,8 @@ Feature: Use the APi to successfully patch student data while having roles over 
 
 
   Scenario: Staff with restricted write right in one school can not patch general student data in either school
-    And I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
+    Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
+    And I change the custom role of "Leader" to remove the "WRITE_GENERAL" right
     And I change the custom role of "Educator" to add the "WRITE_GENERAL" right
 
     When I log in as "rbelding"
@@ -146,7 +148,8 @@ Feature: Use the APi to successfully patch student data while having roles over 
     Then I should receive a return code of 403
 
   Scenario: Staff with restricted write right in one school can patch restricted student data in one school
-    And I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
+    Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
+    And I change the custom role of "Leader" to remove the "WRITE_GENERAL" right
     And I change the custom role of "Educator" to add the "WRITE_GENERAL" right
 
     When I log in as "rbelding"
@@ -188,6 +191,7 @@ Feature: Use the APi to successfully patch student data while having roles over 
     Given I change the custom role of "Leader" to add the "WRITE_GENERAL" right
     And I change the custom role of "Educator" to add the "WRITE_GENERAL" right
     And I change the custom role of "Educator" to add the "WRITE_RESTRICTED" right
+    And I change the custom role of "Educator" to remove the "WRITE_GENERAL" right
 
     And the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
