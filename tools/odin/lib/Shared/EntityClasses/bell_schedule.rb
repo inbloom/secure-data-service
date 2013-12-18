@@ -20,37 +20,25 @@ require_relative 'baseEntity.rb'
 
 class BellSchedule < BaseEntity
 
-  attr_accessor :id, :session
+  attr_accessor :ed_org_id, :calendar_date, :class_period_name, :start_time, :end_time
 
-  def initialize(id, session)
-    @id = id
-    @session = :session
+  def initialize(ed_org_id, calendar_date, class_period_name, start_time, end_time)
+    # raise [ ed_org_id, calendar_date, class_period_name, start_time, end_time ].to_s()
+    @ed_org_id = ed_org_id
+    @calendar_date = calendar_date
+    @class_period_name = class_period_name
+    @start_time = start_time
+    @end_time = end_time
   end
   
- def  edOrgId
-   3000
- end
+  # Bell schedule name
   def name
-    "schedule name"
+    "Bell Schedule"
   end
 
-  def gradeLevels
-    ["Early Education"]
+  # Grade levels
+  def grade_levels
+    [ "Early Education" ]
   end  
-  def weeksInCycle
-    3
-  end
 
-  def classPeriodName
-    "classperiodName"
-  end
-  
-  def weekNumber
-    40
-  end
-  
-  ## FIXME - Needs a fixed date
-  def calendarDate
-   Date.today.xmlschema
-  end
 end

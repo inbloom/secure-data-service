@@ -51,6 +51,8 @@ class SectionWorkOrderFactory
     school_id    = DataUtility.get_school_id(ed_org['id'], ed_org_type.to_sym)
     ed_org_index = @world[ed_org_type].index(ed_org) if @world[ed_org_type].nil? == false and @world[ed_org_type].size > 0
 
+    class_periods = @world[ed_org_type][ed_org_index]["class_periods"]
+    
     @teachers[school_id] = [] if @teachers[school_id].nil?
     @world[ed_org_type][ed_org_index]['sections'] = {}
     ed_org_assigned = {}
@@ -136,7 +138,10 @@ class SectionWorkOrderFactory
                 
                 gradebook_entries.each { |entry| yielder << entry }
 
-                yielder << {:type=>Section, :id=>section[:id], :edOrg=>school_id, :offering=>offering}
+                period_idx = Random.rand(class_periods.length)
+                class_period_name = class_periods[period_idx][:name]
+
+                yielder << {:type=>Section, :id=>section[:id], :edOrg=>school_id, :offering=>offering, :class_period_name => class_period_name}
                 unless session.nil?
                   dates = session['interval']
                 else

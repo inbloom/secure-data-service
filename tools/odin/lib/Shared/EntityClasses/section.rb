@@ -27,9 +27,9 @@ class Section < BaseEntity
 
   attr_accessor :school_id, :unique_section_code, :sequence, :environment, 
     :medium, :population, :course_offering, :session,
-    :availableCredit
+    :availableCredit, :ed_org_id, :class_period_name
 
-  def initialize(id, school_id, offering, session = offering['session'], program = nil)
+  def initialize(id, school_id, offering, class_period_name, session = offering['session'], program = nil)
     @rand = Random.new(id.hash)
     # move these to choices.yml eventually and have these be a weighted choice
     @sequence = 1  
@@ -37,6 +37,7 @@ class Section < BaseEntity
     @medium = "Face-to-face instruction"
     @population = "Regular Students"
     @school_id = school_id
+    @class_period_name = class_period_name
     @course_offering = {code: DataUtility.get_course_offering_code(offering['id']),
                         ed_org_id: offering['ed_org_id'],
                         session: offering['session']}
@@ -44,6 +45,7 @@ class Section < BaseEntity
     @unique_section_code = DataUtility.get_unique_section_id(id)
     #@program              = program
     # --> programs are not currently implementedS
+    @class_period_name = class_period_name
     
     optional {@availableCredit = {
         :credit => @rand.rand(500)/100,
@@ -60,4 +62,9 @@ class Section < BaseEntity
     }
     
   end
+
+  def ed_org_id
+    @school_id
+  end
+
 end
