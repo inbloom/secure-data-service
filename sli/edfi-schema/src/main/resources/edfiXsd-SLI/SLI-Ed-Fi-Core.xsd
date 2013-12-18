@@ -92,7 +92,9 @@
             <xs:element name="AssessmentItem" type="SLC-AssessmentItem"/>
             <xs:element name="AssessmentPeriodDescriptor" type="SLC-AssessmentPeriodDescriptor"/>
             <xs:element name="AttendanceEvent" type="SLC-AttendanceEvent"/>
+            <xs:element name="BellSchedule" type="SLC-BellSchedule"/>
             <xs:element name="CalendarDate" type="SLC-CalendarDate"/>
+            <xs:element name="ClassPeriod" type="SLC-ClassPeriod"/>
             <xs:element name="Cohort" type="SLC-Cohort"/>
             <xs:element name="CompetencyLevelDescriptor" type="SLC-CompetencyLevelDescriptor"/>
             <xs:element name="Course" type="SLC-Course"/>
