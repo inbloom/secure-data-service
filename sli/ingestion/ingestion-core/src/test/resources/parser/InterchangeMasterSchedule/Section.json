@@ -133,23 +133,23 @@
   },
   "ClassPeriodReference":
   {
-    "a_id":"ID007",
     "ClassPeriodIdentity":
     {
       "ClassPeriodName":
       {
         "_value":"ClassPeriodName1"
       },
-      "StateOrganizationId":
-      [
-      {
-        "_value":"StateOrganizationId17"
-      },
-      {
-        "_value":"StateOrganizationId18"
-      }
-      ]
-    }
+      "EducationOrganizationReference":
+            {
+              "EducationalOrgIdentity":
+              {
+                "StateOrganizationId":
+                {
+                  "_value":"17"
+                }
+              }
+            }
+          }
   },
   "ProgramReference":
   [
