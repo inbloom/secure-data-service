@@ -60,6 +60,8 @@ And I should see "InterchangeEducationOrgCalendar.xml calendarDate 1 deltas!" in
 And I should see "InterchangeMasterSchedule.xml bellSchedule 1 deltas!" in the resulting batch job file
 And I should see "InterchangeMasterSchedule.xml section 1 deltas!" in the resulting batch job file
 And I re-execute saved query "bellSchedule" to get "1" records
+And I re-execute saved query "classPeriod" to get "1" records
+And I re-execute saved query "section" to get "1" records
 
 #updates through ingestion
 Then I ingest "BellScheduleUpdates.zip"
@@ -136,3 +138,18 @@ Then there exist "1" "bellSchedule" records like below in "Midgar" tenant. And I
     |body.educationOrganizationId                                     |2897f482a59f833370562b33e2f7478c3fb25aed_id         |
 
 And I re-execute saved query "bellSchedule2" to get "1" records
+
+#deletes
+#updates through ingestion
+#Then I ingest "BellScheduleDeletes.zip"
+#Then I should see following map of entry counts in the corresponding collections:
+     #| collectionName                           |            count |
+     #| bellSchedule                             |                0 |
+     #| calendarDate                             |                1 |
+     #| classPeriod                              |                1 |
+     #| educationOrganization                    |                1 |
+     #| section                                  |                1 |
+     #| recordHash                               |                4 |
+
+#And I re-execute saved query "bellSchedule" to get "0" records
+#And I re-execute saved query "bellSchedule2" to get "0" records
