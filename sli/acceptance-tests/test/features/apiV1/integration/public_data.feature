@@ -178,7 +178,6 @@ Feature: Users can access public entities
        | Entity                       | URI                                           |
        | /calendarDates               | /educationOrganizations/<EDORG>/calendarDates |
        | /classPeriods                | /educationOrganizations/<EDORG>/classPeriods  |
-       | /classPeriods                | /educationOrganizations/<EDORG>/classPeriods  |
        | /bellSchedules               | /educationOrganizations/<EDORG>/bellSchedules |
 
 
@@ -272,7 +271,7 @@ Feature: Users can access public entities
     When I PUT and validate the following entities:
        |  field          | entityName       |  value            | returnCode | endpoint                                                  |
        |  calendarEvent  | newCalendarDate2 | Holiday           | 403        | calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
-      #| classPeriodName | newClassPeriod   | First Period      | 405        | classPeriods/42921d6ca01bcee753d5bc81e2f3e1592ed05492_id  |
+       | classPeriodName | newClassPeriod   | First Period      | 405        | classPeriods/42921d6ca01bcee753d5bc81e2f3e1592ed05492_id  |
        | gradeLevels     |  bellSchedule    | patchGradeLevels  | 403        | bellSchedules/ab9e672f9bc3e9cc988763041a4435743d8a8e34_id  |
     Then I verify the following response body fields in "/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id":
        | field                   | value                                       |
