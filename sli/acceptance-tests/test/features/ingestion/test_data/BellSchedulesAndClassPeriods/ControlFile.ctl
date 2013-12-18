@@ -1,2 +1,3 @@
 edfi-xml,EducationOrganization,InterchangeEducationOrganization.xml
 edfi-xml,MasterSchedule,InterchangeMasterSchedule.xml
+edfi-xml,EducationOrgCalendar,InterchangeEducationOrgCalendar.xml
