@@ -22,7 +22,7 @@
         <jb:expression property="type">'bellSchedule'</jb:expression>
         <jb:wiring property="body" beanIdRef="bellScheduleBody" />
     </jb:bean>
-    
+
     <jb:bean beanId="bellScheduleBody" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="bellScheduleName" data="attributes BellScheduleName _value" />
         <jb:wiring property="gradeLevels" beanIdRef="GradeLevels" />
@@ -30,11 +30,11 @@
         <jb:value property="educationOrganizationId" data="attributes EducationOrganizationReference" />
         <jb:value property="calendarDateReference" data="attributes CalendarDateReference" />
     </jb:bean>
-    
+
     <jb:bean beanId="GradeLevels" class="java.util.ArrayList" createOnElement="attributes GradeLevels">
         <jb:value data="attributes GradeLevels GradeLevel element _value " />
     </jb:bean>
-    
+
     <jb:bean beanId="MeetingTime" class="java.util.HashMap" createOnElement="attributes MeetingTime">
         <jb:value property="classPeriodId" data="attributes MeetingTime ClassPeriodReference" />
         <jb:value property="alternateDayName" data="attributes MeetingTime AlternateDayName _value" />
@@ -42,5 +42,5 @@
         <jb:value property="endTime" data="attributes MeetingTime EndTime _value" />
         <jb:value property="officialAttendancePeriod" data="attributes MeetingTime OfficialAttendancePeriod _value" />
    </jb:bean>
-    
+
 </smooks-resource-list>
