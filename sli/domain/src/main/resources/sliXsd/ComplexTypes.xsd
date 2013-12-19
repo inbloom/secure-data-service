@@ -3775,7 +3775,7 @@
                             <sli:allowedBy>READ_STUDENT_RESTRICTED</sli:allowedBy>
                         </sli:ReadEnforcement>
                         <sli:WriteEnforcement>
-                            <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_RESTRICTED</sli:allowedBy>
                             <sli:allowedBy>WRITE_STUDENT_RESTRICTED</sli:allowedBy>
                         </sli:WriteEnforcement>
                     </xs:appinfo>

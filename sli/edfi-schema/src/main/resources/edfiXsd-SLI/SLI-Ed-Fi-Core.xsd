@@ -1710,12 +1710,18 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType">
-                <xs:annotation>
-                    <xs:appinfo>
-                        <sli:keyFieldName>classPeriodId</sli:keyFieldName>
-                    </xs:appinfo>
-                </xs:annotation>
+            <xs:element name="MeetingTime">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType">
+                            <xs:annotation>
+                                <xs:appinfo>
+                                    <sli:keyFieldName>classPeriodId</sli:keyFieldName>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
             </xs:element>
             <xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType">
                 <xs:annotation>
