@@ -62,6 +62,7 @@ import org.slc.sli.domain.NeutralQuery;
 public class ContextValidator implements ApplicationContextAware {
 
     private static final Logger LOG = LoggerFactory.getLogger(ContextValidator.class);
+
     protected static final Set<String> GLOBAL_RESOURCES = new HashSet<String>(
             Arrays.asList(ResourceNames.ASSESSMENTS,
             ResourceNames.CALENDAR_DATES,
@@ -358,46 +359,45 @@ public class ContextValidator implements ApplicationContextAware {
     */
     protected Set<String> getEntityIdsToValidate(EntityDefinition def, Collection<Entity> entities, boolean isTransitive, Collection<String> ids)
                           throws APIAccessDeniedException, EntityNotFoundException {
-         int found = 0;
-         Set<String> entityIdsToValidate = new HashSet<String>();
-            for (Entity ent : entities) {
-                found++;
-                Collection<String> userEdOrgs = edOrgHelper.getDirectEdorgs(ent);
-                if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
-                        && "true".equals(ent.getMetaData().get("isOrphaned"))) {
-                    LOG.debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
-                } else if (SecurityUtil.getSLIPrincipal().getEntity() != null
-                        && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
-                    LOG.debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
+        Set<String> entityIdsToValidate = new HashSet<String>();
+        for (Entity ent : entities) {
+            Collection<String> userEdOrgs = edOrgHelper.getDirectEdorgs(ent);
+            if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
+                    && "true".equals(ent.getMetaData().get("isOrphaned"))) {
+                LOG.debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
+            } else if (SecurityUtil.getSLIPrincipal().getEntity() != null
+                    && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
+                LOG.debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
+            } else {
+                if (ownership.canAccess(ent, isTransitive)) {
+                    entityIdsToValidate.add(ent.getEntityId());
                 } else {
-                    if (ownership.canAccess(ent, isTransitive)) {
-                        entityIdsToValidate.add(ent.getEntityId());
-                    } else {
-                        throw new APIAccessDeniedException("Access to " + ent.getEntityId() + " is not authorized", userEdOrgs);
-                    }
+                    throw new APIAccessDeniedException("Access to " + ent.getEntityId() + " is not authorized", userEdOrgs);
                 }
             }
+        }
 
-// 
-            if (entities.size() != ids.size()) {
-                for(String id : ids ){
-                	boolean foundentity = false;        
-                    for (Entity ent : entities){
-                    if(ent.getEntityId().contains(id)){
+        // report an EntityNotFoundException on the id we find without a corresponding entity
+        // so that we don't use the constructor for EntityNotFoundException incorrectly
+        if (entities.size() != ids.size()) {
+            for (String id : ids ) {
+                boolean foundentity = false;
+                for (Entity ent : entities) {
+                    if (ent.getEntityId().contains(id)){
                     	foundentity = true;
-                    	continue;
-                        }
-                    }
-                    if(!foundentity){
-                		LOG.debug("Invalid reference, an entity does not exist. collection: {} entities: {}",
-                        def.getStoredCollectionName(), entities);
-                        throw new EntityNotFoundException(id);
+                    	break;
                     }
                 }
+                if (!foundentity) {
+                    LOG.debug("Invalid reference, an entity does not exist. collection: {} entities: {}",
+                            def.getStoredCollectionName(), entities);
+                    throw new EntityNotFoundException(id);
+                }
             }
+        }
 
-         return entityIdsToValidate;
-       }
+        return entityIdsToValidate;
+    }
 
     /**
      * This method forgivingly iterate through the input entities, returns a set of entity ids to validate,
