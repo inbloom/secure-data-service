@@ -118,6 +118,7 @@ Then there exist "1" "bellSchedule" records like below in "Midgar" tenant. And I
 
 #remove classPeriod from Section
 Then I ingest "RemoveClassPeriodFromSection.zip"
+ And I re-execute saved query "section" to get "0" records
  Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "section"
     |field       													  |value                                               |
     |_id         													  |004f6c78a56037e462cee1691ab6251a2bb69222_id         |
@@ -335,3 +336,7 @@ And I see that collections counts have changed as follows in tenant "Midgar"
     |collection                        | delta    |
     | classPeriod                      |       -1 |
     | recordHash                       |       -1 |
+    
+    
+ #orphan delete of class period
+    
