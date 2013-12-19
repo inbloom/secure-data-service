@@ -12,11 +12,11 @@
     <json:reader rootName="json" />
 
     <core:filterSettings type="SAX" readerPoolSize="5" />
-    
+
     <jb:bean beanId="bellSchedules" class="java.util.ArrayList" createOnElement="#document">
         <jb:wiring beanIdRef="bellSchedule" />
     </jb:bean>
-    
+
     <!-- Start BellSchedule mapping -->
     <jb:bean beanId="bellSchedule" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
         <jb:expression property="type">'bellSchedule'</jb:expression>

@@ -25,8 +25,6 @@
     
     <jb:bean beanId="classPeriodBody" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="classPeriodName" data="attributes ClassPeriodName _value" />
-		<jb:value property="educationOrganizationId" data="attributes EducationOrganizationReference" />
+        <jb:value property="educationOrganizationId" data="attributes EducationOrganizationReference" />
     </jb:bean>
-    
-    
 </smooks-resource-list>
