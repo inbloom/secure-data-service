@@ -1,11 +1,15 @@
 Feature: Users can access public entities
 
-  Background: Update calendar dates to reference schools (until Odin generates Calendar Dates for schools)
+  Scenario: Update calendar dates to reference schools (until Odin generates Calendar Dates for schools)
     Given I update the "calendarDate" with ID "7629c5951c8af6dac204cf636d5a81acb64fc6ef_id" field "body.educationOrganizationId" to "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
     Given I update the "calendarDate" with ID "6f93d0a3e53c2d9c3409646eaab94155fe079e87_id" field "body.educationOrganizationId" to "352e8570bd1116d11a72755b987902440045d346_id"
 
     Scenario: Class Period Creation
-    Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
+    Given the following collections are empty in datastore:
+         | collectionName                            |
+         | bellSchedule                              |
+         | classPeriod                               |
+    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
      And format "application/json"
      And I am using api version "v1"
     When I POST and validate the following entities:
