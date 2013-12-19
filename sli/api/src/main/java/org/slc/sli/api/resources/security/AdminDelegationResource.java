@@ -23,6 +23,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
@@ -108,7 +109,11 @@ public class AdminDelegationResource {
 
             String edOrg = SecurityUtil.getEdOrg();
             if (edOrg == null) {
+<<<<<<< HEAD
                 throw new EntityNotFoundException("No edorg exists on principal.");
+=======
+                throw new APIAccessDeniedException("Can not grant access because no edOrg exists on principal.");
+>>>>>>> re DE2922 fix up formatting; make logical structure more similar to how the code was before; fix small logic error with "continue" rather than "break" when something is found in a linear search; use APIAccessDeniedException rather than AccessDeniedException to get logging
             }
 
             List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
@@ -205,14 +210,16 @@ public class AdminDelegationResource {
     private EntityBody getDelegationRecordForPrincipal() {
         String edOrgId = SecurityUtil.getEdOrgId();
         if (edOrgId == null) {
+
             throw new EntityNotFoundException("No edorg exists on principal.");
+
         }
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(LEA_ID, "=", edOrgId));
         Iterator<EntityBody> it = service.list(query).iterator();
         //Iterator<String> it = service.listIds(query).iterator();
-        if (it.hasNext()){
+        if (it.hasNext()) {
             return it.next();
         } else {
             return null;

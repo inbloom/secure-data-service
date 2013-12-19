@@ -28,7 +28,6 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -55,10 +54,14 @@ public class AdminDelegationResourceTest {
     private SecurityContextInjector securityContextInjector;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     @Test(expected = APIAccessDeniedException.class)
 =======
     @Test(expected = AccessDeniedException.class)
 >>>>>>> removed entitynotfound exception and applied appropriate exception instead
+=======
+    @Test(expected = APIAccessDeniedException.class)
+>>>>>>> re DE2922 fix up formatting; make logical structure more similar to how the code was before; fix small logic error with "continue" rather than "break" when something is found in a linear search; use APIAccessDeniedException rather than AccessDeniedException to get logging
     public void testGetDelegationsNoEdOrg() throws Exception {
 
         securityContextInjector.setLeaAdminContext();
