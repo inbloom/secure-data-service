@@ -138,7 +138,7 @@ class SectionWorkOrderFactory
                 
                 gradebook_entries.each { |entry| yielder << entry }
 
-                period_idx = Random.rand(class_periods.length)
+                period_idx = @prng.rand(class_periods.length)
                 class_period_name = class_periods[period_idx][:name]
 
                 yielder << {:type=>Section, :id=>section[:id], :edOrg=>school_id, :offering=>offering, :class_period_name => class_period_name}
