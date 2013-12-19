@@ -14,28 +14,32 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.representation;
+package org.slc.sli.api.jersey.exceptionhandlers;
+
+import org.slc.sli.api.representation.ErrorResponse;
+import org.slc.sli.api.resources.generic.PreConditionFailedException;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.slc.sli.api.selectors.doc.EmbeddedDocumentLimitException;
-import org.springframework.stereotype.Component;
-
 /**
- * @author jstokes
+ * Exception mapper for precondition failures
+ *
+ * @author srupasinghe
  */
+
 @Provider
 @Component
-public class EmbeddedDocumentLimitExceptionHandler implements ExceptionMapper<EmbeddedDocumentLimitException> {
+public class PreConditionExceptionHandler implements ExceptionMapper<PreConditionFailedException> {
 
-    @Override
-    public Response toResponse(EmbeddedDocumentLimitException e) {
+    public Response toResponse(PreConditionFailedException e) {
+
         return Response
-                .status(CustomStatus.ENTITY_TOO_LARGE)
-                .entity(new ErrorResponse(CustomStatus.ENTITY_TOO_LARGE.getStatusCode(), CustomStatus.ENTITY_TOO_LARGE.getReasonPhrase(),
+                .status(Response.Status.PRECONDITION_FAILED)
+                .entity(new ErrorResponse(Response.Status.PRECONDITION_FAILED.getStatusCode(), Response.Status.PRECONDITION_FAILED.getReasonPhrase(),
                         e.getMessage())).build();
+
     }
 }
-

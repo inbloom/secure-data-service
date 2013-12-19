@@ -14,28 +14,32 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.representation;
+
+package org.slc.sli.api.jersey.exceptionhandlers;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.slc.sli.api.security.context.ResponseTooLargeException;
+import org.apache.commons.lang3.StringUtils;
+import org.slc.sli.api.representation.ErrorResponse;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.validation.EntityValidationException;
+
 /**
- * Hander for when the request is too large to manage
+ * Hander for validation errors
  */
 @Provider
 @Component
-public class ResponseTooLargeExceptionHandler implements ExceptionMapper<ResponseTooLargeException> {
-    
-    @Override
-    public Response toResponse(ResponseTooLargeException exception) {
-        
+public class ValidationExceptionHandler implements ExceptionMapper<EntityValidationException> {
+
+    public Response toResponse(EntityValidationException e) {
+        String exceptionMessage = "Validation failed: " + StringUtils.join(e.getValidationErrors(), "\n");
         return Response
-                .status(CustomStatus.ENTITY_TOO_LARGE)
-                .entity(new ErrorResponse(CustomStatus.ENTITY_TOO_LARGE.getStatusCode(), CustomStatus.ENTITY_TOO_LARGE.getReasonPhrase(),
-                        "The request is too large to resolve.")).build();
+                .status(Response.Status.BAD_REQUEST)
+                .entity(new ErrorResponse(Status.BAD_REQUEST.getStatusCode(), Status.BAD_REQUEST.getReasonPhrase(),
+                        exceptionMessage)).build();
     }
 }

@@ -14,25 +14,30 @@
  * limitations under the License.
  */
 
-
-package org.slc.sli.api.representation;
+package org.slc.sli.api.jersey.exceptionhandlers;
 
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.slc.sli.api.representation.CustomStatus;
+import org.slc.sli.api.representation.ErrorResponse;
+import org.slc.sli.api.selectors.doc.EmbeddedDocumentLimitException;
 import org.springframework.stereotype.Component;
 
 /**
- * Handles bad requests
-  */
+ * @author jstokes
+ */
 @Provider
 @Component
-public class IllegalArgumentExceptionHandler implements ExceptionMapper<IllegalArgumentException> {
+public class EmbeddedDocumentLimitExceptionHandler implements ExceptionMapper<EmbeddedDocumentLimitException> {
 
     @Override
-    public Response toResponse(IllegalArgumentException e) {
-        return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+    public Response toResponse(EmbeddedDocumentLimitException e) {
+        return Response
+                .status(CustomStatus.ENTITY_TOO_LARGE)
+                .entity(new ErrorResponse(CustomStatus.ENTITY_TOO_LARGE.getStatusCode(), CustomStatus.ENTITY_TOO_LARGE.getReasonPhrase(),
+                        e.getMessage())).build();
     }
 }
+

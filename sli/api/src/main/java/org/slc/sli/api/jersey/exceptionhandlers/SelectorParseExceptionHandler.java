@@ -14,35 +14,29 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.representation;
+package org.slc.sli.api.jersey.exceptionhandlers;
 
-import org.slc.sli.api.resources.generic.MethodNotAllowedException;
+import org.slc.sli.api.representation.ErrorResponse;
+import org.slc.sli.api.selectors.model.SelectorParseException;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 /**
- * Exception mapper for dis allowed methods
- *
- * @author srupasinghe
+ * @author jstokes
  */
-
 @Provider
 @Component
-public class MethodNotAllowedExceptionHandler implements ExceptionMapper<MethodNotAllowedException> {
+public class SelectorParseExceptionHandler implements ExceptionMapper<SelectorParseException> {
 
-    public Response toResponse(MethodNotAllowedException e) {
-        String message = "Method Not Allowed [" + e.getAllowedMethods() + "]";
-
-        Response.ResponseBuilder builder =  Response
-                .status(405)
-                .entity(new ErrorResponse(405, "Method Not Allowed",
-                        message));
-
-        builder.header("Allow", "Allow: " + e.getAllowedMethods());
-
-        return builder.build();
+    public Response toResponse(SelectorParseException e) {
+        return Response
+                .status(Response.Status.BAD_REQUEST)
+                .entity(new ErrorResponse(Status.BAD_REQUEST.getStatusCode(), Status.BAD_REQUEST.getReasonPhrase(),
+                        e.getMessage())).build();
     }
 }
+

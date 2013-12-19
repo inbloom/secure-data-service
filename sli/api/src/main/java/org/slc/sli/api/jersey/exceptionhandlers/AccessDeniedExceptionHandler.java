@@ -15,13 +15,9 @@
  */
 
 
-package org.slc.sli.api.representation;
+package org.slc.sli.api.jersey.exceptionhandlers;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Context;
@@ -32,6 +28,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.slc.sli.api.representation.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +36,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.resources.security.RealmResource;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
 

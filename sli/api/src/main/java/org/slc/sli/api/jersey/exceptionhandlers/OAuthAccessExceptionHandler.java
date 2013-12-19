@@ -15,7 +15,7 @@
  */
 
 
-package org.slc.sli.api.representation;
+package org.slc.sli.api.jersey.exceptionhandlers;
 
 import java.util.HashMap;
 import java.util.Map;

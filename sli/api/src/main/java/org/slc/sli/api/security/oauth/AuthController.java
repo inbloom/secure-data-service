@@ -28,7 +28,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slc.sli.api.init.RealmInitializer;
-import org.slc.sli.api.representation.OAuthAccessExceptionHandler;
+import org.slc.sli.api.jersey.exceptionhandlers.OAuthAccessExceptionHandler;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.saml.SamlHelper;
 import org.slc.sli.api.util.SecurityUtil;
