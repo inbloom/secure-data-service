@@ -339,4 +339,30 @@ And I see that collections counts have changed as follows in tenant "Midgar"
     
     
  #orphan delete of class period
+ Then I ingest "ClassPeriodsOrphan.zip"
+ Then there exist "1" "classPeriod" records like below in "Midgar" tenant. And I save this query as "classPeriod"
+    |field       													  |value                                               |
+    |_id         													  |9d3e57cdb4e23b4693e26b9603f611b44af8e6a7_id         |
+    |type										                      |classPeriod                                         |
+    |body.classPeriodName                                             |Megatron Class Period Name                          |
+    |body.educationOrganizationId                                     |2fe47c8e78a65ee51a72628c170673c35c4bd85a_id         |
+ And I save the collection counts in "Midgar" tenant
+ And the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+ And I post "ClassPeriodsOrphanDelete.zip" file as the payload of the ingestion job
+ When zip file is scp to ingestion landing zone
+ And a batch job for file "ClassPeriodsOrphanDelete.zip" is completed in database
+And I should see "InterchangeEducationOrganization.xml records considered for processing: 1" in the resulting batch job file
+And I should see "InterchangeEducationOrganization.xml records deleted successfully: 1" in the resulting batch job file
+And I should see "All records processed successfully" in the resulting batch job file
+And I should see "Processed 1 records." in the resulting batch job file
+And I should not see an error log file created
+And I re-execute saved query "classPeriod" to get "0" records
+And I see that collections counts have changed as follows in tenant "Midgar"
+    |collection                        | delta    |
+    | classPeriod                      |       -1 |
+    | recordHash                       |       -1 |
+
+ 
+ 
+ 
     
