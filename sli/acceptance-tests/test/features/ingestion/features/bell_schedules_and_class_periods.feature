@@ -1,4 +1,4 @@
-Feature: Ingestion SuperDoc Deletion
+Feature: Ingestion of Class Periods and Bell Schedules
 
 Scenario: Ingestion of Bell Schedules and Class Periods
 
@@ -139,17 +139,101 @@ Then there exist "1" "bellSchedule" records like below in "Midgar" tenant. And I
 
 And I re-execute saved query "bellSchedule2" to get "1" records
 
-#deletes
-#updates through ingestion
-#Then I ingest "BellScheduleDeletes.zip"
-#Then I should see following map of entry counts in the corresponding collections:
-     #| collectionName                           |            count |
-     #| bellSchedule                             |                0 |
-     #| calendarDate                             |                1 |
-     #| classPeriod                              |                1 |
-     #| educationOrganization                    |                1 |
-     #| section                                  |                1 |
-     #| recordHash                               |                4 |
+#safe deletes of other entities
+Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "educationOrganization"
+    | field                                            |value                                                |
+    | _id                                              | 2897f482a59f833370562b33e2f7478c3fb25aed_id         |
+Then there exist "1" "calendarDate" records like below in "Midgar" tenant. And I save this query as "calendarDate"
+    | field                                            |value                                                |
+    | _id                                              | 83df3b52534ead7445a26da2a74c5f077d059753_id         |
+And I save the collection counts in "Midgar" tenant
+And I post "SafeDeleteOfEntitiesReferredByBellSchedule.zip" file as the payload of the ingestion job
+When zip file is scp to ingestion landing zone
+And a batch job for file "SafeDeleteOfEntitiesReferredByBellSchedule.zip" is completed in database
+And I should see "InterchangeEducationOrganization.xml records deleted successfully: 0" in the resulting batch job file
+And I should see "InterchangeEducationOrganization.xml records failed processing: 1" in the resulting batch job file
+And I should see "InterchangeEducationOrgCalendar.xml records deleted successfully: 0" in the resulting batch job file
+And I should see "InterchangeEducationOrgCalendar.xml records failed processing: 1" in the resulting batch job file
+And I should see "Not all records were processed completely due to errors." in the resulting batch job file
+And I should see "Processed 2 records." in the resulting batch job file
+And I should see "CORE_0066" in the resulting error log file for "InterchangeEducationOrganization.xml"
+And I should see "Child reference of entity type bellSchedule, ID e3cee19da46a9e6974f7531f78f0f6a621885dbb_id, exists at depth 1 for entity type educationOrganization, ID 2897f482a59f833370562b33e2f7478c3fb25aed_id" in the resulting error log file for "InterchangeEducationOrganization.xml"
+And I should see "Child reference of entity type bellSchedule, ID e63be44d3016df23718ee8aba4382eb9e8dfa2d4_id, exists at depth 1 for entity type educationOrganization, ID 2897f482a59f833370562b33e2f7478c3fb25aed_id" in the resulting error log file for "InterchangeEducationOrganization.xml"
+And I should see "Child reference of entity type classPeriod, ID 0c7523f4f74e6e5de117b6af88115cf98b5b1e2c_id, exists at depth 1 for entity type educationOrganization, ID 2897f482a59f833370562b33e2f7478c3fb25aed_id" in the resulting error log file for "InterchangeEducationOrganization.xml"
+And a batch job for file "SafeDeleteOfEntitiesReferredByBellSchedule.zip" is completed in database
+And I should see "CORE_0066" in the resulting error log file for "InterchangeEducationOrgCalendar.xml"
+And I should see "Child reference of entity type bellSchedule, ID e63be44d3016df23718ee8aba4382eb9e8dfa2d4_id, exists at depth 1 for entity type calendarDate, ID 83df3b52534ead7445a26da2a74c5f077d059753_id" in the resulting error log file for "InterchangeEducationOrgCalendar.xml"
+And I should see "Child reference of entity type bellSchedule, ID e3cee19da46a9e6974f7531f78f0f6a621885dbb_id, exists at depth 1 for entity type calendarDate, ID 83df3b52534ead7445a26da2a74c5f077d059753_id" in the resulting error log file for "InterchangeEducationOrgCalendar.xml"
+And I should not see a warning log file created
+And I re-execute saved query "educationOrganization" to get "1" records
+And I re-execute saved query "calendarDate" to get "1" records
+And I see that collections counts have changed as follows in tenant "Midgar"
+|collection                        | delta    |
+| calendarDate                     |         0|
+| educationOrganization            |         0|
+| recordHash                       |         0|
 
+#force deletes of other entities
+Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "educationOrganization"
+    | field                                            |value                                                |
+    | _id                                              | 2897f482a59f833370562b33e2f7478c3fb25aed_id         |
+Then there exist "1" "calendarDate" records like below in "Midgar" tenant. And I save this query as "calendarDate"
+    | field                                            |value                                                |
+    | _id                                              | 83df3b52534ead7445a26da2a74c5f077d059753_id         |
+And I save the collection counts in "Midgar" tenant
+And the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+And I post "ForceDeleteOfEntitiesReferredByBellSchedule.zip" file as the payload of the ingestion job
+When zip file is scp to ingestion landing zone
+And a batch job for file "ForceDeleteOfEntitiesReferredByBellSchedule.zip" is completed in database
+And I should see "InterchangeEducationOrganization.xml records considered for processing: 1" in the resulting batch job file
+And I should see "InterchangeEducationOrganization.xml records deleted successfully: 1" in the resulting batch job file
+And I should see "InterchangeEducationOrgCalendar.xml records considered for processing: 1" in the resulting batch job file
+And I should see "InterchangeEducationOrgCalendar.xml records deleted successfully: 1" in the resulting batch job file
+And I should see "All records processed successfully" in the resulting batch job file
+And I should see "Processed 2 records." in the resulting batch job file
+And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrganization.xml"
+And I should see "Child reference of entity type bellSchedule, ID e3cee19da46a9e6974f7531f78f0f6a621885dbb_id, exists at depth 1 for entity type educationOrganization, ID 2897f482a59f833370562b33e2f7478c3fb25aed_id" in the resulting warning log file for "InterchangeEducationOrganization.xml"
+And I should see "Child reference of entity type bellSchedule, ID e63be44d3016df23718ee8aba4382eb9e8dfa2d4_id, exists at depth 1 for entity type educationOrganization, ID 2897f482a59f833370562b33e2f7478c3fb25aed_id" in the resulting warning log file for "InterchangeEducationOrganization.xml"
+And I should see "Child reference of entity type classPeriod, ID 0c7523f4f74e6e5de117b6af88115cf98b5b1e2c_id, exists at depth 1 for entity type educationOrganization, ID 2897f482a59f833370562b33e2f7478c3fb25aed_id" in the resulting warning log file for "InterchangeEducationOrganization.xml"
+And a batch job for file "SafeDeleteOfEntitiesReferredByBellSchedule.zip" is completed in database
+And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrgCalendar.xml"
+And I should see "Child reference of entity type bellSchedule, ID e63be44d3016df23718ee8aba4382eb9e8dfa2d4_id, exists at depth 1 for entity type calendarDate, ID 83df3b52534ead7445a26da2a74c5f077d059753_id" in the resulting warning log file for "InterchangeEducationOrgCalendar.xml"
+And I should see "Child reference of entity type bellSchedule, ID e3cee19da46a9e6974f7531f78f0f6a621885dbb_id, exists at depth 1 for entity type calendarDate, ID 83df3b52534ead7445a26da2a74c5f077d059753_id" in the resulting warning log file for "InterchangeEducationOrgCalendar.xml"
+And I should not see an error log file created
+And I re-execute saved query "educationOrganization" to get "0" records
+And I re-execute saved query "calendarDate" to get "0" records
+And I see that collections counts have changed as follows in tenant "Midgar"
+|collection                        | delta    |
+| calendarDate                     |       -1 |
+| educationOrganization            |       -1 |
+| recordHash                       |       -2 |
+
+#reset back
+And the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+When I post "BellSchedulesAndClassPeriods.zip" file as the payload of the ingestion job
+And zip file is scp to ingestion landing zone with name "BellSchedulesAndClassPeriods4.zip"
+Then a batch job for file "BellSchedulesAndClassPeriods4.zip" is completed in database
+And I should not see an error log file created
+And I should not see a warning log file created
+
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName                           |            count |
+     | bellSchedule                             |                2 |
+     | calendarDate                             |                1 |
+     | classPeriod                              |                1 |
+     | educationOrganization                    |                1 |
+     | section                                  |                1 |
+     | recordHash                               |                6 |
+
+And I re-execute saved query "bellSchedule" to get "1" records
+And I re-execute saved query "bellSchedule2" to get "1" records
+
+#deletes
+And I save the collection counts in "Midgar" tenant
+Then I ingest "BellScheduleDeletes.zip"
 #And I re-execute saved query "bellSchedule" to get "0" records
 #And I re-execute saved query "bellSchedule2" to get "0" records
+#And I see that collections counts have changed as follows in tenant "Midgar"
+    #|collection                        | delta    |
+    #| bellSchedule                     |       -2 |
+    #| recordHash                       |       -2 |
