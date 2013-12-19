@@ -85,6 +85,20 @@ Then there exist "1" "bellSchedule" records like below in "Midgar" tenant. And I
     |body.bellScheduleName          								  |Some Bell Schedule Name                             |
     |body.calendarDateReference    							          |83df3b52534ead7445a26da2a74c5f077d059753_id         |
     |body.educationOrganizationId                                     |2897f482a59f833370562b33e2f7478c3fb25aed_id         |
+ 
+ Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "section"
+    |field       													  |value                                               |
+    |_id         													  |004f6c78a56037e462cee1691ab6251a2bb69222_id         |
+    |body.educationalEnvironment                                      |Classroom                                           |
+	|body.sessionId                                                   |825e239fdaae87b8f8317659edb39c29e354ee6d_id         |
+	|body.courseOfferingId                                            |57a0006dda47488da9b42543185a0675935af99c_id         |
+	|body.classPeriodId                                               |7b22bec65680ef796bb2b3a7dc15a823ec5ea9a0_id         |
+	|body.populationServed                                            |Regular Students                                    |
+	|body.mediumOfInstruction                                         |Face-to-face instruction                            |
+	|body.uniqueSectionCode                                           |12345                                               |
+	|body.programReference.0                                          |2e88f28a4eae4d3ee3e54a4b49552b92b043e8f2_id         |
+	|body.schoolId                                                    |2897f482a59f833370562b33e2f7478c3fb25aed_id         |
+	|body.availableCredit.creditType                                  |Carnegie unit                                       |
 
 #verify class period affects DID resolution
 Then there exist "1" "bellSchedule" records like below in "Midgar" tenant. And I save this query as "bellSchedule2"
@@ -102,6 +116,22 @@ Then there exist "1" "bellSchedule" records like below in "Midgar" tenant. And I
     |body.calendarDateReference    							          |83df3b52534ead7445a26da2a74c5f077d059753_id         |
     |body.educationOrganizationId                                     |2897f482a59f833370562b33e2f7478c3fb25aed_id         |
 
+#remove classPeriod from Section
+Then I ingest "RemoveClassPeriodFromSection.zip"
+ Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "section"
+    |field       													  |value                                               |
+    |_id         													  |004f6c78a56037e462cee1691ab6251a2bb69222_id         |
+    |body.educationalEnvironment                                      |Classroom                                           |
+	|body.sessionId                                                   |825e239fdaae87b8f8317659edb39c29e354ee6d_id         |
+	|body.courseOfferingId                                            |57a0006dda47488da9b42543185a0675935af99c_id         |
+	|body.populationServed                                            |Regular Students                                    |
+	|body.mediumOfInstruction                                         |Face-to-face instruction                            |
+	|body.uniqueSectionCode                                           |12345                                               |
+	|body.programReference.0                                          |2e88f28a4eae4d3ee3e54a4b49552b92b043e8f2_id         |
+	|body.schoolId                                                    |2897f482a59f833370562b33e2f7478c3fb25aed_id         |
+	|body.availableCredit.creditType                                  |Carnegie unit                                       |
+
+
 #update back to original
 When I post "BellSchedulesAndClassPeriods.zip" file as the payload of the ingestion job
 And zip file is scp to ingestion landing zone with name "BellSchedulesAndClassPeriods3.zip"
@@ -111,7 +141,6 @@ And I should not see a warning log file created
 And I should see "InterchangeEducationOrganization.xml classPeriod 1 deltas!" in the resulting batch job file
 And I should see "InterchangeEducationOrganization.xml educationOrganization 1 deltas!" in the resulting batch job file
 And I should see "InterchangeEducationOrgCalendar.xml calendarDate 1 deltas!" in the resulting batch job file
-And I should see "InterchangeMasterSchedule.xml section 1 deltas!" in the resulting batch job file
 
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |            count |
