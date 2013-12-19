@@ -13,7 +13,6 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization                    |                1 |
      | section                                  |                1 |
      | recordHash                               |                5 |
-
 Then there exist "1" "bellSchedule" records like below in "Midgar" tenant. And I save this query as "bellSchedule"
     |field       													  |value                                               |
     |_id         													  |e63be44d3016df23718ee8aba4382eb9e8dfa2d4_id         |
@@ -34,7 +33,7 @@ Then there exist "1" "classPeriod" records like below in "Midgar" tenant. And I 
     |type										                      |classPeriod                                         |
     |body.classPeriodName                                             |Some Class Period Name                              |
     |body.educationOrganizationId                                     |2897f482a59f833370562b33e2f7478c3fb25aed_id         |
- Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "section"
+Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "section"
     |field       													  |value                                               |
     |_id         													  |004f6c78a56037e462cee1691ab6251a2bb69222_id         |
     |body.educationalEnvironment                                      |Classroom                                           |
@@ -73,7 +72,6 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization                    |                1 |
      | section                                  |                1 |
      | recordHash                               |                6 |
-
 Then there exist "1" "bellSchedule" records like below in "Midgar" tenant. And I save this query as "bellSchedule"
     |field       													  |value                                               |
     |_id         													  |e63be44d3016df23718ee8aba4382eb9e8dfa2d4_id         |
@@ -85,8 +83,7 @@ Then there exist "1" "bellSchedule" records like below in "Midgar" tenant. And I
     |body.bellScheduleName          								  |Some Bell Schedule Name                             |
     |body.calendarDateReference    							          |83df3b52534ead7445a26da2a74c5f077d059753_id         |
     |body.educationOrganizationId                                     |2897f482a59f833370562b33e2f7478c3fb25aed_id         |
- 
- Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "section"
+Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "section"
     |field       													  |value                                               |
     |_id         													  |004f6c78a56037e462cee1691ab6251a2bb69222_id         |
     |body.educationalEnvironment                                      |Classroom                                           |
@@ -142,7 +139,6 @@ And I should not see a warning log file created
 And I should see "InterchangeEducationOrganization.xml classPeriod 1 deltas!" in the resulting batch job file
 And I should see "InterchangeEducationOrganization.xml educationOrganization 1 deltas!" in the resulting batch job file
 And I should see "InterchangeEducationOrgCalendar.xml calendarDate 1 deltas!" in the resulting batch job file
-
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |            count |
      | bellSchedule                             |                2 |
@@ -151,7 +147,6 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization                    |                1 |
      | section                                  |                1 |
      | recordHash                               |                6 |
-
 Then there exist "1" "bellSchedule" records like below in "Midgar" tenant. And I save this query as "bellSchedule"
     |field       													  |value                                               |
     |_id         													  |e63be44d3016df23718ee8aba4382eb9e8dfa2d4_id         |
@@ -166,7 +161,6 @@ Then there exist "1" "bellSchedule" records like below in "Midgar" tenant. And I
     |body.bellScheduleName          								  |Some Bell Schedule Name                             |
     |body.calendarDateReference    							          |83df3b52534ead7445a26da2a74c5f077d059753_id         |
     |body.educationOrganizationId                                     |2897f482a59f833370562b33e2f7478c3fb25aed_id         |
-
 And I re-execute saved query "bellSchedule2" to get "1" records
 
 #safe deletes of other entities
@@ -197,10 +191,10 @@ And I should not see a warning log file created
 And I re-execute saved query "educationOrganization" to get "1" records
 And I re-execute saved query "calendarDate" to get "1" records
 And I see that collections counts have changed as follows in tenant "Midgar"
-|collection                        | delta    |
-| calendarDate                     |         0|
-| educationOrganization            |         0|
-| recordHash                       |         0|
+    |collection                        | delta    |
+    | calendarDate                     |         0|
+    | educationOrganization            |         0|
+    | recordHash                       |         0|
 
 #force deletes of other entities
 Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "educationOrganization"
@@ -231,10 +225,10 @@ And I should not see an error log file created
 And I re-execute saved query "educationOrganization" to get "0" records
 And I re-execute saved query "calendarDate" to get "0" records
 And I see that collections counts have changed as follows in tenant "Midgar"
-|collection                        | delta    |
-| calendarDate                     |       -1 |
-| educationOrganization            |       -1 |
-| recordHash                       |       -2 |
+    |collection                        | delta    |
+    | calendarDate                     |       -1 |
+    | educationOrganization            |       -1 |
+    | recordHash                       |       -2 |
 
 #reset back
 And the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
@@ -243,7 +237,6 @@ And zip file is scp to ingestion landing zone with name "BellSchedulesAndClassPe
 Then a batch job for file "BellSchedulesAndClassPeriods4.zip" is completed in database
 And I should not see an error log file created
 And I should not see a warning log file created
-
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |            count |
      | bellSchedule                             |                2 |
@@ -252,7 +245,6 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization                    |                1 |
      | section                                  |                1 |
      | recordHash                               |                6 |
-
 And I re-execute saved query "bellSchedule" to get "1" records
 And I re-execute saved query "bellSchedule2" to get "1" records
 
@@ -273,7 +265,6 @@ And zip file is scp to ingestion landing zone with name "BellSchedulesAndClassPe
 Then a batch job for file "BellSchedulesAndClassPeriods5.zip" is completed in database
 And I should not see an error log file created
 And I should not see a warning log file created
-
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |            count |
      | bellSchedule                             |                1 |
@@ -282,7 +273,6 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization                    |                1 |
      | section                                  |                1 |
      | recordHash                               |                5 |
-
 And I re-execute saved query "bellSchedule" to get "1" records
 
 #safe delete of class period by full body
@@ -336,25 +326,25 @@ And I see that collections counts have changed as follows in tenant "Midgar"
     | classPeriod                      |       -1 |
     | recordHash                       |       -1 |
     
-    
- #orphan delete of class period
- Then I ingest "ClassPeriodsOrphan.zip"
- Then there exist "1" "classPeriod" records like below in "Midgar" tenant. And I save this query as "classPeriod"
+#orphan delete of class period
+Then I ingest "ClassPeriodsOrphan.zip"
+Then there exist "1" "classPeriod" records like below in "Midgar" tenant. And I save this query as "classPeriod"
     |field       													  |value                                               |
     |_id         													  |9d3e57cdb4e23b4693e26b9603f611b44af8e6a7_id         |
     |type										                      |classPeriod                                         |
     |body.classPeriodName                                             |Megatron Class Period Name                          |
     |body.educationOrganizationId                                     |2fe47c8e78a65ee51a72628c170673c35c4bd85a_id         |
- And I save the collection counts in "Midgar" tenant
- And the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
- And I post "ClassPeriodsOrphanDelete.zip" file as the payload of the ingestion job
- When zip file is scp to ingestion landing zone
- And a batch job for file "ClassPeriodsOrphanDelete.zip" is completed in database
+And I save the collection counts in "Midgar" tenant
+And the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+And I post "ClassPeriodsOrphanDelete.zip" file as the payload of the ingestion job
+When zip file is scp to ingestion landing zone
+And a batch job for file "ClassPeriodsOrphanDelete.zip" is completed in database
 And I should see "InterchangeEducationOrganization.xml records considered for processing: 1" in the resulting batch job file
 And I should see "InterchangeEducationOrganization.xml records deleted successfully: 1" in the resulting batch job file
 And I should see "All records processed successfully" in the resulting batch job file
 And I should see "Processed 1 records." in the resulting batch job file
 And I should not see an error log file created
+And I should not see a warning log file created
 And I re-execute saved query "classPeriod" to get "0" records
 And I see that collections counts have changed as follows in tenant "Midgar"
     |collection                        | delta    |
