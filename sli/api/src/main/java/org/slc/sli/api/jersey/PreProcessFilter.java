@@ -31,6 +31,7 @@ import javax.xml.bind.DatatypeConverter;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
+import org.slc.sli.api.exceptions.RequestBlockedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -293,7 +294,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         }
 
         if (this.resourceEndPoint.getBlockGetRequestEndPoints().contains(requestPath)) {
-            throw new EntityNotFoundException(request.getPath());
+            throw new RequestBlockedException(request.getPath());
         }
     }
 }
