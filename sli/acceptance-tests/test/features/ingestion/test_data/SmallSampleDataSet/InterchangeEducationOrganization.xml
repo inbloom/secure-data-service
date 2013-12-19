@@ -2,7 +2,7 @@
 <InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
   <EducationOrganization>
     <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-    <NameOfInstitution>DE2979 State Education Agency</NameOfInstitution>
+    <NameOfInstitution>Standard State Education Agency</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>State Education Agency</OrganizationCategory>
     </OrganizationCategories>
