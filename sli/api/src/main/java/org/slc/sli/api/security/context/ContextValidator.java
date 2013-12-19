@@ -62,6 +62,7 @@ import org.slc.sli.domain.NeutralQuery;
 public class ContextValidator implements ApplicationContextAware {
 
     private static final Logger LOG = LoggerFactory.getLogger(ContextValidator.class);
+
     protected static final Set<String> GLOBAL_RESOURCES = new HashSet<String>(
             Arrays.asList(ResourceNames.ASSESSMENTS,
             ResourceNames.CALENDAR_DATES,
@@ -411,22 +412,10 @@ public class ContextValidator implements ApplicationContextAware {
                 }
             }
 
-// 
-            if (entities.size() != ids.size()) {
-                for(String id : ids ){
-                	boolean foundentity = false;        
-                    for (Entity ent : entities){
-                    if(ent.getEntityId().contains(id)){
-                    	foundentity = true;
-                    	continue;
-                        }
-                    }
-                    if(!foundentity){
-                		LOG.debug("Invalid reference, an entity does not exist. collection: {} entities: {}",
+            if (found != ids.size()) {
+                LOG.debug("Invalid reference, an entity does not exist. collection: {} entities: {}",
                         def.getStoredCollectionName(), entities);
-                        throw new EntityNotFoundException(id);
-                    }
-                }
+                throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + ids);
             }
 
          return entityIdsToValidate;
