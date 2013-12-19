@@ -14,30 +14,33 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.representation;
 
-import java.io.EOFException;
+package org.slc.sli.api.jersey.exceptionhandlers;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.codehaus.jackson.JsonParseException;
+import org.slc.sli.api.representation.ErrorResponse;
 import org.springframework.stereotype.Component;
 
 /**
- * Exception handler to catch cases where an EOF exception is thrown. This can be the case if a user
- * tries to post a null body
- *
- * @author nbrown
- *
+ * Exception handler for SortingExceptions
+ * 
+ * @author Ryan Farris <rfarris@wgen.net>
+ * 
  */
 @Provider
 @Component
-public class EOFExceptionHandler implements ExceptionMapper<EOFException> {
-
+public class JsonParseExceptionHandler implements ExceptionMapper<JsonParseException> {
+    
     @Override
-    public Response toResponse(EOFException exception) {
-        return Response.status(Response.Status.BAD_REQUEST).build();
+    public Response toResponse(JsonParseException e) {
+        Response.Status errorStatus = Response.Status.BAD_REQUEST;
+        return Response.status(errorStatus)
+                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), e.getMessage()))
+                .build();
     }
-
+    
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.representation;
+package org.slc.sli.api.jersey.exceptionhandlers;
 
 import java.util.Collections;
 
