@@ -15,13 +15,14 @@
  */
 
 
-package org.slc.sli.api.representation;
+package org.slc.sli.api.jersey.exceptionhandlers;
 
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.oauth.OAuthAccessException;
 import org.slc.sli.api.security.service.AuditLogger;
