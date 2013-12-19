@@ -12,21 +12,19 @@
     <json:reader rootName="json" />
 
     <core:filterSettings type="SAX" readerPoolSize="5" />
-    
+
     <jb:bean beanId="classPeriods" class="java.util.ArrayList" createOnElement="#document">
         <jb:wiring beanIdRef="classPeriod" />
     </jb:bean>
-    
-    <!-- Start BellSchedule mapping -->
+
+    <!-- Start classPeriod mapping -->
     <jb:bean beanId="classPeriod" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
         <jb:expression property="type">'classPeriod'</jb:expression>
         <jb:wiring property="body" beanIdRef="classPeriodBody" />
     </jb:bean>
-    
+
     <jb:bean beanId="classPeriodBody" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="classPeriodName" data="attributes ClassPeriodName _value" />
-		<jb:value property="educationOrganizationId" data="attributes EducationOrganizationReference" />
+        <jb:value property="educationOrganizationId" data="attributes EducationOrganizationReference" />
     </jb:bean>
-    
-    
 </smooks-resource-list>
