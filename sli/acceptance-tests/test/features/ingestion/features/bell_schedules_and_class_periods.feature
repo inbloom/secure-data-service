@@ -259,12 +259,12 @@ And I re-execute saved query "bellSchedule2" to get "1" records
 #deletes
 And I save the collection counts in "Midgar" tenant
 Then I ingest "BellScheduleDeletes.zip"
-#And I re-execute saved query "bellSchedule" to get "0" records
-#And I re-execute saved query "bellSchedule2" to get "0" records
-#And I see that collections counts have changed as follows in tenant "Midgar"
-    #|collection                        | delta    |
-    #| bellSchedule                     |       -2 |
-    #| recordHash                       |       -2 |
+And I re-execute saved query "bellSchedule" to get "0" records
+And I re-execute saved query "bellSchedule2" to get "0" records
+And I see that collections counts have changed as follows in tenant "Midgar"
+    |collection                        | delta    |
+    | bellSchedule                     |       -2 |
+    | recordHash                       |       -2 |
 
 #reset back
 And the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
@@ -276,15 +276,14 @@ And I should not see a warning log file created
 
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |            count |
-     | bellSchedule                             |                2 |
+     | bellSchedule                             |                1 |
      | calendarDate                             |                1 |
      | classPeriod                              |                1 |
      | educationOrganization                    |                1 |
      | section                                  |                1 |
-     | recordHash                               |                6 |
+     | recordHash                               |                5 |
 
 And I re-execute saved query "bellSchedule" to get "1" records
-And I re-execute saved query "bellSchedule2" to get "1" records
 
 #safe delete of class period by full body
 Then there exist "1" "classPeriod" records like below in "Midgar" tenant. And I save this query as "classPeriod"
