@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.resources.security;
 
 import org.slc.sli.api.config.EntityDefinition;
@@ -57,7 +56,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
 /**
  * Endpoints to access admin delegation data.
  */
@@ -67,179 +65,189 @@ import java.util.Set;
 @Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class AdminDelegationResource {
 
-    @Autowired
-    private EntityDefinitionStore store;
+	@Autowired
+	private EntityDefinitionStore store;
 
-    @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repo;
+	@Autowired
+	@Qualifier("validationRepo")
+	private Repository<Entity> repo;
 
-    @Autowired
-    private DelegationUtil util;
+	@Autowired
+	private DelegationUtil util;
 
-    private EntityService service;
+	private EntityService service;
 
-    @Autowired
-    private SecurityEventBuilder securityEventBuilder;
+	@Autowired
+	private SecurityEventBuilder securityEventBuilder;
 
-    @Autowired
-    private AuditLogger auditLogger;
+	@Autowired
+	private AuditLogger auditLogger;
 
-    public static final String RESOURCE_NAME = "adminDelegation";
-    public static final String LEA_ID = "localEdOrgId";
+	public static final String RESOURCE_NAME = "adminDelegation";
+	public static final String LEA_ID = "localEdOrgId";
 
-    @PostConstruct
-    public void init() {
-        EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
-        this.service = def.getService();
-    }
+	@PostConstruct
+	public void init() {
+		EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
+		this.service = def.getService();
+	}
 
-    /**
-     * Get admin delegation records for principals Education Organization.
-     * If SEA admin method returns a list of delegation records for child LEAs.
-     * If LEA admin method returns a list containing only the delegation record for the LEA.
-     *
-     * @return A list of admin delegation records.
-     */
-    @GET
-    @RightsAllowed({Right.EDORG_DELEGATE, Right.EDORG_APP_AUTHZ })
-    public Response getDelegations() {
-        SecurityUtil.ensureAuthenticated();
-        if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
+	/**
+	 * Get admin delegation records for principals Education Organization. If
+	 * SEA admin method returns a list of delegation records for child LEAs. If
+	 * LEA admin method returns a list containing only the delegation record for
+	 * the LEA.
+	 * 
+	 * @return A list of admin delegation records.
+	 */
+	@GET
+	@RightsAllowed({ Right.EDORG_DELEGATE, Right.EDORG_APP_AUTHZ })
+	public Response getDelegations() {
+		SecurityUtil.ensureAuthenticated();
+		if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
 
-            String edOrg = SecurityUtil.getEdOrg();
-            if (edOrg == null) {
-<<<<<<< HEAD
-                throw new EntityNotFoundException("No edorg exists on principal.");
-=======
-                throw new APIAccessDeniedException("Can not grant access because no edOrg exists on principal.");
->>>>>>> re DE2922 fix up formatting; make logical structure more similar to how the code was before; fix small logic error with "continue" rather than "break" when something is found in a linear search; use APIAccessDeniedException rather than AccessDeniedException to get logging
-            }
+			String edOrg = SecurityUtil.getEdOrg();
+			if (edOrg == null) {
 
-            List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
-            NeutralQuery query = new NeutralQuery();
-            Set<String> delegatedEdorgs = new HashSet<String>();
-            delegatedEdorgs.addAll(util.getSecurityEventDelegateEdOrgs());
-            query.addCriteria(new NeutralCriteria(LEA_ID, NeutralCriteria.CRITERIA_IN, delegatedEdorgs));
-            for (Entity entity : repo.findAll(RESOURCE_NAME, query)) {
-                entity.getBody().put("id", entity.getEntityId());
-                results.add(entity.getBody());
-            }
+				throw new EntityNotFoundException(
+						"No edorg exists on principal.");
 
-            return Response.ok(results).build();
+			}
 
-        } else if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
-            EntityBody entity = getEntity();
-            if (entity == null) {
-                return Response.status(Status.NOT_FOUND).build();
-            }
-            return Response.status(Status.OK).entity(Arrays.asList(entity)).build();
+			List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
+			NeutralQuery query = new NeutralQuery();
+			Set<String> delegatedEdorgs = new HashSet<String>();
+			delegatedEdorgs.addAll(util.getSecurityEventDelegateEdOrgs());
+			query.addCriteria(new NeutralCriteria(LEA_ID,
+					NeutralCriteria.CRITERIA_IN, delegatedEdorgs));
+			for (Entity entity : repo.findAll(RESOURCE_NAME, query)) {
+				entity.getBody().put("id", entity.getEntityId());
+				results.add(entity.getBody());
+			}
 
-        }
+			return Response.ok(results).build();
 
-        return SecurityUtil.forbiddenResponse();
+		} else if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
+			EntityBody entity = getEntity();
+			if (entity == null) {
+				return Response.status(Status.NOT_FOUND).build();
+			}
+			return Response.status(Status.OK).entity(Arrays.asList(entity))
+					.build();
 
-    }
+		}
 
+		return SecurityUtil.forbiddenResponse();
 
-    /**
-     * Set the admin delegation record for an LEA admin user's EdOrg.
-     *
-     * @param body Admin delegation record to be written.
-     * @return NO_CONTENT on success. BAD_REQUEST or FORBIDDEN on failure.
-     */
-    @PUT
-    @Path("myEdOrg")
-    @RightsAllowed({Right.EDORG_APP_AUTHZ })
-    public Response setLocalDelegation(EntityBody body, @Context final UriInfo uriInfo) {
-        //verifyBodyEdOrgMatchesPrincipalEdOrg
-        if (body == null || !body.containsKey(LEA_ID) || !body.get(LEA_ID).equals(SecurityUtil.getEdOrgId())) {
-            EntityBody response = new EntityBody();
-            response.put("message", "Entity EdOrg must match principal's EdOrg when writing delegation record.");
-            return Response.status(Status.BAD_REQUEST).entity(response).build();
-        }
+	}
 
-        EntityBody del =  getDelegationRecordForPrincipal();
-        
-        if (del == null) {
+	/**
+	 * Set the admin delegation record for an LEA admin user's EdOrg.
+	 * 
+	 * @param body
+	 *            Admin delegation record to be written.
+	 * @return NO_CONTENT on success. BAD_REQUEST or FORBIDDEN on failure.
+	 */
+	@PUT
+	@Path("myEdOrg")
+	@RightsAllowed({ Right.EDORG_APP_AUTHZ })
+	public Response setLocalDelegation(EntityBody body,
+			@Context final UriInfo uriInfo) {
+		// verifyBodyEdOrgMatchesPrincipalEdOrg
+		if (body == null || !body.containsKey(LEA_ID)
+				|| !body.get(LEA_ID).equals(SecurityUtil.getEdOrgId())) {
+			EntityBody response = new EntityBody();
+			response.put("message",
+					"Entity EdOrg must match principal's EdOrg when writing delegation record.");
+			return Response.status(Status.BAD_REQUEST).entity(response).build();
+		}
 
-            if (service.create(body).isEmpty()) {
-                return Response.status(Status.BAD_REQUEST).build();
-            } else {
-                return Response.status(Status.CREATED).build();
-            }
+		EntityBody del = getDelegationRecordForPrincipal();
 
-        } else {
-            String delgId = (String)del.get("id");
-            if (!service.update(delgId, body, false)) {
-                return Response.status(Status.BAD_REQUEST).build();
-            }
-        }
+		if (del == null) {
 
-        return Response.status(Status.NO_CONTENT).build();
-    }
+			if (service.create(body).isEmpty()) {
+				return Response.status(Status.BAD_REQUEST).build();
+			} else {
+				return Response.status(Status.CREATED).build();
+			}
 
-    void log(boolean appApprovalEnabled, boolean oldAppApprovalEnabled, @Context final UriInfo uriInfo){
-    	 if (appApprovalEnabled && !oldAppApprovalEnabled) {
-             SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA's delegation is enabled!", true);
-             auditLogger.audit(event);
-         }	 else if (!appApprovalEnabled  && oldAppApprovalEnabled ) {
-             SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA's delegation is disabled!", true);
-             auditLogger.audit(event);
-         }
-    }
+		} else {
+			String delgId = (String) del.get("id");
+			if (!service.update(delgId, body, false)) {
+				return Response.status(Status.BAD_REQUEST).build();
+			}
+		}
 
-    @POST
-    @RightsAllowed({Right.EDORG_APP_AUTHZ })
-    public Response create(EntityBody body, @Context final UriInfo uriInfo) {
-        return setLocalDelegation(body, uriInfo);
-    }
+		return Response.status(Status.NO_CONTENT).build();
+	}
 
-    @GET
-    @Path("myEdOrg")
-    @RightsAllowed({Right.EDORG_DELEGATE, Right.EDORG_APP_AUTHZ })
-    public Response getSingleDelegation() {
-        EntityBody entity = getEntity();
-        if (entity == null) {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-        return Response.status(Status.OK).entity(entity).build();
-    }
+	void log(boolean appApprovalEnabled, boolean oldAppApprovalEnabled,
+			@Context final UriInfo uriInfo) {
+		if (appApprovalEnabled && !oldAppApprovalEnabled) {
+			SecurityEvent event = securityEventBuilder.createSecurityEvent(
+					AdminDelegationResource.class.getName(),
+					uriInfo.getRequestUri(), "LEA's delegation is enabled!",
+					true);
+			auditLogger.audit(event);
+		} else if (!appApprovalEnabled && oldAppApprovalEnabled) {
+			SecurityEvent event = securityEventBuilder.createSecurityEvent(
+					AdminDelegationResource.class.getName(),
+					uriInfo.getRequestUri(), "LEA's delegation is disabled!",
+					true);
+			auditLogger.audit(event);
+		}
+	}
 
+	@POST
+	@RightsAllowed({ Right.EDORG_APP_AUTHZ })
+	public Response create(EntityBody body, @Context final UriInfo uriInfo) {
+		return setLocalDelegation(body, uriInfo);
+	}
 
-    private EntityBody getDelegationRecordForPrincipal() {
-        String edOrgId = SecurityUtil.getEdOrgId();
-        if (edOrgId == null) {
+	@GET
+	@Path("myEdOrg")
+	@RightsAllowed({ Right.EDORG_DELEGATE, Right.EDORG_APP_AUTHZ })
+	public Response getSingleDelegation() {
+		EntityBody entity = getEntity();
+		if (entity == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		return Response.status(Status.OK).entity(entity).build();
+	}
 
-            throw new EntityNotFoundException("No edorg exists on principal.");
+	private EntityBody getDelegationRecordForPrincipal() {
+		String edOrgId = SecurityUtil.getEdOrgId();
+		if (edOrgId == null) {
 
-        }
+			throw new EntityNotFoundException("No edorg exists on principal.");
 
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria(LEA_ID, "=", edOrgId));
-        Iterator<EntityBody> it = service.list(query).iterator();
-        //Iterator<String> it = service.listIds(query).iterator();
-        if (it.hasNext()) {
-            return it.next();
-        } else {
-            return null;
-        }
-    }
+		}
 
+		NeutralQuery query = new NeutralQuery();
+		query.addCriteria(new NeutralCriteria(LEA_ID, "=", edOrgId));
+		Iterator<EntityBody> it = service.list(query).iterator();
+		// Iterator<String> it = service.listIds(query).iterator();
+		if (it.hasNext()) {
+			return it.next();
+		} else {
+			return null;
+		}
+	}
 
-    private EntityBody getEntity() {
-        if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
+	private EntityBody getEntity() {
+		if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
 
-        	EntityBody body = getDelegationRecordForPrincipal();
-        	if (body == null) {
-        		return null;
-        	}
-            String entId = (String)body.get("id");
-            if (entId != null) {
-                return service.get(entId);
-            }
+			EntityBody body = getDelegationRecordForPrincipal();
+			if (body == null) {
+				return null;
+			}
+			String entId = (String) body.get("id");
+			if (entId != null) {
+				return service.get(entId);
+			}
 
-        }
-        return null;
-    }
+		}
+		return null;
+	}
 }
