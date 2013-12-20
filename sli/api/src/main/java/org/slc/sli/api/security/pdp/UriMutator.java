@@ -34,10 +34,13 @@ import javax.ws.rs.core.PathSegment;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
+
 import org.slc.sli.api.exceptions.UriMutationException;
 import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.security.RightsAllowed;
 
+
+import org.slc.sli.api.exceptions.UriMutationException;
 import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.domain.enums.Right;
@@ -1245,9 +1248,11 @@ public class UriMutator {
             programsIds = getSubdocIds(student, EntityNames.STUDENT_PROGRAM_ASSOCIATION, ParameterConstants.PROGRAM_ID);
         }
 
+
       /*  if (programsIds == null || programsIds.isEmpty()) {
             throw new UriMutationException("No association to any programs");
         }*/
+
 
         return programsIds;
     }
@@ -1267,9 +1272,11 @@ public class UriMutator {
             cohortsIds = getSubdocIds(student, EntityNames.STUDENT_COHORT_ASSOCIATION, ParameterConstants.COHORT_ID);
         }
 
+
        /* if (cohortsIds == null || cohortsIds.isEmpty()) {
             throw new UriMutationException("No association to any cohorts");
         }*/
+
         return cohortsIds;
     }
 
