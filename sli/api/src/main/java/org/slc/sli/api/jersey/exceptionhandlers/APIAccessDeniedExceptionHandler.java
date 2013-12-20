@@ -20,7 +20,7 @@ package org.slc.sli.api.jersey.exceptionhandlers;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
-import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.exceptions.APIAccessDeniedException;
 import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.common.constants.EntityNames;
 import org.slf4j.Logger;

@@ -91,7 +91,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.exceptions.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.domain.Entity;
 
