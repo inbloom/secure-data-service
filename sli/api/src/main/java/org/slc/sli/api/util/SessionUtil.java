@@ -16,8 +16,10 @@
 
 package org.slc.sli.api.util;
 
+import java.util.UUID;
+
 import org.slc.sli.api.resources.security.ApplicationResource;
-import org.slc.sli.api.exceptions.APIAccessDeniedException;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;

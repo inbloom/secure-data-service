@@ -28,7 +28,7 @@ import java.util.*;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceNames;
-import org.slc.sli.api.exceptions.APIAccessDeniedException;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.EdOrgOwnershipArbiter;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.common.constants.ParameterConstants;
