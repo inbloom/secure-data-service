@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
-# Update the body.applicationId index in applicationAuthorization collection in tenant database
+# Add new indexes to bellSchedule and classPeriod collection in tenant database
 
 # Run this script with no arguments to see usage:
 #
-#   ruby update_index_application_authorization.rb
+#   ruby 92_add_new_indexes.rb
 #
 # You can give one or more tenant IDs whose databases will be migrated, or "--all"
 # for all tenants.  Also you can optionally give the MongoDB host/port.
@@ -59,7 +59,7 @@ def has_index(index_lists, index)
   return nil, nil, contains
 end
 
-#A helper method of method has_index() to check if an index has key "body.applicationId", return true if there exists
+#A helper method of method has_index() to check if an index has key, return true if there exists
 def has_index_helper(index_map, index)
   return  index_map["key"].has_key?(index)
 end
@@ -118,7 +118,7 @@ def main(argv)
     end
 
     puts "--------------------------------------------------------------------------------------------"
-    puts "| To update index 'body.applicationId' on applicationAuthorization collection, give argument(s) as follows:\n"
+    puts "| To Add new indexes to bellSchedule and classPeriod collection, give argument(s) as follows:\n"
     puts "|\n"
     puts "|     --all                                     Migrate against all tenant dbs\n"
     puts "|       --OR--\n"
@@ -136,7 +136,7 @@ def main(argv)
 
   for tenant in tenants
     dbname = tenant2db[tenant]
-    puts "Updating index of classPeriod collection for tenant: " + tenant + ", database " + dbname
+    puts "Updating index of classPeriod and bellSchedule collection for tenant: " + tenant + ", database " + dbname
     updateDB(dbname, CLASS_PERIOD, "body.educationOrganizationId")
     updateDB(dbname, BELL_SCHEDULE, "body.meetingTime.classPeriodId")
     updateDB(dbname, BELL_SCHEDULE, "body.educationOrganizationId")
