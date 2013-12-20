@@ -17,7 +17,7 @@
 package org.slc.sli.api.service;
 
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.exceptions.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.SecurityEventContextResolver;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
