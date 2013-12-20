@@ -17,12 +17,12 @@
 package org.slc.sli.api.exceptions;
 
 /**
- * Indicates that a request to the API has been blocked.
+ * Indicates a failure of URI translation.
  */
-public class RequestBlockedException extends RuntimeException {
+public class URITranslationException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
-    public RequestBlockedException(String message) {
+    public URITranslationException(String message) {
         super(message);
     }
 }
