@@ -66,7 +66,7 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
-import org.slc.sli.api.exceptions.APIAccessDeniedException;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.AppAuthHelper;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;

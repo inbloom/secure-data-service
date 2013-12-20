@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.exceptions.APIAccessDeniedException;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.common.constants.EntityNames;

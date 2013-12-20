@@ -65,7 +65,7 @@ import org.opensaml.saml2.core.SubjectConfirmationData;
 import org.opensaml.ws.soap.soap11.Envelope;
 import org.opensaml.ws.soap.soap11.impl.EnvelopeImpl;
 import org.opensaml.xml.XMLObject;
-import org.slc.sli.api.exceptions.APIAccessDeniedException;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.roles.EdOrgContextualRoleBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

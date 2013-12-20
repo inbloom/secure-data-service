@@ -21,7 +21,6 @@ import java.util.*;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.exceptions.APIAccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
