@@ -33,6 +33,7 @@ import javax.ws.rs.core.PathSegment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slc.sli.api.exceptions.UriMutationException;
 import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.domain.enums.Right;
@@ -54,7 +55,6 @@ import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.GradingPeriodHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
-import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SessionUtil;
 import org.slc.sli.common.constants.EntityNames;
@@ -1242,7 +1242,7 @@ public class UriMutator {
         }
 
         if (programsIds == null || programsIds.isEmpty()) {
-            throw new EntityNotFoundException("No association to any programs");
+            throw new UriMutationException("No association to any programs");
         }
 
         return programsIds;
@@ -1264,7 +1264,7 @@ public class UriMutator {
         }
 
         if (cohortsIds == null || cohortsIds.isEmpty()) {
-            throw new EntityNotFoundException("No association to any cohorts");
+            throw new UriMutationException("No association to any cohorts");
         }
         return cohortsIds;
     }
