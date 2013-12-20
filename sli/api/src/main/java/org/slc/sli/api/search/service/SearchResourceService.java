@@ -43,6 +43,7 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
+import org.slc.sli.api.exceptions.EntityTypeNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,6 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.IContextValidator;
-import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.common.constants.EntityNames;
@@ -393,7 +393,7 @@ public class SearchResourceService {
       for (String resourceName : resourceNames.split(",")) {
          def = resourceHelper.getEntityDefinition(resourceName);
          if (def == null || !searchEntityDefinition.getService().collectionExists(def.getType())) {
-            throw new EntityNotFoundException(resourceName);
+            throw new EntityTypeNotFoundException(resourceName);
          }
          entityTypes.add(def.getType());
       }
