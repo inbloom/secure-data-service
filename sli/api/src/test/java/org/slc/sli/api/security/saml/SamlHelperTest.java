@@ -32,7 +32,7 @@ import org.opensaml.xml.XMLObject;
 import org.opensaml.xml.io.Unmarshaller;
 import org.opensaml.xml.signature.Signature;
 import org.slc.sli.api.resources.security.KeyStoreAccessor;
-import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.exceptions.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
