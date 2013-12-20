@@ -18,7 +18,7 @@ import org.junit.Test;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 import org.slc.sli.api.constants.ResourceNames;
-import org.slc.sli.api.exceptions.APIAccessDeniedException;
+import org.slc.sli.common.constants.EntityNames;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
