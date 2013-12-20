@@ -22,7 +22,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SecurityEventBuilder;
-import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.exceptions.APIAccessDeniedException;
 import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;

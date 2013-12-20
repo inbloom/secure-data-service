@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.security.context;
+package org.slc.sli.api.exceptions;
 
-import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
 import org.springframework.security.access.AccessDeniedException;

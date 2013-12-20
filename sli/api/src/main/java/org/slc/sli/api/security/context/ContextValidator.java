@@ -31,6 +31,7 @@ import javax.ws.rs.core.PathSegment;
 import com.sun.jersey.spi.container.ContainerRequest;
 
 import org.apache.commons.lang.math.NumberUtils;
+import org.slc.sli.api.exceptions.APIAccessDeniedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;

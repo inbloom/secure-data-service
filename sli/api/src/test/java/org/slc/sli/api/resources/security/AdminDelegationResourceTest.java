@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.exceptions.APIAccessDeniedException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

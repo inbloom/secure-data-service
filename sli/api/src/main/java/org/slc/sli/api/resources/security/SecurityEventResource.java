@@ -38,7 +38,7 @@ import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.resources.v1.CustomEntityResource;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.exceptions.APIAccessDeniedException;
 import org.slc.sli.api.util.PATCH;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.context.annotation.Scope;

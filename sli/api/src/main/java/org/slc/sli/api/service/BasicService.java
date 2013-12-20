@@ -44,7 +44,7 @@ import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.exceptions.APIAccessDeniedException;
 import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.roles.EntityRightsFilter;
 import org.slc.sli.api.security.roles.RightAccessValidator;
