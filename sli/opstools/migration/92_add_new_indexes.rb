@@ -20,6 +20,7 @@ DEBUG = false
 CLASS_PERIOD = "classPeriod"
 BELL_SCHEDULE = "bellSchedule"
 
+
 def updateDB(dbName, collection, index)
     puts "Updating index on " + collection
     
@@ -38,10 +39,10 @@ def updateDB(dbName, collection, index)
       value.delete("name")
       value["unique"] = false
       value["sparse"] = false
-      puts "Creating index body.educationOrganizationId"
+      puts "Creating index " + index
       @conn[dbName][collection].create_index(index,value)
     else
-      puts "Creating index body.educationOrganizationId"
+      puts "Creating index " + index
       @conn[dbName][collection].create_index(index,:unique => false,:sparse => false)
     end
       puts "Finishing creating index on db " + dbName
@@ -136,7 +137,7 @@ def main(argv)
 
   for tenant in tenants
     dbname = tenant2db[tenant]
-    puts "Updating index of classPeriod and bellSchedule collection for tenant: " + tenant + ", database " + dbname
+    puts "Updating or Creating index of classPeriod and bellSchedule collection for tenant: " + tenant + ", database " + dbname
     updateDB(dbname, CLASS_PERIOD, "body.educationOrganizationId")
     updateDB(dbname, BELL_SCHEDULE, "body.meetingTime.classPeriodId")
     updateDB(dbname, BELL_SCHEDULE, "body.educationOrganizationId")
