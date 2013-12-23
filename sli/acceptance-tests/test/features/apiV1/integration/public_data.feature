@@ -1,6 +1,6 @@
 Feature: Users can access public entities
 
-  Background: Update calendar dates to reference schools (until Odin generates Calendar Dates for schools)
+  Scenario: Update calendar dates to reference schools (until Odin generates Calendar Dates for schools)
     Given I update the "calendarDate" with ID "7629c5951c8af6dac204cf636d5a81acb64fc6ef_id" field "body.educationOrganizationId" to "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
     Given I update the "calendarDate" with ID "6f93d0a3e53c2d9c3409646eaab94155fe079e87_id" field "body.educationOrganizationId" to "352e8570bd1116d11a72755b987902440045d346_id"
 
@@ -161,17 +161,17 @@ Feature: Users can access public entities
     #Verify base endpoint only contains calendarDates for the directly associated edOrgs
     When I navigate to GET "/v1/calendarDates"
     Then I should receive a return code of 200
-     And I should receive a collection with <COUNT> elements
+     And I should receive a collection with <CALDATECOUNT> elements
 
     #Verify base endpoint only contains classPeriods for the directly associated edOrgs
     When I navigate to GET "/v1/classPeriods"
     Then I should receive a return code of 200
-    And I should receive a collection with <COUNT> elements
+    And I should receive a collection with <CLASSPERIODCOUNT> elements
 
      #Verify base endpoint only contains bellSchedules for the directly associated edOrgs
      When I navigate to GET "/v1/bellSchedules"
      Then I should receive a return code of 200
-     And I should receive a collection with <COUNT> elements
+     And I should receive a collection with <BELLSCHEDCOUNT> elements
 
     #Verify rewrites
     When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
@@ -182,13 +182,13 @@ Feature: Users can access public entities
 
 
     Examples: User Credentials and Expected Counts
-       | REALM                                   | TYPE              | USERNAME          | PASSWORD              | COUNT | EDORG             |
-       | Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            | 1     | 352e8570bd1116d11a72755b987902440045d346_id |
-       | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         | 1     | 352e8570bd1116d11a72755b987902440045d346_id |
-       | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         | 1     | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-       | Illinois Daybreak School District 4529  | admin             | akopel            | akopel1234            | 1     | 352e8570bd1116d11a72755b987902440045d346_id |
-       | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    | 1     | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-       | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 | 1     | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+       | REALM                                   | TYPE              | USERNAME          | PASSWORD              | CALDATECOUNT | CLASSPERIODCOUNT | BELLSCHEDCOUNT | EDORG             |
+       | Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            | 1            | 11               | 1              | 352e8570bd1116d11a72755b987902440045d346_id |
+       | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         | 1            | 11               | 1              | 352e8570bd1116d11a72755b987902440045d346_id |
+       | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         | 1            | 11               | 1              | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+       | Illinois Daybreak School District 4529  | admin             | akopel            | akopel1234            | 1            | 11               | 1              | 352e8570bd1116d11a72755b987902440045d346_id |
+       | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    | 1            | 11               | 1              | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+       | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 | 1            | 11               | 1              | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
 
   Scenario: Public Entities Write Commands as a IT Admin (user with WRITE PUBLIC)
     Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "akopel" with password "akopel1234"
