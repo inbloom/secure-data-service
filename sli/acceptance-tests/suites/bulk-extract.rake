@@ -243,9 +243,10 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractSchedulerTest"].execute
   Rake::Task["bulkExtractNegativeTests"].execute
   Rake::Task["bulkExtractTlsTests"].execute
+  Rake::Task["bulkExtractCleanup"].execute
   Rake::Task["bulkExtractPublicTest"].execute
   Rake::Task["bulkExtractCleanupTests"].execute
-  Rake::Task["bulkExtractSecurityEventTests"].execute
+  #Rake::Task["bulkExtractSecurityEventTests"].execute
   Rake::Task["bulkExtractDeltaPurgeTests"].execute
   Rake::Task["bulkExtractPriorTest"].execute
   Rake::Task["bulkExtractTopPrivateDataTest"].execute
