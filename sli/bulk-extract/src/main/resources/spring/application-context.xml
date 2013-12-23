@@ -29,7 +29,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <util:map id="entitiesToCollections" key-type="java.lang.String" value-type="java.lang.String">
         <entry key="assessment" value="assessment" />
         <entry key="attendance" value="attendance" />
-	<entry key="calendarDate" value="calendarDate" />
+        <entry key="bellSchedule" value="bellSchedule" />
+        <entry key="calendarDate" value="calendarDate" />
+        <entry key="classPeriod" value="classPeriod" />
         <entry key="cohort" value="cohort" />
         <entry key="competencyLevelDescriptor" value="competencyLevelDescriptor" />
         <entry key="course" value="course" />
