@@ -1,4 +1,47 @@
 {
+  "classPeriod": {
+   "POST": {
+     "classPeriodName":"Physics 1 Period",
+     "educationOrganizationId":"b1bd3db6-d020-4651-b1b8-a8dba688d9e1"
+    },
+    "UPDATE" :{
+     "field": "classPeriodName",
+     "value": "Physics 1 Period"
+    },
+    "naturalKey": {
+     "classPeriodName" : "2012-04-15",
+     "educationOrganizationId" : "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    }
+  },
+  "bellSchedule": {
+   "POST": {
+    "bellScheduleName":"Grade School Schedule",
+    "educationOrganizationId":"b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
+    "gradeLevels":[
+     "First grade"
+    ],
+    "meetingTime": {
+     "classPeriodId":"1fcf42b0e4e74b9be645edccf7bc1e01f0d15b46_id",
+     "startTime":"09:00:00.000",
+     "endTime":"09:55:00.000"
+    },
+    "calendarDateReference":"2012ak-794b9db8-ceb0-11e1-8af5-0a0027000000"
+   },
+   "UPDATE": {
+    "field": "gradeLevels",
+    "value": ["Fifth grade"]
+   },
+   "naturalKey": {
+    "bellScheduleName":"Grade School Schedule",
+    "educationOrganizationId":"b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
+    "meetingTime": {
+     "classPeriodId":"1fcf42b0e4e74b9be645edccf7bc1e01f0d15b46_id",
+     "startTime":"09:00:00.000",
+     "endTime":"09:55:00.000"
+    },
+    "calendarDateReference":"2012ak-794b9db8-ceb0-11e1-8af5-0a0027000000"
+   }
+  },
   "gradingPeriod": {
     "POST": {
       "gradingPeriodIdentity": {

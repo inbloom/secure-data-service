@@ -1,0 +1,20 @@
+{
+    "referenceSources" :
+    [
+        {
+            "entityType" : "educationOrganization",
+            "sourceRefPath": "body.EducationOrganizationReference",
+            "optional" : false
+        },
+        {
+            "entityType" : "classPeriod",
+            "sourceRefPath": "body.MeetingTime.ClassPeriodReference",
+            "optional" : false
+        },
+        {
+            "entityType" : "calendarDate",
+            "sourceRefPath": "body.CalendarDateReference",
+            "optional" : false
+        }
+    ]
+}

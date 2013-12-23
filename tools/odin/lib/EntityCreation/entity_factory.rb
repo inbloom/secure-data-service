@@ -48,13 +48,19 @@ class EntityFactory
           rval << Program.new(@prnd, work_order[:id], work_order[:program_type], work_order[:sponsor])
 
         when [Session]
-          rval << Session.new(work_order[:name], work_order[:year], work_order[:term], work_order[:interval], work_order[:edOrg], work_order[:gradingPeriods])
+          rval << Session.new(work_order[:name], work_order[:year], work_order[:term], work_order[:interval], work_order[:edOrg], work_order[:gradingPeriods], work_order[:calendar_dates])
 
         when [GradingPeriod]
           rval << GradingPeriod.new(work_order[:period_type], work_order[:year], work_order[:interval], work_order[:edOrg], work_order[:calendarDates])
 
         when [CalendarDate]
-          rval << CalendarDate.new(work_order[:date], work_order[:event], work_order[:edOrgId])
+          rval << CalendarDate.new(work_order[:date], work_order[:event], work_order[:ed_org_id])
+
+        when [BellSchedule]
+          rval << BellSchedule.new(work_order[:ed_org_id], work_order[:calendar_date], work_order[:class_period_name], work_order[:start_time], work_order[:end_time])
+
+        when [ClassPeriod]
+          rval << ClassPeriod.new(work_order[:class_period_name], work_order[:ed_org_id])
 
         when [CourseOffering]
           rval << CourseOffering.new(work_order[:id], work_order[:title], work_order[:edOrgId], work_order[:session], work_order[:course])
@@ -63,7 +69,7 @@ class EntityFactory
           rval << Course.new(work_order[:id], work_order[:grade], work_order[:title], work_order[:edOrgId])
 
         when [Section]
-          rval << Section.new(work_order[:id], work_order[:edOrg], work_order[:offering])
+          rval << Section.new(work_order[:id], work_order[:edOrg], work_order[:offering], work_order[:class_period_name])
 
         when [Staff]
           rval << Staff.new(work_order[:id], work_order[:year], work_order[:name])

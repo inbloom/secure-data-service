@@ -101,7 +101,17 @@ def update_mongo_operation(db_name, collection, query, field, remove, value = ni
     if remove
       coll.update(query, {'$unset' => {field => 1}})
     else
-      coll.update(query, {'$set' => {field => value}})
+      # Trap Mongo errors so we can log what happened
+      begin
+        coll.update(query, {'$set' => {field => value}})
+      rescue Mongo::OperationFailure => mongo_err
+        puts "*** \nCAUGHT Mongo::OperationFailure on updating: " + mongo_err.to_s()
+        puts "Update operation done in database '" + db_name.to_s() + "' collection '" + collection.to_s() + "'"
+        puts "Update filter query was:\n" + query.to_s()
+        puts "Update operation was attempting to set field '" + field.to_s() + "' to value:\n'" + value.to_s() + "'\n"
+        # Rethrow
+        raise mongo_err
+      end
     end
   end
   conn.close

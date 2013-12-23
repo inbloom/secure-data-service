@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <core:filterSettings type="SAX" readerPoolSize="5" />
+
+    <jb:bean beanId="bellSchedules" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="bellSchedule" />
+    </jb:bean>
+
+    <!-- Start BellSchedule mapping -->
+    <jb:bean beanId="bellSchedule" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'bellSchedule'</jb:expression>
+        <jb:wiring property="body" beanIdRef="bellScheduleBody" />
+    </jb:bean>
+
+    <jb:bean beanId="bellScheduleBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="bellScheduleName" data="attributes BellScheduleName _value" />
+        <jb:wiring property="gradeLevels" beanIdRef="GradeLevels" />
+        <jb:wiring property="meetingTime" beanIdRef="MeetingTime" />
+        <jb:value property="educationOrganizationId" data="attributes EducationOrganizationReference" />
+        <jb:value property="calendarDateReference" data="attributes CalendarDateReference" />
+    </jb:bean>
+
+    <jb:bean beanId="GradeLevels" class="java.util.ArrayList" createOnElement="attributes GradeLevels">
+        <jb:value data="attributes GradeLevels GradeLevel element _value " />
+    </jb:bean>
+
+    <jb:bean beanId="MeetingTime" class="java.util.HashMap" createOnElement="attributes MeetingTime">
+        <jb:value property="classPeriodId" data="attributes MeetingTime ClassPeriodReference" />
+        <jb:value property="alternateDayName" data="attributes MeetingTime AlternateDayName _value" />
+        <jb:value property="startTime" data="attributes MeetingTime StartTime _value" />
+        <jb:value property="endTime" data="attributes MeetingTime EndTime _value" />
+        <jb:value property="officialAttendancePeriod" data="attributes MeetingTime OfficialAttendancePeriod _value" />
+   </jb:bean>
+
+</smooks-resource-list>

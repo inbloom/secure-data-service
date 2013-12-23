@@ -125,6 +125,8 @@ public class StudentAccessValidator extends AccessValidator {
         edOrgsAllowedThreeParts.add(ResourceNames.SCHOOLS);
         edOrgsAllowedThreeParts.add(ResourceNames.SESSIONS);
         edOrgsAllowedThreeParts.add(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS);
+        edOrgsAllowedThreeParts.add(ResourceNames.CLASS_PERIODS);
+        edOrgsAllowedThreeParts.add(ResourceNames.BELL_SCHEDULES);
         threeParts.put(ResourceNames.EDUCATION_ORGANIZATIONS, edOrgsAllowedThreeParts);
 
         // courseTranscripts

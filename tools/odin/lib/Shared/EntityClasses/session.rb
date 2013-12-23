@@ -25,9 +25,9 @@ require_relative "enum/GradingPeriodType.rb"
 class Session < BaseEntity
 
   attr_accessor :name, :school_year, :ed_org_id, :begin_date, :end_date, :num_school_days, :holidays,
-                :calendarDateReference
+                :calendar_dates
 
-  def initialize(name, year, term, interval, ed_org_id, grading_periods)
+  def initialize(name, year, term, interval, ed_org_id, grading_periods, calendar_dates)
     @rand = Random.new(name.hash + year.hash)
     @name            = name
       @school_year     = year.to_s + "-" + (year+1).to_s
@@ -38,6 +38,7 @@ class Session < BaseEntity
     @holidays        = interval.get_holidays
       @ed_org_id       = ed_org_id
     @grading_periods = grading_periods
+    @calendar_dates  = calendar_dates
 
     optional {@calendarDateReference = {
         :date => Date.new(2012+@rand.rand(3), 1+@rand.rand(12), 1+@rand.rand(28)),
@@ -63,4 +64,5 @@ class Session < BaseEntity
     end
     periods
   end
+
 end

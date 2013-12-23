@@ -16,40 +16,17 @@
 
 package org.slc.sli.api.jersey;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.annotation.Resource;
-import javax.ws.rs.core.PathSegment;
-import javax.xml.bind.DatatypeConverter;
-
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
-
-import org.slc.sli.api.exceptions.RequestBlockedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
+import org.slc.sli.api.exceptions.RequestBlockedException;
+import org.slc.sli.api.resources.generic.MethodNotAllowedException;
 import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
-import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
@@ -59,7 +36,6 @@ import org.slc.sli.api.security.pdp.EndpointMutator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.translator.URITranslator;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SessionUtil;
 import org.slc.sli.api.validation.URLValidator;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -71,6 +47,22 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.annotation.Resource;
+import javax.ws.rs.core.PathSegment;
+import javax.xml.bind.DatatypeConverter;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Pre-request processing filter. Adds security information for the user Records
@@ -131,6 +123,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         populateSecurityContext(request);
         // mongoStat.clear();
         mongoStat.startRequest();
+
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());

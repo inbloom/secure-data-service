@@ -651,6 +651,11 @@ task :ingestionEdOrgsTest do
   runTests("test/features/ingestion/features/ingestion_app_edOrgs.feature")
 end
 
+desc "Verify ingestion of class periods and bell schedules"
+task :ingestionBellSchedulesAndClassPeriodsTest do
+  runTests("test/features/ingestion/features/bell_schedules_and_class_periods.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

@@ -888,6 +888,7 @@ task :ingestionTests => [
         :IngestionIndexValidationTest,
         :corruptZip,
         :genericEdOrgs,
+        :ingestionBellSchedulesAndClassPeriodsTest,
         :ingestionSectionLevelAttendanceEventsTest,
         :ingestionAttendanceEventCategoriesTest,
         :ingestionDeletionTests,
@@ -1403,7 +1404,8 @@ task :importSandboxMidgarData do
     "graduationPlan" => "Midgar_data/graduationPlan_fixture.json",
     "studentCompetencyObjective" => "Midgar_data/studentCompetencyObjective_fixture.json",
     "competencyLevelDescriptor" => "Midgar_data/competencyLevelDescriptor_fixture.json",
-    "yearlyTranscript" => "Midgar_data/yearlyTranscript_fixture.json"
+    "yearlyTranscript" => "Midgar_data/yearlyTranscript_fixture.json",
+    "classPeriod" => "Midgar_data/classPeriod_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end

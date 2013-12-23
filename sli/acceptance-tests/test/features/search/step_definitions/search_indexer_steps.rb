@@ -603,4 +603,10 @@ def findPossibleNestedValue(field,resp,possibleValues=[])
   return possibleValues
 end
   
+Given /^I create a valid base level student entity with first name "(.*?)" and last name "(.*?)"$/ do |first_name, last_name|
+  @result = CreateEntityHash.createBaseStudent()
+  @result["name"] = Hash["firstName" => first_name, "lastSurname" => last_name]
+  @lastStudentId = @result["studentUniqueStateId"]
+  puts @result
+end
 

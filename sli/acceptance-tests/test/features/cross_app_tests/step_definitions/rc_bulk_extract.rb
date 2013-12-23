@@ -69,8 +69,8 @@ When /^I store the URL for the latest delta for the (edorg|Public)$/ do |edorg|
   else
     @list_url = @delta_uri['deltaPublic'].values[0][0]["uri"]
   end
-  # @list_irl is in the format https://<url>/api/rest/v1.3/bulk/extract/<lea>/delta/<timestamp>
-  # -> strip off everything before v1.3, store: bulk/extract/<lea>/delta/<timestamp>
+  # @list_irl is in the format https://<url>/api/rest/v1.4/bulk/extract/<lea>/delta/<timestamp>
+  # -> strip off everything before v1.4, store: bulk/extract/<lea>/delta/<timestamp>
   @list_url.match(/api\/rest\/v(.*?)\/(.*)$/)
   puts "Bulk Extract Delta URI suffix: #{$2}"
   @list_uri = $2

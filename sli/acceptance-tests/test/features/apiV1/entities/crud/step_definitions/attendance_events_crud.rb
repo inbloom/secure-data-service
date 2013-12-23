@@ -108,12 +108,6 @@ Then /^I DELETE a yearly attendance with an attendance event$/ do
   assert(@res.code == 204, "Unexpected HTTP code returned: #{@res.code}.")
 end
 
-Then /^I GET the deleted entity/ do
-  puts @location
-  restHttpGetAbs(@location, 'application/vnd.slc+json')
-  assert(@res.code == 404, "Unexpected HTTP code returned: #{@res.code}.")
-end
-
 Then /^I PATCH an attendance's attendance events/ do
   patch_attendance_event={
                             "attendanceEvent"=> [

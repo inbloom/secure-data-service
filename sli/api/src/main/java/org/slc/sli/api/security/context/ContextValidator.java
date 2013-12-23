@@ -81,7 +81,9 @@ public class ContextValidator implements ApplicationContextAware {
             ResourceNames.STUDENT_COMPETENCY_OBJECTIVES,
             ResourceNames.CUSTOM,
             "parentLearningObjectives",
-            "childLearningObjectives"));
+            "childLearningObjectives",
+            ResourceNames.CLASS_PERIODS,
+            ResourceNames.BELL_SCHEDULES));
 
     private List<IContextValidator> validators;
 
@@ -162,7 +164,7 @@ public class ContextValidator implements ApplicationContextAware {
         return false;
     }
 
-    private List<PathSegment> cleanEmptySegments(List<PathSegment> pathSegments) {
+    public List<PathSegment> cleanEmptySegments(List<PathSegment> pathSegments) {
         for (Iterator<PathSegment> i = pathSegments.iterator(); i.hasNext();) {
             if (i.next().getPath().isEmpty()) {
                 i.remove();

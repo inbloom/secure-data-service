@@ -28,6 +28,7 @@
 				<xs:element name="CourseOffering" type="SLC-CourseOffering"/>
 				<xs:element name="Section" type="SLC-Section"/>				
 				<xs:element name="Action" type="SLC-ActionType"/>
+				<xs:element name="BellSchedule" type="SLC-BellSchedule"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

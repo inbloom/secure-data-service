@@ -12,7 +12,7 @@ Then I GET an attendance with an attendance event
 When I DELETE an attendance with an attendance event
 Then I GET the deleted entity
 
-Scenario: Verify CRUD for attendance event on attendance endpoint for attendance events with section id
+Scenario: Verify CRUD for attendance event on yearly attendance endpoint for attendance events with section id
 Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
 When I POST a yearly attendance with an attendance event
 Then I GET a yearly attendance with an attendance event

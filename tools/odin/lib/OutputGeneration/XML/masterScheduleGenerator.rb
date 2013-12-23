@@ -33,6 +33,7 @@ class MasterScheduleGenerator < InterchangeGenerator
     @header, @footer = build_header_footer( "MasterSchedule" )
     @writers[CourseOffering] = EntityWriter.new("course_offering.mustache")
     @writers[Section] = EntityWriter.new("section.mustache")
+    @writers[BellSchedule] = EntityWriter.new("bell_schedule.mustache")
   end
 
 end
