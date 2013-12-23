@@ -150,6 +150,8 @@ yearlyTranscript,false,false,grade.body.gradingPeriodId:1
 # Used in cascade delete
 yearlyTranscript,false,false,grade.body.studentSectionAssociationId:1
 # Used in cascade delete
+yearlyTranscript,false,false,grade.body.sectionId:1
+# Used in cascade delete
 yearlyTranscript,false,false,reportCard.body.grades:1
 # Look up reportCard by gradingPeriod: /gradingPeriods/{id}/reportCards
 yearlyTranscript,false,false,reportCard.body.gradingPeriodId:1
@@ -213,3 +215,7 @@ educationOrganization,false,false,type:1,body.nameOfInstitution:1
 classPeriod,false,false,body.educationOrganizationId:1
 bellSchedule,false,false,body.meetingTime.classPeriodId:1
 bellSchedule,false,false,body.educationOrganizationId:1
+
+# Look up attendanceEvents by section: /students/{id}/attendances
+attendance,false,false,body.attendanceEvent.sectionId:1
+
