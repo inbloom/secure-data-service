@@ -94,7 +94,7 @@ module EntitiesHelper
     html = ""
     if hash.is_a?(Array)
       html << '<ul>'
-      hash.each do |link|
+      hash.sort_by{|link| t(link["rel"]).downcase}.each do |link|
         html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << '</li>'
       end
       html << '</ul>'
