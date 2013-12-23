@@ -39,6 +39,7 @@ class SectionWorkOrderFactory
     @scenario = scenario
     @teachers = {}
     @prng = prng
+    @cp_prng = Random.new(0)
     @teacher_unique_state_id = 0
     @start_index = 1
     @gradebook_entry_factory = GradebookEntryFactory.new(@scenario)
@@ -138,7 +139,7 @@ class SectionWorkOrderFactory
                 
                 gradebook_entries.each { |entry| yielder << entry }
 
-                period_idx = Random.rand(class_periods.length)
+                period_idx = @cp_prng.rand(class_periods.length)
                 class_period_name = class_periods[period_idx][:name]
 
                 yielder << {:type=>Section, :id=>section[:id], :edOrg=>school_id, :offering=>offering, :class_period_name => class_period_name}

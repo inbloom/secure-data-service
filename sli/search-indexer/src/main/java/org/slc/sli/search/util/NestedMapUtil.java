@@ -16,6 +16,7 @@
 package org.slc.sli.search.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.Set;
  */
 public class NestedMapUtil {
     private static final String _ARRAY_ELEM = "$";
+    private static final List<String> WHOLE_FIELDS = Arrays.asList("metaData");
 
     /**
      * Move field specified from node from to node to
@@ -192,9 +194,11 @@ public class NestedMapUtil {
             }
             Object tmp;
             for (String key: map.keySet()) {
-                tmp = map.get(key);
-                if (tmp != null) {
-                    filterExceptRecursively(nodeNames, tmp, count + 1);
+                if (!WHOLE_FIELDS.contains(key)) {
+                    tmp = map.get(key);
+                    if (tmp != null) {
+                        filterExceptRecursively(nodeNames, tmp, count + 1);
+                    }
                 }
             }
         } else if (entity instanceof List) {

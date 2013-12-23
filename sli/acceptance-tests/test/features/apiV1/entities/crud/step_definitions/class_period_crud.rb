@@ -22,6 +22,10 @@ When /^I POST a class period$/ do
                                      "href" =>  "educationOrganizations/" + @expected_entity['educationOrganizationId']
                                    },
                                    {
+                                     "rel" => "getBellSchedules",
+                                     "href" =>  "bellSchedules?meetingTime.classPeriodId=#{@id}"
+                                   },
+                                   {
                                      "rel" => "getSections",
                                      "href" =>  "sections?classPeriodId=#{@id}"
                                    }
