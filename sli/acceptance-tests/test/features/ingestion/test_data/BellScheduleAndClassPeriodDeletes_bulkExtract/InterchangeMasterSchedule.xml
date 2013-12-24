@@ -2,12 +2,12 @@
 <InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
                            xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
 
-    <Action ActionType="DELETE" Force="false">
+    <Action ActionType="DELETE" Force="true">
         <BellSchedule>
             <BellScheduleName>Some Bell Schedule Name</BellScheduleName>
             <GradeLevels>
                 <GradeLevel>First grade</GradeLevel>
-                <GradeLevel>M grade</GradeLevel>
+                <GradeLevel>High School</GradeLevel>
             </GradeLevels>
             <EducationOrganizationReference>
                 <EducationalOrgIdentity>
@@ -17,7 +17,7 @@
             <MeetingTime>
                 <ClassPeriodReference>
                     <ClassPeriodIdentity>
-                        <ClassPeriodName>Some Other Class Period Name</ClassPeriodName>
+                        <ClassPeriodName>Some Class Period Name</ClassPeriodName>
                         <EducationOrganizationReference>
                             <EducationalOrgIdentity>
                                 <StateOrganizationId>1</StateOrganizationId>

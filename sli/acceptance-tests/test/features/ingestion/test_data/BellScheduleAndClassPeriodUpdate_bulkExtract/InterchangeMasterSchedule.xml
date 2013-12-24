@@ -6,7 +6,7 @@
             <BellScheduleName>Some Bell Schedule Name</BellScheduleName>
             <GradeLevels>
                 <GradeLevel>First grade</GradeLevel>
-                <GradeLevel>M grade</GradeLevel>
+                <GradeLevel>High School</GradeLevel>
             </GradeLevels>
             <EducationOrganizationReference>
                 <EducationalOrgIdentity>
@@ -16,7 +16,7 @@
             <MeetingTime>
                 <ClassPeriodReference>
                     <ClassPeriodIdentity>
-                        <ClassPeriodName>Test Class Period Name</ClassPeriodName>
+                        <ClassPeriodName>Some Class Period Name</ClassPeriodName>
                         <EducationOrganizationReference>
                             <EducationalOrgIdentity>
                                 <StateOrganizationId>1</StateOrganizationId>
