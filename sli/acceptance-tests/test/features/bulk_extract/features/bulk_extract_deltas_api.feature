@@ -125,6 +125,10 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
     And I verify that an extract tar file was created for the tenant "Midgar"
     And there is a metadata file in the extract
    Then each record in the full extract is present and matches the delta extract
+   #Verify classPeriodId outputted as part of section
+   And I verify this "section" file should contain:
+      | id                                          | condition                                                   |
+      | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id | classPeriodId = 5c96c784883dbe40dadb74ba4791da32192221e5_id |
 
 
 Scenario: SEA - Ingest additional entities in preparation for subsequent update and delete tests
