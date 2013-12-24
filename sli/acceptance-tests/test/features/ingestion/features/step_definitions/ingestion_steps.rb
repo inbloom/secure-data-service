@@ -3911,6 +3911,8 @@ Given /^the "(.*?)" tenant db is empty$/ do |tenant|
                      "realm",
                      "application",
                      "roles",
+                     "userSession",
+                     "applicationAuthorization",
                      "customRole"]
      disable_NOTABLESCAN
      coll_names.each do |coll|
