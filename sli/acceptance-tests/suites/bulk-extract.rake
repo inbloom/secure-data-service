@@ -231,6 +231,8 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["addBootstrapAppAuths"].execute
   allLeaAllowApp("SDK Sample")
   authorizeEdorg("SDK Sample")
+  allLeaAllowApp("Paved Z00")
+  authorizeEdorg("Paved Z00")
   Rake::Task["bulkExtractTriggerTest"].execute
   Rake::Task["bulkExtractSimpleEntitiesTest"].execute
   Rake::Task["bulkExtractSuperdocTest"].execute
@@ -243,10 +245,10 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractSchedulerTest"].execute
   Rake::Task["bulkExtractNegativeTests"].execute
   Rake::Task["bulkExtractTlsTests"].execute
-  Rake::Task["bulkExtractCleanup"].execute
-  Rake::Task["bulkExtractPublicTest"].execute
+  #Rake::Task["bulkExtractCleanup"].execute
+  #Rake::Task["bulkExtractPublicTest"].execute
   Rake::Task["bulkExtractCleanupTests"].execute
-  #Rake::Task["bulkExtractSecurityEventTests"].execute
+  Rake::Task["bulkExtractSecurityEventTests"].execute
   Rake::Task["bulkExtractDeltaPurgeTests"].execute
   Rake::Task["bulkExtractPriorTest"].execute
   Rake::Task["bulkExtractTopPrivateDataTest"].execute
