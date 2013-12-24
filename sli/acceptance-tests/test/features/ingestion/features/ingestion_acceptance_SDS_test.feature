@@ -37,8 +37,8 @@ Given I am using local data store
 @smoke @integration @IL-Daybreak
 Scenario: Post a zip file containing all data for Illinois Daybreak as a payload of the ingestion job: Clean Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-  And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
-  And the "Midgar" tenant db is empty
+    And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
+    And the "Midgar" tenant db is empty
   And the following collections are empty in sli datastore:
         | collectionName                        |
         | securityEvent                         |
