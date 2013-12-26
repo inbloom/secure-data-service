@@ -754,15 +754,6 @@ When /^I create an association of type "([^"]*)"$/ do |type|
       "programId" => @newId,
       "staffId" => "b4c2a73f-336d-4c47-9b47-2d24871eef96",
       "beginDate" => "2012-01-01"
-    },
-    "student_studentParentAssociation" => {
-        "studentId" => "6f60028a-f57a-4c3d-895f-e34a63abc175_id",
-        "parentId" => @newId,
-        "livesWith" => true,
-        "primaryContactStatus" => true,
-        "relation" => "Mother",
-        "contactPriority" => 0,
-        "emergencyContactStatus" => true
     }
   }
   @fields = @assocData[type]
@@ -783,11 +774,10 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     "teacherSchoolAssociation" => "teacherSchoolAssociations",
     "teacherSchoolAssociation2" => "teacherSchoolAssociations",
     "studentParentAssociation2" => "studentParentAssociations",
-    "staffProgramAssociation" => "staffProgramAssociations",
-    "student_studentParentAssociation" => "studentParentAssociations"
+    "staffProgramAssociation" => "staffProgramAssociations"
   }
   if type != ""
-    api_version = "v1"
+    api_version = "v1.1"
     step "I navigate to POST \"/#{api_version}/#{@assocUrl[type]}\""
     headers = @res.raw_headers
     assert(headers != nil, "Headers are nil")
@@ -795,11 +785,6 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     s = headers['location'][0]
     @assocId = s[s.rindex('/')+1..-1]
   end
-end
-
-When /^I delete the superdoc "([^"]*)" of "([^"]*)"$/ do |entity_uri, subdoc_id|
-  superdoc_id = subdoc_id.split('_id')[0] + "_id"
-   step "I navigate to DELETE \"/v1/#{entity_uri}/#{superdoc_id}\""
 end
 
 Then /^I should receive a new entity URI after a successful response$/ do

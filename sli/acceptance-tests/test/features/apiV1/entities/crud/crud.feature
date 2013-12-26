@@ -155,17 +155,17 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 204
     And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-    And I should receive a return code of <Return Code>
+    And I should receive a return code of 404
 
   Examples:
-    | Entity Type          | Entity Resource URI   | Association Type                        | Update Field             | Updated Value            | Return Code |
-    | "cohort"             | "cohorts"             | "studentCohortAssocation"               | "cohortDescription"      | "frisbee golf team"      | 404         |
-    | "disciplineIncident" | "disciplineIncidents" | "studentDisciplineIncidentAssociation"  | "incidentTime"           | "01:02:15"               | 404         |
-    | "program"            | "programs"            | "studentProgramAssociation"             | "programSponsor"         | "State Education Agency" | 404         |
-    | "section"            | "sections"            | "studentSectionAssociation"             | "sequenceOfCourse"       | "2"                      | 200         |
-    | "staff"              | "staff"               | "staffEducationOrganizationAssociation" | "sex"                    | "Female"                 | 404         |
-    | "student"            | "students"            | "studentSectionAssociation2"            | "sex"                    | "Female"                 | 404         |
-    | "teacher"            | "teachers"            | "teacherSchoolAssociation"              | "highlyQualifiedTeacher" | "false"                  | 404         |
+    | Entity Type          | Entity Resource URI   | Association Type                        | Update Field             | Updated Value            |
+    | "cohort"             | "cohorts"             | "studentCohortAssocation"               | "cohortDescription"      | "frisbee golf team"      |
+    | "disciplineIncident" | "disciplineIncidents" | "studentDisciplineIncidentAssociation"  | "incidentTime"           | "01:02:15"               |
+    | "program"            | "programs"            | "studentProgramAssociation"             | "programSponsor"         | "State Education Agency" |
+    | "section"            | "sections"            | "studentSectionAssociation"             | "sequenceOfCourse"       | "2"                      |
+    | "staff"              | "staff"               | "staffEducationOrganizationAssociation" | "sex"                    | "Female"                 |
+    | "student"            | "students"            | "studentSectionAssociation2"            | "sex"                    | "Female"                 |
+    | "teacher"            | "teachers"            | "teacherSchoolAssociation"              | "highlyQualifiedTeacher" | "false"                  |
 
 # Session and course require multiple levels of associations, e.g. course -> courseOffering -> section -> teacherSectionAssoc
 #| "session"                      | "sessions"            | | |  "totalInstructionalDays" | "43"                                         |
@@ -547,36 +547,3 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     | learningObjectives          | /search/learningObjectives                               |
     | learningStandards           | /search/learningStandards                                |
     | studentCompetencyObjectives | /educationOrganizations/@ids/studentCompetencyObjectives |
-
-  Scenario: Sub docs are preserved when a super doc is deleted
-  # Create
-    Given entity URI "parents"
-    And format "application/vnd.slc+json"
-    And a valid entity json document for a "parent"
-    When I navigate to POST "/<ENTITY URI>"
-    Then I should receive a return code of 201
-    And I should receive a new entity URI
-  # Read
-    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-    Then I should receive a return code of 200
-    And the response should contain the appropriate fields and values
-    And "entityType" should be "parent"
-  # Create Association
-    When I create an association of type "student_studentParentAssociation"
-    When I POST the association of type "student_studentParentAssociation"
-    Then I should receive a return code of 201
-    And I should receive a new entity URI
-  # Read Association
-    Given entity URI "studentParentAssociations"
-    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-    Then I should receive a return code of 200
-  #And a valid entity json document for a <Entity Type>
-    And the response should contain the appropriate fields and values
-    And "entityType" should be "studentParentAssociation"
-
-  # Delete Superdoc
-    When I delete the superdoc "students" of "<NEWLY CREATED ENTITY ID>"
-    Then I should receive a return code of 204
-    Given entity URI "studentParentAssociations"
-    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-    Then I should receive a return code of 200

@@ -807,7 +807,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             } else {
                 DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Finally deleting "
                         + repositoryEntityType + "." + id);
-                if (!delete(repositoryEntityType, id, true)) {
+                if (!delete(repositoryEntityType, id, force)) {
                     String message = "Failed to delete entity with id " + id + " and type " + entityType;
                     LOG.debug(message);
                     DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Failed finally deleting "
@@ -851,66 +851,60 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         return count;
     }
 
-    /**
-     * Delete the entity with the given ID and type.
-     *
-     * @param entityType
-     *          type of entity.
-     * @param id
-     *          mongo id of the entity.
-     * @return
+    /* Delete the entity with the given ID and type.  Note that "collectionName"
+     * is really the entity type and does not always correspond to the actual
+     * MongoDB collection, in the case of entity types embedded in the collections of
+     * other entity types.
      */
     @Override
-    public boolean delete(String entityType, String id) {
-        return delete(entityType, id, false);
+    public boolean delete(String collectionName, String id) {
+    	return delete(collectionName, id, false);
     }
 
-    public boolean delete(String entityType, String id, boolean shouldHollow) {
+    /*
+     * Version of delete that has special handling for "force" deletes: if embedded
+     * data in subdocs exists, leave it in place, "hollowing out" the containing
+     * document by removing only the body/metaData, and leaving type, _id, and
+     * contained documents.
+     */
+    private boolean delete(String collectionName, String id, boolean force) {
         boolean result;
-        if (subDocs.isSubDoc(entityType)) {
-            Entity entity = subDocs.subDoc(entityType).findById(id);
+        if (subDocs.isSubDoc(collectionName)) {
+            Entity entity = subDocs.subDoc(collectionName).findById(id);
 
-            if (denormalizer.isDenormalizedDoc(entityType)) {
-                denormalizer.denormalization(entityType).delete(entity, id);
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).delete(entity, id);
             }
-            result = subDocs.subDoc(entityType).delete(entity);
-        } else if (containerDocumentAccessor.isContainerSubdoc(entityType)) {
-            Entity entity = containerDocumentAccessor.findById(entityType, id);
+
+            result = subDocs.subDoc(collectionName).delete(entity);
+        } else if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
+            Entity entity = containerDocumentAccessor.findById(collectionName, id);
             if (entity == null) {
-                LOG.warn("Could not find entity {} in collection {}", id, entityType);
+                LOG.warn("Could not find entity {} in collection {}", id, collectionName);
                 return false;
             }
             result = containerDocumentAccessor.delete(entity);
-        } else if (containerDocumentAccessor.isContainerDocument(entityType) && !containerDocumentAccessor.isContainerSubdoc(entityType)) {
-            Entity entity = findById(entityType, id);
-            if (entity == null) {
-                LOG.warn("Could not find entity {} in collection {}", id, entityType);
-                return false;
-            }
-            result = containerDocumentAccessor.deleteContainerNonSubDocs(entity);
-        } else if (entityType.equals(EntityNames.STUDENT_ASSESSMENT) || entityType.equals(EntityNames.ASSESSMENT)) {
-            if  (shouldHollow) {
-                result = deleteOrHollowOut(entityType, id);
-            } else {
-                result = super.delete(entityType, id);
-            }
         } else {
-            if (denormalizer.isDenormalizedDoc(entityType)) {
-                denormalizer.denormalization(entityType).delete(null, id);
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).delete(null, id);
             }
-
-            result = deleteOrHollowOut(entityType, id);
+            if ( force ) {
+            	result = deleteOrHollowOut(collectionName, id);
+            }
+            else {
+            	result = super.delete(collectionName, id);
+            }
 
             // update school lineage cache iff updating educationOrganization.parentEducationAgencyReference
             if (result
-                    && entityType.equals(EntityNames.EDUCATION_ORGANIZATION)) {
+                    && collectionName.equals(EntityNames.EDUCATION_ORGANIZATION)) {
                 // TODO can be optimized to take an edOrg Id
                 updateAllSchoolLineage();
             }
         }
 
         if (result && journal != null) {
-            journal.journal(id, entityType, true);
+            journal.journal(id, collectionName, true);
         }
 
         return result;
@@ -927,7 +921,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     	boolean result = false;
     	Entity entity = findById(collectionName, id, true);
         if(entity != null) {
-            if ( entity.getEmbeddedData().size() > 0) {
+            if ( entity.getEmbeddedData().size() > 0 ) {
                 entity.hollowOut();
                 result = update(collectionName, entity, true);
             }
@@ -1043,7 +1037,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             boolean deleteAssessmentFamilyReference) {
         boolean result;
 
-        if (validateNaturalKeys && entity.getBody() != null) {
+        if (validateNaturalKeys) {
             validator.validateNaturalKeys(entity, true);
         }
 
