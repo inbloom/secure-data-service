@@ -1067,7 +1067,7 @@ task :integrationTests => [:realmInit] do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
   Rake::Task["loadDefaultIngestionTenants"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].execute
-#  Rake::Task["crossAppTests"].execute
+  Rake::Task["crossAppTests"].execute
   Rake::Task["searchApiTests"].invoke
   Rake::Task["dashboardSdsTests"].invoke
   displayFailureReport()
