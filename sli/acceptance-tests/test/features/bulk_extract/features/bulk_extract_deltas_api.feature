@@ -1096,8 +1096,7 @@ Given I clean the bulk extract file system and database
   And I verify this "classPeriod" file should contain:
         | id                                          | condition                                                               |
         | d7873d123c22d3277c923132fa0bc90d742f205f_id | classPeriodName = Xth Period                                            |
-        | d7873d123c22d3277c923132fa0bc90d742f205f_id | educationOrganizationId = 884daa27d806c2d725bc469b273d840493f84b4d_id   |    
-
+        | d7873d123c22d3277c923132fa0bc90d742f205f_id | educationOrganizationId = 884daa27d806c2d725bc469b273d840493f84b4d_id   |
    And I verify this "bellSchedule" file should contain:
         | id                                          | condition                                                               |
         | 25fcdbb0dec785bef50d85e9345cec8d1083348f_id | bellScheduleName = Maths 18                                             |
