@@ -10,7 +10,7 @@
             </GradeLevels>
             <EducationOrganizationReference>
                 <EducationalOrgIdentity>
-                    <StateOrganizationId>1</StateOrganizationId>
+                    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </EducationOrganizationReference>
             <MeetingTime>
@@ -19,7 +19,7 @@
                         <ClassPeriodName>Some Class Period Name</ClassPeriodName>
                         <EducationOrganizationReference>
                             <EducationalOrgIdentity>
-                                <StateOrganizationId>1</StateOrganizationId>
+                                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                             </EducationalOrgIdentity>
                         </EducationOrganizationReference>
                     </ClassPeriodIdentity>
@@ -34,7 +34,7 @@
                     <Date>2015-01-01</Date>
                     <EducationOrgReference>
                         <EducationalOrgIdentity>
-                            <StateOrganizationId>1</StateOrganizationId>
+                            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                         </EducationalOrgIdentity>
                     </EducationOrgReference>
                 </CalendarDateIdentity>

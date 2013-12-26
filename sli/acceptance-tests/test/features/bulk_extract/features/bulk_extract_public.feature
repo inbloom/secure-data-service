@@ -48,10 +48,10 @@ Scenario: As an bulk extract user, I want to be able to get the state public ent
       |  classPeriod                           |
   And I verify this "classPeriod" file should contain:
     | id                                          | condition                                                                |
-    | 0c7523f4f74e6e5de117b6af88115cf98b5b1e2c_id | entityType = classPeriod                                                 |
+    | eea084077b72e08e47c59b6dcbc002e672b3bba2_id | entityType = classPeriod                                                 |
   And I verify this "bellSchedule" file should contain:
     | id                                          | condition                                                                |
-    | e63be44d3016df23718ee8aba4382eb9e8dfa2d4_id | entityType = bellSchedule                                                |
+    | e570a3f708b3d28d8b10dff8b5603b038f7b21a0_id | entityType = bellSchedule                                                |
 
 
   Scenario Outline: Extract should have all public tenant data for certain entities
@@ -290,10 +290,10 @@ Scenario: public data delta extract using BEEP with invalid users
       |  classPeriod                           |
     And I verify this "classPeriod" file should contain:
       | id                                          | condition                                                                |
-      | 0c7523f4f74e6e5de117b6af88115cf98b5b1e2c_id | entityType = classPeriod                                                 |
+      | eea084077b72e08e47c59b6dcbc002e672b3bba2_id | entityType = classPeriod                                                 |
     And I verify this "bellSchedule" file should contain:
       | id                                          | condition                                                                |
-      | e63be44d3016df23718ee8aba4382eb9e8dfa2d4_id | gradeLevels = ["First grade", "High School"]                             |
+      | e570a3f708b3d28d8b10dff8b5603b038f7b21a0_id | gradeLevels = ["First grade", "High School"]                             |
 
     Given the extraction zone is empty
     And the bulk extract files in the database are scrubbed

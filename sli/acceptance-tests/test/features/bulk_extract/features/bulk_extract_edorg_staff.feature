@@ -24,4 +24,4 @@ Scenario Outline: Verify staff, and teacher entities were correctly extracted
   Examples:
     | entity                                | user       | role             | realm       | tenant | edorg        |   appId |
     | educationOrganization                 | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  |   19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-    #| school                                | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  |   19cca28d-7357-4044-8df9-caad4b1c8ee4 |
+    | school                                | jstevenson | IT Administrator | IL-Daybreak | Midgar | IL-DAYBREAK  |   19cca28d-7357-4044-8df9-caad4b1c8ee4 |

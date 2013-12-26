@@ -315,18 +315,16 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
       |  entityType                            |
       |  bellSchedule                          |
       |  classPeriod                           |
-      |  educationOrganization    			   |
-      |  school                                |
       |  calendarDate                          |
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    And The "bellSchedule" delta was extracted in the same format as the api
    And The "classPeriod" delta was extracted in the same format as the api
     And I verify this "bellSchedule" file should contain:
      | id                                          | condition                |
-     | e63be44d3016df23718ee8aba4382eb9e8dfa2d4_id | entityType = bellSchedule|
+     | e570a3f708b3d28d8b10dff8b5603b038f7b21a0_id | entityType = bellSchedule|
     And I verify this "classPeriod" file should contain:
      | id                                          | condition                |
-     | 0c7523f4f74e6e5de117b6af88115cf98b5b1e2c_id | entityType = classPeriod |
+     | eea084077b72e08e47c59b6dcbc002e672b3bba2_id | entityType = classPeriod |
      Given the extraction zone is empty
 	 When I ingest "BellScheduleAndClassPeriodUpdate_bulkExtract.zip"
      And I trigger a delta extract
@@ -335,7 +333,7 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
            |  bellSchedule                          |
   And I verify this "bellSchedule" file should contain:
     | id                                          | condition                                |
-    | e63be44d3016df23718ee8aba4382eb9e8dfa2d4_id | gradeLevels = ["First grade", "High School"]|
+    | e570a3f708b3d28d8b10dff8b5603b038f7b21a0_id | gradeLevels = ["First grade", "High School"]|
    Given the extraction zone is empty
 	 When I ingest "BellScheduleAndClassPeriodDeletes_bulkExtract.zip"
      And I trigger a delta extract
@@ -344,7 +342,7 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
        |  deleted                               |
      And I verify this "deleted" file only contains:
        | id                                          | condition                                              |
-       | e63be44d3016df23718ee8aba4382eb9e8dfa2d4_id | entityType = bellSchedule                              |
+       | e570a3f708b3d28d8b10dff8b5603b038f7b21a0_id | entityType = bellSchedule                              |
        | 1afde7c1dedbdf83cab47549133e50413295f915_id | entityType = classPeriod                               |
 
 Scenario: Triggering deltas via ingestion

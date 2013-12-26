@@ -526,7 +526,7 @@ When /^the correct number of "([^"]*?)" "([^"]*?)" was extracted from the databa
   if expectedCount == "old-hardwired"
     case collection
 	when "school"
-	  count = 4
+	  count = 3
 	when "teacher"
 	  count = @tenantDb.collection("staff").find({"type" => "teacher" } ).count()
     when "graduationPlan"

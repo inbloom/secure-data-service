@@ -17,7 +17,7 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
       | calendarDate                             |                557|
       | course                                   |                  6|
       | courseOffering                           |                  6|
-      | educationOrganization                    |                  6|
+      | educationOrganization                    |                  5|
       | gradingPeriod                            |                  6|
       | graduationPlan                           |                  3|
       | session                                  |                  4|
