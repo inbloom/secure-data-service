@@ -8,6 +8,14 @@
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
     </ClassPeriod>
+      <ClassPeriod>
+        <ClassPeriodName>Test Class Period Name</ClassPeriodName>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>1</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </ClassPeriod>
     <EducationOrganization>
         <StateOrganizationId>1</StateOrganizationId>
         <EducationOrgIdentificationCode IdentificationSystem="School">

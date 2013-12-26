@@ -125,6 +125,10 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
     And I verify that an extract tar file was created for the tenant "Midgar"
     And there is a metadata file in the extract
    Then each record in the full extract is present and matches the delta extract
+   #Verify classPeriodId outputted as part of section
+   And I verify this "section" file should contain:
+      | id                                          | condition                                                   |
+      | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id | classPeriodId = 5c96c784883dbe40dadb74ba4791da32192221e5_id |
 
 
 Scenario: SEA - Ingest additional entities in preparation for subsequent update and delete tests
@@ -301,7 +305,7 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
     And I verify this "assessment" file should not contain:
      | id                                          | condition                |
      | 124057675fa0903e905f0377bbc0450aacc7edab_id |                          |
-@wip
+
  Scenario: Ingest an update to bellSchedule and classPeriod 
    Given I clean the bulk extract file system and database
     And I trigger a delta extract
@@ -312,6 +316,7 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
       |  bellSchedule                          |
       |  classPeriod                           |
       |  educationOrganization    			   |
+      |  school                                |
       |  calendarDate                          |
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    And The "bellSchedule" delta was extracted in the same format as the api
@@ -322,30 +327,25 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
     And I verify this "classPeriod" file should contain:
      | id                                          | condition                |
      | 0c7523f4f74e6e5de117b6af88115cf98b5b1e2c_id | entityType = classPeriod |
-
      Given the extraction zone is empty
-	 When I ingest "BellSchedulesAndClassPeriodsUpdates_bulkExtract.zip"
+	 When I ingest "BellScheduleAndClassPeriodUpdate_bulkExtract.zip"
      And I trigger a delta extract
      Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
+           |  entityType                            |
+           |  bellSchedule                          |
   And I verify this "bellSchedule" file should contain:
     | id                                          | condition                                |
-    | 1c4d8ea0c38aab28c05b5b40e8cf71e79e455ea2_id | gradeLevels.1 = M grade                  |
-  And I verify this "classPeriod" file should contain:
-    | id                                          | condition                                |
-    | 1c4d8ea0c38aab28c05b5b40e8cf71e79e455ea2_id | classPeriodName = Some Class Period Name |
-
+    | e63be44d3016df23718ee8aba4382eb9e8dfa2d4_id | gradeLevels = ["First grade", "High School"]|
    Given the extraction zone is empty
-	 When I ingest "BellSchedulesAndClassPeriodsDeletes_bulkExtract.zip"
+	 When I ingest "BellScheduleAndClassPeriodDeletes_bulkExtract.zip"
      And I trigger a delta extract
        Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
-       |  bellSchedule                          |
-       |  classPeriod                           |
        |  deleted                               |
      And I verify this "deleted" file only contains:
        | id                                          | condition                                              |
-       | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | entityType = classPeriod                               |
-       | 1c4d8ea0c38aab28c05b5b40e8cf71e79e455ea2_id | entityType = classPeriod                               |
+       | e63be44d3016df23718ee8aba4382eb9e8dfa2d4_id | entityType = bellSchedule                              |
+       | 1afde7c1dedbdf83cab47549133e50413295f915_id | entityType = classPeriod                               |
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
