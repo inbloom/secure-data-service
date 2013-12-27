@@ -114,7 +114,10 @@ module EntitiesHelper
   def display_entity (entity)
     html ||= ""
     if entity.is_a?(Hash)
-      entity.each { |key, value|
+      order = ["id", "organizationCategories", "stateOrganizationId", "nameOfInstitution", "address", "streetNumberName", "city", "stateAbbreviation", "postalCode", "telephone", "educationOrgIdentificationCode", "parentEducationAgencyReference", "programReference", "entityType", "accountabilityRatings", "links"]
+      p sorted_array = entity.sort_by {|k, v| order.index(k)}
+      p sorted_hash = Hash[sorted_array]
+      sorted_hash.each { |key, value|
         val_text = (key == 'links' || key == 'link') ? build_links(value) : display_entity(value)
         val_text = "&nbsp" if val_text.nil? || val_text.empty?
         html << "<div class='row'><div class='key left'>#{t(key)}:</div><div class='value'>#{val_text}</div></div>"
