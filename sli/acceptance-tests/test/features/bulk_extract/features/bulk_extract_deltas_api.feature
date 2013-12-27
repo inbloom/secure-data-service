@@ -113,6 +113,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
      And The "calendarDate" delta was extracted in the same format as the api
      And The "section" delta was extracted in the same format as the api
      And The "cohort" delta was extracted in the same format as the api
+     
 
   Given I trigger a bulk extract
    When I set the header format to "application/x-tar"
@@ -124,6 +125,10 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
     And I verify that an extract tar file was created for the tenant "Midgar"
     And there is a metadata file in the extract
    Then each record in the full extract is present and matches the delta extract
+   #Verify classPeriodId outputted as part of section
+   And I verify this "section" file should contain:
+      | id                                          | condition                                                   |
+      | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id | classPeriodId = 5c96c784883dbe40dadb74ba4791da32192221e5_id |
 
 
 Scenario: SEA - Ingest additional entities in preparation for subsequent update and delete tests
@@ -301,6 +306,44 @@ Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Asses
      | id                                          | condition                |
      | 124057675fa0903e905f0377bbc0450aacc7edab_id |                          |
 
+ Scenario: Ingest an update to bellSchedule and classPeriod
+    Given I clean the bulk extract file system and database
+    And I trigger a delta extract
+    When I ingest "BellSchedulesAndClassPeriods_bulkExtract.zip"
+    And I trigger a delta extract
+   When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  bellSchedule                          |
+      |  classPeriod                           |
+      |  calendarDate                          |
+   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   And The "bellSchedule" delta was extracted in the same format as the api
+   And The "classPeriod" delta was extracted in the same format as the api
+    And I verify this "bellSchedule" file should contain:
+     | id                                          | condition                |
+     | e570a3f708b3d28d8b10dff8b5603b038f7b21a0_id | entityType = bellSchedule|
+    And I verify this "classPeriod" file should contain:
+     | id                                          | condition                |
+     | eea084077b72e08e47c59b6dcbc002e672b3bba2_id | entityType = classPeriod |
+     Given the extraction zone is empty
+     When I ingest "BellScheduleAndClassPeriodUpdate_bulkExtract.zip"
+     And I trigger a delta extract
+     Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
+           |  entityType                            |
+           |  bellSchedule                          |
+  And I verify this "bellSchedule" file should contain:
+    | id                                          | condition                                |
+    | e570a3f708b3d28d8b10dff8b5603b038f7b21a0_id | gradeLevels = ["First grade", "High School"]|
+   Given the extraction zone is empty
+   When I ingest "BellScheduleAndClassPeriodDeletes_bulkExtract.zip"
+     And I trigger a delta extract
+       Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" in "Midgar" contains a file for each of the following entities:
+       |  entityType                            |
+       |  deleted                               |
+     And I verify this "deleted" file only contains:
+       | id                                          | condition                                              |
+       | e570a3f708b3d28d8b10dff8b5603b038f7b21a0_id | entityType = bellSchedule                              |
+       | 1afde7c1dedbdf83cab47549133e50413295f915_id | entityType = classPeriod                               |
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
@@ -962,6 +1005,8 @@ Given I clean the bulk extract file system and database
   And I verify "2" delta bulk extract files are generated for Edorg "<IL-DAYBREAK>" in "Midgar"
   And I verify "2" delta bulk extract files are generated for Edorg "<IL-HIGHWIND>" in "Midgar"
 
+
+
 @shortcut
 @RALLY_US5741
 Scenario: Create Student, course offering and section as SEA Admin, users from different LEAs requesting Delta extracts
@@ -969,11 +1014,9 @@ Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
  When I POST and validate the following entities:
- # An entry for "entity" must be defined in bulk_extract.rb:prepareBody:field_data["POST"]
- # An entry for "type" must be defined in bulk_extract.rb:getEntityEndpoint:entity_to_endpoint_map
- # Note that "entity" is passed as "field", and "type" passed as "entity" when the underlying POST step is called for each table entry
  # Note if you get a 409 after adding an entity, it may have duplicate natural keys of a pre-existing entity
     | entityName                     |  entityType                            |  returnCode  |
+    | newClassPeriod3                |  classPeriod                          |  201         |
     | newDaybreakStudent             |  student                               |  201         |
     | DbStudentSchoolAssociation     |  studentSchoolAssociation              |  201         |
     | newParentFather                |  parent                                |  201         |
@@ -1021,16 +1064,14 @@ Given I clean the bulk extract file system and database
     | newAssessment                  |  assessment                            |  201         |
     | newBECalendarDate              |  calendarDate                          |  201         |
     | newStudentGradebookEntry       |  studentGradebookEntry                 |  201         |
+    | newBellSchedule3               |  bellSchedule                          |  201         |
     
      When I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
  Then I PATCH and validate the following entities:
- # "field" values must be defined in bulk_extract.rb:prepareBody:field_data["PATCH"]
- # "entity" values must be defined in bulk_extract.rb:getEntityBodyFromApi:entity_to_uri_map and in bulk_extract.rb:getEntityEndpoint:entity_to_endpoint_map
  # Note if "value" is empty in this table, the patched field will be set to the string "value"
-    |  fieldName            |  entityType                 | value                                       |  returnCode  | endpoint                                                                |
-    |  date                 |  attendance                 | 2013-08-29                                  |  204         | attendances/95b973e29368712e2090fcad34d90fffb20aa9c4_id                 | 
-    
+    |  fieldName            |  entityType                 | value            |  returnCode  | endpoint                                                                |
+    |  date                 |  attendance                 | 2013-08-29       |  204         | attendances/95b973e29368712e2090fcad34d90fffb20aa9c4_id                 |
 
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "the public extract"
@@ -1049,7 +1090,22 @@ Given I clean the bulk extract file system and database
         |  graduationPlan                        |
         |  calendarDate                          |
         |  section                               |
-        |  cohort                               |
+        |  cohort                                |
+        |  classPeriod                           |
+        |  bellSchedule                          |
+  And I verify this "classPeriod" file should contain:
+        | id                                          | condition                                                               |
+        | d7873d123c22d3277c923132fa0bc90d742f205f_id | classPeriodName = Xth Period                                            |
+        | d7873d123c22d3277c923132fa0bc90d742f205f_id | educationOrganizationId = 884daa27d806c2d725bc469b273d840493f84b4d_id   |
+   And I verify this "bellSchedule" file should contain:
+        | id                                          | condition                                                               |
+        | 25fcdbb0dec785bef50d85e9345cec8d1083348f_id | bellScheduleName = Maths 18                                             |
+        | 25fcdbb0dec785bef50d85e9345cec8d1083348f_id | educationOrganizationId = 884daa27d806c2d725bc469b273d840493f84b4d_id   |
+        | 25fcdbb0dec785bef50d85e9345cec8d1083348f_id | meetingTime.classPeriodId = d7873d123c22d3277c923132fa0bc90d742f205f_id |
+        | 25fcdbb0dec785bef50d85e9345cec8d1083348f_id | meetingTime.startTime = 13:00:00.000                                    |
+        | 25fcdbb0dec785bef50d85e9345cec8d1083348f_id | meetingTime.endTime = 13:55:00.000                                      |
+        | 25fcdbb0dec785bef50d85e9345cec8d1083348f_id | gradeLevels  = ["Tenth grade"]                                          |
+        | 25fcdbb0dec785bef50d85e9345cec8d1083348f_id | calendarDateReference = 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id     |
   And I verify this "program" file should contain:
         | id                                          | condition                                |
         | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Regular Education          |
@@ -1101,14 +1157,12 @@ Given I clean the bulk extract file system and database
     | id                                          | condition                                                |
     | cb99a7df36fadf8885b62003c442add9504b3cbd_id | entityType = cohort                                      |
     | cb99a7df36fadf8885b62003c442add9504b3cbd_id | cohortIdentifier = new-cohort-1                          |
-
  When I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+
   And format "application/json"
  Then I PATCH and validate the following entities:
- # "field" values must be defined in bulk_extract.rb:prepareBody:field_data["PATCH"]
- # "entity" values must be defined in bulk_extract.rb:getEntityBodyFromApi:entity_to_uri_map and in bulk_extract.rb:getEntityEndpoint:entity_to_endpoint_map
- # Note if "value" is empty in this table, the patched field will be set to the string "value"
     |  fieldName            |  entityType                 | value                                       |  returnCode  | endpoint                                                                |
+    |  patchGradeLevels     |  bellSchedule               | Grade 13                                    |  204         | bellSchedules/25fcdbb0dec785bef50d85e9345cec8d1083348f_id                |
     |  patchProgramType     |  program                    | Adult/Continuing Education                  |  204         | programs/0ee2b448980b720b722706ec29a1492d95560798_id                    |
     |  patchEndDate         |  gradingPeriod              | 2015-07-01                                  |  204         | gradingPeriods/8feb483ade5d7b3b45c1e4b4a50d00302cba4548_id              |
     |  patchDescription     |  learningObjective          | Patched description                         |  204         | learningObjectives/bc2dd61ff2234eb25835dbebe22d674c8a10e963_id          |
@@ -1121,7 +1175,7 @@ Given I clean the bulk extract file system and database
     |  patchContentStd      |  assessment                 | National Standard                           |  204         | assessments/8d58352d180e00da82998cf29048593927a25c8e_id                 |
     |  patchIndividualPlan  |  graduationPlan             | true                                        |  204         | graduationPlans/a77cdbececc81173aa76a34c05f9aeb44126a64d_id             |
     |  calendarEvent        |  calendarDate               | Holiday                                     |  204         | calendarDates/c7af73b8f98390a6d695a9e458529d6a149f0a21_id               |
-
+  
  Given the unpack directory is empty
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    And I generate and retrieve the bulk extract delta via API for "the public extract"
@@ -1139,7 +1193,11 @@ Given I clean the bulk extract file system and database
         |  assessment                            |
         |  graduationPlan                        |
         |  calendarDate                          |
-   And I verify this "program" file should contain:
+        |  bellSchedule                          |
+  And I verify this "bellSchedule" file should contain:
+        | id                                          | condition                                |
+        | 25fcdbb0dec785bef50d85e9345cec8d1083348f_id | gradeLevels = ["Grade 13"]               |
+  And I verify this "program" file should contain:
         | id                                          | condition                                |
         | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Adult/Continuing Education |
         | 0ee2b448980b720b722706ec29a1492d95560798_id | programId = 12345                        |
@@ -1378,6 +1436,8 @@ Given I clean the bulk extract file system and database
     |  assessment                 |  8d58352d180e00da82998cf29048593927a25c8e_id  |  204         |
     |  graduationPlan             |  a77cdbececc81173aa76a34c05f9aeb44126a64d_id  |  204         |
     |  calendarDate               |  c7af73b8f98390a6d695a9e458529d6a149f0a21_id  |  204         |
+    |  bellSchedule               |  25fcdbb0dec785bef50d85e9345cec8d1083348f_id  |  204         |
+    |  classPeriod                |  d7873d123c22d3277c923132fa0bc90d742f205f_id  |  204         |
 
  Given the extraction zone is empty
   When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -1433,6 +1493,8 @@ Given I clean the bulk extract file system and database
        | 8d58352d180e00da82998cf29048593927a25c8e_id | entityType = assessment                  |
        | a77cdbececc81173aa76a34c05f9aeb44126a64d_id | entityType = graduationPlan              |
        | 4030207003b03d055bba0b5019b31046164eff4e_id | entityType = section                     |
+       | d7873d123c22d3277c923132fa0bc90d742f205f_id | entityType = classPeriod                 |
+       | 25fcdbb0dec785bef50d85e9345cec8d1083348f_id | entityType = bellSchedule                |
 
 Scenario: Delete student and stuSchAssoc, re-post them, then delete just studentSchoolAssociations (leaving students), verify delete
 Given I clean the bulk extract file system and database

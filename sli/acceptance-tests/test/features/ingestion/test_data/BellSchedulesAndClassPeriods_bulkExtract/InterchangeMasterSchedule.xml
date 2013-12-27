@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                           xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
+    <BellSchedule>
+        <BellScheduleName>Some Bell Schedule Name</BellScheduleName>
+        <GradeLevels>
+            <GradeLevel>First grade</GradeLevel>
+            <GradeLevel>Second grade</GradeLevel>
+        </GradeLevels>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <MeetingTime>
+            <ClassPeriodReference>
+                <ClassPeriodIdentity>
+                    <ClassPeriodName>Some Class Period Name</ClassPeriodName>
+                    <EducationOrganizationReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationOrganizationReference>
+                </ClassPeriodIdentity>
+            </ClassPeriodReference>
+            <AlternateDayName>Maroon</AlternateDayName>
+            <StartTime>09:00:00</StartTime>
+            <EndTime>09:55:00</EndTime>
+            <OfficialAttendancePeriod>true</OfficialAttendancePeriod>
+        </MeetingTime>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2015-01-01</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
+    </BellSchedule>
+</InterchangeMasterSchedule>

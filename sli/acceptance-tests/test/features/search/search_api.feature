@@ -114,27 +114,10 @@ Given I am logged in using "manthony" "manthony1234" to realm "IL"
   And the header "TotalCount" equals 100
   And the a next link exists with offset equal to 50 and limit equal to 50
 
+ 
  Scenario: School Level searching for student not in school
  Given I am logged in using "mgonzales" "mgonzales1234" to realm "IL"
  Given I search in API for "Alton"
  Then I should receive a return code of 200
  Then I should receive a collection with 0 elements
 
- @wip
- Scenario: Search for a newly created (orphaned) student.
- Given I am logged in using "mgonzales" "mgonzales1234" to realm "IL"
- Given I search in API for "Dorwinkle"
- Then I should receive a return code of 200
- Then I should receive a collection with 0 elements
- Given format "application/json"
- And I create a valid base level student entity with first name "Hyram" and last name "Dorwinkle"
- When I navigate to POST "/v1/students"
- Then I should receive a return code of 201
- When I search in API for "Dorwinkle"
- Then I should receive a return code of 200
- And I should receive a collection with 1 elements
- And I see the following search results at index 0:
-  | Field              | Value     |                                    
-  | entityType         | student   |
-  | name.lastSurname   | Hyram     |
-  | name.firstName     | Dorwinkle |

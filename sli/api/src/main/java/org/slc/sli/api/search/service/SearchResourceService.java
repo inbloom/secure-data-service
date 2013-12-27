@@ -46,7 +46,6 @@ import org.elasticsearch.node.NodeBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -72,14 +71,12 @@ import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 
 /**
  * Service class to handle all API search requests. Retrieves results using data
@@ -105,10 +102,6 @@ public class SearchResourceService {
 
    @Autowired
    private EdOrgHelper edOrgHelper;
-
-   @Qualifier("validationRepo")
-   @Autowired
-   private Repository<Entity> repo;
 
    @Value("${sli.search.maxUnfilteredResults:15000}")
    private int maxUnfilteredSearchResultCount;
@@ -449,16 +442,12 @@ public class SearchResourceService {
             } else {
                LOG.debug("search: validating entity: {}", type);
                Map<String, EntityBody> row = entitiesByType.row(type);
-               Set<String> idsToFilter = new HashSet<String>(row.keySet());
-               Set<String> idsNotToFilter = removeIdsNotToFilter(type, idsToFilter);
-               Set<String> accessible = filterOutInaccessibleIds(type, idsToFilter);
-               accessible.addAll(idsNotToFilter);
+               Set<String> accessible = filterOutInaccessibleIds(type, row.keySet());
                for (String id : accessible) {
                   if (row.containsKey(id)) {
                      filterMap.put(id, type, row.get(id));
                   }
                }
-
             }
          }
          entityBodies.removeAll(sublist);
@@ -472,45 +461,6 @@ public class SearchResourceService {
             return (filterMap.contains(input.get("id"), input.get("type")));
          }
       }));
-   }
-
-   /**
-    * Remove Entity IDs not to be filtered by security context.
-    *
-    * @param entityType - Entity type
-    * @param ids - Set of Entity IDs to pare down
-    *
-    * @return - Set of Entity IDs not to be filtered
-    */
-   protected Set<String> removeIdsNotToFilter(String entityType, Set<String> ids) {
-       Set<String> idsNotToFilter = new HashSet<String>();
-       for (String id : ids) {
-           if (isOrphanedAndCreatedByPrincipal(entityType, id)) {
-               idsNotToFilter.add(id);
-           }
-       }
-       ids.removeAll(idsNotToFilter);
-
-       return idsNotToFilter;
-   }
-
-   /**
-    * True if the entity with id is orphaned and created by the principal.
-    *
-    * @param collectionName - Entity type
-    * @param id - Entity ID to check
-    *
-    * @return - Whether or not the associated entity is orphaned and created by the principal
-    */
-   public boolean isOrphanedAndCreatedByPrincipal(String collectionName, String id) {
-       Entity entity = repo.findById(collectionName, id);
-       return ((entity != null) && (entity.getMetaData() != null) &&
-               getPrincipalId().equals(entity.getMetaData().get("createdBy")) &&
-               "true".equals(entity.getMetaData().get("isOrphaned")));
-   }
-
-   protected String getPrincipalId() {
-       return SecurityUtil.principalId();
    }
 
    /**

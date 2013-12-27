@@ -38,51 +38,7 @@ Given I am using local data store
 Scenario: Post a zip file containing all data for Illinois Daybreak as a payload of the ingestion job: Clean Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
-    And the following collections are empty in datastore:
-        | collectionName                        |
-        | recordHash                            |
-        | assessment                            |
-        | assessmentPeriodDescriptor            |
-        | assessmentFamily                      |
-        | attendance                            |
-        | calendarDate                          |
-        | cohort                                |
-        | competencyLevelDescriptor             |
-        | course                                |
-        | courseOffering                        |
-        | disciplineAction                      |
-        | disciplineIncident                    |
-        | educationOrganization                 |
-        | grade                                 |
-        | gradebookEntry                        |
-        | gradingPeriod                         |
-        | graduationPlan                        |
-        | learningObjective                     |
-        | learningStandard                      |
-        | parent                                |
-        | program                               |
-        | reportCard                            |
-        | section                               |
-        | session                               |
-        | staff                                 |
-        | staffCohortAssociation                |
-        | staffEducationOrganizationAssociation |
-        | staffProgramAssociation               |
-        | student                               |
-        | studentAcademicRecord                 |
-        | studentAssessment          |
-        | studentCohortAssociation              |
-        | studentCompetency                     |
-        | studentCompetencyObjective            |
-        | studentDisciplineIncidentAssociation  |
-        | studentGradebookEntry                 |
-        | studentParentAssociation              |
-        | studentProgramAssociation             |
-        | studentSchoolAssociation              |
-        | studentSectionAssociation             |
-        | courseTranscript                      |
-        | teacherSchoolAssociation              |
-        | teacherSectionAssociation             |
+    And the "Midgar" tenant db is empty
   And the following collections are empty in sli datastore:
         | collectionName                        |
         | securityEvent                         |
