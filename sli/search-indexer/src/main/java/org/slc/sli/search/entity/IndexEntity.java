@@ -39,25 +39,21 @@ public class IndexEntity {
     private final String type;
     private final String id;
     private final Map<String, Object> body;
-    private final Map<String, Object> metaData;
 
-    public IndexEntity(Action action, String index, String type, String id,
-            Map<String, Object> body, Map<String, Object> metaData) {
+    public IndexEntity(Action action, String index, String type, String id, Map<String, Object> body) {
         this.action = action;
         this.index = index;
         this.type = type;
         this.id = id;
         this.body = body;
-        this.metaData = metaData;
     }
 
-    public IndexEntity(String index, String type, String id, Map<String, Object> body,
-            Map<String, Object> metaData) {
-        this(Action.INDEX, index, type, id, body, metaData);
+    public IndexEntity(String index, String type, String id, Map<String, Object> body) {
+        this(Action.INDEX, index, type, id, body);
     }
 
     public IndexEntity(String index, String type, String id) {
-        this(Action.INDEX, index, type, id, null, null);
+        this(Action.INDEX, index, type, id, null);
     }
 
     public String getIndex() {
@@ -76,10 +72,6 @@ public class IndexEntity {
         return body;
     }
 
-    public Map<String, Object> getMetaData() {
-        return metaData;
-    }
-
     public String getActionValue() {
         return action.getType();
     }
@@ -90,7 +82,6 @@ public class IndexEntity {
 
     @Override
     public String toString() {
-        return action.getType() + ": {index:" + index + ", type:" + type + ", id:" + id +
-                ", body: "+ body + ", metaData: "+ metaData +"}";
+        return action.getType() + ": {index:" + index + ", type:" + type + ", id:" + id + ", body: "+ body +"}";
     }
 }

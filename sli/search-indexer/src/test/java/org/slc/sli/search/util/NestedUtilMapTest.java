@@ -17,7 +17,6 @@ package org.slc.sli.search.util;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -25,24 +24,24 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 public class NestedUtilMapTest {
-
+    
     @SuppressWarnings("unchecked")
     @Test
     public void testFlatMap() {
         Map<String, Object> testMap = new HashMap<String, Object>();
-
+        
         NestedMapUtil.put(new DotPath("test.levl1.levl2"), 1, testMap);
         NestedMapUtil.put(new DotPath("test.levl1.name"), "my name", testMap);
         Map<String, Object> map = (Map<String, Object>) ((Map<String, Object>)testMap.get("test")).get("levl1");
         Assert.assertEquals(1, map.get("levl2"));
         Assert.assertEquals("my name", map.get("name"));
-
+        
         Map<String, Object> flatMap = NestedMapUtil.toFlatMap(testMap);
         Assert.assertEquals(2, flatMap.size());
         Assert.assertEquals("my name", flatMap.get("test.levl1.name"));
         Assert.assertEquals(1, flatMap.get("test.levl1.levl2"));
     }
-
+    
     @SuppressWarnings("unchecked")
     @Test
     public void testArray() {
@@ -52,19 +51,19 @@ public class NestedUtilMapTest {
         testMap1.put("cond", "a");
         Map<String, Object> testMap2 = new HashMap<String, Object>();
         testMap2.put("id", "2xy");
-
+        
         NestedMapUtil.put(new DotPath("test.levl1.levl2"), 1, testMap);
         NestedMapUtil.put(new DotPath("test.levl1.array"), Arrays.asList(testMap1, testMap2), testMap);
-
+      
         Assert.assertEquals(1111, NestedMapUtil.get(new DotPath("test.levl1.array.$.id"), testMap));
     }
-
+    
     @SuppressWarnings("unchecked")
     @Test()
     public void testRecursionOk() {
         Map<String, Object> testMap = new HashMap<String, Object>();
         // 10 deep and 13 wide is ok
-        NestedMapUtil.put(new DotPath("l0.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
+        NestedMapUtil.put(new DotPath("l0.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);        
         NestedMapUtil.put(new DotPath("l00.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
         NestedMapUtil.put(new DotPath("l01.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
         NestedMapUtil.put(new DotPath("l02.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
@@ -77,58 +76,15 @@ public class NestedUtilMapTest {
         NestedMapUtil.put(new DotPath("l09.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
         NestedMapUtil.put(new DotPath("l10.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
         NestedMapUtil.put(new DotPath("l11.l1.l2.l3.l4.l5.l6.l7.l8.l9.l10"), 1, testMap);
-
+        
         Map<String, Object> testMap9 = (Map<String, Object>) NestedMapUtil.get(new DotPath("l0.l1.l2.l3.l4.l5.l6.l7.l8.l9"), testMap);
         Assert.assertEquals(1, NestedMapUtil.get(new DotPath("l10"), testMap9));
     }
-
+    
     @Test(expected = IllegalArgumentException.class)
     public void testRecursionTooDeep() {
         Map<String, Object> testMap = new HashMap<String, Object>();
         // 11 deep is too much
         NestedMapUtil.put(new DotPath("l0.ll1.ll2.ll3.ll4.ll5.ll6.ll7.ll8.ll9.ll10.ll11"), 1, testMap);
     }
-
-    @Test
-    public void testFilterExcept() {
-        List<String> nodeNames = Arrays.asList("body", "type", "_id", "metaData", "name", "firstName", "lastSurname");
-        Map<String, Object> entity = new HashMap<String, Object>();
-        String id = "id1";
-        entity.put("_id", id);
-        String type = "student";
-        entity.put("type", type);
-
-        Map<String, Object> body = new HashMap<String, Object>();
-        Map<String, Object> name = new HashMap<String, Object>();
-        name.put("firstName", "Hyram");
-        name.put("lastSurname", "Dorwinkle");
-        name.put("prefix", "Dr");
-        name.put("suffix", "III");
-        body.put("name", name);
-        Map<String, Object> address = new HashMap<String, Object>();
-        address.put("street", "1987 Sinatra Drive");
-        address.put("city", "Hoboken");
-        address.put("state", "NJ");
-        body.put("address", address);
-        entity.put("body", body);
-
-        Map<String, Object> metaData = new HashMap<String, Object>();
-        metaData.put("isOrphaned", "true");
-        metaData.put("createdBy", "kenneth.rogers");
-        entity.put("metaData", metaData);
-
-        NestedMapUtil.filterExcept(nodeNames, entity);
-
-        Assert.assertEquals(metaData, entity.get("metaData"));
-        Assert.assertEquals(id, entity.get("_id"));
-        Assert.assertEquals(type, entity.get("type"));
-        Map<String, Object> filteredBody = (Map<String, Object>) entity.get("body");
-        Assert.assertTrue(filteredBody.containsKey("name"));
-        Assert.assertTrue(((Map<String, Object>) filteredBody.get("name")).containsKey("firstName"));
-        Assert.assertTrue(((Map<String, Object>) filteredBody.get("name")).containsKey("lastSurname"));
-        Assert.assertFalse(((Map<String, Object>) filteredBody.get("name")).containsKey("prefix"));
-        Assert.assertFalse(((Map<String, Object>) filteredBody.get("name")).containsKey("suffix"));
-        Assert.assertFalse(entity.containsKey("address"));
-    }
-
 }

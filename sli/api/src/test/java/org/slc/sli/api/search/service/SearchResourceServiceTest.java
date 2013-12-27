@@ -17,7 +17,6 @@ package org.slc.sli.api.search.service;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
-import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -72,7 +71,6 @@ import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -84,7 +82,8 @@ import org.slc.sli.domain.enums.Right;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class,
-    DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
+    DependencyInjectionTestExecutionListener.class,
+    DirtiesContextTestExecutionListener.class })
 public class SearchResourceServiceTest {
 
     @Autowired
@@ -92,8 +91,6 @@ public class SearchResourceServiceTest {
 
     @Autowired
     Embedded embedded;
-
-    private Repository<Entity> repo;
 
     static Client client;
 
@@ -509,61 +506,6 @@ public class SearchResourceServiceTest {
         entityName = ResourceNames.COURSES.toUpperCase();
         result = SearchResourceService.ExtendedSearchEntities.find(entityName);
         Assert.assertEquals(result, Boolean.FALSE);
-    }
-
-    @Test
-    public void testRemoveIdsNotToFilter() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        String entityType = "student";
-        Entity entity = Mockito.mock(Entity.class);
-        Map<String, Object> metaData = new HashMap<String, Object>();
-        String userId = "user1";
-        metaData.put("createdBy", userId);
-        metaData.put("isOrphaned", "true");
-        Mockito.when(entity.getMetaData()).thenReturn(metaData);
-        String id = "student2";
-        repo = Mockito.mock(Repository.class);
-        Mockito.when(repo.findById(Mockito.eq(entityType), Mockito.eq(id))).thenReturn(entity);
-
-        Field repoField;
-        repoField = SearchResourceService.class.getDeclaredField("repo");
-        repoField.setAccessible(true);
-        repoField.set(resourceService, repo);
-
-        SearchResourceService spyResourceService = Mockito.spy(resourceService);
-        Mockito.doReturn(userId).when(spyResourceService).getPrincipalId();
-
-        Set<String> ids = new HashSet<String>(Arrays.asList("student1", "student2", "student3"));
-        Set<String> idsNotToFilter = new HashSet<String>(Arrays.asList("student2"));
-        Set<String> idsToFilter = new HashSet<String>(Arrays.asList("student1", "student3"));
-
-        Set<String> removedIds = spyResourceService.removeIdsNotToFilter(entityType, ids);
-
-        Assert.assertEquals(idsNotToFilter, removedIds);
-        Assert.assertEquals(idsToFilter, ids);
-    }
-
-    @Test
-    public void testIsOrphanedAndCreatedByPrincipal() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        String entityType = "student";
-        Entity entity = Mockito.mock(Entity.class);
-        Map<String, Object> metaData = new HashMap<String, Object>();
-        String userId = "user1";
-        metaData.put("createdBy", userId);
-        metaData.put("isOrphaned", "true");
-        Mockito.when(entity.getMetaData()).thenReturn(metaData);
-        String id = "student1";
-        repo = Mockito.mock(Repository.class);
-        Mockito.when(repo.findById(Mockito.eq(entityType), Mockito.eq(id))).thenReturn(entity);
-
-        Field repoField;
-        repoField = SearchResourceService.class.getDeclaredField("repo");
-        repoField.setAccessible(true);
-        repoField.set(resourceService, repo);
-
-        SearchResourceService spyResourceService = Mockito.spy(resourceService);
-        Mockito.doReturn(userId).when(spyResourceService).getPrincipalId();
-
-        Assert.assertTrue(spyResourceService.isOrphanedAndCreatedByPrincipal(entityType, id));
     }
 
 }

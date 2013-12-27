@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-
 import org.slc.sli.search.util.DotPath;
 
 /**
@@ -33,27 +32,27 @@ import org.slc.sli.search.util.DotPath;
  */
 public final class IndexConfig {
 
-    private static final List<String> REQUIRED_FIELDS = Arrays.asList(new String[]{"type", "_id", "metaData"});
+    private static final List<String> REQUIRED_FIELDS = Arrays.asList(new String[]{"type", "_id"});
     // name of the index type
     public String indexType;
     // fields of the collections
     private List<String> fields;
     // rename to fields
     private Map<DotPath, DotPath> rename;
-
+    
     // append to map
     private Map<DotPath, Append> append;
-
+    
     private Map<DotPath, Object> condition;
-
+    
     private Map<String, Object> mapping;
-
+    
     @JsonIgnore
     private List<String> flattenedFields;
-
+    
     @JsonIgnore
     private String collectionName;
-
+    
     public static class Append {
         private DotPath subdoc;
         private String field;
@@ -77,7 +76,7 @@ public final class IndexConfig {
             return "Append [subdoc=" + subdoc + ", field=" + field + ", value=" + value + ", filterCondition=" + condition + "]";
         }
     }
-
+    
     /**
      * list of entity names that depends on this entity as the parent doc
      */
@@ -87,52 +86,52 @@ public final class IndexConfig {
     public String getCollectionName() {
         return collectionName;
     }
-
+    
     public List<String> getFields() {
         return fields;
     }
-
+    
     public Map<DotPath, DotPath> getRename() {
         return rename;
     }
-
+    
 
     public Map<DotPath, Append> getAppend() {
         return this.append;
     }
-
+    
     public String getIndexType() {
         return indexType == null ? collectionName : indexType;
     }
-
+    
     public Map<DotPath, Object> getCondition() {
         return condition;
     }
-
+    
     public List<String> getFlattendedFields() {
         return flattenedFields;
     }
-
+    
     public boolean hasDependents() {
         return !dependents.isEmpty();
     }
-
+    
     public Map<String, Object> getMapping() {
         return mapping;
     }
-
+    
     public List<String> getDependents() {
         return dependents;
     }
-
+    
     public void addDependent(String dependent) {
         this.dependents.add(dependent);
     }
-
+    
     public boolean isChildDoc() {
         return indexType != null && !this.collectionName.equals(indexType);
     }
-
+    
     /**
      * Modifies the original structures for performance reasons
      * @param name

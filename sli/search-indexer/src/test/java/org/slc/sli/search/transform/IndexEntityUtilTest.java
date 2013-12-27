@@ -23,7 +23,6 @@ import java.util.Map;
 import junit.framework.Assert;
 
 import org.junit.Test;
-
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.util.IndexEntityUtil;
@@ -34,21 +33,21 @@ public class IndexEntityUtilTest {
     public void testUtil() {
         Map<String, Object> ht = new HashMap<String, Object>();
         ht.put("x", "y");
-        IndexEntity ie = new IndexEntity(Action.QUICK_UPDATE, "test", "type", "1", ht, new HashMap<String, Object>());
+        IndexEntity ie = new IndexEntity(Action.QUICK_UPDATE, "test", "type", "1", ht);
         Assert.assertEquals("{\"params\":{\"x\":\"y\"},\"script\":\"ctx._source.x=x;\"}", IndexEntityUtil.toUpdateJson(ie));
-
+        
         List<IndexEntity> docs = new ArrayList<IndexEntity>();
-        docs.add(new IndexEntity(Action.INDEX, "test", "type", "1", ht, new HashMap<String, Object>()));
-        docs.add(new IndexEntity(Action.INDEX, "test1", "type2", "2", ht, new HashMap<String, Object>()));
-        Assert.assertEquals("{\"docs\": [{\"_index\":\"test\", \"_type\":\"type\",\"_id\":\"1\"}," + NEW_LINE +
-                            "{\"_index\":\"test1\", \"_type\":\"type2\",\"_id\":\"2\"}" + NEW_LINE + "]}",
+        docs.add(new IndexEntity(Action.INDEX, "test", "type", "1", ht));
+        docs.add(new IndexEntity(Action.INDEX, "test1", "type2", "2", ht));
+        Assert.assertEquals("{\"docs\": [{\"_index\":\"test\", \"_type\":\"type\",\"_id\":\"1\"}," + NEW_LINE + 
+                            "{\"_index\":\"test1\", \"_type\":\"type2\",\"_id\":\"2\"}" + NEW_LINE + "]}", 
             IndexEntityUtil.getBulkGetJson(docs));
-
+        
         docs = new ArrayList<IndexEntity>();
-        docs.add(new IndexEntity(Action.DELETE, "test", "type", "1", ht, new HashMap<String, Object>()));
-        docs.add(new IndexEntity(Action.DELETE, "test1", "type2", "2", ht, new HashMap<String, Object>()));
-        Assert.assertEquals("{\"delete\":{\"_index\":\"test\", \"_type\":\"type\",\"_id\":\"1\"}}" + NEW_LINE +
-                            "{\"delete\":{\"_index\":\"test1\", \"_type\":\"type2\",\"_id\":\"2\"}}" + NEW_LINE,
+        docs.add(new IndexEntity(Action.DELETE, "test", "type", "1", ht));
+        docs.add(new IndexEntity(Action.DELETE, "test1", "type2", "2", ht));
+        Assert.assertEquals("{\"delete\":{\"_index\":\"test\", \"_type\":\"type\",\"_id\":\"1\"}}" + NEW_LINE + 
+                            "{\"delete\":{\"_index\":\"test1\", \"_type\":\"type2\",\"_id\":\"2\"}}" + NEW_LINE, 
             IndexEntityUtil.getBulkDeleteJson(docs));
     }
 }
