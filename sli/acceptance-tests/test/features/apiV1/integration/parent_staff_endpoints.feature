@@ -182,7 +182,6 @@ Scenario: Parent has access to non-transitive associations through cohorts, prog
     | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
 
 @parent_staff_denied @parent_expired_access
-@wip
 Scenario: Verify parent access/deny through associations and expired entities
   Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
     And format "application/json"
@@ -192,7 +191,6 @@ Scenario: Verify parent access/deny through associations and expired entities
       | entityName                         | entityType                            | returnCode |
       | expiredTeacher                     | teacher                               | 201        |
       | expiredStaff                       | staff                                 | 201        |
-      | expiredStudent                     | student                               | 201        |
 
   Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
   And format "application/json"
