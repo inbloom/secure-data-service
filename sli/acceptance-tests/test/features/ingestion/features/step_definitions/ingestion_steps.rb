@@ -3902,15 +3902,7 @@ Given /^the "(.*?)" tenant db is empty$/ do |tenant|
      tenant_db = @conn.db(convertTenantIdToDbName(tenant))
      coll_names = tenant_db.collection_names
      coll_to_skip = ["system.indexes",
-                     "system.js",
-                     "system.profile",
-                     "system.namespaces",
-                     "system.users",
-                     "tenant",
-                     "securityEvent",
-                     "realm",
-                     "application",
-                     "roles",
+                     "applicationAuthorization",
                      "customRole"]
      disable_NOTABLESCAN
      coll_names.each do |coll|

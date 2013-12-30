@@ -9,59 +9,7 @@ they can pull the data that they need
   Scenario: Validate that Parent, Section, Session, StaffCohortAssociation, StaffEdorgAssignment entity is extracted correctly with full bulk extract
     Given I clean the bulk extract file system and database
     And I post "SmallSampleDataSet.zip" file as the payload of the ingestion job
-    And the following collections are empty in datastore:
-      | collectionName                            |
-      | assessment                                |
-      | assessmentFamily                          |
-      | assessmentPeriodDescriptor                |
-      | attendance                                |
-      | calendarDate                              |
-      | cohort                                    |
-      | competencyLevelDescriptor                 |
-      | course                                    |
-      | courseOffering                            |
-      | courseSectionAssociation                  |
-      | courseTranscript                          |
-      | disciplineAction                          |
-      | disciplineIncident                        |
-      | educationOrganization                     |
-      | educationOrganizationAssociation          |
-      | educationOrganizationSchoolAssociation    |
-      | grade                                     |
-      | gradebookEntry                            |
-      | gradingPeriod                             |
-      | graduationPlan                            |
-      | learningObjective                         |
-      | learningStandard                          |
-      | parent                                    |
-      | program                                   |
-      | reportCard                                |
-      | school                                    |
-      | schoolSessionAssociation                  |
-      | section                                   |
-      | sectionAssessmentAssociation              |
-      | sectionSchoolAssociation                  |
-      | session                                   |
-      | sessionCourseAssociation                  |
-      | staff                                     |
-      | staffCohortAssociation                    |
-      | staffEducationOrganizationAssociation     |
-      | staffProgramAssociation                   |
-      | student                                   |
-      | studentAcademicRecord                     |
-      | studentAssessment                         |
-      | studentCohortAssociation                  |
-      | studentCompetency                         |
-      | studentCompetencyObjective                |
-      | studentDisciplineIncidentAssociation      |
-      | studentGradebookEntry                     |
-      | studentParentAssociation                  |
-      | studentProgramAssociation                 |
-      | studentSchoolAssociation                  |
-      | studentSectionAssociation                 |
-      | teacher                                   |
-      | teacherSchoolAssociation                  |
-      | teacherSectionAssociation                 |
+    And the "Midgar" tenant db is empty
     When zip file is scp to ingestion landing zone
     And a batch job for file "SmallSampleDataSet.zip" is completed in database
 

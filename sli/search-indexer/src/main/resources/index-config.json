@@ -8,7 +8,9 @@
             "body.otherName.middleName", 
             "body.otherName.lastSurname", 
             "schools.exitWithdrawDate", 
-            "schools._id"
+            "schools._id",
+            "metaData.isOrphaned",
+            "metaData.createdBy"
         ],
         "append": {
             "body.context.schoolId": {
@@ -17,6 +19,14 @@
                 "condition": {
                     "exitWithdrawDate": null
                 }
+            },
+            "body._metaData.isOrphaned":{
+                "subdoc":"metaData",
+                "field" :"isOrphaned"
+            },
+            "body._metaData.createdBy":{
+                "subdoc":"metaData",
+                "field" :"createdBy"
             }
         },
         "mapping": {

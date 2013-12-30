@@ -3343,6 +3343,10 @@ def get_post_body_by_entity_name(entity_name)
       "classPeriodName" => "Fifth Period",
       "educationOrganizationId" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
     },
+      "newClassPeriod3" => {
+          "classPeriodName" => "Xth Period",
+          "educationOrganizationId" => "884daa27d806c2d725bc469b273d840493f84b4d_id"
+      },
     "newClassPeriod2" => {
       "classPeriodName" => "Sixth Period",
       "educationOrganizationId" => "352e8570bd1116d11a72755b987902440045d346_id"
@@ -3377,6 +3381,18 @@ def get_post_body_by_entity_name(entity_name)
                                              ],
                             "calendarDateReference" => "6f93d0a3e53c2d9c3409646eaab94155fe079e87_id"
                           },
+      "newBellSchedule3" => {
+          "bellScheduleName" => "Maths 18",
+          "educationOrganizationId"  =>  "884daa27d806c2d725bc469b273d840493f84b4d_id",
+          "meetingTime"  =>  {
+              "classPeriodId" => "d7873d123c22d3277c923132fa0bc90d742f205f_id",
+              "startTime" => "13:00:00.000",
+              "endTime" => "13:55:00.000"
+          },
+          "gradeLevels" => [
+          "Tenth grade"],
+          "calendarDateReference" => "6f93d0a3e53c2d9c3409646eaab94155fe079e87_id"
+      },
     "newCohort" => {
       "academicSubject" => "Communication and Audio/Visual Technology",
       "cohortType" => "Extracurricular Activity",
