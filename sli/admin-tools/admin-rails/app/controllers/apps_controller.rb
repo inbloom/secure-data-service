@@ -96,6 +96,8 @@ class AppsController < ApplicationController
                 #     def get_tree_html(userEdOrg, appId, is_sea_admin, checkEnabled, checkAuthorized)
                 #     def get_tree_html(userEdOrgs, appId, is_sea_admin, forAAuthorization = false, authorizedEdOrgs = [])
     @treeHtml = edOrgTree.get_enablement_tree_html(seaIds, params[:id], is_sea_admin?)
+    @treeHelperDebug=edOrgTree.get_debug()
+
   end
 
   def approve
@@ -211,6 +213,7 @@ class AppsController < ApplicationController
 
           edOrgTree = EdorgTree.new()
           @treeHtml = edOrgTree.get_enablement_tree_html(getSeaIds(), params[:id], is_sea_admin?)
+          @treeHelperDebug=edOrgTree.get_debug()
 
           format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
           format.json { head :ok }
@@ -218,6 +221,7 @@ class AppsController < ApplicationController
 
           edOrgTree = EdorgTree.new()
           @treeHtml = edOrgTree.get_enablement_tree_html(getSeaIds(), params[:id], is_sea_admin?)
+          @treeHelperDebug=edOrgTree.get_debug()
 
           format.html { render action: "edit" }
           format.json { render json: @app.errors, status: :unprocessable_entity }
@@ -235,6 +239,8 @@ class AppsController < ApplicationController
         end
         edOrgTree = EdorgTree.new()
         @treeHtml = edOrgTree.get_enablement_tree_html(getSeaIds(), params[:id], is_sea_admin?)
+        @treeHelperDebug=edOrgTree.get_debug()
+
         format.html { render action: "edit" }
         format.json { render json: @app.errors, status: :unprocessable_entity }
       end        
