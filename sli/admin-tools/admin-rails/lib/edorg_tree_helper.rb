@@ -58,6 +58,10 @@ module EdorgTreeHelper
       edorg_tree_html = "<ul>\n  #{render_html(ROOT_ID, ROOT_ID, 0)} </ul>\n"
     end
 
+    def get_debug()
+      return @debug
+    end
+
     # Load up all the edOrgs.  Creates:
     #    @edinf - Map of edOrg ID to the tree
     #    @enabled_ed_orgs - Map of IDs enabled
@@ -93,17 +97,25 @@ module EdorgTreeHelper
         root_ids.push(eo.id) if parents.empty?
       end
 
+      @debug = "<ul>\n"
+
       # Init immediate children of each edorg by inverting parent relationship
       @edinf.keys.each do |id|
         @edinf[id][:parents].each do |pid|
           if !@edinf.has_key?(pid)
             # Dangling reference to nonexistent parent
-            raise "EdOrg #{id} parents to nonexistent #{pid.to_s()}"
+
+            @debug = @debug + "\n<li>" + "#{@edinf[id][:name]} parents to nonexistent #{pid.to_s()} and is not shown here"
+
+            Rails.logger.error("EdOrg #{id} parents to nonexistent #{pid.to_s()}")
+
           else
             @edinf[pid][:children].push(id)
           end
         end
       end
+
+      @debug = @debug + "\n<ul/>"
 
       # Create fake root edOrg and parent all top level nodes to it
       root_children = if is_sea_admin then root_ids else @userEdOrgs end
