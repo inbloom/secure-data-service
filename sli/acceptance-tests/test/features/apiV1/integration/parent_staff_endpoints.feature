@@ -190,17 +190,8 @@ Scenario: Verify parent access/deny through associations and expired entities
      And I POST and validate the following entities:
       | entityName                         | entityType                            | returnCode |
       | expiredTeacher                     | teacher                               | 201        |
-      | expiredTeacherEdorgAssociation     | staffEducationOrganizationAssociation | 201        |
-      | expiredTeacherSchoolAssociation    | teacherSchoolAssociation              | 201        |
-      | expiredTeacherSectionAssociation   | teacherSectionAssociation             | 201        |
       | expiredStaff                       | staff                                 | 201        |
-      | expiredStaffEdorgAssociation       | staffEducationOrganizationAssociation | 201        |
       | expiredStudent                     | student                               | 201        |
-      | expiredStudentSchoolAssociation    | studentSchoolAssociation              | 201        |
-      | expiredStudentSectionAssociation   | studentSectionAssociation             | 201        |
-      | msollars.studentProgramAssociation | studentProgramAssociation             | 201        |
-      | expiredStudentProgramAssociation   | studentProgramAssociation             | 201        |
-      | expiredStudentCohortAssociation    | studentCohortAssociation              | 201        |
 
   Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
   And format "application/json"
