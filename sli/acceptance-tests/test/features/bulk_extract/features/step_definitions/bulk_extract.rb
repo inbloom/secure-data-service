@@ -1346,6 +1346,18 @@ When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)" at "(.*?)"$/ do |field,
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
+When /^I PUT the the following entities:$/ do |table|
+  table.hashes.map do |api_params|
+    print "Putting #{api_params['entityName']} .. "
+    put_body = get_post_body_by_entity_name(api_params['entityName'])
+    puts prepareData(@format, put_body).to_s
+    restHttpPut("/#{@api_version}/#{api_params['endpoint']}", prepareData(@format, put_body))
+    assert(@res != nil, "Response from rest-client PUT is nil")
+    puts @res.body
+    step "I should receive a return code of #{api_params['returnCode']}"
+  end
+end
+
 def update_api_put_field(body, field, value)
   # This method allows us to modify custom fields in a way that is
   # compliant with the ed-fi data structure and the type requirements per field.
