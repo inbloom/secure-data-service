@@ -489,7 +489,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | schools                | 92d6d5a0-852c-45f4-907a-912752831772,ec2e4218-6483-4e9c-8954-0aecccfd4731 |
       | educationOrganizations | 92d6d5a0-852c-45f4-907a-912752831772,ec2e4218-6483-4e9c-8954-0aecccfd4731 |
       | students               | 11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id                                   |
-    When I navigate to GET "/v1.4/<Entity>"
+    When I navigate to GET "/v1.5/<Entity>"
     Then I should receive a return code of 200
     And uri was rewritten to "<Rewrite>"
   Examples:

@@ -828,7 +828,7 @@ Given /^my contextual access is defined by table:$/ do |table|
 end
 
 Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
-  version = "v1.4"
+  version = "v1.5"
   root = expectedUri.match(/\/(.+?)\/|$/)[1]
   expected = version+expectedUri
   actual = @headers["x-executedpath"][0]
@@ -840,7 +840,7 @@ Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
   #Then, validate the list of ids are the same
   ids = []
   if @ctx.has_key? root
-    idsString = actual.match(/v1.4\/[^\/]*\/([^\/]*)\/?/)[1]
+    idsString = actual.match(/v1.5\/[^\/]*\/([^\/]*)\/?/)[1]
     actualIds = idsString.split(",")
     expectedIds = @ctx[root].split(",")
     
