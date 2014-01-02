@@ -24,8 +24,22 @@
               <%= render 'entities/search'%>
             </div>
           </div>
+
         </div>
       </div>
+	  <!-- for each element of the breadcrumb trail, output a crumb -->
+          <!-- while we're at it, put a ">" character between each link -->
+          <div class="breadcrumb">
+	    <%- if not session[:breadcrumbtrail].nil? then -%>
+	      <%- session[:breadcrumbtrail].each_with_index do |crumb, index| -%>
+                <% if index > 0 %>
+                >
+                <% end %>
+	        <%= link_to crumb.name , crumb.link %>
+	      <%- end -%>
+	    <%- end -%>
+          </div>
+
     	<div id="content">
     		<%- flash.each do |key, msg| -%>
     		  <div id="alert" class="alert alert-<%= key %>">
