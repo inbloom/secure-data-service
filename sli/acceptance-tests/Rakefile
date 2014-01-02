@@ -884,6 +884,7 @@ end
 ############################################################
 desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [
+        :turnOnNOTABLESCAN,
         :loadDefaultIngestionTenants,
         :IngestionIndexValidationTest,
         :corruptZip,

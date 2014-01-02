@@ -82,8 +82,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     /**
      * The purpose of this method is to add the default parameters to a neutral query. At inception,
-     * this method
-     * add the Tenant ID to a neutral query.
+     * this method added the Tenant ID to a neutral query, but this was removed since the design
+     * went to per tenant dbs.
      *
      * @param origQuery
      *            The query returned is the same as the query passed.
@@ -92,40 +92,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
      */
     protected NeutralQuery addDefaultQueryParams(NeutralQuery origQuery, String collectionName) {
         NeutralQuery query = origQuery == null ? new NeutralQuery() : origQuery;
-
-        // TODO: this is assuming that the staging db is the only non-sli db. remove all of this
-        // eventually.
-        if (template.getDb().getName().equalsIgnoreCase("is")) {
-            return query;
-        }
-
-        // Add tenant ID
-        if (!isTenantAgnostic(collectionName)) {
-            String tenantId = TenantContext.getTenantId();
-            // We decided that if tenantId is null then we will query on blank string.
-            // This may need to be revisited.
-            if (tenantId == null) {
-                return query;
-            }
-
-            // make sure a criterion for tenantId has not already been added to this query
-            // boolean addCrit = true;
-            // List<NeutralCriteria> criteria = query.getCriteria();
-            // if (criteria != null) {
-            // ListIterator<NeutralCriteria> li = criteria.listIterator();
-            // while (li.hasNext()) {
-            // if ("metaData.tenantId".equalsIgnoreCase(li.next().getKey())) {
-            // addCrit = false;
-            // break;
-            // }
-            // }
-            // }
-            // // add the tenant ID if it's not already there
-            // if (addCrit) {
-            // query.prependCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId,
-            // false));
-            // }
-        }
         return query;
     }
 

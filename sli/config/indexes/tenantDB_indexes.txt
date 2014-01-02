@@ -150,8 +150,6 @@ yearlyTranscript,false,false,grade.body.gradingPeriodId:1
 # Used in cascade delete
 yearlyTranscript,false,false,grade.body.studentSectionAssociationId:1
 # Used in cascade delete
-yearlyTranscript,false,false,grade.body.sectionId:1
-# Used in cascade delete
 yearlyTranscript,false,false,reportCard.body.grades:1
 # Look up reportCard by gradingPeriod: /gradingPeriods/{id}/reportCards
 yearlyTranscript,false,false,reportCard.body.gradingPeriodId:1
@@ -216,6 +214,51 @@ classPeriod,false,false,body.educationOrganizationId:1
 bellSchedule,false,false,body.meetingTime.classPeriodId:1
 bellSchedule,false,false,body.educationOrganizationId:1
 
+# DE3041 missing indices that do NOT cause AT failures
 # Look up attendanceEvents by section: /students/{id}/attendances
-attendance,false,false,body.attendanceEvent.sectionId:1
+attendance,false,true,body.attendanceEvent.sectionId:1
+# Look up studentSectionAssociation by section: /students/{id}/studentSectionAssociations
+section,false,true,studentSectionAssociation._id:1
+# Look up studentCohortAssociation by student: /cohorts/{id}/studentCohortAssociations
+student,false,true,studentCohortAssociation._id:1
+# Look up studentParentAssociation by student: /parents/{id}/studentParentAssociations
+student,false,true,studentParentAssociation._id:1
+# Look up studentProgramAssociation by student: /programs/{id}/studentProgramAssociations
+student,false,true,studentProgramAssociation._id:1
+
+# PUT -> /api/rest/v1.4/studentGradebookEntries/d9a593c2-c974-4071-b91b-3289012388a9
+# Look up gradebookEntry by section
+section,false,true,gradebookEntry._id:1
+
+# DE3041 DELETE ref checking
+# Used for section DELETE ref checking
+yearlyTranscript,false,false,grade.body.sectionId:1
+# Used for educationOrganization DELETE ref checking
+student,false,false,studentProgramAssociation.body.educationOrganizationId:1
+# Used for educationOrganization DELETE ref checking
+section,false,true,gradebookEntry.body.gradingPeriodId:1
+# Used for graduationPlan DELETE ref checking
+studentSchoolAssociation,false,true,body.graduationPlanId:1
+# Used for learningObjective DELETE ref checking - nested arrays
+assessment,false,true,body.objectiveAssessment.learningObjectives:1
+# Used for learningStandard DELETE ref checking - nested arrays
+assessment,false,true,body.assessmentItem.learningStandards:1
+# Used for calendarDate DELETE ref checking
+gradingPeriod,false,true,body.calendarDateReference:1
+# Used for reportCard DELETE ref checking
+yearlyTranscript,false,true,studentAcademicRecord.body.reportCards:1
+# Used for classPeriod DELETE ref checking
+section,false,true,body.classPeriodId:1
+
+# DE3041 Evaluating rights for writes
+
+# DE3041 Only needed for associations with invalid compound ids ?
+# (i.e. parent id cannot be determined from the current entity id)
+# Therefore, remove these first if indices need to be reduced
+yearlyTranscript,false,true,reportCard._id:1
+yearlyTranscript,false,true,studentAcademicRecord._id:1
+yearlyTranscript,false,true,grade._id:1
+section,false,true,teacherSectionAssociation._id:1
+section,false,true,studentSectionAssociation._id:1
+student,false,true,studentDisciplineIncidentAssociation._id:1
 
