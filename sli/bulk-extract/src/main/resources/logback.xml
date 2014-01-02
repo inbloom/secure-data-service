@@ -2,13 +2,13 @@
 <configuration debug="false">
 	<property file="${sli.conf}"/>
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<File >${sli.bulk.extract.log.path}/bulk-extract.log</File>
+		<File >${sli.bulk.extract.log.path}/bulk-extract-${log.name.append}.log</File>
 		<Append>true</Append>
 		<encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
 			<layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${sli.bulk.extract.log.path}/bulk-extract-%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>${sli.bulk.extract.log.path}/bulk-extract-${log.name.append}-%d{yyyy-MM-dd}.log</fileNamePattern>
 		</rollingPolicy>
 	</appender>
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -20,10 +20,10 @@
         </encoder>
     </appender>
     <appender name="SECURITY_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${sli.bulk.extract.log.path}/Security.log</File>
+        <File>${sli.bulk.extract.log.path}/Security-${log.name.append}.log</File>
         <Append>true</Append>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${sli.bulk.extract.log.path}/Security-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${sli.bulk.extract.log.path}/Security-${log.name.append}-%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
             <Pattern>%d - %msg%n

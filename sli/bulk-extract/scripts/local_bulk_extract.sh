@@ -27,6 +27,7 @@ function configure {
         DEFAULT_CHECK_SLI_CONF="$ROOT/../config/properties/sli.properties"
         DEFAULT_CHECK_KEYSTORE="$ROOT/../data-access/dal/keyStore/ciKeyStore.jks"
         DEFAULT_BULK_EXTRACTOR_JAR=`ls $ROOT/target/$JAR_NAME`
+        echo ${DEFAULT_BULK_EXTRACTOR_JAR}
         DEFAULT_TENANT="Midgar"
         IS_DELTA="false"
 
@@ -42,9 +43,12 @@ function configure {
         RUN_EXTRACT=1
         RUN_HELP=0
 
+	    LOG_NAME_APPEND="log.name.append"
         SLI_CONF="sli.conf"
+        
         SLI_ENCRYPTION_KEYSTORE="sli.encryption.keyStore"
-
+        LOG_NAME_APPEND_VALUE=$$
+        
         BULK_EXTRACTER_LOG="bulk-extracter.log"
     fi
 }
@@ -57,6 +61,8 @@ function readOption {
          DEFAULT_CHECK_SLI_CONF=${FILE_LOCATION}
       elif [ ${PROPERTY} == ${SLI_ENCRYPTION_KEYSTORE} ]; then
          DEFAULT_CHECK_KEYSTORE=${FILE_LOCATION}
+      elif [ ${PROPERTY} == ${LOG_NAME_APPEND} ]; then
+         LOG_NAME_APPEND_VALUE=${FILE_LOCATION}
       else
          JAVA_OPT="${JAVA_OPT} ${1}"
       fi
@@ -143,9 +149,10 @@ function run {
 
     BULK_EXTRACT_OPT="-D${SLI_CONF}=${DEFAULT_CHECK_SLI_CONF}"
     SLI_ENCRYPTION_OPT="-D${SLI_ENCRYPTION_KEYSTORE}=${DEFAULT_CHECK_KEYSTORE}"
+    LOG_NAME_OPT="-D${LOG_NAME_APPEND}=${LOG_NAME_APPEND_VALUE}"
     T="$(date +%s)"
-    echo "$(date): bulk-extracter Starting with $BULK_EXTRACT_OPT $SLI_ENCRYPTION_OPT"
-    java -Xms$DEFAULT_MIN_MEMORY -Xmx$DEFAULT_MAX_MEMORY $BULK_EXTRACT_OPT $SLI_ENCRYPTION_OPT -jar $DEFAULT_BULK_EXTRACTOR_JAR $DEFAULT_TENANT $IS_DELTA
+    echo "$(date): bulk-extracter Starting with $BULK_EXTRACT_OPT $SLI_ENCRYPTION_OPT $LOG_NAME_OPT $DEFAULT_TENANT $DEFAULT_BULK_EXTRACTOR_JAR"
+    java -Xms$DEFAULT_MIN_MEMORY -Xmx$DEFAULT_MAX_MEMORY $BULK_EXTRACT_OPT $SLI_ENCRYPTION_OPT $LOG_NAME_OPT -jar $DEFAULT_BULK_EXTRACTOR_JAR $DEFAULT_TENANT $IS_DELTA
     stat=$?
     T="$(($(date +%s)-T))"
     echo "$(date): bulk-extracter Finished in $T seconds"

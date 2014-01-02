@@ -146,10 +146,11 @@ process_config_file() {
     LOGDIR="/tmp/logs"
     mkdir -p ${LOGDIR}
   fi
-  LOGFILE="${LOGDIR}/local_bulk_extract.log"
+
   NEW_BE_CRONTAB_FILE="/tmp/bulk_extract_crontab"
   CONF_FILE_IS_VALID="true"
   LINE_NO=0
+
   while read -a LINE
   do
     (( LINE_NO++ ))
@@ -161,8 +162,10 @@ process_config_file() {
         TENANT_ID="${LINE[5]}"
         DELTA="${LINE[6]}"
         if [ "${DELTA}" = "delta" ]; then
+            LOGFILE="${LOGDIR}/local_bulk_extract_${LINE_NO}.log"
             CRON_LINE="${CRON_SCHED} ${BULK_EXTRACT_SCRIPT} ${OPTIONS} -t${TENANT_ID} -d >> ${LOGFILE} 2>&1"
         else
+            LOGFILE="${LOGDIR}/local_bulk_extract_${LINE_NO}.log"
             CRON_LINE="${CRON_SCHED} ${BULK_EXTRACT_SCRIPT} ${OPTIONS} -t${TENANT_ID} >> ${LOGFILE} 2>&1"
         fi
         echo "${CRON_LINE}" >> ${NEW_BE_CRONTAB_FILE}
@@ -182,7 +185,7 @@ process_config_file() {
           echo "Using default logfile ${LOGFILE} for ${BULK_EXTRACT_SCRIPT} output."
         else
           LOGDIR="${TMP_LOGDIR}"
-          LOGFILE="${LOGDIR}/local_bulk_extract.log"
+          LOGFILE="${LOGDIR}/local_bulk_extract_${LINE_NO}.log"
           echo "Using logfile ${LOGFILE} for ${BULK_EXTRACT_SCRIPT} output."
         fi
       else
