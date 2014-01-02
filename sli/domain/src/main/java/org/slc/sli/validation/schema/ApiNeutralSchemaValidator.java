@@ -134,7 +134,15 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
     private void validateNaturalKeysUnchanged(Entity originalEntity, Entity newEntity, Map<String, Boolean> naturalKeyFields, boolean clearOriginal) {
         try {
             // calculate current UUID before any changes applied
-            String existingUUID = this.calculateUUID(originalEntity);
+            String existingUUID;
+
+            if(originalEntity.getBody().size() == 0) {
+                //handle scenario where the entity was hollowed out previously
+                existingUUID = originalEntity.getEntityId();
+
+            } else {
+                existingUUID = this.calculateUUID(originalEntity);
+            }
 
             // true when doing a PUT, false when doing a PATCH
             if (clearOriginal) {

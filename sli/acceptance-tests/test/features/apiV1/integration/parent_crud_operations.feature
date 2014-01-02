@@ -21,8 +21,8 @@ Feature: As a parent I want to use apps that access the inBloom API
         | securityEvent   | 1                   | body.className          | org.slc.sli.api.jersey.PreProcessFilter    | string     |
         | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                                | string     |
         | securityEvent   | 1                   | body.targetEdOrgList    | IL-DAYBREAK                                | string     |
-    And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.4/programs" should be in the sli db
-    And "1" security event with field "body.logMessage" matching "Access Denied:url http.*/api/rest/v1.4/programs is not accessible." should be in the sli db
+    And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.5/programs" should be in the sli db
+    And "1" security event with field "body.logMessage" matching "Access Denied:url http.*/api/rest/v1.5/programs is not accessible." should be in the sli db
 
   @parent_crud
   Scenario: Parent cannot Write to public entities

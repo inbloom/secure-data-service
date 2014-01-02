@@ -119,11 +119,11 @@ task :v1StaffSecurityTests => [:realmInit] do
 end
 
 desc "Run V1 Cascade Deletion Tests"
-task :v1CascadeDeletionTests => [:realmInit] do
+task :v1NoCascadeDeletionTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/end_user_stories/cascadeDeletion/cascadeDeletion.feature")
+  runTests("test/features/apiV1/end_user_stories/noCascadeDeletion/noCascadeDeletion.feature")
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/end_user_stories/cascadeDeletion/cascadeDeletion_teacher.feature")
+  runTests("test/features/apiV1/end_user_stories/noCascadeDeletion/noCascadeDeletion_teacher.feature")
 end
 
 desc "Run V1 Direct References Tests"

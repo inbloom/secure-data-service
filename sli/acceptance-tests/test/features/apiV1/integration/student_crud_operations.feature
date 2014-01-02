@@ -176,7 +176,7 @@ Scenario: POST to other student as a privileged student with extended rights
     | securityEvent   | 1                   | body.targetEdOrgList    | IL-DAYBREAK                                      | string     |
     | securityEvent   | 1                   | body.logMessage         | Access Denied:Cannot update student not yourself | string     |
     | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService             | string     |
-   And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.4/students" should be in the sli db
+   And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.5/students" should be in the sli db
 
 @student_crud @clean_up_student_posts
 Scenario: POST to other student assessment as a privileged student with extended rights
@@ -196,7 +196,7 @@ Scenario: POST to other student assessment as a privileged student with extended
     | securityEvent   | 1                   | body.targetEdOrgList    | Daybreak Central High                                                 | string     |
     | securityEvent   | 1                   | body.logMessage         | Access Denied:Cannot update student assessments that are not your own | string     |
     | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService             | string     |
-  And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.4/studentAssessments" should be in the sli db
+  And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.5/studentAssessments" should be in the sli db
 
 
 @student_crud @clean_up_student_posts
@@ -217,7 +217,7 @@ Scenario: POST to other student entity as a privileged student with extended rig
     | securityEvent   | 1                   | body.targetEdOrgList    | Daybreak Central High                                                 | string     |
     | securityEvent   | 1                   | body.logMessage         | Access Denied:Cannot update grade that are not your own               | string     |
     | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService             | string     |
-  And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.4/grades" should be in the sli db
+  And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.5/grades" should be in the sli db
 
 @student_crud @clean_up_student_posts
 Scenario: POST new entities as a privileged student with extended rights

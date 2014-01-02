@@ -30,6 +30,7 @@
 /programs/242b5d92-e69a-416e-b964-6ceb8756fd33_id/studentProgramAssociations,,
 /programs/242b5d92-e69a-416e-b964-6ceb8756fd33_id/studentProgramAssociations/students,,
 /schools/0a922b8a-7a3b-4320-8b34-0f7749b8b062/courseOfferings,,
+/schools/0a922b8a-7a3b-4320-8b34-0f7749b8b062/courseOfferings/courses,,
 /schools/0a922b8a-7a3b-4320-8b34-0f7749b8b062/sections,,
 /schools/0a922b8a-7a3b-4320-8b34-0f7749b8b062/sections/gradebookEntries,,
 /schools/0a922b8a-7a3b-4320-8b34-0f7749b8b062/sections/studentSectionAssociations,,

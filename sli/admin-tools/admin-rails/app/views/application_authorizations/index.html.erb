@@ -10,8 +10,10 @@
     end
 %></p>
 
-<% if @app_auth_info.length == 0 %>
+<% if @app_auth_info.length == 0 && !APP_CONFIG["is_sandbox"]%>
     <h3 id='notApprovedStatus'>You are not authorized to make application authorizations</h3>
+<% elsif @app_auth_info.length == 0 && APP_CONFIG["is_sandbox"]%>
+    <h3 id='notApprovedStatus'>No applications requiring authorization exist</h3>
 <% else %>
     <h3>Please approve inBloom applications to access data</h3>
 <% end %>
