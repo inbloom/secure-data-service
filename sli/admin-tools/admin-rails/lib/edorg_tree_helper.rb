@@ -105,7 +105,7 @@ module EdorgTreeHelper
           if !@edinf.has_key?(pid)
             # Dangling reference to nonexistent parent
 
-            @debug = @debug + "\n<li>" + "#{@edinf[id][:name]} parents to nonexistent #{pid.to_s()} and is not shown here"
+            @debug += "\n<li>#{@edinf[id][:name]} parents to nonexistent #{pid.to_s()} and is not shown here</li>"
 
             Rails.logger.error("EdOrg #{id} parents to nonexistent #{pid.to_s()}")
 
@@ -115,7 +115,7 @@ module EdorgTreeHelper
         end
       end
 
-      @debug = @debug + "\n<ul/>"
+      @debug = @debug + "\n</ul>"
 
       # Create fake root edOrg and parent all top level nodes to it
       root_children = if is_sea_admin then root_ids else @userEdOrgs end
