@@ -104,6 +104,19 @@ When /^I click on the "([^"]*)" link$/ do |arg1|
   @driver.find_element(:link_text, arg1).click
 end
 
+Then /^I am redirected to the educationOrganization page$/ do
+  assertWithWait("Failed to be directed to educationOrganization page")  {@driver.page_source.include?("educationOrganization")}
+end
+
+Then /^I see the properties in the following <Order>$/ do |table|
+  table.hashes.each do |hash|
+    assertWithWait("Failed to find '"+hash["Order"]+"' property on page")  {@driver.find_element(:text, hash["Order"])}
+  end
+end
+
+Then /^I see "([^"]*)" last$/ do
+end
+
 Then /^I am redirected to the associations list page$/ do
   assertWithWait("Failed to be directed to association page")  {@driver.page_source.include?("Associations")}
 end
