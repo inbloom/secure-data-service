@@ -27,8 +27,8 @@ Scenario: Searching for a entities
 |studentByName         |          | Fail   |
 |staffByName           |steven    | Pass   |
 |staffByName           |stephen   | Fail   |
-|teacherByName         |Charles   | Pass   |
-|teacherByName         |waffles   | Fail   |
+|staffByName           |Charles   | Pass   |
+|staffByName           |waffles   | Fail   |
 |edOrgByName           |Illinois  | Pass   |
 |edOrgByName           |Mdigra    | Fail   |
 

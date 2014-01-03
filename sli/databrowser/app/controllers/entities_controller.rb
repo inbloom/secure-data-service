@@ -44,8 +44,6 @@ class EntitiesController < ApplicationController
       @search_field = "q"
     when /staffByName/
       @search_field = "q"
-    when /teacherByName/
-      @search_field = "q"
     when /edOrgByName/
       @search_field = "q"
     when /students/
@@ -61,9 +59,7 @@ class EntitiesController < ApplicationController
     if params[:search_type] == "studentByName"
       Entity.url_type = "search/students"
     elsif params[:search_type] == "staffByName"
-        Entity.url_type = "search/staff"
-    elsif params[:search_type] == "teacherByName"
-        Entity.url_type = "search/teachers"
+        Entity.url_type = "search/staff,teachers"
     elsif params[:search_type] == "edOrgByName"
         Entity.url_type = "search/educationOrganizations"
     else

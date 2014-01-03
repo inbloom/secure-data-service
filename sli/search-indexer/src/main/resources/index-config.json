@@ -454,7 +454,7 @@
             }
         }
     },
-        "session": {
+    "session": {
         "fields": [
             "body.schoolYear",
             "body.sessionName",
