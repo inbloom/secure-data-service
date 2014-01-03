@@ -17,16 +17,15 @@
 
 package org.slc.sli.api.client.impl.transform;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
-
 import org.slc.sli.api.client.impl.GenericEntity;
+
+import java.io.IOException;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test GenericEntity serialization
@@ -63,7 +62,9 @@ public class GenericEntitySerializeTest {
         
         // System.err.println(TestHelpers.COMPLEX_JSON_BODY.toString());
         // System.err.println(eNode.toString());
-        
+
+        //TODO: would be better to check that the structure is the same.
+        //the java upgrade altered the order of the keys in eNode.toString()
         assertTrue(TestHelpers.COMPLEX_JSON_BODY.equals(eNode.toString()));
     }
 }
