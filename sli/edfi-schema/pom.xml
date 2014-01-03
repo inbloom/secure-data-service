@@ -5,7 +5,7 @@
   <parent>
     <artifactId>sli</artifactId>
     <groupId>org.slc.sli</groupId>
-    <version>1.14.92.594</version>
+    <version>1.OSI.93.629</version>
   </parent>
 
   <groupId>org.slc.sli.schema</groupId>
