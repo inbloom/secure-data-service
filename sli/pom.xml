@@ -84,7 +84,7 @@
         <sli.sign.storepass>dalKey</sli.sign.storepass>
         <aspectj.version>1.7.3</aspectj.version>
         <jodatime.version>2.1</jodatime.version>
-        <aspectj.maven.version>1.6</aspectj.maven.version>
+        <aspectj.maven.version>1.5</aspectj.maven.version>
         <spring-ldap-core.version>1.3.1.RELEASE</spring-ldap-core.version>
         <java-uuid.version>3.1.3</java-uuid.version>
         <stax.api.version>1.0.1</stax.api.version>
@@ -1030,7 +1030,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>aspectj-maven-plugin</artifactId>
-                    <version>1.6</version>
+                    <version>1.5</version>
                     <dependencies>
                         <dependency>
                             <groupId>org.aspectj</groupId>
@@ -1046,9 +1046,10 @@
                     <configuration>
                         <showWeaveInfo>false</showWeaveInfo>
                         <verbose>false</verbose>
-                        <source>1.6</source>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                         <XnoInline>true</XnoInline>
-                        <complianceLevel>1.7</complianceLevel>
+                        <complianceLevel>${java.version}</complianceLevel>
                     </configuration>
                     <executions>
                         <execution>
