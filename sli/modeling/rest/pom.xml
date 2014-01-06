@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.slc.sli.modeling</groupId>
         <artifactId>modeling</artifactId>
-        <version>1.14.92.594</version>
+        <version>1.14.93.6</version>
     </parent>
     <artifactId>rest</artifactId>
     <name>REST (Representational State Transfer)</name>
