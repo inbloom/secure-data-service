@@ -32,7 +32,7 @@ Given /^I import the odin-local-setup application and realm data$/ do
   #get current working dir
   current_dir = Dir.getwd
   # Get current server environment (ci or local) from properties.yml
-  app_server = PropLoader.getProps['app_bootstrap_server']
+  app_server = Property['app_bootstrap_server']
   # Drop in ci specific app-auth fixture data
   if app_server == "ci"
     puts "\b\bDEBUG: We are setting CI environment app auth data"
@@ -53,7 +53,7 @@ Given /^I import the odin-local-setup application and realm data$/ do
 end
 
 When /^I navigate to the API authorization endpoint with my client ID$/ do
-  @driver.get PropLoader.getProps['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
+  @driver.get Property['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
 end
 
 Then /^I should be redirected to the realm choosing page$/ do
@@ -74,7 +74,7 @@ Then /^I should receive a json response containing my authorization code$/ do
 end
 
 When /^I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI$/ do
-  @driver.get PropLoader.getProps['api_server_url'] + "/api/oauth/token?response_type=code&client_id=#{@oauthClientId}" +
+  @driver.get Property['api_server_url'] + "/api/oauth/token?response_type=code&client_id=#{@oauthClientId}" +
   "&client_secret=#{@oauthClientSecret}&code=#{@oauthAuthCode}&redirect_uri=#{@oauthRedirectURI}"
 end
 

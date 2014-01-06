@@ -40,7 +40,7 @@ Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the applicationAu
    coll = db.collection("application")
    record = coll.find_one("body.name" => application)
    appId = record["_id"]
-   db = @conn[convertTenantIdToDbName(PropLoader.getProps['sandbox_tenant'])]
+   db = @conn[convertTenantIdToDbName(Property['sandbox_tenant'])]
    coll = db.collection("applicationAuthorization")
    record = coll.find_one("body.applicationId" => appId.to_s)
    body = record["body"]
@@ -51,7 +51,7 @@ end
 
 When /^I (enable|disable) the educationalOrganization "([^"]*?)" in sandbox/ do |action,edOrgName|
   # Note: there should be no need to disable table scan since there is an index on educationOrganization.nameOfInstitution
-  db = @conn[convertTenantIdToDbName(PropLoader.getProps['sandbox_tenant'])]
+  db = @conn[convertTenantIdToDbName(Property['sandbox_tenant'])]
   coll = db.collection("educationOrganization")
   record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
   edOrgId = record["_id"]

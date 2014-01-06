@@ -31,7 +31,7 @@ def reset_timeouts_to_default
 end
 
 Given /^I have an open web browser$/ do
-  browser = PropLoader.getProps['browser'].downcase
+  browser = Property['browser'].downcase
   if (browser == "ie")
     @driver ||= Selenium::WebDriver.for :ie
   elsif (browser == "chrome")

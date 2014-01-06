@@ -25,7 +25,7 @@ require_relative '../../dashboard/dash/step_definitions/selenium_common_dash.rb'
 
 
 Given /^I navigate to databrowser home page$/ do
-  @driver.get PropLoader.getProps['databrowser_server_url']
+  @driver.get Property['databrowser_server_url']
 end
 
 When /^I enter the credentials "([^"]*)" "([^"]*)" for the Simple IDP$/ do |arg1, arg2|
@@ -78,7 +78,7 @@ assertWithWait("Failed to find the developers username on the simple idp login p
 end
 
 When /^I logout of the databrowser$/ do
-  @driver.get PropLoader.getProps['databrowser_server_url']+"/entities/system/session/logout"
+  @driver.get Property['databrowser_server_url']+"/entities/system/session/logout"
   @driver.manage.delete_all_cookies
 end
 
@@ -127,7 +127,7 @@ When /^I wait for (\d+) second$/ do |arg1|
 end
 
 When /^I navigate to databrowsers "(.*?)" page$/ do |arg1|
-  @driver.get PropLoader.getProps['databrowser_server_url']+arg1
+  @driver.get Property['databrowser_server_url']+arg1
 end
 
 Then /^I should see my roles as "(.*?)"$/ do |arg1|
@@ -139,11 +139,11 @@ Then /^I should see my rights include "(.*?)"$/ do |arg1|
 end
 
 When /^I navigate to the Sample App I should see the name "(.*?)" on the page$/ do |arg1|
-  @driver.get PropLoader.getProps['sampleApp_server_address']+"sample"
+  @driver.get Property['sampleApp_server_address']+"sample"
   assertWithWait("Failed to find #{arg1} on the page") {@driver.page_source.include?(arg1)}
 end
 
 When /^I navigate to the Sample App it should crash and burn$/ do 
-  @driver.get PropLoader.getProps['sampleApp_server_address']+"sample"
+  @driver.get Property['sampleApp_server_address']+"sample"
   assertWithWait("Failed to crash and/or burn") {@driver.page_source.include?('java.lang.IllegalArgumentException: invalid start or end')}
 end  

@@ -51,8 +51,8 @@ end
 Given /^login name "([^"]*)" ([^"]*) in the account request queue$/ do |email, status|
   intializaApprovalEngineAndLDAP(@email_conf, @prod)
   if @live_email_mode
-    @userinfo[:email] = PropLoader.getProps['email_imap_registration_user_email']
-    @userinfo[:emailAddress] = PropLoader.getProps['email_imap_registration_user_email']
+    @userinfo[:email] = Property['email_imap_registration_user_email']
+    @userinfo[:emailAddress] = Property['email_imap_registration_user_email']
   else
     @userinfo[:email] = email
     @userinfo[:emailAddress] = email
@@ -96,7 +96,7 @@ When /^I approve the account request$/ do
 end
 
 Then /^a new account is created in ([^"]*) LDAP with login name "([^"]*)" and the roles are "([^"]*)"$/ do |environment, login_name, roles|
-  login_name = PropLoader.getProps['email_imap_registration_user_email'] if @live_email_mode
+  login_name = Property['email_imap_registration_user_email'] if @live_email_mode
   roles_arr = roles.strip.split(",").map {|x| x.strip }
   assert(@ldap.read_user(@userinfo[:email])[:email] == login_name, "User #{@userinfo[:email]} is not created in LDAP")
   puts "ROLES:   #{@ldap.get_user_groups(@userinfo[:email])}"
@@ -137,17 +137,17 @@ end
 
 #### Common methods ##############
 def intializaApprovalEngineAndLDAP(email_conf = @email_conf, prod=true)
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
-                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
-                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
+  @ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
+                          Property['ldap_base'], Property['ldap_admin_user'],
+                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
   ApprovalEngine.init(@ldap, nil, !prod)
 end
 
 def verifyEmail
   if @live_email_mode
-    defaultUser = PropLoader.getProps['email_imap_registration_user']
-    defaultPassword = PropLoader.getProps['email_imap_registration_pass']
-    imap = Net::IMAP.new(PropLoader.getProps['email_imap_host'], PropLoader.getProps['email_imap_port'], true, nil, false)
+    defaultUser = Property['email_imap_registration_user']
+    defaultPassword = Property['email_imap_registration_pass']
+    imap = Net::IMAP.new(Property['email_imap_host'], Property['email_imap_port'], true, nil, false)
     imap.authenticate('LOGIN', defaultUser, defaultPassword)
     imap.examine('INBOX')
 

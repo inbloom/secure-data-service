@@ -502,7 +502,7 @@ task :loadDefaultIngestionTenants do
     else
       require_relative 'test/features/utils/rakefile_common.rb'
       parent_lz_path = ""
-      sli_props_loc = PropLoader.getProps["ingestion_properties_file"]
+      sli_props_loc = Property['ingestion_properties_file']
       File.readlines(sli_props_loc).each do |line|
         if line.include?("landingzone.inbounddir")
           parent_lz_path = line.split("=")[1].strip

@@ -4,7 +4,7 @@ require 'fileutils'
 
 if __FILE__ == $0
   if ARGV.length == 0
-    tenantToClear = "RCTestTenant" #PropLoader.getProps['tenant']
+    tenantToClear = "RCTestTenant" #Property['tenant']
   elsif ARGV.length == 1
     tenantToClear = ARGV[0]
   elsif ARGV.length > 1

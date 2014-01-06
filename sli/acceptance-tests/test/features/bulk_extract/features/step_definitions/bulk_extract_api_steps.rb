@@ -23,7 +23,7 @@ $TAR_FILE_NAME = "Final.tar"
 LEA_DAYBREAK_ID_VAL2 = '1b223f577827204a1c7e9c851dba06bea6b031fe_id'
 
 Given /^I update the "(.*?)" with ID "(.*?)" field "(.*?)" to "(.*?)" on the sli database$/ do |collection, id, field, boolean|
-  conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
   sli = conn.db("sli")
 
   coll = sli[collection]
@@ -275,7 +275,7 @@ end
 
 
 When /^the return code is 404 I ensure there is no bulkExtractFiles entry for Midgar$/ do
-  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  @db ||= Mongo::Connection.new(Property['DB_HOST']).db('sli')
   @coll = "bulkExtractFiles";
   @src_coll = @db[@coll]
 
@@ -494,7 +494,7 @@ def check_response_header(tenant = 'Midgar')
   if @zip_file_name == "sample-extract.tar"
     assert(@res.headers[:last_modified].to_s==EXPECTED_LAST_MODIFIED, "Last Modified date is wrong! Actual: #{@res.headers[:last_modified]} Expected: #{EXPECTED_LAST_MODIFIED}" )
   elsif @res.code == 200
-    @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+    @db ||= Mongo::Connection.new(Property['DB_HOST']).db('sli')
     coll = "bulkExtractFiles";
     src_coll = @db[coll]
     raise "Could not find #{coll} collection" if src_coll.count == 0
@@ -649,7 +649,7 @@ After("@TempFileCleanup") do
 end
 
 def getAppId()
-  conn ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
+  conn ||= Mongo::Connection.new(Property['DB_HOST'])
   db ||= conn.db('sli')
   userSessionColl = db.collection("userSession")
   clientId = userSessionColl.find_one({"body.appSession.token" => @sessionId}) ["body"]["appSession"][0]["clientId"]

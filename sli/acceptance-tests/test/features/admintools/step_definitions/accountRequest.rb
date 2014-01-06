@@ -26,12 +26,12 @@ require_relative '../../utils/selenium_common.rb'
 
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
-  @baseUrl = PropLoader.getProps['admintools_server_url']
-  @registrationAppSuffix = PropLoader.getProps['registration_app_suffix']
-  @validationBaseSuffix = PropLoader.getProps['validation_base_suffix']
+  @baseUrl = Property['admintools_server_url']
+  @registrationAppSuffix = Property['registration_app_suffix']
+  @validationBaseSuffix = Property['validation_base_suffix']
   @emailConf = {
-      :host => PropLoader.getProps['email_smtp_host'],
-      :port => PropLoader.getProps['email_smtp_port'],
+      :host => Property['email_smtp_host'],
+      :port => Property['email_smtp_port'],
   }
 end
 
@@ -147,8 +147,8 @@ Then /^I receive an error that the account already exists$/ do
 end
 
 Then /^I am redirected to the hosting website$/ do
-  assertWithWait("Was not redirected to #{PropLoader.getProps['user_registration_app_host_url']}") { 
-    @driver.current_url.include?(PropLoader.getProps['user_registration_app_host_url'])
+  assertWithWait("Was not redirected to #{Property['user_registration_app_host_url']}") {
+    @driver.current_url.include?(Property['user_registration_app_host_url'])
   }
 end
 
@@ -200,9 +200,9 @@ end
 ###############################################################################
 
 def initializeApprovalAndLDAP(emailConf, prod)
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
-                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
-                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
+  @ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
+                          Property['ldap_base'], Property['ldap_admin_user'],
+                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
   ApprovalEngine.init(@ldap, nil, !prod)
 end
 

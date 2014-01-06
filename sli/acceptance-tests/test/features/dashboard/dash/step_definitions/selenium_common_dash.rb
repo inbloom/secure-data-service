@@ -50,8 +50,8 @@ def verifyPageTitle(pageTitle)
 end
 
 def getBaseUrl()
-  return PropLoader.getProps['dashboard_server_address']+ 
-          PropLoader.getProps['dashboard_app_prefix'] 
+  return Property['dashboard_server_address']+
+          Property['dashboard_app_prefix']
 end
 
 def assertMissingField(field, by)

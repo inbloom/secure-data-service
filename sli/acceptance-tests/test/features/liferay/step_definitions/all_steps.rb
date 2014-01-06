@@ -23,14 +23,14 @@ require_relative '../../utils/sli_utils.rb'
 Dir["./test/features/dashboard/dash/step_definitions/*"].each {|file| require file}
 
 When /^I navigate to the Portal home page$/ do
-  puts PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']
-  @driver.get PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']
+  puts Property['portal_server_address'] + Property['portal_app_suffix']
+  @driver.get Property['portal_server_address'] + Property['portal_app_suffix']
   @explicitWait ||= Selenium::WebDriver::Wait.new(:timeout => 15)
 end
 
 When /^I navigate to the mini sandbox Portal home page$/ do
-  puts PropLoader.getProps['minisb_portal_server_address'] + PropLoader.getProps['portal_app_suffix']
-  @driver.get PropLoader.getProps['minisb_portal_server_address'] + PropLoader.getProps['portal_app_suffix']
+  puts Property['minisb_portal_server_address'] + Property['portal_app_suffix']
+  @driver.get Property['minisb_portal_server_address'] + Property['portal_app_suffix']
   @explicitWait ||= Selenium::WebDriver::Wait.new(:timeout => 15)
 end
 
@@ -53,7 +53,7 @@ Then /^I click on log out$/ do
   rescue
     menuList.find_element(:link_text, "Logout").click
   ensure
-    assertWithWait("User didn't log out properly") {@driver.current_url != PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']}
+    assertWithWait("User didn't log out properly") {@driver.current_url != Property['portal_server_address'] + Property['portal_app_suffix']}
   end
 end
 

@@ -199,7 +199,7 @@ end
 
 desc "Ingestion Index Validation Test"
 task :IngestionIndexValidationTest do
-  runTests("test/features/ingestion/features/ingestion_indexValidation.feature") if PropLoader.getProps['ingestion_index_validation']
+  runTests("test/features/ingestion/features/ingestion_indexValidation.feature") if Property['ingestion_index_validation']
 end
 
 desc "Ingestion Jefferson County Onbarding Test"

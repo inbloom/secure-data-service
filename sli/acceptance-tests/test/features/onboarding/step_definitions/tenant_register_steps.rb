@@ -24,15 +24,15 @@ require 'mongo'
 # ENVIRONMENT CONFIGURATION
 ############################################################
 
-INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
-INGESTION_DB = PropLoader.getProps['ingestion_db']
-INGESTION_DB_PORT = PropLoader.getProps['ingestion_db_port']
+INGESTION_DB_NAME = Property['ingestion_database_name']
+INGESTION_DB = Property['ingestion_db']
+INGESTION_DB_PORT = Property['ingestion_db_port']
 UNIQUE_TENANT_ID_1 = "694132a09a05"
 UNIQUE_TENANT_ID_2 ="e04161f09a09"
 UNIQUE_TENANT_ID_3 = "4fa3fe8be4b00b3987bec778"
 UNIQUE_ED_ORG_ID = "aabc8798d987s9e8987"
 
-INGESTION_ZONE_PATH = PropLoader.getProps['ingestion_remote_lz_path']
+INGESTION_ZONE_PATH = Property['ingestion_remote_lz_path']
 
 Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
   id = arg1+UNIQUE_TENANT_ID_2 if arg2 == "Testing Tenant"

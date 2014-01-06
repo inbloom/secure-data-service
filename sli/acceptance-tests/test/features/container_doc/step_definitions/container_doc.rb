@@ -105,8 +105,8 @@ end
 
 Then /^the documents should be sub\-doc'ed in a "([^\"]*)" document$/ do |container_doc|
   disable_NOTABLESCAN
-  host = PropLoader.getProps['ingestion_db']
-  port = PropLoader.getProps['ingestion_db_port']
+  host = Property['ingestion_db']
+  port = Property['ingestion_db_port']
   db_name = convertTenantIdToDbName('Midgar')
   conn = Mongo::Connection.new(host, port)
   midgar_db = conn.db(db_name)

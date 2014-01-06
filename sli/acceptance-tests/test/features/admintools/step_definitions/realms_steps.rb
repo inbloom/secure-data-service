@@ -23,7 +23,7 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
 When /^I navigate to the Realm page URL$/ do
-  @url = PropLoader.getProps['api_server_url']+"/api/oauth/authorize?response_type=code&client_id=Eg6eseKRzN&redirect_uri=http://local.slidev.org:3001/callback"
+  @url = Property['api_server_url']+"/api/oauth/authorize?response_type=code&client_id=Eg6eseKRzN&redirect_uri=http://local.slidev.org:3001/callback"
   @driver.get @url
 end
 
@@ -33,7 +33,7 @@ end
 
 Given /^I see the Realm page$/ do
   @driver = Selenium::WebDriver.for :firefox
-  url = PropLoader.getProps['api_server_url']+"/disco/realms/list.do"
+  url = Property['api_server_url']+"/disco/realms/list.do"
   @driver.get url
   assert(@driver.current_url == url, webdriverDebugMessage(@driver,"Failed to navigate to "+url))
 end
