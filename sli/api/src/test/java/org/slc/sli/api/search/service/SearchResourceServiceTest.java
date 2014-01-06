@@ -302,7 +302,8 @@ public class SearchResourceServiceTest {
         ArrayList<GrantedAuthority> rights = new ArrayList<GrantedAuthority>();
         rights.add(Right.ADMIN_ACCESS);
         rights.add(Right.EDORG_APP_AUTHZ);
-        Mockito.when(mockAuth.getAuthorities()).thenReturn(rights);
+        //Mockito.when(mockAuth.getAuthorities()).thenReturn(rights);
+        Mockito.doReturn(rights).when(mockAuth).getAuthorities();
         SLIPrincipal principal = new SLIPrincipal();
         principal.setEdOrgId("fake");
         principal.setTenantId("IL");
@@ -311,7 +312,8 @@ public class SearchResourceServiceTest {
 
         Collection<GrantedAuthority> auths = new LinkedList<GrantedAuthority>();
         auths.add(Right.FULL_ACCESS);
-        Mockito.when(mockAuth.getAuthorities()).thenReturn(auths);
+        //Mockito.when(mockAuth.getAuthorities()).thenReturn(auths);
+        Mockito.doReturn(auths).when(mockAuth).getAuthorities();
         Mockito.when(mockAuth.getPrincipal()).thenReturn(principal);
         Mockito.when(entity.getType()).thenReturn(type);
         Mockito.when(entity.getEntityId()).thenReturn("id");

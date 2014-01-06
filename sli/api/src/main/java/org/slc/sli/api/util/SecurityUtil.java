@@ -142,13 +142,13 @@ public class SecurityUtil {
         if (isStaffUser()) {
             rights = getSLIPrincipal().getAllContextRights(false);
         } else {
-            rights = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+            rights = (Collection<GrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         }
         return rights.contains(required);
     }
 
     public static Collection<GrantedAuthority> getAllRights() {
-        return SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        return (Collection<GrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
     }
 
     public static boolean hasRole(String role) {
