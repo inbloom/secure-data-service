@@ -10,15 +10,28 @@ educationOrganization:
     - address
 
 staff:
+    - loginid
+    - stateid
     - id
     - staffUniqueStateId
     - name
     - address
     - electronicMail
+    - phoneNumber
+    - birthDate
+    - degree
+    - gender
+    - credentials
+    - yearsTeachingExperience
+    - yearsExperience
+    - entityType
+    - race
+    - hispanic
+    - oldEthnicity
 
 default:
-    - streetNumberName
     - apartmentRoomSuiteNumber
+    - streetNumberName
     - city
     - stateAbbreviation
     - postalCode
@@ -26,4 +39,5 @@ default:
     - personalTitlePrefix
     - firstName
     - lastSurname
+    - verification
     - emailAddress
