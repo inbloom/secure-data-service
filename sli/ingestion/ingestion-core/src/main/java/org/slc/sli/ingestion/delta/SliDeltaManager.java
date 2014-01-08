@@ -114,23 +114,7 @@ public final class SliDeltaManager {
 
             String recordId = dIdStrategy.generateId(nkd);
 
-            // Calculate record hash using attributes, tenantId and entityType
-            String recordHashValues = neutralRecordResolved.getRecordType() + ",";
-            Map<String, Object> attributes = neutralRecordResolved.getAttributes();
-            List<String> keys = new ArrayList<String>(attributes.keySet());
-            Collections.sort(keys);
-
-            for(String key : keys)
-            {
-                recordHashValues  += key + "=" +  attributes.get(key) + ",";
-            }
-            recordHashValues += tenantId;
-            recordHashValues = DigestUtils.shaHex(recordHashValues);
-
-
-
-
-            //String recordHashValues = new DeterministicUUIDGeneratorStrategy().generateId(neutralRecordResolved.get)
+            String recordHashValues = neutralRecordResolved.generateRecordHash(tenantId);
             RecordHash record = batchJobDAO.findRecordHash(tenantId, recordId);
 
             // TODO consider making this a util

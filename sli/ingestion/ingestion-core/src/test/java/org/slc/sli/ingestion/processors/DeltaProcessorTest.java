@@ -17,12 +17,7 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import junit.framework.Assert;
 
@@ -158,8 +153,8 @@ public class DeltaProcessorTest {
         neutralRecords.add(nr);
 
         RecordHash recordHash = Mockito.mock(RecordHash.class);
-        String recordHashValues = DigestUtils.shaHex(nr.getRecordType() + "-"
-                + nr.getAttributes().toString() + "-" + "tenantId");
+        String recordHashValues = nr.generateRecordHash("tenantId");
+
         Mockito.when(recordHash.getHash()).thenReturn(recordHashValues);
         Mockito.when(batchJobDAO.findRecordHash("tenantId", "recordId")).thenReturn(recordHash);
 
