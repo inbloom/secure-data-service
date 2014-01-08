@@ -16,12 +16,12 @@
 
 package org.slc.sli.api.util;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-
-import javax.ws.rs.core.Response;
-
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.enums.Right;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
@@ -32,12 +32,10 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.enums.Right;
+import javax.ws.rs.core.Response;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 
 /**
  * Holder for security utilities.
@@ -246,12 +244,12 @@ public class SecurityUtil {
      */
     public static boolean isStudent() {
         SLIPrincipal principal = getSLIPrincipal();
-        return principal != null && EntityNames.STUDENT.equals(principal.getEntity().getType());
+        return principal != null && principal.getEntity() != null && EntityNames.STUDENT.equals(principal.getEntity().getType());
     }
 
     public static boolean isParent() {
         SLIPrincipal principal = getSLIPrincipal();
-        return principal != null && EntityNames.PARENT.equals(principal.getEntity().getType());
+        return principal != null && principal.getEntity() != null && EntityNames.PARENT.equals(principal.getEntity().getType());
     }
 
     public static boolean isStaffUser() {
