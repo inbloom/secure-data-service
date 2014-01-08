@@ -28,14 +28,14 @@ require_relative '../../utils/api_utils.rb'
 #require_relative '../../../../apiV1/integration/step_definitions/app_oauth.rb'
 
 def findStaffId(staffLogin)
-  @conn = Mongo::Connection.new(PropLoader.getProps['ingestion_db'], PropLoader.getProps['ingestion_db_port']) if !defined? @conn
+  @conn = Mongo::Connection.new(Property['ingestion_db'], Property['ingestion_db_port']) if !defined? @conn
   @db = @conn.db(convertTenantIdToDbName('Midgar'))
   @coll = @db['staff']
   staffId = @coll.find_one('body.staffUniqueStateId'=>staffLogin)['_id']
 end
 
 def findEdOrgId(stateOrganizationId)
-  @conn = Mongo::Connection.new(PropLoader.getProps['ingestion_db'], PropLoader.getProps['ingestion_db_port']) if !defined? @conn
+  @conn = Mongo::Connection.new(Property['ingestion_db'], Property['ingestion_db_port']) if !defined? @conn
   @db = @conn.db(convertTenantIdToDbName('Midgar'))
   @coll = @db['educationOrganization']
   edOrgIdId = @coll.find_one('body.stateOrganizationId'=>stateOrganizationId)['_id']
@@ -201,7 +201,7 @@ end
 When(/^I authorize all apps to access "([^"]*)"$/) do |schoolName|
   schoolName = $createdEntities[schoolName]['id']
   puts "Authorizing all edorgs to access #{schoolName}"
-  @conn = Mongo::Connection.new(PropLoader.getProps['ingestion_db'], PropLoader.getProps['ingestion_db_port']) if !defined? @conn
+  @conn = Mongo::Connection.new(Property['ingestion_db'], Property['ingestion_db_port']) if !defined? @conn
   @db = @conn.db(convertTenantIdToDbName('Midgar'))
   @coll = @db['applicationAuthorization']
   new_edorg = Hash.new

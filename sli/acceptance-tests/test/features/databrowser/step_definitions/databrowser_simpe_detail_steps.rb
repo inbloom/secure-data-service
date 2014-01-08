@@ -23,7 +23,7 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
 Given /^I navigated to the Data Browser Home URL$/ do
-  @driver.get PropLoader.getProps['databrowser_server_url']
+  @driver.get Property['databrowser_server_url']
 end
 
 Given /^I was redirected to the Realm page$/ do
@@ -73,7 +73,7 @@ When /^I click on the Logout link$/ do
 
   # current logout functionaly means delete all the cookies
   @driver.manage.delete_all_cookies
-  browser = PropLoader.getProps['browser'].downcase
+  browser = Property['browser'].downcase
   # cannot delete httponly cookie in IE
   if (browser == "ie")
     @driver.quit
@@ -88,12 +88,12 @@ Then /^I am redirected to a page that informs me that I have signed out$/ do
 end
 
 Then /^I am forced to reauthenticate to access the databrowser$/ do
-  @driver.get PropLoader.getProps['databrowser_server_url']
+  @driver.get Property['databrowser_server_url']
   assertWithWait("Was not redirected to Realm chooser") {@driver.title.index("Choose your realm") != nil}
 end
 
 Given /^I have navigated to the "([^"]*)" page of the Data Browser$/ do |arg1|
-  @driver.get PropLoader.getProps['databrowser_server_url']
+  @driver.get Property['databrowser_server_url']
   # Wait for home page to load
   assertWithWait("Failed to find '"+arg1+"' Link on page")  {@driver.find_element(:link_text, arg1)}
   @driver.find_element(:link_text, arg1).click
@@ -170,7 +170,7 @@ end
 
 When /^I have navigated to the <Page> of the Data Browser$/ do |table|
   table.hashes.each do |hash|
-    @driver.get PropLoader.getProps['databrowser_server_url']
+    @driver.get Property['databrowser_server_url']
     # Wait for home page to load
     assertWithWait("Failed to find '"+hash["Page"]+"' Link on page")  {@driver.find_element(:link_text, hash["Page"])}
     @driver.find_element(:link_text, hash["Page"]).click
@@ -184,7 +184,7 @@ When /^I have navigated to the <Page> of the Data Browser$/ do |table|
 end
 
 When /^I have navigated to the "(.*?)" listing of the Data Browser$/ do |arg1|
-  @driver.get PropLoader.getProps['databrowser_server_url'] + '/entities/schools'
+  @driver.get Property['databrowser_server_url'] + '/entities/schools'
 end
 
 When /^I click on "(.*?)" in the list of schools$/ do |arg1|

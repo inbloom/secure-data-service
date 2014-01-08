@@ -27,8 +27,8 @@ require_relative '../../entities/crud/step_definitions/crud_step.rb'
 require_relative '../../end_user_stories/CustomEntities/step_definitions/CustomEntities_steps.rb'
 require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 
-DATABASE_HOST = PropLoader.getProps['ingestion_db']
-DATABASE_PORT = PropLoader.getProps['ingestion_db_port']
+DATABASE_HOST = Property['ingestion_db']
+DATABASE_PORT = Property['ingestion_db_port']
 MAX_ENTITIES_PER_API_CALL = 1000
 
 #############################################################################################
@@ -195,7 +195,7 @@ When /^I log in as "(.*?)"/ do |user|
   seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
   assert(seoas.size > 0, "No SEOAs found for #{user}")
 
-  sli_db_name = PropLoader.getProps['sli_database_name']
+  sli_db_name = Property['sli_database_name']
   sli_db = conn[sli_db_name]
   user_session_coll = sli_db.collection('userSession')
   user_session_coll.remove()
@@ -224,7 +224,7 @@ When /^I log in as "(.*?)"/ do |user|
 end
 
 When /^I navigate to the API authorization endpoint with my client ID$/ do
-  @driver.get PropLoader.getProps['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
+  @driver.get Property['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
 end
 
 Then /^I should be redirected to the realm choosing page$/ do
@@ -241,7 +241,7 @@ Then /^I should receive a response page with http error code 403$/ do
 end
 
 When /^I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI$/ do
-  @driver.get PropLoader.getProps['api_server_url'] + "/api/oauth/token?response_type=code&client_id=#{@oauthClientId}" +
+  @driver.get Property['api_server_url'] + "/api/oauth/token?response_type=code&client_id=#{@oauthClientId}" +
   "&client_secret=#{@oauthClientSecret}&code=#{@oauthAuthCode}&redirect_uri=#{@oauthRedirectURI}"
 end
 
@@ -265,8 +265,8 @@ end
 def all_lea_allow_app_for_tenant(app_name, tenant_name)
   sleep 1
   disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
-  db = conn[PropLoader.getProps['api_database_name']]
+  conn = Mongo::Connection.new(Property['DB_HOST'], Property['DB_PORT'])
+  db = conn[Property['api_database_name']]
   app_coll = db.collection("application")
   app = app_coll.find_one({"body.name" => app_name})
   raise "ERROR: Could not find an application named #{app_name}" if app.nil?
@@ -296,9 +296,9 @@ def authorize_edorg_for_tenant(app_name, tenant_name)
   puts "Entered authorizeEdorg" if ENV['DEBUG']
   disable_NOTABLESCAN()
   puts "Getting mongo cursor" if ENV['DEBUG']
-  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
+  conn = Mongo::Connection.new(Property['DB_HOST'], Property['DB_PORT'])
   puts "Setting into the sli db" if ENV['DEBUG']
-  db = conn[PropLoader.getProps['api_database_name']]
+  db = conn[Property['api_database_name']]
   puts "Setting into the application collection" if ENV['DEBUG']
   app_coll = db.collection("application")
   puts "Finding the application with name #{app_name}" if ENV['DEBUG']
@@ -328,7 +328,7 @@ Given /^I import the odin setup application and realm data$/ do
   #get current working dir
   current_dir = Dir.getwd
   # Get current server environment (ci or local) from properties.yml
-  app_server = PropLoader.getProps['app_bootstrap_server']
+  app_server = Property['app_bootstrap_server']
   # Drop in ci specific app-auth fixture data
   if app_server == "ci"
     puts "\b\bDEBUG: We are setting CI environment app auth data"
@@ -338,8 +338,8 @@ Given /^I import the odin setup application and realm data$/ do
     conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
     db = conn['sli']
     coll = db.collection('realm')
-    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.id' => PropLoader.getProps['ci_idp_redirect_url']}})
-    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.redirectEndpoint' => PropLoader.getProps['ci_idp_redirect_url']}})
+    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.id' => Property['ci_idp_redirect_url']}})
+    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.redirectEndpoint' => Property['ci_idp_redirect_url']}})
     conn.close
     enable_NOTABLESCAN()
     # Drop in local specific app-auth fixture data
@@ -355,8 +355,8 @@ Given /^I import the odin setup application and realm data$/ do
     conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
     db = conn['sli']
     coll = db.collection('realm')
-    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.id' => PropLoader.getProps['ci_idp_redirect_url']}})
-    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.redirectEndpoint' => PropLoader.getProps['ci_idp_redirect_url']}})
+    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.id' => Property['ci_idp_redirect_url']}})
+    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.redirectEndpoint' => Property['ci_idp_redirect_url']}})
     conn.close
     enable_NOTABLESCAN()
   end
@@ -473,7 +473,7 @@ Then /^I should see all global entities$/ do
   end
 
   #Get entity ids from the database
-  conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
   db = conn.db(convertTenantIdToDbName("Midgar"))
   coll = db[@currentEntity]
 

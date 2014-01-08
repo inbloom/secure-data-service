@@ -59,7 +59,7 @@ end
 
 #--------------- Helpers ---------------------#
 def coll
-  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  @db ||= Mongo::Connection.new(Property['DB_HOST']).db('sli')
   @coll ||= @db.collection('userSession')
   return @coll
 end

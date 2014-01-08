@@ -22,7 +22,7 @@ require "selenium-webdriver"
 require_relative '../../utils/sli_utils.rb'
 
 Given /^I have navigated to the "([^"]*)" login page$/ do |arg1|
-  @url = "https://"+PropLoader.getProps['sea_login_url'] if arg1 == "State/District"
+  @url = "https://"+Property['sea_login_url'] if arg1 == "State/District"
   @driver = Selenium::WebDriver.for :ie
   @driver.get @url if @url
   assert(@driver.current_url == @url, "Failed to navigate to "+@url)
@@ -53,7 +53,7 @@ When /^I click the Go button$/ do
 end
 
 Then /^I am now authenticated to SLI$/ do
-  @apiUrl = "http://"+PropLoader.getProps['api_server_url']+"/api/"
+  @apiUrl = "http://"+Property['api_server_url']+"/api/"
   @driver.get @apiUrl
   assert(@driver.current_url == @apiUrl, "Failed to navigate to "+@apiUrl)
 end
@@ -62,7 +62,7 @@ Then /^I am informed that I have entered invalid password$/ do
   # Check for some error message that states something about the password, assume its a negative message,
   #   as we will be making sure the login was unsuccessful with a call to the API that should fail
   assert(@driver.find_element(:name, "error").text.downcase.index("password") != nil, "Could not find message stating the password was wrong")
-  @apiUrl = "http://"+PropLoader.getProps['api_server_url']+"/api/"
+  @apiUrl = "http://"+Property['api_server_url']+"/api/"
   @driver.get @apiUrl
   assert(@driver.current_url != @apiUrl, "Successfully to navigate to "+@apiUrl+" in a negative test")
 end
@@ -71,7 +71,7 @@ Then /^I am informed that "([^"]*)" is an invalid user$/ do |arg1|
   # Check for some error message that states something about the user, assume its a negative message,
   #   as we will be making sure the login was unsuccessful with a call to the API that should fail
   assert(@driver.find_element(:name, "error").text.downcase.index("user") != nil, "Could not find message stating the username was wrong")
-  @apiUrl = "http://"+PropLoader.getProps['api_server_url']+"/api/"
+  @apiUrl = "http://"+Property['api_server_url']+"/api/"
   @driver.get @apiUrl
   assert(@driver.current_url != @apiUrl, "Successfully to navigate to "+@apiUrl+" in a negative test")
 end

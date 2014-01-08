@@ -17,7 +17,7 @@ limitations under the License.
 =end
 
 When /^I hit the realm editing URL$/ do
-  @url = PropLoader.getProps['admintools_server_url'] + "/realm_management"
+  @url = Property['admintools_server_url'] + "/realm_management"
   @driver.get @url
 end
 
@@ -100,7 +100,7 @@ Then /^all of the input fields should be blank$/ do
 end
 
 Then /^I should hit the role mapping page$/ do
-  @url = PropLoader.getProps['admintools_server_url'] + "/custom_roles"
+  @url = Property['admintools_server_url'] + "/custom_roles"
   @driver.get @url
 end
 

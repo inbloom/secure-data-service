@@ -256,7 +256,7 @@ end
 When /^I logout$/ do
   # current logout functionaly means delete all the cookies
   @driver.manage.delete_all_cookies
-  browser = PropLoader.getProps['browser'].downcase
+  browser = Property['browser'].downcase
   # cannot delete httponly cookie in IE
   if (browser == "ie")
     @driver.quit

@@ -73,7 +73,7 @@ end
 def get_last_email_id
   defaultUser = TEST_EMAIL_USER
   defaultPassword = TEST_EMAIL_PASS
-  @imap = Net::IMAP.new(PropLoader.getProps['email_imap_host'], PropLoader.getProps['email_imap_port'], true, nil, false)
+  @imap = Net::IMAP.new(Property['email_imap_host'], Property['email_imap_port'], true, nil, false)
   @imap.authenticate('LOGIN', defaultUser, defaultPassword)
   @imap.examine('INBOX')
   ids = @imap.search(["FROM", @email_sender_name,"TO",@email])

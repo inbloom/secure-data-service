@@ -43,7 +43,7 @@ end
 
 When /^I set my password$/ do
   content = check_email({:content_substring => @newly_created_user[:firstname]}) do
-    @driver.get(PropLoader.getProps["admintools_server_url"] + "/forgot_passwords")
+    @driver.get(Property["admintools_server_url"] + "/forgot_passwords")
     @driver.find_element(:id, "user_id").clear
     @driver.find_element(:id, "user_id").send_keys @newly_created_user[:uid]
     @driver.find_element(:id, "submit").click
@@ -51,7 +51,7 @@ When /^I set my password$/ do
 
   reset_password_link = nil
   content.split("\n").each do |line|
-    if(/#{PropLoader.getProps["admintools_server_url"]}/.match(line))
+    if(/#{Property["admintools_server_url"]}/.match(line))
       reset_password_link = line
     end
   end
@@ -136,7 +136,7 @@ Then /^the email has a link to "([^"]*)"$/ do |substring|
 end
 
 Then /^I can log in with my username and password$/ do
-  @driver.get(PropLoader.getProps["admintools_server_url"])
+  @driver.get(Property["admintools_server_url"])
   step "I select \"inBloom\" from the dropdown and click go"
   step "I submit the credentials \"#{@newly_created_user[:uid]}\" \"#{NEW_PASSWORD}\" for the \"Simple\" login page"
   actual_page_content = @driver.find_element(:tag_name, "body")
@@ -145,7 +145,7 @@ Then /^I can log in with my username and password$/ do
 end
 
 Then /^I can log in with my sandbox username and password$/ do
-  @driver.get(PropLoader.getProps["admintools_server_url"])
+  @driver.get(Property["admintools_server_url"])
   step "I submit the credentials \"#{@newly_created_user[:uid]}\" \"#{NEW_PASSWORD}\" for the \"Simple\" login page"
   actual_page_content = @driver.find_element(:tag_name, "body")
   expected_page_content = "Admin Tool"
@@ -196,7 +196,7 @@ def create_user(uid_prefix, groups, mode)
       "groups" => groups,
       "fullName" => "#{firstname} #{lastname}",
       "password" => uid + "1234",
-      "email" => PropLoader.getProps['email_imap_registration_user_email'],
+      "email" => Property['email_imap_registration_user_email'],
       "homeDir" => "/dev/null"
   }
   if (["SLC Operator", "Sandbox SLC Operator"] & groups).empty?

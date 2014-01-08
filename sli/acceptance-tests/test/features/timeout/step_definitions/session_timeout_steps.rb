@@ -23,7 +23,7 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
 Given /^I navigated to the Data Browser Home URL$/ do
-  @driver.get PropLoader.getProps['databrowser_server_url']
+  @driver.get Property['databrowser_server_url']
 end
 
 Given /^I was redirected to the Realm page$/ do

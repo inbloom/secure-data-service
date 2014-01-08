@@ -17,10 +17,10 @@ limitations under the License.
 =end
 
 def check_email(config = {})
-  imap_host = config[:imap_host] || PropLoader.getProps['email_imap_host']
-  imap_port = config[:imap_port] || PropLoader.getProps['email_imap_port']
-  imap_username = config[:imap_username] || PropLoader.getProps['email_imap_registration_user']
-  imap_password = config[:imap_password] || PropLoader.getProps['email_imap_registration_pass']
+  imap_host = config[:imap_host] || Property['email_imap_host']
+  imap_port = config[:imap_port] || Property['email_imap_port']
+  imap_username = config[:imap_username] || Property['email_imap_registration_user']
+  imap_password = config[:imap_password] || Property['email_imap_registration_pass']
   content_substring = config[:content_substring]
   subject_substring = config[:subject_substring]
   initial_wait_time = config[:initial_wait_time] || 1
