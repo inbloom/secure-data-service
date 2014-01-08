@@ -9,20 +9,20 @@ Scenario: Home URI returns valid links for user 'lindakim'
     And format "application/json"
   When I navigate to GET "/v1/home"
   Then I should receive a return code of 200
-    And I should receive a link named "self" with URI "/v1.4/teachers/<'linda.kim' ID>"
-    And I should receive a link named "getTeacherSectionAssociations" with URI "/v1.4/teachers/<'linda.kim' ID>/teacherSectionAssociations"
-    And I should receive a link named "getSections" with URI "/v1.4/teachers/<'linda.kim' ID>/teacherSectionAssociations/sections"
-    And I should receive a link named "getTeacherSchoolAssociations" with URI "/v1.4/teachers/<'linda.kim' ID>/teacherSchoolAssociations"
-    And I should receive a link named "getSchools" with URI "/v1.4/teachers/<'linda.kim' ID>/teacherSchoolAssociations/schools"
+    And I should receive a link named "self" with URI "/v1.5/teachers/<'linda.kim' ID>"
+    And I should receive a link named "getTeacherSectionAssociations" with URI "/v1.5/teachers/<'linda.kim' ID>/teacherSectionAssociations"
+    And I should receive a link named "getSections" with URI "/v1.5/teachers/<'linda.kim' ID>/teacherSectionAssociations/sections"
+    And I should receive a link named "getTeacherSchoolAssociations" with URI "/v1.5/teachers/<'linda.kim' ID>/teacherSchoolAssociations"
+    And I should receive a link named "getSchools" with URI "/v1.5/teachers/<'linda.kim' ID>/teacherSchoolAssociations/schools"
 
 Scenario: Home URI returns valid links for user 'akopel'
   Given I am logged in using "akopel" "akopel1234" to realm "IL"
     And format "application/json"
   When I navigate to GET "/v1/home"
   Then I should receive a return code of 200
-    And I should receive a link named "self" with URI "/v1.4/staff/<'amy kopel' ID>"
-    And I should receive a link named "getStaffEducationOrgAssignmentAssociations" with URI "/v1.4/staff/<'amy kopel' ID>/staffEducationOrgAssignmentAssociations"
-    And I should receive a link named "getEducationOrganizations" with URI "/v1.4/staff/<'amy kopel' ID>/staffEducationOrgAssignmentAssociations/educationOrganizations"
+    And I should receive a link named "self" with URI "/v1.5/staff/<'amy kopel' ID>"
+    And I should receive a link named "getStaffEducationOrgAssignmentAssociations" with URI "/v1.5/staff/<'amy kopel' ID>/staffEducationOrgAssignmentAssociations"
+    And I should receive a link named "getEducationOrganizations" with URI "/v1.5/staff/<'amy kopel' ID>/staffEducationOrgAssignmentAssociations/educationOrganizations"
 
 @RALLY_US5826
 Scenario: Home URI logs a security event for an unauthenticated user

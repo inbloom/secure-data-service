@@ -43,7 +43,7 @@ end
 def compare_links(actual)
   actual["links"].each do |link|
     href = link["href"]
-    link["href"] = href.sub(PropLoader.getProps['api_server_url'] + "/api/rest/v1.4/", '')
+    link["href"] = href.sub(Property['api_server_url'] + "/api/rest/v1.5/", '')
   end
   assert(actual["links"].eql?(@expected_links["links"]),"links contents different to that expected #{actual["links"].to_json}.")
 end

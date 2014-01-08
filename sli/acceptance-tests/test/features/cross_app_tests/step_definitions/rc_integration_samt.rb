@@ -31,54 +31,54 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
 
   case human_readable_text
     when "PRIMARY_EMAIL"
-      value = PropLoader.getProps['primary_email_imap_registration_user_email']
-      @email_username = PropLoader.getProps['primary_email_imap_registration_user']
-      @email_password = PropLoader.getProps['primary_email_imap_registration_pass']
+      value = Property['primary_email_imap_registration_user_email']
+      @email_username = Property['primary_email_imap_registration_user']
+      @email_password = Property['primary_email_imap_registration_pass']
     when "PRIMARY_EMAIL_PASS"
-      value = PropLoader.getProps['primary_email_imap_registration_pass']
+      value = Property['primary_email_imap_registration_pass']
     when "SECONDARY_EMAIL"
-      value = PropLoader.getProps['secondary_email_imap_registration_user_email']
-      @email_username = PropLoader.getProps['secondary_email_imap_registration_user']
-      @email_password = PropLoader.getProps['secondary_email_imap_registration_pass']
+      value = Property['secondary_email_imap_registration_user_email']
+      @email_username = Property['secondary_email_imap_registration_user']
+      @email_password = Property['secondary_email_imap_registration_pass']
     when "SECONDARY_EMAIL_PASS"
-      value = PropLoader.getProps['secondary_email_imap_registration_pass']
+      value = Property['secondary_email_imap_registration_pass']
     when "CHARTER_EMAIL"
-      value = PropLoader.getProps['charter_email_imap_registration_user_email']
-      @email_username = PropLoader.getProps['charter_email_imap_registration_user']
-      @email_password = PropLoader.getProps['charter_email_imap_registration_pass']
+      value = Property['charter_email_imap_registration_user_email']
+      @email_username = Property['charter_email_imap_registration_user']
+      @email_password = Property['charter_email_imap_registration_pass']
     when "CHARTER_EMAIL_PASS"
-      value = PropLoader.getProps['charter_email_imap_registration_pass']
+      value = Property['charter_email_imap_registration_pass']
     when "DEVELOPER_EMAIL"
-      value = PropLoader.getProps['developer_email_imap_registration_user_email']
-      @email_username = PropLoader.getProps['developer_email_imap_registration_user']
-      @email_password = PropLoader.getProps['developer_email_imap_registration_pass']
+      value = Property['developer_email_imap_registration_user_email']
+      @email_username = Property['developer_email_imap_registration_user']
+      @email_password = Property['developer_email_imap_registration_pass']
     when "DEVELOPER_EMAIL_PASS"
-      value = PropLoader.getProps['developer_email_imap_registration_pass']
+      value = Property['developer_email_imap_registration_pass']
     when "DEVELOPER_SB_EMAIL"
-      value = PropLoader.getProps['developer_sb_email_imap_registration_user_email']
-      @email_username = PropLoader.getProps['developer_sb_email_imap_registration_user']
-      @email_password = PropLoader.getProps['developer_sb_email_imap_registration_pass']
+      value = Property['developer_sb_email_imap_registration_user_email']
+      @email_username = Property['developer_sb_email_imap_registration_user']
+      @email_password = Property['developer_sb_email_imap_registration_pass']
     when "DEVELOPER_SB_EMAIL_PASS"
-      value = PropLoader.getProps['developer_sb_email_imap_registration_pass']
+      value = Property['developer_sb_email_imap_registration_pass']
     when "DEVELOPER2_SB_EMAIL"
-      value = PropLoader.getProps['developer2_sb_email_imap_registration_user_email']
-      @email_username = PropLoader.getProps['developer2_sb_email_imap_registration_user']
-      @email_password = PropLoader.getProps['developer2_sb_email_imap_registration_pass']
+      value = Property['developer2_sb_email_imap_registration_user_email']
+      @email_username = Property['developer2_sb_email_imap_registration_user']
+      @email_password = Property['developer2_sb_email_imap_registration_pass']
     when "DEVELOPER2_SB_EMAIL_PASS"
-      value = PropLoader.getProps['developer2_sb_email_imap_registration_pass']
+      value = Property['developer2_sb_email_imap_registration_pass']
     when "LANDINGZONE"
-      value = PropLoader.getProps['landingzone']
+      value = Property['landingzone']
     when "LANDINGZONE_PORT"
-      value = PropLoader.getProps['landingzone_port']
+      value = Property['landingzone_port']
     when "TENANT"
-      puts "Tenant in Transform = #{PropLoader.getProps['tenant']}"
-      value = PropLoader.getProps['tenant']
+      puts "Tenant in Transform = #{Property['tenant']}"
+      value = Property['tenant']
     when "SANDBOX_TENANT"
-      value = PropLoader.getProps['sandbox_tenant']
+      value = Property['sandbox_tenant']
     when "CI_IDP_Redirect_URL"
-      value = PropLoader.getProps["ci_idp_redirect_url"]
+      value = Property["ci_idp_redirect_url"]
     when "CI_CHARTER_IDP_Redirect_URL"
-      value = PropLoader.getProps["ci_charter_idp_redirect_url"]
+      value = Property["ci_charter_idp_redirect_url"]
     when "MATT SOLLARS UNIQUE ID"
       value = "800000025"
     when "CARMEN ORTIZ UNIQUE ID"
@@ -92,25 +92,25 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
     when "AMY KOPEL UNIQUE ID"
       value = "akopel"
     when 'CI_ARTIFACT_IDP_ID_URL'
-      value = PropLoader.getProps['ci_artifact_idp_id_url']
+      value = Property['ci_artifact_idp_id_url']
     when 'CI_ARTIFACT_IDP_REDIRECT_URL'
-      value = PropLoader.getProps['ci_artifact_idp_redirect_url']
+      value = Property['ci_artifact_idp_redirect_url']
     when 'CI_ARTIFACT_IDP_ARTIFACT_RESOLUTION_URL'
-      value = PropLoader.getProps['ci_artifact_idp_artifact_resolution_url']
+      value = Property['ci_artifact_idp_artifact_resolution_url']
     when 'CI_ARTIFACT_SOURCE_ID'
-      value = PropLoader.getProps['ci_artifact_source_id']
+      value = Property['ci_artifact_source_id']
     when 'CI_ARTIFACT_IDP_TYPE'
-      value = PropLoader.getProps['ci_artifact_idp_type']
+      value = Property['ci_artifact_idp_type']
     when 'POST_ENCRYPT_IDP_ID_URL'
-      value = PropLoader.getProps['post_encrypt_idp_id_url']
+      value = Property['post_encrypt_idp_id_url']
     when 'POST_ENCRYPT_IDP_REDIRECT_URL'
-      value = PropLoader.getProps['post_encrypt_idp_redirect_url']
+      value = Property['post_encrypt_idp_redirect_url']
     when 'POST_ENCRYPT_IDP_TYPE'
-      value = PropLoader.getProps['post_encrypt_idp_type']
+      value = Property['post_encrypt_idp_type']
     when 'Pre-installed Bulk Extract App Name'
-      value = PropLoader.getProps['bulk_extract_testapp_name']
+      value = Property['bulk_extract_testapp_name']
     when 'RC Server'
-      value = PropLoader.getProps['rc_env']
+      value = Property['rc_env']
   end
 
  value
@@ -121,7 +121,7 @@ Before do
 end
 
 When /^I navigate to the user account management page$/ do
-  samt_url = PropLoader.getProps['admintools_server_url']+PropLoader.getProps['samt_app_suffix']
+  samt_url = Property['admintools_server_url']+Property['samt_app_suffix']
   @driver.get samt_url
 end
 
@@ -188,7 +188,7 @@ Then /^I set my password to "(.*?)"$/ do |password|
                          :subject_substring => "Reset Password",
                          :imap_username => @email_username,
                          :imap_password => @email_password}) do
-    @driver.get(PropLoader.getProps["admintools_server_url"] + "/forgot_passwords")
+    @driver.get(Property["admintools_server_url"] + "/forgot_passwords")
     @driver.find_element(:id, "user_id").clear
     @driver.find_element(:id, "user_id").send_keys @user_email
     @driver.find_element(:id, "submit").click
@@ -196,7 +196,7 @@ Then /^I set my password to "(.*?)"$/ do |password|
 
   reset_password_link = nil
   content.split("\n").each do |line|
-    if(/#{PropLoader.getProps["admintools_server_url"]}/.match(line))
+    if(/#{Property["admintools_server_url"]}/.match(line))
       reset_password_link = line
     end
   end
@@ -220,7 +220,7 @@ Then /^I set my password to "(.*?)"$/ do |password|
 end
 
 Then /^I can log in with my username "(.*?)" and password "(.*?)"$/ do |username, password|
-  @driver.get(PropLoader.getProps["admintools_server_url"])
+  @driver.get(Property["admintools_server_url"])
   @driver.find_element(:id, "user_id").clear
   @driver.find_element(:id, "user_id").send_keys username
   @driver.find_element(:id, "password").clear

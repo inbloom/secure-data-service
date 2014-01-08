@@ -25,43 +25,43 @@ include REXML
 require File.expand_path("../../../utils/common", __FILE__)
 
 Transform /^\/(<[^"]*>)$/ do |uri_placeholder|
-  uri = "/v1.4/" + Transform(uri_placeholder)
+  uri = "/v1.5/" + Transform(uri_placeholder)
   #puts "URI = #{uri}"
   uri
 end
 
 Transform /^\/(<[^"]*>)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2|
-  uri = "/v1.4/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2)
+  uri = "/v1.5/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2)
   #puts "URI = #{uri}"
   uri
 end
 
 Transform /^\/([^"<>]*)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2|
-  uri = "/v1.4/" + uri_placeholder1 + "/" + Transform(uri_placeholder2)
+  uri = "/v1.5/" + uri_placeholder1 + "/" + Transform(uri_placeholder2)
   #puts "URI = #{uri}"
   uri
 end
 
 Transform /^\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2, uri_placeholder3|
-  uri = "/v1.4/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3)
+  uri = "/v1.5/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3)
   #puts "URI = #{uri}"
   uri
 end
 
 Transform /^\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2, uri_placeholder3, uri_placeholder4|
-  uri = "/v1.4/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3) + "/" + Transform(uri_placeholder4)
+  uri = "/v1.5/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3) + "/" + Transform(uri_placeholder4)
   #puts "URI = #{uri}"
   uri
 end
 
 Transform /^\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2, uri_placeholder3, uri_placeholder4, uri_placeholder5|
-  uri = "/v1.4/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3) + "/" + Transform(uri_placeholder4) + "/" + Transform(uri_placeholder5)
+  uri = "/v1.5/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3) + "/" + Transform(uri_placeholder4) + "/" + Transform(uri_placeholder5)
   #puts "URI = #{uri}"
   uri
 end
 
 Transform /^\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)(\?.*?)$/ do |uri_placeholder1, uri_placeholder2, uri_placeholder3, uri_placeholder4, uri_placeholder5, query_params|
-  uri = "/v1.4/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3) + "/" + Transform(uri_placeholder4) + "/" + Transform(uri_placeholder5) + query_params
+  uri = "/v1.5/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3) + "/" + Transform(uri_placeholder4) + "/" + Transform(uri_placeholder5) + query_params
   puts "URI = #{uri}"
   uri
 end

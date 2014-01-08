@@ -66,7 +66,7 @@ public class VersionFilterTest {
     @Test
     public void testNonRewrite() {
         PathSegment segment1 = mock(PathSegment.class);
-        when(segment1.getPath()).thenReturn("v4");
+        when(segment1.getPath()).thenReturn("v5");
         PathSegment segment2 = mock(PathSegment.class);
         when(segment2.getPath()).thenReturn("students");
 
@@ -104,7 +104,7 @@ public class VersionFilterTest {
         ContainerRequest request = versionFilter.filter(containerRequest);
         verify(containerRequest).setUris((URI) any(), (URI) any());
         verify(builder).build();
-        verify(builder, times(1)).path("v1.4");
+        verify(builder, times(1)).path("v1.5");
         verify(builder, times(1)).path("students");
         assertEquals("Should match", "http://api/rest/v1/students", request.getProperties().get(REQUESTED_PATH));
     }
@@ -133,7 +133,7 @@ public class VersionFilterTest {
         verify(containerRequest).setUris((URI) any(), (URI) any());
         verify(builder).replaceQuery(anyString());
         verify(builder).build();
-        verify(builder, times(1)).path("v1.4");
+        verify(builder, times(1)).path("v1.5");
         verify(builder, times(1)).path("students");
     }
 

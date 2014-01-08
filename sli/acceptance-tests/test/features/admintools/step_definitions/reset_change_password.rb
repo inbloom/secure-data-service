@@ -35,27 +35,27 @@ Given /^I am a SLC Operator "([^"]*)" from the "([^"]*)" hosted directory$/ do |
 end
 
 Given /^I am a SLC Admin "([^"]*)" from the "([^"]*)" hosted directory logging in for the first time$/ do |arg1, arg2|
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
-                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
-                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
+  @ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
+                          Property['ldap_base'], Property['ldap_admin_user'],
+                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
   @ldap.delete_user_attribute(arg1, :emailtoken)
 end
 
 When /^I hit the Change Password URL$/ do
-  @driver.get(PropLoader.getProps['admintools_server_url'] + "/change_passwords/new")
+  @driver.get(Property['admintools_server_url'] + "/change_passwords/new")
 end
 
 When /^I hit the Admin URL$/ do
-  @driver.get(PropLoader.getProps['admintools_server_url'])
+  @driver.get(Property['admintools_server_url'])
 end
 
 When /^I visit the link sent to "(.*?)"$/ do |arg1|
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
-                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
-                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
+  @ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
+                          Property['ldap_base'], Property['ldap_admin_user'],
+                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
   user = @ldap.read_user(arg1)
   resetKey = user[:resetKey].split("@")[0]
-  @driver.get(PropLoader.getProps['admintools_server_url'] + "/resetPassword?key=" + resetKey)
+  @driver.get(Property['admintools_server_url'] + "/resetPassword?key=" + resetKey)
 end
 
 Then /^I am redirected to the Change Password page$/ do

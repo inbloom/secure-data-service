@@ -1,5 +1,5 @@
 [{
-  "nameSpace": ["v1.0","v1.1", "v1.2", "v1.3", "v1.4"],
+  "nameSpace": ["v1.0","v1.1", "v1.2", "v1.3", "v1.4", "v1.5"],
   "resources": [
    {
       "path": "/bulk",
@@ -613,7 +613,7 @@
   ]
 },
 {
-  "nameSpace": ["v1.1", "v1.2", "v1.3", "v1.4"],
+  "nameSpace": ["v1.1", "v1.2", "v1.3", "v1.4", "v1.5"],
   "resources": [
     {
       "path": "/search",
@@ -678,7 +678,7 @@
   ]
 },
 {
-  "nameSpace": ["v1.2", "v1.3", "v1.4"],
+  "nameSpace": ["v1.2", "v1.3", "v1.4", "v1.5"],
   "resources": [
     {
       "path": "/students",
@@ -692,7 +692,7 @@
   ]
 },
 {
-  "nameSpace": ["v1.3", "v1.4"],
+  "nameSpace": ["v1.3", "v1.4", "v1.5"],
   "resources": [
     {
       "path": "/calendarDates",
@@ -703,7 +703,7 @@
   ] 
 },
 {
-  "nameSpace": ["v1.4"],
+  "nameSpace": ["v1.4", "v1.5"],
   "resources": [
     {
       "path": "/educationOrganizations",
@@ -736,6 +736,25 @@
       "queryable": true,
       "availableSince" : "v1.4",
       "doc": "This URI, /bellSchedules, represents the schedule of class period meeting times."
+    }
+  ]
+},
+{
+  "nameSpace": ["v1.5"],
+  "resources": [
+    {
+      "path": "/schools",
+      "queryable": true,
+      "dateSearchDisallowed": true,
+      "doc": "This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups. Caution: The schools entity is public in the SLI API. Any metadata associated with a school can be viewed by anyone within the tenant to which the school belongs. For more information, see the schema for $$School$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /schools/{IDs}. {IDs} represents a list of the school IDs to which the teacher or staff is currently associated.",
+      "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
+      "availableSince" : "v1.1",
+      "subResources": [
+        { "path": "/{id}/courseOfferings/courses",
+          "dateSearchDisallowed": true,
+          "availableSince" : "v1.5"
+        }
+      ]
     }
   ]
 }

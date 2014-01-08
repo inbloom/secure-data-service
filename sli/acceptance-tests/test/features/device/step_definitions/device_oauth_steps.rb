@@ -29,7 +29,7 @@ Given /^the testing device app key has been created$/ do
 end
 
 When /^I navigate to the API authorization endpoint with my client ID$/ do
-  @driver.get PropLoader.getProps['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
+  @driver.get Property['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
 end
 
 Then /^I should be redirected to the realm choosing page$/ do
@@ -50,7 +50,7 @@ Then /^I should receive a json response containing my authorization code$/ do
 end
 
 When /^I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI$/ do
-  @driver.get PropLoader.getProps['api_server_url'] + "/api/oauth/token?response_type=code&client_id=#{@oauthClientId}" +
+  @driver.get Property['api_server_url'] + "/api/oauth/token?response_type=code&client_id=#{@oauthClientId}" +
                    "&client_secret=#{@oauthClientSecret}&code=#{@oauthAuthCode}&redirect_uri=#{@oauthRedirectURI}"
 end
 

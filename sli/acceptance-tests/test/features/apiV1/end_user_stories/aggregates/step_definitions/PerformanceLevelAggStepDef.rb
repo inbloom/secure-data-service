@@ -51,7 +51,7 @@ Transform /^<([^>]*)>$/ do |arg|
 end
 
 def db
-  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  @db ||= Mongo::Connection.new(Property['DB_HOST']).db('sli')
 end
 
 def coll

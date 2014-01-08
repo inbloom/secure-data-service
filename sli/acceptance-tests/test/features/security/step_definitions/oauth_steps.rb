@@ -4,7 +4,7 @@ Given /^I make a call to \/token with an invalid auth code$/ do
   code = "bad_code"
   client = "2zhRrEXh8r"
   @format = "application/json"
-  url = PropLoader.getProps['api_server_url']+"/api/oauth/token?code=#{code}&redirect_uri=blah&client_id=#{client}&client_secret=blah"
+  url = Property['api_server_url']+"/api/oauth/token?code=#{code}&redirect_uri=blah&client_id=#{client}&client_secret=blah"
   headers = {:content_type => @format}
   @res = RestClient.get(url, headers){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
@@ -14,7 +14,7 @@ Given /^I make a call to \/token with an invalid client_id$/ do
   code = "c-820d0646-551b-4086-934e-5129263711ad"
   client = "bad_client"
   @format = "application/json"
-  url = PropLoader.getProps['api_server_url']+"/api/oauth/token?code=#{code}&redirect_uri=blah&client_id=#{client}&client_secret=blah"
+  url = Property['api_server_url']+"/api/oauth/token?code=#{code}&redirect_uri=blah&client_id=#{client}&client_secret=blah"
   headers = {:content_type => @format}
   @res = RestClient.get(url, headers){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")
@@ -24,7 +24,7 @@ Given /^I make a call to \/token with an expired auth code$/ do
   code = "c-820d0646-551b-4086-934e-5129263711ad"
   client = "2zhRrEXh8r"
   @format = "application/json"
-  url = PropLoader.getProps['api_server_url']+"/api/oauth/token?code=#{code}&redirect_uri=blah&client_id=#{client}&client_secret=blah"
+  url = Property['api_server_url']+"/api/oauth/token?code=#{code}&redirect_uri=blah&client_id=#{client}&client_secret=blah"
   headers = {:content_type => @format}
   @res = RestClient.get(url, headers){|response, request, result| response }
   assert(@res != nil, "Response from rest-client GET is nil")

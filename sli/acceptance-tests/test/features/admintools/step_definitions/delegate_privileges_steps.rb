@@ -18,7 +18,7 @@ limitations under the License.
 
 
 When /^I hit the delegation url$/ do
-  @driver.get(PropLoader.getProps['admintools_server_url'] + "/admin_delegations")
+  @driver.get(Property['admintools_server_url'] + "/admin_delegations")
 end
 
 When /^I am redirected to the delegation page for my district$/ do

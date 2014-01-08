@@ -28,8 +28,8 @@ require_relative '../../utils/selenium_common.rb'
 ############################################################
 
 INGESTION_DB_NAME = convertTenantIdToDbName('Midgar')
-INGESTION_DB = PropLoader.getProps['ingestion_db']
-INGESTION_DB_PORT = PropLoader.getProps['ingestion_db_port']
+INGESTION_DB = Property['ingestion_db']
+INGESTION_DB_PORT = Property['ingestion_db_port']
 
 ############################################################
 # STEPS: BEFORE - for security event testing
@@ -44,7 +44,7 @@ Given /^I am not authenticated to SLI IDP$/ do
 end
 
 When /^I navigate to the default Admin Page$/ do
-  url = PropLoader.getProps['admintools_server_url']
+  url = Property['admintools_server_url']
   @driver.get url
 end
 
@@ -53,7 +53,7 @@ Then /^I should be redirected to the default Admin Page$/ do
 end
 
 Given /^I have tried to access the default Admin Page$/ do
-  url = PropLoader.getProps['admintools_server_url']
+  url = Property['admintools_server_url']
   @driver.get url
 end
 
@@ -79,7 +79,7 @@ Then /^I am informed that authentication has failed$/ do
 end
 
 Then /^I do not have access to the default Admin Page$/ do
-  @driver.get PropLoader.getProps['admintools_server_url']
+  @driver.get Property['admintools_server_url']
   assert(@driver.page_source.index("Default SLI Roles") == nil, webdriverDebugMessage(@driver,"Navigated to the Admintools Role page with no credentials"))
 end
 

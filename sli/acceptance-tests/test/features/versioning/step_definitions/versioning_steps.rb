@@ -53,9 +53,9 @@ end
 ###############################################################################
 
 Before do
-  DB_NAME = PropLoader.getProps['api_database_name']
-  DB_HOST = PropLoader.getProps['DB_HOST']
-  DB_PORT = PropLoader.getProps['DB_PORT']
+  DB_NAME = Property['api_database_name']
+  DB_HOST = Property['DB_HOST']
+  DB_PORT = Property['DB_PORT']
 end
 
 ###############################################################################

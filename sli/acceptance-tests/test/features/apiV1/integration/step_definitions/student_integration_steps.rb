@@ -239,7 +239,7 @@ Given /^I am using api version "(.*?)"$/ do |version|
 end
 
 Given /^I set the userSession clientId to nil$/ do
-  conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
   sli = conn.db("sli")
   coll = sli["userSession"]
   entity = coll.find_one({"body.appSession.token" => @sessionId})
@@ -794,7 +794,7 @@ Then(/^I PATCH entities and check return code$/) do |table|
 end
 
 Given /^I get the rights for the "(.*?)" role in realm "(.*?)"$/ do |role, realm|
-  @conn             = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  @conn             = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
   @db               = @conn['02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a']
   @roles_collection = @db.collection('customRole')
   puts "DEBUG: roles_collection is: #{@roles_collection}"
@@ -837,8 +837,6 @@ After('@student_expired_access, @parent_expired_access') do |scenario|
     | entity  | id                                          | returnCode  |
     | staff   | 2ff51e81ecbd9c4160a19be629d0ccb4cb529796_id | 204         |
     | staff   | bfddb715a20bb2996b8769abfc1813d029bfdf29_id | 204         |
-    | student | b13887c5f555d6675d1f71de3b0fa6ad3b67f8aa_id | 204         |
-    | studentProgramAssociation | 067198fd6da91e1aa8d67e28e850f224d6851713_id001b57375dab7d013d6cca625fa78351862d6653_id  | 204 |
   })
 end
 
