@@ -21,7 +21,7 @@ require_relative "baseEntity"
 require_relative "enum/SchoolTerm.rb"
 require_relative "enum/GradingPeriodType.rb"
 
-# creates session
+# An educational time period (e.g. semester)
 class Session < BaseEntity
 
   attr_accessor :name, :school_year, :ed_org_id, :begin_date, :end_date, :num_school_days, :holidays,
@@ -30,21 +30,23 @@ class Session < BaseEntity
   def initialize(name, year, term, interval, ed_org_id, grading_periods, calendar_dates)
     @rand = Random.new(name.hash + year.hash)
     @name            = name
-      @school_year     = year.to_s + "-" + (year+1).to_s
-      @term            = term
+    @school_year     = "#{year}-#{year + 1}"
+    @term            = term
     @begin_date      = interval.get_begin_date
     @end_date        = interval.get_end_date
     @num_school_days = interval.get_num_school_days
     @holidays        = interval.get_holidays
-      @ed_org_id       = ed_org_id
+    @ed_org_id       = ed_org_id
     @grading_periods = grading_periods
     @calendar_dates  = calendar_dates
 
-    optional {@calendarDateReference = {
+    # TODO: The instance var @calendarDateReference is unused; either eliminate or have it set +calendar_dates+
+    optional do
+      @calendarDateReference = {
         :date => Date.new(2012+@rand.rand(3), 1+@rand.rand(12), 1+@rand.rand(28)),
         :ed_org_id => ed_org_id
       }
-    }
+    end
 
   end
 

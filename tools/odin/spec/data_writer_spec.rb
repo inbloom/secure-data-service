@@ -35,6 +35,7 @@ describe "DataWriter" do
       scenario = YAML.load_file(File.join(File.dirname(__FILE__),'../scenarios/10students'))
       @random = Random.new(@yaml['seed'])
       @writer = DataWriter.new(scenario)
+      BaseEntity.set_scenario(scenario)
     end
 
     after(:each) do
@@ -93,10 +94,11 @@ describe "DataWriter" do
 
       it "will store a session in-memory" do
         grading_periods = []
+        calendar_dates = []
         start_date = DateUtility.random_school_day_on_interval(@random, Date.new(2012, 8, 25), Date.new(2012, 9, 10))
         interval   = DateInterval.create_using_start_and_num_days(@random, start_date, 180)
         @writer.get_entity_count(Session).should eq(0)
-        @writer << Session.new("name", 2012, "term", interval, 2, grading_periods)
+        @writer << Session.new("name", 2012, "term", interval, 2, grading_periods, calendar_dates)
         @writer.get_entity_count(Session).should_not be_nil
         @writer.get_entity_count(Session).should eq(1)
       end
@@ -207,10 +209,11 @@ describe "DataWriter" do
 
     it "will store a session in-memory" do
       grading_periods = []
+      calendar_dates = []
       start_date = DateUtility.random_school_day_on_interval(@random, Date.new(2012, 8, 25), Date.new(2012, 9, 10))
       interval   = DateInterval.create_using_start_and_num_days(@random, start_date, 180)
       @writer.get_entity_count(Session).should eq(0)
-      @writer << Session.new("name", 2012, "term", interval, 2, grading_periods)
+      @writer << Session.new("name", 2012, "term", interval, 2, grading_periods, calendar_dates)
       @writer.get_entity_count(Session).should_not be_nil
       @writer.get_entity_count(Session).should eq(1)
     end

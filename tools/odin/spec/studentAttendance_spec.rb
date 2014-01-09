@@ -20,23 +20,27 @@ require_relative 'spec_helper'
 require_relative '../lib/OutputGeneration/XML/studentAttendanceGenerator'
 
 describe "StudentAttendanceGenerator" do
+
   let(:scenario) {{}}
   let(:output) {StringIO.new('', 'w')}
   let(:generator) {StudentAttendanceGenerator.new(scenario, output)}
   let(:event) {AttendanceEvent.new(100, "student123", "school123", "2012", Date.new(2012, 12, 20), :ABSENT, nil, nil, "excused: sick")}
+
   describe "<<" do
+
     it "will output an Attendance Event to ed-fi xml interchange" do
       generator.start
       generator << event
       generator.finalize
-      output.string.should match(/<SchoolYear>2012-2013<\/SchoolYear>/)
-      output.string.should match(/<EventDate>2012-12-20<\/EventDate>/)
-      output.string.should match(/<AttendanceEventType>Daily Attendance<\/AttendanceEventType>/)
-      output.string.should match(/<AttendanceEventCategory>Absence<\/AttendanceEventCategory>/)
-      output.string.should match(/<AttendanceEventReason>excused: sick<\/AttendanceEventReason>/)
-      output.string.should match(/<EducationalEnvironment>Classroom<\/EducationalEnvironment>/)
-      output.string.should match(/<StudentUniqueStateId>student123<\/StudentUniqueStateId>/)
-      output.string.should match(/<StateOrganizationId>school123<\/StateOrganizationId>/)
+      output.string.should match( %r{<SchoolYear>2012-2013</SchoolYear>} )
+      output.string.should match( %r{<EventDate>2012-12-20<\/EventDate>} )
+      output.string.should match( %r{<AttendanceEventCategory>Absence</AttendanceEventCategory>} )
+      output.string.should match( %r{<AttendanceEventReason>excused: sick</AttendanceEventReason>} )
+      output.string.should match( %r{<EducationalEnvironment>Classroom</EducationalEnvironment>} )
+      output.string.should match( %r{<StudentUniqueStateId>student123</StudentUniqueStateId>} )
+      output.string.should match( %r{<StateOrganizationId>school123</StateOrganizationId>} )
     end
+
   end
+
 end
