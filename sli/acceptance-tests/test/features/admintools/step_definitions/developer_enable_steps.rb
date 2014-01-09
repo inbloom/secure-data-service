@@ -23,7 +23,7 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
 # When /^I hit the Application Registration Tool URL$/ do
-#   @driver.get(PropLoader.getProps['admintools_server_url']+"/apps/")
+#   @driver.get(Property['admintools_server_url']+"/apps/")
 # end
 Given /^the large list of edorgs is loaded$/ do
   file = "#{File.dirname(__FILE__)}/edorgs/edorgs.json"

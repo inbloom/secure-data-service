@@ -26,7 +26,7 @@ require_relative '../../utils/selenium_common.rb'
 require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 
-DATABASE_NAME = PropLoader.getProps['sli_database_name']
+DATABASE_NAME = Property['sli_database_name']
 
 Then /^The following edOrgs are authorized for the application "(.*?)" in tenant "(.*?)"$/ do |application, tenant, table|
     disable_NOTABLESCAN()
@@ -80,7 +80,7 @@ end
 
 When /^I hit the Admin Application Authorization Tool$/ do
   #XXX - Once the API is ready, remove the ID
-  @driver.get(PropLoader.getProps['admintools_server_url']+"/application_authorizations/")
+  @driver.get(Property['admintools_server_url']+"/application_authorizations/")
 end
 
 Then /^I am redirected to the Admin Application Authorization Tool$/ do

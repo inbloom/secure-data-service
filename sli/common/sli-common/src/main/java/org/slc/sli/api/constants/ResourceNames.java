@@ -146,7 +146,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF, "getStaff");
         SINGULAR_LINK_NAMES.put(ResourceNames.GRADES, "getGrade");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_COMPETENCIES, "getStudentCompetency");
-        SINGULAR_LINK_NAMES.put(ResourceNames.GRADUATION_PLANS, "getGraduationPlans");
+        SINGULAR_LINK_NAMES.put(ResourceNames.GRADUATION_PLANS, "getGraduationPlan");
         SINGULAR_LINK_NAMES.put(ResourceNames.BELL_SCHEDULES, "getBellSchedule");
     }
 

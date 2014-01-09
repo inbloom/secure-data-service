@@ -28,16 +28,16 @@ include REXML
 # RUN JMETER TESTS
 ###############################################################################
 
-JMETER_JMX_PATH = PropLoader.getProps['jmeter_jmx_path']
-PROPERTIES_FILE = PropLoader.getProps['jmeter_properties']
-JMETER_BIN = PropLoader.getProps['jmeter_bin']
-JMETER_JTL_ARCHIVE = PropLoader.getProps['jmeter_jtl_archive']
-JMETER_FAILED_JTL_ARCHIVE = PropLoader.getProps['jmeter_failed_jtl_archive']
-REGRESSION_THRESHOLD = PropLoader.getProps['jmeter_regression_threshold'].to_f
-RESET_REGRESSIONS = PropLoader.getProps['jmeter_reset_regression']
-CONSIDERATION_PERCENTILE = PropLoader.getProps['jmeter_consideration_percentile']
+JMETER_JMX_PATH = Property['jmeter_jmx_path']
+PROPERTIES_FILE = Property['jmeter_properties']
+JMETER_BIN = Property['jmeter_bin']
+JMETER_JTL_ARCHIVE = Property['jmeter_jtl_archive']
+JMETER_FAILED_JTL_ARCHIVE = Property['jmeter_failed_jtl_archive']
+REGRESSION_THRESHOLD = Property['jmeter_regression_threshold'].to_f
+RESET_REGRESSIONS = Property['jmeter_reset_regression']
+CONSIDERATION_PERCENTILE = Property['jmeter_consideration_percentile']
 
-puts "pre-float REGRESSION_THRESHOLD is #{PropLoader.getProps['jmeter_regression_threshold']}"
+puts "pre-float REGRESSION_THRESHOLD is #{Property['jmeter_regression_threshold']}"
 puts "REGRESSION_THRESHOLD is #{REGRESSION_THRESHOLD}"
 
 Before do

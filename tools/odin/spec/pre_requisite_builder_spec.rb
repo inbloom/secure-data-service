@@ -71,7 +71,7 @@ describe "Pre-Requisite Builder" do
       pre_requisites = PreRequisiteBuilder.new(@scenarioYAML)
       pre_requisites.get.each do |type, edOrgs|
         edOrgs.should be_empty if type != :high
-        edOrgs.should eq({"Daybreak Central High"=>{"staff"=>[{:staff_id=>"cgray", :name=>"Charles Gray", :role=>"Educator", :parent=>nil}]}}) if type == :high
+        edOrgs.should eq({"Daybreak Central High"=>{"staff"=>[{:staff_id=>"cgray", :name=>"Charles Gray", :role=>"Educator", :begin=>nil, :end=>nil, :parent=>nil}]}}) if type == :high
       end
     end
   end

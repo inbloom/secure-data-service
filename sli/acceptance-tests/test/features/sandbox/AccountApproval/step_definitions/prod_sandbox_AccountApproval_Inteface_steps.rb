@@ -29,15 +29,15 @@ Before do
 end
 
 Given /^I navigate to the account management page$/ do
-  url =PropLoader.getProps['admintools_server_url']+"/account_managements"
+  url =Property['admintools_server_url']+"/account_managements"
   @driver.get url
 end
 
 Given /^LDAP server has been setup and running$/ do
   @email = "devldapuser"+get_mac_address('_')+"@slidev.org"
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
-                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
-                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
+  @ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
+                          Property['ldap_base'], Property['ldap_admin_user'],
+                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
 end
 
 Given /^there are accounts in requests pending in the system$/ do
@@ -65,7 +65,7 @@ And /^I got the 404 page$/ do
 end
 
 When /^I hit the Admin Application Account Approval page$/ do
-  url = PropLoader.getProps['admintools_server_url']+"/account_managements"
+  url = Property['admintools_server_url']+"/account_managements"
   @driver.get url
   begin
     @driver.switch_to.alert.accept

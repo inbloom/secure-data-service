@@ -35,32 +35,32 @@ require_relative '../../../security/step_definitions/securityevent_util_steps.rb
 # ENVIRONMENT CONFIGURATION
 ############################################################
 
-INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
+INGESTION_DB_NAME = Property['ingestion_database_name']
 CONFIG_DB_NAME = "config"
-INGESTION_DB = PropLoader.getProps['ingestion_db']
-INGESTION_DB_PORT = PropLoader.getProps['ingestion_db_port']
-INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
-INGESTION_BATCHJOB_DB = PropLoader.getProps['ingestion_batchjob_db']
-INGESTION_BATCHJOB_DB_PORT = PropLoader.getProps['ingestion_batchjob_db_port']
-LZ_SERVER_URL = PropLoader.getProps['lz_server_url']
-LZ_SFTP_PORT = PropLoader.getProps['lz_sftp_port']
-INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
-INGESTION_MODE = PropLoader.getProps['ingestion_mode']
-INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_data_store']
-INGESTION_USERNAME = PropLoader.getProps['ingestion_username']
-INGESTION_PASSWORD = PropLoader.getProps['ingestion_password']
-INGESTION_REMOTE_LZ_PATH = PropLoader.getProps['ingestion_remote_lz_path']
-INGESTION_HEALTHCHECK_URL = PropLoader.getProps['ingestion_healthcheck_url']
-INGESTION_PROPERTIES_FILE = PropLoader.getProps['ingestion_properties_file']
-INGESTION_RC_TENANT = PropLoader.getProps['ingestion_rc_tenant']
-INGESTION_RC_EDORG = PropLoader.getProps['ingestion_rc_edorg']
-INGESTION_TIMEOUT_OVERRIDE = PropLoader.getProps['ingestion_timeout_override_seconds']
+INGESTION_DB = Property['ingestion_db']
+INGESTION_DB_PORT = Property['ingestion_db_port']
+INGESTION_BATCHJOB_DB_NAME = Property['ingestion_batchjob_database_name']
+INGESTION_BATCHJOB_DB = Property['ingestion_batchjob_db']
+INGESTION_BATCHJOB_DB_PORT = Property['ingestion_batchjob_db_port']
+LZ_SERVER_URL = Property['lz_server_url']
+LZ_SFTP_PORT = Property['lz_sftp_port']
+INGESTION_SERVER_URL = Property['ingestion_server_url']
+INGESTION_MODE = Property['ingestion_mode']
+INGESTION_DESTINATION_DATA_STORE = Property['ingestion_destination_data_store']
+INGESTION_USERNAME = Property['ingestion_username']
+INGESTION_PASSWORD = Property['ingestion_password']
+INGESTION_REMOTE_LZ_PATH = Property['ingestion_remote_lz_path']
+INGESTION_HEALTHCHECK_URL = Property['ingestion_healthcheck_url']
+INGESTION_PROPERTIES_FILE = Property['ingestion_properties_file']
+INGESTION_RC_TENANT = Property['ingestion_rc_tenant']
+INGESTION_RC_EDORG = Property['ingestion_rc_edorg']
+INGESTION_TIMEOUT_OVERRIDE = Property['ingestion_timeout_override_seconds']
 
-ACTIVEMQ_HOST = PropLoader.getProps['activemq_host']
+ACTIVEMQ_HOST = Property['activemq_host']
 
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT", INGESTION_RC_TENANT]
 
-INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
+INGESTION_LOGS_DIRECTORY = Property['ingestion_log_directory']
 
 UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
 
@@ -317,10 +317,10 @@ Before do
     `mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js`
     #puts "Dropped " + INGESTION_BATCHJOB_DB_NAME + " database"
   else
-    @tenant_conn = @conn.db(convertTenantIdToDbName(PropLoader.getProps['tenant']))
+    @tenant_conn = @conn.db(convertTenantIdToDbName(Property['tenant']))
     @recordHash = @tenant_conn.collection('recordHash')
     @recordHash.remove()
-    @tenant_conn = @conn.db(convertTenantIdToDbName(PropLoader.getProps['sandbox_tenant']))
+    @tenant_conn = @conn.db(convertTenantIdToDbName(Property['sandbox_tenant']))
     @recordHash = @tenant_conn.collection('recordHash')
     @recordHash.remove()
     puts "Dropped recordHash for remote testing tenants"
@@ -349,7 +349,7 @@ Before do
         puts "removing record"
         @tenantColl.remove(row)
       else
-        if row['body']['tenantId'] != 'Midgar' and row['body']['tenantId'] != 'Hyrule' and row['body']['tenantId'] != PropLoader.getProps['tenant'] and row['body']['tenantId'] != PropLoader.getProps['sandbox_tenant']
+        if row['body']['tenantId'] != 'Midgar' and row['body']['tenantId'] != 'Hyrule' and row['body']['tenantId'] != Property['tenant'] and row['body']['tenantId'] != Property['sandbox_tenant']
           puts "removing record"
           @tenantColl.remove(row)
         end
@@ -1493,7 +1493,7 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
   data_basename = batch_file.chomp(zip_suffix)
 
   intervalTime = 5 #seconds
-  timeout_extension = PropLoader.getProps['ingestion_timeout_override_seconds']
+  timeout_extension = Property['ingestion_timeout_override_seconds']
   if timeout_extension
     timeout_extension = timeout_extension.to_i
   else

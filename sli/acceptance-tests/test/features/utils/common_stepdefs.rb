@@ -190,8 +190,8 @@ Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
   
   if @live_email_mode
     @email_conf = {
-      :host => PropLoader.getProps['email_smtp_host'],
-      :port => PropLoader.getProps['email_smtp_port']
+      :host => Property['email_smtp_host'],
+      :port => Property['email_smtp_port']
     }
   else
     @rumbster = Rumbster.new(test_port)

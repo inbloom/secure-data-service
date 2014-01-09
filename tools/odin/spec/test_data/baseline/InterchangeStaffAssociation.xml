@@ -3,13 +3,69 @@
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd">
   <Staff>
       <StaffUniqueStateId>ckoch</StaffUniqueStateId>
+      <StaffIdentificationCode IdentificationSystem="Drivers License">
+        <ID>2415</ID>
+      </StaffIdentificationCode>
+      <Name>
+        <FirstName>Christopher</FirstName>
+        <MiddleName>Irving</MiddleName>
+        <LastSurname>Koch</LastSurname>
+      </Name>
+      <Sex>Male</Sex>
+      <BirthDate>1967-05-03</BirthDate>
+      <Address AddressType="Home">
+        <StreetNumberName>390 Braeburn Lane</StreetNumberName>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
+      </Address>
+      <ElectronicMail EmailAddressType="Home/Personal">
+        <EmailAddress>3907@fakemail.com</EmailAddress>
+      </ElectronicMail>
+      <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+      <Race>
+        <RacialCategory>White</RacialCategory>
+      </Race>
+      <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
+      <LoginId>3907@fakemail.com</LoginId>
+  </Staff>
+  <Staff>
+      <StaffUniqueStateId>rrogers</StaffUniqueStateId>
+      <StaffIdentificationCode IdentificationSystem="Medicaid">
+        <ID>1828</ID>
+      </StaffIdentificationCode>
+      <Name>
+        <FirstName>Rick</FirstName>
+        <MiddleName>Ivan</MiddleName>
+        <LastSurname>Rogers</LastSurname>
+      </Name>
+      <Sex>Male</Sex>
+      <BirthDate>1972-02-18</BirthDate>
+      <Address AddressType="Home">
+        <StreetNumberName>621 Cherry Rd</StreetNumberName>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
+      </Address>
+      <ElectronicMail EmailAddressType="Home/Personal">
+        <EmailAddress>9468@fakemail.com</EmailAddress>
+      </ElectronicMail>
+      <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+      <Race>
+        <RacialCategory>White</RacialCategory>
+      </Race>
+      <HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>
+      <LoginId>9468@fakemail.com</LoginId>
+  </Staff>
+  <Staff>
+      <StaffUniqueStateId>mjohnson</StaffUniqueStateId>
       <StaffIdentificationCode IdentificationSystem="Health Record">
         <ID>9364</ID>
       </StaffIdentificationCode>
       <Name>
-        <FirstName>Christopher</FirstName>
+        <FirstName>Michael</FirstName>
         <MiddleName>Wilson</MiddleName>
-        <LastSurname>Koch</LastSurname>
+        <LastSurname>Johnson</LastSurname>
       </Name>
       <Sex>Male</Sex>
       <BirthDate>1966-01-14</BirthDate>
@@ -30,62 +86,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <LoginId>26@fakemail.com</LoginId>
   </Staff>
   <Staff>
-      <StaffUniqueStateId>rrogers</StaffUniqueStateId>
-      <StaffIdentificationCode IdentificationSystem="Medicaid">
-        <ID>5107</ID>
-      </StaffIdentificationCode>
-      <Name>
-        <FirstName>Rick</FirstName>
-        <MiddleName>Nolan</MiddleName>
-        <LastSurname>Rogers</LastSurname>
-      </Name>
-      <Sex>Male</Sex>
-      <BirthDate>1971-03-04</BirthDate>
-      <Address AddressType="Home">
-        <StreetNumberName>529 Braeburn Lane</StreetNumberName>
-        <City>Chicago</City>
-        <StateAbbreviation>IL</StateAbbreviation>
-        <PostalCode>60601</PostalCode>
-      </Address>
-      <ElectronicMail EmailAddressType="Home/Personal">
-        <EmailAddress>3475@fakemail.com</EmailAddress>
-      </ElectronicMail>
-      <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-      <Race>
-        <RacialCategory>White</RacialCategory>
-      </Race>
-      <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
-      <LoginId>3475@fakemail.com</LoginId>
-  </Staff>
-  <Staff>
-      <StaffUniqueStateId>mjohnson</StaffUniqueStateId>
-      <StaffIdentificationCode IdentificationSystem="Medicaid">
-        <ID>2523</ID>
-      </StaffIdentificationCode>
-      <Name>
-        <FirstName>Michael</FirstName>
-        <MiddleName>Russ</MiddleName>
-        <LastSurname>Johnson</LastSurname>
-      </Name>
-      <Sex>Male</Sex>
-      <BirthDate>1965-06-10</BirthDate>
-      <Address AddressType="Home">
-        <StreetNumberName>107 Cherry Rd</StreetNumberName>
-        <City>Chicago</City>
-        <StateAbbreviation>IL</StateAbbreviation>
-        <PostalCode>60601</PostalCode>
-      </Address>
-      <ElectronicMail EmailAddressType="Home/Personal">
-        <EmailAddress>6767@fakemail.com</EmailAddress>
-      </ElectronicMail>
-      <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-      <Race>
-        <RacialCategory>White</RacialCategory>
-      </Race>
-      <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
-      <LoginId>6767@fakemail.com</LoginId>
-  </Staff>
-  <Staff>
       <StaffUniqueStateId>stff-0000000046</StaffUniqueStateId>
       <StaffIdentificationCode IdentificationSystem="Medicaid">
         <ID>6981</ID>
@@ -96,7 +96,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Baumgartner</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1954-11-13</BirthDate>
+      <BirthDate>1955-11-13</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>976 South Lane</StreetNumberName>
         <City>Chicago</City>
@@ -124,7 +124,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Cockrell</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1973-03-01</BirthDate>
+      <BirthDate>1974-03-01</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>71 North Street</StreetNumberName>
         <City>Chicago</City>
@@ -152,7 +152,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Haney</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1963-10-18</BirthDate>
+      <BirthDate>1964-10-17</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>208 Braeburn Lane</StreetNumberName>
         <City>Chicago</City>
@@ -180,7 +180,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Schenk</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1970-05-27</BirthDate>
+      <BirthDate>1971-05-27</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>652 Marks Ct</StreetNumberName>
         <City>Chicago</City>
@@ -208,7 +208,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Ramirez</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1955-08-26</BirthDate>
+      <BirthDate>1956-08-25</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>258 Elm Street</StreetNumberName>
         <City>Chicago</City>
@@ -227,143 +227,143 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Staff>
   <Staff>
       <StaffUniqueStateId>demo</StaffUniqueStateId>
-      <StaffIdentificationCode IdentificationSystem="Drivers License">
-        <ID>2400</ID>
+      <StaffIdentificationCode IdentificationSystem="Medicaid">
+        <ID>5133</ID>
       </StaffIdentificationCode>
       <Name>
         <FirstName>Johnny</FirstName>
-        <MiddleName>Carlos</MiddleName>
+        <MiddleName>Hans</MiddleName>
         <LastSurname>Admin</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1978-12-30</BirthDate>
+      <BirthDate>1979-11-05</BirthDate>
       <Address AddressType="Home">
-        <StreetNumberName>300 Elm Street</StreetNumberName>
+        <StreetNumberName>59 Martin Luther King Jr Blvd</StreetNumberName>
         <City>Chicago</City>
         <StateAbbreviation>IL</StateAbbreviation>
         <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
-        <EmailAddress>2844@fakemail.com</EmailAddress>
-      </ElectronicMail>
-      <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-      <Race>
-        <RacialCategory>Black - African American</RacialCategory>
-      </Race>
-      <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
-      <LoginId>2844@fakemail.com</LoginId>
-  </Staff>
-  <Staff>
-      <StaffUniqueStateId>badmin</StaffUniqueStateId>
-      <StaffIdentificationCode IdentificationSystem="Medicaid">
-        <ID>3055</ID>
-      </StaffIdentificationCode>
-      <Name>
-        <FirstName>Bruce</FirstName>
-        <MiddleName>Grant</MiddleName>
-        <LastSurname>Admin</LastSurname>
-      </Name>
-      <Sex>Male</Sex>
-      <BirthDate>1955-07-01</BirthDate>
-      <Address AddressType="Home">
-        <StreetNumberName>273 Braeburn Lane</StreetNumberName>
-        <City>Chicago</City>
-        <StateAbbreviation>IL</StateAbbreviation>
-        <PostalCode>60601</PostalCode>
-      </Address>
-      <ElectronicMail EmailAddressType="Home/Personal">
-        <EmailAddress>6436@fakemail.com</EmailAddress>
+        <EmailAddress>7599@fakemail.com</EmailAddress>
       </ElectronicMail>
       <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
       <Race>
         <RacialCategory>Asian</RacialCategory>
       </Race>
+      <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
+      <LoginId>7599@fakemail.com</LoginId>
+  </Staff>
+  <Staff>
+      <StaffUniqueStateId>badmin</StaffUniqueStateId>
+      <StaffIdentificationCode IdentificationSystem="Health Record">
+        <ID>8162</ID>
+      </StaffIdentificationCode>
+      <Name>
+        <FirstName>Bruce</FirstName>
+        <MiddleName>Herbert</MiddleName>
+        <LastSurname>Admin</LastSurname>
+      </Name>
+      <Sex>Male</Sex>
+      <BirthDate>1956-04-06</BirthDate>
+      <Address AddressType="Home">
+        <StreetNumberName>666 Elm Street</StreetNumberName>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
+      </Address>
+      <ElectronicMail EmailAddressType="Home/Personal">
+        <EmailAddress>3570@fakemail.com</EmailAddress>
+      </ElectronicMail>
+      <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+      <Race>
+        <RacialCategory>Black - African American</RacialCategory>
+      </Race>
       <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
-      <LoginId>6436@fakemail.com</LoginId>
+      <LoginId>3570@fakemail.com</LoginId>
   </Staff>
   <Staff>
       <StaffUniqueStateId>sbantu</StaffUniqueStateId>
-      <StaffIdentificationCode IdentificationSystem="Health Record">
-        <ID>9364</ID>
+      <StaffIdentificationCode IdentificationSystem="Drivers License">
+        <ID>2415</ID>
       </StaffIdentificationCode>
       <Name>
         <FirstName>Susan</FirstName>
-        <MiddleName>Adrienne</MiddleName>
+        <MiddleName>Whitney</MiddleName>
         <LastSurname>Bantu</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1966-01-14</BirthDate>
+      <BirthDate>1967-05-03</BirthDate>
       <Address AddressType="Home">
-        <StreetNumberName>414 Martin Luther King Jr Blvd</StreetNumberName>
+        <StreetNumberName>390 Braeburn Lane</StreetNumberName>
         <City>Chicago</City>
         <StateAbbreviation>IL</StateAbbreviation>
         <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
-        <EmailAddress>26@fakemail.com</EmailAddress>
+        <EmailAddress>3907@fakemail.com</EmailAddress>
       </ElectronicMail>
-      <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+      <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
       <Race>
         <RacialCategory>White</RacialCategory>
       </Race>
       <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
-      <LoginId>26@fakemail.com</LoginId>
+      <LoginId>3907@fakemail.com</LoginId>
   </Staff>
   <Staff>
       <StaffUniqueStateId>jstevenson</StaffUniqueStateId>
-      <StaffIdentificationCode IdentificationSystem="Health Record">
-        <ID>9364</ID>
+      <StaffIdentificationCode IdentificationSystem="Drivers License">
+        <ID>2415</ID>
       </StaffIdentificationCode>
       <Name>
         <FirstName>James</FirstName>
-        <MiddleName>Wilson</MiddleName>
+        <MiddleName>Irving</MiddleName>
         <LastSurname>Stevenson</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1966-01-14</BirthDate>
+      <BirthDate>1967-05-03</BirthDate>
       <Address AddressType="Home">
-        <StreetNumberName>414 Martin Luther King Jr Blvd</StreetNumberName>
+        <StreetNumberName>390 Braeburn Lane</StreetNumberName>
         <City>Chicago</City>
         <StateAbbreviation>IL</StateAbbreviation>
         <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
-        <EmailAddress>26@fakemail.com</EmailAddress>
+        <EmailAddress>3907@fakemail.com</EmailAddress>
       </ElectronicMail>
-      <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+      <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
       <Race>
         <RacialCategory>White</RacialCategory>
       </Race>
       <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
-      <LoginId>26@fakemail.com</LoginId>
+      <LoginId>3907@fakemail.com</LoginId>
   </Staff>
   <Staff>
       <StaffUniqueStateId>jjackson</StaffUniqueStateId>
-      <StaffIdentificationCode IdentificationSystem="Medicaid">
-        <ID>8273</ID>
+      <StaffIdentificationCode IdentificationSystem="Drivers License">
+        <ID>6322</ID>
       </StaffIdentificationCode>
       <Name>
         <FirstName>Jack</FirstName>
-        <MiddleName>August</MiddleName>
+        <MiddleName>Corey</MiddleName>
         <LastSurname>Jackson</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1975-02-05</BirthDate>
+      <BirthDate>1976-03-02</BirthDate>
       <Address AddressType="Home">
-        <StreetNumberName>663 Oak Street</StreetNumberName>
+        <StreetNumberName>373 South Lane</StreetNumberName>
         <City>Chicago</City>
         <StateAbbreviation>IL</StateAbbreviation>
         <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
-        <EmailAddress>2501@fakemail.com</EmailAddress>
+        <EmailAddress>5702@fakemail.com</EmailAddress>
       </ElectronicMail>
       <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
       <Race>
         <RacialCategory>White</RacialCategory>
       </Race>
-      <HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>
-      <LoginId>2501@fakemail.com</LoginId>
+      <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
+      <LoginId>5702@fakemail.com</LoginId>
   </Staff>
   <Staff>
       <StaffUniqueStateId>stff-0000000033</StaffUniqueStateId>
@@ -376,7 +376,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Pruett</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1969-07-31</BirthDate>
+      <BirthDate>1970-07-31</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>938 East Rd</StreetNumberName>
         <City>Chicago</City>
@@ -404,7 +404,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Ybarra</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1958-06-07</BirthDate>
+      <BirthDate>1959-06-07</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>541 Martin Luther King Jr Blvd</StreetNumberName>
         <City>Chicago</City>
@@ -432,7 +432,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Peebles</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1966-05-20</BirthDate>
+      <BirthDate>1967-05-20</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>569 Elm Street</StreetNumberName>
         <City>Chicago</City>
@@ -460,7 +460,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Krebs</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1983-10-21</BirthDate>
+      <BirthDate>1984-10-20</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>902 West Blvd</StreetNumberName>
         <City>Chicago</City>
@@ -488,7 +488,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Lovejoy</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1985-02-12</BirthDate>
+      <BirthDate>1986-02-12</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>344 Oak Street</StreetNumberName>
         <City>Chicago</City>
@@ -516,7 +516,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Herrington</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1972-03-06</BirthDate>
+      <BirthDate>1973-03-07</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>611 North Street</StreetNumberName>
         <City>Chicago</City>
@@ -544,7 +544,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Shank</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1976-03-16</BirthDate>
+      <BirthDate>1977-03-17</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>798 Cherry Rd</StreetNumberName>
         <City>Chicago</City>
@@ -572,7 +572,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Gillen</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1962-11-27</BirthDate>
+      <BirthDate>1963-11-27</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>443 Martin Luther King Jr Blvd</StreetNumberName>
         <City>Chicago</City>
@@ -600,7 +600,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Hamlin</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1980-10-09</BirthDate>
+      <BirthDate>1981-10-10</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>440 East Rd</StreetNumberName>
         <City>Chicago</City>
@@ -628,7 +628,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Mcfarlane</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1969-08-03</BirthDate>
+      <BirthDate>1970-08-03</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>458 Elm Street</StreetNumberName>
         <City>Chicago</City>
@@ -647,87 +647,87 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Staff>
   <Staff>
       <StaffUniqueStateId>mgonzales</StaffUniqueStateId>
-      <StaffIdentificationCode IdentificationSystem="Health Record">
-        <ID>5299</ID>
+      <StaffIdentificationCode IdentificationSystem="Drivers License">
+        <ID>2400</ID>
       </StaffIdentificationCode>
       <Name>
         <FirstName>Maria</FirstName>
-        <MiddleName>Walker</MiddleName>
+        <MiddleName>Carlos</MiddleName>
         <LastSurname>Gonzales</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1977-07-15</BirthDate>
+      <BirthDate>1978-12-30</BirthDate>
       <Address AddressType="Home">
-        <StreetNumberName>371 Cherry Rd</StreetNumberName>
+        <StreetNumberName>300 Elm Street</StreetNumberName>
         <City>Chicago</City>
         <StateAbbreviation>IL</StateAbbreviation>
         <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
-        <EmailAddress>9690@fakemail.com</EmailAddress>
+        <EmailAddress>2844@fakemail.com</EmailAddress>
       </ElectronicMail>
       <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
       <Race>
-        <RacialCategory>White</RacialCategory>
+        <RacialCategory>Black - African American</RacialCategory>
       </Race>
       <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
-      <LoginId>9690@fakemail.com</LoginId>
+      <LoginId>2844@fakemail.com</LoginId>
   </Staff>
   <Staff>
       <StaffUniqueStateId>akopel</StaffUniqueStateId>
-      <StaffIdentificationCode IdentificationSystem="Health Record">
-        <ID>5612</ID>
+      <StaffIdentificationCode IdentificationSystem="Drivers License">
+        <ID>3048</ID>
       </StaffIdentificationCode>
       <Name>
         <FirstName>Amy</FirstName>
-        <MiddleName>Corrine</MiddleName>
+        <MiddleName>Madeleine</MiddleName>
         <LastSurname>Kopel</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1987-03-12</BirthDate>
+      <BirthDate>1988-05-20</BirthDate>
       <Address AddressType="Home">
-        <StreetNumberName>316 Cherry Rd</StreetNumberName>
+        <StreetNumberName>627 Marks Ct</StreetNumberName>
         <City>Chicago</City>
         <StateAbbreviation>IL</StateAbbreviation>
         <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
-        <EmailAddress>1226@fakemail.com</EmailAddress>
-      </ElectronicMail>
-      <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-      <Race>
-        <RacialCategory>White</RacialCategory>
-      </Race>
-      <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
-      <LoginId>1226@fakemail.com</LoginId>
-  </Staff>
-  <Staff>
-      <StaffUniqueStateId>msmith</StaffUniqueStateId>
-      <StaffIdentificationCode IdentificationSystem="Health Record">
-        <ID>9373</ID>
-      </StaffIdentificationCode>
-      <Name>
-        <FirstName>Mary</FirstName>
-        <MiddleName>Reggie</MiddleName>
-        <LastSurname>Smith</LastSurname>
-      </Name>
-      <Sex>Male</Sex>
-      <BirthDate>1981-02-07</BirthDate>
-      <Address AddressType="Home">
-        <StreetNumberName>895 Marks Ct</StreetNumberName>
-        <City>Chicago</City>
-        <StateAbbreviation>IL</StateAbbreviation>
-        <PostalCode>60601</PostalCode>
-      </Address>
-      <ElectronicMail EmailAddressType="Home/Personal">
-        <EmailAddress>4598@fakemail.com</EmailAddress>
+        <EmailAddress>869@fakemail.com</EmailAddress>
       </ElectronicMail>
       <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
       <Race>
         <RacialCategory>White</RacialCategory>
       </Race>
       <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
-      <LoginId>4598@fakemail.com</LoginId>
+      <LoginId>869@fakemail.com</LoginId>
+  </Staff>
+  <Staff>
+      <StaffUniqueStateId>msmith</StaffUniqueStateId>
+      <StaffIdentificationCode IdentificationSystem="Medicaid">
+        <ID>3669</ID>
+      </StaffIdentificationCode>
+      <Name>
+        <FirstName>Mary</FirstName>
+        <MiddleName>Joey</MiddleName>
+        <LastSurname>Smith</LastSurname>
+      </Name>
+      <Sex>Male</Sex>
+      <BirthDate>1982-09-14</BirthDate>
+      <Address AddressType="Home">
+        <StreetNumberName>904 Marks Ct</StreetNumberName>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
+      </Address>
+      <ElectronicMail EmailAddressType="Home/Personal">
+        <EmailAddress>13@fakemail.com</EmailAddress>
+      </ElectronicMail>
+      <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+      <Race>
+        <RacialCategory>White</RacialCategory>
+      </Race>
+      <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
+      <LoginId>13@fakemail.com</LoginId>
   </Staff>
   <Staff>
       <StaffUniqueStateId>stff-0000000004</StaffUniqueStateId>
@@ -740,7 +740,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Clawson</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1973-11-03</BirthDate>
+      <BirthDate>1974-11-03</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>764 Elm Street</StreetNumberName>
         <City>Chicago</City>
@@ -768,7 +768,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Kitchen</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1962-08-17</BirthDate>
+      <BirthDate>1963-08-17</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>411 Marks Ct</StreetNumberName>
         <City>Chicago</City>
@@ -796,7 +796,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Wilder</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1968-10-08</BirthDate>
+      <BirthDate>1969-10-09</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>333 Martin Luther King Jr Blvd</StreetNumberName>
         <City>Chicago</City>
@@ -824,7 +824,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Fraser</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1979-01-24</BirthDate>
+      <BirthDate>1980-01-24</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>366 Cherry Rd</StreetNumberName>
         <City>Chicago</City>
@@ -852,7 +852,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Lipscomb</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1977-12-27</BirthDate>
+      <BirthDate>1978-12-27</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>877 Oak Street</StreetNumberName>
         <City>Chicago</City>
@@ -880,7 +880,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Echols</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1962-05-06</BirthDate>
+      <BirthDate>1963-05-06</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>534 West Blvd</StreetNumberName>
         <City>Chicago</City>
@@ -908,7 +908,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Woodruff</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1961-08-10</BirthDate>
+      <BirthDate>1962-08-10</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>925 North Street</StreetNumberName>
         <City>Chicago</City>
@@ -936,7 +936,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Sharp</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1968-03-12</BirthDate>
+      <BirthDate>1969-03-13</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>621 Marks Ct</StreetNumberName>
         <City>Chicago</City>
@@ -964,7 +964,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Domingo</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1981-10-06</BirthDate>
+      <BirthDate>1982-10-06</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>948 Oak Street</StreetNumberName>
         <City>Chicago</City>
@@ -992,7 +992,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Nichols</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1959-09-02</BirthDate>
+      <BirthDate>1960-09-01</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>962 Braeburn Lane</StreetNumberName>
         <City>Chicago</City>
@@ -1020,7 +1020,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Robledo</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1977-05-19</BirthDate>
+      <BirthDate>1978-05-19</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>573 Cherry Rd</StreetNumberName>
         <City>Chicago</City>
@@ -1048,7 +1048,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Jacques</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1975-07-19</BirthDate>
+      <BirthDate>1976-07-18</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>630 North Street</StreetNumberName>
         <City>Chicago</City>
@@ -1076,7 +1076,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Roussel</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1969-09-18</BirthDate>
+      <BirthDate>1970-09-18</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>480 Marks Ct</StreetNumberName>
         <City>Chicago</City>
@@ -1104,7 +1104,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Horton</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1961-11-21</BirthDate>
+      <BirthDate>1962-11-21</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>468 Elm Street</StreetNumberName>
         <City>Chicago</City>
@@ -1132,7 +1132,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Chew</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1967-06-02</BirthDate>
+      <BirthDate>1968-06-01</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>913 Oak Street</StreetNumberName>
         <City>Chicago</City>
@@ -1160,7 +1160,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Heffner</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1955-01-23</BirthDate>
+      <BirthDate>1956-01-23</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>609 Braeburn Lane</StreetNumberName>
         <City>Chicago</City>
@@ -1188,7 +1188,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Browne</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1967-04-29</BirthDate>
+      <BirthDate>1968-04-28</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>469 East Rd</StreetNumberName>
         <City>Chicago</City>
@@ -1216,7 +1216,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Aguayo</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1968-11-24</BirthDate>
+      <BirthDate>1969-11-25</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>447 Martin Luther King Jr Blvd</StreetNumberName>
         <City>Chicago</City>
@@ -1244,7 +1244,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Vieira</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1982-05-27</BirthDate>
+      <BirthDate>1983-05-27</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>764 Cherry Rd</StreetNumberName>
         <City>Chicago</City>
@@ -1272,7 +1272,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Hook</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1956-12-13</BirthDate>
+      <BirthDate>1957-12-14</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>602 Martin Luther King Jr Blvd</StreetNumberName>
         <City>Chicago</City>
@@ -1300,7 +1300,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Rohr</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1965-01-05</BirthDate>
+      <BirthDate>1966-01-05</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>891 East Rd</StreetNumberName>
         <City>Chicago</City>
@@ -1328,7 +1328,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Gorman</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1954-09-11</BirthDate>
+      <BirthDate>1955-09-11</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>156 West Blvd</StreetNumberName>
         <City>Chicago</City>
@@ -1356,7 +1356,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Sherrill</LastSurname>
       </Name>
       <Sex>Female</Sex>
-      <BirthDate>1967-12-21</BirthDate>
+      <BirthDate>1968-12-20</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>401 Elm Street</StreetNumberName>
         <City>Chicago</City>
@@ -1384,7 +1384,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <LastSurname>Shores</LastSurname>
       </Name>
       <Sex>Male</Sex>
-      <BirthDate>1985-05-08</BirthDate>
+      <BirthDate>1986-05-08</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>170 North Street</StreetNumberName>
         <City>Chicago</City>
@@ -14128,216 +14128,366 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StaffProgramAssociation>
   <Teacher>
     <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
-    <StaffIdentificationCode IdentificationSystem="Drivers License">
-      <ID>4654</ID>
+    <StaffIdentificationCode IdentificationSystem="Health Record">
+      <ID>8723</ID>
     </StaffIdentificationCode>
     <Name>
-      <FirstName>Dino</FirstName>
-      <MiddleName>Jefferson</MiddleName>
-      <LastSurname>Slater</LastSurname>
+      <FirstName>Candice</FirstName>
+      <MiddleName>Myrtle</MiddleName>
+      <LastSurname>Paine</LastSurname>
     </Name>
-    <Sex>Male</Sex>
-    <BirthDate>1953-06-19</BirthDate>
+    <Sex>Female</Sex>
+    <BirthDate>1954-11-14</BirthDate>
     <Address AddressType="Home">
-      <StreetNumberName>121 North Street</StreetNumberName>
+      <StreetNumberName>482 Martin Luther King Jr Blvd</StreetNumberName>
       <City>Chicago</City>
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>4062@fakemail.com</EmailAddress>
+      <EmailAddress>6742@fakemail.com</EmailAddress>
     </ElectronicMail>
-    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race>
-      <RacialCategory>Asian</RacialCategory>
+      <RacialCategory>White</RacialCategory>
     </Race>
-    <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
-    <LoginId>4062@fakemail.com</LoginId>
+    <HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>
+    <LoginId>6742@fakemail.com</LoginId>
   <TeacherUniqueStateId>tech-0000000001</TeacherUniqueStateId>
   <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
   </Teacher>
   <Teacher>
     <StaffUniqueStateId>tech-0000000002</StaffUniqueStateId>
     <StaffIdentificationCode IdentificationSystem="Medicaid">
-      <ID>2584</ID>
+      <ID>5107</ID>
     </StaffIdentificationCode>
     <Name>
-      <FirstName>Sal</FirstName>
-      <MiddleName>Charley</MiddleName>
-      <LastSurname>Santiago</LastSurname>
+      <FirstName>Janelle</FirstName>
+      <MiddleName>Joan</MiddleName>
+      <LastSurname>Durand</LastSurname>
     </Name>
-    <Sex>Male</Sex>
-    <BirthDate>1970-07-25</BirthDate>
+    <Sex>Female</Sex>
+    <BirthDate>1971-01-18</BirthDate>
     <Address AddressType="Home">
-      <StreetNumberName>258 Cherry Rd</StreetNumberName>
+      <StreetNumberName>586 Elm Street</StreetNumberName>
       <City>Chicago</City>
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>857@fakemail.com</EmailAddress>
+      <EmailAddress>6999@fakemail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race>
       <RacialCategory>White</RacialCategory>
     </Race>
     <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
-    <LoginId>857@fakemail.com</LoginId>
+    <LoginId>6999@fakemail.com</LoginId>
   <TeacherUniqueStateId>tech-0000000002</TeacherUniqueStateId>
-  <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
   </Teacher>
   <Teacher>
     <StaffUniqueStateId>cgray</StaffUniqueStateId>
-    <StaffIdentificationCode IdentificationSystem="Medicaid">
-      <ID>8428</ID>
+    <StaffIdentificationCode IdentificationSystem="Health Record">
+      <ID>9373</ID>
     </StaffIdentificationCode>
     <Name>
       <FirstName>Charles</FirstName>
-      <MiddleName>Russell</MiddleName>
+      <MiddleName>Reggie</MiddleName>
       <LastSurname>Gray</LastSurname>
     </Name>
     <Sex>Male</Sex>
-    <BirthDate>1980-01-18</BirthDate>
+    <BirthDate>1981-02-07</BirthDate>
     <Address AddressType="Home">
-      <StreetNumberName>68 South Lane</StreetNumberName>
+      <StreetNumberName>895 Marks Ct</StreetNumberName>
       <City>Chicago</City>
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>9526@fakemail.com</EmailAddress>
+      <EmailAddress>4598@fakemail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race>
       <RacialCategory>White</RacialCategory>
     </Race>
-    <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
-    <LoginId>9526@fakemail.com</LoginId>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <LoginId>4598@fakemail.com</LoginId>
   <TeacherUniqueStateId>cgray</TeacherUniqueStateId>
   <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
   </Teacher>
   <Teacher>
     <StaffUniqueStateId>tech-0000000003</StaffUniqueStateId>
-    <StaffIdentificationCode IdentificationSystem="Drivers License">
-      <ID>7065</ID>
+    <StaffIdentificationCode IdentificationSystem="Health Record">
+      <ID>7650</ID>
     </StaffIdentificationCode>
     <Name>
-      <FirstName>Melba</FirstName>
-      <MiddleName>Jacquelyn</MiddleName>
-      <LastSurname>Everhart</LastSurname>
+      <FirstName>Alyssa</FirstName>
+      <MiddleName>Tami</MiddleName>
+      <LastSurname>Rey</LastSurname>
     </Name>
     <Sex>Female</Sex>
-    <BirthDate>1957-05-25</BirthDate>
+    <BirthDate>1958-03-27</BirthDate>
     <Address AddressType="Home">
-      <StreetNumberName>437 Elm Street</StreetNumberName>
+      <StreetNumberName>162 Braeburn Lane</StreetNumberName>
       <City>Chicago</City>
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>804@fakemail.com</EmailAddress>
+      <EmailAddress>5828@fakemail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race>
       <RacialCategory>White</RacialCategory>
     </Race>
-    <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
-    <LoginId>804@fakemail.com</LoginId>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <LoginId>5828@fakemail.com</LoginId>
   <TeacherUniqueStateId>tech-0000000003</TeacherUniqueStateId>
   <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
   </Teacher>
   <Teacher>
     <StaffUniqueStateId>tech-0000000004</StaffUniqueStateId>
     <StaffIdentificationCode IdentificationSystem="Drivers License">
-      <ID>1549</ID>
+      <ID>8261</ID>
     </StaffIdentificationCode>
     <Name>
-      <FirstName>Brant</FirstName>
-      <MiddleName>Cody</MiddleName>
-      <LastSurname>Spivey</LastSurname>
+      <FirstName>Kristina</FirstName>
+      <MiddleName>Jackie</MiddleName>
+      <LastSurname>Stamm</LastSurname>
     </Name>
-    <Sex>Male</Sex>
-    <BirthDate>1960-04-21</BirthDate>
+    <Sex>Female</Sex>
+    <BirthDate>1961-01-31</BirthDate>
     <Address AddressType="Home">
-      <StreetNumberName>197 Braeburn Lane</StreetNumberName>
+      <StreetNumberName>58 East Rd</StreetNumberName>
       <City>Chicago</City>
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>1573@fakemail.com</EmailAddress>
+      <EmailAddress>2423@fakemail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race>
       <RacialCategory>White</RacialCategory>
     </Race>
-    <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
-    <LoginId>1573@fakemail.com</LoginId>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <LoginId>2423@fakemail.com</LoginId>
   <TeacherUniqueStateId>tech-0000000004</TeacherUniqueStateId>
   <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
   </Teacher>
   <Teacher>
     <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
-    <StaffIdentificationCode IdentificationSystem="Medicaid">
-      <ID>2660</ID>
+    <StaffIdentificationCode IdentificationSystem="Drivers License">
+      <ID>4654</ID>
     </StaffIdentificationCode>
     <Name>
       <FirstName>Linda</FirstName>
-      <MiddleName>Eliza</MiddleName>
+      <MiddleName>Gertrude</MiddleName>
       <LastSurname>Kim</LastSurname>
     </Name>
     <Sex>Female</Sex>
-    <BirthDate>1952-04-22</BirthDate>
+    <BirthDate>1953-07-29</BirthDate>
     <Address AddressType="Home">
-      <StreetNumberName>432 West Blvd</StreetNumberName>
+      <StreetNumberName>964 Martin Luther King Jr Blvd</StreetNumberName>
       <City>Chicago</City>
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>5887@fakemail.com</EmailAddress>
+      <EmailAddress>8873@fakemail.com</EmailAddress>
     </ElectronicMail>
-    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
     <Race>
       <RacialCategory>White</RacialCategory>
     </Race>
     <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
-    <LoginId>5887@fakemail.com</LoginId>
+    <LoginId>8873@fakemail.com</LoginId>
   <TeacherUniqueStateId>linda.kim</TeacherUniqueStateId>
   <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
   </Teacher>
   <Teacher>
     <StaffUniqueStateId>tech-0000000005</StaffUniqueStateId>
-    <StaffIdentificationCode IdentificationSystem="Drivers License">
-      <ID>7065</ID>
+    <StaffIdentificationCode IdentificationSystem="Health Record">
+      <ID>7650</ID>
     </StaffIdentificationCode>
     <Name>
-      <FirstName>Melba</FirstName>
-      <MiddleName>Jacquelyn</MiddleName>
-      <LastSurname>Everhart</LastSurname>
+      <FirstName>Alyssa</FirstName>
+      <MiddleName>Tami</MiddleName>
+      <LastSurname>Rey</LastSurname>
     </Name>
     <Sex>Female</Sex>
-    <BirthDate>1957-05-25</BirthDate>
+    <BirthDate>1958-03-27</BirthDate>
     <Address AddressType="Home">
-      <StreetNumberName>437 Elm Street</StreetNumberName>
+      <StreetNumberName>162 Braeburn Lane</StreetNumberName>
       <City>Chicago</City>
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>804@fakemail.com</EmailAddress>
+      <EmailAddress>5828@fakemail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race>
       <RacialCategory>White</RacialCategory>
     </Race>
-    <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
-    <LoginId>804@fakemail.com</LoginId>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <LoginId>5828@fakemail.com</LoginId>
   <TeacherUniqueStateId>tech-0000000005</TeacherUniqueStateId>
   <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
   </Teacher>
   <Teacher>
     <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
+    <StaffIdentificationCode IdentificationSystem="Drivers License">
+      <ID>6927</ID>
+    </StaffIdentificationCode>
+    <Name>
+      <FirstName>Karl</FirstName>
+      <MiddleName>August</MiddleName>
+      <LastSurname>East</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthDate>1968-02-01</BirthDate>
+    <Address AddressType="Home">
+      <StreetNumberName>806 Elm Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
+    </Address>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>3312@fakemail.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Black - African American</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
+    <LoginId>3312@fakemail.com</LoginId>
+  <TeacherUniqueStateId>tech-0000000006</TeacherUniqueStateId>
+  <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </Teacher>
+  <Teacher>
+    <StaffUniqueStateId>tech-0000000007</StaffUniqueStateId>
+    <StaffIdentificationCode IdentificationSystem="Health Record">
+      <ID>8520</ID>
+    </StaffIdentificationCode>
+    <Name>
+      <FirstName>Queen</FirstName>
+      <MiddleName>Faith</MiddleName>
+      <LastSurname>Grigsby</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthDate>1964-01-13</BirthDate>
+    <Address AddressType="Home">
+      <StreetNumberName>615 South Lane</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
+    </Address>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>6704@fakemail.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <LoginId>6704@fakemail.com</LoginId>
+  <TeacherUniqueStateId>tech-0000000007</TeacherUniqueStateId>
+  <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </Teacher>
+  <Teacher>
+    <StaffUniqueStateId>tech-0000000008</StaffUniqueStateId>
+    <StaffIdentificationCode IdentificationSystem="Health Record">
+      <ID>5612</ID>
+    </StaffIdentificationCode>
+    <Name>
+      <FirstName>Louella</FirstName>
+      <MiddleName>Polly</MiddleName>
+      <LastSurname>Winston</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthDate>1987-09-06</BirthDate>
+    <Address AddressType="Home">
+      <StreetNumberName>359 Martin Luther King Jr Blvd</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
+    </Address>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>985@fakemail.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
+    <LoginId>985@fakemail.com</LoginId>
+  <TeacherUniqueStateId>tech-0000000008</TeacherUniqueStateId>
+  <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </Teacher>
+  <Teacher>
+    <StaffUniqueStateId>tech-0000000009</StaffUniqueStateId>
+    <StaffIdentificationCode IdentificationSystem="Drivers License">
+      <ID>7056</ID>
+    </StaffIdentificationCode>
+    <Name>
+      <FirstName>Freida</FirstName>
+      <MiddleName>Dollie</MiddleName>
+      <LastSurname>Partridge</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthDate>1949-03-22</BirthDate>
+    <Address AddressType="Home">
+      <StreetNumberName>324 Cherry Rd</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
+    </Address>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>6931@fakemail.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>
+    <LoginId>6931@fakemail.com</LoginId>
+  <TeacherUniqueStateId>tech-0000000009</TeacherUniqueStateId>
+  <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </Teacher>
+  <Teacher>
+    <StaffUniqueStateId>tech-0000000010</StaffUniqueStateId>
+    <StaffIdentificationCode IdentificationSystem="Health Record">
+      <ID>9373</ID>
+    </StaffIdentificationCode>
+    <Name>
+      <FirstName>Santiago</FirstName>
+      <MiddleName>Kermit</MiddleName>
+      <LastSurname>Irons</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthDate>1981-04-18</BirthDate>
+    <Address AddressType="Home">
+      <StreetNumberName>558 Marks Ct</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
+    </Address>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>8320@fakemail.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Black - African American</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <LoginId>8320@fakemail.com</LoginId>
+  <TeacherUniqueStateId>tech-0000000010</TeacherUniqueStateId>
+  <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </Teacher>
+  <Teacher>
+    <StaffUniqueStateId>tech-0000000011</StaffUniqueStateId>
     <StaffIdentificationCode IdentificationSystem="Drivers License">
       <ID>2415</ID>
     </StaffIdentificationCode>
@@ -14363,222 +14513,42 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </Race>
     <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
     <LoginId>4486@fakemail.com</LoginId>
-  <TeacherUniqueStateId>tech-0000000006</TeacherUniqueStateId>
-  <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
-  </Teacher>
-  <Teacher>
-    <StaffUniqueStateId>tech-0000000007</StaffUniqueStateId>
-    <StaffIdentificationCode IdentificationSystem="Drivers License">
-      <ID>9663</ID>
-    </StaffIdentificationCode>
-    <Name>
-      <FirstName>Josefa</FirstName>
-      <MiddleName>Jean</MiddleName>
-      <LastSurname>Knowlton</LastSurname>
-    </Name>
-    <Sex>Female</Sex>
-    <BirthDate>1963-05-14</BirthDate>
-    <Address AddressType="Home">
-      <StreetNumberName>726 West Blvd</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>60601</PostalCode>
-    </Address>
-    <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>4374@fakemail.com</EmailAddress>
-    </ElectronicMail>
-    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-      <RacialCategory>Black - African American</RacialCategory>
-    </Race>
-    <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
-    <LoginId>4374@fakemail.com</LoginId>
-  <TeacherUniqueStateId>tech-0000000007</TeacherUniqueStateId>
-  <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
-  </Teacher>
-  <Teacher>
-    <StaffUniqueStateId>tech-0000000008</StaffUniqueStateId>
-    <StaffIdentificationCode IdentificationSystem="Medicaid">
-      <ID>4128</ID>
-    </StaffIdentificationCode>
-    <Name>
-      <FirstName>Lilian</FirstName>
-      <MiddleName>Rosetta</MiddleName>
-      <LastSurname>Bronson</LastSurname>
-    </Name>
-    <Sex>Female</Sex>
-    <BirthDate>1986-06-23</BirthDate>
-    <Address AddressType="Home">
-      <StreetNumberName>678 Marks Ct</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>60601</PostalCode>
-    </Address>
-    <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>5732@fakemail.com</EmailAddress>
-    </ElectronicMail>
-    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-    <Race>
-      <RacialCategory>White</RacialCategory>
-    </Race>
-    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
-    <LoginId>5732@fakemail.com</LoginId>
-  <TeacherUniqueStateId>tech-0000000008</TeacherUniqueStateId>
-  <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
-  </Teacher>
-  <Teacher>
-    <StaffUniqueStateId>tech-0000000009</StaffUniqueStateId>
-    <StaffIdentificationCode IdentificationSystem="Medicaid">
-      <ID>8398</ID>
-    </StaffIdentificationCode>
-    <Name>
-      <FirstName>Garry</FirstName>
-      <MiddleName>Anderson</MiddleName>
-      <LastSurname>Gragg</LastSurname>
-    </Name>
-    <Sex>Male</Sex>
-    <BirthDate>1948-01-07</BirthDate>
-    <Address AddressType="Home">
-      <StreetNumberName>370 Marks Ct</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>60601</PostalCode>
-    </Address>
-    <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>9749@fakemail.com</EmailAddress>
-    </ElectronicMail>
-    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-    <Race>
-      <RacialCategory>White</RacialCategory>
-    </Race>
-    <HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>
-    <LoginId>9749@fakemail.com</LoginId>
-  <TeacherUniqueStateId>tech-0000000009</TeacherUniqueStateId>
-  <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
-  </Teacher>
-  <Teacher>
-    <StaffUniqueStateId>tech-0000000010</StaffUniqueStateId>
-    <StaffIdentificationCode IdentificationSystem="Medicaid">
-      <ID>8428</ID>
-    </StaffIdentificationCode>
-    <Name>
-      <FirstName>Alfonzo</FirstName>
-      <MiddleName>Bob</MiddleName>
-      <LastSurname>Selby</LastSurname>
-    </Name>
-    <Sex>Male</Sex>
-    <BirthDate>1980-11-06</BirthDate>
-    <Address AddressType="Home">
-      <StreetNumberName>146 Martin Luther King Jr Blvd</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>60601</PostalCode>
-    </Address>
-    <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>6212@fakemail.com</EmailAddress>
-    </ElectronicMail>
-    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-      <RacialCategory>White</RacialCategory>
-    </Race>
-    <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
-    <LoginId>6212@fakemail.com</LoginId>
-  <TeacherUniqueStateId>tech-0000000010</TeacherUniqueStateId>
-  <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
-  </Teacher>
-  <Teacher>
-    <StaffUniqueStateId>tech-0000000011</StaffUniqueStateId>
-    <StaffIdentificationCode IdentificationSystem="Health Record">
-      <ID>9364</ID>
-    </StaffIdentificationCode>
-    <Name>
-      <FirstName>Dina</FirstName>
-      <MiddleName>Karen</MiddleName>
-      <LastSurname>Hall</LastSurname>
-    </Name>
-    <Sex>Female</Sex>
-    <BirthDate>1966-12-31</BirthDate>
-    <Address AddressType="Home">
-      <StreetNumberName>889 South Lane</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>60601</PostalCode>
-    </Address>
-    <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>7724@fakemail.com</EmailAddress>
-    </ElectronicMail>
-    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-    <Race>
-      <RacialCategory>White</RacialCategory>
-    </Race>
-    <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
-    <LoginId>7724@fakemail.com</LoginId>
   <TeacherUniqueStateId>tech-0000000011</TeacherUniqueStateId>
   <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
   </Teacher>
   <Teacher>
     <StaffUniqueStateId>rbraverman</StaffUniqueStateId>
-    <StaffIdentificationCode IdentificationSystem="Health Record">
-      <ID>5612</ID>
+    <StaffIdentificationCode IdentificationSystem="Drivers License">
+      <ID>3048</ID>
     </StaffIdentificationCode>
     <Name>
       <FirstName>Rebecca</FirstName>
-      <MiddleName>Corrine</MiddleName>
+      <MiddleName>Madeleine</MiddleName>
       <LastSurname>Braverman</LastSurname>
     </Name>
     <Sex>Female</Sex>
-    <BirthDate>1987-03-12</BirthDate>
+    <BirthDate>1988-05-20</BirthDate>
     <Address AddressType="Home">
-      <StreetNumberName>316 Cherry Rd</StreetNumberName>
+      <StreetNumberName>627 Marks Ct</StreetNumberName>
       <City>Chicago</City>
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>1226@fakemail.com</EmailAddress>
+      <EmailAddress>869@fakemail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race>
       <RacialCategory>White</RacialCategory>
     </Race>
-    <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
-    <LoginId>1226@fakemail.com</LoginId>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <LoginId>869@fakemail.com</LoginId>
   <TeacherUniqueStateId>rbraverman</TeacherUniqueStateId>
   <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
   </Teacher>
   <Teacher>
     <StaffUniqueStateId>tech-0000000012</StaffUniqueStateId>
     <StaffIdentificationCode IdentificationSystem="Medicaid">
-      <ID>5472</ID>
-    </StaffIdentificationCode>
-    <Name>
-      <FirstName>Reyna</FirstName>
-      <MiddleName>Angie</MiddleName>
-      <LastSurname>Barron</LastSurname>
-    </Name>
-    <Sex>Female</Sex>
-    <BirthDate>1985-07-22</BirthDate>
-    <Address AddressType="Home">
-      <StreetNumberName>513 Braeburn Lane</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>60601</PostalCode>
-    </Address>
-    <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>733@fakemail.com</EmailAddress>
-    </ElectronicMail>
-    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-      <RacialCategory>White</RacialCategory>
-    </Race>
-    <HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>
-    <LoginId>733@fakemail.com</LoginId>
-  <TeacherUniqueStateId>tech-0000000012</TeacherUniqueStateId>
-  <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
-  </Teacher>
-  <Teacher>
-    <StaffUniqueStateId>tech-0000000013</StaffUniqueStateId>
-    <StaffIdentificationCode IdentificationSystem="Medicaid">
       <ID>4128</ID>
     </StaffIdentificationCode>
     <Name>
@@ -14603,96 +14573,126 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </Race>
     <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
     <LoginId>5732@fakemail.com</LoginId>
-  <TeacherUniqueStateId>tech-0000000013</TeacherUniqueStateId>
+  <TeacherUniqueStateId>tech-0000000012</TeacherUniqueStateId>
   <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
   </Teacher>
   <Teacher>
-    <StaffUniqueStateId>tech-0000000014</StaffUniqueStateId>
-    <StaffIdentificationCode IdentificationSystem="Medicaid">
-      <ID>787</ID>
+    <StaffUniqueStateId>tech-0000000013</StaffUniqueStateId>
+    <StaffIdentificationCode IdentificationSystem="Health Record">
+      <ID>5612</ID>
     </StaffIdentificationCode>
     <Name>
-      <FirstName>Lorraine</FirstName>
-      <MiddleName>Socorro</MiddleName>
-      <LastSurname>Nagel</LastSurname>
+      <FirstName>Louella</FirstName>
+      <MiddleName>Polly</MiddleName>
+      <LastSurname>Winston</LastSurname>
     </Name>
     <Sex>Female</Sex>
-    <BirthDate>1969-05-23</BirthDate>
+    <BirthDate>1987-09-06</BirthDate>
     <Address AddressType="Home">
-      <StreetNumberName>451 Martin Luther King Jr Blvd</StreetNumberName>
+      <StreetNumberName>359 Martin Luther King Jr Blvd</StreetNumberName>
       <City>Chicago</City>
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>4623@fakemail.com</EmailAddress>
+      <EmailAddress>985@fakemail.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
+    <LoginId>985@fakemail.com</LoginId>
+  <TeacherUniqueStateId>tech-0000000013</TeacherUniqueStateId>
+  <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </Teacher>
+  <Teacher>
+    <StaffUniqueStateId>tech-0000000014</StaffUniqueStateId>
+    <StaffIdentificationCode IdentificationSystem="Medicaid">
+      <ID>2584</ID>
+    </StaffIdentificationCode>
+    <Name>
+      <FirstName>Sal</FirstName>
+      <MiddleName>Charley</MiddleName>
+      <LastSurname>Santiago</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthDate>1970-07-25</BirthDate>
+    <Address AddressType="Home">
+      <StreetNumberName>258 Cherry Rd</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
+    </Address>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>857@fakemail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race>
       <RacialCategory>White</RacialCategory>
     </Race>
-    <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
-    <LoginId>4623@fakemail.com</LoginId>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <LoginId>857@fakemail.com</LoginId>
   <TeacherUniqueStateId>tech-0000000014</TeacherUniqueStateId>
   <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
   </Teacher>
   <Teacher>
     <StaffUniqueStateId>tech-0000000015</StaffUniqueStateId>
     <StaffIdentificationCode IdentificationSystem="Drivers License">
-      <ID>9853</ID>
+      <ID>1877</ID>
     </StaffIdentificationCode>
     <Name>
-      <FirstName>Wilma</FirstName>
-      <MiddleName>Carlene</MiddleName>
-      <LastSurname>Meador</LastSurname>
+      <FirstName>Mack</FirstName>
+      <MiddleName>Jarrett</MiddleName>
+      <LastSurname>Sprague</LastSurname>
     </Name>
-    <Sex>Female</Sex>
-    <BirthDate>1950-10-31</BirthDate>
+    <Sex>Male</Sex>
+    <BirthDate>1951-01-24</BirthDate>
     <Address AddressType="Home">
-      <StreetNumberName>765 Oak Street</StreetNumberName>
+      <StreetNumberName>452 Marks Ct</StreetNumberName>
       <City>Chicago</City>
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>9895@fakemail.com</EmailAddress>
-    </ElectronicMail>
-    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-      <RacialCategory>Black - African American</RacialCategory>
-    </Race>
-    <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
-    <LoginId>9895@fakemail.com</LoginId>
-  <TeacherUniqueStateId>tech-0000000015</TeacherUniqueStateId>
-  <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
-  </Teacher>
-  <Teacher>
-    <StaffUniqueStateId>tech-0000000016</StaffUniqueStateId>
-    <StaffIdentificationCode IdentificationSystem="Drivers License">
-      <ID>7065</ID>
-    </StaffIdentificationCode>
-    <Name>
-      <FirstName>Melba</FirstName>
-      <MiddleName>Jacquelyn</MiddleName>
-      <LastSurname>Everhart</LastSurname>
-    </Name>
-    <Sex>Female</Sex>
-    <BirthDate>1957-05-25</BirthDate>
-    <Address AddressType="Home">
-      <StreetNumberName>437 Elm Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>60601</PostalCode>
-    </Address>
-    <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>804@fakemail.com</EmailAddress>
+      <EmailAddress>3978@fakemail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race>
       <RacialCategory>White</RacialCategory>
     </Race>
     <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
-    <LoginId>804@fakemail.com</LoginId>
+    <LoginId>3978@fakemail.com</LoginId>
+  <TeacherUniqueStateId>tech-0000000015</TeacherUniqueStateId>
+  <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </Teacher>
+  <Teacher>
+    <StaffUniqueStateId>tech-0000000016</StaffUniqueStateId>
+    <StaffIdentificationCode IdentificationSystem="Health Record">
+      <ID>7650</ID>
+    </StaffIdentificationCode>
+    <Name>
+      <FirstName>Alyssa</FirstName>
+      <MiddleName>Tami</MiddleName>
+      <LastSurname>Rey</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthDate>1958-03-27</BirthDate>
+    <Address AddressType="Home">
+      <StreetNumberName>162 Braeburn Lane</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
+    </Address>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>5828@fakemail.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <LoginId>5828@fakemail.com</LoginId>
   <TeacherUniqueStateId>tech-0000000016</TeacherUniqueStateId>
   <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
   </Teacher>

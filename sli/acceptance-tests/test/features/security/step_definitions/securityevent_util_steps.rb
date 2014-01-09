@@ -50,7 +50,7 @@ Then /^"([^"]*)" security event with field "([^"]*)" matching "([^"]*)" should b
 end
 
 def securityEventCollection
-  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  db ||= Mongo::Connection.new(Property['DB_HOST']).db('sli')
   coll ||= db.collection('securityEvent')
   return coll
 end
@@ -91,7 +91,7 @@ Then /^I should see a count of "([^"]*)" in the security event collection$/ do |
 end
 
 When /^I GET the url "([^"]*)" using a blank cookie$/ do |arg1|
-  url = PropLoader.getProps['api_server_url']+"/api/rest"+arg1
+  url = Property['api_server_url']+"/api/rest"+arg1
   @res = RestClient.get(url, nil) {|response, request, result| response}
 end
 

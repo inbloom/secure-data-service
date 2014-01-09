@@ -48,8 +48,8 @@ After do |scenario|
 end
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
-  id = PropLoader.getProps['user_registration_email']                 if human_readable_id == "USER_EMAIL"
-  id = PropLoader.getProps['user_registration_pass']                  if human_readable_id == "USER_PASS"
+  id = Property['user_registration_email']                 if human_readable_id == "USER_EMAIL"
+  id = Property['user_registration_pass']                  if human_readable_id == "USER_PASS"
   id = "StateEdorg"                                                   if human_readable_id =="STATE_ED_ORG"
   id = "Loraine2"                                                     if human_readable_id == "USER_FIRSTNAME"
   id = "Plyler2"                                                      if human_readable_id == "USER_LASTNAME"
@@ -61,8 +61,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "STANDARD-SEA"                                                 if human_readable_id == "ED-ORG_SAMPLE_DS1"
   id = "mreynolds"                                                    if human_readable_id == "DISTRICT_ADMIN_USER"
   id = "mreynolds1234"                                                if human_readable_id == "DISTRICT_ADMIN_PASS"
-  id = PropLoader.getProps['user_registration_email']                 if human_readable_id == "Tenant_ID"
-  id = PropLoader.getProps['user_registration_email']                 if human_readable_id == "Landing_zone_directory"
+  id = Property['user_registration_email']                 if human_readable_id == "Tenant_ID"
+  id = Property['user_registration_email']                 if human_readable_id == "Landing_zone_directory"
 
   id = "mreynolds"                                                       if human_readable_id == "Prod_Tenant_ID"
   id = "mreynolds/#{sha256('StateEdorg')}"                            if human_readable_id == "Prod_Landing_zone_directory"
@@ -86,8 +86,8 @@ Given /^I have a SMTP\/Email server configured$/ do
   @email_sender_name= "Administrator"
   @email_sender_address= "noreply@slidev.org"
   @email_conf = {
-    :host =>  PropLoader.getProps['email_smtp_host'],
-    :port => PropLoader.getProps['email_smtp_port'],
+    :host =>  Property['email_smtp_host'],
+    :port => Property['email_smtp_port'],
     :sender_name => @email_sender_name,
     :sender_email_addr => @email_sender_address
   }
@@ -96,7 +96,7 @@ end
 Given /^I go to the sandbox account registration page$/ do
   #the user registration path need to be fixed after talk with wolverine
 
-  @admin_url = PropLoader.getProps['admintools_server_url']
+  @admin_url = Property['admintools_server_url']
   url=@admin_url+"/user_account_registrations/new"
   @prod = false
   initializeApprovalAndLDAP(@email_conf, @prod)
@@ -202,7 +202,7 @@ Then /^a "([^"]*)" roles is a added for the user in ldap$/ do |role|
 end
 
 When /^the user clicks on "([^"]*)"$/ do |link|
-  url=PropLoader.getProps['admintools_server_url']+"/"+link
+  url=Property['admintools_server_url']+"/"+link
   @driver.get url
 end
 
@@ -330,7 +330,7 @@ When /^the user accesses the "([^"]*)"$/ do |link|
 end
 
 Given /^I go to the production account registration page$/ do
-  @admin_url = PropLoader.getProps['admintools_server_url']
+  @admin_url = Property['admintools_server_url']
   url="#{@admin_url}/registration"
   @prod = true
   initializeApprovalAndLDAP(@email_conf, @prod)
@@ -339,7 +339,7 @@ Given /^I go to the production account registration page$/ do
 end
 
 When /^the SLC operator accesses the "([^"]*)"$/ do |page|
-  url="#{PropLoader.getProps['admintools_server_url']}/#{page}"
+  url="#{Property['admintools_server_url']}/#{page}"
   @driver.get url
 end
 
@@ -361,7 +361,7 @@ When /^the SLC operator authenticates as "([^"]*)" and "([^"]*)"$/ do |user, pas
 end
 
 When /^the state super admin accesses the "([^"]*)"$/ do |link|
-   @admin_url = PropLoader.getProps['admintools_server_url']
+   @admin_url = Property['admintools_server_url']
    url=@admin_url+"/"+link
    @prod = true
    initializeApprovalAndLDAP(@email_conf, @prod)
@@ -378,9 +378,9 @@ When /^the state super admin set the custom high\-level ed\-org to "([^"]*)"$/ d
 end
 
 Given /^the "(.*?)" has "(.*?)" defined in LDAP by the operator$/ do |email, edorg|
-  ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
-                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
-                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
+  ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
+                          Property['ldap_base'], Property['ldap_admin_user'],
+                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
   user = ldap.read_user(email)
   if user[:edorg] != edorg
     user[:edorg] = edorg
@@ -390,18 +390,18 @@ end
 
 def initializeApprovalAndLDAP(emailConf, prod)
   # ldapBase need to be configured in admin-tools and acceptance test to match simple idp branch
-   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
-                           PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
-                           PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
+   @ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
+                           Property['ldap_base'], Property['ldap_admin_user'],
+                           Property['ldap_admin_pass'], Property['ldap_use_ssl'])
    ApprovalEngine.init(@ldap, nil, !prod)
  end
 
 
 def verifyEmail
   if @live_email_mode
-    defaultUser = PropLoader.getProps['email_imap_registration_user']
-    defaultPassword = PropLoader.getProps['email_imap_registration_pass']
-    imap = Net::IMAP.new(PropLoader.getProps['email_imap_host'], PropLoader.getProps['email_imap_port'], true, nil, false)
+    defaultUser = Property['email_imap_registration_user']
+    defaultPassword = Property['email_imap_registration_pass']
+    imap = Net::IMAP.new(Property['email_imap_host'], Property['email_imap_port'], true, nil, false)
     imap.authenticate('LOGIN', defaultUser, defaultPassword)
     imap.examine('INBOX')
 
@@ -477,7 +477,7 @@ end
 
 def clear_users
   disable_NOTABLESCAN()
-  @ldap.delete_user(PropLoader.getProps['user_registration_email'])
+  @ldap.delete_user(Property['user_registration_email'])
   enable_NOTABLESCAN()
 end
 

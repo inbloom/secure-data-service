@@ -30,20 +30,20 @@ require 'digest/sha1'
 require 'set'
 include Archive::Tar
 
-SCHEDULER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_scheduler_script'])
-TRIGGER_SCRIPT_DIRECTORY = File.expand_path(PropLoader.getProps['bulk_extract_script_directory'])
-CRON_OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_cron_output_directory']
-TRIGGER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_script'])
-DELTA_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_delta_script'])
-DELTA_CONFIG = File.expand_path(PropLoader.getProps['bulk_extract_delta_properties'])
-DELTA_KEYSTORE = File.expand_path(PropLoader.getProps['bulk_extract_delta_keystore'])
-OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_output_directory']
-PROPERTIES_FILE = PropLoader.getProps['bulk_extract_properties_file']
-KEYSTORE_FILE = PropLoader.getProps['bulk_extract_keystore_file']
-JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
-DATABASE_NAME = PropLoader.getProps['sli_database_name']
-DATABASE_HOST = PropLoader.getProps['bulk_extract_db']
-DATABASE_PORT = PropLoader.getProps['bulk_extract_port']
+SCHEDULER_SCRIPT = File.expand_path(Property['bulk_extract_scheduler_script'])
+TRIGGER_SCRIPT_DIRECTORY = File.expand_path(Property['bulk_extract_script_directory'])
+CRON_OUTPUT_DIRECTORY = Property['bulk_extract_cron_output_directory']
+TRIGGER_SCRIPT = File.expand_path(Property['bulk_extract_script'])
+DELTA_SCRIPT = File.expand_path(Property['bulk_extract_delta_script'])
+DELTA_CONFIG = File.expand_path(Property['bulk_extract_delta_properties'])
+DELTA_KEYSTORE = File.expand_path(Property['bulk_extract_delta_keystore'])
+OUTPUT_DIRECTORY = Property['bulk_extract_output_directory']
+PROPERTIES_FILE = Property['bulk_extract_properties_file']
+KEYSTORE_FILE = Property['bulk_extract_keystore_file']
+JAR_FILE = Property['bulk_extract_jar_loc']
+DATABASE_NAME = Property['sli_database_name']
+DATABASE_HOST = Property['bulk_extract_db']
+DATABASE_PORT = Property['bulk_extract_port']
 INDEPENDENT_ENTITIES = ['graduationPlan']
 ENCRYPTED_ENTITIES = ['student', 'parent']
 COMBINED_ENTITIES = ['assessment', 'studentAssessment']
@@ -51,7 +51,7 @@ COMBINED_SUB_ENTITIES = ['assessmentItem','objectiveAssessment','studentAssessme
 
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
-CLEANUP_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_cleanup_script'])
+CLEANUP_SCRIPT = File.expand_path(Property['bulk_extract_cleanup_script'])
 
 $APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub",
                        "22c2a28d-7327-4444-8ff9-caad4b1c7aa3" => "pavedz00ua" 

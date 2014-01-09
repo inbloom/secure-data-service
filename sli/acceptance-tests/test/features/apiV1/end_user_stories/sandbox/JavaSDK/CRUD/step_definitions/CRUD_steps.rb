@@ -26,7 +26,7 @@ Given /^the Java SDK test app  is deployed on test app server$/ do
 end
 
 Given /^I navigate to the Sample App$/ do
-  url = PropLoader.getProps['sampleApp_server_address']
+  url = Property['sampleApp_server_address']
   url = url + @appPrefix
   puts url
   @driver.get url
@@ -35,7 +35,7 @@ Given /^I navigate to the Sample App$/ do
 end
 
 Given /^I navigate to the Sample App REST client$/ do
-  url = PropLoader.getProps['sampleApp_server_address']
+  url = Property['sampleApp_server_address']
   url = url + @appPrefix
   puts url
   @driver.get url
@@ -72,7 +72,7 @@ Then /^I should find student "([^"]*)" in the student list$/ do |arg1|
 end
 
 When /^I send test request "([^"]*)" to SDK CRUD test url$/ do |testType|
-  url = PropLoader.getProps['sampleApp_server_address']
+  url = Property['sampleApp_server_address']
   url = url + @appPrefix + "?test="+testType
   puts url
   @driver.get url 

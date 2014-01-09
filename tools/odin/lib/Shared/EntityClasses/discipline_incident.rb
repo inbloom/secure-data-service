@@ -115,7 +115,8 @@ class DisciplineIncident < BaseEntity
   end
 
   def self.gen_index(id, section_id)
-    (id + section_id * 10) % @@scenario['BEHAVIORS'].count
+    scenario_behaviors_count = (@@scenario['BEHAVIORS'] && !@@scenario['BEHAVIORS'].empty?) ? @@scenario['BEHAVIORS'].count : 1
+    (id + section_id * 10) % scenario_behaviors_count
   end
 
   def self.gen_behavior(id, section_id)
@@ -125,4 +126,5 @@ class DisciplineIncident < BaseEntity
   def self.gen_id(id, section_id)
     "#{section_id}##{id}"
   end
+
 end
