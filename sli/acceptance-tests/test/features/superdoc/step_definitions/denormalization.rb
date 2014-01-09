@@ -79,7 +79,7 @@ end
 ###############################################################################
 
 When /^I look at "([^\"]*)" in the "([^\"]*)"$/ do |id, coll|
-  conn = Mongo::Connection.new(PropLoader.getProps['ingestion_db'], PropLoader.getProps['ingestion_db_port'])
+  conn = Mongo::Connection.new(Property['ingestion_db'], Property['ingestion_db_port'])
   mdb = conn.db(@midgar_db_name)
   @doc = mdb.collection(coll).find("_id" => id).to_a
   assert(!@doc.nil?, "Cannot find the document with _id=#{id} in #{coll}")

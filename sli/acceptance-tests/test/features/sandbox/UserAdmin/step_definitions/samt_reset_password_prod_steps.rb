@@ -64,7 +64,7 @@ Given /^I have an account of "(.*?)"$/ do |role|
   end
   
 When /^I access the production password reset page$/ do
-  samt_reset_password_url = PropLoader.getProps['admintools_server_url']+"/resetPassword/newAccount/"+@key
+  samt_reset_password_url = Property['admintools_server_url']+"/resetPassword/newAccount/"+@key
   @driver.get samt_reset_password_url
 end
 

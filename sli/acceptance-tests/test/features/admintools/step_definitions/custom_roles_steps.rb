@@ -90,11 +90,11 @@ Then /^I should not see right "(.*?)" on any existing role$/ do |arg1|
 end
 
 When /^I navigate to the Custom Role Mapping Page$/ do
-  @driver.get PropLoader.getProps['admintools_server_url']+"/custom_roles"
+  @driver.get Property['admintools_server_url']+"/custom_roles"
 end
 
 When /^I try to authenticate on the "(.*?)" Tool$/ do |arg1|
-    @driver.get PropLoader.getProps['admintools_server_url']+"/#{arg1}"
+    @driver.get Property['admintools_server_url']+"/#{arg1}"
 end
 
 Then /^I am shown the custom roles page for "(.*?)"$/ do |arg1|

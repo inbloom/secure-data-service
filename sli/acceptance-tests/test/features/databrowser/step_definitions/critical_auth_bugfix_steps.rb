@@ -24,7 +24,7 @@ Given /^Another user has authenticated to SLI previously$/ do
 end
 
 When /^I access the API resource "([^"]*)" with no authorization headers present$/ do |arg1|
-  url = PropLoader.getProps['api_server_url']+"/api/rest"+arg1
+  url = Property['api_server_url']+"/api/rest"+arg1
   @res = RestClient.get(url){|response, request, result| response }
 end
 
@@ -39,7 +39,7 @@ end
 When /^I have a _tla cookie set to an expired session$/ do
 
     #Need to be at a page in the domain before we can set a cookie.  Should take us to a 404 page within the db
-    url = PropLoader.getProps['databrowser_server_url']+"/sadfasdf/sadfadsfa"
+    url = Property['databrowser_server_url']+"/sadfasdf/sadfadsfa"
 
     @driver.get(url)
     @driver.manage.add_cookie(:name => '_tla', :value => 'badbada5-9d81-8c1f-f91a-1fc23a1e6a79')
@@ -56,7 +56,7 @@ When /^I clear all session cookies$/ do
 end
 
 When /^I logout of the databrowser$/ do
-  url = PropLoader.getProps['databrowser_server_url'] + "/entities/system/session/logout"
+  url = Property['databrowser_server_url'] + "/entities/system/session/logout"
   @driver.get(url)
 end
 

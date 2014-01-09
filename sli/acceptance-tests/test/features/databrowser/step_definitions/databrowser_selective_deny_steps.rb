@@ -46,7 +46,7 @@ Then /^I get message that I am not authorized$/ do
 end
 
 When /^I should navigate to "([^"]*)"$/ do |page|
-  @driver.get(PropLoader.getProps['databrowser_server_url'] + page)
+  @driver.get(Property['databrowser_server_url'] + page)
 end
 
 Then /^I should see that there are "([^"]*)" teachers$/ do |expectedNumTeachers|
@@ -74,7 +74,7 @@ end
 
 When /^I navigate to see the teachers in the (school ".*?")$/ do |arg1|
   page = "/entities/educationOrganizations/#{arg1}/teacherSchoolAssociations/teachers"
-  @driver.get(PropLoader.getProps['databrowser_server_url'] + page)
+  @driver.get(Property['databrowser_server_url'] + page)
 end
 
 Given /^I remove the application authorizations in sunset$/ do
@@ -91,7 +91,7 @@ end
 
 Given /^I change the isAdminRole flag for role "(.*?)" to in (the realm ".*?") to be "(.*?)"$/ do |role, realm, isAdminRole|
   disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
+  conn = Mongo::Connection.new(Property['DB_HOST'])
   db = conn.db(convertTenantIdToDbName('Midgar'))
   coll = db.collection('customRole')
   customRoleDoc = coll.find_one({"body.realmId" => realm})
@@ -107,8 +107,8 @@ Given /^I change the isAdminRole flag for role "(.*?)" to in (the realm ".*?") t
 end
 
 def dissallowDatabrowser(district, tenantName)
-  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
-  db = conn[PropLoader.getProps['api_database_name']]
+  conn = Mongo::Connection.new(Property['DB_HOST'], Property['DB_PORT'])
+  db = conn[Property['api_database_name']]
   appColl = db.collection("application")
   databrowserId = appColl.find_one({"body.name" => "inBloom Data Browser"})["_id"]
   puts("The databrowser id is #{databrowserId}") if ENV['DEBUG']
