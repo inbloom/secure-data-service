@@ -26,16 +26,16 @@ class InterchangeGenerator
 
   attr_accessor :interchange, :header, :footer
 
+  # Initializes the generator with a given +yaml+ source
+  # and a File-like +interchange+ that holds the output
+  #
   def initialize(yaml, interchange)
     $stdout.sync = true
     @log = Logger.new($stdout)
     @log.level = Logger::INFO
 
     @interchange = interchange
-    @batch_size = yaml['BATCH_SIZE']
-    if @batch_size.nil?
-      @batch_size = 10000
-    end
+    @batch_size = yaml['BATCH_SIZE'] || 10000
     @gc = DeferredGarbageCollector.new(1.0)
     set_delete_options(yaml)
 
@@ -64,9 +64,8 @@ class InterchangeGenerator
 
   def render_batch
     split_entities = @entities.group_by( &:class )
-
     split_entities.each do |k, v|
-      @interchange << (@writers[k].write(v))
+      @interchange << @writers[k].write(v)
     end
     @gc.collect
   end
@@ -75,10 +74,10 @@ class InterchangeGenerator
     render_batch
     @interchange << @delete_footer
     @interchange << @footer
-    @interchange.close()
+    @interchange.close
     elapsed = Time.now - @stime
     if @has_entities
-    @log.info "interchange: #{@interchange.path} in #{elapsed} seconds."
+      @log.info "interchange: #{@interchange.path} in #{elapsed} seconds."
     else
       @log.info "no entities for #{@interchange.path}"
       File.delete @interchange
@@ -97,7 +96,7 @@ class InterchangeGenerator
                      when "cascade" then "<Action ActionType\"DELETE\" Cascade=\"true\">\n"
                      else ""
                      end
-    @delete_footer = if deleteType.nil? then "" else "</Action>\n" end
+    @delete_footer = deleteType.nil? ? "" : "</Action>\n"
   end
 
 end

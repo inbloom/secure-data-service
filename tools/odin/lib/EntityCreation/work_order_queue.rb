@@ -31,8 +31,8 @@ class WorkOrderQueueRouter < Fiber
   end
 
   def resume
-    while @workOrderQueue.empty? == false
-      work_order = @workOrderQueue.pop_work_order()
+    while !@workOrderQueue.empty?
+      work_order = @workOrderQueue.pop_work_order
       entity = @factory.create(work_order)
       @entityQueue.push_entity(entity)
     end
@@ -41,9 +41,6 @@ class WorkOrderQueueRouter < Fiber
 end
 
 class WorkOrderQueue
-
-  @work_orders
-  @router
 
   def initialize()
     @work_orders = []
@@ -56,21 +53,17 @@ class WorkOrderQueue
 
   def push_work_order(work_order)
     @work_orders << work_order
-    if @router.nil? == false
-      @router.resume
-    end
+    @router.resume if @router
   end
 
-  def pop_work_order()
-    @work_orders.pop()
+  def pop_work_order
+    @work_orders.pop
   end
 
   def get_work_orders(work_order_type)
     orders = []
     @work_orders.each do |order|
-      if(is_type(order, work_order_type))
-         orders << order
-      end
+      orders << order if( is_type(order, work_order_type) )
     end
     orders
   end
@@ -78,15 +71,13 @@ class WorkOrderQueue
   def count(work_order_type)
     count = 0
     @work_orders.each do |order|
-      if (is_type(order, work_order_type))
-        count += 1
-      end
+      count += 1 if ( is_type(order, work_order_type) )
     end
     count
   end
 
   def is_type(order, order_type)
-    return ((order.kind_of? order_type) or (order.kind_of? Hash and order[:type].to_s == order_type.to_s))
+    (order.kind_of? order_type) || (order.kind_of?(Hash) && (order[:type].to_s == order_type.to_s))
   end
 
   def empty?

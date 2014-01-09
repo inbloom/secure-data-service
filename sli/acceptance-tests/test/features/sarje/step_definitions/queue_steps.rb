@@ -25,13 +25,13 @@ end
 Given /^I send a terminate message to the queue$/ do 
   # ensure we're publishing to the end of the queue (after data is loaded into mongo)
   sleep 3
-  publisher = Stomp::Client.new "", "", PropLoader.getProps['activemq_host'], PropLoader.getProps['activemq_port'] , true
+  publisher = Stomp::Client.new "", "", Property['activemq_host'], Property['activemq_port'] , true
   publisher.publish(@queue,"", {'amq-msg-type'=>'text', 'type'=>'terminate'})
   publisher.close 
 end
 
 Given /^I read the queue$/ do
-  subscriber = Stomp::Client.new "", "", PropLoader.getProps['activemq_host'], PropLoader.getProps['activemq_port'] , true
+  subscriber = Stomp::Client.new "", "", Property['activemq_host'], Property['activemq_port'] , true
 
   @msgs = []
   subscriber.subscribe(@queue, { :ack => :client }) do |msg|

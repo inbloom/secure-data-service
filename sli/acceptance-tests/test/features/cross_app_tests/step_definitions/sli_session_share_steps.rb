@@ -22,7 +22,7 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
 Given /^I have navigated to the databrowser page$/ do
-  @driver.get PropLoader.getProps['databrowser_server_url']
+  @driver.get Property['databrowser_server_url']
 end
 
 Given /^I was redirected to the realmchooser page$/ do
@@ -38,7 +38,7 @@ Given /^I see the realm selector I authenticate to "([^"]*)"$/ do |arg1|
 end
 
 Given /^I see the realm selector I authenticate to the developer realm$/ do
-  realm=PropLoader.getProps['developer_realm']
+  realm=Property['developer_realm']
   if (@driver.title.index("Choose your realm") != nil)
     step "I selected the realm \"#{realm}\""
   else
@@ -58,7 +58,7 @@ Then /^I am redirected to the databrowser home page$/ do
 end
 
 When /^I navigate to the dashboard page$/ do
-  @driver.get PropLoader.getProps['dashboard_server_address'] + PropLoader.getProps['dashboard_app_prefix']
+  @driver.get Property['dashboard_server_address'] + Property['dashboard_app_prefix']
   begin
     @driver.switch_to.alert.accept
   rescue
@@ -80,7 +80,7 @@ Then /^I am redirected to the dashboard home page$/ do
 end
 
 When /^I navigate to the databrowser page$/ do
-  @driver.get PropLoader.getProps['databrowser_server_url']
+  @driver.get Property['databrowser_server_url']
   begin
     @driver.switch_to.alert.accept
   rescue
@@ -97,16 +97,16 @@ Then /^I should see a message that I was logged out$/ do
 end
 
 Then /^I should forced to reauthenticate to gain access$/ do
-  @driver.get PropLoader.getProps['databrowser_server_url']
+  @driver.get Property['databrowser_server_url']
   assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}  
 end
 
 When /^I navigate to the dashboard home page$/ do
-  @driver.get PropLoader.getProps['databrowser_server_url']
+  @driver.get Property['databrowser_server_url']
 end
 
 Given /^I have navigated to the sample app page$/ do
-  @driver.get PropLoader.getProps['sampleApp_server_address']+"sample"
+  @driver.get Property['sampleApp_server_address']+"sample"
 end
 
 Then /^I am redirected to the sample app home page$/ do
@@ -114,7 +114,7 @@ Then /^I am redirected to the sample app home page$/ do
 end
 
 When /^I navigate to the sample app page$/ do
-  @driver.get PropLoader.getProps['sampleApp_server_address']+"sample"
+  @driver.get Property['sampleApp_server_address']+"sample"
   begin
     @driver.switch_to.alert.accept
   rescue
