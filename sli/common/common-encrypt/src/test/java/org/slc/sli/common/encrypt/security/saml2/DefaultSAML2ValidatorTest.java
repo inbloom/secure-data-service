@@ -89,7 +89,7 @@ public class DefaultSAML2ValidatorTest {
     @Test
     public void testIsDigestValidWithValid() throws Exception {
         Document doc = getDocument("complete-valid.xml");
-        //Assert.assertTrue(validator.isDigestValid(doc));
+        Assert.assertTrue(validator.isDigestValid(doc));
     }
 
     @Test
