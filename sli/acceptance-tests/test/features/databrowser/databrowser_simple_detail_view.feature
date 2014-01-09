@@ -62,10 +62,23 @@ And I see the properties in the following <Order>
 | Order |
 | Id |
 | OrganizationCategories |
-| Organization ID |
-| Name |
+| StateOrganizationId |
+| NameOfInstitution |
 | Address |
 And I see "Links" last
+
+Scenario: Links List Order - Order of the list of Links in an Entity
+
+Given I have an open web browser
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+And I click on the "GetEducationOrganizations" link
+Then I am redirected to the educationOrganization page
+And I see the list of "Links" in alphabetical order
 
 Scenario: Associations List - Simple View
 

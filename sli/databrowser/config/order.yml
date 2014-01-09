@@ -10,34 +10,39 @@ educationOrganization:
     - address
 
 staff:
-    - loginid
-    - stateid
-    - id
+    - loginId
     - staffUniqueStateId
+    - id
     - name
     - address
     - electronicMail
-    - phoneNumber
+    - telephone
     - birthDate
-    - degree
-    - gender
+    - highestLevelOfEducationCompleted
+    - sex
     - credentials
-    - yearsTeachingExperience
-    - yearsExperience
+    - yearsOfPriorTeachingExperience
+    - yearsOfPriorProfessionalExperience
+    - staffIdentificationCode
     - entityType
     - race
-    - hispanic
+    - hispanicLatinoEthnicity
     - oldEthnicity
 
 default:
     - apartmentRoomSuiteNumber
     - streetNumberName
     - city
+    - nameOfCounty
     - stateAbbreviation
     - postalCode
     - addressType
+    - openDate
     - personalTitlePrefix
     - firstName
     - lastSurname
     - verification
     - emailAddress
+    - primaryTelephoneNumberIndicator
+    - telephoneNumber
+    - telephoneNumberType
