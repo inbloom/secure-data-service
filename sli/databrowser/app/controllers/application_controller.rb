@@ -175,7 +175,6 @@ class ApplicationController < ActionController::Base
     
     # if this url ends with "/callback", we don't adjust the breadcrumb trail at all.
     logger.debug("checking <" + urlNoParams + "> for /callback")
-    logger.debug("result of check: " + urlNoParams.end_with?.to_s)
     if urlNoParams.end_with? "/callback" then 
       return 
     end
@@ -184,14 +183,14 @@ class ApplicationController < ActionController::Base
       # we must have just started a session; create the
       # first breadcrumb and the array that holds the breadcrumbs in the session
       logger.debug("creating breadcrumb trail")
-      bc = Breadcrumbhelper::Breadcrumb.new "home", urlNoParams
+      bc = Breadcrumbhelper::Breadcrumb.new "home", urlNoParams, current_url
       trail = [ bc ]
     else
       # look through our array of breadcrumbs to see if this URL is already in it.
       matchedIndex = -1		# set to real index if we find a match
       trail.each_with_index do |crumb, current_index|
-        # logger.debug("matching against <" + crumb.link + ">")
-        if crumb.link.eql? urlNoParams then
+        # logger.debug("matching against <" + crumb.strippedLink + ">")
+        if crumb.strippedLink.eql? urlNoParams then
           # we've found the URL in our list -- save the index to trim the array
           matchedIndex = current_index
 	  # logger.debug("matched URL at " + matchedIndex.to_s)
@@ -207,7 +206,7 @@ class ApplicationController < ActionController::Base
         # this URL is not in our list; we determine a user-friendly name for the URL, 
         # create a breadcrumb, and add it to the end of the list
 	name = getUserFriendlyUrlName(urlNoParams)
-        trail.push Breadcrumbhelper::Breadcrumb.new name, urlNoParams
+        trail.push Breadcrumbhelper::Breadcrumb.new name, urlNoParams, current_url
 	# logger.debug("pushing new link onto array")
       end
     end

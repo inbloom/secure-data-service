@@ -77,8 +77,6 @@ div.key { width: 160px; font-size: 14px; clear: left; margin-bottom: 10px; font-
     padding: 0;
 }
 
-div.breadcrumb { text-color: #D8D8D8; margin-left: 50px }
-div.breadcrumb a:visited { color: #D8D8D8 }
-div.breadcrumb a:active  { color: #D8D8D8 }
+div.breadcrumb { margin-left:i 18px }
 
 
