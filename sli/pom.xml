@@ -64,7 +64,7 @@
         <commons.collections.version>3.2.1</commons.collections.version>
         <!-- Rest Services (JAX-RS) Framework Versions -->
         <jersey.version>1.9.1</jersey.version>
-        <jackson.version>1.9.1</jackson.version>
+        <jackson.version>1.9.2</jackson.version>
         <!-- Persistence Framework Versions -->
         <commons.dbcp.version>20030825.184428</commons.dbcp.version>
         <commons.pool.version>20030825.183949</commons.pool.version>
