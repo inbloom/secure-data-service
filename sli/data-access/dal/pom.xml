@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.slc.sli.dal</groupId>
         <artifactId>data-access</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.15.93.665</version>
     </parent>
     <artifactId>dal</artifactId>
     <name>Data Access Layer</name>
