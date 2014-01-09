@@ -257,24 +257,6 @@ public class DefaultSAML2Validator implements SAML2Validator {
         return false;
     }
 
-    @Override
-    public boolean isDigestValid(Document samlDocument) {
-        boolean valid = false;
-        try {
-            @SuppressWarnings("unchecked")
-            Iterator<Reference> iterator = getSignature(samlDocument).getSignedInfo().getReferences().iterator();
-            while (iterator.hasNext()) {
-                Reference ref = iterator.next();
-                valid = ref.validate(valContext);
-            }
-        } catch (XMLSignatureException e) {
-            LOG.warn("Couldn't validate digest", e);
-        } catch (MarshalException e) {
-            LOG.warn("Couldn't validate digest", e);
-        }
-        return valid;
-    }
-
     /**
      * Suggest deleting this --> functionality exists within XMLSignatureHelper class.
      */
