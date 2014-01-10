@@ -19,13 +19,13 @@ limitations under the License.
 require 'factory_girl'
 
 FactoryGirl.define do
+
   factory :student do
     initialize_with { new(42, 42, Date.new(2000, 9, 1)) }
     sex "Male"
     firstName "John"
     lastName "Snow"
     email "jsnow@thewall.com"
-
   end
 
   factory :parent do
@@ -50,25 +50,21 @@ FactoryGirl.define do
   end
   
   factory :assessment do
-  
     initialize_with { new(52, 2012) }
     assessmentTitle "SAT II - US History"
     gradeLevelAssessed "Twelfth grade"
   end
   
   factory :assessment_family do
-  
     initialize_with { new(52, Date.new(2012, 11, 2)) }
     assessmentFamilyTitle "SAT II"
   end
   
   factory :assessment_item do
-
     initialize_with { new(52, FactoryGirl.build(:assessment)) }
     identificationCode "8675309"
     itemCategory "Analytic"
     association :assessment, strategy: :build
-   
   end
 
   factory :behavior_descriptor do

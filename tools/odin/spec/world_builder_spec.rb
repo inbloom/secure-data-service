@@ -152,12 +152,12 @@ describe "WorldBuilder" do
     describe "--> builds correct infrastructure such that" do
       # generate the data once
       before(:all) do
-        configYAML   = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
+        configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
         scenarioYAML = load_scenario("10001students", configYAML)
-        rand         = Random.new(configYAML['seed'])
-        @queue        = WorkOrderQueue.new
+        rand = Random.new(configYAML['seed'])
+        @queue = WorkOrderQueue.new
         pre_requisites = {:seas => {}, :leas => {}, :elementary => {}, :middle => {}, :high => {}}
-        @builder      = WorldBuilder.new(rand, scenarioYAML, @queue, pre_requisites)
+        @builder = WorldBuilder.new(rand, scenarioYAML, @queue, pre_requisites)
         @world = @builder.build
       end
 
