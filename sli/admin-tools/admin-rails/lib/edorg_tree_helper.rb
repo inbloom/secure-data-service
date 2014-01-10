@@ -58,8 +58,8 @@ module EdorgTreeHelper
       edorg_tree_html = "<ul>\n  #{render_html(ROOT_ID, ROOT_ID, 0)} </ul>\n"
     end
 
-    def get_debug()
-      return @debug
+    def get_debug
+      @debug
     end
 
     # Load up all the edOrgs.  Creates:
@@ -68,7 +68,6 @@ module EdorgTreeHelper
     #    @authorized_ed_orgs - Map of IDs authorized
     #
     def load_edorgs(is_sea_admin)
-      @hasOrphans = false
       @edinf = {}
       root_ids = []
       allEdOrgs = EducationOrganization.findAllInChunks({'includeFields' => 'parentEducationAgencyReference,nameOfInstitution,stateOrganizationId,organizationCategories'})
@@ -98,18 +97,6 @@ module EdorgTreeHelper
       end
 
       @debug = "<ul>\n"
-
-      #orphan_category = {}
-      ##if @hasOrphans
-      #  orphan_category_id = CATEGORY_NODE_PREFIX + "orphans"
-      #  orphan_category = { :id => orphan_category_id, :parents => [ROOT_ID], :children => [],
-      #                      :agg_enabled => ! @forAppAuthorization, :agg_authorized => true,
-      #                      :name => 'Orphaned', :edOrg => { :id => orphan_category_id, :parentEducationAgencyReference  => [],
-      #                                                       :organizationCategories => ["Orphan"]}
-      #  }
-      #  @edinf[ROOT_ID][:children].push(orphan_category_id)
-      #  @edinf[orphan_category_id] = orphan_category
-      #end
 
       # Init immediate children of each edorg by inverting parent relationship
       orphan_ids = []
@@ -319,7 +306,6 @@ module EdorgTreeHelper
       isCheckable = if @forAppAuthorization then eo[:agg_enabled] else true end
       is_category = id.start_with?(CATEGORY_NODE_PREFIX) || id == ROOT_ID
       is_orphaned = eo[:name] == "Orphaned Education Organization"
-      puts "the pig says #{is_orphaned}"
       if is_category
         # Use the aggregated status for category node
         isChecked   = if @forAppAuthorization then eo[:agg_authorized] else eo[:agg_enabled] end
@@ -330,14 +316,14 @@ module EdorgTreeHelper
 
       # <input>
       if !is_repeat_subtree && isCheckable
-        result += "<input type=\"checkbox\""
+        result += '<input type="checkbox"'
         if !is_category
-          result += " class=\"edorgId\""
+          result += ' class="edorgId"'
         end
         if !is_empty(id)
-          result += " id=\"" + id
+          result += ' id="' + id
           result += "_orphan" if is_orphaned
-          result += "\""
+          result += '"'
         end
         result += " checked" if isChecked
         result += "> "
