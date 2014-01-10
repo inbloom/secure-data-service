@@ -68,7 +68,7 @@ module EdorgTreeHelper
     #    @authorized_ed_orgs - Map of IDs authorized
     #
     def load_edorgs(is_sea_admin)
-
+      @hasOrphans = false
       @edinf = {}
       root_ids = []
       allEdOrgs = EducationOrganization.findAllInChunks({'includeFields' => 'parentEducationAgencyReference,nameOfInstitution,stateOrganizationId,organizationCategories'})
@@ -99,16 +99,28 @@ module EdorgTreeHelper
 
       @debug = "<ul>\n"
 
+      #orphan_category = {}
+      ##if @hasOrphans
+      #  orphan_category_id = CATEGORY_NODE_PREFIX + "orphans"
+      #  orphan_category = { :id => orphan_category_id, :parents => [ROOT_ID], :children => [],
+      #                      :agg_enabled => ! @forAppAuthorization, :agg_authorized => true,
+      #                      :name => 'Orphaned', :edOrg => { :id => orphan_category_id, :parentEducationAgencyReference  => [],
+      #                                                       :organizationCategories => ["Orphan"]}
+      #  }
+      #  @edinf[ROOT_ID][:children].push(orphan_category_id)
+      #  @edinf[orphan_category_id] = orphan_category
+      #end
+
       # Init immediate children of each edorg by inverting parent relationship
+      orphan_ids = []
       @edinf.keys.each do |id|
         @edinf[id][:parents].each do |pid|
           if !@edinf.has_key?(pid)
             # Dangling reference to nonexistent parent
-
-            @debug += "\n<li>#{@edinf[id][:name]} parents to nonexistent #{pid.to_s()} and is not shown here</li>"
-
-            Rails.logger.error("EdOrg #{id} parents to nonexistent #{pid.to_s()}")
-
+            @debug += "\n<li>#{@edinf[id][:name]} parents to nonexistent #{pid.to_s} and should be investigated</li>"
+            the_ed_org = @edinf[id][:edOrg]
+            the_ed_org.organizationCategories = ["Orphaned Education Organization"]
+            orphan_ids.append id
           else
             @edinf[pid][:children].push(id)
           end
@@ -128,6 +140,9 @@ module EdorgTreeHelper
                      :name => 'All EdOrgs', :edOrg => { :id => ROOT_ID, :parentEducationAgencyReference  => []}
       }
       @edinf[ROOT_ID] = root_edorg
+
+      # DS-912: allow orphaned edorgs to be selected
+      orphan_ids.each { |id| @edinf[ROOT_ID][:children].push(id) }
 
       # Allow SEA admin to see everything, including edOrgs not parented
       # up to SEA.  LEA admin just his own edorg
@@ -303,6 +318,8 @@ module EdorgTreeHelper
 
       isCheckable = if @forAppAuthorization then eo[:agg_enabled] else true end
       is_category = id.start_with?(CATEGORY_NODE_PREFIX) || id == ROOT_ID
+      is_orphaned = eo[:name] == "Orphaned Education Organization"
+      puts "the pig says #{is_orphaned}"
       if is_category
         # Use the aggregated status for category node
         isChecked   = if @forAppAuthorization then eo[:agg_authorized] else eo[:agg_enabled] end
@@ -317,8 +334,10 @@ module EdorgTreeHelper
         if !is_category
           result += " class=\"edorgId\""
         end
-        if !is_empty(id) # && !id.start_with?(CATEGORY_NODE_PREFIX)
-          result += " id=\"" + id + "\""
+        if !is_empty(id)
+          result += " id=\"" + id
+          result += "_orphan" if is_orphaned
+          result += "\""
         end
         result += " checked" if isChecked
         result += "> "
@@ -326,6 +345,7 @@ module EdorgTreeHelper
 
       # Text of the node.  Italicize if not enabled
       result += "<span"
+      result += " id=\"orphan_" + id + "\"" if is_orphaned
       result += " class=\"categorynode\"" if is_category
       result += " class=\"repeatsubtree\"" if is_repeat_subtree
       result += ">"
@@ -336,7 +356,7 @@ module EdorgTreeHelper
       result += "</a>" if is_repeat_subtree
 
       # Uncomment below for debugging: add ID, show enabled/authorized status, show subtree status
-      # result += " [" + eo[:id][0,8] + "]"
+      result += " [" + eo[:id][0,8] + "]"
       # Uncomment the next three lines to debug enable/authorized issues
       # result += " enabled=" + eo[:enabled].to_s if eo.has_key?(:enabled)
       # result += " authorized=" + eo[:authorized].to_s if eo.has_key?(:authorized)
