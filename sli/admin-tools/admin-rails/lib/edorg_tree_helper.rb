@@ -345,7 +345,6 @@ module EdorgTreeHelper
 
       # Text of the node.  Italicize if not enabled
       result += "<span"
-      result += " id=\"orphan_" + id + "\"" if is_orphaned
       result += " class=\"categorynode\"" if is_category
       result += " class=\"repeatsubtree\"" if is_repeat_subtree
       result += ">"
@@ -356,7 +355,7 @@ module EdorgTreeHelper
       result += "</a>" if is_repeat_subtree
 
       # Uncomment below for debugging: add ID, show enabled/authorized status, show subtree status
-      result += " [" + eo[:id][0,8] + "]"
+      # result += " [" + eo[:id][0,8] + "]"
       # Uncomment the next three lines to debug enable/authorized issues
       # result += " enabled=" + eo[:enabled].to_s if eo.has_key?(:enabled)
       # result += " authorized=" + eo[:authorized].to_s if eo.has_key?(:authorized)
