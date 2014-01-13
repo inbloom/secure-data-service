@@ -7,7 +7,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
 
 Scenario Outline: check that elastic search functions as expected
 	 Given I am logged in using "akopel" "akopel1234" to realm "IL"
-    When I navigate to GET "/v1.4/<Entity URI>"
+    When I navigate to GET "/v1.5/<Entity URI>"
     Then I should receive a return code of 200
     And I should receive a collection with <COUNT> elements  
     

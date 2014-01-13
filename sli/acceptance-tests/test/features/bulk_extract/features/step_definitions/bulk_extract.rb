@@ -30,20 +30,20 @@ require 'digest/sha1'
 require 'set'
 include Archive::Tar
 
-SCHEDULER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_scheduler_script'])
-TRIGGER_SCRIPT_DIRECTORY = File.expand_path(PropLoader.getProps['bulk_extract_script_directory'])
-CRON_OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_cron_output_directory']
-TRIGGER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_script'])
-DELTA_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_delta_script'])
-DELTA_CONFIG = File.expand_path(PropLoader.getProps['bulk_extract_delta_properties'])
-DELTA_KEYSTORE = File.expand_path(PropLoader.getProps['bulk_extract_delta_keystore'])
-OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_output_directory']
-PROPERTIES_FILE = PropLoader.getProps['bulk_extract_properties_file']
-KEYSTORE_FILE = PropLoader.getProps['bulk_extract_keystore_file']
-JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
-DATABASE_NAME = PropLoader.getProps['sli_database_name']
-DATABASE_HOST = PropLoader.getProps['bulk_extract_db']
-DATABASE_PORT = PropLoader.getProps['bulk_extract_port']
+SCHEDULER_SCRIPT = File.expand_path(Property['bulk_extract_scheduler_script'])
+TRIGGER_SCRIPT_DIRECTORY = File.expand_path(Property['bulk_extract_script_directory'])
+CRON_OUTPUT_DIRECTORY = Property['bulk_extract_cron_output_directory']
+TRIGGER_SCRIPT = File.expand_path(Property['bulk_extract_script'])
+DELTA_SCRIPT = File.expand_path(Property['bulk_extract_delta_script'])
+DELTA_CONFIG = File.expand_path(Property['bulk_extract_delta_properties'])
+DELTA_KEYSTORE = File.expand_path(Property['bulk_extract_delta_keystore'])
+OUTPUT_DIRECTORY = Property['bulk_extract_output_directory']
+PROPERTIES_FILE = Property['bulk_extract_properties_file']
+KEYSTORE_FILE = Property['bulk_extract_keystore_file']
+JAR_FILE = Property['bulk_extract_jar_loc']
+DATABASE_NAME = Property['sli_database_name']
+DATABASE_HOST = Property['bulk_extract_db']
+DATABASE_PORT = Property['bulk_extract_port']
 INDEPENDENT_ENTITIES = ['graduationPlan']
 ENCRYPTED_ENTITIES = ['student', 'parent']
 COMBINED_ENTITIES = ['assessment', 'studentAssessment']
@@ -51,7 +51,7 @@ COMBINED_SUB_ENTITIES = ['assessmentItem','objectiveAssessment','studentAssessme
 
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
-CLEANUP_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_cleanup_script'])
+CLEANUP_SCRIPT = File.expand_path(Property['bulk_extract_cleanup_script'])
 
 $APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub",
                        "22c2a28d-7327-4444-8ff9-caad4b1c7aa3" => "pavedz00ua" 
@@ -1346,6 +1346,18 @@ When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)" at "(.*?)"$/ do |field,
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
+When /^I PUT the the following entities:$/ do |table|
+  table.hashes.map do |api_params|
+    print "Putting #{api_params['entityName']} .. "
+    put_body = get_post_body_by_entity_name(api_params['entityName'])
+    puts prepareData(@format, put_body).to_s
+    restHttpPut("/#{@api_version}/#{api_params['endpoint']}", prepareData(@format, put_body))
+    assert(@res != nil, "Response from rest-client PUT is nil")
+    puts @res.body
+    step "I should receive a return code of #{api_params['returnCode']}"
+  end
+end
+
 def update_api_put_field(body, field, value)
   # This method allows us to modify custom fields in a way that is
   # compliant with the ed-fi data structure and the type requirements per field.
@@ -1628,8 +1640,8 @@ end
 When /^I store the URL for the latest delta for LEA "(.*?)"$/ do |lea|
   @delta_uri = JSON.parse(@res)
   @list_url  = @delta_uri["deltaEdOrgs"][lea][0]["uri"]
-  # @list_irl is in the format https://<url>/api/rest/v1.4/bulk/extract/<lea>/delta/<timestamp>
-  # -> strip off everything before v1.4, store: /v1.4/bulk/extract/<lea>/delta/<timestamp>
+  # @list_irl is in the format https://<url>/api/rest/v1.5/bulk/extract/<lea>/delta/<timestamp>
+  # -> strip off everything before v1.5, store: /v1.5/bulk/extract/<lea>/delta/<timestamp>
   @list_url.match(/api\/rest\/v(.*?)\/(.*)$/)
   @list_uri = $2
   # Get the timestamp from the URL
@@ -3331,6 +3343,10 @@ def get_post_body_by_entity_name(entity_name)
       "classPeriodName" => "Fifth Period",
       "educationOrganizationId" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
     },
+      "newClassPeriod3" => {
+          "classPeriodName" => "Xth Period",
+          "educationOrganizationId" => "884daa27d806c2d725bc469b273d840493f84b4d_id"
+      },
     "newClassPeriod2" => {
       "classPeriodName" => "Sixth Period",
       "educationOrganizationId" => "352e8570bd1116d11a72755b987902440045d346_id"
@@ -3365,6 +3381,18 @@ def get_post_body_by_entity_name(entity_name)
                                              ],
                             "calendarDateReference" => "6f93d0a3e53c2d9c3409646eaab94155fe079e87_id"
                           },
+      "newBellSchedule3" => {
+          "bellScheduleName" => "Maths 18",
+          "educationOrganizationId"  =>  "884daa27d806c2d725bc469b273d840493f84b4d_id",
+          "meetingTime"  =>  {
+              "classPeriodId" => "d7873d123c22d3277c923132fa0bc90d742f205f_id",
+              "startTime" => "13:00:00.000",
+              "endTime" => "13:55:00.000"
+          },
+          "gradeLevels" => [
+          "Tenth grade"],
+          "calendarDateReference" => "6f93d0a3e53c2d9c3409646eaab94155fe079e87_id"
+      },
     "newCohort" => {
       "academicSubject" => "Communication and Audio/Visual Technology",
       "cohortType" => "Extracurricular Activity",

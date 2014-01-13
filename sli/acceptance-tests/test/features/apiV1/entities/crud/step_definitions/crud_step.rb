@@ -754,6 +754,15 @@ When /^I create an association of type "([^"]*)"$/ do |type|
       "programId" => @newId,
       "staffId" => "b4c2a73f-336d-4c47-9b47-2d24871eef96",
       "beginDate" => "2012-01-01"
+    },
+    "student_studentParentAssociation" => {
+        "studentId" => "6f60028a-f57a-4c3d-895f-e34a63abc175_id",
+        "parentId" => @newId,
+        "livesWith" => true,
+        "primaryContactStatus" => true,
+        "relation" => "Mother",
+        "contactPriority" => 0,
+        "emergencyContactStatus" => true
     }
   }
   @fields = @assocData[type]
@@ -774,10 +783,11 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     "teacherSchoolAssociation" => "teacherSchoolAssociations",
     "teacherSchoolAssociation2" => "teacherSchoolAssociations",
     "studentParentAssociation2" => "studentParentAssociations",
-    "staffProgramAssociation" => "staffProgramAssociations"
+    "staffProgramAssociation" => "staffProgramAssociations",
+    "student_studentParentAssociation" => "studentParentAssociations"
   }
   if type != ""
-    api_version = "v1.1"
+    api_version = "v1"
     step "I navigate to POST \"/#{api_version}/#{@assocUrl[type]}\""
     headers = @res.raw_headers
     assert(headers != nil, "Headers are nil")
@@ -785,6 +795,11 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     s = headers['location'][0]
     @assocId = s[s.rindex('/')+1..-1]
   end
+end
+
+When /^I delete the superdoc "([^"]*)" of "([^"]*)"$/ do |entity_uri, subdoc_id|
+  superdoc_id = subdoc_id.split('_id')[0] + "_id"
+   step "I navigate to DELETE \"/v1/#{entity_uri}/#{superdoc_id}\""
 end
 
 Then /^I should receive a new entity URI after a successful response$/ do
@@ -813,7 +828,7 @@ Given /^my contextual access is defined by table:$/ do |table|
 end
 
 Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
-  version = "v1.4"
+  version = "v1.5"
   root = expectedUri.match(/\/(.+?)\/|$/)[1]
   expected = version+expectedUri
   actual = @headers["x-executedpath"][0]
@@ -825,7 +840,7 @@ Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
   #Then, validate the list of ids are the same
   ids = []
   if @ctx.has_key? root
-    idsString = actual.match(/v1.4\/[^\/]*\/([^\/]*)\/?/)[1]
+    idsString = actual.match(/v1.5\/[^\/]*\/([^\/]*)\/?/)[1]
     actualIds = idsString.split(",")
     expectedIds = @ctx[root].split(",")
     
@@ -854,7 +869,7 @@ Then /^I should see all entities$/ do
   end
 
   #Get entity ids from the database
-  @conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  @conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
   @db = @conn.db(convertTenantIdToDbName("Midgar"))
   @coll = @db[currentEntity]
 
@@ -875,7 +890,7 @@ Then /^I should see all entities$/ do
 end
 
 Then /^I verify "(.*?)" and "(.*?)" should be subdoc'ed in mongo for this new "(.*?)"$/ do |subdoc1, subdoc2, type|
-  @conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  @conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
   @db = @conn.db(convertTenantIdToDbName("Midgar"))
   @coll = @db[type]
   entity = @coll.find_one("_id"=>@newId);
@@ -897,7 +912,7 @@ Then /^I set the "(.*?)" to "(.*?)" in "(.*?)"$/ do |key, value, field|
 end
 
 Then /^I verify there are "(\d)" "(.*?)" with "(.*?)" in mongo$/ do |count, type, query| 
-  @conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  @conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
   @db = @conn.db(convertTenantIdToDbName("Midgar"))
   @coll = @db[type]
   disable_NOTABLESCAN

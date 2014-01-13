@@ -449,8 +449,8 @@ public class ElasticSearchRepository implements Repository<Entity> {
                 String type = hitNode.get("_type").getTextValue();
                 JsonNode bodyNode = hitNode.get("_source");
                 Map<String, Object> body = objectMapper.readValue(bodyNode, tr);
-                Map<String, Object> metaData = (Map<String, Object>) body.get("_metaData");
                 body.remove("context");
+                Map<String, Object> metaData = (Map<String, Object>) body.get("_metaData");
                 body.remove("_metaData");
 
                 // create a return the search hit entity

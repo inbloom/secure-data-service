@@ -15,17 +15,12 @@
  */
 package org.slc.sli.search.process.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.IncrementalLoader;
@@ -33,6 +28,8 @@ import org.slc.sli.search.process.Indexer;
 import org.slc.sli.search.transform.IndexEntityConverter;
 import org.slc.sli.search.util.OplogConverter;
 import org.slc.sli.search.util.OplogConverter.Meta;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -88,11 +85,10 @@ public class IncrementalListenerImpl implements IncrementalLoader {
             try {
                 indexEntities = convertToEntity(opLog);
                 if (indexEntities!= null) {
-                    for (IndexEntity ie : indexEntities) {
-                        entities.add(ie);
-                        adjustForOrphan(ie);
-                        index(ie);
-                    }
+                	for (IndexEntity ie : indexEntities) {
+                		entities.add(ie);
+                		index(ie);
+                	}
                 }
             } catch (Exception e) {
                 LOG.info("Unable to process an oplog entry, skipping");
@@ -106,7 +102,7 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         Meta meta = OplogConverter.getMeta(opLogMap);
         Map<String, Object> entity = OplogConverter.getEntity(action, opLogMap);
         if (action == Action.INDEX) {
-            action = Action.UPDATE;
+            action = Action.UPDATE; 
         }
         return (entity == null) ? null : indexEntityConverter.fromEntity(meta.getIndex(), action, entity);
     }
@@ -115,25 +111,6 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         indexer.index(ie);
     }
 
-    protected void adjustForOrphan(IndexEntity ie) {
-        if (isOrphaned(ie)) {
-            if (!ie.getBody().containsKey("context")) {
-                ie.getBody().put("context", new HashMap<String, Map<String, Object>>());
-            }
-            Map<String, Object> context = (Map<String, Object>) ie.getBody().get("context");
-            if (!context.containsKey("schoolId")) {
-                context.put("schoolId", new ArrayList<String>());
-            }
-            ((List<String>) context.get("schoolId")).add("ALL");
-
-            // This is an ugly fix, but it gets the job done (besides, "context" tags along like this).
-            ie.getBody().put("_metaData", ie.getMetaData());
-        }
-    }
-
-    protected boolean isOrphaned(IndexEntity ie) {
-        return ((ie.getMetaData() != null) && "true".equals(ie.getMetaData().get("isOrphaned")));
-    }
 
     public void setIndexer(Indexer indexer) {
         this.indexer = indexer;

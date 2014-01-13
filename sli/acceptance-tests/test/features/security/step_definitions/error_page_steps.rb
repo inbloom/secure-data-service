@@ -6,7 +6,7 @@ Given /^I am using "(.*?)" as my content type$/ do |type|
 end
 
 Given /^I make a post request to sso\/post$/ do
-  url = PropLoader.getProps['api_server_url']+"/api/rest/saml/sso/post"
+  url = Property['api_server_url']+"/api/rest/saml/sso/post"
   data = {"SAMLResponse" => Base64.encode64(saml_data)}
   @res = RestClient.post(url, data, {:content_type => "application/x-www-form-urlencoded", :accept => @content_type}){|response, request, result| response }
 end

@@ -57,7 +57,7 @@ public class IndexEntityConverter {
         String type = (String)entityMap.get("type");
         EntityConverter converter = entityConverterFactory.getConverter(type);
         List<Map<String, Object>> entityMaps = converter.treatment(index, action, entityMap);
-
+        
         Action newAction = converter.convertAction(action);
         for (Map<String, Object> map : entityMaps) {
             IndexEntity entity = convert(index, newAction, map, decrypt);
@@ -67,15 +67,15 @@ public class IndexEntityConverter {
         }
         return entities;
     }
-
+    
     @SuppressWarnings("unchecked")
-    protected IndexEntity convert(String index, Action action, Map<String, Object> entityMap, boolean decrypt) {
-
+    private IndexEntity convert(String index, Action action, Map<String, Object> entityMap, boolean decrypt) {
+        
         try {
             Map<String, Object> body = (Map<String, Object>) entityMap.get("body");
             Map<String, Object> metaData = (Map<String, Object>) entityMap.get("metaData");
             String type = (String) entityMap.get("type");
-
+            
             // decrypt body if needed
             Map<String, Object> decryptedMap = null;
             if (body != null) {
@@ -85,17 +85,17 @@ public class IndexEntityConverter {
             entityMap.put("body", decryptedMap);
             // get tenantId
             String indexName = (index == null) ? ((String) metaData.get("tenantId")).toLowerCase() : index.toLowerCase();
-
+            
             IndexConfig config = indexConfigStore.getConfig(type);
-
+            
             // filter out
             if (!transformer.isMatch(config, entityMap)) {
                 return null;
             }
-
+            
             // transform the entities
             transformer.transform(config, entityMap);
-
+            
             String id = (String) entityMap.get("_id");
             String indexType = config.getIndexType() == null ? type : config.getIndexType();
             Action finalAction = config.isChildDoc() ? IndexEntity.Action.UPDATE : action;
@@ -103,27 +103,27 @@ public class IndexEntityConverter {
             if (body == null && action != Action.DELETE) {
                 return null;
             }
-
-            return new IndexEntity(finalAction, indexName, indexType, id, body, metaData);
-
+            
+            return new IndexEntity(finalAction, indexName, indexType, id, body);
+            
         } catch (Exception e) {
             throw new SearchIndexerException("Unable to convert entity", e);
         }
-
+        
     }
 
     public void setDecrypt(boolean decrypt) {
         this.decrypt = decrypt;
     }
-
+    
     public void setEntityConverterFactory(EntityConverterFactory entityConverterFactory) {
         this.entityConverterFactory = entityConverterFactory;
     }
-
+    
     public void setEntityEncryption(EntityEncryption entityEncryption) {
         this.entityEncryption = entityEncryption;
     }
-
+    
     public void setIndexConfigStore(IndexConfigStore indexConfigStore) {
         this.indexConfigStore = indexConfigStore;
     }

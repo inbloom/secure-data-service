@@ -40,7 +40,7 @@ class DataWriter
     @scenario = Scenario.new(scenario)
   end
 
-  def << (to_write)
+  def <<(to_write)
     ((to_write.is_a? Array) ? to_write : [to_write]).each{|entity|
       if @scenario.include_entity?(entity)
         initialize_entity(entity)

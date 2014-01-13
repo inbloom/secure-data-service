@@ -76,12 +76,14 @@ class BaseEntity
     @rand.rand(2) == 1
   end
 
+  # True if a the scenario has set OPTIONAL_FIELD_LIKELYHOOD and a random percentage is less than that value; false otherwise
   def optional?
-    ((@@scenario['OPTIONAL_FIELD_LIKELYHOOD'] > 0) and (@rand.rand() < @@scenario['OPTIONAL_FIELD_LIKELYHOOD']))
+    @@scenario['OPTIONAL_FIELD_LIKELYHOOD'] && (@@scenario['OPTIONAL_FIELD_LIKELYHOOD'] > 0) && (@rand.rand() < @@scenario['OPTIONAL_FIELD_LIKELYHOOD'])
   end
 
+  # Yield to the given block if a random percentage is less than the scenario's OPTIONAL_FIELD_LIKELYHOOD
   def optional(&blk)
-    yield if ((@@scenario['OPTIONAL_FIELD_LIKELYHOOD'] > 0) and (@rand.rand() < @@scenario['OPTIONAL_FIELD_LIKELYHOOD']))
+    yield if optional?
   end
 
   def int_value(obj)

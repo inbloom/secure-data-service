@@ -21,19 +21,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Maps;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-
 import org.slc.sli.search.connector.SearchEngineConnector;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.util.IndexEntityUtil;
 import org.slc.sli.search.util.NestedMapUtil;
 import org.slc.sli.search.util.RecoverableIndexerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Maps;
 
 /**
  * A convenience class for elasticsearch bulk operations
@@ -91,7 +90,7 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
             }
             tryExecute(docs, 0);
         }
-
+        
         void tryExecute(List<IndexEntity> docs, int currentRetryCount) {
             try {
                 try {
@@ -169,8 +168,8 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
             LOG.info(IndexEntityUtil.toUpdateJson(docs.get(0)));
             for (IndexEntity ie : docs) {
                 try {
-                    sb.append(executePost(getUpdateUri(), IndexEntityUtil.toUpdateJson(ie),
-                           ie.getIndex(), ie.getType(), ie.getId()).toString());
+                    sb.append(executePost(
+                            getUpdateUri(), IndexEntityUtil.toUpdateJson(ie), ie.getIndex(), ie.getType(), ie.getId()).toString());
                 }
                 catch (Exception e) {
                     LOG.error("Unable to update entry for " + ie, e);
@@ -203,7 +202,7 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
                 if (indexUpdateMap.containsKey(ie.getId())) {
                     entityBody = indexUpdateMap.get(ie.getId()).getBody();
                     if (NestedMapUtil.merge(entityBody, ie.getBody())) {
-                        ie = new IndexEntity(ie.getIndex(), ie.getType(), ie.getId(), entityBody, ie.getMetaData());
+                        ie = new IndexEntity(ie.getIndex(), ie.getType(), ie.getId(), entityBody);
                     }
                 }
                 indexUpdateMap.put(ie.getId(), ie);
@@ -228,7 +227,7 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
                             if (ie != null) {
                                 // if an update happened, re-index, if no update, skip the insert
                                 if (NestedMapUtil.merge(orig, ie.getBody())) {
-                                    reindex.add(new IndexEntity(ie.getIndex(), ie.getType(), ie.getId(), orig, ie.getMetaData()));
+                                    reindex.add(new IndexEntity(ie.getIndex(), ie.getType(), ie.getId(), orig));
                                 }
                             } else {
                                 LOG.error("Unable to match response from get " + entity.get("_id"));
@@ -299,11 +298,11 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
     public String getIndexTypeUri() {
         return indexTypeUri;
     }
-
+    
     public void setRetryCount(int retryCount) {
         this.retryCount = retryCount;
     }
-
+    
     public void setRetryWaitMillis(long retryWaitMillis) {
         this.retryWaitMillis = retryWaitMillis;
     }

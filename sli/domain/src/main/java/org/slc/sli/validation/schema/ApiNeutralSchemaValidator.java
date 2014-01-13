@@ -113,12 +113,17 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
      */
     private String calculateUUID(Entity entity) throws NoNaturalKeysDefinedException {
 
-        NaturalKeyDescriptor existingEntityNaturalKeyDescriptor = new NaturalKeyDescriptor();
-        existingEntityNaturalKeyDescriptor.setNaturalKeys(naturalKeyExtractor.getNaturalKeys(entity));
-        existingEntityNaturalKeyDescriptor.setEntityType(entity.getType());
-        existingEntityNaturalKeyDescriptor.setTenantId(TenantContext.getTenantId());
+        if(entity.getBody().isEmpty()) {
+            //handle scenario where the entity was hollowed out previously
+            return entity.getEntityId();
+        } else {
+            NaturalKeyDescriptor existingEntityNaturalKeyDescriptor = new NaturalKeyDescriptor();
+            existingEntityNaturalKeyDescriptor.setNaturalKeys(naturalKeyExtractor.getNaturalKeys(entity));
+            existingEntityNaturalKeyDescriptor.setEntityType(entity.getType());
+            existingEntityNaturalKeyDescriptor.setTenantId(TenantContext.getTenantId());
 
         return DETERMINISTIC_UUID_GENERATOR.generateId(existingEntityNaturalKeyDescriptor);
+        }
     }
 
     /**
@@ -134,7 +139,9 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
     private void validateNaturalKeysUnchanged(Entity originalEntity, Entity newEntity, Map<String, Boolean> naturalKeyFields, boolean clearOriginal) {
         try {
             // calculate current UUID before any changes applied
-            String existingUUID = this.calculateUUID(originalEntity);
+            String existingUUID;
+
+            existingUUID = this.calculateUUID(originalEntity);
 
             // true when doing a PUT, false when doing a PATCH
             if (clearOriginal) {

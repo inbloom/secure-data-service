@@ -18,10 +18,6 @@ package org.slc.sli.search.process;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +25,6 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
-
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.process.impl.IncrementalListenerImpl;
@@ -129,29 +123,7 @@ public class IncrementalListenerTest {
         Assert.assertEquals(entity.get(0).getId(), "4ef33d4356e3e757e5c3662e6a79ddbfd8b31866_id");
         Assert.assertEquals(entity.get(0).getType(), "student");
         Assert.assertEquals(entity.get(0).getIndex(), "midgar");
-    }
 
-    @Test
-    public void testAdjustForOrphan() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-        Map<String, Object> body = new HashMap<String, Object>();
-        Map<String, Object> metaData = new HashMap<String, Object>();
-        metaData.put("isOrphaned", "true");
-        IndexEntity ie = Mockito.mock(IndexEntity.class);
-        Mockito.when(ie.getBody()).thenReturn(body);
-        Mockito.when(ie.getMetaData()).thenReturn(metaData);
-
-        Map<String, Object> searchBody = new HashMap<String, Object>();
-        Map<String, Object> context = new HashMap<String, Object>();
-        context.put("schoolId", Arrays.asList("ALL"));
-        searchBody.put("context", context);
-        searchBody.put("_metaData", metaData);
-
-        Method method = IncrementalListenerImpl.class.getDeclaredMethod("adjustForOrphan", IndexEntity.class);
-        method.setAccessible(true);
-
-        method.invoke(listener, ie);
-
-        Assert.assertEquals(searchBody, ie.getBody());
     }
 
 }

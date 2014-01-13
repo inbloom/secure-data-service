@@ -37,7 +37,7 @@ When /^I navigate to GET with invalid id for each resource available$/ do
       next
     end
     badId = "bad1111111111111111111111111111111111111_id"
-    uri = "/v1.4#{resource}/#{badId}"
+    uri = "/v1.5#{resource}/#{badId}"
     puts "GET " + uri
     steps %Q{
       When I navigate to GET \"#{uri}\"
@@ -55,7 +55,7 @@ When /^I navigate to PUT with invalid id for each resource available$/ do
     end
 
     badId = "bad1111111111111111111111111111111111111_id"
-    uri = "/v1.4#{resource}/#{badId}"
+    uri = "/v1.5#{resource}/#{badId}"
 
     # strip leading "/"
     resource_type = get_resource_type resource
@@ -229,7 +229,7 @@ def get_resource resource
           Then I should receive a return code of 200
           And the response should contain the appropriate fields and values
          And "entityType" should be \"#{resource_type}\"
-         And I should receive a link named "self" with URI \"/v1.4#{resource}/#{@newId}\"
+         And I should receive a link named "self" with URI \"/v1.5#{resource}/#{@newId}\"
   }
 end
 def delete_resource resource
@@ -288,7 +288,7 @@ Given /^the staff queries and rewrite rules work$/ do
 
   puts "Given entity URI \"<resource>\""
   puts "Given parameter \"limit\" is \"0\""
-  puts "When I navigate to GET \"/v1.4</Resource URI>\""
+  puts "When I navigate to GET \"/v1.5</Resource URI>\""
   puts "Then I should receive a return code of 200"  
   puts "And each entity's \"entityType\" should be \"<Resource Type>\""
   puts "And I should receive a collection of \"<Count>\" entities"
@@ -310,7 +310,7 @@ Given /^the staff queries and rewrite rules work$/ do
     
     step "entity URI \"#{resource}\""
     step "parameter \"limit\" is \"0\""
-    step "I navigate to GET \"/v1.4#{resource_as_uri}\""
+    step "I navigate to GET \"/v1.5#{resource_as_uri}\""
     step "I should receive a return code of 200"  
     step "each entity's \"entityType\" should be \"#{resource_type}\""
   
@@ -328,7 +328,7 @@ Given /^entity URI "([^"]*)"$/ do |arg1|
 end
 
 Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
-  version = "v1.4"
+  version = "v1.5"
   root = expectedUri.match(/\/(.+?)\/|$/)[1]
   expected = version+expectedUri
   actual = @headers["x-executedpath"][0]
@@ -340,7 +340,7 @@ Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
   #Then, validate the list of ids are the same
   ids = []
   if @ctx.has_key? root
-    idsString = actual.match(/v1\.4\/[^\/]*\/([^\/]*)\/?/)[1]
+    idsString = actual.match(/v1\.5\/[^\/]*\/([^\/]*)\/?/)[1]
     actualIds = idsString.split(",")
     expectedIds = @ctx[root].split(",")
     
@@ -384,7 +384,7 @@ Then /^I perform POST for each resource available in the order defined by table:
       # @fields["gradingPeriodReference"] = (@context_hash["gradingPeriods"]["id"])
     end
     steps %Q{
-          When I navigate to POST \"/v1.4#{resource}\"
+          When I navigate to POST \"/v1.5#{resource}\"
           Then I should receive a return code of 201
           And I should receive an ID for the newly created entity
     }
@@ -400,7 +400,7 @@ Then /^I perform POST for each resource available in the order defined by table:
       # @fields["schoolId"] = @context_hash["schools"]["id"]
       # @fields["teacherId"] = @newId
      # steps %Q{
-          # When I navigate to POST \"/v1.4/teacherSchoolAssociations\"
+          # When I navigate to POST \"/v1.5/teacherSchoolAssociations\"
     # }
     # elsif resource.include? "/staff"
      # steps %Q{
@@ -409,7 +409,7 @@ Then /^I perform POST for each resource available in the order defined by table:
       # @fields["educationOrganizationReference"] = @context_hash["schools"]["id"]
       # @fields["staffReference"] = @newId
      # steps %Q{
-          # When I navigate to POST \"/v1.4/staffEducationOrgAssignmentAssociations\"
+          # When I navigate to POST \"/v1.5/staffEducationOrgAssignmentAssociations\"
     # }
     # end
   end
@@ -434,7 +434,7 @@ Then /^I perform PUT,GET and Natural Key Update for each resource available$/ do
 
     unless skip_resource_put(resource)
       steps %Q{
-          When I navigate to PUT \"/v1.4#{resource}/#{@newId}\"
+          When I navigate to PUT \"/v1.5#{resource}/#{@newId}\"
           Then I should receive a return code of 204
       }
     else
