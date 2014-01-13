@@ -445,6 +445,18 @@ public class ContextValidator implements ApplicationContextAware {
         }
 
     /**
+     * Returns true is the entity is an orphan that is created by the user, false otherwise
+     *
+     * @param entity - Collection of entities to filter for validation
+     *
+     * @return
+     */
+    private boolean isOrphanCreatedByUser(Entity entity) {
+         return SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
+                    && "true".equals(entity.getMetaData().get("isOrphaned"));
+        }
+
+    /**
      * This method forgivingly iterate through the input entities, returns a set of entity ids to validate,
      * based upon entity type and list of entities to filter for validation.
      *
