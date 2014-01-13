@@ -77,10 +77,11 @@ class DisciplineIncident < BaseEntity
   def initialize(id, section_id, school, staff, interval, location, behaviors = nil)
     @rand      = Random.new(id + section_id * 10)
     eight_hours = 8 * 60 * 60
-    
+
     @incident_identifier = DisciplineIncident.gen_id(id, section_id)
     @date                = interval.random_day(@rand)
-    @time                = (@date.to_time + eight_hours + @rand.rand(eight_hours)).strftime("%H:%M:%S")
+    offset = @rand.rand(eight_hours)
+    @time                = (Time.utc(@date.year, @date.month, @date.day) + eight_hours + offset).strftime("%H:%M:%S")
     @location            = location
     @behaviors           = behaviors || [DisciplineIncident.gen_behavior(id, section_id)]
     @school_id           = school

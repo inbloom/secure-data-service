@@ -438,7 +438,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <DisciplineIncident>
     <IncidentIdentifier>32#0</IncidentIdentifier>
     <IncidentDate>2014-03-09</IncidentDate>
-    <IncidentTime>09:30:02</IncidentTime>
+    <IncidentTime>08:30:02</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
@@ -522,7 +522,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <DisciplineIncident>
     <IncidentIdentifier>38#0</IncidentIdentifier>
     <IncidentDate>2014-11-02</IncidentDate>
-    <IncidentTime>09:04:02</IncidentTime>
+    <IncidentTime>10:04:02</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
