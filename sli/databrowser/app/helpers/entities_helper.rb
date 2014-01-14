@@ -143,7 +143,11 @@ module EntitiesHelper
         html << "<div class='row'><div class='key left'>#{t(key)}:</div><div class='value#{address_text}'>#{val_text}</div></div>"
       }
     elsif entity.is_a?(Array)
-      entity.each { |item| html << display_entity(item) }
+      html << '<ul>'
+      entity.each do |item|
+        html << '<li>' << display_entity(item) << '</li>'
+      end
+      html << '</ul>'
     else
       html << entity.to_s
     end
