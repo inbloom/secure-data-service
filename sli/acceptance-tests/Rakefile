@@ -551,11 +551,9 @@ desc "Run API, Ingestion, Dashboard, SDK, and SimpleIDP acceptance tests"
 task :fullSuite => [
   :production,
   :dashboardTests,
-  :ingestionTests,
   :integrationTests,
   :JavaSDKTests,
   :sandboxTests,
-  :adminSandboxTests,
   :apiSeleniumTests] do
 
   displayFailureReport()

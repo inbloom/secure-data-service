@@ -12,7 +12,6 @@
 
 	<properties>
 		<sli.home>${project.parent.basedir}</sli.home>
-		<spring.version>3.0.7.RELEASE</spring.version>
 		<sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
 		<sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
 	</properties>
