@@ -143,6 +143,8 @@ module EntitiesHelper
         html << "<div class='row'><div class='key left'>#{t(key)}:</div><div class='value#{address_text}'>#{val_text}</div></div>"
       }
     elsif entity.is_a?(Array)
+      # The following is so that a list a values (like Links) can be displayed in a
+      # different way than a list of hashes (like address)
       if entity[0].is_a?(Hash)
         html << "<ul class='hashes'>"
       else
