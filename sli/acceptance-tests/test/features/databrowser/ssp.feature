@@ -22,7 +22,15 @@ Scenario: Searching for a entities
 |educationOrganizations|waffles   | Fail   |
 |staff                 |wgoodman  | Pass   |
 |staff                 |waffles   | Fail   |
-|staff                 |          | Fail  |
+|staff                 |          | Fail   |
+|studentByName         |rud       | Pass   |
+|studentByName         |          | Fail   |
+|staffByName           |steven    | Pass   |
+|staffByName           |stephen   | Fail   |
+|staffByName           |Charles   | Pass   |
+|staffByName           |waffles   | Fail   |
+|edOrgByName           |Illinois  | Pass   |
+|edOrgByName           |Mdigra    | Fail   |
 
 @wip
 Scenario: Sorting in ascending/descending

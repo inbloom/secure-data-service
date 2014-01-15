@@ -104,6 +104,35 @@ When /^I click on the "([^"]*)" link$/ do |arg1|
   @driver.find_element(:link_text, arg1).click
 end
 
+Then /^I am redirected to the educationOrganization page$/ do
+  assertWithWait("Failed to be directed to educationOrganization page")  {@driver.page_source.include?("educationOrganization")}
+end
+
+Then /^I see the properties in the following <Order>$/ do |table|
+  count = 1
+  table.hashes.each do |hash|
+    assertWithWait("Failed to find '"+hash["Order"]+"' property where expected")  {@driver.find_element(:xpath, "(//div[contains(concat(' ',normalize-space(@class),' '),' key ')])[#{count}]").text == hash["Order"] + ':'}
+    count = count + 1
+  end
+end
+
+Then /^I see "([^"]*)" last$/ do |arg1|
+  assertWithWait("The '"+arg1+"' property was not listed last.") {@driver.find_element(:xpath, "(//div[contains(concat(' ',normalize-space(@class),' '),' key ')])[last()]").text == arg1 + ":"}
+end
+
+Then /^I see the list of "([^"]+)" in alphabetical order$/ do |arg1|
+  realOrder = Array.new
+  count = 1
+  #TODO Find better way to get all the elements of the Links list.
+  #TODO Find better way to assert that list of links is alphabetized also.
+  while count < 21 do
+    realOrder.push(@driver.find_element(:xpath, "(//div/ul/li/a/span)[#{count}]").text.downcase)
+    count = count + 1
+  end
+  alphaOrder = realOrder.clone.sort
+  assertWithWait("#{arg1} not in alphabetical order.") {alphaOrder == realOrder}
+end
+
 Then /^I am redirected to the associations list page$/ do
   assertWithWait("Failed to be directed to association page")  {@driver.page_source.include?("Associations")}
 end
