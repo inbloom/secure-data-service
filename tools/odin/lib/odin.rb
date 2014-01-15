@@ -24,7 +24,7 @@ RubyVM::InstructionSequence.compile_option = {
 require 'digest/md5'
 require 'digest/sha1'
 require 'logger'
-require "rexml/document"
+require 'rexml/document'
 require 'thwait'
 require 'yaml'
 
@@ -48,7 +48,6 @@ class Odin
     @log.level = Logger::INFO
     @workOrderQueue = nil
     @entityQueue = nil
-
   end
 
   def generate( scenario )
@@ -60,10 +59,14 @@ class Odin
     clean
 
     output = scenarioYAML['DATA_OUTPUT']
-    @log.info "-------------------------------------------------------"
-    @log.info " ODIN: Offline Data Interchange Nexus"
-    @log.info "-------------------------------------------------------"
-    @log.info "Simulation will use scenario: #{scenario}"
+    @log.info <<-out
+
+      -------------------------------------------------------
+      ODIN: Offline Data Interchange Nexus
+      -------------------------------------------------------
+      Simulation will use scenario: #{scenario}
+
+    out
 
     if output == "xml"
       @log.info "XML output specified --> Generating ed-fi xml interchanges."
@@ -112,17 +115,21 @@ class Odin
     genDataZip
   end
 
-  # displays brief summary of the world just created
+  # Display a brief summary of the world just created
   def display_world_summary(world)
-    @log.info "Summary of World:"
-    @log.info " - state education agencies: #{world["seas"].size}"
-    @log.info " - local education agencies: #{world["leas"].size}"
-    @log.info " - elementary schools:       #{world["elementary"].size}"
-    @log.info " - middle     schools:       #{world["middle"].size}"
-    @log.info " - high       schools:       #{world["high"].size}"
+    @log.info <<-out
+
+      Summary of World:
+        - state education agencies: #{world["seas"].size}
+        - local education agencies: #{world["leas"].size}
+        - elementary schools:       #{world["elementary"].size}
+        - middle     schools:       #{world["middle"].size}
+        - high       schools:       #{world["high"].size}
+
+    out
   end
 
-  # displays all pre-requisites before world building
+  # Display all pre-requisites before world building
   # -> all staff members (at relevant education organizations)
   # -> all teachers (at relevant education organizations)
   def display_pre_requisites_before_world_building(pre_requisites)
@@ -143,7 +150,7 @@ class Odin
     end
   end
 
-  # displays the pre-requisites that were not met during world building
+  # Display the pre-requisites that were not met during world building
   def display_pre_requisites_after_world_building(pre_requisites)
     # used 'displayed_title' variable to only display the 'these still remain' message after world building
     # if there were entities specified in the 
@@ -169,36 +176,41 @@ class Odin
       end
     end
     if displayed_title
-      @log.info "To guarantee that all members of the staff catalog be created, It is recommended that you:"
-      @log.info " -> increase the number of students in the scenario (property in yaml: STUDENT_COUNT)"
-      @log.info " -> increase the number of years in the scenario (property in yaml: NUMBER_OF_YEARS)"
-      @log.info " -> tune the cardinality of entities (there are several properties to control this)"
+      @log.info <<-out
+
+        To guarantee that all members of the staff catalog be created, It is recommended that you:
+         -> increase the number of students in the scenario (property in yaml: STUDENT_COUNT)
+         -> increase the number of years in the scenario (property in yaml: NUMBER_OF_YEARS)
+         -> tune the cardinality of entities (there are several properties to control this)
+
+      out
     end
   end
 
-  def validate()
+  def validate
     valid = true
     Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f| valid = valid && validate_file(f) }
-    return valid
+    valid
   end
 
-  ## Cleans the generated directory
-  def clean()
+  ## Clean the generated directory
+  def clean
     Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f| File::delete f }
-
   end
 
-  # Generates a MD5 hash of the generated xml files.
-  def md5()
+  # Generate a MD5 hash of the generated xml files.
+  def md5
     hashes = []
     Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f|
       hashes.push( Digest::MD5.hexdigest( f ))
     }
-
-    return Digest::MD5.hexdigest( hashes.to_s )
+    Digest::MD5.hexdigest( hashes.to_s )
   end
+
 end
 
+# TODO: Place this in an appropriate class or module instead of defining on Kernel
+# Load the scenario from YAML returning the YAML and a random-number generator
 def getScenario(scenario_name)
   configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'/../config.yml'))
   [load_scenario(scenario_name, configYAML), Random.new(configYAML['seed'])]

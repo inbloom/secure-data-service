@@ -21,9 +21,9 @@ require_relative '../../../utils/sli_utils.rb'
 require_relative '../../dash/step_definitions/selenium_common_dash.rb'
 
 Given /^I am authenticated to SLI as "([^"]*)" "([^"]*)"$/ do |user, pass|
-  url = PropLoader.getProps['api_server_url']
-  # url = PropLoader.getProps['dashboard_server_address']
-  url = url + PropLoader.getProps[@appPrefix]
+  url = Property['api_server_url']
+  # url = Property['dashboard_server_address']
+  url = url + Property[@appPrefix]
   
   @driver.get(url)
   @driver.manage.timeouts.implicit_wait = 5

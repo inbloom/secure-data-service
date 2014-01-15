@@ -1,11 +1,11 @@
 #bulk extract
-TRIGGER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_script'])
-OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_output_directory']
-PROPERTIES_FILE = PropLoader.getProps['bulk_extract_properties_file']
-KEYSTORE_FILE = PropLoader.getProps['bulk_extract_keystore_file']
-JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
-SSH_USER = PropLoader.getProps['ssh_user']
-EXTRACT_TO_DIRECTORY = PropLoader.getProps['extract_to_directory']
+TRIGGER_SCRIPT = File.expand_path(Property['bulk_extract_script'])
+OUTPUT_DIRECTORY = Property['bulk_extract_output_directory']
+PROPERTIES_FILE = Property['bulk_extract_properties_file']
+KEYSTORE_FILE = Property['bulk_extract_keystore_file']
+JAR_FILE = Property['bulk_extract_jar_loc']
+SSH_USER = Property['ssh_user']
+EXTRACT_TO_DIRECTORY = Property['extract_to_directory']
 
 require 'archive/tar/minitar'
 include Archive::Tar
@@ -19,9 +19,9 @@ end
 
 Given /^the (production|sandbox) extraction zone is empty$/ do |environment|
   if environment.downcase == 'sandbox'
-    tenant = PropLoader.getProps['sandbox_tenant']
+    tenant = Property['sandbox_tenant']
   else
-    tenant = PropLoader.getProps['tenant']
+    tenant = Property['tenant']
   end
   executeShellCommand("rm -f \~/.ssh/known_hosts")
   executeShellCommand("ssh #{SSH_USER} sudo rm -rf #{OUTPUT_DIRECTORY}#{convertTenantIdToDbName(tenant)}")
@@ -41,9 +41,9 @@ end
 
 When /^the operator triggers a bulk extract for the (production|sandbox) tenant$/ do |environment|
   if environment.downcase == 'sandbox'
-    tenant = PropLoader.getProps['sandbox_tenant']
+    tenant = Property['sandbox_tenant']
   else
-    tenant = PropLoader.getProps['tenant']
+    tenant = Property['tenant']
   end
   executeShellCommand("rm -f \~/.ssh/known_hosts")
   command = getBulkExtractCommand(tenant)
@@ -52,9 +52,9 @@ end
 
 When /^the operator triggers a delta for the (production|sandbox) tenant$/ do |environment|
   if environment.downcase == 'sandbox'
-    tenant = PropLoader.getProps['sandbox_tenant']
+    tenant = Property['sandbox_tenant']
   else
-    tenant = PropLoader.getProps['tenant']
+    tenant = Property['tenant']
   end
   executeShellCommand("rm -f \~/.ssh/known_hosts")
   command = getBulkExtractCommand(tenant, ' -d')

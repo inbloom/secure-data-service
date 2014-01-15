@@ -31,7 +31,7 @@ def reset_timeouts_to_default
 end
 
 Given /^I have an open web browser$/ do
-  browser = PropLoader.getProps['browser'].downcase
+  browser = Property['browser'].downcase
   if (browser == "ie")
     @driver ||= Selenium::WebDriver.for :ie
   elsif (browser == "chrome")
@@ -146,7 +146,7 @@ When /^I select "(.*?)" from the dropdown and click go$/ do |arg1|
 end
 
 After do |scenario|
-  base = "./cats_with_lasers" # Maybe a better name, eh?
+  base = "./cats_with_lasers_#{Time.now.strftime('%H-%M-%S')}" # Maybe a better name, eh?
   url_fn = base + ".txt"
   html_fn = base + ".html"
   screenshot_fn = base + ".png"

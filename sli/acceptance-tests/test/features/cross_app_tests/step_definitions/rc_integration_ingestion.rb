@@ -28,7 +28,7 @@ require 'rest-client'
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
-ACTIVEMQ_HOST = PropLoader.getProps['activemq_host']
+ACTIVEMQ_HOST = Property['activemq_host']
 UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
 
 module NoLandingZone
@@ -142,16 +142,16 @@ end
 Given /^I have a local configured landing zone for my tenant$/ do
   @local_lz = true
 
-  host = PropLoader.getProps['ingestion_db']
-  port = PropLoader.getProps['ingestion_db_port']
-  db_name = PropLoader.getProps['ingestion_database_name']
+  host = Property['ingestion_db']
+  port = Property['ingestion_db_port']
+  db_name = Property['ingestion_database_name']
   conn = Mongo::Connection.new(host, port)
   db = conn.db(db_name)
 
   if (@mode == "SANDBOX")
-    @tenant_name = PropLoader.getProps['sandbox_tenant']
+    @tenant_name = Property['sandbox_tenant']
   else
-    @tenant_name = PropLoader.getProps['tenant']
+    @tenant_name = Property['tenant']
   end
 
   tenants = db.collection("tenant").find("body.tenantId" => @tenant_name).to_a
@@ -159,7 +159,7 @@ Given /^I have a local configured landing zone for my tenant$/ do
   if tenants.empty?
     puts "#{@tenant_name} tenantId not found in Mongo - skipping tenant database deletion"
   else
-    edorg = PropLoader.getProps['edorg']
+    edorg = Property['edorg']
     tenants[0]["body"]["landingZone"].each do |lz|
       if lz["educationOrganization"] == edorg
         @landing_zone_path = lz["path"]

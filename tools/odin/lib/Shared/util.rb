@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+# TODO: All these methods need to be encapsulated in a module
+
 def stripInterchange(interchangeName)
   interchangeName[11..-5]
 end
@@ -53,15 +55,11 @@ HEADER
   return header, footer
 end
 
-## Loads the scenario default values from 'scenario' and applies the specified scenario overrides
+## Loads the scenario default values from 'base_scenario' and applies the specified scenario overrides
 ## Returns the resulting YAML file.
 def load_scenario (scenario_name, configYAML)
   scenarioDefaults = YAML.load_file(File.join(File.dirname(__FILE__), '/../../scenarios/defaults/base_scenario'))
-
-  if ( scenario_name.nil? )
-    scenario_name = configYAML['scenario']
-  end
-
+  scenario_name ||= configYAML['scenario']
   scenarioYAML = scenarioDefaults.merge!(YAML.load_file(File.join(File.dirname(__FILE__), '/../../scenarios', scenario_name )))
 end
 

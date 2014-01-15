@@ -35,7 +35,7 @@ Given /^I am a valid SLC Operator "([^"]*)" from the "([^"]*)" hosted directory$
 end
 
 When /^I hit the Application Registration Tool URL$/ do
-  @driver.get(PropLoader.getProps['admintools_server_url']+"/apps/")
+  @driver.get(Property['admintools_server_url']+"/apps/")
 end
 
 Then /^I can navigate to app registration page with that user$/ do
@@ -408,9 +408,9 @@ Then /^a notification email is sent to "([^"]*)"$/ do |email|
     sleep 2
     defaultUser = email.split("@")[0]
     defaultPassword = "#{defaultUser}1234"
-    puts "=============  IMAP host is " + PropLoader.getProps['email_imap_host']
-    puts "=============  IMAP port is " + PropLoader.getProps['email_imap_port'].to_s
-    imap = Net::IMAP.new(PropLoader.getProps['email_imap_host'], PropLoader.getProps['email_imap_port'], true, nil, false)
+    puts "=============  IMAP host is " + Property['email_imap_host']
+    puts "=============  IMAP port is " + Property['email_imap_port'].to_s
+    imap = Net::IMAP.new(Property['email_imap_host'], Property['email_imap_port'], true, nil, false)
     puts "=============  AUTHENTICATING WITH '" + defaultUser + "' / '" + defaultPassword + "'"
     imap.authenticate('LOGIN', defaultUser, defaultPassword)
     imap.examine('INBOX')

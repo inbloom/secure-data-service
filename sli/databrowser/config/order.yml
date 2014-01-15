@@ -1,0 +1,48 @@
+# The root keys match the entity being viewed
+# Each key below the root key is in the order those keys should be displayed
+# The "default" root key is for nested entities which have no entityType
+
+educationOrganization:
+    - id
+    - organizationCategories
+    - stateOrganizationId
+    - nameOfInstitution
+    - address
+
+staff:
+    - loginId
+    - staffUniqueStateId
+    - id
+    - name
+    - address
+    - electronicMail
+    - telephone
+    - birthDate
+    - highestLevelOfEducationCompleted
+    - sex
+    - credentials
+    - yearsOfPriorTeachingExperience
+    - yearsOfPriorProfessionalExperience
+    - staffIdentificationCode
+    - entityType
+    - race
+    - hispanicLatinoEthnicity
+    - oldEthnicity
+
+default:
+    - apartmentRoomSuiteNumber
+    - streetNumberName
+    - city
+    - nameOfCounty
+    - stateAbbreviation
+    - postalCode
+    - addressType
+    - openDate
+    - personalTitlePrefix
+    - firstName
+    - lastSurname
+    - verification
+    - emailAddress
+    - primaryTelephoneNumberIndicator
+    - telephoneNumber
+    - telephoneNumberType

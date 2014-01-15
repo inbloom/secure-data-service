@@ -53,7 +53,7 @@ Given /^I DELETE to clear the Indexer$/ do
   # we don't need a token for search calls
   @sessionId = ""
   @format = "application/json;charset=utf-8"
-  url = PropLoader.getProps['elastic_search_address'] 
+  url = Property['elastic_search_address']
   restHttpDeleteAbs(url)
   assert(@res != nil, "Response from rest-client POST is nil")
   puts @res
@@ -61,14 +61,14 @@ end
 
 Given /^I flush the Indexer$/ do
   @format = "application/json;charset=utf-8"
-  url = PropLoader.getProps['elastic_search_address'] + "/_flush"
+  url = Property['elastic_search_address'] + "/_flush"
   restHttpPostAbs(url)
   assert(@res != nil, "Response from rest-client POST is nil")
   puts @res
 end
 
 When /^I do elastic search for assessment in Midgar tenant$/ do
-      url = PropLoader.getProps['elastic_search_address'] + "/" + MIDGAR_DB_NAME + "/assessment/_search?from=0&size=10000"
+      url = Property['elastic_search_address'] + "/" + MIDGAR_DB_NAME + "/assessment/_search?from=0&size=10000"
       restHttpGetAbs(url)
       assert(@res != nil, "Response from rest-client GET is nil")
       #puts @res
@@ -136,7 +136,7 @@ When /^I update some assessment records in mongo$/ do
   }
   
 
-  conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
   @mdb = conn.db(MIDGAR_DB_NAME)
   
   # update the assessment entity with id is e33ce38ad4136e409b426b1ffe7781d09aed2aec_id
@@ -322,7 +322,7 @@ Then /^I drop another Valid File to the Inbox Directory$/ do
 end
 
 Then /^I should see the file has been prcoessed$/ do
-  destPath = PropLoader.getProps['elastic_search_inbox'] + "/" + @srcFileName
+  destPath = Property['elastic_search_inbox'] + "/" + @srcFileName
   current = 0
   finished = false
   while (!finished && current < 5)
@@ -336,7 +336,7 @@ Then /^I should see the file has been prcoessed$/ do
 end
 
 Given /^I should see the file has not been processed$/ do
-  destPath = PropLoader.getProps['elastic_search_inbox'] + "/" + @srcFileName
+  destPath = Property['elastic_search_inbox'] + "/" + @srcFileName
   current = 0
   finished = false
   while (!finished || current < 2)
@@ -358,7 +358,7 @@ Given /^I check that Elastic Search is non\-empty$/ do
 end
 
 Given /^I search in Elastic Search for "(.*?)" in tenant "(.*?)"$/ do |query, tenant|
-  url = PropLoader.getProps['elastic_search_address'] + "/" + convertTenantIdToDbName(tenant) + "/_search?q=" + query
+  url = Property['elastic_search_address'] + "/" + convertTenantIdToDbName(tenant) + "/_search?q=" + query
   restHttpGetAbs(url)
   puts url
   assert(@res != nil, "Response from rest-client GET is nil")
@@ -371,7 +371,7 @@ Given /^"(.*?)" hit is returned$/ do |expectedHits|
 end
 
 Given /^I search in API for "(.*?)"$/ do |query|
-  url = PropLoader.getProps["api_server_url"] + "/api/rest/v1/search/students?q=" + query
+  url = Property["api_server_url"] + "/api/rest/v1/search/students?q=" + query
   restHttpGetAbs(url)
   assert(@res != nil, "Response from rest-client GET is nil")  
   @result = JSON.parse(@res.body)
@@ -397,8 +397,8 @@ end
 
 Given /^I import into tenant collection$/ do
   tenants = ["Midgar", "Hyrule"]
-  dbname = PropLoader.getProps["api_database_name"]
-  db = Mongo::Connection.new(PropLoader.getProps["DB_HOST"], PropLoader.getProps["DB_PORT"])[dbname]
+  dbname = Property["api_database_name"]
+  db = Mongo::Connection.new(Property["DB_HOST"], Property["DB_PORT"])[dbname]
   tenants.each do |tenant|
     doc = generateTenantDoc(tenant)
     db['tenant'].insert(doc) if db['tenant'].find_one({"body.tenantId" => tenant}).nil?
@@ -407,8 +407,8 @@ end
 
 Given /^I clear the tenants that I previously imported$/ do
   tenants = ["Midgar", "Hyrule"]
-  dbname = PropLoader.getProps["api_database_name"]
-  db = Mongo::Connection.new(PropLoader.getProps["DB_HOST"], PropLoader.getProps["DB_PORT"])[dbname]
+  dbname = Property["api_database_name"]
+  db = Mongo::Connection.new(Property["DB_HOST"], Property["DB_PORT"])[dbname]
   tenants.each do |tenant|
     id = convertTenantIdToDbName(tenant)
     db['tenant'].remove("_id" => id)
@@ -462,7 +462,7 @@ end
 
 ###### End of sorting-step utils for pagination ##########
 
-def fileCopy(sourcePath, destPath = PropLoader.getProps['elastic_search_inbox'])
+def fileCopy(sourcePath, destPath = Property['elastic_search_inbox'])
   assert(destPath != nil, "Destination path is nil")
   assert(sourcePath != nil, "Source path is nil")
   
@@ -521,7 +521,7 @@ def verifyElasticSearchCount(numEntities = -1)
   indexCount = 0
   sleep 2
   while (numTries < max && !done)
-    url = PropLoader.getProps['elastic_search_address'] + "/_count"
+    url = Property['elastic_search_address'] + "/_count"
     restHttpGetAbs(url)
     assert(@res != nil, "Response from rest-client POST is nil")
     puts @res
@@ -555,8 +555,8 @@ def generateTenantDoc(tenantName)
 end
 
 def sendCommand(command)
-  hostname = PropLoader.getProps['elastic_search_host']
-  port = PropLoader.getProps['elastic_search_remote_command_port']
+  hostname = Property['elastic_search_host']
+  port = Property['elastic_search_remote_command_port']
   socket = TCPSocket.open(hostname, port)
   socket.write(command)
   socket.close 

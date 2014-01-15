@@ -67,8 +67,8 @@ class WorldBuilder
   # -> generates CourseOffering [Master Schedule interchange]
   # -> out of scope: Program, StaffProgramAssociation, StudentProgramAssociation, Cohort, StaffCohortAssociation, StudentCohortAssociation
   # -> returns education organization structure built
-  def build()
-    if !@scenarioYAML["STUDENT_COUNT"].nil?
+  def build
+    if @scenarioYAML["STUDENT_COUNT"]
       build_world_from_students
     #elsif !@scenarioYAML["SCHOOL_COUNT"].nil?
     #  build_world_from_edOrgs()
@@ -76,8 +76,7 @@ class WorldBuilder
     else
       @log.error "STUDENT_COUNT or SCHOOL_COUNT must be set for a world to be created --> Exiting..."
     end
-
-    return @world
+    @world
   end
 
   # Builds world using the specified number of students as the driving criteria
@@ -261,23 +260,18 @@ class WorldBuilder
       # Set the parent edOrg based on catalog, or keep nil and dump school into first LEA in list
       begin_year = @scenarioYAML["BEGIN_YEAR"]
       num_years  = @scenarioYAML["NUMBER_OF_YEARS"]
-      
-      if members != []
-        if members["staff"].nil?
-           parent = nil 
-        else
-          parent = members["staff"][0][:parent]
-        end
+
+      parent = nil
+
+      unless members.empty?
+        parent = members["staff"].nil? ? nil : members["staff"][0][:parent]
         catalog_students = members["students"]
-      else
-        parent = nil
       end
+
       # remember the school's state organization id if it's a String --> pop off later when creating education organizations
       @schools << school_id if school_id.kind_of? String
 
-
-
-      staff, teachers, students    = create_staff_and_teachers_for_school(members)
+      staff, teachers, students = create_staff_and_teachers_for_school(members)
 
       school = {
         "id" => school_id,
@@ -609,7 +603,7 @@ class WorldBuilder
         session             = Hash.new
         session["term"]     = :YEAR_ROUND
         session["year"]     = year
-        session["name"] = year.to_s + "-" + (year+1).to_s + " " + SchoolTerm.to_string(:YEAR_ROUND) + " session: " + state_organization_id.to_s
+        session["name"]     = "#{year}-#{year+1} #{SchoolTerm.to_string(:YEAR_ROUND)} session: #{state_organization_id}"
         session["interval"] = interval
         session["edOrgId"]  = state_organization_id
         @world["leas"][index]["sessions"] << session

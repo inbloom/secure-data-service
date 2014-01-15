@@ -29,7 +29,7 @@ require_relative '../../sandbox/UserAdmin/step_definitions/User_Admin_Interface_
 
 Before("@RALLY_3071") do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
-  @db = Mongo::Connection.new.db(convertTenantIdToDbName(PropLoader.getProps['api_database_name']))
+  @db = Mongo::Connection.new.db(convertTenantIdToDbName(Property['api_database_name']))
 end
 
 After("@RALLY_3071") do
