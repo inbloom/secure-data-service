@@ -17,7 +17,7 @@ def yesno(prompt = 'Continue?', default = true)
 end
 
 puts "This script will update documents in the staffEducationOrganizationAssociation collection in each tenant db"
-puts "where the users end date has already passed"
+puts "where the users end date has already passed - Their new end date will be 1 year from today"
 if yesno("Do you wish to proceed?", false) == false
   exit(1)
 end
