@@ -44,9 +44,9 @@ Scenario: Trigger a bulk extract and retrieve the extract through the api
     |  teacherSectionAssociation             | 11    | 8a4b9bcd2ca43c5209fd7ab0e1f61dafd1a4f4a2_id173e9047fcb1f753b83e69ccfce4c8f68844ffb4_id |
 
 @sandbox
-Scenario: Retrieve the SEA public extract through the api
+Scenario: Retrieve the public extract through the api
   Given I am a valid 'service' user with an authorized long-lived token "14FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
-  When I make a call to the bulk extract end point "/bulk/extract/884daa27d806c2d725bc469b273d840493f84b4d_id"
+  When I make a call to the bulk extract end point "/bulk/extract/public"
   When the return code is 200 I get expected tar downloaded
   Then I check the http response headers for tenant "developer-email@slidev.org"
   When I decrypt and save the extracted file
@@ -55,14 +55,11 @@ Scenario: Retrieve the SEA public extract through the api
   And the extract contains a file for each of the following entities with the appropriate count and does not have certain ids:
     |  entityType                            | count |
     |  assessment                            |  71   |
-    #|  calendarDate                          |  10   |
-    #|  competencyLevelDescriptor             |  2    |
     |  educationOrganization                 |  11   |
     |  graduationPlan                        |  3    |
     |  learningObjective                     |  948  |
     |  learningStandard                      |  1499 |
     |  program                               |  64   |
-    #|  studentCompetencyObjective            |  1    |
     |  course                                |  129  |
     |  courseOffering                        |  163  |
     |  session                               |  24   |
@@ -71,7 +68,7 @@ Scenario: Retrieve the SEA public extract through the api
     |  section                               |  165  |
     |  cohort                                |  12   |
 @sandbox
-  Scenario: Retrieve the LEA/SEA delta extract through the api
+  Scenario: Retrieve the LEA/public delta extract through the api
     When I insert the tenant for developer-email@slidev.org
     Given the extraction zone is empty
     And the bulk extract files in the database are scrubbed
@@ -88,7 +85,7 @@ Scenario: Retrieve the SEA public extract through the api
     And The "student" delta was extracted in the same format as the api
     And The "studentAssessment" delta was extracted in the same format as the api
 
-    When I untar and decrypt the "inBloom" public delta tarfile for tenant "developer-email@slidev.org" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "884daa27d806c2d725bc469b273d840493f84b4d_id"
+    When I untar and decrypt the "inBloom" public delta tarfile for tenant "developer-email@slidev.org" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
     Then The "educationOrganization" delta was extracted in the same format as the api
     And The "section" delta was extracted in the same format as the api
 

@@ -26,15 +26,15 @@ import org.mockito.MockitoAnnotations;
 import org.opensaml.Configuration;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.EncryptedAssertion;
+import org.opensaml.saml2.core.Issuer;
 import org.opensaml.saml2.core.Response;
 import org.opensaml.xml.XMLObject;
 import org.opensaml.xml.io.Unmarshaller;
-import org.opensaml.xml.io.UnmarshallingException;
+import org.opensaml.xml.signature.Signature;
 import org.slc.sli.api.resources.security.KeyStoreAccessor;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -43,12 +43,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
+import org.w3c.dom.Element;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -178,6 +176,82 @@ public class SamlHelperTest {
         Mockito.when(samlResponse.getEncryptedAssertions()).thenReturn(assertionList);
         result = samlHelper.isAssertionEncrypted(samlResponse);
         Assert.assertTrue(result);
+    }
+
+    @Test (expected = APIAccessDeniedException.class)
+    public void testValidSignature() {
+        Response samlResponse = Mockito.mock(Response.class);
+        Assertion assertion = Mockito.mock(Assertion.class);
+        Signature responseSignature = Mockito.mock(Signature.class);
+        Signature assertionSignature = Mockito.mock(Signature.class);
+        Element element = Mockito.mock(Element.class);
+
+        Issuer issuer = Mockito.mock(Issuer.class);
+        String issuerValue = "http://testidp.com";
+        Mockito.when(issuer.getValue()).thenReturn(issuerValue);
+
+        Mockito.when(samlResponse.getIssuer()).thenReturn(issuer);
+        Mockito.when(samlResponse.getSignature()).thenReturn(responseSignature);
+        Mockito.when(samlResponse.getDOM()).thenReturn(element);
+        Mockito.when(assertion.getSignature()).thenReturn(null);
+        Mockito.when(assertion.getDOM()).thenReturn(element);
+
+        SamlHelper spyObject = Mockito.spy(samlHelper);
+
+        Mockito.doNothing().when(spyObject).validateFormatAndCertificate(Mockito.any(Signature.class), Mockito.any(Element.class), Mockito.anyString());
+
+        spyObject.validateSignature(samlResponse, assertion);
+
+        Mockito.verify(spyObject, Mockito.times(1)).validateFormatAndCertificate(responseSignature, element, issuerValue);
+        Mockito.verify(spyObject, Mockito.times(0)).validateFormatAndCertificate(assertionSignature, element, issuerValue);
+
+        Mockito.when(assertion.getSignature()).thenReturn(assertionSignature);
+
+        spyObject = Mockito.spy(samlHelper);
+        Mockito.doNothing().when(spyObject).validateFormatAndCertificate(Mockito.any(Signature.class), Mockito.any(Element.class), Mockito.anyString());
+        spyObject.validateSignature(samlResponse, assertion);
+
+        Mockito.verify(spyObject, Mockito.times(1)).validateFormatAndCertificate(responseSignature, element, issuerValue);
+        Mockito.verify(spyObject, Mockito.times(1)).validateFormatAndCertificate(assertionSignature, element, issuerValue);
+
+        Mockito.when(samlResponse.getSignature()).thenReturn(null);
+
+        spyObject = Mockito.spy(samlHelper);
+        Mockito.doNothing().when(spyObject).validateFormatAndCertificate(Mockito.any(Signature.class), Mockito.any(Element.class), Mockito.anyString());
+        spyObject.validateSignature(samlResponse, assertion);
+
+        Mockito.verify(spyObject, Mockito.times(0)).validateFormatAndCertificate(responseSignature, element, issuerValue);
+        Mockito.verify(spyObject, Mockito.times(1)).validateFormatAndCertificate(assertionSignature, element, issuerValue);
+
+
+        Mockito.when(samlResponse.getSignature()).thenReturn(null);
+        Mockito.when(assertion.getSignature()).thenReturn(null);
+
+        spyObject = Mockito.spy(samlHelper);
+        Mockito.doNothing().when(spyObject).validateFormatAndCertificate(Mockito.any(Signature.class), Mockito.any(Element.class), Mockito.anyString());
+        spyObject.validateSignature(samlResponse, assertion);
+
+        Mockito.verify(spyObject, Mockito.times(0)).validateFormatAndCertificate(responseSignature, element, issuerValue);
+        Mockito.verify(spyObject, Mockito.times(0)).validateFormatAndCertificate(assertionSignature, element, issuerValue);
+    }
+
+    @Test (expected = APIAccessDeniedException.class)
+    public void testNonSamlXml() {
+        String postData = "<test><child>text</child></test>";
+        Document doc = samlHelper.parseToDoc(postData);
+
+        Response samlResponse = samlHelper.convertToSAMLResponse(doc.getDocumentElement());
+        Assert.assertNull(samlResponse);
+    }
+
+    @Test (expected = APIAccessDeniedException.class)
+    public void testNonSamlResponseXml() {
+        String postData = "<saml2:AttributeService xmlns:saml2=\"urn:oasis:names:tc:SAML:2.0:metadata\"></saml2:AttributeService>";
+        Document doc = samlHelper.parseToDoc(postData);
+
+        Response samlResponse = samlHelper.convertToSAMLResponse(doc.getDocumentElement());
+
+        Assert.assertNull(samlResponse);
     }
 
     private void setRealm(String sourceId) {

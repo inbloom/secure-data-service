@@ -170,7 +170,9 @@ public class SchemaReferencesMetaDataTest {
                                 new SchemaReferencePath("cohort.educationOrgId", "educationOrganization", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("studentProgramAssociation.educationOrganizationId", "educationOrganization", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("studentCTEProgramAssociation.educationOrganizationId", "educationOrganization", 1L, 1L,false,false, true) ,
-                                new SchemaReferencePath("educationOrganization.parentEducationAgencyReference", "educationOrganization",  0L, 9223372036854775807L,true,true, false) ),
+                                new SchemaReferencePath("educationOrganization.parentEducationAgencyReference", "educationOrganization",  0L, 9223372036854775807L,true,true, false),
+                                new SchemaReferencePath("bellSchedule.educationOrganizationId", "educationOrganization",  1L, 1L,false,false, true),
+                                new SchemaReferencePath("classPeriod.educationOrganizationId", "educationOrganization", 1L, 1L,false,false, true) ),
                         Sets.newHashSet(schemaRefMetaData.getReferencesTo("educationOrganization"))
                 ).size()
         );

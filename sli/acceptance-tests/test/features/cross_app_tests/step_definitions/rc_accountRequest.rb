@@ -23,16 +23,16 @@ limitations under the License.
 require_relative '../../utils/email.rb'
 
 Given /^I go to the account registration page on RC$/ do
-  @driver.get PropLoader.getProps['admintools_server_url'] + PropLoader.getProps['registration_app_suffix']
+  @driver.get Property['admintools_server_url'] + Property['registration_app_suffix']
 end
 
 Given /^I go to the mini sandbox account registration page$/ do
-  @baseUrl = PropLoader.getProps['minisb_admintools_server_url']
-  @driver.get PropLoader.getProps['minisb_admintools_server_url'] + PropLoader.getProps['registration_app_suffix']
+  @baseUrl = Property['minisb_admintools_server_url']
+  @driver.get Property['minisb_admintools_server_url'] + Property['registration_app_suffix']
 end
 
 Given /^I go to the portal page on RC$/ do
-  @driver.get PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']
+  @driver.get Property['portal_server_address'] + Property['portal_app_suffix']
 end
 
 Given /^I am running in Sandbox mode$/ do
@@ -42,15 +42,15 @@ end
 Given /^when I click Accept$/ do 
 
   if (@mode == "SANDBOX")
-    @imap_username = PropLoader.getProps['developer_sb_email_imap_registration_user']
-    @imap_password = PropLoader.getProps['developer_sb_email_imap_registration_pass']
+    @imap_username = Property['developer_sb_email_imap_registration_user']
+    @imap_password = Property['developer_sb_email_imap_registration_pass']
   else
-    @imap_username = PropLoader.getProps['developer_email_imap_registration_user']
-    @imap_password = PropLoader.getProps['developer_email_imap_registration_pass']
+    @imap_username = Property['developer_email_imap_registration_user']
+    @imap_password = Property['developer_email_imap_registration_pass']
   end
 
-  @content = check_email({:imap_host => PropLoader.getProps['email_imap_hostname'],
-                         :imap_port => PropLoader.getProps['email_imap_portname'],
+  @content = check_email({:imap_host => Property['email_imap_hostname'],
+                         :imap_port => Property['email_imap_portname'],
                          :content_substring => "RCTest",
                          :subject_substring => "Email Confirmation",
                          :imap_username => @imap_username ,
@@ -64,9 +64,9 @@ end
 
 Given /^I received an email to verify my email address$/ do
   if (@mode == "SANDBOX") 
-    admin_tools_server = PropLoader.getProps['admintools_server_url']
+    admin_tools_server = Property['admintools_server_url']
   else
-    admin_tools_server = PropLoader.getProps['minisb_admintools_server_url']
+    admin_tools_server = Property['minisb_admintools_server_url']
   end
   puts @content
   puts admin_tools_server
@@ -123,8 +123,8 @@ Then /^I should be on the Authorize Developer Account page$/ do
 end
 
 Then /^I am redirected to the developer get-started page$/ do
-  assertWithWait("Was not redirected to #{PropLoader.getProps['sb_get_started']}") {
-    @driver.current_url.include?(PropLoader.getProps['sb_get_started'])
+  assertWithWait("Was not redirected to #{Property['sb_get_started']}") {
+    @driver.current_url.include?(Property['sb_get_started'])
   }
 end
 
@@ -137,15 +137,15 @@ private
 def check_email_for_verification(subject_substring = nil, content_substring = nil)
 
   if (@mode == "SANDBOX")
-    @imap_username = PropLoader.getProps['developer_sb_email_imap_registration_user']
-    @imap_password = PropLoader.getProps['developer_sb_email_imap_registration_pass']
+    @imap_username = Property['developer_sb_email_imap_registration_user']
+    @imap_password = Property['developer_sb_email_imap_registration_pass']
   else
-    @imap_username = PropLoader.getProps['developer_email_imap_registration_user']
-    @imap_password = PropLoader.getProps['developer_email_imap_registration_pass']
+    @imap_username = Property['developer_email_imap_registration_user']
+    @imap_password = Property['developer_email_imap_registration_pass']
   end
 
-  imap_host = PropLoader.getProps['email_imap_hostname'] 
-  imap_port = PropLoader.getProps['email_imap_portname'] 
+  imap_host = Property['email_imap_hostname']
+  imap_port = Property['email_imap_portname']
   imap_user = @imap_username
   imap_password = @imap_password 
   not_so_distant_past = Date.today.prev_day

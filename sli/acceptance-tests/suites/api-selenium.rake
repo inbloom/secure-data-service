@@ -162,8 +162,8 @@ task :databrowserSmokeTests do
 end
 
 desc "Run databrowser artifact binding login test"
-task :databrowserArtifactTests => [:realmInit, :importSandboxData] do
-  runTests("test/features/databrowser/databrowser_artifact_login.feature")
+task :databrowserExternalIdpTests => [:realmInit, :importSandboxData] do
+  runTests("test/features/databrowser/databrowser_external_idp_login.feature")
 end
 
 desc "Run Admin Tool Smoke Tests"

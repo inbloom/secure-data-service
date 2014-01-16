@@ -35,7 +35,6 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Sets;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.init.RoleInitializer;
@@ -166,7 +165,7 @@ public class RealmResource {
         updatedRealm.put("tenantId", SecurityUtil.getTenantId());
         updatedRealm.put(ED_ORG, SecurityUtil.getEdOrg());
 
-        if (service.update(realmId, updatedRealm)) {
+        if (service.update(realmId, updatedRealm, false)) {
             logSecurityEvent(uriInfo, oldRealm, updatedRealm);
             return Response.status(Status.NO_CONTENT).build();
         }

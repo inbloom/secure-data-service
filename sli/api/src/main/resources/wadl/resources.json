@@ -1,5 +1,5 @@
 [{
-  "nameSpace": ["v1.0","v1.1", "v1.2", "v1.3"],
+  "nameSpace": ["v1.0","v1.1", "v1.2", "v1.3", "v1.4", "v1.5"],
   "resources": [
    {
       "path": "/bulk",
@@ -219,7 +219,7 @@
           "dateSearchDisallowed": true,
           "doc": "This URI, /educationOrganizations/{id}/calendarDates, provides the calendarDates associated with the EducationOrganization."
         },
-        { 
+        {
           "path": "/{id}/cohorts",
           "dateSearchDisallowed": true,
           "doc": "This URI, /educationOrganizations/{id}/cohorts, should only be called in the context of a staff member, and should not be used in the context of a teacher. Use /teachers/{id}/staffCohortAssociations/cohorts instead, as this URI is used internally instead of /educationOrganizations/{id}/cohorts (for teachers)."
@@ -403,13 +403,16 @@
     {
       "path": "/attendances",
       "queryable": true,
-      "doc": "Represents the definition of an attendance resource. An attendance resource represents both daily and class period (section) attendance. For more information, see the schema for $$Attendance$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/attendances. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/attendances. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated. For students, this is /students/{IDs}/attendance. {IDs} represents the ID of the student user making this call."
+      "doc": "Represents the definition of an attendance resource. An attendance resource represents both daily and class period (section) attendance. For more information, see the schema for $$Attendance$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/attendances. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/attendances. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated. For students, this is /students/{IDs}/attendance. {IDs} represents the ID of the student user making this call. The PUT method had been disabled for this endpoint.",
+      "resourceClass": "org.slc.sli.api.resources.generic.custom.NoPutResource"
     },
     {
       "path": "/yearlyAttendances",
       "queryable": true,
       "blockGetRequest": true,
-      "doc": "Represents the definition of a yearly attendance resource. A yearly attendance resource represents attendance events for a school year. For more information, see the schema for $$YearlyAttendance$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/yearlyAttendances. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/yearlyAttendances. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated. For students, this is /students/{IDs}/yearlyAttendances. {IDs} represents the ID of the student user making this call."
+      "doc": "Represents the definition of a yearly attendance resource. A yearly attendance resource represents attendance events for a school year. For more information, see the schema for $$YearlyAttendance$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/yearlyAttendances. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/yearlyAttendances. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated. For students, this is /students/{IDs}/yearlyAttendances. {IDs} represents the ID of the student user making this call. The PUT method had been disabled for this endpoint.",
+      "resourceClass": "org.slc.sli.api.resources.generic.custom.NoPutResource"
+
     },
     {
       "path": "/studentSchoolAssociations",
@@ -610,7 +613,7 @@
   ]
 },
 {
-  "nameSpace": ["v1.1", "v1.2", "v1.3"],
+  "nameSpace": ["v1.1", "v1.2", "v1.3", "v1.4", "v1.5"],
   "resources": [
     {
       "path": "/search",
@@ -675,7 +678,7 @@
   ]
 },
 {
-  "nameSpace": ["v1.2", "v1.3"],
+  "nameSpace": ["v1.2", "v1.3", "v1.4", "v1.5"],
   "resources": [
     {
       "path": "/students",
@@ -689,7 +692,7 @@
   ]
 },
 {
-  "nameSpace": ["v1.3"],
+  "nameSpace": ["v1.3", "v1.4", "v1.5"],
   "resources": [
     {
       "path": "/calendarDates",
@@ -698,4 +701,61 @@
       "doc": "This URI, /calendarDates, represents a day in the school calendar."
     }
   ] 
-}]
+},
+{
+  "nameSpace": ["v1.4", "v1.5"],
+  "resources": [
+    {
+      "path": "/educationOrganizations",
+      "queryable": true,
+      "dateSearchDisallowed": true,
+      "doc": "Represents any public or private institution, organization, or agency that provides instructional or support services to students or staff at any level. Caution: The educationOrganizations entity is public in the SLI API. Any metadata associated with an educationOrganization can be viewed by anyone within the tenant to which the educationOrganization belongs. For more information, see the schema for $$EducationOrganization$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /teachers/{ID}/teacherSchoolAssociations/schools and for staff, this is /staff/{ID}/staffEducationOrgAssignmentAssociations/educationOrganizations. {ID} is the unique ID of the teacher or staff.  For students, this is /schools/{ID} where {ID} represents a list of the school or education organization IDs to which the student is currently associated.",
+      "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
+      "availableSince" : "v1.1",
+      "subResources": [
+        { "path": "/{id}/bellSchedules",
+          "dateSearchDisallowed": true,
+          "availableSince" : "v1.4",
+          "doc": "This URI, /educationOrganizations/{id}/bellSchedules, provides the bellSchedules associated with the EducationOrganization."
+        },
+        { "path": "/{id}/classPeriods",
+          "dateSearchDisallowed": true,
+          "availableSince" : "v1.4",
+          "doc": "This URI, /educationOrganizations/{id}/classPeriods, provides the classPeriods associated with the EducationOrganization."
+        }
+      ]
+    },
+    {
+      "path": "/classPeriods",
+      "queryable": true,
+      "availableSince" : "v1.4",
+      "doc": "The URI, /classPeriods, represents the designation of regularly scheduled series of class meetings at designated times and days of the week."
+    },
+    {
+      "path": "/bellSchedules",
+      "queryable": true,
+      "availableSince" : "v1.4",
+      "doc": "This URI, /bellSchedules, represents the schedule of class period meeting times."
+    }
+  ]
+},
+{
+  "nameSpace": ["v1.5"],
+  "resources": [
+    {
+      "path": "/schools",
+      "queryable": true,
+      "dateSearchDisallowed": true,
+      "doc": "This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups. Caution: The schools entity is public in the SLI API. Any metadata associated with a school can be viewed by anyone within the tenant to which the school belongs. For more information, see the schema for $$School$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /schools/{IDs}. {IDs} represents a list of the school IDs to which the teacher or staff is currently associated.",
+      "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
+      "availableSince" : "v1.1",
+      "subResources": [
+        { "path": "/{id}/courseOfferings/courses",
+          "dateSearchDisallowed": true,
+          "availableSince" : "v1.5"
+        }
+      ]
+    }
+  ]
+}
+]

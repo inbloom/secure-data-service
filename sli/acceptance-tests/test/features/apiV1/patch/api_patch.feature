@@ -88,3 +88,22 @@ Background: Logged in as IT Admin James Stevenson
     When I change the field "studentUniqueStateId" to "some other value"
     And I navigate to PATCH "/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 409
+
+ #DE2810 - NPE with invalid PATCH request for EdOrg entities
+  Scenario: Patch request with invalid request
+    When I navigate to GET "/educationOrganizations/<EDORG ID DAYBREAK DIST 4529>"
+    Then I should receive a return code of 200
+    When I change the patch request body to an empty document
+    And I navigate to PATCH "/educationOrganizations/<EDORG ID DAYBREAK DIST 4529>"
+    Then I should receive a return code of 204
+    And  I navigate to GET "/educationOrganizations/<EDORG ID DAYBREAK DIST 4529>"
+    Then I should receive a return code of 200
+
+  Scenario: Patch request containing only id field
+    When I navigate to GET "/educationOrganizations/<EDORG ID DAYBREAK DIST 4529>"
+    Then I should receive a return code of 200
+    When I change the field "id" to "some other value"
+    And I navigate to PATCH "/educationOrganizations/<EDORG ID DAYBREAK DIST 4529>"
+    Then I should receive a return code of 204
+    And  I navigate to GET "/educationOrganizations/<EDORG ID DAYBREAK DIST 4529>"
+    Then I should receive a return code of 200

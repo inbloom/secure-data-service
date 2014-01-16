@@ -39,6 +39,9 @@ STUDENTS_PER_SECTION: {'elementary': 21, 'middle': 24, 'high': 28}
 # Set the number of records we cache before writing them to disk.
 BATCH_SIZE: 2500
 
+# Class periods in a day (excl. special ones)
+NUM_CLASS_PERIODS: 7
+
 # Course Catalog (currently published at State Education Agency level)
 # should be translated into course.json (similar to staff catalog)
 SIXTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
@@ -175,8 +178,8 @@ COMPETENCY_LEVEL_DESCRIPTORS: [
 
 ENTITY_BLACKLIST: [
 "BehaviorDescriptor",
-"DisciplineDescriptor",
-"BellSchedule"]
+"DisciplineDescriptor"
+]
 
 #likelyhood for random optional fields most people don't care about
 OPTIONAL_FIELD_LIKELYHOOD: 0.0

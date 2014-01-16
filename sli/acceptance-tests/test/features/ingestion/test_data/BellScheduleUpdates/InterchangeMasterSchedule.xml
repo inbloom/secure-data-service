@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                           xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
+    <BellSchedule>
+        <BellScheduleName>Some Bell Schedule Name</BellScheduleName>
+        <GradeLevels>
+            <GradeLevel>First grade</GradeLevel>
+        </GradeLevels>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>1</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <MeetingTime>
+            <ClassPeriodReference>
+                <ClassPeriodIdentity>
+                    <ClassPeriodName>Some Class Period Name</ClassPeriodName>
+                    <EducationOrganizationReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationOrganizationReference>
+                </ClassPeriodIdentity>
+            </ClassPeriodReference>
+            <StartTime>13:00:00</StartTime>
+            <EndTime>13:55:00</EndTime>
+        </MeetingTime>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2015-01-01</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
+    </BellSchedule>
+    <BellSchedule>
+        <BellScheduleName>Some Bell Schedule Name</BellScheduleName>
+        <GradeLevels>
+            <GradeLevel>First grade</GradeLevel>
+            <GradeLevel>Second grade</GradeLevel>
+        </GradeLevels>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>1</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <MeetingTime>
+            <ClassPeriodReference>
+                <ClassPeriodIdentity>
+                    <ClassPeriodName>Some Other Class Period Name</ClassPeriodName>
+                    <EducationOrganizationReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationOrganizationReference>
+                </ClassPeriodIdentity>
+            </ClassPeriodReference>
+            <AlternateDayName>Maroon</AlternateDayName>
+            <StartTime>09:00:00</StartTime>
+            <EndTime>09:55:00</EndTime>
+            <OfficialAttendancePeriod>true</OfficialAttendancePeriod>
+        </MeetingTime>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2015-01-01</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
+    </BellSchedule>
+    <Section>
+        <UniqueSectionCode>12345</UniqueSectionCode>
+        <SequenceOfCourse>1</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+        <PopulationServed>Regular Students</PopulationServed>
+        <AvailableCredit CreditConversion="0" CreditType="Carnegie unit">
+                <Credit>3</Credit>
+        </AvailableCredit>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>20</LocalCourseCode>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>2013-2014 Year Round session: 4</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>1</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>2013-2014 Year Round session: 4</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <LocationReference>
+            <LocationIdentity>
+                <ClassroomIdentificationCode>888</ClassroomIdentificationCode>
+                <StateOrganizationId>1</StateOrganizationId>
+            </LocationIdentity>
+        </LocationReference>
+        <ClassPeriodReference>
+            <ClassPeriodIdentity>
+                <ClassPeriodName>Lina Class Period Name</ClassPeriodName>
+                <EducationOrganizationReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrganizationReference>
+            </ClassPeriodIdentity>
+        </ClassPeriodReference>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>666</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
+    </Section>
+</InterchangeMasterSchedule>

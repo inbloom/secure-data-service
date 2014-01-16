@@ -75,7 +75,7 @@ public class ExtractorFactory {
         return new StudentSchoolAssociationExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public ExtractFile buildLEAExtractFile(String path, String edOrg, String archiveName,
+    public ExtractFile buildEdOrgExtractFile(String path, String edOrg, String archiveName,
             Map<String, PublicKey> appPublicKeys, SecurityEventUtil securityEventUtil) {
         File directory = new File(path, edOrg);
         directory.mkdirs();

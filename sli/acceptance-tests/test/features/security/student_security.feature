@@ -60,8 +60,8 @@ Feature: Student access to system
         | securityEvent   | 1                   | body.className          | org.slc.sli.api.jersey.PostProcessFilter | string     |
         | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                              | string     |
         | securityEvent   | 1                   | body.targetEdOrgList    | THRACE                                   | string     |
-    And "1" security event matching "Access Denied:url http.*/api/rest/v1.3/schools/888b2e17-0edb-4251-958b-8ac65093c9d3/studentSchoolAssociations/students is not accessible." should be in the sli db
-    And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/schools/888b2e17-0edb-4251-958b-8ac65093c9d3/studentSchoolAssociations/students" should be in the sli db
+    And "1" security event matching "Access Denied:url http.*/api/rest/v1.5/schools/888b2e17-0edb-4251-958b-8ac65093c9d3/studentSchoolAssociations/students is not accessible." should be in the sli db
+    And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.5/schools/888b2e17-0edb-4251-958b-8ac65093c9d3/studentSchoolAssociations/students" should be in the sli db
      
   Scenario: Student cannot traverse to protected data through public entities security event checking
     Given I am logged in using "carmen.ortiz" "carmen.ortiz1234" to realm "IL-Daybreak-Students"
@@ -76,4 +76,4 @@ Feature: Student access to system
         | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                              | string     |
         | securityEvent   | 1                   | body.targetEdOrgList    | IL-DAYBREAK                              | string     |
      And "1" security event matching "Access Denied:url is not accessible to students or parents" should be in the sli db
-     And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/learningObjectives/dd9165f2-65fe-6d27-a8ec-bdc5f47757b7/studentCompetencies" should be in the sli db
+     And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.5/learningObjectives/dd9165f2-65fe-6d27-a8ec-bdc5f47757b7/studentCompetencies" should be in the sli db

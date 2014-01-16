@@ -48,7 +48,8 @@ public class EntityOwnershipValidator {
     EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, EntityNames.EDUCATION_ORGANIZATION, EntityNames.SCHOOL,
     EntityNames.LEARNING_OBJECTIVE, EntityNames.LEARNING_STANDARD, EntityNames.PROGRAM,
     EntityNames.GRADING_PERIOD, EntityNames.SESSION, EntityNames.COURSE, EntityNames.COURSE_OFFERING,
-            "stateEducationAgency", "localEducationAgency"));
+            "stateEducationAgency", "localEducationAgency",
+    EntityNames.CLASS_PERIOD, EntityNames.BELL_SCHEDULE));
     }
     /**
      * Determines if the requested entity can be accessed. The implicit assumption in using this

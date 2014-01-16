@@ -79,35 +79,30 @@ public interface EntityService {
     /**
      * Change an entity in the data store
      *
+     *
      * @param id
      *            the id of the entity to update
      * @param content
      *            the new body of the entity
+     * @param obeyContextualRoles
+     *            flag indicating if update operation should follow the contextualRoles of the user
      * @return if the entity was changed
      */
-    public boolean update(String id, EntityBody content);
+    public boolean update(String id, EntityBody content, boolean applySecurityContext);
 
     /**
      * Change an entity in the data store with only the provided content, the rest remains as is
+     *
      *
      * @param id
      *            the id of the entity to update
      * @param content
      *            the new portion of the body of the entity
+     * @param obeyContextualRoles
+     *            flag indicating if patch operation should follow the contextualRoles of the user
      * @return if the entity was changed
      */
-    public boolean patch(String id, EntityBody content);
-
-    /**
-     * Change an entity in the data store with only the provided content, the rest remains as is
-     *
-     * @param id
-     *            the id of the entity to update
-     * @param content
-     *            the new portion of the body of the entity
-     * @return if the entity was changed
-     */
-    public boolean patchBasedOnContextualRoles(String id, EntityBody content);
+    public boolean patch(String id, EntityBody content, boolean applySecurityContext);
 
     /**
      * Retrieves an entity from the data store
@@ -268,17 +263,6 @@ public interface EntityService {
      * @return - Id of the new entity
      */
     public String createBasedOnContextualRoles(EntityBody content);
-
-    /**
-     * Change an entity in the data store
-     *
-     * @param id
-     *            the id of the entity to update
-     * @param content
-     *            the new body of the entity
-     * @return if the entity was changed
-     */
-    public boolean updateBasedOnContextualRoles(String id, EntityBody content);
 
     /**
      * Returns number of entities stored.

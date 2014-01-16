@@ -2,12 +2,22 @@ package org.slc.sli.bulk.extract.util;
 
 import static org.slc.sli.bulk.extract.LogUtil.audit;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.google.common.collect.Sets;
-import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.message.BEMessageCode;
+
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
+import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.logging.LogLevelType;
@@ -17,12 +27,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
-import java.util.*;
 
 /**
  * Utils to extract LEAs
@@ -44,21 +48,18 @@ public class EdOrgExtractHelper implements InitializingBean {
 
     private Map<String, List<String>> edOrgLineages;
 
-    private static final String STATE_EDUCATION_AGENCY = "State Education Agency";
-
     @Override
     public void afterPropertiesSet() throws Exception {
         edOrgLineages = bulkExtractMongoDA.getEdOrgLineages();
     }
 
     /**
-     * Returns all top level LEAs that will be extracted in the tenant
-     * @return a set of top level lea ids
-     * 
-     * Returns the union of all edOrgs appearing as values in the 
-     * map of application -> { authorized edOrgs }
+     * Returns the union of all edOrgs appearing as values in the
+     * map of application -> { authorized edOrgs }.
+     *
+     * @return a set of top level edOrg ids
      */
-    public Set<String> getBulkExtractEdOrgs(String sea) {
+    public Set<String> getBulkExtractEdOrgs() {
         if (extractEdOrgs == null) {
             extractEdOrgs = new HashSet<String>();
             for (Set<String> appEdOrgs : getBulkExtractEdOrgsPerApp().values()) {
@@ -66,12 +67,7 @@ public class EdOrgExtractHelper implements InitializingBean {
             }
         }
         Set<String> result = removeNonExistentEdOrgs(extractEdOrgs);
-        
-		// Never include the SEA in a "local" (private data) extract, even if the SEA is authorized explicitly for
-		// bulk extract app(s). To remove this hardwired restriction, and instead allow an SEA to have its private data extracted
-		// to a file stamped (i.e. named) w/ the SEA edOrg id, remove the following line.
-        result.remove(sea);
-        
+
         return result;
     }
 
@@ -82,32 +78,11 @@ public class EdOrgExtractHelper implements InitializingBean {
         return existingEdOrgs;
     }
 
-    public Set<String> getTopLevelLEAs() {
-        Set<String> topLEAs = new HashSet<String>();
-
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ORGANIZATION_CATEGORIES,
-                NeutralCriteria.CRITERIA_IN, Arrays.asList(STATE_EDUCATION_AGENCY)));
-        final Iterable<String> seaIds = repository.findAllIds(EntityNames.EDUCATION_ORGANIZATION, query);
-
-        if (seaIds != null) {
-            for (String seaId : seaIds) {
-                query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
-                        NeutralCriteria.CRITERIA_IN, Arrays.asList(seaId)));
-                final Iterable<String> topLevelLEAs = repository.findAllIds(EntityNames.EDUCATION_ORGANIZATION, query);
-                for (String topLevelLEA : topLevelLEAs) {
-                    topLEAs.add(topLevelLEA);
-                }
-            }
-        }
-        return topLEAs;
-    }
-
     /**
      * Attempts to get all of the LEAs per app that should have a LEA level extract scheduled.
      *
      * @return a set of the LEA ids that need a bulk extract per app
      */
-    @SuppressWarnings("unchecked")
     public Map<String, Set<String>> getBulkExtractEdOrgsPerApp() {
         NeutralQuery appQuery = new NeutralQuery(new NeutralCriteria("applicationId", NeutralCriteria.CRITERIA_IN,
                 getBulkExtractApps()));
@@ -141,10 +116,10 @@ public class EdOrgExtractHelper implements InitializingBean {
         }
         return appIds;
     }
-    
+
     /**
      * Returns a list of child edorgs given a collection of parents
-     * 
+     *
      * @param edOrgs
      * @return a set of child edorgs
      */
@@ -152,7 +127,7 @@ public class EdOrgExtractHelper implements InitializingBean {
         if (edOrgs.isEmpty()) {
             return new HashSet<String>();
         }
-        
+
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
                 NeutralCriteria.CRITERIA_IN, edOrgs));
         Iterable<Entity> childrenIds = repository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);

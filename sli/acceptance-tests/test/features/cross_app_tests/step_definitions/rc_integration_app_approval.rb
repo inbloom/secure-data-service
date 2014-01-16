@@ -37,7 +37,7 @@ end
 
 Then /^I authorize the educationalOrganization "(.*?)" in the production tenant$/ do |edOrgName|
   disable_NOTABLESCAN()
-  db = @conn[convertTenantIdToDbName(PropLoader.getProps['tenant'])]
+  db = @conn[convertTenantIdToDbName(Property['tenant'])]
   coll = db.collection("educationOrganization")
   record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
   #puts record.to_s
@@ -77,15 +77,15 @@ Given /^the testing device app key has been created$/ do
 end
 
 Given /^the pre-existing bulk extract testing app key has been created$/ do
-  @oauthClientId = PropLoader.getProps['bulk_extract_testapp_client_id']
-  @oauthClientSecret = PropLoader.getProps['bulk_extract_testapp_secret']
+  @oauthClientId = Property['bulk_extract_testapp_client_id']
+  @oauthClientSecret = Property['bulk_extract_testapp_secret']
   @oauthRedirectURI = "http://device"
   assert(@oauthClientId != nil, "Pre-existing Bulk Extract App not yet created in this env, or property was not set: bulk_extract_testapp_client_id")
   assert(@oauthClientSecret != nil, "Pre-existing Bulk Extract App not yet created in this env, or property was not set: bulk_extract_testapp_secret")
 end
 
 When /^I navigate to the API authorization endpoint with my client ID$/ do
-  url = PropLoader.getProps['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
+  url = Property['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
   puts url
   @driver.get url
 end
@@ -97,7 +97,7 @@ Then /^I should receive a json response containing my authorization code$/ do
 end
 
 When /^I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI$/ do
-  url = PropLoader.getProps['api_server_url'] + "/api/oauth/token?response_type=code&client_id=#{@oauthClientId}" + "&client_secret=#{@oauthClientSecret}&code=#{@oauthAuthCode}&redirect_uri=#{@oauthRedirectURI}"
+  url = Property['api_server_url'] + "/api/oauth/token?response_type=code&client_id=#{@oauthClientId}" + "&client_secret=#{@oauthClientSecret}&code=#{@oauthAuthCode}&redirect_uri=#{@oauthRedirectURI}"
   puts url
   @driver.get url
 end
@@ -143,11 +143,13 @@ Then /^I enter "(.*?)" in the Source Id field$/ do |url|
 end
 
 Then /^I request and download a "(.*?)" extract file for the edorg$/ do |arg1|
-  env_key = PropLoader.getProps['rc_env']
+  env_key = Property['rc_env']
   restTls("/bulk/extract/#{@lea}", nil, "application/x-tar", @sessionId, env_key) if arg1 == "bulk"
   restTls("/#{@list_uri}", nil, "application/x-tar", @sessionId, env_key) if arg1 == "delta"
+  restTls("/bulk/extract/public", nil, "application/x-tar", @sessionId, env_key) if arg1 == "public"
+
   assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
-  @filePath = PropLoader.getProps['extract_to_directory'] + "/extract.tar"
+  @filePath = Property['extract_to_directory'] + "/extract.tar"
   @unpackDir = File.dirname(@filePath) + '/unpack'
   if (!File.exists?("extract"))
       FileUtils.mkdir("extract")
@@ -170,12 +172,25 @@ Then /I get the id for the edorg "(.*?)"$/ do |arg1|
   end
 end
 
+Then /I get the id for the staff "(.*?)"$/ do |arg1|
+  restHttpGet("/v1/staff?staffUniqueStateId=#{arg1}", "application/json", @sessionId)
+  assert(@res.code == 200)
+  json = JSON.parse(@res.body)
+  puts @res.headers
+  puts json
+  if json.is_a? Array
+    @staff = json[0]['id']
+  else
+    @staff = json['id']
+  end
+end
+
 Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the production applicationAuthorization collection$/ do |expected_count, application|
    db = @conn.db("sli")
    coll = db.collection("application")
    record = coll.find_one("body.name" => application)
    appId = record["_id"]
-   db = @conn.db(convertTenantIdToDbName(PropLoader.getProps['tenant']))
+   db = @conn.db(convertTenantIdToDbName(Property['tenant']))
    coll = db.collection("applicationAuthorization")
    record = coll.find_one("body.applicationId" => appId.to_s)
    body = record["body"]
@@ -198,7 +213,7 @@ end
 
 When /^I (enable|disable) the educationalOrganization "([^"]*?)" in production$/ do |action,edOrgName|
   # Note: there should be no need to disable table scan since there is an index on educationOrganization.nameOfInstitution
-  db = @conn[convertTenantIdToDbName(PropLoader.getProps['tenant'])]
+  db = @conn[convertTenantIdToDbName(Property['tenant'])]
   coll = db.collection("educationOrganization")
   record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
   edOrgId = record["_id"]
@@ -209,7 +224,7 @@ When /^I (enable|disable) the educationalOrganization "([^"]*?)" in production$/
 end
 
 And /^I manually navigate to "(.*?)" in admin$/ do |endpoint|
-    @driver.get(PropLoader.getProps['admintools_server_url'] + "/" + endpoint)
+    @driver.get(Property['admintools_server_url'] + "/" + endpoint)
 end
 
 Then /^I enable all education organizations for this app$/ do

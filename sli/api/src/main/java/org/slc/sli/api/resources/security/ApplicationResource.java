@@ -54,7 +54,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -491,7 +490,7 @@ public class ApplicationResource extends UnversionedResource {
         		String authId = (String) auth.get("id");
         		auth.remove("edorgs");
         		auth.put("edorgs", ApplicationAuthorizationResource.enrichAuthorizedEdOrgsList(edOrgIds));
-        		service.update(authId, auth);
+        		service.update(authId, auth, false);
         	}
         }
 

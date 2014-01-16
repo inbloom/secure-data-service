@@ -15,6 +15,9 @@
  */
 package org.slc.sli.bulk.extract.date;
 
+import java.util.List;
+import java.util.Map;
+
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
@@ -28,16 +31,17 @@ import org.slc.sli.domain.Entity;
 @Component
 public class AttendanceExtractVerifier implements ExtractVerifier {
 
-    private final ThreadLocal <String> schoolYear = new ThreadLocal<String> ();
-
     @Override
     public boolean shouldExtract(Entity entity, DateTime upToDate) {
-        String schoolYear = EntityDateHelper.retrieveDate(entity);
-        if (schoolYear != null) {
-            this.schoolYear.set(schoolYear);
+        String schoolYear = null;
+
+        if (entity.getBody().containsKey("schoolYearAttendance")) {
+            schoolYear = (String) ((List<Map<String, Object>>) entity.getBody().get("schoolYearAttendance")).get(0).get("schoolYear");
+        } else {
+            schoolYear = EntityDateHelper.retrieveDate(entity);
         }
 
-        return EntityDateHelper.isPastOrCurrentDate(this.schoolYear.get(), upToDate, entity.getType());
+        return EntityDateHelper.isPastOrCurrentDate(schoolYear, upToDate, entity.getType());
     }
 
 }

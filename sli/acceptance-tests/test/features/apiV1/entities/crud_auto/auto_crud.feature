@@ -10,6 +10,7 @@ Background: Nothing yet
         Scenario: CRUD operations on an entity
         Then I perform CRUD for each resource available
 
+        #Given a valid entity json document for a "classPeriod"
 
 
         Scenario: CRUD operations on invalid entities
@@ -27,7 +28,7 @@ Background: Nothing yet
     |educationOrganizations |b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
     |staff                  |85585b27-5368-4f10-a331-3abcaf3a3f4c|
     Given the expected rewrite results are defined by table:
-    | Entity Type                              | Entity Resource URI                      | Count | Rewrite URI|
+    | Entity Type                             | Entity Resource URI                      | Count | Rewrite URI|
     | assessment                              | assessments                              | 18    |/search/assessments|
     | attendance                              | attendances                              | 0     |/schools/@ids/studentSchoolAssociations/students/attendances|
     | cohort                                  | cohorts                                  | 2     |/staff/@ids/staffCohortAssociations/cohorts|
@@ -70,6 +71,8 @@ Background: Nothing yet
     | reportCard                              | reportCards                              | 0     |/schools/@ids/studentSchoolAssociations/students/reportCards|
     | studentCompetencyObjective              | studentCompetencyObjectives              | 1     |/search/studentCompetencyObjectives    |
     | calendarDates                           | calendarDates                            | 4     |/educationOrganizations/@ids/calendarDates|
+    | classPeriods                            | classPeriods                             | 1     |/educationOrganizations/@ids/classPeriods|
+    | bellSchedules                           | bellSchedules                            | 0     |/educationOrganizations/@ids/bellSchedules|
     Then the staff queries and rewrite rules work
 
  @Teacher_crud

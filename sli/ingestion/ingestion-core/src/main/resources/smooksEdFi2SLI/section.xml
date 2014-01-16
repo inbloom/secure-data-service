@@ -32,6 +32,7 @@
     <jb:value property="courseOfferingId" data="attributes CourseOfferingReference" />
     <jb:value property="schoolId" data="attributes SchoolReference" />
     <jb:value property="sessionId" data="attributes SessionReference" />
+    <jb:value property="classPeriodId" data="attributes ClassPeriodReference" />
     <jb:wiring property="programReference" beanIdRef="programReferenceArray" />
   </jb:bean>
 

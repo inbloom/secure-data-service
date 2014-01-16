@@ -502,7 +502,7 @@ task :loadDefaultIngestionTenants do
     else
       require_relative 'test/features/utils/rakefile_common.rb'
       parent_lz_path = ""
-      sli_props_loc = PropLoader.getProps["ingestion_properties_file"]
+      sli_props_loc = Property['ingestion_properties_file']
       File.readlines(sli_props_loc).each do |line|
         if line.include?("landingzone.inbounddir")
           parent_lz_path = line.split("=")[1].strip
@@ -660,7 +660,7 @@ task :apiV1Tests => [
                      :v1HierarchyTraversalTests,
                      :v1DirectReferencesTests,
                      :v1DirectReferenceCollectionsTests,
-                     :v1CascadeDeletionTests,
+                     :v1NoCascadeDeletionTests,
                      :v1EncryptionTests,
                      :v1SortingAndPagingTests,
                      :v1ListTests,
@@ -676,7 +676,7 @@ task :apiV1Tests => [
                      :longLivedSessionTests,
                      :apiVersionTests,
                      :apiV1GranularAccessTests,
-                     :apiV1YearlyTranscriptTests] do                     
+                     :apiV1YearlyTranscriptTests] do
   displayFailureReport()
 end
 
@@ -687,7 +687,7 @@ task :apiV1EntitySecurityTests do
 end
 
 desc "Run API Tests using Odin ingested data"
-task :apiOdinTests => [:apiOdinFederatedAppsTests, :apiOdinPrep, :apiOdinFederatedAppsTests, :apiOdinSuperAssessment, :apiOdinSecurityTests, :apiOdinMultipleParentTests, :apiOdinHybridEdOrgTests] do
+task :apiOdinTests => [:apiOdinFederatedAppsTests, :apiOdinPrep, :apiOdinFederatedAppsTests, :apiOdinSuperAssessment, :apiOdinSecurityTests, :apiOdinMultipleParentTests, :apiOdinHybridEdOrgTests, :apiV1SearchLimitTests] do
     displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -794,7 +794,7 @@ task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser/databrowser_selective_deny.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
   runTests("test/features/databrowser/student_authentication.feature")
-  runTests("test/features/databrowser/databrowser_artifact_login.feature")
+  runTests("test/features/databrowser/databrowser_external_idp_login.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -888,6 +888,7 @@ task :ingestionTests => [
         :IngestionIndexValidationTest,
         :corruptZip,
         :genericEdOrgs,
+        :ingestionBellSchedulesAndClassPeriodsTest,
         :ingestionSectionLevelAttendanceEventsTest,
         :ingestionAttendanceEventCategoriesTest,
         :ingestionDeletionTests,
@@ -1403,7 +1404,8 @@ task :importSandboxMidgarData do
     "graduationPlan" => "Midgar_data/graduationPlan_fixture.json",
     "studentCompetencyObjective" => "Midgar_data/studentCompetencyObjective_fixture.json",
     "competencyLevelDescriptor" => "Midgar_data/competencyLevelDescriptor_fixture.json",
-    "yearlyTranscript" => "Midgar_data/yearlyTranscript_fixture.json"
+    "yearlyTranscript" => "Midgar_data/yearlyTranscript_fixture.json",
+    "classPeriod" => "Midgar_data/classPeriod_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end

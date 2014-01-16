@@ -27,9 +27,9 @@ require_relative '../../apiV1/long_lived_session/step_definitions/token_generato
 
 Transform /rights "(.*?)"/ do |arg1|
   # Default rights for SLI Default roles
-  rights = ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC", "TEACHER_CONTEXT"] if arg1 == "Educator"
+  rights = ["WRITE_GENERAL", "READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC", "TEACHER_CONTEXT"] if arg1 == "Educator"
   rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT", "SECURITY_EVENT_VIEW", "APP_AUTHORIZE"] if arg1 == "IT Administrator"
-  rights = ["READ_GENERAL", "READ_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "Leader"
+  rights = ["WRITE_GENERAL", "READ_GENERAL", "READ_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "Leader"
   rights = ["AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "Aggregate Viewer"
   rights = ["READ_GENERAL", "TEACHER_CONTEXT"] if arg1 == "New Custom"
   rights = ["READ_GENERAL", "TEACHER_CONTEXT"] if arg1 == "Old Custom"
@@ -47,15 +47,15 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["READ_GENERAL", "TEACHER_CONTEXT", "APP_AUTHORIZE"] if arg1 == "New Read General"
   # US5459
   rights = ["READ_GENERAL", "WRITE_GENERAL", "TEACHER_CONTEXT", "SECURITY_EVENT_VIEW"] if arg1 == "Read, Write General, and Security Event View"
-  rights = ["READ_GENERAL", "READ_PUBLIC", "READ_AGGREGATE","STAFF_CONTEXT"] if arg1 == "Read General Public and Aggregate"
+  rights = ["WRITE_GENERAL", "READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC", "TEACHER_CONTEXT"] if arg1 == "Read & Write General, Read Public, Read Aggregate, Teacher Context"
   rights = ["READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED", "TEACHER_CONTEXT"] if arg1 == "Read Restricted, Write Restricted and Write General"
-  rights = ["READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED"] if arg1 == "Self Read Restricted, Write Restricted and Write General"
+  rights = ["READ_RESTRICTED", "WRITE_RESTRICTED"] if arg1 == "Self Read and Write Restricted"
   rights = ["READ_GENERAL", "READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED", "TEACHER_CONTEXT"] if arg1 == "Read General, Read Restricted, Write Restricted and Write General"
   rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "BULK_EXTRACT", "STAFF_CONTEXT"] if arg1 == "Bulk IT Administrator"
   rights = ["BULK_EXTRACT","STAFF_CONTEXT"] if arg1 == "BULK_EXTRACT"
   rights = ["TEACHER_CONTEXT"] if arg1 == "TEACHER CONTEXT"
   rights = ["READ_GENERAL","APP_AUTHORIZE"] if arg1 == "APP AUTH"
-  rights = ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC", "TEACHER_CONTEXT", "APP_AUTHORIZE"] if arg1 == "EDUCATOR APP AUTH"
+  rights = ["WRITE_GENERAL", "READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC", "TEACHER_CONTEXT", "APP_AUTHORIZE"] if arg1 == "EDUCATOR APP AUTH"
   rights = [] if arg1 == "none"
   rights
 end
@@ -90,11 +90,11 @@ Then /^I should not see right "(.*?)" on any existing role$/ do |arg1|
 end
 
 When /^I navigate to the Custom Role Mapping Page$/ do
-  @driver.get PropLoader.getProps['admintools_server_url']+"/custom_roles"
+  @driver.get Property['admintools_server_url']+"/custom_roles"
 end
 
 When /^I try to authenticate on the "(.*?)" Tool$/ do |arg1|
-    @driver.get PropLoader.getProps['admintools_server_url']+"/#{arg1}"
+    @driver.get Property['admintools_server_url']+"/#{arg1}"
 end
 
 Then /^I am shown the custom roles page for "(.*?)"$/ do |arg1|
@@ -377,7 +377,7 @@ When /^the user "(.*?)" in tenant "(.*?)" tries to update the "(.*?)" for (staff
   restHttpGet("/v1/" + updateUser)
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
-  result["name"][field] = newValue
+  field == 'firstName'? result["name"][field] = newValue : result[field] = newValue
   updatedData = prepareData("application/json", result)
   restHttpPut("/v1/" + updateUser, updatedData, "application/json")
 end
@@ -436,7 +436,8 @@ Then /^I should see that the "(.*?)" for (staff ".*?") is "(.*?)"$/ do |field, s
   result = JSON.parse(@res.body)
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-  assert(result["name"][field] == value, "Expected the #{field} to be #{value}, was #{result["name"][field]}")  
+  field == 'firstname' ? actual = result['name'][field] : actual = result[field]
+  assert(actual == value, "Expected the #{field} to be #{value}, was #{actual}")
 
 end
 

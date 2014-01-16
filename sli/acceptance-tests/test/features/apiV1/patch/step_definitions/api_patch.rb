@@ -32,6 +32,7 @@ Transform /^<(.+)>$/ do |template|
   id = "baffb6f7-6d30-4341-b29e-0e1cd73ea2bf_id11b75359-811d-4234-8ef2-ce14dd472a7c_id" if template == "STUDENT SECTION ASSOCIATION ID 2"
   id = "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id08d9c069-63bc-4299-9eeb-2c7d2dfc6a22_id" if template == "STUDENT SECTION ASSOCIATION ID 3"
   id = "11111111-1111-1111-1111-111111111111" if template == "INVALID ID"
+  id = "bd086bae-ee82-4cf2-baf9-221a9407ea07" if template == "EDORG ID DAYBREAK DIST 4529"
   id
 end
 
@@ -47,4 +48,8 @@ end
 When /^I change the field "([^\"]*)" to "([^\"]*)"$/ do |field, value|
   @patch_body = Hash.new if !defined?(@patch_body)
   @patch_body["#{field}"] = value
+end
+
+When /^I change the patch request body to an empty document$/ do
+  @patch_body = Hash.new
 end

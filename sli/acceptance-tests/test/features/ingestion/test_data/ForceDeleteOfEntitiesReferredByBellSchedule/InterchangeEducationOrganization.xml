@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+    <Action ActionType="DELETE" Force="true">
+        <EducationOrganization>
+            <StateOrganizationId>1</StateOrganizationId>
+            <EducationOrgIdentificationCode IdentificationSystem="School">
+                <ID>South Daybreak Elementary</ID>
+            </EducationOrgIdentificationCode>
+            <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+            <OrganizationCategories>
+                <OrganizationCategory>School</OrganizationCategory>
+            </OrganizationCategories>
+            <ParentEducationAgencyReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </ParentEducationAgencyReference>
+            <Address AddressType="Physical">
+                <StreetNumberName>111 Ave A</StreetNumberName>
+                <City>Chicago</City>
+                <StateAbbreviation>IL</StateAbbreviation>
+                <PostalCode>11011</PostalCode>
+                <NameOfCounty>Wake</NameOfCounty>
+            </Address>
+            <Telephone InstitutionTelephoneNumberType="Main">
+                <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+            </Telephone>
+            <GradesOffered>
+                <GradeLevel>Kindergarten</GradeLevel>
+                <GradeLevel>First grade</GradeLevel>
+                <GradeLevel>Second grade</GradeLevel>
+                <GradeLevel>Third grade</GradeLevel>
+                <GradeLevel>Fourth grade</GradeLevel>
+                <GradeLevel>Fifth grade</GradeLevel>
+            </GradesOffered>
+            <SchoolCategories>
+                <SchoolCategory>Elementary School</SchoolCategory>
+            </SchoolCategories>
+        </EducationOrganization>
+    </Action>
+</InterchangeEducationOrganization>

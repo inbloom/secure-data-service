@@ -5,7 +5,7 @@ Feature: Application Authorization Tool
 As an SEA, I want to be able to allow specific applications access to my data
 
 	Scenario: SEA Admin logs in to the authorization tool
-	
+
 	Given I have an open web browser
 	When I hit the Admin Application Authorization Tool
 	And I select "inBloom" from the dropdown and click go
@@ -25,7 +25,7 @@ Scenario: Non SLI-hosted valid user tries to access the Application Authorizatio
 	When I hit the Admin Application Authorization Tool
 	 And I select "inBloom" from the dropdown and click go
      And I submit the credentials "administrator" "administrator1234" for the "Simple" login page
-     Then the api should generate a 403 error
+    Then the api should generate a 403 error
       And I should see a count of "2" in the security event collection
       And I check to find if record is in sli db collection:
        | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                                              | searchType |
@@ -36,7 +36,7 @@ Scenario: Non SLI-hosted valid user tries to access the Application Authorizatio
       And "1" security event with field "body.actionUri" matching "http.*/api/rest/saml/sso/post" should be in the sli db
 
 Scenario: SEA Admin Approves bulk extract application
-	
+
    Given I have an open web browser
     When I hit the Admin Application Authorization Tool
      And I select "inBloom" from the dropdown and click go
@@ -160,3 +160,41 @@ Scenario: SEA Admin Denies non-bulk extract application (dependant on above scen
       #TODO Probably cruft that always passed because of previous scenario?
       #And the app "SDK Sample" Status becomes "Not Approved"
       #And it is colored "red"
+
+Scenario: EducationOrganization node status in the authorization tree is dependant upon the status of parents
+Given I have an open web browser
+When I hit the Admin Application Authorization Tool
+  And I select "inBloom" from the dropdown and click go
+  And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
+  And I see an application "SDK Sample" in the table
+  And I click on the "Edit Authorizations" button next to it
+  And I am redirected to the Admin Application Authorization Edit Page
+  And the checkbox with HTML id "root" is unchecked
+  And I check the checkbox with HTML id "root"
+  And the checkbox with HTML id "root" is checked
+  And I click Update
+Then I see an application "SDK Sample" in the table
+  And I click on the "Edit Authorizations" button next to it
+  And I am redirected to the Admin Application Authorization Edit Page
+  And the checkbox with HTML id "cat_1" is checked
+  And the checkbox with HTML id "cat_14" is checked
+  And the checkbox with HTML id "bd086bae-ee82-4cf2-baf9-221a9407ea07" is checked
+
+Scenario: Category node status in the authorization tree is dependant upon the status of descendants
+Given I have an open web browser
+When I hit the Admin Application Authorization Tool
+  And I select "inBloom" from the dropdown and click go
+  And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
+  And I see an application "SDK Sample" in the table
+  And I click on the "Edit Authorizations" button next to it
+  And I am redirected to the Admin Application Authorization Edit Page
+  And the checkbox with HTML id "root" is checked
+  And I uncheck the checkbox with HTML id "bd086bae-ee82-4cf2-baf9-221a9407ea07"
+  And I click Update
+Then I see an application "SDK Sample" in the table
+  And I click on the "Edit Authorizations" button next to it
+  And I am redirected to the Admin Application Authorization Edit Page
+  And the checkbox with HTML id "root" is unchecked
+  And the checkbox with HTML id "cat_1" is unchecked
+  And the checkbox with HTML id "cat_14" is unchecked
+  And the checkbox with HTML id "bd086bae-ee82-4cf2-baf9-221a9407ea07" is unchecked

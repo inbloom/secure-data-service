@@ -25,9 +25,10 @@ require_relative '../../../utils/selenium_common.rb'
 require_relative '../../utils/api_utils.rb'
 require_relative '../../entities/crud/step_definitions/crud_step.rb'
 require_relative '../../end_user_stories/CustomEntities/step_definitions/CustomEntities_steps.rb'
+require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 
-DATABASE_HOST = PropLoader.getProps['ingestion_db']
-DATABASE_PORT = PropLoader.getProps['ingestion_db_port']
+DATABASE_HOST = Property['ingestion_db']
+DATABASE_PORT = Property['ingestion_db_port']
 MAX_ENTITIES_PER_API_CALL = 1000
 
 #############################################################################################
@@ -194,7 +195,7 @@ When /^I log in as "(.*?)"/ do |user|
   seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
   assert(seoas.size > 0, "No SEOAs found for #{user}")
 
-  sli_db_name = PropLoader.getProps['sli_database_name']
+  sli_db_name = Property['sli_database_name']
   sli_db = conn[sli_db_name]
   user_session_coll = sli_db.collection('userSession')
   user_session_coll.remove()
@@ -223,7 +224,7 @@ When /^I log in as "(.*?)"/ do |user|
 end
 
 When /^I navigate to the API authorization endpoint with my client ID$/ do
-  @driver.get PropLoader.getProps['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
+  @driver.get Property['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
 end
 
 Then /^I should be redirected to the realm choosing page$/ do
@@ -240,7 +241,7 @@ Then /^I should receive a response page with http error code 403$/ do
 end
 
 When /^I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI$/ do
-  @driver.get PropLoader.getProps['api_server_url'] + "/api/oauth/token?response_type=code&client_id=#{@oauthClientId}" +
+  @driver.get Property['api_server_url'] + "/api/oauth/token?response_type=code&client_id=#{@oauthClientId}" +
   "&client_secret=#{@oauthClientSecret}&code=#{@oauthAuthCode}&redirect_uri=#{@oauthRedirectURI}"
 end
 
@@ -264,8 +265,8 @@ end
 def all_lea_allow_app_for_tenant(app_name, tenant_name)
   sleep 1
   disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
-  db = conn[PropLoader.getProps['api_database_name']]
+  conn = Mongo::Connection.new(Property['DB_HOST'], Property['DB_PORT'])
+  db = conn[Property['api_database_name']]
   app_coll = db.collection("application")
   app = app_coll.find_one({"body.name" => app_name})
   raise "ERROR: Could not find an application named #{app_name}" if app.nil?
@@ -295,9 +296,9 @@ def authorize_edorg_for_tenant(app_name, tenant_name)
   puts "Entered authorizeEdorg" if ENV['DEBUG']
   disable_NOTABLESCAN()
   puts "Getting mongo cursor" if ENV['DEBUG']
-  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
+  conn = Mongo::Connection.new(Property['DB_HOST'], Property['DB_PORT'])
   puts "Setting into the sli db" if ENV['DEBUG']
-  db = conn[PropLoader.getProps['api_database_name']]
+  db = conn[Property['api_database_name']]
   puts "Setting into the application collection" if ENV['DEBUG']
   app_coll = db.collection("application")
   puts "Finding the application with name #{app_name}" if ENV['DEBUG']
@@ -327,7 +328,7 @@ Given /^I import the odin setup application and realm data$/ do
   #get current working dir
   current_dir = Dir.getwd
   # Get current server environment (ci or local) from properties.yml
-  app_server = PropLoader.getProps['app_bootstrap_server']
+  app_server = Property['app_bootstrap_server']
   # Drop in ci specific app-auth fixture data
   if app_server == "ci"
     puts "\b\bDEBUG: We are setting CI environment app auth data"
@@ -337,8 +338,8 @@ Given /^I import the odin setup application and realm data$/ do
     conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
     db = conn['sli']
     coll = db.collection('realm')
-    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.id' => PropLoader.getProps['ci_idp_redirect_url']}})
-    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.redirectEndpoint' => PropLoader.getProps['ci_idp_redirect_url']}})
+    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.id' => Property['ci_idp_redirect_url']}})
+    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.redirectEndpoint' => Property['ci_idp_redirect_url']}})
     conn.close
     enable_NOTABLESCAN()
     # Drop in local specific app-auth fixture data
@@ -354,8 +355,8 @@ Given /^I import the odin setup application and realm data$/ do
     conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
     db = conn['sli']
     coll = db.collection('realm')
-    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.id' => PropLoader.getProps['ci_idp_redirect_url']}})
-    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.redirectEndpoint' => PropLoader.getProps['ci_idp_redirect_url']}})
+    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.id' => Property['ci_idp_redirect_url']}})
+    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.redirectEndpoint' => Property['ci_idp_redirect_url']}})
     conn.close
     enable_NOTABLESCAN()
   end
@@ -472,7 +473,7 @@ Then /^I should see all global entities$/ do
   end
 
   #Get entity ids from the database
-  conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
   db = conn.db(convertTenantIdToDbName("Midgar"))
   coll = db[@currentEntity]
 
@@ -1092,11 +1093,10 @@ Then /^I remove the new entity from "([^"]*)"$/ do |collection|
     db = conn[db_name]
     coll_split = collection.split('.')
     coll = db.collection(coll_split[0])
-    query = {"#{coll_split[1]}._id" => @newId}
-    entity = coll.find_one(query)
+    entity = coll.find_one({"#{coll_split[1]}._id" => @newId})
     subdocs = entity[coll_split[1]]
     subdocs.delete_if {|entry| entry['_id'] == @newId}
-    update_mongo_operation(db_name, coll_split[0], query, coll_split[1],false, subdocs)
+    update_mongo_operation(db_name, coll_split[0], { "_id" => entity["_id"]}, coll_split[1],false, subdocs)
     conn.close
     enable_NOTABLESCAN
   else
@@ -1155,3 +1155,86 @@ end
 When /^I attempt to delete the new entity$/ do
   restHttpDelete("/v1/students/#{@result['id']}")
 end
+
+ $edOrgIds = {
+'Daybreak Apocalypse'   => '7ba3a918acc8ce02ea105a6c1afac1ab081a465f_id',
+'Daybreak Bayside High' => '67e56f15a44cf12b6b9eecd8510b243177bce057_id',
+'Daybreak Center'       => '6ca55671dc00fd613c578c977f650f67f6e1063c_id',
+'Daybreak Central High' => 'a13489364c2eb015c219172d561c62350f0453f3_id',
+'Daybreak Ragnarok'     => '29fecddc0c7d1e3563f3eb98743bf65b13c742fe_id',
+'District 31'           => '264b869a22b74b4ab5b3b6620b3d31d1a98dc4a0_id',
+'District 9'            => '99a4ec9d3ba372993b2860a798b550c77bb73a09_id',
+'East Daybreak High'    => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id',
+'IL-DAYBREAK'           => '1b223f577827204a1c7e9c851dba06bea6b031fe_id'
+ }
+
+And(/^I delete all classPeriods$/) do
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  tenant = convertTenantIdToDbName @tenant
+  db = conn[tenant]
+  role_coll = db.collection('classPeriod')
+  role_coll.remove()
+  conn.close()
+end
+
+And(/^I delete all bellSchedules$/) do
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  tenant = convertTenantIdToDbName @tenant
+  db = conn[tenant]
+  role_coll = db.collection('bellSchedule')
+  role_coll.remove()
+  conn.close()
+end
+
+And(/^I create a "([^"]*)" classPeriod for "([^"]*)"$/) do |classPeriodName, edOrg|
+  edOrgId = $edOrgIds[edOrg]
+  classPeriod = {:classPeriodName=>classPeriodName, :educationOrganizationId => edOrgId}
+  data = prepareData('application/json', classPeriod)
+  restHttpPost('/v1/classPeriods', data, 'Application/json')
+  assert(@res.code == 201, "Expected return code 201!")
+  location = @res.raw_headers['location'][0]
+  id = location.split(/\//)[-1]
+  $createdEntityIds[classPeriodName] = id
+  $createdLocations[classPeriodName] = location
+end
+
+And(/^I try to delete ([^ ]*) "([^"]*)" and get "([^"]*)"$/) do |entityType, entityName, codeStr|
+  restHttpDelete("/v1/#{entityType}s/#{$createdEntityIds[entityName]}", 'Application/json')
+  assert(@res.code == codeStr.to_i, 'Expected return code 200!')
+end
+
+And(/^I create a "([^"]*)" bellSchedule for "([^"]*)"$/) do |bellScheduleName, classPeriod|
+  #create a calendarDate that can be used for all bellSchedules
+  if (not $calId) then
+      calDate = { :calendarEvent => "Instructional day",
+                  :date => '2014-04-24',
+                  :educationOrganizationId => $edOrgIds['IL-DAYBREAK']
+      }
+
+      data = prepareData('application/json',calDate)
+      restHttpPost("/v1/calendarDates/", data, 'Application/json')
+      assert(@res.code == 201, "Expected return code 201!")
+      location = @res.raw_headers['location'][0]
+      $calId = location.split(/\//)[-1]
+    end
+
+  bellSchedule = {
+        :bellScheduleName => bellScheduleName,
+        :educationOrganizationId => $edOrgIds['IL-DAYBREAK'],
+        :meetingTime =>  {
+        :classPeriodId => $createdEntityIds[classPeriod],
+        :startTime => '13:20:00-05:00',
+        :endTime => '13:20:00-05:00'
+        },
+        :gradeLevels => ['Tenth grade'],
+        :calendarDateReference => $calId
+    }
+    data = prepareData('application/json',bellSchedule)
+    restHttpPost('/v1/bellSchedules', data, 'Application/json')
+    assert(@res.code == 201, 'Expected return code 201!')
+    location = @res.raw_headers['location'][0]
+    id = location.split(/\//)[-1]
+    $createdEntityIds[bellScheduleName] = id
+    $createdLocations[bellScheduleName] = location
+end
+

@@ -9,7 +9,9 @@
   <util:set id="recordLevelDeltaEnabledEntities" set-class="java.util.HashSet" value-type="java.lang.String">
 <!--    <value>attendance</value> Transformed so needs additional work.  Excluded from DID resolver due to StudentReference - should be fixed later. -->
     <value>attendanceEvent</value>
+    <value>bellSchedule</value>
     <value>calendarDate</value>
+    <value>classPeriod</value>
     <value>cohort</value> <!-- has EdOrg ref as key field -->
     <value>competencyLevelDescriptor</value>
     <value>course</value>

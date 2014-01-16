@@ -31,6 +31,8 @@ import java.util.Set;
  */
 public final class ResourceNames {
 
+    public static final String CLASS_PERIODS = "classPeriods";
+    public static final String BELL_SCHEDULES = "bellSchedules";
     public static final String CALENDAR_DATES = "calendarDates";
 	public static final String AGGREGATIONS = "aggregations";
     public static final String AGGREGATION_DEFINITIONS = "aggregationDefinitions";
@@ -117,7 +119,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS,
                 ResourceNames.STUDENT_COHORT_ASSOCIATION_GETTER);
         
-        SINGULAR_LINK_NAMES.put(ResourceNames.CALENDAR_DATES, "getCalendar");
+        SINGULAR_LINK_NAMES.put(ResourceNames.CALENDAR_DATES, "getCalendarDate");
         SINGULAR_LINK_NAMES.put(ResourceNames.ASSESSMENTS, "getAssessment");
         SINGULAR_LINK_NAMES.put(ResourceNames.ATTENDANCES, "getAttendance");
         SINGULAR_LINK_NAMES.put(ResourceNames.YEARLY_ATTENDANCES, "getYearlyAttendance");
@@ -135,6 +137,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.LEARNINGSTANDARDS, "getLearningStandard");
         SINGULAR_LINK_NAMES.put(ResourceNames.REPORT_CARDS, "getReportCard");
         SINGULAR_LINK_NAMES.put(ResourceNames.SESSIONS, "getSession");
+        SINGULAR_LINK_NAMES.put(ResourceNames.CLASS_PERIODS, "getClassPeriod");
         SINGULAR_LINK_NAMES.put(ResourceNames.SCHOOLS, "getSchool");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENTS, "getStudent");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_ACADEMIC_RECORDS, "getStudentAcademicRecord");
@@ -143,7 +146,8 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF, "getStaff");
         SINGULAR_LINK_NAMES.put(ResourceNames.GRADES, "getGrade");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_COMPETENCIES, "getStudentCompetency");
-        SINGULAR_LINK_NAMES.put(ResourceNames.GRADUATION_PLANS, "getGraduationPlans");
+        SINGULAR_LINK_NAMES.put(ResourceNames.GRADUATION_PLANS, "getGraduationPlan");
+        SINGULAR_LINK_NAMES.put(ResourceNames.BELL_SCHEDULES, "getBellSchedule");
     }
 
     /*

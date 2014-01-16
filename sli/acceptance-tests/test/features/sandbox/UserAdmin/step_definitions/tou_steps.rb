@@ -2,9 +2,9 @@ require 'ldapstorage'
 require_relative '../../../admintools/step_definitions/reset_change_password.rb'
 
 $user_email = "jraynor@#{get_mac_address('_')}"
-$ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
-                        PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
-                        PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
+$ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
+                        Property['ldap_base'], Property['ldap_admin_user'],
+                        Property['ldap_admin_pass'], Property['ldap_use_ssl'])
 
 Given /^I have an account of (.*) in (.*) status$/ do |role, tou_status|
   status = (tou_status == "TOU not set") ? "submitted" : "approved"
@@ -27,7 +27,7 @@ When /^I access the password reset page$/ do
   step "I check for message  \"Password reset instructions have been emailed to you. Please follow the instructions in the email.\""
   user = $ldap.read_user($user_email)
   resetKey = user[:resetKey].split("@")[0]
-  @driver.get(PropLoader.getProps['admintools_server_url'] + "/resetPassword/newAccount/" + resetKey)
+  @driver.get(Property['admintools_server_url'] + "/resetPassword/newAccount/" + resetKey)
   assertWithWait("Failed to navigate to the new account registration page")  {@driver.page_source.index("New Account Registration") != nil}
 
 end

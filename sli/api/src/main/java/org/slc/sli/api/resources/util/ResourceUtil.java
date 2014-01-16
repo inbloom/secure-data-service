@@ -58,7 +58,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * and resolving a new URI based on parameters.
  * 
  * @author kmyers <kmyers@wgen.net>
- * 
+ *
  */
 public class ResourceUtil {
 
@@ -406,7 +406,7 @@ public class ResourceUtil {
                                 }
                                 if (!linkName.isEmpty()) {
                                     links.add(new EmbeddedLink(linkName, getURI(uriInfo, getApiVersion(uriInfo),
-                                            PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
+                                            resourceName, referenceGuid).toString()));
                                 }
 
                             }
@@ -444,30 +444,38 @@ public class ResourceUtil {
             if (object == null || (object instanceof Iterable<?> && !((Iterable<?>) object).iterator().hasNext())) {
                 return Collections.emptyList();
             }
-            String rel = prefix + '.' + resourceName;
+            String rel = getLinkName(prefix, resourceName, BLANK, true);
             String id = (object instanceof Iterable) ? StringUtils.join((Iterable<?>) object, ",") : object.toString();
             return Arrays.asList(new EmbeddedLink(rel, getVersionedUriString(uri, resourceName, id)));
         } else {
-            Object subObject = entityBody.get(keys.get(0));
-            if (subObject instanceof Iterable) {
-                List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
-                for (Object individual : (Iterable<?>) subObject) {
+            Object object = entityBody.get(keys.get(0));
+            List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
+            if (object instanceof Iterable) {
+                for (Object individual : (Iterable<?>) object) {
                     if (individual instanceof Map) {
-                        NeutralSchema newSchema = schema.getFields().get(key);
-                        if (newSchema instanceof ListSchema) {
-                            // warning, complete hack here
-                            newSchema = ((ListSchema) newSchema).getList().get(0);
-                        }
-                        String newPrefix = prefix + (prefix.length() == 0 ? "" : ".") + key + "."
-                                + getNaturalKey((Map) individual, newSchema);
-                        results.addAll(getEmbeddedReferences(newPrefix, keys.subList(1, keys.size()), resourceName,
-                                newSchema, (Map) individual, uri));
+                        doCreateEmbeddedLink(prefix, keys, resourceName, schema, uri, key, (Map) individual, results);
                     }
                 }
+                return results;
+            } else if (object instanceof Map) {
+                doCreateEmbeddedLink(prefix, keys, resourceName, schema, uri, key, (Map) object, results);
                 return results;
             }
         }
         return Collections.emptyList();
+    }
+
+    // us5975 meetingTime.classPeriod failing to create link
+    private static void doCreateEmbeddedLink(String prefix, List<String> keys, String resourceName, NeutralSchema schema, UriInfo uri, String key, Map subObject, List<EmbeddedLink> results) {
+        NeutralSchema newSchema = schema.getFields().get(key);
+        if (newSchema instanceof ListSchema) {
+            // warning, complete hack here
+            newSchema = ((ListSchema) newSchema).getList().get(0);
+        }
+        String newPrefix = prefix + (prefix.length() == 0 ? "" : ".") + key + "."
+                + getNaturalKey(subObject, newSchema);
+        results.addAll(getEmbeddedReferences(newPrefix, keys.subList(1, keys.size()), resourceName,
+                newSchema, subObject, uri));
     }
 
     private static String getNaturalKey(Map<String, Object> object, NeutralSchema schema) {

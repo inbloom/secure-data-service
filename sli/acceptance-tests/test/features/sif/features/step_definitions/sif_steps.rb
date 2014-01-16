@@ -31,10 +31,10 @@ require_relative '../../../utils/sli_utils.rb'
 # ENVIRONMENT CONFIGURATION
 ############################################################
 
-SIF_DB_NAME= PropLoader.getProps['sif_database_name']
-SIF_DB = PropLoader.getProps['sif_db']
-SIF_PORT = PropLoader.getProps['sif_port']
-SIF_ZIS_ADDRESS_TRIGGER = PropLoader.getProps['sif_zis_address_trigger']
+SIF_DB_NAME= Property['sif_database_name']
+SIF_DB = Property['sif_db']
+SIF_PORT = Property['sif_port']
+SIF_ZIS_ADDRESS_TRIGGER = Property['sif_zis_address_trigger']
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
 BOOTSTRAPPED_GUIDS = ["2012at-6dc60eb7-dcc5-11e1-95f6-0021701f543f", "2012kn-52435872-d66d-11e1-a5ad-406c8f06bd30", "2012lw-d6111b17-d66d-11e1-a5ad-406c8f06bd30"]

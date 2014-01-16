@@ -54,4 +54,4 @@ gem 'encrypted-cookie-store'
 
 gem 'warbler'
 
-
+gem 'eventmachine', '1.0.3'

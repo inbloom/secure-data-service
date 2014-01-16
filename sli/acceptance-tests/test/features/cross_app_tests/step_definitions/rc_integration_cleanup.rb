@@ -29,16 +29,16 @@ limitations under the License.
 ###############################################################################
 
 Given /^I have a connection to Mongo$/ do
-  host = PropLoader.getProps['ingestion_db']
-  port = PropLoader.getProps['ingestion_db_port']
+  host = Property['ingestion_db']
+  port = Property['ingestion_db_port']
 
   @conn = Mongo::Connection.new(host, port)
 
   # HACK TO WORK AROUND MONGOS DROP DATABASE BUG
-  port2 = PropLoader.getProps['rcingest02_port']
-  port3 = PropLoader.getProps['rcingest03_port']
-  port4 = PropLoader.getProps['rcapi01_port']
-  port5 = PropLoader.getProps['rcapi02_port']
+  port2 = Property['rcingest02_port']
+  port3 = Property['rcingest03_port']
+  port4 = Property['rcapi01_port']
+  port5 = Property['rcapi02_port']
   @conn2 = Mongo::Connection.new(host, port2) if port2
   @conn3 = Mongo::Connection.new(host, port3) if port3
   @conn4 = Mongo::Connection.new(host, port4) if port4
@@ -59,9 +59,9 @@ end
 
 When /^I get the database name$/ do
   if (@mode == "SANDBOX")
-    @tenant_name = PropLoader.getProps['sandbox_tenant']
+    @tenant_name = Property['sandbox_tenant']
   else
-    @tenant_name = PropLoader.getProps['tenant']
+    @tenant_name = Property['tenant']
   end
 
   @tenant_db_name = convertTenantIdToDbName(@tenant_name)
@@ -147,10 +147,10 @@ Then /^I flush all mongos instances$/ do
 end
 
 Then /^I will clean my tenants recordHash documents from ingestion_batch_job db$/ do
-  host = PropLoader.getProps['ingestion_batchjob_db']
-  port = PropLoader.getProps['ingestion_batchjob_db_port']
+  host = Property['ingestion_batchjob_db']
+  port = Property['ingestion_batchjob_db_port']
   batchJobconn = Mongo::Connection.new(host, port)
-  batchJobDb = batchJobconn.db(PropLoader.getProps['ingestion_batchjob_database_name'])
+  batchJobDb = batchJobconn.db(Property['ingestion_batchjob_database_name'])
   batchJobDb['recordHash'].remove("t" => @tenant_name)
 end
 
@@ -179,23 +179,23 @@ end
 
 Then /^I clean up the (production|sandbox) tenant's bulk extract file entries in the database$/ do |environment|
   if environment.downcase == 'sandbox'
-    tenant = PropLoader.getProps['sandbox_tenant']
+    tenant = Property['sandbox_tenant']
   else
-    tenant = PropLoader.getProps['tenant']
+    tenant = Property['tenant']
   end
-  sli_db = @conn.db(PropLoader.getProps['sli_database_name'])
+  sli_db = @conn.db(Property['sli_database_name'])
   sli_db['bulkExtractFiles'].remove('body.tenantId' => tenant)
   assert(sli_db['application'].find('body.tenantId' => tenant).count == 0, "Bulk extract file entries for tenant '#{tenant}' have not been deleted.")
 end
 
 Then /^I will drop the tenant document from the collection$/ do
-  sli_db = @conn.db(PropLoader.getProps['sli_database_name'])
+  sli_db = @conn.db(Property['sli_database_name'])
   sli_db['tenant'].remove("body.tenantId" => @tenant_name)
   assert(sli_db['tenant'].find("body.tenantId" => @tenant_name).count == 0, "Tenant document not dropped.")
 end
 
 Then /^I will delete the realm for this tenant from the collection$/ do
-  sli_db = @conn.db(PropLoader.getProps['sli_database_name'])
+  sli_db = @conn.db(Property['sli_database_name'])
   sli_db['realm'].remove("body.uniqueIdentifier" => "RC-IL-Daybreak")
   assert(sli_db['realm'].find("body.uniqueIdentifier" => "RC-IL-Daybreak").count == 0, "Realm document not deleted.")
   if RUN_ON_RC
@@ -203,12 +203,14 @@ Then /^I will delete the realm for this tenant from the collection$/ do
      assert(sli_db['realm'].find("body.uniqueIdentifier" => "RC-IL-Charter-School").count == 0, "Realm document not deleted.")
      sli_db['realm'].remove("body.uniqueIdentifier" => "RC-Artifact-IL-Daybreak")
      assert(sli_db['realm'].find("body.uniqueIdentifier" => "RC-Artifact-IL-Daybreak").count == 0, "Realm document not deleted.")
+     sli_db['realm'].remove("body.uniqueIdentifier" => "RC-Post-Encrypt-IL-Daybreak")
+     assert(sli_db['realm'].find("body.uniqueIdentifier" => "RC-Post-Encrypt-IL-Daybreak").count == 0, "Realm document not deleted.")
   end
 end
 
 Then /^I will delete the applications "([^\"]*)" from the collection$/ do |apps|
   app_names = apps.split(",")
-  sli_db = @conn.db(PropLoader.getProps['sli_database_name'])
+  sli_db = @conn.db(Property['sli_database_name'])
   app_names.each do |name|
     sli_db['application'].remove("body.name" => name)
     assert(sli_db['application'].find("body.name" => name).count == 0, "The application '#{name}' is not deleted.")

@@ -329,12 +329,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         checkAccess(false, id, null);
 
-        try {
-            cascadeDelete(id);
-        } catch (RuntimeException re) {
-            LOG.debug(re.toString());
-        }
-
         if (!getRepo().delete(collectionName, id)) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
@@ -360,12 +354,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         rightAccessValidator.checkAccess(false, id, null, defn.getType(), collectionName, getRepo(), auths);
 
-        try {
-            cascadeDelete(id);
-        } catch (RuntimeException re) {
-            LOG.debug(re.toString());
-        }
-
         if (!getRepo().delete(collectionName, id)) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
@@ -374,17 +362,28 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     @Override
-    public boolean update(String id, EntityBody content) {
+    public boolean update(String id, EntityBody content, boolean applySecurityContext) {
         LOG.debug("Updating {} in {} with {}", new Object[] {id, collectionName, SecurityUtil.getSLIPrincipal()});
-        checkAccess(false, id, content);
+
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
         Entity entity = getRepo().findOne(collectionName, query);
-        // Entity entity = repo.findById(collectionName, id);
+
         if (entity == null) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
+        }
+
+
+        if(applySecurityContext){
+            boolean isSelf = isSelf(id);
+            Collection<GrantedAuthority> auths = getEntityContextAuthorities(entity, isSelf, false);
+
+            rightAccessValidator.checkAccess(false, id, content, defn.getType(), collectionName, getRepo(), auths);
+        }
+        else{
+            checkAccess(false, id, content);
         }
 
         sanitizeEntityBody(content);
@@ -406,74 +405,11 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     @Override
-    public boolean updateBasedOnContextualRoles(String id, EntityBody content) {
-        LOG.debug("Updating {} in {} with {}", new Object[] {id, collectionName, SecurityUtil.getSLIPrincipal()});
-
-        boolean isSelf = isSelf(id);
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("_id", "=", id));
-        Entity entity = getRepo().findOne(collectionName, query);
-        // Entity entity = repo.findById(collectionName, id);
-        if (entity == null) {
-            LOG.info("Could not find {}", id);
-            throw new EntityNotFoundException(id);
-        }
-
-        Collection<GrantedAuthority> auths = getEntityContextAuthorities(entity, isSelf, false);
-
-        rightAccessValidator.checkAccess(false, id, content, defn.getType(), collectionName, getRepo(), auths);
-
-        sanitizeEntityBody(content);
-
-        boolean success = false;
-        if (entity.getBody().equals(content)) {
-            LOG.info("No change detected to {}", id);
-            return false;
-        }
-
-        checkReferences(id, content);
-
-        LOG.info("new body is {}", content);
-        entity.getBody().clear();
-        entity.getBody().putAll(content);
-
-        success = repo.update(collectionName, entity, FullSuperDoc.isFullSuperdoc(entity));
-        return success;
-    }
-
-    @Override
-    public boolean patch(String id, EntityBody content) {
-        LOG.debug("Patching {} in {}", id, collectionName);
-        checkAccess(false, id, content);
-
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("_id", "=", id));
-
-        if (repo.findOne(collectionName, query) == null) {
-            LOG.info("Could not find {}", id);
-            throw new EntityNotFoundException(id);
-        }
-
-        sanitizeEntityBody(content);
-
-        LOG.info("patch value(s): ", content);
-
-        // don't check references until things are combined
-        checkReferences(id, content);
-
-        repo.patch(defn.getType(), collectionName, id, content);
-
-        return true;
-    }
-
-    @Override
-    public boolean patchBasedOnContextualRoles(String id, EntityBody content) {
+    public boolean patch(String id, EntityBody content, boolean applySecurityContext) {
         LOG.debug("Patching {} in {}", id, collectionName);
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
-
-        boolean isSelf = isSelf(query);
 
         Entity entity = repo.findOne(collectionName, query);
         if (entity == null) {
@@ -481,13 +417,27 @@ public class BasicService implements EntityService, AccessibilityCheck {
             throw new EntityNotFoundException(id);
         }
 
-        Collection<GrantedAuthority> auths = getEntityContextAuthorities(entity, isSelf, false);
+        if(applySecurityContext){
+            boolean isSelf = isSelf(query);
+            Collection<GrantedAuthority> auths = getEntityContextAuthorities(entity, isSelf, false);
 
-        rightAccessValidator.checkAccess(false, id, content, defn.getType(), collectionName, getRepo(), auths);
+            rightAccessValidator.checkAccess(false, id, content, defn.getType(), collectionName, getRepo(), auths);
+        }
+        else{
+            checkAccess(false, id, content);
+        }
 
         sanitizeEntityBody(content);
 
         LOG.info("patch value(s): ", content);
+        //run this check after sanitization
+        if(content.isEmpty()) {
+            //in this case there are no fields included for the PATCH request. This is a problem
+            // because the update is built without an update operator expression which mongodb
+            // interprets as a request to replace the entire document
+            LOG.info("Entity body was empty on PATCH request for {}", id);
+            return false;
+        }
 
         // don't check references until things are combined
         checkReferences(id, content);
@@ -1144,83 +1094,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
             treatment.toStored(content, defn);
         }
         return content;
-    }
-
-    /**
-     * Deletes any object with a reference to the given sourceId. Assumes that the sourceId still
-     * exists so that
-     * authorization/context can be checked.
-     *
-     * @param sourceId ID that was deleted, where anything else with that ID should also be deleted
-     */
-    protected void cascadeDelete(String sourceId) {
-        // loop for every EntityDefinition that references the deleted entity's type
-        for (EntityDefinition referencingEntity : defn.getReferencingEntities()) {
-            // loop for every reference field that COULD reference the deleted ID
-
-            for (String referenceField : referencingEntity.getReferenceFieldNames(defn.getStoredCollectionName())) {
-                EntityService referencingEntityService = referencingEntity.getService();
-
-                List<String> includeFields = new ArrayList<String>();
-                includeFields.add(referenceField);
-                NeutralQuery neutralQuery = new NeutralQuery();
-                neutralQuery.addCriteria(new NeutralCriteria(referenceField + "=" + sourceId));
-                neutralQuery.setIncludeFields(includeFields);
-
-                try {
-                    // entities that have arrays of references only cascade delete the array entry,
-                    // not the whole entity
-                    if (referencingEntity.hasArrayField(referenceField)) {
-                        // list all entities that have the deleted entity's ID in one of their
-                        // arrays
-
-                        Iterable<EntityBody> entityList;
-                        if (SecurityUtil.isStaffUser()) {
-                            entityList = referencingEntityService.listBasedOnContextualRoles(neutralQuery);
-                        } else {
-                            entityList = referencingEntityService.list(neutralQuery);
-                        }
-
-                        for (EntityBody entityBody : entityList) {
-                            String idToBePatched = (String) entityBody.get("id");
-                            List<?> basicDBList = (List<?>) entityBody.get(referenceField);
-                            basicDBList.remove(sourceId);
-                            EntityBody patchEntityBody = new EntityBody();
-                            patchEntityBody.put(referenceField, basicDBList);
-                            if (SecurityUtil.isStaffUser()) {
-                                referencingEntityService.patchBasedOnContextualRoles(idToBePatched, patchEntityBody);
-                            } else {
-                                referencingEntityService.patch(idToBePatched, patchEntityBody);
-                            }
-                        }
-                    } else {
-                        // list all entities that have the deleted entity's ID in their reference
-                        // field (for deletion)
-
-                        Iterable<EntityBody> entityList;
-                        if (SecurityUtil.isStaffUser()) {
-                            entityList = referencingEntityService.listBasedOnContextualRoles(neutralQuery);
-                        } else {
-                            entityList = referencingEntityService.list(neutralQuery);
-                        }
-                        for (EntityBody entityBody : entityList) {
-                            String idToBeDeleted = (String) entityBody.get("id");
-                            // delete that entity as well
-                            if (SecurityUtil.isStaffUser()) {
-                                referencingEntityService.deleteBasedOnContextualRoles(idToBeDeleted);
-                            } else {
-                                referencingEntityService.delete(idToBeDeleted);
-                            }
-                            // delete custom entities attached to this entity
-                            deleteAttachedCustomEntities(idToBeDeleted);
-                        }
-                    }
-                } catch (AccessDeniedException ade) {
-                    LOG.debug("No {} have {}={}", new Object[]{referencingEntity.getResourceName(), referenceField,
-                            sourceId});
-                }
-            }
-        }
     }
 
     protected void deleteAttachedCustomEntities(String sourceId) {

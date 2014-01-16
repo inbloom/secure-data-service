@@ -31,6 +31,7 @@ import java.util.Set;
 
 import com.google.common.collect.Iterables;
 import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.util.PublicEntityDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +100,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     // the list that we are currently serving
     private Queue<DeltaRecord> workQueue = new LinkedList<DeltaRecord>();
 
+    private final static List<String> PUBLIC_ENTITIES;
     static {
         Map<String, List<String>> requiredDenormalizedFields = new HashMap<String, List<String>>();
         requiredDenormalizedFields.put("student", Arrays.asList("schools"));
@@ -127,6 +129,15 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         pullDependent.put(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, list1 );
         
         DEPENDENT_MAP = Collections.unmodifiableMap(pullDependent);
+        List<String> publicEntities = new ArrayList<String>();
+        for (PublicEntityDefinition entity : PublicEntityDefinition.values()) {
+            publicEntities.add(entity.getEntityName());
+        }
+        //Add entities dependant on public entities
+        publicEntities.add(EntityNames.ASSESSMENT_FAMILY);
+        publicEntities.add(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR);
+
+        PUBLIC_ENTITIES = Collections.unmodifiableList(publicEntities);
     }
 
     public enum Operation {
@@ -332,7 +343,8 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                     entity.getEmbeddedData().clear();
                 }
 
-                if (governingEdOrgs != null && !governingEdOrgs.isEmpty()) {
+                if (PUBLIC_ENTITIES.contains(entity.getType()) ||
+                        (governingEdOrgs != null && !governingEdOrgs.isEmpty())) {
                     addToQueue(new DeltaRecord(entity, governingEdOrgs, Operation.UPDATE, spamDelete,
                             batchedCollection), batchedCollection );
                     addDependencies( batchedCollection, entity, governingEdOrgs );

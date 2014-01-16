@@ -1,11 +1,11 @@
 #bulk extract
-TRIGGER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_script'])
-OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_output_directory']
-PROPERTIES_FILE = PropLoader.getProps['bulk_extract_properties_file']
-KEYSTORE_FILE = PropLoader.getProps['bulk_extract_keystore_file']
-JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
-SSH_USER = PropLoader.getProps['ssh_user']
-EXTRACT_TO_DIRECTORY = PropLoader.getProps['extract_to_directory']
+TRIGGER_SCRIPT = File.expand_path(Property['bulk_extract_script'])
+OUTPUT_DIRECTORY = Property['bulk_extract_output_directory']
+PROPERTIES_FILE = Property['bulk_extract_properties_file']
+KEYSTORE_FILE = Property['bulk_extract_keystore_file']
+JAR_FILE = Property['bulk_extract_jar_loc']
+SSH_USER = Property['ssh_user']
+EXTRACT_TO_DIRECTORY = Property['extract_to_directory']
 
 require 'archive/tar/minitar'
 include Archive::Tar
@@ -19,9 +19,9 @@ end
 
 Given /^the (production|sandbox) extraction zone is empty$/ do |environment|
   if environment.downcase == 'sandbox'
-    tenant = PropLoader.getProps['sandbox_tenant']
+    tenant = Property['sandbox_tenant']
   else
-    tenant = PropLoader.getProps['tenant']
+    tenant = Property['tenant']
   end
   executeShellCommand("rm -f \~/.ssh/known_hosts")
   executeShellCommand("ssh #{SSH_USER} sudo rm -rf #{OUTPUT_DIRECTORY}#{convertTenantIdToDbName(tenant)}")
@@ -41,9 +41,9 @@ end
 
 When /^the operator triggers a bulk extract for the (production|sandbox) tenant$/ do |environment|
   if environment.downcase == 'sandbox'
-    tenant = PropLoader.getProps['sandbox_tenant']
+    tenant = Property['sandbox_tenant']
   else
-    tenant = PropLoader.getProps['tenant']
+    tenant = Property['tenant']
   end
   executeShellCommand("rm -f \~/.ssh/known_hosts")
   command = getBulkExtractCommand(tenant)
@@ -52,22 +52,25 @@ end
 
 When /^the operator triggers a delta for the (production|sandbox) tenant$/ do |environment|
   if environment.downcase == 'sandbox'
-    tenant = PropLoader.getProps['sandbox_tenant']
+    tenant = Property['sandbox_tenant']
   else
-    tenant = PropLoader.getProps['tenant']
+    tenant = Property['tenant']
   end
   executeShellCommand("rm -f \~/.ssh/known_hosts")
   command = getBulkExtractCommand(tenant, ' -d')
   executeShellCommand("ssh #{SSH_USER} sudo #{command}")
 end
 
-When /^I store the URL for the latest delta for the (LEA|SEA)$/ do |edorg|
-  edorg == 'LEA' ? delta = 'deltaEdOrgs' : delta = 'deltaSea'
+When /^I store the URL for the latest delta for the (edorg|Public)$/ do |edorg|
   puts "result body from previous API call is #{@res}"
   @delta_uri = JSON.parse(@res)
-  @list_url  = @delta_uri[delta][@lea][0]["uri"]
-  # @list_irl is in the format https://<url>/api/rest/v1.3/bulk/extract/<lea>/delta/<timestamp>
-  # -> strip off everything before v1.3, store: bulk/extract/<lea>/delta/<timestamp>
+  if edorg.downcase == 'edorg'
+    @list_url = @delta_uri['deltaEdOrgs'][@lea][0]["uri"]
+  else
+    @list_url = @delta_uri['deltaPublic'].values[0][0]["uri"]
+  end
+  # @list_irl is in the format https://<url>/api/rest/v1.5/bulk/extract/<lea>/delta/<timestamp>
+  # -> strip off everything before v1.5, store: bulk/extract/<lea>/delta/<timestamp>
   @list_url.match(/api\/rest\/v(.*?)\/(.*)$/)
   puts "Bulk Extract Delta URI suffix: #{$2}"
   @list_uri = $2
@@ -143,6 +146,19 @@ When /^I PATCH the (postalCode|name) for the current edorg entity to (.*?)$/ do 
   @format = "application/json"
   puts "PATCHing body #{patch_body[field]} to /v1/educationOrganizations/#{@lea}"
   restHttpPatch("/v1/educationOrganizations/#{@lea}", prepareData(@format, patch_body[field]), @format)
+  puts @res
+  assert(@res != nil, "Patch failed: Received no response from API.")
+end
+
+When /^I PATCH the telephone number for the current staff entity to "(.*?)"$/ do |value|
+  patch_body = {
+          'telephone' => [{'telephoneNumber' => value,
+                         'primaryTelephoneNumberIndicator' => true,
+                         'telephoneNumberType' => 'Home'}]
+  }
+  @format = "application/json"
+  puts "PATCHing body #{patch_body} to /v1/staff/#{@staff}"
+  restHttpPatch("/v1/staff/#{@staff}", prepareData(@format, patch_body), @format)
   puts @res
   assert(@res != nil, "Patch failed: Received no response from API.")
 end
@@ -223,13 +239,18 @@ end
 
 Then /^the extract contains a file for each of the following entities:$/ do |table|
   Minitar.unpack(@filePath, @unpackDir)
+  expected_files = Set.new
 
   table.hashes.map do |entity|
-  exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
-  assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
+    exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
+    assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
+    expected_files << entity
   end
 
-  fileList = Dir.entries(@unpackDir)
-  puts "Files in upackDir:  #{fileList}"
-  assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
+  file_list = []
+  Dir.chdir(@unpackDir) do
+    file_list = Dir.glob("*.json.gz")
+  end
+  puts "Files in upackDir:  #{file_list}"
+  assert(file_list.size==expected_files.size, "Expected " + expected_files.size.to_s + " extract files, Actual:" + file_list.size.to_s)
 end

@@ -25,7 +25,7 @@ Given /^the sampleApp is deployed on sampleApp server$/ do
 end
 
 When /^I navigate to the sampleApp home page$/ do
-  url = PropLoader.getProps['sampleApp_server_address']
+  url = Property['sampleApp_server_address']
   url = url + @appPrefix
   puts url
   @driver.get url
@@ -69,7 +69,7 @@ When /^I go to List of Students$/ do
       @driver.switch_to.alert.accept
     rescue
     end
-  url = PropLoader.getProps['sampleApp_server_address']
+  url = Property['sampleApp_server_address']
   url = url + @appPrefix
   puts url
   @driver.get url
@@ -86,8 +86,8 @@ Then /^I should see student "([^"]*)" in the student list$/ do |studentName|
 end
 
 Given /^I am authenticated to SLI as "([^"]*)" "([^"]*)"$/ do |user, pass|
-  url = PropLoader.getProps['sampleApp_server_address']
-  url = url + PropLoader.getProps[@appPrefix]
+  url = Property['sampleApp_server_address']
+  url = url + Property[@appPrefix]
   
   #url = "http://localhost:8080/dashboard"
   @driver.get(url)

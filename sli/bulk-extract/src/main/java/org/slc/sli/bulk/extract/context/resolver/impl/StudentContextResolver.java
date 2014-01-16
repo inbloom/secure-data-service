@@ -81,7 +81,7 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
         String studentId = student.getEntityId();
         Map<String, DateTime> edorgDates = datedCache.getEntriesById(studentId);
         if (edorgDates.isEmpty()) {
-            Map<String, DateTime> nonSeaDates = fetchNonSEADates(extractorHelper.fetchAllEdOrgsForStudent(student));
+            Map<String, DateTime> nonSeaDates = extractorHelper.fetchAllEdOrgsForStudent(student);
 
             updateCache(studentId, nonSeaDates);
             edorgDates = datedCache.getEntriesById(studentId);
@@ -110,18 +110,6 @@ public class StudentContextResolver extends ReferrableResolver implements Initia
         for (Map.Entry<String, DateTime> edorgDate: edorgDates.entrySet()) {
             datedCache.addEntry(studentId, edorgDate.getKey(), edorgDate.getValue());
         }
-    }
-
-    private Map<String, DateTime> fetchNonSEADates(Map<String, DateTime> edorgDates) {
-        if (seaIds == null) {
-            Entity sea = edOrgHierarchyHelper.getSEA();
-            if (sea != null) {
-                seaIds = sea.getEntityId();
-            }
-        }
-
-        edorgDates.remove(seaIds);
-        return edorgDates;
     }
     
     protected Map<String, Set<String>> getCache() {

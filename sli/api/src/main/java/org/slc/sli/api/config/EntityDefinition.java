@@ -58,13 +58,17 @@ public class EntityDefinition {
     private final boolean skipContextValidation;
     private final boolean wrapperEntity;
 
+    private final boolean supportsPut;
+    private final boolean supportsPatch;
+
     protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service,
             boolean supportsAggregates) {
-        this(type, type, resourceName, collectionName, service, supportsAggregates, false, false, null);
+        this(type, type, resourceName, collectionName, service, supportsAggregates, false, false, null, true, true);
     }
 
     protected EntityDefinition(String type, String dbType, String resourceName, String collectionName, EntityService service,
-            boolean supportsAggregates, boolean skipContextValidation, boolean pullTypeFromEntity, NeutralCriteria typeCriteria) {
+            boolean supportsAggregates, boolean skipContextValidation, boolean pullTypeFromEntity, NeutralCriteria typeCriteria,
+            boolean supportsPut, boolean supportsPatch) {
         this.type = type;
         this.resourceName = resourceName;
         this.collectionName = collectionName;
@@ -75,6 +79,8 @@ public class EntityDefinition {
         this.wrapperEntity = pullTypeFromEntity;
         this.dbType = dbType;
         this.typeCriteria = typeCriteria;
+        this.supportsPut = supportsPut;
+        this.supportsPatch = supportsPatch;
     }
 
     public boolean hasArrayField(String fieldName) {
@@ -259,5 +265,13 @@ public class EntityDefinition {
 
     public NeutralCriteria getTypeCriteria() {
         return typeCriteria;
+    }
+
+    public boolean supportsPut() {
+        return supportsPut;
+    }
+
+    public boolean supportsPatch() {
+        return supportsPatch;
     }
 }

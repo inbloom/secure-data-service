@@ -23,7 +23,7 @@ $TAR_FILE_NAME = "Final.tar"
 LEA_DAYBREAK_ID_VAL2 = '1b223f577827204a1c7e9c851dba06bea6b031fe_id'
 
 Given /^I update the "(.*?)" with ID "(.*?)" field "(.*?)" to "(.*?)" on the sli database$/ do |collection, id, field, boolean|
-  conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
   sli = conn.db("sli")
 
   coll = sli[collection]
@@ -70,11 +70,7 @@ Given /^in my list of rights I have BULK_EXTRACT$/ do
   #  Explanatory step
 end
 
-When /^I make lea bulk extract API call for lea "(.*?)"$/ do |arg1|
-  restTls("/bulk/extract/#{arg1}")
-end
-
-When /^I make lea bulk extract API call for edorg "(.*?)"$/ do |arg1|
+When /^I make a full bulk extract API call for edorg "(.*?)"$/ do |arg1|
   restTls("/bulk/extract/#{arg1}")
 end
 
@@ -279,7 +275,7 @@ end
 
 
 When /^the return code is 404 I ensure there is no bulkExtractFiles entry for Midgar$/ do
-  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  @db ||= Mongo::Connection.new(Property['DB_HOST']).db('sli')
   @coll = "bulkExtractFiles";
   @src_coll = @db[@coll]
 
@@ -477,7 +473,7 @@ Then /^I combine the file contents$/ do
 end
 
 Then /^I check the version of http response headers$/ do
-  LATEST_API_VERSION = "v1.3"
+  LATEST_API_VERSION = "v1.5"
 
   returned_version = @res.headers[:x_executedpath].split("/").first
 
@@ -498,7 +494,7 @@ def check_response_header(tenant = 'Midgar')
   if @zip_file_name == "sample-extract.tar"
     assert(@res.headers[:last_modified].to_s==EXPECTED_LAST_MODIFIED, "Last Modified date is wrong! Actual: #{@res.headers[:last_modified]} Expected: #{EXPECTED_LAST_MODIFIED}" )
   elsif @res.code == 200
-    @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+    @db ||= Mongo::Connection.new(Property['DB_HOST']).db('sli')
     coll = "bulkExtractFiles";
     src_coll = @db[coll]
     raise "Could not find #{coll} collection" if src_coll.count == 0
@@ -572,8 +568,8 @@ When /^I make a head request with each returned URL$/ do
     step "the return code is 200 I get expected tar downloaded"
   end
 
-  hash_body['fullSea'].each do |seaId, link|
-    puts "Checking full extracts for SEA #{seaId}"
+  hash_body['fullPublic'].each do |tenantId, link|
+    puts "Checking full extracts for public data of #{tenantId}"
     puts link
     uri = link['uri']
     puts "Link: #{uri}"
@@ -591,8 +587,8 @@ When /^I make a head request with each returned URL$/ do
     end
   end
 
-    hash_body['deltaSea'].each do |seaId, link_list|
-    puts "Checking delta extracts for SEA #{seaId}"
+    hash_body['deltaPublic'].each do |tenantId, link_list|
+    puts "Checking delta extracts for public data of #{tenantId}"
     link_list.each do |link|
       uri = link["uri"]
       puts "Link: #{uri}"
@@ -643,7 +639,7 @@ Then /^there are (\d+) total number of delta links in the list/ do |value|
   hash_body['deltaEdOrgs'].each_value do |links|
     count += links.size
   end
-  assert(count.to_i == value.to_i, "Response contains wrong number of URLs for deltaEdOrgs. Expected: #{value}; Actual: #{count}")
+  assert(count.to_i == value.to_i, "Response contains wrong number of URLs for deltaEdOrgs. Expected: #{value}; Actual: #{count}\nResponse: #{@res.body}")
 end
 
 After("@TempFileCleanup") do
@@ -653,7 +649,7 @@ After("@TempFileCleanup") do
 end
 
 def getAppId()
-  conn ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
+  conn ||= Mongo::Connection.new(Property['DB_HOST'])
   db ||= conn.db('sli')
   userSessionColl = db.collection("userSession")
   clientId = userSessionColl.find_one({"body.appSession.token" => @sessionId}) ["body"]["appSession"][0]["clientId"]

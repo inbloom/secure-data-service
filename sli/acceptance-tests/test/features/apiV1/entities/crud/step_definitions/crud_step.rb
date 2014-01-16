@@ -326,6 +326,20 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "contentStandard" => "LEA Standard",
     "version" => 2
   },
+  "base_super_assessment" => {
+      "assessmentIdentificationCode"=> [{
+                                            "identificationSystem"=> "State",
+                                            "ID"=> "2001-Seventh grade Assessment 2"
+                                        }],
+      "assessmentPerformanceLevel"=> [],
+      "gradeLevelAssessed"=> "Seventh grade",
+      "assessmentTitle"=> "2001-Seventh grade Assessment 2",
+      "assessmentPeriodDescriptor"=>{
+          "codeValue"=>"codeGreen",
+          "description"=>"describes this descriptor"
+      },
+      "version" => 2
+  },
 
   "super_assessment" => {
      "assessmentIdentificationCode"=> [{
@@ -333,12 +347,14 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
         "ID"=> "2001-Seventh grade Assessment 2"
      }],
      "objectiveAssessment"=> [{
+        "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
         "nomenclature"=> "Nomenclature",
         "percentOfAssessment"=> 50,
         "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2",
         "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
         "maxRawScore"=> 50,
         "objectiveAssessments"=> [{
+          "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
           "nomenclature"=> "Nomenclature",
           "percentOfAssessment"=> 50,
           "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2 Sub",
@@ -347,6 +363,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
           "objectiveAssessments"=> []
         }],
         "assessmentItem"=> [{
+           "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
            "identificationCode"=> "2001-Seventh grade Assessment 2#3",
            "correctResponse"=> "true",
            "learningStandards"=> [],
@@ -356,12 +373,14 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       }],
       #"assessmentFamilyHierarchyName"=>"2001 Standard.2001 Seventh grade Standard",
       "assessmentItem"=> [{
+        "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
         "identificationCode"=> "2001-Seventh grade Assessment 2#3",
         "correctResponse"=> "true",
         "learningStandards"=> [],
         "maxRawScore"=> 10,
         "itemCategory"=> "True-False"
         }, {
+        "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
         "identificationCode"=> "2001-Seventh grade Assessment 2#1",
         "correctResponse"=> "true",
         "learningStandards"=> [],
@@ -376,6 +395,45 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
         "description"=>"describes this descriptor"
       },
       "version" => 2 
+  },
+
+  "assessment_item" => {
+      "assessmentIdentificationCode"=> [{
+                                            "identificationSystem"=> "State",
+                                            "ID"=> "2001-Seventh grade Assessment 2"
+                                        }],
+      "assessmentPerformanceLevel"=> [],
+      "gradeLevelAssessed"=> "Seventh grade",
+      "assessmentTitle"=> "2001-Seventh grade Assessment 2",
+      "assessmentPeriodDescriptor"=>{
+          "codeValue"=>"codeGreen",
+          "description"=>"describes this descriptor"
+      },
+      "assessmentItem"=> [{   "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
+                              "identificationCode"=> "2001-Seventh grade Assessment 2#3",
+                              "learningStandards"=> [],
+                              "maxRawScore"=> 10,
+                              "itemCategory"=> "True-False"
+                          }],
+      "version" => 2
+  },
+  "invalid_nested_objective_assessment" => {
+      "objectiveAssessment"=> [{
+          "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
+          "nomenclature"=> "Nomenclature",
+          "percentOfAssessment"=> 50,
+          "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2",
+          "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
+          "maxRawScore"=> 50,
+          "objectiveAssessments"=> [{
+                "nomenclature"=> "Nomenclature",
+                "percentOfAssessment"=> 50,
+                "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2 Sub",
+                "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
+                "maxRawScore"=> 50,
+                "objectiveAssessments"=> []
+          }]
+      }]
   },
 
   "studentAssessment" => {
@@ -398,6 +456,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
           "assessmentItemResult" => "Correct",
           "rawScoreResult" => 10,
           "assessmentItem" => {
+            "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
             "identificationCode"=> "2001-Seventh grade Assessment 2#3",
             "correctResponse"=> "true",
             "learningStandards"=> [],
@@ -419,6 +478,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
             "assessmentReportingMethod" => "Scale score"
           }],
           "objectiveAssessment" => {
+            "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
+            "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2",
              "assessmentPerformanceLevel"=>[
                {
                 "performanceLevelDescriptor"=> [{
@@ -426,8 +487,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
                }],
               "assessmentReportingMethod"=> "Number score",
               "minimumScore"=> 0,
-              "maximumScore"=> 50
-             }],
+              "maximumScore"=> 50,
+               }],
             "nomenclature"=> "Nomenclature",
             "percentOfAssessment"=> 50,
             "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2",
@@ -442,6 +503,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
             "assessmentReportingMethod" => "Scale score"
           }],
           "objectiveAssessment" => {
+            "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
             "nomenclature"=> "Nomenclature",
             "percentOfAssessment"=> 50,
             "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2 Sub",
@@ -450,6 +512,36 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
             "objectiveAssessments"=> []
           }
         }]
+  },
+
+  "missing_req_field_studentOA" => {
+      "administrationDate" => "2002-08-28",
+      "administrationLanguage" => {
+          "language" => "English"
+      },
+      "studentId" => "274f4c71-1984-4607-8c6f-0a91db2d240a_id",
+      "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
+      "scoreResults" => [
+          {
+              "result" => "68",
+              "assessmentReportingMethod" => "Scale score"
+          }],
+      "administrationEnvironment" => "Classroom",
+      "retestIndicator" => "Primary Administration",
+      "linguisticAccommodations" => [ ],
+      "studentObjectiveAssessments" => [
+          {
+              "scoreResults" => [],
+              "objectiveAssessment" => {
+                  "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
+                  "nomenclature"=> "Nomenclature",
+                  "percentOfAssessment"=> 50,
+                  "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2 Sub",
+                  "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
+                  "maxRawScore"=> 50,
+                  "objectiveAssessments"=> []
+              }
+          }]
   },
 
   "parent" => {
@@ -561,6 +653,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     }
 }
   @fields = @entityData[arg1]
+  @patch_body = @entityData[arg1]
 end
 
 When /^I create an association of type "([^"]*)"$/ do |type|
@@ -661,6 +754,15 @@ When /^I create an association of type "([^"]*)"$/ do |type|
       "programId" => @newId,
       "staffId" => "b4c2a73f-336d-4c47-9b47-2d24871eef96",
       "beginDate" => "2012-01-01"
+    },
+    "student_studentParentAssociation" => {
+        "studentId" => "6f60028a-f57a-4c3d-895f-e34a63abc175_id",
+        "parentId" => @newId,
+        "livesWith" => true,
+        "primaryContactStatus" => true,
+        "relation" => "Mother",
+        "contactPriority" => 0,
+        "emergencyContactStatus" => true
     }
   }
   @fields = @assocData[type]
@@ -681,10 +783,11 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     "teacherSchoolAssociation" => "teacherSchoolAssociations",
     "teacherSchoolAssociation2" => "teacherSchoolAssociations",
     "studentParentAssociation2" => "studentParentAssociations",
-    "staffProgramAssociation" => "staffProgramAssociations"
+    "staffProgramAssociation" => "staffProgramAssociations",
+    "student_studentParentAssociation" => "studentParentAssociations"
   }
   if type != ""
-    api_version = "v1.1"
+    api_version = "v1"
     step "I navigate to POST \"/#{api_version}/#{@assocUrl[type]}\""
     headers = @res.raw_headers
     assert(headers != nil, "Headers are nil")
@@ -692,6 +795,11 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     s = headers['location'][0]
     @assocId = s[s.rindex('/')+1..-1]
   end
+end
+
+When /^I delete the superdoc "([^"]*)" of "([^"]*)"$/ do |entity_uri, subdoc_id|
+  superdoc_id = subdoc_id.split('_id')[0] + "_id"
+   step "I navigate to DELETE \"/v1/#{entity_uri}/#{superdoc_id}\""
 end
 
 Then /^I should receive a new entity URI after a successful response$/ do
@@ -720,7 +828,7 @@ Given /^my contextual access is defined by table:$/ do |table|
 end
 
 Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
-  version = "v1.3"
+  version = "v1.5"
   root = expectedUri.match(/\/(.+?)\/|$/)[1]
   expected = version+expectedUri
   actual = @headers["x-executedpath"][0]
@@ -732,7 +840,7 @@ Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
   #Then, validate the list of ids are the same
   ids = []
   if @ctx.has_key? root
-    idsString = actual.match(/v1.3\/[^\/]*\/([^\/]*)\/?/)[1]
+    idsString = actual.match(/v1.5\/[^\/]*\/([^\/]*)\/?/)[1]
     actualIds = idsString.split(",")
     expectedIds = @ctx[root].split(",")
     
@@ -761,7 +869,7 @@ Then /^I should see all entities$/ do
   end
 
   #Get entity ids from the database
-  @conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  @conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
   @db = @conn.db(convertTenantIdToDbName("Midgar"))
   @coll = @db[currentEntity]
 
@@ -782,7 +890,7 @@ Then /^I should see all entities$/ do
 end
 
 Then /^I verify "(.*?)" and "(.*?)" should be subdoc'ed in mongo for this new "(.*?)"$/ do |subdoc1, subdoc2, type|
-  @conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  @conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
   @db = @conn.db(convertTenantIdToDbName("Midgar"))
   @coll = @db[type]
   entity = @coll.find_one("_id"=>@newId);
@@ -804,7 +912,7 @@ Then /^I set the "(.*?)" to "(.*?)" in "(.*?)"$/ do |key, value, field|
 end
 
 Then /^I verify there are "(\d)" "(.*?)" with "(.*?)" in mongo$/ do |count, type, query| 
-  @conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  @conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
   @db = @conn.db(convertTenantIdToDbName("Midgar"))
   @coll = @db[type]
   disable_NOTABLESCAN
@@ -938,3 +1046,49 @@ And /^I DELETE attendance for student "(.*?)" in school "(.*?)" for the schoolYe
   }
 
 end
+
+
+When /^I POST a "([^"]*)"$/ do |entityType|
+  @expected_entity_bs = {
+      "bellScheduleName" => "Grade School Schedule",
+      "educationOrganizationId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
+      "meetingTime"  =>  {
+          "classPeriodId" => "7a0dde6bfdd4ad85281452a5aa0ae992903af89b_id",
+          "alternateDayName" => "Beige",
+          "startTime" => "09:00:00.000",
+          "endTime" => "09:55:00.000",
+          "officialAttendancePeriod" => true
+      },
+      "gradeLevels" => [
+          "First grade",
+          "Second grade",
+          "Third grade",
+          "Fourth grade"
+      ],
+      "calendarDateReference" => "2012ai-7963b924-ceb0-11e1-8af5-0a0027000000"
+  }
+
+  @expected_entity_cp = {
+      "classPeriodName" => "First Period",
+      "educationOrganizationId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+  }
+
+  if  entityType == "classPeriod"
+    restHttpPost("/v1/classPeriods", @expected_entity_cp.to_json, 'application/vnd.slc+json')
+    assert(@res != nil, "Response from rest-client POST is nil")
+  elsif entityType == "bellSchedule"
+    restHttpPost("/v1/bellSchedules", @expected_entity_bs.to_json, 'application/vnd.slc+json')
+    assert(@res != nil, "Response from rest-client POST is nil")
+    end
+end
+
+Then /^I set the "(.*?)" to "(.*?)" in the first "(.*?)" subdoc$/ do |key, value, subdoc|
+  @fields = {} if !defined? @fields
+  @fields[subdoc][0].merge!(key=>value)
+end
+
+Then /^I remove the "(.*?)" field in the first "(.*?)" subdoc$/ do |key, subdoc|
+  @fields = {} if !defined? @fields
+  @fields[subdoc][0].delete(key)
+end
+

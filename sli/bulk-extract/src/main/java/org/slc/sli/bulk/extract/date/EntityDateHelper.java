@@ -52,11 +52,11 @@ public class EntityDateHelper {
     }
 
     private static boolean isBeforeOrEqualDate(String begin, DateTime upToDate) {
-        DateTime beginDate = (begin == null) ? DateTime.now() : DateTime.parse(begin, DateHelper.getDateTimeFormat());
-        return !beginDate.isAfter(upToDate);
+        DateTime beginDate = (begin == null) ? DateTime.now().toDateMidnight().toDateTime() : DateTime.parse(begin, DateHelper.getDateTimeFormat());
+        return !beginDate.isAfter(upToDate.toDateMidnight().toDateTime());
     }
 
-    private static boolean isBeforeOrEqualYear(String yearSpan, int upToYear) {
+    protected static boolean isBeforeOrEqualYear(String yearSpan, int upToYear) {
         int fromYear = Integer.parseInt(yearSpan.split("-")[0]);
         int toYear = Integer.parseInt(yearSpan.split("-")[1]);
         return ((upToYear >= toYear) && (upToYear > fromYear));

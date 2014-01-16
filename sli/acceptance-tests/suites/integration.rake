@@ -1,4 +1,4 @@
-############################################################
+#5###########################################################
 # Environment Variables Set Up For RC Tests
 ############################################################
 
@@ -43,6 +43,11 @@ end
 desc "Run Artifact Binding RC Test"
 task :rcArtifactBindingTests do
   runTests("test/features/cross_app_tests/rc_integration_artifact_idp.feature")
+end
+
+desc "Run Artifact Binding RC Test"
+task :rcPostEncryptionTests do
+  runTests("test/features/cross_app_tests/rc_integration_post_encryption.feature")
 end
 
 desc "Run Dashboard RC Test"
@@ -155,10 +160,10 @@ end
 desc "Delete SEA, LEA and dev from LDAP"
 task :rcDeleteLDAPUsers do
   #emailsToDelete = ["testuser0.wgen@gmail.com", "testuser1.wgen@gmail.com", "testdev.wgen@gmail.com"]
-  emailsToDelete = [(PropLoader.getProps['primary_email_imap_registration_user_email']), 
-                    (PropLoader.getProps['secondary_email_imap_registration_user_email']), 
-                    (PropLoader.getProps['charter_email_imap_registration_user_email']),
-                    (PropLoader.getProps['developer_email_imap_registration_user_email'])]
+  emailsToDelete = [(Property['primary_email_imap_registration_user_email']),
+                    (Property['secondary_email_imap_registration_user_email']),
+                    (Property['charter_email_imap_registration_user_email']),
+                    (Property['developer_email_imap_registration_user_email'])]
   emailsToDelete.each do |email|
     begin
       cleanUpLdapUser(email)
@@ -171,15 +176,15 @@ task :rcDeleteLDAPUsers do
       puts e.message
       puts e.backtrace.inspect
       puts "Error:  Deleting #{email} from LDAP failed"
-      puts "Host: #{PropLoader.getProps['ldap_hostname']} Port: #{PropLoader.getProps['ldap_port']} Use SSL: #{PropLoader.getProps['ldap_use_ssl']}"
+      puts "Host: #{Property['ldap_hostname']} Port: #{Property['ldap_port']} Use SSL: #{Property['ldap_use_ssl']}"
     end
   end
 end
 
 desc "Delete Dev1 and Dev2 from LDAP"
 task :rcDeleteSandboxLDAPUsers do
-  emailsToDelete = [(PropLoader.getProps['developer_sb_email_imap_registration_user_email']),
-                    (PropLoader.getProps['developer2_sb_email_imap_registration_user_email'])]
+  emailsToDelete = [(Property['developer_sb_email_imap_registration_user_email']),
+                    (Property['developer2_sb_email_imap_registration_user_email'])]
   emailsToDelete.each do |email|
     begin
       cleanUpLdapUser(email)
@@ -188,7 +193,7 @@ task :rcDeleteSandboxLDAPUsers do
       puts e.message
       puts e.backtrace.inspect
       puts "Error:  Deleting #{email} from LDAP failed"
-      puts "Host: #{PropLoader.getProps['ldap_hostname']} Port: #{PropLoader.getProps['ldap_port']} Use SSL: #{PropLoader.getProps['ldap_use_ssl']}"
+      puts "Host: #{Property['ldap_hostname']} Port: #{Property['ldap_port']} Use SSL: #{Property['ldap_use_ssl']}"
     end
   end
 end
@@ -207,7 +212,8 @@ task :rcTests do
   Rake::Task["rcAccountRequestTests"].execute
   Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
   Rake::Task["rcAppApprovalTests"].execute
-  Rake::Task["rcArtifactBindingTests"].execute unless PropLoader.getProps['ci_artifact_idp_type'].downcase == 'none'
+  Rake::Task["rcArtifactBindingTests"].execute unless Property['ci_artifact_idp_type'].nil? || Property['ci_artifact_idp_type'].downcase == 'none'
+  Rake::Task["rcPostEncryptionTests"].execute unless Property['post_encrypt_idp_type'].nil? || Property['post_encrypt_idp_type'].downcase == 'none'
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcDataBrowserTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
@@ -224,7 +230,7 @@ desc "Run RC E2E Tests in Sandbox mode"
 task :rcSandboxTests do
   @tags = ["~@wip", "@rc", "@sandbox"]
   @tags = ["~@wip", "@rc", "@sandbox", "~@ci"] if RUN_ON_RC
-  Rake::Task["rcSandboxTenantCleanUp"].execute # if tenant_exists(PropLoader.getProps['sandbox_tenant'])
+  Rake::Task["rcSandboxTenantCleanUp"].execute # if tenant_exists(Property['sandbox_tenant'])
   Rake::Task["rcDeleteSandboxLDAPUsers"].execute
   Rake::Task["rcPortalCompile"].execute if RUN_ON_RC
   Rake::Task["rcSandboxAccountRequestTests"].execute
@@ -258,10 +264,10 @@ end
 
 private
 
-def tenant_exists(tenant_name = PropLoader.getProps['tenant'])
-  host = PropLoader.getProps['ingestion_db']
-  port = PropLoader.getProps['ingestion_db_port']
+def tenant_exists(tenant_name = Property['tenant'])
+  host = Property['ingestion_db']
+  port = Property['ingestion_db_port']
   conn = Mongo::Connection.new(host, port)
-  sli_db = conn.db(PropLoader.getProps['sli_database_name'])
+  sli_db = conn.db(Property['sli_database_name'])
   (sli_db['tenant'].find("body.tenantId" => tenant_name).count == 0) ? false : true
 end

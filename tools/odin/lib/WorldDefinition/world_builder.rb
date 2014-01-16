@@ -67,8 +67,8 @@ class WorldBuilder
   # -> generates CourseOffering [Master Schedule interchange]
   # -> out of scope: Program, StaffProgramAssociation, StudentProgramAssociation, Cohort, StaffCohortAssociation, StudentCohortAssociation
   # -> returns education organization structure built
-  def build()
-    if !@scenarioYAML["STUDENT_COUNT"].nil?
+  def build
+    if @scenarioYAML["STUDENT_COUNT"]
       build_world_from_students
     #elsif !@scenarioYAML["SCHOOL_COUNT"].nil?
     #  build_world_from_edOrgs()
@@ -76,8 +76,7 @@ class WorldBuilder
     else
       @log.error "STUDENT_COUNT or SCHOOL_COUNT must be set for a world to be created --> Exiting..."
     end
-
-    return @world
+    @world
   end
 
   # Builds world using the specified number of students as the driving criteria
@@ -261,23 +260,18 @@ class WorldBuilder
       # Set the parent edOrg based on catalog, or keep nil and dump school into first LEA in list
       begin_year = @scenarioYAML["BEGIN_YEAR"]
       num_years  = @scenarioYAML["NUMBER_OF_YEARS"]
-      
-      if members != []
-        if members["staff"].nil?
-           parent = nil 
-        else
-          parent = members["staff"][0][:parent]
-        end
+
+      parent = nil
+
+      unless members.empty?
+        parent = members["staff"].nil? ? nil : members["staff"][0][:parent]
         catalog_students = members["students"]
-      else
-        parent = nil
       end
+
       # remember the school's state organization id if it's a String --> pop off later when creating education organizations
       @schools << school_id if school_id.kind_of? String
 
-
-
-      staff, teachers, students    = create_staff_and_teachers_for_school(members)
+      staff, teachers, students = create_staff_and_teachers_for_school(members)
 
       school = {
         "id" => school_id,
@@ -609,7 +603,7 @@ class WorldBuilder
         session             = Hash.new
         session["term"]     = :YEAR_ROUND
         session["year"]     = year
-        session["name"] = year.to_s + "-" + (year+1).to_s + " " + SchoolTerm.to_string(:YEAR_ROUND) + " session: " + state_organization_id.to_s
+        session["name"]     = "#{year}-#{year+1} #{SchoolTerm.to_string(:YEAR_ROUND)} session: #{state_organization_id}"
         session["interval"] = interval
         session["edOrgId"]  = state_organization_id
         @world["leas"][index]["sessions"] << session
@@ -880,6 +874,7 @@ class WorldBuilder
   # - School [Elementary, Middle, High]
   # - Course
   # - [not yet implemented] Program
+  # - ClassPeriod
   def create_education_organization_work_orders
     # write state education agencies
     begin_year   = @scenarioYAML["BEGIN_YEAR"]
@@ -904,6 +899,8 @@ class WorldBuilder
     @world["leas"].each       { |edOrg|
       @queue.push_work_order({ :type => LocalEducationAgency, :id => edOrg["id"], :parent => edOrg["parent"], :programs => get_program_ids(edOrg["programs"]), :years => school_years })
       create_program_work_orders(edOrg["programs"])
+
+      edOrg["class_periods"] = create_class_period_work_orders("LEA", edOrg["id"])
     }
 
     # write elementary, middle, and high schools
@@ -913,8 +910,11 @@ class WorldBuilder
         create_program_work_orders(edOrg["programs"])
         create_course_work_orders(edOrg['id'], edOrg["courses"] || [])
         create_cohorts DataUtility.get_school_id(edOrg['id'], classification), classification
+        edOrg["class_periods"] = create_class_period_work_orders("School", edOrg["id"])
       }
     }
+
+
   end
 
   # writes ed-fi xml interchange: education organization calendar entities:
@@ -929,6 +929,7 @@ class WorldBuilder
       # -> iterate through sessions
       ed_org    = @world["leas"][ed_org_index]
       sessions  = ed_org["sessions"]
+      class_periods = ed_org["class_periods"]
       if ed_org["id"].kind_of? String
         ed_org_id = ed_org["id"]
       else
@@ -945,28 +946,36 @@ class WorldBuilder
 
         # create calendar date(s) using interval
         # create grading period(s) using interval, school year, and state organization id
-        # -> store grading periods back onto sessions
+        # -> store grading periods and calendar dates back onto sessions
         calendar_dates  = create_calendar_dates(interval, ed_org_id)
         grading_periods = create_grading_periods(interval, year, ed_org_id)
         @world["leas"][ed_org_index]["sessions"][session_index]["grading_periods"] = grading_periods
+        @world["leas"][ed_org_index]["sessions"][session_index]["calendar_dates"] = calendar_dates
 
         # create and write session
-        @queue.push_work_order( {:type=>Session, :name=>name, :year=>year, :term=>term, :interval=>interval, :edOrg => ed_org_id, :gradingPeriods => grading_periods})
+        @queue.push_work_order( {:type => Session, :name => name, :year => year, :term => term, :interval => interval, :edOrg => ed_org_id,
+                                  :gradingPeriods => grading_periods, :calendar_dates => calendar_dates})
 
         # write grading period(s)
         grading_periods.each do |grading_period|
           type      = grading_period["type"]
           year      = grading_period["year"]
           interval  = grading_period["interval"]
-          ed_org_id = grading_period["ed_org_id"]
+          gp_ed_org_id = grading_period["ed_org_id"]
 
-          @queue.push_work_order({:type=>GradingPeriod, :period_type=>type, :year=>year, :interval=>interval, :edOrg=>ed_org_id, :calendarDates => calendar_dates})
+          @queue.push_work_order({:type=>GradingPeriod, :period_type=>type, :year=>year, :interval=>interval, :edOrg=>gp_ed_org_id, :calendarDates => calendar_dates})
         end
 
         # write calendar date(s)
         if !@scenarioYAML['HACK_ONLY_CALENDAR_DATES_FOR_ONE_SESSION'] || isFirstSession
           calendar_dates.each do |calendar_date|
-            @queue.push_work_order({:type=>CalendarDate, :date=>calendar_date["date"], :event => calendar_date["event"], :edOrgId => calendar_date["ed_org_id"]})
+            @queue.push_work_order({:type=>CalendarDate, :date=>calendar_date["date"], :event => calendar_date["event"], :ed_org_id => calendar_date["ed_org_id"]})
+
+            # write bell schedule for calendar date
+            class_periods.each do |cp|
+              @queue.push_work_order({ :type => BellSchedule, :ed_org_id => ed_org_id, :calendar_date => calendar_date["date"],
+                                       :class_period_name => cp[:name], :start_time => cp[:start_time], :end_time => cp[:end_time] })
+            end
           end
           isFirstSession = false
         end
@@ -1176,6 +1185,28 @@ class WorldBuilder
     end
   end
 
+  # writes the bell schedules
+  def create_bell_schedule_work_order(type)
+    @world[type].each do |school|
+      if !school["offerings"].nil? and school["offerings"].size > 0
+        school["offerings"].each do |year, course_offerings|
+          course_offerings.each do |course_offering|
+            id        = course_offering["id"]
+            ed_org_id = course_offering["ed_org_id"]
+            session   = course_offering["session"]
+            course    = course_offering["course"]
+            grade     = course_offering["grade"]
+
+            title = GradeLevelType.to_string(grade) + " " + course["title"]
+            title = GradeLevelType.to_string(grade) if GradeLevelType.is_elementary_school_grade(grade)
+
+            @queue.push_work_order({:type=>BellSchedule, :id=>id, :session=>session})
+          end
+        end
+      end
+    end
+  end
+
   # creates an array of calendar dates that represent the specified interval
   # interval specifies:
   # - start date
@@ -1244,6 +1275,52 @@ class WorldBuilder
       courses[grade] = current_grade_courses
     end
     courses
+  end
+
+  # creates class-period work orders for edOrg with given ID
+  # Returns list of edOrg's periods incl. meeting times, for later use with bell schedule generation
+  def create_class_period_work_orders(edOrgType, edOrgId)
+
+    std_time = [ [ "08:45:00", "09:25:00" ],
+                 [ "09:30:00", "10:15:00" ],
+                 [ "10:20:00", "11:00:00" ],
+                 [ "11:05:00", "11:50:00" ],
+                 [ "13:05:00", "13:45:00" ],
+                 [ "13:50:00", "14:30:00" ],
+                 [ "14:35:00", "15:10:00" ],
+                 [ "15:15:00", "16:00:00" ],
+                 [ "16:05:00", "16:35:00" ],
+               ]
+
+    # Before school
+    periods = [ { :name => "Early Morning Period",
+                  :start_time => "07:15:00",
+                  :end_time => "07:45:00"
+                } ]
+
+    # Regular day
+    nperiod = @scenarioYAML['NUM_CLASS_PERIODS']
+    for p in 0 .. (nperiod-1)
+      periods.push( { :name => "Class Period No. " + (p + 1).to_s(),
+                      :start_time => std_time[p][0],
+                      :end_time => std_time[p][1],
+                    })
+    end
+
+    # After school
+    periods.push( { :name => "After School Athletic Session",
+                    :start_time => "16:00:00",
+                    :end_time => "18:00:00" })
+    periods.push( { :name => "Detention",
+                    :start_time => "15:30:00",
+                    :end_time => "16:30:00" })
+    
+    # Add class periods
+    periods.each do |period|
+      @queue.push_work_order({:type => ClassPeriod, :class_period_name => period[:name], :ed_org_id => edOrgId})
+    end
+
+    periods
   end
 
   # creates course work orders to be written to the education organization interchange

@@ -10,6 +10,7 @@ Feature: Use the APi to successfully post student data while having roles over m
     Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
     And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
     And I change the custom role of "Leader" to add the "WRITE_PUBLIC" right
+    And I change the custom role of "Educator" to remove the "WRITE_GENERAL" right
     When I log in as "rbelding"
     Then the following student section associations in Midgar are set correctly
     | student         | teacher              | edorg                 | enrolledInAnySection? |
@@ -95,12 +96,13 @@ Feature: Use the APi to successfully post student data while having roles over m
     Then I should receive a return code of 200
     And "sex" should be "Female"
 
-    Scenario: User with Write Access in LEA and no Write Access in a school
+  Scenario: User with Write Access in LEA and no Write Access in a school
     Given I change the custom role of "Aggregate Viewer" to add the "WRITE_RESTRICTED" right
     And I change the custom role of "Aggregate Viewer" to add the "WRITE_GENERAL" right
     And I change the custom role of "Aggregate Viewer" to add the "WRITE_PUBLIC" right
     And I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
     And I change the custom role of "Aggregate Viewer" to add the "READ_RESTRICTED" right
+    And I change the custom role of "Leader" to remove the "WRITE_GENERAL" right
 
     When I log in as "msmith"
 
@@ -138,7 +140,7 @@ Feature: Use the APi to successfully post student data while having roles over m
     Then I should receive a return code of 200
     And "sex" should be "Female"
 
-    Scenario: User with no Write Access in LEA and Write Access in a school
+  Scenario: User with no Write Access in LEA and Write Access in a school
     Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
     And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
     And I change the custom role of "Leader" to add the "WRITE_PUBLIC" right
@@ -172,7 +174,7 @@ Feature: Use the APi to successfully post student data while having roles over m
     Then I should receive a return code of 403
 
 
-    Scenario: User with General Write Access in LEA and Restricted Write Access in a school
+  Scenario: User with General Write Access in LEA and Restricted Write Access in a school
     And I change the custom role of "Aggregate Viewer" to add the "WRITE_GENERAL" right
     And I change the custom role of "Aggregate Viewer" to add the "WRITE_PUBLIC" right
     And I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
@@ -225,7 +227,7 @@ Feature: Use the APi to successfully post student data while having roles over m
     Then I should receive a return code of 200
     And "sex" should be "Female"
 
-    Scenario: User can write to an entity they created
+  Scenario: User can write to an entity they created
     Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
     And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
     And I change the custom role of "Leader" to add the "WRITE_PUBLIC" right

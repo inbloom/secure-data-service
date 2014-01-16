@@ -1,12 +1,14 @@
-
-<MeetingTimeReference>
-	<MeetingTimeIdentity>
-		<ClassPeriodReference>
-			<ClassPeriodIdentity>
-				<ClassPeriodName>{{classPeriodName}}</ClassPeriodName>
-				<StateOrganizationId>{{edOrgId}}</StateOrganizationId>
-			</ClassPeriodIdentity>
-		</ClassPeriodReference>
-	<WeekNumber>{{weekNumber}}</WeekNumber>
-	</MeetingTimeIdentity>
-</MeetingTimeReference>
+<MeetingTime>
+  <ClassPeriodReference>
+    <ClassPeriodIdentity>
+      <ClassPeriodName>{{class_period_name}}</ClassPeriodName>
+      <EducationOrganizationReference>
+	<EducationalOrgIdentity>
+	  <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+	</EducationalOrgIdentity>
+      </EducationOrganizationReference>
+    </ClassPeriodIdentity>
+  </ClassPeriodReference>
+  <StartTime>{{start_time}}</StartTime>
+  <EndTime>{{end_time}}</EndTime>
+</MeetingTime>

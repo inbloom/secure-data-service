@@ -88,6 +88,11 @@
                 <StateOrganizationId>LEA-TIER-4</StateOrganizationId>
             </EducationalOrgIdentity>
         </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>LEA-TIER-C-4</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
         <Address>
             <StreetNumberName>123 Street</StreetNumberName>
             <City>Chicago</City>

@@ -273,7 +273,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
             allLandingZones.add(nlz);
 
             existingBody.put(LZ, new ArrayList(allLandingZones));
-            tenantService.update(existingTenantId, existingBody);
+            tenantService.update(existingTenantId, existingBody, false);
             return existingTenantId;
         }
     }
@@ -424,7 +424,7 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
         for (Map<String, Object> landingZone : landingZones) {
             if (((String) (landingZone.get("educationOrganization"))).equals(edOrgId)) {
                 landingZone.put("preload", preload(Arrays.asList(dataSet)));
-                service.update(tenantId, entity);
+                service.update(tenantId, entity, false);
                 return Response.created(context.getAbsolutePathBuilder().path("jobstatus").build()).build();
             }
         }

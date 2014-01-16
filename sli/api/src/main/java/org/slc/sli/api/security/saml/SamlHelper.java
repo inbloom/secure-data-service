@@ -49,7 +49,6 @@ import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
-import org.jdom.input.DOMBuilder;
 import org.jdom.output.DOMOutputter;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -59,6 +58,9 @@ import org.opensaml.saml2.binding.artifact.SAML2ArtifactType0004;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.AttributeStatement;
 import org.opensaml.saml2.core.EncryptedAssertion;
+import org.opensaml.saml2.core.Response;
+import org.opensaml.saml2.core.Status;
+import org.opensaml.saml2.core.StatusCode;
 import org.opensaml.saml2.encryption.Decrypter;
 import org.opensaml.saml2.encryption.EncryptedElementTypeEncryptedKeyResolver;
 import org.opensaml.security.SAMLSignatureProfileValidator;
@@ -68,6 +70,9 @@ import org.opensaml.xml.encryption.ChainingEncryptedKeyResolver;
 import org.opensaml.xml.encryption.DecryptionException;
 import org.opensaml.xml.encryption.InlineEncryptedKeyResolver;
 import org.opensaml.xml.encryption.SimpleRetrievalMethodEncryptedKeyResolver;
+import org.opensaml.xml.io.Unmarshaller;
+import org.opensaml.xml.io.UnmarshallerFactory;
+import org.opensaml.xml.io.UnmarshallingException;
 import org.opensaml.xml.security.SecurityConfiguration;
 import org.opensaml.xml.security.SecurityHelper;
 import org.opensaml.xml.security.credential.Credential;
@@ -107,8 +112,6 @@ public class SamlHelper {
     public static final Namespace SAML_NS = Namespace.getNamespace("saml", "urn:oasis:names:tc:SAML:2.0:assertion");
     public static final Namespace SAMLP_NS = Namespace.getNamespace("samlp", "urn:oasis:names:tc:SAML:2.0:protocol");
 
-    // Jdom converters - not thread safe?
-    private DOMBuilder builder = new DOMBuilder();
     private DOMOutputter domer = new DOMOutputter();
 
     // W3c stuff - not thread safe
@@ -154,50 +157,22 @@ public class SamlHelper {
     }
 
     /**
-     * Converts post data containing saml xml data to a jdom document
+     * Converts a string representation of xml content to a w3c document object
      *
-     * @param postData String representing base 64 encoded SAML assertion.
-     * @return jdom document representation of the SAML assertion POSTed.
+     * @param data String representing xml.
+     * @return document representation of the xml data.
      * @throws Exception
      */
-    public Document decodeSamlPost(String postData) {
-
-        if (postData == null || postData.isEmpty()) {
-            throw new IllegalArgumentException("Empty SAML message");
-        }
-
-        String base64Decoded = decode(postData);
+    public org.w3c.dom.Document parseToDoc(String data) {
+        org.w3c.dom.Document doc = null;
         try {
-            org.w3c.dom.Document doc = null;
-            synchronized (domBuilder) {
-                doc = domBuilder.parse(new InputSource(new StringReader(base64Decoded)));
-            }
-
-            Document jdomDocument = null;
-            synchronized (builder) {
-                jdomDocument = builder.build(doc);
-            }
-
-            Element status = jdomDocument.getRootElement().getChild("Status", SAMLP_NS);
-            Element statusCode = status.getChild("StatusCode", SAMLP_NS);
-            String statusValue = statusCode.getAttributeValue("Value");
-            if (!statusValue.equals(SUCCESS_STATUS)) {
-                LOG.error("SAML Response did not have a success status, instead status was {}", statusValue);
-            }
-
-            synchronized (validator) {
-                String issuer = jdomDocument.getRootElement().getChildText("Issuer", SAML_NS);
-                if (!validator.isDocumentTrustedAndValid(doc, issuer)) {
-                    throw new IllegalArgumentException("Invalid SAML message");
-                }
-            }
-            return jdomDocument;
+            doc = domBuilder.parse(new InputSource(new StringReader(data)));
         } catch (Exception e) {
-            LOG.error("Error unmarshalling saml post", e);
+            LOG.error("Error parsing saml post", e);
             throw (RuntimeException) new IllegalArgumentException("Posted SAML isn't valid").initCause(e);
         }
+        return doc;
     }
-
 
     /**
      * Generates AuthnRequest and converts it to valid form for HTTP-Redirect binding
@@ -275,15 +250,15 @@ public class SamlHelper {
     /**
      * Decodes post body in accordance to SAML 2 spec
      *
-     * @param postData
+     * @param encodedReponse
      * @return decoded string
      */
-    private String decode(String postData) {
-        String trimmed = postData.replaceAll("\r\n", "");
-        String base64Decoded = new String(Base64.decodeBase64(trimmed));
+    public String decodeSAMLPostResponse(String encodedReponse) {
+        String trimmed = encodedReponse.replaceAll("\r\n", "");
+        String base64DecodedResponse = new String(Base64.decodeBase64(trimmed));
 
-        LOG.debug("Decrypted SAML: \n{}\n", base64Decoded);
-        return base64Decoded;
+        LOG.debug("Decoded SAML: \n{}\n", base64DecodedResponse);
+        return base64DecodedResponse;
     }
 
     /**
@@ -356,12 +331,30 @@ public class SamlHelper {
      * Validates that the certificate in the saml assertion is valid and trusted.
      * @param samlResponse
      *      SAML response form the IdP.
+     * @param assertion
+     *      SAML assertion
      */
-    public void validateCertificate(Assertion assertion, String issuer)  {
-        validateSignatureFormat(assertion.getSignature());
+    public void validateSignature(Response samlResponse, Assertion assertion)  {
+        if(samlResponse.getSignature() == null && assertion.getSignature() == null) {
+            raiseSamlValidationError("Invalid SAML message: Response is not signed", null);
+        }
+
+        String issuer = samlResponse.getIssuer().getValue();
+
+        if(samlResponse.getSignature() != null) {
+            validateFormatAndCertificate(samlResponse.getSignature(), samlResponse.getDOM(), issuer);
+        }
+
+        if(assertion.getSignature() != null) {
+            validateFormatAndCertificate(assertion.getSignature(), assertion.getDOM(), issuer);
+        }
+    }
+
+    protected void validateFormatAndCertificate(Signature signature, org.w3c.dom.Element element, String issuer) {
+        validateSignatureFormat(signature);
 
         try {
-            if (!validator.isDocumentTrusted(assertion.getDOM(), issuer)) {
+            if (!validator.isDocumentTrusted(element, issuer)) {
                 throw new APIAccessDeniedException("Invalid SAML message: Certificate is not trusted");
             }
         } catch (Exception e) {
@@ -433,7 +426,56 @@ public class SamlHelper {
         return art.getSourceID();
     }
 
-    public Assertion decryptAssertion(EncryptedAssertion encryptedAssertion, KeyStore.PrivateKeyEntry keystoreEntry) {
+    /**
+     * Convert w3c element to a SAML response
+     * @param element
+     * @return
+     */
+    public org.opensaml.saml2.core.Response convertToSAMLResponse(org.w3c.dom.Element element) {
+        org.opensaml.saml2.core.Response samlResponse = null;
+
+        UnmarshallerFactory unmarshallerFactory = Configuration.getUnmarshallerFactory();
+        Unmarshaller unmarshaller = unmarshallerFactory.getUnmarshaller(element);
+
+        if(unmarshaller == null) {
+            raiseSamlValidationError("Invalid SAML Response", null);
+        }
+
+        XMLObject responseXmlObj = null;
+
+        try {
+            responseXmlObj = unmarshaller.unmarshall(element);
+        } catch (UnmarshallingException e) {
+            raiseSamlValidationError("Error unmarshalling response from IdP", null);
+        }
+
+        if (responseXmlObj instanceof org.opensaml.saml2.core.Response) {
+            samlResponse = (org.opensaml.saml2.core.Response) responseXmlObj;
+        } else {
+            raiseSamlValidationError("Response is in an improper format", null);
+        }
+
+        return samlResponse;
+    }
+
+    public Assertion getAssertion(org.opensaml.saml2.core.Response samlResponse, KeyStore.PrivateKeyEntry keystoreEntry) {
+        Assertion assertion;
+        if (isAssertionEncrypted(samlResponse)) {
+            assertion = decryptAssertion(samlResponse.getEncryptedAssertions().get(0), keystoreEntry);
+        } else {
+            assertion = samlResponse.getAssertions().get(0);
+        }
+        return assertion;
+    }
+
+    protected boolean isAssertionEncrypted(org.opensaml.saml2.core.Response samlResponse) {
+        if (samlResponse.getEncryptedAssertions() != null && samlResponse.getEncryptedAssertions().size() != 0) {
+            return true;
+        }
+        return false;
+    }
+
+    protected Assertion decryptAssertion(EncryptedAssertion encryptedAssertion, KeyStore.PrivateKeyEntry keystoreEntry) {
         BasicX509Credential decryptionCredential = new BasicX509Credential();
 
         decryptionCredential.setPrivateKey(keystoreEntry.getPrivateKey());
@@ -456,21 +498,14 @@ public class SamlHelper {
         return assertion;
     }
 
-    public Assertion getAssertion(org.opensaml.saml2.core.Response samlResponse, KeyStore.PrivateKeyEntry keystoreEntry) {
-        Assertion assertion;
-        if (isAssertionEncrypted(samlResponse)) {
-            assertion = decryptAssertion(samlResponse.getEncryptedAssertions().get(0), keystoreEntry);
-        } else {
-            assertion = samlResponse.getAssertions().get(0);
-        }
-        return assertion;
-    }
+    public void validateStatus(org.opensaml.saml2.core.Response samlResponse) {
+        Status responseStatus = samlResponse.getStatus();
+        StatusCode statusCode = responseStatus.getStatusCode();
+        String statusValue = statusCode.getValue();
 
-    public boolean isAssertionEncrypted(org.opensaml.saml2.core.Response samlResponse) {
-        if (samlResponse.getEncryptedAssertions() != null && samlResponse.getEncryptedAssertions().size() != 0) {
-            return true;
+        if (!statusValue.equals(SUCCESS_STATUS)) {
+            LOG.error("SAML Response did not have a success status, instead status was {}", statusValue);
         }
-        return false;
     }
 
     private void raiseSamlValidationError(String message, String targetEdOrg) {

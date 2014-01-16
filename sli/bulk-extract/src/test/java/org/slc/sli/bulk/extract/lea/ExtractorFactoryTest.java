@@ -39,8 +39,8 @@ public class ExtractorFactoryTest {
 
     @Test
     public void testBuildExtractFile() {
-        Assert.assertTrue(factory.buildLEAExtractFile("bloop", "Bleep", "BLOO BLOO", null, null) != null);
-        Assert.assertTrue(factory.buildLEAExtractFile("bloop", "Bleep", "BLOOB BLOO", null, null).getClass() == ExtractFile.class);
+        Assert.assertTrue(factory.buildEdOrgExtractFile("bloop", "Bleep", "BLOO BLOO", null, null) != null);
+        Assert.assertTrue(factory.buildEdOrgExtractFile("bloop", "Bleep", "BLOOB BLOO", null, null).getClass() == ExtractFile.class);
     }
 
     @Test

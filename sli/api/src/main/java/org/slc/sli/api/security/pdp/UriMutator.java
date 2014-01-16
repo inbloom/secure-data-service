@@ -384,6 +384,13 @@ public class UriMutator {
         return mutatedPathAndParameters;
     }
 
+    private MutatedContainer generateMutatedUrl(String queryParameters, String format, String... args) {
+        MutatedContainer mutated = new MutatedContainer();
+        mutated.setQueryParameters(queryParameters != null ? queryParameters : "");
+        String mutatedURL = String.format(format, args);
+        mutated.setPath(mutatedURL);
+        return mutated;
+    }
 
     private MutatedContainer doGeneralMutations(List<String> segmentStrings, String queryParameters, Entity user) {
         MutatedContainer mutated = null;
@@ -393,11 +400,12 @@ public class UriMutator {
             String baseEntity = segmentStrings.get(1);
             //does following mutation
             //v1.2/calendarDates   ->   v1.2/calendarDates/<user's edOrg Ids>
-            if(baseEntity.equals("calendarDates")) {
-                mutated = new MutatedContainer();
-                mutated.setQueryParameters(queryParameters != null ? queryParameters : "");
-                String mutatedURL = String.format("/educationOrganizations/%s/calendarDates", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ","));
-                mutated.setPath(mutatedURL);
+            if (baseEntity.equals("calendarDates")) {
+                mutated = generateMutatedUrl(queryParameters, "/educationOrganizations/%s/calendarDates", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ","));
+            } else if (baseEntity.equals(PathConstants.CLASS_PERIODS)) {
+                mutated = generateMutatedUrl(queryParameters, "/educationOrganizations/%s/classPeriods", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ","));
+            } else if (baseEntity.equals(PathConstants.BELL_SCHEDULES)) {
+                mutated = generateMutatedUrl(queryParameters, "/educationOrganizations/%s/bellSchedules", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ","));
             }
         }
         else if (segmentSize == 4) {

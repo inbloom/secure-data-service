@@ -107,8 +107,11 @@ public final class SliDeltaManager {
         // Calculate DiD using natural key values (that are references) in their Did form
         try {
             Map<String, List<DidNaturalKey>> naturalKeysMap = didResolver.getDidSchemaParser().getNaturalKeys();
-
-            List<DidNaturalKey> naturalKeys = naturalKeysMap.get(neutralRecordResolved.getRecordType());
+            String recordType = neutralRecordResolved.getRecordType();
+            List<DidNaturalKey> naturalKeys = naturalKeysMap.get(recordType);
+            if ( null == naturalKeys ) {
+            	throw new NoNaturalKeysDefinedException("Natural keys not defined for record type '" + recordType + "'");
+            }
             populatedNaturalKeys = populateNaturalKeyValues(neutralRecordResolved, naturalKeys);
 
             NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(populatedNaturalKeys, tenantId, sliEntityType, null);

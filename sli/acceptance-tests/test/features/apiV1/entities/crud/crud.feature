@@ -89,7 +89,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
   Examples:
     | Entity Type             | Entity Resource URI      | Update Field         | Updated Value                                |
     | "assessment"            | "assessments"            | "assessmentTitle"    | "Advanced Placement Test - Subject: Writing" |
-    | "attendance"            | "attendances"            | "studentId"          | "274f4c71-1984-4607-8c6f-0a91db2d240a_id"    |
     | "gradebookEntry"        | "gradebookEntries"       | "gradebookEntryType" | "Homework"                                   |
     | "studentAcademicRecord" | "studentAcademicRecords" | "sessionId"          | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
     | "grade"                 | "grades"                 | "schoolYear"         | "2008-2009"                                  |
@@ -156,17 +155,17 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 204
     And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-    And I should receive a return code of 404
+    And I should receive a return code of <Return Code>
 
   Examples:
-    | Entity Type          | Entity Resource URI   | Association Type                        | Update Field             | Updated Value            |
-    | "cohort"             | "cohorts"             | "studentCohortAssocation"               | "cohortDescription"      | "frisbee golf team"      |
-    | "disciplineIncident" | "disciplineIncidents" | "studentDisciplineIncidentAssociation"  | "incidentTime"           | "01:02:15"               |
-    | "program"            | "programs"            | "studentProgramAssociation"             | "programSponsor"         | "State Education Agency" |
-    | "section"            | "sections"            | "studentSectionAssociation"             | "sequenceOfCourse"       | "2"                      |
-    | "staff"              | "staff"               | "staffEducationOrganizationAssociation" | "sex"                    | "Female"                 |
-    | "student"            | "students"            | "studentSectionAssociation2"            | "sex"                    | "Female"                 |
-    | "teacher"            | "teachers"            | "teacherSchoolAssociation"              | "highlyQualifiedTeacher" | "false"                  |
+    | Entity Type          | Entity Resource URI   | Association Type                        | Update Field             | Updated Value            | Return Code |
+    | "cohort"             | "cohorts"             | "studentCohortAssocation"               | "cohortDescription"      | "frisbee golf team"      | 404         |
+    | "disciplineIncident" | "disciplineIncidents" | "studentDisciplineIncidentAssociation"  | "incidentTime"           | "01:02:15"               | 404         |
+    | "program"            | "programs"            | "studentProgramAssociation"             | "programSponsor"         | "State Education Agency" | 404         |
+    | "section"            | "sections"            | "studentSectionAssociation"             | "sequenceOfCourse"       | "2"                      | 200         |
+    | "staff"              | "staff"               | "staffEducationOrganizationAssociation" | "sex"                    | "Female"                 | 404         |
+    | "student"            | "students"            | "studentSectionAssociation2"            | "sex"                    | "Female"                 | 404         |
+    | "teacher"            | "teachers"            | "teacherSchoolAssociation"              | "highlyQualifiedTeacher" | "false"                  | 404         |
 
 # Session and course require multiple levels of associations, e.g. course -> courseOffering -> section -> teacherSectionAssoc
 #| "session"                      | "sessions"            | | |  "totalInstructionalDays" | "43"                                         |
@@ -296,10 +295,13 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And entity URI "/v1/assessments"
     And format "application/vnd.slc+json"
-    And a valid entity json document for a "super_assessment"
+    And a valid entity json document for a "base_super_assessment"
     When I navigate to POST "<ENTITY URI>"
     Then I should receive a return code of 201
     And I should receive a new entity URI
+    And a valid entity json document for a "super_assessment"
+    When I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
     And I verify "objectiveAssessment" and "assessmentItem" should be subdoc'ed in mongo for this new "assessment"
     And I verify there are "1" "assessmentPeriodDescriptor" with "codeValue=codeGreen" in mongo
     When I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
@@ -338,7 +340,56 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     And "administrationEnvironment" should be "School"
     Then I delete both studentAssessment and Assessment
 
+  Scenario: crud on assessmentItem
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And entity URI "/v1/assessments"
+    And format "application/vnd.slc+json"
+    And a valid entity json document for a "base_super_assessment"
+    When I navigate to POST "<ENTITY URI>"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+    And a valid entity json document for a "assessment_item"
+    When I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    When I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+    And I set the "correctResponse" to "true" in the first "assessmentItem" subdoc
+    And I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    And I remove the "correctResponse" field in the first "assessmentItem" subdoc
+    And I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    When I navigate to DELETE "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
 #yearlyAttendance CRUD
+
+  Scenario: Validate AssessmentItem, ObjectiveAssessment, StudentAssessmentItem, StudentObjectiveAssessment are validated correctly
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And entity URI "/v1/assessments"
+    And format "application/vnd.slc+json"
+    And a valid entity json document for a "base_super_assessment"
+    When I navigate to POST "<ENTITY URI>"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+
+    And a valid entity json document for a "assessment_item"
+    And I remove the "identificationCode" field in the first "assessmentItem" subdoc
+    When I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 400
+    #Invalid Reference error
+    And a valid entity json document for a "assessment_item"
+    And I set the "assessmentId" to "IncorrectAssessmentId" in the first "assessmentItem" subdoc
+    And I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 400
+
+    Given a valid entity json document for a "invalid_nested_objective_assessment"
+    And I navigate to PATCH "/assessments/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 400
+
+    Given entity URI "/v1/studentAssessments"
+    And a valid entity json document for a "missing_req_field_studentOA"
+    When I navigate to POST "<ENTITY URI>"
+    Then I should receive a return code of 400
 
   @us5389
   Scenario: yearlyAttendance CRUD
@@ -355,10 +406,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     And the response should contain the appropriate fields and values
     And "entityType" should be "attendance"
     And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-  # Update
-    When I set the "attendanceEvent" array to "<ATT_EVENT_ARRAY>"
-    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-    Then I should receive a return code of 204
   # Delete
     When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 204
@@ -395,13 +442,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     And the response should contain the appropriate fields and values
     And "entityType" should be "attendance"
     And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-  # Update. Should be able to update the entity multiple times.
-    When I set the "attendanceEvent" array to "<ATT_EVENT_ARRAY>"
-    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-    Then I should receive a return code of 204
-    When I set the "attendanceEvent" array to "<ATT_EVENT_ARRAY>"
-    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-    Then I should receive a return code of 204
   # Delete
     When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 204
@@ -489,7 +529,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | schools                | 92d6d5a0-852c-45f4-907a-912752831772,ec2e4218-6483-4e9c-8954-0aecccfd4731 |
       | educationOrganizations | 92d6d5a0-852c-45f4-907a-912752831772,ec2e4218-6483-4e9c-8954-0aecccfd4731 |
       | students               | 11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id                                   |
-    When I navigate to GET "/v1.3/<Entity>"
+    When I navigate to GET "/v1.5/<Entity>"
     Then I should receive a return code of 200
     And uri was rewritten to "<Rewrite>"
   Examples:
@@ -507,3 +547,36 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     | learningObjectives          | /search/learningObjectives                               |
     | learningStandards           | /search/learningStandards                                |
     | studentCompetencyObjectives | /educationOrganizations/@ids/studentCompetencyObjectives |
+
+  Scenario: Sub docs are preserved when a super doc is deleted
+  # Create
+    Given entity URI "parents"
+    And format "application/vnd.slc+json"
+    And a valid entity json document for a "parent"
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+  # Read
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+    And the response should contain the appropriate fields and values
+    And "entityType" should be "parent"
+  # Create Association
+    When I create an association of type "student_studentParentAssociation"
+    When I POST the association of type "student_studentParentAssociation"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+  # Read Association
+    Given entity URI "studentParentAssociations"
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+  #And a valid entity json document for a <Entity Type>
+    And the response should contain the appropriate fields and values
+    And "entityType" should be "studentParentAssociation"
+
+  # Delete Superdoc
+    When I delete the superdoc "students" of "<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    Given entity URI "studentParentAssociations"
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200

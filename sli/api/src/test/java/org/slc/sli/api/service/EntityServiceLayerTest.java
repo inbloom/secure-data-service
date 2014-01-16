@@ -52,8 +52,6 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.service.AssociationService.EntityIdList;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -120,20 +118,20 @@ public class EntityServiceLayerTest {
         student = new EntityBody(student);
         student.put("sex", "Male");
         student.put("otherName", "Ender");
-        assertTrue(studentService.update(id, student));
+        assertTrue(studentService.update(id, student, false));
         retrievedEntity = studentService.get(id);
         assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
         assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
         assertEquals(student.get("sex"), retrievedEntity.get("sex"));
         assertEquals(student.get("otherName"), retrievedEntity.get("otherName"));
-        assertFalse(studentService.update(id, student));
+        assertFalse(studentService.update(id, student, false));
         retrievedEntity = studentService.get(id);
         assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
         assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
         assertEquals(student.get("sex"), retrievedEntity.get("sex"));
         student = new EntityBody(student);
         student.remove("otherName");
-        assertTrue(studentService.update(id, student));
+        assertTrue(studentService.update(id, student, false));
         retrievedEntity = studentService.get(id);
         assertEquals(student.get("firstName"), retrievedEntity.get("firstName"));
         assertEquals(student.get("lastName"), retrievedEntity.get("lastName"));
@@ -169,7 +167,7 @@ public class EntityServiceLayerTest {
         try {
             EntityBody body = new EntityBody();
             body.put("studentUniqueStateId", "student123");
-            studentService.update("NoSuchStudent", body);
+            studentService.update("NoSuchStudent", body, false);
             fail("should have thrown exception");
         } catch (EntityNotFoundException e) {
             assertTrue(true);

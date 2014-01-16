@@ -31,7 +31,7 @@ def reset_timeouts_to_default
 end
 
 Given /^I have an open web browser$/ do
-  browser = PropLoader.getProps['browser'].downcase
+  browser = Property['browser'].downcase
   if (browser == "ie")
     @driver ||= Selenium::WebDriver.for :ie
   elsif (browser == "chrome")
@@ -81,6 +81,15 @@ When /^I submit the developer credentials "([^"]*)" "([^"]*)" for the impersonat
   @driver.find_element(:id, "login_button").click
 end
 
+def ignore_security_alert
+  #This function may be useful when Firefox generates a security alert
+  begin
+    @driver.switch_to.alert.accept
+    puts 'Browser alert message accepted.'
+  rescue
+  end
+end
+
 When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page$/ do |user, pass, idpType|
   disable_NOTABLESCAN
   puts "Logging in with credentials \"#{user}\" \"#{pass}\"" if $SLI_DEBUG
@@ -88,10 +97,7 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
     @driver.find_element(:id, "IDToken1").send_keys user
     @driver.find_element(:id, "IDToken2").send_keys pass
     @driver.find_element(:name, "Login.Submit").click
-    begin
-      @driver.switch_to.alert.accept
-    rescue
-    end
+    ignore_security_alert
   elsif idpType=="ADFS"
     @driver.find_element(:id, "ctl00_ContentPlaceHolder1_UsernameTextBox").send_keys user
     @driver.find_element(:id, "ctl00_ContentPlaceHolder1_PasswordTextBox").send_keys pass
@@ -108,6 +114,7 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
     @driver.find_element(:name, "j_username").send_keys user
     @driver.find_element(:name, "j_password").send_keys pass
     @driver.find_element(:css, ".form-button").click
+    ignore_security_alert
   else
     raise "IDP type '#{arg1}' not implemented yet"
   end
@@ -139,7 +146,7 @@ When /^I select "(.*?)" from the dropdown and click go$/ do |arg1|
 end
 
 After do |scenario|
-  base = "./cats_with_lasers" # Maybe a better name, eh?
+  base = "./cats_with_lasers_#{Time.now.strftime('%H-%M-%S')}" # Maybe a better name, eh?
   url_fn = base + ".txt"
   html_fn = base + ".html"
   screenshot_fn = base + ".png"

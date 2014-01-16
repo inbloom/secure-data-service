@@ -34,7 +34,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -242,7 +241,7 @@ public class CustomRoleResource {
             return buildBadRequest(ERROR_CHANGING_REALM_ID + ": '" + oldRealmId + "' -> '" + updatedRealmId + "'");
         }
 
-        if (service.update(id, updated)) {
+        if (service.update(id, updated, false)) {
             auditSecEvent(uriInfo, "Updated role with id:" + id,oldRealmId);
             this.sessions.clear();
             return Response.status(Status.NO_CONTENT).build();

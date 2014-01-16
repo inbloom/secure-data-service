@@ -29,7 +29,7 @@ require_relative '../../utils/api_utils.rb'
 
 
 def findUserToken(developerLogin)
-  @conn = Mongo::Connection.new(PropLoader.getProps['sli_db'], PropLoader.getProps['sli_db_port']) if !defined? @conn
+  @conn = Mongo::Connection.new(Property['sli_db'], Property['sli_db_port']) if !defined? @conn
   @db = @conn.db('sli')
   @coll = @db['userSession']
   session = @coll.find_one('body.principal.externalId'=>developerLogin)

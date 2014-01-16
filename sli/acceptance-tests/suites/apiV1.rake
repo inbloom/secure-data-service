@@ -31,12 +31,16 @@ end
 
 task :apiV1EntityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/crud/attendance_events_crud.feature")
+  runTests("test/features/apiV1/entities/crud/class_period_crud.feature")
+  runTests("test/features/apiV1/entities/crud/bell_schedule_crud.feature")
   runTests("test/features/apiV1/entities/crud/admin_crud.feature")
+  runTests("test/features/apiV1/entities/crud/section_crud.feature")
   runTests("test/features/apiV1/entities/crud/crud.feature")
   runTests("test/features/apiV1/entities/crud/multipleAttendanceEventCategories.feature")
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud_auto")
-  runTests("test/features/apiV1/search")
+  runTests("test/features/apiV1/search/api_search.feature")
 end
 
 task :apiV1MultipleParentTests => [:realmInit] do
@@ -115,11 +119,11 @@ task :v1StaffSecurityTests => [:realmInit] do
 end
 
 desc "Run V1 Cascade Deletion Tests"
-task :v1CascadeDeletionTests => [:realmInit] do
+task :v1NoCascadeDeletionTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/end_user_stories/cascadeDeletion/cascadeDeletion.feature")
+  runTests("test/features/apiV1/end_user_stories/noCascadeDeletion/noCascadeDeletion.feature")
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/end_user_stories/cascadeDeletion/cascadeDeletion_teacher.feature")
+  runTests("test/features/apiV1/end_user_stories/noCascadeDeletion/noCascadeDeletion_teacher.feature")
 end
 
 desc "Run V1 Direct References Tests"
@@ -421,14 +425,40 @@ end
 
 desc "Run contextual roles acceptance tests"
 task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinContextualRolesIngestion, :runSearchBulkExtract] do
-#  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
-  runTests("test/features/apiV1/contextual_roles")
+  runTests("test/features/apiV1/contextual_roles/classPeriod_bellSchedule.feature")
+  runTests("test/features/apiV1/contextual_roles/custom_entities.feature")
+  runTests("test/features/apiV1/contextual_roles/matchRoles.feature")
+  runTests("test/features/apiV1/contextual_roles/other_entities_crud.feature")
+  runTests("test/features/apiV1/contextual_roles/student_delete.feature")
+  runTests("test/features/apiV1/contextual_roles/student_gets.feature")
+  runTests("test/features/apiV1/contextual_roles/student_patch.feature")
+  runTests("test/features/apiV1/contextual_roles/student_post.feature")
+  runTests("test/features/apiV1/contextual_roles/student_put.feature")
+  setFixture("calendarDate", "Midgar_data/calendarDate_fixture.json")
+  setFixture("staff", "staff_fixture.json")
+  setFixture("educationOrganization", "educationOrganization_fixture.json")
+  setFixture("staffEducationOrganizationAssociation",  "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
+  runTests("test/features/apiV1/contextual_roles/classPeriod_bellSchedule_crud.feature")
   if $SUCCESS
     puts "Completed All Tests"
   else
     raise "Tests have failed"
   end
 end
+
+desc "Run API V1 Elastic Search Limits Tests"
+task :apiV1SearchLimitTests => [:realmInit] do
+  Rake::Task["ingestionSmallSampleDataSet"].execute
+  Rake::Task["runSearchBulkExtract"].execute
+  runTests("test/features/apiV1/search/search_limits.feature")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
 
 ############################################################
 # API V1 tests end

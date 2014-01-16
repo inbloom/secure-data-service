@@ -31,7 +31,7 @@ Scenario: As a teacher, for my section, I want to get the most recent Math asses
     Then I should extract the "sectionId" from the response body to a list
 
   When I navigate to GET "/sections/<teacher section>"
-    Then I should have a list of 12 "section" entities
+    Then I should have a list of 13 "section" entities
 
   When I make a GET request to URI "/sections/@id/studentSectionAssociations/students/studentAssessments"
     Then I should have a list of 50 "studentAssessment" entities

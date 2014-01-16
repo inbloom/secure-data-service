@@ -27,7 +27,7 @@ Before do
 end
 
 When /^I navigate to the sandbox user account management page$/ do
-  samt_url = PropLoader.getProps['admintools_server_url'] + PropLoader.getProps['samt_app_suffix']
+  samt_url = Property['admintools_server_url'] + Property['samt_app_suffix']
   @driver.get samt_url
 end
 

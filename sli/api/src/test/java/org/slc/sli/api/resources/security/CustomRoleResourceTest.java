@@ -119,7 +119,7 @@ public class CustomRoleResourceTest {
         Mockito.when(service.get(id)).thenReturn((EntityBody) body.clone());
         
         body.put("roles", new ArrayList<Map<String, List<String>>>());
-        Mockito.when(service.update(id, body)).thenReturn(true);
+        Mockito.when(service.update(id, body, false)).thenReturn(true);
         Response res = resource.updateCustomRole(id, body, uriInfo);
         Assert.assertEquals(204, res.getStatus());
     }
@@ -243,7 +243,7 @@ public class CustomRoleResourceTest {
         
         Mockito.when(service.get(id)).thenReturn((EntityBody) body.clone());
         
-        Mockito.when(service.update(id, body)).thenReturn(true);
+        Mockito.when(service.update(id, body, false)).thenReturn(true);
         Response res = resource.updateCustomRole(id, body, uriInfo);
         Assert.assertEquals(400, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_DUPLICATE_ROLE + ": 'Role1'", res.getEntity());
@@ -258,7 +258,7 @@ public class CustomRoleResourceTest {
         
         Mockito.when(service.get(id)).thenReturn((EntityBody) body.clone());
         
-        Mockito.when(service.update(id, body)).thenReturn(true);
+        Mockito.when(service.update(id, body, false)).thenReturn(true);
         Response res = resource.updateCustomRole(id, body, uriInfo);
         Assert.assertEquals(400, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_INVALID_RIGHT + ": 'RIGHT_TO_REMAIN_SILENT'", res.getEntity());
@@ -274,7 +274,7 @@ public class CustomRoleResourceTest {
         
         Mockito.when(service.get(id)).thenReturn((EntityBody) body.clone());
         
-        Mockito.when(service.update(id, body)).thenReturn(true);
+        Mockito.when(service.update(id, body, false)).thenReturn(true);
         Response res = resource.updateCustomRole(id, body, uriInfo);
         Assert.assertEquals(403, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_INVALID_REALM, res.getEntity());
@@ -291,7 +291,7 @@ public class CustomRoleResourceTest {
         
         Mockito.when(service.get(id)).thenReturn((EntityBody) body.clone());
         
-        Mockito.when(service.update(id, body)).thenReturn(true);
+        Mockito.when(service.update(id, body, false)).thenReturn(true);
         Response res = resource.updateCustomRole(id, body, uriInfo);
         Assert.assertEquals(400, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_DUPLICATE_RIGHTS + ": 'WRITE_GENERAL'", res.getEntity());

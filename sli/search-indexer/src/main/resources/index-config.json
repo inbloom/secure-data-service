@@ -8,7 +8,9 @@
             "body.otherName.middleName", 
             "body.otherName.lastSurname", 
             "schools.exitWithdrawDate", 
-            "schools._id"
+            "schools._id",
+            "metaData.isOrphaned",
+            "metaData.createdBy"
         ],
         "append": {
             "body.context.schoolId": {
@@ -17,6 +19,14 @@
                 "condition": {
                     "exitWithdrawDate": null
                 }
+            },
+            "body._metaData.isOrphaned":{
+                "subdoc":"metaData",
+                "field" :"isOrphaned"
+            },
+            "body._metaData.createdBy":{
+                "subdoc":"metaData",
+                "field" :"createdBy"
             }
         },
         "mapping": {
@@ -37,6 +47,31 @@
                 }
             }
         }
+    },
+    "staff": {
+      "fields": [
+            "body.name.firstName", 
+            "body.name.middleName", 
+            "body.name.lastSurname", 
+            "body.otherName.firstName", 
+            "body.otherName.middleName", 
+            "body.otherName.lastSurname"
+      ]
+    },
+    "teacher": {
+      "fields": [
+            "body.name.firstName", 
+            "body.name.middleName", 
+            "body.name.lastSurname", 
+            "body.otherName.firstName", 
+            "body.otherName.middleName", 
+            "body.otherName.lastSurname"
+      ]
+    },
+    "educationOrganization": {
+      "fields": [
+            "body.nameOfInstitution"
+      ]
     },
     "learningStandard": {
         "fields": [
@@ -419,7 +454,7 @@
             }
         }
     },
-        "session": {
+    "session": {
         "fields": [
             "body.schoolYear",
             "body.sessionName",

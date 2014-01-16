@@ -41,14 +41,14 @@ class EntityTracker
 
   def display
     pattern = "%-45s%10i\n"
-    "-------------------------------------------------------\n" +
+    "\n-------------------------------------------------------\n" +
     "Ed-fi entity counts: \n" +
     "-------------------------------------------------------\n" +
     @counts.sort.map{|type, count|
-      pattern % ["#{type}:", count]
-    }.inject(:+) +
+      pattern % ["#{type}:", if_nil(count, 0)]
+    }.inject(:+).to_s() +
     "-------------------------------------------------------\n" +
-    pattern % ["Total entity count:", @counts.values.inject(:+)] +
+    pattern % ["Total entity count:", if_nil(@counts.values.inject(:+), 0)] +
     "-------------------------------------------------------"
   end
 
@@ -69,5 +69,13 @@ class EntityTracker
   def write_edfi_manifest(file)
     file.write JSON.pretty_generate(@counts)
   end
+
+  # Defaul value if nil
+  def if_nil(val, default)
+    if val.nil?
+      return default
+    end
+    return val
+  end    
 
 end

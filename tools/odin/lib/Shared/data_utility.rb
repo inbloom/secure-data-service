@@ -66,7 +66,10 @@ class DataUtility
   end
 
   #-------   INTERCHANGE: EDUCATION ORGANIZATION   --------
-
+  # create a unique class period name
+  def self.get_unique_class_period_name(id)
+    id
+  end
   #----------   INTERCHANGE: STAFF ASSOCIATION   ----------
   # create a staff unique state id
   def self.get_staff_unique_state_id(id)

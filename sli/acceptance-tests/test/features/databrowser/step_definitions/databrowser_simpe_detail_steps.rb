@@ -23,7 +23,7 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
 Given /^I navigated to the Data Browser Home URL$/ do
-  @driver.get PropLoader.getProps['databrowser_server_url']
+  @driver.get Property['databrowser_server_url']
 end
 
 Given /^I was redirected to the Realm page$/ do
@@ -73,7 +73,7 @@ When /^I click on the Logout link$/ do
 
   # current logout functionaly means delete all the cookies
   @driver.manage.delete_all_cookies
-  browser = PropLoader.getProps['browser'].downcase
+  browser = Property['browser'].downcase
   # cannot delete httponly cookie in IE
   if (browser == "ie")
     @driver.quit
@@ -88,12 +88,12 @@ Then /^I am redirected to a page that informs me that I have signed out$/ do
 end
 
 Then /^I am forced to reauthenticate to access the databrowser$/ do
-  @driver.get PropLoader.getProps['databrowser_server_url']
+  @driver.get Property['databrowser_server_url']
   assertWithWait("Was not redirected to Realm chooser") {@driver.title.index("Choose your realm") != nil}
 end
 
 Given /^I have navigated to the "([^"]*)" page of the Data Browser$/ do |arg1|
-  @driver.get PropLoader.getProps['databrowser_server_url']
+  @driver.get Property['databrowser_server_url']
   # Wait for home page to load
   assertWithWait("Failed to find '"+arg1+"' Link on page")  {@driver.find_element(:link_text, arg1)}
   @driver.find_element(:link_text, arg1).click
@@ -102,6 +102,35 @@ end
 When /^I click on the "([^"]*)" link$/ do |arg1|
   assertWithWait("Failed to find '"+arg1+"' Link on page")  {@driver.find_element(:link_text, arg1)}
   @driver.find_element(:link_text, arg1).click
+end
+
+Then /^I am redirected to the educationOrganization page$/ do
+  assertWithWait("Failed to be directed to educationOrganization page")  {@driver.page_source.include?("educationOrganization")}
+end
+
+Then /^I see the properties in the following <Order>$/ do |table|
+  count = 1
+  table.hashes.each do |hash|
+    assertWithWait("Failed to find '"+hash["Order"]+"' property where expected")  {@driver.find_element(:xpath, "(//div[contains(concat(' ',normalize-space(@class),' '),' key ')])[#{count}]").text == hash["Order"] + ':'}
+    count = count + 1
+  end
+end
+
+Then /^I see "([^"]*)" last$/ do |arg1|
+  assertWithWait("The '"+arg1+"' property was not listed last.") {@driver.find_element(:xpath, "(//div[contains(concat(' ',normalize-space(@class),' '),' key ')])[last()]").text == arg1 + ":"}
+end
+
+Then /^I see the list of "([^"]+)" in alphabetical order$/ do |arg1|
+  realOrder = Array.new
+  count = 1
+  #TODO Find better way to get all the elements of the Links list.
+  #TODO Find better way to assert that list of links is alphabetized also.
+  while count < 21 do
+    realOrder.push(@driver.find_element(:xpath, "(//div/ul/li/a/span)[#{count}]").text.downcase)
+    count = count + 1
+  end
+  alphaOrder = realOrder.clone.sort
+  assertWithWait("#{arg1} not in alphabetical order.") {alphaOrder == realOrder}
 end
 
 Then /^I am redirected to the associations list page$/ do
@@ -170,7 +199,7 @@ end
 
 When /^I have navigated to the <Page> of the Data Browser$/ do |table|
   table.hashes.each do |hash|
-    @driver.get PropLoader.getProps['databrowser_server_url']
+    @driver.get Property['databrowser_server_url']
     # Wait for home page to load
     assertWithWait("Failed to find '"+hash["Page"]+"' Link on page")  {@driver.find_element(:link_text, hash["Page"])}
     @driver.find_element(:link_text, hash["Page"]).click
@@ -184,7 +213,7 @@ When /^I have navigated to the <Page> of the Data Browser$/ do |table|
 end
 
 When /^I have navigated to the "(.*?)" listing of the Data Browser$/ do |arg1|
-  @driver.get PropLoader.getProps['databrowser_server_url'] + '/entities/schools'
+  @driver.get Property['databrowser_server_url'] + '/entities/schools'
 end
 
 When /^I click on "(.*?)" in the list of schools$/ do |arg1|

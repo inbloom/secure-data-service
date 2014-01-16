@@ -95,7 +95,7 @@
          <property name="writer" ref="writer" />
     </bean>
     
-    <bean id="localEdorgExtractor" class="org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor">
+    <bean id="edorgExtractor" class="org.slc.sli.bulk.extract.extractor.EdOrgExtractor">
     </bean>
     
     <bean id="launcher" class="org.slc.sli.bulk.extract.Launcher">

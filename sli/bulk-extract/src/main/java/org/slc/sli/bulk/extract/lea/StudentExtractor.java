@@ -104,12 +104,12 @@ public class StudentExtractor implements EntityExtract {
 
             List<Entity> sdias =  student.getEmbeddedData().get("studentDisciplineIncidentAssociation");
 
-            if(sdias != null) {
-                for(Entity sdia : sdias) {
+            if (sdias != null) {
+                for (Entity sdia : sdias) {
                     String did = (String) sdia.getBody().get("disciplineIncidentId");
                     Map<String, DateTime> edOrgsDate = studentDatedCache.getEntriesById(student.getEntityId());
 
-                    for(Map.Entry<String, DateTime> entry : edOrgsDate.entrySet()) {
+                    for (Map.Entry<String, DateTime> entry : edOrgsDate.entrySet()) {
                         diDateCache.addEntry(did, entry.getKey(), entry.getValue());
                     }
                 }
@@ -120,8 +120,8 @@ public class StudentExtractor implements EntityExtract {
 
     private void buildStudentDatedCache(Entity student) {
         Map<String, DateTime> edOrgDate = helper.fetchAllEdOrgsForStudent(student);
-        for(String edOrg : map.getEdOrgs()) {
-            if(edOrgDate.containsKey(edOrg)) {
+        for (String edOrg : map.getEdOrgs()) {
+            if (edOrgDate.containsKey(edOrg)) {
                 studentDatedCache.addEntry(student.getEntityId(), edOrg, edOrgDate.get(edOrg));
             }
         }

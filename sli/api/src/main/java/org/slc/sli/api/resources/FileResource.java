@@ -20,30 +20,33 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
-import java.text.DateFormat;
+import java.net.URI;
 import java.text.MessageFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.*;
+import javax.ws.rs.core.EntityTag;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.StreamingOutput;
 
 import com.sun.jersey.api.Responses;
 import com.sun.jersey.api.core.HttpRequestContext;
 import com.sun.jersey.core.header.reader.HttpHeaderReader;
 
 import org.apache.commons.io.IOUtils;
-import org.slc.sli.api.security.SecurityEventBuilder;
-import org.slc.sli.api.security.service.AuditLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.service.AuditLogger;
 
 /**
  * A helper class to get the response from a http GET/HEAD request for a file.
@@ -71,9 +74,6 @@ public class FileResource {
     private static final String MULTIPART_BOUNDARY_SEP = "--" + MULTIPART_BOUNDARY;
     private static final String MULTIPART_BOUNDARY_END = MULTIPART_BOUNDARY_SEP + "--";
     private static final String CRLF = "\r\n";
-    private static final String DATE_FORMAT = "EEE MMM d HH:mm:ss z yyyy";
-
-    private UriInfo uri;
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
@@ -82,27 +82,20 @@ public class FileResource {
     private AuditLogger auditLogger;
 
     /**
-     * Get the file request response
+     * Get the file request response.
      *
      * @param req
-     *          The http request context
+     *          The HTTP request context
      * @param requestedFile
      *          The requested file to return
-     * @param lastModifiedTime
-     *          The last modified time
      * @param lastModified
-     *          The last modified date string
+     *          The last modified date
      * @return
      *          Response with the requested file
      * @throws ParseException
      */
     public Response getFileResponse(final HttpRequestContext req,
-            final File requestedFile, final long lastModifiedTime, final String lastModified, UriInfo uri) {
-
-        this.uri = uri;
-
-        DateFormat format = new SimpleDateFormat(DATE_FORMAT);
-        Date httpDate = null;
+            final File requestedFile, final Date lastModified) {
 
         LOG.info("Retrieving bulk extract with method {}", req.getMethod());
         String fileName = requestedFile.getName();
@@ -112,18 +105,11 @@ public class FileResource {
         /*
          * Validate request headers for caching and resume
          */
-        ResponseBuilder builder = null;
-        try {
-            httpDate = format.parse(lastModified);
-
-            builder = req.evaluatePreconditions(httpDate, new EntityTag(eTag));
-        } catch (ParseException e) {
-            LOG.error("Unable to parse bulk extract Last-Modified date into a HTTP-Date format: {}", e);
-        }
+        ResponseBuilder builder = req.evaluatePreconditions(lastModified, new EntityTag(eTag));
 
         if (builder != null) {
             // evaluate fails
-            logSecurityEvent("Bulk Extract request header preconditions failed");
+            logSecurityEvent(req.getRequestUri(), "Bulk Extract request header preconditions failed");
             return builder.build();
         }
 
@@ -134,7 +120,7 @@ public class FileResource {
         final Range full = new Range(0, fileLength - 1, fileLength);
         final List<Range> ranges = new ArrayList<Range>();
 
-        builder = processRangeHeader(req, full, ranges, fileLength, httpDate.getTime(), eTag);
+        builder = processRangeHeader(req, full, ranges, fileLength, lastModified.getTime(), eTag);
         if (builder != null) {
             // validation fails
             return builder.build();
@@ -150,28 +136,33 @@ public class FileResource {
         /*
          * Prepare and initialize response
          */
-        boolean fullContent = ranges.isEmpty() || ranges.get(0) == full || ranges.get(0).sameValue(full);
+        boolean fullContent = ranges.isEmpty() || ranges.get(0) == full || ranges.get(0).equals(full);
         boolean headMethod = req.getMethod().equals("HEAD");
         builder = fullContent ? Response.ok() : Response.status(206);
 
         builder.header("content-disposition", "attachment; filename = " + fileName)
                .header("Accept-Ranges", "bytes")
                .header("ETag", eTag)
-               .header(HttpHeaders.LAST_MODIFIED, httpDate);
+               .header(HttpHeaders.LAST_MODIFIED, lastModified);
+
+        Response r = null;
 
         if (fullContent || ranges.size() == 1) {
-            final Range r = fullContent ? full : ranges.get(0);
-            return singlePartFileResponse(builder, requestedFile, r, headMethod);
+            r = singlePartFileResponse(builder, requestedFile, (fullContent ? full : ranges.get(0)), headMethod);
+
+            logSecurityEvent(req.getRequestUri(), "Successful request for singlePartFileResponse");
         } else {
 
             if (headMethod) {
-                builder = Responses.methodNotAllowed()
-                        .header("Allow", "GET");
-                return builder.build();
-            }
+                r = Responses.methodNotAllowed().header("Allow", "GET").build();
+            } else {
+                r = multiPartsFileResponse(builder, requestedFile, ranges);
 
-            return multiPartsFileResponse(builder, requestedFile, ranges);
+                logSecurityEvent(req.getRequestUri(), "Successful request for multiPartsFileResponse");
+            }
         }
+
+        return r;
     }
 
     /**
@@ -181,14 +172,14 @@ public class FileResource {
     private void combineOverlapped(final List<Range> ranges) {
         Collections.sort(ranges);
 
-        for (int i=0; i<ranges.size() - 1; i++) {
+        for (int i = 0; i < ranges.size() - 1; i++) {
            Range first = ranges.get(i);
            Range second = ranges.get(i + 1);
 
            if (!first.hasGap(second)) {
               first.combine(second);
               // delete second range
-              ranges.remove(i + 1);
+              ranges.remove(i+1);
               // reset loop index
               i--;
            }
@@ -222,9 +213,8 @@ public class FileResource {
 
             // Range header should match format "bytes=n-n,n-n,n-n...". If not, then return 416.
             if (!range.matches("^bytes=\\d*-\\d*(,\\d*-\\d*)*$")) {
-                logSecurityEvent("Range header doesn't match format");
-               return Response.status(416)
-                        .header("Content-Range", "bytes */" + fileLength);// Required in 416.
+                logSecurityEvent(req.getRequestUri(), "Range header doesn't match format");
+                return Response.status(416).header("Content-Range", "bytes */" + fileLength);// Required in 416.
             }
 
             // If-Range header should either match ETag or be greater then LastModified. If not,
@@ -258,9 +248,8 @@ public class FileResource {
 
                     // Check if Range is syntactically valid. If not, then return 416.
                     if (start > end) {
-                        logSecurityEvent("If Range is not syntactically valid");
-                        return Response.status(416)
-                                .header("Content-Range", "bytes */" + fileLength);// Required in 416.
+                        logSecurityEvent(req.getRequestUri(), "If Range is not syntactically valid");
+                        return Response.status(416).header("Content-Range", "bytes */" + fileLength); // Required in 416.
                     }
 
                     // Add range.
@@ -294,13 +283,9 @@ public class FileResource {
                 RandomAccessFile raf = null;
                 try {
                     raf = new RandomAccessFile(requestedFile, "r");
-                    long total = sendRangeContent(raf, output, r.start, r.length);
+                    long total = sendRangeContent(raf, output, r);
 
-                    Object[] obj = {
-                            r,
-                            new Long(total)
-                    };
-                    LOG.debug("singlePartFileResponse\n{}\nstream length={}", obj);
+                    LOG.debug("singlePartFileResponse\n{}\nstream length={}", r, new Long(total));
                 } finally {
                     IOUtils.closeQuietly(raf);
                 }
@@ -308,12 +293,12 @@ public class FileResource {
         };
 
         builder.header("Content-Range", "bytes " + r.start + "-" + r.end + "/" + r.total)
-               .header("Content-Length", String.valueOf(r.length));
+               .header("Content-Length", String.valueOf(r.getLength()));
         if (!headMethod) {
             builder.entity(out);
             LOG.info("Retrieving bulk extract with method {}", 3);
         }
-        logSecurityEvent("Successful request for singlePartFileResponse");
+
         return builder.build();
     }
 
@@ -342,8 +327,8 @@ public class FileResource {
                     for (Range r : ranges) {
                         sendRangeResponse(r, raf, output);
                     }
-                    output.write( (CRLF+ MULTIPART_BOUNDARY_END + CRLF).getBytes() );
-                    LOG.debug(CRLF+ MULTIPART_BOUNDARY_END + CRLF);
+
+                    output.write((CRLF + MULTIPART_BOUNDARY_END + CRLF).getBytes() );
                 } finally {
                     IOUtils.closeQuietly(raf);
                 }
@@ -354,14 +339,13 @@ public class FileResource {
         long contentLength = MULTIPART_BOUNDARY_END.length() + 4;
         for (Range r : ranges) {
             contentLength += multiPartRangeHeader(r).length();
-            contentLength += r.length;
+            contentLength += r.getLength();
         }
 
         builder.entity(out)
                .header("Content-Type", "multipart/byteranges; boundary=" + MULTIPART_BOUNDARY)
                .header("Content-Length", String.valueOf(contentLength));
 
-        logSecurityEvent("Successful request for multiPartsFileResponse");
         return builder.build();
     }
 
@@ -370,17 +354,16 @@ public class FileResource {
      *
      * @param raf    the file from which the content is sent
      * @param output the output to which the content is sent
-     * @param start  the start position of the file
-     * @param length the length of content to send
+     * @param r      the range
      * @return       total length sent
      * @throws IOException
      */
-    private long sendRangeContent(RandomAccessFile raf, OutputStream output, long start, long length)
+    private long sendRangeContent(RandomAccessFile raf, OutputStream output, Range r)
             throws IOException {
 
-        raf.seek(start);
+        raf.seek(r.start);
         byte[] buffer = new byte[4*1024];
-        long left = length;
+        long left = r.getLength();
         long total = 0;
         int n = -1;
 
@@ -407,7 +390,7 @@ public class FileResource {
         String rangeHeader = multiPartRangeHeader(r);
         output.write( rangeHeader.getBytes() );
         output.flush();
-        long total = sendRangeContent(raf, output, r.start, r.length);
+        long total = sendRangeContent(raf, output, r);
 
         Object[] obj = {
                 rangeHeader,
@@ -449,13 +432,12 @@ public class FileResource {
     }
 
     /**
-     * Represents a byte range from a Rnge request.
+     * Represents a byte range from a Range request.
      */
     private class Range implements Comparable<Range> {
-        long start;
-        long end;
-        long length;
-        long total;
+        private long start;
+        private long end;
+        private long total;
 
         /**
          * Construct a byte range.
@@ -466,30 +448,33 @@ public class FileResource {
         public Range(long start, long end, long total) {
             this.start = start;
             this.end = end;
-            this.length = end - start + 1;
             this.total = total;
         }
 
-        public boolean sameValue(Range r) {
-            if (r == null) {
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
                 return false;
+            }
+
+            if (!(obj instanceof Range)) {
+                return false;
+            }
+
+            Range r = (Range) obj;
+
+            if (this == r) {
+                return true;
             }
 
             return r.start == this.start &&
                     r.end == this.end &&
-                    r.length == this.length &&
                     r.total == this.total;
         }
 
         @Override
         public String toString() {
-            Object[] arguments = {
-                    Long.valueOf(start),
-                    Long.valueOf(end),
-                    Long.valueOf(length),
-                    Long.valueOf(total)
-            };
-            return MessageFormat.format("Range: start={0} end={1} length={2} total={3}", arguments);
+            return MessageFormat.format("Range: start={0} end={1} length={2} total={3}", start, end, getLength(), total);
         }
 
         @Override
@@ -503,8 +488,8 @@ public class FileResource {
          * @param o the range to test
          * @return true or false
          */
-        public boolean hasGap(Range o) {
-            return ((this.end+1) < o.start) || ((o.end+1) < this.start);
+        public boolean hasGap(Range r) {
+            return ((this.end + 1) < r.start) || ((r.end + 1) < this.start);
         }
 
         /**
@@ -512,24 +497,19 @@ public class FileResource {
          *
          * @param o the range to combine
          */
-        void combine(Range o) {
-            if (hasGap(o)) {
-                return;
-            }
+        void combine(Range r) {
+            this.start = Math.min(this.start, r.start);
+            this.end = Math.max(this.end, r.end);
+        }
 
-            if (this.end < o.end) {
-                this.end = o.end;
-            }
-            if (this.start > o.start) {
-                this.start = o.start;
-            }
-            this.length = this.end - this.start + 1;
+        public long getLength() {
+            return (this.end - this.start + 1L);
         }
     }
 
-    void logSecurityEvent(String message) {
+    void logSecurityEvent(URI requestUri, String message) {
         auditLogger.audit(securityEventBuilder.createSecurityEvent(FileResource.class.getName(),
-                uri.getRequestUri(), message, true));
+                requestUri, message, true));
     }
 
 }

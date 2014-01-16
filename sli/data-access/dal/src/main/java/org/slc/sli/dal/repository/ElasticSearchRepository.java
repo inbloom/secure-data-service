@@ -450,9 +450,11 @@ public class ElasticSearchRepository implements Repository<Entity> {
                 JsonNode bodyNode = hitNode.get("_source");
                 Map<String, Object> body = objectMapper.readValue(bodyNode, tr);
                 body.remove("context");
+                Map<String, Object> metaData = (Map<String, Object>) body.get("_metaData");
+                body.remove("_metaData");
 
                 // create a return the search hit entity
-                return new SearchHitEntity(id, type, body, null);
+                return new SearchHitEntity(id, type, body, metaData);
 
             } catch (JsonMappingException e) {
                 ElasticSearchRepository.LOG.error("Error converting search json response to search hit entity", e);

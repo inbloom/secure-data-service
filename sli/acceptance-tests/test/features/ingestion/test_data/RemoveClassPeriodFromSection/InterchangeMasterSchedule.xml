@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                           xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
+     <Section>
+        <UniqueSectionCode>12345</UniqueSectionCode>
+        <SequenceOfCourse>1</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+        <PopulationServed>Regular Students</PopulationServed>
+        <AvailableCredit CreditConversion="0" CreditType="Carnegie unit">
+                <Credit>3</Credit>
+        </AvailableCredit>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>20</LocalCourseCode>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>2013-2014 Year Round session: 4</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>1</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>2013-2014 Year Round session: 4</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <LocationReference>
+            <LocationIdentity>
+                <ClassroomIdentificationCode>888</ClassroomIdentificationCode>
+                <StateOrganizationId>1</StateOrganizationId>
+            </LocationIdentity>
+        </LocationReference>
+         <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>666</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
+    </Section>
+</InterchangeMasterSchedule>

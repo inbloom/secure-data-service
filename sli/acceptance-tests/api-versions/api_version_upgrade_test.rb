@@ -17,7 +17,7 @@ limitations under the License.
 =end
 
 require 'optparse'
-require 'zip/zip'
+require 'zip'
 require 'fileutils'
 require 'timeout'
 require 'json'
@@ -115,7 +115,7 @@ def unpackage_test_code(dest)
   puts "---- Unpackage test code"
   if File.file? @test_code_package
     FileUtils.rm_rf dest if File.directory? dest
-    Zip::ZipFile.open(@test_code_package) do |zip_file|
+    ZipFile.open(@test_code_package) do |zip_file|
       zip_file.each do |f|
         f_path = File.join(dest, f.name)
         FileUtils.mkdir_p(File.dirname(f_path))

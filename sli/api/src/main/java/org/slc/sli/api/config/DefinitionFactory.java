@@ -97,6 +97,8 @@ public class DefinitionFactory {
         private boolean wrapperEntity;
         private NeutralCriteria typeCriteria;
         private String serviceName;
+        private boolean supportsPut;
+        private boolean supportsPatch;
 
         /**
          * Create a builder for an entity definition. The collection name and resource name will
@@ -129,6 +131,8 @@ public class DefinitionFactory {
             this.writeRight = Right.WRITE_GENERAL;
             this.supportsAggregates = false;
             this.serviceName = "basicService";
+            this.supportsPut = true;
+            this.supportsPatch = true;
         }
 
         /**
@@ -222,6 +226,15 @@ public class DefinitionFactory {
             return this;
         }
 
+        public EntityBuilder withoutPut() {
+            this.supportsPut = false;
+            return  this;
+        }
+
+        public  EntityBuilder withoutPatch() {
+            this.supportsPatch = false;
+            return  this;
+        }
         /**
          * Create the actual entity definition
          *
@@ -234,7 +247,7 @@ public class DefinitionFactory {
 
             String dbType = this.dbType != null?this.dbType:type;
             EntityDefinition entityDefinition = new EntityDefinition(type, dbType, resourceName, collectionName, entityService,
-                    supportsAggregates, skipContextValidation, wrapperEntity, typeCriteria);
+                    supportsAggregates, skipContextValidation, wrapperEntity, typeCriteria, supportsPut, supportsPatch);
             entityService.setDefn(entityDefinition);
             return entityDefinition;
         }

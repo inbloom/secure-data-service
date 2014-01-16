@@ -61,6 +61,16 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/attendance.xml" />
       </bean>
     </entry>
+    <entry key="bellSchedule">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/bellSchedule.xml" />
+      </bean>
+    </entry>
+    <entry key="classPeriod">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/classPeriod.xml" />
+      </bean>
+    </entry>
     <entry key="cohort">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/cohort.xml" />

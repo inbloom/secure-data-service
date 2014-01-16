@@ -8,7 +8,7 @@ Feature: Test CRUD fuctionality of Custom Entities with multiple roles
 
 Scenario:  User can WRITE custom data to an EdOrg with Write Access, cannot Delete custom data in EdOrg without Write Access
     Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
-    And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
+    And I change the custom role of "Educator" to remove the "WRITE_GENERAL" right
     And I change the custom role of "Leader" to add the "WRITE_PUBLIC" right
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page

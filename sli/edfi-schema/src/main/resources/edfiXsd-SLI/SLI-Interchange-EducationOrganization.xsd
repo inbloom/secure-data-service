@@ -29,6 +29,7 @@
 				<xs:element name="Course" type="SLC-Course"/>
 				<xs:element name="CompetencyLevelDescriptor" type="SLC-CompetencyLevelDescriptor"/>
 				<xs:element name="Program" type="SLC-Program"/>
+				<xs:element name="ClassPeriod" type="SLC-ClassPeriod"/>
 				<xs:element name="Action" type="SLC-ActionType"/>
 			</xs:choice>
 		</xs:complexType>

@@ -29,7 +29,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <util:map id="entitiesToCollections" key-type="java.lang.String" value-type="java.lang.String">
         <entry key="assessment" value="assessment" />
         <entry key="attendance" value="attendance" />
-	<entry key="calendarDate" value="calendarDate" />
+        <entry key="bellSchedule" value="bellSchedule" />
+        <entry key="calendarDate" value="calendarDate" />
+        <entry key="classPeriod" value="classPeriod" />
         <entry key="cohort" value="cohort" />
         <entry key="competencyLevelDescriptor" value="competencyLevelDescriptor" />
         <entry key="course" value="course" />
@@ -95,7 +97,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
          <property name="writer" ref="writer" />
     </bean>
 
-    <bean id="localEdOrgExtractor" class="org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor">
+    <bean id="edOrgExtractor" class="org.slc.sli.bulk.extract.extractor.EdOrgExtractor">
         <property name="repository" ref="secondaryReadRepository" />
         <property name="entityExtractor" ref="entityExtractor" />
         <property name="entitiesToCollections" ref="entitiesToCollections" />
@@ -104,7 +106,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
     <bean id="launcher" class="org.slc.sli.bulk.extract.Launcher">
         <property name="baseDirectory" value="${sli.bulk.extract.output.directory:extract}" />
-        <property name="localEdOrgExtractor" ref="localEdOrgExtractor" />
+        <property name="edOrgExtractor" ref="edOrgExtractor" />
         <property name="bulkExtractMongoDA" ref="bulkExtractMongoDA" />
     </bean>
 

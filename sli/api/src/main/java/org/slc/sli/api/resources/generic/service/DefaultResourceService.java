@@ -39,7 +39,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import org.slc.sli.api.constants.Constraints;
-import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
@@ -272,11 +271,8 @@ public class DefaultResourceService implements ResourceService {
         if (migratedCopies.size() != 1) {
             throw new IllegalStateException("Error occurred while processing entity body.");
         }
-        if (SecurityUtil.isStaffUser()) {
-            definition.getService().updateBasedOnContextualRoles(id, migratedCopies.get(0));
-        } else {
-            definition.getService().update(id, migratedCopies.get(0));
-        }
+
+        definition.getService().update(id, migratedCopies.get(0), SecurityUtil.isStaffUser());
     }
 
     @Override
@@ -287,11 +283,8 @@ public class DefaultResourceService implements ResourceService {
         EntityBody copy = new EntityBody(entity);
         copy.remove(ResourceConstants.LINKS);
 
-        if (SecurityUtil.isStaffUser()) {
-            definition.getService().patchBasedOnContextualRoles(id, copy);
-        } else {
-            definition.getService().patch(id, copy);
-        }
+        //if isStaffUser == true then enforce contextual roles, otherwise do not
+        definition.getService().patch(id, copy, SecurityUtil.isStaffUser());
     }
 
     @Override

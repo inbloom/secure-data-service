@@ -67,7 +67,6 @@ public class ExtractFile {
     private ManifestFile manifestFile;
     private ErrorFile errorFile;
     private String edorg;
-    private boolean isSEA;
     private File parentDir;
     private String archiveName;
 
@@ -88,18 +87,15 @@ public class ExtractFile {
      * @param archiveName
      *          name of the archive file
      * @param clientKeys
-     *          Map from application ID to public keys.
+     *          Map from application ID to public keys
+     * @param securityEventUtil
+     *          Security event utility
      */
     public ExtractFile(File parentDir, String archiveName, Map<String, PublicKey> clientKeys, SecurityEventUtil securityEventUtil) {
-        init( parentDir, archiveName, clientKeys, securityEventUtil, false);
+        init(parentDir, archiveName, clientKeys, securityEventUtil);
     }
 
-    public ExtractFile(File parentDir, String archiveName, Map<String, PublicKey> clientKeys, SecurityEventUtil securityEventUtil, boolean isSEA) {
-        init( parentDir, archiveName, clientKeys, securityEventUtil, isSEA);
-    }
-
-    private void init(File parentDir, String archiveName, Map<String, PublicKey> clientKeys, SecurityEventUtil securityEventUtil, boolean isSEA) {
-        this.isSEA = isSEA;
+    private void init(File parentDir, String archiveName, Map<String, PublicKey> clientKeys, SecurityEventUtil securityEventUtil) {
         this.parentDir = parentDir;
         this.archiveName = archiveName;
         this.clientKeys = clientKeys;
@@ -369,10 +365,6 @@ public class ExtractFile {
      */
     public void setEdorg(String edorg) {
         this.edorg = edorg;
-    }
-
-    public boolean getIsSEA() {
-        return isSEA;
     }
 
 }

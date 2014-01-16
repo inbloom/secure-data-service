@@ -151,6 +151,7 @@ $CASCADE_DELETE_REFERENCE_MAP = {
 
 $createdEntities = {}
 $createdEntityIds = {}
+$createdLocations = {}
 
 def convertTenantIdToDbName(tenantId)
   db_name = Digest::SHA1.hexdigest tenantId
@@ -333,10 +334,7 @@ def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId, 
   puts "Loading Key and Certificate for client ID #{client_id}"
   client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
   private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
-  puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-  puts client_cert
-  puts private_key
-  puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+  puts sessionId
 
   urlHeader = makeUrlAndHeaders('get',url,sessionId,format,true)
 
@@ -436,7 +434,7 @@ def makeUrlAndHeaders(verb,id,sessionId,format, ssl_mode = false)
   property_name = 'api_server_url'
   property_name = 'api_ssl_server_url' if ssl_mode
 
-  url = PropLoader.getProps[property_name]+"/api/rest"+id
+  url = Property[property_name]+"/api/rest"+id
   puts(url, headers) if $SLI_DEBUG
 
   return {:url => url, :headers => headers}
@@ -504,9 +502,9 @@ end
 Around('@LDAP_Reset_developer-email') do |scenario, block|
   block.call
   if scenario.failed?
-    ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
-                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
-                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
+    ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
+                          Property['ldap_base'], Property['ldap_admin_user'],
+                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
     ldap.update_user_info({:email=> "developer-email@slidev.org", :password=>"test1234"})
   end
 end
@@ -514,9 +512,9 @@ end
 Around('@LDAP_Reset_sunsetadmin') do |scenario, block|
   block.call
   if scenario.failed?
-    ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
-                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
-                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
+    ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
+                          Property['ldap_base'], Property['ldap_admin_user'],
+                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
     ldap.update_user_info({:email=> "sunsetadmin", :password=>"sunsetadmin1234", :emailtoken => "sunsetadminderpityderp1304425892"})
   end
 end
@@ -906,7 +904,7 @@ end
 def check_records_in_sli_collection(table)
   disable_NOTABLESCAN()
   #First cut. Method has to be optimised. Connection should be cached.
-  secConn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  secConn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
   secDb = secConn.db('sli')
   result = "true"
   table.hashes.map do |row|
@@ -927,3 +925,32 @@ def check_records_in_sli_collection(table)
   assert(result == "true", "Some records are not found in collection.")
   enable_NOTABLESCAN()
 end
+
+# Returns whether the expected number of results are returned
+# and ALL the results contain the specified field and value
+def resultsContain?(field, value, expected_count = 1)
+  matches_all = true
+  results = JSON.parse @res
+
+puts "The results:"
+puts results.to_s
+
+  # handle non-array single result - not tested
+  if ! results.is_a? Array
+    results = [results]
+  end
+
+  if results.count != expected_count
+    return false
+  end
+
+  results.each { |result|
+    if result[field] != value
+      matches_all = false
+      break
+    end
+  }
+
+  return matches_all
+end
+

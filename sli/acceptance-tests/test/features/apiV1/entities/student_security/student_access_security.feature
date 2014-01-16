@@ -96,7 +96,7 @@ Scenario Outline: Users accessing students via multi-part URIs for Sections
   |"staff14"|"section3"| 403 |  0  | "none"               | state-staff as Agg Viewer |
   |"staff15"|"section3"| 403 |  0  | "none"               | state-staff with expired association |
 
-Scenario: Check the status of securityEvent collection 
+Scenario: Check the status of securityEvent collection
 
  Given I am user "staff15" in IDP "SEC"
   And the sli securityEvent collection is empty
@@ -115,9 +115,9 @@ Scenario: Check the status of securityEvent collection
   | securityEvent  | 1                   | body.appId      | ke9Dgpo3uI                                                       | string     |
   | securityEvent  | 1                   | body.logMessage | Access Denied:User is not currently associated to a school/edorg | string     |
   #userEdOrg and targetEdOrgList are not populated as association is expired
-  And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/sections.*" should be in the sli db
+  And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.5/sections.*" should be in the sli db
 	
-@DE_2712 
+@DE_2712
 Scenario Outline: Users accessing students via multi-part URIs for Cohorts
 Given I am user <User> in IDP "SEC"
 When I make an API call to get all students in the cohort <Cohort>
@@ -156,7 +156,7 @@ Examples:
   |"teach3"|"cohort5"| 403 |  0  | "none"               | IT Admin role teacher has past end date on staffCohortAssociation, studentRecordAccess false |
   |"teach4"|"cohort5"| 403 |  0  | "none"               | Agg Viewer role teacher has past end date on staffCohortAssociation, studentRecordAccess false |
 
-@DE_2712 
+@DE_2712
 Scenario Outline: Users accessing students via multi-part URIs for Programs
 Given I am user <User> in IDP "SEC"
 When I make an API call to get all students in the program <Program>
@@ -194,7 +194,7 @@ Examples:
   |"teach3"|"program5"| 403 |  0  | "none"               | IT Admin role teacher has past end date on staffProgramAssociation, studentRecordAccess false |
   |"teach4"|"program5"| 403 |  0  | "none"               | Agg Viewer role teacher has past end date on staffProgramAssociation, studentRecordAccess false |
 
-@DE_2712 
+@DE_2712
 Scenario Outline: Users accessing students via multi-part URIs for Schools
 Given I am user <User> in IDP "SEC"
 When I make an API call to get my student list at School <School>
@@ -240,24 +240,24 @@ Scenario Outline: Teacher attempt to access students through sections
     Then I should receive a return code of <Write Code>
   Examples:
 | User     | Student        | Read Code | Restricted Data | General Data | Write Code |Comment |
-| "teach1" | "student01"    | 200       | "excludes"      | "includes"   | 403        | teacher as Educator access student through future end-date teacherSectionAssoc and future end-date studentSectionAssoc |
-| "teach2" | "student01"    | 200       | "includes"      | "includes"   | 403        | teacher as Leader   access student through future end-date teacherSectionAssoc and future end-date studentSectionAssoc |
+| "teach1" | "student01"    | 200       | "excludes"      | "includes"   | 204        | teacher as Educator access student through future end-date teacherSectionAssoc and future end-date studentSectionAssoc |
+| "teach2" | "student01"    | 200       | "includes"      | "includes"   | 204        | teacher as Leader   access student through future end-date teacherSectionAssoc and future end-date studentSectionAssoc |
 | "teach3" | "student01"    | 200       | "includes"      | "includes"   | 204        | teacher as IT Admin access student through future end-date teacherSectionAssoc and future end-date studentSectionAssoc |
 | "teach4" | "student01"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Agg View access student through future end-date teacherSectionAssoc and future end-date studentSectionAssoc |
-| "teach1" | "student02"    | 200       | "excludes"      | "includes"   | 403        | teacher as Educator access student through future end-date teacherSectionAssoc and no end-date studentSectionAssoc |
-| "teach2" | "student02"    | 200       | "includes"      | "includes"   | 403        | teacher as Leader   access student through future end-date teacherSectionAssoc and no end-date studentSectionAssoc |
+| "teach1" | "student02"    | 200       | "excludes"      | "includes"   | 204        | teacher as Educator access student through future end-date teacherSectionAssoc and no end-date studentSectionAssoc |
+| "teach2" | "student02"    | 200       | "includes"      | "includes"   | 204        | teacher as Leader   access student through future end-date teacherSectionAssoc and no end-date studentSectionAssoc |
 | "teach3" | "student02"    | 200       | "includes"      | "includes"   | 204        | teacher as IT Admin access student through future end-date teacherSectionAssoc and no end-date studentSectionAssoc |
 | "teach4" | "student02"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Agg View access student through future end-date teacherSectionAssoc and no end-date studentSectionAssoc |
 | "teach1" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Educator access student through future end-date teacherSectionAssoc and past end-date studentSectionAssoc |
 | "teach2" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Leader   access student through future end-date teacherSectionAssoc and past end-date studentSectionAssoc |
 | "teach3" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | teacher as IT Admin access student through future end-date teacherSectionAssoc and past end-date studentSectionAssoc |
 | "teach4" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Agg View access student through future end-date teacherSectionAssoc and past end-date studentSectionAssoc |
-| "teach1" | "student04"    | 200       | "excludes"      | "includes"   | 403        | teacher as Educator access student through no end-date teacherSectionAssoc and future end-date studentSectionAssoc |
-| "teach2" | "student04"    | 200       | "includes"      | "includes"   | 403        | teacher as Leader   access student through no end-date teacherSectionAssoc and future end-date studentSectionAssoc |
+| "teach1" | "student04"    | 200       | "excludes"      | "includes"   | 204        | teacher as Educator access student through no end-date teacherSectionAssoc and future end-date studentSectionAssoc |
+| "teach2" | "student04"    | 200       | "includes"      | "includes"   | 204        | teacher as Leader   access student through no end-date teacherSectionAssoc and future end-date studentSectionAssoc |
 | "teach3" | "student04"    | 200       | "includes"      | "includes"   | 204        | teacher as IT Admin access student through no end-date teacherSectionAssoc and future end-date studentSectionAssoc |
 | "teach4" | "student04"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Agg View access student through no end-date teacherSectionAssoc and future end-date studentSectionAssoc |
-| "teach1" | "student05"    | 200       | "excludes"      | "includes"   | 403        | teacher as Educator access student through no end-date teacherSectionAssoc and no end-date studentSectionAssoc |
-| "teach2" | "student05"    | 200       | "includes"      | "includes"   | 403        | teacher as Leader   access student through no end-date teacherSectionAssoc and no end-date studentSectionAssoc |
+| "teach1" | "student05"    | 200       | "excludes"      | "includes"   | 204        | teacher as Educator access student through no end-date teacherSectionAssoc and no end-date studentSectionAssoc |
+| "teach2" | "student05"    | 200       | "includes"      | "includes"   | 204        | teacher as Leader   access student through no end-date teacherSectionAssoc and no end-date studentSectionAssoc |
 | "teach3" | "student05"    | 200       | "includes"      | "includes"   | 204        | teacher as IT Admin access student through no end-date teacherSectionAssoc and no end-date studentSectionAssoc |
 | "teach4" | "student05"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Agg View access student through no end-date teacherSectionAssoc and no end-date studentSectionAssoc |
 | "teach1" | "student06"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Educator access student through no end-date teacherSectionAssoc and past end-date studentSectionAssoc |
@@ -292,24 +292,24 @@ Scenario Outline: Teacher views students through Cohort
     Then I should receive a return code of <Write Code>
   Examples:
 | User     | Student        | Read Code | Restricted Data | General Data | Write Code |Comment |
-| "teach1" | "student11"    | 200       | "excludes"      | "includes"   | 403        | teacher as Educator access student through future end-date, record-access true staffCohortAssoc and future end-date studentCohortAssoc |
-| "teach2" | "student11"    | 200       | "includes"      | "includes"   | 403        | teacher as Leader   access student through future end-date, record-access true staffCohortAssoc and future end-date studentCohortAssoc |
+| "teach1" | "student11"    | 200       | "excludes"      | "includes"   | 204        | teacher as Educator access student through future end-date, record-access true staffCohortAssoc and future end-date studentCohortAssoc |
+| "teach2" | "student11"    | 200       | "includes"      | "includes"   | 204        | teacher as Leader   access student through future end-date, record-access true staffCohortAssoc and future end-date studentCohortAssoc |
 | "teach3" | "student11"    | 200       | "includes"      | "includes"   | 204        | teacher as IT Admin access student through future end-date, record-access true staffCohortAssoc and future end-date studentCohortAssoc |
 | "teach4" | "student11"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Agg View access student through future end-date, record-access true staffCohortAssoc and future end-date studentCohortAssoc |
-| "teach1" | "student12"    | 200       | "excludes"      | "includes"   | 403        | teacher as Educator access student through future end-date, record-access true staffCohortAssoc and no end-date studentCohortAssoc |
-| "teach2" | "student12"    | 200       | "includes"      | "includes"   | 403        | teacher as Leader   access student through future end-date, record-access true staffCohortAssoc and no end-date studentCohortAssoc |
+| "teach1" | "student12"    | 200       | "excludes"      | "includes"   | 204        | teacher as Educator access student through future end-date, record-access true staffCohortAssoc and no end-date studentCohortAssoc |
+| "teach2" | "student12"    | 200       | "includes"      | "includes"   | 204        | teacher as Leader   access student through future end-date, record-access true staffCohortAssoc and no end-date studentCohortAssoc |
 | "teach3" | "student12"    | 200       | "includes"      | "includes"   | 204        | teacher as IT Admin access student through future end-date, record-access true staffCohortAssoc and no end-date studentCohortAssoc |
 | "teach4" | "student12"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Agg View access student through future end-date, record-access true staffCohortAssoc and no end-date studentCohortAssoc |
 | "teach1" | "student13"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Educator access student through future end-date, record-access true staffCohortAssoc and past end-date studentCohortAssoc |
 | "teach2" | "student13"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Leader   access student through future end-date, record-access true staffCohortAssoc and past end-date studentCohortAssoc |
 | "teach3" | "student13"    | 403       | "excludes"      | "excludes"   | 403        | teacher as IT Admin access student through future end-date, record-access true staffCohortAssoc and past end-date studentCohortAssoc |
 | "teach4" | "student13"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Agg View access student through future end-date, record-access true staffCohortAssoc and past end-date studentCohortAssoc |
-| "teach1" | "student14"    | 200       | "excludes"      | "includes"   | 403        | teacher as Educator access student through no end-date, record-access true staffCohortAssoc and future end-date studentCohortAssoc |
-| "teach2" | "student14"    | 200       | "includes"      | "includes"   | 403        | teacher as Leader   access student through no end-date, record-access true staffCohortAssoc and future end-date studentCohortAssoc |
+| "teach1" | "student14"    | 200       | "excludes"      | "includes"   | 204        | teacher as Educator access student through no end-date, record-access true staffCohortAssoc and future end-date studentCohortAssoc |
+| "teach2" | "student14"    | 200       | "includes"      | "includes"   | 204        | teacher as Leader   access student through no end-date, record-access true staffCohortAssoc and future end-date studentCohortAssoc |
 | "teach3" | "student14"    | 200       | "includes"      | "includes"   | 204        | teacher as IT Admin access student through no end-date, record-access true staffCohortAssoc and future end-date studentCohortAssoc |
 | "teach4" | "student14"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Agg View access student through no end-date, record-access true staffCohortAssoc and future end-date studentCohortAssoc |
-| "teach1" | "student15"    | 200       | "excludes"      | "includes"   | 403        | teacher as Educator access student through no end-date, record-access true staffCohortAssoc and no end-date studentCohortAssoc |
-| "teach2" | "student15"    | 200       | "includes"      | "includes"   | 403        | teacher as Leader   access student through no end-date, record-access true staffCohortAssoc and no end-date studentCohortAssoc |
+| "teach1" | "student15"    | 200       | "excludes"      | "includes"   | 204        | teacher as Educator access student through no end-date, record-access true staffCohortAssoc and no end-date studentCohortAssoc |
+| "teach2" | "student15"    | 200       | "includes"      | "includes"   | 204        | teacher as Leader   access student through no end-date, record-access true staffCohortAssoc and no end-date studentCohortAssoc |
 | "teach3" | "student15"    | 200       | "includes"      | "includes"   | 204        | teacher as IT Admin access student through no end-date, record-access true staffCohortAssoc and no end-date studentCohortAssoc |
 | "teach4" | "student15"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Agg View access student through no end-date, record-access true staffCohortAssoc and no end-date studentCohortAssoc |
 | "teach1" | "student16"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Educator access student through no end-date, record-access true staffCohortAssoc and past end-date studentCohortAssoc |
@@ -380,24 +380,24 @@ Scenario Outline: Teacher views students through program
     Then I should receive a return code of <Write Code>
   Examples:
 | User     | Student        | Read Code | Restricted Data | General Data | Write Code |Comment |
-| "teach1" | "student29"    | 200       | "excludes"      | "includes"   | 403        | teacher as Educator access student through future end-date, record-access true staffProgramAssoc and future end-date studentProgramAssoc |
-| "teach2" | "student29"    | 200       | "includes"      | "includes"   | 403        | teacher as Leader   access student through future end-date, record-access true staffProgramAssoc and future end-date studentProgramAssoc |
+| "teach1" | "student29"    | 200       | "excludes"      | "includes"   | 204        | teacher as Educator access student through future end-date, record-access true staffProgramAssoc and future end-date studentProgramAssoc |
+| "teach2" | "student29"    | 200       | "includes"      | "includes"   | 204        | teacher as Leader   access student through future end-date, record-access true staffProgramAssoc and future end-date studentProgramAssoc |
 | "teach3" | "student29"    | 200       | "includes"      | "includes"   | 204        | teacher as IT Admin access student through future end-date, record-access true staffProgramAssoc and future end-date studentProgramAssoc |
 | "teach4" | "student29"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Agg View access student through future end-date, record-access true staffProgramAssoc and future end-date studentProgramAssoc |
-| "teach1" | "student30"    | 200       | "excludes"      | "includes"   | 403        | teacher as Educator access student through future end-date, record-access true staffProgramAssoc and no end-date studentProgramAssoc |
-| "teach2" | "student30"    | 200       | "includes"      | "includes"   | 403        | teacher as Leader   access student through future end-date, record-access true staffProgramAssoc and no end-date studentProgramAssoc |
+| "teach1" | "student30"    | 200       | "excludes"      | "includes"   | 204        | teacher as Educator access student through future end-date, record-access true staffProgramAssoc and no end-date studentProgramAssoc |
+| "teach2" | "student30"    | 200       | "includes"      | "includes"   | 204        | teacher as Leader   access student through future end-date, record-access true staffProgramAssoc and no end-date studentProgramAssoc |
 | "teach3" | "student30"    | 200       | "includes"      | "includes"   | 204        | teacher as IT Admin access student through future end-date, record-access true staffProgramAssoc and no end-date studentProgramAssoc |
 | "teach4" | "student30"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Agg View access student through future end-date, record-access true staffProgramAssoc and no end-date studentProgramAssoc |
 | "teach1" | "student31"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Educator access student through future end-date, record-access true staffProgramAssoc and past end-date studentProgramAssoc |
 | "teach2" | "student31"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Leader   access student through future end-date, record-access true staffProgramAssoc and past end-date studentProgramAssoc |
 | "teach3" | "student31"    | 403       | "excludes"      | "excludes"   | 403        | teacher as IT Admin access student through future end-date, record-access true staffProgramAssoc and past end-date studentProgramAssoc |
 | "teach4" | "student31"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Agg View access student through future end-date, record-access true staffProgramAssoc and past end-date studentProgramAssoc |
-| "teach1" | "student32"    | 200       | "excludes"      | "includes"   | 403        | teacher as Educator access student through no end-date, record-access true staffProgramAssoc and future end-date studentProgramAssoc |
-| "teach2" | "student32"    | 200       | "includes"      | "includes"   | 403        | teacher as Leader   access student through no end-date, record-access true staffProgramAssoc and future end-date studentProgramAssoc |
+| "teach1" | "student32"    | 200       | "excludes"      | "includes"   | 204        | teacher as Educator access student through no end-date, record-access true staffProgramAssoc and future end-date studentProgramAssoc |
+| "teach2" | "student32"    | 200       | "includes"      | "includes"   | 204        | teacher as Leader   access student through no end-date, record-access true staffProgramAssoc and future end-date studentProgramAssoc |
 | "teach3" | "student32"    | 200       | "includes"      | "includes"   | 204        | teacher as IT Admin access student through no end-date, record-access true staffProgramAssoc and future end-date studentProgramAssoc |
 | "teach4" | "student32"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Agg View access student through no end-date, record-access true staffProgramAssoc and future end-date studentProgramAssoc |
-| "teach1" | "student33"    | 200       | "excludes"      | "includes"   | 403        | teacher as Educator access student through no end-date, record-access true staffProgramAssoc and no end-date studentProgramAssoc |
-| "teach2" | "student33"    | 200       | "includes"      | "includes"   | 403        | teacher as Leader   access student through no end-date, record-access true staffProgramAssoc and no end-date studentProgramAssoc |
+| "teach1" | "student33"    | 200       | "excludes"      | "includes"   | 204        | teacher as Educator access student through no end-date, record-access true staffProgramAssoc and no end-date studentProgramAssoc |
+| "teach2" | "student33"    | 200       | "includes"      | "includes"   | 204        | teacher as Leader   access student through no end-date, record-access true staffProgramAssoc and no end-date studentProgramAssoc |
 | "teach3" | "student33"    | 200       | "includes"      | "includes"   | 204        | teacher as IT Admin access student through no end-date, record-access true staffProgramAssoc and no end-date studentProgramAssoc |
 | "teach4" | "student33"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Agg View access student through no end-date, record-access true staffProgramAssoc and no end-date studentProgramAssoc |
 | "teach1" | "student34"    | 403       | "excludes"      | "excludes"   | 403        | teacher as Educator access student through no end-date, record-access true staffProgramAssoc and past end-date studentProgramAssoc |
@@ -468,50 +468,50 @@ When I make an API call to get the student <Student>
   Then I should receive a return code of <Write Code>
 Examples:
 | User      | Student        | Read Code | Restricted Data | General Data | Write Code |Comment |
-| "staff1"  | "student01"    | 200       | "excludes"      | "includes"   | 403        | school-staff as Educator access student because the student is currently enrolled |
-| "staff2"  | "student01"    | 200       | "includes"      | "includes"   | 403        | school-staff as Leader   access student because the student is currently enrolled |
+| "staff1"  | "student01"    | 200       | "excludes"      | "includes"   | 204        | school-staff as Educator access student because the student is currently enrolled |
+| "staff2"  | "student01"    | 200       | "includes"      | "includes"   | 204        | school-staff as Leader   access student because the student is currently enrolled |
 | "staff3"  | "student01"    | 200       | "includes"      | "includes"   | 204        | school-staff as IT Admin access student because the student is currently enrolled |
 | "staff4"  | "student01"    | 403       | "excludes"      | "excludes"   | 403        | school-staff as Agg View access student because the student is currently enrolled |
 | "staff5"  | "student01"    | 403       | "excludes"      | "excludes"   | 403        | school-staff can't access student because the staff was terminated |
 | "staff18" | "student01"    | 403       | "excludes"      | "excludes"   | 403        | school-staff can't access student because the staff was not associated |
 
-| "staff1"  | "student02"    | 200       | "excludes"      | "includes"   | 403        | school-staff as Educator access student because the student is currently enrolled with no end-date |
-| "staff2"  | "student02"    | 200       | "includes"      | "includes"   | 403        | school-staff as Leader   access student because the student is currently enrolled with no end-date |
+| "staff1"  | "student02"    | 200       | "excludes"      | "includes"   | 204        | school-staff as Educator access student because the student is currently enrolled with no end-date |
+| "staff2"  | "student02"    | 200       | "includes"      | "includes"   | 204        | school-staff as Leader   access student because the student is currently enrolled with no end-date |
 | "staff3"  | "student02"    | 200       | "includes"      | "includes"   | 204        | school-staff as IT Admin access student because the student is currently enrolled with no end-date |
 | "staff4"  | "student02"    | 403       | "excludes"      | "excludes"   | 403        | school-staff as Agg View access student because the student is currently enrolled with no end-date |
 | "staff5"  | "student02"    | 403       | "excludes"      | "excludes"   | 403        | school-staff can't access student because the staff was terminated |
 | "staff18" | "student02"    | 403       | "excludes"      | "excludes"   | 403        | school-staff can't access student because the staff was not associated |
 
-| "staff1"  | "student02"    | 200       | "excludes"      | "includes"   | 403        | school-staff as Educator access student because the student is currently enrolled with no end-date |
-| "staff2"  | "student02"    | 200       | "includes"      | "includes"   | 403        | school-staff as Leader   access student because the student is currently enrolled with no end-date |
+| "staff1"  | "student02"    | 200       | "excludes"      | "includes"   | 204        | school-staff as Educator access student because the student is currently enrolled with no end-date |
+| "staff2"  | "student02"    | 200       | "includes"      | "includes"   | 204        | school-staff as Leader   access student because the student is currently enrolled with no end-date |
 | "staff3"  | "student02"    | 200       | "includes"      | "includes"   | 204        | school-staff as IT Admin access student because the student is currently enrolled with no end-date |
 | "staff4"  | "student02"    | 403       | "excludes"      | "excludes"   | 403        | school-staff as Agg View access student because the student is currently enrolled with no end-date |
 | "staff5"  | "student02"    | 403       | "excludes"      | "excludes"   | 403        | school-staff can't access student because the staff was terminated |
 | "staff18" | "student02"    | 403       | "excludes"      | "excludes"   | 403        | school-staff can't access student because the staff was not associated |
 
-| "staff6"  | "student01"    | 200       | "excludes"      | "includes"   | 403        | district-staff as Educator access student because the student is currently enrolled |
-| "staff7"  | "student01"    | 200       | "includes"      | "includes"   | 403        | district-staff as Leader   access student because the student is currently enrolled |
+| "staff6"  | "student01"    | 200       | "excludes"      | "includes"   | 204        | district-staff as Educator access student because the student is currently enrolled |
+| "staff7"  | "student01"    | 200       | "includes"      | "includes"   | 204        | district-staff as Leader   access student because the student is currently enrolled |
 | "staff8"  | "student01"    | 200       | "includes"      | "includes"   | 204        | district-staff as IT Admin access student because the student is currently enrolled |
 | "staff9"  | "student01"    | 403       | "excludes"      | "excludes"   | 403        | district-staff as Agg View access student because the student is currently enrolled |
 | "staff10" | "student01"    | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was terminated |
 | "staff17" | "student01"    | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was not associated |
 
-| "staff6"  | "student02"    | 200       | "excludes"      | "includes"   | 403        | district-staff as Educator access student because the student is currently enrolled with no end-date |
-| "staff7"  | "student02"    | 200       | "includes"      | "includes"   | 403        | district-staff as Leader   access student because the student is currently enrolled with no end-date |
+| "staff6"  | "student02"    | 200       | "excludes"      | "includes"   | 204        | district-staff as Educator access student because the student is currently enrolled with no end-date |
+| "staff7"  | "student02"    | 200       | "includes"      | "includes"   | 204        | district-staff as Leader   access student because the student is currently enrolled with no end-date |
 | "staff8"  | "student02"    | 200       | "includes"      | "includes"   | 204        | district-staff as IT Admin access student because the student is currently enrolled with no end-date |
 | "staff9"  | "student02"    | 403       | "excludes"      | "excludes"   | 403        | district-staff as Agg View access student because the student is currently enrolled with no end-date |
 | "staff10" | "student02"    | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was terminated |
 | "staff17" | "student02"    | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was not associated |
 
-| "staff6"  | "student01"    | 200       | "excludes"      | "includes"   | 403        | district-staff as Educator access student because the student is currently enrolled |
-| "staff7"  | "student01"    | 200       | "includes"      | "includes"   | 403        | district-staff as Leader   access student because the student is currently enrolled |
+| "staff6"  | "student01"    | 200       | "excludes"      | "includes"   | 204        | district-staff as Educator access student because the student is currently enrolled |
+| "staff7"  | "student01"    | 200       | "includes"      | "includes"   | 204        | district-staff as Leader   access student because the student is currently enrolled |
 | "staff8"  | "student01"    | 200       | "includes"      | "includes"   | 204        | district-staff as IT Admin access student because the student is currently enrolled |
 | "staff9"  | "student01"    | 403       | "excludes"      | "excludes"   | 403        | district-staff as Agg View access student because the student is currently enrolled |
 | "staff10" | "student01"    | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was terminated |
 | "staff17" | "student01"    | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was not associated |
 
-| "staff6"  | "student02"    | 200       | "excludes"      | "includes"   | 403        | district-staff as Educator access student because the student is currently enrolled with no end-date |
-| "staff7"  | "student02"    | 200       | "includes"      | "includes"   | 403        | district-staff as Leader   access student because the student is currently enrolled with no end-date |
+| "staff6"  | "student02"    | 200       | "excludes"      | "includes"   | 204        | district-staff as Educator access student because the student is currently enrolled with no end-date |
+| "staff7"  | "student02"    | 200       | "includes"      | "includes"   | 204        | district-staff as Leader   access student because the student is currently enrolled with no end-date |
 | "staff8"  | "student02"    | 200       | "includes"      | "includes"   | 204        | district-staff as IT Admin access student because the student is currently enrolled with no end-date |
 | "staff9"  | "student02"    | 403       | "excludes"      | "excludes"   | 403        | district-staff as Agg View access student because the student is currently enrolled with no end-date |
 | "staff10" | "student02"    | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was terminated |
@@ -524,15 +524,15 @@ Examples:
 | "staff10" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was terminated |
 | "staff17" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was not associated |
 
-| "staff11" | "student01"    | 200       | "excludes"      | "includes"   | 403        | state-staff as Educator access student because the student is currently enrolled |
-| "staff12" | "student01"    | 200       | "includes"      | "includes"   | 403        | state-staff as Leader   access student because the student is currently enrolled |
+| "staff11" | "student01"    | 200       | "excludes"      | "includes"   | 204        | state-staff as Educator access student because the student is currently enrolled |
+| "staff12" | "student01"    | 200       | "includes"      | "includes"   | 204        | state-staff as Leader   access student because the student is currently enrolled |
 | "staff13" | "student01"    | 200       | "includes"      | "includes"   | 204        | state-staff as IT Admin access student because the student is currently enrolled |
 | "staff14" | "student01"    | 403       | "excludes"      | "excludes"   | 403        | state-staff as Agg View access student because the student is currently enrolled |
 | "staff15" | "student01"    | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was terminated |
 | "staff16" | "student01"    | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was not associated |
 
-| "staff11" | "student02"    | 200       | "excludes"      | "includes"   | 403        | state-staff as Educator access student because the student is currently enrolled with no end-date |
-| "staff12" | "student02"    | 200       | "includes"      | "includes"   | 403        | state-staff as Leader   access student because the student is currently enrolled with no end-date |
+| "staff11" | "student02"    | 200       | "excludes"      | "includes"   | 204        | state-staff as Educator access student because the student is currently enrolled with no end-date |
+| "staff12" | "student02"    | 200       | "includes"      | "includes"   | 204        | state-staff as Leader   access student because the student is currently enrolled with no end-date |
 | "staff13" | "student02"    | 200       | "includes"      | "includes"   | 204        | state-staff as IT Admin access student because the student is currently enrolled with no end-date |
 | "staff14" | "student02"    | 403       | "excludes"      | "excludes"   | 403        | state-staff as Agg View access student because the student is currently enrolled with no end-date |
 | "staff15" | "student02"    | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was terminated |
@@ -548,11 +548,11 @@ Examples:
 | "staff1"  | "student47"    | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school within tenant |
 | "staff1"  | "student51"    | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside district |
 | "staff1"  | "student54"    | 404       | "excludes"      | "excludes"   | 404        | school-staff can't see student in another school outside tenant |
-| "staff6"  | "student47"    | 200       | "excludes"      | "includes"   | 403        | district-staff can see student in another school within district |
+| "staff6"  | "student47"    | 200       | "excludes"      | "includes"   | 204        | district-staff can see student in another school within district |
 | "staff6"  | "student51"    | 403       | "excludes"      | "excludes"   | 403        | district-staff can't see student in another school outside district |
 | "staff6"  | "student54"    | 404       | "excludes"      | "excludes"   | 404        | district-staff can't see student in another school outside tenant |
-| "staff11" | "student47"    | 200       | "excludes"      | "includes"   | 403        | state-staff can see student in school within state |
-| "staff11" | "student51"    | 200       | "excludes"      | "includes"   | 403        | state-staff can see student in another school in other district |
+| "staff11" | "student47"    | 200       | "excludes"      | "includes"   | 204        | state-staff can see student in school within state |
+| "staff11" | "student51"    | 200       | "excludes"      | "includes"   | 204        | state-staff can see student in another school in other district |
 | "staff11" | "student54"    | 404       | "excludes"      | "excludes"   | 404        | state-staff can't see student in another school outside tenant |
 
 | "staff11" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | state-staff as Educator can't access student because the student is not currently enrolled |
@@ -565,11 +565,11 @@ Examples:
 | "staff1"  | "student47"    | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school within tenant |
 | "staff1"  | "student51"    | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside district |
 | "staff1"  | "student54"    | 404       | "excludes"      | "excludes"   | 404        | school-staff can't see student in another school outside tenant |
-| "staff6"  | "student47"    | 200       | "excludes"      | "includes"   | 403        | district-staff can see student in another school within district |
+| "staff6"  | "student47"    | 200       | "excludes"      | "includes"   | 204        | district-staff can see student in another school within district |
 | "staff6"  | "student51"    | 403       | "excludes"      | "excludes"   | 403        | district-staff can't see student in another school outside district |
 | "staff6"  | "student54"    | 404       | "excludes"      | "excludes"   | 404        | district-staff can't see student in another school outside tenant |
-| "staff11" | "student47"    | 200       | "excludes"      | "includes"   | 403        | state-staff can see student in school within state |
-| "staff11" | "student51"    | 200       | "excludes"      | "includes"   | 403        | state-staff can see student in another school in other district |
+| "staff11" | "student47"    | 200       | "excludes"      | "includes"   | 204        | state-staff can see student in school within state |
+| "staff11" | "student51"    | 200       | "excludes"      | "includes"   | 204        | state-staff can see student in another school in other district |
 | "staff11" | "student54"    | 404       | "excludes"      | "excludes"   | 404        | state-staff can't see student in another school outside tenant |
 
 @smoke

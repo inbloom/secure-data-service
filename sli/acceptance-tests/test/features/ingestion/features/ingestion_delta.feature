@@ -132,7 +132,7 @@ Scenario: Job report should report deltas when SDS is ingested twice
     And I should see "InterchangeStudentAssessment-Rbraverman5thgrade.xml studentAssessment 2 deltas!" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Cgray-ACT.xml studentAssessmentItem 50 deltas!" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Cgray-ACT.xml studentObjectiveAssessment 300 deltas!" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-ACT.xml assessmentItem 4 deltas!" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml assessmentItem 5 deltas!" in the resulting batch job file
     And I should not see a warning log file created
     And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone with name "StoriedDataSet_IL_Daybreak_Deltas.zip"

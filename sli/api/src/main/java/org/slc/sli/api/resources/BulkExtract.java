@@ -21,7 +21,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.X509Certificate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -43,8 +52,6 @@ import com.sun.jersey.api.core.HttpRequestContext;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-import org.slc.sli.api.security.context.APIAccessDeniedException;
-import org.slc.sli.api.security.service.AuditLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,16 +66,18 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.AppAuthHelper;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
+import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.encrypt.security.CertificateValidationHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.NeutralQuery.SortOrder;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -128,7 +137,10 @@ public class BulkExtract {
     /**
      * Creates a streaming response for the sample data file.
      *
+     * @param request - HTTP servlet request for public bulk extract file
+     *
      * @return A response with the sample extract file
+     *
      * @throws Exception On Error
      */
     @GET
@@ -162,67 +174,82 @@ public class BulkExtract {
     }
 
     /**
-     * Send an LEA extract or a SEA public data extract
+     * Send an edOrg private data extract.
      *
-     * @param edOrgId
-     *            The uuid of the lea/sea to get the extract
-     * @return
-     *         A response with a lea/sea tar file
-     * @throws Exception
-     *             On Error
+     * @param context - HTTP context of request
+     * @param request - HTTP servlet request for public bulk extract file
+     * @param edOrgId - The uuid of the edOrg to get the extract
+     *
+     * @return - A response with an edOrg tar file
      */
     @GET
     @Path("extract/{edOrgId}")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getEdOrgExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("edOrgId") String edOrgId) {
-
         logSecurityEvent("Received request to stream Edorg data");
+
         if (edOrgId == null || edOrgId.isEmpty()) {
-            logSecurityEvent("Failed request to stream SEA public data, missing edOrgId");
+            logSecurityEvent("Failed request to stream edOrg data, missing edOrgId");
             throw new IllegalArgumentException("edOrgId cannot be missing");
         }
+
         validateRequestCertificate(request);
+        validateCanAccessEdOrgExtract(edOrgId);
 
-        boolean isPublicData = false;
-        Entity entity = helper.byId(edOrgId);
-
-        if (helper.isSEA(entity)) {
-            isPublicData = true;
-            //canAccessSEAExtract(entity);  DE2995
-        } else {
-        	canAccessEdOrgExtract(edOrgId);
-        }
-
-        return getExtractResponse(context.getRequest(), null, edOrgId, isPublicData);
+        return getEdOrgExtractResponse(context.getRequest(), edOrgId, null);
     }
 
     /**
-     * Send the list of BE file links for all LEAs for which the calling user and application have access.
+     * Send a tenant public data full extract.
      *
-     * @return A response with the complete list of BE file links for all LEAs/SEAs for this user/app.
+     * @param context - HTTP context of request
+     * @param request - HTTP servlet request for public bulk extract file
+     *
+     * @return - A response with a public extract tar file
+     */
+    @GET
+    @Path("extract/public")
+    @RightsAllowed({ Right.BULK_EXTRACT })
+    public Response getPublicExtract(@Context HttpContext context, @Context HttpServletRequest request) {
+        logSecurityEvent("Received request to stream public data");
+
+        validateRequestCertificate(request);
+
+        return getPublicExtractResponse(context.getRequest(), null);
+    }
+
+    /**
+     * Send the list of BE file links for all edOrgs and public data for which the calling user and application have access.
+     *
+     * @param context - HTTP context of request
+     * @param request - HTTP servlet request for public bulk extract file
+     *
+     * @return A response with the complete list of BE file links for all edOrgs and public data for this user/app.
      *
      * @throws Exception On Error.
      */
     @GET
     @Path("extract/list")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getSEAOrLEAList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
-        LOG.info("Received request for list of links for all SEAs and LEAs for this user/app");
-        logSecurityEvent("Received request for list of links for all SEAs and LEAs for this user/app");
+    public Response getBulkExtractList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
+        LOG.info("Received request for list of links for all edOrgs and public data for this user/app");
+        logSecurityEvent("Received request for list of links for all edOrgs and public data for this user/app");
         validateRequestAndApplicationAuthorization(request);
 
-        logSecurityEvent("Successful request for list of links for all SEAs and LEAs for this user/app");
-        return getSLEAListResponse(context);
+        logSecurityEvent("Successful request for list of links for all edOrgs and public data for this user/app");
+        return getPublicAndEdOrgListResponse(context);
     }
 
 
     /**
      * Stream a delta response.
      *
+     * @param context - HTTP context of request
+     * @param request - HTTP servlet request for public bulk extract file
      * @param date the date of the delta
-     * @param edOrgId the uuid of the lea/sea to get delta extract for
+     * @param edOrgId the uuid of the edOrg to get delta extract for
+     *
      * @return A response with a delta extract file.
-     * @throws Exception On Error
      */
     @GET
     @Path("extract/{edOrgId}/delta/{date}")
@@ -233,8 +260,8 @@ public class BulkExtract {
         if (deltasEnabled) {
             LOG.info("Retrieving delta bulk extract for {}, at date {}", edOrgId, date);
             if (edOrgId == null || edOrgId.isEmpty()) {
-                logSecurityEvent("Failed delta request, missing leadId");
-                throw new IllegalArgumentException("leaId cannot be missing");
+                logSecurityEvent("Failed delta request, missing edOrgId");
+                throw new IllegalArgumentException("edOrgId cannot be missing");
             }
             if (date == null || date.isEmpty()) {
                 logSecurityEvent("Failed delta request, missing date");
@@ -243,17 +270,9 @@ public class BulkExtract {
 
             validateRequestCertificate(request);
 
-            boolean isPublicData = false;
-            Entity entity = helper.byId(edOrgId);
+            validateCanAccessEdOrgExtract(edOrgId);
 
-            if (helper.isSEA(entity)) {
-                isPublicData = true;
-                //canAccessSEAExtract(entity); DE2995
-            } else {
-            	canAccessEdOrgExtract(edOrgId);
-            }
-
-            return getExtractResponse(context.getRequest(), date, edOrgId, isPublicData);
+            return getEdOrgExtractResponse(context.getRequest(), edOrgId, date);
 
         }
         logSecurityEvent("Failed request for Edorg delta bulk extract data");
@@ -261,42 +280,35 @@ public class BulkExtract {
     }
 
     /**
-     * Validate if the user can access SEA extract
+     * Stream a delta public extract response.
      *
-     * @param seaEntity the SEA Entity
+     * @param context - HTTP context of request
+     * @param request - HTTP servlet request for public bulk extract file
+     * @param date the date of the delta
      *
-     * DE2995: Anyone with BULK_EXTRACT right can extract public sea data, provided the app is authd for sea.
+     * @return A response with a delta extract file.
      */
-    /*
-    void canAccessSEAExtract(final Entity seaEntity) {
+    @GET
+    @Path("extract/public/delta/{date}")
+    @RightsAllowed({ Right.BULK_EXTRACT })
+    public Response getPublicDelta(@Context HttpServletRequest request, @Context HttpContext context,
+                              @PathParam("date") String date) {
+        logSecurityEvent("Received request to stream public delta bulk extract data");
+        if (deltasEnabled) {
+            LOG.info("Retrieving delta public bulk extract at date {}", date);
 
-        boolean approvedLEAExists = false;
-        for (String leaId : helper.getDirectChildLEAsOfEdOrg(seaEntity)) {
-            LOG.debug("Checking lea: {} for sea: {}", leaId, seaEntity.getEntityId());
-                try {
-                    canAccessLEAExtract(leaId);
-                    approvedLEAExists = true;
-                    break;
-                } catch (AccessDeniedException e) {
-                    approvedLEAExists = false;
-                }
-        }
-        if (!approvedLEAExists) {
-            throw new APIAccessDeniedException("User is not authorized to access SEA public extract", EntityNames.EDUCATION_ORGANIZATION, seaEntity);
-        }
-    }
-    */
-
-    /**
-     * Validate if the user can access LEA extract
-     *
-     * @param leaId the LEA id
-     */
-    void canAccessLEAExtract(String leaId) {
-            if (edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId))).isEmpty()) {
-                throw new APIAccessDeniedException("User is not authorized to access this extract", EntityNames.EDUCATION_ORGANIZATION, leaId);
+            if (date == null || date.isEmpty()) {
+                logSecurityEvent("Failed delta request, missing date");
+                throw new IllegalArgumentException("date cannot be missing");
             }
-        appAuthHelper.checkApplicationAuthorization(leaId);
+
+            validateRequestCertificate(request);
+
+            return getPublicExtractResponse(context.getRequest(), date);
+
+        }
+        logSecurityEvent("Failed request for Edorg delta bulk extract data");
+        return Response.status(404).build();
     }
 
     /**
@@ -304,94 +316,145 @@ public class BulkExtract {
      *
      * @param edOrgId the edOrg id
      */
-    void canAccessEdOrgExtract(String edOrgId) {
+    private void validateCanAccessEdOrgExtract(String edOrgId) {
             if (edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(edOrgId))).isEmpty()) {
                 throw new APIAccessDeniedException("User is not authorized to access this extract", EntityNames.EDUCATION_ORGANIZATION, edOrgId);
             }
         appAuthHelper.checkApplicationAuthorization(edOrgId);
     }
-    
+
     /**
      * Get the bulk extract response
      *
-     * @param req       the http request context
-     * @param deltaDate the date of the delta, or null to get the full extract
-     * @param leaId     the LEA id
+     * @param req          the http request context
+     * @param deltaDate    the date of the delta, or null to get the full extract
+     * @param edOrgId      the Ed Org id (if private extract)
      * @param isPublicData indicates if the extract is for public data
      * @return the jax-rs response to send back.
      */
-    Response getExtractResponse(final HttpRequestContext req, final String deltaDate, final String leaId, boolean isPublicData) {
+    Response getEdOrgExtractResponse(final HttpRequestContext req, final String edOrgId, final String deltaDate) {
+        ExtractFile ef = getEdOrgExtractFile(edOrgId, deltaDate);
 
-        String appId = appAuthHelper.getApplicationId();
-
-        Entity entity = getBulkExtractFileEntity(deltaDate, appId, leaId, false, isPublicData);
-
-        if (entity == null) {
-            logSecurityEvent("No bulk extract support for : " + leaId);
-            LOG.info("No bulk extract support for : {}", leaId);
+        if (ef == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        ExtractFile bulkExtractFileEntity =  new ExtractFile(entity.getBody().get(BULK_EXTRACT_DATE).toString(), entity.getBody().get(BULK_EXTRACT_FILE_PATH).toString());
-
-        final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
-        if (!bulkExtractFile.exists()) {
-            logSecurityEvent("No bulk extract support for : " + leaId);
-            LOG.info("No bulk extract file found for : {}", leaId);
-            return Response.status(Status.NOT_FOUND).build();
-        }
-
-        return fileResource.getFileResponse(req, bulkExtractFile,
-                bulkExtractFile.lastModified(), bulkExtractFileEntity.getLastModified(), uri);
-
+        return fileResource.getFileResponse(req, ef, ef.getLastModified());
     }
 
     /**
-     * Get the SEA/LEA list response.
+     * Get the bulk extract response
+     *
+     * @param req          the http request context
+     * @param deltaDate    the date of the delta, or null to get the full extract
+     * @param edOrgId      the Ed Org id (if private extract)
+     * @param isPublicData indicates if the extract is for public data
+     * @return the jax-rs response to send back.
+     */
+    Response getPublicExtractResponse(final HttpRequestContext req, final String deltaDate) {
+        ExtractFile ef = getPublicExtractFile(deltaDate);
+
+        if (ef == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+
+        return fileResource.getFileResponse(req, ef, ef.getLastModified());
+    }
+
+    private ExtractFile getEdOrgExtractFile(final String edOrgId, final String deltaDate) {
+        ExtractFile ef = null;
+
+        Entity efEntity = getEdOrgExtractFileEntity(appAuthHelper.getApplicationId(), edOrgId, deltaDate);
+
+        if (efEntity == null) {
+            logSecurityEvent("No bulk extract support for : " + edOrgId);
+            LOG.info("No bulk extract support for : {}", edOrgId);
+        } else {
+            ef = getExtractFile(efEntity);
+
+            if (ef == null) {
+                logSecurityEvent("No bulk extract file found for : " + edOrgId);
+                LOG.info("No bulk extract file found for : {}", edOrgId);
+            }
+        }
+
+        return ef;
+    }
+
+    private ExtractFile getPublicExtractFile(final String deltaDate) {
+        ExtractFile ef = null;
+
+        Entity efEntity = getPublicExtractFileEntity(appAuthHelper.getApplicationId(), deltaDate);
+
+        if (efEntity == null) {
+            String tenant = getPrincipal().getTenantId();
+
+            logSecurityEvent("No public bulk extract support for : " + tenant);
+            LOG.info("No public bulk extract support for : {}", tenant);
+        } else {
+            ef = getExtractFile(efEntity);
+
+            if (ef == null) {
+                String tenant = getPrincipal().getTenantId();
+
+                logSecurityEvent("No public bulk extract file found for : " + tenant);
+                LOG.info("No public bulk extract file found for : {}", tenant);
+            }
+        }
+
+        return ef;
+    }
+
+    private ExtractFile getExtractFile(Entity efEntity) {
+        ExtractFile bulkExtractFileEntity = new ExtractFile((String) efEntity.getBody().get(BULK_EXTRACT_FILE_PATH), (Date) efEntity.getBody().get(BULK_EXTRACT_DATE));
+
+        if (bulkExtractFileEntity.exists()) {
+            return bulkExtractFileEntity;
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the edOrg and public list response.
      *
      * @param context - the http request context
      * @return - the jax-rs response to send back
      */
-    Response getSLEAListResponse(final HttpContext context) {
+    Response getPublicAndEdOrgListResponse(final HttpContext context) {
 
-    	List<String> userEdOrgs = retrieveUserAssociatedEdOrgs();
-    	
+        List<String> userEdOrgs = retrieveUserAssociatedEdOrgs();
+
         String appId = appAuthHelper.getApplicationId();
 
         List<String> appAuthorizedUserEdOrgs = getApplicationAuthorizedUserEdOrgs(userEdOrgs, appId);
         if (appAuthorizedUserEdOrgs.size() == 0) {
             logSecurityEvent("No authorized EdOrgs for application:" + appId);
-            LOG.info("No authorized LEAs for application: {}", appId);
+            LOG.info("No authorized EdOrgs for application: {}", appId);
             return Response.status(Status.NOT_FOUND).build();
         }
 
         List<String> authorizedUserSEdOrgs = new LinkedList<String>();
         authorizedUserSEdOrgs.addAll(appAuthorizedUserEdOrgs);
-        Entity edOrg = helper.byId(appAuthorizedUserEdOrgs.get(0));  // First LEA is as good as any.
-        String seaId = helper.getSEAOfEdOrg(edOrg);
-        if (seaId != null) {
-        	authorizedUserSEdOrgs.add(seaId);
-        }
 
-        logSecurityEvent("Successfully retrieved SEA/LEA list for " + appId);
-        return assembleSLEALinksResponse(context, appId, authorizedUserSEdOrgs);
+        logSecurityEvent("Successfully retrieved edOrgs and public list for " + appId);
+        return assembleLinksResponse(context, appId, authorizedUserSEdOrgs);
     }
 
     /**
-     * Assemble the SEA/LEA HATEOAS links response.
+     * Assemble the edOrgs and public HATEOAS links response.
      *
      * @param context
      *        Original HTTP Request Context.
      * @param appId
      *        Authorized application ID.
-     * @param authorizedUserSLEAs
-     *        List of SEAs and LEAs authorized to use and authorizing the specified application.
+     * @param authorizedUserEdOrgs
+     *        List of edOrgs authorized to use and authorizing the specified application.
      *
      * @return the jax-rs response to send back.
      */
-    @SuppressWarnings("unchecked")
-    private Response assembleSLEALinksResponse(final HttpContext context, final String appId, final List<String> authorizedUserSLEAs) {
-        EntityBody list = assembleSLEALinks(context, appId, authorizedUserSLEAs);
+    private Response assembleLinksResponse(final HttpContext context, final String appId, final List<String> authorizedUserEdOrgs) {
+        EntityBody list = assembleLinks(context, appId, authorizedUserEdOrgs);
 
         ResponseBuilder builder = Response.ok(list);
         builder.header("content-type", MediaType.APPLICATION_JSON + "; charset=utf-8");
@@ -400,63 +463,68 @@ public class BulkExtract {
     }
 
     /**
-     * Assemble the SEA/LEA HATEOAS links entity body.
+     * Assemble the edOrg and public HATEOAS links entity body.
      *
      * @param context
      *        Original HTTP Request Context.
      * @param appId
      *        Authorized application ID.
-     * @param authorizedUserSLEAs
-     *        List of SEAs and LEAs authorized to use and authorizing the specified application.
+     * @param authorizedUserEdOrgs
+     *        List of edOrgs authorized to use and authorizing the specified application.
      *
      * @return the jax-rs response to send back.
      */
-    private EntityBody assembleSLEALinks(final HttpContext context, final String appId, final List<String> authorizedUserSLEAs) {
+    private EntityBody assembleLinks(final HttpContext context, final String appId, final List<String> authorizedUserEdOrgs) {
         EntityBody list = new EntityBody();
 
         UriInfo uriInfo = context.getUriInfo();
         String linkBase = ResourceUtil.getURI(uriInfo, ResourceUtil.getApiVersion(uriInfo)).toString() + "/bulk/extract/";
-        Map<String, Map<String, String>> leaFullLinks = new HashMap<String, Map<String, String>>();
-        Map<String, Set<Map<String, String>>> leaDeltaLinks = new HashMap<String, Set<Map<String, String>>>();
-        Map<String, Map<String, String>> seaFullLinks = new HashMap<String, Map<String, String>>();
-        Map<String, Set<Map<String, String>>> seaDeltaLinks = new HashMap<String, Set<Map<String, String>>>();
+        String publicDataLinkBase = linkBase + "public";
+        Map<String, Map<String, String>> edOrgFullLinks = new HashMap<String, Map<String, String>>();
+        Map<String, Set<Map<String, String>>> edOrgDeltaLinks = new HashMap<String, Set<Map<String, String>>>();
+        Map<String, Map<String, String>> publicFullLinks = new HashMap<String, Map<String, String>>();
+        Map<String, Set<Map<String, String>>> publicDeltaLinks = new HashMap<String, Set<Map<String, String>>>();
 
-        for (String edOrgId : authorizedUserSLEAs) {
+        for (String edOrgId : authorizedUserEdOrgs) {
             Map<String, String> fullLink = new HashMap<String, String>();
             Set<Map<String, String>> deltaLinks = newDeltaLinkSet();
-            Iterable<Entity> edOrgFileEntities = getEdOrgBulkExtractEntities(appId, edOrgId);
+            Iterable<Entity> edOrgFileEntities = getEdOrgBulkExtractEntities(appId, edOrgId, false);
+
             if (edOrgFileEntities.iterator().hasNext()) {
                 addLinks(linkBase + edOrgId, edOrgFileEntities, fullLink, deltaLinks);
-                Entity entity = helper.byId(edOrgId);
                 if (!fullLink.isEmpty()) {
-                    if (helper.isSEA(entity)) {
-                        seaFullLinks.put(edOrgId, fullLink);
-                    } else {
-                        leaFullLinks.put(edOrgId, fullLink);
-                    }
+                    edOrgFullLinks.put(edOrgId, fullLink);
                 }
                 if (!deltaLinks.isEmpty()) {
-                    if (helper.isSEA(entity)) {
-                        seaDeltaLinks.put(edOrgId, deltaLinks);
-                    } else {
-                        leaDeltaLinks.put(edOrgId, deltaLinks);
-                    }
+                    edOrgDeltaLinks.put(edOrgId, deltaLinks);
                 }
             }
         }
 
-        list.put("fullSea", seaFullLinks);
-        list.put("deltaSea", seaDeltaLinks);
-        list.put("fullEdOrgs", leaFullLinks);
-        list.put("deltaEdOrgs", leaDeltaLinks);
+        list.put("fullEdOrgs", edOrgFullLinks);
+        list.put("deltaEdOrgs", edOrgDeltaLinks);
 
+        Iterable<Entity> publicFileEntities = getEdOrgBulkExtractEntities(appId, null, true);
+        Map<String, String> fullLink = new HashMap<String, String>();
+        Set<Map<String, String>> deltaLinks = newDeltaLinkSet();
+        if(publicFileEntities.iterator().hasNext()) {
+            addLinks(publicDataLinkBase, publicFileEntities, fullLink, deltaLinks);
+            if (!fullLink.isEmpty()) {
+                publicFullLinks.put(getPrincipal().getTenantId(), fullLink);
+            }
+            if (!deltaLinks.isEmpty()) {
+                publicDeltaLinks.put(getPrincipal().getTenantId(), deltaLinks);
+            }
+        }
+        list.put("fullPublic", publicFullLinks);
+        list.put("deltaPublic", publicDeltaLinks);
         return list;
     }
 
     /**
-     * Create the delta links list for an SEA/LEA.
+     * Create the delta links list for an edOrg or public extract.
      *
-     * return - Empty set to hold delta links for an LEA, sorted in reverse chronological order.
+     * return - Empty set to hold delta links for an edOrg or public extract, sorted in reverse chronological order.
      */
     private Set<Map<String, String>> newDeltaLinkSet() {
         return new TreeSet<Map<String, String>>(new Comparator<Map<String, String>>() {
@@ -469,23 +537,23 @@ public class BulkExtract {
     }
 
     /**
-     * Create the full and delta links for each specified SEA or LEA.
+     * Create the full and delta links for each specified edOrg or public extract.
      *
-     * @param linkBase - Base name of SEA or LEA links.
-     * @param edOrgFileEntities - All eligible SEA or LEA entities.
-     * @param fullLink - SEA or LEA full link.
-     * @param deltaLinks - Set of SEA or LEA delta links.
+     * @param linkBase - Base name of edOrg or public links.
+     * @param bulkExtractFileEntities - All eligible bulk extract file entities.
+     * @param fullLink - EdOrg or public full link.
+     * @param deltaLinks - Set of edOrg or public delta links.
      */
-    private void addLinks(final String linkBase, final Iterable<Entity> edOrgFileEntities,
+    private void addLinks(final String linkBase, final Iterable<Entity> bulkExtractFileEntities,
             final Map<String, String> fullLink, Set<Map<String, String>> deltaLinks) {
-        for (Entity edOrgFileEntity : edOrgFileEntities) {
+        for (Entity bulkExtractFileEntity : bulkExtractFileEntities) {
             Map<String, String> deltaLink = new HashMap<String, String>();
-            String timeStamp = getTimestamp(edOrgFileEntity);
-            if (Boolean.TRUE.equals(edOrgFileEntity.getBody().get("isDelta"))) {
+            String timeStamp = getTimestamp(bulkExtractFileEntity);
+            if (Boolean.TRUE.equals(bulkExtractFileEntity.getBody().get("isDelta"))) {
                 deltaLink.put("uri", linkBase + "/delta/" + timeStamp);
                 deltaLink.put("timestamp", timeStamp);
                 deltaLinks.add(deltaLink);
-            } else {  // Assume only one full extract per SEA or LEA.
+            } else {  // Assume only one full extract per edOrg.
                 fullLink.put("uri", linkBase);
                 fullLink.put("timestamp", timeStamp);
             }
@@ -493,14 +561,14 @@ public class BulkExtract {
     }
 
     /**
-     * Get timestamp string from LEA entity.
+     * Get timestamp string from bulk extract file entity.
      *
-     * @param leaFileEntity - LEA entity.
+     * @param bulkExtractFileEntity - Bulk extract entity.
      *
-     * @return - LEA extract timestamp in ISO8601 format.
+     * @return - Bulk extract timestamp in ISO8601 format.
      */
-    private String getTimestamp(final Entity leaFileEntity) {
-        Date date = (Date)leaFileEntity.getBody().get("date");
+    private String getTimestamp(final Entity bulkExtractFileEntity) {
+        Date date = (Date)bulkExtractFileEntity.getBody().get("date");
         return DATE_TIME_FORMATTER.print(new DateTime(date));
     }
 
@@ -512,11 +580,17 @@ public class BulkExtract {
      *
      * @return - All bulk extract entities for the App and EdOrg
      */
-    private Iterable<Entity> getEdOrgBulkExtractEntities(String appId, String edOrgId) {
+    private Iterable<Entity> getEdOrgBulkExtractEntities(String appId, String edOrgId, boolean isPublicData) {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 getPrincipal().getTenantId()));
-        query.addCriteria(new NeutralCriteria("edorg", NeutralCriteria.OPERATOR_EQUAL, edOrgId));
+
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
+        query.addCriteria(new NeutralCriteria("isPublicData", NeutralCriteria.OPERATOR_EQUAL, isPublicData));
+
+        if(!isPublicData) {
+            query.addCriteria(new NeutralCriteria("edorg", NeutralCriteria.OPERATOR_EQUAL, edOrgId));
+        }
+
         query.setSortBy("date");
         query.setSortOrder(SortOrder.ascending);
         LOG.debug("Bulk Extract query is {}", query);
@@ -530,29 +604,54 @@ public class BulkExtract {
     /**
      * Get the bulk extract file
      *
-     * @param deltaDate the date of the delta, or null to retrieve a full extract
      * @param appId
+     * @param edOrgId
+     * @param deltaDate the date of the delta, or null to retrieve a full extract
      * @return
      */
-    private Entity getBulkExtractFileEntity(String deltaDate, String appId, String leaId, boolean ignoreIsDelta, boolean isPublicData) {
+    private Entity getEdOrgExtractFileEntity(String appId, String edOrgId, String deltaDate) {
         boolean isDelta = deltaDate != null;
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 getPrincipal().getTenantId()));
-        if (leaId != null && !leaId.isEmpty()) {
-            query.addCriteria(new NeutralCriteria("edorg",
-                    NeutralCriteria.OPERATOR_EQUAL, leaId));
-        }
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
-        if (!ignoreIsDelta) {
-            query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, isDelta));
-        }
+        query.addCriteria(new NeutralCriteria("edorg", NeutralCriteria.OPERATOR_EQUAL, edOrgId));
+        query.addCriteria(new NeutralCriteria("isPublicData", NeutralCriteria.OPERATOR_EQUAL, false));
+        query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, isDelta));
 
         if (isDelta) {
             DateTime d = DATE_TIME_FORMATTER.parseDateTime(deltaDate);
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.OPERATOR_EQUAL, d.toDate()));
         }
 
-        query.addCriteria(new NeutralCriteria("isPublicData", NeutralCriteria.OPERATOR_EQUAL, isPublicData));
+        LOG.debug("Bulk Extract query is {}", query);
+        Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, query);
+        if (entity == null) {
+            LOG.debug("Could not find a bulk extract entity");
+        }
+        return entity;
+    }
+
+    /**
+     * Get the bulk extract file
+     *
+     * @param appId
+     * @param deltaDate the date of the delta, or null to retrieve a full extract
+     * @return
+     */
+    private Entity getPublicExtractFileEntity(String appId, String deltaDate) {
+        boolean isDelta = deltaDate != null;
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
+                getPrincipal().getTenantId()));
+
+        query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
+        query.addCriteria(new NeutralCriteria("isPublicData", NeutralCriteria.OPERATOR_EQUAL, true));
+        query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, isDelta));
+
+        if (isDelta) {
+            DateTime d = DATE_TIME_FORMATTER.parseDateTime(deltaDate);
+            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.OPERATOR_EQUAL, d.toDate()));
+        }
+
         LOG.debug("Bulk Extract query is {}", query);
         Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, query);
         if (entity == null) {
@@ -573,27 +672,31 @@ public class BulkExtract {
 
         List<String> userEdOrgs = helper.getUserEdorgs(getPrincipal().getEntity());
         if (userEdOrgs.size() == 0) {
-            throw new APIAccessDeniedException("User is not authorized for a list of available SEA/EdOrgs extracts", userEdOrgs);
+            throw new APIAccessDeniedException("User is not authorized for a list of available EdOrgs extracts", userEdOrgs);
         }
         return userEdOrgs;
     }
-    
+
 
     private List<String> getApplicationAuthorizedUserEdOrgs(List<String> userEdOrgs, String appId) {
         List<String> appAuthorizedEdorgIds = appAuthHelper.getApplicationAuthorizationEdorgIds(appId);
         appAuthorizedEdorgIds.retainAll(userEdOrgs);
         return appAuthorizedEdorgIds;
     }
-    
+
     /**
-     * @return the mongoEntityRepository
+     * Getter for our mongo entity repository.
+     *
+     * @return the mongoEntityRepository.
      */
     public Repository<Entity> getMongoEntityRepository() {
         return mongoEntityRepository;
     }
 
     /**
-     * @param mongoEntityRepository the mongoEntityRepository to set
+     * Setter for our mongo entity repository.
+     *
+     * @param mongoEntityRepository the mongoEntityRepository to set.
      */
     public void setMongoEntityRepository(Repository<Entity> mongoEntityRepository) {
         this.mongoEntityRepository = mongoEntityRepository;
@@ -605,33 +708,27 @@ public class BulkExtract {
      * @author nbrown
      *
      */
-    private class ExtractFile {
-        private final String lastModified;
-        private final String fileName;
+    private class ExtractFile extends File {
+        private static final long serialVersionUID = 1L;
 
-        public ExtractFile(String lastModified, String fileName) {
-            super();
+        private final Date lastModified;
+
+        public ExtractFile(String fileName, Date lastModified) {
+            super(fileName);
             this.lastModified = lastModified;
-            this.fileName = fileName;
-            LOG.debug("The file is " + fileName + " and lastModified is " + lastModified);
+            LOG.debug("The file is {} and lastModified is {}", fileName, lastModified);
+            LOG.debug("Length of bulk extract file is {}", length());
         }
 
-        public String getLastModified() {
+        public Date getLastModified() {
             return lastModified;
         }
-
-        public File getBulkExtractFile(ExtractFile bulkExtractFileEntity) {
-            File bulkExtractFile = new File(fileName);
-            LOG.debug("Length of bulk extract file is " + bulkExtractFile.length());
-            return bulkExtractFile;
-        }
-
     }
 
     /**
-     * Setter for our edorg validator
+     * Setter for our edorg validator.
      *
-     * @param validator
+     * @param validator - EdOrg validator
      */
     public void setEdorgValidator(GenericToEdOrgValidator validator) {
         this.edorgValidator = validator;
@@ -654,6 +751,11 @@ public class BulkExtract {
         }
     }
 
+    /**
+     * Setter for our file resource.
+     *
+     * @param fileResource - File resource
+     */
     public void setFileResource(FileResource fileResource) {
         this.fileResource = fileResource;
     }

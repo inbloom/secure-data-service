@@ -136,6 +136,8 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.OBJECTIVE_ASSESSMENT, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.PROGRAM, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.CALENDAR_DATE, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.CLASS_PERIOD, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.BELL_SCHEDULE, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.COURSE, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.COURSE_OFFERING, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.SESSION, simpleEntityTypeContextResolver);

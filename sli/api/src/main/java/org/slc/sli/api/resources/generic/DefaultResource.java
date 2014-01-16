@@ -25,6 +25,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -39,6 +40,7 @@ import org.slc.sli.api.resources.v1.CustomEntityResource;
 import org.slc.sli.api.security.context.WriteValidator;
 import org.slc.sli.api.util.PATCH;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.config.EntityDefinition;
 
 
 /**
@@ -57,6 +59,9 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
 
     @Autowired
     private WriteValidator writeValidator;
+
+    @Autowired
+    private EntityDefinitionStore entityDefinitionStore;
 
     public DefaultResource() {
         this.setOnePartTemplate(ResourceTemplate.ONE_PART);
@@ -123,9 +128,15 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
 
             @Override
             public Response run(Resource resource) {
-                resourceService.putEntity(resource, id, entityBody);
 
-                return Response.status(Response.Status.NO_CONTENT).build();
+                EntityDefinition entityDefinition =  entityDefinitionStore.lookupByResourceName(resource.getResourceType());
+                if(entityDefinition.supportsPut()) {
+                    resourceService.putEntity(resource, id, entityBody);
+
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                } else {
+                    return Response.status(405).build();
+                }
             }
         });
     }
@@ -160,9 +171,13 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
 
             @Override
             public Response run(Resource resource) {
-                resourceService.patchEntity(resource, id, entityBody);
-
-                return Response.status(Response.Status.NO_CONTENT).build();
+                EntityDefinition entityDefinition =  entityDefinitionStore.lookupByResourceName(resource.getResourceType());
+                if(entityDefinition.supportsPatch()) {
+                    resourceService.patchEntity(resource, id, entityBody);
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                } else {
+                    return Response.status(405).build();
+                }
             }
         });
 

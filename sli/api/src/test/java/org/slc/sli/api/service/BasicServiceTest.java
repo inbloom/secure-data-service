@@ -200,7 +200,7 @@ public class BasicServiceTest {
         Entity entity = securityRepo.create("teacher", body);
 
         EntityBody updated = new EntityBody();
-        basicService.update(entity.getEntityId(), updated);
+        basicService.update(entity.getEntityId(), updated, false);
     }
 
     @Test
@@ -467,7 +467,7 @@ public class BasicServiceTest {
         EntityBody putEntity = new EntityBody();
         putEntity.put("studentUniqueStateId", "student1");
         putEntity.put("loginId", "student1");
-        boolean result = service.updateBasedOnContextualRoles(student.getEntityId(), putEntity);
+        boolean result = service.update(student.getEntityId(), putEntity, true);
 
         Assert.assertTrue(result);
         Entity studentResult = securityRepo.findById(EntityNames.STUDENT, student.getEntityId());
@@ -496,7 +496,7 @@ public class BasicServiceTest {
         EntityBody putEntity = new EntityBody();
         putEntity.put("studentUniqueStateId", "student1");
         putEntity.put("loginId", "student1");
-        boolean result = service.updateBasedOnContextualRoles(student.getEntityId(), putEntity);
+        boolean result = service.update(student.getEntityId(), putEntity, true);
 
         Assert.assertFalse(result);
     }
@@ -523,7 +523,7 @@ public class BasicServiceTest {
         putEntity.put("studentUniqueStateId", "456");
         putEntity.put("schoolFoodServicesEligibility", "Yes");
 
-        boolean result = service.patchBasedOnContextualRoles(student.getEntityId(), putEntity);
+        boolean result = service.patch(student.getEntityId(), putEntity, true);
 
         Assert.assertTrue(result);
         Entity studentResult = securityRepo.findById(EntityNames.STUDENT, student.getEntityId());
@@ -533,6 +533,37 @@ public class BasicServiceTest {
         Assert.assertNotNull(studentResult.getBody().get("schoolFoodServicesEligibility"));
         Assert.assertEquals("Yes",studentResult.getBody().get("schoolFoodServicesEligibility"));
     }
+
+    @Test
+    public void testPatchBasedOnContextualRolesWithEmptyPatchBody() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        securityContextInjector.setStaffContext();
+        service = (BasicService) context.getBean("basicService", "student", new ArrayList<Treatment>(), securityRepo);
+        EntityDefinition studentDef = factory.makeEntity("student").exposeAs("students").build();
+        service.setDefn(studentDef);
+
+        EntityBody studentBody = new EntityBody();
+        studentBody.put("studentUniqueStateId", "123");
+        Entity student = securityRepo.create(EntityNames.STUDENT, studentBody);
+
+        EntityBody ssaBody = new EntityBody();
+        ssaBody.put(ParameterConstants.STUDENT_ID, student.getEntityId());
+        ssaBody.put(ParameterConstants.SCHOOL_ID, SecurityContextInjector.ED_ORG_ID);
+        securityRepo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, ssaBody);
+
+        securityRepo.createWithRetries(EntityNames.EDUCATION_ORGANIZATION,SecurityContextInjector.ED_ORG_ID, new HashMap<String, Object>(), new HashMap<String, Object>(), EntityNames.EDUCATION_ORGANIZATION, 1);
+
+        EntityBody putEntity = new EntityBody();
+
+        boolean result = service.patch(student.getEntityId(), putEntity, true);
+
+        Assert.assertFalse(result);
+        Entity studentResult = securityRepo.findById(EntityNames.STUDENT, student.getEntityId());
+        Assert.assertNotNull(studentResult.getBody());
+        Assert.assertNotNull(studentResult.getBody().get("studentUniqueStateId"));
+        Assert.assertEquals("123", studentResult.getBody().get("studentUniqueStateId"));
+        Assert.assertNull(studentResult.getBody().get("schoolFoodServicesEligibility"));
+    }
+
 
     @Test(expected = AccessDeniedException.class)
     public void testPatchBasedOnContextualRolesAccessDenied() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
@@ -557,7 +588,7 @@ public class BasicServiceTest {
         putEntity.put("studentUniqueStateId", "456");
         putEntity.put("schoolFoodServicesEligibility", "Yes");
 
-        boolean result = service.patchBasedOnContextualRoles(student.getEntityId(), putEntity);
+        boolean result = service.patch(student.getEntityId(), putEntity, true);
 
         Assert.assertFalse(result);
     }
