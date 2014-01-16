@@ -237,7 +237,7 @@ public class RightAccessValidator {
             } else {
                 if ((entity.getMetaData() != null && SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
                         && "true".equals(entity.getMetaData().get("isOrphaned")))
-                        || EntityNames.isPublic(entity.getType())) {
+                        ) {
                     // Orphaned entities created by the principal are handled the same as before.
                     auths.addAll(principal.getAllContextRights(isSelf));
                 } else {
