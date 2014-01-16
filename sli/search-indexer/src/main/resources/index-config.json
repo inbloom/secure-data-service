@@ -48,6 +48,31 @@
             }
         }
     },
+    "staff": {
+      "fields": [
+            "body.name.firstName", 
+            "body.name.middleName", 
+            "body.name.lastSurname", 
+            "body.otherName.firstName", 
+            "body.otherName.middleName", 
+            "body.otherName.lastSurname"
+      ]
+    },
+    "teacher": {
+      "fields": [
+            "body.name.firstName", 
+            "body.name.middleName", 
+            "body.name.lastSurname", 
+            "body.otherName.firstName", 
+            "body.otherName.middleName", 
+            "body.otherName.lastSurname"
+      ]
+    },
+    "educationOrganization": {
+      "fields": [
+            "body.nameOfInstitution"
+      ]
+    },
     "learningStandard": {
         "fields": [
             "body.contentStandard", 
@@ -429,7 +454,7 @@
             }
         }
     },
-        "session": {
+    "session": {
         "fields": [
             "body.schoolYear",
             "body.sessionName",
