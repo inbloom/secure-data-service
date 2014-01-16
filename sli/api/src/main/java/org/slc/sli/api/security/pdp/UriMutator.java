@@ -1242,7 +1242,7 @@ public class UriMutator {
         }
 
         if (programsIds == null || programsIds.isEmpty()) {
-            throw new UriMutationException("No association to any programs");
+            throw new UriMutationException("No association to any educational programs");
         }
 
         return programsIds;
