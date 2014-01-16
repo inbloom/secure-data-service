@@ -26,7 +26,7 @@ import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.springframework.stereotype.Component;
 
 /**
- * Hander for when the request is too large to manage
+ * Handler for when the response is too large to manage
  */
 @Provider
 @Component
@@ -38,6 +38,6 @@ public class ResponseTooLargeExceptionHandler implements ExceptionMapper<Respons
         return Response
                 .status(CustomStatus.ENTITY_TOO_LARGE)
                 .entity(new ErrorResponse(CustomStatus.ENTITY_TOO_LARGE.getStatusCode(), CustomStatus.ENTITY_TOO_LARGE.getReasonPhrase(),
-                        "The request is too large to resolve.")).build();
+                        "The response is too large to process. The request should be modified to return a smaller response.")).build();
     }
 }

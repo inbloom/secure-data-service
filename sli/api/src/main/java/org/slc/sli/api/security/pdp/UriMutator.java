@@ -51,7 +51,6 @@ import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
-import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.GradingPeriodHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
@@ -370,7 +369,7 @@ public class UriMutator {
      *         to be rewritten.
      */
     private MutatedContainer mutateUriAsNecessary(List<PathSegment> segments, String queryParameters, Entity user)
-            throws ResponseTooLargeException {
+            throws IllegalArgumentException {
         MutatedContainer mutatedPathAndParameters = null;
         if (mutateToTeacher()) {
             mutatedPathAndParameters = mutateTeacherRequest(segments, queryParameters, user);
@@ -765,12 +764,12 @@ public class UriMutator {
      *
      * @param id
      *            String representing transitive _id path segment.
-     * @throws ResponseTooLargeException
+     * @throws IllegalArgumentException
      *             Thrown if multiple _id's are specified (only one should be specified).
      */
-    protected void verifySingleTransitiveId(String id) throws ResponseTooLargeException {
+    protected void verifySingleTransitiveId(String id) throws IllegalArgumentException {
         if (id.split(",").length > 1) {
-            throw new ResponseTooLargeException();
+            throw new IllegalArgumentException("Only one _id should be specified");
         }
     }
 
