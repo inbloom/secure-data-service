@@ -1,6 +1,6 @@
 #Usage: ruby updateStaffEdOrgAssocEndDate.rb
 #Written by Chris Kelly
-#This script will update any users in the SSDS who cannot login because the end date exists as 2013-08-13
+#This script will update any users in the SSDS who cannot login because the end date has passed
 require 'rubygems'
 require 'mongo'
 require "highline/import"
@@ -17,7 +17,7 @@ def yesno(prompt = 'Continue?', default = true)
 end
 
 puts "This script will update documents in the staffEducationOrganizationAssociation collection in each tenant db"
-puts "where users are set to expire on 2013-08-13"
+puts "where the users end date has already passed"
 if yesno("Do you wish to proceed?", false) == false
   exit(1)
 end
