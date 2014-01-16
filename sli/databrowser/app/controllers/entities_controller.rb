@@ -40,6 +40,12 @@ class EntitiesController < ApplicationController
   def set_url
     @search_field = nil
     case params[:search_type]
+    when /studentByName/
+      @search_field = "q"
+    when /staffByName/
+      @search_field = "q"
+    when /edOrgByName/
+      @search_field = "q"
     when /students/
       @search_field = "studentUniqueStateId"
     when /staff/
@@ -50,7 +56,15 @@ class EntitiesController < ApplicationController
       @search_field = "stateOrganizationId"
     end
     params[:other] = params[:search_type] if @search_field
-    Entity.url_type = params[:other]
+    if params[:search_type] == "studentByName"
+      Entity.url_type = "search/students"
+    elsif params[:search_type] == "staffByName"
+        Entity.url_type = "search/staff,teachers"
+    elsif params[:search_type] == "edOrgByName"
+        Entity.url_type = "search/educationOrganizations"
+    else
+      Entity.url_type = params[:other]
+    end
     params.delete(:search_type)
     Entity.format = ActiveResource::Formats::JsonLinkFormat
   end
