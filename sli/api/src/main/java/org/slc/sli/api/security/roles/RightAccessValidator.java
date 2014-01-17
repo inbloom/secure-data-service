@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.api.security.context.EdOrgOwnershipArbiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,9 @@ public class RightAccessValidator {
 
     @Autowired
     EntityEdOrgRightBuilder entityEdOrgRightBuilder;
+
+    @Autowired
+    private EdOrgOwnershipArbiter edOrgOwnershipArbiter;
 
     @Autowired
     private SchemaDataProvider provider;
@@ -237,6 +241,7 @@ public class RightAccessValidator {
             } else {
                 if ((entity.getMetaData() != null && SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
                         && "true".equals(entity.getMetaData().get("isOrphaned")))
+                        || (EntityNames.isPublic(entity.getType()) && !edOrgOwnershipArbiter.isEntityOwnedByEdOrg(entity.getType()))
                         ) {
                     // Orphaned entities created by the principal are handled the same as before.
                     auths.addAll(principal.getAllContextRights(isSelf));
