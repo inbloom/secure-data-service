@@ -358,7 +358,8 @@ public class SamlHelper {
                 throw new APIAccessDeniedException("Invalid SAML message: Certificate is not trusted");
             }
         } catch (Exception e) {
-            handleSignatureValidationErrors();
+            // chg Jan 2014, rc - passing exception into error-handling allows it to make a better error message.
+            handleSignatureValidationErrors(e);
         }
     }
 
@@ -368,12 +369,12 @@ public class SamlHelper {
         try {
             profileValidator.validate(signature);
         } catch (ValidationException e) {
-            handleSignatureValidationErrors();
+            handleSignatureValidationErrors(e);
         }
     }
 
-    private void handleSignatureValidationErrors() {
-        throw new IllegalArgumentException("Invalid SAML message: couldn't verify signature");
+    private void handleSignatureValidationErrors(Throwable e) {
+        throw new IllegalArgumentException("Invalid SAML message: couldn't verify signature (" + e.getMessage() + ")", e);
     }
     /**
      *
