@@ -24,9 +24,36 @@
               <%= render 'entities/search'%>
             </div>
           </div>
+
         </div>
       </div>
     	<div id="content">
+
+	  <!-- determine how many breadcrumb elements are on this page -->
+	  <%- currentTrail = cookies[:breadcrumbtrailtext]
+	  if not currentTrail.nil? then
+	    currentTrailArray = currentTrail.split(">")
+	    currentTrailCount = currentTrailArray.length() + 1
+	    else
+	    currentTrailCount = nil
+	  end
+	  -%>
+
+	  <P><%= currentTrailCount %></P>
+
+	  <!-- for each element of the breadcrumb trail, output a crumb -->
+          <!-- while we're at it, put a ">" character between each link -->
+          <div class="breadcrumb" id="breadcrumbtrail">
+	    <%- if not session[:breadcrumbtrail].nil? then -%>
+	      <%- session[:breadcrumbtrail].each_with_index do |crumb, index| -%>
+                <% if index > 0 %>
+                >
+                <% end %>
+	        <%= link_to crumb.name , crumb.actualLink %>
+	      <%- end -%>
+	    <%- end -%>
+          </div>
+
     		<%- flash.each do |key, msg| -%>
     		  <div id="alert" class="alert alert-<%= key %>">
     		    <button type="button" class="close" data-dismiss="alert">×</button>
