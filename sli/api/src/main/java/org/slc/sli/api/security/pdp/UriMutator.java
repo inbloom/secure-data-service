@@ -759,7 +759,7 @@ public class UriMutator {
     }
 
     /**
-     * Throws Response Too Large exception if there are multiple _id's specified in the transitive
+     * Throws Illegal Argument exception if there are multiple _id's specified in the transitive
      * _id path segment.
      *
      * @param id
@@ -769,7 +769,7 @@ public class UriMutator {
      */
     protected void verifySingleTransitiveId(String id) throws IllegalArgumentException {
         if (id.split(",").length > 1) {
-            throw new IllegalArgumentException("Only one _id should be specified");
+            throw new IllegalArgumentException();
         }
     }
 
