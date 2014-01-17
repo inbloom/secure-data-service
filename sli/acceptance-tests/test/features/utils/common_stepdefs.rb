@@ -32,6 +32,7 @@ Before do
       "course" => "courses"
 }
 end
+
 Given /^I am logged in using "([^\"]*)" "([^\"]*)" to realm "([^\"]*)"$/ do |user, pass, realm|
   @user = user
   @passwd = pass
@@ -329,4 +330,20 @@ end
 # Useful to exit at a specific point during test development
 Then /^I assert false/ do
   assert(false, 'Explicitly asserting false.')
+end
+
+# HERE BELOW LIES IMPROVED STEP DEFS
+
+Given /^I am logged in as an? (.*)$/ do |user_type|
+  idpRealmLogin(*(credentials_for user_type))
+  assert(@sessionId != nil, "Session returned was nil")
+end
+
+# Map meaningful user types to user, password, and realm
+def credentials_for(user_type)
+  realm = "IL"
+  users = {
+      'tenant-level IT Administrator' => %w(rrogers rrogers1234)
+  }
+  [*users[user_type], realm]
 end
