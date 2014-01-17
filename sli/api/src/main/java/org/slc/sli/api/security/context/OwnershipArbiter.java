@@ -15,11 +15,11 @@
  */
 package org.slc.sli.api.security.context;
 
+import com.mongodb.DBObject;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -29,7 +29,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Establish ownership of an entity.
@@ -117,7 +120,24 @@ public abstract class OwnershipArbiter {
                     Object critValue = null;
                         if (ref.type == Reference.RefType.LEFT_TO_RIGHT) {
                             critField = ParameterConstants.ID;
-                            critValue = entity.getBody().get(ref.refField);
+
+                            String[] refFields = ref.refField.split("\\.");
+
+                            critValue = entity.getBody();
+                            for(String subdocField : refFields) {
+                                if(critValue == null) {
+                                    break;
+                                }
+                                else if(critValue instanceof Map) {
+                                    critValue = ((Map<String, Object>) critValue).get(subdocField);
+                                }
+                                else if(critValue instanceof DBObject)
+                                {
+                                    critValue = ((DBObject) critValue).get(subdocField);
+                                }
+
+                            }
+
                         } else { // RIGHT_TO_LEFT
                             critField = ref.refField;
                             critValue = entity.getEntityId();
