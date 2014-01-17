@@ -162,7 +162,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     | "cohort"             | "cohorts"             | "studentCohortAssocation"               | "cohortDescription"      | "frisbee golf team"      | 404         |
     | "disciplineIncident" | "disciplineIncidents" | "studentDisciplineIncidentAssociation"  | "incidentTime"           | "01:02:15"               | 404         |
     | "program"            | "programs"            | "studentProgramAssociation"             | "programSponsor"         | "State Education Agency" | 404         |
-    | "section"            | "sections"            | "studentSectionAssociation"             | "sequenceOfCourse"       | "2"                      | 200         |
+    | "section"            | "sections"            | "studentSectionAssociation"             | "sequenceOfCourse"       | "2"                      | 404         |
     | "staff"              | "staff"               | "staffEducationOrganizationAssociation" | "sex"                    | "Female"                 | 404         |
     | "student"            | "students"            | "studentSectionAssociation2"            | "sex"                    | "Female"                 | 404         |
     | "teacher"            | "teachers"            | "teacherSchoolAssociation"              | "highlyQualifiedTeacher" | "false"                  | 404         |
