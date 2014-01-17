@@ -151,8 +151,6 @@ class ApplicationController < ActionController::Base
 
   end
 
-  # TODO: find out about "callback" URLs and decide how to handle them.
-  # TODO: get sequence of pages for multi-round-trip page presentations
   # this routine handles adjustment of the session breadcrumbtrail, which
   # is an array of breadcrumb objects.  Each such object has a name (for
   # display) and a link; the list is presented at the top of each

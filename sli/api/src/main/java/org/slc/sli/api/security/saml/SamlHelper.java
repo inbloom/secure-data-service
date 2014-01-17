@@ -358,6 +358,7 @@ public class SamlHelper {
                 throw new APIAccessDeniedException("Invalid SAML message: Certificate is not trusted");
             }
         } catch (Exception e) {
+            // chg Jan 2014, rc - passing exception into error-handling allows it to make a better error message.
             handleSignatureValidationErrors(e);
         }
     }
