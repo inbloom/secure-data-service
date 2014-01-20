@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.slc.sli.modeling</groupId>
         <artifactId>modeling</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.DE2714.94.715</version>
     </parent>
     <artifactId>xmi</artifactId>
     <name>XMI (XML Metadata Interchange)</name>
