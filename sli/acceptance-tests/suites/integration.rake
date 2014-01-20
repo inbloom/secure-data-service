@@ -235,7 +235,7 @@ task :rcSandboxTests do
   Rake::Task["rcPortalCompile"].execute if RUN_ON_RC
   Rake::Task["rcSandboxAccountRequestTests"].execute
   Rake::Task["rcSandboxProvisionTests"].execute
-  Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
+  Rake::Task["runSearchBulkExtract"].execute # DE2714 unless RUN_ON_RC
   Rake::Task["rcSandboxAppApprovalTests"].execute
   Rake::Task["rcSandboxBulkExtractTests"].execute if RUN_ON_RC
   Rake::Task["rcSandboxStudentLoginTests"].execute

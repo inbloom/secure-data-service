@@ -22,6 +22,7 @@ require 'socket'
 require 'mongo'
 
 MIDGAR_DB_NAME = "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"
+RUN_ON_RC = ENV['RUN_ON_RC'] ? true : false
 
 ############################### Before Scenario Do ################################
 
@@ -522,6 +523,7 @@ def verifyElasticSearchCount(numEntities = -1)
   sleep 2
   while (numTries < max && !done)
     url = Property['elastic_search_address'] + "/_count"
+    url = "--user user:searchme " + Property['elastic_search_address'] + "/_count" if RUN_ON_RC
     restHttpGetAbs(url)
     assert(@res != nil, "Response from rest-client POST is nil")
     puts @res
