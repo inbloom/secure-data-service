@@ -556,7 +556,9 @@ end
 
 def sendCommand(command)
   hostname = Property['elastic_search_host']
+  hostname = Property['elastic_search_rc_host'] if RUN_ON_RC
   port = Property['elastic_search_remote_command_port']
+  port = Property['elastic_search_rc_port'] if RUN_ON_RC
   socket = TCPSocket.open(hostname, port)
   socket.write(command)
   socket.close 
