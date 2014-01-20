@@ -27,13 +27,13 @@ When I select section "8th Grade English - Sec 6"
 And I view its section profile
 Then I see a list of 28 students
 # DE2714
-#When I enter "rudolph" into the student search box
-#And I click the search button
-#Then "2" results are returned in the page
-#And the search results include:
-# |Student          			|Grade    |School                     |
-# |Rudolph Sennett			|1		  |South Daybreak Elementary  |
-# |Rudolph Theodore Krinsky  |12       |Daybreak Central High      |
+When I enter "rudolph" into the student search box
+And I click the search button
+Then "2" results are returned in the page
+And the search results include:
+ |Student          			|Grade    |School                     |
+ |Rudolph Sennett			|1		  |South Daybreak Elementary  |
+ |Rudolph Theodore Krinsky  |12       |Daybreak Central High      |
 And I click on log out
 
 Scenario: Educator Logs into dashboard from portal
@@ -160,19 +160,19 @@ And I select course "American Literature"
 And I select section "Sec 145"
 Then I see a list of 25 students
 #DE2714
-#When I enter "Matt" into the student search box
-#And I click the search button
-#Then "1" results are returned in the page
-#And the search results include:
-# |Student          		  |Grade    |School                     |
-# |Matt Joseph Sollars     |8        |East Daybreak Junior High  |
-#And I click on student "Matt Joseph Sollars"
-#And I view its student profile
-#And Student Enrollment History has the following entries:
-#|Year   |School                     |Gr|Entry Date |Entry Type                                                                 |Transfer |Withdraw Date|Withdraw Type      |
-#|<empty>|East Daybreak Junior High  |8 |2011-09-01 |<empty>                                                                    |<empty>  |<empty>      |<empty>            |
-#|<empty>|East Daybreak Junior High  |7 |2010-09-01 |Next year school                                                           |<empty>  |2011-05-11   |End of school year |
-#|<empty>|East Daybreak Junior High  |6 |2009-09-07 |Transfer from a public school in the same local education agency           |<empty>  |2010-05-11   |End of school year |
-#|<empty>|South Daybreak Elementary  |5 |2008-09-05 |Next year school                                                           |<empty>  |2009-05-11   |End of school year |
-#|<empty>|South Daybreak Elementary  |4 |2007-09-12 |Next year school                                                           |<empty>  |2008-05-10   |End of school year |
-#|<empty>|South Daybreak Elementary  |3 |2006-09-11 |Transfer from a private, religiously-affiliated school in a different state|<empty>  |2007-05-09   |Student is in a different public school in the same local education agency|
+When I enter "Matt" into the student search box
+And I click the search button
+Then "1" results are returned in the page
+And the search results include:
+ |Student          		  |Grade    |School                     |
+ |Matt Joseph Sollars     |8        |East Daybreak Junior High  |
+And I click on student "Matt Joseph Sollars"
+And I view its student profile
+And Student Enrollment History has the following entries:
+|Year   |School                     |Gr|Entry Date |Entry Type                                                                 |Transfer |Withdraw Date|Withdraw Type      |
+|<empty>|East Daybreak Junior High  |8 |2011-09-01 |<empty>                                                                    |<empty>  |<empty>      |<empty>            |
+|<empty>|East Daybreak Junior High  |7 |2010-09-01 |Next year school                                                           |<empty>  |2011-05-11   |End of school year |
+|<empty>|East Daybreak Junior High  |6 |2009-09-07 |Transfer from a public school in the same local education agency           |<empty>  |2010-05-11   |End of school year |
+|<empty>|South Daybreak Elementary  |5 |2008-09-05 |Next year school                                                           |<empty>  |2009-05-11   |End of school year |
+|<empty>|South Daybreak Elementary  |4 |2007-09-12 |Next year school                                                           |<empty>  |2008-05-10   |End of school year |
+|<empty>|South Daybreak Elementary  |3 |2006-09-11 |Transfer from a private, religiously-affiliated school in a different state|<empty>  |2007-05-09   |Student is in a different public school in the same local education agency|
