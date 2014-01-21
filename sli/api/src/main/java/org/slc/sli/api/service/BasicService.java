@@ -599,10 +599,10 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         //entities wihout bodies are considered deleted
         Collection<Entity> bodylessEntities = new HashSet<Entity>();
-        for(Entity ent : entities)
-        {
-            if(ent.getBody() == null || ent.getBody().size() == 0)
+        for(Entity ent : entities) {
+            if(ent.getBody() == null || ent.getBody().size() == 0) {
                 bodylessEntities.add(ent);
+            }
         }
         entities.removeAll(bodylessEntities);
 
