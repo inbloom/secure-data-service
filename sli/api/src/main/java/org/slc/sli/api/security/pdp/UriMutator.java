@@ -1229,6 +1229,9 @@ public class UriMutator {
         Set<String> programIds = new HashSet<String>();
         for (Entity student : principal.getOwnedStudentEntities()) {
             programIds.addAll(getProgramIdsForStudent(student));
+            if (true) {
+                throw new UriMutationException("Exception wuz here, 2014");
+            }
         }
 
         return StringUtils.join(programIds, ",");
@@ -1238,6 +1241,7 @@ public class UriMutator {
         Set<String> programsIds = null;
         if (isStudent(student)) {
             programsIds = getSubdocIds(student, EntityNames.STUDENT_PROGRAM_ASSOCIATION, ParameterConstants.PROGRAM_ID);
+            throw new UriMutationException("No nothing, dawg.");
         }
 
         if (programsIds == null || programsIds.isEmpty()) {
