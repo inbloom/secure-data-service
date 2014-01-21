@@ -25,9 +25,9 @@ Background:
     Given I am logged in as a local-level IT Administrator
     When I GET the edorg "ec2e4218-6483-4e9c-8954-0aecccfd4731"
     Then I should receive a 200 OK
-#
+
 #  Scenario: Allow Administrators to modify EdOrgs below them
-#    Given I log in as "sbantu"
+#    Given I am logged in as a district-level IT Administrator
 #    When I PATCH the edorg "ec2e4218-6483-4e9c-8954-0aecccfd4731"
 #    Then the response status should be 204 No Content
 

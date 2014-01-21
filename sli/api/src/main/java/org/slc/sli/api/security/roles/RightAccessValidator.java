@@ -245,7 +245,10 @@ public class RightAccessValidator {
                         ) {
                     // Orphaned entities created by the principal are handled the same as before.
                     auths.addAll(principal.getAllContextRights(isSelf));
-                } else {
+                } else if(EntityNames.isPublic(entity.getType()) && principal.getAllContextRights(isSelf).contains(Right.READ_PUBLIC) && isRead) {
+                    auths.add(Right.READ_PUBLIC);
+                }
+                else {
                     auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgContextRights(principal.getEdOrgContextRights(), entity, context, isRead));
                 }
                 if (isSelf) {

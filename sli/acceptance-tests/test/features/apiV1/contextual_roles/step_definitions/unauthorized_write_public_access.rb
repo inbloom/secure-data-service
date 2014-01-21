@@ -29,7 +29,7 @@ end
 
 When /^I PUT the edorg "(.*?)"$/ do |ed_org_id|
   edorg_map = edorg_reference
-  restHttpPut("/v1/educationOrganizations/#{ed_org_id}", edorg_map.to_json, 'application/json')
+  restHttpPut("/v1/educationOrganizations/#{ed_org_id}", edorg_map.to_json, 'application/vnd.slc+json')
 end
 
 When /^I DELETE the edorg "(.*?)"$/ do |ed_org_id|
@@ -56,47 +56,61 @@ end
 
 def edorg_reference
   {
-    "body" => {
-        "schoolCategories" => [
-              "Junior High School"
-        ],
-        "organizationCategories" => ["School"],
-        "gradesOffered" => [
-          "Sixth grade",
-          "Seventh grade",
-          "Eighth grade"
-        ],
-        "address" => [
-          {
-            "nameOfCounty" => "Wake",
-            "streetNumberName" => "111 Ave A",
-            "postalCode" => "11011",
-            "stateAbbreviation" => "IL",
-            "addressType" => "Physical",
-            "city" => "Chicago"
-          }
-        ],
-        "educationOrgIdentificationCode" => [
-          {
-            "identificationSystem" => "School",
-            "ID" => "East Daybreak Junior High"
-          }
-        ],
-        "stateOrganizationId" => "East Daybreak Junior High",
-        "parentEducationAgencyReference" => ["bd086bae-ee82-4cf2-baf9-221a9407ea07"],
-        "telephone" => [
-          {
-            "institutionTelephoneNumberType" => "Main",
-            "telephoneNumber" => "(917)-555-0212"
-          }
-        ],
-        "nameOfInstitution" => "East Daybreak Junior High"
-    },
-    "metaData" =>
+      'body' => {
+      'schoolCategories'=> [
+      'Junior High School'
+  ],
+      'accountabilityRatings'=> [
+
+  ],
+      'organizationCategories'=> [
+      'School',
+      'School',
+      'School'
+  ],
+      'gradesOffered'=> [
+      'Sixth grade',
+      'Seventh grade',
+      'Eighth grade'
+  ],
+      'address'=> [
       {
-        "edOrgs" => ["ec2e4218-6483-4e9c-8954-0aecccfd4731", "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
-                     "bd086bae-ee82-4cf2-baf9-221a9407ea07"]
-      },
-    "type" => "educationOrganization"
+          'nameOfCounty'=> 'Wake',
+      'streetNumberName'=> '111 Ave A',
+      'postalCode'=> '11011',
+      'stateAbbreviation'=> 'IL',
+      'addressType'=> 'Physical',
+      'city'=> 'Chicago'
+  }
+  ],
+      'educationOrgIdentificationCode'=> [
+      {
+          'identificationSystem'=> 'School',
+      'ID'=> 'East Daybreak Junior High'
+  }
+  ],
+      'programReference'=> [
+
+  ],
+      'stateOrganizationId'=> 'East Daybreak Junior High',
+      'parentEducationAgencyReference'=> [
+      'bd086bae-ee82-4cf2-baf9-221a9407ea07'
+  ],
+      'telephone'=> [
+      {
+          'institutionTelephoneNumberType'=> 'Main',
+      'telephoneNumber' => '(917)-555-0212'
+  }
+  ],
+      'nameOfInstitution'=> 'East Daybreak Junior High'
+  },
+      'metaData'=> {
+      'edOrgs'=> [
+      'ec2e4218-6483-4e9c-8954-0aecccfd4731',
+      'b1bd3db6-d020-4651-b1b8-a8dba688d9e1',
+      'bd086bae-ee82-4cf2-baf9-221a9407ea07'
+  ]
+  },
+      'type'=> 'educationOrganization'
   }
 end
