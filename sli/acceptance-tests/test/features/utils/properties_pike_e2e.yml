@@ -183,7 +183,7 @@ portal_server_address: "https://pike-portal.slidev.org"
 minisb_portal_server_address: "https://pikesandbox.slidev.org"
 portal_app_suffix: "/portal"
 
-elastic_search_address: http://localhost:9201
+elastic_search_address: http://user:searchme@localhost:9201
 elastic_search_inbox: "/opt/search-indexer/data/inbox"
 elastic_search_host: localhost
 elastic_search_remote_command_port: 10024

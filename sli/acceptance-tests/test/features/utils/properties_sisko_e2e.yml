@@ -174,7 +174,7 @@ ci_charter_idp_redirect_url: https://picard-sidp.slidev.org/sliidp?realm=RCChart
 portal_server_address: "https://sisko-portal.slidev.org"
 portal_app_suffix: "/portal"
 
-elastic_search_address: http://localhost:9201
+elastic_search_address: http://user:searchme@localhost:9201
 elastic_search_inbox: "/opt/search-indexer/data/inbox"
 elastic_search_host: localhost
 elastic_search_remote_command_port: 10024

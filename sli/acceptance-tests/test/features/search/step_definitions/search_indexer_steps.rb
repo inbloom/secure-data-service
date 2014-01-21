@@ -523,7 +523,6 @@ def verifyElasticSearchCount(numEntities = -1)
   sleep 2
   while (numTries < max && !done)
     url = Property['elastic_search_address'] + "/_count"
-    url = "--user user:searchme " + Property['elastic_search_address'] + "/_count" if RUN_ON_RC
     restHttpGetAbs(url)
     assert(@res != nil, "Response from rest-client POST is nil")
     puts @res
