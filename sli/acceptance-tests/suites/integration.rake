@@ -210,7 +210,7 @@ task :rcTests do
   Rake::Task["rcIngestionTests"].execute
   Rake::Task["rcLeaSamtTests"].execute
   Rake::Task["rcAccountRequestTests"].execute
-  Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
+  Rake::Task["runSearchBulkExtract"].execute # DE2714 unless RUN_ON_RC
   Rake::Task["rcAppApprovalTests"].execute
   Rake::Task["rcArtifactBindingTests"].execute unless Property['ci_artifact_idp_type'].nil? || Property['ci_artifact_idp_type'].downcase == 'none'
   Rake::Task["rcPostEncryptionTests"].execute unless Property['post_encrypt_idp_type'].nil? || Property['post_encrypt_idp_type'].downcase == 'none'
