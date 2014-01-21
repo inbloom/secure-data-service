@@ -32,6 +32,7 @@ Before do
       "course" => "courses"
 }
 end
+
 Given /^I am logged in using "([^\"]*)" "([^\"]*)" to realm "([^\"]*)"$/ do |user, pass, realm|
   @user = user
   @passwd = pass
@@ -41,6 +42,11 @@ Given /^I am logged in using "([^\"]*)" "([^\"]*)" to realm "([^\"]*)"$/ do |use
 end
 
 Given /^format "([^\"]*)"$/ do |fmt|
+  ["application/json", "application/json;charset=utf-8", "application/xml", "text/plain", "application/vnd.slc.full+json", "application/vnd.slc+json", "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].should include(fmt)
+  @format = fmt
+end
+
+Given /^I want to use format "([^\"]*)"$/ do |fmt|
   ["application/json", "application/json;charset=utf-8", "application/xml", "text/plain", "application/vnd.slc.full+json", "application/vnd.slc+json", "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].should include(fmt)
   @format = fmt
 end
@@ -329,4 +335,24 @@ end
 # Useful to exit at a specific point during test development
 Then /^I assert false/ do
   assert(false, 'Explicitly asserting false.')
+end
+
+# HERE BELOW LIES IMPROVED STEP DEFS
+
+Given /^I am logged in as an? (.*)$/ do |user_type|
+  idpRealmLogin(*(credentials_for user_type))
+  assert(@sessionId != nil, "Session returned was nil")
+end
+
+# Map meaningful user types to user, password, and realm
+def credentials_for(user_type)
+  realm = "IL"
+  users = {
+    'tenant-level IT Administrator' => %w(rrogers rrogers1234),
+    'local-level IT Administrator' => %w(akopel akopel1234),
+    'district-level IT Administrator' => %w(jstevenson jstevenson1234)
+  }
+  creds = users[user_type]
+  creds.should_not be_nil
+  [*creds, realm]
 end

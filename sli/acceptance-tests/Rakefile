@@ -803,6 +803,11 @@ task :databrowserTests => [:realmInit] do
   end
 end
 
+desc "Run sample breadcrumbtrail tests"
+task :breadcrumbTests => [] do
+  runTests("test/features/databrowser/databrowser_breadcrumbtrail.feature")
+end
+
 desc "Run Device and Agent Tests"
 task :deviceTests => [:realmInit] do
   runTests("test/features/device")
@@ -1101,6 +1106,10 @@ end
 # Onboarding Integration Tests start
 ############################################################
 
+desc "testing tests"
+task :testTest do
+  runTests("test/features/databrowser/test.feature")
+end
 
 desc "Run Onboarding Integration Tests"
 task :onboardingIntegrationTests do
