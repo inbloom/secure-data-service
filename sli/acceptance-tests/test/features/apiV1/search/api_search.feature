@@ -1,12 +1,13 @@
-@RALLY_US4214
-Feature: As an SLI API, I want to be able to provide granular access to data.
-  This means the user is able to request all the data within a school year range.
+Feature:
+  As an API user
+  In order to find various entities
+  I want to be able to search
 
   Background: Use JSON format
-    Given format "application/json"
+    Given I am logged in as a local-level IT Administrator
+      And I want to use format "application/json"
 
-Scenario Outline: check that elastic search functions as expected for assessments
-    Given I am logged in using "akopel" "akopel1234" to realm "IL"
+Scenario Outline: An API user searches for assessments
     When I navigate to GET "/v1.5/<Entity URI>"
     Then I should receive a return code of 200
     And I should receive a collection with <COUNT> elements  
@@ -25,7 +26,7 @@ Scenario Outline: check that elastic search functions as expected for assessment
     |search/assessments?q=BadTest111|0|
 
 Scenario Outline: check that elastic search functions as expected for students, staff, teachers and educationOrganizations
-    Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+    Given I am logged in as a district-level IT Administrator
     When I navigate to GET "/v1.5/<Entity URI>"
     Then I should receive a return code of 200
     And I should receive a collection with <COUNT> elements  
