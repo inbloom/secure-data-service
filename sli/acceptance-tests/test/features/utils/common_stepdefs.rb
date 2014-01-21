@@ -46,6 +46,11 @@ Given /^format "([^\"]*)"$/ do |fmt|
   @format = fmt
 end
 
+Given /^I want to use format "([^\"]*)"$/ do |fmt|
+  ["application/json", "application/json;charset=utf-8", "application/xml", "text/plain", "application/vnd.slc.full+json", "application/vnd.slc+json", "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].should include(fmt)
+  @format = fmt
+end
+
 Then /^I should receive a return code of (\d+)$/ do |arg1|
   assert(@res.code == Integer(arg1), "Return code was not expected: #{@res.code} but expected #{arg1}")
 end
@@ -343,7 +348,11 @@ end
 def credentials_for(user_type)
   realm = "IL"
   users = {
-      'tenant-level IT Administrator' => %w(rrogers rrogers1234)
+    'tenant-level IT Administrator' => %w(rrogers rrogers1234),
+    'local-level IT Administrator' => %w(akopel akopel1234),
+    'district-level IT Administrator' => %w(jstevenson jstevenson1234)
   }
-  [*users[user_type], realm]
+  creds = users[user_type]
+  creds.should_not be_nil
+  [*creds, realm]
 end
