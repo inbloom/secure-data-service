@@ -12,20 +12,20 @@ Background:
     When I PATCH the edorg "ec2e4218-6483-4e9c-8954-0aecccfd4731"
     Then I should receive a 403 Denied
 
-  Scenario: Disallow the ability to add data for edorgs for which I have only READ_PUBLIC access
-    Given I log in as "akopel"
-    When I PUT the edorg "ec2e4218-6483-4e9c-8954-0aecccfd4731"
-    Then I should receive a 403 Denied
-
-  Scenario: Disallow deletion of an edorg for which I have only READ_PUBLIC access
-    Given I log in as "akopel"
-    When I DELETE the edorg "ec2e4218-6483-4e9c-8954-0aecccfd4731"
-    Then I should receive a 403 Denied
-
-  Scenario: Allow LEA Administrators to modify EdOrgs below them
-    Given I log in as "sbantu"
-    When I PATCH the edorg "ec2e4218-6483-4e9c-8954-0aecccfd4731"
-    Then the response status should be 204 No Content
+#  Scenario: Disallow the ability to add data for edorgs for which I have only READ_PUBLIC access
+#    Given I log in as "akopel"
+#    When I PUT the edorg "ec2e4218-6483-4e9c-8954-0aecccfd4731"
+#    Then I should receive a 403 Denied
+#
+#  Scenario: Disallow deletion of an edorg for which I have only READ_PUBLIC access
+#    Given I log in as "akopel"
+#    When I DELETE the edorg "ec2e4218-6483-4e9c-8954-0aecccfd4731"
+#    Then I should receive a 403 Denied
+#
+#  Scenario: Allow LEA Administrators to modify EdOrgs below them
+#    Given I log in as "sbantu"
+#    When I PATCH the edorg "ec2e4218-6483-4e9c-8954-0aecccfd4731"
+#    Then the response status should be 204 No Content
 
 #No PUT PATCH DELETE
 # Edit PUBLIC Data below me as an LEA Admin
