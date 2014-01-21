@@ -27,8 +27,8 @@ When /^I PATCH the edorg "(.*?)"$/ do |ed_org_id|
   restHttpPatch("/v1/educationOrganizations/#{ed_org_id}", patch_ed_org.to_json, 'application/json', @sessionId)
 end
 
-Then /^I should receive a (\d+) error from the API$/ do |http_code|
-  assert(@res.code == 403, "HTTP code is #{@res.code} - WRITE PUBLIC access should have been denied")
+Then /^I should receive a (\d+) Denied$/ do |http_code|
+  @res.code.should == 403 #, "HTTP code is #{@res.code} - WRITE PUBLIC access should have been denied")
 end
 
 After('@DS917') do
