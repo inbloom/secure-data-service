@@ -251,7 +251,10 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     | "studentCompetency"          | "studentCompetencies"         | 2     | /sections/@ids/studentSectionAssociations/studentCompetencies                        |
     | "gradingPeriod"              | "gradingPeriods"              | 3     | /search/gradingPeriods                                                               |
     | "reportCard"                 | "reportCards"                 | 3     | /sections/@ids/studentSectionAssociations/students/reportCards                       |
-    | "studentCompetencyObjective" | "studentCompetencyObjectives" | 1     | /search/studentCompetencyObjectives                                                  |
+
+    #ds-917: list endpoint for public data no longer shows entities from edorgs not directly associated with the user
+    #these entities can still be read by accessing them by id.
+    #| "studentCompetencyObjective" | "studentCompetencyObjectives" | 1     | /search/studentCompetencyObjectives                                                  |
 
   @DE1825
   Scenario: Invalid data parsing fails gracefully
