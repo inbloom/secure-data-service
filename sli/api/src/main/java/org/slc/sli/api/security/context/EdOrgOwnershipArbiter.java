@@ -23,6 +23,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -146,9 +147,12 @@ public class EdOrgOwnershipArbiter extends OwnershipArbiter {
      * @return True if the specified entity type is included in the education organization hierarchy, false otherwise
      */
     public boolean isEntityOwnedByEdOrg(String entityType) {
-        if(entityType == null)
-        {
+        if(entityType == null) {
             return false;
+        }
+
+        if (EntityNames.EDUCATION_ORGANIZATION.equalsIgnoreCase(entityType)) {
+            return true; // an edorg entity owns itself so we return true
         }
 
         return typeToReference.containsKey(entityType);
