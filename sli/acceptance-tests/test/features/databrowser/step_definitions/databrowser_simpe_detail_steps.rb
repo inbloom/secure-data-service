@@ -293,3 +293,22 @@ end
 Then /^I should be on the detailed page for an LEA$/ do
   assertWithWait("Failed to be directed to Databrowser's Page for an SEA")  {@driver.page_source.include?("Local Education Agency")}
 end
+
+# this tests the current breadcrumb trail text for equivalence to the given value (case sig)
+Then /^I should see a breadcrumbtrail of "(.*?)"$/ do |crumb|
+  begin
+    # @driver.get PropLoader.getProps['databrowser_server_url']
+    bctValue = @driver.find_element(:class_name, "breadcrumb").text()
+    puts "got breadcrumbtrail value of #{bctValue}"
+    assert(crumb == bctValue, "breadcrumbtrail #{bctValue}, not #{crumb}")
+  end
+end
+
+# this looks for a link with the given text and clicks on it
+Then /^I click on the link "(.*?)"$/ do |link|
+  begin
+    link = @driver.find_element(:link_text, "#{link}")
+    link.click()
+  end
+end
+
