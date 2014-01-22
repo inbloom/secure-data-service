@@ -151,6 +151,117 @@ def post_id(endpoint)
    assert(@res.code == 405, "Unexpected HTTP code returned: #{@res.code}.")
 end
 
+# BELOW LIES IMPROVED CODE
+
+Then /^the response resource should have an id$/ do
+  entity_id.should_not be_nil
+end
+
+Then /^the response resource entity type should be "(.*?)"$/ do |entity_type|
+  @entity['entityType'].should == entity_type
+end
+
+Then /^the response resource should have HATEOAS links for (.*)$/ do |resource_name|
+  resource_name = resource_name.gsub(' ','_')
+  verify_common_links resource_name
+  send("verify_#{resource_name}_entity_links")
+end
+
+def post_custom_data(endpoint, id)
+  @custom_data = {
+      "some field" => "some value",
+      "some other field" => 44
+  }
+  restHttpPost("#{endpoint}/#{id}/custom", @custom_data.to_json, 'application/vnd.slc+json')
+end
+
+def put_custom_data(endpoint, id)
+  @custom_data = {
+      "some field" => "some other value",
+      "some other field" => 66
+  }
+  restHttpPut("#{endpoint}/#{id}/custom", @custom_data.to_json, 'application/vnd.slc+json')
+end
+
+# Attempt to find the class period by ID
+#   - parse the response if 200,
+#   - return nil if 404;
+#   - otherwise, assert an expectation failure
+def find_custom_data(endpoint, id)
+  restHttpGet("#{endpoint}/#{id}/custom")
+  case @res.code
+    when 200
+      JSON.parse(@res)
+    when 404
+      nil
+    else
+      @res.code.to_s.should match(/^(200|404)$/)
+  end
+end
+
+
+def entity_id
+  @entity['id'] if @entity
+end
+
+def verify_common_links(resource_name)
+  links = @entity['links']
+  links.should_not be_empty
+  endpoint = send("#{resource_name}_endpoint")
+  links.should include( build_link('self', make_self_url(endpoint, entity_id)) )
+  links.should include( build_link('custom', make_custom_url(endpoint, entity_id)) )
+end
+
+def build_link(rel, href)
+  {'rel' => rel, 'href' => href}
+end
+
+def build_entity_link(rel, entity_id)
+  build_link rel, make_entity_url(entity_id, rel)
+end
+
+def build_query_link(rel, query)
+  build_link rel, make_query_url(query, rel)
+end
+
+def make_self_url(endpoint, entity_id)
+  "#{url_base}#{endpoint}/#{entity_id}"
+end
+
+def make_custom_url(endpoint, entity_id)
+  "#{url_base}#{endpoint}/#{entity_id}/custom"
+end
+
+def make_entity_url(entity_id, rel)
+  "#{url_base}#{endpoint_for_rel rel}/#{entity_id}"
+end
+
+def make_query_url(query, rel)
+  "#{url_base}#{endpoint_for_rel rel}?#{query}"
+end
+
+def url_base
+  "#{Property['api_server_url']}/api/rest"
+end
+
+def endpoint_for_rel(rel)
+  map = {
+      'getStudent' => 'students',
+      'getSchool' => 'schools',
+      'getEducationOrganization' => 'educationOrganizations',
+      'getSection' => 'sections',
+      'getSections' => 'sections',
+      'getBellSchedules' => 'bellSchedules'
+  }
+  "/v1.5/#{map[rel]}"
+end
+
+# Match against the resource name (typically plural) followed by the entity ID
+# (e.g. attendances/ab5b8dd1d4d5c8b613ff60b86a6a2f0fd610934c_id)
+def resource_regexp(url)
+  %r{#{url}/[a-z0-9]+_id$}
+end
+
 
 
 

@@ -14,10 +14,6 @@ def resource
   yearly? ? yearly_attendance_resource : attendance_resource
 end
 
-def entity_id
-  @entity['id'] if @entity
-end
-
 Given /^I create an? (yearly )?attendance event$/ do |yearly|
   @yearly = yearly
   restHttpPost(attendance_endpoint, resource.to_json, 'application/vnd.slc+json')
@@ -94,19 +90,6 @@ Then /^the response resource should contain expected attendance data$/ do
   entity.should == resource
 end
 
-Then /^the response resource should have an id$/ do
-  entity_id.should_not be_nil
-end
-
-Then /^the response resource entity type should be "(.*?)"$/ do |entity_type|
-  @entity['entityType'].should == entity_type
-end
-
-Then /^the response resource should have HATEOAS links for attendance$/ do
-  verify_common_links
-  verify_entity_links
-end
-
 def find_attendance(id)
   restHttpGet("#{attendance_endpoint}/#{id}")
   @res.code == 200 ? JSON.parse(@res) : nil
@@ -116,14 +99,7 @@ def delete_attendance(id)
   restHttpDelete("#{attendance_endpoint}/#{id}", 'application/vnd.slc+json') if id
 end
 
-def verify_common_links
-  links = @entity['links']
-  links.should_not be_empty
-  links.should include( build_link('self', make_self_url(entity_id)) )
-  links.should include( build_link('custom', make_custom_url(entity_id)) )
-end
-
-def verify_entity_links
+def verify_attendance_entity_links
   links = @entity['links']
 
   links.should include( build_entity_link 'getSchool', @entity['schoolId'])
@@ -131,46 +107,6 @@ def verify_entity_links
   links.should include( build_entity_link 'getEducationOrganization', @entity['schoolId'])
 
   links.should include( build_entity_link 'getSection', @entity['attendanceEvent'].first['sectionId']) if yearly?
-end
-
-def build_link(rel, href)
-  {'rel' => rel, 'href' => href}
-end
-
-def build_entity_link(rel, entity_id)
-  build_link rel, make_entity_url(entity_id ,rel)
-end
-
-def make_self_url(entity_id)
-  "#{url_base}#{attendance_endpoint}/#{entity_id}"
-end
-
-def make_custom_url(entity_id)
-  "#{url_base}#{attendance_endpoint}/#{entity_id}/custom"
-end
-
-def make_entity_url(entity_id, rel)
-  "#{url_base}#{endpoint_for_rel rel}/#{entity_id}"
-end
-
-def url_base
-  "#{Property['api_server_url']}/api/rest"
-end
-
-def endpoint_for_rel(rel)
-  map = {
-      'getStudent' => 'students',
-      'getSchool' => 'schools',
-      'getEducationOrganization' => 'educationOrganizations',
-      'getSection' => 'sections'
-  }
-  "/v1.5/#{map[rel]}"
-end
-
-# Match against the resource name (typically plural) followed by the entity ID
-# (e.g. attendances/ab5b8dd1d4d5c8b613ff60b86a6a2f0fd610934c_id)
-def resource_regexp(url)
-  %r{#{url}/[a-z0-9]+_id$}
 end
 
 def attendance_resource
