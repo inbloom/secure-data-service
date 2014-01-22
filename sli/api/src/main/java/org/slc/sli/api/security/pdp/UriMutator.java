@@ -498,8 +498,7 @@ public class UriMutator {
                 mutated.setPath(String.format("/schools/%s/teacherSchoolAssociations",
                         StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
             } else if (PathConstants.STAFF.equals(baseEntity)) {
-                mutated.setPath(String.format(
-                        "/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff",
+                mutated.setPath(String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff",
                         StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
             } else if (PathConstants.STAFF_COHORT_ASSOCIATIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/cohorts/%s/staffCohortAssociations", getCohortIds(principal)));
@@ -536,7 +535,8 @@ public class UriMutator {
                 }
             } else if (PathConstants.STUDENT_PROGRAM_ASSOCIATIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentProgramAssociations",
-                        StringUtils.join(getStudentIds(principal))));
+                        getProgramIds(principal)));
+                      //  StringUtils.join(getStudentIds(principal))));
             } else if (PathConstants.STUDENT_SCHOOL_ASSOCIATIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentSchoolAssociations",
                         StringUtils.join(getStudentIds(principal))));
@@ -1229,9 +1229,6 @@ public class UriMutator {
         Set<String> programIds = new HashSet<String>();
         for (Entity student : principal.getOwnedStudentEntities()) {
             programIds.addAll(getProgramIdsForStudent(student));
-            if (true) {
-                throw new UriMutationException("Exception wuz here, 2014");
-            }
         }
 
         return StringUtils.join(programIds, ",");
@@ -1241,7 +1238,6 @@ public class UriMutator {
         Set<String> programsIds = null;
         if (isStudent(student)) {
             programsIds = getSubdocIds(student, EntityNames.STUDENT_PROGRAM_ASSOCIATION, ParameterConstants.PROGRAM_ID);
-            throw new UriMutationException("No nothing, dawg.");
         }
 
         if (programsIds == null || programsIds.isEmpty()) {
