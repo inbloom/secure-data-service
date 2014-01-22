@@ -26,7 +26,7 @@ Scenario Outline: An API user searches for assessments
     |search/assessments?q=BadTest111|0|
 
 Scenario Outline: check that elastic search functions as expected for students, staff, teachers and educationOrganizations
-    Given I am logged in as a district-level IT Administrator
+    Given I am logged in as a local-level IT Administrator
     When I navigate to GET "/v1.5/<Entity URI>"
     Then I should receive a return code of 200
     And I should receive a collection with <COUNT> elements  
