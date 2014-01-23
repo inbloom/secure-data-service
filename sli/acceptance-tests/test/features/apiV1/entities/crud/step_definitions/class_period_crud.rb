@@ -1,112 +1,160 @@
-When /^I POST a class period$/ do
-  @expected_entity = {
-                       "classPeriodName" => "First Period",
-                       "educationOrganizationId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
-                     }
-  post_entity("classPeriods")
-  @expected_links = { "links" => [
-                                   {
-                                     "rel" => "self",
-                                     "href" =>  "classPeriods/#{@id}"
-                                   },
-                                   {
-                                     "rel" => "custom",
-                                     "href" =>  "classPeriods/#{@id}/custom"
-                                   },
-                                   {
-                                     "rel" => "getSchool",
-                                     "href" =>  "schools/" + @expected_entity['educationOrganizationId']
-                                   },
-                                   {
-                                     "rel" => "getEducationOrganization",
-                                     "href" =>  "educationOrganizations/" + @expected_entity['educationOrganizationId']
-                                   },
-                                   {
-                                     "rel" => "getBellSchedules",
-                                     "href" =>  "bellSchedules?meetingTime.classPeriodId=#{@id}"
-                                   },
-                                   {
-                                     "rel" => "getSections",
-                                     "href" =>  "sections?classPeriodId=#{@id}"
-                                   }
-                                 ]
-                     }
-  puts "expected links: " + @expected_links["links"].to_json
-  @expected_type = 'classPeriod'
-  puts "expected type: " + @expected_type
+After('@class_period') do
+  delete_class_period(entity_id)
 end
 
-When /^I GET the class period$/ do
-  get_entity
+Given /^I create a class period$/ do
+  restHttpPost(class_period_endpoint, class_period_resource.to_json)
+  @res.code.should == 201
+  restHttpGetAbs(@res.headers[:location])
+  @entity = JSON.parse(@res)
 end
 
-When /^I GET the class periods$/ do
-  puts "token: " + @sessionId
-  restHttpGet("/v1/classPeriods", 'application/vnd.slc+json')
-  assert(@res.code == 200, "#{@res.code} - Could not fetch entity #{@expected_entity.to_json}.")
+When /^I POST a new class period$/ do
+  @new_entity = class_period_resource
+  restHttpPost(class_period_endpoint, @new_entity.to_json)
 end
 
-When /^I GET the class periods using education organization/ do
-  restHttpGet("/v1/educationOrganizations/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb/classPeriods", 'application/vnd.slc+json')
-  assert(@res.code == 200, "#{@res.code} - Could not fetch entity #{@expected_entity.to_json}.")
+When /^I POST to that class period$/ do
+  restHttpPost("#{class_period_endpoint}/#{entity_id}", class_period_resource.to_json)
 end
 
-When /^the result contains the only class period in the context of the user$/ do
-  field = "educationOrganizationId"
-  value = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
-  assert(resultsContain?(field, value),"GET contents do not contain \"#{field}\" => \"#{value}\".")
+When /^I DELETE that class period$/ do
+  restHttpDelete("#{class_period_endpoint}/#{entity_id}")
 end
 
-When /^I try the not supported PUT for the class period$/ do
-  unsupported_put("classPeriods")
+When /^I PUT that class period$/ do
+  restHttpPut("#{class_period_endpoint}/#{entity_id}", class_period_resource.to_json)
 end
 
-When /^I try the not supported PATCH for the class period$/ do
-  unsupported_patch("classPeriods")
+When /^I PATCH that class period$/ do
+  restHttpPatch("#{class_period_endpoint}/#{entity_id}", class_period_resource.to_json)
 end
 
-Then /^I DELETE the class period$/ do
-  deleteEntity("classPeriods")
+When /^I PUT the class period list$/ do
+  restHttpPut(class_period_endpoint, {}.to_json)
 end
 
-When /^I POST a custom class period$/ do
-  post_custom_entity("classPeriods")
+When /^I PATCH the class period list$/ do
+  restHttpPatch(class_period_endpoint, {}.to_json)
 end
 
-When /^I GET the custom class period$/ do
-  get_custom_entity("classPeriods")
+When /^I DELETE the class period list$/ do
+  restHttpDelete(class_period_endpoint)
 end
 
-When /^I PUT a custom class period$/ do
-  put_custom_entity("classPeriods")
+When /^I GET that class period$/ do
+  restHttpGet("#{class_period_endpoint}/#{entity_id}")
+  @entity = JSON.parse(@res)
 end
 
-When /^I DELETE the custom class period$/ do
-  delete_custom_entity("classPeriods")
+When /^I POST custom data to that class period$/ do
+  post_custom_data(class_period_endpoint, entity_id)
 end
 
-Then /^I GET the deleted custom class period$/ do
-  get_deleted_custom_entity("classPeriods")
+When /^I PUT the custom data for that class period$/ do
+  put_custom_data(class_period_endpoint, entity_id)
 end
 
-When /^I try the not supported PATCH for custom class period$/ do
-  patch_custom_entity("classPeriods")
+When /^I GET the custom data for that class period$/ do
+  restHttpGet("#{class_period_endpoint}/#{entity_id}/custom")
 end
 
-When /^I try the not supported POST for the class period id endpoint$/ do
-  post_id("classPeriods")
+When /^I PATCH the class period custom data$/ do
+  restHttpPatch("#{class_period_endpoint}/#{entity_id}/custom", {}.to_json)
 end
 
-When /^I try the not supported PUT for the class period list endpoint$/ do
-  put_list("classPeriods")
+When /^I DELETE the custom data for that class period$/ do
+  restHttpDelete("#{class_period_endpoint}/#{entity_id}/custom")
 end
 
-When /^I try the not supported PATCH for the class period list endpoint$/ do
-  patch_list("classPeriods")
+When /^I GET the list of class periods$/ do
+  restHttpGet(class_period_endpoint)
 end
 
-When /^I try the not supported DELETE for the class period list endpoint$/ do
-  delete_list("classPeriods")
+Then /^the response resource should contain multiple class periods$/ do
+  entities = JSON.parse @res
+  entities.should respond_to(:count) # ensures its an array
+  entities.count.should be >= 1 # should be at least one
+  entities.first['entityType'].should == 'classPeriod'
 end
 
+Then /^the custom data should be deleted$/ do
+  find_custom_data(class_period_endpoint, entity_id).should be_nil
+end
 
+Then /^the response resource should contain expected custom data$/ do
+  data = JSON.parse @res
+  data.should == @custom_data
+end
+
+Then /^the custom data should be saved$/ do
+  data = find_custom_data(class_period_endpoint, entity_id)
+  data.should == @custom_data
+end
+
+Then /^the response location header should link to the new class period$/ do
+  location = @res.headers[:location]
+  location.should match( resource_regexp(class_period_endpoint) )
+end
+
+Then /^the class period should be saved$/ do
+  _id = @res.headers[:location].split('/').last
+  @entity = find_class_period(_id)
+  entity_id.should == _id
+end
+
+Then /^the class period should be deleted$/ do
+  find_class_period(entity_id).should be_nil
+end
+
+Then /^the response resource should contain expected class period data$/ do
+  entity = @entity.reject{|key,_| %w(id entityType links).include?(key)}
+  entity.should == class_period_resource
+end
+
+Then /^the results should contain only the class periods for my education organization$/ do
+  class_periods = JSON.parse @res
+  my_ed_org_ids = ed_orgs_for_staff(current_user).map{|ed_org| ed_org['id']}.uniq.sort
+  class_period_ed_org_ids = class_periods.map{|cp| cp['educationOrganizationId']}.uniq.sort
+  class_period_ed_org_ids.should == my_ed_org_ids
+end
+
+def class_period_resource
+  {
+    "classPeriodName" => "First Period",
+    "educationOrganizationId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+  }
+end
+
+def class_period_endpoint
+  "/v1.5/classPeriods"
+end
+
+# Attempt to find the class period by ID
+#   - parse the response if 200,
+#   - return nil if 404;
+#   - otherwise, assert an expectation failure
+def find_class_period(id)
+  restHttpGet("#{class_period_endpoint}/#{id}")
+  case @res.code
+    when 200
+      JSON.parse(@res)
+    when 404
+      nil
+    else
+      @res.code.to_s.should match(/^(200|404)$/)
+  end
+end
+
+def delete_class_period(id)
+  restHttpDelete("#{class_period_endpoint}/#{id}") if id
+end
+
+def verify_class_period_entity_links
+  links = @entity['links']
+
+  links.should include( build_entity_link 'getSchool', @entity['educationOrganizationId'])
+  links.should include( build_entity_link 'getEducationOrganization', @entity['educationOrganizationId'])
+  links.should include( build_query_link 'getSections', "classPeriodId=#{@entity['id']}")
+  links.should include( build_query_link 'getBellSchedules', "meetingTime.classPeriodId=#{@entity['id']}")
+end

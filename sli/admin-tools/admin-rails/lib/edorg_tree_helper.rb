@@ -58,13 +58,16 @@ module EdorgTreeHelper
       edorg_tree_html = "<ul>\n  #{render_html(ROOT_ID, ROOT_ID, 0)} </ul>\n"
     end
 
+    def get_debug
+      @debug
+    end
+
     # Load up all the edOrgs.  Creates:
     #    @edinf - Map of edOrg ID to the tree
     #    @enabled_ed_orgs - Map of IDs enabled
     #    @authorized_ed_orgs - Map of IDs authorized
     #
     def load_edorgs(is_sea_admin)
-
       @edinf = {}
       root_ids = []
       allEdOrgs = EducationOrganization.findAllInChunks({'includeFields' => 'parentEducationAgencyReference,nameOfInstitution,stateOrganizationId,organizationCategories'})
@@ -93,17 +96,25 @@ module EdorgTreeHelper
         root_ids.push(eo.id) if parents.empty?
       end
 
+      @debug = "<ul>\n"
+
       # Init immediate children of each edorg by inverting parent relationship
+      orphan_ids = []
       @edinf.keys.each do |id|
         @edinf[id][:parents].each do |pid|
           if !@edinf.has_key?(pid)
             # Dangling reference to nonexistent parent
-            raise "EdOrg #{id} parents to nonexistent #{pid.to_s()}"
+            @debug += "\n<li>#{@edinf[id][:name]} parents to nonexistent #{pid.to_s} and should be investigated</li>"
+            the_ed_org = @edinf[id][:edOrg]
+            the_ed_org.organizationCategories = ["Orphaned Education Organization"]
+            orphan_ids.append id
           else
             @edinf[pid][:children].push(id)
           end
         end
       end
+
+      @debug = @debug + "\n</ul>"
 
       # Create fake root edOrg and parent all top level nodes to it
       root_children = if is_sea_admin then root_ids else @userEdOrgs end
@@ -116,6 +127,9 @@ module EdorgTreeHelper
                      :name => 'All EdOrgs', :edOrg => { :id => ROOT_ID, :parentEducationAgencyReference  => []}
       }
       @edinf[ROOT_ID] = root_edorg
+
+      # DS-912: allow orphaned edorgs to be selected
+      orphan_ids.each { |id| @edinf[ROOT_ID][:children].push(id) }
 
       # Allow SEA admin to see everything, including edOrgs not parented
       # up to SEA.  LEA admin just his own edorg
@@ -291,6 +305,7 @@ module EdorgTreeHelper
 
       isCheckable = if @forAppAuthorization then eo[:agg_enabled] else true end
       is_category = id.start_with?(CATEGORY_NODE_PREFIX) || id == ROOT_ID
+      is_orphaned = eo[:name] == "Orphaned Education Organization"
       if is_category
         # Use the aggregated status for category node
         isChecked   = if @forAppAuthorization then eo[:agg_authorized] else eo[:agg_enabled] end
@@ -301,12 +316,14 @@ module EdorgTreeHelper
 
       # <input>
       if !is_repeat_subtree && isCheckable
-        result += "<input type=\"checkbox\""
+        result += '<input type="checkbox"'
         if !is_category
-          result += " class=\"edorgId\""
+          result += ' class="edorgId"'
         end
-        if !is_empty(id) # && !id.start_with?(CATEGORY_NODE_PREFIX)
-          result += " id=\"" + id + "\""
+        if !is_empty(id)
+          result += ' id="' + id
+          result += "_orphan" if is_orphaned
+          result += '"'
         end
         result += " checked" if isChecked
         result += "> "

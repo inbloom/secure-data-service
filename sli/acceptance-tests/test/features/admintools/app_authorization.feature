@@ -4,20 +4,24 @@
 Feature: Application Authorization Tool
 As an SEA, I want to be able to allow specific applications access to my data
 
-	Scenario: SEA Admin logs in to the authorization tool
+#Background:
+#  Given I have an open web browser
+#
 
-	Given I have an open web browser
-	When I hit the Admin Application Authorization Tool
-	And I select "inBloom" from the dropdown and click go
-	And I was redirected to the "Simple" IDP Login page
-	When I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
-	Then I am redirected to the Admin Application Authorization Tool
-	And I see a label in the middle "Illinois State Board of Education"
-	And I see the list of all available apps on SLI
-	And the authorized apps for my district are colored green
-	And the unauthorized are colored red
-	And are sorted by 'Name'
-	And I see the Name, Version, Vendor and Status of the apps
+Scenario: SEA Admin logs in to the authorization tool
+
+Given I have an open web browser
+When I hit the Admin Application Authorization Tool
+And I select "inBloom" from the dropdown and click go
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
+Then I am redirected to the Admin Application Authorization Tool
+And I see a label in the middle "Illinois State Board of Education"
+And I see the list of all available apps on SLI
+And the authorized apps for my district are colored green
+And the unauthorized are colored red
+And are sorted by 'Name'
+And I see the Name, Version, Vendor and Status of the apps
 
 Scenario: Non SLI-hosted valid user tries to access the Application Authorization Tool
 	Given I have an open web browser
@@ -176,8 +180,6 @@ When I hit the Admin Application Authorization Tool
 Then I see an application "SDK Sample" in the table
   And I click on the "Edit Authorizations" button next to it
   And I am redirected to the Admin Application Authorization Edit Page
-  And the checkbox with HTML id "cat_1" is checked
-  And the checkbox with HTML id "cat_14" is checked
   And the checkbox with HTML id "bd086bae-ee82-4cf2-baf9-221a9407ea07" is checked
 
 Scenario: Category node status in the authorization tree is dependant upon the status of descendants
@@ -195,6 +197,34 @@ Then I see an application "SDK Sample" in the table
   And I click on the "Edit Authorizations" button next to it
   And I am redirected to the Admin Application Authorization Edit Page
   And the checkbox with HTML id "root" is unchecked
-  And the checkbox with HTML id "cat_1" is unchecked
-  And the checkbox with HTML id "cat_14" is unchecked
   And the checkbox with HTML id "bd086bae-ee82-4cf2-baf9-221a9407ea07" is unchecked
+
+Scenario: Orphaned edorgs show up under their own category and user should still be able to enable/authorize
+Given I have an open web browser
+When I update edorg "bd086bae-ee82-4cf2-baf9-221a9407ea07" for tenant "Midgar" and update the parentEducationAgencyReference to a reference of "b1bd3db6-d020-4651-b1b8-a8dba688d9e1-xxx"
+  And I hit the Admin Application Authorization Tool
+  And I select "inBloom" from the dropdown and click go
+  And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
+  And I see an application "SDK Sample" in the table
+  And I click on the "Edit Authorizations" button next to it
+  And I am redirected to the Admin Application Authorization Edit Page
+Then the checkbox with HTML id "cat_12_orphan" is unchecked
+  And the checkbox with HTML id "bd086bae-ee82-4cf2-baf9-221a9407ea07" is unchecked
+
+Scenario: Ensure that an orphaned edorg has been authorized
+Given I have an open web browser
+When I hit the Admin Application Authorization Tool
+  And I select "inBloom" from the dropdown and click go
+  And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
+  And I see an application "SDK Sample" in the table
+  And I click on the "Edit Authorizations" button next to it
+  And I am redirected to the Admin Application Authorization Edit Page
+  And I check the checkbox with HTML id "bd086bae-ee82-4cf2-baf9-221a9407ea07"
+  And I click Update
+Then I see an application "SDK Sample" in the table
+  And I click on the "Edit Authorizations" button next to it
+  And I am redirected to the Admin Application Authorization Edit Page
+  And the checkbox with HTML id "root" is checked
+  Then the checkbox with HTML id "cat_12_orphan" is checked
+  And the checkbox with HTML id "bd086bae-ee82-4cf2-baf9-221a9407ea07" is checked
+  And I update edorg "bd086bae-ee82-4cf2-baf9-221a9407ea07" for tenant "Midgar" and update the parentEducationAgencyReference to a reference of "b1bd3db6-d020-4651-b1b8-a8dba688d9e1"
