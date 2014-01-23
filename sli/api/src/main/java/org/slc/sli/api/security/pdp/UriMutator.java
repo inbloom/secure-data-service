@@ -535,8 +535,7 @@ public class UriMutator {
                 }
             } else if (PathConstants.STUDENT_PROGRAM_ASSOCIATIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentProgramAssociations",
-                        getProgramIds(principal)));
-                      //  StringUtils.join(getStudentIds(principal))));
+                        StringUtils.join(getStudentIds(principal))));
             } else if (PathConstants.STUDENT_SCHOOL_ASSOCIATIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentSchoolAssociations",
                         StringUtils.join(getStudentIds(principal))));
