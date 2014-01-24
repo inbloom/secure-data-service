@@ -234,18 +234,11 @@ public class DefaultResourceService implements ResourceService {
         apiQuery.setLimit(0);
         apiQuery.setOffset(0);
 
-        NeutralCriteria bodiless = new NeutralCriteria("body",NeutralCriteria.CRITERIA_EXISTS,true,false);
-        apiQuery.addCriteria(bodiless);
-
         if (SecurityUtil.isStaffUser()) {
             count = definition.getService().countBasedOnContextualRoles(apiQuery);
         } else {
             count = definition.getService().count(apiQuery);
         }
-
-        apiQuery.removeCriteria(bodiless);
-        apiQuery.setLimit(originalLimit);
-        apiQuery.setOffset(originalOffset);
 
         return count;
     }
