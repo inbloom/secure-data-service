@@ -606,6 +606,9 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
         entities.removeAll(bodylessEntities);
 
+        setAccessibleEntitiesCount(collectionName, entities.size());
+
+
         noDataInDB = entities.isEmpty();
 
         List<EntityBody> results = new ArrayList<EntityBody>();
