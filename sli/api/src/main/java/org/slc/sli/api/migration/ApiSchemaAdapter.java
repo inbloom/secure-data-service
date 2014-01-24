@@ -236,7 +236,7 @@ public class ApiSchemaAdapter {
     public List<EntityBody> migrate(List<EntityBody> entityBodies, String entityType, String versionNumber) {
 
         if (entityBodies == null) {
-            return null;
+            entityBodies = new ArrayList<EntityBody>(); // DS-1046 - the list can be empty now, used to "return null;"
         }
 
         List<MigrationStrategy> migrationStrategies = getEntityTransformMigrationStrategies(entityType, versionNumber);
