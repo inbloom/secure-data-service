@@ -70,9 +70,6 @@ class ApplicationAuthorizationsController < ApplicationController
           @appAuth_edorgs.push(edorg_entry.authorizedEdorg)
         end
     @edorg_tree_html = edOrgTree.get_authorization_tree_html(get_app_authorizer_edOrgs, appId, is_sea_admin?, @appAuth_edorgs || [])
-
-    @treeHelperDebug=edOrgTree.get_debug()
-
   end
   
 
@@ -172,6 +169,7 @@ class ApplicationAuthorizationsController < ApplicationController
     return 0 if auth.nil? || auth.edorgs.nil?
 
     auth.edorgs.each do |auth_edorg|
+      puts auth_edorg
       count += 1 if auth_edorg.authorizedEdorg
     end
 

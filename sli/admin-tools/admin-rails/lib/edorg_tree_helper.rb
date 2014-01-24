@@ -134,7 +134,7 @@ module EdorgTreeHelper
       # Allow SEA admin to see everything, including edOrgs not parented
       # up to SEA.  LEA admin just his own edorg
       root_children.each do |id|
-        @edinf[id][:parents] = [ ROOT_ID ]
+        @edinf[id][:parents] = [ ROOT_ID ] if orphan_ids.find(id) == nil
       end
 
       # Cleanse parents and children of dangling IDs that point outside subtree of ROOT_ID
@@ -333,6 +333,7 @@ module EdorgTreeHelper
       result += "<span"
       result += " class=\"categorynode\"" if is_category
       result += " class=\"repeatsubtree\"" if is_repeat_subtree
+      result += ' style="color:#FF0000" ' if is_orphaned
       result += ">"
       result += "<i>" if !isCheckable
       result += "(&rArr; see <a style=\"color: #0000ff; text-decoration:underline\" href=\"#" + id + "\">" if is_repeat_subtree
