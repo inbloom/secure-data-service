@@ -78,20 +78,6 @@ Then /^the response resource should contain multiple class periods$/ do
   entities.first['entityType'].should == 'classPeriod'
 end
 
-Then /^the custom data should be deleted$/ do
-  find_custom_data(class_period_endpoint, entity_id).should be_nil
-end
-
-Then /^the response resource should contain expected custom data$/ do
-  data = JSON.parse @res
-  data.should == @custom_data
-end
-
-Then /^the custom data should be saved$/ do
-  data = find_custom_data(class_period_endpoint, entity_id)
-  data.should == @custom_data
-end
-
 Then /^the response location header should link to the new class period$/ do
   location = @res.headers[:location]
   location.should match( resource_regexp(class_period_endpoint) )
@@ -108,8 +94,7 @@ Then /^the class period should be deleted$/ do
 end
 
 Then /^the response resource should contain expected class period data$/ do
-  entity = @entity.reject{|key,_| %w(id entityType links).include?(key)}
-  entity.should == class_period_resource
+  pare_entity(@entity).should == class_period_resource
 end
 
 Then /^the results should contain only the class periods for my education organization$/ do

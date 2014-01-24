@@ -167,6 +167,34 @@ Then /^the response resource should have HATEOAS links for (.*)$/ do |resource_n
   send("verify_#{resource_name}_entity_links")
 end
 
+Then /^the custom (.*) data should be deleted$/ do |entity|
+  endpoint = send "#{underscore(entity)}_endpoint"
+  find_custom_data(endpoint, entity_id).should be_nil
+end
+
+Then /^the response resource should contain expected custom data$/ do
+  data = JSON.parse @res
+  data.should == @custom_data
+end
+
+Then /^the custom (.*) data should be saved$/ do |entity|
+  endpoint = send "#{underscore(entity)}_endpoint"
+  data = find_custom_data(endpoint, entity_id)
+  data.should == @custom_data
+end
+
+Then /^the response resource should be an empty list$/ do
+  #puts ed_orgs_for_staff(current_user).map{|ed_org| ed_org['id']}
+  data = JSON.parse @res
+  puts data.first
+  data.should be_kind_of(Array)
+  data.should be_empty
+end
+
+def underscore(s)
+  s.gsub(' ','_')
+end
+
 def post_custom_data(endpoint, id)
   @custom_data = {
       "some field" => "some value",
@@ -246,13 +274,16 @@ end
 
 def endpoint_for_rel(rel)
   map = {
-      'getStudent' => 'students',
-      'getSchool' => 'schools',
+      'getStudent'               => 'students',
+      'getSchool'                => 'schools',
       'getEducationOrganization' => 'educationOrganizations',
-      'getSection' => 'sections',
-      'getSections' => 'sections',
-      'getBellSchedules' => 'bellSchedules'
+      'getSection'               => 'sections',
+      'getSections'              => 'sections',
+      'getBellSchedules'         => 'bellSchedules',
+      'getClassPeriod'           => 'classPeriods',
+      'getCalendarDate'          => 'calendarDates'
   }
+  map[rel].should_not be_nil, "Unknown rel #{rel}"
   "/v1.5/#{map[rel]}"
 end
 
@@ -260,6 +291,11 @@ end
 # (e.g. attendances/ab5b8dd1d4d5c8b613ff60b86a6a2f0fd610934c_id)
 def resource_regexp(url)
   %r{#{url}/[a-z0-9]+_id$}
+end
+
+# Remove the id, entityType, and links from an API resource (useful for comparison against original input)
+def pare_entity(entity)
+  entity.reject{|key,_| %w(id entityType links).include?(key)}
 end
 
 
