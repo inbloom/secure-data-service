@@ -233,22 +233,36 @@ public class ApiSchemaAdapter {
         }
        return  entityBodies;
     }
+    
+    /**
+     * if the migration strategies for this entityType and version are not null, migrate
+     * using them and return the result.  Otherwise, if the entityBodies are not null,
+     * return them, otherwise return an empty list.  (changed as of 24-Jan-2014, used to
+     * return null.
+     * @param entityBodies
+     * @param entityType
+     * @param versionNumber
+     * @return
+     */
     public List<EntityBody> migrate(List<EntityBody> entityBodies, String entityType, String versionNumber) {
-
-        if (entityBodies == null) {
-            entityBodies = new ArrayList<EntityBody>(); // DS-1046 - the list can be empty now, used to "return null;"
-        }
+        List<EntityBody> returnList = null;
 
         List<MigrationStrategy> migrationStrategies = getEntityTransformMigrationStrategies(entityType, versionNumber);
-        List<EntityBody> returnList = null;
         if (migrationStrategies != null) {
             for(MigrationStrategy migrationStrategy: migrationStrategies) {
                 returnList = migrationStrategy.migrate(entityBodies);
             }
-            return returnList;
         } else {
-           return entityBodies;
+            if (entityBodies != null)
+            {
+                returnList = entityBodies;
+            }
+            else  // new for DS-1046 -- no longer return null, return empty instead
+            {
+                returnList = new ArrayList<EntityBody>();
+            }
         }
+        return returnList;
     }
     public Resource getUpMigrationConfigResource() {
         return upMigrationConfigResource;
