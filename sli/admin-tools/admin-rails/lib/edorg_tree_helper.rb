@@ -129,12 +129,13 @@ module EdorgTreeHelper
       @edinf[ROOT_ID] = root_edorg
 
       # DS-912: allow orphaned edorgs to be selected
-      orphan_ids.each { |id| @edinf[ROOT_ID][:children].push(id) }
+      #orphan_ids.each { |id| @edinf[ROOT_ID][:children].push(id) if (root_children.find(id) == nil) || is_sea_admin }
+      orphan_ids.each { |id| root_children.push(id) if !root_children.include?(id) }
 
       # Allow SEA admin to see everything, including edOrgs not parented
       # up to SEA.  LEA admin just his own edorg
       root_children.each do |id|
-        @edinf[id][:parents] = [ ROOT_ID ] if orphan_ids.find(id) == nil
+        @edinf[id][:parents] = [ ROOT_ID ]
       end
 
       # Cleanse parents and children of dangling IDs that point outside subtree of ROOT_ID
