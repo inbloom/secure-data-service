@@ -2,6 +2,8 @@ require 'mongo'
 require 'rbconfig'
 require 'json'
 require 'socket'
+require_relative './test/features/utils/db_client'
+require_relative './test/features/utils/rakefile_common'
 
 
 Dir.glob('suites/*.rake').each { |r| import r }

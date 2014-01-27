@@ -60,31 +60,35 @@ end
 #
 def allLeaAllowAppForTenant(appName, tenantName)
   sleep 1
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(Property['DB_HOST'], Property['DB_PORT'])
-  db = conn[Property['api_database_name']]
-  appColl = db.collection("application")
-  app = appColl.find_one({"body.name" => appName})
+  disable_NOTABLESCAN
+  db = DbClient.new(:db_name => Property['api_database_name'])
+  #conn = Mongo::Connection.new(Property['DB_HOST'], Property['DB_PORT'])
+  #db = conn[Property['api_database_name']]
+  #appColl = db.collection("application")
+  app = db.find_one('application', {"body.name" => appName})
   raise "ERROR: Could not find an application named #{appName}" if app.nil?
 
   appId = app["_id"]
   puts("The app #{appName} id is #{appId}") if ENV['DEBUG']
   
-  dbTenant = conn[convertTenantIdToDbName(tenantName)]
-  appAuthColl = dbTenant.collection("applicationAuthorization")
-  edOrgColl = dbTenant.collection("educationOrganization")
+  db.for_tenant(tenantName)
 
-  neededEdOrgs = [] 
-  edOrgColl.find().each do |edorg|
-    edorg_entry = {}
-    edorg_entry["authorizedEdorg"]= edorg["_id"]
-    neededEdOrgs.push(edorg_entry)
-  end
+  appAuthColl = db.collection("applicationAuthorization")
+  #edOrgColl = db.collection("educationOrganization")
+
+  neededEdOrgs = db.find_ids('educationOrganization').map{ |id| {'authorizedEdorg' => id} }
+
+  #edOrgColl.find.each do |edorg|
+  #  edorg_entry = {}
+  #  edorg_entry["authorizedEdorg"]= edorg["_id"]
+  #  neededEdOrgs.push(edorg_entry)
+  #end
+
   appAuthColl.remove("body.applicationId" => appId)
   newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"applicationId" => appId, "edorgs" => neededEdOrgs}, "metaData" => {"tenantId" => tenantName}, "type" => "applicationAuthorization"}
   appAuthColl.insert(newAppAuth)
-  conn.close
-  enable_NOTABLESCAN()
+  db.close
+  enable_NOTABLESCAN
 end
 
 def authorizeEdorg(appName)
