@@ -72,7 +72,7 @@ Background: Nothing yet
     | studentCompetencyObjective              | studentCompetencyObjectives              | 1     |/search/studentCompetencyObjectives    |
     | calendarDates                           | calendarDates                            | 4     |/educationOrganizations/@ids/calendarDates|
     | classPeriods                            | classPeriods                             | 1     |/educationOrganizations/@ids/classPeriods|
-    | bellSchedules                           | bellSchedules                            | 0     |/educationOrganizations/@ids/bellSchedules|
+    | bellSchedules                           | bellSchedules                            | 1     |/educationOrganizations/@ids/bellSchedules|
     Then the staff queries and rewrite rules work
 
  @Teacher_crud
