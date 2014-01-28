@@ -32,7 +32,7 @@
             <groupId>openadk</groupId>
             <artifactId>openadk-library</artifactId>
             <version>1.0.0</version>
-            <exlusions>
+            <exclusions>
                 <exclusion>
                     <groupId>org.apache.logging.log4j</groupId>
                     <artifactId>log4j-api</artifactId>
@@ -41,7 +41,7 @@
                     <groupId>org.apache.logging.log4j</groupId>
                     <artifactId>log4j-core</artifactId>
                 </exclusion>
-            </exlusions>
+            </exclusions>
         </dependency>
 
         <!-- Spring Context dependency -->
