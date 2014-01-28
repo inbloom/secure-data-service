@@ -707,12 +707,6 @@
                 <artifactId>mockito-all</artifactId>
                 <version>${mockito.version}</version>
                 <scope>test</scope>
-                <exclusions>
-                  <exclusion>
-                      <groupId>org.apache.logging.log4j</groupId>
-                      <artifactId>log4j</artifactId>
-                  </exclusion>
-                </exclusions>
             </dependency>
             <!-- Logging -->
             <dependency>
@@ -829,12 +823,6 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.logging.log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
