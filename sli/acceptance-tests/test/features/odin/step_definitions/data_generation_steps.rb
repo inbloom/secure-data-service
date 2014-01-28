@@ -6,85 +6,41 @@ require_relative '../../utils/sli_utils.rb'
 
 def generate(scenario="10students")
   # clear the generate dir
-  unless @gen_path.nil? || @gen_path.empty? || "/".eql?(@gen_path)
-    runShellCommand("rm -rf #{@gen_path}*")
-  end
+  `rm -rf #{@gen_path}*` if @gen_path && !@gen_path.empty? && @gen_path != '/'
+
   # run bundle exec rake in the Odin directory
-  command = "bundle exec ruby driver.rb --normalgc #{scenario}"
-  puts "Shell command will be #{command}"
   FileUtils.cd @odin_working_path
   t1 = Time.now
-  puts "Generating Data based on #{scenario} scenario.."
-  `#{command}`
-  runtime(t1, Time.now)
+  `bundle exec ruby driver.rb --normalgc #{scenario}`
+
+  # Get the list of generated files for verification (excluding hidden files)
+  @files = Dir.entries(@gen_path).reject{|f| ['.','..'].include?(f)}.sort
+
   FileUtils.cd @at_working_path
-  @files = Dir.entries("#{@gen_path}")
 end
 
-############################################################
-# STEPS: BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE
-############################################################
 Before do
   @at_working_path = Dir.pwd
   @odin_working_path = "#{File.dirname(__FILE__)}" + "/../../../../../../tools/odin/"
+  @gen_path = "#{@odin_working_path}generated/"
 end
 
-############################################################
-# STEPS: GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
-############################################################
+# TODO: Only called by bulk extract -- move it there (or eliminate)
 Given /^I am using the odin working directory$/ do
   @odin_working_path = "#{File.dirname(__FILE__)}" + "/../../../../../../tools/odin/"
 end
 
-############################################################
-# STEPS: WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
-############################################################
-When /^I generate the "(.*?)" data set in the "(.*?)" directory$/ do |data_set, gen_dir|
-  @gen_path = "#{@odin_working_path}#{gen_dir}/"
-  puts "Calling generate function for #{data_set} scenario"
-  generate(data_set)
+When /^I generate a typical data set$/ do
+  generate
 end
 
-When /^I generate the 10 student data set with optional fields on in the (.*?) directory$/ do |gen_dir|
-  @gen_path = "#{@odin_working_path}#{gen_dir}/"
-  puts "Calling generate function for 10 students scenario"
-  generate("10students_optional")
-end
-
-When /^I generate the 10001 student data set in the (.*?) directory$/ do |gen_dir|
-  @gen_path = "#{@odin_working_path}#{gen_dir}/"
-  puts "Calling generate function for 10001 students scenario"
-  generate("10001students")
-end
-
-When /^I generate the jmeter api performance data set in the (.*?) directory$/ do |gen_dir|
-  @gen_path = "#{@odin_working_path}#{gen_dir}/"
-  puts "Calling generate function for jmeter api performance scenario"
-  generate("jmeter_api_performance")
-end
-
-When /^I generate the api data set in the (.*?) directory$/ do |gen_dir|
-  @gen_path = "#{@odin_working_path}#{gen_dir}/"
-  puts "Calling generate function for api testing scenario"
-  generate("api_testing")
+When /^I generate the "(.*)" data set$/ do |scenario|
+  generate scenario
 end
 
 When /^I generate the bulk extract data set in the (.*?) directory$/ do |gen_dir|
   @gen_path = "#{@odin_working_path}#{gen_dir}/"
-  puts "Calling generate function for api testing scenario"
   generate("api_2lea_testing")
-end
-
-When /^I generate the contextual roles data set in the (.*?) directory$/ do |gen_dir|
-  @gen_path = "#{@odin_working_path}#{gen_dir}/"
-  puts "Calling generate function for api testing scenario"
-  generate("contextual_roles")
-end
-
-When /^I generate the with expired data set in the (.*?) directory$/ do |gen_dir|
-  @gen_path = "#{@odin_working_path}#{gen_dir}/"
-  puts "Calling generate function for api testing scenario"
-  generate("with_expired")
 end
 
 When /^I zip generated data under filename (.*?) to the new (.*?) directory$/ do |zip_file, new_dir|
@@ -148,9 +104,14 @@ end
 # STEPS: THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ############################################################
 Then /^I should see generated file <File>$/ do |table|
+  generated_files = Dir.entries(@gen_path)
   table.hashes.each do |f|
-    raise "Did not find expected file #{f}" unless @files.find($f)
+    raise "Did not find expected file #{f}" unless generated_files.find(f)
   end
+end
+
+Then /^I should see the generated files?:$/ do |table|
+  table.raw.flatten.sort.should == @files
 end
 
 Then /^I should see (.*?) has been generated$/ do |filename|

@@ -1,9 +1,7 @@
 Feature: Generate API Contextual Roles sample data using Odin data generator
 
-Given I am using the odin working directory
-
   Scenario: Generate contextual roles data set using Odin generate tool
-    When I generate the contextual roles data set in the generated directory
+    When I generate the "contextual_roles" data set
     And I convert school "Daybreak Apocalypse" to a charter school in "InterchangeEducationOrganization.xml" with additional parent refs
       | ParentReference |
       | IL-DAYBREAK     |
