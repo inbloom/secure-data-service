@@ -42,6 +42,8 @@ public class ApiQuery extends NeutralQuery {
     public static final int API_QUERY_DEFAULT_LIMIT = 50;
 
     private Map<String, Object> selector = null;
+    
+    private String entityType;
 
     /* General default. Used when a more specific default selector is not available. */
     public static final Map<String, Object> DEFAULT_SELECTOR = new HashMap<String, Object>();
@@ -56,6 +58,14 @@ public class ApiQuery extends NeutralQuery {
      */
     public ApiQuery(UriInfo uriInfo) {
         this(uriInfo.getRequestUri());
+    }
+
+    public ApiQuery(String entityType, URI requestURI) {
+        super(API_QUERY_DEFAULT_LIMIT);
+        this.entityType = entityType;
+        if (requestURI != null) {
+            ApiQuery.QUERY_CONVERTER.convert(this, requestURI);
+        }
     }
 
     public ApiQuery(URI requestURI) {
@@ -132,5 +142,9 @@ public class ApiQuery extends NeutralQuery {
 
     public void setSelector(Map<String, Object> selector) {
         this.selector = selector;
+    }
+
+    public String getEntityType() {
+    	return this.entityType;
     }
 }
