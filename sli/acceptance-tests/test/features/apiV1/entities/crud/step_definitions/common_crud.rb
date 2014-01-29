@@ -240,6 +240,11 @@ def verify_common_links(resource_name)
   links.should include( build_link('custom', make_custom_url(endpoint, entity_id)) )
 end
 
+def remove_common_links(links)
+  links.reject!{|link| ['self','custom'].include? link['rel']}
+  links
+end
+
 def build_link(rel, href)
   {'rel' => rel, 'href' => href}
 end
@@ -268,20 +273,31 @@ def make_query_url(query, rel)
   "#{url_base}#{endpoint_for_rel rel}?#{query}"
 end
 
+def make_sublink_url(endpoint, entity_id, rel)
+  "#{url_base}#{endpoint}/#{entity_id}/#"
+end
+
 def url_base
   "#{Property['api_server_url']}/api/rest"
 end
 
 def endpoint_for_rel(rel)
   map = {
-      'getStudent'               => 'students',
-      'getSchool'                => 'schools',
-      'getEducationOrganization' => 'educationOrganizations',
-      'getSection'               => 'sections',
-      'getSections'              => 'sections',
-      'getBellSchedules'         => 'bellSchedules',
-      'getClassPeriod'           => 'classPeriods',
-      'getCalendarDate'          => 'calendarDates'
+    'getStudent'                 => 'students',
+    'getSchool'                  => 'schools',
+    'getEducationOrganization'   => 'educationOrganizations',
+    'getSection'                 => 'sections',
+    'getSections'                => 'sections',
+    'getBellSchedules'           => 'bellSchedules',
+    'getClassPeriod'             => 'classPeriods',
+    'getCalendarDate'            => 'calendarDates',
+    'getSession'                 => 'sessions',
+    'getCourseOffering'          => 'courseOfferings',
+    'getAttendances'             => 'attendances',
+    'getYearlyAttendances'       => 'yearlyAttendances',
+    'getStudentGradebookEntries' => 'studentGradebookEntries',
+    'getGrades'                  => 'grades',
+    'getGradebookEntries'        => 'gradebookEntries'
   }
   map[rel].should_not be_nil, "Unknown rel #{rel}"
   "/v1.5/#{map[rel]}"
