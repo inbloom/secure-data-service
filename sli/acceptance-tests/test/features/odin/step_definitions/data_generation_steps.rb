@@ -4,7 +4,7 @@ require 'logger'
 require 'fileutils'
 require_relative '../../utils/sli_utils.rb'
 
-def generate(scenario="10students")
+def generate(scenario="10students_optional")
   # clear the generate dir
   `rm -rf #{@gen_path}*` if @gen_path && !@gen_path.empty? && @gen_path != '/'
 
