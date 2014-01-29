@@ -1,4 +1,5 @@
 #!/bin/bash
+source /usr/local/rvm/environments/default
 hostname=`hostname -s`
 
 noTableScan()
