@@ -10,10 +10,10 @@ cleanTomcat()
 {
     sudo /etc/init.d/tomcat stop
     for i in `ls /opt/apache-tomcat-7.0.47/webapps |grep -v "manager" |grep -v "ROOT" |grep -v "docs"`; do
-       rm -r -f /opt/apache-tomcat-7.0.47/webapps/$i
+       sudo rm -r -f /opt/apache-tomcat-7.0.47/webapps/$i
     done
-    rm -r -f /opt/apache-tomcat-7.0.47/temp/*
-    rm -r -f /opt/apache-tomcat-7.0.47/Catalina/localhost/*
+    sudo rm -r -f /opt/apache-tomcat-7.0.47/temp/*
+    sudo rm -r -f /opt/apache-tomcat-7.0.47/Catalina/localhost/*
     sudo /etc/init.d/tomcat start
     echo "Cleaned up tomcat"
 }
