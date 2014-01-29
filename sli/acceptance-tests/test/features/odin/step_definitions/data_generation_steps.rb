@@ -111,7 +111,7 @@ Then /^I should see generated file <File>$/ do |table|
 end
 
 Then /^I should see the generated files?:$/ do |table|
-  table.raw.flatten.sort.should == @files
+  @files.should == table.raw.flatten.sort
 end
 
 Then /^I should see (.*?) has been generated$/ do |filename|
