@@ -99,13 +99,24 @@ def delete_attendance(id)
 end
 
 def verify_attendance_entity_links
-  links = @entity['links']
+  links = remove_common_links( @entity['links'] ).dup
+  [
+    ['getSchool', @entity['schoolId']],
+    ['getStudent', @entity['studentId']],
+    ['getEducationOrganization', @entity['schoolId']]
+  ].each do |rel, id|
+    link = build_entity_link rel, id
+    links.should include(link)
+    links.delete link
+  end
 
-  links.should include( build_entity_link 'getSchool', @entity['schoolId'])
-  links.should include( build_entity_link 'getStudent', @entity['studentId'])
-  links.should include( build_entity_link 'getEducationOrganization', @entity['schoolId'])
+  if yearly?
+    link = build_entity_link 'getSection', @entity['attendanceEvent'].first['sectionId']
+    links.should include(link)
+    links.delete link
+  end
 
-  links.should include( build_entity_link 'getSection', @entity['attendanceEvent'].first['sectionId']) if yearly?
+  links.map{|link| link['rel']}.should == []
 end
 
 def attendance_resource
