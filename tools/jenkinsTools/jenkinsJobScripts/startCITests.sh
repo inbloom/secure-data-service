@@ -161,6 +161,15 @@ deployTomcat()
   echo "Deployed $APP"
 }
 
+runTests()
+{
+  Xvfb :4 -screen 0 1024x768x24 >/dev/null 2>&1 &
+  export DISPLAY=:4.0
+  cd $WORKSPACE/sli/acceptance-tests
+  export LANG=en_US.UTF-8
+  bundle install --deployment
+  bundle exec rake FORCE_COLOR=true $@
+}
 
 
 if [[ "$ENV" == "ci" ]]; then
@@ -177,6 +186,7 @@ if [[ "$ENV" == "ci" ]]; then
     deployTomcat $APP ${deployHash[$APP]}
   done
 
+  runTests sampleApp_server_address=https://cislave-1-sample.dev.inbloom.org/ dashboard_server_address=https://cislave-1-dashboard.dev.inbloom.org dashboard_api_server_uri=https://cislave-1-api.dev.inbloom.org realm_page_url=https://cislave-1-api.dev.inbloom.org/api/oauth/authorize admintools_server_url=https://cislave-1-admin.dev.inbloom.org api_server_url=https://cislave-1-api.dev.inbloom.org api_ssl_server_url=https://cislave-1-api.dev.inbloom.org ingestion_landing_zone=/ingestion/lz sif_zis_address_trigger=http://$NODE_NAME.slidev.org:8080/mock-zis/trigger bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_properties_file=/opt/tomcat/conf/sli.properties bulk_extract_keystore_file=/opt/tomcat/encryption/ciKeyStore.jks bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz TOGGLE_TABLESCANS=true smokeTests
 fi
 
 if [[ "$ENV" == "prod-rc" ]]; then
