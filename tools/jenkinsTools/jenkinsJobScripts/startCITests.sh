@@ -124,10 +124,8 @@ deployAdmin()
   sudo chown -R rails:rails /opt/rails/admin/
   sudo ln -sf /etc/datastore/keyfile /opt/rails/admin/keyfile
   sudo ln -sf /etc/datastore/admin-config.yml /opt/rails/admin/admin-rails/config/config.yml
-  rvmsudo bundle install
+  bundle install
   sudo apachectl graceful
-  sleep 10
-  rvmsudo passenger-status
   echo "Admin Code Deployment Complete"
 }
 deployDatabrowser()
@@ -136,9 +134,7 @@ deployDatabrowser()
   sudo cp -R $WORKSPACE/sli/databrowser/* /opt/rails/databrowser/
   sudo chown -R rails:rails /opt/rails/databrowser/
   sudo ln -sf /etc/datastore/databrowser-config.yml /opt/rails/databrowser/config/config.yml
-  rvmsudo bundle install --deployment
-  sleep 10
-  rvmsudo passenger-status
+  bundle install --deployment
   echo "Databrowser Deployment Complete"
 }
 
