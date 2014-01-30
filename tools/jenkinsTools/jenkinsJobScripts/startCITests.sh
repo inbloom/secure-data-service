@@ -8,7 +8,7 @@ show_usage() {
     echo "  -d DIR         : Directory containing code files"
     echo "  -e ENV         : Environment for which this script should run against. ci,prod-rc,sandbox-rc"
     echo "  -a APPS        : List of Applications to deploy"
-    echo "  -w WORKSPACE   : List of Applications to deploy"
+    echo "  -w WORKSPACE   : Specify Workspace if jenkins is not the one running this script"
     echo "  -h             : Show this usage summary and exit"
 }
 
