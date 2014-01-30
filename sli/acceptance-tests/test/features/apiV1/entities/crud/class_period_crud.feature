@@ -61,7 +61,7 @@ Feature:
     Then the response status should be 204 No Content
     And the class period should be deleted
 
-# Custom Data for Class Period
+# Custom Data for a class period
 
   Scenario: An API user adds (POST) custom data to a class period
     Given I create a class period
