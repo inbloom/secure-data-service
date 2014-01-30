@@ -1,7 +1,60 @@
 #!/bin/bash
 source /usr/local/rvm/environments/default
+
+show_usage() {
+    echo "Usage: $0 [-Dh] -d DIR -e prod|sandbox|stage|test [-g GROUP [-s SERVER]]"
+    echo
+    echo "Options:"
+    echo "  -d DIR         : Directory containing code files"
+    echo "  -e ENV         : Environment for which this script should run against. ci,prod-rc,sandbox-rc"
+    echo "  -a APPS        : List of Applications to deploy"
+    echo "  -w WORKSPACE   : List of Applications to deploy"
+    echo "  -h             : Show this usage summary and exit"
+}
+
+process_opts() {
+    while getopts "d:e:a:w:h:" opt; do
+        case $opt in
+            d)
+                CODEDIR=$OPTARG
+                ;;
+            e)
+                if [[ "$OPTARG" != "ci" && \
+                      "$OPTARG" != "prod-rc" && \
+                      "$OPTARG" != "sandbox-rc" ]]; then
+                    echo "Error: Environment must be one of ci|proc-rc|sandbox-rc"
+                    show_usage
+                    exit 1
+                fi
+                ENV=$OPTARG
+                ;;
+            a)
+                APPS=$OPTARG
+                ;;
+            w)
+                WORKSPACE=$OPTARG
+                ;;
+            h)
+                show_usage
+                exit
+                ;;
+            *)
+                echo "Error: unknown option"
+                show_usage
+                exit 254
+                ;;
+        esac
+    done
+    # -e and -a are required
+    if [[ -z "$ENV" || -z "$APPS" ]]; then
+        echo "-e and -a are required"
+        show_usage
+        exit 1
+    fi
+}
 hostname=`hostname -s`
-WORKSPACE=/data/jenkins/workspace/Full_Build_Master/
+
+#Defined Functions (These can be in a seperate file, but for now in this one to make creation/testing easier)
 noTableScan()
 {
     mongo --eval "db.adminCommand( { setParameter: 1, notablescan: false } )"
@@ -63,22 +116,50 @@ databrowserUnitTests()
   fi
   echo "Finished running databrowser unit tests"
 }
+#should convert these two into a single deployRails()
 deployAdmin()
 {
-  echo "Deploying Adming Code"
+  echo "Deploying Admin code"
   sudo cp -R $WORKSPACE/sli/admin-tools/* /opt/rails/admin/
   sudo chown -R rails:rails /opt/rails/admin/
   sudo ln -sf /etc/datastore/keyfile /opt/rails/admin/keyfile
   sudo ln -sf /etc/datastore/admin-config.yml /opt/rails/admin/admin-rails/config/config.yml
   rvmsudo bundle install
-  sudo apachectl graceful 
+  sudo apachectl graceful
+  sleep 10
+  rvmsudo passenger-status
   echo "Admin Code Deployment Complete"
 }
+deployDatabrowser()
+{
+  echo "Deploying Databrowser code"
+  sudo cp -R $WORKSPACE/sli/databrowser/* /opt/rails/databrowser/
+  sudo chown -R rails:rails /opt/rails/databrowser/
+  sudo ln -sf /etc/datastore/databrowser-config.yml /opt/rails/databrowser/config/config.yml
+  rvmsudo bundle install --deployment
+  sleep 10
+  rvmsudo passenger-status
+  echo "Databrowser Deployment Complete"
+}
 
-noTableScan
-cleanTomcat
-cleanRails
-resetDatabases
-adminUnitTests
-databrowserUnitTests
-deployAdmin
+process_opts $@
+
+
+if [[ "$ENV" == "ci" ]]; then
+  noTableScan
+  cleanTomcat
+  cleanRails
+  resetDatabases
+  adminUnitTests
+  databrowserUnitTests
+  deployAdmin
+  deployDatabrowser
+fi
+
+if [[ "$ENV" == "prod-rc" ]]; then
+  echo "prod-rc foo"
+fi
+
+if [[ "$ENV" == "sandbox-rc" ]]; then
+  echo "sandbox-rc foo"
+fi
