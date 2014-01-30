@@ -49,7 +49,7 @@ Background: Nothing yet
     | studentSchoolAssociation                | studentSchoolAssociations                | 0     |/schools/@ids/studentSchoolAssociations|
     | teacherSchoolAssociation                | teacherSchoolAssociations                | 0     |/schools/@ids/teacherSchoolAssociations|
     | studentSectionAssociation               | studentSectionAssociations               | 0     |/schools/@ids/sections/studentSectionAssociations|
-    | staffCohortAssociation                  | staffCohortAssociations                  | 2     |/staff/@ids/staffCohortAssociations|
+    | staffCohortAssociation                  | staffCohortAssociations                  | 7     |/staff/@ids/staffCohortAssociations|
     | studentAssessment                       | studentAssessments                       | 0     |/schools/@ids/studentSchoolAssociations/students/studentAssessments|
     | competencyLevelDescriptor               | competencyLevelDescriptor                | 2     |/search/competencyLevelDescriptor|
     | staffProgramAssociation                 | staffProgramAssociations                 | 3     |/staff/@ids/staffProgramAssociations|
@@ -186,7 +186,7 @@ Background: Nothing yet
     | studentSchoolAssociation                | studentSchoolAssociations                | 59    |/sections/@ids/studentSectionAssociations/students/studentSchoolAssociations    |
     | teacherSchoolAssociation                | teacherSchoolAssociations                | 2     |/teachers/@ids/teacherSchoolAssociations    |
     | studentSectionAssociation               | studentSectionAssociations               | 25    |/sections/@ids/studentSectionAssociations    |
-    | staffCohortAssociation                  | staffCohortAssociations                  | 1     |/staff/@ids/staffCohortAssociations    |
+    | staffCohortAssociation                  | staffCohortAssociations                  | 6     |/staff/@ids/staffCohortAssociations    |
     | studentAssessment                       | studentAssessments                       | 1     |/sections/@ids/studentSectionAssociations/students/studentAssessments    |
     | competencyLevelDescriptor               | competencyLevelDescriptor                | 0     |/competencyLevelDescriptor    |
     | staffProgramAssociation                 | staffProgramAssociations                 | 0     |/staff/@ids/staffProgramAssociations    |
