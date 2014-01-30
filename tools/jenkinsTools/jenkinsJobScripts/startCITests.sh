@@ -1,7 +1,7 @@
 #!/bin/bash
 source /usr/local/rvm/environments/default
 hostname=`hostname -s`
-
+WORKSPACE=/data/jenkins/workspace/Full_Build_Master/
 noTableScan()
 {
     mongo --eval "db.adminCommand( { setParameter: 1, notablescan: false } )"
@@ -20,7 +20,8 @@ cleanTomcat()
 }
 resetDatabases()
 {
-  sh $WORKSPACE/sli/config/scripts/resetAllDbs.sh
+  cd $WORKSPACE/sli/config/scripts
+  sh resetAllDbs.sh
   echo "Dropped Databases"
 }
 #this function needs to be refactored to actually work with our URL schema
@@ -36,7 +37,7 @@ adminUnitTests()
 {
   echo "Executing admin unit tests"
   cd $WORKSPACE/sli/admin-tools/admin-rails
-  bundleInstall --path $WORKSPACE/../vendors/
+  bundle install --path $WORKSPACE/../vendors/
   bundle exec rake ci:setup:testunit test
   code=$?
   if [ "$code" != "0" ]; then
