@@ -16,7 +16,13 @@ cleanTomcat()
     sudo rm -r -f /opt/apache-tomcat-7.0.47/temp/*
     sudo rm -r -f /opt/apache-tomcat-7.0.47/Catalina/localhost/*
     sudo /etc/init.d/tomcat start
-    echo "Cleaned up tomcat"
+    echo "Removed deployed tomcat apps"
+}
+cleanRails()
+{
+    sudo rm -rf /opt/rails/admin/*
+    sudo rm -rf /opt/rails/databrowser/*
+    echo "Cleaned up rails apps"
 }
 resetDatabases()
 {
@@ -45,8 +51,34 @@ adminUnitTests()
   fi
   echo "Finished running admin unit tests."
 }
+databrowserUnitTests()
+{
+  echo "Executing databrowser unit tests"
+  cd $WORKSPACE/sli/databrowser
+  bundle install --full-index --deployment
+  bundle exec rake ci:setup:testunit test
+  code=$?
+  if [ "$code" != "0" ]; then
+    exit $code
+  fi
+  echo "Finished running databrowser unit tests"
+}
+deployAdmin()
+{
+  echo "Deploying Adming Code"
+  sudo cp -R $WORKSPACE/sli/admin-tools/* /opt/rails/admin/
+  sudo chown -R rails:rails /opt/rails/admin/
+  sudo ln -sf /etc/datastore/keyfile /opt/rails/admin/keyfile
+  sudo ln -sf /etc/datastore/admin-config.yml /opt/rails/admin/admin-rails/config/config.yml
+  rvmsudo bundle install
+  sudo apachectl graceful 
+  echo "Admin Code Deployment Complete"
+}
 
 noTableScan
 cleanTomcat
+cleanRails
 resetDatabases
 adminUnitTests
+databrowserUnitTests
+deployAdmin
