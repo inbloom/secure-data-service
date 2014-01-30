@@ -1,10 +1,8 @@
-@RALLY_US5221
 Feature: Generate API hybrid edOrg data using Odin data generator
 
-Given I am using the odin working directory
 @rc
 Scenario: Generate an API data set with hybrid edOrgs for API testing using Odin generate tool
-  When I generate the "hybrid_edorgs" data set in the "generated" directory
+  When I generate the "hybrid_edorgs" data set
   When I update edOrg "IL-CHARTER-SCHOOL" in "InterchangeEducationOrganization.xml" with updated parent refs
   |  ParentReference |
   | STANDARD-SEA     |
