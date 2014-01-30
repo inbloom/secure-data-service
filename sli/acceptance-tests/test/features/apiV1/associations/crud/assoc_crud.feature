@@ -125,7 +125,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | COUNT | REWRITE URI |
       | courseOffering                         | courseOfferings                          | 138   | "/search/courseOfferings" |
-      | staffCohortAssociation                 | staffCohortAssociations                  | 2     | "/staff/@ids/staffCohortAssociations" |
+      | staffCohortAssociation                 | staffCohortAssociations                  | 7     | "/staff/@ids/staffCohortAssociations" |
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 2     | "/staff/@ids/staffEducationOrgAssignmentAssociations" |
       | staffProgramAssociation                | staffProgramAssociations                 | 3     | "/staff/@ids/staffProgramAssociations" |
       | studentAssessment           | studentAssessments                       | 0     | "/schools/@ids/studentSchoolAssociations/students/studentAssessments" |
@@ -138,6 +138,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | courseTranscript                       | courseTranscripts                        | 0     | "/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords/courseTranscripts" |
       | teacherSchoolAssociation               | teacherSchoolAssociations                | 0     | "/schools/@ids/teacherSchoolAssociations" |
       | teacherSectionAssociation              | teacherSectionAssociations               | 0     | "/schools/@ids/teacherSchoolAssociations/teachers/teacherSectionAssociations" |
+
 
     Scenario Outline: Read All as School level Teacher
       Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
@@ -276,4 +277,52 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
      And "1" security event matching "Access Denied:Invalid reference. No association to referenced entity." should be in the sli db
      And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.1/teacherSectionAssociations" should be in the sli db   
   
-      
+    Scenario Outline: Read All as State level Staff for the currently associated entities only
+     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+      And parameter "currentOnly" is "true"
+      When I navigate to GET "/<ASSOC URI>"
+      Then I should receive a return code of 200
+      And I should receive a collection of "<COUNT>" entities
+
+    Examples:
+      | ASSOC URI                                | COUNT |
+      | courseOfferings                          | 50    |
+      | staffCohortAssociations                  | 3     |
+      | staffEducationOrgAssignmentAssociations  | 2     |
+      | staffProgramAssociations                 | 3     |
+      | studentAssessments                       | 0     |
+      | studentCohortAssociations                | 4     |
+      | studentDisciplineIncidentAssociations    | 0     |
+      | studentParentAssociations                | 0     |
+      | studentProgramAssociations               | 6     |
+      | studentSchoolAssociations                | 0     |
+      | studentSectionAssociations               | 0     |
+      | courseTranscripts                        | 0     |
+      | teacherSchoolAssociations                | 0     |
+      | teacherSectionAssociations               | 0     |
+
+    Scenario Outline: Read All as Teacher for the currently associated entities only
+     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
+      And parameter "currentOnly" is "true"
+      When I navigate to GET "/<ASSOC URI>"
+      Then I should receive a return code of 200
+      And I should receive a collection of "<COUNT>" entities
+
+    Examples:
+      | ASSOC URI                                | COUNT |
+      | courseOfferings                          | 50    |
+      | staffCohortAssociations                  | 0     |
+      | staffEducationOrgAssignmentAssociations  | 1     |
+      | staffProgramAssociations                 | 0     |
+      | studentAssessments                       | 3     |
+      | studentCohortAssociations                | 0     |
+      | studentDisciplineIncidentAssociations    | 0     |
+      | studentParentAssociations                | 2     |
+      | studentProgramAssociations               | 0     |
+      | students                                 | 31    |
+      | studentSchoolAssociations                | 50    |
+      | studentSectionAssociations               | 31    |
+      | courseTranscripts                        | 2     |
+      | teachers                                 | 1     |
+      | teacherSchoolAssociations                | 1     |
+      | teacherSectionAssociations               | 4     |
