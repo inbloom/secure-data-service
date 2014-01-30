@@ -29,6 +29,8 @@ process_opts() {
                 ENV=$OPTARG
                 ;;
             a)
+                IFS=","
+                #Implement some type of checking to make sure the specified apps match up to something in the deployHash
                 APPS=$OPTARG
                 ;;
             w)
@@ -52,7 +54,20 @@ process_opts() {
         exit 1
     fi
 }
+
+process_opts $@
+
 hostname=`hostname -s`
+
+declare -A deployHash
+deployHash=( [api]="$WORKSPACE/sli/api/target/api.war"
+             [dashboard]="$WORKSPACE/sli/dashboard/target/dashboard.war"
+             [simple-idp]="$WORKSPACE/sli/simple-idp/target/simple-idp.war"
+             [sample]="$WORKSPACE/sli/SDK/sample/target/sample.war"
+             [ingestion-service]="$WORKSPACE/sli/ingestion/ingestion-service/target/ingestion-service.war"
+             [mock-zis]="$WORKSPACE/sli/sif/mock-zis/target/mock-zis.war"
+             [sif-agent]="$WORKSPACE/sli/sif/sif-agent/target/sif-agent.war"
+)
 
 #Defined Functions (These can be in a seperate file, but for now in this one to make creation/testing easier)
 noTableScan()
@@ -137,8 +152,15 @@ deployDatabrowser()
   bundle install --deployment
   echo "Databrowser Deployment Complete"
 }
+deployTomcat()
+{
+  APP=$1
+  SOURCE=$2
+  sudo cp $2 /opt/apache-tomcat-7.0.47/webapps/
+  sudo chown tomcat7:tomcat7 /opt/apache-tomcat-7.0.47/webapps/*
+  echo "Deployed $APP"
+}
 
-process_opts $@
 
 
 if [[ "$ENV" == "ci" ]]; then
@@ -150,6 +172,11 @@ if [[ "$ENV" == "ci" ]]; then
   databrowserUnitTests
   deployAdmin
   deployDatabrowser
+
+  for APP in $APPS; do
+    deployTomcat $APP ${deployHash[$APP]}
+  done
+
 fi
 
 if [[ "$ENV" == "prod-rc" ]]; then
