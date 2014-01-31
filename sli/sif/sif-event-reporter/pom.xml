@@ -6,7 +6,7 @@
     <parent>
         <artifactId>sif</artifactId>
         <groupId>org.slc.sli.sif</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.ds-912.92.744</version>
     </parent>
 
     <artifactId>sif-event-reporter</artifactId>
