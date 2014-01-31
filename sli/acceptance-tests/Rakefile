@@ -2,6 +2,8 @@ require 'mongo'
 require 'rbconfig'
 require 'json'
 require 'socket'
+require_relative './test/features/utils/db_client'
+require_relative './test/features/utils/rakefile_common'
 
 
 Dir.glob('suites/*.rake').each { |r| import r }
@@ -803,6 +805,11 @@ task :databrowserTests => [:realmInit] do
   end
 end
 
+desc "Run sample breadcrumbtrail tests"
+task :breadcrumbTests => [] do
+  runTests("test/features/databrowser/databrowser_breadcrumbtrail.feature")
+end
+
 desc "Run Device and Agent Tests"
 task :deviceTests => [:realmInit] do
   runTests("test/features/device")
@@ -1016,7 +1023,7 @@ end
 ############################################################
 desc "Run Ingestion Acceptances Tests"
 task :odinTests => [:odinGenerateTests, :ingestOdinDataSet] do
-  displayFailureReport()
+  displayFailureReport
   if $SUCCESS
     puts "Completed All Tests"
   else
@@ -1024,15 +1031,6 @@ task :odinTests => [:odinGenerateTests, :ingestOdinDataSet] do
   end
 end
 
-desc "Run Odin Jmeter generate and ingest for use with Jmeter API Performance Tests"
-task :jmeterOdinTests => [:generateOdinJmeterDataSet, :ingestOdinJmeterDataSet] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
 ############################################################
 # Odin Data Generation tests end
 ############################################################
@@ -1101,6 +1099,10 @@ end
 # Onboarding Integration Tests start
 ############################################################
 
+desc "testing tests"
+task :testTest do
+  runTests("test/features/databrowser/test.feature")
+end
 
 desc "Run Onboarding Integration Tests"
 task :onboardingIntegrationTests do

@@ -67,17 +67,19 @@ i {color: #AAA;}
 div#entities { padding-left: 3em; }
 div.value { font-size: 14px; margin: 0 0 10px 30px; }
 div.key { font-size: 14px; clear: left; margin: 0 16px 10px 0; font-weight: bold; }
-div.value ul { margin-left: 60px; }
+ul.values { display: table; line-height: 14px; }
+ul.values li { margin-bottom: 4px; }
 div.address div.value { margin-left: 120px; }
 
 #entities .row {
     width: 100%;
     clear: both;
 }
-
 .row ul { 
     list-style-type: none;
-    padding: 0;
+    padding: 2px 0px 0px 0px;
 }
+
+div.breadcrumb { margin-left:i 18px }
 
 

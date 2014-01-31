@@ -17,10 +17,12 @@ limitations under the License.
 =end
 
 
-require File.expand_path('../common_stepdefs.rb', __FILE__)
-require File.expand_path('../rakefile_common.rb', __FILE__)
 require 'rubygems'
 require 'bundler/setup'
+
+require_relative 'common_stepdefs'
+require_relative 'rakefile_common'
+require_relative 'db_client'
 
 require 'rest-client'
 require 'json'
@@ -154,9 +156,7 @@ $createdEntityIds = {}
 $createdLocations = {}
 
 def convertTenantIdToDbName(tenantId)
-  db_name = Digest::SHA1.hexdigest tenantId
-  #puts "Tenant: #{tenantId} DB: #{db_name}"
-  return db_name
+  Digest::SHA1.hexdigest tenantId
 end
 
 def assert(bool, message = 'assertion failure')
@@ -185,7 +185,6 @@ end
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
 #              It is suggested you assert the @sessionId before returning success from the calling function
 def idpRealmLogin(user, passwd, realm="SLI")
-  puts "realm " + realm
   token = $SESSION_MAP[user+"_"+realm]
   assert(token != nil, "Could not find session for user #{user} in realm #{realm}")
   @sessionId = token

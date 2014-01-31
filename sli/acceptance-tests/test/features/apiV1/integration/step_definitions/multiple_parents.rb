@@ -27,41 +27,40 @@ require_relative '../../../utils/sli_utils.rb'
 require_relative '../../utils/api_utils.rb'
 #require_relative '../../../../apiV1/integration/step_definitions/app_oauth.rb'
 
+def db
+  @mongo_db ||= DbClient.new
+end
+
 def findStaffId(staffLogin)
-  @conn = Mongo::Connection.new(Property['ingestion_db'], Property['ingestion_db_port']) if !defined? @conn
-  @db = @conn.db(convertTenantIdToDbName('Midgar'))
-  @coll = @db['staff']
-  staffId = @coll.find_one('body.staffUniqueStateId'=>staffLogin)['_id']
+  staffId = db.find_one('staff','body.staffUniqueStateId'=>staffLogin)['_id']
 end
 
 def findEdOrgId(stateOrganizationId)
-  @conn = Mongo::Connection.new(Property['ingestion_db'], Property['ingestion_db_port']) if !defined? @conn
-  @db = @conn.db(convertTenantIdToDbName('Midgar'))
-  @coll = @db['educationOrganization']
-  edOrgIdId = @coll.find_one('body.stateOrganizationId'=>stateOrganizationId)['_id']
+  edOrgIdId = db.find_one('educationOrganization', 'body.stateOrganizationId'=>stateOrganizationId)['_id']
+end
+
+def ed_org_body
+  {
+      "address"=>[
+          {
+              "addressType"=>"Physical",
+              "city"=>"Gotham City",
+              "nameOfCounty"=>"Wake",
+              "postalCode"=>"27500",
+              "stateAbbreviation"=>"NC",
+              "streetNumberName"=>"118 Main St."
+          }
+      ],
+      "nameOfInstitution"=>"Test School",
+      "organizationCategories"=>[
+          "School"
+      ],
+      "stateOrganizationId"=>"-----PLACEHOLDER-------"
+  }
 end
 
 When(/^I create a LEA named "([^"]*)"$/) do |lea|
-  edOrg = <<-jsonDelimiter
-    {
-        "address":[
-           {
-              "addressType":"Physical",
-              "city":"Gotham City",
-              "nameOfCounty":"Wake",
-              "postalCode":"27500",
-              "stateAbbreviation":"NC",
-              "streetNumberName":"118 Main St."
-           }
-        ],
-        "nameOfInstitution":"Test School",
-        "organizationCategories":[
-           "School"
-        ],
-        "stateOrganizationId":"-----PLACEHOLDER-------"
-    }
-  jsonDelimiter
-  edOrgBody = JSON.parse(edOrg)
+  edOrgBody = ed_org_body
   edOrgBody['stateOrganizationId']            = lea
   edOrgBody['organizationCategories']         = ['Local Education Agency']
   #edOrgBody['parentEducationAgencyReference'] = [findEdOrgId(parent)]
@@ -74,26 +73,7 @@ When(/^I create a LEA named "([^"]*)"$/) do |lea|
 end
 
 When(/^I create a LEA named "([^"]*)" with parent IL$/) do |lea|
-  edOrg = <<-jsonDelimiter
-    {
-        "address":[
-           {
-              "addressType":"Physical",
-              "city":"Gotham City",
-              "nameOfCounty":"Wake",
-              "postalCode":"27500",
-              "stateAbbreviation":"NC",
-              "streetNumberName":"118 Main St."
-           }
-        ],
-        "nameOfInstitution":"Test School",
-        "organizationCategories":[
-           "School"
-        ],
-        "stateOrganizationId":"-----PLACEHOLDER-------"
-    }
-  jsonDelimiter
-  edOrgBody = JSON.parse(edOrg)
+  edOrgBody = ed_org_body
   edOrgBody['stateOrganizationId']            = lea
   edOrgBody['organizationCategories']         = ['Local Education Agency']
   edOrgBody['parentEducationAgencyReference'] = [findEdOrgId('IL')]
@@ -106,26 +86,7 @@ When(/^I create a LEA named "([^"]*)" with parent IL$/) do |lea|
 end
 
 When(/^I create a School named "([^"]*)" with parents "([^"]*)"$/) do |schoolName, parentLEAs|
-  edOrg = <<-jsonDelimiter
-    {
-        "address":[
-           {
-              "addressType":"Physical",
-              "city":"Gotham City",
-              "nameOfCounty":"Wake",
-              "postalCode":"27500",
-              "stateAbbreviation":"NC",
-              "streetNumberName":"118 Main St."
-           }
-        ],
-        "nameOfInstitution":"Test School",
-        "organizationCategories":[
-           "School"
-        ],
-        "stateOrganizationId":"-----PLACEHOLDER-------"
-    }
-  jsonDelimiter
-  edOrgBody = JSON.parse(edOrg)
+  edOrgBody = ed_org_body
   parentLeaIds = parentLEAs.split(/,/).map {|x| x.strip!; $createdEntities[x]['id']}
   edOrgBody['stateOrganizationId']            = schoolName
   edOrgBody['organizationCategories']         = ['School']
@@ -138,21 +99,18 @@ When(/^I create a School named "([^"]*)" with parents "([^"]*)"$/) do |schoolNam
 end
 
 When(/^I create a Student named "([^"]*)"$/) do |studentName|
-  student = <<-jsonDelimiter
-  {
-		"hispanicLatinoEthnicity" : false,
-		"studentUniqueStateId" : "800000015",
-		"name" : {
-			"generationCodeSuffix" : "Jr",
-			"lastSurname" : "Iskra",
-			"firstName" : "Damon"
+  student = {
+		"hispanicLatinoEthnicity" => false,
+		"studentUniqueStateId" => "800000015",
+		"name" => {
+			"generationCodeSuffix" => "Jr",
+			"lastSurname" => "Iskra",
+			"firstName" => "Damon"
 		},
-		"birthData" : {
-			"birthDate" : "1996-01-17"
+		"birthData" => {
+			"birthDate" => "1996-01-17"
 		}
 	}
-  jsonDelimiter
-  student = JSON.parse(student)
   student['studentUniqueStateId'] = studentName
   restHttpPost('/v1/students', student.to_json, 'application/vnd.slc+json')
   location = @res.raw_headers['location'][0]
@@ -161,15 +119,12 @@ When(/^I create a Student named "([^"]*)"$/) do |studentName|
 end
 
 When(/^I create a StudentSchoolAssociation between "([^"]*)" and "([^"]*)"$/) do |studentName, schoolName|
-  studentSchoolAssociation = <<-jsonDelimiter
-  {
-		"studentId" : "-----PLACEHOLDER-------",
-		"schoolId" :  "-----PLACEHOLDER-------",
-		"entryDate" : "2011-09-01",
-		"entryGradeLevel" : "Eighth grade"
+  studentSchoolAssociation = {
+		"studentId" => "-----PLACEHOLDER-------",
+		"schoolId" =>  "-----PLACEHOLDER-------",
+		"entryDate" => "2011-09-01",
+		"entryGradeLevel" => "Eighth grade"
 	}
-  jsonDelimiter
-  studentSchoolAssociation                         = JSON.parse(studentSchoolAssociation)
   studentSchoolAssociation['studentId']            = $createdEntities[studentName]['id']
   studentSchoolAssociation['schoolId' ]            = $createdEntities[schoolName]['id']
   restHttpPost('/v1/studentSchoolAssociations', studentSchoolAssociation.to_json, 'application/vnd.slc+json')
@@ -182,17 +137,14 @@ When(/^I try to get "([^"]*)" and get a response code "([^"]*)"$/) do |id, respC
 end
 
 When(/^I create a StaffEducationOrganizationAssociation  between "([^"]*)" and "([^"]*)"$/) do |staff, edOrg|
-  staffEducationOrganizationAssociation = <<-jsonDelimiter
-  {
-		"staffClassification" : "Leader",
-		"educationOrganizationReference" : "-----PLACEHOLDER-------",
-		"positionTitle" : "Leader",
-		"staffReference" : "-----PLACEHOLDER-------",
-		"endDate" : "2023-08-13",
-		"beginDate" : "1967-08-13"
+  staffEducationOrganizationAssociation = {
+		"staffClassification" => "Leader",
+		"educationOrganizationReference" => "-----PLACEHOLDER-------",
+		"positionTitle" => "Leader",
+		"staffReference" => "-----PLACEHOLDER-------",
+		"endDate" => "2023-08-13",
+		"beginDate" => "1967-08-13"
 	}
-  jsonDelimiter
-  staffEducationOrganizationAssociation                                        = JSON.parse(staffEducationOrganizationAssociation)
   staffEducationOrganizationAssociation['staffReference']                      = findStaffId(staff)
   staffEducationOrganizationAssociation['educationOrganizationReference' ]     = $createdEntities[edOrg]['id']
   restHttpPost('/v1/staffEducationOrgAssignmentAssociations', staffEducationOrganizationAssociation.to_json, 'application/vnd.slc+json')
@@ -201,25 +153,19 @@ end
 When(/^I authorize all apps to access "([^"]*)"$/) do |schoolName|
   schoolName = $createdEntities[schoolName]['id']
   puts "Authorizing all edorgs to access #{schoolName}"
-  @conn = Mongo::Connection.new(Property['ingestion_db'], Property['ingestion_db_port']) if !defined? @conn
-  @db = @conn.db(convertTenantIdToDbName('Midgar'))
-  @coll = @db['applicationAuthorization']
   new_edorg = Hash.new
   new_edorg["authorizedEdorg"] = schoolName
-  updateResult = @coll.update({}, {'$push' => {'body.edorgs' => new_edorg}},:upsert => true, :safe => true, :multi=> true )
+  updateResult = db.update('applicationAuthorization', {}, {'$push' => {'body.edorgs' => new_edorg}},:upsert => true, :safe => true, :multi=> true )
   assert(updateResult['ok'] == 1 && updateResult['err'] == nil, 'Authorizing update failed!')
 end
 
 When(/^I create a Cohort "([^"]*)" for "([^"]*)" and associate "([^"]*)" and "([^"]*)" with it$/) do |cohortName, schoolName, studentName, admin|
-    cohort = <<-jsonDelimiter
-    {
-		  "cohortType" : "Academic Intervention",
-		  "cohortScope" : "District",
-		  "educationOrgId" : "-----PLACEHOLDER-------",
-		  "cohortIdentifier" : "IL-SUN-COH-PAST1"
+    cohort = {
+		  "cohortType" => "Academic Intervention",
+		  "cohortScope" => "District",
+		  "educationOrgId" => "-----PLACEHOLDER-------",
+		  "cohortIdentifier" => "IL-SUN-COH-PAST1"
 	  }
-    jsonDelimiter
-    cohort = JSON.parse(cohort)
     cohort['educationOrgId']   =  $createdEntities[schoolName]['id']
     cohort['cohortIdentifier'] =  cohortName
     restHttpPost('/v1/cohorts', cohort.to_json, 'application/vnd.slc+json')
@@ -228,30 +174,24 @@ When(/^I create a Cohort "([^"]*)" for "([^"]*)" and associate "([^"]*)" and "([
     restHttpGetAbs(location, 'application/vnd.slc+json')
     $createdEntities[cohortName] = JSON.parse @res
 
-    sca = <<-jsonDelimiter
-    {
-		  "staffId" : "-----PLACEHOLDER-------",
-		  "cohortId" : "Mathematics",
-		  "beginDate" : "2010-09-01",
-		  "endDate" : "2031-09-01",
-		  "studentRecordAccess" : true
+    sca = {
+		  "staffId" => "-----PLACEHOLDER-------",
+		  "cohortId" => "Mathematics",
+		  "beginDate" => "2010-09-01",
+		  "endDate" => "2031-09-01",
+		  "studentRecordAccess" => true
 	  }
-    jsonDelimiter
-    sca = JSON.parse(sca)
     sca['staffId'] = findStaffId(admin)
     sca['cohortId'] = $createdEntities[cohortName]['id']
     restHttpPost('/v1/staffCohortAssociations', sca.to_json, 'application/vnd.slc+json')
     assert(@res.code == 201, 'Could not creat staffCohortAssociations!')
 
-    sca = <<-jsonDelimiter
-    {
-		    "studentId" : "Mathematics",
-		    "cohortId" : "Mathematics",
-		    "beginDate" : "2010-09-01",
-		    "endDate" : "2031-09-01"
+    sca = {
+		    "studentId" => "Mathematics",
+		    "cohortId" => "Mathematics",
+		    "beginDate" => "2010-09-01",
+		    "endDate" => "2031-09-01"
 	  }
-    jsonDelimiter
-    sca = JSON.parse(sca)
     sca['studentId'] = $createdEntities[studentName]['id']
     sca['cohortId'] = $createdEntities[cohortName]['id']
     restHttpPost('/v1/studentCohortAssociations', sca.to_json, 'application/vnd.slc+json')
@@ -263,7 +203,6 @@ When(/^I add a parent reference for "([^"]*)" to "([^"]*)"$/) do |edOrgToBeModif
   edOrgBody['parentEducationAgencyReference'].push($createdEntities[newParent]['id'])
   restHttpPut("/v1/educationOrganizations/#{edOrgBody['id']}", edOrgBody.to_json, 'application/vnd.slc+json')
   assert(@res.code == 204, 'Could not modify edorg!')
-  #assert(body['parentEducationAgencyReference'].include?($createdEntities[newParent]['id']), 'PUT request response does not have addition parent reference!')
 end
 
 When(/^I try to update "([^"]*)" name to "([^"]*)"$/) do |studentName, newName|

@@ -93,7 +93,7 @@ module EntitiesHelper
   def build_links(hash)
     html = ""
     if hash.is_a?(Array)
-      html << '<ul>'
+      html << "<ul class='values'>"
       hash.sort_by{|link| t(link["rel"]).downcase}.each do |link|
         html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << '</li>'
       end
@@ -143,7 +143,17 @@ module EntitiesHelper
         html << "<div class='row'><div class='key left'>#{t(key)}:</div><div class='value#{address_text}'>#{val_text}</div></div>"
       }
     elsif entity.is_a?(Array)
-      entity.each { |item| html << display_entity(item) }
+      # The following is so that a list a values (like Links) can be displayed in a
+      # different way than a list of hashes (like address)
+      if entity[0].is_a?(Hash)
+        html << "<ul class='hashes'>"
+      else
+        html << "<ul class='values'>"
+      end
+      entity.each do |item|
+        html << '<li>' << display_entity(item) << '</li>'
+      end
+      html << '</ul>'
     else
       html << entity.to_s
     end
