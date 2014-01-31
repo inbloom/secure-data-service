@@ -4,7 +4,7 @@ require 'logger'
 require 'fileutils'
 require_relative '../../utils/sli_utils.rb'
 
-def generate(scenario="10students")
+def generate(scenario="10students_optional")
   # clear the generate dir
   `rm -rf #{@gen_path}*` if @gen_path && !@gen_path.empty? && @gen_path != '/'
 
@@ -111,7 +111,7 @@ Then /^I should see generated file <File>$/ do |table|
 end
 
 Then /^I should see the generated files?:$/ do |table|
-  table.raw.flatten.sort.should == @files
+  @files.should == table.raw.flatten.sort
 end
 
 Then /^I should see (.*?) has been generated$/ do |filename|
