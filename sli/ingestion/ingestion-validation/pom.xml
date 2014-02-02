@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.slc.sli.ingestion</groupId>
     <artifactId>ingestion</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.master.94.752</version>
   </parent>
 
   <artifactId>ingestion-validation</artifactId>
