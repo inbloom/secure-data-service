@@ -29,7 +29,7 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
  *
  */
 @Document
-public final class Error {
+public final class IngestionError {
 
     @Indexed
     private String batchJobId = "";
@@ -52,11 +52,11 @@ public final class Error {
 
     private String errorDetail = "";
 
-    public Error() {
+    public IngestionError() {
         // Mongo requires this
     }
 
-    public Error(String batchJobId, String stageName, String resourceId, String sourceIp, String hostname,
+    public IngestionError(String batchJobId, String stageName, String resourceId, String sourceIp, String hostname,
             String recordIdentifier, Date timestamp, String severity, String errorType, String errorDetail) {
         this.setBatchJobId(batchJobId);
         this.setStageName(stageName);
@@ -72,7 +72,7 @@ public final class Error {
 
     // TODO: too many params. refactor.
     @SuppressWarnings("PMD.CustomAvoidThrowingRawExceptionTypes") // NOPMD - False positive CustomAvoidThrowingRawExceptionTypes
-    public static Error createIngestionError(String ingestionJobId, String resourceId, String stageName,
+    public static IngestionError createIngestionError(String ingestionJobId, String resourceId, String stageName,
             String sourceIp, String hostname, String recordIdentifier, String severity, String errorType,
             String errorDetail) {
 
@@ -86,7 +86,7 @@ public final class Error {
             theHostname = BatchJobUtils.getHostName();
         }
 
-        Error error = new Error(ingestionJobId, stageName, resourceId, theSourceIp, theHostname, recordIdentifier,
+        IngestionError error = new IngestionError(ingestionJobId, stageName, resourceId, theSourceIp, theHostname, recordIdentifier,
                 BatchJobUtils.getCurrentTimeStamp(), severity, errorType, errorDetail);
 
         return error;

@@ -23,19 +23,19 @@ import com.mongodb.DBObject;
 import org.springframework.core.convert.converter.Converter;
 
 import org.slc.sli.dal.encrypt.EntityEncryption;
-import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.IngestionError;
 
 /**
  * Spring converter registered in the Mongo configuration to convert Error into DBObject.
  *
  */
 
-public class ErrorWriteConverter implements Converter<Error, DBObject> {
+public class ErrorWriteConverter implements Converter<IngestionError, DBObject> {
 
     private EntityEncryption encryptor;
 
     @Override
-    public DBObject convert(Error error) {
+    public DBObject convert(IngestionError error) {
 
         BasicDBObject dbObj = new BasicDBObject();
         dbObj.put("_class", error.getClass().getName());

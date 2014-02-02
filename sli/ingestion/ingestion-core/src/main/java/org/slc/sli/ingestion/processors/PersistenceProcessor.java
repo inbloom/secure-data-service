@@ -39,7 +39,7 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.delta.SliDeltaManager;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
-import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.IngestionError;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
@@ -412,7 +412,7 @@ public class PersistenceProcessor extends IngestionProcessor<NeutralRecordWorkNo
     private void handleProcessingExceptions(Exception exception, Exchange exchange, String batchJobId) {
         LogUtil.error(LOG, "Error persisting batch job " + batchJobId, exception);
 
-        Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
+        IngestionError error = IngestionError.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                 FaultType.TYPE_ERROR.getName(), "Exception", exception.getMessage());
         batchJobDAO.saveError(error);
     }

@@ -59,7 +59,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.IngestionError;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.queues.MessageType;
@@ -121,29 +121,29 @@ public class BatchJobMongoDATest {
     public void testGetBatchJobErrorsLimitAlignedResults() {
 
         int errorIndex = START_INDEX;
-        List<Error> errorsReturnedFirst = createErrorsFromIndex(errorIndex, RESULTLIMIT);
+        List<IngestionError> errorsReturnedFirst = createErrorsFromIndex(errorIndex, RESULTLIMIT);
         errorIndex += errorsReturnedFirst.size();
-        List<Error> errorsReturnedSecond = createErrorsFromIndex(errorIndex, RESULTLIMIT);
+        List<IngestionError> errorsReturnedSecond = createErrorsFromIndex(errorIndex, RESULTLIMIT);
         errorIndex += errorsReturnedSecond.size();
 
-        when(mockMongoTemplate.find((Query) any(), eq(Error.class), eq(BATCHJOB_ERROR_COLLECTION)))
+        when(mockMongoTemplate.find((Query) any(), eq(IngestionError.class), eq(BATCHJOB_ERROR_COLLECTION)))
         .thenReturn(errorsReturnedFirst)     // return the first time this method call is matched
         .thenReturn(errorsReturnedSecond)    // return the second time this method call is matched
-        .thenReturn(Collections.<Error>emptyList()); // return the last time this method call is matched - should NOT be called
+        .thenReturn(Collections.<IngestionError>emptyList()); // return the last time this method call is matched - should NOT be called
         when(mockMongoTemplate.getCollection(eq(BATCHJOB_ERROR_COLLECTION))).thenReturn(mockedCollection);
         when(mockedCollection.count(Matchers.isA(DBObject.class))).thenReturn((long) errorIndex);
 
-        Iterable<Error> errorIterable = mockBatchJobMongoDA.getBatchJobErrors(BATCHJOBID, RESOURCEID, FaultType.TYPE_ERROR, RESULTLIMIT);
+        Iterable<IngestionError> errorIterable = mockBatchJobMongoDA.getBatchJobErrors(BATCHJOBID, RESOURCEID, FaultType.TYPE_ERROR, RESULTLIMIT);
 
         int iterationCount = START_INDEX;
 
-        for (Error error : errorIterable) {
+        for (IngestionError error : errorIterable) {
             assertOnErrorIterableValues(error, iterationCount);
             iterationCount++;
         }
 
         // Check we queried the db once.
-        verify(mockMongoTemplate, times(1)).find((Query) any(), eq(Error.class), eq(BATCHJOB_ERROR_COLLECTION));
+        verify(mockMongoTemplate, times(1)).find((Query) any(), eq(IngestionError.class), eq(BATCHJOB_ERROR_COLLECTION));
     }
 
     /**
@@ -153,36 +153,36 @@ public class BatchJobMongoDATest {
     public void testGetBatchJobErrors() {
 
         int errorIndex = START_INDEX;
-        List<Error> errorsReturnedFirst = createErrorsFromIndex(errorIndex, RESULTLIMIT);
+        List<IngestionError> errorsReturnedFirst = createErrorsFromIndex(errorIndex, RESULTLIMIT);
         errorIndex += errorsReturnedFirst.size();
-        List<Error> errorsReturnedSecond = createErrorsFromIndex(errorIndex, RESULTLIMIT - 1);
+        List<IngestionError> errorsReturnedSecond = createErrorsFromIndex(errorIndex, RESULTLIMIT - 1);
         errorIndex += errorsReturnedSecond.size();
 
-        when(mockMongoTemplate.find((Query) any(), eq(Error.class), eq(BATCHJOB_ERROR_COLLECTION)))
+        when(mockMongoTemplate.find((Query) any(), eq(IngestionError.class), eq(BATCHJOB_ERROR_COLLECTION)))
         .thenReturn(errorsReturnedFirst)     // return the first time this method call is matched
         .thenReturn(errorsReturnedSecond)    // return the second time this method call is matched
-        .thenReturn(Collections.<Error>emptyList()); // return the last time this method call is matched - should NOT be called
+        .thenReturn(Collections.<IngestionError>emptyList()); // return the last time this method call is matched - should NOT be called
         when(mockMongoTemplate.getCollection(eq(BATCHJOB_ERROR_COLLECTION))).thenReturn(mockedCollection);
         when(mockedCollection.count(Matchers.isA(DBObject.class))).thenReturn((long) errorIndex);
 
-        Iterable<Error> errorIterable = mockBatchJobMongoDA.getBatchJobErrors(BATCHJOBID, RESOURCEID, FaultType.TYPE_ERROR, RESULTLIMIT);
+        Iterable<IngestionError> errorIterable = mockBatchJobMongoDA.getBatchJobErrors(BATCHJOBID, RESOURCEID, FaultType.TYPE_ERROR, RESULTLIMIT);
 
         int iterationCount = START_INDEX;
 
-        for (Error error : errorIterable) {
+        for (IngestionError error : errorIterable) {
             assertOnErrorIterableValues(error, iterationCount);
             iterationCount++;
         }
 
         // Check we queried the db once.
-        verify(mockMongoTemplate, times(1)).find((Query) any(), eq(Error.class), eq(BATCHJOB_ERROR_COLLECTION));
+        verify(mockMongoTemplate, times(1)).find((Query) any(), eq(IngestionError.class), eq(BATCHJOB_ERROR_COLLECTION));
     }
 
-    private List<Error> createErrorsFromIndex(int errorStartIndex, int numberOfErrors) {
-        List<Error> errors = new ArrayList<Error>();
+    private List<IngestionError> createErrorsFromIndex(int errorStartIndex, int numberOfErrors) {
+        List<IngestionError> errors = new ArrayList<IngestionError>();
 
         for (int errorIndex = errorStartIndex; errors.size() < numberOfErrors; errorIndex++) {
-            errors.add(new Error(BATCHJOBID, BatchJobStageType.EDFI_PARSER_PROCESSOR.getName(),
+            errors.add(new IngestionError(BATCHJOBID, BatchJobStageType.EDFI_PARSER_PROCESSOR.getName(),
                 "resourceid" + errorIndex,
                 "sourceIp" + errorIndex,
                 "hostname" + errorIndex,
@@ -196,7 +196,7 @@ public class BatchJobMongoDATest {
         return errors;
     }
 
-    private void assertOnErrorIterableValues(Error error, int iterationCount) {
+    private void assertOnErrorIterableValues(IngestionError error, int iterationCount) {
 
         assertEquals(error.getBatchJobId(), BATCHJOBID);
         assertEquals(error.getStageName(), BatchJobStageType.EDFI_PARSER_PROCESSOR.getName());
@@ -318,7 +318,7 @@ public class BatchJobMongoDATest {
 
     @Test
     public void testError(){
-        Error error = new Error(null, null, null, null, null, null, new Date(), null, null, null);
+        IngestionError error = new IngestionError(null, null, null, null, null, null, new Date(), null, null, null);
 
         Assert.assertNotNull("BatchJobId should not be null!", error.getBatchJobId());
         Assert.assertNotNull("StageName should not be null", error.getStageName());

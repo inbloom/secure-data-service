@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.IngestionError;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.MessageCode;
@@ -68,7 +68,7 @@ public class DatabaseMessageReport extends AbstractMessageReport {
     }
 
     private void persistFault(FaultType faultType, String message, Source source) {
-        Error error = Error.createIngestionError(TenantContext.getJobId(), source.getResourceId(),
+        IngestionError error = IngestionError.createIngestionError(TenantContext.getJobId(), source.getResourceId(),
                 "", BatchJobUtils.getHostName(), BatchJobUtils.getHostAddress(), null,
                 faultType.getName(), faultType.getName(), message);
 

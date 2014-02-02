@@ -29,7 +29,7 @@ import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.landingzone.AttributeType;
-import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.IngestionError;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.Stage;
@@ -138,7 +138,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public void saveError(Error error) {
+    public void saveError(IngestionError error) {
         if (error != null && "true".equals(trackIngestionErrors) && ERROR.equalsIgnoreCase(error.getSeverity())) {
             batchJobMongoTemplate.save(error);
         }
@@ -149,11 +149,11 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public Iterable<Error> getBatchJobErrors(String jobId, String resourceId, FaultType type, int limit) {
+    public Iterable<IngestionError> getBatchJobErrors(String jobId, String resourceId, FaultType type, int limit) {
         return batchJobMongoTemplate.find(
                 Query.query(
                         Criteria.where(BATCHJOBID_FIELDNAME).is(jobId).and(RESOURCE_ID_FIELD).is(resourceId)
-                                .and(SEVERITY_FIELD).is(type.getName())).limit(limit), Error.class,
+                                .and(SEVERITY_FIELD).is(type.getName())).limit(limit), IngestionError.class,
                 BATCHJOB_ERROR_COLLECTION);
     }
 

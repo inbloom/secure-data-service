@@ -25,7 +25,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.IngestionError;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.Stage;
@@ -42,9 +42,9 @@ public interface BatchJobDAO {
 
     NewBatchJob findBatchJobById(String batchJobId);
 
-    public Iterable<Error> getBatchJobErrors(String jobId, String resourceId, FaultType type, int limit);
+    public Iterable<IngestionError> getBatchJobErrors(String jobId, String resourceId, FaultType type, int limit);
 
-    void saveError(Error error);
+    void saveError(IngestionError error);
 
     void saveBatchJobStage(String batchJobId, Stage stage);
 

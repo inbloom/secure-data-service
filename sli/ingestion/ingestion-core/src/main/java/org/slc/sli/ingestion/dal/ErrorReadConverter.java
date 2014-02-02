@@ -26,14 +26,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 
 import org.slc.sli.dal.encrypt.EntityEncryption;
-import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.IngestionError;
 
 /**
  * Spring converter registered in the Mongo configuration to convert DBObjects
  * into NewBatchJob.
  *
  */
-public class ErrorReadConverter implements Converter<DBObject, Error> {
+public class ErrorReadConverter implements Converter<DBObject, IngestionError> {
     private static final Logger LOG = LoggerFactory.getLogger(ErrorReadConverter.class);
     private EntityEncryption encryptor;
 
@@ -47,9 +47,9 @@ public class ErrorReadConverter implements Converter<DBObject, Error> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Error convert(DBObject dbObj) {
+    public IngestionError convert(DBObject dbObj) {
 
-        Error error = new Error();
+        IngestionError error = new IngestionError();
 
         Object obj = dbObj.get("batchJobId");
 

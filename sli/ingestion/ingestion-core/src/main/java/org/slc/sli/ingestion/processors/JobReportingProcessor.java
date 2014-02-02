@@ -52,7 +52,7 @@ import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.IngestionError;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
@@ -261,14 +261,14 @@ public class JobReportingProcessor implements Processor {
     private boolean writeUserLog(NewBatchJob job, ResourceEntry resource, FaultType severity, int logRecordsLimit) {
         String resourceId = resource != null ? resource.getResourceId() : null;
 
-        Iterable<Error> errors = batchJobDAO.getBatchJobErrors(job.getId(), resourceId, severity, logRecordsLimit);
+        Iterable<IngestionError> errors = batchJobDAO.getBatchJobErrors(job.getId(), resourceId, severity, logRecordsLimit);
 
         if (errors.iterator().hasNext()) {
             PrintWriter errorWriter = null;
             try {
                 String fileType = FaultType.TYPE_ERROR.equals(severity) ? ERROR_FILE_TYPE : WARNING_FILE_TYPE;
                 errorWriter = getErrorWriter(fileType, job, resource);
-                for (Error error : errors) {
+                for (IngestionError error : errors) {
                     writeErrorLine(errorWriter, severity.getName(), error.getErrorDetail());
                 }
             } catch (IOException e) {

@@ -47,7 +47,7 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.RangedWorkNote;
-import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.IngestionError;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
@@ -128,7 +128,7 @@ public class JobReportingProcessorTest {
                 mockedStages, mockedResourceEntries);
         mockedJob.setTopLevelSourceId(TEMP_DIR);
 
-        Iterable<Error> fakeErrorIterable = createFakeErrorIterable();
+        Iterable<IngestionError> fakeErrorIterable = createFakeErrorIterable();
 
         // mock the WorkNote
         RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(BATCHJOBID);
@@ -237,14 +237,14 @@ public class JobReportingProcessorTest {
         return resourceEntries;
     }
 
-    private Iterable<Error> createFakeErrorIterable() {
-        List<Error> errors = new LinkedList<Error>();
-        Error error = new Error(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), RESOURCEID,
+    private Iterable<IngestionError> createFakeErrorIterable() {
+        List<IngestionError> errors = new LinkedList<IngestionError>();
+        IngestionError error = new IngestionError(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), RESOURCEID,
                 "10.81.1.27", "testhost", RECORDID, BatchJobUtils.getCurrentTimeStamp(),
                 FaultType.TYPE_ERROR.getName(), "errorType", ERRORDETAIL);
         errors.add(error);
 
-        Error nullError = new Error(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), NULLRESOURCEID,
+        IngestionError nullError = new IngestionError(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), NULLRESOURCEID,
                 "10.81.1.27", "testhost", RECORDID, BatchJobUtils.getCurrentTimeStamp(),
                 FaultType.TYPE_ERROR.getName(), "errorType", NULLERRORDETAIL);
         errors.add(nullError);
