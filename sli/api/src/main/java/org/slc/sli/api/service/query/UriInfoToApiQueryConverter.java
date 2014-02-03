@@ -64,6 +64,29 @@ public class UriInfoToApiQueryConverter {
     public UriInfoToApiQueryConverter() {
         reservedQueryKeywordImplementations = new HashMap<String, NeutralCriteriaImplementation>();
 
+        // countOnly - DS-1046
+        // if true, retrieve only the count for this query.
+        reservedQueryKeywordImplementations.put(ParameterConstants.COUNT_ONLY, new NeutralCriteriaImplementation() {
+            @Override
+            /**
+             * set the "count only" flag in the criterion according to whether the parameter
+             * is 'false' or not.  Anything other than (case-insensitive) 'false' is regarded
+             * as true.
+             */
+            public void convert(ApiQuery apiQuery, Object value) {
+            	String stringValue = value.toString().toLowerCase();
+            	if ("true".equals(stringValue) || "false".equals(stringValue))
+            	{
+            	    boolean countOnly = "true".equals(stringValue);
+            	    apiQuery.setCountOnly(countOnly);
+            	}
+            	else
+            	{
+            		throw new IllegalArgumentException("countOnly parameter value must be 'true' or 'false', found '" + stringValue + "'");
+            	}
+            }
+        });
+        
         // selector
         reservedQueryKeywordImplementations.put(ParameterConstants.SELECTOR, new NeutralCriteriaImplementation() {
             @Override
@@ -173,18 +196,28 @@ public class UriInfoToApiQueryConverter {
                     String modifiedCriteriaString = URLDecoder.decode(criteriaString, "UTF-8");
                     NeutralCriteria neutralCriteria = new NeutralCriteria(modifiedCriteriaString);
                     neutralCriteria.setRemovable(true);
+
+                    // There is a set of NeutralCriteriaImplemention objects for "reserved Query Keywords";
+                    // get that implementation if we have one for this keyword.
                     NeutralCriteriaImplementation nci = this.reservedQueryKeywordImplementations.get(neutralCriteria.getKey());
-                    if (nci == null) {
+                    // if we have such an implementation, alter the apiQuery with it
+                    if (nci != null)
+                    {
+                        nci.convert(apiQuery, neutralCriteria.getValue());
+                    }
+                    else
+                    {
+                        // we don't have a special NeutralCriteriaImplementation for this keyword; if it is
+                        // not one of the ones in this list, add the NeutralCriteria created from this
+                        // criteria string (modifiedCriteriaString)
                         if (!neutralCriteria.getKey().equals("full-entities")
                                 && (!ParameterConstants.OPTIONAL_FIELDS.equals(neutralCriteria.getKey()))
                                 && (!ParameterConstants.VIEWS.equals(neutralCriteria.getKey()))
                                 && (!ParameterConstants.INCLUDE_CUSTOM.equals(neutralCriteria.getKey()))
                                 && (!ParameterConstants.INCLUDE_AGGREGATES.equals(neutralCriteria.getKey()))
-                                && (!ParameterConstants.INCLUDE_CALCULATED.equals(neutralCriteria.getKey()))) {
-                            apiQuery.addCriteria(neutralCriteria);
+                                && (!ParameterConstants.INCLUDE_CALCULATED.equals(neutralCriteria.getKey()))) 
+                        { apiQuery.addCriteria(neutralCriteria); 
                         }
-                    } else {
-                        nci.convert(apiQuery, neutralCriteria.getValue());
                     }
                 }
             } catch (RuntimeException re) {
