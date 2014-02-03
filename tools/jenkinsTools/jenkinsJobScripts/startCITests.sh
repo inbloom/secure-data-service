@@ -57,7 +57,7 @@ process_opts() {
 
 process_opts $@
 
-hostname=`hostname -s`
+HOSTNAME=`hostname -s`
 
 declare -A deployHash
 deployHash=( [api]="$WORKSPACE/sli/api/target/api.war"
@@ -102,10 +102,10 @@ resetDatabases()
 generateFixtureData()
 {
     echo "Altering fixture data for applications to match..."
-    sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.dev.inbloom.org/g" acceptance-tests/test/data/application_fixture.json
-    sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.dev.inbloom.org/g" acceptance-tests/test/data/realm_fixture.json
-    sed -i "s/http:\/\/local.slidev.org:8082/https:\/\/$hostname.dev.inbloom.org/g" acceptance-tests/test/data/realm_fixture.json
-    sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.dev.inbloom.org/g" acceptance-tests/test/data/application_denial_fixture.json
+    sed -i "s/https:\/\/ci.slidev.org/https:\/\/$HOSTNAME.dev.inbloom.org/g" acceptance-tests/test/data/application_fixture.json
+    sed -i "s/https:\/\/ci.slidev.org/https:\/\/$HOSTNAME.dev.inbloom.org/g" acceptance-tests/test/data/realm_fixture.json
+    sed -i "s/http:\/\/local.slidev.org:8082/https:\/\/$HOSTNAME.dev.inbloom.org/g" acceptance-tests/test/data/realm_fixture.json
+    sed -i "s/https:\/\/ci.slidev.org/https:\/\/$HOSTNAME.dev.inbloom.org/g" acceptance-tests/test/data/application_denial_fixture.json
 }
 adminUnitTests()
 {
@@ -161,6 +161,13 @@ deployTomcat()
   echo "Deployed $APP"
 }
 
+startSearchIndexer()
+{
+  cd $WORKSPACE/sli/search-indexer
+  scripts/local_search_indexer.sh restart target/search_indexer.tar.gz -Dsli.conf=/etc/datastore/sli.properties -Dsli.encryption.keyStore=/etc/datastore/sli-keystore.jks -Dlock.dir=data/
+  echo "Started Search Indexer"
+}
+
 runTests()
 {
   Xvfb :4 -screen 0 1024x768x24 >/dev/null 2>&1 &
@@ -181,12 +188,13 @@ if [[ "$ENV" == "ci" ]]; then
   databrowserUnitTests
   deployAdmin
   deployDatabrowser
+  startSearchIndexer
 
   for APP in $APPS; do
     deployTomcat $APP ${deployHash[$APP]}
   done
 
-  runTests sampleApp_server_address=https://cislave-1-sample.dev.inbloom.org/ dashboard_server_address=https://cislave-1-dashboard.dev.inbloom.org dashboard_api_server_uri=https://cislave-1-api.dev.inbloom.org realm_page_url=https://cislave-1-api.dev.inbloom.org/api/oauth/authorize admintools_server_url=https://cislave-1-admin.dev.inbloom.org api_server_url=https://cislave-1-api.dev.inbloom.org api_ssl_server_url=https://cislave-1-api.dev.inbloom.org ingestion_landing_zone=/ingestion/lz sif_zis_address_trigger=http://$NODE_NAME.slidev.org:8080/mock-zis/trigger bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_properties_file=/opt/tomcat/conf/sli.properties bulk_extract_keystore_file=/opt/tomcat/encryption/ciKeyStore.jks bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz TOGGLE_TABLESCANS=true smokeTests
+  runTests sampleApp_server_address=https://$HOSTNAME-sample.dev.inbloom.org/ dashboard_server_address=https://cislave-1-dashboard.dev.inbloom.org dashboard_api_server_uri=https://cislave-1-api.dev.inbloom.org realm_page_url=https://cislave-1-api.dev.inbloom.org/api/oauth/authorize admintools_server_url=https://cislave-1-admin.dev.inbloom.org api_server_url=https://cislave-1-api.dev.inbloom.org api_ssl_server_url=https://cislave-1-api.dev.inbloom.org ingestion_landing_zone=/ingestion/lz sif_zis_address_trigger=http://$NODE_NAME.slidev.org:8080/mock-zis/trigger bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_properties_file=/opt/tomcat/conf/sli.properties bulk_extract_keystore_file=/opt/tomcat/encryption/ciKeyStore.jks bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz TOGGLE_TABLESCANS=true smokeTests
 fi
 
 if [[ "$ENV" == "prod-rc" ]]; then
