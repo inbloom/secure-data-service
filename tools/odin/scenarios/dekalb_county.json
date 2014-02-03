@@ -1,0 +1,28 @@
+{
+    'defaults':{ 'students_per_class':30 }
+    'leas':[
+        {
+            'name':'Dekalb County',
+            'schools' : [
+                {
+                    'name':'Peachtree Charter Middle School',
+                    'type':'middle school',
+                    'address':'blah',
+                    'grades':['6th','7th','8th'],
+                    'students_per_class':20,
+                    'assessments_per_student':10,
+                    'teachers_per_grade':5
+                },
+                {
+                    'name':'Dunwoody High School',
+                    'type':'high school',
+                    'address':'blah',
+                    'grades':['9th','10th','11th','12th'],
+                    'students_per_class':25,
+                    'assessments_per_student':10,
+                    'teachers_per_grade':5
+                }
+            ]
+        }
+    ]
+}
