@@ -169,11 +169,11 @@ public class UriInfoToApiQueryConverter {
         });
 
         // Archived Data
-        reservedQueryKeywordImplementations.put(ParameterConstants.INCLUDE_ARCHIVED, new NeutralCriteriaImplementation() {
+        reservedQueryKeywordImplementations.put(ParameterConstants.CURRENT_ONLY, new NeutralCriteriaImplementation() {
         	@Override
         	public void convert(ApiQuery apiQuery, Object value) {
         		boolean archived = Boolean.parseBoolean(value.toString());
-        		if (ParameterConstants.DEFAULT_ARCHIVE_STATE) {
+        		if (ParameterConstants.DEFAULT_CURRENT_ONLY_STATE) {
             		if (!archived) {
             			addDateQuery(apiQuery);
             		}       			
@@ -271,6 +271,8 @@ public class UriInfoToApiQueryConverter {
     // DS-1013 - Allow querying for in between two dates
     private void addDateQuery(ApiQuery apiQuery) {
 
+    	String today = formatDate(new java.util.Date()); //NOPMD - Thread Safe has been handled
+
     	String beginDateField = ParameterConstants.DEFAULT_BEGIN_DATE;
     	String endDateField = ParameterConstants.DEFAULT_END_DATE;
 
@@ -279,6 +281,18 @@ public class UriInfoToApiQueryConverter {
     		beginDateField = ParameterConstants.STUDENT_SCHOOL_BEGIN_DATE;
     		endDateField = ParameterConstants.STUDENT_SCHOOL_END_DATE;
     	}
+
+    	/**
+    	 * The following adds additional queries to be able to get an object so that it's beginDate is before
+    	 * or equal to now and the endDate is after or equal to now. The following cases are queried for.
+    	 * 
+    	 * beginDate and endDate do not exist - ENTITY RETURNED
+    	 * beginDate exists endDate does not and beginDate is <= now - ENTITY RETURNED
+    	 * endDate exists beginDate does not and endDate >= - ENTITY RETURNED
+    	 * beginDate exists and is <= now and endDate exists and is >= now - ENTITY RETURNED
+    	 * 
+    	 * All other cases the entity is not returned.
+    	 */
     	
     	// Set up queries
     	NeutralQuery beginDate = new NeutralQuery();
@@ -289,18 +303,18 @@ public class UriInfoToApiQueryConverter {
     	// Add BothDate criteria
     	bothDates.addCriteria(new NeutralCriteria(beginDateField, NeutralCriteria.CRITERIA_EXISTS, true));
     	bothDates.addCriteria(new NeutralCriteria(endDateField, NeutralCriteria.CRITERIA_EXISTS, true));
-    	bothDates.addCriteria(new NeutralCriteria(beginDateField, NeutralCriteria.CRITERIA_LTE, formatDate(new java.util.Date()))); //NOPMD - Thread Safe has been handled
-    	bothDates.addCriteria(new NeutralCriteria(endDateField, NeutralCriteria.CRITERIA_GTE, formatDate(new java.util.Date()))); //NOPMD - Thread Safe has been handled
+    	bothDates.addCriteria(new NeutralCriteria(beginDateField, NeutralCriteria.CRITERIA_LTE, today));
+    	bothDates.addCriteria(new NeutralCriteria(endDateField, NeutralCriteria.CRITERIA_GTE, today));
 
     	// Add BeginDate criteria
     	beginDate.addCriteria(new NeutralCriteria(beginDateField, NeutralCriteria.CRITERIA_EXISTS, true));
     	beginDate.addCriteria(new NeutralCriteria(endDateField, NeutralCriteria.CRITERIA_EXISTS, false));
-    	beginDate.addCriteria(new NeutralCriteria(beginDateField, NeutralCriteria.CRITERIA_LTE, formatDate(new java.util.Date()))); //NOPMD - Thread Safe has been handled
+    	beginDate.addCriteria(new NeutralCriteria(beginDateField, NeutralCriteria.CRITERIA_LTE, today));
 
     	// Add EndDate criteria
     	endDate.addCriteria(new NeutralCriteria(endDateField, NeutralCriteria.CRITERIA_EXISTS, true));
     	endDate.addCriteria(new NeutralCriteria(beginDateField, NeutralCriteria.CRITERIA_EXISTS, false));
-    	endDate.addCriteria(new NeutralCriteria(endDateField, NeutralCriteria.CRITERIA_GTE, formatDate(new java.util.Date()))); //NOPMD - Thread Safe has been handled
+    	endDate.addCriteria(new NeutralCriteria(endDateField, NeutralCriteria.CRITERIA_GTE, today));
 
     	// Add NoDates criteria
     	noDates.addCriteria(new NeutralCriteria(beginDateField, NeutralCriteria.CRITERIA_EXISTS, false));

@@ -99,18 +99,19 @@ public class ParameterConstants {
      * value is changed too. Also, if you modify this don't forget to change
      * the documentation.
      */
-    public static final String INCLUDE_ARCHIVED = "currentOnly";
+    public static final String CURRENT_ONLY = "currentOnly";
     /**
      * Based on the language of above, it may make more sense
      * to have the default state be true or false. For instance
      * currentOnly=true would indicate a default state of including
-     * archived. However, history=true would indicate a default state
-     * of not including the archived data. However, be careful with
-     * this setting as it will effect what data is returned by any
-     * entity with a begin and end date that is being handled and
-     * things could be broken by expecting data that may not be returned.
+     * archived. However, if INCLUDE_ARCHIVED has a value of "history",
+     * that would indicate a default state of not including the archived
+     * data. However, be careful with this setting as it will affect
+     * what data is returned by any entity with a begin and end date
+     * that is being handled and things could be broken by expecting
+     * data that may not be returned.
      */
-    public static final Boolean DEFAULT_ARCHIVE_STATE = false;
+    public static final Boolean DEFAULT_CURRENT_ONLY_STATE = false;
 
     public static final String HEADER_LINK = "Link";
     public static final String HEADER_TOTAL_COUNT = "TotalCount";
