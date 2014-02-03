@@ -185,23 +185,30 @@ public class DefaultResourceService implements ResourceService {
                     addAdditionalCriteria(apiQuery);
                     addGranularAccessCriteria(definition, apiQuery);
 
-                    if (getAllEntities) {
-                        entityBodies = SecurityUtil.sudoRun(new SecurityUtil.SecurityTask<Iterable<EntityBody>>() {
-
-                            @Override
-                            public Iterable<EntityBody> execute() {
-                                Iterable<EntityBody> entityBodies = null;
-                                try {
-                                    entityBodies = logicalEntity.getEntities(apiQuery, resource.getResourceType());
-                                } catch (UnsupportedSelectorException e) {
-                                    entityBodies = definition.getService().list(apiQuery);
+                    if (apiQuery.isCountOnly())
+                    {
+                        entityBodies = new ArrayList<EntityBody>();
+                    }
+                    else
+                    {
+                        if (getAllEntities) {
+                            entityBodies = SecurityUtil.sudoRun(new SecurityUtil.SecurityTask<Iterable<EntityBody>>() {
+                                
+                                @Override
+                                public Iterable<EntityBody> execute() {
+                                    Iterable<EntityBody> entityBodies = null;
+                                    try {
+                                        entityBodies = logicalEntity.getEntities(apiQuery, resource.getResourceType());
+                                    } catch (UnsupportedSelectorException e) {
+                                        entityBodies = definition.getService().list(apiQuery);
+                                    }
+                                    
+                                    return entityBodies;
                                 }
-
-                                return entityBodies;
-                            }
-                        });
-                    } else {
-                        entityBodies = getEntityBodies(apiQuery, definition, definition.getResourceName());
+                            });
+                        } else {
+                            entityBodies = getEntityBodies(apiQuery, definition, definition.getResourceName());
+                        }
                     }
                     long count = getEntityCount(definition, apiQuery);
 
@@ -327,7 +334,7 @@ public class DefaultResourceService implements ResourceService {
 
         try {
             final String associationKey = getConnectionKey(base, resource);
-            List<EntityBody> entityBodyList;
+            List<EntityBody> entityBodyList = null;     // DS-1046 - initialize in case we don't fill this in
             List<String> valueList = Arrays.asList(id.split(","));
 
             final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
@@ -357,8 +364,12 @@ public class DefaultResourceService implements ResourceService {
                 apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
             }
 
-
-            entityBodyList = (List<EntityBody>) getEntityBodies(apiQuery, definition, definition.getResourceName());
+            // if we are doing only a count, don't execute the query that returns the body list
+            // DS-1046
+            if (!apiQuery.isCountOnly())
+            {
+                entityBodyList = (List<EntityBody>) getEntityBodies(apiQuery, definition, definition.getResourceName());
+            }
 
             long count = getEntityCount(definition, apiQuery);
             return new ServiceResponse(adapter.migrate(entityBodyList, definition.getResourceName(), GET), count);
@@ -468,7 +479,16 @@ public class DefaultResourceService implements ResourceService {
                 finalApiQuery.addCriteria(new NeutralCriteria(key, "in", filteredIdList));
             }
 
-            entityBodyList = (List<EntityBody>) getEntityBodies(finalApiQuery, finalEntity, finalEntity.getResourceName());
+            // if we're only getting the count of this query, just create an empty list, otherwise
+            // execute the query to get the bodies - DS-1046, providing an API for retrieving counts only.
+            if (finalApiQuery.isCountOnly())
+            {
+                entityBodyList = new ArrayList<EntityBody>();
+            }
+            else
+            {
+                entityBodyList = (List<EntityBody>) getEntityBodies(finalApiQuery, finalEntity, finalEntity.getResourceName());
+            }
 
             long count = getEntityCount(finalEntity, finalApiQuery);
 

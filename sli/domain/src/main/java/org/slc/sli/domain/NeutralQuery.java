@@ -39,6 +39,8 @@ public class NeutralQuery {
     private int limit;
     private String sortBy;
     private SortOrder sortOrder;
+    private boolean countOnly = false;				// true => retrieve only the count for this query
+    												// DS-1046, provide countOnly API calls		
 
     /**
      *  A list of all criteria that make up this query
@@ -317,6 +319,10 @@ public class NeutralQuery {
         this.queryCriteria = newQueryCriteria;
         return this;
     }
+    
+    public void setCountOnly(boolean value) { countOnly = value; }		// DS-1046, provide countOnly API calls
+    public boolean getCountOnly() { return countOnly; }					// DS-1046, provide countOnly API calls
+    public boolean isCountOnly() { return countOnly; }					// DS-1046, provide countOnly API calls
     
     @Override
     public String toString() {
