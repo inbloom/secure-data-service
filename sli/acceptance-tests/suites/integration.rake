@@ -180,7 +180,6 @@ task :rcDeleteLDAPUsers do
     end
   end
 end
-p-
 desc "Delete Dev1 and Dev2 from LDAP"
 task :rcDeleteSandboxLDAPUsers do
   emailsToDelete = [(Property['developer_sb_email_imap_registration_user_email']),
