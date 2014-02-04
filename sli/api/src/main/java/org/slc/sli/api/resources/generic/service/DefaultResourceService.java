@@ -247,6 +247,9 @@ public class DefaultResourceService implements ResourceService {
             count = definition.getService().count(apiQuery);
         }
 
+        apiQuery.setLimit(originalLimit);
+        apiQuery.setOffset(originalOffset);
+
         return count;
     }
 
