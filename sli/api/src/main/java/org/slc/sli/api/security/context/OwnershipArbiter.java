@@ -120,24 +120,7 @@ public abstract class OwnershipArbiter {
                     Object critValue = null;
                         if (ref.type == Reference.RefType.LEFT_TO_RIGHT) {
                             critField = ParameterConstants.ID;
-
-                            String[] refFields = ref.refField.split("\\.");
-
-                            critValue = entity.getBody();
-                            for(String subdocField : refFields) {
-                                if(critValue == null) {
-                                    break;
-                                }
-                                else if(critValue instanceof Map) {
-                                    critValue = ((Map<String, Object>) critValue).get(subdocField);
-                                }
-                                else if(critValue instanceof DBObject)
-                                {
-                                    critValue = ((DBObject) critValue).get(subdocField);
-                                }
-
-                            }
-
+                            critValue = getNestedCritValue(ref, entity);
                         } else { // RIGHT_TO_LEFT
                             critField = ref.refField;
                             critValue = entity.getEntityId();
@@ -164,6 +147,33 @@ public abstract class OwnershipArbiter {
 
             return edorgs;
       }
+
+    /**
+     * @param ref - a Reference to a field in an entity, potentially in a nested subdoc
+     * @param entity - an Entity of type ref.fromType
+     * @return - the value of the field in entity
+     */
+    private Object getNestedCritValue(Reference ref, Entity entity)
+    {
+        String[] refFields = ref.refField.split("\\.");
+
+        Object critValue = entity.getBody();
+        for(String subdocField : refFields) {
+            if(critValue == null) {
+                break;
+            }
+            else if(critValue instanceof Map) {
+                critValue = ((Map<String, Object>) critValue).get(subdocField);
+            }
+            else if(critValue instanceof DBObject)
+            {
+                critValue = ((DBObject) critValue).get(subdocField);
+            }
+
+        }
+
+        return critValue;
+    }
 
     abstract boolean isBaseType(String type);
 
