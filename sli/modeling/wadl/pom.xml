@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.slc.sli.modeling</groupId>
         <artifactId>modeling</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.DS-1003.94.765</version>
     </parent>
     <artifactId>wadl</artifactId>
     <name>WADL (Web Application Description Language)</name>
