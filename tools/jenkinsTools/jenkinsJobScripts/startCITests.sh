@@ -204,3 +204,5 @@ fi
 if [[ "$ENV" == "sandbox-rc" ]]; then
   echo "sandbox-rc foo"
 fi
+EXITCODE=$?
+exit $EXITCODE
