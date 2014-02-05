@@ -181,6 +181,10 @@ Then /^I am redirected to a page that page lists all of the "([^"]*)" entity's f
   assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//div[text()='#{arg1}']")}
 end
 
+Then /^I see a count of "([^"]*)" on the page$/ do |arg1|
+  assertWithWait("Failed to see counts") {@driver.find_element(:xpath, "//li[contains(text(),'#{arg1}')]")}
+end
+
 Then /^I am redirected to the particular associations Simple View$/ do
   assertWithWait("Failed to find table of associations")  {@driver.find_element(:id, "simple-table")}
 end

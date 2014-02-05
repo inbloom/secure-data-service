@@ -104,6 +104,7 @@ module EntitiesHelper
           begin
             new_url = stripUrl(link["href"])
             urlArray = new_url.split('/')
+            ## This check is so that there are no errors passing parameters to an id only url
             if (urlArray.size() == 2)
               currentCount = 1
               totalCount = 1

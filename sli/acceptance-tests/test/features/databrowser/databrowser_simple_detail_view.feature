@@ -119,14 +119,15 @@ And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 And I have navigated to the <Page> page of the Data Browser
+And I see a count of <Count> on the page
 When I click on the row containing <Text>
 And I click on the <Link> of any of the associating entities
 Then I am redirected to a page that page lists all of the <Entity> entity's fields
  Examples:
-| Page                                      | Text                                    | Link         | Entity                                 |
-| "GetStaffProgramAssociations"             | "9bf906cc-8fd5-11e1-86ec-0021701f5431"  | "Me"         | "9bf906cc-8fd5-11e1-86ec-0021701f5431" |
-| "GetStaffCohortAssociations" | "8fef446f-fc63-15f9-8606-0b85086c07d5"| "GetCohort" | "District-wide academic intervention cohort for Social Studies" |
-| "GetStaffCohortAssociations" | "8fef446f-fc63-15f9-8606-0b85086c07d5"| "GetStaff" | "rrogers"        |
+| Page                           | Text                                    | Count   | Link         | Entity                                 |
+| "GetStaffProgramAssociations"  | "9bf906cc-8fd5-11e1-86ec-0021701f5431"  | "(1/1)" | "Me"         | "9bf906cc-8fd5-11e1-86ec-0021701f5431" |
+| "GetStaffCohortAssociations"   | "8fef446f-fc63-15f9-8606-0b85086c07d5"  | "(1/1)" | "GetCohort"  | "District-wide academic intervention cohort for Social Studies" |
+| "GetStaffCohortAssociations"   | "8fef446f-fc63-15f9-8606-0b85086c07d5"  | "(0/1)" | "GetStaff"   | "rrogers"        |
 
 Scenario: Click on Available Links associations
 
