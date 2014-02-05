@@ -9,6 +9,8 @@ development:
     client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
     ## redirect_uri: http://localhost:3000/callback
     redirect_uri: http://local.slidev.org:3000/callback
+    ## Use this boolean parameter to determine whether or not to show counts next to links
+    counts_enabled: true
 team:
     ## portal_url: http://localhost:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
     portal_url: http://local.slidev.org:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
@@ -18,6 +20,8 @@ team:
     client_secret: GTV8WeZSuRz2kR3GKyHLjYmtRMeRspHJTFXv72SBj81OccS3
     ## redirect_uri: https://{ci_host}:2000/callback
     redirect_uri: https://ci.slidev.org:2000/callback
+    ## Use this boolean parameter to determine whether or not to show counts next to links
+    counts_enabled: true
 production:
     ## portal_url: http://localhost:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
     portal_url: http://local.slidev.org:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
@@ -27,11 +31,15 @@ production:
     client_secret: GTV8WeZSuRz2kR3GKyHLjYmtRMeRspHJTFXv72SBj81OccS3
     ## redirect_uri: https://{host}:2000/callback
     redirect_uri: https://ci.slidev.org:2000/callback
+    ## Use this boolean parameter to determine whether or not to show counts next to links
+    counts_enabled: true
 test:
     ## portal_url: http://localhost:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
     portal_url: http://local.slidev.org:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
     ## api_base: https://{api_host}/api/rest/v1
     api_base: https://devapp1.slidev.org/api/rest/v1
+    ## Use this boolean parameter to determine whether or not to show counts next to links
+    counts_enabled: true
 local-acceptance-tests:
     ## portal_url: http://localhost:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
     portal_url: http://local.slidev.org:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
@@ -41,4 +49,6 @@ local-acceptance-tests:
     client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
     ## redirect_uri: http://localhost:2001/callback
     redirect_uri: http://local.slidev.org:2001/callback
+    ## Use this boolean parameter to determine whether or not to show counts next to links
+    counts_enabled: true
 

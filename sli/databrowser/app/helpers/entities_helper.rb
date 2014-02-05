@@ -95,7 +95,31 @@ module EntitiesHelper
     if hash.is_a?(Array)
       html << "<ul class='values'>"
       hash.sort_by{|link| t(link["rel"]).downcase}.each do |link|
-        html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << '</li>'
+        # This is the 'kill' switch for counts. If this is changed to false in config.yml then
+        # counts will not be displayed
+        if APP_CONFIG['counts_enabled'] == true
+          
+          # Use the url and add it to the Entity and query for countOnly
+          # catch exceptions to handle 403 and 404 errors and display N/A
+          begin
+            new_url = stripUrl(link["href"])
+            urlArray = new_url.split('/')
+            if (urlArray.size() == 2)
+              currentCount = 1
+              totalCount = 1
+            else
+              Entity.url_type = stripUrl(link["href"])
+              currentCount = Entity.get("", {"countOnly" => "true", "currentOnly" => "true"}).http_response['TotalCount']
+              totalCount = Entity.get("", {"countOnly" => "true"}).http_response['TotalCount']
+            end
+            html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << " (#{currentCount}/#{totalCount})" << '</li>'
+            
+          rescue => e
+            html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << " (N/A)" << '</li>'
+          end
+        else
+          html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << '</li>'
+        end
       end
       html << '</ul>'
     else
@@ -158,6 +182,18 @@ module EntitiesHelper
       html << entity.to_s
     end
     html
+  end
+
+  # This method takes a full url including the base and strips out the base leaving just the
+  # pertinent parts of the end of the url. IE.. removed http://local.slidev.org/api/rest/v1 from
+  # the full url.
+  private
+  def stripUrl(inUrl)
+    # Use the url and restructure it to add it back to the Entity as just the end of the url
+    url = inUrl.sub(/#{APP_CONFIG['api_base']}/ , '')
+    url = url.slice(url.index("/")..-1)
+    url = url.slice(1..-1)
+    url
   end
 
 end
