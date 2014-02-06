@@ -70,3 +70,5 @@ group :development, :test do
 end
 
 gem 'eventmachine', '1.0.3'
+
+gem 'rest-client'
