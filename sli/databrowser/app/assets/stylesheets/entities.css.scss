@@ -3,3 +3,10 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 body { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:0.8em;}
 /*div.details {background-color: rgb(45,73,128);}*/
+
+table.dataTable tr.odd:hover td.sorting_1, table.dataTable tr.even:hover td.sorting_1,
+table.dataTable tr.odd:hover td, table.dataTable tr.even:hover td
+{
+    background-color: #B0E0F0;
+    cursor: pointer;
+}
