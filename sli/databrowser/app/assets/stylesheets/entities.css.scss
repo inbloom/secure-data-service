@@ -10,3 +10,6 @@ table.dataTable tr.odd:hover td, table.dataTable tr.even:hover td
     background-color: #B0E0F0;
     cursor: pointer;
 }
+
+td.expandable > div {background: url("ui-icons_454545_256x240.png") -32px -128px no-repeat; height: 16px; width: 16px;}
+td.expandable.expanded > div {background-position: -64px -128px;}
