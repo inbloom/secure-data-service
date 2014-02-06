@@ -28,10 +28,10 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
  * @author dduran
  *
  */
-@Document
+//@Document
 public final class IngestionError {
 
-    @Indexed
+//    @Indexed
     private String batchJobId = "";
 
     private String stageName = "";
