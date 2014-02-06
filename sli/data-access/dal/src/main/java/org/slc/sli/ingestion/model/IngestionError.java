@@ -71,7 +71,6 @@ public final class IngestionError {
     }
 
     // TODO: too many params. refactor.
-    @SuppressWarnings("PMD.CustomAvoidThrowingRawExceptionTypes") // NOPMD - False positive CustomAvoidThrowingRawExceptionTypes
     public static IngestionError createIngestionError(String ingestionJobId, String resourceId, String stageName,
             String sourceIp, String hostname, String recordIdentifier, String severity, String errorType,
             String errorDetail) {

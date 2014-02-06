@@ -18,7 +18,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 public aspect LoggerCarrierAspect {
-	declare parents : (org.slc.sli.ingestion..* &&
+	declare parents : (org.slc.sli.ingestion..* && !org.slc.sli.ingestion.model.IngestionError &&
             !java.lang.Enum+)  implements LoggerCarrier;
     
     private Repository<Entity> entityRepository;
