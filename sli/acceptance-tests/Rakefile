@@ -352,6 +352,31 @@ def swap_app_ids(dbName)
   end
 end
 
+def setRealmIdpUrls
+  old_idp_url = "http://local.slidev.org:8082/simple-idp"
+  new_idp_url = Property['simpleIDP_login_url']
+
+  conn = Mongo::Connection.new(DB_HOST)
+  db = conn.db(SYSTEM_DB_NAME)
+
+  realms = db['realm']
+  realms.find.each do |realm|
+    # reset the idp if it points to local.slidev.org:8082
+    if realm['body']['idp']['id'].start_with?(old_idp_url)
+      new_url = realm['body']['idp']['id'].sub(old_idp_url,new_idp_url)
+      realms.update(
+        {'_id' => realm['_id']},
+        {
+          '$set' => {
+            'body.idp.id' => new_url,
+            'body.idp.redirectEndpoint' => new_url
+          }
+        }
+      )
+    end
+  end
+end
+
 ############################################################################################################
 
 
@@ -367,6 +392,7 @@ task :realmInit => [:appInit] do
   #Preserve the bootstrap realm
   cleanseRealms()
   setFixture("realm", "realm_fixture.json", "test/data", false)
+  setRealmIdpUrls
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "anotherfakerealm")
   setFixture("customRole", "customRole_anotherfakerealm_fixture.json", "test/data")
