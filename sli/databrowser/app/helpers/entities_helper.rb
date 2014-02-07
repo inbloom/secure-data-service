@@ -190,14 +190,14 @@ module EntitiesHelper
     # For each of the children EdOrgs, retrieve their relevent counts and add them to the total
     feederEdOrgs.each do |ed_org|
       ed_org_id = ed_org['id']
-      #counts["staff_total"] += get_counts(ed_org_id, "staff")
-      #counts["staff_current"] += get_counts(ed_org_id, "staff", false)
-      #counts["students_total"] += get_counts(ed_org_id, "students")
-      #counts["students_current"] += get_counts(ed_org_id, "students", false)
+      counts["staff_total"] += get_counts(ed_org_id, "staff")
+      counts["staff_current"] += get_counts(ed_org_id, "staff", false)
+      counts["students_total"] += get_counts(ed_org_id, "students")
+      counts["students_current"] += get_counts(ed_org_id, "students", false)
       
       # Since teacher and non-teacher come back as a hash a little more work is required
-      counts = get_teacher_and_non_counts(entity_id, counts)
-      counts = get_teacher_and_non_counts(entity_id, counts, false)
+      counts = get_teacher_and_non_counts(ed_org_id, counts)
+      counts = get_teacher_and_non_counts(ed_org_id, counts, false)
     end
 
     # Add all of the counts to the table
@@ -208,6 +208,7 @@ module EntitiesHelper
 
     # End the table
     html << "</tbody></table>"
+    
   end
 
   # This is recursive function that retrieves all of the edorgs below the current edorg
@@ -242,6 +243,7 @@ module EntitiesHelper
   # the appropriate url can be chosen based on the count needed. If total = true, this returns all of the entities
   # and if total is false, the currentOnly parameter is passed to the api.
   def get_counts(entity_id, entity_type, total = true)
+    count = 0
     if (entity_type == "students")
       url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{entity_id}/studentSchoolAssociations/students"
     elsif (entity_type == "staff")
@@ -255,7 +257,8 @@ module EntitiesHelper
     if !total
       params[:currentOnly] = "true"
     end
-    count = RestClient.get(url, params).headers[:totalcount].to_i
+    count = RestClient.get(url, params)
+    count = count.headers[:totalcount].to_i
     count
   end
 
