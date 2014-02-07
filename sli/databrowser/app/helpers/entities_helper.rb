@@ -163,22 +163,88 @@ module EntitiesHelper
   def display_edorg_table(entity)
     html ||= ""
     html << "<table class=\"edOrg\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
-    begin
-      url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{entity['id']}/staffEducationOrgAssignmentAssociations/staff"
-      params = Hash.new
-      params[:Authorization] = "Bearer #{Entity.access_token}"
-      params[:content_type] = :json
-      params[:accept] = :json
-      params[:countOnly] = "true"
-      totalCount = RestClient.get(url, params).headers[:totalcount]
-      params[:currentOnly] = "true"
-      currentCount = RestClient.get(url, params).headers[:totalcount]
-      html << "<tr><td>Staff</td><td>#{totalCount}</td><td>#{currentCount}</td></tr>"
-    rescue => e
-      logger.info("Could not get counts for #{entity['NameOfInsitution']}")
+
+    staffTotalCount = get_counts(entity, "staff")
+    staffCurrentCount = get_counts(entity, "staff", false)
+    studentsTotalCount = get_counts(entity, "students")
+    studentsCurrentCount = get_counts(entity, "students", false)
+
+    staffTotalWithoutFeeder = staffTotalCount
+    staffCurrentWithoutFeeder = staffCurrentCount
+    studentsTotalWithoutFeeder = studentsTotalCount
+    studentsCurrentWithoutFeeder = studentsCurrentCount
+    
+    @feederEdOrgs = []
+    get_feeder_edorgs(entity)
+    html << "<tr><td>FeederEdOrgSize</td><td colspan='2'>#{@feederEdOrgs.size()}</td></tr>"
+    @feederEdOrgs.each do |ed_org|
+      staffTotalCount += get_counts(ed_org, "staff")
+      staffCurrentCount += get_counts(ed_org, "staff", false)
+      studentsTotalCount += get_counts(ed_org, "students")
+      studentsCurrentCount += get_counts(ed_org, "students", false)
     end
-    html << "<tr><td colspan=\"3\">#{url}</td></tr>"
+
+    ## Get Staff Counts and add them to the table
+    html << "<tr><td>Staff</td><td>#{staffTotalWithoutFeeder}/#{staffTotalCount}</td><td>#{staffCurrentWithoutFeeder}/#{staffCurrentCount}</td></tr>"
+
+    ## Get Student Counts and add them to the table
+    html << "<tr><td>Students</td><td>#{studentsTotalWithoutFeeder}/#{studentsTotalCount}</td><td>#{studentsCurrentWithoutFeeder}/#{studentsCurrentCount}</td></tr>"      
+
+    
+    logger.info("Could not get counts for #{entity['NameOfInstitution']}")
     html << "</tbody></table>"
+  end
+
+  def get_feeder_edorgs(entity)
+    Entity.url_type = "/educationOrganizations"
+    entities = Entity.get("", {:parentEducationAgencyReference => entity['id']})
+    entities.each do |ed_org|
+      logger.info("Categories are: #{ed_org['organizationCategories']}")
+      if ed_org['organizationCategories'].include? "School"
+        @feederEdOrgs.push(ed_org)
+        logger.info("should break out")
+      else
+        logger.info("Would have kept looping")
+        get_feeder_edorgs(ed_org)
+      end
+    end
+  end
+
+  def get_basic_params
+    params = Hash.new
+    params[:Authorization] = "Bearer #{Entity.access_token}"
+    params[:content_type] = :json
+    params[:accept] = :json
+    params
+  end
+
+  def get_counts(entity, entity_type, total = true)
+    if (entity_type == "students")
+      url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{entity['id']}/studentSchoolAssociations/students"
+    elsif (entity_type == "staff")
+      url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{entity['id']}/staffEducationOrgAssignmentAssociations/staff"
+    else
+      logger.info("Invalid Entity For counts")
+      return
+    end
+    params = get_basic_params
+    params[:countOnly] = "true"
+    if !total
+      params[:currentOnly] = "true"
+    end
+    count = RestClient.get(url, params).headers[:totalcount].to_i
+    logger.info("URL being called: #{url}")
+    count
+  end
+
+  private
+  def clean_up_results(entities)
+    if entities.is_a?(Hash)
+      tmp = Array.new()
+      tmp.push(entities)
+      entities = tmp
+    end
+    entities
   end
 
 end
