@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-
+require 'rest-client'
 #++
 # This module contains a lot of the recursive view logic needed to display
 # items correctly in the databrowser views.
@@ -158,6 +158,27 @@ module EntitiesHelper
       html << entity.to_s
     end
     html
+  end
+
+  def display_edorg_table(entity)
+    html ||= ""
+    html << "<table class=\"edOrg\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
+    begin
+      url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{entity['id']}/staffEducationOrgAssignmentAssociations/staff"
+      params = Hash.new
+      params[:Authorization] = "Bearer #{Entity.access_token}"
+      params[:content_type] = :json
+      params[:accept] = :json
+      params[:countOnly] = "true"
+      totalCount = RestClient.get(url, params).headers[:totalcount]
+      params[:currentOnly] = "true"
+      currentCount = RestClient.get(url, params).headers[:totalcount]
+      html << "<tr><td>Staff</td><td>#{totalCount}</td><td>#{currentCount}</td></tr>"
+    rescue => e
+      logger.info("Could not get counts for #{entity['NameOfInsitution']}")
+    end
+    html << "<tr><td colspan=\"3\">#{url}</td></tr>"
+    html << "</tbody></table>"
   end
 
 end
