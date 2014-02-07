@@ -160,46 +160,61 @@ module EntitiesHelper
     html
   end
 
+  # This is for displaying the table that is attached to the EdOrg page. This will only display when the entityType
+  # is educationOrganization. This is a table that shows the number of staff, students, teachers and non-teachers
+  # associated with the EdOrg and it's children
   def display_edorg_table(entity)
+    
+    # Set up the header of the table
     html ||= ""
     html << "<table class=\"edOrg\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
 
+    # Get the entity ID so that it can be used for passing to other functions instead of the full entity
     entity_id = entity['id']
 
-    staffTotalCount = get_counts(entity_id, "staff")
-    staffCurrentCount = get_counts(entity_id, "staff", false)
-    studentsTotalCount = get_counts(entity_id, "students")
-    studentsCurrentCount = get_counts(entity_id, "students", false)
+    counts = Hash.new
 
-    staffTotalWithoutFeeder = staffTotalCount
-    staffCurrentWithoutFeeder = staffCurrentCount
-    studentsTotalWithoutFeeder = studentsTotalCount
-    studentsCurrentWithoutFeeder = studentsCurrentCount
+    # Get the relevent counts for the top level entity
+    counts["staff_total"] = get_counts(entity_id, "staff")
+    counts["staff_current"] = get_counts(entity_id, "staff", false)
+    counts["students_total"] = get_counts(entity_id, "students")
+    counts["students_current"] = get_counts(entity_id, "students", false)
+    counts = get_teacher_and_non_counts(entity_id, counts)
+    counts = get_teacher_and_non_counts(entity_id, counts, false)
     
+    # Retrieve the Organizations that this is the parent of and their children and so on
+    # from the function below
     feederEdOrgs = []
     feederEdOrgs = get_feeder_edorgs(entity_id)
-    html << "<tr><td>FeederEdOrgSize</td><td colspan='2'>#{feederEdOrgs.size()}</td></tr>"
+
+    # For each of the children EdOrgs, retrieve their relevent counts and add them to the total
     feederEdOrgs.each do |ed_org|
       ed_org_id = ed_org['id']
-      staffTotalCount += get_counts(ed_org_id, "staff")
-      staffCurrentCount += get_counts(ed_org_id, "staff", false)
-      studentsTotalCount += get_counts(ed_org_id, "students")
-      studentsCurrentCount += get_counts(ed_org_id, "students", false)
+      #counts["staff_total"] += get_counts(ed_org_id, "staff")
+      #counts["staff_current"] += get_counts(ed_org_id, "staff", false)
+      #counts["students_total"] += get_counts(ed_org_id, "students")
+      #counts["students_current"] += get_counts(ed_org_id, "students", false)
+      
+      # Since teacher and non-teacher come back as a hash a little more work is required
+      counts = get_teacher_and_non_counts(entity_id, counts)
+      counts = get_teacher_and_non_counts(entity_id, counts, false)
     end
 
-    ## Get Staff Counts and add them to the table
-    html << "<tr><td>Staff</td><td>#{staffTotalWithoutFeeder}/#{staffTotalCount}</td><td>#{staffCurrentWithoutFeeder}/#{staffCurrentCount}</td></tr>"
+    # Add all of the counts to the table
+    html << "<tr><td>Staff</td><td>#{counts['staff_total']}</td><td>#{counts['staff_current']}</td></tr>"
+    html << "<tr><td>Students</td><td>#{counts['students_total']}</td><td>#{counts['students_current']}</td></tr>"
+    html << "<tr><td>Teachers</td><td>#{counts['teachers_total']}</td><td>#{counts['teachers_current']}</td></tr>"
+    html << "<tr><td>Non-Teachers</td><td>#{counts['non-teachers_total']}</td><td>#{counts['non-teachers_current']}</td></tr>"
 
-    ## Get Student Counts and add them to the table
-    html << "<tr><td>Students</td><td>#{studentsTotalWithoutFeeder}/#{studentsTotalCount}</td><td>#{studentsCurrentWithoutFeeder}/#{studentsCurrentCount}</td></tr>"      
-
-    
-    logger.info("Could not get counts for #{entity['NameOfInstitution']}")
+    # End the table
     html << "</tbody></table>"
   end
 
+  # This is recursive function that retrieves all of the edorgs below the current edorg
+  # and their children and so on. It uses the organizationalCategory of School to break
+  # out of the recursiveness as schools should not have an children
   def get_feeder_edorgs(entity_id, destination = nil)
-    Entity.url_type = "/educationOrganizations"
+    Entity.url_type = "educationOrganizations"
     entities = Entity.get("", {:parentEducationAgencyReference => "#{entity_id}"})
     if destination.nil?
       destination = []
@@ -214,6 +229,7 @@ module EntitiesHelper
     destination
   end
 
+  # Used by the rest client to set up some basic header information
   def get_basic_params
     params = Hash.new
     params[:Authorization] = "Bearer #{Entity.access_token}"
@@ -222,6 +238,9 @@ module EntitiesHelper
     params
   end
 
+  # Retrieves the counts from the api for students and staff. This takes the entity_type as a variable so that
+  # the appropriate url can be chosen based on the count needed. If total = true, this returns all of the entities
+  # and if total is false, the currentOnly parameter is passed to the api.
   def get_counts(entity_id, entity_type, total = true)
     if (entity_type == "students")
       url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{entity_id}/studentSchoolAssociations/students"
@@ -240,4 +259,42 @@ module EntitiesHelper
     count
   end
 
+  # This function is used to retrieve the teacher and non-teacher counts for the edOrg that is passed
+  # in. It builds the link and pulls back all of the associations. Then looks for the Educator 
+  # staffClassification. If the classification is Educator then it is a teacher and the teachers
+  # count is incremented, otherwise, the non-teacher count is incremented. This returns a Hash
+  # of the two counts
+  def get_teacher_and_non_counts(entity_id, counts = nil, total = true)
+    if counts.nil?
+      counts = Hash.new
+    end
+    Entity.url_type = "educationOrganizations/#{entity_id}/staffEducationOrgAssignmentAssociations"
+    params = Hash.new
+
+    teacher_key = "teachers_total"
+    non_teacher_key = "non-teachers_total"
+    if !total
+      params[:currentOnly] = "true"
+      teacher_key = "teachers_current"
+      non_teacher_key = "non-teachers_current"
+    end
+
+    # Populate default counts with 0 if they do not have value
+    if counts[teacher_key].nil?
+      counts[teacher_key] = 0
+    end
+    if counts[non_teacher_key].nil?
+      counts[non_teacher_key] = 0
+    end
+
+    associations = Entity.get("", params)
+    associations.each do |association|
+      if (association['staffClassification'].include? "Educator")
+        counts[teacher_key] += 1
+      else
+        counts[non_teacher_key] += 1
+      end
+    end
+    counts
+  end
 end
