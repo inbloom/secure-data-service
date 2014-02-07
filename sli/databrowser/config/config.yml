@@ -10,7 +10,7 @@ development:
     ## redirect_uri: http://localhost:3000/callback
     redirect_uri: http://local.slidev.org:3000/callback
     ## Whether or not to show the table with counts on the EdOrg view
-    show_edorg_table: false
+    show_edorg_table: true
 team:
     ## portal_url: http://localhost:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
     portal_url: http://local.slidev.org:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
