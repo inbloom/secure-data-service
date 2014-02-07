@@ -164,24 +164,27 @@ module EntitiesHelper
     html ||= ""
     html << "<table class=\"edOrg\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
 
-    staffTotalCount = get_counts(entity, "staff")
-    staffCurrentCount = get_counts(entity, "staff", false)
-    studentsTotalCount = get_counts(entity, "students")
-    studentsCurrentCount = get_counts(entity, "students", false)
+    entity_id = entity['id']
+
+    staffTotalCount = get_counts(entity_id, "staff")
+    staffCurrentCount = get_counts(entity_id, "staff", false)
+    studentsTotalCount = get_counts(entity_id, "students")
+    studentsCurrentCount = get_counts(entity_id, "students", false)
 
     staffTotalWithoutFeeder = staffTotalCount
     staffCurrentWithoutFeeder = staffCurrentCount
     studentsTotalWithoutFeeder = studentsTotalCount
     studentsCurrentWithoutFeeder = studentsCurrentCount
     
-    @feederEdOrgs = []
-    get_feeder_edorgs(entity)
-    html << "<tr><td>FeederEdOrgSize</td><td colspan='2'>#{@feederEdOrgs.size()}</td></tr>"
-    @feederEdOrgs.each do |ed_org|
-      staffTotalCount += get_counts(ed_org, "staff")
-      staffCurrentCount += get_counts(ed_org, "staff", false)
-      studentsTotalCount += get_counts(ed_org, "students")
-      studentsCurrentCount += get_counts(ed_org, "students", false)
+    feederEdOrgs = []
+    feederEdOrgs = get_feeder_edorgs(entity_id)
+    html << "<tr><td>FeederEdOrgSize</td><td colspan='2'>#{feederEdOrgs.size()}</td></tr>"
+    feederEdOrgs.each do |ed_org|
+      ed_org_id = ed_org['id']
+      staffTotalCount += get_counts(ed_org_id, "staff")
+      staffCurrentCount += get_counts(ed_org_id, "staff", false)
+      studentsTotalCount += get_counts(ed_org_id, "students")
+      studentsCurrentCount += get_counts(ed_org_id, "students", false)
     end
 
     ## Get Staff Counts and add them to the table
@@ -195,19 +198,20 @@ module EntitiesHelper
     html << "</tbody></table>"
   end
 
-  def get_feeder_edorgs(entity)
+  def get_feeder_edorgs(entity_id, destination = nil)
     Entity.url_type = "/educationOrganizations"
-    entities = Entity.get("", {:parentEducationAgencyReference => entity['id']})
+    entities = Entity.get("", {:parentEducationAgencyReference => "#{entity_id}"})
+    if destination.nil?
+      destination = []
+    end
     entities.each do |ed_org|
-      logger.info("Categories are: #{ed_org['organizationCategories']}")
       if ed_org['organizationCategories'].include? "School"
-        @feederEdOrgs.push(ed_org)
-        logger.info("should break out")
+        destination.push(ed_org) unless destination.include? ed_org
       else
-        logger.info("Would have kept looping")
-        get_feeder_edorgs(ed_org)
+        get_feeder_edorgs(ed_org['id'], destination)
       end
     end
+    destination
   end
 
   def get_basic_params
@@ -218,11 +222,11 @@ module EntitiesHelper
     params
   end
 
-  def get_counts(entity, entity_type, total = true)
+  def get_counts(entity_id, entity_type, total = true)
     if (entity_type == "students")
-      url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{entity['id']}/studentSchoolAssociations/students"
+      url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{entity_id}/studentSchoolAssociations/students"
     elsif (entity_type == "staff")
-      url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{entity['id']}/staffEducationOrgAssignmentAssociations/staff"
+      url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{entity_id}/staffEducationOrgAssignmentAssociations/staff"
     else
       logger.info("Invalid Entity For counts")
       return
@@ -233,18 +237,7 @@ module EntitiesHelper
       params[:currentOnly] = "true"
     end
     count = RestClient.get(url, params).headers[:totalcount].to_i
-    logger.info("URL being called: #{url}")
     count
-  end
-
-  private
-  def clean_up_results(entities)
-    if entities.is_a?(Hash)
-      tmp = Array.new()
-      tmp.push(entities)
-      entities = tmp
-    end
-    entities
   end
 
 end
