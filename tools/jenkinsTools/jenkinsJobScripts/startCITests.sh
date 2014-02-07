@@ -20,9 +20,9 @@ process_opts() {
                 ;;
             e)
                 if [[ "$OPTARG" != "ci" && \
-                      "$OPTARG" != "prod-rc" && \
+                      "$OPTARG" != "ci_e2e_prod" && \
                       "$OPTARG" != "sandbox-rc" ]]; then
-                    echo "Error: Environment must be one of ci|proc-rc|sandbox-rc"
+                    echo "Error: Environment must be one of ci|ci_e2e_prod|sandbox-rc"
                     show_usage
                     exit 1
                 fi
