@@ -29,8 +29,8 @@ Given /^I am a valid SLC developer$/ do
 end
 
 Given /^I am a valid SLC operator$/ do
-  @user = 'slcoperator-email@slidev.org' # an :operator
-  @pass = 'test1234'
+  @user = 'slcoperator' # an :operator
+  @pass = 'slcoperator1234'
 end
 
 Given /^I am a valid realm administrator$/ do
