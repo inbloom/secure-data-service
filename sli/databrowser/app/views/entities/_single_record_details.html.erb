@@ -3,7 +3,7 @@ html = ""
 if entity.empty?
 	html << "Entity is empty"
 else
-    if entity["entityType"] == "educationOrganization"
+    if entity["entityType"] == "educationOrganization" and APP_CONFIG['show_edorg_table'] == true
         html << display_edorg_table(entity)
     end
 	html << display_entity(entity)
