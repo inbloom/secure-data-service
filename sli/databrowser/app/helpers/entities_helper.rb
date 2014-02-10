@@ -257,8 +257,11 @@ module EntitiesHelper
     if !total
       params[:currentOnly] = "true"
     end
-    count = RestClient.get(url, params)
-    count = count.headers[:totalcount].to_i
+    begin
+      count = RestClient.get(url, params)
+      count = count.headers[:totalcount].to_i
+    rescue => e
+    end
     count
   end
 
@@ -290,14 +293,21 @@ module EntitiesHelper
       counts[non_teacher_key] = 0
     end
 
-    associations = Entity.get("", params)
-    associations.each do |association|
-      if (association['staffClassification'].include? "Educator")
-        counts[teacher_key] += 1
-      else
-        counts[non_teacher_key] += 1
+    begin
+        
+      associations = Entity.get("", params)
+      associations.each do |association|
+        if (!association['staffClassification'].nil?)
+          if (association['staffClassification'].include? "Educator")
+            counts[teacher_key] += 1
+          else
+            counts[non_teacher_key] += 1
+          end
+        end
       end
+    rescue => e 
     end
+    
     counts
   end
 end

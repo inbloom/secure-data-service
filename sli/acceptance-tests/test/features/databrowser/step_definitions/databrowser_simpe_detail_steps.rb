@@ -294,6 +294,26 @@ Then /^I should be on the detailed page for an LEA$/ do
   assertWithWait("Failed to be directed to Databrowser's Page for an SEA")  {@driver.page_source.include?("Local Education Agency")}
 end
 
+Then /^I should go to the "([^"]*)" page and look for the EdOrg table with a "([^"]*)" result$/ do | arg1, arg2 |
+  assertWithWait("Failed to find '"+arg1+"' Link on page")  {@driver.find_element(:link_text, arg1)}
+  @driver.find_element(:link_text, arg1).click
+  # errors = @driver.find_elements(:class_name, "edOrg")
+  begin
+    @driver.find_element(:xpath, "//table[contains(@class, 'edOrg')]") 
+    if arg2 == "Pass"
+      assert(true)
+    else
+      assert(false, "There should be an EdOrg table on this page")
+    end
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    if arg2 == "Pass"
+      assert(false, "There should NOT be an EdOrg table on this page")
+    else
+      assert(true)
+    end
+  end
+end
+
 # this tests the current breadcrumb trail text for equivalence to the given value (case sig)
 Then /^I should see a breadcrumbtrail of "(.*?)"$/ do |crumb|
   begin
