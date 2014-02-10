@@ -119,32 +119,32 @@ email_imap_portname: 443
 
 #SEA Admin creds - For CI environments
 primary_email_imap_registration_user: e2etestsea
-primary_email_imap_registration_user_email: e2etestsea@slidev.org
+primary_email_imap_registration_user_email: e2etestsea@slidev2.org
 primary_email_imap_registration_pass: test1234
 
 #LEA Admin creds - For CI environments
 secondary_email_imap_registration_user: e2etestlea
-secondary_email_imap_registration_user_email: e2etestlea@slidev.org
+secondary_email_imap_registration_user_email: e2etestlea@slidev2.org
 secondary_email_imap_registration_pass: test1234
 
 #LEA Admin creds - For CI environments
 charter_email_imap_registration_user: e2echarter
-charter_email_imap_registration_user_email: e2echarter@slidev.org
+charter_email_imap_registration_user_email: e2echarter@slidev2.org
 charter_email_imap_registration_pass: test1234
 
 #Developer creds - For CI environments
 developer_email_imap_registration_user: e2etestdev
-developer_email_imap_registration_user_email: e2etestdev@slidev.org
+developer_email_imap_registration_user_email: e2etestdev@slidev2.org
 developer_email_imap_registration_pass: test1234
 
 #Developer creds (sandbox) - For CI environments
 developer_sb_email_imap_registration_user: e2etestdev_sb
-developer_sb_email_imap_registration_user_email: e2etestdev_sb@slidev.org
+developer_sb_email_imap_registration_user_email: e2etestdev_sb@slidev2.org
 developer_sb_email_imap_registration_pass: test1234
 
 #Developer 2 creds (sandbox) - For CI environments
 developer2_sb_email_imap_registration_user: e2etestdev_sb2
-developer2_sb_email_imap_registration_user_email: e2etestdev_sb2@slidev.org
+developer2_sb_email_imap_registration_user_email: e2etestdev_sb2@slidev2.org
 developer2_sb_email_imap_registration_pass: test1234
 
 #Landing zone -
