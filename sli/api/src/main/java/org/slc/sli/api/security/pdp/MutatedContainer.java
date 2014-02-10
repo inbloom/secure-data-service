@@ -82,4 +82,18 @@ public class MutatedContainer {
             append(headers, rhs.headers).
             isEquals();
     }
+    
+    @Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		if (path == null) {
+			builder.append("/home");
+		} else {
+			builder.append(path);
+		}
+		builder.append("/"+queryParameters);
+		builder.append(headers);
+		return builder.toString();
+	}
+
 }
