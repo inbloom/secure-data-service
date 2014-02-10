@@ -47,7 +47,6 @@ import org.slc.sli.api.exceptions.EntityTypeNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -72,14 +71,12 @@ import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 
 /**
  * Service class to handle all API search requests. Retrieves results using data
@@ -93,8 +90,11 @@ public class SearchResourceService {
    private static final Logger LOG = LoggerFactory.getLogger(SearchResourceService.class);
 
    private static final String CONTEXT_SCHOOL_ID = "context.schoolId";
+   private static final String ORPHANED_METADATA = "_metaData.isOrphaned";
+   private static final String CREATEDBY_METADATA = "_metaData.createdBy";
 
-   // Minimum limit on results to retrieve from Elasticsearch each trip
+
+    // Minimum limit on results to retrieve from Elasticsearch each trip
    private static final int MINIMUM_ES_LIMIT_PER_QUERY = 10;
 
    @Autowired
@@ -105,10 +105,6 @@ public class SearchResourceService {
 
    @Autowired
    private EdOrgHelper edOrgHelper;
-
-   @Qualifier("validationRepo")
-   @Autowired
-   private Repository<Entity> repo;
 
    @Value("${sli.search.maxUnfilteredResults:15000}")
    private int maxUnfilteredSearchResultCount;
@@ -189,7 +185,7 @@ public class SearchResourceService {
     * @return - Service Response
     */
    public ServiceResponse list(Resource resource, final String entity, URI queryUri, boolean routeToDefaultApp) {
-      LOG.debug("   entity: {}", entity);
+      //LOG.debug("   entity: {}", entity);
       List<EntityBody> finalEntities = null;
       Boolean moreEntities;
 
@@ -449,16 +445,12 @@ public class SearchResourceService {
             } else {
                LOG.debug("search: validating entity: {}", type);
                Map<String, EntityBody> row = entitiesByType.row(type);
-               Set<String> idsToFilter = new HashSet<String>(row.keySet());
-               Set<String> idsNotToFilter = removeIdsNotToFilter(type, idsToFilter);
-               Set<String> accessible = filterOutInaccessibleIds(type, idsToFilter);
-               accessible.addAll(idsNotToFilter);
+               Set<String> accessible = filterOutInaccessibleIds(type, row.keySet());
                for (String id : accessible) {
                   if (row.containsKey(id)) {
                      filterMap.put(id, type, row.get(id));
                   }
                }
-
             }
          }
          entityBodies.removeAll(sublist);
@@ -475,45 +467,6 @@ public class SearchResourceService {
    }
 
    /**
-    * Remove Entity IDs not to be filtered by security context.
-    *
-    * @param entityType - Entity type
-    * @param ids - Set of Entity IDs to pare down
-    *
-    * @return - Set of Entity IDs not to be filtered
-    */
-   protected Set<String> removeIdsNotToFilter(String entityType, Set<String> ids) {
-       Set<String> idsNotToFilter = new HashSet<String>();
-       for (String id : ids) {
-           if (isOrphanedAndCreatedByPrincipal(entityType, id)) {
-               idsNotToFilter.add(id);
-           }
-       }
-       ids.removeAll(idsNotToFilter);
-
-       return idsNotToFilter;
-   }
-
-   /**
-    * True if the entity with id is orphaned and created by the principal.
-    *
-    * @param collectionName - Entity type
-    * @param id - Entity ID to check
-    *
-    * @return - Whether or not the associated entity is orphaned and created by the principal
-    */
-   public boolean isOrphanedAndCreatedByPrincipal(String collectionName, String id) {
-       Entity entity = repo.findById(collectionName, id);
-       return ((entity != null) && (entity.getMetaData() != null) &&
-               getPrincipalId().equals(entity.getMetaData().get("createdBy")) &&
-               "true".equals(entity.getMetaData().get("isOrphaned")));
-   }
-
-   protected String getPrincipalId() {
-       return SecurityUtil.principalId();
-   }
-
-   /**
     * Get entities table by type, by ids
     *
     * @param entityList
@@ -527,27 +480,20 @@ public class SearchResourceService {
       return entitiesByType;
    }
 
-   /**
-    * Filter id set to get accessible ids.
-    *
-    * @param toType - Entity type
-    * @param ids - Entity IDs
-    *
-    * @return - Accessible IDs
-    */
-   public Set<String> filterOutInaccessibleIds(String toType, Set<String> ids) {
+    /**
+     * Filter id set to get accessible ids.
+     *
+     * @param toType - Entity type
+     * @param ids - Entity IDs
+     *
+     * @return - Accessible IDs
+     */
+    public Set<String> filterOutInaccessibleIds(String toType, Set<String> ids) {
+        return contextValidator.getValidIdsIncludeOrphans(resourceHelper.getEntityDefinitionByType(toType), ids, true);
+    }
 
-      // get validator
-      // TODO: FIND OUT IF THIS IS ACTUALLY TRANSITIVE == TRUE
-      IContextValidator validator = contextValidator.findValidator(toType, true);
-      // validate. if accessible, add to list
-      if (validator != null) {
-         return validator.getValid(toType, ids);
-      }
-      return Collections.emptySet();
-   }
 
-   /**
+    /**
     * NeutralCriteria filter.  Keep NeutralCriteria only on the White List.
     *
     * @param apiQuery - API query
@@ -618,7 +564,7 @@ public class SearchResourceService {
 
    /**
     * Add security context criteria to query. The security context is
-    * determined by the user's accessible schools. The list of accessible
+    * determined by the user's accessible schools as well as orphaned entities. The list of accessible
     * school ids is added to the query, and records in Elasticsearch must match
     * an id in order to be returned.
     *
@@ -632,8 +578,15 @@ public class SearchResourceService {
       schoolIds.addAll(edOrgHelper.getUserEdOrgs(principalEntity));
       // a special marker for global entities
       schoolIds.add("ALL");
-      apiQuery.addCriteria(new NeutralCriteria(CONTEXT_SCHOOL_ID, NeutralCriteria.CRITERIA_IN, new ArrayList<String>(
-            schoolIds)));
+       NeutralQuery schoolContextQuery = new NeutralQuery(new NeutralCriteria(CONTEXT_SCHOOL_ID, NeutralCriteria.CRITERIA_IN, new ArrayList<String>(
+               schoolIds)));
+
+       NeutralQuery orphanedQuery = new NeutralQuery();
+      orphanedQuery.addCriteria(new NeutralCriteria(ORPHANED_METADATA, NeutralCriteria.OPERATOR_EQUAL, "true"));
+      orphanedQuery.addCriteria(new NeutralCriteria(CREATEDBY_METADATA, NeutralCriteria.OPERATOR_EQUAL, principalEntity.getEntityId()));
+
+      apiQuery.addOrQuery(schoolContextQuery);
+      apiQuery.addOrQuery(orphanedQuery);
    }
 
    /**

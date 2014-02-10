@@ -13,7 +13,8 @@ Feature: As a user of the SLC API I would like to see various endpoints exist.
         | url                                                                     | id                                     | 
         | "/schools/#{id}/courses"                                                | "67ce204b-9999-4a11-bfea-000000000005" |
         | "/schools/#{id}/courseOfferings"                                        | "67ce204b-9999-4a11-bfea-000000000005" |
-        | "/schools/#{id}/sessions"                                               | "67ce204b-9999-4a11-bfea-000000000005" | 
+        | "/schools/#{id}/courseOfferings/courses"                                | "67ce204b-9999-4a11-bfea-000000000005" |
+        | "/schools/#{id}/sessions"                                               | "67ce204b-9999-4a11-bfea-000000000005" |
         | "/schools/#{id}/sections/gradebookEntries"                              | "67ce204b-9999-4a11-bfea-000000000005" | 
         | "/schools/#{id}/sessions/gradingPeriods"                                | "67ce204b-9999-4a11-bfea-000000000005" |
         | "/educationOrganizations/#{id}/studentCompetencyObjectives"             | "67ce204b-9999-4a11-bfea-000000000005" |

@@ -1431,6 +1431,406 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
 </EducationOrganization>
+<ClassPeriod>
+  <ClassPeriodName>Early Morning Period</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 1</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 2</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 3</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 4</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 5</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 6</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 7</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>After School Athletic Session</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Detention</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Early Morning Period</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>5</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 1</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>5</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 2</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>5</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 3</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>5</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 4</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>5</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 5</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>5</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 6</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>5</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 7</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>5</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>After School Athletic Session</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>5</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Detention</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>5</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Early Morning Period</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 1</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 2</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 3</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 4</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 5</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 6</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 7</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>After School Athletic Session</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Detention</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Early Morning Period</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 1</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 2</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 3</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 4</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 5</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 6</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 7</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>After School Athletic Session</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Detention</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Early Morning Period</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 1</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 2</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 3</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 4</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 5</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 6</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Class Period No. 7</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>After School Athletic Session</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
+<ClassPeriod>
+  <ClassPeriodName>Detention</ClassPeriodName>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</ClassPeriod>
   <EducationOrganization>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="SEA">

@@ -1,6 +1,8 @@
 source 'http://rubygems.org'
 gem 'rake'
 gem 'mustache'
+gem 'mongo'
+gem 'bson_ext'
 
 gem 'rspec', :group => :test
 gem 'factory_girl', :group => :test

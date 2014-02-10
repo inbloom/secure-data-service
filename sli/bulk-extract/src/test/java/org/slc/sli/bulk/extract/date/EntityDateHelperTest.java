@@ -21,6 +21,8 @@ import java.util.Map;
 import junit.framework.Assert;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
 import org.junit.Test;
 
 import org.slc.sli.common.constants.EntityNames;
@@ -51,8 +53,8 @@ public class EntityDateHelperTest {
         Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2012-11-11", DateTime.parse("2012-11-11T00:00:00"), EntityNames.DISCIPLINE_INCIDENT));  // Assuming there's no date changeover between date creation and usage.
         Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate("2012-11-11", DateTime.parse("2012-11-11T23:59:59.999"), EntityNames.DISCIPLINE_INCIDENT));  // Assuming there's no date changeover between date creation and usage.
         Assert.assertTrue(EntityDateHelper.isPastOrCurrentDate(null, DateTime.now().minusMillis(1), EntityNames.DISCIPLINE_INCIDENT));  // Assuming there's no date changeover between date creation and usage.
-        DateTime tomorrow = DateTime.now().plusDays(1);
-        Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate(tomorrow.getYear() + "-" + String.format("%2d", tomorrow.getMonthOfYear()) + "-" + String.format("%2d", tomorrow.getDayOfMonth()), DateTime.now(), EntityNames.DISCIPLINE_INCIDENT));  // Assuming there's no date changeover between date creation and usage.
+        DateTimeFormatter datefrmt = new DateTimeFormatterBuilder().appendYear(4, 4).appendLiteral('-').appendMonthOfYear(2).appendLiteral('-').appendDayOfMonth(2).toFormatter();
+        Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate(datefrmt.print(DateTime.now().plusDays(1)), DateTime.now(), EntityNames.DISCIPLINE_INCIDENT));  // Assuming there's no date changeover between date creation and usage.
         Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate(null, DateTime.now().minusDays(1), EntityNames.DISCIPLINE_INCIDENT));
         Assert.assertFalse(EntityDateHelper.isPastOrCurrentDate(null, DateTime.parse("2012-11-11"), EntityNames.DISCIPLINE_INCIDENT));  // Assuming no one sets the date on this machine before December 11th, 2012.
     }

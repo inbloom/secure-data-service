@@ -39,7 +39,10 @@ public enum PublicEntityDefinition {
     STUDENT_COMPETENCY_OBJECTIVE("studentCompetencyObjective"),
     PROGRAM("program"),
     SECTION("section"),
-    COHORT("cohort");
+    COHORT("cohort"),
+    CLASS_PERIOD("classPeriod"),
+    BELL_SCHEDULE("bellSchedule");
+
 
     private final String entityName;
 

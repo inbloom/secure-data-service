@@ -32,6 +32,7 @@ Before do
       "course" => "courses"
 }
 end
+
 Given /^I am logged in using "([^\"]*)" "([^\"]*)" to realm "([^\"]*)"$/ do |user, pass, realm|
   @user = user
   @passwd = pass
@@ -41,6 +42,11 @@ Given /^I am logged in using "([^\"]*)" "([^\"]*)" to realm "([^\"]*)"$/ do |use
 end
 
 Given /^format "([^\"]*)"$/ do |fmt|
+  ["application/json", "application/json;charset=utf-8", "application/xml", "text/plain", "application/vnd.slc.full+json", "application/vnd.slc+json", "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].should include(fmt)
+  @format = fmt
+end
+
+Given /^I want to use format "([^\"]*)"$/ do |fmt|
   ["application/json", "application/json;charset=utf-8", "application/xml", "text/plain", "application/vnd.slc.full+json", "application/vnd.slc+json", "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].should include(fmt)
   @format = fmt
 end
@@ -190,8 +196,8 @@ Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
   
   if @live_email_mode
     @email_conf = {
-      :host => PropLoader.getProps['email_smtp_host'],
-      :port => PropLoader.getProps['email_smtp_port']
+      :host => Property['email_smtp_host'],
+      :port => Property['email_smtp_port']
     }
   else
     @rumbster = Rumbster.new(test_port)
@@ -330,3 +336,52 @@ end
 Then /^I assert false/ do
   assert(false, 'Explicitly asserting false.')
 end
+
+# HERE BELOW LIES IMPROVED STEP DEFS
+
+# Set the session for the given type of user and also set up the +current_user+
+Given /^I am logged in as an? (.*)$/ do |user_type|
+  username, password, user_id, realm = *(credentials_for user_type)
+  idpRealmLogin(username, password, realm)
+  @sessionId.should_not be_nil
+  restHttpGet("#{staff_endpoint}/#{user_id}")
+  @res.code.should == 200
+  @current_user = JSON.parse @res
+end
+
+def current_user
+  @current_user
+end
+
+def ed_orgs_for_staff(staff)
+  ed_orgs = []
+  if ed_orgs_link = staff['links'].find{|link| link['rel'] == 'getEducationOrganizations'}
+    restHttpGetAbs(ed_orgs_link['href'])
+    @res.code.should == 200
+    ed_orgs = JSON.parse @res
+  end
+  ed_orgs
+end
+
+def staff_endpoint
+  "/v1.5/staff"
+end
+
+# Map meaningful user types to user, password, and realm
+def credentials_for(user_type)
+  realm = "IL"
+  users = { # logical name => [ username, password, id ]
+    'tenant-level IT Administrator' => %w( rrogers    rrogers1234    85585b27-5368-4f10-a331-3abcaf3a3f4c ),
+    'school-level IT Administrator' => %w( akopel     akopel1234     cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4 ),
+    'local-level IT Administrator'  => %w( jstevenson jstevenson1234 e59d9991-9d8f-48ab-8790-59df9bcf9bc7 ),
+    'school-level Educator'         => %w( rbraverman rbraverman1234 bcfcc33f-f4a6-488f-baee-b92fbd062e8d ),
+    'school-level Leader'           => %w( mgonzales  mgonzales1234  4a39f944-c238-4787-965a-50f22f3a2d9c )
+  }
+  creds = users[user_type]
+  creds.should_not be_nil
+  [*creds, realm]
+end
+
+
+
+#http://local.slidev.org:8080/api/rest/v1.5/staff/bcfcc33f-f4a6-488f-baee-b92fbd062e8d/staffEducationOrgAssignmentAssociations/educationOrganizations

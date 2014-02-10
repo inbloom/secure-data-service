@@ -87,14 +87,14 @@ module EntitiesHelper
     url.gsub(%r(#{APP_CONFIG['api_base']}\.?\d+?), "#{request.protocol}#{request.host_with_port}/entities") unless url.nil?
   end
 
-  # Here we detect links and turn it into an unordered list of links that
+  # Here we detect links and turn it into an alphabetized list of links that
   # reference the databrowser instead of the API. We also use the i18n
   # translation file to make some of the links more readable.
   def build_links(hash)
     html = ""
     if hash.is_a?(Array)
-      html << '<ul>'
-      hash.each do |link|
+      html << "<ul class='values'>"
+      hash.sort_by{|link| t(link["rel"]).downcase}.each do |link|
         html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << '</li>'
       end
       html << '</ul>'
@@ -102,6 +102,27 @@ module EntitiesHelper
       html << link_to(t(hash["rel"]), localize_url(hash["href"]))
     end
     html
+  end
+
+  # This method sorts the entity into the order determined by ./config/order.yml
+  # It assumes that the entity object is a Hash. If the entity has the key entityType,
+  # then it will use that configuration from ./config/order.yml. Otherwise, it will use
+  # the 'default' configuration from that file. It sorts the hash into the desired order,
+  # appends the keys that were not given in the configuration and then appends "links" as
+  # it was desired that "links" be the very last component displayed.
+  def sort_entity (entity)
+    if (entity.has_key?('entityType') && SORT_CONFIG.has_key?(entity['entityType']))
+      order = SORT_CONFIG[entity['entityType']].clone.to_a
+    else
+      order = SORT_CONFIG["default"].clone.to_a
+    end
+    entity.each { |key, value|
+      order << key if order.index(key).nil? && key != "links"
+    }
+    if !order.include?('links')
+      order << "links"
+    end
+    Hash[entity.sort_by {|k, v| order.index(k)}]
   end
 
   # This method is pretty complex, it's recursive, so what it does is it digs
@@ -114,13 +135,25 @@ module EntitiesHelper
   def display_entity (entity)
     html ||= ""
     if entity.is_a?(Hash)
+      entity = sort_entity(entity)
       entity.each { |key, value|
         val_text = (key == 'links' || key == 'link') ? build_links(value) : display_entity(value)
         val_text = "&nbsp" if val_text.nil? || val_text.empty?
-        html << "<div class='row'><div class='key left'>#{t(key)}:</div><div class='value'>#{val_text}</div></div>"
+        address_text = (key == 'address') ? " address" : ""
+        html << "<div class='row'><div class='key left'>#{t(key)}:</div><div class='value#{address_text}'>#{val_text}</div></div>"
       }
     elsif entity.is_a?(Array)
-      entity.each { |item| html << display_entity(item) }
+      # The following is so that a list a values (like Links) can be displayed in a
+      # different way than a list of hashes (like address)
+      if entity[0].is_a?(Hash)
+        html << "<ul class='hashes'>"
+      else
+        html << "<ul class='values'>"
+      end
+      entity.each do |item|
+        html << '<li>' << display_entity(item) << '</li>'
+      end
+      html << '</ul>'
     else
       html << entity.to_s
     end

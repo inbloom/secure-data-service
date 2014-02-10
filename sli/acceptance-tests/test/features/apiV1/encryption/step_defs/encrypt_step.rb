@@ -25,37 +25,28 @@ include REXML
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../utils/api_utils.rb'
 
-############################################################
-# ENVIRONMENT CONFIGURATION
-############################################################
-API_DB = PropLoader.getProps['DB_HOST']
-API_DB_PORT = PropLoader.getProps['DB_PORT']
-
-DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar";
-API_DB_NAME = convertTenantIdToDbName(DB_NAME);
-
-
 ###############################################################################
 # TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM
 ###############################################################################
 
-Transform /^<([^"]*)>$/ do |human_readable_id|
-
-  id = "students"                                if human_readable_id == "STUDENT URI"
-  id = "sections"                                if human_readable_id == "SECTION URI"
-  id = "schools"                                 if human_readable_id == "SCHOOL URI"
-  id = "studentSchoolAssociations"               if human_readable_id == "STUDENT SCHOOL ASSOCIATION URI"
-  id = "studentSectionAssociations"              if human_readable_id == "STUDENT SECTION ASSOCIATION URI"
-  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e_id" if human_readable_id == "English Sec 6"
-  id = "45831a9d-772e-45b3-9024-fa76ca4fe558_id"    if human_readable_id == "English Sec 7"
-  id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"    if human_readable_id == "South Daybreak Elementary ID"
-
-  id = @newId                                    if human_readable_id == "NEWLY CREATED ENTITY ID"
-
-  #return the translated value
-  id
+def db
+  @mongo_db ||= DbClient.new
 end
 
+Transform /^<([^"]*)>$/ do |human_readable_id|
+  map = {
+      'STUDENT URI' => 'students',
+      'SECTION URI' => 'sections',
+      'SCHOOL URI'  => 'schools',
+      'STUDENT SCHOOL ASSOCIATION URI' => 'studentSchoolAssociations',
+      'STUDENT SECTION ASSOCIATION URI' => 'studentSectionAssociations',
+      'English Sec 6' => 'ceffbb26-1327-4313-9cfc-1c3afd38122e_id',
+      'English Sec 7' => '45831a9d-772e-45b3-9024-fa76ca4fe558_id',
+      'South Daybreak Elementary ID' => 'a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb'
+  }
+
+  human_readable_id == 'NEWLY CREATED ENTITY ID' ? @newId : map[human_readable_id]
+end
 
 
 ###############################################################################
@@ -63,11 +54,8 @@ end
 ###############################################################################
 
 Given /^no record exists in "([^\"]*)" with a "([^\"]*)" of "([^\"]*)"$/ do |collection, field, value|
-  conn = Mongo::Connection.new(API_DB, API_DB_PORT)
-  db = conn[API_DB_NAME]
-  col = db.collection(collection)
-  resp = col.remove({field => value});
-  col.find({field => value}).count().should == 0
+  db.remove(collection, field => value)
+  db.find(collection, field => value).count.should == 0
 end
 
 Given /^parameter "([^\"]*)" is not "([^\"]*)"$/ do |param, value|
@@ -239,13 +227,8 @@ end
 ###############################################################################
 
 Then /^I find a mongo record in "([^\"]*)" with "([^\"]*)" equal to "([^\"]*)"$/ do |collection, searchTerm, value|
-  conn = Mongo::Connection.new(API_DB, API_DB_PORT)
-  db = conn[API_DB_NAME]
-  col = db.collection(collection)
-
-  @record = col.find_one({searchTerm => value})
-  @record.should_not == nil
-  conn.close
+  @record = db.find_one(collection, searchTerm => value)
+  @record.should_not be_nil
 end
 
 Then /^the field "([^\"]*)" has value "([^\"]*)"$/ do |field, value|

@@ -115,7 +115,7 @@ Scenario: Check the status of securityEvent collection
   | securityEvent  | 1                   | body.appId      | ke9Dgpo3uI                                                       | string     |
   | securityEvent  | 1                   | body.logMessage | Access Denied:User is not currently associated to a school/edorg | string     |
   #userEdOrg and targetEdOrgList are not populated as association is expired
-  And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.4/sections.*" should be in the sli db
+  And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.5/sections.*" should be in the sli db
 	
 @DE_2712
 Scenario Outline: Users accessing students via multi-part URIs for Cohorts

@@ -17,7 +17,7 @@ limitations under the License.
 =end
 
 When /^I hit the Portal home page$/ do
-  portal_url = "#{PropLoader.getProps['portal_server_address']}/portal"
+  portal_url = "#{Property['portal_server_address']}/portal"
   begin
     @driver.get portal_url
   rescue
@@ -29,7 +29,7 @@ Then /^the Portal .*? page should be compiled$/ do
 end
 
 When /^I hit the Portal Admin page$/ do
-  portal_admin_url = "#{PropLoader.getProps['portal_server_address']}/portal/web/guest/admin"
+  portal_admin_url = "#{Property['portal_server_address']}/portal/web/guest/admin"
   begin
     @driver.get portal_admin_url
   rescue

@@ -2,6 +2,8 @@ require 'mongo'
 require 'rbconfig'
 require 'json'
 require 'socket'
+require_relative './test/features/utils/db_client'
+require_relative './test/features/utils/rakefile_common'
 
 
 Dir.glob('suites/*.rake').each { |r| import r }
@@ -502,7 +504,7 @@ task :loadDefaultIngestionTenants do
     else
       require_relative 'test/features/utils/rakefile_common.rb'
       parent_lz_path = ""
-      sli_props_loc = PropLoader.getProps["ingestion_properties_file"]
+      sli_props_loc = Property['ingestion_properties_file']
       File.readlines(sli_props_loc).each do |line|
         if line.include?("landingzone.inbounddir")
           parent_lz_path = line.split("=")[1].strip
@@ -556,7 +558,8 @@ task :fullSuite => [
   :JavaSDKTests,
   :sandboxTests,
   :adminSandboxTests,
-  :apiSeleniumTests] do
+  :apiSeleniumTests,
+  :apiCountOnlyTests] do
 
   displayFailureReport()
   if $SUCCESS
@@ -660,7 +663,7 @@ task :apiV1Tests => [
                      :v1HierarchyTraversalTests,
                      :v1DirectReferencesTests,
                      :v1DirectReferenceCollectionsTests,
-                     :v1CascadeDeletionTests,
+                     :v1NoCascadeDeletionTests,
                      :v1EncryptionTests,
                      :v1SortingAndPagingTests,
                      :v1ListTests,
@@ -795,12 +798,23 @@ task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
   runTests("test/features/databrowser/student_authentication.feature")
   runTests("test/features/databrowser/databrowser_external_idp_login.feature")
+  runTests("test/features/databrowser/databrowser_breadcrumbtrail.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
   else
     raise "Tests have failed"
   end
+end
+
+desc "Run sample breadcrumbtrail tests"
+task :breadcrumbTests => [] do
+  runTests("test/features/databrowser/databrowser_breadcrumbtrail.feature")
+end
+
+desc "Run tests for countOnly URLs"
+task :apiCountOnlyTests => [] do
+  runTests("test/features/apiV1/countOnly/countOnly.feature")
 end
 
 desc "Run Device and Agent Tests"
@@ -1016,7 +1030,7 @@ end
 ############################################################
 desc "Run Ingestion Acceptances Tests"
 task :odinTests => [:odinGenerateTests, :ingestOdinDataSet] do
-  displayFailureReport()
+  displayFailureReport
   if $SUCCESS
     puts "Completed All Tests"
   else
@@ -1024,15 +1038,6 @@ task :odinTests => [:odinGenerateTests, :ingestOdinDataSet] do
   end
 end
 
-desc "Run Odin Jmeter generate and ingest for use with Jmeter API Performance Tests"
-task :jmeterOdinTests => [:generateOdinJmeterDataSet, :ingestOdinJmeterDataSet] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
 ############################################################
 # Odin Data Generation tests end
 ############################################################
@@ -1101,6 +1106,10 @@ end
 # Onboarding Integration Tests start
 ############################################################
 
+desc "testing tests"
+task :testTest do
+  runTests("test/features/databrowser/test.feature")
+end
 
 desc "Run Onboarding Integration Tests"
 task :onboardingIntegrationTests do

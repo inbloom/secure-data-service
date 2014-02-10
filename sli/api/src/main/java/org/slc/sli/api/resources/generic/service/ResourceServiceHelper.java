@@ -36,6 +36,8 @@ public class ResourceServiceHelper {
         ApiQuery apiQuery = new ApiQuery(requestURI);
         addTypeCriteria(definition, apiQuery);
 
+        apiQuery.addCriteria(new NeutralCriteria("body",NeutralCriteria.CRITERIA_EXISTS,true,false));
+
         return apiQuery;
     }
 

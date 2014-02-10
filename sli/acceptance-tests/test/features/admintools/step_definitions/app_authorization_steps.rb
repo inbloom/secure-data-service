@@ -26,7 +26,7 @@ require_relative '../../utils/selenium_common.rb'
 require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 
-DATABASE_NAME = PropLoader.getProps['sli_database_name']
+DATABASE_NAME = Property['sli_database_name']
 
 Then /^The following edOrgs are authorized for the application "(.*?)" in tenant "(.*?)"$/ do |application, tenant, table|
     disable_NOTABLESCAN()
@@ -75,12 +75,9 @@ Then /^The following edOrgs are authorized for the application "(.*?)" in tenant
 
 end
 
-
-
-
 When /^I hit the Admin Application Authorization Tool$/ do
   #XXX - Once the API is ready, remove the ID
-  @driver.get(PropLoader.getProps['admintools_server_url']+"/application_authorizations/")
+  @driver.get(Property['admintools_server_url']+"/application_authorizations/")
 end
 
 Then /^I am redirected to the Admin Application Authorization Tool$/ do
@@ -606,4 +603,13 @@ Then /^the error message "(.*?)" is displayed$/ do | expected_message |
    actual_message = @driver.find_element(:xpath, '/html/body/div/div[2]').text
    assert(actual_message == expected_message, "Unexpected message found. Expecting: #{expected_message} but got #{actual_message}")
 end
+
+When /^I update edorg "(.*?)" for tenant "(.*?)" and update the parentEducationAgencyReference to a reference of "(.*?)"$/ do |edOrgId, tenant, parent_reference|
+  disable_NOTABLESCAN()
+  db = @conn[convertTenantIdToDbName(tenant)]
+  ed_orgs = db.collection("educationOrganization")
+  results = ed_orgs.find({"_id" => edOrgId}, :fields => ["body.parentEducationAgencyReference"]).to_a
+  ed_orgs.update({:_id => edOrgId}, '$set' => {"body.parentEducationAgencyReference.0" => parent_reference})
+end
+
 

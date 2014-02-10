@@ -17,10 +17,12 @@ limitations under the License.
 =end
 
 
-require File.expand_path('../common_stepdefs.rb', __FILE__)
-require File.expand_path('../rakefile_common.rb', __FILE__)
 require 'rubygems'
 require 'bundler/setup'
+
+require_relative 'common_stepdefs'
+require_relative 'rakefile_common'
+require_relative 'db_client'
 
 require 'rest-client'
 require 'json'
@@ -154,9 +156,7 @@ $createdEntityIds = {}
 $createdLocations = {}
 
 def convertTenantIdToDbName(tenantId)
-  db_name = Digest::SHA1.hexdigest tenantId
-  #puts "Tenant: #{tenantId} DB: #{db_name}"
-  return db_name
+  Digest::SHA1.hexdigest tenantId
 end
 
 def assert(bool, message = 'assertion failure')
@@ -185,7 +185,6 @@ end
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
 #              It is suggested you assert the @sessionId before returning success from the calling function
 def idpRealmLogin(user, passwd, realm="SLI")
-  puts "realm " + realm
   token = $SESSION_MAP[user+"_"+realm]
   assert(token != nil, "Could not find session for user #{user} in realm #{realm}")
   @sessionId = token
@@ -434,7 +433,7 @@ def makeUrlAndHeaders(verb,id,sessionId,format, ssl_mode = false)
   property_name = 'api_server_url'
   property_name = 'api_ssl_server_url' if ssl_mode
 
-  url = PropLoader.getProps[property_name]+"/api/rest"+id
+  url = Property[property_name]+"/api/rest"+id
   puts(url, headers) if $SLI_DEBUG
 
   return {:url => url, :headers => headers}
@@ -502,9 +501,9 @@ end
 Around('@LDAP_Reset_developer-email') do |scenario, block|
   block.call
   if scenario.failed?
-    ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
-                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
-                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
+    ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
+                          Property['ldap_base'], Property['ldap_admin_user'],
+                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
     ldap.update_user_info({:email=> "developer-email@slidev.org", :password=>"test1234"})
   end
 end
@@ -512,9 +511,9 @@ end
 Around('@LDAP_Reset_sunsetadmin') do |scenario, block|
   block.call
   if scenario.failed?
-    ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
-                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
-                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
+    ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
+                          Property['ldap_base'], Property['ldap_admin_user'],
+                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
     ldap.update_user_info({:email=> "sunsetadmin", :password=>"sunsetadmin1234", :emailtoken => "sunsetadminderpityderp1304425892"})
   end
 end
@@ -904,7 +903,7 @@ end
 def check_records_in_sli_collection(table)
   disable_NOTABLESCAN()
   #First cut. Method has to be optimised. Connection should be cached.
-  secConn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  secConn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
   secDb = secConn.db('sli')
   result = "true"
   table.hashes.map do |row|

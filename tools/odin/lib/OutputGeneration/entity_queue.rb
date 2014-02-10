@@ -25,8 +25,8 @@ class EntityQueueRouter < Fiber
   end
 
   def resume
-    while @entityQueue.empty? == false
-      entity = @entityQueue.pop_entity()
+    while !@entityQueue.empty?
+      entity = @entityQueue.pop_entity
       @writer << entity
     end
   end
@@ -35,9 +35,6 @@ end
 
 
 class EntityQueue
-
-  @entities
-  @router
 
   def initialize
     @entities = []
@@ -50,13 +47,11 @@ class EntityQueue
 
   def push_entity(entity)
     @entities << entity
-    if @router.nil? == false
-      @router.resume
-    end
+    @router.resume if @router
   end
 
-  def pop_entity()
-    @entities.pop()
+  def pop_entity
+    @entities.pop
   end
 
   def empty?

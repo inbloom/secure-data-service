@@ -80,10 +80,7 @@ module Enum
     # translates the specified Symbol into the ed-fi compliant String representation of the enumerated type
     # -> returns nil if the Symbol doesn't exist
     def to_string(key)
-      unless key.nil?
-        #puts "DEBUG: key is #{key}"
-        const_get(key)
-      end
+      const_get(key) if key
     end
 
     # translates the specified String representation of the enumerated type into a Symbol

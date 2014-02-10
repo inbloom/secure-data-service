@@ -43,7 +43,7 @@ class XmlDataWriter < DataWriter
   def initialize(yaml)
     super(yaml)
     @yaml      = yaml
-    @directory = (yaml['DIRECTORY'] or 'generated/')
+    @directory = yaml['DIRECTORY'] || 'generated/'
     initialize_edfi_xml_writers(@directory)
   end
 

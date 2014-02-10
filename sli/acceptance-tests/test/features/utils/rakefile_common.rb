@@ -22,17 +22,17 @@ require 'yaml'
 require 'rest-client'
 
 def cleanUpLdapUser(user_email)
-  ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
-                         PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
-                         PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
+  ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
+                         Property['ldap_base'], Property['ldap_admin_user'],
+                         Property['ldap_admin_pass'], Property['ldap_use_ssl'])
 
   cleanUpUser(user_email, ldap)
 end
 
 def cleanUpMiniSandboxLdapUser(user_email)
-  ldap_sb = LDAPStorage.new(PropLoader.getProps['minisb_ldap_hostname'], PropLoader.getProps['minisb_ldap_port'],
-                         PropLoader.getProps['minisb_ldap_base'], PropLoader.getProps['minisb_ldap_admin_user'],
-                         PropLoader.getProps['minisb_ldap_admin_pass'], PropLoader.getProps['minisb_ldap_use_ssl'])
+  ldap_sb = LDAPStorage.new(Property['minisb_ldap_hostname'], Property['minisb_ldap_port'],
+                         Property['minisb_ldap_base'], Property['minisb_ldap_admin_user'],
+                         Property['minisb_ldap_admin_pass'], Property['minisb_ldap_use_ssl'])
 
   cleanUpUser(user_email, ldap_sb)
 
@@ -60,31 +60,35 @@ end
 #
 def allLeaAllowAppForTenant(appName, tenantName)
   sleep 1
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
-  db = conn[PropLoader.getProps['api_database_name']]
-  appColl = db.collection("application")
-  app = appColl.find_one({"body.name" => appName})
+  disable_NOTABLESCAN
+  db = DbClient.new(:db_name => Property['api_database_name'])
+  #conn = Mongo::Connection.new(Property['DB_HOST'], Property['DB_PORT'])
+  #db = conn[Property['api_database_name']]
+  #appColl = db.collection("application")
+  app = db.find_one('application', {"body.name" => appName})
   raise "ERROR: Could not find an application named #{appName}" if app.nil?
 
   appId = app["_id"]
   puts("The app #{appName} id is #{appId}") if ENV['DEBUG']
   
-  dbTenant = conn[convertTenantIdToDbName(tenantName)]
-  appAuthColl = dbTenant.collection("applicationAuthorization")
-  edOrgColl = dbTenant.collection("educationOrganization")
+  db.for_tenant(tenantName)
 
-  neededEdOrgs = [] 
-  edOrgColl.find().each do |edorg|
-    edorg_entry = {}
-    edorg_entry["authorizedEdorg"]= edorg["_id"]
-    neededEdOrgs.push(edorg_entry)
-  end
+  appAuthColl = db.collection("applicationAuthorization")
+  #edOrgColl = db.collection("educationOrganization")
+
+  neededEdOrgs = db.find_ids('educationOrganization').map{ |id| {'authorizedEdorg' => id} }
+
+  #edOrgColl.find.each do |edorg|
+  #  edorg_entry = {}
+  #  edorg_entry["authorizedEdorg"]= edorg["_id"]
+  #  neededEdOrgs.push(edorg_entry)
+  #end
+
   appAuthColl.remove("body.applicationId" => appId)
   newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"applicationId" => appId, "edorgs" => neededEdOrgs}, "metaData" => {"tenantId" => tenantName}, "type" => "applicationAuthorization"}
   appAuthColl.insert(newAppAuth)
-  conn.close
-  enable_NOTABLESCAN()
+  db.close
+  enable_NOTABLESCAN
 end
 
 def authorizeEdorg(appName)
@@ -96,9 +100,9 @@ def authorizeEdorgForTenant(appName, tenantName)
   puts "Entered authorizeEdorg" if ENV['DEBUG']
   disable_NOTABLESCAN()
   puts "Getting mongo cursor" if ENV['DEBUG']
-  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
+  conn = Mongo::Connection.new(Property['DB_HOST'], Property['DB_PORT'])
   puts "Setting into the sli db" if ENV['DEBUG']
-  db = conn[PropLoader.getProps['api_database_name']]
+  db = conn[Property['api_database_name']]
   puts "Setting into the application collection" if ENV['DEBUG']
   appColl = db.collection("application")
   puts "Finding the application with name #{appName}" if ENV['DEBUG']
@@ -123,21 +127,21 @@ def authorizeEdorgForTenant(appName, tenantName)
 end
 
 def randomizeRcProdTenant()
-  PropLoader.update('tenant', "#{PropLoader.getProps['tenant']}_#{Time.now.to_i}")
+  Property.update('tenant', "#{Property['tenant']}_#{Time.now.to_i}")
 end
 
 def randomizeRcSandboxTenant()
-  email = PropLoader.getProps['developer_sb_email_imap_registration_user_email']
-  email2 = PropLoader.getProps['developer2_sb_email_imap_registration_user_email']
+  email = Property['developer_sb_email_imap_registration_user_email']
+  email2 = Property['developer2_sb_email_imap_registration_user_email']
   
   emailParts = email.split("@")
   randomEmail = "#{emailParts[0]}+#{Random.rand(1000)}"+"@"+"#{emailParts[1]}"
-  PropLoader.update('developer_sb_email_imap_registration_user_email', randomEmail)
-  PropLoader.update('sandbox_tenant', randomEmail)
+  Property.update('developer_sb_email_imap_registration_user_email', randomEmail)
+  Property.update('sandbox_tenant', randomEmail)
   
   email2Parts = email2.split("@")
   randomEmail2 = "#{email2Parts[0]}+#{Random.rand(1000)}"+"@"+"#{email2Parts[1]}"
-  PropLoader.update('developer2_sb_email_imap_registration_user_email', randomEmail2)
+  Property.update('developer2_sb_email_imap_registration_user_email', randomEmail2)
 end
 
 def convertTenantIdToDbName(tenantId)
@@ -168,29 +172,28 @@ def testTls(url, token, client_id, path)
 end
 
 # Property Loader class
-
-class PropLoader
-  @@yml = YAML.load_file(File.join(File.dirname(__FILE__),'properties.yml'))
-  #@@modified=false
+class Property
+  @@yml = YAML.load_file File.join(File.dirname(__FILE__),'properties.yml')
 
   def self.getProps
-    #self.updateHash() unless @@modified
-    self.updateHash()
-    return @@yml
+    self.updateHash
+    @@yml
+  end
+
+  def self.[](key)
+    ENV[key] || @@yml[key]
   end
 
   def self.update(key, val)
-    #@@yml[key] = val
     ENV[key] = val
   end
 
   private
 
-  def self.updateHash()
+  def self.updateHash
     @@yml.each do |key, value|
       @@yml[key] = ENV[key] if ENV[key]
     end
-    #@@modified=true
   end
 end
 

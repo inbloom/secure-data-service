@@ -47,7 +47,7 @@ Scenario: An authorized bulk extract user logs in and gets the information for t
          | securityEvent   | 2                   | body.targetEdOrgList    | IL-DAYBREAK                                                | string     |
          | securityEvent   | 1                   | body.logMessage         | Access Denied:Application is not approved for bulk extract | string     |
          | securityEvent   | 1                   | body.className          | org.slc.sli.api.security.context.resolver.AppAuthHelper    | string     |
-       And "2" security event with field "body.actionUri" matching "http.*/api/rest/v1.4/bulk/extract/list" should be in the sli db
+       And "2" security event with field "body.actionUri" matching "http.*/api/rest/v1.5/bulk/extract/list" should be in the sli db
     Given I update the "application" with ID "19cca28d-7357-4044-8df9-caad4b1c8ee4" field "body.isBulkExtract" to "true" on the sli database
 
   Scenario: Security Event is logged when I retrieve public data

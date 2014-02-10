@@ -44,15 +44,13 @@ class PreRequisiteBuilder
   # -> base scenario currently loads staff and teachers from storied data set (linda kim, charles gray, ...)
   # -> this method will also populate education organizations that must be created during world building
   def load_pre_requisites
-
     if @yaml.nil?
       @log.info "No configuration file specified --> returning."
-      return nil
+    else
+      build_catalog("staff", @yaml["STAFF_CATALOG"])
+      build_catalog("student", @yaml["STUDENT_CATALOG"])
+      @pre_requisites
     end
-
-    build_catalog("staff", @yaml["STAFF_CATALOG"])
-    build_catalog("student", @yaml["STUDENT_CATALOG"])
-    @pre_requisites
   end
 
   def build_catalog(catalog_type, catalog)
@@ -113,10 +111,12 @@ class PreRequisiteBuilder
 
   # takes the 'type' specified in the staff catalog and returns the key into the pre-requisites hash
   def get_symbol_using_type(type)
-    return :seas if type == EducationOrganizationCategoryType.to_string(:STATE_EDUCATION_AGENCY)
-    return :leas if type == EducationOrganizationCategoryType.to_string(:LOCAL_EDUCATION_AGENCY)
-    return :elementary if type == SchoolCategory.to_string(:ELEMENTARY)
-    return :middle     if type == SchoolCategory.to_string(:MIDDLE)
-    return :high       if type == SchoolCategory.to_string(:HIGH)
+    case type
+      when EducationOrganizationCategoryType.to_string(:STATE_EDUCATION_AGENCY); :seas
+      when EducationOrganizationCategoryType.to_string(:LOCAL_EDUCATION_AGENCY); :leas
+      when SchoolCategory.to_string(:ELEMENTARY); :elementary
+      when SchoolCategory.to_string(:MIDDLE); :middle
+      when SchoolCategory.to_string(:HIGH); :high
+    end
   end
 end

@@ -329,12 +329,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         checkAccess(false, id, null);
 
-        try {
-            cascadeDelete(id);
-        } catch (RuntimeException re) {
-            LOG.debug(re.toString());
-        }
-
         if (!getRepo().delete(collectionName, id)) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
@@ -359,12 +353,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
         Collection<GrantedAuthority> auths = getEntityContextAuthorities(entity, isSelf, false);
 
         rightAccessValidator.checkAccess(false, id, null, defn.getType(), collectionName, getRepo(), auths);
-
-        try {
-            cascadeDelete(id);
-        } catch (RuntimeException re) {
-            LOG.debug(re.toString());
-        }
 
         if (!getRepo().delete(collectionName, id)) {
             LOG.info("Could not find {}", id);
@@ -608,6 +596,15 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 entityContexts = getEntityContextMap(entities, true);
             }
         }
+
+        //entities wihout bodies are considered deleted
+        Collection<Entity> bodylessEntities = new HashSet<Entity>();
+        for(Entity ent : entities) {
+            if(ent.getBody() == null || ent.getBody().size() == 0) {
+                bodylessEntities.add(ent);
+            }
+        }
+        entities.removeAll(bodylessEntities);
 
         noDataInDB = entities.isEmpty();
 
@@ -1106,81 +1103,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
             treatment.toStored(content, defn);
         }
         return content;
-    }
-
-    /**
-     * Deletes any object with a reference to the given sourceId. Assumes that the sourceId still
-     * exists so that
-     * authorization/context can be checked.
-     *
-     * @param sourceId ID that was deleted, where anything else with that ID should also be deleted
-     */
-    protected void cascadeDelete(String sourceId) {
-        // loop for every EntityDefinition that references the deleted entity's type
-        for (EntityDefinition referencingEntity : defn.getReferencingEntities()) {
-            // loop for every reference field that COULD reference the deleted ID
-
-            for (String referenceField : referencingEntity.getReferenceFieldNames(defn.getStoredCollectionName())) {
-                EntityService referencingEntityService = referencingEntity.getService();
-
-                List<String> includeFields = new ArrayList<String>();
-                includeFields.add(referenceField);
-                NeutralQuery neutralQuery = new NeutralQuery();
-                neutralQuery.addCriteria(new NeutralCriteria(referenceField + "=" + sourceId));
-                neutralQuery.setIncludeFields(includeFields);
-
-                try {
-                    // entities that have arrays of references only cascade delete the array entry,
-                    // not the whole entity
-                    if (referencingEntity.hasArrayField(referenceField)) {
-                        // list all entities that have the deleted entity's ID in one of their
-                        // arrays
-
-                        Iterable<EntityBody> entityList;
-                        if (SecurityUtil.isStaffUser()) {
-                            entityList = referencingEntityService.listBasedOnContextualRoles(neutralQuery);
-                        } else {
-                            entityList = referencingEntityService.list(neutralQuery);
-                        }
-
-                        for (EntityBody entityBody : entityList) {
-                            String idToBePatched = (String) entityBody.get("id");
-                            List<?> basicDBList = (List<?>) entityBody.get(referenceField);
-                            basicDBList.remove(sourceId);
-                            EntityBody patchEntityBody = new EntityBody();
-                            patchEntityBody.put(referenceField, basicDBList);
-
-                            //if isStaffUser == true then enforce contextual roles, otherwise do not
-                            referencingEntityService.patch(idToBePatched, patchEntityBody, SecurityUtil.isStaffUser());
-                        }
-                    } else {
-                        // list all entities that have the deleted entity's ID in their reference
-                        // field (for deletion)
-
-                        Iterable<EntityBody> entityList;
-                        if (SecurityUtil.isStaffUser()) {
-                            entityList = referencingEntityService.listBasedOnContextualRoles(neutralQuery);
-                        } else {
-                            entityList = referencingEntityService.list(neutralQuery);
-                        }
-                        for (EntityBody entityBody : entityList) {
-                            String idToBeDeleted = (String) entityBody.get("id");
-                            // delete that entity as well
-                            if (SecurityUtil.isStaffUser()) {
-                                referencingEntityService.deleteBasedOnContextualRoles(idToBeDeleted);
-                            } else {
-                                referencingEntityService.delete(idToBeDeleted);
-                            }
-                            // delete custom entities attached to this entity
-                            deleteAttachedCustomEntities(idToBeDeleted);
-                        }
-                    }
-                } catch (AccessDeniedException ade) {
-                    LOG.debug("No {} have {}={}", new Object[]{referencingEntity.getResourceName(), referenceField,
-                            sourceId});
-                }
-            }
-        }
     }
 
     protected void deleteAttachedCustomEntities(String sourceId) {

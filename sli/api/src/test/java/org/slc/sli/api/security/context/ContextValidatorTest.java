@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Sets;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -103,6 +104,7 @@ public class ContextValidatorTest {
         Mockito.when(stsValidator.validate(Mockito.matches("student"), Mockito.argThat(new MatchesStaffStudentIds()))).thenReturn(staffStudentIds);
         Mockito.when(stsValidator.validate(Mockito.matches("student"), Mockito.argThat(new MatchesSomeStudentIds()))).thenReturn(someStaffStudentIds);
         Mockito.when(stsValidator.validate(Mockito.matches("student"), Mockito.argThat(new MatchesAllStudentIds()))).thenReturn(staffStudentIds);
+        Mockito.when(stsValidator.getValid(Mockito.matches("student"), Mockito.anySet())).thenReturn(someStaffStudentIds);
         Mockito.when(stsValidator.getContext()).thenReturn(SecurityUtil.UserContext.STAFF_CONTEXT);
 
         AbstractContextValidator ttsValidator = Mockito.mock(TeacherToStudentValidator.class);
@@ -111,6 +113,7 @@ public class ContextValidatorTest {
         Set<String> someTeacherStudentIds = new HashSet<String>(Arrays.asList("student2"));
         Mockito.when(ttsValidator.validate(Mockito.matches("student"), Mockito.argThat(new MatchesTeacherStudentIds()))).thenReturn(teacherStudentIds);
         Mockito.when(ttsValidator.validate(Mockito.matches("student"), Mockito.argThat(new MatchesSomeStudentIds()))).thenReturn(someTeacherStudentIds);
+        Mockito.when(ttsValidator.getValid(Mockito.matches("student"), Mockito.anySet())).thenReturn(someTeacherStudentIds);
         Mockito.when(ttsValidator.validate(Mockito.matches("student"), Mockito.argThat(new MatchesAllStudentIds()))).thenReturn(teacherStudentIds);
         Mockito.when(ttsValidator.getContext()).thenReturn(SecurityUtil.UserContext.TEACHER_CONTEXT);
 
@@ -481,6 +484,46 @@ public class ContextValidatorTest {
         } catch (APIAccessDeniedException ex) {
             Assert.assertEquals("No validator for " + def.getType() + ", transitive=" + isTransitive, ex.getMessage());
         }
+    }
+
+    @Test
+    public void testGetValidIdsIncludeOrphans() {
+        EntityDefinition def = createEntityDef(EntityNames.STUDENT);
+        Entity orphanedStudent = createEntity(EntityNames.STUDENT, 14);
+        Entity accessStudent1 = createEntity(EntityNames.STUDENT, 1);
+        Entity accessStudent2 = createEntity(EntityNames.STUDENT, 2);
+        Entity noAccessStudent = createEntity(EntityNames.STUDENT, 4);
+        Map<String, Object> metaData = new HashMap<String, Object>();
+        metaData.put("isOrphaned", "true");
+        metaData.put("createdBy", "staff1");
+        Mockito.when(orphanedStudent.getMetaData()).thenReturn(metaData);
+
+        List<Entity> students = Arrays.asList(orphanedStudent, accessStudent1, accessStudent2, noAccessStudent);
+        Set<String> studentIds = new HashSet(Arrays.asList("student14", "student1", "student2", "student4"));
+        Mockito.when(repo.findAll(Mockito.eq(EntityNames.STUDENT), Mockito.any(NeutralQuery.class))).thenReturn(students);
+        Set<String> results = contextValidator.getValidIdsIncludeOrphans(def, studentIds, true);
+
+        Assert.assertEquals(3, results.size());
+    }
+
+    @Test
+    public void getDoNotIncludeOwningOrphans() {
+        EntityDefinition def = createEntityDef(EntityNames.STUDENT);
+        Entity orphanNotByUser = createEntity(EntityNames.STUDENT, 14);
+        Entity accessStudent1 = createEntity(EntityNames.STUDENT, 1);
+        Entity accessStudent2 = createEntity(EntityNames.STUDENT, 2);
+
+        Map<String, Object> metaData = new HashMap<String, Object>();
+        metaData.put("isOrphaned", "true");
+        metaData.put("createdBy", "staff2");
+        Mockito.when(orphanNotByUser.getMetaData()).thenReturn(metaData);
+
+        List<Entity> students = Arrays.asList(orphanNotByUser, accessStudent1, accessStudent2);
+        Set<String> studentIds = new HashSet(Arrays.asList("student14", "student1", "student2"));
+        Mockito.when(repo.findAll(Mockito.eq(EntityNames.STUDENT), Mockito.any(NeutralQuery.class))).thenReturn(students);
+        Set<String> results = contextValidator.getValidIdsIncludeOrphans(def, studentIds, true);
+
+        Assert.assertEquals(2, results.size());
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
