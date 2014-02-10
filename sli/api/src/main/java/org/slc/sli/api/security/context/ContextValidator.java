@@ -54,7 +54,12 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
 /**
+<<<<<<< HEAD
  * ContextValidator Determines if the principal has context to a resource.
+=======
+ * ContextValidator
+ * Determines if the principal has context to a resource.
+>>>>>>> Fixed the UriMutator bug, added toString method in MutatedContainer class and fixed the failing tests in UriMutatorTest
  * Verifies the requested endpoint is accessible by the principal
  */
 @Component
