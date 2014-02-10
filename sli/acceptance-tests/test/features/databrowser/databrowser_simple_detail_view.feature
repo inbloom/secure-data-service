@@ -229,3 +229,24 @@ And I am authenticated to SLI IDP as user "jwashington" with pass "jwashington12
 And I have navigated to the "Teacher to Section List" page of the Data Browser
 When I click on any of the entity IDs
 Then I am redirected to the particular entity Detail View
+
+
+Scenario Outline: EducationOrganization table should be displayed and displayed only on the EducationOrganization pages 
+
+Given I have an open web browser
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm <Realm> in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials <User> <Password> for the "Simple" login page
+Then I should go to the <Page> page and look for the EdOrg table with a <Result> result
+
+Examples:
+  | Realm                                    | User           | Password           | Page                           | Result |
+  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "GetEducationOrganizations"    | "Pass" |
+  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "GetPrograms"                  | "Fail" |
+  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "GetCohorts"                   | "Fail" |
+  | "Illinois Daybreak Students"             | "carmen.ortiz" | "carmen.ortiz1234" | "My Schools"                   | "Pass" |
+  | "Illinois Daybreak Students"             | "carmen.ortiz" | "carmen.ortiz1234" | "My Sections"                  | "Fail" |
+  | "Illinois Daybreak Students"             | "carmen.ortiz" | "carmen.ortiz1234" | "GetStudentParentAssociations" | "Fail" |
