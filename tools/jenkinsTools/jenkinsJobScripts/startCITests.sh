@@ -203,6 +203,8 @@ if [[ "$ENV" == "ci_e2e_prod" ]]; then
   noTableScan
   cleanTomcat
   cleanRails
+  adminUnitTests
+  databrowserUnitTests
   resetDatabases
   deployAdmin
   deployDatabrowser
