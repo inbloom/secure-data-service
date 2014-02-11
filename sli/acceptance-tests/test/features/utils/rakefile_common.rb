@@ -173,7 +173,8 @@ end
 
 # Property Loader class
 class Property
-  @@yml = YAML.load_file File.join(File.dirname(__FILE__),'properties.yml')
+  properties_file = ENV['PROPERTIES'] || File.join(File.dirname(__FILE__),'properties.yml')
+  @@yml = YAML.load_file properties_file
 
   def self.getProps
     self.updateHash
