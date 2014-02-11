@@ -298,6 +298,38 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     /**
+     * Validates entities, based upon entity definition and entity ids to validate.
+     *
+     * @param def - Definition of entities to validate
+     * @param ids - Collection of ids of entities to validate
+     * @param isTransitive - Determines whether validation is through another entity type
+     *
+     * @throws APIAccessDeniedException - When entities cannot be accessed
+     */
+    public Set<String> getValidIdsIncludeOrphans(EntityDefinition def, Set<String> ids, boolean isTransitive) throws APIAccessDeniedException {
+        IContextValidator validator = findValidator(def.getType(), isTransitive);
+        if (validator != null) {
+            NeutralQuery getIdsQuery = new NeutralQuery(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
+            Collection<Entity> entities = (Collection<Entity>) repo.findAll(def.getStoredCollectionName(), getIdsQuery);
+            Set<String> orphans = new HashSet<String>();
+            for (Entity entity: entities) {
+                if (isOrphanCreatedByUser(entity)) {
+                    orphans.add(entity.getEntityId());
+                }
+            }
+            Set<String> nonOrphanIds = new HashSet<String>();
+            nonOrphanIds.addAll(ids);
+            nonOrphanIds.removeAll(orphans);
+            Set<String> validatedIds = validator.getValid(def.getType(), nonOrphanIds);
+
+            validatedIds.addAll(orphans);
+            return validatedIds;
+        } else {
+            throw new APIAccessDeniedException("No validator for " + def.getType() + ", transitive=" + isTransitive, def.getType(), ids);
+        }
+    }
+
+    /**
     * Returns a map of validated entity ids and their contexts, based upon entity definition and entities to validate.
     *
     * @param def - Definition of entities to validate
@@ -361,45 +393,45 @@ public class ContextValidator implements ApplicationContextAware {
     */
     protected Set<String> getEntityIdsToValidate(EntityDefinition def, Collection<Entity> entities, boolean isTransitive, Collection<String> ids)
                           throws APIAccessDeniedException, EntityNotFoundException {
-        Set<String> entityIdsToValidate = new HashSet<String>();
-        for (Entity ent : entities) {
-            Collection<String> userEdOrgs = edOrgHelper.getDirectEdorgs(ent);
-            if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
-                    && "true".equals(ent.getMetaData().get("isOrphaned"))) {
-                LOG.debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
-            } else if (SecurityUtil.getSLIPrincipal().getEntity() != null
-                    && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
-                LOG.debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
-            } else {
-                if (ownership.canAccess(ent, isTransitive)) {
-                    entityIdsToValidate.add(ent.getEntityId());
+         int found = 0;
+         Set<String> entityIdsToValidate = new HashSet<String>();
+            for (Entity ent : entities) {
+                found++;
+                Collection<String> userEdOrgs = edOrgHelper.getDirectEdorgs(ent);
+                if (isOrphanCreatedByUser(ent)) {
+                    LOG.debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
+                } else if (SecurityUtil.getSLIPrincipal().getEntity() != null
+                        && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
+                    LOG.debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
                 } else {
-                    throw new APIAccessDeniedException("Access to " + ent.getEntityId() + " is not authorized", userEdOrgs);
-                }
-            }
-        }
-
-        // report an EntityNotFoundException on the id we find without a corresponding entity
-        // so that we don't use the constructor for EntityNotFoundException incorrectly
-        if (entities.size() != ids.size()) {
-            for (String id : ids ) {
-                boolean foundentity = false;
-                for (Entity ent : entities) {
-                    if (ent.getEntityId().contains(id)){
-                    	foundentity = true;
-                    	break;
+                    if (ownership.canAccess(ent, isTransitive)) {
+                        entityIdsToValidate.add(ent.getEntityId());
+                    } else {
+                        throw new APIAccessDeniedException("Access to " + ent.getEntityId() + " is not authorized", userEdOrgs);
                     }
                 }
-                if (!foundentity) {
-                    LOG.debug("Invalid reference, an entity does not exist. collection: {} entities: {}",
-                            def.getStoredCollectionName(), entities);
-                    throw new EntityNotFoundException(id);
-                }
             }
-        }
 
-        return entityIdsToValidate;
-    }
+            if (found != ids.size()) {
+                LOG.debug("Invalid reference, an entity does not exist. collection: {} entities: {}",
+                        def.getStoredCollectionName(), entities);
+                throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + ids);
+            }
+
+         return entityIdsToValidate;
+       }
+
+    /**
+     * Returns true is the entity is an orphan that is created by the user, false otherwise
+     *
+     * @param entity - Collection of entities to filter for validation
+     *
+     * @return
+     */
+    private boolean isOrphanCreatedByUser(Entity entity) {
+         return SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
+                    && "true".equals(entity.getMetaData().get("isOrphaned"));
+        }
 
     /**
      * This method forgivingly iterate through the input entities, returns a set of entity ids to validate,
@@ -414,8 +446,7 @@ public class ContextValidator implements ApplicationContextAware {
     protected Set<String> getEntityIdsToValidateForgiving(Collection<Entity> entities, boolean isTransitive){
         Set<String> entityIdsToValidate = new HashSet<String>();
         for (Entity ent : entities) {
-            if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
-                    && "true".equals(ent.getMetaData().get("isOrphaned"))) {
+            if (isOrphanCreatedByUser(ent)) {
                 LOG.debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
             } else if (SecurityUtil.getSLIPrincipal().getEntity() != null
                     && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
