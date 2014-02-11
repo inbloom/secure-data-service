@@ -86,7 +86,7 @@ Then the Staff restricted fields are not visible in the response
 
 @WritePublic
 Scenario Outline: User with WRITE_PUBLIC can post public data
-	Given I am logged in using "morion" "moron" to realm "Midgar"
+	Given I am logged in using "jstevenson" "password_does_not_matter" to realm "IL"
     And format "application/vnd.slc+json"
     Given entity URI <Entity Resource URI>
     Given a valid entity json document for a <Entity Type>
@@ -102,3 +102,4 @@ Examples:
     | "learningObjective"            | "learningObjectives"     |
     | "learningStandard"             | "learningStandards"      |
     | "educationOrganization"        | "educationOrganizations" |
+    | "school"                       | "educationOrganizations" |
