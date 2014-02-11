@@ -10,6 +10,10 @@ def attendance_endpoint
   "/v1.5/#{yearly? ? 'yearlyAttendances' : 'attendances'}"
 end
 
+def student_attendance_endpoint(student_id, school_id)
+  "/v1.5/students/#{student_id}/attendances?schoolId=#{school_id}"
+end
+
 def resource
   yearly? ? yearly_attendance_resource : attendance_resource
 end
@@ -28,9 +32,21 @@ When /^I POST an? (yearly )?attendance event$/ do |yearly|
   restHttpPost(attendance_endpoint, @new_entity.to_json, 'application/vnd.slc+json')
 end
 
+When /^I POST a modified (yearly )?attendance event$/ do |yearly|
+  @yearly = yearly
+  @entity = resource
+  @entity['schoolYearAttendance'].first['attendanceEvent'] << {'date'=>'2011-09-17', 'event'=>'Early departure'}
+  restHttpPost(attendance_endpoint, @entity.to_json, 'application/vnd.slc+json')
+end
+
 When /^I GET that attendance event$/ do
   restHttpGet("#{attendance_endpoint}/#{entity_id}")
   @entity = JSON.parse(@res)
+end
+
+When /^I GET the attendance for that student$/ do
+  restHttpGet( student_attendance_endpoint( @entity['studentId'], @entity['schoolId'] ) )
+  @student_attendance_entity = JSON.parse(@res)
 end
 
 When /^I GET a non-existent (yearly )?attendance event$/ do |yearly|
@@ -89,8 +105,30 @@ Then /^the response resource should contain expected attendance data$/ do
   pare_entity(@entity).should == resource
 end
 
+Then /^the students attendance should (not )?contain the attendance event$/ do |not_expected|
+  student_attendance = find_student_attendance(@entity['studentId'], @entity['schoolId'])
+  student_attendance.should_not be_nil
+
+  contains = student_attendance.any? do |attendance|
+    school_year_attendance = attendance['schoolYearAttendance']
+    school_year_attendance == attendance_resource['schoolYearAttendance']
+  end
+
+  message = "Expected: #{student_attendance} \nto #{not_expected}contain: #{attendance_resource['schoolYearAttendance']}"
+  if not_expected
+    contains.should be_false, message
+  else
+    contains.should be_true, message
+  end
+end
+
 def find_attendance(id)
   restHttpGet("#{attendance_endpoint}/#{id}")
+  @res.code == 200 ? JSON.parse(@res) : nil
+end
+
+def find_student_attendance(student_id, school_id)
+  restHttpGet(student_attendance_endpoint(student_id, school_id))
   @res.code == 200 ? JSON.parse(@res) : nil
 end
 
