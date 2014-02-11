@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.slc.sli</groupId>
     <artifactId>sli</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.DS-1100.96.784</version>
     <packaging>pom</packaging>
     <name>SLI</name>
     <description>Shared Learning Infrastructure</description>
