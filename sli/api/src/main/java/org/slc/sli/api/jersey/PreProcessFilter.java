@@ -42,7 +42,16 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.ResourceNames;
+<<<<<<< HEAD
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
+=======
+import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
+import org.slc.sli.api.exceptions.RequestBlockedException;
+import org.slc.sli.api.resources.generic.MethodNotAllowedException;
+import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
+import org.slc.sli.api.resources.generic.util.ResourceMethod;
+import org.slc.sli.api.security.OauthSessionManager;
+>>>>>>> b3832a32116466df72430528197adfa7f8a5f53b
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.IContextValidator;
@@ -573,8 +582,14 @@ public class ContextValidator implements ApplicationContextAware {
         return EntityNames.isPublic(type);
     }
 
+<<<<<<< HEAD
     private boolean skipValidation(EntityDefinition def, boolean isRead) {
         return def == null || def.skipContextValidation() || (GLOBAL_RESOURCES.contains(def.getResourceName()) && isRead);
+=======
+        if (this.resourceEndPoint.getBlockGetRequestEndPoints().contains(requestPath)) {
+            throw new RequestBlockedException(request.getPath());
+        }
+>>>>>>> b3832a32116466df72430528197adfa7f8a5f53b
     }
 
 }
