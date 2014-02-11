@@ -53,15 +53,8 @@ public class AdminDelegationResourceTest {
     @Autowired
     private SecurityContextInjector securityContextInjector;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     @Test(expected = APIAccessDeniedException.class)
-=======
-    @Test(expected = AccessDeniedException.class)
->>>>>>> removed entitynotfound exception and applied appropriate exception instead
-=======
-    @Test(expected = APIAccessDeniedException.class)
->>>>>>> re DE2922 fix up formatting; make logical structure more similar to how the code was before; fix small logic error with "continue" rather than "break" when something is found in a linear search; use APIAccessDeniedException rather than AccessDeniedException to get logging
     public void testGetDelegationsNoEdOrg() throws Exception {
 
         securityContextInjector.setLeaAdminContext();
