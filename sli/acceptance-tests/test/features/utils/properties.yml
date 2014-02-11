@@ -84,7 +84,7 @@ sb_get_started: "inbloom.org/getting-started"
 registration_app_suffix: "/registration"
 samt_app_suffix: "/users"
 validation_base_suffix: "/user_account_validation"
-user_registration_email: devldapuser@slidev.org
+user_registration_email: devldapuser@slidev2.org
 user_registration_pass: test1234
 
 jmeter_jmx_path: "../../tools/jmeter/"
@@ -105,7 +105,7 @@ email_imap_port: 443
 email_imap_host: mon.slidev.org
 
 email_imap_registration_user: devldapuser
-email_imap_registration_user_email: devldapuser@slidev.org
+email_imap_registration_user_email: devldapuser@slidev2.org
 email_imap_registration_pass: Y;Gtf@w{
 
 ################# e2e test properties #################################
@@ -147,7 +147,7 @@ developer2_sb_email_imap_registration_pass: test1234
 landingzone: picard-lz.slidev.org
 landingzone_port: 443
 
-sandbox_tenant: e2etestdev_sb@slidev.org
+sandbox_tenant: e2etestdev_sb@slidev2.org
 tenant: RCTestTenant
 edorg: STANDARD-SEA
 
