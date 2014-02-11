@@ -1241,9 +1241,9 @@ public class UriMutator {
             programsIds = getSubdocIds(student, EntityNames.STUDENT_PROGRAM_ASSOCIATION, ParameterConstants.PROGRAM_ID);
         }
 
-      /*  if (programsIds == null || programsIds.isEmpty()) {
+        if (programsIds == null || programsIds.isEmpty()) {
             throw new UriMutationException("No association to any programs");
-        }*/
+        }
 
         return programsIds;
     }
@@ -1263,9 +1263,9 @@ public class UriMutator {
             cohortsIds = getSubdocIds(student, EntityNames.STUDENT_COHORT_ASSOCIATION, ParameterConstants.COHORT_ID);
         }
 
-       /* if (cohortsIds == null || cohortsIds.isEmpty()) {
+        if (cohortsIds == null || cohortsIds.isEmpty()) {
             throw new UriMutationException("No association to any cohorts");
-        }*/
+        }
         return cohortsIds;
     }
 
