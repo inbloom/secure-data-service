@@ -18,12 +18,12 @@ Feature: Use the API to successfully delete students  while having roles over ma
     When I navigate to DELETE "<kate.dedrick URI>"
     Then I should receive a return code of 204
     When I navigate to GET "<kate.dedrick URI>"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 404
 
     When I navigate to DELETE "<shawn.taite URI>"
     Then I should receive a return code of 204
     When I navigate to GET "<shawn.taite URI>"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 404
 
   Scenario: User with write rights in first school and no write rights in second
     Given I remove the SEOA with role "IT Administrator" for staff "tcuyper" in "Daybreak Central High"
@@ -36,7 +36,7 @@ Feature: Use the API to successfully delete students  while having roles over ma
     When I navigate to DELETE "<john.johnson URI>"
     Then I should receive a return code of 204
     When I navigate to GET "<john.johnson URI>"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 404
 
     When I navigate to DELETE "<bert.jakeman URI>"
     Then I should receive a return code of 403
@@ -58,7 +58,7 @@ Feature: Use the API to successfully delete students  while having roles over ma
     When I navigate to DELETE "<pat.sollars URI>"
     Then I should receive a return code of 204
     When I navigate to GET "<pat.sollars URI>"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 404
 
     When I navigate to DELETE "<bert.jakeman URI>"
     Then I should receive a return code of 403
@@ -86,12 +86,12 @@ Feature: Use the API to successfully delete students  while having roles over ma
     When I navigate to DELETE "<jake.bertman URI>"
     Then I should receive a return code of 204
     When I navigate to GET "<jake.bertman URI>"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 404
 
     When I navigate to DELETE "<herman.ortiz URI>"
     Then I should receive a return code of 204
     When I navigate to GET "<herman.ortiz URI>"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 404
 
     When I navigate to DELETE "<nate.dedrick URI>"
     Then I should receive a return code of 403

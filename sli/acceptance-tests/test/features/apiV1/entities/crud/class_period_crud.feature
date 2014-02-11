@@ -61,13 +61,13 @@ Feature:
     Then the response status should be 204 No Content
     And the class period should be deleted
 
-# Custom Data for Class Period
+# Custom Data for a class period
 
   Scenario: An API user adds (POST) custom data to a class period
     Given I create a class period
     When I POST custom data to that class period
     Then the response status should be 201 Created
-    And the custom data should be saved
+    And the custom class period data should be saved
 
   Scenario: An API user gets (GET) custom data for a class period
     Given I create a class period
@@ -80,14 +80,14 @@ Feature:
     Given I create a class period
     When I PUT the custom data for that class period
     Then the response status should be 204 No Content
-    And the custom data should be saved
+    And the custom class period data should be saved
 
   Scenario: An API user deletes (DELETE) the class period custom data
     Given I create a class period
     And I POST custom data to that class period
     When I DELETE the custom data for that class period
     Then the response status should be 204 No Content
-    And the custom data should be deleted
+    And the custom class period data should be deleted
 
   Scenario: An API user attempts to partially update (PATCH) the class period custom data
     Given I create a class period

@@ -86,8 +86,7 @@ Then /^the attendance event should be deleted$/ do
 end
 
 Then /^the response resource should contain expected attendance data$/ do
-  entity = @entity.reject{|key,_| %w(id entityType links).include?(key)}
-  entity.should == resource
+  pare_entity(@entity).should == resource
 end
 
 def find_attendance(id)

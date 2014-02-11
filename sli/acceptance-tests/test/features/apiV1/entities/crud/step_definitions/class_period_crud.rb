@@ -78,20 +78,6 @@ Then /^the response resource should contain multiple class periods$/ do
   entities.first['entityType'].should == 'classPeriod'
 end
 
-Then /^the custom data should be deleted$/ do
-  find_custom_data(class_period_endpoint, entity_id).should be_nil
-end
-
-Then /^the response resource should contain expected custom data$/ do
-  data = JSON.parse @res
-  data.should == @custom_data
-end
-
-Then /^the custom data should be saved$/ do
-  data = find_custom_data(class_period_endpoint, entity_id)
-  data.should == @custom_data
-end
-
 Then /^the response location header should link to the new class period$/ do
   location = @res.headers[:location]
   location.should match( resource_regexp(class_period_endpoint) )
@@ -108,8 +94,7 @@ Then /^the class period should be deleted$/ do
 end
 
 Then /^the response resource should contain expected class period data$/ do
-  entity = @entity.reject{|key,_| %w(id entityType links).include?(key)}
-  entity.should == class_period_resource
+  pare_entity(@entity).should == class_period_resource
 end
 
 Then /^the results should contain only the class periods for my education organization$/ do
@@ -151,10 +136,25 @@ def delete_class_period(id)
 end
 
 def verify_class_period_entity_links
-  links = @entity['links']
+  links = remove_common_links(@entity['links'].dup)
+  [
+    ['getSchool', @entity['educationOrganizationId']],
+    ['getEducationOrganization', @entity['educationOrganizationId']]
+  ].each do |rel, id|
+    link = build_entity_link rel, id
+    links.should include( link )
+    links.delete link
+  end
 
-  links.should include( build_entity_link 'getSchool', @entity['educationOrganizationId'])
-  links.should include( build_entity_link 'getEducationOrganization', @entity['educationOrganizationId'])
-  links.should include( build_query_link 'getSections', "classPeriodId=#{@entity['id']}")
-  links.should include( build_query_link 'getBellSchedules', "meetingTime.classPeriodId=#{@entity['id']}")
+  [
+    ['getSections', "classPeriodId=#{entity_id}"],
+    ['getBellSchedules', "meetingTime.classPeriodId=#{entity_id}"]
+  ].each do |rel, query|
+    link = build_query_link rel, query
+    links.should include( link )
+    links.delete link
+  end
+
+  # Verify that there are no other links
+  links.map{|link| link['rel']}.should == []
 end
