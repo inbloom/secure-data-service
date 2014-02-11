@@ -33,6 +33,7 @@ import javax.ws.rs.core.PathSegment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+<<<<<<< HEAD
 
 
 import org.slc.sli.api.exceptions.UriMutationException;
@@ -40,6 +41,8 @@ import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.security.RightsAllowed;
 
 
+=======
+>>>>>>> c6ce2c7201d6ec3f377f8127e27e5c4df4675b00
 import org.slc.sli.api.exceptions.UriMutationException;
 import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.security.RightsAllowed;
@@ -1251,7 +1254,6 @@ public class UriMutator {
         /*if (programsIds == null || programsIds.isEmpty()) {
             throw new UriMutationException("No association to any programs");
         }*/
-
 
 
         return programsIds;

@@ -53,7 +53,10 @@ public class AdminDelegationResourceTest {
     @Autowired
     private SecurityContextInjector securityContextInjector;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c6ce2c7201d6ec3f377f8127e27e5c4df4675b00
     @Test(expected = APIAccessDeniedException.class)
     public void testGetDelegationsNoEdOrg() throws Exception {
 
