@@ -33,28 +33,6 @@ import javax.ws.rs.core.PathSegment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-<<<<<<< HEAD
-
-
-import org.slc.sli.api.exceptions.UriMutationException;
-import org.slc.sli.api.resources.security.ApplicationResource;
-import org.slc.sli.api.security.RightsAllowed;
-
-
-=======
->>>>>>> c6ce2c7201d6ec3f377f8127e27e5c4df4675b00
-import org.slc.sli.api.exceptions.UriMutationException;
-import org.slc.sli.api.resources.security.ApplicationResource;
-import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.domain.enums.Right;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.PathConstants;
@@ -74,6 +52,12 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * Infers context about the {user,requested resource} pair, and restricts blanket API calls to
