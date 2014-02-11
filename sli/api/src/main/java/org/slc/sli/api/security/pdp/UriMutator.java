@@ -1248,14 +1248,9 @@ public class UriMutator {
             programsIds = getSubdocIds(student, EntityNames.STUDENT_PROGRAM_ASSOCIATION, ParameterConstants.PROGRAM_ID);
         }
 
-<<<<<<< HEAD
-
-      /*  if (programsIds == null || programsIds.isEmpty()) {
-=======
-        if (programsIds == null || programsIds.isEmpty()) {
->>>>>>> Revert "Fixed the UriMutator bug, added toString method in MutatedContainer class and fixed the failing tests in UriMutatorTest"
+        /*if (programsIds == null || programsIds.isEmpty()) {
             throw new UriMutationException("No association to any programs");
-        }
+        }*/
 
 
 
@@ -1277,17 +1272,10 @@ public class UriMutator {
             cohortsIds = getSubdocIds(student, EntityNames.STUDENT_COHORT_ASSOCIATION, ParameterConstants.COHORT_ID);
         }
 
-<<<<<<< HEAD
-
        /* if (cohortsIds == null || cohortsIds.isEmpty()) {
             throw new UriMutationException("No association to any cohorts");
         }*/
 
-=======
-        if (cohortsIds == null || cohortsIds.isEmpty()) {
-            throw new UriMutationException("No association to any cohorts");
-        }
->>>>>>> Revert "Fixed the UriMutator bug, added toString method in MutatedContainer class and fixed the failing tests in UriMutatorTest"
         return cohortsIds;
     }
 
