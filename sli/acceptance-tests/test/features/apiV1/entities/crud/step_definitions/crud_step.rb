@@ -234,6 +234,21 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
               ]
   },
 
+  "school" => {
+        "organizationCategories" => ["Elementary School"],
+        "address" => [{
+                    "streetNumberName" => "123 Street",
+                    "postalCode" => "00000",
+                    "stateAbbreviation" => "IL",
+                    "city" => "Chicago"
+          }],
+        "parentEducationAgencyReference" => ["bd086bae-ee82-4cf2-baf9-221a9407ea07"],
+        "stateOrganizationId" => "Derek Zoolander Center",
+        "entityType" => "educationOrganization",
+        "telephone" => ["666-666-6666"],
+        "nameOfInstitution" => "Derek Zoolander Center For Children Who Can't Read Good and Wanna Learn To Do Other Stuff Good Too"
+  },
+
   "gradebookEntry" => {
     "gradebookEntryType" => "Quiz",
     "dateAssigned" => "2012-02-14",

@@ -162,7 +162,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     | "cohort"             | "cohorts"             | "studentCohortAssocation"               | "cohortDescription"      | "frisbee golf team"      | 404         |
     | "disciplineIncident" | "disciplineIncidents" | "studentDisciplineIncidentAssociation"  | "incidentTime"           | "01:02:15"               | 404         |
     | "program"            | "programs"            | "studentProgramAssociation"             | "programSponsor"         | "State Education Agency" | 404         |
-    | "section"            | "sections"            | "studentSectionAssociation"             | "sequenceOfCourse"       | "2"                      | 200         |
+    | "section"            | "sections"            | "studentSectionAssociation"             | "sequenceOfCourse"       | "2"                      | 404         |
     | "staff"              | "staff"               | "staffEducationOrganizationAssociation" | "sex"                    | "Female"                 | 404         |
     | "student"            | "students"            | "studentSectionAssociation2"            | "sex"                    | "Female"                 | 404         |
     | "teacher"            | "teachers"            | "teacherSchoolAssociation"              | "highlyQualifiedTeacher" | "false"                  | 404         |
@@ -251,7 +251,10 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     | "studentCompetency"          | "studentCompetencies"         | 2     | /sections/@ids/studentSectionAssociations/studentCompetencies                        |
     | "gradingPeriod"              | "gradingPeriods"              | 3     | /search/gradingPeriods                                                               |
     | "reportCard"                 | "reportCards"                 | 3     | /sections/@ids/studentSectionAssociations/students/reportCards                       |
-    | "studentCompetencyObjective" | "studentCompetencyObjectives" | 1     | /search/studentCompetencyObjectives                                                  |
+
+    #ds-917: list endpoint for public data no longer shows entities from edorgs not directly associated with the user
+    #these entities can still be read by accessing them by id.
+    #| "studentCompetencyObjective" | "studentCompetencyObjectives" | 1     | /search/studentCompetencyObjectives                                                  |
 
   @DE1825
   Scenario: Invalid data parsing fails gracefully
