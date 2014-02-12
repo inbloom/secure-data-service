@@ -104,7 +104,7 @@ module EdorgTreeHelper
         @edinf[id][:parents].each do |pid|
           if !@edinf.has_key?(pid)
             # Dangling reference to nonexistent parent
-            @debug += "<li style='color:#FF0000'>#{@edinf[id][:name]} is a child of an unknown parent id #{pid.to_s} and should be investigated</li>"
+            @debug += "<li id='orphan_#{id}' style='color:#FF0000'>#{@edinf[id][:name]} is a child of an unknown parent id #{pid.to_s} and should be investigated</li>"
             #the_ed_org = @edinf[id][:edOrg]
             #the_ed_org.organizationCategories = ["Orphaned Education Organization"]
             #orphan_ids.append id
