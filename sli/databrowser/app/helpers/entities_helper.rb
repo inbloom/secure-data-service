@@ -99,21 +99,28 @@ module EntitiesHelper
       hash.sort_by{|link| t(link["rel"]).downcase}.each do |link|
         # This is the 'kill' switch for counts. If this is changed to false in config.yml then
         # counts will not be displayed
-        if APP_CONFIG['counts_enabled'] == true
+        if APP_CONFIG['link_counts_enabled'] == true
 
           begin
-            params = Hash.new
-            params[:Authorization] = "Bearer #{Entity.access_token}"
-            params[:content_type] = :json
-            params[:accept] = :json
-            params[:countOnly] = "true"
-            totalCount = RestClient.get(link["href"], params).headers[:totalcount]
-            params[:currentOnly] = "true"
-            currentCount = RestClient.get(link["href"], params).headers[:totalcount]
-            html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << " (#{currentCount}/#{totalCount})" << '</li>'
+            url = link['href']
+            if (url.include? "?")
+              url = "#{url}&limit=0&countOnly=true"
+            else
+              url = "#{url}?limit=0&countOnly=true"
+            end
+
+            totalCount = RestClient.get(url, get_header).headers[:totalcount]
+            url = "#{url}&currentOnly=true"
+            currentCount = RestClient.get(url, get_header).headers[:totalcount]
+            html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << " (#{totalCount}/#{currentCount})" << '</li>'
+          
           rescue => e
             logger.debug("Failed to successfully get to the url: #{e.message}")
-            html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << " (N/A)" << '</li>'
+            if (link['rel'].include? 'self')
+              html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << " (1/1)" << '</li>'
+            else
+              html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << " (N/A)" << '</li>'
+            end
           end
         else
           html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << '</li>'
@@ -180,6 +187,16 @@ module EntitiesHelper
       html << entity.to_s
     end
     html
+  end
+
+  # Return default header information for the RestClient
+  private
+  def get_header
+    header = Hash.new
+    header[:Authorization] = "Bearer #{Entity.access_token}"
+    header[:content_type] = :json
+    header[:accept] = :json
+    header
   end
 
 end
