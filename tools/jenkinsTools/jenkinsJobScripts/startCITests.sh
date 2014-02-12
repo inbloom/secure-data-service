@@ -136,10 +136,13 @@ deployAdmin()
 {
   echo "Deploying Admin code"
   sudo cp -R $WORKSPACE/sli/admin-tools/* /opt/rails/admin/
-  sudo chown -R rails:rails /opt/rails/admin/
+  sudo chown -R jenkins:jenkins /opt/rails/admin/
   sudo ln -sf /etc/datastore/keyfile /opt/rails/admin/keyfile
   sudo ln -sf /etc/datastore/admin-config.yml /opt/rails/admin/admin-rails/config/config.yml
-  bundle install
+  cd /opt/rails/admin/admin-rails/
+  bundle install --deployment
+  bundle exec rake -s assets:precompile
+  sudo chown -R rails:rails /opt/rails/admin/
   sudo apachectl graceful
   echo "Admin Code Deployment Complete"
 }
@@ -147,9 +150,13 @@ deployDatabrowser()
 {
   echo "Deploying Databrowser code"
   sudo cp -R $WORKSPACE/sli/databrowser/* /opt/rails/databrowser/
-  sudo chown -R rails:rails /opt/rails/databrowser/
+  sudo chown -R jenkins:jenkins /opt/rails/databrowser/
   sudo ln -sf /etc/datastore/databrowser-config.yml /opt/rails/databrowser/config/config.yml
+  cd /opt/rails/databrowser/
   bundle install --deployment
+  bundle exec rake -s assets:precompile
+  sudo chown -R rails:rails /opt/rails/admin/
+  sudo apachectl graceful
   echo "Databrowser Deployment Complete"
 }
 deployTomcat()
