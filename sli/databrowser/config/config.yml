@@ -11,6 +11,8 @@ development:
     redirect_uri: http://local.slidev.org:3000/callback
     ## Whether or not to show the table with counts on the EdOrg view
     show_edorg_table: true
+    ## Use this boolean parameter to determine whether or not to show counts next to links
+    link_counts_enabled: true
 team:
     ## portal_url: http://localhost:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
     portal_url: http://local.slidev.org:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
@@ -22,6 +24,8 @@ team:
     redirect_uri: https://ci.slidev.org:2000/callback
     ## Whether or not to show the table with counts on the EdOrg view
     show_edorg_table: true
+    ## Use this boolean parameter to determine whether or not to show counts next to links
+    link_counts_enabled: true
 production:
     ## portal_url: http://localhost:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
     portal_url: http://local.slidev.org:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
@@ -33,6 +37,8 @@ production:
     redirect_uri: https://ci.slidev.org:2000/callback
     ## Whether or not to show the table with counts on the EdOrg view
     show_edorg_table: true
+    ## Use this boolean parameter to determine whether or not to show counts next to links
+    link_counts_enabled: true
 test:
     ## portal_url: http://localhost:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
     portal_url: http://local.slidev.org:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
@@ -40,6 +46,8 @@ test:
     api_base: https://devapp1.slidev.org/api/rest/v1
     ## Whether or not to show the table with counts on the EdOrg view
     show_edorg_table: true
+    ## Use this boolean parameter to determine whether or not to show counts next to links
+    link_counts_enabled: true
 local-acceptance-tests:
     ## portal_url: http://localhost:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
     portal_url: http://local.slidev.org:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
@@ -51,4 +59,6 @@ local-acceptance-tests:
     redirect_uri: http://local.slidev.org:2001/callback
     ## Whether or not to show the table with counts on the EdOrg view
     show_edorg_table: true
+    ## Use this boolean parameter to determine whether or not to show counts next to links
+    link_counts_enabled: true
 

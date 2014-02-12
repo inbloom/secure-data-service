@@ -16,7 +16,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-require 'rest-client'
+
+require "rest-client"
+
 #++
 # This module contains a lot of the recursive view logic needed to display
 # items correctly in the databrowser views.
@@ -95,7 +97,34 @@ module EntitiesHelper
     if hash.is_a?(Array)
       html << "<ul class='values'>"
       hash.sort_by{|link| t(link["rel"]).downcase}.each do |link|
-        html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << '</li>'
+        # This is the 'kill' switch for counts. If this is changed to false in config.yml then
+        # counts will not be displayed
+        if APP_CONFIG['link_counts_enabled'] == true
+
+          begin
+            url = link['href']
+            if (url.include? "?")
+              url = "#{url}&limit=0&countOnly=true"
+            else
+              url = "#{url}?limit=0&countOnly=true"
+            end
+
+            totalCount = RestClient.get(url, get_header).headers[:totalcount]
+            url = "#{url}&currentOnly=true"
+            currentCount = RestClient.get(url, get_header).headers[:totalcount]
+            html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << " (#{totalCount}/#{currentCount})" << '</li>'
+          
+          rescue => e
+            logger.debug("Failed to successfully get to the url: #{e.message}")
+            if (link['rel'].include? 'self')
+              html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << " (1/1)" << '</li>'
+            else
+              html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << " (N/A)" << '</li>'
+            end
+          end
+        else
+          html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << '</li>'
+        end
       end
       html << '</ul>'
     else
