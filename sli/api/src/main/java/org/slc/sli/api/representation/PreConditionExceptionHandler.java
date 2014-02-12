@@ -14,30 +14,31 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.jersey.exceptionhandlers;
+package org.slc.sli.api.representation;
 
-import java.io.EOFException;
+import org.slc.sli.api.resources.generic.PreConditionFailedException;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.springframework.stereotype.Component;
-
 /**
- * Exception handler to catch cases where an EOF exception is thrown. This can be the case if a user
- * tries to post a null body
+ * Exception mapper for precondition failures
  *
- * @author nbrown
- *
+ * @author srupasinghe
  */
+
 @Provider
 @Component
-public class EOFExceptionHandler implements ExceptionMapper<EOFException> {
+public class PreConditionExceptionHandler implements ExceptionMapper<PreConditionFailedException> {
 
-    @Override
-    public Response toResponse(EOFException exception) {
-        return Response.status(Response.Status.BAD_REQUEST).build();
+    public Response toResponse(PreConditionFailedException e) {
+
+        return Response
+                .status(Response.Status.PRECONDITION_FAILED)
+                .entity(new ErrorResponse(Response.Status.PRECONDITION_FAILED.getStatusCode(), Response.Status.PRECONDITION_FAILED.getReasonPhrase(),
+                        e.getMessage())).build();
+
     }
-
 }

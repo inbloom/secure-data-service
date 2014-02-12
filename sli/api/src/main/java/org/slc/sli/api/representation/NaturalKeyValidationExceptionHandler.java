@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.jersey.exceptionhandlers;
+package org.slc.sli.api.representation;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.validation.NaturalKeyValidationException;
 import org.springframework.stereotype.Component;
 

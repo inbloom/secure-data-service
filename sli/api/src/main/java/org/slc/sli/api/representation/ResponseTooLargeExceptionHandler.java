@@ -14,30 +14,28 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.jersey.exceptionhandlers;
+package org.slc.sli.api.representation;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.slc.sli.api.representation.CustomStatus;
-import org.slc.sli.api.representation.ErrorResponse;
-import org.slc.sli.api.selectors.doc.EmbeddedDocumentLimitException;
+import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.springframework.stereotype.Component;
 
 /**
- * @author jstokes
+ * Hander for when the request is too large to manage
  */
 @Provider
 @Component
-public class EmbeddedDocumentLimitExceptionHandler implements ExceptionMapper<EmbeddedDocumentLimitException> {
-
+public class ResponseTooLargeExceptionHandler implements ExceptionMapper<ResponseTooLargeException> {
+    
     @Override
-    public Response toResponse(EmbeddedDocumentLimitException e) {
+    public Response toResponse(ResponseTooLargeException exception) {
+        
         return Response
                 .status(CustomStatus.ENTITY_TOO_LARGE)
                 .entity(new ErrorResponse(CustomStatus.ENTITY_TOO_LARGE.getStatusCode(), CustomStatus.ENTITY_TOO_LARGE.getReasonPhrase(),
-                        e.getMessage())).build();
+                        "The request is too large to resolve.")).build();
     }
 }
-

@@ -13,35 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
-package org.slc.sli.api.jersey.exceptionhandlers;
-
-import org.slc.sli.api.exceptions.URITranslationException;
-import org.slc.sli.api.representation.ErrorResponse;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.springframework.stereotype.Component;
+package org.slc.sli.api.representation;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.UncategorizedMongoDbException;
+import org.springframework.stereotype.Component;
+
 /**
- * Handler for URI translation errors (gives an HTTP 404 not found response)
+ * Handle connection issues to mongo
+ *
+ * @author nbrown
+ *
  */
 @Provider
 @Component
-public class URITranslationExceptionHandler implements ExceptionMapper<URITranslationException> {
+public class UncategorizedMongoExceptionHandler implements ExceptionMapper<UncategorizedMongoDbException> {
 
-    public Response toResponse(URITranslationException e) {
-        String message = "URI translation failed";
-        if (e.getMessage() != null) {
-            message += ": " + e.getMessage();
-        }
-        Response.Status errorStatus = Response.Status.NOT_FOUND;
+    private static final Logger LOG = LoggerFactory.getLogger(UncategorizedMongoExceptionHandler.class);
+
+    @Override
+    public Response toResponse(UncategorizedMongoDbException exception) {
+        Status errorStatus = Status.SERVICE_UNAVAILABLE;
+        LOG.error("Could not access database", exception);
         return Response
                 .status(errorStatus)
                 .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
-                        message)).build();
+                        "Could not access database:" + exception.getMessage())).build();
     }
+
 }

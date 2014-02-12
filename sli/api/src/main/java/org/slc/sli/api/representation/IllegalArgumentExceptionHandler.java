@@ -14,32 +14,25 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.jersey.exceptionhandlers;
 
-import org.slc.sli.api.representation.ErrorResponse;
-import org.slc.sli.api.resources.generic.PreConditionFailedException;
-import org.springframework.stereotype.Component;
+package org.slc.sli.api.representation;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-/**
- * Exception mapper for precondition failures
- *
- * @author srupasinghe
- */
+import org.springframework.stereotype.Component;
 
+/**
+ * Handles bad requests
+  */
 @Provider
 @Component
-public class PreConditionExceptionHandler implements ExceptionMapper<PreConditionFailedException> {
+public class IllegalArgumentExceptionHandler implements ExceptionMapper<IllegalArgumentException> {
 
-    public Response toResponse(PreConditionFailedException e) {
-
-        return Response
-                .status(Response.Status.PRECONDITION_FAILED)
-                .entity(new ErrorResponse(Response.Status.PRECONDITION_FAILED.getStatusCode(), Response.Status.PRECONDITION_FAILED.getReasonPhrase(),
-                        e.getMessage())).build();
-
+    @Override
+    public Response toResponse(IllegalArgumentException e) {
+        return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
     }
 }

@@ -19,7 +19,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.slc.sli.api.jersey.exceptionhandlers.QueryParseExceptionHandler;
 import org.slc.sli.domain.QueryParseException;
 
 import javax.ws.rs.core.Response;

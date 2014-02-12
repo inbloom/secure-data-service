@@ -27,7 +27,6 @@ import javax.ws.rs.core.PathSegment;
 import com.sun.jersey.spi.container.ContainerRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.api.exceptions.URITranslationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -243,7 +242,7 @@ public class URITranslator {
                 }
                 if (translatedIdList.isEmpty()) {
                     LOG.warn("Failed upversioning rewrite {} -> {} due not being able to find intermediate entities", requestPath, this.transformTo);
-                    throw new URITranslationException("Upversioning rewrite failed.  No target entities found.");
+                    throw new EntityNotFoundException("Upversioning rewrite failed.  No target entities found.");
                 }
             }
 

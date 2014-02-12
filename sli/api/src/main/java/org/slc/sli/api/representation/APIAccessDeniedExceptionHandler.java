@@ -15,14 +15,18 @@
  */
 
 
-package org.slc.sli.api.jersey.exceptionhandlers;
+package org.slc.sli.api.representation;
 
-import org.slc.sli.api.representation.ErrorResponse;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.resources.security.RealmResource;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.security.context.EdOrgOwnershipArbiter;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +38,7 @@ import javax.ws.rs.core.*;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
+import java.util.*;
 
 /**
  * Handler for catching API access denied exceptions that log security events.

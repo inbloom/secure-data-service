@@ -136,7 +136,7 @@ public class RealmResource {
             @Context final UriInfo uriInfo) {
 
         if (updatedRealm == null) {
-            throw new IllegalArgumentException("Updated Realm was null");
+            throw new EntityNotFoundException("Entity was null");
         }
 
         EntityBody oldRealm = service.get(realmId);

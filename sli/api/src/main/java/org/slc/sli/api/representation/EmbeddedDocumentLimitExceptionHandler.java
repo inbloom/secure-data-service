@@ -14,30 +14,28 @@
  * limitations under the License.
  */
 
-
-package org.slc.sli.api.jersey.exceptionhandlers;
+package org.slc.sli.api.representation;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.slc.sli.api.representation.ErrorResponse;
+import org.slc.sli.api.selectors.doc.EmbeddedDocumentLimitException;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.QueryParseException;
-
 /**
- * Handler for Query Parsing errors
+ * @author jstokes
  */
 @Provider
 @Component
-public class QueryParseExceptionHandler implements ExceptionMapper<QueryParseException> {
-    
-    public Response toResponse(QueryParseException e) {
-        Response.Status errorStatus = Response.Status.BAD_REQUEST;
+public class EmbeddedDocumentLimitExceptionHandler implements ExceptionMapper<EmbeddedDocumentLimitException> {
+
+    @Override
+    public Response toResponse(EmbeddedDocumentLimitException e) {
         return Response
-                .status(errorStatus)
-                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
-                        "Error Parsing the Query: " + e.getMessage())).build();
+                .status(CustomStatus.ENTITY_TOO_LARGE)
+                .entity(new ErrorResponse(CustomStatus.ENTITY_TOO_LARGE.getStatusCode(), CustomStatus.ENTITY_TOO_LARGE.getReasonPhrase(),
+                        e.getMessage())).build();
     }
 }
+
