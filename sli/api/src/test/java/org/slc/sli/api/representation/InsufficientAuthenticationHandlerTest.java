@@ -27,8 +27,10 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.slc.sli.api.jersey.exceptionhandlers.InsufficientAuthenticationHandler;
+import org.mockito.stubbing.Answer;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.service.AuditLogger;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
