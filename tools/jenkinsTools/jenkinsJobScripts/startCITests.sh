@@ -110,12 +110,18 @@ resetDatabases()
 }
 setMode()
 {
-    MODE=$1
-    if [[ "MODE" == "production" ]]; then
-        echo "do something"
-
-    elif [[ "MODE" == "sandbox" ]]; then
-        echo "do something else"
+    if [[ "$MODE" == "production" ]]; then
+        sudo unlink /etc/datastore/sli.properties
+        sudo unlink /etc/datastore/admin-config.yml
+        sudo ln -s /etc/datastore/prod-sli.properties /etc/datastore/sli.properties
+        sudo ln -s /etc/datastore/prod-admin-config.yml /etc/datastore/admin-config.yml
+        echo "Switched to production mode"
+    elif [[ "$MODE" == "sandbox" ]]; then
+        sudo unlink /etc/datastore/sli.properties
+        sudo unlink /etc/datastore/admin-config.yml
+        sudo ln -s /etc/datastore/sandbox-sli.properties /etc/datastore/sli.properties
+        sudo ln -s /etc/datastore/sandbox-admin-config.yml /etc/datastore/admin-config.yml
+        echo "Switched to sandbox mode"
     else
         echo "You have specified an invalid mode. Must be either production or sandbox"
     fi
