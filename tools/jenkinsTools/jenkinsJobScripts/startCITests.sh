@@ -14,7 +14,7 @@ show_usage() {
 }
 
 process_opts() {
-    while getopts "d:e:a:w:h:" opt; do
+    while getopts "d:e:m:a:w:h:" opt; do
         case $opt in
             d)
                 CODEDIR=$OPTARG
@@ -58,7 +58,7 @@ process_opts() {
         esac
     done
     # -e and -a are required
-    if [[ -z "$ENV" || -z "$APPS" ]]; then
+    if [[ -z "$ENV" || -z "$APPS" || -z "$MODE" ]]; then
         echo "-e, -a, -m are required"
         show_usage
         exit 1
