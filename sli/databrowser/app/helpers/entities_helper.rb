@@ -215,8 +215,9 @@ module EntitiesHelper
   # and their children and so on. It uses the organizationalCategory of School to break
   # out of the recursiveness as schools should not have an children
   def get_feeder_edorgs(entity_id, destination = nil)
-    Entity.url_type = "educationOrganizations"
-    entities = Entity.get("", {:parentEducationAgencyReference => "#{entity_id}"})
+    url = "#{APP_CONFIG['api_base']}/educationOrganizations?parentEducationAgencyReference=#{entity_id}"
+    entities = RestClient.get(url, get_header)
+    entities = JSON.parse(entities)
     if destination.nil?
       destination = []
     end
@@ -231,12 +232,12 @@ module EntitiesHelper
   end
 
   # Used by the rest client to set up some basic header information
-  def get_basic_params
-    params = Hash.new
-    params[:Authorization] = "Bearer #{Entity.access_token}"
-    params[:content_type] = :json
-    params[:accept] = :json
-    params
+  def get_header
+    header = Hash.new
+    header[:Authorization] = "Bearer #{Entity.access_token}"
+    header[:content_type] = :json
+    header[:accept] = :json
+    header
   end
 
   # Retrieves the counts from the api for students and staff. This takes the entity_type as a variable so that
@@ -252,13 +253,12 @@ module EntitiesHelper
       logger.info("Invalid Entity For counts")
       return
     end
-    params = get_basic_params
-    params[:countOnly] = "true"
+    url = "#{url}?limit=0&countOnly=true"
     if !total
-      params[:currentOnly] = "true"
+      url = "#{url}&currentOnly=true"
     end
     begin
-      count = RestClient.get(url, params)
+      count = RestClient.get(url, get_header)
       count = count.headers[:totalcount].to_i
     rescue => e
     end
@@ -274,13 +274,12 @@ module EntitiesHelper
     if counts.nil?
       counts = Hash.new
     end
-    Entity.url_type = "educationOrganizations/#{entity_id}/staffEducationOrgAssignmentAssociations"
-    params = Hash.new
+    url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{entity_id}/staffEducationOrgAssignmentAssociations"
 
     teacher_key = "teachers_total"
     non_teacher_key = "non-teachers_total"
     if !total
-      params[:currentOnly] = "true"
+      url = "#{url}?current_only=true"
       teacher_key = "teachers_current"
       non_teacher_key = "non-teachers_current"
     end
@@ -295,7 +294,8 @@ module EntitiesHelper
 
     begin
         
-      associations = Entity.get("", params)
+      associations = RestClient.get(url, get_header)
+      associations = JSON.parse(associations)
       associations.each do |association|
         if (!association['staffClassification'].nil?)
           if (association['staffClassification'].include? "Educator")
