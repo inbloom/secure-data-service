@@ -6,7 +6,8 @@ show_usage() {
     echo
     echo "Options:"
     echo "  -d DIR         : Directory containing code files"
-    echo "  -e ENV         : Environment for which this script should run against. ci,prod-rc,sandbox-rc"
+    echo "  -e ENV         : Environment for which this script should run against. ci,ci_e2e_prod,ci_e2e_sandbox"
+    echo "  -m MODE        : Mode of the applications. production or sandbox"
     echo "  -a APPS        : List of Applications to deploy"
     echo "  -w WORKSPACE   : Specify Workspace if jenkins is not the one running this script"
     echo "  -h             : Show this usage summary and exit"
@@ -21,12 +22,21 @@ process_opts() {
             e)
                 if [[ "$OPTARG" != "ci" && \
                       "$OPTARG" != "ci_e2e_prod" && \
-                      "$OPTARG" != "sandbox-rc" ]]; then
-                    echo "Error: Environment must be one of ci|ci_e2e_prod|sandbox-rc"
+                      "$OPTARG" != "ci_e2e_sandbox" ]]; then
+                    echo "Error: Environment must be one of ci|ci_e2e_prod|ci_e2e_sandbox"
                     show_usage
                     exit 1
                 fi
                 ENV=$OPTARG
+                ;;
+             m)
+                if [[ "$OPTARG" != "production" && \
+                      "$OPTARG" != "sandbox" ]]; then
+                    echo "Error: Mode must be one of production|sandbox"
+                    show_usage
+                    exit 1
+                fi
+                MODE=$OPTARG
                 ;;
             a)
                 IFS=","
@@ -49,7 +59,7 @@ process_opts() {
     done
     # -e and -a are required
     if [[ -z "$ENV" || -z "$APPS" ]]; then
-        echo "-e and -a are required"
+        echo "-e, -a, -m are required"
         show_usage
         exit 1
     fi
@@ -97,6 +107,18 @@ resetDatabases()
   cd $WORKSPACE/sli/config/scripts
   sh resetAllDbs.sh
   echo "Dropped Databases"
+}
+setMode()
+{
+    MODE=$1
+    if [[ "MODE" == "production" ]]; then
+        echo "do something"
+
+    elif [[ "MODE" == "sandbox" ]]; then
+        echo "do something else"
+    else
+        echo "You have specified an invalid mode. Must be either production or sandbox"
+    fi
 }
 #this function needs to be refactored to actually work with our URL schema
 generateFixtureData()
@@ -191,6 +213,7 @@ if [[ "$ENV" == "ci" ]]; then
   cleanTomcat
   cleanRails
   resetDatabases
+  setMode $MODE
   adminUnitTests
   databrowserUnitTests
   deployAdmin
@@ -213,6 +236,7 @@ if [[ "$ENV" == "ci_e2e_prod" ]]; then
   adminUnitTests
   databrowserUnitTests
   resetDatabases
+  setMode $MODE
   deployAdmin
   deployDatabrowser
   startSearchIndexer
@@ -226,7 +250,24 @@ if [[ "$ENV" == "ci_e2e_prod" ]]; then
   EXITCODE=$?
 fi
 
-if [[ "$ENV" == "sandbox-rc" ]]; then
-  echo "sandbox-rc foo"
+if [[ "$ENV" == "ci_e2e_sandbox" ]]; then
+  noTableScan
+  cleanTomcat
+  cleanRails
+  adminUnitTests
+  databrowserUnitTests
+  resetDatabases
+  setMode $MODE
+  deployAdmin
+  deployDatabrowser
+  startSearchIndexer
+
+  for APP in $APPS; do
+    deployTomcat $APP ${deployHash[$APP]}
+  done
+  echo "Waiting for APPS to finish deploying"
+  sleep 120
+  runTests PROPERTIES=/etc/datastore/test-properties.yml sampleApp_server_address=https://$HOSTNAME-sample.dev.inbloom.org/ dashboard_server_address=https://cislave-1-dashboard.dev.inbloom.org dashboard_api_server_uri=https://cislave-1-api.dev.inbloom.org realm_page_url=https://cislave-1-api.dev.inbloom.org/api/oauth/authorize admintools_server_url=https://cislave-1-admin.dev.inbloom.org api_server_url=https://cislave-1-api.dev.inbloom.org api_ssl_server_url=https://cislave-1-api.dev.inbloom.org ingestion_landing_zone=/ingestion/lz sif_zis_address_trigger=http://$NODE_NAME.slidev.org:8080/mock-zis/trigger bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_properties_file=/etc/datastore/sli.properties bulk_extract_keystore_file=/etc/datastore/sli-keystore.jks bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz rcTests
+  EXITCODE=$?
 fi
 exit $EXITCODE
