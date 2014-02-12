@@ -64,3 +64,28 @@ When /^I authenticate on the Admin Delegation Tool$/ do
   step "I login"
 end
 
+# HERE BELOW LIES NEW IMPROVED STEPDEFS
+
+Given /^I am managing my applications$/ do
+  step 'I authenticate on the Application Registration Tool'
+  step 'I see the list of my registered applications only'
+end
+
+When /^I submit a new application for registration$/ do
+  step 'I have clicked to the button New'
+  step 'I am redirected to a new application page'
+  step 'I entered the name "Smoke!" into the field titled "Name"'
+  step 'I have entered data into the other required fields except for the shared secret and the app id which are read-only'
+  step 'I click on the button Submit'
+end
+
+Then /^the application should get registered$/ do
+  step 'I am redirected to the Application Registration Tool page'
+  step 'the application "Smoke!" is listed in the table on the top'
+end
+
+Then /^the application status should be pending$/ do
+  step 'I click on the row of application named "Smoke!" in the table'
+  step 'the client ID and shared secret fields are Pending'
+  step 'the Registration Status field is Pending'
+end

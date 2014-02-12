@@ -1,23 +1,35 @@
 @smoke
-Feature: SLI admin smoke tests
+Feature:
+  The administration tool can be used:
+    - by a developer to register and edit her applications
+    - by an operator to approve a developer application
+    - by IT administrators to authorize or deauthorize applications
+    - by realm administrators to modify realm information
 
 Background:
-Given I have an open web browser
+  Given I have an open web browser
 
-Scenario: SLC Developer operations part 1
-Given I am a valid SLC developer
-When I authenticate on the Application Registration Tool
-Then I see the list of my registered applications only
-And I have clicked to the button New
-And I am redirected to a new application page
-When I entered the name "Smoke!" into the field titled "Name"
-And I have entered data into the other required fields except for the shared secret and the app id which are read-only
-And I click on the button Submit
-Then I am redirected to the Application Registration Tool page
-And the application "Smoke!" is listed in the table on the top
-When I click on the row of application named "Smoke!" in the table
-Then the client ID and shared secret fields are Pending
-And the Registration Status field is Pending
+Scenario: A developer registers an application
+  Given I am a valid SLC developer
+    And I am managing my applications
+   When I submit a new application for registration
+   Then the application should get registered
+    And the application status should be pending
+
+#Scenario: A developer registers an application
+#  Given I am a valid SLC developer
+#   When I authenticate on the Application Registration Tool
+#   Then I see the list of my registered applications only
+#    And I have clicked to the button New
+#    And I am redirected to a new application page
+#   When I entered the name "Smoke!" into the field titled "Name"
+#    And I have entered data into the other required fields except for the shared secret and the app id which are read-only
+#    And I click on the button Submit
+#   Then I am redirected to the Application Registration Tool page
+#    And the application "Smoke!" is listed in the table on the top
+#   When I click on the row of application named "Smoke!" in the table
+#   Then the client ID and shared secret fields are Pending
+#    And the Registration Status field is Pending
 
 Scenario: SLC Operator operations
 Given I am a valid SLC Operator
