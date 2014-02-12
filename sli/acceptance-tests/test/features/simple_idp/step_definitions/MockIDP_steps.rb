@@ -103,7 +103,7 @@ Then /^I should be redirected to the impersonation page$/ do
 end
 
 Then /^I should be redirected to the databrowser web page$/ do
-  assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Listing Home")}
+  assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Welcome to the inBloom, inc. Data Browser")}
 end
 
 Then /^I should see the name "([^"]*)" on the page$/ do |arg1|
@@ -111,7 +111,7 @@ Then /^I should see the name "([^"]*)" on the page$/ do |arg1|
 end
 
 Then /^I am denied from accessing the databrowser$/ do
-  assertWithWait("Was directed to the databrowser when it shouldn't have")  {!@driver.page_source.include?("Listing Home")}
+  assertWithWait("Was directed to the databrowser when it shouldn't have")  {!@driver.page_source.include?("Welcome to the inBloom, inc. Data Browser")}
 end
 
 Then /^I get message that I am not authorized to use the Databrowser$/ do

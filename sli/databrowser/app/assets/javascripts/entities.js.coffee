@@ -2,19 +2,27 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 table = null
+
 jQuery ->
   table = $('#simple-table').dataTable(
+    "sDom": '<"right"i>rt<"bottom"flp><"clear">'
     "bLengthChange": false,
     "bFilter": false,
     "bRetrieve": true,
-    "bPaginate": false)
+    "bPaginate": false,
+    "aoColumnDefs": [ 
+       { "bSortable": false, "aTargets": [ 0 ] }
+    ]
+    )
   $('#simple-table tbody tr').click ->
     details = $(@)
     console.log details
     if table.fnIsOpen(@)
       table.fnClose(@)
+      $(@).find("td:first-child.expandable").toggleClass("expanded")
     else
       table.fnOpen(@, details.find('td.hidden').html(), "details")
+      $(@).find("td:first-child.expandable").toggleClass("expanded")
 
 jQuery ->
   if $('.pagination').length
