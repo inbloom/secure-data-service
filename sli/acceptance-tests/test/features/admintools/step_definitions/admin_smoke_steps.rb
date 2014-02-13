@@ -70,7 +70,19 @@ end
 
 # HERE BELOW LIES NEW IMPROVED STEPDEFS
 
+Given /^I am a valid inBloom developer$/ do
+  @user = 'slcdeveloper' # an :operator
+  @pass = 'slcdeveloper1234'
+end
+
+Given /^I am a valid inBloom operator$/ do
+  @user = 'slcoperator' # an :operator
+  @pass = 'slcoperator1234'
+end
+
+
 Given /^I am managing my applications$/ do
+  Capybara.reset_session!
   ##step 'I authenticate on the Application Registration Tool'
   #@driver.get(Property['admintools_server_url']+"/apps/")
   visit admin_apps_page
@@ -86,7 +98,7 @@ Given /^I am managing my applications$/ do
 end
 
 When /^I submit a new application for registration$/ do
-  @app_name = 'smoke_test'
+  @app_name = "smoke_test_#{Time.now.to_i}"
 
   page.click_link 'New Application'
   page.should have_title('New Application')
@@ -99,12 +111,13 @@ end
 
 Then /^the application should get registered$/ do
   page.should have_selector('h1', :text => 'Manage Applications')
-  #page.should have_selector('#notice', :text => 'App was successfully created')
+  page.should have_selector('#notice', :text => 'App was successfully created')
   page.should have_selector('tbody > tr:nth-child(1) > td', :text => @app_name)
 end
 
 Then /^the application status should be pending$/ do
-  pending = /Pending/
+  pending = /pending/i
+
   # Verify that the 'Creation Date' shows 'Pending'
   page.should have_selector('tbody > tr:nth-child(1) td:nth-child(5)', :text => pending)
   page.find('tbody > tr:nth-child(1) > td:nth-child(2)').click
@@ -112,6 +125,21 @@ Then /^the application status should be pending$/ do
   # Verify that the 'Client ID' and 'Shared Secret' show 'Pending'
   page.should have_selector('tbody > tr:nth-child(2) dd:nth-of-type(1)', :text => pending)
   page.should have_selector('tbody > tr:nth-child(2) dd:nth-of-type(2)', :text => pending)
+end
+
+When /^I see a pending application$/ do
+  @pending_app_row = page.first('table#applications tr', :text => /#{@app_name}(.*)PENDING/)
+  @pending_app_row.should_not be_nil
+end
+
+And /^I approve the pending application$/ do
+  within @pending_app_row do
+    click_button 'Approve'
+  end
+end
+
+Then /^the application status should be approved$/ do
+  page.should have_selector('table#applications tr', :text => /#{@app_name}(.*)APPROVED/)
 end
 
 # METHODS

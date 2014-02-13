@@ -1,8 +1,9 @@
 @smoke @javascript
 Feature:
   The administration tool can be used:
-    - by a developer to register and edit her applications
+    - by a developer to register a new application
     - by an operator to approve a developer application
+    - by a developer to enable her application for education organizations
     - by IT administrators to authorize or deauthorize applications
     - by realm administrators to modify realm information
 
@@ -10,7 +11,7 @@ Background:
   Given I have an open web browser
 
 Scenario: A developer registers an application
-  Given I am a valid SLC developer
+  Given I am a valid inBloom developer
     And I am managing my applications
    When I submit a new application for registration
    Then the application should get registered
@@ -31,74 +32,82 @@ Scenario: A developer registers an application
 #   Then the client ID and shared secret fields are Pending
 #    And the Registration Status field is Pending
 
-Scenario: SLC Operator operations
-Given I am a valid SLC Operator
-When I authenticate on the Application Registration Tool
-And I see all the applications registered on SLI
-And I see all the applications pending registration
-And the pending apps are on top
-When I click on 'Approve' next to application "Smoke!"
-Then application "Smoke!" is registered
-And the 'Approve' button is disabled for application "Smoke!"
-When I navigate to the account management page
-And I got the 404 page
+Scenario: An operator approves an application
+  Given I am a valid inBloom operator
+    And I am managing my applications
+    And I see a pending application
+   When I approve the pending application
+   Then the application status should be approved
 
-# Developer: Enable all edOrgs for app "Smoke!"
-Scenario: SLC Developer operations part 2
-Given I am a valid SLC developer
-When I authenticate on the Application Registration Tool
-Then I see the list of my registered applications only
-And I clicked on the button Edit for the application "Smoke!"
-And the checkbox with HTML id "root" is unchecked
-And I check the checkbox with HTML id "root"
-When I click on Save
-Then I am redirected to the Application Registration Tool page
+#  Scenario: SLC Operator operations
+#Given I am a valid SLC Operator
+#When I authenticate on the Application Registration Tool
+#And I see all the applications registered on SLI
+#And I see all the applications pending registration
+#And the pending apps are on top
+#When I click on 'Approve' next to application "Smoke!"
+#Then application "Smoke!" is registered
+#And the 'Approve' button is disabled for application "Smoke!"
+#When I navigate to the account management page
+#And I got the 404 page
+#
 
-# SEA Admin: Approve all edOrgs for app "Smoke!"
-Scenario: SEA Administrator operations
-Given the sli securityEvent collection is empty
-And I am a valid SEA administrator
-When I hit the Admin Application Authorization Tool
-And I login
-And I see an application "Smoke!" in the table
-And in Status it says "Not Approved"
-And I click on the "Edit Authorizations" button next to it
-And I am redirected to the Admin Application Authorization Edit Page
-And the checkbox with HTML id "root" is unchecked
-And I check the checkbox with HTML id "root"
-And I click Update
-And the app "Smoke!" Status matches "\d+ EdOrg"
-And it is colored "green"
-
-Scenario: LEA Administrator operations
-Given the sli securityEvent collection is empty
-And I am a valid district administrator
-When I hit the Admin Application Authorization Tool
-And I login
-And I see an application "Smoke!" in the table
-And the app "Smoke!" Status matches "\d+ EdOrg"
-And I click on the "Edit Authorizations" button next to it
-And I am redirected to the Admin Application Authorization Edit Page
-And the checkbox with HTML id "root" is checked
-And I uncheck the checkbox with HTML id "root"
-And I click Update
-And the app "Smoke!" Status matches "Not Approved"
-And it is colored "red"
-
-Scenario: Realm administrator operations
-Given I am a valid realm administrator
-When I authenticate on the realm editing tool
-When I see the realms for "Sunset School District 4526 (IL-SUNSET)"
-And I click the "Illinois Sunset School District 4526" edit button
-And I should see that I am on the "Illinois Sunset School District 4526" edit page
-And I should enter "Smoke" into the Display Name field
-And I should click the "Save" button
-Then I see the realms for "Sunset School District 4526 (IL-SUNSET)"
-And the realm "Smoke" will exist
-And I should receive a notice that the realm was successfully "updated"
-And I click the "Smoke" edit button
-And I should see that I am on the "Smoke" edit page
-And I should enter "Illinois Sunset School District 4526" into the Display Name field
-And I should click the "Save" button
-Then I see the realms for "Sunset School District 4526 (IL-SUNSET)"
-And the realm "Illinois Sunset School District 4526" will exist
+## Developer: Enable all edOrgs for app "Smoke!"
+#Scenario: SLC Developer operations part 2
+#Given I am a valid SLC developer
+#When I authenticate on the Application Registration Tool
+#Then I see the list of my registered applications only
+#And I clicked on the button Edit for the application "Smoke!"
+#And the checkbox with HTML id "root" is unchecked
+#And I check the checkbox with HTML id "root"
+#When I click on Save
+#Then I am redirected to the Application Registration Tool page
+#
+## SEA Admin: Approve all edOrgs for app "Smoke!"
+#Scenario: SEA Administrator operations
+#Given the sli securityEvent collection is empty
+#And I am a valid SEA administrator
+#When I hit the Admin Application Authorization Tool
+#And I login
+#And I see an application "Smoke!" in the table
+#And in Status it says "Not Approved"
+#And I click on the "Edit Authorizations" button next to it
+#And I am redirected to the Admin Application Authorization Edit Page
+#And the checkbox with HTML id "root" is unchecked
+#And I check the checkbox with HTML id "root"
+#And I click Update
+#And the app "Smoke!" Status matches "\d+ EdOrg"
+#And it is colored "green"
+#
+#Scenario: LEA Administrator operations
+#Given the sli securityEvent collection is empty
+#And I am a valid district administrator
+#When I hit the Admin Application Authorization Tool
+#And I login
+#And I see an application "Smoke!" in the table
+#And the app "Smoke!" Status matches "\d+ EdOrg"
+#And I click on the "Edit Authorizations" button next to it
+#And I am redirected to the Admin Application Authorization Edit Page
+#And the checkbox with HTML id "root" is checked
+#And I uncheck the checkbox with HTML id "root"
+#And I click Update
+#And the app "Smoke!" Status matches "Not Approved"
+#And it is colored "red"
+#
+#Scenario: Realm administrator operations
+#Given I am a valid realm administrator
+#When I authenticate on the realm editing tool
+#When I see the realms for "Sunset School District 4526 (IL-SUNSET)"
+#And I click the "Illinois Sunset School District 4526" edit button
+#And I should see that I am on the "Illinois Sunset School District 4526" edit page
+#And I should enter "Smoke" into the Display Name field
+#And I should click the "Save" button
+#Then I see the realms for "Sunset School District 4526 (IL-SUNSET)"
+#And the realm "Smoke" will exist
+#And I should receive a notice that the realm was successfully "updated"
+#And I click the "Smoke" edit button
+#And I should see that I am on the "Smoke" edit page
+#And I should enter "Illinois Sunset School District 4526" into the Display Name field
+#And I should click the "Save" button
+#Then I see the realms for "Sunset School District 4526 (IL-SUNSET)"
+#And the realm "Illinois Sunset School District 4526" will exist
