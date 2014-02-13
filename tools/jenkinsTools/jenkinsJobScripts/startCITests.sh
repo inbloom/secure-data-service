@@ -127,15 +127,6 @@ setMode()
         echo "You have specified an invalid mode. Must be either production or sandbox"
     fi
 }
-#this function needs to be refactored to actually work with our URL schema
-generateFixtureData()
-{
-    echo "Altering fixture data for applications to match..."
-    sed -i "s/https:\/\/ci.slidev.org/https:\/\/$HOSTNAME.dev.inbloom.org/g" acceptance-tests/test/data/application_fixture.json
-    sed -i "s/https:\/\/ci.slidev.org/https:\/\/$HOSTNAME.dev.inbloom.org/g" acceptance-tests/test/data/realm_fixture.json
-    sed -i "s/http:\/\/local.slidev.org:8082/https:\/\/$HOSTNAME.dev.inbloom.org/g" acceptance-tests/test/data/realm_fixture.json
-    sed -i "s/https:\/\/ci.slidev.org/https:\/\/$HOSTNAME.dev.inbloom.org/g" acceptance-tests/test/data/application_denial_fixture.json
-}
 adminUnitTests()
 {
   echo "Executing admin unit tests"
