@@ -32,6 +32,7 @@ require 'yaml'
 require 'digest/sha1'
 require 'socket'
 require 'macaddr'
+require 'capybara'
 
 include REXML
 

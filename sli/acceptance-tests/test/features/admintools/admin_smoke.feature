@@ -1,4 +1,4 @@
-@smoke
+@smoke @javascript
 Feature:
   The administration tool can be used:
     - by a developer to register and edit her applications

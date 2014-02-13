@@ -16,12 +16,16 @@ limitations under the License.
 
 =end
 
-require "selenium-webdriver"
+require 'selenium-webdriver'
 require 'json'
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../security/step_definitions/securityevent_util_steps.rb'
 require_relative '../../sandbox/AccountApproval/step_definitions/prod_sandbox_AccountApproval_Inteface_steps.rb'
+
+# TODO Move the capybara setup code to a common location
+include Capybara::DSL
+Capybara.default_driver = :selenium
 
 Given /^I am a valid SLC developer$/ do
   @user = 'slcdeveloper' # an :operator
@@ -67,25 +71,85 @@ end
 # HERE BELOW LIES NEW IMPROVED STEPDEFS
 
 Given /^I am managing my applications$/ do
-  step 'I authenticate on the Application Registration Tool'
-  step 'I see the list of my registered applications only'
+  ##step 'I authenticate on the Application Registration Tool'
+  #@driver.get(Property['admintools_server_url']+"/apps/")
+  visit admin_apps_page
+  login_to_the_inbloom_realm
+
+  ##step 'I see the list of my registered applications only'
+  page.should have_selector('#applications')
+  page.should have_selector('tbody > tr')
+
+  #appsTable = @driver.find_element(:id, "applications")
+  #trs = appsTable.find_elements(:xpath, ".//tbody/tr")
+  #assert(trs.length > 0, "Should see at least one of my apps")
 end
 
 When /^I submit a new application for registration$/ do
-  step 'I have clicked to the button New'
-  step 'I am redirected to a new application page'
-  step 'I entered the name "Smoke!" into the field titled "Name"'
-  step 'I have entered data into the other required fields except for the shared secret and the app id which are read-only'
-  step 'I click on the button Submit'
+  @app_name = 'smoke_test'
+
+  page.click_link 'New Application'
+  page.should have_title('New Application')
+  page.fill_in('app[name]', :with => @app_name)
+
+  fill_in_app_registration
+
+  page.click_button 'Register'
 end
 
 Then /^the application should get registered$/ do
-  step 'I am redirected to the Application Registration Tool page'
-  step 'the application "Smoke!" is listed in the table on the top'
+  page.should have_selector('h1', :text => 'Manage Applications')
+  #page.should have_selector('#notice', :text => 'App was successfully created')
+  page.should have_selector('tbody > tr:nth-child(1) > td', :text => @app_name)
 end
 
 Then /^the application status should be pending$/ do
-  step 'I click on the row of application named "Smoke!" in the table'
-  step 'the client ID and shared secret fields are Pending'
-  step 'the Registration Status field is Pending'
+  pending = /Pending/
+  # Verify that the 'Creation Date' shows 'Pending'
+  page.should have_selector('tbody > tr:nth-child(1) td:nth-child(5)', :text => pending)
+  page.find('tbody > tr:nth-child(1) > td:nth-child(2)').click
+
+  # Verify that the 'Client ID' and 'Shared Secret' show 'Pending'
+  page.should have_selector('tbody > tr:nth-child(2) dd:nth-of-type(1)', :text => pending)
+  page.should have_selector('tbody > tr:nth-child(2) dd:nth-of-type(2)', :text => pending)
+end
+
+# METHODS
+
+def admin_apps_page
+  "#{Property['admintools_server_url']}/apps/"
+end
+
+def login_to_the_inbloom_realm
+  login_to_realm 'inBloom'
+end
+
+def login_to_realm(realm)
+  choose_realm realm
+  submit_idp_credentials @user, @pass
+end
+
+def choose_realm(realm)
+  page.should have_title('Choose your realm')
+  page.select(realm, :from => 'realmId')
+  page.click_button 'Go'
+end
+
+def submit_idp_credentials(username, password)
+  page.fill_in('user_id', :with => username)
+  page.fill_in('password', :with => password)
+  page.click_button 'login_button'
+end
+
+def fill_in_app_registration
+  page.fill_in('app[description]', :with => 'smoke test')
+  page.fill_in('app[version]', :with => '0.9')
+  page.check('app[installed]')
+end
+
+def verify_registered_application(name)
+  value = @driver.find_element(:id, 'notice').text
+  assert(value =~ /successfully created/, "Should have valid flash message")
+  assertWithWait("Couldn't locate #{app} at the top of the page") {@driver.find_element(:xpath, "//tbody/tr[1]/td[text()='#{app}']")}
+
 end
