@@ -209,4 +209,5 @@ When I update edorg "bd086bae-ee82-4cf2-baf9-221a9407ea07" for tenant "Midgar" a
   And I click on the "Edit Authorizations" button next to it
   And I am redirected to the Admin Application Authorization Edit Page
 Then the edorg "bd086bae-ee82-4cf2-baf9-221a9407ea07" is present in the list of orphans
+  And the edorg "bd086bae-ee82-4cf2-baf9-221a9407ea07" is not present in the tree
   And I update edorg "bd086bae-ee82-4cf2-baf9-221a9407ea07" for tenant "Midgar" and update the parentEducationAgencyReference to a reference of "b1bd3db6-d020-4651-b1b8-a8dba688d9e1"

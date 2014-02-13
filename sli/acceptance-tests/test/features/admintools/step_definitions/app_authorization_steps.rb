@@ -604,11 +604,6 @@ Then /^the error message "(.*?)" is displayed$/ do | expected_message |
    assert(actual_message == expected_message, "Unexpected message found. Expecting: #{expected_message} but got #{actual_message}")
 end
 
-Then /^the edorg "(.*?)" is present in the list of orphans$/ do |edorg_id|
-  element = @driver.find_element(:id, "orphan_#{edorg_id}")
-  element.displayed?.should == true
-end
-
 When /^I update edorg "(.*?)" for tenant "(.*?)" and update the parentEducationAgencyReference to a reference of "(.*?)"$/ do |edOrgId, tenant, parent_reference|
   disable_NOTABLESCAN()
   db = @conn[convertTenantIdToDbName(tenant)]
