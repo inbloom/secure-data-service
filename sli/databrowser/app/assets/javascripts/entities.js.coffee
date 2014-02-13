@@ -5,7 +5,7 @@ table = null
 
 jQuery ->
   table = $('#simple-table').dataTable(
-    "sDom": '<"right"i>rt<"bottom"flp><"clear">'
+    "sDom": '<"top"i>rt<"bottom"flp><"clear">'
     "bLengthChange": false,
     "bFilter": false,
     "bRetrieve": true,
