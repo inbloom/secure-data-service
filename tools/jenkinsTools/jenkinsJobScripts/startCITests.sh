@@ -1,12 +1,12 @@
 #!/bin/bash
 source /usr/local/rvm/environments/default
-
+#Need to change environment to tests or something. Evolved into something other than environment
 show_usage() {
     echo "Usage: $0 [-Dh] -d DIR -e prod|sandbox|stage|test [-g GROUP [-s SERVER]]"
     echo
     echo "Options:"
     echo "  -d DIR         : Directory containing code files"
-    echo "  -e ENV         : Environment for which this script should run against. ci,ci_e2e_prod,ci_e2e_sandbox"
+    echo "  -e ENV         : Tests for which this script should run"
     echo "  -m MODE        : Mode of the applications. production or sandbox"
     echo "  -a APPS        : List of Applications to deploy"
     echo "  -w WORKSPACE   : Specify Workspace if jenkins is not the one running this script"
@@ -22,8 +22,9 @@ process_opts() {
             e)
                 if [[ "$OPTARG" != "ci" && \
                       "$OPTARG" != "ci_e2e_prod" && \
-                      "$OPTARG" != "ci_e2e_sandbox" ]]; then
-                    echo "Error: Environment must be one of ci|ci_e2e_prod|ci_e2e_sandbox"
+                      "$OPTARG" != "ci_e2e_sandbox" && \
+                      "$OPTARG" != "api_contextual_roles" ]]; then
+                    echo "Error: Environment must be one of ci|ci_e2e_prod|ci_e2e_sandbox|api_contextual_roles"
                     show_usage
                     exit 1
                 fi
@@ -274,6 +275,23 @@ if [[ "$ENV" == "ci_e2e_sandbox" ]]; then
   echo "Waiting for APPS to finish deploying"
   sleep 120
   runTests PROPERTIES=/etc/datastore/test-properties.yml sampleApp_server_address=https://$HOSTNAME-sample.dev.inbloom.org/ dashboard_server_address=https://cislave-1-dashboard.dev.inbloom.org dashboard_api_server_uri=https://cislave-1-api.dev.inbloom.org realm_page_url=https://cislave-1-api.dev.inbloom.org/api/oauth/authorize admintools_server_url=https://cislave-1-admin.dev.inbloom.org api_server_url=https://cislave-1-api.dev.inbloom.org api_ssl_server_url=https://cislave-1-api.dev.inbloom.org ingestion_landing_zone=/ingestion/lz sif_zis_address_trigger=http://$NODE_NAME.slidev.org:8080/mock-zis/trigger bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_properties_file=/etc/datastore/sli.properties bulk_extract_keystore_file=/etc/datastore/sli-keystore.jks bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz rcSandboxTests
+  EXITCODE=$?
+fi
+
+if [[ "$ENV" == "api_contextual_roles" ]]; then
+	noTableScan
+	cleanTomcat
+	cleanRails
+	resetDatabases
+	setMode $MODE
+	startSearchIndexer
+
+	for APP in $APPS; do
+  	deployTomcat $APP ${deployHash[$APP]}
+  done
+	echo "Waiting for APPS to finish deploying"
+	sleep 120
+	runTests PROPERTIES=/etc/datastore/test-properties.yml sampleApp_server_address=https://$HOSTNAME-sample.dev.inbloom.org/ dashboard_server_address=https://cislave-1-dashboard.dev.inbloom.org dashboard_api_server_uri=https://cislave-1-api.dev.inbloom.org realm_page_url=https://cislave-1-api.dev.inbloom.org/api/oauth/authorize admintools_server_url=https://cislave-1-admin.dev.inbloom.org api_server_url=https://cislave-1-api.dev.inbloom.org api_ssl_server_url=https://cislave-1-api.dev.inbloom.org ingestion_landing_zone=/ingestion/lz sif_zis_address_trigger=http://$NODE_NAME.slidev.org:8080/mock-zis/trigger bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_properties_file=/etc/datastore/sli.properties bulk_extract_keystore_file=/etc/datastore/sli-keystore.jks bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiContextualRolesTests
   EXITCODE=$?
 fi
 exit $EXITCODE
