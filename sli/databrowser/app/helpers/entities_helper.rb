@@ -119,7 +119,7 @@ module EntitiesHelper
             if (link['rel'].include? 'self')
               html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << " (1/1)" << '</li>'
             else
-              html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << " (0/0)" << '</li>'
+              html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << " (N/A)" << '</li>'
             end
           end
         else
