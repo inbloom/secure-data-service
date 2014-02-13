@@ -9,6 +9,7 @@ Feature:
 
 Background:
   Given I have an open web browser
+    And I have an open browser
 
 Scenario: A developer registers an application
   Given I am a valid inBloom developer
@@ -51,6 +52,15 @@ Scenario: An operator approves an application
 #When I navigate to the account management page
 #And I got the 404 page
 #
+
+Scenario: A developer enables education organizations for her application
+  Given I am a valid inBloom developer
+    And I am managing my applications
+    And I have an in-progress application
+   When I edit the in-progress application
+    And enable the application for an education organization
+   Then the application should be ready
+
 
 ## Developer: Enable all edOrgs for app "Smoke!"
 #Scenario: SLC Developer operations part 2
