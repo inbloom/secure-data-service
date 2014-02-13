@@ -23,6 +23,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -134,5 +135,26 @@ public class EdOrgOwnershipArbiter extends OwnershipArbiter {
 
         return type.equals(EDUCATION_ORGANIZATION) || type.equals(SCHOOL)
                 || type.equals("localEducationAgency") || type.equals("stateEducationAgency");
+    }
+
+
+    /**
+     * Determines if this entity has a link defined to an owning Education Organization. If the method returns true,
+     * then determining the edorg hierarchy should be possible.
+     *
+     * @param entityType Type of entity to be checked
+     *
+     * @return True if the specified entity type is included in the education organization hierarchy, false otherwise
+     */
+    public boolean isEntityOwnedByEdOrg(String entityType) {
+        if(entityType == null) {
+            return false;
+        }
+
+        if (EntityNames.EDUCATION_ORGANIZATION.equalsIgnoreCase(entityType)) {
+            return true; // an edorg entity owns itself so we return true
+        }
+
+        return typeToReference.containsKey(entityType);
     }
 }
