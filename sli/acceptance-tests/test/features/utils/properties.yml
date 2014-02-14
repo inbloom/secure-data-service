@@ -7,8 +7,8 @@ browser: "firefox"
 
 admintools_server_url: "https://cislave-1-admin.dev.inbloom.org"
 minisb_admintools_server_url: "http://ycao-mint.slidev.org:3001"
-api_server_url: "https://cislave-1-api.dev.inbloom.org"
-api_ssl_server_url: "https://cislave-1-api.dev.inbloom.org"
+api_server_url: "https://cislave-8-api.dev.inbloom.org"
+api_ssl_server_url: "https://cislave-8-api.dev.inbloom.org"
 databrowser_server_url: "https://cislave-1-databrowser.dev.inbloom.org"
 
 ingestion_db: "localhost"
