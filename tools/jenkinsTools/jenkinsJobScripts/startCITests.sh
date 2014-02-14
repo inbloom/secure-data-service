@@ -223,7 +223,7 @@ if [[ "$ENV" == "ci" ]]; then
   done
   echo "Waiting for APPS to finish deploying"
   sleep 120
-  runTests PROPERTIES=/etc/datastore/test-properties.yml TOGGLE_TABLESCANS=true smokeTests
+  runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz TOGGLE_TABLESCANS=true smokeTests
   EXITCODE=$?
 fi
 
@@ -244,7 +244,7 @@ if [[ "$ENV" == "ci_e2e_prod" ]]; then
   done
   echo "Waiting for APPS to finish deploying"
   sleep 120
-  runTests PROPERTIES=/etc/datastore/test-properties.yml rcTests
+  runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz rcTests
   EXITCODE=$?
 fi
 
@@ -265,7 +265,7 @@ if [[ "$ENV" == "ci_e2e_sandbox" ]]; then
   done
   echo "Waiting for APPS to finish deploying"
   sleep 120
-  runTests PROPERTIES=/etc/datastore/test-properties.yml rcSandboxTests
+  runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz rcSandboxTests
   EXITCODE=$?
 fi
 
@@ -282,7 +282,7 @@ if [[ "$ENV" == "api_contextual_roles" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests PROPERTIES=/etc/datastore/test-properties.yml apiContextualRolesTests
+	runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiContextualRolesTests
   EXITCODE=$?
 fi
 exit $EXITCODE
