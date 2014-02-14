@@ -71,6 +71,7 @@ class Browser
   include Capybara::DSL
   def initialize
     Capybara.default_driver = :selenium
+    Capybara.reset_session!
   end
 end
 
@@ -79,38 +80,47 @@ Given /^I have an open browser$/ do
 end
 
 Given /^I am a valid inBloom developer$/ do
-  @user = 'slcdeveloper' # an :operator
+  @user = 'slcdeveloper'
   @pass = 'slcdeveloper1234'
 end
 
 Given /^I am a valid inBloom operator$/ do
-  @user = 'slcoperator' # an :operator
+  @user = 'slcoperator'
   @pass = 'slcoperator1234'
 end
 
+Given /^I am a valid tenant-level administrator$/ do
+  @user = 'iladmin'
+  @pass = 'iladmin1234'
+end
+
+Given /^I am a valid district-level administrator$/ do
+  @user = 'sunsetadmin'
+  @pass = 'sunsetadmin1234'
+end
+
 Given /^I am managing my applications$/ do
-  Capybara.reset_session!
-  ##step 'I authenticate on the Application Registration Tool'
-  #@driver.get(Property['admintools_server_url']+"/apps/")
   browser.visit admin_apps_page
   login_to_the_inbloom_realm
 
-  ##step 'I see the list of my registered applications only'
   browser.page.should have_selector('#applications')
   browser.page.should have_selector('tbody > tr')
+end
 
-  #appsTable = @driver.find_element(:id, "applications")
-  #trs = appsTable.find_elements(:xpath, ".//tbody/tr")
-  #assert(trs.length > 0, "Should see at least one of my apps")
+Given /^I am managing my application authorizations$/ do
+  browser.visit application_authorizations_page
+  login_to_the_inbloom_realm
+  browser.page.should have_selector('h1', :text => 'Approve Applications')
 end
 
 Given /^I have an in\-progress application$/ do
-  @app_row = browser.page.first('table#applications tr', :text => /#{@app_name}(.*)In Progress/)
+  @app_row = browser.page.first('table#applications tr', :text => /#{app_prefix}.*In Progress/)
   @app_row.should_not be_nil
+  @app_name = @app_row.find('td:nth-child(2)').text.strip
 end
 
 When /^I submit a new application for registration$/ do
-  @app_name = "smoke_test_#{Time.now.to_i}"
+  @app_name = "#{app_prefix}#{Time.now.to_i}"
 
   browser.page.click_link 'New Application'
   browser.page.should have_title('New Application')
@@ -126,6 +136,40 @@ When /^I edit the (in\-progress )?application$/ do |in_progress|
   browser.within @app_row do
     browser.click_link link
   end
+end
+
+When /^I edit the authorizations for an application$/ do
+  app_row = browser.page.first('table#AuthorizedAppsTable tr', :text => /#{app_prefix}.*Not Approved/)
+  @app_name = app_row.find('td:nth-child(1)').text.strip
+  browser.within app_row do
+    browser.click_button 'Edit Authorizations'
+  end
+end
+
+When /^I see a pending application$/ do
+  @app_row = browser.page.first('table#applications tr', :text => /#{app_prefix}.*PENDING/)
+  @app_row.should_not be_nil
+  @app_name = @app_row.find('td:nth-child(1)').text
+end
+
+When /^I approve the pending application$/ do
+  browser.within @app_row do
+    browser.click_button 'Approve'
+  end
+end
+
+When /^(?:I )?(enable|authorize|disable|de\-authorize) the application for (?:an|all) education organizations?$/ do |check|
+  check = (check =~ /^(enable|authorize)$/) ? true : false
+  browser.page.should have_selector('#edorgTree #root')
+  browser.within '#edorgTree' do
+    check ? browser.check('root') : browser.uncheck('root')
+  end
+  save_button = browser.page.first(:button, 'Save & Update')
+  save_button.click
+end
+
+Then /^the application should be not approved$/ do
+  pending # express the regexp above with the code you wish you had
 end
 
 Then /^the application should get registered$/ do
@@ -146,26 +190,6 @@ Then /^the application status should be pending$/ do
   browser.page.should have_selector('tbody > tr:nth-child(2) dd:nth-of-type(2)', :text => pending)
 end
 
-When /^I see a pending application$/ do
-  @app_row = browser.page.first('table#applications tr', :text => /#{@app_name}(.*)PENDING/)
-  @app_row.should_not be_nil
-end
-
-When /^I approve the pending application$/ do
-  browser.within @app_row do
-    browser.click_button 'Approve'
-  end
-end
-
-When /^(?:I )?enable the application for (?:an|all) education organizations?$/ do
-  browser.page.should have_selector('#edorgTree #root')
-  browser.within '#edorgTree' do
-    browser.check 'root'
-  end
-  save_button = browser.page.first(:button, 'Save & Update')
-  save_button.click
-end
-
 Then /^the application status should be approved$/ do
   browser.page.should have_selector('table#applications tr', :text => /#{@app_name}(.*)APPROVED/)
 end
@@ -174,18 +198,40 @@ Then /^the application should be ready$/ do
   browser.page.should have_selector('table#applications tr', :text => /#{@app_name}(.*)Edit/)
 end
 
+Then /^the application should be approved for all education organizations$/ do
+  app_row = browser.page.first('table#AuthorizedAppsTable tr', :text => /#{@app_name}/)
+  app_row.should have_selector('td:nth-child(4)', :text => /\d+ EdOrg\(s\)/)
+end
+
+Then /^the application should not be approved$/ do
+  app_row = browser.page.first('table#AuthorizedAppsTable tr', :text => /#{@app_name}/)
+  app_row.should have_selector('td:nth-child(4)', :text => /Not Approved/)
+end
+
 # METHODS
 
 def browser
   @browser
 end
 
+def app_prefix
+  'smoke_test_'
+end
+
 def admin_apps_page
   "#{Property['admintools_server_url']}/apps/"
 end
 
+def application_authorizations_page
+  "#{Property['admintools_server_url']}/application_authorizations/"
+end
+
 def login_to_the_inbloom_realm
   login_to_realm 'inBloom'
+end
+
+def login_to_the_tenants_realm
+  login_to_realm 'Illinois Daybreak School District 4529'
 end
 
 def login_to_realm(realm)

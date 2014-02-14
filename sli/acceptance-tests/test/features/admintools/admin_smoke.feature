@@ -18,40 +18,12 @@ Scenario: A developer registers an application
    Then the application should get registered
     And the application status should be pending
 
-#Scenario: A developer registers an application
-#  Given I am a valid SLC developer
-#   When I authenticate on the Application Registration Tool
-#   Then I see the list of my registered applications only
-#    And I have clicked to the button New
-#    And I am redirected to a new application page
-#   When I entered the name "Smoke!" into the field titled "Name"
-#    And I have entered data into the other required fields except for the shared secret and the app id which are read-only
-#    And I click on the button Submit
-#   Then I am redirected to the Application Registration Tool page
-#    And the application "Smoke!" is listed in the table on the top
-#   When I click on the row of application named "Smoke!" in the table
-#   Then the client ID and shared secret fields are Pending
-#    And the Registration Status field is Pending
-
 Scenario: An operator approves an application
   Given I am a valid inBloom operator
     And I am managing my applications
     And I see a pending application
    When I approve the pending application
    Then the application status should be approved
-
-#  Scenario: SLC Operator operations
-#Given I am a valid SLC Operator
-#When I authenticate on the Application Registration Tool
-#And I see all the applications registered on SLI
-#And I see all the applications pending registration
-#And the pending apps are on top
-#When I click on 'Approve' next to application "Smoke!"
-#Then application "Smoke!" is registered
-#And the 'Approve' button is disabled for application "Smoke!"
-#When I navigate to the account management page
-#And I got the 404 page
-#
 
 Scenario: A developer enables education organizations for her application
   Given I am a valid inBloom developer
@@ -61,49 +33,20 @@ Scenario: A developer enables education organizations for her application
     And enable the application for an education organization
    Then the application should be ready
 
+Scenario: A tenant-level administrator authorizes an application for education organizations
+  Given I am a valid tenant-level administrator
+    And I am managing my application authorizations
+   When I edit the authorizations for an application
+    And authorize the application for all education organizations
+   Then the application should be approved for all education organizations
 
-## Developer: Enable all edOrgs for app "Smoke!"
-#Scenario: SLC Developer operations part 2
-#Given I am a valid SLC developer
-#When I authenticate on the Application Registration Tool
-#Then I see the list of my registered applications only
-#And I clicked on the button Edit for the application "Smoke!"
-#And the checkbox with HTML id "root" is unchecked
-#And I check the checkbox with HTML id "root"
-#When I click on Save
-#Then I am redirected to the Application Registration Tool page
-#
-## SEA Admin: Approve all edOrgs for app "Smoke!"
-#Scenario: SEA Administrator operations
-#Given the sli securityEvent collection is empty
-#And I am a valid SEA administrator
-#When I hit the Admin Application Authorization Tool
-#And I login
-#And I see an application "Smoke!" in the table
-#And in Status it says "Not Approved"
-#And I click on the "Edit Authorizations" button next to it
-#And I am redirected to the Admin Application Authorization Edit Page
-#And the checkbox with HTML id "root" is unchecked
-#And I check the checkbox with HTML id "root"
-#And I click Update
-#And the app "Smoke!" Status matches "\d+ EdOrg"
-#And it is colored "green"
-#
-#Scenario: LEA Administrator operations
-#Given the sli securityEvent collection is empty
-#And I am a valid district administrator
-#When I hit the Admin Application Authorization Tool
-#And I login
-#And I see an application "Smoke!" in the table
-#And the app "Smoke!" Status matches "\d+ EdOrg"
-#And I click on the "Edit Authorizations" button next to it
-#And I am redirected to the Admin Application Authorization Edit Page
-#And the checkbox with HTML id "root" is checked
-#And I uncheck the checkbox with HTML id "root"
-#And I click Update
-#And the app "Smoke!" Status matches "Not Approved"
-#And it is colored "red"
-#
+Scenario: A district-level administrator de-authorizes an application for education organizations
+  Given I am a valid district-level administrator
+    And I am managing my application authorizations
+   When I edit the authorizations for an application
+    And de-authorize the application for all education organizations
+   Then the application should not be approved
+
 #Scenario: Realm administrator operations
 #Given I am a valid realm administrator
 #When I authenticate on the realm editing tool
