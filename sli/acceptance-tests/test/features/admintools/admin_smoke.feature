@@ -8,8 +8,7 @@ Feature:
     - by realm administrators to modify realm information
 
 Background:
-  Given I have an open web browser
-    And I have an open browser
+  Given I have an open browser
 
 Scenario: A developer registers an application
   Given I am a valid inBloom developer
@@ -43,24 +42,12 @@ Scenario: A tenant-level administrator authorizes an application for education o
 Scenario: A district-level administrator de-authorizes an application for education organizations
   Given I am a valid district-level administrator
     And I am managing my application authorizations
-   When I edit the authorizations for an application
+   When I edit the authorizations for an approved application
     And de-authorize the application for all education organizations
    Then the application should not be approved
 
-#Scenario: Realm administrator operations
-#Given I am a valid realm administrator
-#When I authenticate on the realm editing tool
-#When I see the realms for "Sunset School District 4526 (IL-SUNSET)"
-#And I click the "Illinois Sunset School District 4526" edit button
-#And I should see that I am on the "Illinois Sunset School District 4526" edit page
-#And I should enter "Smoke" into the Display Name field
-#And I should click the "Save" button
-#Then I see the realms for "Sunset School District 4526 (IL-SUNSET)"
-#And the realm "Smoke" will exist
-#And I should receive a notice that the realm was successfully "updated"
-#And I click the "Smoke" edit button
-#And I should see that I am on the "Smoke" edit page
-#And I should enter "Illinois Sunset School District 4526" into the Display Name field
-#And I should click the "Save" button
-#Then I see the realms for "Sunset School District 4526 (IL-SUNSET)"
-#And the realm "Illinois Sunset School District 4526" will exist
+Scenario: A realm administrator can create and edit a realm
+  Given I am a valid realm administrator
+    And I am managing my realms
+   When I add a new realm
+   Then I see the new realm listed

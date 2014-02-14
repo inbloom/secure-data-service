@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
+Copyright 2012-2014 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,56 +15,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-
-require 'selenium-webdriver'
-require 'json'
-
-require_relative '../../utils/sli_utils.rb'
-require_relative '../../security/step_definitions/securityevent_util_steps.rb'
-require_relative '../../sandbox/AccountApproval/step_definitions/prod_sandbox_AccountApproval_Inteface_steps.rb'
-
-Given /^I am a valid SLC developer$/ do
-  @user = 'slcdeveloper' # an :operator
-  @pass = 'slcdeveloper1234'
-end
-
-Given /^I am a valid SLC operator$/ do
-  @user = 'slcoperator-email@slidev.org' # an :operator
-  @pass = 'test1234'
-end
-
-Given /^I am a valid realm administrator$/ do
-  @user = 'sunsetrealmadmin' # an :operator
-  @pass = 'sunsetrealmadmin1234'
-end
-
-
-Given /^I am a valid district administrator$/ do
-  @user = 'sunsetadmin'
-  @pass = 'sunsetadmin1234'
-end
-
-Given /^I am a valid SEA administrator$/ do
-  @user = 'iladmin'
-  @pass = 'iladmin1234'
-end
-
-When /^I authenticate on the realm editing tool$/ do
-  step "I hit the realm editing URL"
-  step "I login"
-end
-
-When /^I authenticate on the Application Registration Tool$/ do
-  step "I hit the Application Registration Tool URL"
-  step "I login"
-end
-
-When /^I authenticate on the Admin Delegation Tool$/ do 
-  step "I hit the delegation url"
-  step "I login"
-end
-
-# HERE BELOW LIES NEW IMPROVED STEPDEFS
 
 # TODO Move the capybara setup code to a common location
 class Browser
@@ -99,18 +49,27 @@ Given /^I am a valid district-level administrator$/ do
   @pass = 'sunsetadmin1234'
 end
 
+Given /^I am a valid realm administrator$/ do
+  @user = 'sunsetrealmadmin'
+  @pass = 'sunsetrealmadmin1234'
+end
+
 Given /^I am managing my applications$/ do
   browser.visit admin_apps_page
   login_to_the_inbloom_realm
-
-  browser.page.should have_selector('#applications')
-  browser.page.should have_selector('tbody > tr')
+  browser.page.should have_selector('h1', :text => /(Manage|Authorize) Applications/)
 end
 
 Given /^I am managing my application authorizations$/ do
   browser.visit application_authorizations_page
   login_to_the_inbloom_realm
   browser.page.should have_selector('h1', :text => 'Approve Applications')
+end
+
+Given /^I am managing my realms$/ do
+  browser.visit realm_management_page
+  login_to_the_inbloom_realm
+  browser.page.should have_selector('h1', :text => /Realms for/)
 end
 
 Given /^I have an in\-progress application$/ do
@@ -138,8 +97,9 @@ When /^I edit the (in\-progress )?application$/ do |in_progress|
   end
 end
 
-When /^I edit the authorizations for an application$/ do
-  app_row = browser.page.first('table#AuthorizedAppsTable tr', :text => /#{app_prefix}.*Not Approved/)
+When /^I edit the authorizations for an (approved )?application$/ do |approved|
+  status_match = approved ? 'EdOrg\(s\)' : 'Not Approved'
+  app_row = browser.page.first('table#AuthorizedAppsTable tr', :text => /#{app_prefix}.*#{status_match}/)
   @app_name = app_row.find('td:nth-child(1)').text.strip
   browser.within app_row do
     browser.click_button 'Edit Authorizations'
@@ -166,6 +126,22 @@ When /^(?:I )?(enable|authorize|disable|de\-authorize) the application for (?:an
   end
   save_button = browser.page.first(:button, 'Save & Update')
   save_button.click
+end
+
+When /^I add a new realm$/ do
+  browser.page.click_link 'Add new'
+  browser.page.should have_selector('h1', :text => 'Manage Realm')
+  @realm_name = "#{app_prefix}_realm_#{Time.now.to_i}"
+  browser.fill_in('realm_name', :with => @realm_name)
+  browser.fill_in('realm_idp_id', :with => 'http://www.example.com')
+  browser.fill_in('realm_idp_redirectEndpoint', :with => 'http://www.example.com')
+  browser.fill_in('realm_uniqueIdentifier', :with => @realm_name)
+  browser.click_button 'Save'
+end
+
+Then /^I see the new realm listed$/ do
+  browser.page.should have_selector('#notice', :text => 'Realm was successfully created.')
+  browser.page.should have_selector('table#realms tr > td:nth-child(1)', :text => @realm_name)
 end
 
 Then /^the application should be not approved$/ do
@@ -226,6 +202,10 @@ def application_authorizations_page
   "#{Property['admintools_server_url']}/application_authorizations/"
 end
 
+def realm_management_page
+  "#{Property['admintools_server_url']}/realm_management/"
+end
+
 def login_to_the_inbloom_realm
   login_to_realm 'inBloom'
 end
@@ -241,20 +221,20 @@ end
 
 def choose_realm(realm)
   browser.page.should have_title('Choose your realm')
-  browser.page.select(realm, :from => 'realmId')
-  browser.page.click_button 'Go'
+  browser.select(realm, :from => 'realmId')
+  browser.click_button 'Go'
 end
 
 def submit_idp_credentials(username, password)
-  browser.page.fill_in('user_id', :with => username)
-  browser.page.fill_in('password', :with => password)
-  browser.page.click_button 'login_button'
+  browser.fill_in('user_id', :with => username)
+  browser.fill_in('password', :with => password)
+  browser.click_button 'login_button'
 end
 
 def fill_in_app_registration
-  browser.page.fill_in('app[description]', :with => 'smoke test')
-  browser.page.fill_in('app[version]', :with => '0.9')
-  browser.page.check('app[installed]')
+  browser.fill_in('app[description]', :with => 'smoke test')
+  browser.fill_in('app[version]', :with => '0.9')
+  browser.check('app[installed]')
 end
 
 def verify_registered_application(name)
