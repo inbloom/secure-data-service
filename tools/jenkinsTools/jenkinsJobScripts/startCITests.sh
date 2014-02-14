@@ -223,7 +223,7 @@ if [[ "$ENV" == "ci" ]]; then
   done
   echo "Waiting for APPS to finish deploying"
   sleep 120
-  runTests DEBUG=true PROPERTIES=/etc/datastore/test-properties.yml sampleApp_server_address=https://$HOSTNAME-sample.dev.inbloom.org/ dashboard_server_address=https://cislave-1-dashboard.dev.inbloom.org dashboard_api_server_uri=https://cislave-1-api.dev.inbloom.org realm_page_url=https://cislave-1-api.dev.inbloom.org/api/oauth/authorize admintools_server_url=https://cislave-1-admin.dev.inbloom.org api_server_url=https://cislave-1-api.dev.inbloom.org api_ssl_server_url=https://cislave-1-api.dev.inbloom.org ingestion_landing_zone=/ingestion/lz sif_zis_address_trigger=http://$NODE_NAME.slidev.org:8080/mock-zis/trigger bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_properties_file=/etc/datastore/sli.properties bulk_extract_keystore_file=/etc/datastore/sli-keystore.jks bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz TOGGLE_TABLESCANS=true smokeTests
+  runTests PROPERTIES=/etc/datastore/test-properties.yml TOGGLE_TABLESCANS=true smokeTests
   EXITCODE=$?
 fi
 
@@ -244,7 +244,7 @@ if [[ "$ENV" == "ci_e2e_prod" ]]; then
   done
   echo "Waiting for APPS to finish deploying"
   sleep 120
-  runTests PROPERTIES=/etc/datastore/test-properties.yml sampleApp_server_address=https://$HOSTNAME-sample.dev.inbloom.org/ dashboard_server_address=https://cislave-1-dashboard.dev.inbloom.org dashboard_api_server_uri=https://cislave-1-api.dev.inbloom.org realm_page_url=https://cislave-1-api.dev.inbloom.org/api/oauth/authorize admintools_server_url=https://cislave-1-admin.dev.inbloom.org api_server_url=https://cislave-1-api.dev.inbloom.org api_ssl_server_url=https://cislave-1-api.dev.inbloom.org ingestion_landing_zone=/ingestion/lz sif_zis_address_trigger=http://$NODE_NAME.slidev.org:8080/mock-zis/trigger bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_properties_file=/etc/datastore/sli.properties bulk_extract_keystore_file=/etc/datastore/sli-keystore.jks bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz rcTests
+  runTests PROPERTIES=/etc/datastore/test-properties.yml rcTests
   EXITCODE=$?
 fi
 
@@ -265,7 +265,7 @@ if [[ "$ENV" == "ci_e2e_sandbox" ]]; then
   done
   echo "Waiting for APPS to finish deploying"
   sleep 120
-  runTests PROPERTIES=/etc/datastore/test-properties.yml sampleApp_server_address=https://$HOSTNAME-sample.dev.inbloom.org/ dashboard_server_address=https://cislave-1-dashboard.dev.inbloom.org dashboard_api_server_uri=https://cislave-1-api.dev.inbloom.org realm_page_url=https://cislave-1-api.dev.inbloom.org/api/oauth/authorize admintools_server_url=https://cislave-1-admin.dev.inbloom.org api_server_url=https://cislave-1-api.dev.inbloom.org api_ssl_server_url=https://cislave-1-api.dev.inbloom.org ingestion_landing_zone=/ingestion/lz sif_zis_address_trigger=http://$NODE_NAME.slidev.org:8080/mock-zis/trigger bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_properties_file=/etc/datastore/sli.properties bulk_extract_keystore_file=/etc/datastore/sli-keystore.jks bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz rcSandboxTests
+  runTests PROPERTIES=/etc/datastore/test-properties.yml rcSandboxTests
   EXITCODE=$?
 fi
 
@@ -282,7 +282,7 @@ if [[ "$ENV" == "api_contextual_roles" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests PROPERTIES=/etc/datastore/test-properties.yml sampleApp_server_address=https://$HOSTNAME-sample.dev.inbloom.org/ dashboard_server_address=https://cislave-1-dashboard.dev.inbloom.org dashboard_api_server_uri=https://cislave-1-api.dev.inbloom.org realm_page_url=https://cislave-1-api.dev.inbloom.org/api/oauth/authorize admintools_server_url=https://cislave-1-admin.dev.inbloom.org api_server_url=https://cislave-1-api.dev.inbloom.org api_ssl_server_url=https://cislave-1-api.dev.inbloom.org ingestion_landing_zone=/ingestion/lz sif_zis_address_trigger=http://$NODE_NAME.slidev.org:8080/mock-zis/trigger bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_properties_file=/etc/datastore/sli.properties bulk_extract_keystore_file=/etc/datastore/sli-keystore.jks bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiContextualRolesTests
+	runTests PROPERTIES=/etc/datastore/test-properties.yml apiContextualRolesTests
   EXITCODE=$?
 fi
 exit $EXITCODE
