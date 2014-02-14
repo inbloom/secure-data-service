@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require 'capybara'
+
 # TODO Move the capybara setup code to a common location
 class Browser
   include Capybara::DSL

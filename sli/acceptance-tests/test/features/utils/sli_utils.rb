@@ -16,7 +16,6 @@ limitations under the License.
 
 =end
 
-
 require 'rubygems'
 require 'bundler/setup'
 
@@ -32,9 +31,8 @@ require 'yaml'
 require 'digest/sha1'
 require 'socket'
 require 'macaddr'
-require 'capybara'
 
-include REXML
+#include REXML
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
 
