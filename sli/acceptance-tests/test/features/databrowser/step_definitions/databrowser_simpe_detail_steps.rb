@@ -62,7 +62,7 @@ When /^I click the IDP page Go button$/ do
 end
 
 Then /^I should be redirected to the Data Browser home page$/ do
-  assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Listing Home")}
+  assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Welcome to the inBloom, inc. Data Browser")}
 end
 
 Then /^I should see my available links labeled$/ do
@@ -207,7 +207,7 @@ When /^I have navigated to the <Page> of the Data Browser$/ do |table|
     assertWithWait("Failed to find 'Home' Link on page")  {@driver.find_element(:link_text, "data browser")}
     @driver.find_element(:link_text, "data browser").click
 
-    assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Listing Home")}
+    assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Welcome to the inBloom, inc. Data Browser")}
 
   end
 end

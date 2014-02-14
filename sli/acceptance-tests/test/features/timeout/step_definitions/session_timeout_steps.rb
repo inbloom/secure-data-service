@@ -41,7 +41,7 @@ Given /^I click on the realm page Go button$/ do
 end
 
 Then /^I should be redirected to the Data Browser home page$/ do
-  assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Listing Home")}
+  assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Welcome to the inBloom, inc. Data Browser")}
 end
 
 When /^I click on the "([^"]*)" link$/ do |arg1|
