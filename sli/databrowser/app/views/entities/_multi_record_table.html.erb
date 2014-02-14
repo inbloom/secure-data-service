@@ -1,6 +1,7 @@
 <table id="simple-table">
   <thead>
     <tr>
+       <th>&nbsp;</th>
       <% @tableFields.each do |field| %>
       <th><%= t(field.split('/').last) %></th>
       <% end %>
