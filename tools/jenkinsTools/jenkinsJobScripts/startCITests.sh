@@ -23,7 +23,10 @@ process_opts() {
                 if [[ "$OPTARG" != "ci" && \
                       "$OPTARG" != "ci_e2e_prod" && \
                       "$OPTARG" != "ci_e2e_sandbox" && \
-                      "$OPTARG" != "api_contextual_roles" ]]; then
+                      "$OPTARG" != "api_contextual_roles" && \
+                      "$OPTARG" != "api_odin" && \
+                      "$OPTARG" != "bulk_extract" && \
+                      "$OPTARG" != "api_and_security" ]]; then
                     echo "Error: Environment must be one of ci|ci_e2e_prod|ci_e2e_sandbox|api_contextual_roles"
                     show_usage
                     exit 1
