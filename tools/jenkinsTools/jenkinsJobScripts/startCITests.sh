@@ -285,4 +285,56 @@ if [[ "$ENV" == "api_contextual_roles" ]]; then
 	runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiContextualRolesTests
   EXITCODE=$?
 fi
+
+if [[ "$ENV" == "api_odin" ]]; then
+	noTableScan
+	cleanTomcat
+	cleanRails
+	resetDatabases
+	setMode $MODE
+	startSearchIndexer
+
+	for APP in $APPS; do
+  	deployTomcat $APP ${deployHash[$APP]}
+  done
+	echo "Waiting for APPS to finish deploying"
+	sleep 120
+	runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiOdinTests
+  EXITCODE=$?
+fi
+
+if [[ "$ENV" == "bulk_extract" ]]; then
+	noTableScan
+	cleanTomcat
+	cleanRails
+	resetDatabases
+	setMode $MODE
+	startSearchIndexer
+
+	for APP in $APPS; do
+  	deployTomcat $APP ${deployHash[$APP]}
+  done
+	echo "Waiting for APPS to finish deploying"
+	sleep 120
+	runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz bulkExtractTests
+  EXITCODE=$?
+fi
+
+if [[ "$ENV" == "api_and_security" ]]; then
+	noTableScan
+	cleanTomcat
+	cleanRails
+	resetDatabases
+	setMode $MODE
+	startSearchIndexer
+
+	for APP in $APPS; do
+  	deployTomcat $APP ${deployHash[$APP]}
+  done
+	echo "Waiting for APPS to finish deploying"
+	sleep 120
+	runTests PROPERTIES=/etc/datastore/test-properties.yml apiAndSecurityTests
+  EXITCODE=$?
+fi
+
 exit $EXITCODE
