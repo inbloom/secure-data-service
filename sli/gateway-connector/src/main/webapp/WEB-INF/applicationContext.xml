@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+
+    <mongo:mongo host="localhost" port="27017"/>
+
+    <mongo:db-factory dbname="sli" mongo-ref="mongo"/>
+
+    <mongo:mapping-converter base-package="org.inbloom.model.converter" id="converter">
+        <mongo:custom-converters>
+            <mongo:converter>
+                <bean class="org.inbloom.model.converter.RealmConverter"/>
+            </mongo:converter>
+            <mongo:converter>
+                <bean class="org.inbloom.model.converter.EdOrgConverter"/>
+            </mongo:converter>
+            <mongo:converter>
+                <bean class="org.inbloom.model.converter.TenantConverter"/>
+            </mongo:converter>
+        </mongo:custom-converters>
+    </mongo:mapping-converter>
+
+    <bean id="operatorDbTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg index = "0" ref="mongoDbFactory"/>
+        <constructor-arg index = "1" ref="converter"/>
+    </bean>
+
+    <bean id="operatorRepositoryFactory" class="org.springframework.data.mongodb.repository.support.MongoRepositoryFactory">
+        <constructor-arg index="0" ref="operatorDbTemplate"/>
+    </bean>
+
+    <bean id="tenantRepositoryFactory" class = "org.inbloom.repository.TenantRepositoryFactory">
+        <constructor-arg index="0" ref="mongo"/>
+        <constructor-arg index="1" ref="converter"/>
+    </bean>
+
+</beans>
