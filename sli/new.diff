@@ -1,0 +1,3465 @@
+diff --git a/sli/acceptance-tests/test/features/security/path_checking_security.feature b/sli/acceptance-tests/test/features/security/path_checking_security.feature
+index 64df240..fed8b93 100644
+--- a/sli/acceptance-tests/test/features/security/path_checking_security.feature
++++ b/sli/acceptance-tests/test/features/security/path_checking_security.feature
+@@ -181,7 +181,7 @@ Scenario Outline: Deny multiple IDs in URI if those IDs are rewritten to query p
+ #NOTE: This test will need to be reworked if the API is ever made to support multiple ids in query params
+     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+      When I call <Path> using ID <IDs>
+-     Then I should receive a return code of 413
++     Then I should receive a return code of 400
+ 
+ Examples:
+   | Path                                   | IDs                                    |
+diff --git a/sli/api/src/main/java/org/slc/sli/api/exceptions/EntityTypeNotFoundException.java b/sli/api/src/main/java/org/slc/sli/api/exceptions/EntityTypeNotFoundException.java
+new file mode 100644
+index 0000000..9802cf4
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/exceptions/EntityTypeNotFoundException.java
+@@ -0,0 +1,28 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.slc.sli.api.exceptions;
++
++/**
++ * Indicates that looking up an entity type was unsuccessful.
++ */
++public class EntityTypeNotFoundException extends RuntimeException {
++    private static final long serialVersionUID = 1L;
++
++    public EntityTypeNotFoundException(String message) {
++        super(message);
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/exceptions/RequestBlockedException.java b/sli/api/src/main/java/org/slc/sli/api/exceptions/RequestBlockedException.java
+new file mode 100644
+index 0000000..0563514
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/exceptions/RequestBlockedException.java
+@@ -0,0 +1,28 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.slc.sli.api.exceptions;
++
++/**
++ * Indicates that a request to the API has been blocked.
++ */
++public class RequestBlockedException extends RuntimeException {
++    private static final long serialVersionUID = 1L;
++
++    public RequestBlockedException(String message) {
++        super(message);
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/exceptions/URITranslationException.java b/sli/api/src/main/java/org/slc/sli/api/exceptions/URITranslationException.java
+new file mode 100644
+index 0000000..f35ee79
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/exceptions/URITranslationException.java
+@@ -0,0 +1,28 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.slc.sli.api.exceptions;
++
++/**
++ * Indicates a failure of URI translation.
++ */
++public class URITranslationException extends RuntimeException {
++    private static final long serialVersionUID = 1L;
++
++    public URITranslationException(String message) {
++        super(message);
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/exceptions/UriMutationException.java b/sli/api/src/main/java/org/slc/sli/api/exceptions/UriMutationException.java
+new file mode 100644
+index 0000000..8034000
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/exceptions/UriMutationException.java
+@@ -0,0 +1,28 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.slc.sli.api.exceptions;
++
++/**
++ * Indicates that a student was not in any cohorts or programs.
++ */
++public class UriMutationException extends RuntimeException {
++    private static final long serialVersionUID = 1L;
++
++    public UriMutationException(String message) {
++        super(message);
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/PreProcessFilter.java b/sli/api/src/main/java/org/slc/sli/api/jersey/PreProcessFilter.java
+index f9e86fe..83a3d65 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/jersey/PreProcessFilter.java
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/PreProcessFilter.java
+@@ -23,6 +23,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
+ import org.slc.sli.api.constants.PathConstants;
+ import org.slc.sli.api.constants.ResourceNames;
+ import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
++import org.slc.sli.api.exceptions.RequestBlockedException;
+ import org.slc.sli.api.resources.generic.MethodNotAllowedException;
+ import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
+ import org.slc.sli.api.resources.generic.util.ResourceMethod;
+@@ -286,7 +287,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
+         }
+ 
+         if (this.resourceEndPoint.getBlockGetRequestEndPoints().contains(requestPath)) {
+-            throw new EntityNotFoundException(request.getPath());
++            throw new RequestBlockedException(request.getPath());
+         }
+     }
+ }
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/APIAccessDeniedExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/APIAccessDeniedExceptionHandler.java
+new file mode 100644
+index 0000000..6ed2e17
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/APIAccessDeniedExceptionHandler.java
+@@ -0,0 +1,133 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import org.slc.sli.api.representation.ErrorResponse;
++import org.slc.sli.api.security.SLIPrincipal;
++import org.slc.sli.api.security.SecurityEventBuilder;
++import org.slc.sli.api.security.context.APIAccessDeniedException;
++import org.slc.sli.api.security.service.AuditLogger;
++import org.slc.sli.common.constants.EntityNames;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.security.core.context.SecurityContextHolder;
++import org.springframework.stereotype.Component;
++
++import javax.servlet.http.HttpServletResponse;
++import javax.ws.rs.core.*;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++import java.io.IOException;
++
++/**
++ * Handler for catching API access denied exceptions that log security events.
++ *
++ * @author bsuzuki
++ */
++@Provider
++@Component
++public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAccessDeniedException> {
++
++    private static final Logger LOG = LoggerFactory.getLogger(APIAccessDeniedExceptionHandler.class);
++
++    @Autowired
++    private SecurityEventBuilder securityEventBuilder;
++
++    @Autowired
++    private AuditLogger auditLogger;
++
++    @Context
++    UriInfo uriInfo;
++
++    @Context
++    private HttpHeaders headers;
++
++    @Context
++    private HttpServletResponse response;
++
++    @Override
++    public Response toResponse(APIAccessDeniedException e) {
++        //There are a few jax-rs resources that generate HTML content, and we want the
++        //default web-container error handler pages to get used in those cases.
++        if (headers.getAcceptableMediaTypes().contains(MediaType.TEXT_HTML_TYPE)) {
++            try {
++                response.sendError(403, e.getMessage());
++                logSecurityEvent(e);
++                return null;    //the error page handles the response, so no need to return a response
++            } catch (IOException ex) {
++                LOG.error("Error displaying error page", ex);
++            }
++        }
++
++        Response.Status errorStatus = Response.Status.FORBIDDEN;
++        SLIPrincipal principal = null ;
++        if (SecurityContextHolder.getContext().getAuthentication() != null) {
++            principal = (SLIPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
++            LOG.warn("Access has been denied to user: {}",principal );
++        } else {
++            LOG.warn("Access has been denied to user for being incorrectly associated");
++        }
++        LOG.warn("Cause: {}", e.getMessage());
++
++        logSecurityEvent(e);
++
++        MediaType errorType = MediaType.APPLICATION_JSON_TYPE;
++        if(this.headers.getMediaType() == MediaType.APPLICATION_XML_TYPE) {
++            errorType = MediaType.APPLICATION_XML_TYPE;
++        }
++        
++        return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), "Access DENIED: " + e.getMessage())).type(errorType).build();
++    }
++
++    private void logSecurityEvent(APIAccessDeniedException e) {
++
++        if (e.getTargetEdOrgIds() != null) {
++            // if we already have the target edOrgs - good to go
++            auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
++                    + e.getMessage(), e.getRealm(), EntityNames.EDUCATION_ORGANIZATION, e.getTargetEdOrgIds().toArray(new String[0])));
++
++        } else if (e.getEntityType() != null) {
++
++            if (e.getEntities() != null && !e.getEntities().isEmpty()) {
++                auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
++                        + e.getMessage(), e.getRealm(), e.getEntityType(), e.getEntities()));
++
++            } else if (e.getEntityIds() != null && !e.getEntityIds().isEmpty()) {
++                auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
++                        + e.getMessage(), e.getRealm(), e.getEntityType(), e.getEntityIds().toArray(new String[0])));
++            } else {
++                auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
++                        + e.getMessage(), e.getPrincipal(), e.getClientId(), e.getRealm(), null, e.isTargetIsUserEdOrg()));
++            }
++        } else {
++            auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
++                    + e.getMessage(), e.getPrincipal(), e.getClientId(), e.getRealm(), null, e.isTargetIsUserEdOrg()));
++        }
++    }
++
++    private String getThrowingClassName(Exception e) {
++        if (e != null && e.getStackTrace() != null) {
++            StackTraceElement ste = e.getStackTrace()[0];
++            if (ste != null) {
++                return ste.getClassName();
++            }
++        }
++        return null;
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/AccessDeniedExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/AccessDeniedExceptionHandler.java
+new file mode 100644
+index 0000000..9b75f17
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/AccessDeniedExceptionHandler.java
+@@ -0,0 +1,102 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import java.io.IOException;
++
++import javax.servlet.http.HttpServletResponse;
++import javax.ws.rs.core.Context;
++import javax.ws.rs.core.HttpHeaders;
++import javax.ws.rs.core.MediaType;
++import javax.ws.rs.core.Response;
++import javax.ws.rs.core.UriInfo;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++import org.slc.sli.api.representation.ErrorResponse;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.security.access.AccessDeniedException;
++import org.springframework.security.core.context.SecurityContextHolder;
++import org.springframework.stereotype.Component;
++
++import org.slc.sli.api.security.SLIPrincipal;
++import org.slc.sli.api.security.SecurityEventBuilder;
++
++/**
++ * Handler for catching access denied exceptions.
++ *
++ * @author shalka
++ */
++@Provider
++@Component
++public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDeniedException> {
++
++    private static final Logger LOG = LoggerFactory.getLogger(AccessDeniedExceptionHandler.class);
++
++    public static final String ED_ORG_START = "<" ;
++    public static final String ED_ORG_END = ">" ;
++    public static final String NO_EDORG = "UNAVAILABLE";
++
++    @Autowired
++    private SecurityEventBuilder securityEventBuilder;
++
++    @Context
++    UriInfo uriInfo;
++
++    @Context
++    private HttpHeaders headers;
++
++    @Context
++    private HttpServletResponse response;
++
++    @Override
++    public Response toResponse(AccessDeniedException e) {
++
++        //There are a few jax-rs resources that generate HTML content, and we want the
++        //default web-container error handler pages to get used in those cases.
++        if (headers.getAcceptableMediaTypes().contains(MediaType.TEXT_HTML_TYPE)) {
++            try {
++                response.sendError(403, e.getMessage());
++                return null;    //the error page handles the response, so no need to return a response
++            } catch (IOException ex) {
++                LOG.error("Error displaying error page", ex);
++            }
++        }
++
++        Response.Status errorStatus = Response.Status.FORBIDDEN;
++        SLIPrincipal principal = null ;
++        String message = e.getMessage();
++        if (SecurityContextHolder.getContext().getAuthentication() != null) {
++            principal = (SLIPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
++            LOG.warn("Access has been denied to user: {}",principal );
++        } else {
++            LOG.warn("Access has been denied to user for being incorrectly associated");
++        }
++        LOG.warn("Cause: {}", e.getMessage());
++
++        MediaType errorType = MediaType.APPLICATION_JSON_TYPE;
++        if(this.headers.getMediaType() == MediaType.APPLICATION_XML_TYPE) {
++            errorType = MediaType.APPLICATION_XML_TYPE;
++        }
++        
++        return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), "Access DENIED: " + e.getMessage())).type(errorType).build();
++    }
++
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/ContextInferrenceFailedExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/ContextInferrenceFailedExceptionHandler.java
+new file mode 100644
+index 0000000..54779bf
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/ContextInferrenceFailedExceptionHandler.java
+@@ -0,0 +1,71 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import java.util.Collections;
++
++import javax.ws.rs.core.Context;
++import javax.ws.rs.core.HttpHeaders;
++import javax.ws.rs.core.MediaType;
++import javax.ws.rs.core.Response;
++import javax.ws.rs.core.Response.Status;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++import javax.xml.bind.annotation.XmlRootElement;
++
++import org.slc.sli.api.security.pdp.ContextInferrenceFailedException;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++import org.springframework.stereotype.Component;
++
++/**
++ * Handles empty contexts
++ * 
++ * @author dkornishev
++ * 
++ */
++@Provider
++@Component
++public class ContextInferrenceFailedExceptionHandler implements ExceptionMapper<ContextInferrenceFailedException> {
++
++    private static final Logger LOG = LoggerFactory.getLogger(ContextInferrenceFailedExceptionHandler.class);
++
++    @Context
++    private HttpHeaders headers;
++    
++    @Override
++    public Response toResponse(ContextInferrenceFailedException exception) {
++        LOG.warn("Failed Context Inferrence");
++        Object entity = Collections.EMPTY_LIST;
++        if (headers.getAcceptableMediaTypes().contains(MediaType.APPLICATION_XML_TYPE)) {
++            entity = new EmptyResponse();
++        }
++        
++        return Response.status(Status.NOT_FOUND).entity(entity).header("TotalCount", 0).build();
++    }
++    
++    /**
++     * Represents an empty document to be returned to the API user (no fields, no data).
++     * 
++     * 
++     * @author kmyers
++     *
++     */
++    @XmlRootElement(name = "emptyList")
++    public static class EmptyResponse {
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/EOFExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/EOFExceptionHandler.java
+new file mode 100644
+index 0000000..43fcce3
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/EOFExceptionHandler.java
+@@ -0,0 +1,43 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import java.io.EOFException;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++import org.springframework.stereotype.Component;
++
++/**
++ * Exception handler to catch cases where an EOF exception is thrown. This can be the case if a user
++ * tries to post a null body
++ *
++ * @author nbrown
++ *
++ */
++@Provider
++@Component
++public class EOFExceptionHandler implements ExceptionMapper<EOFException> {
++
++    @Override
++    public Response toResponse(EOFException exception) {
++        return Response.status(Response.Status.BAD_REQUEST).build();
++    }
++
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/EmbeddedDocumentLimitExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/EmbeddedDocumentLimitExceptionHandler.java
+new file mode 100644
+index 0000000..85ca037
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/EmbeddedDocumentLimitExceptionHandler.java
+@@ -0,0 +1,43 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++import org.slc.sli.api.representation.CustomStatus;
++import org.slc.sli.api.representation.ErrorResponse;
++import org.slc.sli.api.selectors.doc.EmbeddedDocumentLimitException;
++import org.springframework.stereotype.Component;
++
++/**
++ * @author jstokes
++ */
++@Provider
++@Component
++public class EmbeddedDocumentLimitExceptionHandler implements ExceptionMapper<EmbeddedDocumentLimitException> {
++
++    @Override
++    public Response toResponse(EmbeddedDocumentLimitException e) {
++        return Response
++                .status(CustomStatus.ENTITY_TOO_LARGE)
++                .entity(new ErrorResponse(CustomStatus.ENTITY_TOO_LARGE.getStatusCode(), CustomStatus.ENTITY_TOO_LARGE.getReasonPhrase(),
++                        e.getMessage())).build();
++    }
++}
++
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/EntityNotFoundHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/EntityNotFoundHandler.java
+new file mode 100644
+index 0000000..2bf4379
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/EntityNotFoundHandler.java
+@@ -0,0 +1,43 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++import org.slc.sli.api.representation.ErrorResponse;
++import org.springframework.stereotype.Component;
++
++import org.slc.sli.api.service.EntityNotFoundException;
++
++/**
++ * Hander for entity not found errors
++ */
++@Provider
++@Component
++public class EntityNotFoundHandler implements ExceptionMapper<EntityNotFoundException> {
++
++    public Response toResponse(EntityNotFoundException e) {
++        Response.Status errorStatus = Response.Status.NOT_FOUND;
++        return Response
++                .status(errorStatus)
++                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
++                        "Entity not found: " + e.getId())).build();
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/EntityTypeNotFoundHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/EntityTypeNotFoundHandler.java
+new file mode 100644
+index 0000000..499be49
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/EntityTypeNotFoundHandler.java
+@@ -0,0 +1,47 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import org.slc.sli.api.exceptions.EntityTypeNotFoundException;
++import org.slc.sli.api.representation.ErrorResponse;
++import org.slc.sli.api.service.EntityNotFoundException;
++import org.springframework.stereotype.Component;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++/**
++ * Handler for entity type not found errors
++ */
++@Provider
++@Component
++public class EntityTypeNotFoundHandler implements ExceptionMapper<EntityTypeNotFoundException> {
++
++    public Response toResponse(EntityTypeNotFoundException e) {
++        String message = "entity type not found";
++        if (e.getMessage() != null) {
++            message += ": " + e.getMessage();
++        }
++        Response.Status errorStatus = Response.Status.NOT_FOUND;
++        return Response
++                .status(errorStatus)
++                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
++                        message)).build();
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/GenericExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/GenericExceptionHandler.java
+new file mode 100644
+index 0000000..1ec9692
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/GenericExceptionHandler.java
+@@ -0,0 +1,72 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import java.io.IOException;
++
++import javax.servlet.http.HttpServletResponse;
++import javax.ws.rs.core.Context;
++import javax.ws.rs.core.HttpHeaders;
++import javax.ws.rs.core.MediaType;
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++import org.slc.sli.api.representation.ErrorResponse;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++import org.springframework.stereotype.Component;
++
++/**
++ * Hander for uncaught errors
++ */
++@Provider
++@Component
++public class GenericExceptionHandler implements ExceptionMapper<Throwable> {
++
++    private static final Logger LOG = LoggerFactory.getLogger(GenericExceptionHandler.class);
++    
++    @Context
++    private HttpHeaders headers;
++    
++    @Context
++    private HttpServletResponse response;
++
++    @Override
++    public Response toResponse(Throwable e) {
++
++        //There are a few jax-rs resources that generate HTML content, and we want the
++        //default web-container error handler pages to get used in those cases.
++        if (headers.getAcceptableMediaTypes().contains(MediaType.TEXT_HTML_TYPE)) {
++            try {
++                LOG.error(e.getMessage(), e);
++                response.sendError(500, e.getMessage());
++                return null;    //the error page handles the response, so no need to return a response
++            } catch (IOException ex) {
++                LOG.error("Error displaying error page", ex);
++            }
++        }
++        Response.Status errorStatus = Response.Status.INTERNAL_SERVER_ERROR;
++        
++        LOG.error("Caught exception thrown by ReST handler", e);
++        return Response
++                .status(errorStatus)
++                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
++                        "Internal Server Error: " + e.getMessage())).build();
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/IllegalArgumentExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/IllegalArgumentExceptionHandler.java
+new file mode 100644
+index 0000000..66c4764
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/IllegalArgumentExceptionHandler.java
+@@ -0,0 +1,38 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.core.Response.Status;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++import org.springframework.stereotype.Component;
++
++/**
++ * Handles bad requests
++  */
++@Provider
++@Component
++public class IllegalArgumentExceptionHandler implements ExceptionMapper<IllegalArgumentException> {
++
++    @Override
++    public Response toResponse(IllegalArgumentException e) {
++        return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/InsufficientAuthenticationHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/InsufficientAuthenticationHandler.java
+new file mode 100644
+index 0000000..5a237e2
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/InsufficientAuthenticationHandler.java
+@@ -0,0 +1,105 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import javax.ws.rs.core.*;
++import javax.ws.rs.core.Response.Status;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++import org.slc.sli.api.representation.ErrorResponse;
++import org.slc.sli.api.security.SecurityEventBuilder;
++import org.slc.sli.api.security.oauth.OAuthAccessException;
++import org.slc.sli.api.security.service.AuditLogger;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.beans.factory.annotation.Value;
++import org.springframework.security.authentication.InsufficientAuthenticationException;
++import org.springframework.stereotype.Component;
++
++import java.net.URI;
++
++/**
++ * Translates InsufficientAuthenticationException to 401
++ *
++ * @author dkornishev
++ *
++ */
++@Component
++@Provider
++public class InsufficientAuthenticationHandler implements ExceptionMapper<InsufficientAuthenticationException> {
++
++    @Value("${sli.security.noSession.landing.url}")
++    private String authUrl;
++
++    @Autowired
++    private SecurityEventBuilder securityEventBuilder;
++
++    @Autowired
++    private AuditLogger auditLogger;
++
++    @Context
++    UriInfo uriInfo;
++
++    @Context
++    private HttpHeaders headers;
++
++    @Override
++    public Response toResponse(InsufficientAuthenticationException exception) {
++        Status status = Response.Status.UNAUTHORIZED;
++        String wwwAuthHeader = this.authUrl;
++        URI requestUri = (uriInfo == null) ? null : uriInfo.getRequestUri();
++
++        //If we have an embedded OAuth exception, then put the error information in the www-auth header per oauth spec 
++        //http://tools.ietf.org/html/rfc6750 see sec 3
++        //Otherwise put the auth url in the header
++        if (exception.getCause() != null && exception.getCause() instanceof OAuthAccessException) {
++            OAuthAccessException oauthEx = (OAuthAccessException) exception.getCause();
++            wwwAuthHeader = "Bearer error=\"" + oauthEx.getType().toString() + "\", error_description=\"" + oauthEx.getMessage() + "\"";
++        }
++        
++        MediaType errorType = MediaType.APPLICATION_JSON_TYPE;
++        if(this.headers.getMediaType() == MediaType.APPLICATION_XML_TYPE) {
++            errorType = MediaType.APPLICATION_XML_TYPE;
++        }
++
++        auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(exception), requestUri, "Access Denied: "
++                + exception.getMessage(), false));
++
++        return Response.status(status).entity(new ErrorResponse(status.getStatusCode(), status.getReasonPhrase(),
++                "Access DENIED: " + exception.getMessage())).header(HttpHeaders.WWW_AUTHENTICATE, wwwAuthHeader).type(errorType).build();
++    }
++
++    private String getThrowingClassName(Exception e) {
++        if (e != null && e.getStackTrace() != null) {
++            StackTraceElement ste = e.getStackTrace()[0];
++            if (ste != null) {
++                return ste.getClassName();
++            }
++        }
++        return null;
++    }
++
++    public void setSecurityEventBuilder(SecurityEventBuilder securityEventBuilder) {
++        this.securityEventBuilder = securityEventBuilder;
++    }
++
++    public void setAuditLogger(AuditLogger auditLogger) {
++        this.auditLogger = auditLogger;
++    }
++
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/JsonParseExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/JsonParseExceptionHandler.java
+new file mode 100644
+index 0000000..0de45dd
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/JsonParseExceptionHandler.java
+@@ -0,0 +1,46 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++import org.codehaus.jackson.JsonParseException;
++import org.slc.sli.api.representation.ErrorResponse;
++import org.springframework.stereotype.Component;
++
++/**
++ * Exception handler for SortingExceptions
++ * 
++ * @author Ryan Farris <rfarris@wgen.net>
++ * 
++ */
++@Provider
++@Component
++public class JsonParseExceptionHandler implements ExceptionMapper<JsonParseException> {
++    
++    @Override
++    public Response toResponse(JsonParseException e) {
++        Response.Status errorStatus = Response.Status.BAD_REQUEST;
++        return Response.status(errorStatus)
++                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), e.getMessage()))
++                .build();
++    }
++    
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/MethodNotAllowedExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/MethodNotAllowedExceptionHandler.java
+new file mode 100644
+index 0000000..ebac379
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/MethodNotAllowedExceptionHandler.java
+@@ -0,0 +1,49 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import org.slc.sli.api.representation.ErrorResponse;
++import org.slc.sli.api.resources.generic.MethodNotAllowedException;
++import org.springframework.stereotype.Component;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++/**
++ * Exception mapper for dis allowed methods
++ *
++ * @author srupasinghe
++ */
++
++@Provider
++@Component
++public class MethodNotAllowedExceptionHandler implements ExceptionMapper<MethodNotAllowedException> {
++
++    public Response toResponse(MethodNotAllowedException e) {
++        String message = "Method Not Allowed [" + e.getAllowedMethods() + "]";
++
++        Response.ResponseBuilder builder =  Response
++                .status(405)
++                .entity(new ErrorResponse(405, "Method Not Allowed",
++                        message));
++
++        builder.header("Allow", "Allow: " + e.getAllowedMethods());
++
++        return builder.build();
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/NaturalKeyValidationExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/NaturalKeyValidationExceptionHandler.java
+new file mode 100644
+index 0000000..640d702
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/NaturalKeyValidationExceptionHandler.java
+@@ -0,0 +1,44 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import org.apache.commons.lang3.StringUtils;
++import org.slc.sli.api.representation.ErrorResponse;
++import org.slc.sli.validation.NaturalKeyValidationException;
++import org.springframework.stereotype.Component;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++/**
++ * Exception mapper NaturalKeyValidationExceptions
++ *
++ * @author srupasinghe
++ */
++@Provider
++@Component
++public class NaturalKeyValidationExceptionHandler implements ExceptionMapper<NaturalKeyValidationException> {
++
++    public Response toResponse(NaturalKeyValidationException e) {
++        String exceptionMessage = "Natural Key Validation failed: " + e.getEntityType() + " " + StringUtils.join(e.getNaturalKeys());
++        return Response
++                .status(Response.Status.CONFLICT)
++                .entity(new ErrorResponse(Response.Status.CONFLICT.getStatusCode(), Response.Status.CONFLICT.getReasonPhrase(),
++                        exceptionMessage)).build();
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/OAuthAccessExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/OAuthAccessExceptionHandler.java
+new file mode 100644
+index 0000000..3450058
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/OAuthAccessExceptionHandler.java
+@@ -0,0 +1,64 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import java.util.HashMap;
++import java.util.Map;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++import org.springframework.stereotype.Component;
++
++import org.slc.sli.api.security.oauth.OAuthAccessException;
++import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
++
++/**
++ *
++ * Handle oauth access exceptions as described in 5.2
++ */
++@Component
++@Provider
++public class OAuthAccessExceptionHandler implements ExceptionMapper<OAuthAccessException>  {
++
++
++    @SuppressWarnings("unchecked")
++    @Override
++    public Response toResponse(OAuthAccessException ex) {
++
++        Response.Status errorStatus = null;
++
++        if (ex.getType() == OAuthError.UNAUTHORIZED_CLIENT) {
++            errorStatus = Response.Status.FORBIDDEN;
++        } else {
++            errorStatus = Response.Status.BAD_REQUEST;
++        }
++
++        @SuppressWarnings("rawtypes")
++        Map data = new HashMap();
++        data.put("error", ex.getType().toString());
++        data.put("error_description", ex.getMessage());
++        if (ex.getState() != null) {
++            data.put("state", ex.getState());
++        }
++        return Response.status(errorStatus).entity(data).build();
++
++    }
++
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/PreConditionExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/PreConditionExceptionHandler.java
+new file mode 100644
+index 0000000..670f1b5
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/PreConditionExceptionHandler.java
+@@ -0,0 +1,45 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import org.slc.sli.api.representation.ErrorResponse;
++import org.slc.sli.api.resources.generic.PreConditionFailedException;
++import org.springframework.stereotype.Component;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++/**
++ * Exception mapper for precondition failures
++ *
++ * @author srupasinghe
++ */
++
++@Provider
++@Component
++public class PreConditionExceptionHandler implements ExceptionMapper<PreConditionFailedException> {
++
++    public Response toResponse(PreConditionFailedException e) {
++
++        return Response
++                .status(Response.Status.PRECONDITION_FAILED)
++                .entity(new ErrorResponse(Response.Status.PRECONDITION_FAILED.getStatusCode(), Response.Status.PRECONDITION_FAILED.getReasonPhrase(),
++                        e.getMessage())).build();
++
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/QueryParseExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/QueryParseExceptionHandler.java
+new file mode 100644
+index 0000000..58d60cd
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/QueryParseExceptionHandler.java
+@@ -0,0 +1,43 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++import org.slc.sli.api.representation.ErrorResponse;
++import org.springframework.stereotype.Component;
++
++import org.slc.sli.domain.QueryParseException;
++
++/**
++ * Handler for Query Parsing errors
++ */
++@Provider
++@Component
++public class QueryParseExceptionHandler implements ExceptionMapper<QueryParseException> {
++    
++    public Response toResponse(QueryParseException e) {
++        Response.Status errorStatus = Response.Status.BAD_REQUEST;
++        return Response
++                .status(errorStatus)
++                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
++                        "Error Parsing the Query: " + e.getMessage())).build();
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/RequestBlockedExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/RequestBlockedExceptionHandler.java
+new file mode 100644
+index 0000000..b40f777
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/RequestBlockedExceptionHandler.java
+@@ -0,0 +1,51 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import org.slc.sli.api.exceptions.RequestBlockedException;
++import org.slc.sli.api.representation.ErrorResponse;
++import org.slc.sli.api.service.EntityNotFoundException;
++import org.springframework.stereotype.Component;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++/**
++ * Handler for RequestBlockedException
++ *
++ * We don't necessarily want to let the user know that their request is blocked, so
++ * we'll return an HTTP 404 (not found) error code.
++ */
++@Provider
++@Component
++public class RequestBlockedExceptionHandler implements ExceptionMapper<RequestBlockedException> {
++
++    public Response toResponse(RequestBlockedException e) {
++        String message = "not found";
++        if (e.getMessage() != null) {
++            message += ": " + e.getMessage();
++        }
++
++        Response.Status errorStatus = Response.Status.NOT_FOUND;
++        return Response
++                .status(errorStatus)
++                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
++                        message)).build();
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/ResponseTooLargeExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/ResponseTooLargeExceptionHandler.java
+new file mode 100644
+index 0000000..c770468
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/ResponseTooLargeExceptionHandler.java
+@@ -0,0 +1,43 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++import org.slc.sli.api.representation.CustomStatus;
++import org.slc.sli.api.representation.ErrorResponse;
++import org.slc.sli.api.security.context.ResponseTooLargeException;
++import org.springframework.stereotype.Component;
++
++/**
++ * Handler for when the response is too large to manage
++ */
++@Provider
++@Component
++public class ResponseTooLargeExceptionHandler implements ExceptionMapper<ResponseTooLargeException> {
++    
++    @Override
++    public Response toResponse(ResponseTooLargeException exception) {
++        
++        return Response
++                .status(CustomStatus.ENTITY_TOO_LARGE)
++                .entity(new ErrorResponse(CustomStatus.ENTITY_TOO_LARGE.getStatusCode(), CustomStatus.ENTITY_TOO_LARGE.getReasonPhrase(),
++                        "The response is too large to process. The request should be modified to return a smaller response.")).build();
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/SelectorParseExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/SelectorParseExceptionHandler.java
+new file mode 100644
+index 0000000..b91c82d
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/SelectorParseExceptionHandler.java
+@@ -0,0 +1,42 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import org.slc.sli.api.representation.ErrorResponse;
++import org.slc.sli.api.selectors.model.SelectorParseException;
++import org.springframework.stereotype.Component;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.core.Response.Status;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++/**
++ * @author jstokes
++ */
++@Provider
++@Component
++public class SelectorParseExceptionHandler implements ExceptionMapper<SelectorParseException> {
++
++    public Response toResponse(SelectorParseException e) {
++        return Response
++                .status(Response.Status.BAD_REQUEST)
++                .entity(new ErrorResponse(Status.BAD_REQUEST.getStatusCode(), Status.BAD_REQUEST.getReasonPhrase(),
++                        e.getMessage())).build();
++    }
++}
++
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/SortingExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/SortingExceptionHandler.java
+new file mode 100644
+index 0000000..801ecc8
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/SortingExceptionHandler.java
+@@ -0,0 +1,47 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++import org.slc.sli.api.representation.ErrorResponse;
++import org.springframework.stereotype.Component;
++
++import org.slc.sli.api.service.query.SortingException;
++
++/**
++ * Exception handler for SortingExceptions
++ * 
++ * @author Ryan Farris <rfarris@wgen.net>
++ * 
++ */
++@Provider
++@Component
++public class SortingExceptionHandler implements ExceptionMapper<SortingException> {
++    
++    @Override
++    public Response toResponse(SortingException e) {
++        Response.Status errorStatus = Response.Status.BAD_REQUEST;
++        return Response.status(errorStatus)
++                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), e.getMessage()))
++                .build();
++    }
++    
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/URITranslationExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/URITranslationExceptionHandler.java
+new file mode 100644
+index 0000000..17a6c42
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/URITranslationExceptionHandler.java
+@@ -0,0 +1,47 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import org.slc.sli.api.exceptions.URITranslationException;
++import org.slc.sli.api.representation.ErrorResponse;
++import org.slc.sli.api.service.EntityNotFoundException;
++import org.springframework.stereotype.Component;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++/**
++ * Handler for URI translation errors (gives an HTTP 404 not found response)
++ */
++@Provider
++@Component
++public class URITranslationExceptionHandler implements ExceptionMapper<URITranslationException> {
++
++    public Response toResponse(URITranslationException e) {
++        String message = "URI translation failed";
++        if (e.getMessage() != null) {
++            message += ": " + e.getMessage();
++        }
++        Response.Status errorStatus = Response.Status.NOT_FOUND;
++        return Response
++                .status(errorStatus)
++                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
++                        message)).build();
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/UncategorizedMongoExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/UncategorizedMongoExceptionHandler.java
+new file mode 100644
+index 0000000..5e4552b
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/UncategorizedMongoExceptionHandler.java
+@@ -0,0 +1,51 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.core.Response.Status;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++import org.slc.sli.api.representation.ErrorResponse;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++import org.springframework.data.mongodb.UncategorizedMongoDbException;
++import org.springframework.stereotype.Component;
++
++/**
++ * Handle connection issues to mongo
++ *
++ * @author nbrown
++ *
++ */
++@Provider
++@Component
++public class UncategorizedMongoExceptionHandler implements ExceptionMapper<UncategorizedMongoDbException> {
++
++    private static final Logger LOG = LoggerFactory.getLogger(UncategorizedMongoExceptionHandler.class);
++
++    @Override
++    public Response toResponse(UncategorizedMongoDbException exception) {
++        Status errorStatus = Status.SERVICE_UNAVAILABLE;
++        LOG.error("Could not access database", exception);
++        return Response
++                .status(errorStatus)
++                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
++                        "Could not access database:" + exception.getMessage())).build();
++    }
++
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/UriMutationExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/UriMutationExceptionHandler.java
+new file mode 100644
+index 0000000..cda5415
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/UriMutationExceptionHandler.java
+@@ -0,0 +1,30 @@
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import org.slc.sli.api.exceptions.UriMutationException;
++import org.slc.sli.api.representation.ErrorResponse;
++import org.springframework.stereotype.Component;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++/**
++ * Handler for UriMutationExceptions, which should result in an HTTP 404 not found
++ */
++@Provider
++@Component
++public class UriMutationExceptionHandler implements ExceptionMapper<UriMutationException> {
++
++    public Response toResponse(UriMutationException e) {
++        String message = "URI mutation error";
++        if (e.getMessage() != null) {
++            message += ": " + e.getMessage();
++        }
++
++        Response.Status errorStatus = Response.Status.NOT_FOUND;
++        return Response
++                .status(errorStatus)
++                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
++                        message)).build();
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/ValidationExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/ValidationExceptionHandler.java
+new file mode 100644
+index 0000000..c99ff45
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/ValidationExceptionHandler.java
+@@ -0,0 +1,45 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import javax.ws.rs.core.Response;
++import javax.ws.rs.core.Response.Status;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++import org.apache.commons.lang3.StringUtils;
++import org.slc.sli.api.representation.ErrorResponse;
++import org.springframework.stereotype.Component;
++
++import org.slc.sli.validation.EntityValidationException;
++
++/**
++ * Hander for validation errors
++ */
++@Provider
++@Component
++public class ValidationExceptionHandler implements ExceptionMapper<EntityValidationException> {
++
++    public Response toResponse(EntityValidationException e) {
++        String exceptionMessage = "Validation failed: " + StringUtils.join(e.getValidationErrors(), "\n");
++        return Response
++                .status(Response.Status.BAD_REQUEST)
++                .entity(new ErrorResponse(Status.BAD_REQUEST.getStatusCode(), Status.BAD_REQUEST.getReasonPhrase(),
++                        exceptionMessage)).build();
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/WebApplicationExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/WebApplicationExceptionHandler.java
+new file mode 100644
+index 0000000..5e30078
+--- /dev/null
++++ b/sli/api/src/main/java/org/slc/sli/api/jersey/exceptionhandlers/WebApplicationExceptionHandler.java
+@@ -0,0 +1,52 @@
++/*
++ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++package org.slc.sli.api.jersey.exceptionhandlers;
++
++import javax.ws.rs.WebApplicationException;
++import javax.ws.rs.core.Response;
++import javax.ws.rs.ext.ExceptionMapper;
++import javax.ws.rs.ext.Provider;
++
++import org.slc.sli.api.representation.ErrorResponse;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++import org.springframework.stereotype.Component;
++
++/**
++ * Hander for jax-rs web application exceptions
++ */
++@Provider
++@Component
++public class WebApplicationExceptionHandler implements ExceptionMapper<WebApplicationException> {
++
++    public static final Logger LOG = LoggerFactory.getLogger(WebApplicationExceptionHandler.class);
++    
++    @Override
++    public Response toResponse(WebApplicationException e) {
++        if (e.getResponse().getStatus() == 500) {
++            LOG.error("Caught exception thrown by ReST handler", e);
++            Response.Status errorStatus = Response.Status.INTERNAL_SERVER_ERROR;
++            
++            return Response
++                    .status(errorStatus)
++                    .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
++                            "Internal Server Error: " + e.getMessage())).build();
++        }
++        return e.getResponse();
++    }
++}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/APIAccessDeniedExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/APIAccessDeniedExceptionHandler.java
+deleted file mode 100644
+index 6bfd4f5..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/APIAccessDeniedExceptionHandler.java
++++ /dev/null
+@@ -1,138 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-
+-package org.slc.sli.api.representation;
+-
+-import org.slc.sli.api.config.EntityDefinitionStore;
+-import org.slc.sli.api.resources.security.RealmResource;
+-import org.slc.sli.api.security.SLIPrincipal;
+-import org.slc.sli.api.security.SecurityEventBuilder;
+-import org.slc.sli.api.security.context.APIAccessDeniedException;
+-import org.slc.sli.api.security.context.EdOrgOwnershipArbiter;
+-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+-import org.slc.sli.api.security.service.AuditLogger;
+-import org.slc.sli.common.constants.EntityNames;
+-import org.slc.sli.domain.Entity;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.security.core.context.SecurityContextHolder;
+-import org.springframework.stereotype.Component;
+-
+-import javax.servlet.http.HttpServletResponse;
+-import javax.ws.rs.core.*;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-import java.io.IOException;
+-import java.util.*;
+-
+-/**
+- * Handler for catching API access denied exceptions that log security events.
+- *
+- * @author bsuzuki
+- */
+-@Provider
+-@Component
+-public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAccessDeniedException> {
+-
+-    private static final Logger LOG = LoggerFactory.getLogger(APIAccessDeniedExceptionHandler.class);
+-
+-    @Autowired
+-    private SecurityEventBuilder securityEventBuilder;
+-
+-    @Autowired
+-    private AuditLogger auditLogger;
+-
+-    @Context
+-    UriInfo uriInfo;
+-
+-    @Context
+-    private HttpHeaders headers;
+-
+-    @Context
+-    private HttpServletResponse response;
+-
+-    @Override
+-    public Response toResponse(APIAccessDeniedException e) {
+-        //There are a few jax-rs resources that generate HTML content, and we want the
+-        //default web-container error handler pages to get used in those cases.
+-        if (headers.getAcceptableMediaTypes().contains(MediaType.TEXT_HTML_TYPE)) {
+-            try {
+-                response.sendError(403, e.getMessage());
+-                logSecurityEvent(e);
+-                return null;    //the error page handles the response, so no need to return a response
+-            } catch (IOException ex) {
+-                LOG.error("Error displaying error page", ex);
+-            }
+-        }
+-
+-        Response.Status errorStatus = Response.Status.FORBIDDEN;
+-        SLIPrincipal principal = null ;
+-        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+-            principal = (SLIPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+-            LOG.warn("Access has been denied to user: {}",principal );
+-        } else {
+-            LOG.warn("Access has been denied to user for being incorrectly associated");
+-        }
+-        LOG.warn("Cause: {}", e.getMessage());
+-
+-        logSecurityEvent(e);
+-
+-        MediaType errorType = MediaType.APPLICATION_JSON_TYPE;
+-        if(this.headers.getMediaType() == MediaType.APPLICATION_XML_TYPE) {
+-            errorType = MediaType.APPLICATION_XML_TYPE;
+-        }
+-        
+-        return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), "Access DENIED: " + e.getMessage())).type(errorType).build();
+-    }
+-
+-    private void logSecurityEvent(APIAccessDeniedException e) {
+-
+-        if (e.getTargetEdOrgIds() != null) {
+-            // if we already have the target edOrgs - good to go
+-            auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
+-                    + e.getMessage(), e.getRealm(), EntityNames.EDUCATION_ORGANIZATION, e.getTargetEdOrgIds().toArray(new String[0])));
+-
+-        } else if (e.getEntityType() != null) {
+-
+-            if (e.getEntities() != null && !e.getEntities().isEmpty()) {
+-                auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
+-                        + e.getMessage(), e.getRealm(), e.getEntityType(), e.getEntities()));
+-
+-            } else if (e.getEntityIds() != null && !e.getEntityIds().isEmpty()) {
+-                auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
+-                        + e.getMessage(), e.getRealm(), e.getEntityType(), e.getEntityIds().toArray(new String[0])));
+-            } else {
+-                auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
+-                        + e.getMessage(), e.getPrincipal(), e.getClientId(), e.getRealm(), null, e.isTargetIsUserEdOrg()));
+-            }
+-        } else {
+-            auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
+-                    + e.getMessage(), e.getPrincipal(), e.getClientId(), e.getRealm(), null, e.isTargetIsUserEdOrg()));
+-        }
+-    }
+-
+-    private String getThrowingClassName(Exception e) {
+-        if (e != null && e.getStackTrace() != null) {
+-            StackTraceElement ste = e.getStackTrace()[0];
+-            if (ste != null) {
+-                return ste.getClassName();
+-            }
+-        }
+-        return null;
+-    }
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/AccessDeniedExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/AccessDeniedExceptionHandler.java
+deleted file mode 100644
+index bdd22b6..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/AccessDeniedExceptionHandler.java
++++ /dev/null
+@@ -1,106 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-
+-package org.slc.sli.api.representation;
+-
+-import java.io.IOException;
+-import java.util.ArrayList;
+-import java.util.Arrays;
+-import java.util.HashSet;
+-import java.util.Set;
+-
+-import javax.servlet.http.HttpServletResponse;
+-import javax.ws.rs.core.Context;
+-import javax.ws.rs.core.HttpHeaders;
+-import javax.ws.rs.core.MediaType;
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.core.UriInfo;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.security.access.AccessDeniedException;
+-import org.springframework.security.core.context.SecurityContextHolder;
+-import org.springframework.stereotype.Component;
+-
+-import org.slc.sli.api.resources.security.RealmResource;
+-import org.slc.sli.api.security.SLIPrincipal;
+-import org.slc.sli.api.security.SecurityEventBuilder;
+-
+-/**
+- * Handler for catching access denied exceptions.
+- *
+- * @author shalka
+- */
+-@Provider
+-@Component
+-public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDeniedException> {
+-
+-    private static final Logger LOG = LoggerFactory.getLogger(AccessDeniedExceptionHandler.class);
+-
+-    public static final String ED_ORG_START = "<" ;
+-    public static final String ED_ORG_END = ">" ;
+-    public static final String NO_EDORG = "UNAVAILABLE";
+-
+-    @Autowired
+-    private SecurityEventBuilder securityEventBuilder;
+-
+-    @Context
+-    UriInfo uriInfo;
+-
+-    @Context
+-    private HttpHeaders headers;
+-
+-    @Context
+-    private HttpServletResponse response;
+-
+-    @Override
+-    public Response toResponse(AccessDeniedException e) {
+-
+-        //There are a few jax-rs resources that generate HTML content, and we want the
+-        //default web-container error handler pages to get used in those cases.
+-        if (headers.getAcceptableMediaTypes().contains(MediaType.TEXT_HTML_TYPE)) {
+-            try {
+-                response.sendError(403, e.getMessage());
+-                return null;    //the error page handles the response, so no need to return a response
+-            } catch (IOException ex) {
+-                LOG.error("Error displaying error page", ex);
+-            }
+-        }
+-
+-        Response.Status errorStatus = Response.Status.FORBIDDEN;
+-        SLIPrincipal principal = null ;
+-        String message = e.getMessage();
+-        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+-            principal = (SLIPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+-            LOG.warn("Access has been denied to user: {}",principal );
+-        } else {
+-            LOG.warn("Access has been denied to user for being incorrectly associated");
+-        }
+-        LOG.warn("Cause: {}", e.getMessage());
+-
+-        MediaType errorType = MediaType.APPLICATION_JSON_TYPE;
+-        if(this.headers.getMediaType() == MediaType.APPLICATION_XML_TYPE) {
+-            errorType = MediaType.APPLICATION_XML_TYPE;
+-        }
+-        
+-        return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), "Access DENIED: " + e.getMessage())).type(errorType).build();
+-    }
+-
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/ContextInferrenceFailedExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/ContextInferrenceFailedExceptionHandler.java
+deleted file mode 100644
+index c9870ad..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/ContextInferrenceFailedExceptionHandler.java
++++ /dev/null
+@@ -1,71 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package org.slc.sli.api.representation;
+-
+-import java.util.Collections;
+-
+-import javax.ws.rs.core.Context;
+-import javax.ws.rs.core.HttpHeaders;
+-import javax.ws.rs.core.MediaType;
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.core.Response.Status;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-import javax.xml.bind.annotation.XmlRootElement;
+-
+-import org.slc.sli.api.security.pdp.ContextInferrenceFailedException;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
+-import org.springframework.stereotype.Component;
+-
+-/**
+- * Handles empty contexts
+- * 
+- * @author dkornishev
+- * 
+- */
+-@Provider
+-@Component
+-public class ContextInferrenceFailedExceptionHandler implements ExceptionMapper<ContextInferrenceFailedException> {
+-
+-    private static final Logger LOG = LoggerFactory.getLogger(ContextInferrenceFailedExceptionHandler.class);
+-
+-    @Context
+-    private HttpHeaders headers;
+-    
+-    @Override
+-    public Response toResponse(ContextInferrenceFailedException exception) {
+-        LOG.warn("Failed Context Inferrence");
+-        Object entity = Collections.EMPTY_LIST;
+-        if (headers.getAcceptableMediaTypes().contains(MediaType.APPLICATION_XML_TYPE)) {
+-            entity = new EmptyResponse();
+-        }
+-        
+-        return Response.status(Status.NOT_FOUND).entity(entity).header("TotalCount", 0).build();
+-    }
+-    
+-    /**
+-     * Represents an empty document to be returned to the API user (no fields, no data).
+-     * 
+-     * 
+-     * @author kmyers
+-     *
+-     */
+-    @XmlRootElement(name = "emptyList")
+-    public static class EmptyResponse {
+-    }
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/EOFExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/EOFExceptionHandler.java
+deleted file mode 100644
+index 08d53c6..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/EOFExceptionHandler.java
++++ /dev/null
+@@ -1,43 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package org.slc.sli.api.representation;
+-
+-import java.io.EOFException;
+-
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-import org.springframework.stereotype.Component;
+-
+-/**
+- * Exception handler to catch cases where an EOF exception is thrown. This can be the case if a user
+- * tries to post a null body
+- *
+- * @author nbrown
+- *
+- */
+-@Provider
+-@Component
+-public class EOFExceptionHandler implements ExceptionMapper<EOFException> {
+-
+-    @Override
+-    public Response toResponse(EOFException exception) {
+-        return Response.status(Response.Status.BAD_REQUEST).build();
+-    }
+-
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/EmbeddedDocumentLimitExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/EmbeddedDocumentLimitExceptionHandler.java
+deleted file mode 100644
+index 70226ff..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/EmbeddedDocumentLimitExceptionHandler.java
++++ /dev/null
+@@ -1,41 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package org.slc.sli.api.representation;
+-
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-import org.slc.sli.api.selectors.doc.EmbeddedDocumentLimitException;
+-import org.springframework.stereotype.Component;
+-
+-/**
+- * @author jstokes
+- */
+-@Provider
+-@Component
+-public class EmbeddedDocumentLimitExceptionHandler implements ExceptionMapper<EmbeddedDocumentLimitException> {
+-
+-    @Override
+-    public Response toResponse(EmbeddedDocumentLimitException e) {
+-        return Response
+-                .status(CustomStatus.ENTITY_TOO_LARGE)
+-                .entity(new ErrorResponse(CustomStatus.ENTITY_TOO_LARGE.getStatusCode(), CustomStatus.ENTITY_TOO_LARGE.getReasonPhrase(),
+-                        e.getMessage())).build();
+-    }
+-}
+-
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/EntityNotFoundHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/EntityNotFoundHandler.java
+deleted file mode 100644
+index e75f6d0..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/EntityNotFoundHandler.java
++++ /dev/null
+@@ -1,42 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-
+-package org.slc.sli.api.representation;
+-
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-import org.springframework.stereotype.Component;
+-
+-import org.slc.sli.api.service.EntityNotFoundException;
+-
+-/**
+- * Hander for entity not found errors
+- */
+-@Provider
+-@Component
+-public class EntityNotFoundHandler implements ExceptionMapper<EntityNotFoundException> {
+-
+-    public Response toResponse(EntityNotFoundException e) {
+-        Response.Status errorStatus = Response.Status.NOT_FOUND;
+-        return Response
+-                .status(errorStatus)
+-                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
+-                        "Entity not found: " + e.getId())).build();
+-    }
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/GenericExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/GenericExceptionHandler.java
+deleted file mode 100644
+index f0d4f30..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/GenericExceptionHandler.java
++++ /dev/null
+@@ -1,71 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-
+-package org.slc.sli.api.representation;
+-
+-import java.io.IOException;
+-
+-import javax.servlet.http.HttpServletResponse;
+-import javax.ws.rs.core.Context;
+-import javax.ws.rs.core.HttpHeaders;
+-import javax.ws.rs.core.MediaType;
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
+-import org.springframework.stereotype.Component;
+-
+-/**
+- * Hander for uncaught errors
+- */
+-@Provider
+-@Component
+-public class GenericExceptionHandler implements ExceptionMapper<Throwable> {
+-
+-    private static final Logger LOG = LoggerFactory.getLogger(GenericExceptionHandler.class);
+-    
+-    @Context
+-    private HttpHeaders headers;
+-    
+-    @Context
+-    private HttpServletResponse response;
+-
+-    @Override
+-    public Response toResponse(Throwable e) {
+-
+-        //There are a few jax-rs resources that generate HTML content, and we want the
+-        //default web-container error handler pages to get used in those cases.
+-        if (headers.getAcceptableMediaTypes().contains(MediaType.TEXT_HTML_TYPE)) {
+-            try {
+-                LOG.error(e.getMessage(), e);
+-                response.sendError(500, e.getMessage());
+-                return null;    //the error page handles the response, so no need to return a response
+-            } catch (IOException ex) {
+-                LOG.error("Error displaying error page", ex);
+-            }
+-        }
+-        Response.Status errorStatus = Response.Status.INTERNAL_SERVER_ERROR;
+-        
+-        LOG.error("Caught exception thrown by ReST handler", e);
+-        return Response
+-                .status(errorStatus)
+-                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
+-                        "Internal Server Error: " + e.getMessage())).build();
+-    }
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/IllegalArgumentExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/IllegalArgumentExceptionHandler.java
+deleted file mode 100644
+index d19651e..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/IllegalArgumentExceptionHandler.java
++++ /dev/null
+@@ -1,38 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-
+-package org.slc.sli.api.representation;
+-
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.core.Response.Status;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-import org.springframework.stereotype.Component;
+-
+-/**
+- * Handles bad requests
+-  */
+-@Provider
+-@Component
+-public class IllegalArgumentExceptionHandler implements ExceptionMapper<IllegalArgumentException> {
+-
+-    @Override
+-    public Response toResponse(IllegalArgumentException e) {
+-        return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+-    }
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/InsufficientAuthenticationHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/InsufficientAuthenticationHandler.java
+deleted file mode 100644
+index 6ad4696..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/InsufficientAuthenticationHandler.java
++++ /dev/null
+@@ -1,104 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-
+-package org.slc.sli.api.representation;
+-
+-import javax.ws.rs.core.*;
+-import javax.ws.rs.core.Response.Status;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-import org.slc.sli.api.security.SecurityEventBuilder;
+-import org.slc.sli.api.security.oauth.OAuthAccessException;
+-import org.slc.sli.api.security.service.AuditLogger;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.beans.factory.annotation.Value;
+-import org.springframework.security.authentication.InsufficientAuthenticationException;
+-import org.springframework.stereotype.Component;
+-
+-import java.net.URI;
+-
+-/**
+- * Translates InsufficientAuthenticationException to 401
+- *
+- * @author dkornishev
+- *
+- */
+-@Component
+-@Provider
+-public class InsufficientAuthenticationHandler implements ExceptionMapper<InsufficientAuthenticationException> {
+-
+-    @Value("${sli.security.noSession.landing.url}")
+-    private String authUrl;
+-
+-    @Autowired
+-    private SecurityEventBuilder securityEventBuilder;
+-
+-    @Autowired
+-    private AuditLogger auditLogger;
+-
+-    @Context
+-    UriInfo uriInfo;
+-
+-    @Context
+-    private HttpHeaders headers;
+-
+-    @Override
+-    public Response toResponse(InsufficientAuthenticationException exception) {
+-        Status status = Response.Status.UNAUTHORIZED;
+-        String wwwAuthHeader = this.authUrl;
+-        URI requestUri = (uriInfo == null) ? null : uriInfo.getRequestUri();
+-
+-        //If we have an embedded OAuth exception, then put the error information in the www-auth header per oauth spec 
+-        //http://tools.ietf.org/html/rfc6750 see sec 3
+-        //Otherwise put the auth url in the header
+-        if (exception.getCause() != null && exception.getCause() instanceof OAuthAccessException) {
+-            OAuthAccessException oauthEx = (OAuthAccessException) exception.getCause();
+-            wwwAuthHeader = "Bearer error=\"" + oauthEx.getType().toString() + "\", error_description=\"" + oauthEx.getMessage() + "\"";
+-        }
+-        
+-        MediaType errorType = MediaType.APPLICATION_JSON_TYPE;
+-        if(this.headers.getMediaType() == MediaType.APPLICATION_XML_TYPE) {
+-            errorType = MediaType.APPLICATION_XML_TYPE;
+-        }
+-
+-        auditLogger.audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(exception), requestUri, "Access Denied: "
+-                + exception.getMessage(), false));
+-
+-        return Response.status(status).entity(new ErrorResponse(status.getStatusCode(), status.getReasonPhrase(),
+-                "Access DENIED: " + exception.getMessage())).header(HttpHeaders.WWW_AUTHENTICATE, wwwAuthHeader).type(errorType).build();
+-    }
+-
+-    private String getThrowingClassName(Exception e) {
+-        if (e != null && e.getStackTrace() != null) {
+-            StackTraceElement ste = e.getStackTrace()[0];
+-            if (ste != null) {
+-                return ste.getClassName();
+-            }
+-        }
+-        return null;
+-    }
+-
+-    public void setSecurityEventBuilder(SecurityEventBuilder securityEventBuilder) {
+-        this.securityEventBuilder = securityEventBuilder;
+-    }
+-
+-    public void setAuditLogger(AuditLogger auditLogger) {
+-        this.auditLogger = auditLogger;
+-    }
+-
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/JsonParseExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/JsonParseExceptionHandler.java
+deleted file mode 100644
+index 39de01c..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/JsonParseExceptionHandler.java
++++ /dev/null
+@@ -1,45 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-
+-package org.slc.sli.api.representation;
+-
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-import org.codehaus.jackson.JsonParseException;
+-import org.springframework.stereotype.Component;
+-
+-/**
+- * Exception handler for SortingExceptions
+- * 
+- * @author Ryan Farris <rfarris@wgen.net>
+- * 
+- */
+-@Provider
+-@Component
+-public class JsonParseExceptionHandler implements ExceptionMapper<JsonParseException> {
+-    
+-    @Override
+-    public Response toResponse(JsonParseException e) {
+-        Response.Status errorStatus = Response.Status.BAD_REQUEST;
+-        return Response.status(errorStatus)
+-                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), e.getMessage()))
+-                .build();
+-    }
+-    
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/MethodNotAllowedExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/MethodNotAllowedExceptionHandler.java
+deleted file mode 100644
+index efa954b..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/MethodNotAllowedExceptionHandler.java
++++ /dev/null
+@@ -1,48 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package org.slc.sli.api.representation;
+-
+-import org.slc.sli.api.resources.generic.MethodNotAllowedException;
+-import org.springframework.stereotype.Component;
+-
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-/**
+- * Exception mapper for dis allowed methods
+- *
+- * @author srupasinghe
+- */
+-
+-@Provider
+-@Component
+-public class MethodNotAllowedExceptionHandler implements ExceptionMapper<MethodNotAllowedException> {
+-
+-    public Response toResponse(MethodNotAllowedException e) {
+-        String message = "Method Not Allowed [" + e.getAllowedMethods() + "]";
+-
+-        Response.ResponseBuilder builder =  Response
+-                .status(405)
+-                .entity(new ErrorResponse(405, "Method Not Allowed",
+-                        message));
+-
+-        builder.header("Allow", "Allow: " + e.getAllowedMethods());
+-
+-        return builder.build();
+-    }
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/NaturalKeyValidationExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/NaturalKeyValidationExceptionHandler.java
+deleted file mode 100644
+index 09afc94..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/NaturalKeyValidationExceptionHandler.java
++++ /dev/null
+@@ -1,43 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package org.slc.sli.api.representation;
+-
+-import org.apache.commons.lang3.StringUtils;
+-import org.slc.sli.validation.NaturalKeyValidationException;
+-import org.springframework.stereotype.Component;
+-
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-/**
+- * Exception mapper NaturalKeyValidationExceptions
+- *
+- * @author srupasinghe
+- */
+-@Provider
+-@Component
+-public class NaturalKeyValidationExceptionHandler implements ExceptionMapper<NaturalKeyValidationException> {
+-
+-    public Response toResponse(NaturalKeyValidationException e) {
+-        String exceptionMessage = "Natural Key Validation failed: " + e.getEntityType() + " " + StringUtils.join(e.getNaturalKeys());
+-        return Response
+-                .status(Response.Status.CONFLICT)
+-                .entity(new ErrorResponse(Response.Status.CONFLICT.getStatusCode(), Response.Status.CONFLICT.getReasonPhrase(),
+-                        exceptionMessage)).build();
+-    }
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/OAuthAccessExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/OAuthAccessExceptionHandler.java
+deleted file mode 100644
+index ac8836c..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/OAuthAccessExceptionHandler.java
++++ /dev/null
+@@ -1,66 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-
+-package org.slc.sli.api.representation;
+-
+-import java.util.HashMap;
+-import java.util.Map;
+-
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-import org.springframework.stereotype.Component;
+-import org.springframework.stereotype.Repository;
+-
+-import org.slc.sli.api.security.oauth.OAuthAccessException;
+-import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
+-
+-/**
+- *
+- * Handle oauth access exceptions as described in 5.2
+- */
+-@Component
+-@Provider
+-@Repository
+-public class OAuthAccessExceptionHandler implements ExceptionMapper<OAuthAccessException>  {
+-
+-
+-    @SuppressWarnings("unchecked")
+-    @Override
+-    public Response toResponse(OAuthAccessException ex) {
+-
+-        Response.Status errorStatus = null;
+-
+-        if (ex.getType() == OAuthError.UNAUTHORIZED_CLIENT) {
+-            errorStatus = Response.Status.FORBIDDEN;
+-        } else {
+-            errorStatus = Response.Status.BAD_REQUEST;
+-        }
+-
+-        @SuppressWarnings("rawtypes")
+-        Map data = new HashMap();
+-        data.put("error", ex.getType().toString());
+-        data.put("error_description", ex.getMessage());
+-        if (ex.getState() != null) {
+-            data.put("state", ex.getState());
+-        }
+-        return Response.status(errorStatus).entity(data).build();
+-
+-    }
+-
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/PreConditionExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/PreConditionExceptionHandler.java
+deleted file mode 100644
+index 56aaaad..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/PreConditionExceptionHandler.java
++++ /dev/null
+@@ -1,44 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package org.slc.sli.api.representation;
+-
+-import org.slc.sli.api.resources.generic.PreConditionFailedException;
+-import org.springframework.stereotype.Component;
+-
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-/**
+- * Exception mapper for precondition failures
+- *
+- * @author srupasinghe
+- */
+-
+-@Provider
+-@Component
+-public class PreConditionExceptionHandler implements ExceptionMapper<PreConditionFailedException> {
+-
+-    public Response toResponse(PreConditionFailedException e) {
+-
+-        return Response
+-                .status(Response.Status.PRECONDITION_FAILED)
+-                .entity(new ErrorResponse(Response.Status.PRECONDITION_FAILED.getStatusCode(), Response.Status.PRECONDITION_FAILED.getReasonPhrase(),
+-                        e.getMessage())).build();
+-
+-    }
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/QueryParseExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/QueryParseExceptionHandler.java
+deleted file mode 100644
+index ab9459c..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/QueryParseExceptionHandler.java
++++ /dev/null
+@@ -1,42 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-
+-package org.slc.sli.api.representation;
+-
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-import org.springframework.stereotype.Component;
+-
+-import org.slc.sli.domain.QueryParseException;
+-
+-/**
+- * Handler for Query Parsing errors
+- */
+-@Provider
+-@Component
+-public class QueryParseExceptionHandler implements ExceptionMapper<QueryParseException> {
+-    
+-    public Response toResponse(QueryParseException e) {
+-        Response.Status errorStatus = Response.Status.BAD_REQUEST;
+-        return Response
+-                .status(errorStatus)
+-                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
+-                        "Error Parsing the Query: " + e.getMessage())).build();
+-    }
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/ResponseTooLargeExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/ResponseTooLargeExceptionHandler.java
+deleted file mode 100644
+index fac3013..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/ResponseTooLargeExceptionHandler.java
++++ /dev/null
+@@ -1,41 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package org.slc.sli.api.representation;
+-
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-import org.slc.sli.api.security.context.ResponseTooLargeException;
+-import org.springframework.stereotype.Component;
+-
+-/**
+- * Hander for when the request is too large to manage
+- */
+-@Provider
+-@Component
+-public class ResponseTooLargeExceptionHandler implements ExceptionMapper<ResponseTooLargeException> {
+-    
+-    @Override
+-    public Response toResponse(ResponseTooLargeException exception) {
+-        
+-        return Response
+-                .status(CustomStatus.ENTITY_TOO_LARGE)
+-                .entity(new ErrorResponse(CustomStatus.ENTITY_TOO_LARGE.getStatusCode(), CustomStatus.ENTITY_TOO_LARGE.getReasonPhrase(),
+-                        "The request is too large to resolve.")).build();
+-    }
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/SelectorParseExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/SelectorParseExceptionHandler.java
+deleted file mode 100644
+index 45cb7fa..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/SelectorParseExceptionHandler.java
++++ /dev/null
+@@ -1,41 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package org.slc.sli.api.representation;
+-
+-import org.slc.sli.api.selectors.model.SelectorParseException;
+-import org.springframework.stereotype.Component;
+-
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.core.Response.Status;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-/**
+- * @author jstokes
+- */
+-@Provider
+-@Component
+-public class SelectorParseExceptionHandler implements ExceptionMapper<SelectorParseException> {
+-
+-    public Response toResponse(SelectorParseException e) {
+-        return Response
+-                .status(Response.Status.BAD_REQUEST)
+-                .entity(new ErrorResponse(Status.BAD_REQUEST.getStatusCode(), Status.BAD_REQUEST.getReasonPhrase(),
+-                        e.getMessage())).build();
+-    }
+-}
+-
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/SortingExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/SortingExceptionHandler.java
+deleted file mode 100644
+index 7fb9abb..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/SortingExceptionHandler.java
++++ /dev/null
+@@ -1,46 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-
+-package org.slc.sli.api.representation;
+-
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-import org.springframework.stereotype.Component;
+-
+-import org.slc.sli.api.service.query.SortingException;
+-
+-/**
+- * Exception handler for SortingExceptions
+- * 
+- * @author Ryan Farris <rfarris@wgen.net>
+- * 
+- */
+-@Provider
+-@Component
+-public class SortingExceptionHandler implements ExceptionMapper<SortingException> {
+-    
+-    @Override
+-    public Response toResponse(SortingException e) {
+-        Response.Status errorStatus = Response.Status.BAD_REQUEST;
+-        return Response.status(errorStatus)
+-                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), e.getMessage()))
+-                .build();
+-    }
+-    
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/UncategorizedMongoExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/UncategorizedMongoExceptionHandler.java
+deleted file mode 100644
+index 4c39d62..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/UncategorizedMongoExceptionHandler.java
++++ /dev/null
+@@ -1,50 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-package org.slc.sli.api.representation;
+-
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.core.Response.Status;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
+-import org.springframework.data.mongodb.UncategorizedMongoDbException;
+-import org.springframework.stereotype.Component;
+-
+-/**
+- * Handle connection issues to mongo
+- *
+- * @author nbrown
+- *
+- */
+-@Provider
+-@Component
+-public class UncategorizedMongoExceptionHandler implements ExceptionMapper<UncategorizedMongoDbException> {
+-
+-    private static final Logger LOG = LoggerFactory.getLogger(UncategorizedMongoExceptionHandler.class);
+-
+-    @Override
+-    public Response toResponse(UncategorizedMongoDbException exception) {
+-        Status errorStatus = Status.SERVICE_UNAVAILABLE;
+-        LOG.error("Could not access database", exception);
+-        return Response
+-                .status(errorStatus)
+-                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
+-                        "Could not access database:" + exception.getMessage())).build();
+-    }
+-
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/ValidationExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/ValidationExceptionHandler.java
+deleted file mode 100644
+index 4120377..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/ValidationExceptionHandler.java
++++ /dev/null
+@@ -1,44 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-
+-package org.slc.sli.api.representation;
+-
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.core.Response.Status;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-import org.apache.commons.lang3.StringUtils;
+-import org.springframework.stereotype.Component;
+-
+-import org.slc.sli.validation.EntityValidationException;
+-
+-/**
+- * Hander for validation errors
+- */
+-@Provider
+-@Component
+-public class ValidationExceptionHandler implements ExceptionMapper<EntityValidationException> {
+-
+-    public Response toResponse(EntityValidationException e) {
+-        String exceptionMessage = "Validation failed: " + StringUtils.join(e.getValidationErrors(), "\n");
+-        return Response
+-                .status(Response.Status.BAD_REQUEST)
+-                .entity(new ErrorResponse(Status.BAD_REQUEST.getStatusCode(), Status.BAD_REQUEST.getReasonPhrase(),
+-                        exceptionMessage)).build();
+-    }
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/representation/WebApplicationExceptionHandler.java b/sli/api/src/main/java/org/slc/sli/api/representation/WebApplicationExceptionHandler.java
+deleted file mode 100644
+index bfb6b24..0000000
+--- a/sli/api/src/main/java/org/slc/sli/api/representation/WebApplicationExceptionHandler.java
++++ /dev/null
+@@ -1,51 +0,0 @@
+-/*
+- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- * http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-
+-package org.slc.sli.api.representation;
+-
+-import javax.ws.rs.WebApplicationException;
+-import javax.ws.rs.core.Response;
+-import javax.ws.rs.ext.ExceptionMapper;
+-import javax.ws.rs.ext.Provider;
+-
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
+-import org.springframework.stereotype.Component;
+-
+-/**
+- * Hander for jax-rs web application exceptions
+- */
+-@Provider
+-@Component
+-public class WebApplicationExceptionHandler implements ExceptionMapper<WebApplicationException> {
+-
+-    public static final Logger LOG = LoggerFactory.getLogger(WebApplicationExceptionHandler.class);
+-    
+-    @Override
+-    public Response toResponse(WebApplicationException e) {
+-        if (e.getResponse().getStatus() == 500) {
+-            LOG.error("Caught exception thrown by ReST handler", e);
+-            Response.Status errorStatus = Response.Status.INTERNAL_SERVER_ERROR;
+-            
+-            return Response
+-                    .status(errorStatus)
+-                    .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
+-                            "Internal Server Error: " + e.getMessage())).build();
+-        }
+-        return e.getResponse();
+-    }
+-}
+diff --git a/sli/api/src/main/java/org/slc/sli/api/resources/security/AdminDelegationResource.java b/sli/api/src/main/java/org/slc/sli/api/resources/security/AdminDelegationResource.java
+index 2edc43f..516f40c 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/resources/security/AdminDelegationResource.java
++++ b/sli/api/src/main/java/org/slc/sli/api/resources/security/AdminDelegationResource.java
+@@ -23,8 +23,8 @@ import org.slc.sli.api.representation.EntityBody;
+ import org.slc.sli.api.resources.v1.HypermediaType;
+ import org.slc.sli.api.security.RightsAllowed;
+ import org.slc.sli.api.security.SecurityEventBuilder;
++import org.slc.sli.api.security.context.APIAccessDeniedException;
+ import org.slc.sli.api.security.service.AuditLogger;
+-import org.slc.sli.api.service.EntityNotFoundException;
+ import org.slc.sli.api.service.EntityService;
+ import org.slc.sli.api.util.SecurityUtil;
+ import org.slc.sli.common.util.logging.SecurityEvent;
+@@ -108,7 +108,7 @@ public class AdminDelegationResource {
+ 
+             String edOrg = SecurityUtil.getEdOrg();
+             if (edOrg == null) {
+-                throw new EntityNotFoundException("No edorg exists on principal.");
++                throw new APIAccessDeniedException("Can not grant access because no edOrg exists on principal.");
+             }
+ 
+             List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
+@@ -205,14 +205,14 @@ public class AdminDelegationResource {
+     private EntityBody getDelegationRecordForPrincipal() {
+         String edOrgId = SecurityUtil.getEdOrgId();
+         if (edOrgId == null) {
+-            throw new EntityNotFoundException("No edorg exists on principal.");
++            throw new APIAccessDeniedException("Can not grant access because no edOrg exists on principal.");
+         }
+ 
+         NeutralQuery query = new NeutralQuery();
+         query.addCriteria(new NeutralCriteria(LEA_ID, "=", edOrgId));
+         Iterator<EntityBody> it = service.list(query).iterator();
+         //Iterator<String> it = service.listIds(query).iterator();
+-        if (it.hasNext()){
++        if (it.hasNext()) {
+             return it.next();
+         } else {
+             return null;
+diff --git a/sli/api/src/main/java/org/slc/sli/api/resources/security/RealmResource.java b/sli/api/src/main/java/org/slc/sli/api/resources/security/RealmResource.java
+index 7b606b4..fc357e7 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/resources/security/RealmResource.java
++++ b/sli/api/src/main/java/org/slc/sli/api/resources/security/RealmResource.java
+@@ -136,7 +136,7 @@ public class RealmResource {
+             @Context final UriInfo uriInfo) {
+ 
+         if (updatedRealm == null) {
+-            throw new EntityNotFoundException("Entity was null");
++            throw new IllegalArgumentException("Updated Realm was null");
+         }
+ 
+         EntityBody oldRealm = service.get(realmId);
+diff --git a/sli/api/src/main/java/org/slc/sli/api/search/service/SearchResourceService.java b/sli/api/src/main/java/org/slc/sli/api/search/service/SearchResourceService.java
+index 78261fa..cd3ed53 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/search/service/SearchResourceService.java
++++ b/sli/api/src/main/java/org/slc/sli/api/search/service/SearchResourceService.java
+@@ -43,6 +43,7 @@ import org.elasticsearch.common.settings.ImmutableSettings;
+ import org.elasticsearch.common.settings.Settings;
+ import org.elasticsearch.node.Node;
+ import org.elasticsearch.node.NodeBuilder;
++import org.slc.sli.api.exceptions.EntityTypeNotFoundException;
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ import org.springframework.beans.factory.annotation.Autowired;
+@@ -68,7 +69,6 @@ import org.slc.sli.api.security.SLIPrincipal;
+ import org.slc.sli.api.security.context.ContextValidator;
+ import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+ import org.slc.sli.api.security.context.validator.IContextValidator;
+-import org.slc.sli.api.service.EntityNotFoundException;
+ import org.slc.sli.api.service.EntityService;
+ import org.slc.sli.api.service.query.ApiQuery;
+ import org.slc.sli.common.constants.EntityNames;
+@@ -393,7 +393,7 @@ public class SearchResourceService {
+       for (String resourceName : resourceNames.split(",")) {
+          def = resourceHelper.getEntityDefinition(resourceName);
+          if (def == null || !searchEntityDefinition.getService().collectionExists(def.getType())) {
+-            throw new EntityNotFoundException(resourceName);
++            throw new EntityTypeNotFoundException(resourceName);
+          }
+          entityTypes.add(def.getType());
+       }
+diff --git a/sli/api/src/main/java/org/slc/sli/api/security/context/ContextValidator.java b/sli/api/src/main/java/org/slc/sli/api/security/context/ContextValidator.java
+index c546780..843abf2 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/security/context/ContextValidator.java
++++ b/sli/api/src/main/java/org/slc/sli/api/security/context/ContextValidator.java
+@@ -393,36 +393,47 @@ public class ContextValidator implements ApplicationContextAware {
+     */
+     protected Set<String> getEntityIdsToValidate(EntityDefinition def, Collection<Entity> entities, boolean isTransitive, Collection<String> ids)
+                           throws APIAccessDeniedException, EntityNotFoundException {
+-         int found = 0;
+-         Set<String> entityIdsToValidate = new HashSet<String>();
+-            for (Entity ent : entities) {
+-                found++;
+-                Collection<String> userEdOrgs = edOrgHelper.getDirectEdorgs(ent);
+-                if (isOrphanCreatedByUser(ent)) {
+-                    LOG.debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
+-                } else if (SecurityUtil.getSLIPrincipal().getEntity() != null
++        Set<String> entityIdsToValidate = new HashSet<String>();
++        for (Entity ent : entities) {
++            Collection<String> userEdOrgs = edOrgHelper.getDirectEdorgs(ent);
++            if (isOrphanCreatedByUser(ent)) {
++                LOG.debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
++            } else if (SecurityUtil.getSLIPrincipal().getEntity() != null
+                         && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
+-                    LOG.debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
++                LOG.debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
++            } else {
++                if (ownership.canAccess(ent, isTransitive)) {
++                    entityIdsToValidate.add(ent.getEntityId());
+                 } else {
+-                    if (ownership.canAccess(ent, isTransitive)) {
+-                        entityIdsToValidate.add(ent.getEntityId());
+-                    } else {
+-                        throw new APIAccessDeniedException("Access to " + ent.getEntityId() + " is not authorized", userEdOrgs);
+-                    }
++                    throw new APIAccessDeniedException("Access to " + ent.getEntityId() + " is not authorized", userEdOrgs);
+                 }
+             }
++        }
+ 
+-            if (found != ids.size()) {
+-                LOG.debug("Invalid reference, an entity does not exist. collection: {} entities: {}",
+-                        def.getStoredCollectionName(), entities);
+-                throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + ids);
++        // report an EntityNotFoundException on the id we find without a corresponding entity
++        // so that we don't use the constructor for EntityNotFoundException incorrectly
++        if (entities.size() != ids.size()) {
++            for (String id : ids ) {
++                boolean foundentity = false;
++                for (Entity ent : entities) {
++                    if (ent.getEntityId().contains(id)){
++                    	foundentity = true;
++                    	break;
++                    }
++                }
++                if (!foundentity) {
++                    LOG.debug("Invalid reference, an entity does not exist. collection: {} entities: {}",
++                            def.getStoredCollectionName(), entities);
++                    throw new EntityNotFoundException(id);
++                }
+             }
++        }
+ 
+-         return entityIdsToValidate;
+-       }
++        return entityIdsToValidate;
++    }
+ 
+     /**
+-     * Returns true is the entity is an orphan that is created by the user, false otherwise
++     * Returns true if the entity is an orphan that is created by the user, false otherwise
+      *
+      * @param entity - Collection of entities to filter for validation
+      *
+diff --git a/sli/api/src/main/java/org/slc/sli/api/security/oauth/AuthController.java b/sli/api/src/main/java/org/slc/sli/api/security/oauth/AuthController.java
+index 9dfc519..6ec4b13 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/security/oauth/AuthController.java
++++ b/sli/api/src/main/java/org/slc/sli/api/security/oauth/AuthController.java
+@@ -28,7 +28,7 @@ import javax.ws.rs.core.Response;
+ import org.apache.commons.lang3.tuple.Pair;
+ import org.codehaus.jackson.map.ObjectMapper;
+ import org.slc.sli.api.init.RealmInitializer;
+-import org.slc.sli.api.representation.OAuthAccessExceptionHandler;
++import org.slc.sli.api.jersey.exceptionhandlers.OAuthAccessExceptionHandler;
+ import org.slc.sli.api.security.OauthSessionManager;
+ import org.slc.sli.api.security.saml.SamlHelper;
+ import org.slc.sli.api.util.SecurityUtil;
+diff --git a/sli/api/src/main/java/org/slc/sli/api/security/pdp/UriMutator.java b/sli/api/src/main/java/org/slc/sli/api/security/pdp/UriMutator.java
+index ea70732..412c981 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/security/pdp/UriMutator.java
++++ b/sli/api/src/main/java/org/slc/sli/api/security/pdp/UriMutator.java
+@@ -33,6 +33,7 @@ import javax.ws.rs.core.PathSegment;
+ 
+ import org.apache.commons.lang3.StringUtils;
+ import org.apache.commons.lang3.tuple.Pair;
++import org.slc.sli.api.exceptions.UriMutationException;
+ import org.slc.sli.api.resources.security.ApplicationResource;
+ import org.slc.sli.api.security.RightsAllowed;
+ import org.slc.sli.domain.enums.Right;
+@@ -50,11 +51,9 @@ import org.slc.sli.api.constants.PathConstants;
+ import org.slc.sli.api.constants.ResourceNames;
+ import org.slc.sli.api.security.SLIPrincipal;
+ import org.slc.sli.api.security.context.APIAccessDeniedException;
+-import org.slc.sli.api.security.context.ResponseTooLargeException;
+ import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+ import org.slc.sli.api.security.context.resolver.GradingPeriodHelper;
+ import org.slc.sli.api.security.context.resolver.SectionHelper;
+-import org.slc.sli.api.service.EntityNotFoundException;
+ import org.slc.sli.api.util.SecurityUtil;
+ import org.slc.sli.api.util.SessionUtil;
+ import org.slc.sli.common.constants.EntityNames;
+@@ -370,7 +369,7 @@ public class UriMutator {
+      *         to be rewritten.
+      */
+     private MutatedContainer mutateUriAsNecessary(List<PathSegment> segments, String queryParameters, Entity user)
+-            throws ResponseTooLargeException {
++            throws IllegalArgumentException {
+         MutatedContainer mutatedPathAndParameters = null;
+         if (mutateToTeacher()) {
+             mutatedPathAndParameters = mutateTeacherRequest(segments, queryParameters, user);
+@@ -499,8 +498,7 @@ public class UriMutator {
+                 mutated.setPath(String.format("/schools/%s/teacherSchoolAssociations",
+                         StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+             } else if (PathConstants.STAFF.equals(baseEntity)) {
+-                mutated.setPath(String.format(
+-                        "/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff",
++                mutated.setPath(String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff",
+                         StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+             } else if (PathConstants.STAFF_COHORT_ASSOCIATIONS.equals(baseEntity)) {
+                 mutated.setPath(String.format("/cohorts/%s/staffCohortAssociations", getCohortIds(principal)));
+@@ -760,17 +758,17 @@ public class UriMutator {
+     }
+ 
+     /**
+-     * Throws Response Too Large exception if there are multiple _id's specified in the transitive
++     * Throws Illegal Argument exception if there are multiple _id's specified in the transitive
+      * _id path segment.
+      *
+      * @param id
+      *            String representing transitive _id path segment.
+-     * @throws ResponseTooLargeException
++     * @throws IllegalArgumentException
+      *             Thrown if multiple _id's are specified (only one should be specified).
+      */
+-    protected void verifySingleTransitiveId(String id) throws ResponseTooLargeException {
++    protected void verifySingleTransitiveId(String id) throws IllegalArgumentException {
+         if (id.split(",").length > 1) {
+-            throw new ResponseTooLargeException();
++            throw new IllegalArgumentException();
+         }
+     }
+ 
+@@ -1242,7 +1240,7 @@ public class UriMutator {
+         }
+ 
+         if (programsIds == null || programsIds.isEmpty()) {
+-            throw new EntityNotFoundException("No association to any programs");
++            throw new UriMutationException("No association to any educational programs");
+         }
+ 
+         return programsIds;
+@@ -1264,7 +1262,7 @@ public class UriMutator {
+         }
+ 
+         if (cohortsIds == null || cohortsIds.isEmpty()) {
+-            throw new EntityNotFoundException("No association to any cohorts");
++            throw new UriMutationException("No association to any cohorts");
+         }
+         return cohortsIds;
+     }
+diff --git a/sli/api/src/main/java/org/slc/sli/api/translator/URITranslator.java b/sli/api/src/main/java/org/slc/sli/api/translator/URITranslator.java
+index 77dbc2b..4475708 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/translator/URITranslator.java
++++ b/sli/api/src/main/java/org/slc/sli/api/translator/URITranslator.java
+@@ -27,6 +27,7 @@ import javax.ws.rs.core.PathSegment;
+ import com.sun.jersey.spi.container.ContainerRequest;
+ 
+ import org.apache.commons.lang3.StringUtils;
++import org.slc.sli.api.exceptions.URITranslationException;
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ import org.springframework.beans.factory.annotation.Autowired;
+@@ -37,7 +38,6 @@ import org.slc.sli.common.constants.EntityNames;
+ import org.slc.sli.api.constants.PathConstants;
+ import org.slc.sli.api.constants.ResourceNames;
+ import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+-import org.slc.sli.api.service.EntityNotFoundException;
+ import org.slc.sli.domain.Entity;
+ import org.slc.sli.domain.NeutralCriteria;
+ import org.slc.sli.domain.NeutralQuery;
+@@ -242,7 +242,7 @@ public class URITranslator {
+                 }
+                 if (translatedIdList.isEmpty()) {
+                     LOG.warn("Failed upversioning rewrite {} -> {} due not being able to find intermediate entities", requestPath, this.transformTo);
+-                    throw new EntityNotFoundException("Upversioning rewrite failed.  No target entities found.");
++                    throw new URITranslationException("Upversioning rewrite failed.  No target entities found.");
+                 }
+             }
+ 
+diff --git a/sli/api/src/test/java/org/slc/sli/api/representation/InsufficientAuthenticationHandlerTest.java b/sli/api/src/test/java/org/slc/sli/api/representation/InsufficientAuthenticationHandlerTest.java
+index 56eafef..37c0640 100644
+--- a/sli/api/src/test/java/org/slc/sli/api/representation/InsufficientAuthenticationHandlerTest.java
++++ b/sli/api/src/test/java/org/slc/sli/api/representation/InsufficientAuthenticationHandlerTest.java
+@@ -27,10 +27,8 @@ import javax.ws.rs.core.Response;
+ 
+ import org.junit.Test;
+ import org.junit.runner.RunWith;
+-import org.mockito.InjectMocks;
+-import org.mockito.Mock;
+ import org.mockito.Mockito;
+-import org.mockito.stubbing.Answer;
++import org.slc.sli.api.jersey.exceptionhandlers.InsufficientAuthenticationHandler;
+ import org.slc.sli.api.security.SecurityEventBuilder;
+ import org.slc.sli.api.security.service.AuditLogger;
+ import org.slc.sli.api.test.WebContextTestExecutionListener;
+diff --git a/sli/api/src/test/java/org/slc/sli/api/representation/QueryParseExceptionHandlerTest.java b/sli/api/src/test/java/org/slc/sli/api/representation/QueryParseExceptionHandlerTest.java
+index 1bd5dc8..d39c0b4 100644
+--- a/sli/api/src/test/java/org/slc/sli/api/representation/QueryParseExceptionHandlerTest.java
++++ b/sli/api/src/test/java/org/slc/sli/api/representation/QueryParseExceptionHandlerTest.java
+@@ -19,6 +19,7 @@ import static org.junit.Assert.assertFalse;
+ import static org.junit.Assert.assertTrue;
+ 
+ import org.junit.Test;
++import org.slc.sli.api.jersey.exceptionhandlers.QueryParseExceptionHandler;
+ import org.slc.sli.domain.QueryParseException;
+ 
+ import javax.ws.rs.core.Response;
+diff --git a/sli/api/src/test/java/org/slc/sli/api/resources/security/AdminDelegationResourceTest.java b/sli/api/src/test/java/org/slc/sli/api/resources/security/AdminDelegationResourceTest.java
+index f4107ac..1e53c51 100644
+--- a/sli/api/src/test/java/org/slc/sli/api/resources/security/AdminDelegationResourceTest.java
++++ b/sli/api/src/test/java/org/slc/sli/api/resources/security/AdminDelegationResourceTest.java
+@@ -18,19 +18,14 @@
+ package org.slc.sli.api.resources.security;
+ 
+ import javax.ws.rs.core.Response;
+-import javax.ws.rs.core.UriInfo;
+ 
+ import junit.framework.Assert;
+ 
+ import org.junit.Test;
+ import org.junit.runner.RunWith;
+-import org.mockito.Mockito;
+-import org.slc.sli.api.representation.EntityBody;
+ import org.slc.sli.api.resources.SecurityContextInjector;
+-import org.slc.sli.api.resources.util.ResourceTestUtil;
+ import org.slc.sli.api.security.SLIPrincipal;
+-import org.slc.sli.api.security.SecurityEventBuilder;
+-import org.slc.sli.api.service.EntityNotFoundException;
++import org.slc.sli.api.security.context.APIAccessDeniedException;
+ import org.slc.sli.api.test.WebContextTestExecutionListener;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.security.core.context.SecurityContextHolder;
+@@ -58,19 +53,18 @@ public class AdminDelegationResourceTest {
+     @Autowired
+     private SecurityContextInjector securityContextInjector;
+ 
+-    @Test(expected = EntityNotFoundException.class)
++    @Test(expected = APIAccessDeniedException.class)
+     public void testGetDelegationsNoEdOrg() throws Exception {
+ 
+         securityContextInjector.setLeaAdminContext();
+         resource.getDelegations();
+-
+     }
+ 
+     @Test
+     public void testGetDelegationsBadRole() throws Exception {
+ 
+         securityContextInjector.setEducatorContext();
+-        Assert.assertEquals(resource.getDelegations().getStatus(), Response.Status.FORBIDDEN.getStatusCode());
++        Assert.assertEquals(Response.Status.FORBIDDEN.getStatusCode(), resource.getDelegations().getStatus());
+ 
+     }
+ 
+@@ -82,6 +76,6 @@ public class AdminDelegationResourceTest {
+         ((SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setEdOrgId("1234");
+ 
+ 
+-        Assert.assertEquals(resource.getSingleDelegation().getStatus(), Response.Status.NOT_FOUND.getStatusCode());
++        Assert.assertEquals(Response.Status.NOT_FOUND.getStatusCode(), resource.getSingleDelegation().getStatus());
+     }
+ }
+diff --git a/sli/api/src/test/java/org/slc/sli/api/resources/security/RealmResourceTest.java b/sli/api/src/test/java/org/slc/sli/api/resources/security/RealmResourceTest.java
+index 1966135..43cf457 100644
+--- a/sli/api/src/test/java/org/slc/sli/api/resources/security/RealmResourceTest.java
++++ b/sli/api/src/test/java/org/slc/sli/api/resources/security/RealmResourceTest.java
+@@ -45,7 +45,6 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
+ import org.slc.sli.api.representation.EntityBody;
+ import org.slc.sli.api.resources.SecurityContextInjector;
+ import org.slc.sli.api.resources.util.ResourceTestUtil;
+-import org.slc.sli.api.service.EntityNotFoundException;
+ import org.slc.sli.api.service.EntityService;
+ import org.slc.sli.api.test.WebContextTestExecutionListener;
+ 
+@@ -117,7 +116,7 @@ public class RealmResourceTest {
+ 
+             resource.updateRealm("-1", null, null);
+             assertFalse(false);
+-        } catch (EntityNotFoundException e) {
++        } catch (IllegalArgumentException e) {
+             assertTrue(true);
+         }
+         UriInfo uriInfo = ResourceTestUtil.buildMockUriInfo("");
+diff --git a/sli/api/src/test/java/org/slc/sli/api/security/context/ContextValidatorTest.java b/sli/api/src/test/java/org/slc/sli/api/security/context/ContextValidatorTest.java
+index ee4ccd4..db41aae 100644
+--- a/sli/api/src/test/java/org/slc/sli/api/security/context/ContextValidatorTest.java
++++ b/sli/api/src/test/java/org/slc/sli/api/security/context/ContextValidatorTest.java
+@@ -252,14 +252,15 @@ public class ContextValidatorTest {
+         Mockito.when(edOrgHelper.getDirectEdorgs(Mockito.eq(student1))).thenReturn(new HashSet<String>(Arrays.asList("edOrg1")));
+         boolean isTransitive = false;
+         Mockito.when(ownership.canAccess(student1, isTransitive)).thenReturn(true);
+-
+-        Collection<String> ids = new HashSet<String>(Arrays.asList("student1"));
+-
++        
++        String id = "student1";
++        Collection<String> ids = new HashSet<String>(Arrays.asList(id));
++        
+         try {
+             contextValidator.validateContextToEntities(def, ids, isTransitive);
+             Assert.fail();
+         } catch (EntityNotFoundException ex) {
+-            Assert.assertEquals("Could not locate " + def.getType() + " with ids " + ids, ex.getId());
++            Assert.assertEquals(id, ex.getId());
+         }
+     }
+ 
