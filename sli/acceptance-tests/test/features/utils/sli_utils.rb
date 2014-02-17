@@ -338,7 +338,10 @@ def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId, 
   header.merge!(extra_headers) if extra_headers !=nil
   
   puts "GET TLS urlHeader: #{urlHeader}" if $SLI_DEBUG
-
+  puts "url #{urlHeader[:url]}" if $SLI_DEBUG
+  puts "client_cert #{client_cert}" if $SLI_DEBUG
+  puts "client_key #{private_key}" if $SLI_DEBUG
+  puts "headers #{header}" if $SLI_DEBUG
   @res = RestClient::Request.execute(:method => :get, :url => urlHeader[:url], :headers => header, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
   puts(@res.code,@res.raw_headers) if $SLI_DEBUG
   return @res
