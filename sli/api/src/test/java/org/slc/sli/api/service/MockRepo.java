@@ -16,22 +16,11 @@
 
 package org.slc.sli.api.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-
 import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
-
 import org.bson.BasicBSONObject;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -39,14 +28,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.AccessibilityCheck;
-import org.slc.sli.domain.CalculatedData;
-import org.slc.sli.domain.CascadeResult;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Mock implementation of the Repository<Entity> for unit testing.
@@ -146,6 +129,10 @@ public class MockRepo implements Repository<Entity> {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Object getValue(Entity entity, String key, boolean prefixable) {
+        if(key == "body") {
+            return entity.getBody();
+        }
+
         if (!"_id".equals(key) && prefixable) {
             key = "body." + key;
         }

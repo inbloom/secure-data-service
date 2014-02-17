@@ -54,6 +54,11 @@ public class ParameterConstants {
     public static final String EXPAND_DEPTH = "expandDepth";
 
     /**
+     * Query parameter to designate a query to return only the count, not the data
+     */
+    public static final String COUNT_ONLY = "countOnly";		// DS-1046 - provide countOnly option on queries
+    
+    /**
      * Query parameter for fields to include.
      */
     public static final String SELECTOR = "selector";
