@@ -123,6 +123,7 @@ public class UriMutatorTest {
         Assert.assertEquals("Bad endpoint of /v1 is redirected to v1/home safely", createMutatedContainer("/home", "").toString(),
                 mutator.mutate(Arrays.asList(v1), null, principal, "nonAdminAppId").toString());
     }
+    
 
     @Test
     public void testDeterministicRewrite() {

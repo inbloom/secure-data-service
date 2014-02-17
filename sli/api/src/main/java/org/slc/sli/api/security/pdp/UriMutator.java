@@ -1634,7 +1634,9 @@ public class UriMutator {
 	private String getProgramIds(SLIPrincipal principal) {
 		Set<String> programIds = new HashSet<String>();
 		for (Entity student : principal.getOwnedStudentEntities()) {
+
 			programIds.addAll(getProgramIdsForStudent(student));
+
 		}
 
 		return StringUtils.join(programIds, ",");
@@ -1647,7 +1649,8 @@ public class UriMutator {
 					EntityNames.STUDENT_PROGRAM_ASSOCIATION,
 					ParameterConstants.PROGRAM_ID);
 		} else {
-			throw new UriMutationException("No student found");
+			throw new UriMutationException(
+					"Failed to fetch Program Id due to entity type not being student");
 		}
 
 		return programsIds;
@@ -1656,7 +1659,9 @@ public class UriMutator {
 	private String getCohortIds(SLIPrincipal principal) {
 		Set<String> cohortsIds = new HashSet<String>();
 		for (Entity student : principal.getOwnedStudentEntities()) {
+
 			cohortsIds.addAll(getCohortIdsForStudent(student));
+
 		}
 
 		return StringUtils.join(cohortsIds, ",");
@@ -1671,7 +1676,8 @@ public class UriMutator {
 		}
 
 		else {
-			throw new UriMutationException("No student found");
+			throw new UriMutationException(
+					"Failed to fetch Cohort Id due to entity type not being student");
 		}
 		return cohortsIds;
 	}
