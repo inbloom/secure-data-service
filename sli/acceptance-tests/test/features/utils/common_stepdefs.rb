@@ -246,6 +246,20 @@ Then /^I should receive a link named "([^"]*)"$/ do |arg1|
   step "in an entity, I should receive a link named \"#{arg1}\""
 end
 
+Given /^LDAP server has been setup and running$/ do
+  @ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
+                          Property['ldap_base'], Property['ldap_admin_user'],
+                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
+  @email_sender_name= "Administrator"
+  @email_sender_address= "noreply@slidev.org"
+  @email_conf = {
+      :host =>  Property['email_smtp_host'],
+      :port => Property['email_smtp_port'],
+      :sender_name => @email_sender_name,
+      :sender_email_addr => @email_sender_address
+  }
+end
+
 Then /^in an entity, I should receive a link named "([^"]*)"$/ do |arg1|
   @the_link = []
   @id_link = []
