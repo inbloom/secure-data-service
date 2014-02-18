@@ -19,7 +19,7 @@ class DbClient
   end
 
   def for_sli
-    @db = @conn[Property[:sli_database_name]
+    @db = @conn[Property[:sli_database_name]]
   end
 
   def close
