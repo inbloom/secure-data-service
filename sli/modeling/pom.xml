@@ -4,7 +4,7 @@
   <parent>
     <artifactId>sli</artifactId>
     <groupId>org.slc.sli</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.DS-1033.96.811</version>
   </parent>
   <groupId>org.slc.sli.modeling</groupId>
   <artifactId>modeling</artifactId>
