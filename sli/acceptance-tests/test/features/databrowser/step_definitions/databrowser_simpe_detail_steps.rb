@@ -332,6 +332,12 @@ Then /^I click on the link "(.*?)"$/ do |link|
   end
 end
 
+Then /^I should see a count of <Total> for id <ID> staff total and <Current> for current$/ do |table|
+  table.hashes.each do |hash|
+    assertWithWait("Failed to find the appropriate total count text") { @driver.find_element(:xpath, "//table[@id='edorgcounts_#{hash['ID']}']//tr[1]/td[2][contains(text(), '#{hash['Total']}')]") }
+    assertWithWait("Failed to find the appropriate total count text") { @driver.find_element(:xpath, "//table[@id='edorgcounts_#{hash['ID']}']//tr[1]/td[3][contains(text(), '#{hash['Current']}')]") }
+  end
+end
 
 Then /^I should see a count of "([^"]*)" for id "([^"]*)" staff total and "([^"]*)" for current$/ do |arg1, arg2, arg3|
   assertWithWait("Failed to find the appropriate total count text") { @driver.find_element(:xpath, "//table[@id='edorgcounts_#{arg2}']//tr[1]/td[2][contains(text(), '#{arg1}')]") }

@@ -167,44 +167,21 @@ module EntitiesHelper
     
     # Set up the header of the table
     html ||= ""
-    html << "<table class=\"edOrg\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
+    html << "<table id=\"edorgcounts_#{entity['id']}\" class=\"edOrg\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
 
-    # Get the entity ID so that it can be used for passing to other functions instead of the full entity
-    entity_id = entity['id']
-
-    counts = Hash.new
-
-    # Get the relevent counts for the top level entity
-    counts["staff_total"] = get_counts(entity_id, "staff")
-    counts["staff_current"] = get_counts(entity_id, "staff", false)
-    counts["students_total"] = get_counts(entity_id, "students")
-    counts["students_current"] = get_counts(entity_id, "students", false)
-    counts = get_teacher_and_non_counts(entity_id, counts)
-    counts = get_teacher_and_non_counts(entity_id, counts, false)
-    
-    # Retrieve the Organizations that this is the parent of and their children and so on
-    # from the function below
-    feederEdOrgs = []
-    feederEdOrgs = get_feeder_edorgs(entity_id)
-
-    # For each of the children EdOrgs, retrieve their relevent counts and add them to the total
-    feederEdOrgs.each do |ed_org|
-      ed_org_id = ed_org['id']
-      counts["staff_total"] += get_counts(ed_org_id, "staff")
-      counts["staff_current"] += get_counts(ed_org_id, "staff", false)
-      counts["students_total"] += get_counts(ed_org_id, "students")
-      counts["students_current"] += get_counts(ed_org_id, "students", false)
+    # Build the list of EdOrgs and it's children
+    ed_orgs = []
+    ed_orgs << entity
+    get_feeder_edorgs(entity['id'], ed_orgs)
       
-      # Since teacher and non-teacher come back as a hash a little more work is required
-      counts = get_teacher_and_non_counts(ed_org_id, counts)
-      counts = get_teacher_and_non_counts(ed_org_id, counts, false)
-    end
-
+    student_counts = get_student_counts(ed_orgs)
+    staff_counts = get_staff_counts(ed_orgs)
+      
     # Add all of the counts to the table
-    html << "<tr><td>Staff</td><td>#{counts['staff_total']}</td><td>#{counts['staff_current']}</td></tr>"
-    html << "<tr><td>Students</td><td>#{counts['students_total']}</td><td>#{counts['students_current']}</td></tr>"
-    html << "<tr><td>Teachers</td><td>#{counts['teachers_total']}</td><td>#{counts['teachers_current']}</td></tr>"
-    html << "<tr><td>Non-Teachers</td><td>#{counts['non-teachers_total']}</td><td>#{counts['non-teachers_current']}</td></tr>"
+    html << "<tr><td>Staff</td><td>#{staff_counts['total']}</td><td>#{staff_counts['current']}</td></tr>"
+    html << "<tr><td>Students</td><td>#{student_counts['total']}</td><td>#{student_counts['current']}</td></tr>"
+    html << "<tr><td>Teachers</td><td>#{staff_counts['total_teachers']}</td><td>#{staff_counts['current_teachers']}</td></tr>"
+    html << "<tr><td>Non-Teachers</td><td>#{staff_counts['total_non_teachers']}</td><td>#{staff_counts['current_non_teachers']}</td></tr>"
 
     # End the table
     html << "</tbody></table>"
@@ -243,26 +220,35 @@ module EntitiesHelper
   # Retrieves the counts from the api for students and staff. This takes the entity_type as a variable so that
   # the appropriate url can be chosen based on the count needed. If total = true, this returns all of the entities
   # and if total is false, the currentOnly parameter is passed to the api.
-  def get_counts(entity_id, entity_type, total = true)
-    count = 0
-    if (entity_type == "students")
-      url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{entity_id}/studentSchoolAssociations/students"
-    elsif (entity_type == "staff")
-      url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{entity_id}/staffEducationOrgAssignmentAssociations/staff"
-    else
-      logger.info("Invalid Entity For counts")
-      return
+  def get_student_counts(ed_orgs)
+    total = Hash.new
+    current = Hash.new
+    #UseForTotaltotal = 0
+    #UseForTotalcurrent = 0
+    ed_orgs.each do | ed_org |
+      url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{ed_org['id']}/studentSchoolAssociations?limit=0"
+      begin
+        entities = RestClient.get(url, get_header)
+        entities = JSON.parse(entities)
+        entities.each do | entity |
+          total[entity['studentId']] = entity['studentId']
+          #UseForTotaltotal += 1
+          if (is_current(entity))
+            current[entity['studentId']] = entity['studentId']
+            #UseForTotalcurrent += 1
+          end
+        end
+      rescue => e
+        logger.info("Could not get student counts for #{ed_org['id']} because of #{e.message}")
+      end
     end
-    url = "#{url}?limit=0&countOnly=true"
-    if !total
-      url = "#{url}&currentOnly=true"
-    end
-    begin
-      count = RestClient.get(url, get_header)
-      count = count.headers[:totalcount].to_i
-    rescue => e
-    end
-    count
+    result = Hash.new
+    #UseForTotalresult['total'] = total
+    #UseForTotalresult['current'] = current
+    result['total'] = total.size()
+    result['current'] = current.size()
+    
+    result
   end
 
   # This function is used to retrieve the teacher and non-teacher counts for the edOrg that is passed
@@ -270,44 +256,111 @@ module EntitiesHelper
   # staffClassification. If the classification is Educator then it is a teacher and the teachers
   # count is incremented, otherwise, the non-teacher count is incremented. This returns a Hash
   # of the two counts
-  def get_teacher_and_non_counts(entity_id, counts = nil, total = true)
-    if counts.nil?
-      counts = Hash.new
-    end
-    url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{entity_id}/staffEducationOrgAssignmentAssociations"
+  def get_staff_counts(ed_orgs)
+# Can be used for unique staff
+#UseForUnique    total = Hash.new
+#UseForUnique    current = Hash.new
+#UseForUnique    total_teachers = Hash.new
+#UseForUnique    total_non_teachers = Hash.new
+#UseForUnique    current_teachers = Hash.new
+#UseForUnique    current_non_teachers = Hash.new
 
-    teacher_key = "teachers_total"
-    non_teacher_key = "non-teachers_total"
-    if !total
-      url = "#{url}?current_only=true"
-      teacher_key = "teachers_current"
-      non_teacher_key = "non-teachers_current"
-    end
+    total = 0
+    current = 0
+    total_teachers = 0
+    total_non_teachers = 0
+    current_teachers = 0
+    current_non_teachers = 0
 
-    # Populate default counts with 0 if they do not have value
-    if counts[teacher_key].nil?
-      counts[teacher_key] = 0
-    end
-    if counts[non_teacher_key].nil?
-      counts[non_teacher_key] = 0
-    end
+    ed_orgs.each do | ed_org |
+      url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{ed_org['id']}/staffEducationOrgAssignmentAssociations?limit=0"
 
-    begin
-        
-      associations = RestClient.get(url, get_header)
-      associations = JSON.parse(associations)
-      associations.each do |association|
-        if (!association['staffClassification'].nil?)
-          if (association['staffClassification'].include? "Educator")
-            counts[teacher_key] += 1
-          else
-            counts[non_teacher_key] += 1
+      begin
+        associations = RestClient.get(url, get_header)
+        associations = JSON.parse(associations)
+        associations.each do |association|
+          # Increment the total
+          #UseForUniquetotal[association['staffReference']] = association['staffReference']
+          total += 1
+          
+          # Increment totals for teachers and non-teachers as necessary for totals
+          if (!association['staffClassification'].nil?)
+            if (association['staffClassification'].include? "Educator")
+              #UseForUniquetotal_teachers[association['staffReference']] = association['staffReference']
+              total_teachers += 1
+            else
+              #UseForUniquetotal_non_teachers[association['staffReference']] = association['staffReference']
+              total_non_teachers += 1
+            end
           end
+          
+          # Increment current for staff, teachers and non-teachers
+          if (is_current(association))
+            #UseForUniquecurrent[association['staffReference']] = association['staffReference']
+            current += 1
+            if (!association['staffClassification'].nil?)
+              if (association['staffClassification'].include? "Educator")
+                current_teachers += 1
+                #UseForUniquecurrent_teachers[association['staffReference']] = association['staffReference']
+              else
+                current_non_teachers += 1
+                #UseForUniquecurrent_non_teachers[association['staffReference']] = association['staffReference']
+              end
+            end
+          end
+          
         end
+      rescue => e 
       end
-    rescue => e 
     end
     
-    counts
+    result = Hash.new
+    result['total'] = total#UseForUnique.size()
+    result['current'] = current#UseForUnique.size()
+    result['total_teachers'] = total_teachers#UseForUnique.size()
+    result['total_non_teachers'] = total_non_teachers#UseForUnique.size()
+    result['current_teachers'] = current_teachers#UseForUnique.size()
+    result['current_non_teachers'] = current_non_teachers#UseForUnique.size()
+    result    
+  end
+
+  private
+  def is_current(entity)
+    result = false
+
+    now = Date.today
+    
+    begin_date_field = "beginDate"
+    end_date_field = "endDate"
+    
+    begin_date = nil
+    end_date = nil
+    
+    if (entity['entityType'] == "studentSchoolAssociation")
+      begin_date_field = "entryDate"
+      end_date_field = "exitWithdrawDate"
+    end
+    
+    if (entity[begin_date_field].nil?)
+      begin_date = now - 1
+    else
+      begin_date = Date.strptime(entity[begin_date_field], "%F") 
+    end
+
+    if (entity[end_date_field].nil?)
+      end_date = now + 1
+    else 
+      end_date = Date.strptime(entity[end_date_field], "%F")
+    end
+
+    if (begin_date <= now) and (end_date >= now)
+      result = true
+    end
+    
+    if (entity['studentId'] == "b8e346c8-025e-44ba-9ae1-f2fa4e832b08_id")
+      logger.info("Begin Date: #{begin_date} End Date: #{end_date} Result: #{result} Id: #{entity['id']}")
+    end
+    result
+   
   end
 end
