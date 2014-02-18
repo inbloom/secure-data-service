@@ -104,14 +104,21 @@ module EntitiesHelper
           begin
             url = link['href']
             if (url.include? "?")
-              url = "#{url}&limit=0&countOnly=true"
+              url = "#{url}&limit=0"
             else
-              url = "#{url}?limit=0&countOnly=true"
+              url = "#{url}?limit=0"
             end
 
-            totalCount = RestClient.get(url, get_header).headers[:totalcount]
-            url = "#{url}&currentOnly=true"
-            currentCount = RestClient.get(url, get_header).headers[:totalcount]
+            entities = RestClient.get(url, get_header)
+            entities = JSON.parse(entities)
+            totalCount = entities.size()
+            currentCount = 0
+            entities.each do |entity|
+              if (is_current(entity))
+                currentCount += 1
+              end
+            end
+
             html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << " (#{totalCount}/#{currentCount})" << '</li>'
           
           rescue => e
@@ -198,5 +205,45 @@ module EntitiesHelper
     header[:accept] = :json
     header
   end
+
+private
+def is_current(entity)
+  result = false
+
+  now = Date.today
+  
+  begin_date_field = "beginDate"
+  end_date_field = "endDate"
+  
+  begin_date = nil
+  end_date = nil
+  
+  if (entity['entityType'] == "studentSchoolAssociation")
+    begin_date_field = "entryDate"
+    end_date_field = "exitWithdrawDate"
+  end
+  
+  if (entity[begin_date_field].nil?)
+    begin_date = now - 1
+  else
+    begin_date = Date.strptime(entity[begin_date_field], "%F") 
+  end
+
+  if (entity[end_date_field].nil?)
+    end_date = now + 1
+  else 
+    end_date = Date.strptime(entity[end_date_field], "%F")
+  end
+
+  if (begin_date <= now) and (end_date >= now)
+    result = true
+  end
+  
+  if (entity['studentId'] == "b8e346c8-025e-44ba-9ae1-f2fa4e832b08_id")
+    logger.info("Begin Date: #{begin_date} End Date: #{end_date} Result: #{result} Id: #{entity['id']}")
+  end
+  result
+ 
+end
 
 end
