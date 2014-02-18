@@ -37,7 +37,7 @@ def add_for_cleanup(collection, name)
 end
 
 After('@admin_smoke') do
-  db_client = DbClient.new(:db_name => Property[:sli_database_name])
+  db_client = DbClient.new.for_sli
   @created_entities.each do |collection, name|
     db_client.remove(collection.to_s, {'body.name' => name})
   end

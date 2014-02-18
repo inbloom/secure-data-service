@@ -18,6 +18,10 @@ class DbClient
     @db = @conn[tenant_to_db_name(tenant)]
   end
 
+  def for_sli
+    @db = @conn[Property[:sli_database_name]
+  end
+
   def close
     @conn.close
   end
