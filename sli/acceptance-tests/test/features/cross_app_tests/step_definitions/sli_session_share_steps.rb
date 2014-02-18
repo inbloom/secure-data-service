@@ -54,7 +54,7 @@ Given /^I selected the realm "([^"]*)"$/ do |arg1|
 end
 
 Then /^I am redirected to the databrowser home page$/ do
-  assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Listing Home")}
+  assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Welcome to the inBloom, inc. Data Browser")}
 end
 
 When /^I navigate to the dashboard page$/ do
