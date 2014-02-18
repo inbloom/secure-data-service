@@ -250,3 +250,23 @@ Examples:
   | "Illinois Daybreak Students"             | "carmen.ortiz" | "carmen.ortiz1234" | "My Schools"                   | "Pass" |
   | "Illinois Daybreak Students"             | "carmen.ortiz" | "carmen.ortiz1234" | "My Sections"                  | "Fail" |
   | "Illinois Daybreak Students"             | "carmen.ortiz" | "carmen.ortiz1234" | "GetStudentParentAssociations" | "Fail" |
+
+Scenario Outline: EducationOrganization table should have the following counts in the table
+
+Given I have an open web browser
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+And I click on the "GetEducationOrganizations" link
+And I click on the "GetFeederEducationOrganizations" link
+When I click on the row containing <ID>
+Then I should see a count of <Total> for id <ID> staff total and <Current> for current
+
+Examples:
+  | ID						| Total	| Current |
+  | "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"	| "4"	| "4"	  |
+  | "8cc0a1ac-ccb5-dffc-1d74-32964722179b"	| "0"	| "0"     |
+  | "ec2e4218-6483-4e9c-8954-0aecccfd4731"      | "8"   | "4"     |
