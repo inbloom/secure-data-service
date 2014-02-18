@@ -44,11 +44,10 @@ Quick tips:
       
       
       <div>
-	<%= @edorg_tree_html.html_safe %>
+	    <%= @edorg_tree_html.html_safe %>
       </div>
 
-      <%= @treeHelperDebug.html_safe %>
-      </br>
+      <p><%= @treeHelperDebug.html_safe %></p>
 
       <%= f.submit 'Save & Update' %>
       <button onclick="window.location.href='/application_authorizations'">Cancel</button>
