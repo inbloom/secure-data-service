@@ -356,10 +356,6 @@ module EntitiesHelper
     if (begin_date <= now) and (end_date >= now)
       result = true
     end
-    
-    if (entity['studentId'] == "b8e346c8-025e-44ba-9ae1-f2fa4e832b08_id")
-      logger.info("Begin Date: #{begin_date} End Date: #{end_date} Result: #{result} Id: #{entity['id']}")
-    end
     result
    
   end
