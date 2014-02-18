@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>org.slc.sli</groupId>
     <artifactId>sli</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -8,92 +12,117 @@
     <name>SLI</name>
     <description>Shared Learning Infrastructure</description>
     <url>http://sli.wgen.net</url>
+
     <scm>
         <connection>scm:git:git@github.com:inbloomdev/datastore.git</connection>
         <developerConnection>scm:git:git@github.com:inbloomdev/datastore.git</developerConnection>
         <url>https://github.com/inbloomdev/datastore</url>
     </scm>
+
     <properties>
-        <!-- End of Release process-->
+        <!-- Project-level Properties -->
         <java.version>1.6</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <lifecycle.mapping.version>1.0.0</lifecycle.mapping.version>
-        <sli.build.tools>1.0-SNAPSHOT</sli.build.tools>
-        <!-- Maven Plugin Versions -->
-        <maven.compiler.version>2.3.2</maven.compiler.version>
-        <maven.jar.version>2.3.2</maven.jar.version>
-        <maven.checkstyle.version>2.9.1</maven.checkstyle.version>
-        <maven.findbugs.version>2.3.2</maven.findbugs.version>
-        <maven.surefire.version>2.12</maven.surefire.version>
-        <maven.eclipse.version>2.8</maven.eclipse.version>
-        <maven.jaxb2.version>1.3.1</maven.jaxb2.version>
-        <maven.tomcat.version>1.1</maven.tomcat.version>
-        <maven.jetty.version>6.1.12</maven.jetty.version>
-        <maven.release.version>2.2</maven.release.version>
-        <maven.pmd.version>2.7.1</maven.pmd.version>
-        <maven.jdepend.version>2.0-beta-2</maven.jdepend.version>
-        <maven.resources.version>2.6</maven.resources.version>
-        <maven.deploy.version>2.7</maven.deploy.version>
-        <maven.war.version>2.3</maven.war.version>
-        <maven.jar.version>2.4</maven.jar.version>
-        <maven.install.version>2.4</maven.install.version>
-        <!-- Spring Framework Versions -->
-        <spring.version>3.0.7.RELEASE</spring.version>
-        <springdata.version>1.2.1.RELEASE</springdata.version>
-        <springdata-mongodb-version>1.0.4.RELEASE</springdata-mongodb-version>
-        <bean.validator.version>4.2.0.Final</bean.validator.version>
-        <!-- MongoDB Java Driver Version -->
-        <mongodb.java.driver.version>2.10.1</mongodb.java.driver.version>
-        <!-- Java EE Versions -->
-        <javax.validation.version>1.0.0.GA</javax.validation.version>
-        <javax.el.version>2.2</javax.el.version>
-        <javax.servlet.version>2.4</javax.servlet.version>
-        <javax.jstl.version>1.2</javax.jstl.version>
-        <taglibs.version>1.1.2</taglibs.version>
-        <!-- Apache Versions -->
-        <commons.cli.version>1.2</commons.cli.version>
-        <commons.lang.version>3.0.1</commons.lang.version>
-        <commons.io.version>2.2</commons.io.version>
-        <commons.codec.version>1.6</commons.codec.version>
-        <xerces.version>2.4.0</xerces.version>
-        <avro.version>1.6.1</avro.version>
-        <commons.schema.version>1.4.7</commons.schema.version>
-        <!-- ElasticSearch Versions -->
-        <elasticsearch.version>0.19.9</elasticsearch.version>
-        <commons.beanutils.version>1.8.3</commons.beanutils.version>
-        <commons.collections.version>3.2.1</commons.collections.version>
-        <!-- Rest Services (JAX-RS) Framework Versions -->
-        <jersey.version>1.9.1</jersey.version>
-        <jackson.version>1.9.1</jackson.version>
-        <!-- Persistence Framework Versions -->
-        <commons.dbcp.version>20030825.184428</commons.dbcp.version>
-        <commons.pool.version>20030825.183949</commons.pool.version>
-        <!-- Logging Framework Versions -->
-        <slf4j.version>1.6.4</slf4j.version>
-        <logback.version>1.0.1</logback.version>
-        <!-- Testing Framework Versions -->
-        <junit.version>4.9</junit.version>
-        <mockito.version>1.8.5</mockito.version>
-        <!-- GSON -->
-        <gson.version>2.1</gson.version>
+
         <sli.home>${project.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
         <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
         <!-- Signing Artifacts -->
         <sli.sign.keystore>${project.parent.basedir}/../data-access/dal/keyStore/localKeyStore.jks</sli.sign.keystore>
         <sli.sign.storepass>dalKey</sli.sign.storepass>
+
+        <!-- End of Release process-->
+        <lifecycle.mapping.version>1.0.0</lifecycle.mapping.version>
+        <sli.build.tools>1.0-SNAPSHOT</sli.build.tools>
+
+        <!-- Maven Plugin Versions -->
+        <maven.checkstyle.version>2.9.1</maven.checkstyle.version>
+        <maven.compiler.version>2.3.2</maven.compiler.version>
+        <maven.deploy.version>2.7</maven.deploy.version>
+        <maven.eclipse.version>2.8</maven.eclipse.version>
+        <maven.findbugs.version>2.3.2</maven.findbugs.version>
+        <maven.install.version>2.4</maven.install.version>
+        <maven.jar.version>2.4</maven.jar.version>
+        <maven.jaxb2.version>1.3.1</maven.jaxb2.version>
+        <maven.jdepend.version>2.0-beta-2</maven.jdepend.version>
+        <maven.jetty.version>6.1.12</maven.jetty.version>
+        <maven.pmd.version>2.7.1</maven.pmd.version>
+        <maven.release.version>2.2</maven.release.version>
+        <maven.resources.version>2.6</maven.resources.version>
+        <maven.surefire.version>2.12</maven.surefire.version>
+        <maven.tomcat.version>1.1</maven.tomcat.version>
+        <maven.war.version>2.3</maven.war.version>
+        <maven.plugin.codehaus.aspectj.version>1.4</maven.plugin.codehaus.aspectj.version>
+        <maven.plugin.codehaus.exec.plugin>1.2.1</maven.plugin.codehaus.exec.plugin>
+        <maven.plugin.dependencies.version>2.6</maven.plugin.dependencies.version>
+        <maven.plugin.emma.version>1.0-alpha-3</maven.plugin.emma.version>
+        <maven.plugin.jarsigner.version>1.2</maven.plugin.jarsigner.version>
+        <maven.plugin.site.version>3.0-beta-3</maven.plugin.site.version>
+
+        <!-- 3rd Party Libraries -->
         <aspectj.version>1.6.11</aspectj.version>
-        <jodatime.version>2.1</jodatime.version>
         <aspectj.maven.version>1.4</aspectj.maven.version>
-        <spring-ldap-core.version>1.3.1.RELEASE</spring-ldap-core.version>
-        <java-uuid.version>3.1.3</java-uuid.version>
-        <stax.api.version>1.0.1</stax.api.version>
-        <jdom.version>1.1</jdom.version>
-        <jopt-simple.version>4.3</jopt-simple.version>
+        <cglib.version>2.2.2</cglib.version>
+        <emma.version>2.1.5320</emma.version>
         <google.guava.version>13.0</google.guava.version>
+        <gson.version>2.1</gson.version>
+        <java-uuid.version>3.1.3</java-uuid.version>
+        <jboss.netty.verion>3.2.3.Final</jboss.netty.verion>
+        <jdom.version>1.1</jdom.version>
+        <jodatime.version>2.3</jodatime.version>  <!-- <jodatime.version>2.1</jodatime.version> -->
+        <jopt-simple.version>4.3</jopt-simple.version>
         <opensaml.version>2.6.0</opensaml.version>
+        <spring-ldap-core.version>1.3.1.RELEASE</spring-ldap-core.version>
+        <stax.api.version>1.0.1</stax.api.version>
         <velocity.version>1.7</velocity.version>
+
+        <!-- Spring Framework Versions -->
+        <bean.validator.version>4.2.0.Final</bean.validator.version>
+        <spring.version>3.0.7.RELEASE</spring.version>
+        <springdata-mongodb-version>1.0.4.RELEASE</springdata-mongodb-version>
+        <springdata.version>1.2.1.RELEASE</springdata.version>
+
+        <!-- MongoDB Java Driver Version -->
+        <mongodb.java.driver.version>2.10.1</mongodb.java.driver.version>
+
+        <!-- Java EE Versions -->
+        <javax.validation.version>1.0.0.GA</javax.validation.version>
+        <javax.el.version>2.2</javax.el.version>
+        <javax.jms.version>1.1</javax.jms.version>
+        <javax.servlet.version>2.4</javax.servlet.version>
+        <javax.jstl.version>1.2</javax.jstl.version>
+        <taglibs.version>1.1.2</taglibs.version>
+
+        <!-- Apache Versions -->
+        <avro.version>1.6.1</avro.version>
+        <commons.beanutils.version>1.8.3</commons.beanutils.version>
+        <commons.codec.version>1.6</commons.codec.version>
+        <commons.collections.version>3.2.1</commons.collections.version>
+        <commons.cli.version>1.2</commons.cli.version>
+        <commons.dbcp.version>20030825.184428</commons.dbcp.version>
+        <commons.io.version>2.2</commons.io.version>
+        <commons.lang.version>3.0.1</commons.lang.version>
+        <commons.pool.version>20030825.183949</commons.pool.version>
+        <commons.schema.version>1.4.7</commons.schema.version>
+        <xerces.version>2.4.0</xerces.version>
+
+        <!-- ElasticSearch Versions -->
+        <elasticsearch.version>0.19.9</elasticsearch.version>
+
+        <!-- Rest Services (JAX-RS) Framework Versions -->
+        <jackson.version>1.9.1</jackson.version>
+        <jersey.version>1.9.1</jersey.version>
+
+        <!-- Logging Framework Versions -->
+        <logback.version>1.0.1</logback.version>
+        <slf4j.version>1.6.4</slf4j.version>
+
+        <!-- Testing Framework Versions -->
+        <junit.version>4.9</junit.version>
+        <mockito.version>1.8.5</mockito.version>
+
     </properties>
+
     <!-- Environment profiles. A profile encapsulates a set of properties and
     filters for a particular build configuration. Per profile properties and
     filters can be set at an individual project basis to specify variables used
@@ -113,7 +142,7 @@
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>emma-maven-plugin</artifactId>
                         <inherited>true</inherited>
-                        <version>1.0-alpha-3</version>
+                        <version>${maven.plugin.emma.version}</version>
                         <executions>
                             <execution>
                                 <id>instrument</id>
@@ -137,6 +166,7 @@
                 </plugins>
             </build>
         </profile>
+
         <!-- A local dev profile -->
         <profile>
             <id>local</id>
@@ -151,6 +181,7 @@
                 <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/localEncryption.properties</sli.encryption.properties>
             </properties>
         </profile>
+
         <!-- Remote dev/demo database profile -->
         <profile>
             <id>dev</id>
@@ -166,6 +197,7 @@
                 <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
             </properties>
         </profile>
+
         <!-- Profile to use during continuous integration -->
         <profile>
             <id>ci</id>
@@ -181,6 +213,7 @@
                 <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
             </properties>
         </profile>
+
         <!-- Profile to use to deploy to stable build environment (currently devopenam2.slidev.org) -->
         <profile>
             <id>devapp1</id>
@@ -196,6 +229,7 @@
                 <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
             </properties>
         </profile>
+
         <!-- Profile to use to deploy to acceptance test build environment -->
         <profile>
             <id>acceptance-tests</id>
@@ -212,6 +246,7 @@
                 <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
             </properties>
         </profile>
+
         <!-- Profile to use to deploy to acceptance test build environment -->
         <profile>
             <id>nxbuild2</id>
@@ -228,6 +263,7 @@
                 <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
             </properties>
         </profile>
+
         <profile>
             <id>team</id>
             <activation>
@@ -243,6 +279,7 @@
                 <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
             </properties>
         </profile>
+
         <profile>
             <id>sandbox</id>
             <activation>
@@ -259,8 +296,8 @@
                 <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/localEncryption.properties</sli.encryption.properties>
             </properties>
         </profile>
-        <!-- Add additional profiles here. For example: integration, production,
-      multishard, ... -->
+
+        <!-- Add additional profiles here. For example: integration, production, multishard, ... -->
         <profile>
             <id>snapshot-deploy-url-override</id>
             <activation>
@@ -273,6 +310,7 @@
             </properties>
         </profile>
     </profiles>
+
     <modules>
         <module>modeling</module>
         <module>SDK</module>
@@ -290,6 +328,7 @@
         <module>search-indexer</module>
         <module>bulk-extract</module>
     </modules>
+
     <dependencyManagement>
         <dependencies>
             <!-- WGEN dependencies -->
@@ -439,14 +478,15 @@
                 <version>${project.version}</version>
                 <scope>test</scope>
             </dependency>
+
             <!-- MongoDB Java Driver -->
             <dependency>
                 <groupId>org.mongodb</groupId>
                 <artifactId>mongo-java-driver</artifactId>
                 <version>${mongodb.java.driver.version}</version>
             </dependency>
-            <!-- Spring Framework -->
-            <!-- Spring Core dependency -->
+
+            <!-- Spring Dependencies -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
@@ -459,7 +499,6 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            <!-- Spring AOP dependency -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-aop</artifactId>
@@ -472,13 +511,11 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            <!-- Spring TX dependency -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-tx</artifactId>
                 <version>${spring.version}</version>
             </dependency>
-            <!-- Spring Context dependency -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
@@ -491,25 +528,21 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            <!-- Spring Beans dependency -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
                 <version>${spring.version}</version>
             </dependency>
-            <!-- Spring Expression dependency -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-expression</artifactId>
                 <version>${spring.version}</version>
             </dependency>
-            <!-- Spring Data Core dependency -->
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-commons-core</artifactId>
                 <version>${springdata.version}</version>
             </dependency>
-            <!-- Spring Web MVC dependency -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
@@ -520,19 +553,16 @@
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring.version}</version>
             </dependency>
-            <!-- Spring Security Core dependency -->
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-core</artifactId>
                 <version>${spring.version}</version>
             </dependency>
-            <!-- Spring Security Config dependency -->
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-config</artifactId>
                 <version>${spring.version}</version>
             </dependency>
-            <!-- Spring Security Web dependency -->
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
@@ -543,13 +573,25 @@
                 <artifactId>spring-security-taglibs</artifactId>
                 <version>${spring.version}</version>
             </dependency>
-            <!-- Spring Test dependency -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
                 <version>${spring.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.ldap</groupId>
+                <artifactId>spring-ldap-core</artifactId>
+                <version>${spring-ldap-core.version}</version>
+                <!-- Exclude Commons Logging in favor of SLF4J -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
             <!-- Java EE Framework -->
             <!-- Java Validation dependency -->
             <dependency>
@@ -586,32 +628,28 @@
                 <version>${taglibs.version}</version>
                 <scope>compile</scope>
             </dependency>
+
             <!-- Apache Framework -->
-            <!-- Apache Commons CLI dependency -->
             <dependency>
                 <groupId>commons-cli</groupId>
                 <artifactId>commons-cli</artifactId>
                 <version>${commons.cli.version}</version>
             </dependency>
-            <!-- Apache Commons Lang dependency -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons.lang.version}</version>
             </dependency>
-            <!-- Apache Commons IO dependency -->
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons.io.version}</version>
             </dependency>
-            <!-- Apache Commons Codec dependency -->
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
                 <version>${commons.codec.version}</version>
             </dependency>
-            <!-- Apache Xerces dependency -->
             <dependency>
                 <groupId>xerces</groupId>
                 <artifactId>xerces</artifactId>
@@ -622,62 +660,58 @@
                 <artifactId>commons-beanutils</artifactId>
                 <version>${commons.beanutils.version}</version>
             </dependency>
+
             <!-- Rest Services (JAX-RS) Framework -->
-            <!-- Jersey (JAX-RS) Server dependency -->
+            <!-- Jersey dependencies -->
             <dependency>
                 <groupId>com.sun.jersey</groupId>
                 <artifactId>jersey-server</artifactId>
                 <version>${jersey.version}</version>
             </dependency>
-            <!-- Jersey (JAX-RS) Server Linking dependency -->
             <dependency>
                 <groupId>com.sun.jersey</groupId>
                 <artifactId>jersey-server-linking</artifactId>
                 <version>${jersey.version}</version>
             </dependency>
-            <!-- Jersey (JAX-RS) JSON dependency -->
             <dependency>
                 <groupId>com.sun.jersey</groupId>
                 <artifactId>jersey-json</artifactId>
                 <version>${jersey.version}</version>
             </dependency>
-            <!-- Jersey (JAX-RS) Spring dependency -->
             <dependency>
                 <groupId>com.sun.jersey.contribs</groupId>
                 <artifactId>jersey-spring</artifactId>
                 <version>${jersey.version}</version>
             </dependency>
-            <!-- Jersey (JAX-RS) Client dependency -->
             <dependency>
                 <groupId>com.sun.jersey</groupId>
                 <artifactId>jersey-client</artifactId>
                 <version>${jersey.version}</version>
                 <scope>test</scope>
             </dependency>
-            <!-- Codehaus Jackson Core dependency -->
+
+            <!-- Codehaus Jackson dependencies -->
             <dependency>
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-core-asl</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
-            <!-- Codehaus Jackson Mapper dependency -->
             <dependency>
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-mapper-asl</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
-            <!-- Codehaus Jackson XML Compatibility dependency -->
             <dependency>
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-xc</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
-            <!-- Codehaus Jackson JAX-RS dependency -->
             <dependency>
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-jaxrs</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
+
             <!-- Persistence Framework -->
             <!-- Apache Commons DBCP dependency -->
             <dependency>
@@ -693,6 +727,7 @@
                 <version>${commons.pool.version}</version>
                 <scope>compile</scope>
             </dependency>
+
             <!-- Testing Framework -->
             <!-- JUnit dependency -->
             <dependency>
@@ -708,6 +743,7 @@
                 <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
+
             <!-- Logging -->
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -730,6 +766,7 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+
             <!-- bean validation -->
             <dependency>
                 <groupId>org.hibernate</groupId>
@@ -761,18 +798,7 @@
                 <artifactId>java-uuid-generator</artifactId>
                 <version>${java-uuid.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.ldap</groupId>
-                <artifactId>spring-ldap-core</artifactId>
-                <version>${spring-ldap-core.version}</version>
-                <!-- Exclude Commons Logging in favor of SLF4J -->
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+
             <dependency>
                 <groupId>stax</groupId>
                 <artifactId>stax-api</artifactId>
@@ -808,10 +834,11 @@
             <dependency>
                 <groupId>emma</groupId>
                 <artifactId>emma</artifactId>
-                <version>2.1.5320</version>
+                <version>${emma.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
     <dependencies>
         <!-- common dependencies used across all projects -->
         <dependency>
@@ -838,6 +865,7 @@
             <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
     </dependencies>
+
     <build>
         <pluginManagement>
             <plugins>
@@ -881,6 +909,7 @@
                     <artifactId>maven-release-plugin</artifactId>
                     <version>${maven.release.version}</version>
                 </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
@@ -888,9 +917,9 @@
                     <configuration>
                         <configLocation>checkstyle/checkstyle.xml</configLocation>
                         <propertyExpansion>
-              checkstyle.import.control.file=checkstyle/import-control.xml
-              checkstyle.headerFile=checkstyle/java.header
-            </propertyExpansion>
+                            checkstyle.import.control.file=checkstyle/import-control.xml
+                            checkstyle.headerFile=checkstyle/java.header
+                        </propertyExpansion>
                         <includeTestSourceDirectory>true</includeTestSourceDirectory>
                         <linkXRef>false</linkXRef>
                         <failsOnError>false</failsOnError>
@@ -903,13 +932,14 @@
                         </dependency>
                     </dependencies>
                 </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-pmd-plugin</artifactId>
                     <version>${maven.pmd.version}</version>
                     <configuration>
                         <linkXref>true</linkXref>
-                        <sourceEncoding>utf-8</sourceEncoding>
+                        <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
                         <minimumTokens>100</minimumTokens>
                         <targetJdk>${java.version}</targetJdk>
                         <includeTests>false</includeTests>
@@ -934,6 +964,7 @@
                         </execution>
                     </executions>
                 </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-eclipse-plugin</artifactId>
@@ -946,6 +977,7 @@
                         </dependency>
                     </dependencies>
                 </plugin>
+
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
@@ -1010,15 +1042,17 @@
                         </lifecycleMappingMetadata>
                     </configuration>
                 </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.0-beta-3</version>
+                    <version>${maven.plugin.site.version}</version>
                 </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jarsigner-plugin</artifactId>
-                    <version>1.2</version>
+                    <version>$[maven.plugin.jarsigner.version}</version>
                     <executions>
                         <execution>
                             <id>sign</id>
@@ -1033,10 +1067,11 @@
                         <storepass>${sli.sign.storepass}</storepass>
                     </configuration>
                 </plugin>
+
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>aspectj-maven-plugin</artifactId>
-                    <version>1.4</version>
+                    <version>${maven.plugin.codehaus.aspectj.version}</version>
                     <dependencies>
                         <dependency>
                             <groupId>org.aspectj</groupId>
@@ -1052,9 +1087,9 @@
                     <configuration>
                         <showWeaveInfo>false</showWeaveInfo>
                         <verbose>false</verbose>
-                        <source>1.6</source>
+                        <source>${java.version}</source>
                         <XnoInline>true</XnoInline>
-                        <complianceLevel>1.6</complianceLevel>
+                        <complianceLevel>${java.version}</complianceLevel>
                     </configuration>
                     <executions>
                         <execution>
@@ -1068,6 +1103,7 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -1123,6 +1159,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -1133,6 +1170,7 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
@@ -1145,6 +1183,7 @@
                     <failOnError>false</failOnError>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -1156,6 +1195,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -1173,10 +1213,12 @@
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
@@ -1208,11 +1250,12 @@
                 <!--executions> <execution> <id>site</id> <phase>compile</phase> <goals>
           <goal>stage</goal> </goals> </execution> </executions -->
             </plugin>
+
             <!-- Generate the configuration files during compile phase -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
+                <version>${maven.plugin.codehaus.exec.plugin}</version>
                 <inherited>false</inherited>
                 <executions>
                     <execution>
@@ -1231,6 +1274,7 @@
                             </arguments>
                         </configuration>
                     </execution>
+
                     <execution>
                         <id>generate-test-config-files</id>
                         <goals>
@@ -1249,10 +1293,12 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -1290,6 +1336,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -1305,6 +1352,7 @@
                     </archive>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -1322,6 +1370,7 @@
             </plugin>
         </plugins>
     </build>
+
     <reporting>
         <plugins>
             <plugin>
@@ -1359,6 +1408,8 @@
             </plugin>
         </plugins>
     </reporting>
+
+    <!-- TODO NOTE:  This belongs within the mvn settings.xml file... -->
     <repositories>
         <repository>
             <id>repo1</id>
@@ -1394,6 +1445,8 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
     </repositories>
+
+    <!-- TODO NOTE:  This belongs within the mvn settings.xml file... -->
     <distributionManagement>
         <repository>
             <id>sli-releases</id>
@@ -1411,4 +1464,5 @@
             <url>stage</url>
         </site>
     </distributionManagement>
+
 </project>
