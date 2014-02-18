@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require 'capybara'
+#require_relative '../../utils/db_client.rb'
 
 # TODO Move the capybara setup code to a common location
 class Browser
@@ -25,6 +26,22 @@ class Browser
     Capybara.default_driver = :selenium
     Capybara.reset_session!
   end
+end
+
+Before('@admin_smoke') do
+  @created_entities = []
+end
+
+def add_for_cleanup(collection, name)
+  @created_entities << [collection, name]
+end
+
+After('@admin_smoke') do
+  db_client = DbClient.new(:db_name => Property[:sli_database_name])
+  @created_entities.each do |collection, name|
+    db_client.remove(collection.to_s, {'body.name' => name})
+  end
+  db_client.close
 end
 
 Given /^I have an open browser$/ do
@@ -133,12 +150,13 @@ end
 When /^I add a new realm$/ do
   browser.page.click_link 'Add new'
   browser.page.should have_selector('h1', :text => 'Manage Realm')
-  @realm_name = "#{app_prefix}_realm_#{Time.now.to_i}"
+  @realm_name = "#{app_prefix}realm_#{Time.now.to_i}"
   browser.fill_in('realm_name', :with => @realm_name)
   browser.fill_in('realm_idp_id', :with => 'http://www.example.com')
   browser.fill_in('realm_idp_redirectEndpoint', :with => 'http://www.example.com')
   browser.fill_in('realm_uniqueIdentifier', :with => @realm_name)
   browser.click_button 'Save'
+  add_for_cleanup(:realm, @realm_name)
 end
 
 Then /^I see the new realm listed$/ do

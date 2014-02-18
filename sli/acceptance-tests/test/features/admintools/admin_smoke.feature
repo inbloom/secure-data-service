@@ -1,4 +1,4 @@
-@smoke @javascript
+@admin_smoke @smoke @javascript
 Feature:
   The administration tool can be used:
     - by a developer to register a new application
@@ -46,7 +46,7 @@ Scenario: A district-level administrator de-authorizes an application for educat
     And de-authorize the application for all education organizations
    Then the application should not be approved
 
-Scenario: A realm administrator can create and edit a realm
+Scenario: A realm administrator can create a realm
   Given I am a valid realm administrator
     And I am managing my realms
    When I add a new realm
