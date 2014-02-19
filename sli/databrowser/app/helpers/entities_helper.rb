@@ -169,20 +169,11 @@ module EntitiesHelper
     html ||= ""
 
     if (entity.is_a?(Array))
-      user = getUserEntityIdAndCollection(entity)
-      begin
-        #url = "#{APP_CONFIG['api_base']}/educationOrganizations"
-        url = "#{APP_CONFIG['api_base']}/staff/#{user['entid']}/staffEducationOrgAssignmentAssociations/educationOrganizations"
-        entities = RestClient.get(url, get_header)
-        logger.info("Entities are: #{entities}")
-        entities = JSON.parse(entities)
-        entities.each do |ent|
-          logger.info("URL is : #{url}")
-          ed_orgs.push(ent)
-        end
-        html << "<table id=\"edorgcounts_home\" class=\"edOrg_home\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
-      rescue => e
+      entities = get_user_edorg(entity)
+      entities.each do |ent|
+        ed_orgs.push(ent)
       end
+      html << "<table id=\"edorgcounts_home\" class=\"edOrg_home\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
     else
       ed_orgs << entity  
       html << "<table id=\"edorgcounts_#{entity['id']}\" class=\"edOrg\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
@@ -379,6 +370,18 @@ module EntitiesHelper
     end
     result
    
+  end
+
+  def get_user_edorg(entities)
+    user = getUserEntityIdAndCollection(entities)
+    url = "#{APP_CONFIG['api_base']}/staff/#{user['entid']}/staffEducationOrgAssignmentAssociations/educationOrganizations"
+    begin
+      entities = RestClient.get(url, get_header)
+      entities = JSON.parse(entities)
+    rescue => e
+      logger.info("Could not get ed orgs for #{entities} because of #{e.message}")
+    end
+    entities
   end
 
   # Stolen from DS-1005, will need some merging when these two branches are merged.

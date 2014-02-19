@@ -5,4 +5,7 @@
     html << display_edorg_table(@entities)
     html.html_safe
 %>
+<% @entities.each do |e| %>
+    <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
+<% end %>
 </div>
