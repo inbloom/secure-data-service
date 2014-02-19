@@ -112,6 +112,10 @@ email_imap_registration_user: devldapuser
 email_imap_registration_user_email: devldapuser@slidev2.org
 email_imap_registration_pass: Y;Gtf@w{
 
+test_email: peacefrog@slidev.org
+test_email_user: peacefrog
+test_email_pass: demouser
+
 ################# e2e test properties #################################
 # For CI environments
 email_imap_hostname: mon.slidev.org

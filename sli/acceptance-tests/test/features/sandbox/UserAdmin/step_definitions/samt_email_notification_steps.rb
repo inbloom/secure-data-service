@@ -25,9 +25,9 @@ require_relative '../../../utils/selenium_common.rb'
 
 SAMT_EMAIL_NOTIFICATION_SUBJECT_SANDBOX = "inBloom Sandbox Account - Email Confirmation"
 SAMT_EMAIL_NOTIFICATION_SUBJECT_PROD = "inBloom Administrator Account - Email Confirmation"
-TEST_EMAIL = "peacefrog@slidev.org"
-TEST_EMAIL_USER ="peacefrog"
-TEST_EMAIL_PASS ="demouser"
+TEST_EMAIL = Property['test_email'] || "peacefrog@slidev.org"
+TEST_EMAIL_USER = Property['test_email_user'] || "peacefrog"
+TEST_EMAIL_PASS = Property['test_email_pass'] || "demouser"
 
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
