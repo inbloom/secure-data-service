@@ -16,6 +16,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+#include EdorgTreeHelper
+#require "edorg_tree_helper"
 require "active_resource/base"
 # This is the main controller of the Databrowser.
 # We try to "Wrap" all api requests in this one single point
@@ -88,12 +90,13 @@ class EntitiesController < ApplicationController
   # Second, if we see any offset in params then we make the call to
   # grab the next page of data from the Api.
   def show
+	 logger.debug {"Parameters are:#{params.inspect}"}
     @@LIMIT = 50
     @page = Page.new
     if params[:search_id] && @search_field
       @entities = []
       @entities = Entity.get("", @search_field => params[:search_id].strip) if params[:search_id] && !params[:search_id].strip.empty?
-      clean_up_results
+      @entities = clean_up_results(@entities)
       flash.now[:notice] = "There were no entries matching your search" if @entities.size == 0 || @entities.nil?
     else
       #Clean up the parameters to pass through to the API.
@@ -103,10 +106,19 @@ class EntitiesController < ApplicationController
       query = params.reject {|k, v| k == 'controller' || k == 'action' || k == 'other' || k == 'search_id'}
       logger.debug {"Keeping query parameters #{query.inspect}"}
       @entities = Entity.get("", query)
+
+
       @page = Page.new(@entities.http_response)
-      clean_up_results
+      @entities= clean_up_results(@entities)
     end
     if params[:other] == 'home'
+      entidAndCollection = getUserEntityIdAndCollection
+      if entidAndCollection['collection'] != "students"
+      	getStudentAndStaffCounts(entidAndCollection)
+        @isAStudent = false
+      else
+        @isAStudent = true
+      end
       render :index
       return
     end
@@ -119,11 +131,91 @@ class EntitiesController < ApplicationController
   end
   
   private
-  def clean_up_results
-    if @entities.is_a?(Hash)
+  def clean_up_results(entities)
+    tmp = entities
+    if entities.is_a?(Hash)
       tmp = Array.new()
-      tmp.push(@entities)
-      @entities = tmp
+      tmp.push(entities)
     end
+    tmp
   end
+  private
+  def getStudentAndStaffCounts(entidAndCollection)
+    # for @entities.each |e|
+       # logger.debug{""}
+     
+     userEdOrgsString = getUserEdOrgsString(entidAndCollection['entid'])
+     @allStudentCount = -1
+     @allStaffCount = -1
+     @currentStudentCount = -1
+     @currentStaffCount = -1
+     @allStudentCount = getCount("educationOrganizations", userEdOrgsString, "studentSchoolAssociations", "students", false)
+     @allStaffCount = getCount("educationOrganizations", userEdOrgsString, "staffEducationOrgAssignmentAssociations", "staff", false) 
+     @currentStudentCount = getCount("educationOrganizations", userEdOrgsString, "studentSchoolAssociations", "students", true)  
+     @currentStaffCount = getCount("educationOrganizations", userEdOrgsString, "staffEducationOrgAssignmentAssociations", "staff", true)
+     
+   end
+   private
+   def getUserEntityIdAndCollection
+      logger.debug {"Try to print Response:"}
+      bodyparts = JSON.parse(@entities.http_response.body)
+      #bodyparts['links'].each do |e|
+      bodyparts.each do |e|
+           logger.debug {"#{e} \n"}
+      end
+      logger.debug {"After Try to print Response:"}
+      #get one link
+      linkstring = bodyparts['links'][0]
+      logger.debug {"linkstring = #{linkstring['href']}"}
+      #split the link on "rest/", as that always comes before the version number, user's entity collection, and entityId
+      linksplit = linkstring['href'].split("rest/")
+      # then take the part of the string that comes after
+      entidPlus = linksplit[1]
+      # drop everything after "/" to isolate the id from other url parts
+      #break the string into version number, user's entity collection, entityId, and other parts that follow
+      entidplussplit = entidPlus.split("/")
+      collection = entidplussplit[1]
+      logger.debug {"User entity collection: #{collection}"}
+      entid = entidplussplit[2]
+      logger.debug {"User entity ID: #{entid}"}
+      entidAndCollection = {"entid"=>entid,"collection"=>collection}
+      entidAndCollection
+   end
+   private
+   def getUserEdOrgsString(entid)
+      
+      Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
+      begin
+         userEdOrgs = Entity.get("")
+      rescue
+         logger.debug {"Caught Exception on getting edorgs"}
+         return
+      end
+      userEdOrgs = clean_up_results(userEdOrgs)
+      userEdOrgsString = ""
+      userEdOrgs.each do |e|
+         userEdOrgsString = "#{userEdOrgsString},#{e['id']}"
+         logger.debug {"User edorgs : #{e}"}
+      end
+      # drop leading comma
+      userEdOrgsString = userEdOrgsString[1..-1]
+      logger.debug {"User edorg string: #{userEdOrgsString}"}
+      userEdOrgsString
+   end
+   private
+   def  getCount(associationRoot, userEdOrgsString, associationType, targetCollection, currentOnly)
+      Entity.url_type = "#{associationRoot}/#{userEdOrgsString}/#{associationType}/#{targetCollection}"
+      if !currentOnly.nil? && currentOnly == true
+         params = {"countOnly"=>"true","currentOnly"=>"true"}
+      else
+         params = {"countOnly"=>"true"}
+      end
+      begin
+         count = Entity.get("",params).http_response['TotalCount']
+      rescue
+         count = "N/A"
+         logger.debug {"Caught Exceptionon count"}
+      end
+      count
+   end
 end
