@@ -141,12 +141,12 @@ Feature: Data Browser
     And I should see the name "Charles Gray" on the page
     And I should see my available links labeled
     And I have navigated to the <Page> of the Data Browser
-      | Page                    |
-      | Teacher to Section List |
-      | My Sections             |
-      | Teacher to School List  |
-      | My Schools              |
-      | Me                      |
+      | Page                         |
+      | Teacher Section Associations |
+      | Sections                     |
+      | Teacher School Associations  |
+      | My Schools                   |
+      | Me                           |
     Then I should click on the Home link and be redirected back
     When I search for the identifier "<CARMEN ORTIZ UNIQUE ID>" in "students"
     Then I should see the text "Carmen"
