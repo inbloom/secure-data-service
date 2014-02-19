@@ -191,7 +191,7 @@ module EntitiesHelper
     # Build the list of EdOrgs and it's children
 
     ed_orgs.each do |ed_org|
-      #get_feeder_edorgs(ed_org['id'], ed_orgs)
+      get_feeder_edorgs(ed_org['id'], ed_orgs)
     end
       
     student_counts = get_student_counts(ed_orgs)
