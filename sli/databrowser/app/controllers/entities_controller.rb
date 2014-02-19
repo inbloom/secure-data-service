@@ -42,28 +42,28 @@ class EntitiesController < ApplicationController
   def set_url
     @search_field = nil
     case params[:search_type]
-    when /studentByName/
-      @search_field = "q"
-    when /staffByName/
-      @search_field = "q"
-    when /edOrgByName/
-      @search_field = "q"
-    when /students/
-      @search_field = "studentUniqueStateId"
-    when /staff/
-      @search_field = "staffUniqueStateId"
-    when /parents/
-      @search_field = "parentUniqueStateId"
-    when /educationOrganizations/
-      @search_field = "stateOrganizationId"
+      when /studentByName/
+        @search_field = "q"
+      when /staffByName/
+        @search_field = "q"
+      when /edOrgByName/
+        @search_field = "q"
+      when /students/
+        @search_field = "studentUniqueStateId"
+      when /staff/
+        @search_field = "staffUniqueStateId"
+      when /parents/
+        @search_field = "parentUniqueStateId"
+      when /educationOrganizations/
+        @search_field = "stateOrganizationId"
     end
     params[:other] = params[:search_type] if @search_field
     if params[:search_type] == "studentByName"
       Entity.url_type = "search/students"
     elsif params[:search_type] == "staffByName"
-        Entity.url_type = "search/staff,teachers"
+      Entity.url_type = "search/staff,teachers"
     elsif params[:search_type] == "edOrgByName"
-        Entity.url_type = "search/educationOrganizations"
+      Entity.url_type = "search/educationOrganizations"
     else
       Entity.url_type = params[:other]
     end
@@ -90,7 +90,7 @@ class EntitiesController < ApplicationController
   # Second, if we see any offset in params then we make the call to
   # grab the next page of data from the Api.
   def show
-	 logger.debug {"Parameters are:#{params.inspect}"}
+    logger.debug {"Parameters are:#{params.inspect}"}
     @@LIMIT = 50
     @page = Page.new
     if params[:search_id] && @search_field
@@ -114,7 +114,7 @@ class EntitiesController < ApplicationController
     if params[:other] == 'home'
       entidAndCollection = getUserEntityIdAndCollection
       if entidAndCollection['collection'] != "students"
-      	getStudentAndStaffCounts(entidAndCollection)
+        getStudentAndStaffCounts(entidAndCollection)
         @isAStudent = false
       else
         @isAStudent = true
@@ -129,7 +129,7 @@ class EntitiesController < ApplicationController
       format.js #show.js.erb
     end
   end
-  
+
   private
   def clean_up_results(entities)
     tmp = entities
@@ -142,81 +142,152 @@ class EntitiesController < ApplicationController
   private
   def getStudentAndStaffCounts(entidAndCollection)
     # for @entities.each |e|
-       # logger.debug{""}
-     
-     userEdOrgsString = getUserEdOrgsString(entidAndCollection['entid'])
-     @allStudentCount = -1
-     @allStaffCount = -1
-     @currentStudentCount = -1
-     @currentStaffCount = -1
-     @allStudentCount = getCount("educationOrganizations", userEdOrgsString, "studentSchoolAssociations", "students", false)
-     @allStaffCount = getCount("educationOrganizations", userEdOrgsString, "staffEducationOrgAssignmentAssociations", "staff", false) 
-     @currentStudentCount = getCount("educationOrganizations", userEdOrgsString, "studentSchoolAssociations", "students", true)  
-     @currentStaffCount = getCount("educationOrganizations", userEdOrgsString, "staffEducationOrgAssignmentAssociations", "staff", true)
-     
-   end
-   private
-   def getUserEntityIdAndCollection
-      logger.debug {"Try to print Response:"}
-      bodyparts = JSON.parse(@entities.http_response.body)
-      #bodyparts['links'].each do |e|
-      bodyparts.each do |e|
-           logger.debug {"#{e} \n"}
-      end
-      logger.debug {"After Try to print Response:"}
-      #get one link
-      linkstring = bodyparts['links'][0]
-      logger.debug {"linkstring = #{linkstring['href']}"}
-      #split the link on "rest/", as that always comes before the version number, user's entity collection, and entityId
-      linksplit = linkstring['href'].split("rest/")
-      # then take the part of the string that comes after
-      entidPlus = linksplit[1]
-      # drop everything after "/" to isolate the id from other url parts
-      #break the string into version number, user's entity collection, entityId, and other parts that follow
-      entidplussplit = entidPlus.split("/")
-      collection = entidplussplit[1]
-      logger.debug {"User entity collection: #{collection}"}
-      entid = entidplussplit[2]
-      logger.debug {"User entity ID: #{entid}"}
-      entidAndCollection = {"entid"=>entid,"collection"=>collection}
-      entidAndCollection
-   end
+    # logger.debug{""}
 
-   private
-   def getUserEdOrgsString(entid)
-      
-      Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
-      begin
-         userEdOrgs = Entity.get("")
-      rescue
-         logger.debug {"Caught Exception on getting edorgs"}
-         return
-      end
-      userEdOrgs = clean_up_results(userEdOrgs)
-      userEdOrgsString = ""
-      userEdOrgs.each do |e|
-         userEdOrgsString = "#{userEdOrgsString},#{e['id']}"
-         logger.debug {"User edorgs : #{e}"}
-      end
-      # drop leading comma
-      userEdOrgsString = userEdOrgsString[1..-1]
-      logger.debug {"User edorg string: #{userEdOrgsString}"}
-      userEdOrgsString
-   end
-   private
-   def  getCount(associationRoot, userEdOrgsString, associationType, targetCollection, currentOnly)
-      Entity.url_type = "#{associationRoot}/#{userEdOrgsString}/#{associationType}/#{targetCollection}"
-      if !currentOnly.nil? && currentOnly == true
-         params = {"countOnly"=>"true","currentOnly"=>"true"}
-      else
-         params = {"countOnly"=>"true"}
-      end
-      begin
-         count = Entity.get("",params).http_response['TotalCount']
-      rescue
-         count = "N/A"
-         logger.debug {"Caught Exceptionon count"}
-      end
-      count
-   end
+    userEdOrgsString = getUserEdOrgsString(entidAndCollection['entid'])
+
+    #userEdOrgsNameString = getUserEdOrgsString(entidAndCollection['entid'])['nameOfInstituition']
+
+
+
+    #@userEdOrgsNameVar = userEdOrgsNameString
+
+
+    @allStudentCount = -1
+    @allStaffCount = -1
+    @currentStudentCount = -1
+    @currentStaffCount = -1
+    @allStudentCount = getCount("educationOrganizations", userEdOrgsString, "studentSchoolAssociations", "students", false)
+    @allStaffCount = getCount("educationOrganizations", userEdOrgsString, "staffEducationOrgAssignmentAssociations", "staff", false)
+    @currentStudentCount = getCount("educationOrganizations", userEdOrgsString, "studentSchoolAssociations", "students", true)
+    @currentStaffCount = getCount("educationOrganizations", userEdOrgsString, "staffEducationOrgAssignmentAssociations", "staff", true)
+
+  end
+  private
+  def getUserEntityIdAndCollection
+    logger.debug {"Try to print Response:"}
+    bodyparts = JSON.parse(@entities.http_response.body)
+    #bodyparts['links'].each do |e|
+    bodyparts.each do |e|
+      logger.debug {"#{e} \n"}
+    end
+    logger.debug {"After Try to print Response:"}
+    #get one link
+    linkstring = bodyparts['links'][0]
+    logger.debug {"linkstring = #{linkstring['href']}"}
+    #split the link on "rest/", as that always comes before the version number, user's entity collection, and entityId
+    linksplit = linkstring['href'].split("rest/")
+    # then take the part of the string that comes after
+    entidPlus = linksplit[1]
+    # drop everything after "/" to isolate the id from other url parts
+    #break the string into version number, user's entity collection, entityId, and other parts that follow
+    entidplussplit = entidPlus.split("/")
+    collection = entidplussplit[1]
+    logger.debug {"User entity collection: #{collection}"}
+    entid = entidplussplit[2]
+    logger.debug {"User entity ID: #{entid}"}
+    entidAndCollection = {"entid"=>entid,"collection"=>collection}
+    entidAndCollection
+  end
+  private
+  def getUserEdOrgsString(entid)
+
+    Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
+    begin
+      userEdOrgs = Entity.get("")
+    rescue
+      logger.debug {"Caught Exception on getting edorgs"}
+      return
+    end
+    userEdOrgs = clean_up_results(userEdOrgs)
+    userEdOrgsString = ""
+    userEdOrgsId = ""
+    userEdOrgsName = ""
+    userEdOrgsParentArr = ""
+    userEdOrgsParent = ""
+    userEdOrgsType = ""
+
+    userEdOrgs.each do |e|
+      userEdOrgsId = "#{userEdOrgsId},#{e['id']}"
+      userEdOrgsName = "#{userEdOrgsName},#{e['nameOfInstitution']}"
+      userEdOrgsType = "#{userEdOrgsType},#{e['entityType']}"
+      userEdOrgsParentArr = "#{userEdOrgsParentArr},#{e['parentEducationAgencyReference']}"
+
+      logger.debug {"User edorgs : #{e}"}
+    end
+    # drop leading comma
+    userEdOrgsId = userEdOrgsId[1..-1]
+    userEdOrgsName = userEdOrgsName[1..-1]
+    userEdOrgsType = userEdOrgsType[1..-1]
+    userEdOrgsParentArr = userEdOrgsParentArr[1..-1]
+
+    logger.debug {"User edorg string: #{userEdOrgsString}"}
+
+    @userEdOrgsIdVar = userEdOrgsId
+    @userEdOrgsNameVar = userEdOrgsName
+    @userEdOrgsTypeVar = userEdOrgsType
+    @userEdOrgsParentVar = userEdOrgsParentArr
+    @userFeederUrl =  getFeederOrg(userEdOrgsParentArr[0])
+  end
+
+
+  def getFeederOrg(parentId)
+    Entity.url_type = "entities/educationOrganizations?parentEducationAgencyReference=#{parentId}"
+    begin
+      parentEdOrgs = Entity.get("")
+    rescue
+      logger.debug {"Caught Exception on getting parent edorgs"}
+      return
+    end
+  end
+
+=begin
+  def getUserEdOrgsName(entid)
+
+    Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
+    begin
+      userEdOrgs = Entity.get("")
+    rescue
+      logger.debug {"Caught Exception on getting edorgs"}
+      return
+    end
+    userEdOrgs = clean_up_results(userEdOrgs)
+    userEdOrgsName = ""
+
+    userEdOrgs.each do |e|
+      userEdOrgsName = "#{userEdOrgsName},#{e['parentEducationAgencyReference'][0]}"
+      logger.debug {"User edorgs : #{e}"}
+    end
+    # drop leading comma
+    userEdOrgsName = userEdOrgsName[1..-1]
+    logger.debug {"User edorg string: #{userEdOrgsName}"}
+    userEdOrgsName
+  end
+=end
+
+=begin
+ <%=@userEdOrgsParentVar.each do |data|%>
+            <tr>
+              <td><%= data %></td>  #column field1 in your database
+              <td><%= data %></td>  #column field2 in your database
+  </tr>
+        <% end %>
+=end
+
+  private
+  def  getCount(associationRoot, userEdOrgsString, associationType, targetCollection, currentOnly)
+    Entity.url_type = "#{associationRoot}/#{userEdOrgsString}/#{associationType}/#{targetCollection}"
+    if !currentOnly.nil? && currentOnly == true
+      params = {"countOnly"=>"true","currentOnly"=>"true"}
+    else
+      params = {"countOnly"=>"true"}
+    end
+    begin
+      count = Entity.get("",params).http_response['TotalCount']
+    rescue
+      count = "N/A"
+      logger.debug {"Caught Exception on count"}
+    end
+    count
+  end
 end

@@ -1,28 +1,52 @@
 <div id='data'>
-<h1>Listing Home </h1>
-<% @entities.each do |e| %>
-	<p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
-<% end %>
-	<% if !@isAStudent %>
-		<h2>Counts</h2>
-		<table>
-			<tr>
-				<td>Data Point</td>
-				<td># Ever Enrolled/Associated</td>
-				<td># Currently Enrolled/Associated</td>
-			</tr>
-			<tr>
-				<td>Students</td>
-				<td><%=@allStudentCount%></td>
-				<td><%=@currentStudentCount%></td>
-			</tr>
-			<tr>
-				<td>Staff</td>
-			
-				<td><%=@allStaffCount%></td>
-				<td><%=@currentStaffCount%></td>
-			
-			</tr>
-		</table>
-	<% end %>
+  <h1>Listing Home </h1>
+  <% @entities.each do |e| %>
+      <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
+  <% end %>
+  <% if !@isAStudent %>
+      <h2>Counts</h2>
+      <table>
+        <tr>
+          <td>Data Point</td>
+          <td># Ever Enrolled/Associated</td>
+          <td># Currently Enrolled/Associated</td>
+        </tr>
+        <tr>
+          <td>Students</td>
+          <td><%=@allStudentCount%></td>
+          <td><%=@currentStudentCount%></td>
+        </tr>
+        <tr>
+          <td>Staff</td>
+
+          <td><%=@allStaffCount%></td>
+          <td><%=@currentStaffCount%></td>
+        </tr>
+      </table>
+      <div></div>
+      <table>
+        <tr>
+          <td>EdOrgs Name</td>
+
+          <td>EdOrgs Id</td>
+
+          <td>EdOrgs Type</td>
+
+          <td>EdOrgs Parent</td>
+
+        </tr>
+        <tr>
+
+          <td><%=link_to @userEdOrgsNameVar  %></td>
+          <td><%=@userEdOrgsIdVar%></td>
+          <td><%=@userEdOrgsTypeVar%></td>
+          <td><%=@userEdOrgsParentVar%></td>
+          <td><%=@userFeederUrl%></td>
+
+
+        </tr>
+      </table>
+  <% end %>
 </div>
+
+
