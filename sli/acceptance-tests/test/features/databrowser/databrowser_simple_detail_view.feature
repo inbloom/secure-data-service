@@ -42,8 +42,8 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 And I have navigated to the <Page> of the Data Browser
 	|Page|
-	|GetStaffEducationOrgAssignmentAssociations|
-	|GetStaffProgramAssociations|
+	|Staff Education Organization Associations|
+	|Staff Program Associations|
 	|Me|
 Then I should click on the Home link and be redirected back
 
@@ -56,7 +56,7 @@ And I choose realm "Illinois Daybreak School District 4529" in the drop-down lis
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
-And I click on the "GetEducationOrganizations" link
+And I click on the "Education Organizations" link
 Then I am redirected to the educationOrganization page
 And I see the properties in the following <Order>
 | Order |
@@ -76,7 +76,7 @@ And I choose realm "Illinois Daybreak School District 4529" in the drop-down lis
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
-And I click on the "GetEducationOrganizations" link
+And I click on the "Education Organizations" link
 Then I am redirected to the educationOrganization page
 And I see the list of "Links" in alphabetical order
 
@@ -89,7 +89,7 @@ And I choose realm "Illinois Daybreak School District 4529" in the drop-down lis
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
-And I click on the "GetStaffProgramAssociations" link
+And I click on the "Staff Program Associations" link
 Then I am redirected to the associations list page
 And I see a table displaying the associations in a list
 And those names include the IDs of both "ProgramId" and "StaffId" in the association
@@ -103,7 +103,7 @@ And I choose realm "Illinois Daybreak School District 4529" in the drop-down lis
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
-And I have navigated to the "GetStaffCohortAssociations" page of the Data Browser
+And I have navigated to the "Staff Cohort Associations" page of the Data Browser
 When I click on the row containing "b408635d-8fd5-11e1-86ec-0021701f543f_id"
 Then the row expands below listing the rest of the attributes for the item
 When I click on the row containing "b408635d-8fd5-11e1-86ec-0021701f543f_id"
@@ -124,9 +124,9 @@ And I click on the <Link> of any of the associating entities
 Then I am redirected to a page that page lists all of the <Entity> entity's fields
  Examples:
 | Page                                      | Text                                    | Link         | Entity                                 |
-| "GetStaffProgramAssociations"             | "9bf906cc-8fd5-11e1-86ec-0021701f5431"  | "Me"         | "9bf906cc-8fd5-11e1-86ec-0021701f5431" |
-| "GetStaffCohortAssociations" | "8fef446f-fc63-15f9-8606-0b85086c07d5"| "GetCohort" | "District-wide academic intervention cohort for Social Studies" |
-| "GetStaffCohortAssociations" | "8fef446f-fc63-15f9-8606-0b85086c07d5"| "GetStaff" | "rrogers"        |
+| "Staff Program Associations"             | "9bf906cc-8fd5-11e1-86ec-0021701f5431"  | "Me"         | "9bf906cc-8fd5-11e1-86ec-0021701f5431" |
+| "Staff Cohort Associations" | "8fef446f-fc63-15f9-8606-0b85086c07d5"| "GetCohort" | "District-wide academic intervention cohort for Social Studies" |
+| "Staff Cohort Associations" | "8fef446f-fc63-15f9-8606-0b85086c07d5"| "Staff" | "rrogers"        |
 
 Scenario: Click on Available Links associations
 
@@ -138,7 +138,7 @@ And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jwashington" "jwashington1234" for the "Simple" login page
 And I have navigated to the "Me" page of the Data Browser
-When I click on the "GetStaffCohortAssociations" link
+When I click on the "Staff Cohort Associations" link
 Then I am redirected to the particular associations Simple View
 
 Scenario: Click on Available Links entities
@@ -162,7 +162,7 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jwashington" "jwashington1234" for the "Simple" login page
 And I have navigated to the "Schools" listing of the Data Browser
 When I should navigate to "/entities/schools/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
-And I click on the "GetTeachers" link
+And I click on the "Teachers" link
 Then I see a "You do not have access to view this." alert box
 And I click the X
 Then the error is dismissed
@@ -176,8 +176,8 @@ And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "swood" "swood1234" for the "Simple" login page
 Then I should be redirected to the Data Browser home page
-When I click on the "GetEducationOrganizations" link
-And I click on the "GetStaffEducationOrgAssignmentAssociations" link
+When I click on the "Education Organizations" link
+And I click on the "Staff Education Organization Associations" link
 And I have navigated to the "Schools" listing of the Data Browser
 Then I should navigate to "/entities/schools/62d6d5a0-852c-45f4-906a-912752831662"
 And I have navigated to the "EducationOrganizations" listing of the Data Browser
@@ -192,15 +192,15 @@ And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 Then I should be redirected to the Data Browser home page
-When I click on the "GetEducationOrganizations" link
+When I click on the "Education Organizations" link
 When I click on the row containing "92d6d5a0-852c-45f4-907a-912752831772"
 Then the row expands below listing the rest of the attributes for the item
 When I click on the "GetParentEducationOrganization[1]" link
-Then I click on the "GetFeederEducationOrganizations" link
+Then I click on the "Feeder Education Organizations" link
 Then I click on the row containing "92d6d5a0-852c-45f4-907a-912752831772"
 Then the row expands below listing the rest of the attributes for the item
-When I click on the "GetParentEducationOrganization" link
-Then I click on the "GetFeederEducationOrganizations" link
+When I click on the "Parent Education Organization" link
+Then I click on the "Feeder Education Organizations" link
 And I have navigated to the "EducationOrganizations" listing of the Data Browser
 Then I should navigate to "/entities/educationOrganizations/bd086bae-ee82-4cf2-baf9-221a9407ea07"
 Then I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "false"
@@ -216,9 +216,9 @@ And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 Then I should be redirected to the Data Browser home page
-When I click on the "GetEducationOrganizations" link
+When I click on the "Education Organizations" link
 Then I should be on the detailed page for an SEA
-When I click on the "GetFeederEducationOrganizations" link
+When I click on the "Feeder Education Organizations" link
 Then I should be on the detailed page for an LEA
 
  @wip

@@ -126,7 +126,7 @@ Then /^I see the list of "([^"]+)" in alphabetical order$/ do |arg1|
   #TODO Find better way to get all the elements of the Links list.
   #TODO Find better way to assert that list of links is alphabetized also.
   while count < 21 do
-    realOrder.push(@driver.find_element(:xpath, "(//div/ul/li/a/span)[#{count}]").text.downcase)
+    realOrder.push(@driver.find_element(:xpath, "(//div/ul/li/a)[#{count}]").text.downcase)
     count = count + 1
   end
   alphaOrder = realOrder.clone.sort

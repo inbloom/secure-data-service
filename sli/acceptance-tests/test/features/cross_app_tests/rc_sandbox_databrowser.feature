@@ -26,8 +26,8 @@ Feature: Data Browser
     And I should see my available links labeled
     And I have navigated to the <Page> of the Data Browser
       | Page                                       |
-      | GetStaffEducationOrgAssignmentAssociations |
-      | GetStaffProgramAssociations                |
+      | Staff Education Organization Associations  |
+      | Staff Program Associations                 |
       | Me                                         |
     Then I should click on the Home link and be redirected back
     And I have navigated to the "Me" page of the Data Browser
