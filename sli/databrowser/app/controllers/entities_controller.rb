@@ -181,6 +181,7 @@ class EntitiesController < ApplicationController
       entidAndCollection = {"entid"=>entid,"collection"=>collection}
       entidAndCollection
    end
+
    private
    def getUserEdOrgsString(entid)
       
