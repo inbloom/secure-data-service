@@ -192,18 +192,22 @@ module EntitiesHelper
   # and their children and so on. It uses the organizationalCategory of School to break
   # out of the recursiveness as schools should not have an children
   def get_feeder_edorgs(entity_id, destination = nil)
-    url = "#{APP_CONFIG['api_base']}/educationOrganizations?parentEducationAgencyReference=#{entity_id}"
-    entities = RestClient.get(url, get_header)
-    entities = JSON.parse(entities)
-    if destination.nil?
-      destination = []
-    end
-    entities.each do |ed_org|
-      if ed_org['organizationCategories'].include? "School"
-        destination.push(ed_org) unless destination.include? ed_org
-      else
-        get_feeder_edorgs(ed_org['id'], destination)
+    begin
+      url = "#{APP_CONFIG['api_base']}/educationOrganizations?parentEducationAgencyReference=#{entity_id}"
+      entities = RestClient.get(url, get_header)
+      entities = JSON.parse(entities)
+      if destination.nil?
+        destination = []
       end
+      entities.each do |ed_org|
+        if ed_org['organizationCategories'].include? "School"
+          destination.push(ed_org) unless destination.include? ed_org
+        else
+          get_feeder_edorgs(ed_org['id'], destination)
+        end
+      end
+    rescue => e
+      logger.info("Could not get feeder Ed Org because of #{e.message}")
     end
     destination
   end
