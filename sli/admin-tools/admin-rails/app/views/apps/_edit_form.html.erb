@@ -108,10 +108,10 @@
 
 
   <div>
-  <%= @treeHtml.html_safe %>
+    <%= @treeHtml.html_safe %>
   </div>
 
-  <%= @treeHelperDebug.html_safe %>
+  <p><%= @treeHelperDebug.html_safe %></p>
 
   <span class = "edOrgTreeActions" >
 	<%= f.submit "Save & Update", :disable_with => 'Save & Update', :class => "btn" %>

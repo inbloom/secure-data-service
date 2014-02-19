@@ -3,3 +3,31 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 body { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:0.8em;}
 /*div.details {background-color: rgb(45,73,128);}*/
+
+table.dataTable tr.odd:hover td.sorting_1, table.dataTable tr.even:hover td.sorting_1,
+table.dataTable tr.odd:hover td, table.dataTable tr.even:hover td
+{
+    background-color: #B0E0F0;
+    cursor: pointer;
+}
+
+td.expandable > div {background: url("ui-icons_454545_256x240.png") -32px -128px no-repeat; height: 16px; width: 16px;}
+td.expandable.expanded > div {background-position: -64px -128px;}
+
+table.edOrg_home {
+    border: solid 1px black;
+    border-collapse: collapse;
+    width: 99%;
+    margin: 10px;
+    padding: 10px;
+    float: left;
+}
+
+table.edOrg_home th {
+    border: solid 1px black;
+    font: bold;
+}
+
+table.edOrg_home td {
+    border: solid 1px black;
+}

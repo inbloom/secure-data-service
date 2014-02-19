@@ -188,10 +188,17 @@ def delete_bell_schedule(id)
 end
 
 def verify_bell_schedule_entity_links
-  links = @entity['links']
+  links = remove_common_links(@entity['links']).dup
+  [
+    ['getSchool', bell_schedule_resource['educationOrganizationId']],
+    ['getEducationOrganization', bell_schedule_resource['educationOrganizationId']],
+    ['getClassPeriod', bell_schedule_resource['meetingTime']['classPeriodId']],
+    ['getCalendarDate', bell_schedule_resource['calendarDateReference']]
+  ].each do |rel, id|
+    link = build_entity_link rel, id
+    links.should include(link)
+    links.delete link
+  end
 
-  links.should include( build_entity_link 'getSchool', bell_schedule_resource['educationOrganizationId'])
-  links.should include( build_entity_link 'getEducationOrganization', bell_schedule_resource['educationOrganizationId'])
-  links.should include( build_entity_link 'getClassPeriod', bell_schedule_resource['meetingTime']['classPeriodId'])
-  links.should include( build_entity_link 'getCalendarDate', bell_schedule_resource['calendarDateReference'])
+  links.map{|link| link['rel']}.should == []
 end
