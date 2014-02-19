@@ -26,7 +26,12 @@ process_opts() {
                       "$OPTARG" != "api_contextual_roles" && \
                       "$OPTARG" != "api_odin" && \
                       "$OPTARG" != "bulk_extract" && \
-                      "$OPTARG" != "api_and_security" ]]; then
+                      "$OPTARG" != "api_and_security" && \
+                      "$OPTARG" != "admin" && \
+                      "$OPTARG" != "databrowser" && \
+                      "$OPTARG" != "dashboard" && \
+                      "$OPTARG" != "ingestion" && \
+                      "$OPTARG" != "sandbox" ]]; then
                     echo "Error: Environment must be one of ci|ci_e2e_prod|ci_e2e_sandbox|api_contextual_roles"
                     show_usage
                     exit 1
@@ -340,4 +345,92 @@ if [[ "$ENV" == "api_and_security" ]]; then
   EXITCODE=$?
 fi
 
+if [[ "$ENV" == "admin" ]]; then
+	noTableScan
+	cleanTomcat
+	cleanRails
+	resetDatabases
+	setMode $MODE
+	deployAdmin
+	startSearchIndexer
+
+	for APP in $APPS; do
+  	deployTomcat $APP ${deployHash[$APP]}
+  done
+	echo "Waiting for APPS to finish deploying"
+	sleep 120
+	runTests DEBUG=true PROPERTIES=/etc/datastore/test-properties.yml adminToolsTests
+  EXITCODE=$?
+fi
+
+if [[ "$ENV" == "dashboard" ]]; then
+	noTableScan
+	cleanTomcat
+	cleanRails
+	resetDatabases
+	setMode $MODE
+	startSearchIndexer
+
+	for APP in $APPS; do
+  	deployTomcat $APP ${deployHash[$APP]}
+  done
+	echo "Waiting for APPS to finish deploying"
+	sleep 120
+	runTests DEBUG=true PROPERTIES=/etc/datastore/test-properties.yml localDashboardTests
+  EXITCODE=$?
+fi
+
+if [[ "$ENV" == "databrowser" ]]; then
+	noTableScan
+	cleanTomcat
+	cleanRails
+	resetDatabases
+	setMode $MODE
+  deployDatabrowser
+	startSearchIndexer
+
+	for APP in $APPS; do
+  	deployTomcat $APP ${deployHash[$APP]}
+  done
+	echo "Waiting for APPS to finish deploying"
+	sleep 120
+	runTests DEBUG=true PROPERTIES=/etc/datastore/test-properties.yml databrowserTests
+  EXITCODE=$?
+fi
+
+if [[ "$ENV" == "ingestion" ]]; then
+	noTableScan
+	cleanTomcat
+	cleanRails
+	resetDatabases
+	setMode $MODE
+	startSearchIndexer
+
+	for APP in $APPS; do
+  	deployTomcat $APP ${deployHash[$APP]}
+  done
+	echo "Waiting for APPS to finish deploying"
+	sleep 120
+	runTests DEBUG=true PROPERTIES=/etc/datastore/test-properties.yml ingestionTests
+  EXITCODE=$?
+fi
+
+if [[ "$ENV" == "sandbox" ]]; then
+	noTableScan
+	cleanTomcat
+	cleanRails
+	resetDatabases
+	setMode $MODE
+	deployAdmin
+  deployDatabrowser
+	startSearchIndexer
+
+	for APP in $APPS; do
+  	deployTomcat $APP ${deployHash[$APP]}
+  done
+	echo "Waiting for APPS to finish deploying"
+	sleep 120
+	runTests DEBUG=true PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz sandboxTests
+  EXITCODE=$?
+fi
 exit $EXITCODE
