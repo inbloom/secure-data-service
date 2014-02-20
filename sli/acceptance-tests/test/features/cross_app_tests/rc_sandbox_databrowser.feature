@@ -143,7 +143,7 @@ Feature: Data Browser
     And I have navigated to the <Page> of the Data Browser
       | Page                         |
       | Teacher Section Associations |
-      | Sections                     |
+      | My Sections                  |
       | Teacher School Associations  |
       | Schools                   |
       | Me                           |
