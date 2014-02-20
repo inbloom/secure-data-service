@@ -42,5 +42,5 @@ Feature:  RC Integration Tests - Test Student Login
     And I should see the name "Matt Sollars Jr" on the page
     And I have navigated to the "Me" page of the Data Browser
     Then I can see my "Gender" is "Male"
-    Then I can see my "StudentUniqueStateId" is "800000025"
+    Then I can see my "State ID" is "800000025"
     Then I log out of Databrowser
