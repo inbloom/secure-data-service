@@ -38,6 +38,11 @@ After do
 end
 
 Given /^I have a SMTP\/Email server configured$/ do
+
+  puts "Email Email: #{TEST_EMAIL}" if $SLI_DEBUG
+  puts "Email Username: #{TEST_EMAIL_USER}" if $SLI_DEBUG
+  puts "Email Password: #{TEST_EMAIL_PASS}" if $SLI_DEBUG
+
   @email_sender_name= "SLC Administrator"
   @email = TEST_EMAIL
 
