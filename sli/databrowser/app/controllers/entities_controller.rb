@@ -227,18 +227,24 @@ class EntitiesController < ApplicationController
     @userEdOrgsNameVar = userEdOrgsName
     @userEdOrgsTypeVar = userEdOrgsType
     @userEdOrgsParentVar = userEdOrgsParentArr
-    @userFeederUrl =  getFeederOrg(userEdOrgsParentArr[0])
+    @userFeederUrl =  getFeederOrg(userEdOrgsId)
   end
 
 
   def getFeederOrg(parentId)
-    Entity.url_type = "entities/educationOrganizations?parentEducationAgencyReference=#{parentId}"
-    begin
-      parentEdOrgs = Entity.get("")
-    rescue
-      logger.debug {"Caught Exception on getting parent edorgs"}
-      return
-    end
+    Entity.url_type = "educationOrganizations?parentEducationAgencyReference=#{parentId}"
+   # begin
+     # parentEdOrgs = Entity.get("")
+     # logger.debug {"Caught Exception on getting parent edorgs"}
+     # return
+   # end
+    parentEdOrgs = Entity.url_type
+
+    parentEdOrgs = clean_up_results(parentEdOrgs)
+    logger.debug {"Parent edorgs : #{parentEdOrgs}"}
+
+    #userFeederUrl = request.url
+    parentEdOrgs
   end
 
 =begin

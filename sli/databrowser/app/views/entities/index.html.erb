@@ -18,7 +18,6 @@
         </tr>
         <tr>
           <td>Staff</td>
-
           <td><%=@allStaffCount%></td>
           <td><%=@currentStaffCount%></td>
         </tr>
@@ -27,22 +26,16 @@
       <table>
         <tr>
           <td>EdOrgs Name</td>
-
           <td>EdOrgs Id</td>
-
           <td>EdOrgs Type</td>
-
           <td>EdOrgs Parent</td>
-
+    
         </tr>
         <tr>
-
-          <td><%=link_to @userEdOrgsNameVar  %></td>
+          <td><%=link_to @userEdOrgsNameVar, @userFeederUrl  %></td>
           <td><%=@userEdOrgsIdVar%></td>
           <td><%=@userEdOrgsTypeVar%></td>
           <td><%=@userEdOrgsParentVar%></td>
-          <td><%=@userFeederUrl%></td>
-
 
         </tr>
       </table>
