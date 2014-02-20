@@ -229,3 +229,24 @@ And I am authenticated to SLI IDP as user "jwashington" with pass "jwashington12
 And I have navigated to the "Teacher to Section List" page of the Data Browser
 When I click on any of the entity IDs
 Then I am redirected to the particular entity Detail View
+
+
+Scenario: Validate that the headers are correct for students, parents, staff and teachers
+    Given I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "true"
+    And I have an open web browser
+    And I navigated to the Data Browser Home URL
+    And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+    And I click on the realm page Go button
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
+    Then I should be redirected to the Data Browser home page
+    Then I should navigate to <Link> and see columns in the correct order
+
+    | Link                 |
+    | "/entities/parents"  |
+    | "/entities/staff"    |
+    | "/entities/teachers" |
+    | "/entities/students" |
+
+    Given I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "false"
+

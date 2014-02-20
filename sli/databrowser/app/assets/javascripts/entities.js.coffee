@@ -12,7 +12,8 @@ jQuery ->
     "bPaginate": false,
     "aoColumnDefs": [ 
        { "bSortable": false, "aTargets": [ 0 ] }
-    ]
+    ],
+    "aaSorting": [[ 1, "asc" ], [2, "asc"], [3, "asc"]]
     )
   $('#simple-table tbody tr').click ->
     details = $(@)

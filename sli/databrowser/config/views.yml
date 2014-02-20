@@ -2,22 +2,22 @@
 #Each key below is the key to be displayed for the simple view
 
 student:
-    - id
-    - name/firstName
     - name/lastSurname
+    - name/firstName
     - studentUniqueStateId
+    - id
 
 parent:
-    - id
-    - name/firstName
     - name/lastSurname
+    - name/firstName
     - parentUniqueStateId
+    - id
 
 teacher:
-    - id
-    - staffUniqueStateId
-    - name/firstName
     - name/lastSurname
+    - name/firstName
+    - staffUniqueStateId
+    - id
     
 school:
     - id
@@ -30,3 +30,9 @@ section:
     - uniqueSectionCode
     - educationalEnvironment
     - availableCredit
+
+staff:
+    - name/lastSurname
+    - name/firstName
+    - staffUniqueStateId
+    - id
