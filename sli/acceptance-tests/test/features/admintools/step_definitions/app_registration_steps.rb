@@ -26,6 +26,20 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require 'date'
 
+#TODO: This step is defined (one way or another) in multiple places; need to DRY it up
+Given /^my LDAP server has been setup and running$/ do
+  @ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
+                          Property['ldap_base'], Property['ldap_admin_user'],
+                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
+  @email_sender_name= "Administrator"
+  @email_sender_address= "noreply@slidev.org"
+  @email_conf = {
+      :host =>  Property['email_smtp_host'],
+      :port => Property['email_smtp_port'],
+      :sender_name => @email_sender_name,
+      :sender_email_addr => @email_sender_address
+  }
+end
 Given /^I am a valid SLI Developer "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
   # No code needed, done as configuration
 end
