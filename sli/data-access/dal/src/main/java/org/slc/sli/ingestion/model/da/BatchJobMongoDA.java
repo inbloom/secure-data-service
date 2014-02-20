@@ -125,16 +125,25 @@ public class BatchJobMongoDA implements BatchJobDAO {
     public NewBatchJob findBatchJobById(String batchJobId) {
         return batchJobMongoTemplate.findOne(query(where("_id").is(batchJobId)), NewBatchJob.class);
     }
-
-    public NewBatchJob findLatestBatchJob() {
+    
+    public List<NewBatchJob> findLatestBatchJobs(int limit)
+    {
         Query query = new Query();
         query.sort().on("jobStartTimestamp", Order.DESCENDING);
-        query.limit(1);
+        query.limit(limit);
         List<NewBatchJob> sortedBatchJobs = batchJobMongoTemplate.find(query, NewBatchJob.class);
         if (sortedBatchJobs == null || sortedBatchJobs.size() == 0) {
             return null;
         }
-        return batchJobMongoTemplate.find(query, NewBatchJob.class).get(0);
+        return batchJobMongoTemplate.find(query, NewBatchJob.class);
+    }
+
+    public NewBatchJob findLatestBatchJob() 
+    {
+    	NewBatchJob result = null;
+    	List<NewBatchJob> list = findLatestBatchJobs(1);
+    	if (list != null && list.size() > 0) { result = list.get(0); }
+    	return result;
     }
 
     @Override
@@ -158,6 +167,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     public void setBatchJobMongoTemplate(MongoTemplate mongoTemplate) {
+    	LOG.debug("setting batchJobMongoTemplate");
         this.batchJobMongoTemplate = mongoTemplate;
     }
 
@@ -166,6 +176,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     public void setSliMongo(MongoTemplate sliMongo) {
+    	LOG.debug("setting sliMongo");
         this.sliMongo = sliMongo;
     }
 
