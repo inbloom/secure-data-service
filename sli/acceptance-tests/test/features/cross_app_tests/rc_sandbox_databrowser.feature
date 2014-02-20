@@ -145,7 +145,7 @@ Feature: Data Browser
       | Teacher Section Associations |
       | My Sections                  |
       | Teacher School Associations  |
-      | Schools                   |
+      | My Schools                   |
       | Me                           |
     Then I should click on the Home link and be redirected back
     When I search for the identifier "<CARMEN ORTIZ UNIQUE ID>" in "students"
