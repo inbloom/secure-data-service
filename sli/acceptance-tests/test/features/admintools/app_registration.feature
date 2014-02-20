@@ -1,30 +1,20 @@
 @RALLY_US187
 @RALLY_US103
 Feature: Application Registration
-As a super-admin I want to be able to create new application keys to allow the onboarding of new applications to SLI
+  As a super-admin
+  In order to allow the onboarding of new applications to SLI
+  I want to be able to create new application keys
+
 
 Background:
-Given I have an open web browser
-And my LDAP server has been setup and running
+  Given I have an open web browser
+    And my LDAP server has been setup and running
 
-Scenario: Federated edOrg user denied 
-
-Given I hit the Application Registration Tool URL
- When I select "Illinois Daybreak School District 4529" from the dropdown and click go
-  And I was redirected to the "Simple" IDP Login page
- When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
- Then the error message "Sorry, you don't have access to this page. if you feel like you are getting this message in error, please contact your administrator." is displayed
-
-Scenario: SLI Developer Logging in
-
-Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
-When I hit the Application Registration Tool URL
-And I select "inBloom" from the dropdown and click go
-And I was redirected to the "Simple" IDP Login page
-And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
-Then I am redirected to the Application Registration Tool page
-And I see all of the applications that are registered to SLI
-And those apps are sorted by the Last Update column
+Scenario: A district-level administrator attempts to manage applications
+  Given I am a valid district-level administrator
+    And I have an open browser
+   When I attempt to manage applications
+   Then I should not be allowed to access the page
 
 Scenario: Register a new application
 

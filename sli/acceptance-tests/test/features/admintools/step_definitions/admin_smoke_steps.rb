@@ -97,6 +97,11 @@ Given /^I have an in\-progress application$/ do
   @app_name = @app_row.find('td:nth-child(2)').text.strip
 end
 
+When /^I attempt to manage applications$/ do
+  browser.visit admin_apps_page
+  login_to_the_inbloom_realm
+end
+
 When /^I submit a new application for registration$/ do
   @app_name = "#{app_prefix}#{Time.now.to_i}"
 
@@ -191,7 +196,7 @@ Then /^the application status should be approved$/ do
 end
 
 Then /^the application should be ready$/ do
-  browser.page.should have_selector('table#applications tr', :text => /#{@app_name}(.*)Edit/)
+  browser.page.should have_selector('table#applications tr:nth-child(1)', :text => /#{@app_name}(.*)Edit/)
 end
 
 Then /^the application should be approved for all education organizations$/ do
@@ -202,6 +207,10 @@ end
 Then /^the application should not be approved$/ do
   app_row = browser.page.first('table#AuthorizedAppsTable tr', :text => /#{@app_name}/)
   app_row.should have_selector('td:nth-child(4)', :text => /Not Approved/)
+end
+
+Then /^I should not be allowed to access the page$/ do
+  browser.page.should have_selector('.alert-error', :text => /access to this page/)
 end
 
 # METHODS

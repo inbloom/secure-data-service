@@ -24,10 +24,6 @@ class DbClient
     self
   end
 
-  def for_sli
-    @db = @conn[Property[:sli_database_name]
-  end
-
   def close
     @conn.close
   end

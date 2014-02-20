@@ -65,10 +65,6 @@ Then /^I am redirected to the Application Registration Tool page$/ do
   assertWithWait("Failed to navigate to the Admintools App Registration page")  {@driver.page_source.index("New Application") != nil}
 end
 
-Then /^I see all of the applications that are registered to SLI$/ do
-  assertWithWait("Failed to find applications table") {@driver.find_element(:id, "applications")}
-end
-
 Then /^application "([^"]*)" does not have an edit link$/ do |app|
 # TODO: canidate for lowering timeout temporarly to improve performance
   appsTable = @driver.find_element(:id, "applications")
@@ -175,26 +171,6 @@ Then /^the 'Approve' button is disabled for application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
   y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Approve']")[0]
   assert(y_button.attribute("disabled") == 'true', "Y button is disabled")
-end
-
-Then /^those apps are sorted by the Last Update column$/ do
-  appsTable = @driver.find_element(:id, "applications")
-  tableHeadings = appsTable.find_elements(:xpath, ".//tr/th")
-  index = 0
-  tableHeadings.each do |arg|
-    index = tableHeadings.index(arg) + 1 if arg.text == "Last Update"    
-  end
-  tableRows = appsTable.find_elements(:xpath, ".//tr/td/a[text()='Edit']/../..")
-  lastDate = nil
-  tableRows.each do |row|
-    td = row.find_element(:xpath, ".//td[#{index}]")
-    date = Date.parse(td.text)
-    if lastDate == nil
-      lastDate = date
-    end
-    assert(date <= lastDate, "Last Update column should be sorted")
-    lastDate = date
-  end
 end
 
 Given /^I am a valid IT Administrator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
