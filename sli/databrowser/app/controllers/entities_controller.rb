@@ -212,7 +212,6 @@ class EntitiesController < ApplicationController
       userEdOrgsName = "#{userEdOrgsName},#{e['nameOfInstitution']}"
       userEdOrgsType = "#{userEdOrgsType},#{e['entityType']}"
       userEdOrgsParentArr = "#{userEdOrgsParentArr},#{e['parentEducationAgencyReference']}"
-
       logger.debug {"User edorgs : #{e}"}
     end
     # drop leading comma
@@ -221,29 +220,54 @@ class EntitiesController < ApplicationController
     userEdOrgsType = userEdOrgsType[1..-1]
     userEdOrgsParentArr = userEdOrgsParentArr[1..-1]
 
+
+    userEdOrgsParent = eval(userEdOrgsParentArr)
+    logger.debug("DEBUG RESULTS 000 : #{userEdOrgsParent}")
+
+    userEdOrgsParent.each do |a|
+      userEdOrgsParent = getParentEdOrgName(a)
+      logger.debug("DEBUG RESULTS A : #{userEdOrgsParent}")
+    end
     logger.debug {"User edorg string: #{userEdOrgsString}"}
 
     @userEdOrgsIdVar = userEdOrgsId
     @userEdOrgsNameVar = userEdOrgsName
     @userEdOrgsTypeVar = userEdOrgsType
-    @userEdOrgsParentVar = userEdOrgsParentArr
+    @userEdOrgsParentVar = userEdOrgsParent
     @userFeederUrl =  getFeederOrg(userEdOrgsId)
+
+    userEdOrgsId
   end
+
+
+  def getParentEdOrgName(entid)
+
+    Entity.url_type = "educationOrganizations/#{entid}"
+    begin
+      userEdOrgs = Entity.get("")
+    rescue
+      logger.debug {"Caught Exception on getting edorgs"}
+      return
+    end
+    userEdOrgs = clean_up_results(userEdOrgs)
+
+    userEdOrgsName = ""
+    userEdOrgs.each do |e|
+      userEdOrgsName = "#{userEdOrgsName},#{e['nameOfInstitution']}"
+      logger.debug {"User edorgs : #{e}"}
+    end
+    # drop leading comma
+    userEdOrgsName = userEdOrgsName[1..-1]
+    userEdOrgsName
+  end
+
 
 
   def getFeederOrg(parentId)
     Entity.url_type = "educationOrganizations?parentEducationAgencyReference=#{parentId}"
-   # begin
-     # parentEdOrgs = Entity.get("")
-     # logger.debug {"Caught Exception on getting parent edorgs"}
-     # return
-   # end
     parentEdOrgs = Entity.url_type
-
     parentEdOrgs = clean_up_results(parentEdOrgs)
-    logger.debug {"Parent edorgs : #{parentEdOrgs}"}
-
-    #userFeederUrl = request.url
+    logger.debug {"Parent EdOrgs : #{parentEdOrgs}"}
     parentEdOrgs
   end
 
