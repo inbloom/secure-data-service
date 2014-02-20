@@ -78,6 +78,9 @@ end
 def get_last_email_id
   defaultUser = TEST_EMAIL_USER
   defaultPassword = TEST_EMAIL_PASS
+
+  puts "=============  IMAP host is #{Property['email_imap_host']}"
+  puts "=============  IMAP port is #{Property['email_imap_port']}"
   @imap = Net::IMAP.new(Property['email_imap_host'], Property['email_imap_port'], true, nil, false)
   @imap.authenticate('LOGIN', defaultUser, defaultPassword)
   @imap.examine('INBOX')
