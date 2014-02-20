@@ -111,7 +111,6 @@ class EntitiesController < ApplicationController
       logger.debug {"Keeping query parameters #{query.inspect}"}
       @entities = Entity.get("", query)
       @page = Page.new(@entities.http_response)
-      logger.info("HTTP Response: #{@entities}")
       clean_up_results
     end
     if params[:other] == 'home'
