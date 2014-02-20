@@ -25,12 +25,3 @@ jQuery ->
     else
       table.fnOpen(@, details.find('td.hidden').html(), "details")
       $(@).find("td:first-child.expandable").toggleClass("expanded")
-
-jQuery ->
-  if $('.pagination').length
-    $(window).scroll ->
-      url = $('div.pagination #paginate-next').attr('href')
-      if url && $(window).scrollTop() > $(document).height() - $(window).height() - 50
-        $('div.pagination').text("Fetching more results...")
-        $.getScript(url)
-    $(window).scroll()
