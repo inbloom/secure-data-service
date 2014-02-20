@@ -5,11 +5,13 @@ table = null
 
 jQuery ->
   table = $('#simple-table').dataTable(
-    "sDom": '<"top"i>rt<"bottom"flp><"clear">'
-    "bLengthChange": false,
+    "sDom": '<"top"i><"right"l>rt<"bottom"fp><"clear">'
     "bFilter": false,
     "bRetrieve": true,
     "bPaginate": false,
+    "bLengthChange": false,
+    "bInfo" : false,
+    "sPaginationType": "full_numbers",
     "aoColumnDefs": [ 
        { "bSortable": false, "aTargets": [ 0 ] }
     ]

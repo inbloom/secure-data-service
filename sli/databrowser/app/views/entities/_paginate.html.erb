@@ -1,5 +1,20 @@
 <div class="hidden pagination">
+
+  <% if !(params[:offset].to_i == 0) %>
+    <%= link_to "First", params.merge(:offset => 0), :class => "paginate", :id => "paginate-first" %>
+  <% end %>
+
+  <% if params[:offset].to_i > 0 %>
+    <%= link_to "Prev", params.merge(:offset => (params[:offset].to_i - params[:limit].to_i)), :class => "paginate", :id => "paginate-prev" %>    
+  <% end %>
+  
+  <%
+    offset_last = (@entities.http_response['TotalCount'].to_i / params[:limit].to_i) * params[:limit].to_i
+  %>
+  
   <% if @page.next? %>
-    <%= link_to "Next", params.merge(:offset => @page.next), :class => "paginate", :id => "paginate-next" %>
+    <%= link_to "Next", params.merge(:offset => (params[:offset].to_i + params[:limit].to_i)), :class => "paginate", :id => "paginate-next" %>
+    <%= link_to "Last", params.merge(:offset => offset_last), :class => "paginate", :id => "paginate-last" %>
   <%end%>
+
 </div>

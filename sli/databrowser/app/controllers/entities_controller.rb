@@ -88,7 +88,14 @@ class EntitiesController < ApplicationController
   # Second, if we see any offset in params then we make the call to
   # grab the next page of data from the Api.
   def show
-    @@LIMIT = 50
+    
+    if params[:offset].nil?
+      params[:offset] = 0
+    end
+    if params[:limit].nil?
+      params[:limit] = 10
+    end
+    
     @page = Page.new
     if params[:search_id] && @search_field
       @entities = []
@@ -97,13 +104,14 @@ class EntitiesController < ApplicationController
       flash.now[:notice] = "There were no entries matching your search" if @entities.size == 0 || @entities.nil?
     else
       #Clean up the parameters to pass through to the API.
-      if params[:offset]
-        params[:limit] == @@LIMIT
-      end
+      #if params[:offset]
+      #  params[:limit] == @@LIMIT
+      #end
       query = params.reject {|k, v| k == 'controller' || k == 'action' || k == 'other' || k == 'search_id'}
       logger.debug {"Keeping query parameters #{query.inspect}"}
       @entities = Entity.get("", query)
       @page = Page.new(@entities.http_response)
+      logger.info("HTTP Response: #{@entities}")
       clean_up_results
     end
     if params[:other] == 'home'
