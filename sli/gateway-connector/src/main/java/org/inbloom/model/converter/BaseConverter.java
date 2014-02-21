@@ -17,16 +17,16 @@ public class BaseConverter {
     protected Object getObject(DBObject dbObj, String key)
     {
         String[] keys = key.split("\\.");
-
+        DBObject rootObj = dbObj;
         Object obj = null;
 
         for(int i=0;i<keys.length;i++)
         {
-            obj = dbObj.get(keys[i]);
+            obj = rootObj.get(keys[i]);
 
             if(i < keys.length-1) {
                 if(obj != null && obj instanceof DBObject) {
-                    dbObj = (DBObject) obj;
+                    rootObj = (DBObject) obj;
                 }
                 else {
                     obj = null;
@@ -57,18 +57,28 @@ public class BaseConverter {
 
     protected String getString(DBObject dbObj, String key)
     {
-          Object obj = getObject(dbObj, key);
+        Object obj = getObject(dbObj, key);
         if(obj instanceof String)
+        {
             return (String) obj;
-        else return null;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     protected Boolean getBoolean(DBObject dbObj, String key)
     {
         Object obj = getObject(dbObj, key);
         if(obj instanceof Boolean)
+        {
             return (Boolean) obj;
-        else return null;
+        }
+        else
+        {
+            return null;
+        }
     }
 
 }

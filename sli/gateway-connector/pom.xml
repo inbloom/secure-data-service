@@ -3,11 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <parent>
-        <artifactId>sli</artifactId>
-        <groupId>org.slc.sli</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
+    <!--<parent>-->
+        <!--<artifactId>sli</artifactId>-->
+        <!--<groupId>org.slc.sli</groupId>-->
+        <!--<version>1.0-SNAPSHOT</version>-->
+    <!--</parent>-->
 
 
     <modelVersion>4.0.0</modelVersion>
@@ -24,6 +24,7 @@
         <org.springframework.version>3.2.7.RELEASE</org.springframework.version>
         <org.springframework.data.version>1.3.3.RELEASE</org.springframework.data.version>
         <org.springframework.ws.version>2.1.4.RELEASE</org.springframework.ws.version>
+        <!--<org.springframework.asm.version>3.1.4.RELEASE</org.springframework.asm.version>-->
         <com.sun.jersey.contribs.version>1.18</com.sun.jersey.contribs.version>
         <org.mortbay.jetty.version>6.1.12</org.mortbay.jetty.version>
         <maven-war-plugin.version>2.4</maven-war-plugin.version>
@@ -56,6 +57,12 @@
             <artifactId>spring-beans</artifactId>
             <version>${org.springframework.version}</version>
         </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-asm</artifactId>-->
+            <!--<version>${org.springframework.asm.version}</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.springframework.data</groupId>
