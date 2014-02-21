@@ -1,4 +1,5 @@
 <div id='data'>
+
   <h1>Listing Home </h1>
   <% @entities.each do |e| %>
       <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
@@ -39,6 +40,8 @@
         </tr>
       </table>
   <% end %>
-</div>
+
+
+
 
 
