@@ -312,3 +312,15 @@ Then /^I click on the link "(.*?)"$/ do |link|
   end
 end
 
+And /^I should see a row containing "([^"]*)"$/ do |arg1|
+  assertWithWait("Failed to find row containing text: "+arg1)  {@driver.find_element(:xpath, "//tr/td[normalize-space()='#{arg1}']")}
+end
+
+And /^I should NOT see a row containing "([^"]*)"$/ do |arg1|
+  begin
+    assertWithWait("Failed to find row containing text: "+arg1)  {@driver.find_element(:xpath, "//tr/td[normalize-space()='#{arg1}']")}
+    assert(false)
+  rescue => e
+    assert(true)
+  end
+end
