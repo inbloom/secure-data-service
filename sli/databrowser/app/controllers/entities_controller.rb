@@ -92,8 +92,13 @@ class EntitiesController < ApplicationController
     if params[:offset].nil?
       params[:offset] = 0
     end
-    if params[:limit].nil?
+    if params[:limit].nil? and session[:limit].nil?
       params[:limit] = 10
+      session[:limit] = params[:limit]
+    elsif !params[:limit].nil?
+      session[:limit] = params[:limit]
+    elsif params[:limit].nil? and !session[:limit].nil?
+      params[:limit] = session[:limit]
     end
     
     @page = Page.new

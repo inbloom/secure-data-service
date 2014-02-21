@@ -3,7 +3,9 @@
 <h2>Viewing information for <%= params[:other] %></h2>
 <p><%= link_to 'Back to Listings', :back %></p>
 <div id='entities'>
-  <% if @entities.size == 1 %>
+  <% if @entities.size < 1 %>
+    <%= render :partial => "multi_record_table", :locals => {:page => @page} %>
+  <% elsif @entities.size == 1 %>
   	<%= render :partial => "single_record_details", :locals => {:entity => @entities.first} %>
   <%else%>
 
@@ -16,21 +18,27 @@
     <% end %>
     of <%= @entities.http_response['TotalCount'] %> entries</span>
     
-    <span class="per_page">Items per page:
+    <!--
+      -- Paginate Limit parameters. Keep the if statement number equal to the smallest
+      -- number in the array for appropriate showing of the limit boxes
+    -->
     <% limits = [10, 20, 25] %>
-    <% limits.each do |limit| %>
-        <% if params[:limit].to_i == limit.to_i %>
-            <span class="selected">
-        <% else %>
-            <span>
+    <% if @entities.http_response['TotalCount'].to_i > 10 %>
+        <span class="per_page">Items per page:
+        <% limits.each do |limit| %>
+            <% if params[:limit].to_i == limit.to_i %>
+                <span class="selected">
+            <% else %>
+                <span>
+            <% end %>
+            <%= link_to "#{limit}", params.merge(:offset => 0, :limit => limit) %>
+            </span>
         <% end %>
-        <%= link_to "#{limit}", params.merge(:offset => 0, :limit => limit) %>
         </span>
     <% end %>
-    </span>
     </div>
 
   	<%= render :partial => "multi_record_table", :locals => {:page => @page} %>
+  	<%= render 'paginate'%>
   <% end %>
-  <%= render 'paginate'%>
 </div>
