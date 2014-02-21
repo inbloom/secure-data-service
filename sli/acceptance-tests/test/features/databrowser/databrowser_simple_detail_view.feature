@@ -252,3 +252,23 @@ When I click on the "First" link
 And I should see a row containing "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id"
 When I click on the "20" link
 And I should see a row containing "414106a9-6156-1011-a477-4bd4dda7e21a_id"
+
+
+Scenario: Validate that the headers are correct for students, parents, staff and teachers
+    Given I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "true"
+    And I have an open web browser
+    And I navigated to the Data Browser Home URL
+    And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+    And I click on the realm page Go button
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
+    Then I should be redirected to the Data Browser home page
+    Then I should navigate to <Link> and see columns in the correct order
+
+    | Link                 |
+    | "/entities/parents"  |
+    | "/entities/staff"    |
+    | "/entities/teachers" |
+    | "/entities/students" |
+
+    Given I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "false"
