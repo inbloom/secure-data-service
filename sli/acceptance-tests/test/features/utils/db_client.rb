@@ -16,10 +16,12 @@ class DbClient
 
   def for_tenant(tenant)
     @db = @conn[tenant_to_db_name(tenant)]
+    self
   end
 
   def for_sli
-    @db = @conn[Property[:sli_database_name]
+    @db = @conn[Property[:sli_database_name]]
+    self
   end
 
   def close
