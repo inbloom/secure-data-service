@@ -267,4 +267,4 @@ Then I should see a count of <Total> for id <ID> staff total and <Current> for c
   | ID						            | Total	| Current |
   |a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb	| 4	    | 4	      |
   |8cc0a1ac-ccb5-dffc-1d74-32964722179b	| 0	    | 0       |
-  |ec2e4218-6483-4e9c-8954-0aecccfd4731 | 8     | 4       |
+  |ec2e4218-6483-4e9c-8954-0aecccfd4731 | 1     | 1       |

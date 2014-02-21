@@ -262,19 +262,19 @@ module EntitiesHelper
   # of the two counts
   def get_staff_counts(ed_orgs)
 # Can be used for unique staff
-#UseForUnique    total = Hash.new
-#UseForUnique    current = Hash.new
-#UseForUnique    total_teachers = Hash.new
-#UseForUnique    total_non_teachers = Hash.new
-#UseForUnique    current_teachers = Hash.new
-#UseForUnique    current_non_teachers = Hash.new
+    total = Hash.new
+    current = Hash.new
+    total_teachers = Hash.new
+    total_non_teachers = Hash.new
+    current_teachers = Hash.new
+    current_non_teachers = Hash.new
 
-    total = 0
-    current = 0
-    total_teachers = 0
-    total_non_teachers = 0
-    current_teachers = 0
-    current_non_teachers = 0
+#UseForTotal    total = 0
+#UseForTotal    current = 0
+#UseForTotal    total_teachers = 0
+#UseForTotal    total_non_teachers = 0
+#UseForTotal    current_teachers = 0
+#UseForTotal    current_non_teachers = 0
 
     ed_orgs.each do | ed_org |
       url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{ed_org['id']}/staffEducationOrgAssignmentAssociations?limit=0"
@@ -284,31 +284,31 @@ module EntitiesHelper
         associations = JSON.parse(associations)
         associations.each do |association|
           # Increment the total
-          #UseForUniquetotal[association['staffReference']] = association['staffReference']
-          total += 1
+          total[association['staffReference']] = association['staffReference']
+          #UseForTotaltotal += 1
           
           # Increment totals for teachers and non-teachers as necessary for totals
           if (!association['staffClassification'].nil?)
             if (association['staffClassification'].include? "Educator")
-              #UseForUniquetotal_teachers[association['staffReference']] = association['staffReference']
-              total_teachers += 1
+              total_teachers[association['staffReference']] = association['staffReference']
+              #UseForTotaltotal_teachers += 1
             else
-              #UseForUniquetotal_non_teachers[association['staffReference']] = association['staffReference']
-              total_non_teachers += 1
+              total_non_teachers[association['staffReference']] = association['staffReference']
+              #UseForTotaltotal_non_teachers += 1
             end
           end
           
           # Increment current for staff, teachers and non-teachers
           if (is_current(association))
-            #UseForUniquecurrent[association['staffReference']] = association['staffReference']
-            current += 1
+            current[association['staffReference']] = association['staffReference']
+            #UseForTotalcurrent += 1
             if (!association['staffClassification'].nil?)
               if (association['staffClassification'].include? "Educator")
-                current_teachers += 1
-                #UseForUniquecurrent_teachers[association['staffReference']] = association['staffReference']
+                #UseForTotalcurrent_teachers += 1
+                current_teachers[association['staffReference']] = association['staffReference']
               else
-                current_non_teachers += 1
-                #UseForUniquecurrent_non_teachers[association['staffReference']] = association['staffReference']
+                #UseForTotalcurrent_non_teachers += 1
+                current_non_teachers[association['staffReference']] = association['staffReference']
               end
             end
           end
@@ -319,12 +319,12 @@ module EntitiesHelper
     end
     
     result = Hash.new
-    result['total'] = total#UseForUnique.size()
-    result['current'] = current#UseForUnique.size()
-    result['total_teachers'] = total_teachers#UseForUnique.size()
-    result['total_non_teachers'] = total_non_teachers#UseForUnique.size()
-    result['current_teachers'] = current_teachers#UseForUnique.size()
-    result['current_non_teachers'] = current_non_teachers#UseForUnique.size()
+    result['total'] = total.size()
+    result['current'] = current.size()
+    result['total_teachers'] = total_teachers.size()
+    result['total_non_teachers'] = total_non_teachers.size()
+    result['current_teachers'] = current_teachers.size()
+    result['current_non_teachers'] = current_non_teachers.size()
     result    
   end
 
