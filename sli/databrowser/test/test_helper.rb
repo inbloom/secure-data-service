@@ -50,6 +50,8 @@ class ActiveSupport::TestCase
     headers = {"Link" => "</something/something?offset=30&limit=50; rel=next"}
     ActiveResource::HttpMock.respond_to do |mock|
       mock.get "/api/rest/v1/home/", {"Accept" => "application/vnd.slc+json"}, [].to_json, 200, headers
+      mock.get "/api/rest/v1/students/", {"Accept" => "application/vnd.slc+json"}, [@student_fixtures['one'], @student_fixtures['two']].to_json, 200, headers
+      mock.get "/api/rest/v1/teachers/", {"Accept" => "application/vnd.slc+json"}, [@teacher_fixtures['one'], @teacher_fixtures['two']].to_json, 200, headers
       mock.get "/api/rest/v1/students/?limit=10&offset=0", {"Accept" => "application/vnd.slc+json"}, [@student_fixtures['one'], @student_fixtures['two']].to_json, 200, headers
       mock.get "/api/rest/v1/teachers/?limit=10&offset=0", {"Accept" => "application/vnd.slc+json"}, [@teacher_fixtures['one'], @teacher_fixtures['two']].to_json, 200, headers
       mock.get "/api/rest/v1/students/11111111-1111-1111-1111-111111111111/?limit=10&offset=0", {"Accept" => "application/vnd.slc+json"}, @student_fixtures['one'].to_json, 200, headers
