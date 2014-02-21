@@ -5,7 +5,7 @@ As a super-admin I want to be able to create new application keys to allow the o
 
 Background:
 Given I have an open web browser
-And LDAP server has been setup and running
+And my LDAP server has been setup and running
 
 Scenario: Federated edOrg user denied 
 

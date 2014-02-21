@@ -14,6 +14,7 @@ Feature:
     Then the response status should be 201 Created
      And the response location header should link to the new attendance event
      And the attendance event should be saved
+     And the students attendance should contain the attendance event
 
   Scenario: An API user cannot create (POST) a duplicate attendance event
     Given I create an attendance event
@@ -43,6 +44,7 @@ Feature:
     When I DELETE that attendance event
     Then the response status should be 204 No Content
      And the attendance event should be deleted
+     And the students attendance should not contain the attendance event
 
   Scenario: An API user partially updates (PATCH) an attendance event
     Given I create an attendance event
