@@ -4,7 +4,7 @@
       <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
   <% end %>
   <% if !@isAStudent %>
-      <h2>Counts</h2>
+     <!-- <h2>Counts</h2>
       <table>
         <tr>
           <td>Data Point</td>
@@ -23,20 +23,19 @@
         </tr>
       </table>
       <div></div>
+      <table>-->
       <table>
         <tr>
           <td>EdOrgs Name</td>
           <td>EdOrgs Id</td>
           <td>EdOrgs Type</td>
           <td>EdOrgs Parent</td>
-
         </tr>
         <tr>
           <td><%=link_to @userEdOrgsNameVar, @userFeederUrl  %></td>
           <td><%=@userEdOrgsIdVar%></td>
           <td><%=@userEdOrgsTypeVar%></td>
           <td><%=@userEdOrgsParentVar%></td>
-
         </tr>
       </table>
   <% end %>

@@ -189,10 +189,54 @@ class EntitiesController < ApplicationController
     entidAndCollection = {"entid"=>entid,"collection"=>collection}
     entidAndCollection
   end
+
+  #This function is used to set the values for EdOrg table for Id, name, parent and type fields in the homepage
   private
   def getUserEdOrgsString(entid)
 
-    Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
+    #The URL to get edOrgs
+    edOrgUrl = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
+
+    #The attributes to be set in the EdOrg table fields
+    id ="id"
+    name = "nameOfInstitution"
+    type = "entityType"
+    parent = "parentEducationAgencyReference"
+
+    #Calling the getEdOrgs function, which will handle the API call to return the values from JSON
+    userEdOrgsId = getEdOrgs(edOrgUrl, id)
+    userEdOrgsName = getEdOrgs(edOrgUrl, name)
+    userEdOrgsType = getEdOrgs(edOrgUrl, type)
+    userEdOrgsParentArr = getEdOrgs(edOrgUrl, parent)
+
+    #The parent field for EdOrg is a string that actually contains the value of an array of parent
+    # EdOrgs associated with an EdOrg. The string has to be converted to an array to do array manipulations to
+    # display the parent EdOrgs for the Edorg
+    userEdOrgsParent = eval(userEdOrgsParentArr)
+    logger.debug("User edorgs parent : #{userEdOrgsParent}")
+
+    #Looping through parent EdOrgs and sending an API call to get the parent EdOrg Name associated with Parent EdOrg Id
+    userEdOrgsParent.each do |parentId|
+      parentUrl = "educationOrganizations/#{parentId}"
+      userEdOrgsParent = getEdOrgs(parentUrl, name)
+    end
+
+    #Setting variables to be sent to the View
+    @userEdOrgsIdVar = userEdOrgsId
+    @userEdOrgsNameVar = userEdOrgsName
+    @userEdOrgsTypeVar = userEdOrgsType
+    @userEdOrgsParentVar = userEdOrgsParent
+    @userFeederUrl =  getFeederOrg(userEdOrgsId)
+
+    #userEdOrgsId
+  end
+
+  #This function is used to run an API call to fetch the values of attributes associated with Entity Id
+  private
+  def getEdOrgs(entityUrl, attribute)
+
+    #Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
+    Entity.url_type = entityUrl
     begin
       userEdOrgs = Entity.get("")
     rescue
@@ -201,68 +245,19 @@ class EntitiesController < ApplicationController
     end
     userEdOrgs = clean_up_results(userEdOrgs)
     userEdOrgsString = ""
-    userEdOrgsId = ""
-    userEdOrgsName = ""
-    userEdOrgsParentArr = ""
-    userEdOrgsParent = ""
-    userEdOrgsType = ""
 
     userEdOrgs.each do |e|
-      userEdOrgsId = "#{userEdOrgsId},#{e['id']}"
-      userEdOrgsName = "#{userEdOrgsName},#{e['nameOfInstitution']}"
-      userEdOrgsType = "#{userEdOrgsType},#{e['entityType']}"
-      userEdOrgsParentArr = "#{userEdOrgsParentArr},#{e['parentEducationAgencyReference']}"
+      userEdOrgsString = "#{userEdOrgsString},#{e[attribute]}"
+
       logger.debug {"User edorgs : #{e}"}
     end
+
     # drop leading comma
-    userEdOrgsId = userEdOrgsId[1..-1]
-    userEdOrgsName = userEdOrgsName[1..-1]
-    userEdOrgsType = userEdOrgsType[1..-1]
-    userEdOrgsParentArr = userEdOrgsParentArr[1..-1]
-
-
-    userEdOrgsParent = eval(userEdOrgsParentArr)
-    logger.debug("DEBUG RESULTS 000 : #{userEdOrgsParent}")
-
-    userEdOrgsParent.each do |a|
-      userEdOrgsParent = getParentEdOrgName(a)
-      logger.debug("DEBUG RESULTS A : #{userEdOrgsParent}")
-    end
-    logger.debug {"User edorg string: #{userEdOrgsString}"}
-
-    @userEdOrgsIdVar = userEdOrgsId
-    @userEdOrgsNameVar = userEdOrgsName
-    @userEdOrgsTypeVar = userEdOrgsType
-    @userEdOrgsParentVar = userEdOrgsParent
-    @userFeederUrl =  getFeederOrg(userEdOrgsId)
-
-    userEdOrgsId
+    userEdOrgsString = userEdOrgsString[1..-1]
+    userEdOrgsString
   end
 
-
-  def getParentEdOrgName(entid)
-
-    Entity.url_type = "educationOrganizations/#{entid}"
-    begin
-      userEdOrgs = Entity.get("")
-    rescue
-      logger.debug {"Caught Exception on getting edorgs"}
-      return
-    end
-    userEdOrgs = clean_up_results(userEdOrgs)
-
-    userEdOrgsName = ""
-    userEdOrgs.each do |e|
-      userEdOrgsName = "#{userEdOrgsName},#{e['nameOfInstitution']}"
-      logger.debug {"User edorgs : #{e}"}
-    end
-    # drop leading comma
-    userEdOrgsName = userEdOrgsName[1..-1]
-    userEdOrgsName
-  end
-
-
-
+  #This function is used to run an API call to fetch the values of feeder EdOrgs associated with the EdOrg Id
   def getFeederOrg(parentId)
     Entity.url_type = "educationOrganizations?parentEducationAgencyReference=#{parentId}"
     parentEdOrgs = Entity.url_type
@@ -271,38 +266,6 @@ class EntitiesController < ApplicationController
     parentEdOrgs
   end
 
-=begin
-  def getUserEdOrgsName(entid)
-
-    Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
-    begin
-      userEdOrgs = Entity.get("")
-    rescue
-      logger.debug {"Caught Exception on getting edorgs"}
-      return
-    end
-    userEdOrgs = clean_up_results(userEdOrgs)
-    userEdOrgsName = ""
-
-    userEdOrgs.each do |e|
-      userEdOrgsName = "#{userEdOrgsName},#{e['parentEducationAgencyReference'][0]}"
-      logger.debug {"User edorgs : #{e}"}
-    end
-    # drop leading comma
-    userEdOrgsName = userEdOrgsName[1..-1]
-    logger.debug {"User edorg string: #{userEdOrgsName}"}
-    userEdOrgsName
-  end
-=end
-
-=begin
- <%=@userEdOrgsParentVar.each do |data|%>
-            <tr>
-              <td><%= data %></td>  #column field1 in your database
-              <td><%= data %></td>  #column field2 in your database
-  </tr>
-        <% end %>
-=end
 
   private
   def  getCount(associationRoot, userEdOrgsString, associationType, targetCollection, currentOnly)
