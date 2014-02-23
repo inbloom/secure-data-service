@@ -14,6 +14,11 @@ class DbClient
     @db = @conn[db_name]
   end
 
+  def open
+    yield self
+    close
+  end
+
   def for_tenant(tenant)
     @db = @conn[tenant_to_db_name(tenant)]
     self
@@ -44,12 +49,14 @@ class DbClient
     find_one collection, id_query(id)
   end
 
+  alias_method :find_by_id, :find_one_by_id
+
   def find_ids(collection)
     db[collection].find({}, :fields=>'_id').map{|f| f['_id']}
   end
 
-  def update(collection, query, update, flags={})
-    db[collection].update(query, update, flags)
+  def update(collection, query, document, flags={})
+    db[collection].update(query, document, flags)
   end
 
   def remove(collection, query)
@@ -58,6 +65,10 @@ class DbClient
 
   def remove_by_id(collection, id)
     remove collection, id_query(id)
+  end
+
+  def insert(collection, document)
+    db[collection].insert(document)
   end
 
   private

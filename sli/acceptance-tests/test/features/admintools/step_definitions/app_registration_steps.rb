@@ -65,13 +65,6 @@ Then /^I am redirected to the Application Registration Tool page$/ do
   assertWithWait("Failed to navigate to the Admintools App Registration page")  {@driver.page_source.index("New Application") != nil}
 end
 
-Then /^application "([^"]*)" does not have an edit link$/ do |app|
-# TODO: canidate for lowering timeout temporarly to improve performance
-  appsTable = @driver.find_element(:id, "applications")
-  edit = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/a[text()='Edit']")
-  assert(edit.length == 0, "Should not see an edit link")
-end
-
 Then /^I see all the applications registered on SLI$/ do
   appsTable = @driver.find_element(:id, "applications")
   trs = appsTable.find_elements(:xpath, ".//tr/td[text()='APPROVED']")
@@ -83,14 +76,6 @@ Then /^I see all the applications pending registration$/ do
   trs = appsTable.find_elements(:xpath, ".//tr/td[text()='PENDING']")
   assert(trs.length == 1, "Should see a pending application")
 end
-
-# for slcoperator
-Then /^application "([^"]*)" is pending approval$/ do |app|
-  appsTable = @driver.find_element(:id, "applications")
-  trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td[text()='PENDING']")
-  assert(trs.length > 0, "#{app} is pending")
-end
-
 
 Then /^the pending apps are on top$/ do
   appsTable = @driver.find_element(:id, "applications")
@@ -124,26 +109,6 @@ When /^I click on 'Approve' next to application "([^"]*)"$/ do |app|
   y_button.click
 end
 
-# For developer
-When /^I click on 'In Progress' next to application "([^"]*)"$/ do |app|
-  appsTable = @driver.find_element(:id, "applications")
-  y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='In Progress']")
-  assert(y_button != nil, "Did not find the 'In Progress' button")
-  y_button.click
-end
-
-# For slcoperator
-When /^I click on 'Deny' next to application "([^"]*)"$/ do |app|
-  appsTable = @driver.find_element(:id, "applications")
-  y_button  = appsTable.find_element(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Deny']")
-  assert(y_button != nil, "Did not find the deny button")
-  y_button.click
-end
-
-Then /^I get a dialog asking if I want to continue$/ do
-  @driver.switch_to.alert
-end
-
 # For slcoperator
 Then /^application "([^"]*)" is registered$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
@@ -152,33 +117,10 @@ Then /^application "([^"]*)" is registered$/ do |app|
   }
 end
 
-Then /^application "([^"]*)" is not registered$/ do |app|
-    # no-op - in next step we verify it was removed from list
-end
-
-Then /^application "([^"]*)" is removed from the list$/ do |app|
-  retryOnFailure() do
-    assertWithWait("Shouldn't see a NewApp", 30) {
-      @driver.find_element(:id, "applications").find_elements(:xpath, ".//tr/td[text()='#{app}']").length == 0
-    }
-  end
-  #appsTable = @driver.find_element(:id, "applications")
-  #tds  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']")
-  #assert(tds.length == 0, "#{app} isn't in list")
-end
-
 Then /^the 'Approve' button is disabled for application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
   y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Approve']")[0]
   assert(y_button.attribute("disabled") == 'true', "Y button is disabled")
-end
-
-Given /^I am a valid IT Administrator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
-  # No code needed, done as configuration
-end
-
-Then /^I receive a message that I am not authorized$/ do
-  assertWithWait("Failed to find forbidden message")  {@driver.page_source.index("Forbidden") != nil}
 end
 
 Then /^I have clicked to the button New$/ do
@@ -394,6 +336,8 @@ Then /^the Registration Status field is Registered$/ do
   #Nothing to show anymore
 end
 
+# TODO: Figure out a better way of doing this e-mail checking and
+#       then move it to the App Registration scenario in admin_smoke.feature
 Then /^a notification email is sent to "([^"]*)"$/ do |email|
     sleep 2
     defaultUser = email.split("@")[0]
