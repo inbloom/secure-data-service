@@ -62,10 +62,11 @@ end
 
 Given /^I am a valid (.*)$/ do |user_type|
   @user, @pass = valid_user user_type
+  @federated = !!(user_type =~ /federated/)
 end
 
 Given /^I am managing my applications$/ do
-  browser.visit admin_apps_page
+  browser.visit path_for('apps')
   login_to_the_inbloom_realm
   browser.page.should have_selector('h1', :text => /(Manage|Authorize) Applications/)
 end
@@ -84,8 +85,8 @@ Then /^I am managing my applications again$/ do
 end
 
 Given /^I am managing my application authorizations$/ do
-  browser.visit application_authorizations_page
-  login_to_the_inbloom_realm
+  browser.visit path_for('application authorizations')
+  login_to_the_realm
   browser.page.should have_selector('h1', :text => 'Approve Applications')
 end
 
@@ -278,7 +279,7 @@ Then /^the application should not be approved$/ do
 end
 
 Then /^I should not be allowed to access the page$/ do
-  browser.page.should have_selector('.alert-error', :text => /access to this page/)
+  page_alerts_access_error
 end
 
 Then /^the (.*) should be notified$/ do |user_type|
@@ -296,20 +297,32 @@ Then /^the (.*) should be notified$/ do |user_type|
   content.should include(@app_name)
 end
 
+Then /^I am not authorized to access the following pages:$/ do |table|
+  table.raw.each do |row|
+    page = row.first
+    browser.visit path_for(page)
+    page_alerts_access_error
+  end
+end
+
 # METHODS
 
 def valid_user(user_type)
   valid_users = {
-      'inBloom developer'   => 'slcdeveloper',
-      'inBloom operator'    => 'slcoperator',
-      'tenant-level administrator' => 'iladmin',
+      'inBloom developer'            => 'slcdeveloper',
+      'inBloom operator'             => 'slcoperator',
+      'tenant-level administrator'   => 'iladmin',
       'district-level administrator' => 'sunsetadmin',
-      'realm administrator' => 'sunsetrealmadmin'
+      'realm administrator'          => 'sunsetrealmadmin',
+      'federated district-level administrator' => 'jstevenson'
   }
   username = valid_users[user_type]
   [username, "#{username}1234"]
 end
 
+def page_alerts_access_error
+  browser.page.should have_selector('.alert-error', :text => /access to this page/)
+end
 
 # Get the subject and content of the most recent email for the given user
 def most_recent_email(email, username=nil, password=nil)
@@ -350,6 +363,17 @@ def app_prefix
   'smoke_test_'
 end
 
+def path_for(page)
+  path = case page
+         when /applications/; 'apps'
+         when /application authorizations/; 'application_authorizations'
+         when /realm management/; 'realm_management'
+         else
+            page.gsub(' ','_')
+         end
+  "#{Property['admintools_server_url']}/#{path}"
+end
+
 def admin_apps_page
   "#{Property['admintools_server_url']}/apps/"
 end
@@ -360,6 +384,10 @@ end
 
 def realm_management_page
   "#{Property['admintools_server_url']}/realm_management/"
+end
+
+def login_to_the_realm
+  @federated ? login_to_the_tenants_realm : login_to_the_inbloom_realm
 end
 
 def login_to_the_inbloom_realm
