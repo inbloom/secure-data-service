@@ -125,6 +125,45 @@ module EntitiesHelper
     Hash[entity.sort_by {|k, v| order.index(k)}]
   end
 
+  # This is for displaying the table that is attached to the EdOrg page. This will only display when the entityType
+  # is educationOrganization. This is a table that shows the number of staff, students, teachers and non-teachers
+  # associated with the EdOrg and it's children
+  def display_edorg_table(entity = nil)
+    ed_orgs = []
+    html ||= ""
+
+    if (entity.is_a?(Array))
+      entities = get_user_edorg(entity)
+      entities.each do |ent|
+        ed_orgs.push(ent)
+      end
+      html << "<table id=\"edorgcounts_home\" class=\"edOrg_home\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
+    else
+      ed_orgs << entity
+      html << "<table id=\"edorgcounts_#{entity['id']}\" class=\"edOrg\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
+    end
+
+    # Build the list of EdOrgs and it's children
+
+    ed_orgs.each do |ed_org|
+      get_feeder_edorgs(ed_org['id'], ed_orgs)
+    end
+
+    student_counts = get_student_counts(ed_orgs)
+    staff_counts = get_staff_counts(ed_orgs)
+
+    # Add all of the counts to the table
+    html << "<tr><td>Staff</td><td>#{staff_counts['total']}</td><td>#{staff_counts['current']}</td></tr>"
+    html << "<tr><td>Students</td><td>#{student_counts['total']}</td><td>#{student_counts['current']}</td></tr>"
+    html << "<tr><td>Teachers</td><td>#{staff_counts['total_teachers']}</td><td>#{staff_counts['current_teachers']}</td></tr>"
+    html << "<tr><td>Non-Teachers</td><td>#{staff_counts['total_non_teachers']}</td><td>#{staff_counts['current_non_teachers']}</td></tr>"
+
+    # End the table
+    html << "</tbody></table>"
+
+  end
+
+
   # This method is pretty complex, it's recursive, so what it does is it digs
   # through the hashmap of data we have available and builds a definition list
   # of the data to all be displayed. It makes use of the other methods in this

@@ -1,9 +1,13 @@
+
 <div id='data'>
 
   <h1>Listing Home </h1>
+
   <% @entities.each do |e| %>
       <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
   <% end %>
+
+
   <% if !@isAStudent %>
      <!-- <h2>Counts</h2>
       <table>
@@ -25,21 +29,25 @@
       </table>
       <div></div>
       <table>-->
-      <table>
+
+      <table class="edOrg_home">
         <tr>
-          <td>EdOrgs Name</td>
-          <td>EdOrgs Id</td>
-          <td>EdOrgs Type</td>
-          <td>EdOrgs Parent</td>
+          <th>EdOrgs Name</th>
+          <th>EdOrgs Id</th>
+          <th>EdOrgs Type</th>
+          <th>EdOrgs Parent</th>
         </tr>
+
         <tr>
           <td><%=link_to @userEdOrgsNameVar, @userFeederUrl  %></td>
           <td><%=@userEdOrgsIdVar%></td>
           <td><%=@userEdOrgsTypeVar%></td>
           <td><%=@userEdOrgsParentVar%></td>
         </tr>
+
       </table>
   <% end %>
+
 
 
 
