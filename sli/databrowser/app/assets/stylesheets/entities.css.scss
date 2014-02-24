@@ -15,19 +15,20 @@ td.expandable > div {background: url("ui-icons_454545_256x240.png") -32px -128px
 td.expandable.expanded > div {background-position: -64px -128px;}
 
 table.edOrg_home {
-  border: solid 1px black;
+  border: solid 2px black;
   border-collapse: collapse;
-  width: 99%;
-  margin: 10px;
-  padding: 10px;
+  width: 60%;
   float: left;
 }
 
 table.edOrg_home th {
   border: solid 1px black;
   font: bold;
+  height:40px;
 }
 
 table.edOrg_home td {
   border: solid 1px black;
+  height: 30px;
+  text-align:center;
 }

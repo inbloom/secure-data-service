@@ -1,0 +1,410 @@
+diff --git a/sli/databrowser/app/assets/stylesheets/entities.css.scss b/sli/databrowser/app/assets/stylesheets/entities.css.scss
+index eb6b9f64c3fdfd1c3edcfe6da1b48c0a80dbabf4..0c80198fdd163b27f84a92b0f0e8c1a72e57a880 100644
+--- a/sli/databrowser/app/assets/stylesheets/entities.css.scss
++++ b/sli/databrowser/app/assets/stylesheets/entities.css.scss
+@@ -7,9 +7,27 @@ body { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:0.8em;
+ table.dataTable tr.odd:hover td.sorting_1, table.dataTable tr.even:hover td.sorting_1,
+ table.dataTable tr.odd:hover td, table.dataTable tr.even:hover td
+ {
+-    background-color: #B0E0F0;
+-    cursor: pointer;
++  background-color: #B0E0F0;
++  cursor: pointer;
+ }
+ 
+ td.expandable > div {background: url("ui-icons_454545_256x240.png") -32px -128px no-repeat; height: 16px; width: 16px;}
+-td.expandable.expanded > div {background-position: -64px -128px;}
+\ No newline at end of file
++td.expandable.expanded > div {background-position: -64px -128px;}
++
++table.edOrg_home {
++  border: solid 1px black;
++  border-collapse: collapse;
++  width: 99%;
++  margin: 10px;
++  padding: 10px;
++  float: left;
++}
++
++table.edOrg_home th {
++  border: solid 1px black;
++  font: bold;
++}
++
++table.edOrg_home td {
++  border: solid 1px black;
++}
+\ No newline at end of file
+diff --git a/sli/databrowser/app/controllers/entities_controller.rb b/sli/databrowser/app/controllers/entities_controller.rb
+index 6e009b4a5b79e5779922c338ace1ea74834f3094..c4f9ba8f5360e400585d06342d903519975bb3cf 100644
+--- a/sli/databrowser/app/controllers/entities_controller.rb
++++ b/sli/databrowser/app/controllers/entities_controller.rb
+@@ -16,6 +16,8 @@ See the License for the specific language governing permissions and
+ limitations under the License.
+ 
+ =end
++#include EdorgTreeHelper
++#require "edorg_tree_helper"
+ require "active_resource/base"
+ # This is the main controller of the Databrowser.
+ # We try to "Wrap" all api requests in this one single point
+@@ -40,28 +42,28 @@ class EntitiesController < ApplicationController
+   def set_url
+     @search_field = nil
+     case params[:search_type]
+-    when /studentByName/
+-      @search_field = "q"
+-    when /staffByName/
+-      @search_field = "q"
+-    when /edOrgByName/
+-      @search_field = "q"
+-    when /students/
+-      @search_field = "studentUniqueStateId"
+-    when /staff/
+-      @search_field = "staffUniqueStateId"
+-    when /parents/
+-      @search_field = "parentUniqueStateId"
+-    when /educationOrganizations/
+-      @search_field = "stateOrganizationId"
++      when /studentByName/
++        @search_field = "q"
++      when /staffByName/
++        @search_field = "q"
++      when /edOrgByName/
++        @search_field = "q"
++      when /students/
++        @search_field = "studentUniqueStateId"
++      when /staff/
++        @search_field = "staffUniqueStateId"
++      when /parents/
++        @search_field = "parentUniqueStateId"
++      when /educationOrganizations/
++        @search_field = "stateOrganizationId"
+     end
+     params[:other] = params[:search_type] if @search_field
+     if params[:search_type] == "studentByName"
+       Entity.url_type = "search/students"
+     elsif params[:search_type] == "staffByName"
+-        Entity.url_type = "search/staff,teachers"
++      Entity.url_type = "search/staff,teachers"
+     elsif params[:search_type] == "edOrgByName"
+-        Entity.url_type = "search/educationOrganizations"
++      Entity.url_type = "search/educationOrganizations"
+     else
+       Entity.url_type = params[:other]
+     end
+@@ -88,12 +90,13 @@ class EntitiesController < ApplicationController
+   # Second, if we see any offset in params then we make the call to
+   # grab the next page of data from the Api.
+   def show
++    logger.debug {"Parameters are:#{params.inspect}"}
+     @@LIMIT = 50
+     @page = Page.new
+     if params[:search_id] && @search_field
+       @entities = []
+       @entities = Entity.get("", @search_field => params[:search_id].strip) if params[:search_id] && !params[:search_id].strip.empty?
+-      clean_up_results
++      @entities = clean_up_results(@entities)
+       flash.now[:notice] = "There were no entries matching your search" if @entities.size == 0 || @entities.nil?
+     else
+       #Clean up the parameters to pass through to the API.
+@@ -103,10 +106,19 @@ class EntitiesController < ApplicationController
+       query = params.reject {|k, v| k == 'controller' || k == 'action' || k == 'other' || k == 'search_id'}
+       logger.debug {"Keeping query parameters #{query.inspect}"}
+       @entities = Entity.get("", query)
++
++
+       @page = Page.new(@entities.http_response)
+-      clean_up_results
++      @entities= clean_up_results(@entities)
+     end
+     if params[:other] == 'home'
++      entidAndCollection = getUserEntityIdAndCollection
++      if entidAndCollection['collection'] != "students"
++        getStudentAndStaffCounts(entidAndCollection)
++        @isAStudent = false
++      else
++        @isAStudent = true
++      end
+       render :index
+       return
+     end
+@@ -117,13 +129,158 @@ class EntitiesController < ApplicationController
+       format.js #show.js.erb
+     end
+   end
+-  
++
+   private
+-  def clean_up_results
+-    if @entities.is_a?(Hash)
++  def clean_up_results(entities)
++    tmp = entities
++    if entities.is_a?(Hash)
+       tmp = Array.new()
+-      tmp.push(@entities)
+-      @entities = tmp
++      tmp.push(entities)
++    end
++    tmp
++  end
++  private
++  def getStudentAndStaffCounts(entidAndCollection)
++    # for @entities.each |e|
++    # logger.debug{""}
++
++    userEdOrgsString = getUserEdOrgsString(entidAndCollection['entid'])
++
++    #userEdOrgsNameString = getUserEdOrgsString(entidAndCollection['entid'])['nameOfInstituition']
++
++
++
++    #@userEdOrgsNameVar = userEdOrgsNameString
++
++
++    @allStudentCount = -1
++    @allStaffCount = -1
++    @currentStudentCount = -1
++    @currentStaffCount = -1
++    @allStudentCount = getCount("educationOrganizations", userEdOrgsString, "studentSchoolAssociations", "students", false)
++    @allStaffCount = getCount("educationOrganizations", userEdOrgsString, "staffEducationOrgAssignmentAssociations", "staff", false)
++    @currentStudentCount = getCount("educationOrganizations", userEdOrgsString, "studentSchoolAssociations", "students", true)
++    @currentStaffCount = getCount("educationOrganizations", userEdOrgsString, "staffEducationOrgAssignmentAssociations", "staff", true)
++
++  end
++  private
++  def getUserEntityIdAndCollection
++    logger.debug {"Try to print Response:"}
++    bodyparts = JSON.parse(@entities.http_response.body)
++    #bodyparts['links'].each do |e|
++    bodyparts.each do |e|
++      logger.debug {"#{e} \n"}
++    end
++    logger.debug {"After Try to print Response:"}
++    #get one link
++    linkstring = bodyparts['links'][0]
++    logger.debug {"linkstring = #{linkstring['href']}"}
++    #split the link on "rest/", as that always comes before the version number, user's entity collection, and entityId
++    linksplit = linkstring['href'].split("rest/")
++    # then take the part of the string that comes after
++    entidPlus = linksplit[1]
++    # drop everything after "/" to isolate the id from other url parts
++    #break the string into version number, user's entity collection, entityId, and other parts that follow
++    entidplussplit = entidPlus.split("/")
++    collection = entidplussplit[1]
++    logger.debug {"User entity collection: #{collection}"}
++    entid = entidplussplit[2]
++    logger.debug {"User entity ID: #{entid}"}
++    entidAndCollection = {"entid"=>entid,"collection"=>collection}
++    entidAndCollection
++  end
++
++  #This function is used to set the values for EdOrg table for Id, name, parent and type fields in the homepage
++  private
++  def getUserEdOrgsString(entid)
++
++    #The URL to get edOrgs
++    edOrgUrl = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
++
++    #The attributes to be set in the EdOrg table fields
++    id ="id"
++    name = "nameOfInstitution"
++    type = "entityType"
++    parent = "parentEducationAgencyReference"
++
++    #Calling the getEdOrgs function, which will handle the API call to return the values from JSON
++    userEdOrgsId = getEdOrgs(edOrgUrl, id)
++    userEdOrgsName = getEdOrgs(edOrgUrl, name)
++    userEdOrgsType = getEdOrgs(edOrgUrl, type)
++    userEdOrgsParentArr = getEdOrgs(edOrgUrl, parent)
++
++    #The parent field for EdOrg is a string that actually contains the value of an array of parent
++    # EdOrgs associated with an EdOrg. The string has to be converted to an array to do array manipulations to
++    # display the parent EdOrgs for the Edorg
++    userEdOrgsParent = eval(userEdOrgsParentArr)
++    logger.debug("User edorgs parent : #{userEdOrgsParent}")
++
++    #Looping through parent EdOrgs and sending an API call to get the parent EdOrg Name associated with Parent EdOrg Id
++    userEdOrgsParent.each do |parentId|
++      parentUrl = "educationOrganizations/#{parentId}"
++      userEdOrgsParent = getEdOrgs(parentUrl, name)
++    end
++
++    #Setting variables to be sent to the View
++    @userEdOrgsIdVar = userEdOrgsId
++    @userEdOrgsNameVar = userEdOrgsName
++    @userEdOrgsTypeVar = userEdOrgsType
++    @userEdOrgsParentVar = userEdOrgsParent
++    @userFeederUrl =  getFeederOrg(userEdOrgsId)
++
++    #userEdOrgsId
++  end
++
++  #This function is used to run an API call to fetch the values of attributes associated with Entity Id
++  private
++  def getEdOrgs(entityUrl, attribute)
++
++    #Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
++    Entity.url_type = entityUrl
++    begin
++      userEdOrgs = Entity.get("")
++    rescue
++      logger.debug {"Caught Exception on getting edorgs"}
++      return
++    end
++    userEdOrgs = clean_up_results(userEdOrgs)
++    userEdOrgsString = ""
++
++    userEdOrgs.each do |e|
++      userEdOrgsString = "#{userEdOrgsString},#{e[attribute]}"
++
++      logger.debug {"User edorgs : #{e}"}
++    end
++
++    # drop leading comma
++    userEdOrgsString = userEdOrgsString[1..-1]
++    userEdOrgsString
++  end
++
++  #This function is used to run an API call to fetch the values of feeder EdOrgs associated with the EdOrg Id
++  def getFeederOrg(parentId)
++    Entity.url_type = "educationOrganizations?parentEducationAgencyReference=#{parentId}"
++    parentEdOrgs = Entity.url_type
++    parentEdOrgs = clean_up_results(parentEdOrgs)
++    logger.debug {"Parent EdOrgs : #{parentEdOrgs}"}
++    parentEdOrgs
++  end
++
++
++  private
++  def  getCount(associationRoot, userEdOrgsString, associationType, targetCollection, currentOnly)
++    Entity.url_type = "#{associationRoot}/#{userEdOrgsString}/#{associationType}/#{targetCollection}"
++    if !currentOnly.nil? && currentOnly == true
++      params = {"countOnly"=>"true","currentOnly"=>"true"}
++    else
++      params = {"countOnly"=>"true"}
++    end
++    begin
++      count = Entity.get("",params).http_response['TotalCount']
++    rescue
++      count = "N/A"
++      logger.debug {"Caught Exception on count"}
+     end
++    count
+   end
+ end
+diff --git a/sli/databrowser/app/helpers/entities_helper.rb b/sli/databrowser/app/helpers/entities_helper.rb
+index 108e7d4869b3933f23c7de24014cf0c08b6d7673..e35260e37e5636d963a513572394888e7ce8273b 100644
+--- a/sli/databrowser/app/helpers/entities_helper.rb
++++ b/sli/databrowser/app/helpers/entities_helper.rb
+@@ -125,6 +125,45 @@ module EntitiesHelper
+     Hash[entity.sort_by {|k, v| order.index(k)}]
+   end
+ 
++  # This is for displaying the table that is attached to the EdOrg page. This will only display when the entityType
++  # is educationOrganization. This is a table that shows the number of staff, students, teachers and non-teachers
++  # associated with the EdOrg and it's children
++  def display_edorg_table(entity = nil)
++    ed_orgs = []
++    html ||= ""
++
++    if (entity.is_a?(Array))
++      entities = get_user_edorg(entity)
++      entities.each do |ent|
++        ed_orgs.push(ent)
++      end
++      html << "<table id=\"edorgcounts_home\" class=\"edOrg_home\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
++    else
++      ed_orgs << entity
++      html << "<table id=\"edorgcounts_#{entity['id']}\" class=\"edOrg\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
++    end
++
++    # Build the list of EdOrgs and it's children
++
++    ed_orgs.each do |ed_org|
++      get_feeder_edorgs(ed_org['id'], ed_orgs)
++    end
++
++    student_counts = get_student_counts(ed_orgs)
++    staff_counts = get_staff_counts(ed_orgs)
++
++    # Add all of the counts to the table
++    html << "<tr><td>Staff</td><td>#{staff_counts['total']}</td><td>#{staff_counts['current']}</td></tr>"
++    html << "<tr><td>Students</td><td>#{student_counts['total']}</td><td>#{student_counts['current']}</td></tr>"
++    html << "<tr><td>Teachers</td><td>#{staff_counts['total_teachers']}</td><td>#{staff_counts['current_teachers']}</td></tr>"
++    html << "<tr><td>Non-Teachers</td><td>#{staff_counts['total_non_teachers']}</td><td>#{staff_counts['current_non_teachers']}</td></tr>"
++
++    # End the table
++    html << "</tbody></table>"
++
++  end
++
++
+   # This method is pretty complex, it's recursive, so what it does is it digs
+   # through the hashmap of data we have available and builds a definition list
+   # of the data to all be displayed. It makes use of the other methods in this
+diff --git a/sli/databrowser/app/views/entities/index.html.erb b/sli/databrowser/app/views/entities/index.html.erb
+index 973b746d65c4420f69224a507bc60346cc661c07..3da91c07e800cc9ca413a0fa76b2c453e9a957c7 100644
+--- a/sli/databrowser/app/views/entities/index.html.erb
++++ b/sli/databrowser/app/views/entities/index.html.erb
+@@ -1,6 +1,55 @@
++
+ <div id='data'>
+-<h1>Welcome to the inBloom, inc. Data Browser</h1>
+-<% @entities.each do |e| %>
+-	<p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
+-<% end %>
+-</div>
++
++  <h1>Listing Home </h1>
++
++  <% @entities.each do |e| %>
++      <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
++  <% end %>
++
++
++  <% if !@isAStudent %>
++     <!-- <h2>Counts</h2>
++      <table>
++        <tr>
++          <td>Data Point</td>
++          <td># Ever Enrolled/Associated</td>
++          <td># Currently Enrolled/Associated</td>
++        </tr>
++        <tr>
++          <td>Students</td>
++          <td><%=@allStudentCount%></td>
++          <td><%=@currentStudentCount%></td>
++        </tr>
++        <tr>
++          <td>Staff</td>
++          <td><%=@allStaffCount%></td>
++          <td><%=@currentStaffCount%></td>
++        </tr>
++      </table>
++      <div></div>
++      <table>-->
++
++      <table class="edOrg_home">
++        <tr>
++          <th>EdOrgs Name</th>
++          <th>EdOrgs Id</th>
++          <th>EdOrgs Type</th>
++          <th>EdOrgs Parent</th>
++        </tr>
++
++        <tr>
++          <td><%=link_to @userEdOrgsNameVar, @userFeederUrl  %></td>
++          <td><%=@userEdOrgsIdVar%></td>
++          <td><%=@userEdOrgsTypeVar%></td>
++          <td><%=@userEdOrgsParentVar%></td>
++        </tr>
++
++      </table>
++  <% end %>
++
++
++
++
++
++
