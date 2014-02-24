@@ -312,7 +312,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | ASSOC URI                                | COUNT |
       | courseOfferings                          | 50    |
       | staffCohortAssociations                  | 0     |
-      | staffEducationOrgAssignmentAssociations  | 1     |
+      | staffEducationOrgAssignmentAssociations  | 4     |
       | staffProgramAssociations                 | 0     |
       | studentAssessments                       | 3     |
       | studentCohortAssociations                | 0     |
