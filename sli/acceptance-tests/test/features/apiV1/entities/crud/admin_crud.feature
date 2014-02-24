@@ -1,9 +1,12 @@
-@RALLY_US5865
-Feature: As a federated user via an admin application, I should NOT be able to perform CRUD operations on certain admin resources
+Feature:
+  As a federated user via an admin application
+  I should NOT be able to perform CRUD operations on certain admin resources
+
+  Background:
+    Given I am logged in as a tenant-level IT Administrator
+    And format "application/json"
 
   Scenario Outline: API admin GET endpoints are inaccessible for federated users
-    Given I am logged in using "rrogersAppAuth" "rrogers1234" to realm "IL"
-    And format "application/json"
     When I navigate to <Action> "/<Resource URI>"
     Then I should receive a return code of <Expected Status>
 
@@ -22,8 +25,6 @@ Feature: As a federated user via an admin application, I should NOT be able to p
     | realm            | POST   | 403             |
 
    Scenario Outline: API admin GET "application" and "applicationAuthorization" endpoints are inaccessible for federated users with proper rights
-      Given I am logged in using "rrogersAppAuth" "rrogers1234" to realm "IL"
-      And format "application/json"
       When I navigate to <Action> "/<Resource URI>"
       Then I should receive a return code of <Expected Status>
 
