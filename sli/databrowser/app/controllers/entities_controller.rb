@@ -16,10 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-#include EdorgTreeHelper
-#require "edorg_tree_helper"
 require "active_resource/base"
-#require "entities_helper"
 # This is the main controller of the Databrowser.
 # We try to "Wrap" all api requests in this one single point
 # and do some clever work with filters and routing to make this work.
@@ -30,7 +27,6 @@ require "active_resource/base"
 # We make heavy use of params which is everything that comes into
 # this controller after /entities/
 class EntitiesController < ApplicationController
-  helper EntitiesHelper
   before_filter :set_url
 
   # What we see mostly here is that we are looking for searh parameters.
@@ -114,15 +110,6 @@ class EntitiesController < ApplicationController
       @entities= clean_up_results(@entities)
     end
     if params[:other] == 'home'
-=begin
-      entidAndCollection = EntitiesHelper::getUserEntityIdAndCollection(@entities)
-      if entidAndCollection['collection'] != "students"
-      	#getStudentAndStaffCounts(entidAndCollection)
-        @isAStudent = false
-      else
-        @isAStudent = true
-      end
-=end
       render :index
       return
     end
@@ -143,91 +130,4 @@ class EntitiesController < ApplicationController
     end
     tmp
   end
-=begin
-  private
-  def getStudentAndStaffCounts(entidAndCollection)
-    # for @entities.each |e|
-       # logger.debug{""}
-     
-     userEdOrgsString = getUserEdOrgsString(entidAndCollection['entid'])
-     @allStudentCount = -1
-     @allStaffCount = -1
-     @currentStudentCount = -1
-     @currentStaffCount = -1
-     @allStudentCount = getCount("educationOrganizations", userEdOrgsString, "studentSchoolAssociations", "students", false)
-     @allStaffCount = getCount("educationOrganizations", userEdOrgsString, "staffEducationOrgAssignmentAssociations", "staff", false) 
-     @currentStudentCount = getCount("educationOrganizations", userEdOrgsString, "studentSchoolAssociations", "students", true)  
-     @currentStaffCount = getCount("educationOrganizations", userEdOrgsString, "staffEducationOrgAssignmentAssociations", "staff", true)
-     
-   end
-
-=begin
-   private
-   def getUserEntityIdAndCollection
-      logger.debug {"Try to print Response:"}
-      bodyparts = JSON.parse(@entities.http_response.body)
-      #bodyparts['links'].each do |e|
-      bodyparts.each do |e|
-           logger.debug {"#{e} \n"}
-      end
-      logger.debug {"After Try to print Response:"}
-      #get one link
-      linkstring = bodyparts['links'][0]
-      logger.debug {"linkstring = #{linkstring['href']}"}
-      #split the link on "rest/", as that always comes before the version number, user's entity collection, and entityId
-      linksplit = linkstring['href'].split("rest/")
-      # then take the part of the string that comes after
-      entidPlus = linksplit[1]
-      # drop everything after "/" to isolate the id from other url parts
-      #break the string into version number, user's entity collection, entityId, and other parts that follow
-      entidplussplit = entidPlus.split("/")
-      collection = entidplussplit[1]
-      logger.debug {"User entity collection: #{collection}"}
-      entid = entidplussplit[2]
-      logger.debug {"User entity ID: #{entid}"}
-      entidAndCollection = {"entid"=>entid,"collection"=>collection}
-      entidAndCollection
-   end
-=end
-=begin
-   private
-   def getUserEdOrgsString(entid)
-      
-      Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
-      begin
-         userEdOrgs = Entity.get("")
-      rescue
-         logger.debug {"Caught Exception on getting edorgs"}
-         return
-      end
-      userEdOrgs = clean_up_results(userEdOrgs)
-      userEdOrgsString = ""
-      userEdOrgs.each do |e|
-         userEdOrgsString = "#{userEdOrgsString},#{e['id']}"
-         logger.debug {"User edorgs : #{e}"}
-      end
-      # drop leading comma
-      userEdOrgsString = userEdOrgsString[1..-1]
-      logger.debug {"User edorg string: #{userEdOrgsString}"}
-      userEdOrgsString
-   end
-=end
-=begin
-   private
-   def  getCount(associationRoot, userEdOrgsString, associationType, targetCollection, currentOnly)
-      Entity.url_type = "#{associationRoot}/#{userEdOrgsString}/#{associationType}/#{targetCollection}"
-      if !currentOnly.nil? && currentOnly == true
-         params = {"countOnly"=>"true","currentOnly"=>"true"}
-      else
-         params = {"countOnly"=>"true"}
-      end
-      begin
-         count = Entity.get("",params).http_response['TotalCount']
-      rescue
-         count = "N/A"
-         logger.debug {"Caught Exceptionon count"}
-      end
-      count
-   end
-=end
 end
