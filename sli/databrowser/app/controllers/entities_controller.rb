@@ -19,6 +19,7 @@ limitations under the License.
 #include EdorgTreeHelper
 #require "edorg_tree_helper"
 require "active_resource/base"
+#require "entities_helper"
 # This is the main controller of the Databrowser.
 # We try to "Wrap" all api requests in this one single point
 # and do some clever work with filters and routing to make this work.
@@ -29,6 +30,7 @@ require "active_resource/base"
 # We make heavy use of params which is everything that comes into
 # this controller after /entities/
 class EntitiesController < ApplicationController
+  helper EntitiesHelper
   before_filter :set_url
 
   # What we see mostly here is that we are looking for searh parameters.
@@ -112,13 +114,15 @@ class EntitiesController < ApplicationController
       @entities= clean_up_results(@entities)
     end
     if params[:other] == 'home'
-      entidAndCollection = getUserEntityIdAndCollection
+=begin
+      entidAndCollection = EntitiesHelper::getUserEntityIdAndCollection(@entities)
       if entidAndCollection['collection'] != "students"
-      	getStudentAndStaffCounts(entidAndCollection)
+      	#getStudentAndStaffCounts(entidAndCollection)
         @isAStudent = false
       else
         @isAStudent = true
       end
+=end
       render :index
       return
     end
@@ -139,6 +143,7 @@ class EntitiesController < ApplicationController
     end
     tmp
   end
+=begin
   private
   def getStudentAndStaffCounts(entidAndCollection)
     # for @entities.each |e|
@@ -155,6 +160,8 @@ class EntitiesController < ApplicationController
      @currentStaffCount = getCount("educationOrganizations", userEdOrgsString, "staffEducationOrgAssignmentAssociations", "staff", true)
      
    end
+
+=begin
    private
    def getUserEntityIdAndCollection
       logger.debug {"Try to print Response:"}
@@ -181,6 +188,8 @@ class EntitiesController < ApplicationController
       entidAndCollection = {"entid"=>entid,"collection"=>collection}
       entidAndCollection
    end
+=end
+=begin
    private
    def getUserEdOrgsString(entid)
       
@@ -202,6 +211,8 @@ class EntitiesController < ApplicationController
       logger.debug {"User edorg string: #{userEdOrgsString}"}
       userEdOrgsString
    end
+=end
+=begin
    private
    def  getCount(associationRoot, userEdOrgsString, associationType, targetCollection, currentOnly)
       Entity.url_type = "#{associationRoot}/#{userEdOrgsString}/#{associationType}/#{targetCollection}"
@@ -218,4 +229,5 @@ class EntitiesController < ApplicationController
       end
       count
    end
+=end
 end

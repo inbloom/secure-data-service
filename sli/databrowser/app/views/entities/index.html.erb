@@ -1,33 +1,16 @@
 <div id='data'>
 <h1>Welcome to the inBloom, inc. Data Browser</h1>
-<%=
-    html = ""
-    html << display_edorg_table(@entities)
-    html.html_safe
-%>
+<% if !userIsAStudent %>
+	<div id="PaaKow">
+	<%=
+    	html = ""
+    	html << display_edorg_table(@entities)
+    	html.html_safe
+	%>
+	</div>
+<% end %>
 <% @entities.each do |e| %>
     <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
 <% end %>
-	<% if !@isAStudent %>
-		<h2>Counts</h2>
-		<table>
-			<tr>
-				<td>Data Point</td>
-				<td># Ever Enrolled/Associated</td>
-				<td># Currently Enrolled/Associated</td>
-			</tr>
-			<tr>
-				<td>Students</td>
-				<td><%=@allStudentCount%></td>
-				<td><%=@currentStudentCount%></td>
-			</tr>
-			<tr>
-				<td>Staff</td>
-			
-				<td><%=@allStaffCount%></td>
-				<td><%=@currentStaffCount%></td>
-			
-			</tr>
-		</table>
-	<% end %>
+	
 </div>

@@ -385,7 +385,6 @@ module EntitiesHelper
   end
 
   # Stolen from DS-1005, will need some merging when these two branches are merged.
-  private
   def getUserEntityIdAndCollection(entities)
     logger.info("Entities: #{entities}")
      bodyparts = JSON.parse(entities.http_response.body)
@@ -403,5 +402,12 @@ module EntitiesHelper
      entidAndCollection = {"entid"=>entid,"collection"=>collection}
      entidAndCollection
   end
-
+  def userIsAStudent
+      entidAndCollection = getUserEntityIdAndCollection(@entities)
+      if entidAndCollection['collection'] == "students"
+         true
+      else
+         false
+      end
+  end
 end
