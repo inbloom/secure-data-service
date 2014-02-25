@@ -18,12 +18,8 @@
     <% end %>
     of <%= @entities.http_response['TotalCount'] %> entries</span>
     
-    <!--
-      -- Paginate Limit parameters. Keep the if statement number equal to the smallest
-      -- number in the array for appropriate showing of the limit boxes
-    -->
-    <% limits = [10, 20, 25] %>
-    <% if @entities.http_response['TotalCount'].to_i > 10 %>
+    <% limits = VIEW_CONFIG['paginate_ipp'] %>
+    <% if @entities.http_response['TotalCount'].to_i > limits.first.to_i %>
         <span class="per_page">Items per page:
         <% limits.each do |limit| %>
             <% if params[:limit].to_i == limit.to_i %>

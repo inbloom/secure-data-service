@@ -36,3 +36,10 @@ staff:
     - name/firstName
     - staffUniqueStateId
     - id
+
+# Paginate items per page. The first number will be the default
+# This will be all of the options available
+paginate_ipp:
+    - 25
+    - 50
+    - 100
