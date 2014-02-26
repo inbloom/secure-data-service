@@ -1393,7 +1393,6 @@ task :importSandboxMidgarData do
     "studentSchoolAssociation" => "Midgar_data/studentSchoolAssociation_fixture.json",
     "teacherSchoolAssociation" => "Midgar_data/teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "Midgar_data/educationOrganization_fixture.json",
-    "aggregationDefinition" => "Midgar_data/aggregationdefinition_fixture.json",
     "staffEducationOrganizationAssociation" => "Midgar_data/staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "Midgar_data/schoolSessionAssociation_fixture.json",
     "courseOffering" => "Midgar_data/sessionCourseAssociation_fixture.json",

@@ -216,15 +216,15 @@ end
 
 Then /^I get a link to "(.*?)"$/ do |linkName|
   result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
+  result.should_not be_nil
   links = result["links"]
   @link = nil
   for l in links do
-          if l['rel'] == linkName
-                  @link = l["href"]
-          end
+    if l['rel'] == linkName
+      @link = l["href"]
+    end
   end
-  assert(@link != nil, "Link to aggregates not found")
+  @link.should_not be_nil
 end
 
 Then /^I navigate to that link$/ do
