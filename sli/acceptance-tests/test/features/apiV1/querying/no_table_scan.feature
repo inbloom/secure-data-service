@@ -16,8 +16,6 @@ Feature: As an SLI application, I want to hit every resource to ensure that we a
       | sortOrder                | ascending         |
       | views                    | assessments       |
       | includeCustom            | true              |
-      | includeCalculatedValues  | true              |
-      | includeAggregates        | true              |
       # Non-sensical
       | offset                   | true              |
       | limit                    | false             |
@@ -27,8 +25,6 @@ Feature: As an SLI application, I want to hit every resource to ensure that we a
       | sortOrder                | -1                |
       | views                    | -1                |
       | includeCustom            | -1                |
-      | includeCalculatedValues  | -1                |
-      | includeAggregates        | -1                |
       # Renable this last step when /resource?x=y gets rewritten for Staff
       | foo                      | bar               |
 
@@ -49,8 +45,6 @@ Feature: As an SLI application, I want to hit every resource to ensure that we a
       | sortOrder                | ascending         |
       | views                    | foobar            |
       | includeCustom            | true              |
-      | includeCalculatedValues  | true              |
-      | includeAggregates        | true              |
       # Non-sensical
       | offset                   | true              |
       | limit                    | false             |
@@ -60,7 +54,5 @@ Feature: As an SLI application, I want to hit every resource to ensure that we a
       | sortOrder                | -1                |
       | views                    | -1                |
       | includeCustom            | -1                |
-      | includeCalculatedValues  | -1                |
-      | includeAggregates        | -1                |
       # Renable this last step when /resource?x=y gets rewritten for Teachers
       | foo                      | bar               |
