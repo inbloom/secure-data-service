@@ -1,35 +1,11 @@
 
 <div id='data'>
-
+  <h1>Welcome to the inBloom, inc. Data Browser</h1>
   <h1>Listing Home </h1>
 
   <% @entities.each do |e| %>
       <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
   <% end %>
-
-
-  <% if !@isAStudent %>
-     <!-- <h2>Counts</h2>
-      <table>
-        <tr>
-          <td>Data Point</td>
-          <td># Ever Enrolled/Associated</td>
-          <td># Currently Enrolled/Associated</td>
-        </tr>
-        <tr>
-          <td>Students</td>
-          <td><%=@allStudentCount%></td>
-          <td><%=@currentStudentCount%></td>
-        </tr>
-        <tr>
-          <td>Staff</td>
-          <td><%=@allStaffCount%></td>
-          <td><%=@currentStaffCount%></td>
-        </tr>
-      </table>
-      <div></div>
-      <table>-->
-
       <table class="edOrg_home">
         <tr>
           <th>EdOrgs Name</th>
@@ -46,10 +22,4 @@
         </tr>
 
       </table>
-  <% end %>
-
-
-
-
-
-
+</div>

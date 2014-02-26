@@ -29,7 +29,7 @@ require "active_resource/base"
 # We make heavy use of params which is everything that comes into
 # this controller after /entities/
 class EntitiesController < ApplicationController
-  before_filter :set_url
+   before_filter :set_url
 
   # What we see mostly here is that we are looking for searh parameters.
   # Now, we also try to simply set up the search field and then remove it
@@ -207,18 +207,33 @@ class EntitiesController < ApplicationController
     userEdOrgsId = getEdOrgs(edOrgUrl, id)
     userEdOrgsName = getEdOrgs(edOrgUrl, name)
     userEdOrgsType = getEdOrgs(edOrgUrl, type)
-    userEdOrgsParentArr = getEdOrgs(edOrgUrl, parent)
+    userEdOrgsParentStr = getEdOrgs(edOrgUrl, parent)
 
     #The parent field for EdOrg is a string that actually contains the value of an array of parent
     # EdOrgs associated with an EdOrg. The string has to be converted to an array to do array manipulations to
     # display the parent EdOrgs for the Edorg
-    userEdOrgsParent = eval(userEdOrgsParentArr)
-    logger.debug("User edorgs parent : #{userEdOrgsParent}")
+
+    if userEdOrgsParentStr.include? ","
+      userEdOrgsParentTemp = userEdOrgsParentStr.split(",")
+      userEdOrgsParentNew = Array.new
+
+      userEdOrgsParentNew.push(JSON.parse(userEdOrgsParentTemp))
+
+
+      logger.debug("User edorgs String : #{userEdOrgsParentNew}")
+    else
+      userEdOrgsParent = eval(userEdOrgsParentStr)
+      logger.debug("User edorgs parent : #{userEdOrgsParent}")
+    end
 
     #Looping through parent EdOrgs and sending an API call to get the parent EdOrg Name associated with Parent EdOrg Id
-    userEdOrgsParent.each do |parentId|
-      parentUrl = "educationOrganizations/#{parentId}"
-      userEdOrgsParent = getEdOrgs(parentUrl, name)
+    if userEdOrgsParent.nil?
+     userEdOrgsParent = ""
+     else
+     userEdOrgsParent.each do |parentId|
+     parentUrl = "educationOrganizations/#{parentId}"
+     userEdOrgsParent = getEdOrgs(parentUrl, name)
+     end
     end
 
     #Setting variables to be sent to the View
