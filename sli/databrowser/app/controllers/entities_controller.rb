@@ -148,20 +148,7 @@ class EntitiesController < ApplicationController
 
     #userEdOrgsNameString = getUserEdOrgsString(entidAndCollection['entid'])['nameOfInstituition']
 
-
-
     #@userEdOrgsNameVar = userEdOrgsNameString
-
-
-    @allStudentCount = -1
-    @allStaffCount = -1
-    @currentStudentCount = -1
-    @currentStaffCount = -1
-    @allStudentCount = getCount("educationOrganizations", userEdOrgsString, "studentSchoolAssociations", "students", false)
-    @allStaffCount = getCount("educationOrganizations", userEdOrgsString, "staffEducationOrgAssignmentAssociations", "staff", false)
-    @currentStudentCount = getCount("educationOrganizations", userEdOrgsString, "studentSchoolAssociations", "students", true)
-    @currentStaffCount = getCount("educationOrganizations", userEdOrgsString, "staffEducationOrgAssignmentAssociations", "staff", true)
-
   end
   private
   def getUserEntityIdAndCollection
@@ -202,6 +189,7 @@ class EntitiesController < ApplicationController
     name = "nameOfInstitution"
     type = "entityType"
     parent = "parentEducationAgencyReference"
+    userEdOrgsParentVariable = ""
 
     #Calling the getEdOrgs function, which will handle the API call to return the values from JSON
     userEdOrgsId = getEdOrgs(edOrgUrl, id)
@@ -214,28 +202,36 @@ class EntitiesController < ApplicationController
     # display the parent EdOrgs for the Edorg
 
     if userEdOrgsParentStr.include? ","
+
       userEdOrgsParentTemp = userEdOrgsParentStr.split(",")
-      userEdOrgsParentNew = Array.new
+     # logger.debug("VALUE OF ARRAY: #{userEdOrgsParentTemp.is_a?(Array)}")
+      userEdOrgsParent = userEdOrgsParentTemp
 
-      userEdOrgsParentNew.push(JSON.parse(userEdOrgsParentTemp))
-
-
-      logger.debug("User edorgs String : #{userEdOrgsParentNew}")
     else
       userEdOrgsParent = eval(userEdOrgsParentStr)
-      logger.debug("User edorgs parent : #{userEdOrgsParent}")
     end
-
     #Looping through parent EdOrgs and sending an API call to get the parent EdOrg Name associated with Parent EdOrg Id
     if userEdOrgsParent.nil?
      userEdOrgsParent = ""
-     else
-     userEdOrgsParent.each do |parentId|
-     parentUrl = "educationOrganizations/#{parentId}"
-     userEdOrgsParent = getEdOrgs(parentUrl, name)
-     end
+    else
+begin
+    begin
+      logger.debug("VALUE OF ARRAY 1: #{userEdOrgsParent[2]}")
     end
 
+     userEdOrgsParent.each do |parentid|
+       if userEdOrgsParent.size>1
+      parentid = parentid[2..0]
+      end
+     parentUrl = "educationOrganizations/#{parentid}"
+     userEdOrgsParent = getEdOrgs(parentUrl, name)
+       logger.debug("The parents URL is as follows : #{userEdOrgsParent}")
+     end
+
+      rescue
+     logger.debug {"Caught Exception in getting parent edorgs"}
+    end
+  end
     #Setting variables to be sent to the View
     @userEdOrgsIdVar = userEdOrgsId
     @userEdOrgsNameVar = userEdOrgsName
@@ -252,19 +248,22 @@ class EntitiesController < ApplicationController
 
     #Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
     Entity.url_type = entityUrl
+    userEdOrgs = Entity.get("")
+
+=begin
     begin
       userEdOrgs = Entity.get("")
     rescue
-      logger.debug {"Caught Exception on getting edorgs"}
+      logger.debug {"Caught Exception In getting edorgs"}
       return
     end
+=end
+
     userEdOrgs = clean_up_results(userEdOrgs)
     userEdOrgsString = ""
 
     userEdOrgs.each do |e|
       userEdOrgsString = "#{userEdOrgsString},#{e[attribute]}"
-
-      logger.debug {"User edorgs : #{e}"}
     end
 
     # drop leading comma
@@ -280,22 +279,5 @@ class EntitiesController < ApplicationController
     logger.debug {"Parent EdOrgs : #{parentEdOrgs}"}
     parentEdOrgs
   end
-
-
-  private
-  def  getCount(associationRoot, userEdOrgsString, associationType, targetCollection, currentOnly)
-    Entity.url_type = "#{associationRoot}/#{userEdOrgsString}/#{associationType}/#{targetCollection}"
-    if !currentOnly.nil? && currentOnly == true
-      params = {"countOnly"=>"true","currentOnly"=>"true"}
-    else
-      params = {"countOnly"=>"true"}
-    end
-    begin
-      count = Entity.get("",params).http_response['TotalCount']
-    rescue
-      count = "N/A"
-      logger.debug {"Caught Exception on count"}
-    end
-    count
-  end
 end
+
