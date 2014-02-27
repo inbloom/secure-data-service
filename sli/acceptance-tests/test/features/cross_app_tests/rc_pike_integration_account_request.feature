@@ -42,4 +42,4 @@ Scenario: As an SLC Operator I want to check that the developer account is auto 
   And I switch to the iframe
   Then I should be on the Authorize Developer Account page
   And I should see an account with name "RCTest Developer"
-  And his account status is "approved"
+  And her account status is "approved"
