@@ -189,7 +189,7 @@ class EntitiesController < ApplicationController
     name = "nameOfInstitution"
     type = "entityType"
     parent = "parentEducationAgencyReference"
-    userEdOrgsParentVariable = ""
+
 
     #Calling the getEdOrgs function, which will handle the API call to return the values from JSON
     userEdOrgsId = getEdOrgs(edOrgUrl, id)
@@ -200,43 +200,34 @@ class EntitiesController < ApplicationController
     #The parent field for EdOrg is a string that actually contains the value of an array of parent
     # EdOrgs associated with an EdOrg. The string has to be converted to an array to do array manipulations to
     # display the parent EdOrgs for the Edorg
-
     if userEdOrgsParentStr.include? ","
-
       userEdOrgsParentTemp = userEdOrgsParentStr.split(",")
-     # logger.debug("VALUE OF ARRAY: #{userEdOrgsParentTemp.is_a?(Array)}")
       userEdOrgsParent = userEdOrgsParentTemp
-
     else
       userEdOrgsParent = eval(userEdOrgsParentStr)
     end
     #Looping through parent EdOrgs and sending an API call to get the parent EdOrg Name associated with Parent EdOrg Id
     if userEdOrgsParent.nil?
-     userEdOrgsParent = ""
-    else
-begin
+      userEdOrgsParentValue = ""
+     else
     begin
-      logger.debug("VALUE OF ARRAY 1: #{userEdOrgsParent[2]}")
-    end
+      userEdOrgsParent.each do |parentid|
+      parent = parentid.split("\"")
 
-     userEdOrgsParent.each do |parentid|
-       if userEdOrgsParent.size>1
-      parentid = parentid[2..0]
-      end
-     parentUrl = "educationOrganizations/#{parentid}"
-     userEdOrgsParent = getEdOrgs(parentUrl, name)
-       logger.debug("The parents URL is as follows : #{userEdOrgsParent}")
+     parentUrl = "educationOrganizations/#{parent[1]}"
+     userEdOrgsParentValue = getEdOrgs(parentUrl, name)
+      logger.debug("ALERRRRRRRRRT: #{userEdOrgsParentValue}")
      end
-
-      rescue
+    rescue
      logger.debug {"Caught Exception in getting parent edorgs"}
     end
-  end
+    end
+
     #Setting variables to be sent to the View
     @userEdOrgsIdVar = userEdOrgsId
     @userEdOrgsNameVar = userEdOrgsName
     @userEdOrgsTypeVar = userEdOrgsType
-    @userEdOrgsParentVar = userEdOrgsParent
+    @userEdOrgsParentVar = userEdOrgsParentValue
     @userFeederUrl =  getFeederOrg(userEdOrgsId)
 
     #userEdOrgsId
@@ -262,8 +253,16 @@ begin
     userEdOrgs = clean_up_results(userEdOrgs)
     userEdOrgsString = ""
 
+=begin
     userEdOrgs.each do |e|
       userEdOrgsString = "#{userEdOrgsString},#{e[attribute]}"
+    end
+=end
+
+    userEdOrgs.each do |e|
+      userEdOrgsString = "#{userEdOrgsString}, #{e[attribute]}"
+      edOrgHash = Hash["parentName" => userEdOrgsString]
+      logger.debug("Hash value : #{edOrgHash['parentName']}")
     end
 
     # drop leading comma
