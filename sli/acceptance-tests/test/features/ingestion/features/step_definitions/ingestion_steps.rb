@@ -1269,6 +1269,8 @@ Given /^the tenant database for "([^"]*)" does not exist/ do |tenantToDrop|
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|
+  puts "INGESTION_MODE: #{INGESTION_MODE}"
+  puts "INGESTION_LOGS_DIRECTORY: #{INGESTION_LOGS_DIRECTORY}"
   if (INGESTION_MODE == 'remote')
     fileExist = remoteDirContainsFile(logfile, INGESTION_LOGS_DIRECTORY)
   else
