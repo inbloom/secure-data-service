@@ -27,7 +27,7 @@ And a verify email notification is sent to user
 @production
 Scenario: An admin creates a production account with a valid email, initial notification is sent
 
-Given the prod testing user "peacefrog@slidev.org" does not already exists in LDAP
+Given the prod testing user "cifuckifiknow@inbloomdev.org" does not already exists in LDAP
 When I navigate to the User Management Page
 And I select "inBloom" from the dropdown and click go
 And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
@@ -35,7 +35,7 @@ Then I am redirected to "Manage Administrator Accounts" page
 Then I click on "Add User" button
 And I am redirected to "Add a User" page
 
-And I enter Full Name "firstName lastName" and Email "peacefrog@slidev.org" into the required fields
+And I enter Full Name "firstName lastName" and Email "cifuckifiknow@inbloomdev.org" into the required fields
 And I can select "SEA Administrator" from a choice between "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
 And I can also check "Realm Administrator" Role 
 And I can update the "Tenant" field to "IL1212"
