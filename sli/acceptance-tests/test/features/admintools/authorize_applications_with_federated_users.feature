@@ -31,7 +31,7 @@ And the group "Application Authorizer" contains the roles "Application Authorize
 And the group "Application Authorizer" contains the "right" rights "APP AUTH"
 
 Scenario: Developer creates new application (set up data)
-Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
+#Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
@@ -63,7 +63,7 @@ Then application "Boyne" is registered
 And the 'Approve' button is disabled for application "Boyne"
 
 Scenario: Developer registers application (set up data)
-Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
+#Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page

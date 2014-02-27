@@ -40,13 +40,6 @@ Given /^my LDAP server has been setup and running$/ do
       :sender_email_addr => @email_sender_address
   }
 end
-Given /^I am a valid SLI Developer "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
-  # No code needed, done as configuration
-end
-
-Given /^I am a valid SLC Operator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
-  # No code needed, done as configuration
-end
 
 When /^I hit the Application Registration Tool URL$/ do
   @driver.get(Property['admintools_server_url']+"/apps/")
@@ -301,10 +294,6 @@ end
 
 Then /^the previously generated client ID can no longer be used to access SLI$/ do
   pending # express the regexp above with the code you wish you had
-end
-
-Given /^I am a valid App Developer$/ do
-  #Nothing
 end
 
 Then /^I see the list of my registered applications only$/ do

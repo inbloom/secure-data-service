@@ -41,7 +41,7 @@ class DbClient
     db[collection]
   end
 
-  def find(collection)
+  def find(collection, query={})
     db[collection].find query
   end
 

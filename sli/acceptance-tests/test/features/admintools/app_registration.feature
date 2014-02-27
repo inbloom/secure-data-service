@@ -80,7 +80,7 @@ Scenario: A developer must provide correctly formatted URLs where needed
 #TODO: Clean up these stories
 @sandbox
 Scenario: App Developer logs-in to App Registration Tool in Sandbox (Vendor in Prod should see own apps respectively)
-	Given I am a valid App Developer
+	#Given I am a valid App Developer
 	When I hit the Application Registration Tool URL
 	And I was redirected to the "Simple" IDP Login page
 	And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
@@ -97,7 +97,7 @@ Scenario: Different App developer in same tenant should also see my apps
 
 @sandbox 
 Scenario: App Developer registers an application in App Registration Tool in Sandbox
-	Given I am a valid App Developer
+	#Given I am a valid App Developer
 	When I hit the Application Registration Tool URL
 		And I was redirected to the "Simple" IDP Login page
 		And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
