@@ -82,7 +82,8 @@ def get_last_email_id
   puts "=============  IMAP host is #{Property['email_imap_host']}"
   puts "=============  IMAP port is #{Property['email_imap_port']}"
   @imap = Net::IMAP.new(Property['email_imap_host'], Property['email_imap_port'], true, nil, false)
-  @imap.authenticate('LOGIN', defaultUser, defaultPassword)
+  #@imap.authenticate('LOGIN', defaultUser, defaultPassword)
+  @imap.login(default, defaultPassword) # This works with Gmail; #authenticate does not
   @imap.examine('INBOX')
   ids = @imap.search(["FROM", @email_sender_name,"TO",@email])
   last_id = ids[-1]
