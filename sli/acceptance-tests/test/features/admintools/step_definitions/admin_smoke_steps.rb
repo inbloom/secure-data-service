@@ -314,11 +314,26 @@ def valid_user(user_type)
       'tenant-level administrator'   => 'iladmin',
       'district-level administrator' => 'sunsetadmin',
       'realm administrator'          => 'sunsetrealmadmin',
-      'federated district-level administrator' => 'jstevenson'
+      'federated district-level administrator' => 'jstevenson',
+      'SLC Operator' => 'slcoperator-email@slidev.org',
+      'Super Administrator' => 'daybreaknorealmadmin'
   }
   username = valid_users[user_type]
-  [username, "#{username}1234"]
+  username.should_not be_nil
+  [username, "#{username.split('@').first}1234"] # if username is an e-mail, drop the '@slidev.org' before adding 1234
 end
+
+
+#Given /^I am a valid SLC Operator$/ do
+#  @user = 'slcoperator-email@slidev.org' # an :operator
+#  @pass = 'slcoperator-email1234'
+#end
+#
+#Given /^I am a valid Super Administrator$/ do
+#  @user = 'daybreaknorealmadmin' # a :super_admin
+#  @pass = 'daybreaknorealmadmin1234'
+#end
+#
 
 def page_alerts_access_error
   browser.page.should have_selector('.alert-error', :text => /access to this page/)

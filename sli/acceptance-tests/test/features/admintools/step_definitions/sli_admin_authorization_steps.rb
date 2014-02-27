@@ -23,15 +23,15 @@ require 'json'
 require_relative '../../utils/sli_utils.rb'
 
 
-Given /^I am a valid SLC Operator$/ do
-  @user = 'slcoperator-email@slidev.org' # an :operator
-  @pass = 'slcoperator-email1234'
-end
-
-Given /^I am a valid Super Administrator$/ do
-  @user = 'daybreaknorealmadmin' # a :super_admin
-  @pass = 'daybreaknorealmadmin1234'
-end
+#Given /^I am a valid SLC Operator$/ do
+#  @user = 'slcoperator-email@slidev.org' # an :operator
+#  @pass = 'slcoperator-email1234'
+#end
+#
+#Given /^I am a valid Super Administrator$/ do
+#  @user = 'daybreaknorealmadmin' # a :super_admin
+#  @pass = 'daybreaknorealmadmin1234'
+#end
 
 When /^I try to authenticate on the Application Approval Tool$/ do
   # NOTE approval tool and registration tool share the same url
