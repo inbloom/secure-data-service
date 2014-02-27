@@ -141,15 +141,12 @@ class EntitiesController < ApplicationController
   end
   private
   def getStudentAndStaffCounts(entidAndCollection)
-    # for @entities.each |e|
-    # logger.debug{""}
 
     userEdOrgsString = getUserEdOrgsString(entidAndCollection['entid'])
 
-    #userEdOrgsNameString = getUserEdOrgsString(entidAndCollection['entid'])['nameOfInstituition']
 
-    #@userEdOrgsNameVar = userEdOrgsNameString
   end
+
   private
   def getUserEntityIdAndCollection
     logger.debug {"Try to print Response:"}
@@ -206,21 +203,29 @@ class EntitiesController < ApplicationController
     else
       userEdOrgsParent = eval(userEdOrgsParentStr)
     end
+
+
     #Looping through parent EdOrgs and sending an API call to get the parent EdOrg Name associated with Parent EdOrg Id
     if userEdOrgsParent.nil?
-      userEdOrgsParentValue = ""
-     else
-    begin
-      userEdOrgsParent.each do |parentid|
-      parent = parentid.split("\"")
+      userEdOrgsParentValue = "N/A"
+    else
 
-     parentUrl = "educationOrganizations/#{parent[1]}"
-     userEdOrgsParentValue = getEdOrgs(parentUrl, name)
-      logger.debug("ALERRRRRRRRRT: #{userEdOrgsParentValue}")
-     end
-    rescue
-     logger.debug {"Caught Exception in getting parent edorgs"}
-    end
+      if userEdOrgsParent.size >1
+        userEdOrgsParent.each do |parentid|
+         parent = parentid.split("\"")
+
+
+          parentUrl = "educationOrganizations/#{parent[1]}"
+          userEdOrgsParentValue = getEdOrgs(parentUrl, name)
+        end
+
+      else
+        userEdOrgsParent.each do |parentid|
+
+         parentUrl = "educationOrganizations/#{parentid}"
+         userEdOrgsParentValue = getEdOrgs(parentUrl, name)
+         end
+      end
     end
 
     #Setting variables to be sent to the View
@@ -230,17 +235,18 @@ class EntitiesController < ApplicationController
     @userEdOrgsParentVar = userEdOrgsParentValue
     @userFeederUrl =  getFeederOrg(userEdOrgsId)
 
+    edOrgHash = {"EdOrgId"=>userEdOrgsId,"EdOrgName"=>userEdOrgsName, "EdOrgType"=>userEdOrgsType,"EdOrgsParent"=>userEdOrgsParentValue,"EdOrgURL"=>getFeederOrg(userEdOrgsId)}
+
+
     #userEdOrgsId
   end
 
   #This function is used to run an API call to fetch the values of attributes associated with Entity Id
   private
   def getEdOrgs(entityUrl, attribute)
-
     #Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
     Entity.url_type = entityUrl
     userEdOrgs = Entity.get("")
-
 =begin
     begin
       userEdOrgs = Entity.get("")
@@ -249,30 +255,41 @@ class EntitiesController < ApplicationController
       return
     end
 =end
-
     userEdOrgs = clean_up_results(userEdOrgs)
     userEdOrgsString = ""
+    edOrgHash = ""
+    userEdOrgs.each do |e|
+
+    userEdOrgsString = "#{e[attribute]}"
+
+   # edOrgStringHash = {"EdOrgId"=>userEdOrgsId,"EdOrgName"=>userEdOrgsName, "EdOrgType"=>userEdOrgsType,"EdOrgsParent"=>userEdOrgsParentValue,"EdOrgURL"=>getFeederOrg(userEdOrgsId)}
+
 
 =begin
-    userEdOrgs.each do |e|
-      userEdOrgsString = "#{userEdOrgsString},#{e[attribute]}"
-    end
+      edOrgHash = Hash["parentName" => userEdOrgsString]
+      logger.debug("ALERRRRRRRRRT: #{edOrgHash}")
 =end
+    end
 
+    logger.debug("ALERRRRRRRRRT: #{userEdOrgsString}")
+
+
+=begin
     userEdOrgs.each do |e|
       userEdOrgsString = "#{userEdOrgsString}, #{e[attribute]}"
       edOrgHash = Hash["parentName" => userEdOrgsString]
       logger.debug("Hash value : #{edOrgHash['parentName']}")
     end
+=end
 
     # drop leading comma
-    userEdOrgsString = userEdOrgsString[1..-1]
-    userEdOrgsString
+   #userEdOrgsString = userEdOrgsString[1..-1]
+   userEdOrgsString
   end
 
   #This function is used to run an API call to fetch the values of feeder EdOrgs associated with the EdOrg Id
-  def getFeederOrg(parentId)
-    Entity.url_type = "educationOrganizations?parentEducationAgencyReference=#{parentId}"
+  def getFeederOrg(parentid)
+    Entity.url_type = "educationOrganizations?parentEducationAgencyReference=#{parentid}"
     parentEdOrgs = Entity.url_type
     parentEdOrgs = clean_up_results(parentEdOrgs)
     logger.debug {"Parent EdOrgs : #{parentEdOrgs}"}
