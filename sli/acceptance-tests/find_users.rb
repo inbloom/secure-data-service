@@ -4,7 +4,7 @@ require 'pp'
 
 class FindUsers
 
-  attr :users
+  attr :users, :missing_users
   attr_reader :feature_files
 
   KNOWN_USERS = [
@@ -71,6 +71,17 @@ class FindUsers
     dedup
   end
 
+  def find_missing
+    @missing_users = []
+    @feature_files.each do |file|
+      content = IO.read(file)
+
+      pattern = %r{\sI submit the credentials "([^"]*)" "([^"]*)"}
+      content.scan(pattern) { |username, password| @missing_users << username }
+    end
+    @missing_users.sort!.uniq!
+  end
+
   def users_by_realm
     grouped = users.group_by { |item| item[2] }
     grouped.each do |realm, users|
@@ -88,8 +99,12 @@ class FindUsers
 end
 
 f=FindUsers.new
-f.find
-users = f.users
-puts "Found #{users.count} users"
-users.each {|u| puts u.join(', ')}
-puts f.users_by_realm.to_json
+users = f.find
+known_users = users.map{|u| u.first}
+other_users = f.find_missing
+
+missing_users = other_users - known_users
+
+puts "Found #{missing_users.count} users"
+
+missing_users.each {|u| puts u}

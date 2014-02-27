@@ -4,7 +4,7 @@ Feature: Super Admin Interface
 	
 Background: 
 Given I have an open web browser
-And LDAP server has been setup and running
+And my LDAP server has been setup and running
 And I already have a SLC Operator account
 
 
