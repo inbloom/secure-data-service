@@ -53,6 +53,16 @@ import com.mongodb.WriteConcern;
  * @author ldalgado
  *
  */
+
+/*
+ * @author rcook
+ * This class was moved from the ingestion-core project to the dal project, along with ~20 other supporting classes.
+ * This was done in support of a request to make ingestion job data available via the API; until this, the only
+ * project in the inBloom system that accessed ingestion job data was the ingestion project.  In order to avoid
+ * making the API project dependent on the ingestion project, the necessary classes were moved to the dal project,
+ * which contains library classes and was already a dependency for both ingestion-core and api.  In the course of the
+ * resulting work, ingestion-base was also made dependent on dal.
+ */
 @Component
 public class BatchJobMongoDA implements BatchJobDAO {
 
@@ -132,10 +142,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
         query.sort().on("jobStartTimestamp", Order.DESCENDING);
         query.limit(limit);
         List<NewBatchJob> sortedBatchJobs = batchJobMongoTemplate.find(query, NewBatchJob.class);
-        if (sortedBatchJobs == null || sortedBatchJobs.size() == 0) {
-            return null;
-        }
-        return batchJobMongoTemplate.find(query, NewBatchJob.class);
+        if (sortedBatchJobs.size() == 0) { sortedBatchJobs = null; } 
+        return sortedBatchJobs;
     }
 
     public NewBatchJob findLatestBatchJob() 

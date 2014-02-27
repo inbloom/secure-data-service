@@ -559,7 +559,8 @@ task :fullSuite => [
   :sandboxTests,
   :adminSandboxTests,
   :apiSeleniumTests,
-  :apiCountOnlyTests] do
+  :apiCountOnlyTests,
+  :apiIngestionJobTests] do
 
   displayFailureReport()
   if $SUCCESS
@@ -812,9 +813,19 @@ task :breadcrumbTests => [] do
   runTests("test/features/databrowser/databrowser_breadcrumbtrail.feature")
 end
 
+# countOnly api calls obtain the counts, but not the data, for otherwise
+# normal calls.  Any standard inbloom api call can be made with a special
+# parameter to return only the count of the call.
 desc "Run tests for countOnly URLs"
 task :apiCountOnlyTests => [] do
   runTests("test/features/apiV1/countOnly/countOnly.feature")
+end
+
+# ingestionJob api calls obtain data about previously run ingestion jobs:
+# files processed, records ingested, # errors encountered, etc.
+desc "Run tests for ingestion job data"
+task :apiIngestionJobTests => [] do
+  runTests("test/features/apiV1/ingestionJob/ingestionJob.feature")
 end
 
 desc "Run Device and Agent Tests"

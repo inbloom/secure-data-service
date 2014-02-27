@@ -26,15 +26,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Model for ingestion jobs.
@@ -67,6 +66,12 @@ public class NewBatchJob implements Job {
     private List<ResourceEntry> resourceEntries;
 
     private Date jobStopTimestamp;
+    
+    
+    private void putNonNull(HashMap map, String key, Object o)
+    {
+    	if (o != null) { map.put(key, o); }
+    }
 
     // mongoTemplate requires this constructor.
     public NewBatchJob() {
