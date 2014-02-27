@@ -18,7 +18,7 @@ limitations under the License.
 
 require 'mongo'
 
-require '../../../utils/mongo_utils.rb'
+require_relative '../../../utils/mongo_utils.rb'
 
 #############################################################################################
 # After Steps
