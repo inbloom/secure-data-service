@@ -17,15 +17,15 @@
           <th>EdOrgs Type</th>
           <th>EdOrgs Parent</th>
         </tr>
-
+        <% @edOrgArr.each do |parent| %>
         <tr>
-          <td><%=@edOrgHash['EdOrgs Name'] %></td>
-          <td><%=@edOrgHash['EdOrgs Id']%></td>
-          <td><%=@edOrgHash['EdOrgs Type']%></td>
-          <td><%=@edOrgHash['EdOrgs Parent']%></td>
+          <td><%=parent['EdOrgs Name'] %></td>
+          <td><%=parent['EdOrgs Id']%></td>
+          <td><%=parent['EdOrgs Type']%></td>
+          <td><%=parent['EdOrgs Parent']%></td>
         </tr>
-
-            </table>
+        <% end %>
+        </table>
 
 
 </div>

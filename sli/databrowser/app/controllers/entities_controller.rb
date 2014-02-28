@@ -179,7 +179,7 @@ class EntitiesController < ApplicationController
     userEdOrgsTypeVar = ""
     userFeederUrl =  ""
     parentArr = ""
-
+    edOrgArr = []
 
 
     userURL = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
@@ -199,18 +199,22 @@ class EntitiesController < ApplicationController
     #Converting parent array into a string
     begin
       temp = ""
-      parentVar = ""
+      userEdOrgsParentVar = ""
+
       parentArr.each do |parent|
-      temp = "#{parentVar}, #{parent}"
-      parentVar = temp[1..-1]
+      temp = "#{userEdOrgsParentVar}, #{parent}"
+      userEdOrgsParentVar = temp[1..-1]
     end
-    end
-    #logger.debug("The type of PARENT var :#{userEdOrgsParentVar.is_a?(Array)}")
-    edOrgHash = {"EdOrgs Id"=>userEdOrgsIdVar,"EdOrgs Name"=>userEdOrgsNameVar, "EdOrgs Type"=>userEdOrgsTypeVar,"EdOrgs Parent"=>parentVar,"EdOrgs URL"=>userFeederUrl}
-    logger.debug("ALERRRRRTTTT : #{edOrgHash}")
-    @edOrgHash = edOrgHash
     end
 
+    #logger.debug("The type of PARENT var :#{userEdOrgsParentVar.is_a?(Array)}")
+    edOrgHash = {"EdOrgs Id"=>userEdOrgsIdVar,"EdOrgs Name"=>userEdOrgsNameVar, "EdOrgs Type"=>userEdOrgsTypeVar,"EdOrgs Parent"=>userEdOrgsParentVar,"EdOrgs URL"=>userFeederUrl}
+
+    edOrgArr.push(edOrgHash)
+
+    @edOrgArr  = edOrgArr
+    end
+    logger.debug("ALERRRRRTTTT : #{edOrgArr}")
 
    # edOrgHash = {"EdOrgId"=>userEdOrgsId,"EdOrgName"=>userEdOrgsName, "EdOrgType"=>userEdOrgsType,"EdOrgsParent"=>userEdOrgsParentValue,"EdOrgURL"=>getFeederOrg(userEdOrgsId)}
   end
