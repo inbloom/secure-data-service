@@ -88,7 +88,6 @@ class EntitiesController < ApplicationController
   # Second, if we see any offset in params then we make the call to
   # grab the next page of data from the Api.
   def show
-	 logger.debug {"Parameters are:#{params.inspect}"}
     @@LIMIT = 50
     @page = Page.new
     if params[:search_id] && @search_field

@@ -1,13 +1,11 @@
 <div id='data'>
 <h1>Welcome to the inBloom, inc. Data Browser</h1>
 <% if !userIsAStudent %>
-	<div id="PaaKow">
 	<%=
     	html = ""
     	html << display_edorg_table(@entities)
     	html.html_safe
 	%>
-	</div>
 <% end %>
 <% @entities.each do |e| %>
     <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
