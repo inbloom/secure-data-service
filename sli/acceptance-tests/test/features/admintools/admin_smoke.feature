@@ -1,4 +1,4 @@
-@admin_smoke @smoke @javascript
+@track_entities @smoke @javascript
 Feature:
   The administration tool can be used:
     - by a developer to register a new application

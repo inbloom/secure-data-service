@@ -40,7 +40,7 @@ class Browser
   end
 end
 
-Before('@admin_smoke') do
+Before('@track_entities') do
   @created_entities = []
 end
 
@@ -48,7 +48,7 @@ def add_for_cleanup(collection, name)
   @created_entities << [collection, name]
 end
 
-After('@admin_smoke') do
+After('@track_entities') do
   db_client = DbClient.new.for_sli
   @created_entities.each do |collection, name|
     db_client.remove(collection.to_s, {'body.name' => name})
@@ -88,12 +88,6 @@ Given /^I am managing my application authorizations$/ do
   browser.visit path_for('application authorizations')
   login_to_the_realm
   browser.page.should have_selector('h1', :text => 'Approve Applications')
-end
-
-Given /^I am managing my realms$/ do
-  browser.visit realm_management_page
-  login_to_the_inbloom_realm
-  browser.page.should have_selector('h1', :text => /Realms for/)
 end
 
 Given /^I have an in\-progress application$/ do
@@ -213,25 +207,8 @@ When /^(?:I )?(enable|authorize|disable|de\-authorize) the application for (?:an
   save_button.click
 end
 
-When /^I add a new realm$/ do
-  browser.page.click_link 'Add new'
-  browser.page.should have_selector('h1', :text => 'Manage Realm')
-  @realm_name = "#{app_prefix}realm_#{Time.now.to_i}"
-  browser.fill_in('realm_name', :with => @realm_name)
-  browser.fill_in('realm_idp_id', :with => 'http://www.example.com')
-  browser.fill_in('realm_idp_redirectEndpoint', :with => 'http://www.example.com')
-  browser.fill_in('realm_uniqueIdentifier', :with => @realm_name)
-  browser.click_button 'Save'
-  add_for_cleanup(:realm, @realm_name)
-end
-
 Then /^I no longer see the application$/ do
   browser.page.should_not have_selector('table#applications tr', :text => /#{@app_name}/)
-end
-
-Then /^I see the new realm listed$/ do
-  browser.page.should have_selector('#notice', :text => 'Realm was successfully created.')
-  browser.page.should have_selector('table#realms tr > td:nth-child(1)', :text => @realm_name)
 end
 
 Then /^the application should get registered$/ do
@@ -239,18 +216,6 @@ Then /^the application should get registered$/ do
   browser.page.should have_selector('tbody > tr:nth-child(1) > td', :text => @app_name)
 end
 
-#Then /^the application status should be pending$/ do
-#  pending = /pending/i
-#
-#  # Verify that the 'Creation Date' shows 'Pending'
-#  browser.page.should have_selector('tbody > tr:nth-child(1) td:nth-child(5)', :text => pending)
-#  browser.page.find('tbody > tr:nth-child(1) > td:nth-child(2)').click
-#
-#  # Verify that the 'Client ID' and 'Shared Secret' show 'Pending'
-#  browser.page.should have_selector('tbody > tr:nth-child(2) dd:nth-of-type(1)', :text => pending)
-#  browser.page.should have_selector('tbody > tr:nth-child(2) dd:nth-of-type(2)', :text => pending)
-#end
-#
 Then /^the application status should be (pending|approved)$/ do |status|
   @app_row = browser.page.first('table#applications tr', :text => /#{@app_name}.*#{status}/i)
   @app_row.should_not be_nil
@@ -457,5 +422,3 @@ def verify_registered_application(name)
   assert(value =~ /successfully created/, "Should have valid flash message")
   assertWithWait("Couldn't locate #{app} at the top of the page") {@driver.find_element(:xpath, "//tbody/tr[1]/td[text()='#{app}']")}
 end
-
-# Reach down into Selenium through Capybara to handle the popup
