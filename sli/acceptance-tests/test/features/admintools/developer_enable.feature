@@ -6,7 +6,7 @@ Background:
 	Given I have an open web browser
 
 	Scenario: Create new application (set up data)
-        Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
+#        Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
         And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
@@ -25,7 +25,7 @@ Background:
         #And a notification email is sent to "slcoperator-email@slidev.org"
 
     Scenario: SLC Operator accepts application registration request (set up data)
-    Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
+#    Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
         And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
@@ -42,7 +42,7 @@ Background:
 
     Scenario: Application editing can handle large number of edOrgs for a bulk extract application
         Given the large list of edorgs is loaded
-        Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
+#        Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
         And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
@@ -88,7 +88,7 @@ Background:
         Given I have replaced the edorg data
 
 Scenario: App Developer or Vendor enabling application for a District
-  Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
+#  Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
     And "Red Dwarf" is enabled for "0" education organizations
   When I hit the Application Registration Tool URL
     And I select "inBloom" from the dropdown and click go
@@ -102,7 +102,7 @@ Scenario: App Developer or Vendor enabling application for a District
   Then "Red Dwarf" is enabled for "200" education organizations
 
 Scenario: District Admin authorizing application for their district
-  Given I log in as a valid SLI Operator "sunsetadmin" from the "SLI" hosted directory
+#  Given I log in as a valid SLI Operator "sunsetadmin" from the "SLI" hosted directory
   When I hit the Admin Application Authorization Tool
     And I select "inBloom" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
@@ -111,7 +111,7 @@ Scenario: District Admin authorizing application for their district
 	And I see the newly enabled application
 
 Scenario: App Developer or Vendor disabling application for a District, part 2
-  Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
+#  Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
   When I hit the Application Registration Tool URL
     And I select "inBloom" from the dropdown and click go
 	And I was redirected to the "Simple" IDP Login page
@@ -124,7 +124,7 @@ Scenario: App Developer or Vendor disabling application for a District, part 2
   Then "Red Dwarf" is enabled for "0" education organizations
 
 Scenario: District Admin no longers see apps disabled for their district 
-Given I log in as a valid SLI Operator "sunsetadmin" from the "SLI" hosted directory
+#Given I log in as a valid SLI Operator "sunsetadmin" from the "SLI" hosted directory
 When I hit the Admin Application Authorization Tool
     And I select "inBloom" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
