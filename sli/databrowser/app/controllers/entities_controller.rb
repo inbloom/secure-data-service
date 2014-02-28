@@ -141,10 +141,7 @@ class EntitiesController < ApplicationController
   end
   private
   def getStudentAndStaffCounts(entidAndCollection)
-
     userEdOrgsString = getUserEdOrgsString(entidAndCollection['entid'])
-
-
   end
 
   private
@@ -187,58 +184,41 @@ class EntitiesController < ApplicationController
     type = "entityType"
     parent = "parentEducationAgencyReference"
 
-
     #Calling the getEdOrgs function, which will handle the API call to return the values from JSON
     userEdOrgsId = getEdOrgs(edOrgUrl, id)
     userEdOrgsName = getEdOrgs(edOrgUrl, name)
     userEdOrgsType = getEdOrgs(edOrgUrl, type)
     userEdOrgsParentStr = getEdOrgs(edOrgUrl, parent)
 
-    #The parent field for EdOrg is a string that actually contains the value of an array of parent
-    # EdOrgs associated with an EdOrg. The string has to be converted to an array to do array manipulations to
-    # display the parent EdOrgs for the Edorg
-    if userEdOrgsParentStr.include? ","
-      userEdOrgsParentTemp = userEdOrgsParentStr.split(",")
-      userEdOrgsParent = userEdOrgsParentTemp
-    else
-      userEdOrgsParent = eval(userEdOrgsParentStr)
-    end
-
-
     #Looping through parent EdOrgs and sending an API call to get the parent EdOrg Name associated with Parent EdOrg Id
-    if userEdOrgsParent.nil?
-      userEdOrgsParentValue = "N/A"
-    else
+      userEdOrgsParentValue = []
+      #logger.debug("Type of parent string: #{userEdOrgsParentStr[0].is_a?(Array)}")
+        if userEdOrgsParentStr.size> 0
+          logger.debug("Inside 1")
+                  userEdOrgsParentStr.each do |parentid|
+                    parent = parentid.split("\"")
+                    #parent = parent[1..-1]
+                    # logger.debug("Type of parent string: #{parentid.is_a?(String)}")
+                    logger.debug("ALERRRRRRRRRT: #{parent[1]}")
 
-      if userEdOrgsParent.size >1
-        userEdOrgsParent.each do |parentid|
-         parent = parentid.split("\"")
+                    if parent[1].nil?
+                      @userEdOrgsParentVar = "N/A"
+                    else
+                      parentUrl = "educationOrganizations/#{parent[1]}"
 
+                      userEdOrgsParentValue = getEdOrgs(parentUrl, name)
 
-          parentUrl = "educationOrganizations/#{parent[1]}"
-          userEdOrgsParentValue = getEdOrgs(parentUrl, name)
-        end
-
-      else
-        userEdOrgsParent.each do |parentid|
-
-         parentUrl = "educationOrganizations/#{parentid}"
-         userEdOrgsParentValue = getEdOrgs(parentUrl, name)
-         end
+                      @userEdOrgsParentVar = userEdOrgsParentValue[0]
+                    end
+                  end
       end
-    end
-
     #Setting variables to be sent to the View
-    @userEdOrgsIdVar = userEdOrgsId
-    @userEdOrgsNameVar = userEdOrgsName
-    @userEdOrgsTypeVar = userEdOrgsType
-    @userEdOrgsParentVar = userEdOrgsParentValue
-    @userFeederUrl =  getFeederOrg(userEdOrgsId)
+    @userEdOrgsIdVar = userEdOrgsId[0]
+    @userEdOrgsNameVar = userEdOrgsName[0]
+    @userEdOrgsTypeVar = userEdOrgsType[0]
+    @userFeederUrl =  getFeederOrg(userEdOrgsId[0])
 
     edOrgHash = {"EdOrgId"=>userEdOrgsId,"EdOrgName"=>userEdOrgsName, "EdOrgType"=>userEdOrgsType,"EdOrgsParent"=>userEdOrgsParentValue,"EdOrgURL"=>getFeederOrg(userEdOrgsId)}
-
-
-    #userEdOrgsId
   end
 
   #This function is used to run an API call to fetch the values of attributes associated with Entity Id
@@ -247,45 +227,20 @@ class EntitiesController < ApplicationController
     #Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
     Entity.url_type = entityUrl
     userEdOrgs = Entity.get("")
-=begin
-    begin
-      userEdOrgs = Entity.get("")
-    rescue
-      logger.debug {"Caught Exception In getting edorgs"}
-      return
-    end
-=end
+
     userEdOrgs = clean_up_results(userEdOrgs)
-    userEdOrgsString = ""
+    userEdOrgsString = []
     edOrgHash = ""
     userEdOrgs.each do |e|
-
-    userEdOrgsString = "#{e[attribute]}"
-
-   # edOrgStringHash = {"EdOrgId"=>userEdOrgsId,"EdOrgName"=>userEdOrgsName, "EdOrgType"=>userEdOrgsType,"EdOrgsParent"=>userEdOrgsParentValue,"EdOrgURL"=>getFeederOrg(userEdOrgsId)}
-
-
-=begin
-      edOrgHash = Hash["parentName" => userEdOrgsString]
-      logger.debug("ALERRRRRRRRRT: #{edOrgHash}")
-=end
+    userEdOrgsString.push("#{e[attribute]}")
     end
 
-    logger.debug("ALERRRRRRRRRT: #{userEdOrgsString}")
-
-
-=begin
-    userEdOrgs.each do |e|
-      userEdOrgsString = "#{userEdOrgsString}, #{e[attribute]}"
-      edOrgHash = Hash["parentName" => userEdOrgsString]
-      logger.debug("Hash value : #{edOrgHash['parentName']}")
-    end
-=end
-
-    # drop leading comma
+   #drop leading comma
    #userEdOrgsString = userEdOrgsString[1..-1]
    userEdOrgsString
   end
+
+
 
   #This function is used to run an API call to fetch the values of feeder EdOrgs associated with the EdOrg Id
   def getFeederOrg(parentid)
