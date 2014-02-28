@@ -183,10 +183,7 @@ class EntitiesController < ApplicationController
     parentArr = ""
     edOrgArr = []
 
-
     userURL = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
-
-
     userEdOrgs  = getEdOrgs(userURL)
 
     #Looping through parent EdOrgs and sending an API call to get the parent EdOrg Name associated with Parent EdOrg Id
@@ -202,8 +199,6 @@ class EntitiesController < ApplicationController
     userFeederUrl = Entity.url_type
     userFeederUrl = clean_up_results(userFeederUrl)
 
-
-    logger.debug("ALERRRRT : #{userFeederUrl}")
     begin
       userEdOrgsParentVar = ""
         if parentArr.nil?
@@ -227,6 +222,7 @@ class EntitiesController < ApplicationController
     edOrgHash = {"EdOrgs Id"=>userEdOrgsIdVar,"EdOrgs Name"=>userEdOrgsNameVar, "EdOrgs Type"=>userEdOrgsTypeVar,"EdOrgs Parent"=>userEdOrgsParentVar, "EdOrgs URL"=>userFeederUrl}
 
     edOrgArr.push(edOrgHash)
+    logger.debug("ALERRRRT : #{edOrgArr}")
     @edOrgArr  = edOrgArr
    end
   end
@@ -242,7 +238,6 @@ class EntitiesController < ApplicationController
     userEdOrgs
   end
 
-
    def getParentEdOrgs(entityUrl, attribute)
      #Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
      Entity.url_type = entityUrl
@@ -254,7 +249,6 @@ class EntitiesController < ApplicationController
      userEdOrgs.each do |e|
        userEdOrgsString.push("#{e[attribute]}")
      end
-
      userEdOrgsString
    end
 end
