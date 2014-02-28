@@ -174,81 +174,40 @@ class EntitiesController < ApplicationController
   #This function is used to set the values for EdOrg table for Id, name, parent and type fields in the homepage
   private
   def getUserEdOrgsString(entid)
+    @userEdOrgsIdVar = ""
+    @userEdOrgsNameVar = ""
+    @userEdOrgsTypeVar = ""
+    @userFeederUrl =  ""
+    userURL = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
+    parentURL =  "educationOrganizations?parentEducationAgencyReference=#{entid}"
 
-    #The URL to get edOrgs
-    edOrgUrl = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
-
-    #The attributes to be set in the EdOrg table fields
-    id ="id"
-    name = "nameOfInstitution"
-    type = "entityType"
-    parent = "parentEducationAgencyReference"
-
-    #Calling the getEdOrgs function, which will handle the API call to return the values from JSON
-    userEdOrgsId = getEdOrgs(edOrgUrl, id)
-    userEdOrgsName = getEdOrgs(edOrgUrl, name)
-    userEdOrgsType = getEdOrgs(edOrgUrl, type)
-    userEdOrgsParentStr = getEdOrgs(edOrgUrl, parent)
+    userEdOrgs  = getEdOrgs(entid, userURL)
 
     #Looping through parent EdOrgs and sending an API call to get the parent EdOrg Name associated with Parent EdOrg Id
-      userEdOrgsParentValue = []
-      #logger.debug("Type of parent string: #{userEdOrgsParentStr[0].is_a?(Array)}")
-        if userEdOrgsParentStr.size> 0
-          logger.debug("Inside 1")
-                  userEdOrgsParentStr.each do |parentid|
-                    parent = parentid.split("\"")
-                    #parent = parent[1..-1]
-                    # logger.debug("Type of parent string: #{parentid.is_a?(String)}")
-                    logger.debug("ALERRRRRRRRRT: #{parent[1]}")
-
-                    if parent[1].nil?
-                      @userEdOrgsParentVar = "N/A"
-                    else
-                      parentUrl = "educationOrganizations/#{parent[1]}"
-
-                      userEdOrgsParentValue = getEdOrgs(parentUrl, name)
-
-                      @userEdOrgsParentVar = userEdOrgsParentValue[0]
-                    end
-                  end
-      end
+    userEdOrgs.each do |entity|
     #Setting variables to be sent to the View
-    @userEdOrgsIdVar = userEdOrgsId[0]
-    @userEdOrgsNameVar = userEdOrgsName[0]
-    @userEdOrgsTypeVar = userEdOrgsType[0]
-    @userFeederUrl =  getFeederOrg(userEdOrgsId[0])
+    userEdOrgsIdVar = entity["id"]
+    userEdOrgsNameVar = entity["nameOfInstitution"]
+    userEdOrgsTypeVar = entity["entityType"]
+    userEdOrgsParentVar = entity["parentEducationAgencyReference"]
+    userFeederUrl = getEdOrgs(userEdOrgsIdVar,parentURL)
+    edOrgHash = {"EdOrgId"=>userEdOrgsIdVar,"EdOrgName"=>userEdOrgsNameVar, "EdOrgType"=>userEdOrgsTypeVar,"EdOrgParent"=>userEdOrgsParentVar,"EdOrgURL"=>userFeederUrl}
+    logger.debug("ALERRRRRTTTT : #{edOrgHash}")
+    end
 
-    edOrgHash = {"EdOrgId"=>userEdOrgsId,"EdOrgName"=>userEdOrgsName, "EdOrgType"=>userEdOrgsType,"EdOrgsParent"=>userEdOrgsParentValue,"EdOrgURL"=>getFeederOrg(userEdOrgsId)}
+
+   # edOrgHash = {"EdOrgId"=>userEdOrgsId,"EdOrgName"=>userEdOrgsName, "EdOrgType"=>userEdOrgsType,"EdOrgsParent"=>userEdOrgsParentValue,"EdOrgURL"=>getFeederOrg(userEdOrgsId)}
   end
 
   #This function is used to run an API call to fetch the values of attributes associated with Entity Id
   private
-  def getEdOrgs(entityUrl, attribute)
-    #Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
-    Entity.url_type = entityUrl
+  def getEdOrgs(entid, url)
+    #The URL to get edOrgs
+    Entity.url_type = url
+    #Entity.url_type = entityUrl
     userEdOrgs = Entity.get("")
-
     userEdOrgs = clean_up_results(userEdOrgs)
-    userEdOrgsString = []
-    edOrgHash = ""
-    userEdOrgs.each do |e|
-    userEdOrgsString.push("#{e[attribute]}")
-    end
-
-   #drop leading comma
-   #userEdOrgsString = userEdOrgsString[1..-1]
-   userEdOrgsString
-  end
-
-
-
-  #This function is used to run an API call to fetch the values of feeder EdOrgs associated with the EdOrg Id
-  def getFeederOrg(parentid)
-    Entity.url_type = "educationOrganizations?parentEducationAgencyReference=#{parentid}"
-    parentEdOrgs = Entity.url_type
-    parentEdOrgs = clean_up_results(parentEdOrgs)
-    logger.debug {"Parent EdOrgs : #{parentEdOrgs}"}
-    parentEdOrgs
+    userEdOrgs
   end
 end
 
