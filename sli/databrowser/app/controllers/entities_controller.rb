@@ -177,15 +177,17 @@ class EntitiesController < ApplicationController
     userEdOrgsIdVar = ""
     userEdOrgsNameVar = ""
     userEdOrgsTypeVar = ""
+    userEdOrgsParentVar = ""
     userFeederUrl =  ""
+
     parentArr = ""
     edOrgArr = []
 
 
     userURL = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
-    parentURL =  "educationOrganizations?parentEducationAgencyReference=#{entid}"
 
-    userEdOrgs  = getEdOrgs(entid, userURL)
+
+    userEdOrgs  = getEdOrgs(userURL)
 
     #Looping through parent EdOrgs and sending an API call to get the parent EdOrg Name associated with Parent EdOrg Id
     userEdOrgs.each do |entity|
@@ -194,34 +196,44 @@ class EntitiesController < ApplicationController
     userEdOrgsNameVar = entity["nameOfInstitution"]
     userEdOrgsTypeVar = entity["entityType"]
     parentArr = entity["parentEducationAgencyReference"]
-    userFeederUrl = getEdOrgs(userEdOrgsIdVar, parentURL)
 
-    #Converting parent array into a string
+    parentURL =  "educationOrganizations?parentEducationAgencyReference=#{userEdOrgsIdVar}"
+    Entity.url_type = parentURL
+    userFeederUrl = Entity.url_type
+    userFeederUrl = clean_up_results(userFeederUrl)
+
+
+    logger.debug("ALERRRRT : #{userFeederUrl}")
     begin
-      temp = ""
       userEdOrgsParentVar = ""
+        if parentArr.nil?
+          userEdOrgsParentVar = "N/A"
+        else
+          logger.debug("Inside 1")
+          parentArr.each do |parentid|
+            parent = parentid.split("\"")
 
-      parentArr.each do |parent|
-      temp = "#{userEdOrgsParentVar}, #{parent}"
-      userEdOrgsParentVar = temp[1..-1]
-    end
-    end
+              parentUrl = "educationOrganizations/#{parent[0]}"
+              name = "nameOfInstitution"
+              temp = getParentEdOrgs(parentUrl, name)
+
+            userEdOrgsParentVar = "#{userEdOrgsParentVar}, #{temp[0]}"
+            userEdOrgsParentVar = userEdOrgsParentVar[1..-1]
+          end
+        end
+      end
 
     #logger.debug("The type of PARENT var :#{userEdOrgsParentVar.is_a?(Array)}")
-    edOrgHash = {"EdOrgs Id"=>userEdOrgsIdVar,"EdOrgs Name"=>userEdOrgsNameVar, "EdOrgs Type"=>userEdOrgsTypeVar,"EdOrgs Parent"=>userEdOrgsParentVar,"EdOrgs URL"=>userFeederUrl}
+    edOrgHash = {"EdOrgs Id"=>userEdOrgsIdVar,"EdOrgs Name"=>userEdOrgsNameVar, "EdOrgs Type"=>userEdOrgsTypeVar,"EdOrgs Parent"=>userEdOrgsParentVar, "EdOrgs URL"=>userFeederUrl}
 
     edOrgArr.push(edOrgHash)
-
     @edOrgArr  = edOrgArr
-    end
-    logger.debug("ALERRRRRTTTT : #{edOrgArr}")
-
-   # edOrgHash = {"EdOrgId"=>userEdOrgsId,"EdOrgName"=>userEdOrgsName, "EdOrgType"=>userEdOrgsType,"EdOrgsParent"=>userEdOrgsParentValue,"EdOrgURL"=>getFeederOrg(userEdOrgsId)}
+   end
   end
 
   #This function is used to run an API call to fetch the values of attributes associated with Entity Id
   private
-  def getEdOrgs(entid, url)
+  def getEdOrgs(url)
     #The URL to get edOrgs
     Entity.url_type = url
     #Entity.url_type = entityUrl
@@ -229,5 +241,21 @@ class EntitiesController < ApplicationController
     userEdOrgs = clean_up_results(userEdOrgs)
     userEdOrgs
   end
+
+
+   def getParentEdOrgs(entityUrl, attribute)
+     #Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
+     Entity.url_type = entityUrl
+     userEdOrgs = Entity.get("")
+
+     userEdOrgs = clean_up_results(userEdOrgs)
+     userEdOrgsString = []
+     edOrgHash = ""
+     userEdOrgs.each do |e|
+       userEdOrgsString.push("#{e[attribute]}")
+     end
+
+     userEdOrgsString
+   end
 end
 

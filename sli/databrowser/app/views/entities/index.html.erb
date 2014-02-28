@@ -12,14 +12,14 @@
 
 
         <tr>
-          <th>Ed Orgs Name</th>
+          <th>EdOrgs Name</th>
           <th>EdOrgs Id</th>
           <th>EdOrgs Type</th>
           <th>EdOrgs Parent</th>
         </tr>
         <% @edOrgArr.each do |parent| %>
         <tr>
-          <td><%=parent['EdOrgs Name'] %></td>
+          <td><%=link_to parent['EdOrgs Name'], parent['EdOrgs URL'] %></td>
           <td><%=parent['EdOrgs Id']%></td>
           <td><%=parent['EdOrgs Type']%></td>
           <td><%=parent['EdOrgs Parent']%></td>
