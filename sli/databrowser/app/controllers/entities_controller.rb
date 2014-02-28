@@ -174,10 +174,14 @@ class EntitiesController < ApplicationController
   #This function is used to set the values for EdOrg table for Id, name, parent and type fields in the homepage
   private
   def getUserEdOrgsString(entid)
-    @userEdOrgsIdVar = ""
-    @userEdOrgsNameVar = ""
-    @userEdOrgsTypeVar = ""
-    @userFeederUrl =  ""
+    userEdOrgsIdVar = ""
+    userEdOrgsNameVar = ""
+    userEdOrgsTypeVar = ""
+    userFeederUrl =  ""
+    parentArr = ""
+
+
+
     userURL = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
     parentURL =  "educationOrganizations?parentEducationAgencyReference=#{entid}"
 
@@ -189,10 +193,22 @@ class EntitiesController < ApplicationController
     userEdOrgsIdVar = entity["id"]
     userEdOrgsNameVar = entity["nameOfInstitution"]
     userEdOrgsTypeVar = entity["entityType"]
-    userEdOrgsParentVar = entity["parentEducationAgencyReference"]
-    userFeederUrl = getEdOrgs(userEdOrgsIdVar,parentURL)
-    edOrgHash = {"EdOrgId"=>userEdOrgsIdVar,"EdOrgName"=>userEdOrgsNameVar, "EdOrgType"=>userEdOrgsTypeVar,"EdOrgParent"=>userEdOrgsParentVar,"EdOrgURL"=>userFeederUrl}
+    parentArr = entity["parentEducationAgencyReference"]
+    userFeederUrl = getEdOrgs(userEdOrgsIdVar, parentURL)
+
+    #Converting parent array into a string
+    begin
+      temp = ""
+      parentVar = ""
+      parentArr.each do |parent|
+      temp = "#{parentVar}, #{parent}"
+      parentVar = temp[1..-1]
+    end
+    end
+    #logger.debug("The type of PARENT var :#{userEdOrgsParentVar.is_a?(Array)}")
+    edOrgHash = {"EdOrgs Id"=>userEdOrgsIdVar,"EdOrgs Name"=>userEdOrgsNameVar, "EdOrgs Type"=>userEdOrgsTypeVar,"EdOrgs Parent"=>parentVar,"EdOrgs URL"=>userFeederUrl}
     logger.debug("ALERRRRRTTTT : #{edOrgHash}")
+    @edOrgHash = edOrgHash
     end
 
 

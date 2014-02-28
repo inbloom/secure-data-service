@@ -6,20 +6,26 @@
   <% @entities.each do |e| %>
       <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
   <% end %>
+
+
       <table class="edOrg_home">
+
+
         <tr>
-          <th>EdOrgs Name</th>
+          <th>Ed Orgs Name</th>
           <th>EdOrgs Id</th>
           <th>EdOrgs Type</th>
           <th>EdOrgs Parent</th>
         </tr>
 
         <tr>
-          <td><%=link_to @userEdOrgsNameVar, @userFeederUrl  %></td>
-          <td><%=@userEdOrgsIdVar%></td>
-          <td><%=@userEdOrgsTypeVar%></td>
-          <td><%=@userEdOrgsParentVar%></td>
+          <td><%=@edOrgHash['EdOrgs Name'] %></td>
+          <td><%=@edOrgHash['EdOrgs Id']%></td>
+          <td><%=@edOrgHash['EdOrgs Type']%></td>
+          <td><%=@edOrgHash['EdOrgs Parent']%></td>
         </tr>
 
-      </table>
+            </table>
+
+
 </div>
