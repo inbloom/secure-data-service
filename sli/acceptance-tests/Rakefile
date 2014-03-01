@@ -799,6 +799,17 @@ task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser/student_authentication.feature")
   runTests("test/features/databrowser/databrowser_external_idp_login.feature")
   runTests("test/features/databrowser/databrowser_breadcrumbtrail.feature")
+  runTests("test/features/databrowser/databrowser_homepagecounts.feature")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+task :homePageCountTests do
+  runTests("test/features/databrowser/databrowser_homepagecounts.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
