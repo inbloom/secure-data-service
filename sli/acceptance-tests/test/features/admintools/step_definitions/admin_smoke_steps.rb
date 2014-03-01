@@ -146,28 +146,6 @@ When /^I submit an application for registration with improperly formatted URLs$/
   end
 end
 
-Then /^I should (not )?see validation errors for fields:$/ do |not_see, table|
-  not_see = !!not_see
-  browser.within '#error_explanation' do
-    table.raw.each do |row|
-      field = row.first
-      if not_see
-        browser.page.should_not have_selector('li', :text => /#{field}/)
-      else
-        browser.page.should have_selector('li', :text => /#{field}/)
-      end
-    end
-  end
-end
-
-Then /^I should see validation errors for the missing required fields$/ do
-  browser.page.should have_selector('#error_explanation')
-  required_fields = ['Name', 'Description', 'Version', 'Application url', 'Redirect uri']
-  browser.within '#error_explanation' do
-    required_fields.each { |field| browser.page.should have_selector('li', :text => /#{field}/) }
-  end
-end
-
 When /^I edit the (in\-progress )?application$/ do |in_progress|
   link = in_progress ? 'In Progress' : 'Edit'
   browser.within @app_row do
