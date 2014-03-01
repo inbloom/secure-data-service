@@ -23,6 +23,12 @@ When /^I edit that realm$/ do
   browser.page.should have_selector('h1', :text => "Realm Management For #{@realm_name}")
 end
 
+When /^I view the custom roles for that realm$/ do
+  row = find_realm_row
+  browser.within(row) { browser.click_link 'Custom Roles' }
+  browser.page.should have_selector('h1', :text => "Custom Roles for #{@realm_name}")
+end
+
 When /^I delete that realm$/ do
   row = find_realm_row
   browser.within(row) { browser.click_link 'Delete Realm' }
@@ -52,7 +58,7 @@ When /^I try to add a new realm without inputting any data$/ do
   add_realm
 end
 
-When /^I try to add a new realm with (invalid|valid) values for:$/ do |valid, table|
+When /^I try to add a new realm with (invalid|valid|duplicate) values for:$/ do |valid, table|
   add_realm do
     table.raw.each do |row|
       field = row.first.strip
@@ -61,8 +67,18 @@ When /^I try to add a new realm with (invalid|valid) values for:$/ do |valid, ta
   end
 end
 
-Then /^I should see a validation error that a non\-blank artifact endpoint requires IDP source ID$/ do
-  "IDP Source ID can't be blank if Artifact Resolution Endpoint is non-blank"
+Then /^I should (not )?see the groups and roles for:$/ do |not_see, table|
+  labels = table.raw.map {|row| row.first}
+  selectors = ['td .groupTitle', 'td .role']
+  labels.each do |label|
+    selectors.each do |selector|
+      if not_see
+        browser.page.should have_no_selector(selector, :text => label)
+      else
+        browser.page.should have_selector(selector, :text => label)
+      end
+    end
+  end
 end
 
 def find_realm_row
@@ -80,18 +96,20 @@ def value_for(field, valid)
   values = {
     'Display Name' => {
         :valid   => "#{app_prefix}realm_#{Time.now.to_i}",
-        :invalid => Time.now.to_i.to_s[-4..-1]
+        :invalid => Time.now.to_i.to_s[-4..-1],
+        :duplicate => @realm_name
       },
     'Realm Identifier' => {
         :valid   => "#{app_prefix}realm_#{Time.now.to_i}",
-        :invalid => Time.now.to_i.to_s[-4..-1]
+        :invalid => Time.now.to_i.to_s[-4..-1],
+        :duplicate => @realm_name
       },
     'Artifact Resolution Endpoint' => {
         :valid => 'http://example.com',
         :invalid => 'malformed_url'
       },
     'IDP Source ID' => {
-        :valid => SecureRandom.hex(40),
+        :valid => SecureRandom.hex(20),
         :invalid => '$362j9/' # some random string not 40 characters with characters outside of [a-fA-F0-9]
     }
   }

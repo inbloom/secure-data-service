@@ -25,6 +25,20 @@ Then /^I should (not )?see co-dependent validation errors for:$/ do |not_see, ta
   end
 end
 
+Then /^I should (not )?see custom validation errors for:$/ do |not_see, table|
+  table.raw.each do |row|
+    message = "#{row.first} #{row.last}"
+    has_validation(message, !not_see)
+  end
+end
+
+Then /^I should (not )?see uniqueness validation errors for:$/ do |not_see, table|
+  table.raw.each do |row|
+    message = "#{row.first} must be unique"
+    has_validation(message, !not_see)
+  end
+end
+
 def has_validation(message, present=true)
   error_selector = '#error_explanation li'
   if present
