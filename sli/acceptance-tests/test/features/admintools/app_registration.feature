@@ -70,7 +70,7 @@ Scenario: A developer must provide correctly formatted URLs where needed
     And I have an open browser
     And I am managing my applications
    When I submit an application for registration with improperly formatted URLs
-   Then I should see validation errors for fields:
+   Then I should see validation errors for:
     | Administration url |
     | Image url          |
     | Application url    |

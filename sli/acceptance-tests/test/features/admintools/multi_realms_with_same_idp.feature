@@ -1,5 +1,4 @@
 @RALLY_US5897
-# TODO: Evaluate need for this test
 Feature: Multiple realms with the same IDP should be able to authenticate users.
 
 
