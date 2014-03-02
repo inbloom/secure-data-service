@@ -49,7 +49,7 @@ Scenario: A developer does not provide required information for an application
     And I have an open browser
     And I am managing my applications
    When I submit an application for registration without inputting any information
-   Then I should see validation errors for fields:
+   Then I should see validation errors for:
     | Name            |
     | Description     |
     | Version         |
@@ -61,7 +61,7 @@ Scenario: A developer does not need to provide application and redirect URLs for
   And I have an open browser
   And I am managing my applications
   When I submit an application for registration marked as "Installed"
-  Then I should not see validation errors for fields:
+  Then I should not see validation errors for:
     | Application url |
     | Redirect uri    |
 
@@ -70,7 +70,7 @@ Scenario: A developer must provide correctly formatted URLs where needed
     And I have an open browser
     And I am managing my applications
    When I submit an application for registration with improperly formatted URLs
-   Then I should see validation errors for fields:
+   Then I should see validation errors for:
     | Administration url |
     | Image url          |
     | Application url    |
