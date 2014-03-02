@@ -33,7 +33,6 @@ task :adminWebTests => [:realmInit] do
   runTests("test/features/admintools/bulkExtract.feature")
   runTests("test/features/admintools/custom_role_mapping.feature")
   runTests("test/features/admintools/delegate_privileges.feature")
-  runTests("test/features/admintools/developer_enable.feature")
   runTests("test/features/admintools/realm_management.feature")
   runTests("test/features/admintools/enable_and_authorize_apps_directly_by_edorg.feature")
   runTests("test/features/admintools/enable_and_authorize_bulk_extract_apps_directly_by_edorg.feature")
@@ -56,12 +55,6 @@ desc "Run Admin Delegation Tests"
 task :adminDelegationTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools/delegate_privileges.feature")
-end
-
-desc "Run Admin Develper App Enable Tests"
-task :adminDevAppEnableTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/admintools/developer_enable.feature")
 end
 
 desc "Run Reset and Change Password Selenium Tests"
