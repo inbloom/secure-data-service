@@ -15,10 +15,10 @@ Scenario: Seeing the counts table on the homepage as a staff member
   Then I should see a table for counts
     And my counts for <type> are <ever> and <current>
     |type		|ever	|current|
-    |Staff		|12	|12	|
-    |Students		|124	|124	|
-    |Teachers		|4	|4	|		
-    |Non-Teachers	|8	|8	|
+    |Staff      |16 |16 |
+    |Students       |127    |126    |
+    |Teachers       | 5 | 5 |       
+    |Non-Teachers   |13 |12 |
 
 
 
