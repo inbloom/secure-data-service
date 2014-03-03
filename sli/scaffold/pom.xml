@@ -3,7 +3,7 @@
   <parent>
     <artifactId>sli</artifactId>
     <groupId>org.slc.sli</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.DS-1013.97.863</version>
   </parent>
   <artifactId>scaffold</artifactId>
   <name>Scaffold</name>
