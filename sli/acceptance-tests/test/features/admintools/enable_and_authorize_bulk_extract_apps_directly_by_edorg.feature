@@ -6,7 +6,7 @@ Background:
 	Given I have an open web browser
 
 	Scenario: Create new bulk extract application (set up data)
-        Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
+        #Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
         And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
@@ -25,7 +25,7 @@ Background:
         And the Registration Status field is Pending
 
     Scenario: SLC Operator accepts bulk extract application registration request (set up data)
-        Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
+        #Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
         And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
@@ -39,7 +39,7 @@ Background:
         And the 'Approve' button is disabled for application "Aboukir"
 
     Scenario: Developer registers bulk extract application (set up data)
-        Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
+        #Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
         And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page

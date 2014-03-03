@@ -32,8 +32,6 @@ require 'digest/sha1'
 require 'socket'
 require 'macaddr'
 
-#include REXML
-
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
 
 $SESSION_MAP = {

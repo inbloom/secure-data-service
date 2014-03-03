@@ -483,27 +483,3 @@ end
 ############################################################
 # Security tests end
 ############################################################
-
-############################################################
-# Aggregation API tests start
-############################################################
-desc "Run Aggregation API Tests"
-task :aggregationAPI => [:realmInit, :importCompletedAggData] do
-  runTests("test/features/apiV1/aggregations/calcValues_api.feature")
-  runTests("test/features/apiV1/aggregations/aggregate_api.feature")
-end
-
-desc "Import completed aggregation data"
-task :importCompletedAggData => [:importSandboxData] do
-  data = Hash[
-    "student" => "completedAggregation/students.json",
-    "studentSchoolAssociation" => "completedAggregation/studentSchools.json",
-    "studentSectionAssociation" => "completedAggregation/studentSections.json",
-    "educationOrganization_Midgar" => "completedAggregation/Midgar/educationOrganization.json",
-    "educationOrganization_Hyrule" => "completedAggregation/Hyrule/educationOrganization.json",
-    "educationOrganization_chaos_mokey_org" => "completedAggregation/chaos_mokey_org/educationOrganization.json",
-    "educationOrganization_fakedev@zork.net" => "completedAggregation/fakedev@zork.net/educationOrganization.json"
-  ]
-  setMultipleFixtureFiles(data)
-end
-

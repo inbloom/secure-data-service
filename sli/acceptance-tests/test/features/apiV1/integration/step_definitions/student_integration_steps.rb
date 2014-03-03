@@ -207,11 +207,6 @@ Given /^I am a valid teacher "([^"]*)" with password "([^"]*)"$/ do |user, pass|
   @passwd = pass
 end
 
-Given /^I am a valid IT Administrator "([^"]*)" with password "([^"]*)"$/ do |user, pass|
-  @user = user
-  @passwd = pass
-end
-
 Given /^I am a valid SEA\/LEA end user "([^"]*)" with password "([^"]*)"$/ do |user, pass|
   @user = user
   @passwd = pass

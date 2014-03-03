@@ -109,14 +109,16 @@ class EntitiesController < ApplicationController
     if params[:search_id] && @search_field
       @entities = []
       @entities = Entity.get("", @search_field => params[:search_id].strip) if params[:search_id] && !params[:search_id].strip.empty?
-      clean_up_results
+      @entities = clean_up_results(@entities)
       flash.now[:notice] = "There were no entries matching your search" if @entities.size == 0 || @entities.nil?
     else
       query = params.reject {|k, v| k == 'controller' || k == 'action' || k == 'other' || k == 'search_id'}
       logger.debug {"Keeping query parameters #{query.inspect}"}
       @entities = Entity.get("", query)
+
+
       @page = Page.new(@entities.http_response)
-      clean_up_results
+      @entities= clean_up_results(@entities)
     end
     if params[:other] == 'home'
       render :index
@@ -131,11 +133,12 @@ class EntitiesController < ApplicationController
   end
   
   private
-  def clean_up_results
-    if @entities.is_a?(Hash)
+  def clean_up_results(entities)
+    tmp = entities
+    if entities.is_a?(Hash)
       tmp = Array.new()
-      tmp.push(@entities)
-      @entities = tmp
+      tmp.push(entities)
     end
+    tmp
   end
 end
