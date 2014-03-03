@@ -377,19 +377,6 @@ Then /^I check Bulk Extract$/ do
   @driver.find_element(:id, 'app_isBulkExtract').click
 end
 
-When /^I (enable|disable) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action,edOrgName,tenant|
-  disable_NOTABLESCAN()
-  db = @conn[convertTenantIdToDbName(tenant)]
-  coll = db.collection("educationOrganization")
-  record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
-  enable_NOTABLESCAN()
-  edOrgId = record["_id"]
-  elt = @driver.find_element(:id, edOrgId)
-  assert(elt, "Educational organization element for '" + edOrgName + "' (" + edOrgId + ") not found")
-  assert(action == "enable" && !elt.selected? || action == "disable" && elt.selected?, "Cannot " + action + " educationalOrganization element with id '" + edOrgId + "' whose checked status is " + elt.selected?.to_s())
-  elt.click()
-end
-
 private
 def build_edorg(name, tenant, parent = nil, stateId = "Waffles", isLea=true)
   @@mongoid ||= 0
