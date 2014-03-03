@@ -33,7 +33,7 @@ import java.util.Arrays;
 public class ResourceServiceHelper {
 
     public ApiQuery getApiQuery(EntityDefinition definition, final URI requestURI) {
-        ApiQuery apiQuery = new ApiQuery(requestURI);
+        ApiQuery apiQuery = new ApiQuery(definition.getType(), requestURI);
         addTypeCriteria(definition, apiQuery);
 
         apiQuery.addCriteria(new NeutralCriteria("body",NeutralCriteria.CRITERIA_EXISTS,true,false));

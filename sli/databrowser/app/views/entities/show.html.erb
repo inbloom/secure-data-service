@@ -3,10 +3,38 @@
 <h2>Viewing information for <%= params[:other] %></h2>
 <p><%= link_to 'Back to Listings', :back %></p>
 <div id='entities'>
-  <% if @entities.size == 1 %>
+  <% if @entities.size < 1 %>
+    <%= render :partial => "multi_record_table", :locals => {:page => @page} %>
+  <% elsif @entities.size == 1 %>
   	<%= render :partial => "single_record_details", :locals => {:entity => @entities.first} %>
   <%else%>
+
+    <div id="table_info">
+    <span class="left">Showing <%= params[:offset].to_i + 1 %> to
+    <% if !params[:limit].nil? and params[:limit].to_i >= 0 %>
+        <%= (params[:limit].to_i + params[:offset].to_i >  @entities.http_response['TotalCount'].to_i) ? @entities.http_response['TotalCount'] : (params[:limit].to_i + params[:offset].to_i) %>
+    <% else %>
+        <%= @entities.http_response['TotalCount'] %>
+    <% end %>
+    of <%= @entities.http_response['TotalCount'] %> entries</span>
+    
+    <% limits = VIEW_CONFIG['paginate_ipp'] %>
+    <% if @entities.http_response['TotalCount'].to_i > limits.first.to_i %>
+        <span class="per_page">Items per page:
+        <% limits.each do |limit| %>
+            <% if params[:limit].to_i == limit.to_i %>
+                <span class="selected">
+            <% else %>
+                <span>
+            <% end %>
+            <%= link_to "#{limit}", params.merge(:offset => 0, :limit => limit) %>
+            </span>
+        <% end %>
+        </span>
+    <% end %>
+    </div>
+
   	<%= render :partial => "multi_record_table", :locals => {:page => @page} %>
+  	<%= render 'paginate'%>
   <% end %>
 </div>
-<%= render 'paginate'%>

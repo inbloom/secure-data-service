@@ -160,13 +160,13 @@ module EntitiesHelper
     html
   end
 
-
   # This is for displaying the table that is attached to the EdOrg page. This will only display when the entityType
   # is educationOrganization. This is a table that shows the number of staff, students, teachers and non-teachers
   # associated with the EdOrg and it's children
   def display_edorg_table(entity = nil)
     ed_orgs = []
     html ||= ""
+
 
     if (entity.is_a?(Array))
       entities = get_user_edorg(entity)
@@ -193,32 +193,36 @@ module EntitiesHelper
     html << "<tr><td>Students</td><td>#{student_counts['total']}</td><td>#{student_counts['current']}</td></tr>"
     html << "<tr><td>Teachers</td><td>#{staff_counts['total_teachers']}</td><td>#{staff_counts['current_teachers']}</td></tr>"
     html << "<tr><td>Non-Teachers</td><td>#{staff_counts['total_non_teachers']}</td><td>#{staff_counts['current_non_teachers']}</td></tr>"
-  
+
     # End the table
     html << "</tbody></table>"
     
   end
-  
+
   # This is recursive function that retrieves all of the edorgs below the current edorg
   # and their children and so on. It uses the organizationalCategory of School to break
   # out of the recursiveness as schools should not have an children
   def get_feeder_edorgs(entity_id, destination = nil)
-    url = "#{APP_CONFIG['api_base']}/educationOrganizations?parentEducationAgencyReference=#{entity_id}"
-    entities = RestClient.get(url, get_header)
-    entities = JSON.parse(entities)
-    if destination.nil?
-      destination = []
-    end
-    entities.each do |ed_org|
-      if ed_org['organizationCategories'].include? "School"
-        destination.push(ed_org) unless destination.include? ed_org
-      else
-        get_feeder_edorgs(ed_org['id'], destination)
+    begin
+      url = "#{APP_CONFIG['api_base']}/educationOrganizations?parentEducationAgencyReference=#{entity_id}"
+      entities = RestClient.get(url, get_header)
+      entities = JSON.parse(entities)
+      if destination.nil?
+        destination = []
       end
+      entities.each do |ed_org|
+        if ed_org['organizationCategories'].include? "School"
+          destination.push(ed_org) unless destination.include? ed_org
+        else
+          get_feeder_edorgs(ed_org['id'], destination)
+        end
+      end
+    rescue => e
+      logger.info("Could not get feeder Ed Org because of #{e.message}")
     end
     destination
   end
-  
+
   # Used by the rest client to set up some basic header information
   def get_header
     header = Hash.new
@@ -227,7 +231,7 @@ module EntitiesHelper
     header[:accept] = :json
     header
   end
-  
+
   # Retrieves the counts from the api for students and staff. This takes the entity_type as a variable so that
   # the appropriate url can be chosen based on the count needed. If total = true, this returns all of the entities
   # and if total is false, the currentOnly parameter is passed to the api.
@@ -261,61 +265,61 @@ module EntitiesHelper
     
     result
   end
-  
+
   # This function is used to retrieve the teacher and non-teacher counts for the edOrg that is passed
   # in. It builds the link and pulls back all of the associations. Then looks for the Educator 
   # staffClassification. If the classification is Educator then it is a teacher and the teachers
   # count is incremented, otherwise, the non-teacher count is incremented. This returns a Hash
   # of the two counts
   def get_staff_counts(ed_orgs)
-  # Can be used for unique staff
-  #UseForUnique    total = Hash.new
-  #UseForUnique    current = Hash.new
-  #UseForUnique    total_teachers = Hash.new
-  #UseForUnique    total_non_teachers = Hash.new
-  #UseForUnique    current_teachers = Hash.new
-  #UseForUnique    current_non_teachers = Hash.new
-  
-    total = 0
-    current = 0
-    total_teachers = 0
-    total_non_teachers = 0
-    current_teachers = 0
-    current_non_teachers = 0
-  
+# Can be used for unique staff
+    total = Hash.new
+    current = Hash.new
+    total_teachers = Hash.new
+    total_non_teachers = Hash.new
+    current_teachers = Hash.new
+    current_non_teachers = Hash.new
+
+#UseForTotal    total = 0
+#UseForTotal    current = 0
+#UseForTotal    total_teachers = 0
+#UseForTotal    total_non_teachers = 0
+#UseForTotal    current_teachers = 0
+#UseForTotal    current_non_teachers = 0
+
     ed_orgs.each do | ed_org |
       url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{ed_org['id']}/staffEducationOrgAssignmentAssociations?limit=0"
-  
+
       begin
         associations = RestClient.get(url, get_header)
         associations = JSON.parse(associations)
         associations.each do |association|
           # Increment the total
-          #UseForUniquetotal[association['staffReference']] = association['staffReference']
-          total += 1
+          total[association['staffReference']] = association['staffReference']
+          #UseForTotaltotal += 1
           
           # Increment totals for teachers and non-teachers as necessary for totals
           if (!association['staffClassification'].nil?)
             if (association['staffClassification'].include? "Educator")
-              #UseForUniquetotal_teachers[association['staffReference']] = association['staffReference']
-              total_teachers += 1
+              total_teachers[association['staffReference']] = association['staffReference']
+              #UseForTotaltotal_teachers += 1
             else
-              #UseForUniquetotal_non_teachers[association['staffReference']] = association['staffReference']
-              total_non_teachers += 1
+              total_non_teachers[association['staffReference']] = association['staffReference']
+              #UseForTotaltotal_non_teachers += 1
             end
           end
           
           # Increment current for staff, teachers and non-teachers
           if (is_current(association))
-            #UseForUniquecurrent[association['staffReference']] = association['staffReference']
-            current += 1
+            current[association['staffReference']] = association['staffReference']
+            #UseForTotalcurrent += 1
             if (!association['staffClassification'].nil?)
               if (association['staffClassification'].include? "Educator")
-                current_teachers += 1
-                #UseForUniquecurrent_teachers[association['staffReference']] = association['staffReference']
+                #UseForTotalcurrent_teachers += 1
+                current_teachers[association['staffReference']] = association['staffReference']
               else
-                current_non_teachers += 1
-                #UseForUniquecurrent_non_teachers[association['staffReference']] = association['staffReference']
+                #UseForTotalcurrent_non_teachers += 1
+                current_non_teachers[association['staffReference']] = association['staffReference']
               end
             end
           end
@@ -327,19 +331,19 @@ module EntitiesHelper
     end
     
     result = Hash.new
-    result['total'] = total#UseForUnique.size()
-    result['current'] = current#UseForUnique.size()
-    result['total_teachers'] = total_teachers#UseForUnique.size()
-    result['total_non_teachers'] = total_non_teachers#UseForUnique.size()
-    result['current_teachers'] = current_teachers#UseForUnique.size()
-    result['current_non_teachers'] = current_non_teachers#UseForUnique.size()
+    result['total'] = total.size()
+    result['current'] = current.size()
+    result['total_teachers'] = total_teachers.size()
+    result['total_non_teachers'] = total_non_teachers.size()
+    result['current_teachers'] = current_teachers.size()
+    result['current_non_teachers'] = current_non_teachers.size()
     result    
   end
-  
+
   private
   def is_current(entity)
     result = false
-  
+
     now = Date.today
     
     begin_date_field = "beginDate"
@@ -358,13 +362,13 @@ module EntitiesHelper
     else
       begin_date = Date.strptime(entity[begin_date_field], "%F") 
     end
-  
+
     if (entity[end_date_field].nil?)
       end_date = now + 1
     else 
       end_date = Date.strptime(entity[end_date_field], "%F")
     end
-  
+
     if (begin_date <= now) and (end_date >= now)
       result = true
     end
