@@ -329,13 +329,19 @@ end
 #       then move it to the App Registration scenario in admin_smoke.feature
 Then /^a notification email is sent to "([^"]*)"$/ do |email|
     sleep 2
-    defaultUser = email.split("@")[0]
-    defaultPassword = "#{defaultUser}1234"
+    if email == 'slcoperator-email@slidev.org'
+      defaultUser = Property['operator_test_email_user'] || 'slcoperator-email'
+      defaultPassword = Property['operator_test_email_pass'] || 'slcoperator-email1234'
+    else
+      defaultUser = email.split("@")[0]
+      defaultPassword = "#{defaultUser}1234"
+    end
     puts "=============  IMAP host is " + Property['email_imap_host']
     puts "=============  IMAP port is " + Property['email_imap_port'].to_s
     imap = Net::IMAP.new(Property['email_imap_host'], Property['email_imap_port'], true, nil, false)
     puts "=============  AUTHENTICATING WITH '" + defaultUser + "' / '" + defaultPassword + "'"
-    imap.authenticate('LOGIN', defaultUser, defaultPassword)
+    #imap.authenticate('LOGIN', defaultUser, defaultPassword)
+    imap.login(defaultUser, defaultPassword)
     imap.examine('INBOX')
     #ids = imap.search(["FROM", "noreply@slidev.org","TO", email])
     ids = imap.search(["TO", email])
