@@ -63,3 +63,17 @@ When /^I click on Save$/ do
   @driver.find_element(:css, 'input:enabled[type="submit"]').click
 end
 
+Then /^"(.*?)" is enabled for "(.*?)" education organizations$/ do |app, edOrgCount|
+  disable_NOTABLESCAN()
+  sliDb = @conn.db('sli')
+  coll = sliDb.collection("application")
+  record = coll.find_one("body.name" => app)
+  #puts record.to_s
+  body = record["body"]
+  #puts body.to_s
+  edorgsArray = body["authorized_ed_orgs"]
+  edorgsArrayCount = edorgsArray.count
+  #puts edorgsArrayCount
+  assert(edorgsArrayCount == edOrgCount.to_i, "Education organization count mismatch. Expected #{edOrgCount}, actual #{edorgsArrayCount}")
+  enable_NOTABLESCAN()
+end

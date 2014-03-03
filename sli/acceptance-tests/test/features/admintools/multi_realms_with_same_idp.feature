@@ -1,10 +1,12 @@
 @RALLY_US5897
 Feature: Multiple realms with the same IDP should be able to authenticate users.
 
-#  Given as a staff member I cannot log into another district's realm
-#   When the IDP endpoint of the other district's realm is set to the endpoint of the my district's realm
-#   Then I can login to the other district
-#    And I can login to my district
+  Background:
+    Given I add a new realm with the same IDP endpoint as an existing realm
+
+#   When the IDP endpoint of the that realm is set to the endpoint of my realm
+#   Then I can login to that realm district
+#    And I can still login to my realm
 
   Scenario: Grab the IDP redirectEndpoint from Daybreak
   Given I have an open web browser
