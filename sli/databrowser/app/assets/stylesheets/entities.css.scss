@@ -31,3 +31,36 @@ table.edOrg_home th {
 table.edOrg_home td {
     border: solid 1px black;
 }
+
+#table_info {
+    width: 98%;
+    display: inline-block;
+    vertical-align: bottom;
+    margin-padding: 5px;
+}
+
+.per_page {
+    float: right;
+    text-align: right;
+}
+
+.per_page a {
+    padding: 5px;
+}
+
+.per_page .selected {
+    background-color: #B0E0F0;
+    font-weight: bold;
+}
+
+.pagination {
+    float: left;
+    text-align: left;
+    margin-top: 20px;
+}
+
+.paginate {
+    background-color: #B0E0F0;
+    padding: 5px;
+    margin: 5px;
+}

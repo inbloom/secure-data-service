@@ -88,7 +88,23 @@ class EntitiesController < ApplicationController
   # Second, if we see any offset in params then we make the call to
   # grab the next page of data from the Api.
   def show
-    @@LIMIT = 50
+    
+    # This section was put here for pagination. It sets the offset to 0 if not
+    # set and then has a session and params variable for the limit. If the params
+    # limit is set, it takes precedence. If there is no limit, the default is set
+    # to the first item in the paginate_ipp array in views.yml
+    if params[:offset].nil?
+      params[:offset] = 0
+    end
+    if params[:limit].nil? and session[:limit].nil?
+      params[:limit] = VIEW_CONFIG['paginate_ipp'].first.to_i
+      session[:limit] = params[:limit]
+    elsif !params[:limit].nil?
+      session[:limit] = params[:limit]
+    elsif params[:limit].nil? and !session[:limit].nil?
+      params[:limit] = session[:limit]
+    end
+    
     @page = Page.new
     if params[:search_id] && @search_field
       @entities = []
@@ -96,10 +112,6 @@ class EntitiesController < ApplicationController
       @entities = clean_up_results(@entities)
       flash.now[:notice] = "There were no entries matching your search" if @entities.size == 0 || @entities.nil?
     else
-      #Clean up the parameters to pass through to the API.
-      if params[:offset]
-        params[:limit] == @@LIMIT
-      end
       query = params.reject {|k, v| k == 'controller' || k == 'action' || k == 'other' || k == 'search_id'}
       logger.debug {"Keeping query parameters #{query.inspect}"}
       @entities = Entity.get("", query)

@@ -332,6 +332,31 @@ Then /^I click on the link "(.*?)"$/ do |link|
   end
 end
 
+And /^I should see a row containing "([^"]*)"$/ do |arg1|
+  assertWithWait("Failed to find row containing text: "+arg1)  {@driver.find_element(:xpath, "//tr/td[normalize-space()='#{arg1}']")}
+end
+
+And /^I should NOT see a row containing "([^"]*)"$/ do |arg1|
+  begin
+    assertWithWait("Failed to find row containing text: "+arg1)  {@driver.find_element(:xpath, "//tr/td[normalize-space()='#{arg1}']")}
+    assert(false)
+  rescue => e
+    assert(true)
+  end
+end
+
+Then /^I should navigate to <Link> and see columns in the correct order$/ do |table|
+  table.hashes.each do |hash|
+    steps %Q{
+      Then I should navigate to #{hash['Link']}
+    }
+    assertWithWait("Failed to find the Last Name column")  {@driver.find_element(:xpath, "//table[@id='simple-table']//thead/tr/th[2][contains(text(), 'Last Name')]")}
+    assertWithWait("Failed to find the First Name column")  {@driver.find_element(:xpath, "//table[@id='simple-table']//thead/tr/th[3][contains(text(), 'First Name')]")}
+    assertWithWait("Failed to find the State Id column")  {@driver.find_element(:xpath, "//table[@id='simple-table']//thead/tr/th[4][contains(text(), 'State ID')]")}
+    assertWithWait("Failed to find the ID column")  {@driver.find_element(:xpath, "//table[@id='simple-table']//thead/tr/th[5][contains(text(), 'Id')]")}
+  end
+end
+
 Then /^I should see a count of <Total> for id <ID> staff total and <Current> for current$/ do |table|
   table.hashes.each do |hash|
     assertWithWait("Failed to find the appropriate total count text") { @driver.find_element(:xpath, "//table[@id='edorgcounts_#{hash['ID']}']//tr[1]/td[2][contains(text(), '#{hash['Total']}')]") }
