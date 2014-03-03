@@ -1,5 +1,7 @@
 require 'securerandom'
 
+require_relative '../../apiV1/integration/step_definitions/app_oauth.rb'
+
 Given /^I am managing my realms$/ do
   browser.visit realm_management_page
   login_to_the_inbloom_realm
