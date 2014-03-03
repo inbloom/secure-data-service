@@ -41,6 +41,10 @@ class DbClient
     db[collection]
   end
 
+  def count(collection, query={})
+    db[collection].count(:query => query)
+  end
+
   def find(collection, query={})
     db[collection].find query
   end

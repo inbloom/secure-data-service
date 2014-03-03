@@ -65,6 +65,10 @@ Given /^I am a valid (.*)$/ do |user_type|
   @federated = !!(user_type =~ /federated/)
 end
 
+Given /^I am an unknown user$/ do
+  @user, @pass = 'unknown_user','invalid_password'
+end
+
 Given /^I am managing my applications$/ do
   browser.visit path_for('apps')
   login_to_the_inbloom_realm
@@ -88,6 +92,25 @@ Given /^I am managing my application authorizations$/ do
   browser.visit path_for('application authorizations')
   login_to_the_realm
   browser.page.should have_selector('h1', :text => 'Approve Applications')
+end
+
+When /^I attempt to manage application authorizations$/ do
+  browser.visit path_for('application authorizations')
+  login_to_the_realm
+end
+
+When /^I attempt to go to the default administration page$/ do
+  browser.visit path_for('')
+  login_to_the_realm
+end
+
+Then /^I should (not )?be on the default administration page$/ do |not_see|
+  selector, header = 'h1', 'Admin Tools'
+  if not_see
+    browser.page.should have_no_selector(selector, :text => header)
+  else
+    browser.page.should have_selector(selector, :text => header)
+  end
 end
 
 Given /^I have an in\-progress application$/ do
@@ -259,7 +282,9 @@ def valid_user(user_type)
       'realm administrator'          => 'sunsetrealmadmin',
       'federated district-level administrator' => 'jstevenson',
       'SLC Operator' => 'slcoperator-email@slidev.org',
-      'Super Administrator' => 'daybreaknorealmadmin'
+      'Super Administrator' => 'daybreaknorealmadmin',
+      'non-SLI hosted user with no roles' => 'administrator',
+      'SLI hosted user with no roles' => 'leader'
   }
   username = valid_users[user_type]
   username.should_not be_nil

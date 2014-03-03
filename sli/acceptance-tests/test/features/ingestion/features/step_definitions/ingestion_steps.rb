@@ -305,7 +305,7 @@ checked = Set.new
 # STEPS: BEFORE
 ############################################################
 
-Before do
+Before('~@no_ingestion_hooks') do
   extend Test::Unit::Assertions
 
   @ingestion_db_name = convertTenantIdToDbName('Midgar')
@@ -4130,7 +4130,7 @@ end
 # STEPS: AFTER
 ############################################################
 
-After do
+After('~@no_ingestion_hooks') do
   if (!@landing_zone_path.nil? && Dir.exists?(@landing_zone_path))
     Dir.foreach(@landing_zone_path) do |entry|
       if (entry.rindex("warn.") || entry.rindex("error."))
