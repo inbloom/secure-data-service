@@ -113,6 +113,10 @@ test_email_sender: inBloom Administrator
 test_email_user: peacefrog
 test_email_pass: demouser
 
+operator_test_email_user: slcoperator-email
+operator_test_email_pass: slcoperator-email1234
+
+
 ################# e2e test properties #################################
 # For CI environments
 email_imap_hostname: mon.slidev.org
