@@ -282,15 +282,15 @@ Then I should navigate to "/entities/educationOrganizations/ec2e4218-6483-4e9c-8
 And I should see a row containing "414106a9-6156-1003-a477-4bd4dda7e21a_id"
 And I should NOT see a row containing "414106a9-6156-1011-a477-4bd4dda7e21a_id"
 When I click on the "Next" link
-And I should see a row containing "414106a9-6156-1011-a477-4bd4dda7e21a_id"
+And I should see a row containing "414106a9-6156-1020-a477-4bd4dda7e21a_id"
 When I click on the "Last" link
 And I should see a row containing "ffee781b-22b1-4015-81ff-3289ceb2c113_id"
 When I click on the "Prev" link
-And I should see a row containing "a17bd536-7502-4a4d-9d1f-538792b86795_id"
+And I should see a row containing "5dd72fa0-98fe-4017-ab32-0bd33dc03a81_id"
 When I click on the "First" link
-And I should see a row containing "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id"
-When I click on the "20" link
-And I should see a row containing "414106a9-6156-1011-a477-4bd4dda7e21a_id"
+And I should see a row containing "414106a9-6156-1003-a477-4bd4dda7e21a_id"
+When I click on the "50" link
+And I should see a row containing "414106a9-6156-1020-a477-4bd4dda7e21a_id"
 
 
 Scenario: Validate that the headers are correct for students, parents, staff and teachers
