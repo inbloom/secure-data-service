@@ -81,6 +81,8 @@ def get_last_email_id
 
   puts "=============  IMAP host is #{Property['email_imap_host']}"
   puts "=============  IMAP port is #{Property['email_imap_port']}"
+  puts "=============  IMAP user is #{defaultUser}"
+  puts "=============  IMAP pass is #{defaultPassword}"
   @imap = Net::IMAP.new(Property['email_imap_host'], Property['email_imap_port'], true, nil, false)
   #@imap.authenticate('LOGIN', defaultUser, defaultPassword)
   @imap.login(defaultUser, defaultPassword) # This works with Gmail; #authenticate does not
