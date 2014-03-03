@@ -28,6 +28,7 @@ SAMT_EMAIL_NOTIFICATION_SUBJECT_PROD = "inBloom Administrator Account - Email Co
 TEST_EMAIL = Property['test_email'] || "peacefrog@slidev.org"
 TEST_EMAIL_USER = Property['test_email_user'] || "peacefrog"
 TEST_EMAIL_PASS = Property['test_email_pass'] || "demouser"
+TEST_EMAIL_SENDER = Property['test_email_sender'] || 'inBloom Administrator'
 
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
@@ -42,8 +43,9 @@ Given /^I have a SMTP\/Email server configured$/ do
   puts "Email Email: #{TEST_EMAIL}" if $SLI_DEBUG
   puts "Email Username: #{TEST_EMAIL_USER}" if $SLI_DEBUG
   puts "Email Password: #{TEST_EMAIL_PASS}" if $SLI_DEBUG
+  puts "Email Sender Email: #{TEST_EMAIL_SENDER}" if $SLI_DEBUG
 
-  @email_sender_name= "SLC Administrator"
+  @email_sender_name= TEST_EMAIL_SENDER
   @email = TEST_EMAIL
 
   @last_id = get_last_email_id
