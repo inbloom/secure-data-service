@@ -40,3 +40,21 @@ Scenario: Valid SLI user who does not have any roles
     And I should see security events for:
       | Failed login |
 
+Scenario Outline: Valid inBloom operator attempts to access restricted pages
+  Given I am a valid SLC Operator
+   When I attempt to go to the <page> page
+   Then I should see an error message indicating that "you don't have access to this page"
+  Examples:
+    | page                       |
+    | application authorizations |
+    | custom roles               |
+
+Scenario: Valid inBloom operator attempts to access accessible pages
+  Given I am a valid SLC Operator
+  When I attempt to go to the applications page
+  Then I should not see an error message indicating that "you don't have access to this page"
+
+Scenario: Valid Super Administrator attempts to access restricted pages
+  Given I am a valid Super Administrator
+  When I attempt to go to the custom roles page
+  Then I should see an error message indicating that "you don't have access to this page"

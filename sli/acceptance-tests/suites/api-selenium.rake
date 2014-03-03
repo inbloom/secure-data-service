@@ -5,9 +5,6 @@
 #       Firefox cannot start on Jenkins, and will cause
 #       all these tests to fail
 ############################################################
-task :adminRightsTests do
-  runTests("test/features/admintools/sli_admin_authorization.feature")
-end
 
 desc "Run Admin Bulk Extract Tests"
 task :adminBulkExtractTests => [:realmInit] do
@@ -40,7 +37,6 @@ task :adminWebTests => [:realmInit] do
   runTests("test/features/admintools/ProvisioningApplication_Interface.feature")
   runTests("test/features/admintools/reset_change_password.feature")
   runTests("test/features/admintools/SAMT_Account_Management_Interface.feature")
-  runTests("test/features/admintools/sli_admin_authorization.feature")
   runTests("test/features/admintools/multi_realms_with_same_idp.feature")
 end
 

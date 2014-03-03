@@ -65,6 +65,24 @@ Given /^I am a valid (.*)$/ do |user_type|
   @federated = !!(user_type =~ /federated/)
 end
 
+def valid_user(user_type)
+  valid_users = {
+      'inBloom developer'            => 'slcdeveloper',
+      'inBloom operator'             => 'slcoperator',
+      'tenant-level administrator'   => 'iladmin',
+      'district-level administrator' => 'sunsetadmin',
+      'realm administrator'          => 'sunsetrealmadmin',
+      'federated district-level administrator' => 'jstevenson',
+      'SLC Operator' => 'slcoperator-email@slidev.org',
+      'Super Administrator' => 'daybreaknorealmadmin',
+      'non-SLI hosted user with no roles' => 'administrator',
+      'SLI hosted user with no roles' => 'leader'
+  }
+  username = valid_users[user_type]
+  username.should_not be_nil
+  [username, "#{username.split('@').first}1234"] # if username is an e-mail, drop the '@slidev.org' before adding 1234
+end
+
 Given /^I am an unknown user$/ do
   @user, @pass = 'unknown_user','invalid_password'
 end
@@ -99,8 +117,8 @@ When /^I attempt to manage application authorizations$/ do
   login_to_the_realm
 end
 
-When /^I attempt to go to the default administration page$/ do
-  browser.visit path_for('')
+When /^I attempt to go to the (.*) page$/ do |page|
+  browser.visit path_for(page)
   login_to_the_realm
 end
 
@@ -273,24 +291,6 @@ end
 
 # METHODS
 
-def valid_user(user_type)
-  valid_users = {
-      'inBloom developer'            => 'slcdeveloper',
-      'inBloom operator'             => 'slcoperator',
-      'tenant-level administrator'   => 'iladmin',
-      'district-level administrator' => 'sunsetadmin',
-      'realm administrator'          => 'sunsetrealmadmin',
-      'federated district-level administrator' => 'jstevenson',
-      'SLC Operator' => 'slcoperator-email@slidev.org',
-      'Super Administrator' => 'daybreaknorealmadmin',
-      'non-SLI hosted user with no roles' => 'administrator',
-      'SLI hosted user with no roles' => 'leader'
-  }
-  username = valid_users[user_type]
-  username.should_not be_nil
-  [username, "#{username.split('@').first}1234"] # if username is an e-mail, drop the '@slidev.org' before adding 1234
-end
-
 
 #Given /^I am a valid SLC Operator$/ do
 #  @user = 'slcoperator-email@slidev.org' # an :operator
@@ -348,9 +348,8 @@ end
 
 def path_for(page)
   path = case page
+         when /default administration/; ''
          when /applications/; 'apps'
-         when /application authorizations/; 'application_authorizations'
-         when /realm management/; 'realm_management'
          else
             page.gsub(' ','_')
          end
