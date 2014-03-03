@@ -163,16 +163,27 @@ module EntitiesHelper
   # This is for displaying the table that is attached to the EdOrg page. This will only display when the entityType
   # is educationOrganization. This is a table that shows the number of staff, students, teachers and non-teachers
   # associated with the EdOrg and it's children
-  def display_edorg_table(entity)
-    
-    # Set up the header of the table
-    html ||= ""
-    html << "<table id=\"edorgcounts_#{entity['id']}\" class=\"edOrg\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
-
-    # Build the list of EdOrgs and it's children
+  def display_edorg_table(entity = nil)
     ed_orgs = []
-    ed_orgs << entity
-    get_feeder_edorgs(entity['id'], ed_orgs)
+    html ||= ""
+
+
+    if (entity.is_a?(Array))
+      entities = get_user_edorg(entity)
+      entities.each do |ent|
+        ed_orgs.push(ent)
+      end
+      html << "<table id=\"edorgcounts_home\" class=\"edOrg_home\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
+    else
+      ed_orgs << entity  
+      html << "<table id=\"edorgcounts_#{entity['id']}\" class=\"edOrg\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
+    end
+    
+    # Build the list of EdOrgs and it's children
+
+    ed_orgs.each do |ed_org|
+      get_feeder_edorgs(ed_org['id'], ed_orgs)
+    end
       
     student_counts = get_student_counts(ed_orgs)
     staff_counts = get_staff_counts(ed_orgs)
@@ -314,7 +325,8 @@ module EntitiesHelper
           end
           
         end
-      rescue => e 
+      rescue => e
+        logger.info("Could not get staff counts for #{ed_org['id']} because of #{e.message}")
       end
     end
     
@@ -362,5 +374,44 @@ module EntitiesHelper
     end
     result
    
+  end
+
+  def get_user_edorg(entities)
+    user = getUserEntityIdAndCollection(entities)
+    url = "#{APP_CONFIG['api_base']}/staff/#{user['entid']}/staffEducationOrgAssignmentAssociations/educationOrganizations"
+    begin
+      entities = RestClient.get(url, get_header)
+      entities = JSON.parse(entities)
+    rescue => e
+      logger.info("Could not get ed orgs for #{entities} because of #{e.message}")
+    end
+    entities
+  end
+
+  # Stolen from DS-1005, will need some merging when these two branches are merged.
+  def getUserEntityIdAndCollection(entities)
+    logger.info("Entities: #{entities}")
+     bodyparts = JSON.parse(entities.http_response.body)
+     #get one link
+     linkstring = bodyparts['links'][0]
+     #split the link on "rest/", as that always comes before the version number, user's entity collection, and entityId
+     linksplit = linkstring['href'].split("rest/")
+     # then take the part of the string that comes after
+     entidPlus = linksplit[1]
+     # drop everything after "/" to isolate the id from other url parts
+     #break the string into version number, user's entity collection, entityId, and other parts that follow
+     entidplussplit = entidPlus.split("/")
+     collection = entidplussplit[1]
+     entid = entidplussplit[2]
+     entidAndCollection = {"entid"=>entid,"collection"=>collection}
+     entidAndCollection
+  end
+  def userIsAStudent
+      entidAndCollection = getUserEntityIdAndCollection(@entities)
+      if entidAndCollection['collection'] == "students"
+         true
+      else
+         false
+      end
   end
 end
