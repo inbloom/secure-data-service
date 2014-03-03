@@ -18,7 +18,7 @@ Then /^I should see the error header for (\d+)/ do |error|
   browser.page.should have_selector('.error-header', :text => error)
 end
 
-Then /^I should (not )?see an error message indicating that "([^"]+)"$/ do |not_see, message|
+Then /^I should (not )?see an error message indicating (?:that )?"([^"]+)"$/ do |not_see, message|
   selector = '.error-content,.alert-error'
   if not_see
     browser.page.should have_no_selector(selector, :text => message)

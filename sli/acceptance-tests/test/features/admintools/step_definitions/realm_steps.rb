@@ -8,10 +8,11 @@ end
 
 When /^I add a new realm$/ do
   @realm_name = "#{app_prefix}realm_#{Time.now.to_i}"
+  realm_url = "#{Property['simpleIDP_login_url']}?realm=IL-Daybreak"
   add_realm do
     browser.fill_in('realm_name', :with => @realm_name)
-    browser.fill_in('realm_idp_id', :with => 'http://www.example.com')
-    browser.fill_in('realm_idp_redirectEndpoint', :with => 'http://www.example.com')
+    browser.fill_in('realm_idp_id', :with => realm_url)
+    browser.fill_in('realm_idp_redirectEndpoint', :with => realm_url)
     browser.fill_in('realm_uniqueIdentifier', :with => @realm_name)
   end
   add_for_cleanup(:realm, @realm_name)
@@ -79,6 +80,21 @@ Then /^I should (not )?see the groups and roles for:$/ do |not_see, table|
       end
     end
   end
+end
+
+# Used by realm authentication
+
+When /^I attempt to log into the new realm$/ do
+  browser.visit path_for('default administration page')
+  login_to_realm @realm_name
+end
+
+Then /^I can login to that realm$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^I can still login to my realm$/ do
+  pending # express the regexp above with the code you wish you had
 end
 
 def find_realm_row

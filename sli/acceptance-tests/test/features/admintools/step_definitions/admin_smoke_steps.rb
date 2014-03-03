@@ -45,7 +45,7 @@ Before('@track_entities') do
 end
 
 def add_for_cleanup(collection, name)
-  @created_entities << [collection, name]
+  (@created_entities ||= []) << [collection, name]
 end
 
 After('@track_entities') do
@@ -73,10 +73,11 @@ def valid_user(user_type)
       'district-level administrator' => 'sunsetadmin',
       'realm administrator'          => 'sunsetrealmadmin',
       'federated district-level administrator' => 'jstevenson',
-      'SLC Operator' => 'slcoperator-email@slidev.org',
-      'Super Administrator' => 'daybreaknorealmadmin',
+      'SLC Operator'                 => 'slcoperator-email@slidev.org',
+      'Super Administrator'          => 'daybreaknorealmadmin',
       'non-SLI hosted user with no roles' => 'administrator',
-      'SLI hosted user with no roles' => 'leader'
+      'SLI hosted user with no roles' => 'leader',
+      'tenant-level IT administrator' => 'rrogers'
   }
   username = valid_users[user_type]
   username.should_not be_nil
