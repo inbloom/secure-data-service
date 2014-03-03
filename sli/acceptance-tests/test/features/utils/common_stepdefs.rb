@@ -382,6 +382,28 @@ def credentials_for(user_type)
   [*creds, realm]
 end
 
+Given /^I navigated to the Data Browser Home URL$/ do
+  @driver.get Property['databrowser_server_url']
+end
+
+Given /^I was redirected to the Realm page$/ do
+  assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}
+end
+
+Given /^I click on the realm page Go button$/ do
+  assertWithWait("Could not find the Go button")  { @driver.find_element(:id, "go") }
+  @driver.find_element(:id, "go").click
+end
+
+When /^I choose realm "([^"]*)" in the drop\-down list$/ do |arg1|
+  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
+  select.select_by(:text, arg1)
+end
+
+Then /^I should be redirected to the Data Browser home page$/ do
+  assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Welcome to the inBloom, inc. Data Browser")}
+end
+
 
 
 #http://local.slidev.org:8080/api/rest/v1.5/staff/bcfcc33f-f4a6-488f-baee-b92fbd062e8d/staffEducationOrgAssignmentAssociations/educationOrganizations
