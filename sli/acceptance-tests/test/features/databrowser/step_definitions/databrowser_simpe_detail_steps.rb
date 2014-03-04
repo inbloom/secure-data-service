@@ -22,18 +22,6 @@ require "selenium-webdriver"
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
-Given /^I was redirected to the SLI IDP Login page$/ do
-  assertWithWait("Was not redirected to the IDP login page")  { @driver.find_element(:name, "Login.Submit") }
-end
-
-When /^I enter "([^"]*)" in the username text field$/ do |arg1|
-  @driver.find_element(:id, "IDToken1").send_keys arg1
-end
-
-When /^I enter "([^"]*)" in the password text field$/ do |arg1|
-  @driver.find_element(:id, "IDToken2").send_keys arg1
-end
-
 When /^I click the IDP page Go button$/ do
   @driver.find_element(:name, "Login.Submit").click
   begin

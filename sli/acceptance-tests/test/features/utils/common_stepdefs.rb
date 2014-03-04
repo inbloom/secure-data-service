@@ -404,6 +404,22 @@ Then /^I should be redirected to the Data Browser home page$/ do
   assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Welcome to the inBloom, inc. Data Browser")}
 end
 
+Given /^I was redirected to the SLI IDP Login page$/ do
+  assertWithWait("Was not redirected to the IDP login page")  { @driver.find_element(:name, "Login.Submit") }
+end
+
+When /^I enter "([^"]*)" in the username text field$/ do |arg1|
+  @driver.find_element(:id, "username").send_keys arg1
+end
+
+When /^I enter "([^"]*)" in the password text field$/ do |arg1|
+  @driver.find_element(:id, "password").send_keys arg1
+end
+
+When /^I click the Go button$/ do
+  @driver.find_element(:id, "submit").click
+end
+
 
 
 #http://local.slidev.org:8080/api/rest/v1.5/staff/bcfcc33f-f4a6-488f-baee-b92fbd062e8d/staffEducationOrgAssignmentAssociations/educationOrganizations
