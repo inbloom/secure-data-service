@@ -61,10 +61,6 @@ When /^I click on the Logout link$/ do
   #@driver.find_element(:link, "Logout").click
 end
 
-Then /^I am redirected to a page that informs me that I have signed out$/ do
-  assertWithWait("Failed to find message stating that sign off was successful") { @driver.page_source.downcase.index("successfully logged out") != nil }
-end
-
 Then /^I am forced to reauthenticate to access the databrowser$/ do
   @driver.get Property['databrowser_server_url']
   assertWithWait("Was not redirected to Realm chooser") {@driver.title.index("Choose your realm") != nil}
