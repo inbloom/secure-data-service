@@ -644,9 +644,12 @@ end
 
 Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_key|
   # if the lz_key is overridden from the command line, use the override value
+  puts "Looking up landing zone for #{lz_key}"
   unless (@ingestion_lz_key_override == nil)
     lz_key = @ingestion_lz_key_override
   end
+  puts "Looking up landing zone for #{lz_key}"
+  puts "Ingestion landing zone identifier map: #{@ingestion_lz_identifier_map.inspect}"
 
   lz = @ingestion_lz_identifer_map[lz_key]
   initializeLandingZone(lz)
@@ -678,7 +681,7 @@ def initializeLandingZone(lz)
   end
 
   @landing_zone_path = lz
-  #puts "Landing Zone = " + @landing_zone_path unless @landing_zone_path.nil?
+  puts "Landing Zone = " + @landing_zone_path
 
   # clear out LZ before proceeding
   if (INGESTION_MODE == 'remote')
@@ -1269,6 +1272,8 @@ Given /^the tenant database for "([^"]*)" does not exist/ do |tenantToDrop|
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|
+  puts "INGESTION_MODE: #{INGESTION_MODE}"
+  puts "INGESTION_LOGS_DIRECTORY: #{INGESTION_LOGS_DIRECTORY}"
   if (INGESTION_MODE == 'remote')
     fileExist = remoteDirContainsFile(logfile, INGESTION_LOGS_DIRECTORY)
   else
