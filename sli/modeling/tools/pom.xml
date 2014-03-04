@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.slc.sli.modeling</groupId>
         <artifactId>modeling</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.DS-1203.97.874</version>
     </parent>
     <name>Modeling Tools</name>
     <artifactId>tools</artifactId>
