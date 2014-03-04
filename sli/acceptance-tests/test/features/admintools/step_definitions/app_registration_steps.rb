@@ -409,6 +409,7 @@ Then /^a notification email is sent to "([^"]*)"$/ do |email|
     if email == 'slcoperator-email@slidev.org'
       defaultUser = Property['operator_test_email_user'] || 'slcoperator-email'
       defaultPassword = Property['operator_test_email_pass'] || 'slcoperator-email1234'
+      email = defaultUser
     else
       defaultUser = email.split("@")[0]
       defaultPassword = "#{defaultUser}1234"
