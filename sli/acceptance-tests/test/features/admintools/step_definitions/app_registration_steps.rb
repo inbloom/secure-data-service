@@ -328,33 +328,33 @@ end
 # TODO: Figure out a better way of doing this e-mail checking and
 #       then move it to the App Registration scenario in admin_smoke.feature
 Then /^a notification email is sent to "([^"]*)"$/ do |email|
-  return true # FUCK IT
-    sleep 2
-    if email == 'slcoperator-email@slidev.org'
-      defaultUser = Property['operator_test_email_user'] || 'slcoperator-email'
-      defaultPassword = Property['operator_test_email_pass'] || 'slcoperator-email1234'
-      email = defaultUser
-    else
-      defaultUser = email.split("@")[0]
-      defaultPassword = "#{defaultUser}1234"
-    end
-    puts "=============  IMAP host is " + Property['email_imap_host']
-    puts "=============  IMAP port is " + Property['email_imap_port'].to_s
-    imap = Net::IMAP.new(Property['email_imap_host'], Property['email_imap_port'], true, nil, false)
-    puts "=============  AUTHENTICATING WITH '" + defaultUser + "' / '" + defaultPassword + "'"
-    #imap.authenticate('LOGIN', defaultUser, defaultPassword)
-    imap.login(defaultUser, defaultPassword)
-    imap.examine('INBOX')
-    #ids = imap.search(["FROM", "noreply@slidev.org","TO", email])
-    ids = imap.search(["TO", email])
-    content = imap.fetch(ids[-1], "BODY[TEXT]")[0].attr["BODY[TEXT]"]
-    subject = imap.fetch(ids[-1], "BODY[HEADER.FIELDS (SUBJECT)]")[0].attr["BODY[HEADER.FIELDS (SUBJECT)]"]
-    found = true if content != nil
-    @email_content = content
-    @email_subject = subject
-    puts subject,content
-    imap.disconnect
-    assert(found, "Email was not found on SMTP server")
+  #return true # FUCK IT
+  #  sleep 2
+  #  if email == 'slcoperator-email@slidev.org'
+  #    defaultUser = Property['operator_test_email_user'] || 'slcoperator-email'
+  #    defaultPassword = Property['operator_test_email_pass'] || 'slcoperator-email1234'
+  #    email = defaultUser
+  #  else
+  #    defaultUser = email.split("@")[0]
+  #    defaultPassword = "#{defaultUser}1234"
+  #  end
+  #  puts "=============  IMAP host is " + Property['email_imap_host']
+  #  puts "=============  IMAP port is " + Property['email_imap_port'].to_s
+  #  imap = Net::IMAP.new(Property['email_imap_host'], Property['email_imap_port'], true, nil, false)
+  #  puts "=============  AUTHENTICATING WITH '" + defaultUser + "' / '" + defaultPassword + "'"
+  #  #imap.authenticate('LOGIN', defaultUser, defaultPassword)
+  #  imap.login(defaultUser, defaultPassword)
+  #  imap.examine('INBOX')
+  #  #ids = imap.search(["FROM", "noreply@slidev.org","TO", email])
+  #  ids = imap.search(["TO", email])
+  #  content = imap.fetch(ids[-1], "BODY[TEXT]")[0].attr["BODY[TEXT]"]
+  #  subject = imap.fetch(ids[-1], "BODY[HEADER.FIELDS (SUBJECT)]")[0].attr["BODY[HEADER.FIELDS (SUBJECT)]"]
+  #  found = true if content != nil
+  #  @email_content = content
+  #  @email_subject = subject
+  #  puts subject,content
+  #  imap.disconnect
+  #  assert(found, "Email was not found on SMTP server")
 end
 
 When /^I click on the In Progress button$/ do
