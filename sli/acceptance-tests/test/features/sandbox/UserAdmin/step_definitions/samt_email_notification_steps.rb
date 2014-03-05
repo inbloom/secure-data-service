@@ -105,7 +105,7 @@ end
 
 def verify_email
   current_id = get_last_email_id
-  if  (!current_id || current_id <= @last_id)
+  if  !current_id || (current_id <= @last_id)
     found = false
   else
     ids = (@last_id+1)..current_id
