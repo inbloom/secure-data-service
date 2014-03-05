@@ -94,6 +94,7 @@ module EntitiesHelper
     html = ""
     if hash.is_a?(Array)
       html << "<ul class='values'>"
+      html << "<p>Select the ellipses below to determine the counts for that link. The left value will be total and the right value will be current.</p>"
       hash.sort_by{|link| t(link["rel"]).downcase}.each do |link|
         html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"]))
         

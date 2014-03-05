@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
         end
         redirect_to :back
       }
-      format.json { render json: "{ alert: 403 }" }
+      format.json { render json: { :alert => "403" } }
     end
   end
   
@@ -105,7 +105,7 @@ class ApplicationController < ActionController::Base
         flash[:alert] = "No resource found with id: #{params[:id] || params[:search_id]}"
         redirect_to :back
       }
-      format.json { render json: "{ alert: 404 }" } 
+      format.json { render json: { :alert => "404" } }
     end
   end
   

@@ -5,19 +5,19 @@ jQuery(function($) {
 	  var count = "";
 	  
 	  // Set text to nothing to be ready for appending
-	  element.text = "";
 	  element.innerHTML = "<img class=loader src='/assets/ajax-loader.gif' />";
 	  
+	  //setTimeout(function() { get_counts(element, url) }, 3000);
 	  // Get the total count
-	  count = count + get_counts(element, url);
-	  
+	  count = count + get_count(element, url);
+		
 	  // Add a spacing marker
 	  count = count + " / ";
-	  
+		
 	  // Change url to get currentOnly and then get current counts
 	  url = url + "&currentOnly=true";
-	  count = count + get_counts(element, url);
-	  
+	  count = count + get_count(element, url);
+	
 	  element.innerHTML = count;
   })
 });
@@ -26,29 +26,23 @@ jQuery(function($) {
  * Used to perform the ajax query to get the count data back from the api
  * using Databrowser as a proxy.
  */
-function get_counts(element, url) {
+function get_count(element, url) {
 	var text = null;
     $.ajax({
         type: "GET",
         url: url,
         async: false,
-        dataType: "JSON" 
+        dataType: "json" 
     }).success(function(data) {
     	//var text = null;
     	if (data.entities === undefined) {
-    		text = data.alert
+    		text = "N/A"
     	} else {
     		text = data.headers.totalcount;
     	}
     	//$(element).append(text);
     }).error(function(data) {
-    	if (data.alert === undefined) {
-    		text = "error"
-    		$(element).append("error");
-    	} else {
-    		text = "alert"
-    		$(element).append(data.alert);
-    	}
+    	text = "N/A";
     });
     return text;
 }
