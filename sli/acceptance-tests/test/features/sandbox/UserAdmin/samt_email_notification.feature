@@ -8,14 +8,14 @@ And I have a SMTP/Email server configured
 @sandbox
 Scenario: An admin creates a sandbox account with a valid email, initial notification is sent
 
-Given the testing user "peacefrog@slidev.org" does not already exists in LDAP
+Given the testing user "cifuckifiknow@inbloomdev.org" does not already exists in LDAP
 When I navigate to the sandbox user account management page
 And I submit the credentials "sandboxadministrator" "sandboxadministrator1234" for the "Simple" login page
 Then I am redirected to "Sandbox Account Management" page 
 Then I click on "Add User" button
 And I am redirected to "Add a User" page
 
-And I enter Full Name "firstName lastName" and Email "peacefrog@slidev.org" into the required fields
+And I enter Full Name "firstName lastName" and Email "cifuckifiknow@inbloomdev.org" into the required fields
 And I can select "Application Developer" from a choice between "Sandbox Administrator, Application Developer, Ingestion User" Role 
 And I can also check "Ingestion User" Role 
 
