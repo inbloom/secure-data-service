@@ -90,6 +90,7 @@ def get_last_email_id
   @imap.login(defaultUser, defaultPassword) # This works with Gmail; #authenticate does not
   @imap.examine('INBOX')
   ids = @imap.search(["FROM", @email_sender_name,"TO",@email])
+  puts "============= Found IDs: #{ids.inspect}"
   last_id = ids[-1]
   return last_id
 end
