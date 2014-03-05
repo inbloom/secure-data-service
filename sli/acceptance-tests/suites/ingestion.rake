@@ -624,11 +624,6 @@ task :ingestionDeleteAndReingest do
   runTests("test/features/ingestion/features/ingestion_nes_delete_reingest.feature")
 end
 
-desc "Ingest Bulk Extract LEA dataset"
-task :ingestionBulkExtractLeas do
-  runTests("test/features/ingestion/features/ingestion_BulkExtractLeas.feature")
-end
-
 task :ingestionSeoaa do
   runTests("test/features/ingestion/features/seoaa.feature")
 end
