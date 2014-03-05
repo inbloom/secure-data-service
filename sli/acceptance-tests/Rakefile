@@ -623,17 +623,6 @@ task :apiAndSecurityTests => [
   end
 end
 
-desc "Run API/Security Acceptances Tests without LDAP"
-task :apiSecurityNoLdapTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :migrationTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests, :runAssmtSearchIndexer ] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
-
 desc "Run all sandbox tests"
 task :sandboxTests => [:realmInit, :simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests, :bulkExtractSandboxTests] do
   displayFailureReport()
@@ -967,71 +956,6 @@ task :ingestionTests => [
   end
 end
 
-
-desc "Run High Priority Emma Ingestion Acceptances Tests"
-    #New or tests modified this sprint, or tests that have recently failed
-    task :highPriority => [
-        :loadDefaultIngestionTenants,
-        :ingestionPreloading,
-        :ingestionDeltaTest] do
-end
-
-desc "Run Normal Priority Emma Ingestion Acceptances Tests"
-    task :normalPriority => [
-        :loadDefaultIngestionTenants,
-        :IngestionIndexValidationTest,
-        :corruptZip,
-        :ingestionDeletionTests,
-        :ingestionTenantPurgeTests,
-        :ingestionJobFailOnMissingIndexTest,
-        :ingestionDbSpinupTest,
-        :ingestionDupDetectTest,
-        :ingestionInternationalAddressTests,
-        :ingestionAcceptanceSdsTest,
-        :ingestionConcurrentTenantTest,
-        :ingestionLearningObjectiveTest,
-        :ingestionSeoaa,
-        :ingestionNegativeTests,
-        :ingestionAttendanceTests,
-        :ingestionCommonCoreTest,
-        :ingestionEncryptionTests,
-        :ingestionPropagatedTest,
-        :ingestionidNamespaceTest,
-        :ingestionSmooksVerificationTests,
-        :ingestionXsdValidationTest,
-        :ingestionBatchJobTest,
-        :ingestionIgnoreIDRefsTest,
-        :ingestionTenantTest,
-        :ingestionBlacklistValidationTests,
-        :ingestionXXETest,
-        :ingestionCompetencyLevelDescriptorTest,
-        :ingestionDryRunTest,
-        :ingestionComplexObjectArrayIdRefTest,
-        :ingestionHealthCheckTest,
-        :ingestionSmallSampleDataSet,
-        :ingestionMediumSampleDataSet,
-        :partialTransformedIngestionTest,
-        :partialIngestionTest,
-        :ingestionJeffCoOnboardingTest,
-        :ingestionSuperDocTests,
-        :ingestionSubdocTests,
-        :ingestionErrorWarnCountTest,
-        :ingestionRevertDataTest,
-        :ingestionUniqueSectionCodeTest,
-        :ingestionSecurityEventTest
-    ] do
-end
-
-desc "Run Emma Ingestion Acceptances Tests"
-    task :ingestionEmmaTests => [:highPriority, :normalPriority] do
-
-    displayFailureReport()
-        if $SUCCESS
-        puts "Completed All Tests"
-    else
-        raise "Tests have failed"
-  end
-end
 ############################################################
 # Ingestion tests end
 ############################################################
@@ -1040,7 +964,10 @@ end
 # Odin Data Generation tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :odinTests => [:odinGenerateTests, :ingestOdinDataSet] do
+task :odinTest do
+  runTests("test/features/odin/generate_odin_data_set.feature")
+  runTests("test/features/ingestion/features/ingestion_OdinDataSet.feature")
+
   displayFailureReport
   if $SUCCESS
     puts "Completed All Tests"
