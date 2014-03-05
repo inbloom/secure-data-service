@@ -7,14 +7,13 @@
       <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
   <% end %>
   <% if @edOrgArr != nil %>
-      <table class="edOrg_home">
+      <table id = "edOrg_home" class="edOrg_home">
         <tr>
           <th>EdOrgs Name</th>
           <th>EdOrgs Id</th>
           <th>EdOrgs Type</th>
           <th>EdOrgs Parent</th>
         </tr>
-
         <% @edOrgArr.each do |parent| %>
         <tr>
           <td><%=link_to parent['EdOrgs Name'], parent['EdOrgs URL'] %></td>

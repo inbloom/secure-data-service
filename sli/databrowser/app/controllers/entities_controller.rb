@@ -179,14 +179,13 @@ class EntitiesController < ApplicationController
     userEdOrgsTypeVar = ""
     userEdOrgsParentVar = ""
     userFeederUrl =  ""
-
     parentArr = ""
     edOrgArr = []
 
     userURL = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
     userEdOrgs  = getEdOrgs(userURL)
 
-    #Looping through parent EdOrgs and sending an API call to get the parent EdOrg Name associated with Parent EdOrg Id
+    #Looping through parent EdOrgs and sending an API call to get the parent EdOrg attributes associated with Parent EdOrg Id
     userEdOrgs.each do |entity|
     #Setting variables to be sent to the View
     userEdOrgsIdVar = entity["id"]
@@ -199,13 +198,14 @@ class EntitiesController < ApplicationController
     userFeederUrl = Entity.url_type
     userFeederUrl = clean_up_results(userFeederUrl)
 
+
+    #Parsing the parent names for the EdOrgs
     begin
       userEdOrgsParentVar = ""
         if parentArr.nil?
           userEdOrgsParentVar = "N/A"
         else
-          logger.debug("Inside 1")
-          parentArr.each do |parentid|
+            parentArr.each do |parentid|
             parent = parentid.split("\"")
 
               parentUrl = "educationOrganizations/#{parent[0]}"
@@ -218,9 +218,10 @@ class EntitiesController < ApplicationController
         end
       end
 
-    #logger.debug("The type of PARENT var :#{userEdOrgsParentVar.is_a?(Array)}")
+    #Creating hashmap to inject the key-value pairs for the attributes to EdOrgs
     edOrgHash = {"EdOrgs Id"=>userEdOrgsIdVar,"EdOrgs Name"=>userEdOrgsNameVar, "EdOrgs Type"=>userEdOrgsTypeVar,"EdOrgs Parent"=>userEdOrgsParentVar, "EdOrgs URL"=>userFeederUrl}
 
+    #Pushing the hashmap into an array to handle multiple entities associated with a single EdOrg
     edOrgArr.push(edOrgHash)
     logger.debug("ALERRRRT : #{edOrgArr}")
     @edOrgArr  = edOrgArr
@@ -238,6 +239,7 @@ class EntitiesController < ApplicationController
     userEdOrgs
   end
 
+   #This function is used to run an API call to fetch the values of parent attributes associated with an EdOrg
    def getParentEdOrgs(entityUrl, attribute)
      #Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
      Entity.url_type = entityUrl
