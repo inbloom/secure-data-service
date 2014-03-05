@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<<<<<<< HEAD
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -15,6 +16,20 @@
     <name>Modeling</name>
     <description>Modeling</description>
 
+=======
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>sli</artifactId>
+    <groupId>org.slc.sli</groupId>
+    <version>1.15.93.106</version>
+  </parent>
+  <groupId>org.slc.sli.modeling</groupId>
+  <artifactId>modeling</artifactId>
+  <packaging>pom</packaging>
+  <name>Modeling</name>
+  <description>Modeling</description>
+>>>>>>> Release Candidate
     <properties>
         <sli.home>${project.parent.basedir}</sli.home>
     </properties>

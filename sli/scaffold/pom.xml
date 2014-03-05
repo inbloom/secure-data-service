@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -194,4 +195,201 @@
         </profile>
     </profiles>
 
+=======
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>sli</artifactId>
+    <groupId>org.slc.sli</groupId>
+    <version>1.15.93.106</version>
+  </parent>
+  <artifactId>scaffold</artifactId>
+  <name>Scaffold</name>
+
+  <properties>
+    <sli.home>${project.parent.basedir}</sli.home>
+    <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
+  </properties>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.slc.sli</groupId>
+      <artifactId>api</artifactId>
+      <classifier>classes</classifier>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slc.sli.domain</groupId>
+      <artifactId>domain</artifactId>
+    </dependency>
+
+    <!-- Spring Core dependency -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+    </dependency>
+
+    <!-- Spring Context dependency -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+  </dependencies>
+  <profiles>
+    <!-- build profile for api document generation -->
+    <profile>
+      <id>apidoc</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>properties-maven-plugin</artifactId>
+            <version>1.0-alpha-2</version>
+            <executions>
+              <execution>
+                <phase>compile</phase>
+                <goals>
+                  <goal>read-project-properties</goal>
+                </goals>
+                <configuration>
+                  <files>
+                    <file>${sli.conf}</file>
+                  </files>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.1</version>
+            <executions>
+              <execution>
+                <id>copy-doc-resources</id>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <phase>compile</phase>
+                <configuration>
+                  <executable>cp</executable>
+                  <commandlineArgs>-r ${project.basedir}/src/main/doc ${project.build.outputDirectory}/..</commandlineArgs>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>grab-wadl</id>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <phase>package</phase>
+                <configuration>
+                  <executable>curl</executable>
+                  <commandlineArgs>
+                    ${api.server.url}api/rest/application.wadl > ${project.build.outputDirectory}/../doc/base_wadl.wadl
+                  </commandlineArgs>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>apidoc-merge</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>java</goal>
+                </goals>
+                <configuration>
+                  <mainClass>org.slc.sli.scaffold.MergeDocuments</mainClass>
+                  <arguments>
+                    <argument>${project.build.outputDirectory}/../doc/base_wadl.wadl</argument>
+                    <argument>${project.build.outputDirectory}/../doc/merge/doc-merge.xml</argument>
+                    <argument>eapplication.wadl</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>apidoc-xslt</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>java</goal>
+                </goals>
+                <configuration>
+                  <mainClass>org.slc.sli.scaffold.XslTransformDocument</mainClass>
+                  <arguments>
+                    <argument>${project.build.outputDirectory}/../doc/eapplication.wadl</argument>
+                    <argument>${project.build.outputDirectory}/../doc/xsl/wadl.xsl</argument>
+                    <argument>${project.build.outputDirectory}/../doc/application.html</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>resource documenter</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>java</goal>
+                </goals>
+                <configuration>
+                  <mainClass>org.slc.sli.scaffold.semantics.ResourceDocumenter</mainClass>
+                  <arguments>
+                    <argument>${project.build.outputDirectory}/../doc/application.html</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>copy</id>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <phase>package</phase>
+                <configuration>
+                  <executable>cp</executable>
+                  <commandlineArgs>-r -f ${project.build.outputDirectory}/../doc .</commandlineArgs>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>tar</id>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <phase>package</phase>
+                <configuration>
+                  <executable>tar</executable>
+                  <commandlineArgs>-czf doc.tar.gz doc/</commandlineArgs>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>ouput</id>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <phase>package</phase>
+                <configuration>
+                  <executable>cp</executable>
+                  <commandlineArgs>doc.tar.gz ${project.build.outputDirectory}/../</commandlineArgs>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>cleanup</id>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <phase>package</phase>
+                <configuration>
+                  <executable>rm</executable>
+                  <commandlineArgs>-rf doc doc.tar.gz</commandlineArgs>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+>>>>>>> Release Candidate
 </project>
