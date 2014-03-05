@@ -300,8 +300,7 @@ When /^the return code is 503 I ensure there is a bulkExtractFiles entry for Mid
     assert(ref_doc.count > 0, "Return code was: "+@res.code.to_s+" but find no #{@coll} document with _id #{"Midgar"}")
   end
 end
-#if you come across this sleep then please come kick chris kellys ass.
-sleep(120)
+
 When /^the return code is 200 I get expected tar downloaded$/ do
 	puts "@res.headers: #{@res.headers}"
 	puts "@res.code: #{@res.code}"
