@@ -676,14 +676,14 @@ def decrypt(content, client_id = "vavedra9ub")
   aes.iv = decrypted_iv
   @decrypted = aes.update(encryptedmessage) + aes.final
 
-  if $SLI_DEBUG 
-    puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
-    puts("Encrypted message is #{encryptedmessage}")
-    puts("Cipher is #{aes}")
-    puts("Plain text length is #{@decrypted.length} and it is #{@decrypted}")
-    puts "length #{content.length}"
-  end
-  return @decrypted
+  #if $SLI_DEBUG
+  #  puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
+  #  puts("Encrypted message is #{encryptedmessage}")
+  #  puts("Cipher is #{aes}")
+  #  puts("Plain text length is #{@decrypted.length} and it is #{@decrypted}")
+  #  puts "length #{content.length}"
+  #end
+  @decrypted
 end
 
 def compareWithOriginalFile(content, range_start, range_end)
