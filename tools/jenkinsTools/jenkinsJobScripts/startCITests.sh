@@ -290,7 +290,7 @@ if [[ "$ENV" == "api_contextual_roles" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests DEBUG=true PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiContextualRolesTests
+	runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiContextualRolesTests
   EXITCODE=$?
 fi
 
@@ -307,7 +307,7 @@ if [[ "$ENV" == "api_odin" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests DEBUG=true PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiOdinTests
+	runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiOdinTests
   EXITCODE=$?
 fi
 
@@ -341,7 +341,7 @@ if [[ "$ENV" == "api_and_security" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests DEBUG=true PROPERTIES=/etc/datastore/test-properties.yml apiAndSecurityTests
+	runTests PROPERTIES=/etc/datastore/test-properties.yml apiAndSecurityTests
   EXITCODE=$?
 fi
 
@@ -359,7 +359,7 @@ if [[ "$ENV" == "admin" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests DEBUG=true PROPERTIES=/etc/datastore/test-properties.yml adminToolsTests
+	runTests PROPERTIES=/etc/datastore/test-properties.yml adminToolsTests
   EXITCODE=$?
 fi
 
@@ -376,7 +376,7 @@ if [[ "$ENV" == "dashboard" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests DEBUG=true PROPERTIES=/etc/datastore/test-properties.yml localDashboardTests
+	runTests PROPERTIES=/etc/datastore/test-properties.yml localDashboardTests
   EXITCODE=$?
 fi
 
@@ -394,7 +394,7 @@ if [[ "$ENV" == "databrowser" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests DEBUG=true PROPERTIES=/etc/datastore/test-properties.yml databrowserTests
+	runTests PROPERTIES=/etc/datastore/test-properties.yml databrowserTests
   EXITCODE=$?
 fi
 
@@ -411,7 +411,7 @@ if [[ "$ENV" == "ingestion" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests DEBUG=true PROPERTIES=/etc/datastore/test-properties.yml ingestionTests
+	runTests PROPERTIES=/etc/datastore/test-properties.yml ingestionTests
   EXITCODE=$?
 fi
 
@@ -430,7 +430,7 @@ if [[ "$ENV" == "sandbox" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests DEBUG=true PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz sandboxTests
+	runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz sandboxTests
   EXITCODE=$?
 fi
 exit $EXITCODE
