@@ -71,8 +71,8 @@ Given /^in my list of rights I have BULK_EXTRACT$/ do
 end
 
 When /^I make a full bulk extract API call for edorg "(.*?)"$/ do |arg1|
-  puts 'waiting 3 minutes for ingestion to finish'
-  sleep 180
+  puts 'waiting 10 minutes for ingestion to finish'
+  sleep 600
   restTls("/bulk/extract/#{arg1}")
 end
 
