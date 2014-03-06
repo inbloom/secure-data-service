@@ -117,6 +117,7 @@
         <maven.plugin.site.version>3.0-beta-3</maven.plugin.site.version>
 
         <!-- 3rd Party Libraries -->
+        <activemq.version>5.7.0</activemq.version>
         <aspectj.version>1.6.11</aspectj.version>
         <aspectj.maven.version>1.4</aspectj.maven.version>
         <cglib.version>3.1</cglib.version>

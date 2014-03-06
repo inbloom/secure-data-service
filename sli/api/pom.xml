@@ -18,10 +18,53 @@
 	</properties>
 
 	<dependencies>
+        <dependency>
+            <groupId>org.slc.sli.common</groupId>
+            <artifactId>sli-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slc.sli.domain</groupId>
+            <artifactId>domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slc.sli.domain</groupId>
+            <artifactId>domain</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slc.sli.modeling</groupId>
+            <artifactId>uml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slc.sli.modeling</groupId>
+            <artifactId>xmi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slc.sli.modeling</groupId>
+            <artifactId>rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slc.sli.modeling</groupId>
+            <artifactId>wadl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slc.sli.common</groupId>
+            <artifactId>common-encrypt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slc.sli</groupId>
+            <artifactId>encryption-tool</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slc.sli.dal</groupId>
+            <artifactId>dal</artifactId>
+        </dependency>
+
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-core</artifactId>
-			<version>5.7.0</version>
+			<version>${activemq.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.jms</groupId>
@@ -38,58 +81,11 @@
 			<artifactId>reflections</artifactId>
 			<version>0.9.5</version>
 		</dependency>
-		<dependency>
-			<groupId>org.slc.sli.common</groupId>
-			<artifactId>sli-common</artifactId>
-		</dependency>
 
 
-		<dependency>
-			<groupId>org.slc.sli.domain</groupId>
-			<artifactId>domain</artifactId>
-		</dependency>
 
-		<dependency>
-			<groupId>org.slc.sli.domain</groupId>
-			<artifactId>domain</artifactId>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
 
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>uml</artifactId>
-		</dependency>
 
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>xmi</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>rest</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>wadl</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slc.sli.common</groupId>
-			<artifactId>common-encrypt</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slc.sli</groupId>
-			<artifactId>encryption-tool</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slc.sli.dal</groupId>
-			<artifactId>dal</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>org.jdom</groupId>
@@ -97,19 +93,16 @@
 			<version>1.1</version>
 		</dependency>
 
-		<!-- Spring Context dependency -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 		</dependency>
 
-		<!-- Spring Beans dependency -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
 		</dependency>
 
-		<!-- Spring Security Core dependency -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
@@ -120,38 +113,32 @@
 			<artifactId>spring-security-taglibs</artifactId>
 		</dependency>
 
-		<!-- Spring Security Config dependency -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 		</dependency>
 
-		<!-- Spring Security Web dependency -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
 		</dependency>
 
-		<!-- Spring/Jersey dependency -->
 		<dependency>
 			<groupId>com.sun.jersey.contribs</groupId>
 			<artifactId>jersey-spring</artifactId>
 		</dependency>
 
-		<!-- Spring Test dependency -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
-		<!-- JSTL -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
 
-		<!-- Java Servlet dependency -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -165,19 +152,17 @@
 			<version>2.0</version>
 		</dependency>
 
-		<!-- Jersey (JAX-RS) Server Linking dependency -->
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-server-linking</artifactId>
 		</dependency>
 
-		<!-- Codehaus Jackson JAX-RS dependency -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-jaxrs</artifactId>
 		</dependency>
 
-		<!-- Apache Commons Lang dependency -->
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -273,7 +258,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.1.1</version>
+				<version>${maven.war.version}</version>
 				<configuration>
 					<attachClasses>true</attachClasses>
 					<classesClassifier>classes</classesClassifier>
