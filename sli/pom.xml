@@ -121,7 +121,9 @@
         <aspectj.version>1.6.11</aspectj.version>
         <aspectj.maven.version>1.4</aspectj.maven.version>
         <cglib.version>3.1</cglib.version>
+        <ehcache.version>2.6.3</ehcache.version>
         <emma.version>2.1.5320</emma.version>
+        <google.findbugs.jsr305.version>2.0.1</google.findbugs.jsr305.version>
         <google.guava.version>13.0</google.guava.version>
         <gson.version>2.1</gson.version>
         <java-uuid.version>3.1.3</java-uuid.version>
@@ -130,7 +132,11 @@
         <jodatime.version>2.3</jodatime.version>
         <jopt-simple.version>4.3</jopt-simple.version>
         <opensaml.version>2.6.0</opensaml.version>
+        <org.jdom.version>1.1</org.jdom.version>
+        <org.reflections.version>0.9.5</org.reflections.version>
+        <oro.version>2.0.8</oro.version>
         <spring-ldap-core.version>1.3.1.RELEASE</spring-ldap-core.version>
+        <spring.security.oath2.version>1.0.0.M5</spring.security.oath2.version>
         <stax.api.version>1.0.1</stax.api.version>
         <velocity.version>1.7</velocity.version>
 
@@ -146,8 +152,10 @@
         <!-- Java EE Versions -->
         <javax.validation.version>1.0.0.GA</javax.validation.version>
         <javax.el.version>2.2</javax.el.version>
-        <javax.jms.version>1.1</javax.jms.version>
+        <javax.jms.version>1.1-rev-1</javax.jms.version>
+        <javax.persistence.api.version>1.0.2</javax.persistence.api.version>
         <javax.servlet.version>2.5</javax.servlet.version>
+        <javax.servlet.jsp.version>2.0</javax.servlet.jsp.version>
         <javax.jstl.version>1.2</javax.jstl.version>
         <taglibs.version>1.1.2</taglibs.version>
 
@@ -162,14 +170,18 @@
         <commons.lang.version>3.0.1</commons.lang.version>
         <commons.pool.version>20030825.183949</commons.pool.version>
         <commons.schema.version>1.4.7</commons.schema.version>
+        <commons.validator.version>1.4.0</commons.validator.version>
         <xerces.version>2.4.0</xerces.version>
+        <xerces.impl.version>2.11</xerces.impl.version>
 
         <!-- ElasticSearch Versions -->
         <elasticsearch.version>0.19.9</elasticsearch.version>
 
         <!-- Rest Services (JAX-RS) Framework Versions -->
         <jackson.version>1.9.1</jackson.version>
+        <jackson.xml.databind.version>0.6.2</jackson.xml.databind.version>
         <jersey.version>1.9.1</jersey.version>
+        <jersey.maven.plugin.version>1.0.1</jersey.maven.plugin.version>
 
         <!-- Logging Framework Versions -->
         <logback.version>1.1.1</logback.version>
