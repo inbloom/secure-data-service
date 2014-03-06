@@ -27,22 +27,21 @@ def check_email(config = {})
   retry_attempts = config[:retry_attempts] || 30
   retry_wait_time = config[:retry_wait_time] || 1
 
-  if ENV['DEBUG']
+  #if ENV['DEBUG']
     puts "imap host #{imap_host}"
     puts "imap port #{imap_port}"
     puts "imap user #{imap_username}"
     puts "imap passwd #{imap_password}"
-    puts "content substr #{content_substring}"
-    puts "subject substr #{subject_substring}"
-  end
+  #end
 
-  content_substring.gsub!(/\s/, '') unless content_substring.nil? # remove spaces because the imap client add unnecessary spaces
-  subject_substring.gsub!(/\s/, '') unless subject_substring.nil? # remove spaces because the imap client add unnecessary spaces
+  # remove spaces because the imap client may add unnecessary spaces
+  content_substring.gsub!(/\s/, '') if content_substring
+  subject_substring.gsub!(/\s/, '') if subject_substring
   
-  if ENV['DEBUG']
+  #if ENV['DEBUG']
     puts "content substr #{content_substring}"
     puts "subject substr #{subject_substring}"
-  end
+  #end
 
   imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
   imap.login(imap_username, imap_password)
@@ -62,7 +61,7 @@ def check_email(config = {})
       messages_after = imap.search(['SINCE', past_date])
       messages_new = messages_after - messages_before
       messages_before = messages_after
-      unless(messages_new.empty?)
+      unless messages_new.empty?
         messages = imap.fetch(messages_new, ["BODY[HEADER.FIELDS (SUBJECT)]", "BODY[TEXT]"])
         messages.each do |message|
           content = message.attr["BODY[TEXT]"]
@@ -73,8 +72,8 @@ def check_email(config = {})
             puts "subject is #{subject}"
           end
 
-          if((content_substring.nil? || (!content.nil? && content.gsub(/\s/, '').include?(content_substring))) &&
-              (subject_substring.nil? || (!subject.nil? && subject.gsub(/\s/, '').include?(subject_substring))))
+          if (!content_substring || content.gsub(/\s/,'').include?(content_substring)) &&
+             (!subject_substring || subject.gsub(/\s/,'').include?(subject_substring))
             return content
           else
             puts "incorrect email content = #{content}"

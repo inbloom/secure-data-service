@@ -43,5 +43,5 @@ Feature:  RC Integration Tests - Test Parent Login
     And I should see the name "Matthew Sollars" on the page
     And I have navigated to the "Me" page of the Data Browser
     Then I can see my "Gender" is "Male"
-    Then I can see my "ParentUniqueStateId" is "3597672174"
+    Then I can see my "State ID" is "3597672174"
     Then I log out of Databrowser
