@@ -1,14 +1,13 @@
-@RALLY_US187
-@RALLY_US103
+@no_ingestion_hooks
+
 Feature: Application Registration
   As a super-admin
   In order to allow the onboarding of new applications to SLI
   I want to be able to create new application keys
 
-
-Background:
-  Given I have an open web browser
-    And my LDAP server has been setup and running
+#Background:
+#  Given I have an open web browser
+#    And my LDAP server has been setup and running
 
 Scenario: A district-level administrator attempts to manage applications
   Given I am a valid district-level administrator
@@ -80,7 +79,7 @@ Scenario: A developer must provide correctly formatted URLs where needed
 #TODO: Clean up these stories
 @sandbox
 Scenario: App Developer logs-in to App Registration Tool in Sandbox (Vendor in Prod should see own apps respectively)
-	#Given I am a valid App Developer
+    Given I have an open web browser
 	When I hit the Application Registration Tool URL
 	And I was redirected to the "Simple" IDP Login page
 	And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
