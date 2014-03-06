@@ -58,14 +58,28 @@ app = db['application'].find_one({'body.client_id' => options[:application]})
 abort "Unable to locate Application: #{options[:application]}" if app.nil?
 application_id = app['_id']
 
+
+#attempt to delete an older ApplicationAuthorization for the same app
+if not tenantDb[:applicationAuthorization].find_one({'body.applicationId' => application_id}).nil? then
+  puts "Removing old ApplicationAuthorization record for #{options[:application]}"
+  tenantDb[:applicationAuthorization].remove({'body.applicationId' => application_id})
+end
+
+
 edorgs = tenantDb['educationOrganization'].distinct('_id')
-puts edorgs.inspect
+
+#build the list of authorized edorgs like [{"authorizedEdorg" : 1234567890}, ...]
+authorizedEdOrgs = []
+for edOrgId in edorgs
+  authorizedEdOrgs.push({"authorizedEdorg" => edOrgId})
+end
 
 body = {}
 appAuth = {}
 body[:applicationId] = application_id
-body[:edorgs] = edorgs
+body[:edorgs] = authorizedEdOrgs
+appAuth[:type] = "applicationAuthorization"
 appAuth[:body] = body
 tenantDb[:applicationAuthorization].insert(appAuth)
 
-puts "Your new app authorization looks like #{appAuth.inspect}"
+puts "Done. Application with ClientId #{options[:application]} is now enabled for all EdOrgs in tenant #{options[:tenant]}"
