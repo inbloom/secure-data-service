@@ -93,6 +93,7 @@
         <sli.build.tools>1.0-SNAPSHOT</sli.build.tools>
 
         <!-- Maven Plugin Versions -->
+        <maven.assembly.version>2.2-beta-5</maven.assembly.version>
         <maven.checkstyle.version>2.11</maven.checkstyle.version>
         <maven.compiler.version>2.5.1</maven.compiler.version> <!-- 2014-3-3: Attempted upgrade to 3.1 which threw compile errors. -->
         <maven.deploy.version>2.8.1</maven.deploy.version>
@@ -189,6 +190,7 @@
 
         <!-- Testing Framework Versions -->
         <junit.version>4.9</junit.version>
+        <junit.addons.version>1.4</junit.addons.version>
         <mockito.version>1.9.5</mockito.version>
     </properties>
 
