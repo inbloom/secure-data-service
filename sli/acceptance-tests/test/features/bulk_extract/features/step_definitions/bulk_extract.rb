@@ -117,9 +117,6 @@ end
 # Given
 ############################################################
 Given /^I trigger a bulk extract$/ do
-  #the previous tests that ingest data do not properly wait. This is temporary ~ckelly
-  puts 'sleeping for 120 seconds because I dont know how to properly wait until an ingestion job is complete.'
-  sleep 120
   bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE)
 end
 
