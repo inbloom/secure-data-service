@@ -125,7 +125,6 @@ class DbClient
   end
 
   def set_notablescan(enabled)
-    enabled = (enabled == true || enabled == 1) ? 1 : 0
     admin_db = @conn['admin']
     admin_db.command({setParameter: 1, notablescan: enabled})
     set_notablescan_on_shards(admin_db, enabled)
