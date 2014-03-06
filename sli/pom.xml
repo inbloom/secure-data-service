@@ -152,7 +152,7 @@
         <!-- Java EE Versions -->
         <javax.validation.version>1.0.0.GA</javax.validation.version>
         <javax.el.version>2.2</javax.el.version>
-        <javax.jms.version>1.1-rev-1</javax.jms.version>
+        <javax.jms.version>1.1</javax.jms.version>
         <javax.persistence.api.version>1.0.2</javax.persistence.api.version>
         <javax.servlet.version>2.5</javax.servlet.version>
         <javax.servlet.jsp.version>2.0</javax.servlet.jsp.version>
@@ -172,7 +172,7 @@
         <commons.schema.version>1.4.7</commons.schema.version>
         <commons.validator.version>1.4.0</commons.validator.version>
         <xerces.version>2.4.0</xerces.version>
-        <xerces.impl.version>2.11</xerces.impl.version>
+        <xerces.impl.version>2.11.0</xerces.impl.version>
 
         <!-- ElasticSearch Versions -->
         <elasticsearch.version>0.19.9</elasticsearch.version>
@@ -1485,13 +1485,13 @@
             <name>Maven2 repo1 repository</name>
             <url>http://repo1.maven.org/maven2</url>
         </repository>
-        <repository>
+        <!-- <repository>
             <id>repository.jboss.org-public</id>
             <name>JBoss.org Maven repository</name>
             <url>https://repository.jboss.org/nexus/content/groups/public</url>
-        </repository>
+        </repository>  -->
         <!-- Memcached -->
-        <repository>
+        <!-- <repository>
             <id>spy</id>
             <name>Spy Repository</name>
             <layout>default</layout>
@@ -1499,7 +1499,7 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </repository>
+        </repository>  -->
         <!-- Spring Milestone repository -->
         <repository>
             <id>spring-milestone</id>
