@@ -7,7 +7,7 @@
   <parent>
     <artifactId>common</artifactId>
     <groupId>org.slc.sli.common</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.ds854.97.885</version>
   </parent>
 
   <artifactId>common-encrypt</artifactId>
