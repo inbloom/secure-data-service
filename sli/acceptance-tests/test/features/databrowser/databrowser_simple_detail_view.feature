@@ -229,3 +229,86 @@ And I am authenticated to SLI IDP as user "jwashington" with pass "jwashington12
 And I have navigated to the "Teacher to Section List" page of the Data Browser
 When I click on any of the entity IDs
 Then I am redirected to the particular entity Detail View
+
+
+Scenario Outline: EducationOrganization table should be displayed and displayed only on the EducationOrganization pages 
+
+Given I have an open web browser
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm <Realm> in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials <User> <Password> for the "Simple" login page
+Then I should go to the <Page> page and look for the EdOrg table with a <Result> result
+
+Examples:
+  | Realm                                    | User           | Password           | Page                           | Result |
+  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "GetEducationOrganizations"    | "Pass" |
+  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "GetPrograms"                  | "Fail" |
+  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "GetCohorts"                   | "Fail" |
+  | "Illinois Daybreak Students"             | "carmen.ortiz" | "carmen.ortiz1234" | "My Schools"                   | "Pass" |
+  | "Illinois Daybreak Students"             | "carmen.ortiz" | "carmen.ortiz1234" | "My Sections"                  | "Fail" |
+  | "Illinois Daybreak Students"             | "carmen.ortiz" | "carmen.ortiz1234" | "GetStudentParentAssociations" | "Fail" |
+
+Scenario: EducationOrganization table should have the following counts in the table
+
+Given I have an open web browser
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+And I click on the "GetEducationOrganizations" link
+And I click on the "GetFeederEducationOrganizations" link
+Then I should see a count of <Total> for id <ID> staff total and <Current> for current
+
+  | ID						            | Total	| Current |
+  |a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb	| 4	    | 4	      |
+  |8cc0a1ac-ccb5-dffc-1d74-32964722179b	| 0	    | 0       |
+  |ec2e4218-6483-4e9c-8954-0aecccfd4731 | 1     | 1       |
+
+Scenario: Pagination should work appropriately in the Databrowser
+
+Given I have an open web browser
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+Then I should navigate to "/entities/educationOrganizations/ec2e4218-6483-4e9c-8954-0aecccfd4731/studentSchoolAssociations/students"
+And I should see a row containing "414106a9-6156-1003-a477-4bd4dda7e21a_id"
+And I should NOT see a row containing "414106a9-6156-1011-a477-4bd4dda7e21a_id"
+When I click on the "Next" link
+And I should see a row containing "414106a9-6156-1020-a477-4bd4dda7e21a_id"
+When I click on the "Last" link
+And I should see a row containing "ffee781b-22b1-4015-81ff-3289ceb2c113_id"
+When I click on the "Prev" link
+And I should see a row containing "5dd72fa0-98fe-4017-ab32-0bd33dc03a81_id"
+When I click on the "First" link
+And I should see a row containing "414106a9-6156-1003-a477-4bd4dda7e21a_id"
+When I click on the "50" link
+And I should see a row containing "414106a9-6156-1020-a477-4bd4dda7e21a_id"
+
+
+Scenario: Validate that the headers are correct for students, parents, staff and teachers
+    Given I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "true"
+    And I have an open web browser
+    And I navigated to the Data Browser Home URL
+    And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+    And I click on the realm page Go button
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
+    Then I should be redirected to the Data Browser home page
+    Then I should navigate to <Link> and see columns in the correct order
+
+    | Link                 |
+    | "/entities/parents"  |
+    | "/entities/staff"    |
+    | "/entities/teachers" |
+    | "/entities/students" |
+
+    Given I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "false"
+
