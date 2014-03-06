@@ -36,7 +36,7 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["READ_GENERAL", "APP_AUTHORIZE"] if arg1 == "New Federated"
 
   # Custom right sets for test roles
-  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "WRITE_PUBLIC", "AGGREGATE_WRITE", "STAFF_CONTEXT", "SECURITY_EVENT_VIEW", "APP_AUTHORIZE"] if arg1 == "all defaults"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "WRITE_PUBLIC", "AGGREGATE_WRITE", "STAFF_CONTEXT", "SECURITY_EVENT_VIEW", "INGESTION_LOG_VIEW", "APP_AUTHORIZE"] if arg1 == "all defaults"
   rights = ["READ_GENERAL", "TEACHER_CONTEXT"] if arg1 == "Read General"
   # US5459
   rights = ["READ_GENERAL", "TEACHER_CONTEXT", "SECURITY_EVENT_VIEW"] if arg1 == "Read General and Security Event View"
