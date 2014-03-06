@@ -644,9 +644,7 @@ end
 
 Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_key|
   # if the lz_key is overridden from the command line, use the override value
-  unless (@ingestion_lz_key_override == nil)
-    lz_key = @ingestion_lz_key_override
-  end
+  lz_key = @ingestion_lz_key_override if @ingestion_lz_key_override
 
   lz = @ingestion_lz_identifer_map[lz_key]
   initializeLandingZone(lz)
