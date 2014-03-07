@@ -107,7 +107,7 @@
         <maven.pmd.version>2.7.1</maven.pmd.version>   <!-- 2014-3-3: TBD Update version -->
         <maven.release.version>2.4.2</maven.release.version>
         <maven.resources.version>2.6</maven.resources.version>
-        <maven.surefire.version>2.16</maven.surefire.version>
+        <maven.surefire.version>2.12</maven.surefire.version>
         <maven.tomcat.version>1.1</maven.tomcat.version>
         <maven.war.version>2.4</maven.war.version>
         <maven.plugin.codehaus.aspectj.version>1.5</maven.plugin.codehaus.aspectj.version>
