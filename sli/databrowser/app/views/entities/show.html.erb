@@ -5,7 +5,7 @@
 <div id='entities'>
   <% if @entities.size < 1 %>
     <%= render :partial => "multi_record_table", :locals => {:page => @page} %>
-  <% elsif @entities.size == 1 %>
+  <% elsif @entities.size == 1 && params[:offset].to_i <= 0 %>
   	<%= render :partial => "single_record_details", :locals => {:entity => @entities.first} %>
   <%else%>
 

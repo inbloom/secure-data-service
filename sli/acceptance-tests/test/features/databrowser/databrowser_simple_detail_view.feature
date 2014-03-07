@@ -290,6 +290,10 @@ When I click on the "First" link
 And I should see a row containing "414106a9-6156-1003-a477-4bd4dda7e21a_id"
 When I click on the "50" link
 And I should see a row containing "414106a9-6156-1020-a477-4bd4dda7e21a_id"
+When I click on the "25" link
+Then I should navigate to "/entities/educationOrganizations/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb/studentSchoolAssociations/students"
+When I click on the "Next" link
+And I should see a row containing "fff656b2-5031-4897-b6b8-7b0f5769b482_id"
 
 
 Scenario: Validate that the headers are correct for students, parents, staff and teachers
