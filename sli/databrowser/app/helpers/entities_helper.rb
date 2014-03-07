@@ -173,7 +173,7 @@ module EntitiesHelper
       entities.each do |ent|
         ed_orgs.push(ent)
       end
-      html << "<table id=\"edorgcounts_home\" class=\"edOrg_home\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
+      html << "<table id=\"edorgcounts_home\" class=\"home_table\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
     else
       ed_orgs << entity  
       html << "<table id=\"edorgcounts_#{entity['id']}\" class=\"edOrg\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
@@ -390,7 +390,6 @@ module EntitiesHelper
 
   # Stolen from DS-1005, will need some merging when these two branches are merged.
   def getUserEntityIdAndCollection(entities)
-    logger.info("Entities: #{entities}")
      bodyparts = JSON.parse(entities.http_response.body)
      #get one link
      linkstring = bodyparts['links'][0]
@@ -413,5 +412,47 @@ module EntitiesHelper
       else
          false
       end
+  end
+
+  # Method to get the Ingestion data needed for the ingestion pages and tables
+  def get_ingestion_data(limit = 0)
+    url = drop_url_version + "/ingestionJobs" + "?limit=" + limit.to_s
+    begin
+      entities = RestClient.get(url, get_header)
+      entities = JSON.parse(entities)
+    rescue => e
+      logger.info("Could not get ed orgs for #{entities} because of #{e.message}")
+    end
+    entities
+  end
+
+  # Drops the version number off of the base url for unversioned resources
+  def drop_url_version
+    
+    # Convert api_base to URI
+    url = URI(APP_CONFIG['api_base'])
+    
+    # Start building back the new url with scheme and host
+    new_url = url.scheme + "://" + url.host
+    
+    # Check if there is a port, if so add it
+    if url.port
+      new_url += ":" + url.port.to_s
+    end
+    
+    # Split the parts from the url. The first part will be blank since url.path starts with a slash
+    # Skip that one, and if it is the last part, then don't add it as it will be the version.
+    url_path_parts = url.path.split("/")
+    url_path_parts.each do |part|
+      if part == url_path_parts.first
+        next
+      end
+      if !(part == url_path_parts.last)
+        new_url += "/" + part
+      end
+    end
+    
+    # return the new url
+    new_url
   end
 end

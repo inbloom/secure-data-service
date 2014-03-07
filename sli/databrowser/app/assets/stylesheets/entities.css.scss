@@ -14,7 +14,7 @@ table.dataTable tr.odd:hover td, table.dataTable tr.even:hover td
 td.expandable > div {background: url("ui-icons_454545_256x240.png") -32px -128px no-repeat; height: 16px; width: 16px;}
 td.expandable.expanded > div {background-position: -64px -128px;}
 
-table.edOrg_home {
+table.home_table {
     border: solid 1px black;
     border-collapse: collapse;
     width: 99%;
@@ -23,13 +23,14 @@ table.edOrg_home {
     float: left;
 }
 
-table.edOrg_home th {
+table.home_table th {
     border: solid 1px black;
     font: bold;
 }
 
-table.edOrg_home td {
+table.home_table td {
     border: solid 1px black;
+    text-align: center;
 }
 
 #table_info {

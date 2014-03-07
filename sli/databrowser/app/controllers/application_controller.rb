@@ -158,7 +158,7 @@ class ApplicationController < ActionController::Base
   # the current page and has a way to return to a previous page 
   # with a single click.
   def handle_breadcrumb
-    logger.debug("===================")
+    #logger.debug("===================")
     # logger.debug("handling breadcrumb for <" + current_url + ">")
 
     trail = session[:breadcrumbtrail]
@@ -172,7 +172,7 @@ class ApplicationController < ActionController::Base
     end
     
     # if this url ends with "/callback", we don't adjust the breadcrumb trail at all.
-    logger.debug("checking <" + urlNoParams + "> for /callback")
+    #logger.debug("checking <" + urlNoParams + "> for /callback")
     if urlNoParams.end_with? "/callback" then 
       return 
     end
@@ -180,7 +180,7 @@ class ApplicationController < ActionController::Base
     if trail.nil? then
       # we must have just started a session; create the
       # first breadcrumb and the array that holds the breadcrumbs in the session
-      logger.debug("creating breadcrumb trail")
+    #  logger.debug("creating breadcrumb trail")
       bc = Breadcrumbhelper::Breadcrumb.new "home", urlNoParams, current_url
       trail = [ bc ]
     else
