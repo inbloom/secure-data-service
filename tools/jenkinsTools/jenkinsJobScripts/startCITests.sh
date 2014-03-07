@@ -324,7 +324,7 @@ if [[ "$ENV" == "bulk_extract" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests DEBUG=true PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz bulkExtractTests
+	runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz bulkExtractTests
   EXITCODE=$?
 fi
 
