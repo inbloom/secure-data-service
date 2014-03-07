@@ -17,6 +17,8 @@
 
     <properties>
         <sli.home>${project.parent.basedir}</sli.home>
+
+        <activemq.version>5.6.0</activemq.version>
     </properties>
 
     <modules>
