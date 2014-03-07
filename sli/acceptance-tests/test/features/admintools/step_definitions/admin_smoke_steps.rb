@@ -79,6 +79,7 @@ def valid_user(user_type)
       'Super Administrator'          => 'daybreaknorealmadmin',
       'non-SLI hosted user with no roles' => 'administrator',
       'SLI hosted user with no roles' => 'leader',
+      'tenant-level realm administrator' => 'daybreakadmin',
       'tenant-level IT administrator' => 'rrogers'
   }
   username = valid_users[user_type]
