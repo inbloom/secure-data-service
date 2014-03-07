@@ -1673,9 +1673,10 @@ end
 When /^I decrypt and save the full extract$/ do
   @filePath = "extract/extract.tar"
   @unpackDir = File.dirname(@filePath) + '/unpack'
-  if (!File.exists?("extract"))
-      FileUtils.mkdir("extract")
-  end
+  FileUtils.mkdir("extract") if !File.exists?("extract")
+
+  # Remove any files from the unpack dir
+  FileUtils.rm_rf Dir.glob("#{@unpackDir}/*")
 
   step "the response is decrypted"
   File.open(@filePath, 'w') {|f| f.write(@plain) }
