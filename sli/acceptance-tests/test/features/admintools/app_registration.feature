@@ -79,7 +79,8 @@ Scenario: A developer must provide correctly formatted URLs where needed
 #TODO: Clean up these stories
 @sandbox
 Scenario: App Developer logs-in to App Registration Tool in Sandbox (Vendor in Prod should see own apps respectively)
-    Given I have an open web browser
+  Given I have an open web browser
+    And my LDAP server has been setup and running
 	When I hit the Application Registration Tool URL
 	And I was redirected to the "Simple" IDP Login page
 	And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
@@ -88,6 +89,8 @@ Scenario: App Developer logs-in to App Registration Tool in Sandbox (Vendor in P
 
 @sandbox 
 Scenario: Different App developer in same tenant should also see my apps
+  Given I have an open web browser
+  And my LDAP server has been setup and running
     Given there is a "Application Developer" with tenancy "developer-email@slidev.org" and in "STANDARD-SEA"
     Then I can navigate to app registration page with that user
 	Then I am redirected to the Application Registration Tool page
@@ -96,7 +99,8 @@ Scenario: Different App developer in same tenant should also see my apps
 
 @sandbox 
 Scenario: App Developer registers an application in App Registration Tool in Sandbox
-	#Given I am a valid App Developer
+  Given I have an open web browser
+  And my LDAP server has been setup and running
 	When I hit the Application Registration Tool URL
 		And I was redirected to the "Simple" IDP Login page
 		And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
@@ -112,6 +116,8 @@ Scenario: App Developer registers an application in App Registration Tool in San
 
 @sandbox
 Scenario: The other app developer in my tenancy can also modify and delete my apps
+  Given I have an open web browser
+  And my LDAP server has been setup and running
     Given there is a "Application Developer" with tenancy "developer-email@slidev.org" and in "STANDARD-SEA"
     Then I can navigate to app registration page with that user
 	    And I am redirected to the Application Registration Tool page
