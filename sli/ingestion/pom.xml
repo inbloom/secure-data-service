@@ -17,7 +17,6 @@
 
     <properties>
         <sli.home>${project.parent.basedir}</sli.home>
-        <junit-addons.version>1.4</junit-addons.version>
     </properties>
 
     <modules>
@@ -46,7 +45,7 @@
             <dependency>
                 <groupId>junit-addons</groupId>
                 <artifactId>junit-addons</artifactId>
-                <version>${junit-addons.version}</version>
+                <version>${junit.addons.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
