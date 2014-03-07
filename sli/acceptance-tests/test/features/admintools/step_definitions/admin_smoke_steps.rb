@@ -17,6 +17,8 @@ limitations under the License.
 =end
 
 require 'capybara'
+require 'capybara-screenshot'
+require 'capybara-screenshot/cucumber'
 #require_relative '../../utils/db_client.rb'
 
 # TODO Move the capybara setup code to a common location
