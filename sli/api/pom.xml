@@ -168,7 +168,6 @@
 			<version>${jersey.maven.plugin.version}</version>
 		</dependency>
 
-		<!-- OAuth 2.0 Provider Dependency -->
 		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
 			<artifactId>spring-security-oauth2</artifactId>

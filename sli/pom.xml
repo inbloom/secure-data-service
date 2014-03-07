@@ -30,12 +30,13 @@
         <name>inBloom</name>
         <url>http://www.inbloom.org</url>
     </organization>
-<!--   Please update your information:  http://maven.apache.org/pom.html#Developers
+
+    <!--   Please update your information:  http://maven.apache.org/pom.html#Developers -->
     <developers>
-        <developer>Lloyd Englebretsen</developer>
+        <!-- <developer>Lloyd Englebretsen</developer>
         <developer>Chris Ertel</developer>
         <developer>Karl Fehd</developer>
-        <developer>Michael Forrester</developer>
+        <developer>Michael Forrester</developer> -->
         <developer>
             <id>tfritz</id>
             <name>Todd Fritz</name>
@@ -48,13 +49,13 @@
             </roles>
             <timezone>-5</timezone>
         </developer>
-        <developer>Verlin Henderson</developer>
+        <!-- <developer>Verlin Henderson</developer>
         <developer>Chris Kelly</developer>
         <developer>Paul Lawler</developer>
         <developer>Ben Morgan</developer>
-        <developer>Bill Siggelkow</developer>
+        <developer>Bill Siggelkow</developer> -->
     </developers>
-    <contributors>
+    <!-- <contributors>
         <contributor>Sharren Bates</contributor>
         <contributor>Jennifer Jones</contributor>
         <contributor>Greg Kisling</contributor>
@@ -124,9 +125,9 @@
         <aspectj.maven.version>1.4</aspectj.maven.version>
         <aspectjweaver.version>1.6.12</aspectjweaver.version>
         <camel.version>2.8.6</camel.version>
-        <cglib.version>3.1</cglib.version>
+        <cglib.version>2.2.2</cglib.version>
         <easymock.version>3.0</easymock.version>
-        <ehcache.version>2.6.3</ehcache.version>
+        <ehcache.version>2.6.8</ehcache.version>
         <emma.version>2.1.5320</emma.version>
         <freemarker.version>2.3.18</freemarker.version>
         <google.findbugs.jsr305.version>2.0.1</google.findbugs.jsr305.version>
@@ -142,13 +143,13 @@
         <jopt-simple.version>4.3</jopt-simple.version>
         <openadk.version>1.0.0</openadk.version>
         <openam.version>954</openam.version>
-        <opensaml.version>2.6.0</opensaml.version>
+        <opensaml.version>2.6.1</opensaml.version>
         <org.jdom.version>1.1</org.jdom.version>
-        <org.reflections.version>0.9.5</org.reflections.version>
+        <org.reflections.version>0.9.8</org.reflections.version>
         <oro.version>2.0.8</oro.version>
         <powermock.version>1.4.10</powermock.version>
         <selenium.version>2.14.0</selenium.version>
-        <scribe.version>1.3.0</scribe.version>
+        <scribe.version>1.3.5</scribe.version>
         <smooks.version>1.5.1</smooks.version>
         <stax.api.version>1.0.1</stax.api.version>
         <velocity.version>1.7</velocity.version>
