@@ -42,21 +42,6 @@ task :apiV1EntityTests => [:realmInit] do
   runTests("test/features/apiV1/search/api_search.feature")
 end
 
-task :apiV1MultipleParentTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/multipleParents")
-end
-
-task :crudAutoTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/crud_auto")
-end
-
-task :writeValidationTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/security/write_validation.feature")
-end
-
 task :apiV1AssociationTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/associations/crud/assoc_crud.feature")

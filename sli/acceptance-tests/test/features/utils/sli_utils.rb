@@ -950,3 +950,15 @@ puts results.to_s
   return matches_all
 end
 
+When /^I (enable|disable) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action,edOrgName,tenant|
+  disable_NOTABLESCAN()
+  db = @conn[convertTenantIdToDbName(tenant)]
+  coll = db.collection("educationOrganization")
+  record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
+  enable_NOTABLESCAN()
+  edOrgId = record["_id"]
+  elt = @driver.find_element(:id, edOrgId)
+  assert(elt, "Educational organization element for '" + edOrgName + "' (" + edOrgId + ") not found")
+  assert(action == "enable" && !elt.selected? || action == "disable" && elt.selected?, "Cannot " + action + " educationalOrganization element with id '" + edOrgId + "' whose checked status is " + elt.selected?.to_s())
+  elt.click()
+end

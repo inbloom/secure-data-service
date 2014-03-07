@@ -1,5 +1,7 @@
 require 'securerandom'
 
+require_relative '../../apiV1/integration/step_definitions/app_oauth.rb'
+
 Given /^I am managing my realms$/ do
   browser.visit realm_management_page
   login_to_the_inbloom_realm
@@ -8,11 +10,36 @@ end
 
 When /^I add a new realm$/ do
   @realm_name = "#{app_prefix}realm_#{Time.now.to_i}"
+  realm_url = "#{Property['simpleIDP_login_url']}?realm=IL-Daybreak"
   add_realm do
     browser.fill_in('realm_name', :with => @realm_name)
-    browser.fill_in('realm_idp_id', :with => 'http://www.example.com')
-    browser.fill_in('realm_idp_redirectEndpoint', :with => 'http://www.example.com')
+    browser.fill_in('realm_idp_id', :with => realm_url)
+    browser.fill_in('realm_idp_redirectEndpoint', :with => realm_url)
     browser.fill_in('realm_uniqueIdentifier', :with => @realm_name)
+  end
+  add_for_cleanup(:realm, @realm_name)
+end
+
+When /^I add a new realm with the same IDP as an existing realm$/ do
+  @realm_name = 'Illinois Daybreak School District'
+  row = find_realm_row
+  browser.within(row) { browser.click_link 'Edit' }
+  browser.page.should have_selector('h1', :text => "Realm Management For #{@realm_name}")
+
+  idp_url = browser.page.find_field('IDP URL').value
+  redirect_endpoint = browser.page.find_field('Redirect Endpoint').value
+
+  idp_url.to_s.should_not be_empty # use to_s in case it's nil; this were Rails we would use be_blank (and would not need to_s)
+  redirect_endpoint.to_s.should_not be_empty
+
+  browser.click_link 'Cancel'
+
+  @realm_name = "#{app_prefix}realm_#{Time.now.to_i}"
+  add_realm do
+    browser.fill_in('Display Name', :with => @realm_name)
+    browser.fill_in('IDP URL', :with => idp_url)
+    browser.fill_in('Redirect Endpoint', :with => redirect_endpoint)
+    browser.fill_in('Realm Identifier', :with => @realm_name)
   end
   add_for_cleanup(:realm, @realm_name)
 end
@@ -79,6 +106,21 @@ Then /^I should (not )?see the groups and roles for:$/ do |not_see, table|
       end
     end
   end
+end
+
+# Used by realm authentication
+
+When /^I attempt to log into the new realm$/ do
+  browser.visit path_for('default administration page')
+  login_to_realm @realm_name
+end
+
+Then /^I can login to that realm$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^I can still login to my realm$/ do
+  pending # express the regexp above with the code you wish you had
 end
 
 def find_realm_row
