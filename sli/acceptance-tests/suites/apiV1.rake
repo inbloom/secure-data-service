@@ -132,14 +132,8 @@ task :v1DirectReferenceCollectionsTests => [:realmInit] do
   runTests("test/features/apiV1/associations/directReferenceCollections/directReferenceCollections_teacher.feature")
 end
 
-desc "Run V1 Common Core Standards reference traversal Tests"
-task :v1CCSTests => [:realmInit] do
-  setFixture("learningStandard", "learningStandard_fixture.json")
-  runFixtureAndTests("test/features/apiV1/end_user_stories/commonCoreStandards/API/api_ccs.feature","learningObjective","learningObjective_fixture.json")
-end
-
-desc "Run V1 Home URI Tests"
-task :v1homeUriTests => [:realmInit] do
+desc 'Run V1 Home URI Tests'
+task :v1homeUriTests => :realmInit do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/home_uri")
 end
@@ -409,7 +403,7 @@ task :apiV1SearchLimitTests => [:realmInit] do
   Rake::Task["ingestionSmallSampleDataSet"].execute
   Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/search/search_limits.feature")
-  displayFailureReport()
+  display_failure_report()
   if $SUCCESS
     puts "Completed All Tests"
   else

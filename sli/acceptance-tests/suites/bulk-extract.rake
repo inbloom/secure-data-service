@@ -103,12 +103,5 @@ task :bulkExtractTests => [:realmInit] do
   runTests("test/features/bulk_extract/features/bulk_extract_top_level_education_organization_private_data.feature")
   Rake::Task["bulkExtractCleanup"].execute
 
-  displayFailureReport()
-
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-
+  display_failure_report
 end

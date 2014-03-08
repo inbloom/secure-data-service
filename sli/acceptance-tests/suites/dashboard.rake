@@ -87,12 +87,7 @@ task :localDashboardTests do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["dashboardSdsTests"].invoke
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 desc "Run dashboard integration tests"
