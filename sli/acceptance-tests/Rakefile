@@ -644,14 +644,14 @@ task :apiSandboxTests do
   setMultipleFixtureFiles(data)
 
   data = {
-      "educationOrganization" => "educationOrganization_fixture_chaos.json",
-      "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture_chaos.json",
-      "staff" => "staff_fixture_chaos.json",
-      "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_chaos.json"
+    "educationOrganization" => "educationOrganization_fixture_chaos.json",
+    "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture_chaos.json",
+    "staff" => "staff_fixture_chaos.json",
+    "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_chaos.json"
   }
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org")
-  setMultipleFixtureFiles(testHash)
+  setMultipleFixtureFiles(data)
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 
