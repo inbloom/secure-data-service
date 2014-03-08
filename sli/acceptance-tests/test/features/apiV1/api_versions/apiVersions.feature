@@ -1,5 +1,6 @@
 @RALLY_US5029
-Feature: As an API user, I want to be able to make requests to different versions of the 
+# TODO: Review with product? Is this test legitimate? It seems weird that we can supply *any* version to the API and it will work.
+Feature: As an API user, I want to be able to make requests to different versions of the
   API and receive appropriate responses.
 
 Background: Nothing yet

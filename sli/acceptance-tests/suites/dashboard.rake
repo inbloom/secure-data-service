@@ -181,12 +181,6 @@ task :dashboardQunitTests do
   runTests("test/features/dashboard/dash/qunit_tests.feature")
 end
 
-desc "Run dashboard qunit tests"
-task :dashboardJmeterTests do
-  runTests("test/features/dashboard/jmeter/dashboard_jmeter_performance.feature")
-end
-
-
 ############################################################
 # Dashboard local dev environmnet
 ############################################################
