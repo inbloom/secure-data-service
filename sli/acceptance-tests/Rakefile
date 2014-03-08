@@ -548,27 +548,6 @@ task :loadDefaultIngestionTenants do
   end
 end
 
-# Run a whole series of acceptance and integration tests
-desc "Run API, Ingestion, Dashboard, SDK, and SimpleIDP acceptance tests"
-task :fullSuite => [
-  :production,
-  :dashboardTests,
-  :ingestionTests,
-  :integrationTests,
-  :JavaSDKTests,
-  :sandboxTests,
-  :adminSandboxTests,
-  :apiSeleniumTests,
-  :apiCountOnlyTests] do
-
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
@@ -609,7 +588,6 @@ task :apiAndSecurityTests => [
                               :apiSuperDocTests,
                               :securityTests,
                               :userAdminCrudTests,
-                              :migrationTests,
                               :provisioningTests,
                               :onboardingTests,
                               :apiMegaTests,
@@ -624,13 +602,62 @@ task :apiAndSecurityTests => [
 end
 
 desc "Run all sandbox tests"
-task :sandboxTests => [:realmInit, :simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests, :bulkExtractSandboxTests] do
-  displayFailureReport()
+task :sandboxTests => :realmInit do
+
+  @tags = ['~@wip', '@sandbox']
+
+  Rake::Task['importSandboxData'].execute
+  runTests('test/features/simple_idp/SimpleIDP.feature')
+
+  Rake::Task['apiSandboxTests'].execute
+  Rake::Task['adminToolsTests'].execute
+
+  #Rake::Task['realmInit'].execute #TODO: This may need to be uncommented if the test below fails
+  Rake::Task['importSandboxBulkExtractData'].execute
+  runTests('test/features/bulk_extract/features/bulk_extract_sandbox.feature')
+
+  displayFailureReport
   if $SUCCESS
     puts "Completed All Tests"
   else
     raise "Tests have failed"
   end
+end
+
+############################################################
+# API Sandbox Tests start
+############################################################
+desc "Run Sandbox API tests"
+task :apiSandboxTests do
+
+  @tags = ["~@wip", "@sandbox", "~@rc"]
+
+  data = {
+      "educationOrganization" => "educationOrganization_fixture_zork.json",
+      "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture_zork.json",
+      "staff" => "staff_fixture_zork.json",
+      "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_zork.json"
+  }
+
+  # TODO: Fix this god-awful mess of this global DB_NAME constant
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net")
+  setMultipleFixtureFiles(data)
+
+  data = {
+    "educationOrganization" => "educationOrganization_fixture_chaos.json",
+    "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture_chaos.json",
+    "staff" => "staff_fixture_chaos.json",
+    "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_chaos.json"
+  }
+
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org")
+  setMultipleFixtureFiles(data)
+
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+
+  Rake::Task["runDbIndexingScript"].execute if TODROP
+
+  Rake::Task["securityTests"].invoke
 end
 
 ############################################################
@@ -648,7 +675,6 @@ task :apiV1Tests => [
                      :v1homeUriTests,
                      :v1ValidationTests,
                      :v1TeacherValidationTests,
-                     :v1WhiteListValidationTests,
                      :v1HierarchyTraversalTests,
                      :v1DirectReferencesTests,
                      :v1DirectReferenceCollectionsTests,
@@ -669,7 +695,7 @@ task :apiV1Tests => [
                      :apiVersionTests,
                      :apiV1GranularAccessTests,
                      :apiV1YearlyTranscriptTests] do
-  displayFailureReport()
+  displayFailureReport
 end
 
 task :apiV1EntitySecurityTests do
@@ -679,8 +705,8 @@ task :apiV1EntitySecurityTests do
 end
 
 desc "Run API Tests using Odin ingested data"
-task :apiOdinTests => [:apiOdinFederatedAppsTests, :apiOdinPrep, :apiOdinFederatedAppsTests, :apiOdinSuperAssessment, :apiOdinSecurityTests, :apiOdinMultipleParentTests, :apiOdinHybridEdOrgTests, :apiV1SearchLimitTests] do
-    displayFailureReport()
+task :apiOdinTests => [:apiOdinFederatedAppsTests, :apiOdinPrep, :apiOdinFederatedAppsTests, :apiOdinSuperAssessment, :apiOdinSecurityTests, :apiOdinMultipleParentTests, :apiV1SearchLimitTests] do
+  displayFailureReport
   if $SUCCESS
     puts "Completed All Tests"
   else
@@ -835,18 +861,14 @@ desc "Run Dashboard Tests"
 task :dashboardTests => [
         :dashboardPopWidgetTests,
         :dashboardK3ViewTests,
-        :dashboardHSViewTests,
         :dashboardUserBasedViewTests,
-        :dashboardIntegratedTests,
         :dashboardLoginTests,
         :dashboardStudentProfileTests,
         :dashboardAttendance,
-        :dashboardStudentHistoricalDataTests,
         :dashboardStudentContactInfoLiveTests,
-        :dashboardStudentGradebookEntryTests,
         :dashboardHTMLEscapeTests,
         :dashboardQunitTests] do
-  displayFailureReport()
+  displayFailureReport
   if $SUCCESS
     puts "Completed All Tests"
   else
@@ -931,7 +953,6 @@ task :ingestionTests => [
         :ingestionXXETest,
         :ingestionCompetencyLevelDescriptorTest,
         :ingestionDryRunTest,
-        :ingestionComplexObjectArrayIdRefTest,
         :ingestionHealthCheckTest,
         :ingestionSmallSampleDataSet,
         :ingestionMediumSampleDataSet,
@@ -1434,24 +1455,6 @@ task :importMigrationData do
   setMultipleFixtureFiles(testHash)
 end
 
-desc "Import Sandbox Test Data"
-task :importZorkSandboxData do
-  testHash = Hash[
-    "educationOrganization" => "educationOrganization_fixture_zork.json",
-    "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture_zork.json",
-    "staff" => "staff_fixture_zork.json",
-    "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_zork.json",
-
-   ]
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net")
-  setMultipleFixtureFiles(testHash)
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-
-  if TODROP
-    Rake::Task["runDbIndexingScript"].execute
-  end
-end
-
 desc "Import developer email Test Data"
 task :importDevAccountData do
   testHash = Hash[
@@ -1460,24 +1463,6 @@ task :importDevAccountData do
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer-email@slidev.org")
   setMultipleFixtureFiles(testHash)
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "slcdeveloper")
-  setMultipleFixtureFiles(testHash)
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-
-  if TODROP
-    Rake::Task["runDbIndexingScript"].execute
-  end
-end
-
-desc "Import Sandbox Test Data"
-task :importChaosSandboxData do
-  testHash = Hash[
-    "educationOrganization" => "educationOrganization_fixture_chaos.json",
-    "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture_chaos.json",
-    "staff" => "staff_fixture_chaos.json",
-    "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_chaos.json",
-
-   ]
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org")
   setMultipleFixtureFiles(testHash)
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 

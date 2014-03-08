@@ -4,22 +4,6 @@ Feature: Partial Ingestion
 Background: I have a landing zone route configured
 Given I am using local data store
 
-@wip
-Scenario: Post StudentAssessment without required parent records in database
-
-Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-  And I post "StudentAssessment_Partial_Unhappy.zip" file as the payload of the ingestion job
-  And the following collections are empty in datastore:
-     | collectionName                            |
-     | studentAssessment              |
-When zip file is scp to ingestion landing zone
-  And a batch job for file "StudentAssessment_Partial_Unhappy.zip" is completed in database
-  Then I should see following map of entry counts in the corresponding collections:
-     | collectionName                           |              count|
-     | studentAssessment             |                  0|
-    And I should see "Not all records were processed completely due to errors." in the resulting batch job file
-    And I should see "Processed 3 records." in the resulting batch job file
-
 Scenario: Post StudentAssessment records with required parent records previously ingested
 
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"

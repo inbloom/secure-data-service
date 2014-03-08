@@ -5,67 +5,6 @@ Feature:  RC Integration Tests
 Background:
 Given I have an open web browser
 
-@wip
-Scenario: Charter School Realm Admin Logins to create realm
-    When I navigate to the Portal home page
-    When I see the realm selector I authenticate to "inBloom"
-    And I was redirected to the "Simple" IDP Login page
-    When I submit the credentials "<CHARTER_EMAIL>" "<CHARTER_EMAIL_PASS>" for the "Simple" login page
-    Then I should be on Portal home page
-    Then I should see Admin link
-    And I click on Admin
-    Then I should be on the admin page
-    And under System Tools, I click on "Manage Realm"
-    And I switch to the iframe
-    And I should see that I am on the new realm page
-    And all of the input fields should be blank
-    And I should enter "Charter School Test Realm" into the Display Name field
-    And I enter "<CI_CHARTER_IDP_Redirect_URL>" in the IDP URL field
-    And I enter "<CI_CHARTER_IDP_Redirect_URL>" in the Redirect Endpoint field
-    And I should enter "RC-IL-Charter-School" into Realm Identifier
-    And I should click the "Save" button
-    And I switch to the iframe
-    And I should receive a notice that the realm was successfully "created"
-    Then I see the realms for "IL-CHARTER-SCHOOL (IL-CHARTER-SCHOOL)"
-    And the realm "Charter School Test Realm" will exist
-    And I exit out of the iframe
-    And I click on log out
-
-@wip
-Scenario: Charter School User cannot access Bootstrapped Apps before approval
-    When I navigate to the Portal home page
-    When I selected the realm "Charter School Test Realm"
-    And I was redirected to the "Simple" IDP Login page
-    When I submit the credentials "charteradmin" "charteradmin1234" for the "Simple" login page
-    Then I should be on Portal home page
-    Then I should not see "inBloom Dashboards"
-    And I click on Admin
-    And I should be on the admin page
-    And I should not see "inBloom Data Browser"
-    And I click on log out
-
-@wip
-Scenario:  Charter School LEA gives IT Admins bulk extract permissions
-    When I navigate to the Portal home page
-    When I see the realm selector I authenticate to "inBloom"
-    And I was redirected to the "Simple" IDP Login page
-    When I submit the credentials "<CHARTER_EMAIL>" "<CHARTER_EMAIL_PASS>" for the "Simple" login page
-    Then I should be on Portal home page
-    Then I should see Admin link
-    And I click on Admin
-    Then I should be on the admin page
-    And under System Tools, I click on "Create Custom Roles"
-    And I switch to the iframe
-    And I edit the group "IT Administrator"
-    When I add the right "BULK_EXTRACT" to the group "IT Administrator"
-    And I hit the save button
-    Then I am no longer in edit mode
-    And I switch to the iframe
-    And the group "IT Administrator" contains the "right" rights "Bulk IT Administrator"
-    And I exit out of the iframe
-    And I click on log out
-
-
 Scenario: Realm Admin Logins to create realm
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "inBloom"
@@ -187,32 +126,6 @@ Scenario: SEA admin makes an api call to PATCH the SEA
   And I get the id for the edorg "STANDARD-SEA"
   When I PATCH the name for the current edorg entity to Education Agency for RC Tests
   Then I should receive a return code of 204
-
-@wip
-Scenario: Charter School Sessions are shared between Dashboard and Databrowser apps
-When I navigate to the Portal home page
-When I select "Charter School Test Realm" and click go
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "charteradmin" "charteradmin1234" for the "Simple" login page
-Then I should be on Portal home page
-When I navigate to the dashboard page
-And I am redirected to the dashboard home page
-When I navigate to the databrowser page
-Then I do not see any login pages
-Then I am redirected to the databrowser home page
-And I click on log out
-And I should forced to reauthenticate to gain access
-When I navigate to the dashboard home page
-Then I should forced to reauthenticate to gain access
-
-@wip
-Scenario: Charter School User sees non-installed Developer App
-When I navigate to the Portal home page
-When I selected the realm "Charter School Test Realm"
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "chartereducator" "chartereducator1234" for the "Simple" login page
-Then I should be on Portal home page
-And under My Applications, I see the following apps: "inBloom Dashboards"
 
 Scenario: Sessions are shared between Dashboard and Databrowser apps
 When I navigate to the Portal home page
@@ -336,28 +249,6 @@ Scenario: App developer enables non Bulk Extract App
     And I exit out of the iframe
     And I click on log out
     And "NotABulkExtractApp" is enabled for "199" production education organizations
-
-@wip @ThisStepIsNotYetNeededSinceAutoApproveAppsIsStillTrueInRC
-Scenario: SLC Operator Approves Application Registration
-    When I navigate to the Portal home page
-    When I see the realm selector I authenticate to "inBloom"
-    And I was redirected to the "Simple" IDP Login page
-    When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
-    Then I should be on Portal home page
-    Then I should see Admin link
-    And I click on Admin
-    Then I should be on the admin page
-    And under System Tools, I click on "Approve Application Registration"
-    And I switch to the iframe
-    Then I am redirected to the Application Approval Tool page
-    #And I see all the applications registered on SLI
-    And I see all the applications pending registration
-    And the pending apps are on top
-    When I click on 'Approve' next to application "BulkExtractApp2"
-    Then application "BulkExtractApp" is registered
-    And the 'Approve' button is disabled for application "BulkExtractApp2"
-    And I exit out of the iframe
-    And I click on log out
 
 Scenario:  SEA approves freshly registered Applications
 When I navigate to the Portal home page
