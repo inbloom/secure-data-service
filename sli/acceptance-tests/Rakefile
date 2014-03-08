@@ -618,7 +618,11 @@ task :sandboxTests => :realmInit do
   runTests('test/features/bulk_extract/features/bulk_extract_sandbox.feature')
 
   displayFailureReport
-  $SUCCESS ? puts "Completed All Tests" : raise "Tests have failed"
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 ############################################################
@@ -672,7 +676,6 @@ task :apiV1Tests => [
                      :v1homeUriTests,
                      :v1ValidationTests,
                      :v1TeacherValidationTests,
-                     :v1WhiteListValidationTests,
                      :v1HierarchyTraversalTests,
                      :v1DirectReferencesTests,
                      :v1DirectReferenceCollectionsTests,
@@ -693,7 +696,7 @@ task :apiV1Tests => [
                      :apiVersionTests,
                      :apiV1GranularAccessTests,
                      :apiV1YearlyTranscriptTests] do
-  displayFailureReport()
+  displayFailureReport
 end
 
 task :apiV1EntitySecurityTests do
@@ -703,8 +706,8 @@ task :apiV1EntitySecurityTests do
 end
 
 desc "Run API Tests using Odin ingested data"
-task :apiOdinTests => [:apiOdinFederatedAppsTests, :apiOdinPrep, :apiOdinFederatedAppsTests, :apiOdinSuperAssessment, :apiOdinSecurityTests, :apiOdinMultipleParentTests, :apiOdinHybridEdOrgTests, :apiV1SearchLimitTests] do
-    displayFailureReport()
+task :apiOdinTests => [:apiOdinFederatedAppsTests, :apiOdinPrep, :apiOdinFederatedAppsTests, :apiOdinSuperAssessment, :apiOdinSecurityTests, :apiOdinMultipleParentTests, :apiV1SearchLimitTests] do
+  displayFailureReport
   if $SUCCESS
     puts "Completed All Tests"
   else

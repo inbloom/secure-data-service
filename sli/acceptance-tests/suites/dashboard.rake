@@ -52,11 +52,6 @@ task :HighestEverResultTests do
     runTests("test/features/dashboard/dash/Highest_AssessmentScore.feature")
 end
 
-desc "Run Dashboard performance level acceptance tests"
-task :PerformanceLevels do
-    runTests("test/features/dashboard/assessments/PerformanceLevels_MostRecentWindow.feature")
-end
-
 desc "Run dashboard attendance related tests"
 task :dashboardAttendance do
   runTests("test/features/dashboard/dash/attendance.feature")

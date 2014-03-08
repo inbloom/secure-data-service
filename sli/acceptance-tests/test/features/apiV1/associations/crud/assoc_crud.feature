@@ -56,23 +56,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | studentSectionAssociation              | studentSectionAssociations               | homeroomIndicator        | true                   | false                  | cgrayadmin | cgray1234   |
 
 
-    #Don't think this is valid
-    @wip
-    Scenario Outline: Confirm inaccessible entities created by teacher admin because of context
-      Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
-      # Create
-      And a valid association json document for <ASSOC TYPE>
-      When I navigate to POST "/<ASSOC URI>"
-      Then I should receive a return code of 201
-      And I should receive a new ID for the association I just created
-      # Read
-      When I navigate to GET "/<ASSOC URI>/<NEWLY CREATED ASSOC ID>"
-      Then I should receive a return code of 403
-
-    Examples:
-      | ASSOC TYPE     | ASSOC URI       |
-      | courseOffering | courseOfferings |
-
     Scenario Outline: CRUD round trip for an association entity can't update natural key
       Given I am logged in using "<USER>" "<PASSWORD>" to realm "IL"
       # Create

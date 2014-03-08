@@ -505,16 +505,6 @@ Around('@LDAP_Reset_developer-email') do |scenario, block|
   end
 end
 
-Around('@LDAP_Reset_sunsetadmin') do |scenario, block|
-  block.call
-  if scenario.failed?
-    ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
-                          Property['ldap_base'], Property['ldap_admin_user'],
-                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
-    ldap.update_user_info({:email=> "sunsetadmin", :password=>"sunsetadmin1234", :emailtoken => "sunsetadminderpityderp1304425892"})
-  end
-end
-
 And /I wait for user input/ do
       print "Waiting for user input. Press Enter to continue."
       STDIN.getc
