@@ -16,21 +16,10 @@ task :dashboardK3ViewTests do
   runTests("test/features/dashboard/dash/k3view.feature")
 end
 
-desc "Run Dashboard High School view Tests"
-task :dashboardHSViewTests do
-  runTests("test/features/dashboard/dash/high_school_view.feature")
-end
-
 desc "Run Dashboard user based view selection tests"
 task :dashboardUserBasedViewTests do
   runTests("test/features/dashboard/dash/user_based_views.feature")
 end
-
-desc "Run Dashboard integration acceptance tests"
-task :dashboardIntegratedTests do
-    runTests("test/features/dashboard/dash/dashboard_api_integration.feature")
-end
-
 
 desc "Run Dashboard login acceptance tests"
 task :dashboardLoginTests do
@@ -60,11 +49,6 @@ end
 desc "Run dashboard student profile tests"
 task :dashboardStudentProfileTests do
   runTests("test/features/dashboard/dash/student_profile.feature")
-end
-
-desc "Run dashboard student historical data tests"
-task :dashboardStudentHistoricalDataTests do
-  runTests("test/features/dashboard/students/HistoricalData.feature")
 end
 
 desc "Run dashboard student contact info live tests"
@@ -174,11 +158,6 @@ end
 desc "Run dashboard integrated Tests - Upload Config"
 task :dashboardSdsUploadConfigTests do
   runTests("test/features/dashboard/dash/upload_config_sds.feature")
-end
-
-desc "Run dashboard student gradebook entry tests"
-task :dashboardStudentGradebookEntryTests do
-  runTests("test/features/dashboard/students/StudentGradebookEntry.feature")
 end
 
 desc "Run dashboard builder tests"

@@ -588,7 +588,6 @@ task :apiAndSecurityTests => [
                               :apiSuperDocTests,
                               :securityTests,
                               :userAdminCrudTests,
-                              :migrationTests,
                               :provisioningTests,
                               :onboardingTests,
                               :apiMegaTests,
@@ -862,18 +861,14 @@ desc "Run Dashboard Tests"
 task :dashboardTests => [
         :dashboardPopWidgetTests,
         :dashboardK3ViewTests,
-        :dashboardHSViewTests,
         :dashboardUserBasedViewTests,
-        :dashboardIntegratedTests,
         :dashboardLoginTests,
         :dashboardStudentProfileTests,
         :dashboardAttendance,
-        :dashboardStudentHistoricalDataTests,
         :dashboardStudentContactInfoLiveTests,
-        :dashboardStudentGradebookEntryTests,
         :dashboardHTMLEscapeTests,
         :dashboardQunitTests] do
-  displayFailureReport()
+  displayFailureReport
   if $SUCCESS
     puts "Completed All Tests"
   else
@@ -958,7 +953,6 @@ task :ingestionTests => [
         :ingestionXXETest,
         :ingestionCompetencyLevelDescriptorTest,
         :ingestionDryRunTest,
-        :ingestionComplexObjectArrayIdRefTest,
         :ingestionHealthCheckTest,
         :ingestionSmallSampleDataSet,
         :ingestionMediumSampleDataSet,

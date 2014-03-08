@@ -45,12 +45,6 @@ task :sifLEAInfoTest => [:realmInit] do
   runTests("test/features/sif/features/sif_LEAInfo.feature")
 end
 
-desc "Run SIF SEAInfo Tests"
-task :sifSEAInfoTest => [:realmInit] do
-  Rake::Task["importSifBootstrapData"].execute
-  runTests("test/features/sif/features/sif_SEAInfo.feature")
-end
-
 desc "Run SIF StudentSchoolEnrollment Tests"
 task :sifStudentSchoolEnrollmentTest => [:realmInit] do
   Rake::Task["importSifBootstrapData"].execute
