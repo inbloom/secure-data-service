@@ -548,27 +548,6 @@ task :loadDefaultIngestionTenants do
   end
 end
 
-# Run a whole series of acceptance and integration tests
-desc "Run API, Ingestion, Dashboard, SDK, and SimpleIDP acceptance tests"
-task :fullSuite => [
-  :production,
-  :dashboardTests,
-  :ingestionTests,
-  :integrationTests,
-  :JavaSDKTests,
-  :sandboxTests,
-  :adminSandboxTests,
-  :apiSeleniumTests,
-  :apiCountOnlyTests] do
-
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"

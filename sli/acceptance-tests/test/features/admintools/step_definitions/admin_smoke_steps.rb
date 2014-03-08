@@ -65,26 +65,27 @@ end
 Given /^I am a valid (.*)$/ do |user_type|
   @user, @pass = valid_user user_type
   @federated = !!(user_type =~ /federated/)
+  @sandbox = !!(user_type =~ /sandbox/)
 end
 
 def valid_user(user_type)
   valid_users = {
-      'inBloom developer'            => 'slcdeveloper',
-      'inBloom operator'             => 'slcoperator',
-      'tenant-level administrator'   => 'iladmin',
-      'district-level administrator' => 'sunsetadmin',
-      'realm administrator'          => 'sunsetrealmadmin',
-      'federated district-level administrator' => 'jstevenson',
-      'SLC Operator'                 => 'slcoperator-email@slidev.org',
-      'Super Administrator'          => 'daybreaknorealmadmin',
-      'non-SLI hosted user with no roles' => 'administrator',
-      'SLI hosted user with no roles' => 'leader',
-      'tenant-level realm administrator' => 'daybreakadmin',
-      'tenant-level IT administrator' => 'rrogers'
+      'inBloom developer'            => %w( slcdeveloper ),
+      'inBloom operator'             => %w( slcoperator ),
+      'tenant-level administrator'   => %w( iladmin ),
+      'district-level administrator' => %w( sunsetadmin ),
+      'realm administrator'          => %w( sunsetrealmadmin ),
+      'federated district-level administrator' => %w( jstevenson ),
+      'SLC Operator'                           => %w( slcoperator-email@slidev.org slcoperator-email1234),
+      'Super Administrator'                    => %w( daybreaknorealmadmin ),
+      'non-SLI hosted user with no roles' => %w( administrator ),
+      'SLI hosted user with no roles' => %w( leader ),
+      'tenant-level realm administrator' => %w( daybreakadmin ),
+      'tenant-level IT administrator' => %w( rrogers ),
+      'sandbox developer'             => %w( developer-email@slidev.org test1234 )
   }
-  username = valid_users[user_type]
-  username.should_not be_nil
-  [username, "#{username.split('@').first}1234"] # if username is an e-mail, drop the '@slidev.org' before adding 1234
+  username, password = valid_users[user_type]
+  [username, password || "#{username}1234"]
 end
 
 Given /^I am an unknown user$/ do
@@ -385,7 +386,7 @@ def login_to_the_tenants_realm
 end
 
 def login_to_realm(realm)
-  choose_realm realm
+  choose_realm realm unless @sandbox
   submit_idp_credentials @user, @pass
 end
 
