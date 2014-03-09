@@ -152,25 +152,25 @@ end
 
 desc "Run V1 Validation Tests"
 task :v1ValidationTests => [:realmInit] do
-  setFixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
-  setFixture("staff", "Midgar_data/staff_fixture.json")
-  setFixture("staffEducationOrganizationAssociation", "Midgar_data/staffEducationOrganizationAssociation_fixture.json")
-  setFixture("student", "Midgar_data/student_fixture.json")
-  setFixture("section", "Midgar_data/section_fixture.json")
-  setFixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
-  setFixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
+  set_fixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
+  set_fixture("staff", "Midgar_data/staff_fixture.json")
+  set_fixture("staffEducationOrganizationAssociation", "Midgar_data/staffEducationOrganizationAssociation_fixture.json")
+  set_fixture("student", "Midgar_data/student_fixture.json")
+  set_fixture("section", "Midgar_data/section_fixture.json")
+  set_fixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
+  set_fixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
   runTests("test/features/apiV1/validation/validation.feature")
 end
 
 desc "Run V1 Teacher Validation Tests"
 task :v1TeacherValidationTests => [:realmInit] do
-  setFixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
-  setFixture("staff", "Midgar_data/staff_fixture.json")
-  setFixture("staffEducationOrganizationAssociation", "Midgar_data/staffEducationOrganizationAssociation_fixture.json")
-  setFixture("student", "Midgar_data/student_fixture.json")
-  setFixture("section", "Midgar_data/section_fixture.json")
-  setFixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
-  setFixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
+  set_fixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
+  set_fixture("staff", "Midgar_data/staff_fixture.json")
+  set_fixture("staffEducationOrganizationAssociation", "Midgar_data/staffEducationOrganizationAssociation_fixture.json")
+  set_fixture("student", "Midgar_data/student_fixture.json")
+  set_fixture("section", "Midgar_data/section_fixture.json")
+  set_fixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
+  set_fixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
   runTests("test/features/apiV1/validation/teacher_validation.feature")
 end
 
@@ -236,14 +236,14 @@ end
 desc "Run V1 SecurityEvent Tests"
 task :v1SecurityEventTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  setFixture("securityEvent", "securityEvent_fixture.json")
+  set_fixture("securityEvent", "securityEvent_fixture.json")
   runTests("test/features/apiV1/securityEvent/securityEvent.feature")
 end
 
 desc "Run V1 Comma-Separated List Order Tests"
 task :v1CommaSeparatedListOrderTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  setFixture("student", "Midgar_data/student_fixture.json")
+  set_fixture("student", "Midgar_data/student_fixture.json")
   runTests("test/features/apiV1/comma_separated_list/comma_separated_list_ordering.feature")
 end
 
@@ -386,10 +386,10 @@ task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinConte
   runTests("test/features/apiV1/contextual_roles/student_patch.feature")
   runTests("test/features/apiV1/contextual_roles/student_post.feature")
   runTests("test/features/apiV1/contextual_roles/student_put.feature")
-  setFixture("calendarDate", "Midgar_data/calendarDate_fixture.json")
-  setFixture("staff", "staff_fixture.json")
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("staffEducationOrganizationAssociation",  "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
+  set_fixture("calendarDate", "Midgar_data/calendarDate_fixture.json")
+  set_fixture("staff", "staff_fixture.json")
+  set_fixture("educationOrganization", "educationOrganization_fixture.json")
+  set_fixture("staffEducationOrganizationAssociation",  "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
   runTests("test/features/apiV1/contextual_roles/classPeriod_bellSchedule_crud.feature")
   if $SUCCESS
     puts "Completed All Tests"

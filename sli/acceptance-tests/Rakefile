@@ -24,8 +24,6 @@ MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
 EXPAND = ENV['CUKE_EXPAND'] ? "--expand" : ""
 
-COLOR = ENV['FORCE_COLOR'] ? "-c" : ""
-
 OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
 CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
@@ -107,7 +105,7 @@ def system_collection?(collection)
   %w(tenant realm securityEvent application roles tenantJobLock userSession userAccount).include? collection
 end
 
-def setFixture(collection, fixture_name=nil, fixture_path='test/data', drop=true)
+def set_fixture(collection, fixture_name=nil, fixture_path='test/data', drop=true)
   disable_NOTABLESCAN
   db_used = system_collection?(collection) ? SYSTEM_DB_NAME : DB_NAME
   fixture_name ||= "#{collection}_fixture.json"
@@ -125,15 +123,9 @@ def setFixture(collection, fixture_name=nil, fixture_path='test/data', drop=true
   end
 end
 
-def addMultipleFixtureFiles(myHash, fixtureFilePath="test/data")
-  myHash.each do |key, value|
-    setFixture(key,value,fixtureFilePath,false)
-  end
-end
-
-def setMultipleFixtureFiles(collections, fixture_path='test/data')
+def set_fixtures(collections, fixture_path='test/data')
   collections.each do |key, value|
-    setFixture(key,value,fixture_path)
+    set_fixture(key,value,fixture_path)
   end
 end
 
@@ -141,12 +133,8 @@ def display_failure_report
   red, green, reset = '\e[31m', '\e[32m', '\e[0m'
 
   $failures.each do |key, value|
-    if ENV['FORCE_COLOR']
-      puts "#{red}#{key} tests #{value}#{reset}" if value == 'Failed'
-      puts "#{green}#{key} tests #{value}#{reset}" if value == 'Passed'
-    else
-      puts "#{key} tests #{value}"
-    end
+    color = (value == 'Passed' ? green : red)
+    puts "#{color}#{key} tests #{value}#{reset}"
   end
 
   if $SUCCESS
@@ -325,46 +313,46 @@ task :realmInit => :appInit do
 
   #Preserve the bootstrap realm
   cleanseRealms
-  setFixture('realm', nil, 'test/data', false)
+  set_fixture('realm', nil, 'test/data', false)
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'anotherfakerealm')
-  setFixture 'customRole', 'customRole_anotherfakerealm_fixture.json'
+  set_fixture 'customRole', 'customRole_anotherfakerealm_fixture.json'
   swap_realm_ids
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'chaos_mokey_org')
-  setFixture 'customRole', 'customRole_chaos_mokey_org_fixture.json'
+  set_fixture 'customRole', 'customRole_chaos_mokey_org_fixture.json'
   swap_realm_ids
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'developer-email@slidev.org')
-  setFixture 'customRole', 'customRole_developer-email@slidev.org_fixture.json'
+  set_fixture 'customRole', 'customRole_developer-email@slidev.org_fixture.json'
   swap_realm_ids
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'fakedev_zork_net')
-  setFixture 'customRole', 'customRole_fakedev_zork_net_fixture.json'
+  set_fixture 'customRole', 'customRole_fakedev_zork_net_fixture.json'
   swap_realm_ids
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'sandboxadministrator@slidev.org')
-  setFixture 'customRole', 'customRole_sandboxadministrator@slidev.org_fixture.json'
+  set_fixture 'customRole', 'customRole_sandboxadministrator@slidev.org_fixture.json'
   swap_realm_ids
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'anothersandboxdeveloper@slidev.org')
-  setFixture 'customRole'
+  set_fixture 'customRole'
   swap_realm_ids
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Security')
-  setFixture 'customRole', 'customRole_Security_fixture.json'
+  set_fixture 'customRole', 'customRole_Security_fixture.json'
   swap_realm_ids
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Zork')
-  setFixture 'customRole', 'customRole_Zork_fixture.json'
+  set_fixture 'customRole', 'customRole_Zork_fixture.json'
   swap_realm_ids
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Hyrule')
-  setFixture 'customRole', 'customRole_Hyrule_fixture.json'
+  set_fixture 'customRole', 'customRole_Hyrule_fixture.json'
   swap_realm_ids
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Midgar')
-  setFixture 'customRole', 'customRole_Midgar_fixture.json'
+  set_fixture 'customRole', 'customRole_Midgar_fixture.json'
   swap_realm_ids
 
   enable_NOTABLESCAN
@@ -394,26 +382,26 @@ task :appInit do
 
   #Preserve the bootstrap apps
   cleanseApps
-  setFixture 'application', 'application_fixture.json', 'test/data', false
+  set_fixture 'application', 'application_fixture.json', 'test/data', false
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Midgar')
   cleanseCollectionWithTenantID('applicationAuthorization', 'Midgar')
-  setFixture 'applicationAuthorization'
+  set_fixture 'applicationAuthorization'
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Hyrule')
-  setFixture 'applicationAuthorization', 'applicationAuthorization_Hyrule_fixture.json'
+  set_fixture 'applicationAuthorization', 'applicationAuthorization_Hyrule_fixture.json'
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'fakedev_zork_net')
-  setFixture 'applicationAuthorization', 'applicationAuthorization_fakedev_fixture.json'
+  set_fixture 'applicationAuthorization', 'applicationAuthorization_fakedev_fixture.json'
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'chaos_mokey_org')
-  setFixture 'applicationAuthorization', 'applicationAuthorization_chaos_fixture.json'
+  set_fixture 'applicationAuthorization', 'applicationAuthorization_chaos_fixture.json'
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Security')
-  setFixture 'applicationAuthorization', 'applicationAuthorization_secured_fixture.json'
+  set_fixture 'applicationAuthorization', 'applicationAuthorization_secured_fixture.json'
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Midgar')
-  setFixture 'userSession', 'oauth_authentication_tokens.json'
+  set_fixture 'userSession', 'oauth_authentication_tokens.json'
 
   swap_app_ids convertTenantIdToDbName('Midgar')
   swap_app_ids convertTenantIdToDbName('Hyrule')
@@ -431,7 +419,7 @@ end
 
 task :loadDefaultIngestionTenants do
   #jshort - must fix with some profile swap
-  #setFixture("tenant", "defaultIngestionTenant_fixture.json", "test/data")
+  #set_fixture("tenant", "defaultIngestionTenant_fixture.json", "test/data")
 
   # chung - the code below is a ruby port of tenant bootstrapping by ingestion.
   # It generates time-based shard type 1 uuids and replaces dbName with SHA1 digest.
@@ -573,26 +561,26 @@ task :apiSandboxTests do
 
   @tags = ["~@wip", "@sandbox", "~@rc"]
 
-  data = {
-      "educationOrganization" => "educationOrganization_fixture_zork.json",
-      "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture_zork.json",
-      "staff" => "staff_fixture_zork.json",
-      "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_zork.json"
-  }
+  data = [
+    %w( educationOrganization educationOrganization_fixture_zork.json ),
+    %w( staffEducationOrganizationAssociation staffEducationOrganizationAssociation_fixture_zork.json ),
+    %w( staff staff_fixture_zork.json ),
+    %w( teacherSchoolAssociation teacherSchoolAssociation_fixture_zork.json )
+  ]
 
   # TODO: Fix this god-awful mess of this global DB_NAME constant
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net")
-  setMultipleFixtureFiles(data)
+  set_fixtures(data)
 
-  data = {
-    "educationOrganization" => "educationOrganization_fixture_chaos.json",
-    "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture_chaos.json",
-    "staff" => "staff_fixture_chaos.json",
-    "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_chaos.json"
-  }
+  data = [
+    %w( educationOrganization educationOrganization_fixture_chaos.json ),
+    %w( staffEducationOrganizationAssociation staffEducationOrganizationAssociation_fixture_chaos.json ),
+    %w( staff staff_fixture_chaos.json ),
+    %w( teacherSchoolAssociation teacherSchoolAssociation_fixture_chaos.json )
+  ]
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org")
-  setMultipleFixtureFiles(data)
+  set_fixtures(data)
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 
@@ -1055,11 +1043,7 @@ task :exportStoriedData do
       sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/sds_#{collection}.json"
     end
   else
-    if ENV['FORCE_COLOR']
-      puts "\e[31m Ingestion Failed! Fixture Data Not Updated! Please fix and re-run \e[0m"
-    else
-      puts "Ingestion Failed! Fixture Data Not Updated! Please fix and re-run"
-    end
+    puts '\e[31m Ingestion Failed! Fixture Data Not Updated! Please fix and re-run \e[0m'
   end
 
 end
@@ -1067,18 +1051,16 @@ end
 desc "Import Storied Data Set"
 task :importStoriedData do
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
-  hyruleHash = Hash[]
-  $collectionSet.each do |collection|
-    hyruleHash["#{collection}"] = "storied_data/Hyrule/sds_#{collection}.json"
+  hyruleData = $collectionSet.map do |collection|
+    [collection, "storied_data/Hyrule/sds_#{collection}.json"]
   end
-  setMultipleFixtureFiles(hyruleHash)
+  set_fixtures(hyruleData)
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-  testHash = Hash[]
-  $collectionSet.each do |collection|
-    testHash["#{collection}"] = "storied_data/sds_#{collection}.json"
+  midgarData = $collectionSet.map do |collection|
+    [collection, "storied_data/sds_#{collection}.json"]
   end
-  setMultipleFixtureFiles(testHash)
+  set_fixtures(midgarData)
 end
 
 desc "Import Secured Data Set"
@@ -1089,133 +1071,133 @@ task :importSecuredData do
     rescue
     end
   end
-  testHash = Hash[
-    "assessment" => "secured/assessment.json",
-    "attendance" => "secured/attendance.json",
-    "cohort" => "secured/cohort.json",
-    "course" => "secured/course.json",
-    "courseTranscript" => "secured/courseTranscript.json",
-    "educationOrganization" => "secured/educationOrganization.json",
-    "program" => "secured/program.json",
-    "section" => "secured/section.json",
-    "session" => "secured/session.json",
-    "staff" => "secured/staff.json",
-    "staffCohortAssociation" => "secured/staffCohortAssociation.json",
-    "staffEducationOrganizationAssociation" => "secured/staffEducationOrganizationAssociation.json",
-    "staffProgramAssociation" => "secured/staffProgramAssociation.json",
-    "student" => "secured/student.json",
-    "studentAssessment" => "secured/studentAssessment.json",
-    "studentCompetency" => "secured/studentCompetency.json",
-    "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
-    "studentGradebookEntry" => "secured/studentGradebookEntry.json",
-    "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
-    "parent" => "secured/parent.json",
-    "yearlyTranscript" => "secured/yearlyTranscript.json"
-  ]
+  secured_data = %w(
+    assessment
+    attendance
+    cohort
+    course
+    courseTranscript
+    educationOrganization
+    program
+    section
+    session
+    staff
+    staffCohortAssociation
+    staffEducationOrganizationAssociation
+    staffProgramAssociation
+    student
+    studentAssessment
+    studentCompetency
+    studentSchoolAssociation
+    studentGradebookEntry
+    teacherSchoolAssociation
+    parent
+    yearlyTranscript
+  ).map {|c| [c,"#{c}.json"]}
 
-   tenant = {
-    "type" => "tenant",
-    "body" => {
-      "tenantId" => "Security",
-      "dbName" => convertTenantIdToDbName("Security")
-      },
-    "metaData" => {
-        "tenantId" => "Security"
-      }
+  tenant = {
+    'type' => 'tenant',
+    'body' => {
+      'tenantId' => 'Security',
+      'dbName' => convertTenantIdToDbName('Security')
+    },
+    'metaData' => {
+      'tenantId' => 'Security'
+    }
   }
 
   db = Mongo::Connection.new(DB_HOST)['sli']
   db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Security"}).nil?
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
-  setMultipleFixtureFiles(testHash)
+  set_fixtures(secured_data, 'test/data/secured')
 
-  testHash = Hash[
-    "educationOrganization" => "secured/Other/educationOrganization.json",
-    "student" => "secured/Other/student.json",
-    "studentSchoolAssociation" => "secured/Other/studentSchoolAssociation.json"
-  ]
+  other_secured_data = %w(
+    educationOrganization
+    student
+    studentSchoolAssociation
+  ).map {|c| [c, "#{c}.json"]}
 
-     tenant = {
-    "type" => "tenant",
-    "body" => {
-      "tenantId" => "Other",
-      "dbName" => convertTenantIdToDbName("Other")
-      },
-    "metaData" => {
-        "tenantId" => "Other"
-      }
+  tenant = {
+    'type' => 'tenant',
+    'body' => {
+      'tenantId' => 'Other',
+      'dbName' => convertTenantIdToDbName('Other')
+    },
+    'metaData' => {
+      'tenantId' => 'Other'
+    }
   }
 
   db = Mongo::Connection.new(DB_HOST)['sli']
   db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Other"}).nil?
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Other")
-  setMultipleFixtureFiles(testHash)
+  set_fixtures(other_secured_data, 'test/data/secured/Other')
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 end
 
-desc "Import Sandbox Test Data to Midgar"
+desc 'Import Sandbox Test Data to Midgar'
 task :importSandboxMidgarData do
-  testHash = Hash[
-    "session" => "Midgar_data/session_fixture.json",
-    "program" => "Midgar_data/program_fixture.json",
-    "section" => "Midgar_data/section_fixture.json",
-    "calendarDate" => "Midgar_data/calendarDate_fixture.json",
-    "course" => "Midgar_data/course_fixture.json",
-    "student" => "Midgar_data/student_fixture.json",
-    "parent" => "Midgar_data/parent_fixture.json",
-    "staff" => "Midgar_data/staff_fixture.json",
-    "assessment" => "Midgar_data/assessment_fixture.json",
-    "assessmentFamily" => "Midgar_data/assessmentFamily_fixture.json",
-    "assessmentPeriodDescriptor" => "Midgar_data/assessmentPeriodDescriptor_fixture.json",
-    "studentAssessment" => "Midgar_data/studentAssessment_fixture.json",
-    "attendance" => "Midgar_data/attendance_fixture.json",
-    "studentSchoolAssociation" => "Midgar_data/studentSchoolAssociation_fixture.json",
-    "teacherSchoolAssociation" => "Midgar_data/teacherSchoolAssociation_fixture.json",
-    "educationOrganization" => "Midgar_data/educationOrganization_fixture.json",
-    "staffEducationOrganizationAssociation" => "Midgar_data/staffEducationOrganizationAssociation_fixture.json",
-    "schoolSessionAssociation" => "Midgar_data/schoolSessionAssociation_fixture.json",
-    "courseOffering" => "Midgar_data/sessionCourseAssociation_fixture.json",
-    "courseTranscript" => "Midgar_data/courseTranscript_fixture.json",
-    "studentGradebookEntry" => "Midgar_data/studentGradebookEntry_fixture.json",
-    "disciplineIncident" => "Midgar_data/disciplineIncident_fixture.json",
-    "disciplineAction" => "Midgar_data/disciplineAction_fixture.json",
-    "cohort" => "Midgar_data/cohort_fixture.json",
-    "staffCohortAssociation" => "Midgar_data/staffCohortAssociation_fixture.json",
-    "staffProgramAssociation" => "Midgar_data/staffProgramAssociation_fixture.json",
-    "learningStandard" => "Midgar_data/learningStandard_fixture.json",
-    "learningObjective" => "Midgar_data/learningObjective_fixture.json",
-    "studentCompetency" => "Midgar_data/studentCompetency_fixture.json",
-    "gradingPeriod" => "Midgar_data/gradingPeriod_fixture.json",
-    "graduationPlan" => "Midgar_data/graduationPlan_fixture.json",
-    "studentCompetencyObjective" => "Midgar_data/studentCompetencyObjective_fixture.json",
-    "competencyLevelDescriptor" => "Midgar_data/competencyLevelDescriptor_fixture.json",
-    "yearlyTranscript" => "Midgar_data/yearlyTranscript_fixture.json",
-    "classPeriod" => "Midgar_data/classPeriod_fixture.json"
-  ]
-  setMultipleFixtureFiles(testHash)
+  midgar_data = %w(
+    session
+    program
+    section
+    calendarDate
+    course
+    student
+    parent
+    staff
+    assessment
+    assessmentFamily
+    assessmentPeriodDescriptor
+    studentAssessment
+    attendance
+    studentSchoolAssociation
+    teacherSchoolAssociation
+    educationOrganization
+    staffEducationOrganizationAssociation
+    schoolSessionAssociation
+    courseOffering
+    courseTranscript
+    studentGradebookEntry
+    disciplineIncident
+    disciplineAction
+    cohort
+    staffCohortAssociation
+    staffProgramAssociation
+    learningStandard
+    learningObjective
+    studentCompetency
+    gradingPeriod
+    graduationPlan
+    studentCompetencyObjective
+    competencyLevelDescriptor
+    yearlyTranscript
+    classPeriod
+  )
+  set_fixtures(midgar_data, 'test/data/Midgar_data')
 end
 
 
 desc "Import Sandbox Test Data to Hyrule"
 task :importSandboxHyruleData do
-  testHash = Hash[
-    "session" => "Hyrule_data/session_fixture.json",
-    "section" => "Hyrule_data/section_fixture.json",
-    "course" => "Hyrule_data/course_fixture.json",
-    "student" => "Hyrule_data/student_fixture.json",
-    "staff" => "Hyrule_data/staff_fixture.json",
-    "assessment" => "Hyrule_data/assessment_fixture.json",
-    "assessmentFamily" => "Hyrule_data/assessmentFamily_fixture.json",
-    "assessmentPeriodDescriptor" => "Hyrule_data/assessmentPeriodDescriptor_fixture.json",
-    "studentSchoolAssociation" => "Hyrule_data/studentSchoolAssociation_fixture.json",
-    "teacherSchoolAssociation" => "Hyrule_data/teacherSchoolAssociation_fixture.json",
-    "educationOrganization" => "Hyrule_data/educationOrganization_fixture.json",
-    "staffEducationOrganizationAssociation" => "Hyrule_data/staffEducationOrganizationAssociation_fixture.json",
-    "gradingPeriod" => "Hyrule_data/gradingPeriod_fixture.json",
-    "yearlyTranscript" => "Hyrule_data/yearlyTranscript_fixture.json"
-  ]
-  setMultipleFixtureFiles(testHash)
+  hyrule_data = %w(
+    session
+    section
+    course
+    student
+    staff
+    assessment
+    assessmentFamily
+    assessmentPeriodDescriptor
+    studentSchoolAssociation
+    teacherSchoolAssociation
+    educationOrganization
+    staffEducationOrganizationAssociation
+    gradingPeriod
+    yearlyTranscript
+  )
+  set_fixtures(hyrule_data, 'test/data/Hyrule_data')
 end
 
 desc "Import Sandbox Test Data"
@@ -1234,110 +1216,104 @@ end
 desc "Import Migration Test Data to Midgar"
 task :importMigrationData do
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-  testHash = Hash[
-    "session" => "migration_data/session_fixture.json",
-    "program" => "migration_data/program_fixture.json",
-    "section" => "migration_data/section_fixture.json",
-    "course" => "migration_data/course_fixture.json",
-    "student" => "migration_data/student_fixture.json",
-    "parent" => "migration_data/parent_fixture.json",
-    "staff" => "migration_data/staff_fixture.json",
-    "assessment" => "migration_data/assessment_fixture.json",
-    "attendance" => "migration_data/attendance_fixture.json",
-    "studentSchoolAssociation" => "migration_data/studentSchoolAssociation_fixture.json",
-    "teacherSchoolAssociation" => "migration_data/teacherSchoolAssociation_fixture.json",
-    "educationOrganization" => "migration_data/educationOrganization_fixture.json",
-    "staffEducationOrganizationAssociation" => "migration_data/staffEducationOrganizationAssociation_fixture.json",
-    "schoolSessionAssociation" => "migration_data/schoolSessionAssociation_fixture.json",
-    "courseOffering" => "migration_data/courseOffering_fixture.json",
-    "courseTranscript" => "migration_data/courseTranscript_fixture.json",
-    "studentGradebookEntry" => "migration_data/studentGradebookEntry_fixture.json",
-    "disciplineIncident" => "migration_data/disciplineIncident_fixture.json",
-    # "studentDisciplineIncidentAssociation" => "migration_data/studentDisciplineIncidentAssociation_fixture.json",
-    "disciplineAction" => "migration_data/disciplineAction_fixture.json",
-    "cohort" => "migration_data/cohort_fixture.json",
-    "staffCohortAssociation" => "migration_data/staffCohortAssociation_fixture.json",
-    "staffProgramAssociation" => "migration_data/staffProgramAssociation_fixture.json",
-    "learningStandard" => "migration_data/learningStandard_fixture.json",
-    "learningObjective" => "migration_data/learningObjective_fixture.json",
-    "studentCompetency" => "migration_data/studentCompetency_fixture.json",
-    "gradingPeriod" => "migration_data/gradingPeriod_fixture.json",
-    "graduationPlan" => "migration_data/graduationPlan_fixture.json",
-    "studentCompetencyObjective" => "migration_data/studentCompetencyObjective_fixture.json",
-    "competencyLevelDescriptor" => "migration_data/competencyLevelDescriptor_fixture.json",
-    "yearlyTranscript" => "migration_data/yearlyTranscript_fixture.json"
-  ]
-  setMultipleFixtureFiles(testHash)
+  migration_data = %w( 
+    session
+    program
+    section
+    course
+    student
+    parent
+    staff
+    assessment
+    attendance
+    studentSchoolAssociation
+    teacherSchoolAssociation
+    educationOrganization
+    staffEducationOrganizationAssociation
+    schoolSessionAssociation
+    courseOffering
+    courseTranscript
+    studentGradebookEntry
+    disciplineIncident
+    disciplineAction
+    cohort
+    staffCohortAssociation
+    staffProgramAssociation
+    learningStandard
+    learningObjective
+    studentCompetency
+    gradingPeriod
+    graduationPlan
+    studentCompetencyObjective
+    competencyLevelDescriptor
+    yearlyTranscript
+  ) 
+  set_fixtures(migration_data, 'test/data/migration_data')
 end
 
 desc "Import developer email Test Data"
 task :importDevAccountData do
-  testHash = Hash[
-    "educationOrganization" => "developer-email_data/educationOrganization_fixture.json",
-   ]
+  dev_account_data = [
+    %w( educationOrganization developer-email_data/educationOrganization_fixture.json )
+  ]
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer-email@slidev.org")
-  setMultipleFixtureFiles(testHash)
+  set_fixtures(dev_account_data)
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "slcdeveloper")
-  setMultipleFixtureFiles(testHash)
+  set_fixtures(dev_account_data)
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 end
 
 desc "Import Sandbox Test Data"
 task :importPurgeData do
-  tenantTestHash = Hash[
-    "educationOrganization" => "PurgeFixtureData/educationOrganization_fixture.json",
-    "applicationAuthorization" => "PurgeFixtureData/applicationAuthorization_Hyrule_fixture.json",
-    "customRole" => "PurgeFixtureData/customRole_Hyrule_fixture.json"
-   ]
+  purge_data = [
+    %w( educationOrganization PurgeFixtureData/educationOrganization_fixture.json ),
+    %w( applicationAuthorization PurgeFixtureData/applicationAuthorization_Hyrule_fixture.json ),
+    %w( customRole PurgeFixtureData/customRole_Hyrule_fixture.json )
+  ]
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
-  setMultipleFixtureFiles(tenantTestHash)
+  set_fixtures(purge_data)
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 end
 
 desc "Import Unified Data Set"
 task :importUnifiedData => [:realmInit] do
-  testHash = Hash[
-    "assessment" => "unified_data/uds_assessment.json",
-    "assessmentFamily" => "unified_data/uds_assessmentFamily.json",
-    "assessmentPeriodDescriptor" => "unified_data/uds_assessmentPeriodDescriptor.json",
-    "studentAssessment" => "unified_data/uds_studentAssessment_fixture.json",
-    "attendance" => "unified_data/uds_attendance.json",
-    "course" => "unified_data/uds_course.json",
-    "courseOffering" => "unified_data/uds_courseOffering.json",
-    "educationOrganization" => "unified_data/uds_educationOrganization.json",
-    "staffEducationOrganizationAssociation" => "unified_data/uds_staffEducationOrganizationAssociation.json",
-    "parent" => "unified_data/uds_parent.json",
-    "section" => "unified_data/uds_section.json",
-    "session" => "unified_data/uds_session.json",
-    "student" => "unified_data/uds_student.json",
-    "studentSchoolAssociation" => "unified_data/uds_studentSchoolAssociation.json",
-    "studentGradebookEntry" => "unified_data/uds_studentGradebookEntry.json",
-    "courseTranscript" => "unified_data/uds_courseTranscript.json",
-    "staff" => "unified_data/uds_staff.json",
-    "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json"
-  ]
-  setMultipleFixtureFiles(testHash)
+  unified_data = %w(
+    assessment
+    assessmentFamily
+    assessmentPeriodDescriptor
+    studentAssessment
+    attendance
+    course
+    courseOffering
+    educationOrganization
+    staffEducationOrganizationAssociation
+    parent
+    section
+    session
+    student
+    studentSchoolAssociation
+    studentGradebookEntry
+    courseTranscript
+    staff
+    teacherSchoolAssociation
+  ).map {|c| [c, "unified_data/uds_#{c}.json"]}
+  set_fixtures unified_data
 end
 
 desc "Import Bulk Extract"
 task :importSandboxBulkExtractData => [:realmInit] do
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer-email@slidev.org")
 
-  testHash = Hash[]
-  $collectionSet.each do |collection|
-    testHash["#{collection}"] = "bulk_extract_data/sds_#{collection}.json"
-  end
-  setMultipleFixtureFiles(testHash)
-  testHash = Hash[
-      "applicationAuthorization" => "applicationAuthorization_developer-email_fixture.json",
-  ]
-  setMultipleFixtureFiles(testHash)
+  bulk_extract_data = $collectionSet.map {|c| [c, "bulk_extract_data/sds_#{c}.json"]}
+  set_fixtures(bulk_extract_data)
 
-  cleanseApps()
-  setFixture("application", "application_sandbox_BE.json", "test/data", false)
+  set_fixture('applicationAuthorization', 'applicationAuthorization_developer-email_fixture.json')
+
+  cleanseApps
+  set_fixture('application', 'application_sandbox_BE.json', 'test/data', false)
 end
 
-desc "Run indexing script on databases, no drop"
+desc 'Run indexing script on databases, no drop'
 task :runDbIndexingScript do
   sh "cd #{File.dirname(__FILE__)}/../config/scripts; sh resetAllDbs.sh --nodrop"
 end
