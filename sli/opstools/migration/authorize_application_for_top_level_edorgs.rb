@@ -89,7 +89,7 @@ def getTopLevelEdorgs(dbname)
   # inBloom platform currently only supports a single SEA per tenant
   if sea_ids.length == 1
     sea_id = sea_ids[0]
-    #ids.push(sea_id)   #don't auth for SEA
+    ids.push(sea_id)
     @conn[dbname][EDORG_COLLECTION].find({"body.parentEducationAgencyReference" => sea_id}).each do |edorg|
       id = edorg["_id"]
       ids.push(id) if ! id.nil?
