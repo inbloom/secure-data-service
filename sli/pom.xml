@@ -173,7 +173,7 @@
         <!-- Java EE Versions -->
         <javax.validation.version>1.0.0.GA</javax.validation.version>
         <javax.el.version>2.2</javax.el.version>
-        <javax.jms.version>1.1</javax.jms.version>
+        <javax.jms.version>1.1-rev-1</javax.jms.version>
         <javax.persistence.api.version>1.0.2</javax.persistence.api.version>
         <javax.servlet.version>2.5</javax.servlet.version>
         <javax.servlet.jsp.version>2.0</javax.servlet.jsp.version>
