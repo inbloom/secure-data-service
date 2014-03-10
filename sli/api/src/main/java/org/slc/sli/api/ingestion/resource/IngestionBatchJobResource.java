@@ -29,6 +29,6 @@ public class IngestionBatchJobResource {
     @GET
     @RightsAllowed({ Right.INGESTION_LOG_VIEW })
 	public @ResponseBody List<IngestionBatchJob> getAll() {
-		return ingestionBatchJobService.find(0);
+		return ingestionBatchJobService.find();
 	}
 }
