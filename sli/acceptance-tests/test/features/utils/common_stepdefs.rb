@@ -420,6 +420,10 @@ When /^I click the Go button$/ do
   @driver.find_element(:id, "submit").click
 end
 
-
-
-#http://local.slidev.org:8080/api/rest/v1.5/staff/bcfcc33f-f4a6-488f-baee-b92fbd062e8d/staffEducationOrgAssignmentAssociations/educationOrganizations
+Given /^the following collections are empty in datastore:$/ do |table|
+  DbClient.new(:tenant => 'Midgar').open do |db_client|
+    table.hashes.map do |row|
+      db_client.remove_all row['collectionName']
+    end
+  end
+end

@@ -51,21 +51,3 @@ end
 Then /^I should get a message that I am not authorized$/ do
   assertWithWait("Could not find Not Authorized in page title")  {@driver.page_source.index("Forbidden")!= nil}
 end
-
-Given /^the following collections are empty in datastore:$/ do |table|
-  @db   = @conn[INGESTION_DB_NAME]
-
-  @result = "true"
-
-  table.hashes.map do |row|
-    @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove
-
-    puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
-
-    if @entity_collection.count.to_s != "0"
-      @result = "false"
-    end
-  end
-  assert(@result == "true", "Some collections were not cleared successfully.")
-end

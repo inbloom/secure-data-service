@@ -99,6 +99,10 @@ class DbClient
     db[collection].remove query
   end
 
+  def remove_all(collection)
+    db[collection].remove {}
+  end
+
   def remove_by_id(collection, id)
     remove collection, id_query(id)
   end
