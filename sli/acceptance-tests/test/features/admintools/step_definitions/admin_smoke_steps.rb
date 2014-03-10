@@ -296,18 +296,6 @@ end
 
 # METHODS
 
-
-#Given /^I am a valid SLC Operator$/ do
-#  @user = 'slcoperator-email@slidev.org' # an :operator
-#  @pass = 'slcoperator-email1234'
-#end
-#
-#Given /^I am a valid Super Administrator$/ do
-#  @user = 'daybreaknorealmadmin' # a :super_admin
-#  @pass = 'daybreaknorealmadmin1234'
-#end
-#
-
 def page_alerts_access_error
   browser.page.should have_selector('.alert-error', :text => /access to this page/)
 end
@@ -422,10 +410,4 @@ def fill_in_application_fields(values)
   values.each do |name, value|
     browser.fill_in("app[#{name}]", :with => value)
   end
-end
-
-def verify_registered_application(name)
-  value = @driver.find_element(:id, 'notice').text
-  assert(value =~ /successfully created/, "Should have valid flash message")
-  assertWithWait("Couldn't locate #{app} at the top of the page") {@driver.find_element(:xpath, "//tbody/tr[1]/td[text()='#{app}']")}
 end
