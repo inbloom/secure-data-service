@@ -124,18 +124,19 @@
         <aspectj.version>1.6.11</aspectj.version>
         <aspectj.maven.version>1.4</aspectj.maven.version>
         <aspectjweaver.version>1.6.12</aspectjweaver.version>
-        <camel.version>2.8.6</camel.version>
-        <cglib.version>2.2.2</cglib.version>   <!-- verify version -->
-        <easymock.version>3.0</easymock.version>  <!-- verify version -->
+        <camel.version>2.8.1</camel.version>
+        <cglib.version>2.2.2</cglib.version>
+        <easymock.version>3.0</easymock.version> <!-- dashboard -->
         <ehcache.version>2.6.8</ehcache.version>
         <emma.version>2.1.5320</emma.version>
-        <freemarker.version>2.3.18</freemarker.version>
+        <freemarker.version>2.3.14</freemarker.version>
         <google.findbugs.jsr305.version>2.0.1</google.findbugs.jsr305.version>
         <google.guava.version>13.0.1</google.guava.version>
         <gson.version>2.1</gson.version>
+        <gson-dashboard.version>2.0</gson-dashboard.version>
         <janino.version>2.5.10</janino.version>
         <java-uuid.version>3.1.3</java-uuid.version>
-        <jboss.netty.verion>3.2.9.Final</jboss.netty.verion>
+        <jboss.netty.verion>3.2.3.Final</jboss.netty.verion>
         <jdom.version>1.1</jdom.version>
         <jdom2.version>2.0.2</jdom2.version>
         <jexl.version>1.1</jexl.version>
@@ -175,7 +176,7 @@
         <javax.el.version>2.2</javax.el.version>
         <javax.jms.version>1.1-rev-1</javax.jms.version>
         <javax.persistence.api.version>1.0.2</javax.persistence.api.version>
-        <javax.servlet.version>2.5</javax.servlet.version>
+        <javax.servlet.version>2.4</javax.servlet.version>
         <javax.servlet.jsp.version>2.0</javax.servlet.jsp.version>
         <javax.jstl.version>1.2</javax.jstl.version>
         <taglibs.version>1.1.2</taglibs.version>
@@ -188,17 +189,18 @@
         <commons.compression.version>1.4</commons.compression.version>  <!-- verify version -->
         <commons.cli.version>1.2</commons.cli.version>
         <commons.dbcp.version>20030825.184428</commons.dbcp.version>
-        <!-- <commons.httpclient>3.1</commons.httpclient> -->
+        <commons.httpclient.dashboard>3.1</commons.httpclient.dashboard> -->
         <commons.httpclient>4.3.2</commons.httpclient>   <!-- verify version -->
         <commons.io.version>2.2</commons.io.version>
-        <commons-lang.version>2.6</commons-lang.version>
+        <commons-lang.version>2.4</commons-lang.version>
+        <commons-lang-dashboard.version>2.6</commons-lang-dashboard.version>
         <commons.lang.version>3.0.1</commons.lang.version>
         <commons.logging.version>1.1.1</commons.logging.version>  <!-- verify version -->
         <commons.pool.version>20030825.183949</commons.pool.version>
-        <commons.schema.version>1.4.7</commons.schema.version>  <!-- verify version -->
+        <commons.schema.version>1.4.7</commons.schema.version>
         <commons.validator.version>1.4.0</commons.validator.version>
         <xerces.version>2.4.0</xerces.version>
-        <xerces.impl.version>2.11.0</xerces.impl.version>
+        <xerces.impl.version>2.10.0</xerces.impl.version>
 
         <!-- ElasticSearch Versions -->
         <elasticsearch.version>0.19.9</elasticsearch.version>
@@ -206,7 +208,7 @@
         <!-- Rest Services (JAX-RS) Framework Versions -->
         <jackson.version>1.9.1</jackson.version>
         <jackson.mapper.version>1.9.10</jackson.mapper.version>
-        <jackson.xml.databind.version>0.6.2</jackson.xml.databind.version>
+        <jackson.xml.databind.version>0.6.1</jackson.xml.databind.version>
         <jersey.version>1.9.1</jersey.version>
         <jersey.maven.plugin.version>1.0.1</jersey.maven.plugin.version>
 
