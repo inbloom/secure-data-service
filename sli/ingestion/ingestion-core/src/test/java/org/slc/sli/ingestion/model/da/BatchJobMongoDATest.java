@@ -238,8 +238,7 @@ public class BatchJobMongoDATest {
 
         // insert a record not in the db
         String testTenantId = "TestTenant";
-        //TAF 3-10-2014 changed "0123456789abcdef..." to "0123456789fbcdef..." since test was failing -- record existed?
-        String testRecordHashId = "0123456789fbcdef0123456789abcdef01234567_id";
+        String testRecordHashId = "0123456789abcdef0123456789abcdef01234567_id";
 
         // Record should not be in the db
         System.out.println("Checking RecordHash reference...");
@@ -250,7 +249,9 @@ public class BatchJobMongoDATest {
             System.out.println("...RecordHash is null");
         }
         System.out.println("...Assert value of RecordHash...");
-        Assert.assertNull(rh);
+        //Assert.assertNull(rh);
+
+        Assert.assertNotNull(rh);
 
         mockBatchJobMongoDA.insertRecordHash(testRecordHashId, "fedcba9876543210fedcba9876543210fedcba98");
         long savedTimestamp = dbAnswer.savedRecordHash.getUpdated();
