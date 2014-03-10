@@ -828,6 +828,7 @@ task :ingestionTests => [
         :ingestionUniqueSectionCodeTest,
         :ingestionSecurityEventTest
   ] do
+
   display_failure_report
 end
 
@@ -1178,7 +1179,6 @@ task :importSandboxMidgarData do
   set_fixtures(midgar_data, 'test/data/Midgar_data')
 end
 
-
 desc "Import Sandbox Test Data to Hyrule"
 task :importSandboxHyruleData do
   hyrule_data = %w(
@@ -1253,13 +1253,11 @@ end
 
 desc "Import developer email Test Data"
 task :importDevAccountData do
-  dev_account_data = [
-    %w( educationOrganization developer-email_data/educationOrganization_fixture.json )
-  ]
+  collection, file= 'educationOrganization', 'developer-email_data/educationOrganization_fixture.json'
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer-email@slidev.org")
-  set_fixtures(dev_account_data)
+  set_fixture(collection, file)
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "slcdeveloper")
-  set_fixtures(dev_account_data)
+  set_fixture(collection, file)
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 end
 
@@ -1271,12 +1269,12 @@ task :importPurgeData do
     %w( customRole PurgeFixtureData/customRole_Hyrule_fixture.json )
   ]
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
-  set_fixtures(purge_data)
+  set_fixtures purge_data
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 end
 
 desc "Import Unified Data Set"
-task :importUnifiedData => [:realmInit] do
+task :importUnifiedData => :realmInit do
   unified_data = %w(
     assessment
     assessmentFamily

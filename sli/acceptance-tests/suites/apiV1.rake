@@ -9,27 +9,27 @@ task :apiV1YearlyTranscriptTests => [:realmInit] do
 end
 
 desc "Run API V1 Granular Access Tests"
-task :apiV1GranularAccessTests => [:realmInit] do
+task :apiV1GranularAccessTests => :realmInit do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/granular_access")
 end
 
-task :apiVersionTests => [:realmInit] do
+task :apiVersionTests => :realmInit do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/api_versions/apiVersions.feature")
 end
 
-task :longLivedSessionTests => [:realmInit] do
+task :longLivedSessionTests => :realmInit do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/long_lived_session")
 end
 
-task :apiAdminCrudTests => [:realmInit] do
+task :apiAdminCrudTests => :realmInit do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud/admin_crud.feature")
 end
 
-task :apiV1EntityTests => [:realmInit] do
+task :apiV1EntityTests => :realmInit do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud/attendance_events_crud.feature")
   runTests("test/features/apiV1/entities/crud/class_period_crud.feature")
@@ -283,12 +283,6 @@ task :apiJMeterTests do
   runTests("test/features/apiV1/jmeter/jmeterPerformance.feature")
 end
 
-desc "Import and Approve SDK Sample App"
-task :approveSdk => [:realmInit] do
-  allLeaAllowApp("SDK Sample")
-  authorizeEdorg("SDK Sample")
-end
-
 desc "Run Odin API Generation Task"
 task :apiOdinGenerate do
   runTests("test/features/odin/generate_api_data.feature")
@@ -391,11 +385,7 @@ task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinConte
   set_fixture("educationOrganization", "educationOrganization_fixture.json")
   set_fixture("staffEducationOrganizationAssociation",  "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
   runTests("test/features/apiV1/contextual_roles/classPeriod_bellSchedule_crud.feature")
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 desc "Run API V1 Elastic Search Limits Tests"
@@ -403,12 +393,7 @@ task :apiV1SearchLimitTests => [:realmInit] do
   Rake::Task["ingestionSmallSampleDataSet"].execute
   Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/search/search_limits.feature")
-  display_failure_report()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 
