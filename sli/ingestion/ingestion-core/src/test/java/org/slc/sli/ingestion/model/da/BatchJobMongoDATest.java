@@ -21,6 +21,8 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -227,8 +229,6 @@ public class BatchJobMongoDATest {
             }
         }
 
-        //is JVM reordering?
-        synchronized (this) {
             DBAnswer dbAnswer = new DBAnswer();
             // doAnswer(dbAnswer).when(mockMongoTemplate).save(anyObject(), eq("recordHash"));
             doAnswer(dbAnswer).when(mockMongoTemplate).findOne(any(Query.class), any(Class.class), eq("recordHash"));
@@ -242,7 +242,14 @@ public class BatchJobMongoDATest {
             String testRecordHashId = "0123456789abcdef0123456789abcdef01234567_id";
 
             // Record should not be in the db
+            System.out.println("Checking RecordHash reference...");
             RecordHash rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
+            if (rh != null) {
+                System.out.println(ToStringBuilder.reflectionToString(rh, ToStringStyle.MULTI_LINE_STYLE));
+            } else {
+                System.out.println("...RecordHash is null");
+            }
+            System.out.println("...Assert value of RecordHash...");
             Assert.assertNull(rh);
 
             mockBatchJobMongoDA.insertRecordHash(testRecordHashId, "fedcba9876543210fedcba9876543210fedcba98");
@@ -265,7 +272,6 @@ public class BatchJobMongoDATest {
 
             // The timestamp on the recordHash should have changed after the second call, and the create time should be the same
             Assert.assertTrue(savedTimestamp < updatedTimestamp);
-        }
     }
 
     @Test
