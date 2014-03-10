@@ -189,7 +189,7 @@
         <commons.compression.version>1.4</commons.compression.version>  <!-- verify version -->
         <commons.cli.version>1.2</commons.cli.version>
         <commons.dbcp.version>20030825.184428</commons.dbcp.version>
-        <commons.httpclient.dashboard>3.1</commons.httpclient.dashboard> -->
+        <commons.httpclient.dashboard>3.1</commons.httpclient.dashboard>
         <commons.httpclient>4.3.2</commons.httpclient>   <!-- verify version -->
         <commons.io.version>2.2</commons.io.version>
         <commons-lang.version>2.4</commons-lang.version>
