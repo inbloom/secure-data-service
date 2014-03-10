@@ -87,7 +87,7 @@
 		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom</artifactId>
-			<version>${org.jdom.version}</version>
+			<version>${jdom.version}</version>
 		</dependency>
         <dependency>
             <groupId>com.sun.jersey.contribs</groupId>
