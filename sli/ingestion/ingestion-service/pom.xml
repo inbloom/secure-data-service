@@ -27,12 +27,12 @@
         <dependency>
             <groupId>org.jdom</groupId>
             <artifactId>jdom</artifactId>
-            <version>${jdom.version}</version>
+            <version>${jdom2.version}</version>
         </dependency>
     </dependencies>
 
     <properties>
-        <sli.home>${project..parent.parent.basedir}</sli.home>
+        <sli.home>${project.parent.parent.basedir}</sli.home>
     </properties>
 
     <build>
