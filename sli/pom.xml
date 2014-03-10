@@ -1513,22 +1513,6 @@
             <name>Maven2 repo1 repository</name>
             <url>http://repo1.maven.org/maven2</url>
         </repository>
-        <!-- <repository>
-            <id>repository.jboss.org-public</id>
-            <name>JBoss.org Maven repository</name>
-            <url>https://repository.jboss.org/nexus/content/groups/public</url>
-        </repository>  -->
-        <!-- Memcached -->
-        <!-- <repository>
-            <id>spy</id>
-            <name>Spy Repository</name>
-            <layout>default</layout>
-            <url>http://files.couchbase.com/maven2/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>  -->
-        <!-- Spring Milestone repository -->
         <repository>
             <id>spring-milestone</id>
             <name>Spring Maven MILESTONE Repository</name>
@@ -1541,9 +1525,10 @@
             <id>sonatype-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
+        <!-- https://wikis.forgerock.org/confluence/display/openam/Using+Maven+and+OpenAM -->
         <repository>
             <id>forgerock</id>
-            <url>http://repo.forgerock.org</url>
+            <url>http://maven.forgerock.org/repo/releases</url>
         </repository>
     </repositories>
 
