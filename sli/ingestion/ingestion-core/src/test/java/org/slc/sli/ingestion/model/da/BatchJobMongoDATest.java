@@ -249,9 +249,7 @@ public class BatchJobMongoDATest {
             System.out.println("...RecordHash is null");
         }
         System.out.println("...Assert value of RecordHash...");
-        //Assert.assertNull(rh);
-
-        Assert.assertNotNull(rh);
+        Assert.assertNull(rh);
 
         mockBatchJobMongoDA.insertRecordHash(testRecordHashId, "fedcba9876543210fedcba9876543210fedcba98");
         long savedTimestamp = dbAnswer.savedRecordHash.getUpdated();
