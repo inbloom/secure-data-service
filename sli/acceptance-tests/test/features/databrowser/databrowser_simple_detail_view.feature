@@ -27,7 +27,6 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jwashington" "jwashington1234" for the "Simple" login page
 Then I should be redirected to the Data Browser home page
 When I click on the Logout link
-#Then I am redirected to a page that informs me that I have signed out
 And I am forced to reauthenticate to access the databrowser
 
 @smoke
@@ -291,6 +290,10 @@ When I click on the "First" link
 And I should see a row containing "414106a9-6156-1003-a477-4bd4dda7e21a_id"
 When I click on the "50" link
 And I should see a row containing "414106a9-6156-1020-a477-4bd4dda7e21a_id"
+When I click on the "25" link
+Then I should navigate to "/entities/educationOrganizations/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb/studentSchoolAssociations/students"
+When I click on the "Next" link
+And I should see a row containing "fff656b2-5031-4897-b6b8-7b0f5769b482_id"
 
 
 Scenario: Validate that the headers are correct for students, parents, staff and teachers

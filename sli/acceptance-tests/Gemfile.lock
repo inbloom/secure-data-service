@@ -9,6 +9,7 @@ GEM
     active_support (3.0.0)
       activesupport (= 3.0.0)
     activesupport (3.0.0)
+    addressable (2.3.5)
     archive-tar-minitar (0.5.2)
     bson (1.8.2)
     bson_ext (1.8.2)
@@ -20,6 +21,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-screenshot (0.3.17)
+      capybara (>= 1.0, < 3)
+      launchy
     childprocess (0.3.7)
       ffi (~> 1.0, >= 1.0.6)
     clbustos-rtf (0.4.2)
@@ -48,6 +52,8 @@ GEM
     json (1.6.2)
     jwt (0.1.5)
       multi_json (>= 1.0)
+    launchy (2.4.2)
+      addressable (~> 2.3)
     macaddr (1.6.1)
       systemu (~> 2.5.0)
     mail (2.4.4)
@@ -155,6 +161,7 @@ DEPENDENCIES
   bson_ext
   builder
   capybara
+  capybara-screenshot
   cucumber
   ffi (= 1.0.9)
   headless

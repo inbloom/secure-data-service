@@ -65,21 +65,6 @@ Scenario: Post a zip file where the second record has a bad attribute should fai
   And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "student.xml records not considered for processing: 1" in the resulting batch job file
 
-@wip
-Scenario: Post a zip file where the first record has an undefined attribute should fail on that record and proceed
-  Given I post "firstRecordHasMoreAttributes.zip" file as the payload of the ingestion job
-  And the following collections are empty in datastore:
-        | collectionName              |
-        | student                     |
-  When zip file is scp to ingestion landing zone
-  And a batch job for file "firstRecordHasMoreAttributes.zip" is completed in database
-  And I should see "CORE_0006" in the resulting error log file
-  And I should see "Not all records were processed completely due to errors." in the resulting batch job file
-  And I should see "Processed 2 records." in the resulting batch job file
-  And I should see "student.xml records considered for processing: 2" in the resulting batch job file
-  And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "student.xml records failed processing: 1" in the resulting batch job file
-
 Scenario: Post a zip file where the first record has a missing attribute should fail on that record and proceed
   Given I post "firstRecordMissingAttribute.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
@@ -226,39 +211,6 @@ Scenario: Post an zip file where the control file has extra properties
   And I should see "BASE_0016:" in the resulting error log file
   And I should see "CORE_0003:" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
-
-@wip
-Scenario: Post a zip file containing error CalendarDate with ID References job: Clean Database
-  Given I post "Error_Report1.zip" file as the payload of the ingestion job
-  And the following collections are empty in datastore:
-     | collectionName               |
-     | calendarDate                 |
-     | course                       |
-     | educationOrganization        |
-     | gradebookEntry               |
-     | gradingPeriod                |
-     | learningObjective            |
-     | learningStandard             |
-     | gradingPeriod                |
-     | section                      |
-     | session                      |
-     | calendarDate                 |
-     | student                      |
-     | courseOffering               |
-     | competencyLevelDescriptor    |
-  When zip file is scp to ingestion landing zone
-  And a batch job for file "Error_Report1.zip" is completed in database
-  And a batch job log has been created
-  Then I should see following map of entry counts in the corresponding collections:
-     | collectionName               | count   |
-     | session                      |  10     |
-  And I should see "Processed 35 records." in the resulting batch job file
-  And I should see "InterchangeEducationOrgCalendar.xml records not considered for processing: 19" in the resulting batch job file
-  And I should see "BASE_0027" in the resulting error log file for "InterchangeEducationOrgCalendar.xml"
-  And I should see "CORE_0006" in the resulting error log file for "InterchangeEducationOrganization.xml"
-  And I should see "SELF_REFERENCING_DATA" in the resulting error log file for "InterchangeEducationOrganization.xml"
-  And I should see "parentEducationAgencyReference" in the resulting error log file for "InterchangeEducationOrganization.xml"
-  And I should see "stateOrganizationId=IL-DAYBREAK" in the resulting error log file for "InterchangeEducationOrganization.xml"
 
 Scenario: Post a zip file containing attendance but no session data: Clean Database
   Given I post "Error_Report2.zip" file as the payload of the ingestion job

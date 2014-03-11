@@ -6,47 +6,6 @@ Given I am using local data store
 
 #objectiveAssessment	studentAssessment 	objectiveAssessment	1	1	 missing!		
 
-
-@wip
-Scenario: Delete Objective Assessment From Assessment Metadata with cascade = true
-    Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    And the "Midgar" tenant db is empty
-    When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
-	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "objectiveAssessment"
-	|field                                                           |value                                                                                          |
-	|objectiveAssessment._id                                         |938404a8790b90361f61ad35e7aa82d1dc97c8e2_idcd64d9ea394bd362cd32c25e4953cd6549ee508d_id         |
-#	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "subobjectiveAssessment"
-#	|field                                                           |value                                                                                          |
-#	|objectiveAssessment.body.subObjectiveAssessment                 |2001-First grade Assessment 1.OA-0                                                             |
-#	Then there exist "1" "studentAssessment" records like below in "Midgar" tenant. And I save this query as "studentAssessment"
-#	|field                                                           |value                                                                                          |
-#	|studentObjectiveAssessment.body.objectiveAssessmentId           |938404a8790b90361f61ad35e7aa82d1dc97c8e2_idcd64d9ea394bd362cd32c25e4953cd6549ee508d_id         |
-    And I post "BroadObjectiveAssessmentFromAssessmentMetadataDelete.zip" file as the payload of the ingestion job
-	And I save the collection counts in "Midgar" tenant
-  	When zip file is scp to ingestion landing zone
-    And a batch job for file "BroadObjectiveAssessmentFromAssessmentMetadataDelete.zip" is completed in database
-	And I should see "records considered for processing: 1" in the resulting batch job file
-	And I should see "records ingested successfully: 0" in the resulting batch job file
-	And I should see "records deleted successfully: 1" in the resulting batch job file
-	And I should see "records failed processing: 0" in the resulting batch job file
-	And I should see "records not considered for processing: 0" in the resulting batch job file
-	And I should see "All records processed successfully." in the resulting batch job file
-	And I should see "Processed 1 records." in the resulting batch job file
-    And I should not see an error log file created
-	And I should not see a warning log file created
-	And I re-execute saved query "objectiveAssessment" to get "0" records
-#	And I re-execute saved query "subobjectiveAssessment" to get "0" records
-#	And I re-execute saved query "studentAssessment" to get "0" records
-	And I see that collections counts have changed as follows in tenant "Midgar"
-	|collection                        |delta          |
-	|objectiveAssessment                    |        -1|
-	|recordHash                             |         0|
-	And I should not see "938404a8790b90361f61ad35e7aa82d1dc97c8e2_idcd64d9ea394bd362cd32c25e4953cd6549ee508d_id" in the "Midgar" database
-
-#objectiveAssessment  objectiveAssessment  subObjectiveAssessment relationship missing
-#objectiveAssessment  studentAssessment    objectiveAssessmentId relationship missing	
-
-
 Scenario: Safe Delete Objective Assessment From Assessment Metadata with Cascade = false, Force = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty

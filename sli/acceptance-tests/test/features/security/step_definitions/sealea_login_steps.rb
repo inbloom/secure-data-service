@@ -40,18 +40,6 @@ Given /^"([^"]*)" is invalid "([^"]*)" user$/ do |arg1, arg2|
 #  No code needed, this is done while setting up (configuration of) the ADFS
 end
 
-When /^I enter "([^"]*)" in the username text field$/ do |arg1|
-  @driver.find_element(:id, "username").send_keys arg1
-end
-
-When /^I enter "([^"]*)" in the password text field$/ do |arg1|
-  @driver.find_element(:id, "password").send_keys arg1
-end
-
-When /^I click the Go button$/ do
-  @driver.find_element(:id, "submit").click
-end
-
 Then /^I am now authenticated to SLI$/ do
   @apiUrl = "http://"+Property['api_server_url']+"/api/"
   @driver.get @apiUrl

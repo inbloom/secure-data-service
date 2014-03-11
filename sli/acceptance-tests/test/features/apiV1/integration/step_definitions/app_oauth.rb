@@ -91,28 +91,6 @@ Given /^I log in to realm "(.*?)" using simple-idp as "(.*?)" "(.*?)" with passw
   step "I should be able to use the token to make valid API calls"
 end
 
-Given /^I navigated to the Data Browser Home URL$/ do
-  @driver.get Property['databrowser_server_url']
-end
-
-Given /^I was redirected to the Realm page$/ do
-  assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}
-end
-
-When /^I choose realm "(.*?)" in the drop\-down list$/ do |arg1|
-  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
-  select.select_by(:text, arg1)
-end
-
-Given /^I click on the realm page Go button$/ do
-  assertWithWait("Could not find the Go button")  { @driver.find_element(:id, "go") }
-  @driver.find_element(:id, "go").click
-end
-
-Given /^I was redirected to the SLI IDP Login page$/ do
-  assertWithWait("Was not redirected to the IDP login page")  { @driver.find_element(:name, "Login.Submit") }
-end
-
 Given /^I import the odin-local-setup application and realm data$/ do
   @ci_realm_store_path = File.dirname(__FILE__) + '/../../../../../../../tools/jmeter/odin-ci/'
   @local_realm_store_path = File.dirname(__FILE__) + '/../../../../../../../tools/jmeter/odin-local-setup/'

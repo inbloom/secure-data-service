@@ -505,16 +505,6 @@ Around('@LDAP_Reset_developer-email') do |scenario, block|
   end
 end
 
-Around('@LDAP_Reset_sunsetadmin') do |scenario, block|
-  block.call
-  if scenario.failed?
-    ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
-                          Property['ldap_base'], Property['ldap_admin_user'],
-                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
-    ldap.update_user_info({:email=> "sunsetadmin", :password=>"sunsetadmin1234", :emailtoken => "sunsetadminderpityderp1304425892"})
-  end
-end
-
 And /I wait for user input/ do
       print "Waiting for user input. Press Enter to continue."
       STDIN.getc
@@ -950,3 +940,15 @@ puts results.to_s
   return matches_all
 end
 
+When /^I (enable|disable) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action,edOrgName,tenant|
+  disable_NOTABLESCAN()
+  db = @conn[convertTenantIdToDbName(tenant)]
+  coll = db.collection("educationOrganization")
+  record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
+  enable_NOTABLESCAN()
+  edOrgId = record["_id"]
+  elt = @driver.find_element(:id, edOrgId)
+  assert(elt, "Educational organization element for '" + edOrgName + "' (" + edOrgId + ") not found")
+  assert(action == "enable" && !elt.selected? || action == "disable" && elt.selected?, "Cannot " + action + " educationalOrganization element with id '" + edOrgId + "' whose checked status is " + elt.selected?.to_s())
+  elt.click()
+end
