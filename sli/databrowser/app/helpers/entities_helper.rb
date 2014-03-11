@@ -416,7 +416,7 @@ module EntitiesHelper
 
   # Method to get the Ingestion data needed for the ingestion pages and tables
   def get_ingestion_data(limit = 0)
-    url = drop_url_version + "/ingestionJobs" + "?limit=" + limit.to_s
+    url = drop_url_version + "/ingestionJobs" + "?limit=" + limit.to_s + "&sortBy=jobStartTimestamp&sortOrder=DESC"
     begin
       entities = RestClient.get(url, get_header)
       entities = JSON.parse(entities)

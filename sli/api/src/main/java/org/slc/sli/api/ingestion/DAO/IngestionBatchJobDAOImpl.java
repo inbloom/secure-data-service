@@ -3,7 +3,8 @@ package org.slc.sli.api.ingestion.DAO;
 import java.util.List;
 
 import org.slc.sli.api.ingestion.model.IngestionBatchJob;
-import org.slc.sli.api.ingestion.service.IngestionBatchJobService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class IngestionBatchJobDAOImpl implements IngestionBatchJobDAO {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(IngestionBatchJobDAO.class);
 
 	@Autowired
 	MongoTemplate ingestionBatchJobMongoTemplate;
@@ -51,12 +54,11 @@ public class IngestionBatchJobDAOImpl implements IngestionBatchJobDAO {
 
 		if (sortOn != null && !"".equals(sortOn)) {
 			if (order != null) {
-				query.sort().on("sortOn", order);
+				query.sort().on(sortOn, order);
 			} else {
-				query.sort().on(sortOn, Order.DESCENDING);
+				query.sort().on(sortOn, Order.ASCENDING);
 			}
 		}
-
 		return ingestionBatchJobMongoTemplate.find(query, IngestionBatchJob.class);
 	}
 }
