@@ -29,7 +29,7 @@
         <dependency>
             <groupId>net.sf.jopt-simple</groupId>
             <artifactId>jopt-simple</artifactId>
-            <version>4.3</version>
+            <version>${jopt-simple.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slc.sli.modeling</groupId>

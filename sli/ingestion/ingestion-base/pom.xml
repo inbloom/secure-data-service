@@ -116,7 +116,7 @@
                 <version>${aspectj.maven.version}</version>
                 <configuration>
                     <showWeaveInfo>true</showWeaveInfo>
-                    <source>1.6</source>
+                    <source>${java.version}</source>
                     <weaveDependencies>
                     </weaveDependencies>
                 </configuration>

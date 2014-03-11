@@ -72,7 +72,7 @@
 
         <dependency>
             <groupId>javax.jms</groupId>
-            <artifactId>jms</artifactId>
+            <artifactId>jms-api</artifactId>
             <version>${javax.jms.version}</version>
         </dependency>
 
@@ -273,6 +273,12 @@
             <version>${xerces.impl.version}</version>
         </dependency>
 
+        <!-- <dependency>           
+            <groupId>org.jdom</groupId>                      
+            <artifactId>jdom</artifactId>                     
+            <version>${jdom2.version}</version> 
+        </dependency> -->
+
     </dependencies>
 
     <build>
@@ -351,6 +357,7 @@
                 </dependency>
             </dependencies>
         </profile>
+
         <profile>
             <id>Default Configuration</id>
             <activation>
