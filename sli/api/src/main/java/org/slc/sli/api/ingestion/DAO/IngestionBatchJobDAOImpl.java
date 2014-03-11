@@ -49,7 +49,7 @@ public class IngestionBatchJobDAOImpl implements IngestionBatchJobDAO {
 			query.skip(offset);
 		}
 
-		if (sortOn != null && "" != sortOn) {
+		if (sortOn != null && !"".equals(sortOn)) {
 			if (order != null) {
 				query.sort().on("sortOn", order);
 			} else {
