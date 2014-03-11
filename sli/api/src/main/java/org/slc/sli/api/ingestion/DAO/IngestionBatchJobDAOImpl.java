@@ -61,4 +61,13 @@ public class IngestionBatchJobDAOImpl implements IngestionBatchJobDAO {
 		}
 		return ingestionBatchJobMongoTemplate.find(query, IngestionBatchJob.class);
 	}
+
+	public IngestionBatchJob findOne(String tenantId, String id) {
+		Query query = new Query();
+		
+		query.addCriteria(Criteria.where("tenantId").is(tenantId));
+		query.addCriteria(Criteria.where("_id").is(id));
+		
+		return ingestionBatchJobMongoTemplate.findOne(query, IngestionBatchJob.class);
+	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
@@ -31,7 +32,7 @@ public class IngestionBatchJobResource {
 
     @GET
     @RightsAllowed({ Right.INGESTION_LOG_VIEW })
-	public @ResponseBody List<IngestionBatchJob> getAll(@Context HttpServletRequest request) {
+	public @ResponseBody List<IngestionBatchJob> find(@Context HttpServletRequest request) {
     	String strLimit = request.getParameter("limit");
     	String strOffset = request.getParameter("offset");
     	String sortBy = request.getParameter("sortBy");
@@ -59,4 +60,11 @@ public class IngestionBatchJobResource {
 
     	return ingestionBatchJobService.find(limit, offset, sortBy, sortOrder);
 	}
+
+    @GET
+    @Path("{id}")
+    @RightsAllowed({ Right.INGESTION_LOG_VIEW })
+    public @ResponseBody IngestionBatchJob findOne(@PathParam("id") String id) {
+    	return ingestionBatchJobService.findOne(id);
+    }
 }

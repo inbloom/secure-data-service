@@ -13,4 +13,6 @@ public interface IngestionBatchJobDAO {
 	public List<IngestionBatchJob> find(String tenantId, Integer limit, Integer offset, String sortOn);
 	public List<IngestionBatchJob> find(String tenantId, Integer limit, Integer offset, String sortOn, Order order);
 
+	public IngestionBatchJob findOne(String tenantId, String id);
+
 }

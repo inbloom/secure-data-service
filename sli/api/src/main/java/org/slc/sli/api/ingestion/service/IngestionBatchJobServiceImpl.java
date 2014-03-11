@@ -48,4 +48,8 @@ public class IngestionBatchJobServiceImpl implements IngestionBatchJobService {
 		LOG.info("Find with all params getting called");
 		return ingestionBatchJobDAO.find(SecurityUtil.getTenantId(), limit, offset, sortOn, order);
 	}
+
+	public IngestionBatchJob findOne(String id) {
+		return ingestionBatchJobDAO.findOne(SecurityUtil.getTenantId(), id);
+	}
 }

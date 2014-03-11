@@ -14,4 +14,6 @@ public interface IngestionBatchJobService {
 	public List<IngestionBatchJob> find(Integer limit, String sortOn, Order order);
 	public List<IngestionBatchJob> find(Integer limit, Integer offset, String sortOn, Order order);
 
+	public IngestionBatchJob findOne(String id);
+
 }
