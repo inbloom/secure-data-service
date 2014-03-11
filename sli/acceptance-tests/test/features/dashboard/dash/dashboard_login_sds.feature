@@ -7,40 +7,6 @@ Background:
 Given I have an open web browser
 Given that dashboard has been authorized for all ed orgs
 
-@integration @wip
-Scenario: Valid user login
-
-#hitting static URL
-When I access "/static/html/test.html"
-Then I can see "Static HTML page"
-When I navigate to the Dashboard home page
-Then I should be redirected to the Realm page
-When I select "Illinois Daybreak School District 4529" and click go
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
-Then I should be redirected to the Dashboard landing page
-#hitting denied URL
-When I access "/simon"
-And I am informed that "the page that you were looking for could not be found"
-
-@wip @integration
-Scenario: Invalid user login
-
-When I navigate to the Dashboard home page
-When I select "Illinois Daybreak School District 4529" and click go
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "InvalidJohnDoe" "demo1234" for the "Simple" login page
-Then I am informed that "Invalid User Name or password"
-
-@integration @wip
-Scenario: Login with cookie
-
-When I navigate to the Dashboard home page
-Then I should be redirected to the Realm page
-Then I add a cookie for linda.kim
-When I navigate to the Dashboard home page
-Then I should be redirected to the Dashboard landing page
-
 @integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147 @RALLY_US4437
 Scenario: Login with District Level IT admin
 When I navigate to the Dashboard home page
@@ -277,40 +243,6 @@ And the search results include:
  |Student          		  |Grade    |School                     |
  |Matt Joseph Sollars     |8        |East Daybreak Junior High  |
 
- @integration @RALLY_US200 @wip
- Scenario: Login with District level Agg. Viewer
-When I navigate to the Dashboard home page
-When I select "Illinois Daybreak School District 4529" and click go
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "jjackson" "jjackson1234" for the "Simple" login page
-Then I should be redirected to the Dashboard landing page
-When I look in the ed org drop-down
-Then I only see "Daybreak School District 4529"
-When I select ed org "Daybreak School District 4529"
-When I look in the school drop-down
-Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
-When I select school "East Daybreak Junior High"
-Then I don't see a course selection
-
-@integration @RALLY_US200 @wip
-Scenario: Login with State Agg. Viewer
-When I navigate to the Dashboard home page
-When I select "Illinois Daybreak School District 4529" and click go
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "mjohnson" "mjohnson1234" for the "Simple" login page
-Then I should be redirected to the Dashboard landing page
-When I look in the ed org drop-down
-Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
-When I select ed org "Daybreak School District 4529"
-When I look in the school drop-down
-Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
-When I select school "South Daybreak Elementary"
-Then I don't see a course selection
-When I select ed org "Sunset School District 4526"
-When I look in the school drop-down
-Then I see these values in the drop-down: "Sunset Central High School"
-Then I don't see a course selection
-
 @integration @RALLY_US200  @RALLY_US147 @RALLY_US198  @RALLY_US4437
 Scenario: Login with State Leader
 When I navigate to the Dashboard home page
@@ -413,31 +345,3 @@ And their grade is "1"
 #And the teacher is "Ms Rebecca Braverman"
 And the class is "Mrs. Braverman's Homeroom #38"
 And the lozenges count is "0"
-
-@integration @RALLY_US200 @wip
-Scenario: Login with School Level aggr viewer
-When I navigate to the Dashboard home page
-When I select "Illinois Daybreak School District 4529" and click go
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "msmith" "msmith1234" for the "Simple" login page
-Then I should be redirected to the Dashboard landing page
-When I look in the ed org drop-down
-Then I only see "Daybreak School District 4529"
-When I select ed org "Daybreak School District 4529"
-When I look in the school drop-down
-Then I only see "South Daybreak Elementary"
-And I select school "South Daybreak Elementary"
-Then I don't see a course selection
-
-@wip @integration
-Scenario: user in IDP but not in mongo
-#TODO there is a bug in the code right now, enable after bug fix
-When I access "/static/html/test.html"
-Then I can see "Static HTML page"
-When I navigate to the Dashboard home page
-Then I should be redirected to the Realm page
-When I select "Illinois Sunset School District 4526" and click go
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "mario.sanchez" "mario.sanchez" for the "Simple" login page
-#TODO there is a bug in the code right now
-Then I am informed that "Invalid User"

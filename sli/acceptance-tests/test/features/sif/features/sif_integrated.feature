@@ -322,36 +322,3 @@ Then I should see following map of entry counts in the corresponding collections
      | staffEducationOrganizationAssociation | body.endDate       | 2013-09-15         | string     | body.staffReference                 | staff                 | body.staffUniqueStateId  | C2345681                      | string           |
      | staffEducationOrganizationAssociation | body.endDate       | 2013-09-15         | string     | body.educationOrganizationReference | educationOrganization | body.stateOrganizationId | Daybreak West High            | string           |
 #ecole 10/12/12 updates to natural key fields no longer allowed, these tests will be fixed in the future
-@wip   
-Scenario: Add an EmployeeAssignment for a staff
-Given the data store is "data_EmployeeAssignment"
-And I want to POST a(n) "sifEvent_EmployeeAssignment_add_staff" SIF message
-When I POST the message to the ZIS
-And I wait for "3" seconds
-Then I should see following map of entry counts in the corresponding collections:
-     | collectionName                        | count |
-     | staffEducationOrganizationAssociation | 3     |
-   And I check that the record contains all of the expected values:
-     | collectionName                        | searchParameter    | searchValue        | searchType | expectedValuesFile                                |
-     | staffEducationOrganizationAssociation | body.endDate       | 2013-07-31         | string     | expected_EmployeeAssignment_add_staff_staffEdOrg  |
-   And I check that ID fields resolved correctly:
-     | collectionName                        | searchParameter    | searchValue        | searchType | idResolutionField                   | targetCollectionName  | targetSearchParameter    | targetSearchValue             | targetSearchType |
-     | staffEducationOrganizationAssociation | body.endDate       | 2013-07-31         | string     | body.staffReference                 | staff                 | body.staffUniqueStateId  | C2345681                      | string           |
-     | staffEducationOrganizationAssociation | body.endDate       | 2013-07-31         | string     | body.educationOrganizationReference | educationOrganization | body.stateOrganizationId | IL                            | string           |
-@wip  
-Scenario: Update an EmployeeAssignment for a staff
-Given the data store is "data_EmployeeAssignment"
-And I want to POST a(n) "sifEvent_EmployeeAssignment_change_staff" SIF message
-When I POST the message to the ZIS
-And I wait for "3" seconds
-Then I should see following map of entry counts in the corresponding collections:
-     | collectionName                        | count |
-     | staffEducationOrganizationAssociation | 3     |
-   And I check that the record contains all of the expected values:
-     | collectionName                        | searchParameter    | searchValue        | searchType | expectedValuesFile                                |
-     | staffEducationOrganizationAssociation | body.endDate       | 2013-08-31         | string     | expected_EmployeeAssignment_change_staff_staffEdOrg  |
-   And I check that ID fields resolved correctly:
-     | collectionName                        | searchParameter    | searchValue        | searchType | idResolutionField                   | targetCollectionName  | targetSearchParameter    | targetSearchValue             | targetSearchType |
-     | staffEducationOrganizationAssociation | body.endDate       | 2013-08-31         | string     | body.staffReference                 | staff                 | body.staffUniqueStateId  | C2345681                      | string           |
-     | staffEducationOrganizationAssociation | body.endDate       | 2013-08-31         | string     | body.educationOrganizationReference | educationOrganization | body.stateOrganizationId | IL                            | string           |
-  

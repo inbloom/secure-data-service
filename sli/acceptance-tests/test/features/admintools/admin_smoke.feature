@@ -1,4 +1,4 @@
-@track_entities @smoke @javascript
+@track_entities @smoke @javascript @no_ingestion_hooks
 Feature:
   The administration tool can be used:
     - by a developer to register a new application

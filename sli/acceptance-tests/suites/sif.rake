@@ -13,12 +13,12 @@ end
 
 desc "Import SIF Bootstrap Test Data"
 task :importSifBootstrapData do
-  testHash = Hash[
+  data = {
     "staff" => "sif/sif_bootstrap_staff_fixture.json",
     "educationOrganization" => "sif/sif_bootstrap_educationOrganization_fixture.json",
     "staffEducationOrganizationAssociation" => "sif/sif_bootstrap_staffEducationOrganizationAssociation_fixture.json"
-  ]
-  setMultipleFixtureFiles(testHash)
+  }
+  setMultipleFixtureFiles(data)
 end
 
 desc "Run SIF Smoke Tests"
@@ -43,12 +43,6 @@ desc "Run SIF LEAInfo Tests"
 task :sifLEAInfoTest => [:realmInit] do
   Rake::Task["importSifBootstrapData"].execute
   runTests("test/features/sif/features/sif_LEAInfo.feature")
-end
-
-desc "Run SIF SEAInfo Tests"
-task :sifSEAInfoTest => [:realmInit] do
-  Rake::Task["importSifBootstrapData"].execute
-  runTests("test/features/sif/features/sif_SEAInfo.feature")
 end
 
 desc "Run SIF StudentSchoolEnrollment Tests"
