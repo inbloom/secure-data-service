@@ -315,7 +315,7 @@ Scenario: Validate that the headers are correct for students, parents, staff and
 
     Given I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "false"
 
-Scenario: There should be an ellipses next to the links that should be clickable and show the counts.
+Scenario: There should be a pound sign next to the links that should be clickable and show the counts.
 
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
@@ -325,7 +325,7 @@ And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
 And I click on the "GetEducationOrganizations" link
-Then I should click on the <Number> link ellipses and get <Text> returned
+Then I should click on the <Number> link pound and get <Text> returned
 
     | Number | Text      |
     | 4      | 0 / 0     |
