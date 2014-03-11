@@ -322,7 +322,7 @@ def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId, 
 
   @res = RestClient::Request.execute(:method => :get, :url => urlHeader[:url], :headers => header, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
   puts(@res.code,@res.raw_headers) if $SLI_DEBUG
-  return @res
+  @res
 end
 
 def restHttpGetAbs(url, format = @format, sessionId = @sessionId)
@@ -482,11 +482,6 @@ Around('@LDAP_Reset_developer-email') do |scenario, block|
   end
 end
 
-And /I wait for user input/ do
-      print "Waiting for user input. Press Enter to continue."
-      STDIN.getc
-end
-
 ##############################################################################
 ##############################################################################
 ### Step Def Util methods ###
@@ -506,20 +501,11 @@ def convert(value)
 end
 
 def prepareData(format, hash)
-  if format == "application/json"
-    hash.to_json
-  elsif format == "application/vnd.slc+json"
-    hash.to_json
-  elsif format == "application/xml"
-    hash.to_s
-  elsif format == "application/json;charset=utf-8"
-    hash.to_json
-  elsif format == "application/vnd.slc+json;charset=utf-8"
-    hash.to_json
-  elsif format == "application/xml;charset=utf-8"
-    hash.to_s
-  else
-    assert(false, "Unsupported MIME type")
+  case format
+    when /xml/; hash.to_s
+    when /json/; hash.to_json
+    else
+      fail("Unsupported Mime type: #{format}")
   end
 end
 

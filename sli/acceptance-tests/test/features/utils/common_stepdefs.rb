@@ -427,3 +427,10 @@ Given /^the following collections are empty in datastore:$/ do |table|
     end
   end
 end
+
+Then /^I should be able to use the token to make valid API calls$/ do
+  restHttpGet('/system/session/check', 'application/json')
+  @res.should_not be_nil
+  data = JSON.parse(@res.body)
+  data['authenticated'].should be_true
+end
