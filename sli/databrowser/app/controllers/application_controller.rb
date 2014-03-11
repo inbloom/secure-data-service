@@ -158,55 +158,36 @@ class ApplicationController < ActionController::Base
   # the current page and has a way to return to a previous page 
   # with a single click.
   def handle_breadcrumb
-    logger.debug("===================")
+    #logger.debug("===================")
     # logger.debug("handling breadcrumb for <" + current_url + ">")
 
     trail = session[:breadcrumbtrail]
 
-    # remove any parameters from end of string for breadcrumb trail
-    urlNoParams = current_url
-    qIndex = current_url.index('?')
-    if not qIndex.nil? then
-      urlNoParams = current_url.slice(0,qIndex)
-      # logger.debug("breadcrumb handling, trimmed " + current_url + " to " + urlNoParams)
-    end
-    
+    uri = URI request.url
+
     # if this url ends with "/callback", we don't adjust the breadcrumb trail at all.
-    logger.debug("checking <" + urlNoParams + "> for /callback")
-    if urlNoParams.end_with? "/callback" then 
+    #logger.debug("checking <" + uri.path + "> for /callback")
+    if uri.path.end_with? "/callback" then 
       return 
     end
 
     if trail.nil? then
-      # we must have just started a session; create the
-      # first breadcrumb and the array that holds the breadcrumbs in the session
-      logger.debug("creating breadcrumb trail")
-      bc = Breadcrumbhelper::Breadcrumb.new "home", urlNoParams, current_url
-      trail = [ bc ]
+      # we must have just started a session; create the first breadcrumb 
+      #   and the array that holds the breadcrumbs in the session
+      #logger.debug("creating breadcrumb trail")
+      bc = Breadcrumbhelper::Breadcrumb.new "home", uri.path, request.url
+      newtrail = [ bc ]
     else
-      # look through our array of breadcrumbs to see if this URL is already in it.
-      matchedIndex = -1		# set to real index if we find a match
-      trail.each_with_index do |crumb, current_index|
-        # logger.debug("matching against <" + crumb.strippedLink + ">")
-        if crumb.strippedLink.eql? urlNoParams then
-          # we've found the URL in our list -- save the index to trim the array
-          matchedIndex = current_index
-	  # logger.debug("matched URL at " + matchedIndex.to_s)
-	  break
-        end
+      newtrail = trail.take_while do |crumb| 
+        logger.debug "Crump: #{crumb.name}"
+        not crumb.strippedLink.eql? uri.path
       end
-
-      if matchedIndex >= 0 then
-        # we have this URL in our list, so trim the list.
-        trail = trail.slice(0..matchedIndex)
-	# logger.debug("slicing urlArray")
-      else
-        # this URL is not in our list; we determine a user-friendly name for the URL, 
-        # create a breadcrumb, and add it to the end of the list
-	name = getUserFriendlyUrlName(urlNoParams)
-        trail.push Breadcrumbhelper::Breadcrumb.new name, urlNoParams, current_url
-	# logger.debug("pushing new link onto array")
-      end
+    
+      # this URL is not in our list; we determine a user-friendly name for the URL, 
+      # create a breadcrumb, and add it to the end of the list
+      name = getUserFriendlyUrlName(uri)
+      newtrail.push Breadcrumbhelper::Breadcrumb.new name, uri.path, current_url
+      # logger.debug("pushing new link onto array")
     end
 
     # logger.debug("current_url = " + current_url)
@@ -214,7 +195,7 @@ class ApplicationController < ActionController::Base
       # logger.debug("  " + bc.name + "  " + bc.link)
     # end
 
-    session[:breadcrumbtrail] = trail
+    session[:breadcrumbtrail] = newtrail
     # logger.debug("==========================")
   end
 
@@ -222,26 +203,20 @@ class ApplicationController < ActionController::Base
   # last, discard any elements that are made up of hex chars (plus '-') or 
   # are "entities"
   private
-  def getUserFriendlyUrlName(urlNoParams)
-    urlArray = urlNoParams.split("\/")
-    name = ""
-    urlArray.reverse_each do |urlPart|
-      name = urlPart
-      if urlPart.eql? "entities" then next end
-      if hex?(urlPart) then next end
-      break  # if we get here, we've found some other string, and we're done
-    end
-    return name
-  end
+  def getUserFriendlyUrlName(uri)
+    last = uri.path.split("\/")[-1]
 
-  private
-  def hex? str
-    # return true if the given string has only hex characters and/or "-", "_" or "i" 
-    # (that last to handle URLs which have _id); this returns false otherwise
-    str.each_char do |ch|
-      if "0123456789abcdefABCDEF-_i".index(ch).nil? then return false end
+    if last.eql? "entities" then
+      # convert query string to a hash and then iterate that hash
+      Rack::Utils.parse_nested_query(uri.query).each do |field, value|
+        # if a query field looks like it came from search then the breadcrumb should be search (presumably)
+        if field.starts_with? "search" then
+          return "search"
+        end
+      end
+    else
+      return last
     end
-    return true
   end
 
 end

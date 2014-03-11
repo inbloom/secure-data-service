@@ -12,12 +12,21 @@ When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login pag
 
 Scenario: Moving through breadcrumbs
   When I navigated to the Data Browser Home URL
-  Then I should see a breadcrumbtrail of "home"
+  Then I should see a breadcrumbtrail of home
   When I click on the link "GetStaffEducationOrgAssignmentAssociations"
-  Then I should see a breadcrumbtrail of "home > staffEducationOrgAssignmentAssociations"
+  Then I should see a breadcrumbtrail of home > staffEducationOrgAssignmentAssociations
   When I click on the link "home"
-  Then I should see a breadcrumbtrail of "home"
+  Then I should see a breadcrumbtrail of home
   When I click on the link "GetEducationOrganizations"
   When I click on the link "GetStaffEducationOrgAssignmentAssociations"
-  Then I should see a breadcrumbtrail of "home > educationOrganizations > staffEducationOrgAssignmentAssociations"
+  Then I should see a breadcrumbtrail of home > educationOrganizations > staffEducationOrgAssignmentAssociations
 
+@DS-1144
+Scenario Outline: Displaying Search Breadcrumbs
+  When I navigated to the Data Browser Home URL
+  When I can search for <Type> with a <Field>
+  Then I should see a breadcrumbtrail of <Result>
+  Examples:
+    |Type                  |Field     | Result          |
+    |students              |900000006 | home > search   |
+    |parents               |6231066736| home > search   |
