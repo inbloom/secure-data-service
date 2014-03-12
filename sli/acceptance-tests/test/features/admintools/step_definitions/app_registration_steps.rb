@@ -26,12 +26,19 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require 'date'
 
-Given /^I am a valid SLI Developer "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
-  # No code needed, done as configuration
-end
-
-Given /^I am a valid SLC Operator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
-  # No code needed, done as configuration
+#TODO: This step is defined (one way or another) in multiple places; need to DRY it up
+Given /^my LDAP server has been setup and running$/ do
+  @ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
+                          Property['ldap_base'], Property['ldap_admin_user'],
+                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
+  @email_sender_name= "Administrator"
+  @email_sender_address= "noreply@slidev.org"
+  @email_conf = {
+      :host =>  Property['email_smtp_host'],
+      :port => Property['email_smtp_port'],
+      :sender_name => @email_sender_name,
+      :sender_email_addr => @email_sender_address
+  }
 end
 
 When /^I hit the Application Registration Tool URL$/ do
@@ -51,17 +58,6 @@ Then /^I am redirected to the Application Registration Tool page$/ do
   assertWithWait("Failed to navigate to the Admintools App Registration page")  {@driver.page_source.index("New Application") != nil}
 end
 
-Then /^I see all of the applications that are registered to SLI$/ do
-  assertWithWait("Failed to find applications table") {@driver.find_element(:id, "applications")}
-end
-
-Then /^application "([^"]*)" does not have an edit link$/ do |app|
-# TODO: canidate for lowering timeout temporarly to improve performance
-  appsTable = @driver.find_element(:id, "applications")
-  edit = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/a[text()='Edit']")
-  assert(edit.length == 0, "Should not see an edit link")
-end
-
 Then /^I see all the applications registered on SLI$/ do
   appsTable = @driver.find_element(:id, "applications")
   trs = appsTable.find_elements(:xpath, ".//tr/td[text()='APPROVED']")
@@ -73,14 +69,6 @@ Then /^I see all the applications pending registration$/ do
   trs = appsTable.find_elements(:xpath, ".//tr/td[text()='PENDING']")
   assert(trs.length == 1, "Should see a pending application")
 end
-
-# for slcoperator
-Then /^application "([^"]*)" is pending approval$/ do |app|
-  appsTable = @driver.find_element(:id, "applications")
-  trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td[text()='PENDING']")
-  assert(trs.length > 0, "#{app} is pending")
-end
-
 
 Then /^the pending apps are on top$/ do
   appsTable = @driver.find_element(:id, "applications")
@@ -114,26 +102,6 @@ When /^I click on 'Approve' next to application "([^"]*)"$/ do |app|
   y_button.click
 end
 
-# For developer
-When /^I click on 'In Progress' next to application "([^"]*)"$/ do |app|
-  appsTable = @driver.find_element(:id, "applications")
-  y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='In Progress']")
-  assert(y_button != nil, "Did not find the 'In Progress' button")
-  y_button.click
-end
-
-# For slcoperator
-When /^I click on 'Deny' next to application "([^"]*)"$/ do |app|
-  appsTable = @driver.find_element(:id, "applications")
-  y_button  = appsTable.find_element(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Deny']")
-  assert(y_button != nil, "Did not find the deny button")
-  y_button.click
-end
-
-Then /^I get a dialog asking if I want to continue$/ do
-  @driver.switch_to.alert
-end
-
 # For slcoperator
 Then /^application "([^"]*)" is registered$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
@@ -142,53 +110,10 @@ Then /^application "([^"]*)" is registered$/ do |app|
   }
 end
 
-Then /^application "([^"]*)" is not registered$/ do |app|
-    # no-op - in next step we verify it was removed from list
-end
-
-Then /^application "([^"]*)" is removed from the list$/ do |app|
-  retryOnFailure() do
-    assertWithWait("Shouldn't see a NewApp", 30) {
-      @driver.find_element(:id, "applications").find_elements(:xpath, ".//tr/td[text()='#{app}']").length == 0
-    }
-  end
-  #appsTable = @driver.find_element(:id, "applications")
-  #tds  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']")
-  #assert(tds.length == 0, "#{app} isn't in list")
-end
-
 Then /^the 'Approve' button is disabled for application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
   y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Approve']")[0]
   assert(y_button.attribute("disabled") == 'true', "Y button is disabled")
-end
-
-Then /^those apps are sorted by the Last Update column$/ do
-  appsTable = @driver.find_element(:id, "applications")
-  tableHeadings = appsTable.find_elements(:xpath, ".//tr/th")
-  index = 0
-  tableHeadings.each do |arg|
-    index = tableHeadings.index(arg) + 1 if arg.text == "Last Update"    
-  end
-  tableRows = appsTable.find_elements(:xpath, ".//tr/td/a[text()='Edit']/../..")
-  lastDate = nil
-  tableRows.each do |row|
-    td = row.find_element(:xpath, ".//td[#{index}]")
-    date = Date.parse(td.text)
-    if lastDate == nil
-      lastDate = date
-    end
-    assert(date <= lastDate, "Last Update column should be sorted")
-    lastDate = date
-  end
-end
-
-Given /^I am a valid IT Administrator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
-  # No code needed, done as configuration
-end
-
-Then /^I receive a message that I am not authorized$/ do
-  assertWithWait("Failed to find forbidden message")  {@driver.page_source.index("Forbidden") != nil}
 end
 
 Then /^I have clicked to the button New$/ do
@@ -371,10 +296,6 @@ Then /^the previously generated client ID can no longer be used to access SLI$/ 
   pending # express the regexp above with the code you wish you had
 end
 
-Given /^I am a valid App Developer$/ do
-  #Nothing
-end
-
 Then /^I see the list of my registered applications only$/ do
   appsTable = @driver.find_element(:id, "applications")
   trs = appsTable.find_elements(:xpath, ".//tbody/tr")
@@ -404,6 +325,8 @@ Then /^the Registration Status field is Registered$/ do
   #Nothing to show anymore
 end
 
+# TODO: Figure out a better way of doing this e-mail checking and
+#       then move it to the App Registration scenario in admin_smoke.feature
 Then /^a notification email is sent to "([^"]*)"$/ do |email|
     sleep 2
     defaultUser = email.split("@")[0]

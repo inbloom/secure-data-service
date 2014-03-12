@@ -1,5 +1,6 @@
 <% @entities.each do |entity| %>
 <tr>
+  <td class="expandable"><div></div></td>
   <% @tableFields.each do |field| %>
   <td><%= value_for_table_view(field, entity) %></td>
   <% end %>

@@ -1692,6 +1692,8 @@ local-pit:
 local-ldap-server:
     api:
         <<: *API-LOCAL
+        sli.api.ldap.user: cn=Admin,dc=slidev,dc=org
+        sli.api.ldap.pass: FEEBEC071D0C8CA1886224930EEE3F6D
 
     data-access:
         <<: *DATA-ACCESS-LOCAL
@@ -1707,7 +1709,8 @@ local-ldap-server:
 
     misc:
         <<: *MISC-LOCAL
-        sli.simple-idp.ldap.urls: ldaps://localhost:443
+        sli.simple-idp.ldap.urls: ldap://127.0.0.1:10389
+        #sli.simple-idp.ldap.urls: ldaps://localhost:443
 
 #
 # Configuration to support running sandbox locally with a locally running ldap server
@@ -1718,6 +1721,8 @@ local-sandbox-ldap-server:
         sli.sandbox.enabled: true
         sli.autoRegisterApps: true
         bootstrap.sandbox.createSandboxRealm: true
+        sli.api.ldap.user: cn=Admin,dc=slidev,dc=org
+        sli.api.ldap.pass: FEEBEC071D0C8CA1886224930EEE3F6D
 
     data-access:
         <<: *DATA-ACCESS-LOCAL
@@ -1737,4 +1742,5 @@ local-sandbox-ldap-server:
     misc:
         <<: *MISC-LOCAL
         sli.simple-idp.sandboxImpersonationEnabled: true
-        sli.simple-idp.ldap.urls: ldaps://localhost:443
+        sli.simple-idp.ldap.urls: ldap://127.0.0.1:10389
+        #sli.simple-idp.ldap.urls: ldaps://localhost:443
