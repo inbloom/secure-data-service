@@ -3,7 +3,7 @@
 <% if !userIsAStudent %>
 	<%=
     	html = ""
-    	#html << display_edorg_table(@entities)
+    	html << display_edorg_table(@entities)
     	html.html_safe
 	%>
 <% end %>
