@@ -16,14 +16,13 @@ limitations under the License.
 
 =end
 
-def webdriverDebugMessage(driver, message="Webdriver could not achieve expected results")
-  return "Debug Informaton\nCurrent Page: "+driver.title+"\nCurrent URL : "+driver.current_url+"\nCurrent Time: "+Time.now.getutc.to_s+"\n\n"+message
+def webdriverDebugMessage(driver, message='Webdriver could not achieve expected results')
+  "Debug Information\nCurrent Page: #{driver.title}\nCurrent URL: #{driver.current_url}\nCurrent Time: #{Time.now.getutc.to_s}\n\n#{message}"
 end
 
 def lower_timeout_for_same_page_validation
   #used for same page validation
   @driver.manage.timeouts.implicit_wait = 10 # seconds
-  #@driver.manage.timeouts.implicit_wait = 2 # seconds
 end
 
 def reset_timeouts_to_default
@@ -51,7 +50,7 @@ Given /^I have an open web browser$/ do
 end
 
 When /^I wait for "([^"]*)" seconds$/ do |secs|
-  sleep(Integer(secs))
+  sleep secs.to_i
 end
 
 When /^I was redirected to the "([^"]*)" IDP Login page$/ do |idpType|
@@ -67,6 +66,7 @@ When /^I was redirected to the "([^"]*)" IDP Login page$/ do |idpType|
     raise "IDP type '#{arg1}' not implemented yet"
   end
 end
+
 When /^I submit the developer credentials "([^"]*)" "([^"]*)" for the impersonation login page$/ do |user, pass|
   @driver.find_element(:id, "user_id").send_keys user
   @driver.find_element(:id, "password").send_keys pass
