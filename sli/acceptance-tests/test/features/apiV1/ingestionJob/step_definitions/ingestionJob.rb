@@ -16,5 +16,19 @@ And /^the ingestion batch job collection contains "([^"]*)" records$/ do |count|
   db ||= Mongo::Connection.new(Property['DB_HOST']).db('ingestion_batch_job')
   coll ||= db.collection('newBatchJob')
   entity_count = coll.find().count()
-  assert(count.to_i == entity_count)
+  assert(count.to_i == entity_count, "Actual count was #{entity_count}")
+end
+
+Then /^I should receive a response with "(.*?)" entities$/ do |count|
+  jsonResult = JSON.parse(@res.body)
+  assert(count.to_i == jsonResult.size, "Actual count was #{jsonResult.size}")
+end
+
+Then /^I should have only one entity with id "(.*?)"$/ do |id|
+  jsonResult = JSON.parse(@res.body)
+
+  if @res.body[0,1] == "["
+    fail("A JSON array was returned")
+  end
+  assert(jsonResult["id"] == id, "The entity id does not match")
 end
