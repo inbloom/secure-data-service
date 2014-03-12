@@ -94,8 +94,22 @@ module EntitiesHelper
     html = ""
     if hash.is_a?(Array)
       html << "<ul class='values'>"
+      html << "<p>Click on the # to display the counts of associated entities (Total/Current)</p>"
       hash.sort_by{|link| t(link["rel"]).downcase}.each do |link|
-        html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"])) << '</li>'
+        html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"]))
+        
+        url = link['href']
+        if (url.include? "?")
+          url = "#{url}&countOnly=true"
+        else
+          url = "#{url}?countOnly=true"
+        end
+
+        # Adds the count span to the page for use with getting the counts by ajax request.
+        html << " (" << "<span class=count_link data-url=#{localize_url(url)}>#</span>" << ")"
+        
+        html << '</li>'
+
       end
       html << '</ul>'
     else
