@@ -27,7 +27,6 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jwashington" "jwashington1234" for the "Simple" login page
 Then I should be redirected to the Data Browser home page
 When I click on the Logout link
-#Then I am redirected to a page that informs me that I have signed out
 And I am forced to reauthenticate to access the databrowser
 
 @smoke
@@ -65,7 +64,7 @@ And I see the properties in the following <Order>
 | StateOrganizationId |
 | NameOfInstitution |
 | Address |
-And I see "Links" last
+And I see "Associated Entities" last
 
 Scenario: Links List Order - Order of the list of Links in an Entity
 
@@ -78,7 +77,7 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 And I click on the "GetEducationOrganizations" link
 Then I am redirected to the educationOrganization page
-And I see the list of "Links" in alphabetical order
+And I see the list of "Associated Entities" in alphabetical order
 
 Scenario: Associations List - Simple View
 
@@ -316,3 +315,20 @@ Scenario: Validate that the headers are correct for students, parents, staff and
 
     Given I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "false"
 
+Scenario: There should be a pound sign next to the links that should be clickable and show the counts.
+
+Given I have an open web browser
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+And I click on the "GetEducationOrganizations" link
+Then I should click on the <Number> link pound and get <Text> returned
+
+    | Number | Text      |
+    | 4      | 0 / 0     |
+    | 8      | 13 / 13   |
+    | 16     | 4 / 4     |
+    | 22     | N/A / N/A |

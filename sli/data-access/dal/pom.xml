@@ -1,13 +1,23 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.slc.sli.dal</groupId>
         <artifactId>data-access</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>dal</artifactId>
     <name>Data Access Layer</name>
+
+    <properties>
+        <sli.home>${project.parent.parent.basedir}</sli.home>
+        <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
+        <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.slc.sli.common</groupId>
@@ -21,22 +31,19 @@
             <groupId>org.slc.sli.domain</groupId>
             <artifactId>domain</artifactId>
         </dependency>
-        <!-- Spring Core dependency -->
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
         </dependency>
-        <!-- Spring Context dependency -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
-        <!-- Spring TX dependency -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
         </dependency>
-        <!--  Spring web -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
@@ -45,6 +52,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
         </dependency>
+
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
@@ -69,11 +77,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-        <!-- Jackson json -->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
         </dependency>
+
         <!-- Persistence Framework -->
         <!-- spring data mongodb dependency -->
         <dependency>
@@ -81,6 +89,7 @@
             <artifactId>spring-data-mongodb</artifactId>
             <version>${springdata-mongodb-version}</version>
         </dependency>
+
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
@@ -89,27 +98,21 @@
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
         </dependency>
-        <!-- Elasticsearch -->
+
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
             <version>${elasticsearch.version}</version>
         </dependency>
     </dependencies>
-    <properties>
-        <sli.home>${project.parent.parent.basedir}</sli.home>
-        <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
-        <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
-        <elasticsearch.version>0.19.9</elasticsearch.version>
-    </properties>
 
     <build>
         <plugins>
-        <!-- Plugin for AspectJ integration -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
+
 </project>

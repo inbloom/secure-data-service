@@ -39,12 +39,6 @@ Scenario Outline: Deny access when logging in as invalid user
     | "baduser"  | "baduser1234"  | "SLI" |
     | "badadmin" | "badadmin1234" | "IL"  |
 
-@wip
-Scenario: Deny creation when missing userName
-    Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
-    When I POST a basic tenant with no userName
-    Then I should receive a return code of 400
-
 Scenario Outline: Deny creation when missing individual fields
 
     Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"

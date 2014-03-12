@@ -36,23 +36,3 @@ When I select "New York Realm" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "InvalidJohnDoe" "demo1234" for the "Simple" login page
 Then I am informed that "Invalid User Name or password"
-
-@wip
-Scenario: Login with cookie
-When I navigate to the Dashboard home page
-Then I should be redirected to the Realm page
-Then I add a cookie for linda.kim
-When I navigate to the Dashboard home page
-Then I should be redirected to the Dashboard landing page
-
-@wip
-Scenario: user in IDP but not in mongo
-When I access "/static/html/test.html"
-Then I can see "Static HTML page"
-When I navigate to the Dashboard home page
-Then I should be redirected to the Realm page
-When I select "Sunset School District 4526" and click go
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "mario.sanchez" "mario.sanchez" for the "Simple" login page
-#TODO there is a bug in the code right now
-Then I am informed that "Invalid User"

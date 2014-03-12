@@ -1,41 +1,4 @@
 ############################################################
-# API Sandbox Tests start
-############################################################
-desc "Run Sandbox API tests"
-task :apiSandboxTests do
-  @tags = ["~@wip", "@sandbox", "~@rc"]
-  Rake::Task["importZorkSandboxData"].invoke
-  Rake::Task["importChaosSandboxData"].invoke
-  Rake::Task["securityTests"].invoke
-end
-
-desc "Run Sandbox mode Tests"
-task :adminSandboxTests do
-  @tags = ["~@wip", "@sandbox"]
-  Rake::Task["adminToolsTests"].invoke
-end
-
-desc "Run Sandbox Simple IDP tests"
-task :simpleIdpSandboxTests do
-  @tags = ["~@wip", "@sandbox"]
-  Rake::Task["importSandboxData"].invoke
-  runTests("test/features/simple_idp/SimpleIDP.feature")
-end
-
-desc "Run Sandbox API tests"
-task :bulkExtractSandboxTests do
-  @tags = ["~@wip", "@sandbox", "~@rc"]
-  Rake::Task["realmInit"].execute
-  Rake::Task["importSandboxBulkExtractData"].execute
-  runTests("test/features/bulk_extract/features/bulk_extract_sandbox.feature")
-end
-
-############################################################
-# API Sandbox Tests end
-############################################################
-
-
-############################################################
 # Account Approval tests start
 ############################################################
 desc "Run Account Approval acceptance tests"
