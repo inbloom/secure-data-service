@@ -39,13 +39,9 @@ Given /^I have an open web browser$/ do
   else
     @profile ||= Selenium::WebDriver::Firefox::Profile.new
     @profile['network.http.prompt-temp-redirect'] = false
-    # if osx, use firefox background script
-    #if Selenium::WebDriver::Firefox::Binary.path['/Applications/Firefox.app'] != nil
-    #  Selenium::WebDriver::Firefox::Binary.path = 'test/features/utils/firefox_in_background.sh'
-    #end
-      if ENV['HEADLESS'] and RUBY_PLATFORM.include? "darwin"
-        Selenium::WebDriver::Firefox::Binary.path="/opt/local/bin/firefox-x11"  
-      end
+    if ENV['HEADLESS'] and RUBY_PLATFORM.include? "darwin"
+      Selenium::WebDriver::Firefox::Binary.path="/opt/local/bin/firefox-x11"
+    end
     client = Selenium::WebDriver::Remote::Http::Default.new
     client.timeout = 120 # seconds
     @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile, :http_client => client
