@@ -12,18 +12,18 @@ Scenario: Change right for IT Admin to do a successful ingestion log API query
     Given I change the custom role of "IT Administrator" in tenant "Midgar" to add the "INGESTION_LOG_VIEW" right
     And   I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
     #When I navigate to HEAD "/system/session/check/"
-    When I navigate to HEAD "/ingestionJobs/"
+    When I navigate to GET "/ingestionJobs/"
     Then I should receive a return code of 200
     
 Scenario: Attempt ingestion log data as a local admin, get denied because of insufficient privilege
     Given I change the custom role of "IT Administrator" in tenant "Midgar" to remove the "INGESTION_LOG_VIEW" right
     And   I am logged in using "rrogers" "rrogers1234" to realm "IL"
-    When  I navigate to HEAD "/ingestionJobs/"
+    When  I navigate to GET "/ingestionJobs/"
     Then  I should receive a return code of 403
     
 Scenario: Obtain ingestion log data as a state admin
     Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
-    When I navigate to HEAD "/ingestionJobs/"
+    When I navigate to GET "/ingestionJobs/"
     Then I should receive a return code of 200
 
 Scenario: Validate that the api returns the appropriate ingestionJobs
