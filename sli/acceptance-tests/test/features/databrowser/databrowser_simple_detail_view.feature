@@ -64,7 +64,7 @@ And I see the properties in the following <Order>
 | StateOrganizationId |
 | NameOfInstitution |
 | Address |
-And I see "Links" last
+And I see "Associated Entities" last
 
 Scenario: Links List Order - Order of the list of Links in an Entity
 
@@ -77,7 +77,7 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 And I click on the "GetEducationOrganizations" link
 Then I am redirected to the educationOrganization page
-And I see the list of "Links" in alphabetical order
+And I see the list of "Associated Entities" in alphabetical order
 
 Scenario: Associations List - Simple View
 
