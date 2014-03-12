@@ -1,55 +1,56 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.slc.sli</groupId>
-    <artifactId>sli</artifactId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
+    <parent>
+        <groupId>org.slc.sli</groupId>
+        <artifactId>sli</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-  <groupId>org.slc.sli.ingestion</groupId>
-  <artifactId>ingestion</artifactId>
-  <packaging>pom</packaging>
+    <groupId>org.slc.sli.ingestion</groupId>
+    <artifactId>ingestion</artifactId>
+    <packaging>pom</packaging>
 
-  <name>SLI - Ingestion</name>
+    <name>SLI - Ingestion</name>
 
-  <properties>
-    <sli.home>${project.parent.basedir}</sli.home>
-    <junit-addons.version>1.4</junit-addons.version>
-  </properties>
+    <properties>
+        <sli.home>${project.parent.basedir}</sli.home>
 
-  <modules>
-    <module>ingestion-base</module>
-    <module>ingestion-core</module>
-    <module>ingestion-service</module>
-    <module>ingestion-validation</module>
-  </modules>
+        <activemq.version>5.6.0</activemq.version>
+    </properties>
 
-  <dependencyManagement>
+    <modules>
+        <module>ingestion-base</module>
+        <module>ingestion-core</module>
+        <module>ingestion-service</module>
+        <module>ingestion-validation</module>
+    </modules>
 
-    <dependencies>
-      <dependency>
-        <groupId>org.slc.sli.ingestion</groupId>
-        <artifactId>ingestion-base</artifactId>
-        <version>${project.version}</version>
-      </dependency>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.slc.sli.ingestion</groupId>
+                <artifactId>ingestion-base</artifactId>
+                <scope>compile</scope>
+                <version>${project.version}</version>
+            </dependency>
 
-      <dependency>
-        <groupId>org.slc.sli.ingestion</groupId>
-        <artifactId>ingestion-core</artifactId>
-        <version>${project.version}</version>
-      </dependency>
+            <dependency>
+                <groupId>org.slc.sli.ingestion</groupId>
+                <artifactId>ingestion-core</artifactId>
+                <scope>compile</scope>
+                <version>${project.version}</version>
+            </dependency>
 
-      <dependency>
-        <groupId>junit-addons</groupId>
-        <artifactId>junit-addons</artifactId>
-        <version>${junit-addons.version}</version>
-        <scope>test</scope>
-      </dependency>
-    </dependencies>
-
-  </dependencyManagement>
+            <dependency>
+                <groupId>junit-addons</groupId>
+                <artifactId>junit-addons</artifactId>
+                <version>${junit.addons.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

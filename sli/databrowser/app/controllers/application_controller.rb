@@ -49,14 +49,19 @@ class ApplicationController < ActionController::Base
   
   rescue_from ActiveResource::ForbiddenAccess do |exception|
     logger.info { "Forbidden access."}
-    flash[:error] = "Sorry, you don't have access to this page. If you feel like you are getting this page in error, please contact your administrator."
-
-    # If 403 happened during login, we don't have a valid :back, so render 403 page.
-    # Otherwise redirect back with the flash set
-    if request.headers['referer'].nil? or !request.headers['referer'].include?(request.host)
-        return render :status => :forbidden, :layout=> false, :file => "#{Rails.root}/public/403.html"
+    respond_to do |format|
+      format.html {
+        flash[:error] = "Sorry, you don't have access to this page. If you feel like you are getting this page in error, please contact your administrator."
+    
+        # If 403 happened during login, we don't have a valid :back, so render 403 page.
+        # Otherwise redirect back with the flash set
+        if request.headers['referer'].nil? or !request.headers['referer'].include?(request.host)
+            return render :status => :forbidden, :layout=> false, :file => "#{Rails.root}/public/403.html"
+        end
+        redirect_to :back
+      }
+      format.json { render json: { :alert => "403" } }
     end
-    redirect_to :back
   end
   
   rescue_from ActiveResource::ServerError do |exception|
@@ -95,8 +100,13 @@ class ApplicationController < ActionController::Base
   private 
   def not_found
     logger.debug {"Not found"}
-    flash[:alert] = "No resource found with id: #{params[:id] || params[:search_id]}"
-    redirect_to :back
+    respond_to do |format|
+      format.html {
+        flash[:alert] = "No resource found with id: #{params[:id] || params[:search_id]}"
+        redirect_to :back
+      }
+      format.json { render json: { :alert => "404" } }
+    end
   end
   
   def current_url
@@ -158,6 +168,11 @@ class ApplicationController < ActionController::Base
   # the current page and has a way to return to a previous page 
   # with a single click.
   def handle_breadcrumb
+    
+    if request.format == "application/json"
+      return
+    end
+    
     logger.debug("===================")
     # logger.debug("handling breadcrumb for <" + current_url + ">")
 

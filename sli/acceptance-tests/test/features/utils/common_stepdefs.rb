@@ -216,15 +216,15 @@ end
 
 Then /^I get a link to "(.*?)"$/ do |linkName|
   result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
+  result.should_not be_nil
   links = result["links"]
   @link = nil
   for l in links do
-          if l['rel'] == linkName
-                  @link = l["href"]
-          end
+    if l['rel'] == linkName
+      @link = l["href"]
+    end
   end
-  assert(@link != nil, "Link to aggregates not found")
+  @link.should_not be_nil
 end
 
 Then /^I navigate to that link$/ do
@@ -380,6 +380,44 @@ def credentials_for(user_type)
   creds = users[user_type]
   creds.should_not be_nil
   [*creds, realm]
+end
+
+Given /^I navigated to the Data Browser Home URL$/ do
+  @driver.get Property['databrowser_server_url']
+end
+
+Given /^I was redirected to the Realm page$/ do
+  assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}
+end
+
+Given /^I click on the realm page Go button$/ do
+  assertWithWait("Could not find the Go button")  { @driver.find_element(:id, "go") }
+  @driver.find_element(:id, "go").click
+end
+
+When /^I choose realm "([^"]*)" in the drop\-down list$/ do |arg1|
+  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
+  select.select_by(:text, arg1)
+end
+
+Then /^I should be redirected to the Data Browser home page$/ do
+  assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Welcome to the inBloom, inc. Data Browser")}
+end
+
+Given /^I was redirected to the SLI IDP Login page$/ do
+  assertWithWait("Was not redirected to the IDP login page")  { @driver.find_element(:name, "Login.Submit") }
+end
+
+When /^I enter "([^"]*)" in the username text field$/ do |arg1|
+  @driver.find_element(:id, "username").send_keys arg1
+end
+
+When /^I enter "([^"]*)" in the password text field$/ do |arg1|
+  @driver.find_element(:id, "password").send_keys arg1
+end
+
+When /^I click the Go button$/ do
+  @driver.find_element(:id, "submit").click
 end
 
 

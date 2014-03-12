@@ -181,6 +181,7 @@ class Property
   end
 
   def self.[](key)
+    key = key.to_s # in case key is a symbol
     ENV[key] || @@yml[key]
   end
 

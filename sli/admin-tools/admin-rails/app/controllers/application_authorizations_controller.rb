@@ -172,6 +172,7 @@ class ApplicationAuthorizationsController < ApplicationController
     return 0 if auth.nil? || auth.edorgs.nil?
 
     auth.edorgs.each do |auth_edorg|
+      puts auth_edorg
       count += 1 if auth_edorg.authorizedEdorg
     end
 

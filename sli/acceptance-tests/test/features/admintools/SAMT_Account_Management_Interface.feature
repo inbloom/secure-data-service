@@ -4,7 +4,7 @@ Feature: Super Admin Interface
 	
 Background: 
 Given I have an open web browser
-And LDAP server has been setup and running
+And my LDAP server has been setup and running
 And I already have a SLC Operator account
 
 
@@ -86,7 +86,7 @@ And the new user has the same "Tenant" field as "IL Admin" has
 
 Scenario: As a SLC Operator I can not create ingestion user or realm admin in a district without LEAs
 Given the prod testing user does not already exists in LDAP
-Given there is no users in edorg "IL-NIGHTFALL" 
+Given there are no users in edorg "IL-NIGHTFALL"
 When I navigate to the User Management Page 
 And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
 Then I am redirected to "Manage Administrator Accounts" page 
@@ -126,7 +126,7 @@ Then a "there is no LEA Administrator" message is displayed
 
 Scenario: As a SEA Admin I can not create ingestion user or realm admin in a district without LEAs
 Given the prod testing user does not already exists in LDAP
-Given there is no users in edorg "IL-NIGHTFALL" 
+Given there are no users in edorg "IL-NIGHTFALL"
 When I navigate to the User Management Page 
 And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
 Then I am redirected to "Manage Administrator Accounts" page 

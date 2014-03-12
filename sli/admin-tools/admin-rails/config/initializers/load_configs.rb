@@ -20,8 +20,9 @@ limitations under the License.
 require 'approval'
 
 APP_CONFIG = YAML::load_file("#{Rails.root}/config/config.yml")[Rails.env]
+
 APP_LDAP_CLIENT = LDAPStorage.new(APP_CONFIG["ldap_host"], APP_CONFIG["ldap_port"],
-      APP_CONFIG["ldap_base"],APP_CONFIG["ldap_user"],PropertyDecryptorHelper.decrypt(APP_CONFIG["ldap_pass"]), APP_CONFIG["ldap_use_ssl"])
+      APP_CONFIG["ldap_base"],APP_CONFIG["ldap_user"], PropertyDecryptorHelper.decrypt(APP_CONFIG["ldap_pass"]), APP_CONFIG["ldap_use_ssl"])
 
 class MyTransitionActionConfig
   def transition(user)
@@ -30,6 +31,7 @@ class MyTransitionActionConfig
     end
   end
 end
+
 ApprovalEngine.init(APP_LDAP_CLIENT, MyTransitionActionConfig.new, APP_CONFIG["is_sandbox"],APP_CONFIG["auto_approve"])
 
 # ruby-recaptcha vars

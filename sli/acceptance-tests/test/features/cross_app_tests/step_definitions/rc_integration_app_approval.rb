@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative '../../admintools/step_definitions/developer_enable_steps.rb'
+
 #portal, which also imports dashboard step def
 Dir["./test/features/liferay/step_definitions/*.rb"].each {|file| require file}
 
