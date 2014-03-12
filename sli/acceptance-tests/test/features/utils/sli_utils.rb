@@ -143,7 +143,7 @@ class LongLivedSession
     'mmagic_Midgar' => '7e859615-3487-41b0-a052-cb1beb6fb12d',
     'morion_Midgar' => '11a45527-9141-491d-8ebd-132f1d105625'
   }
-  def token(username, realm='SLI')
+  def self.token(username, realm='SLI')
     @@session_map["#{username}_#{realm}"]
   end
 end
