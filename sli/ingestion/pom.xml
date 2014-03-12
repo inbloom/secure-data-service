@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-<<<<<<< HEAD
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -53,59 +51,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-=======
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-  <modelVersion>4.0.0</modelVersion>
-
-  <parent>
-    <groupId>org.slc.sli</groupId>
-    <artifactId>sli</artifactId>
-    <version>1.15.93.106</version>
-  </parent>
-
-  <groupId>org.slc.sli.ingestion</groupId>
-  <artifactId>ingestion</artifactId>
-  <packaging>pom</packaging>
-
-  <name>SLI - Ingestion</name>
-
-  <properties>
-    <sli.home>${project.parent.basedir}</sli.home>
-    <junit-addons.version>1.4</junit-addons.version>
-  </properties>
-
-  <modules>
-    <module>ingestion-base</module>
-    <module>ingestion-core</module>
-    <module>ingestion-service</module>
-    <module>ingestion-validation</module>
-  </modules>
-
-  <dependencyManagement>
-
-    <dependencies>
-      <dependency>
-        <groupId>org.slc.sli.ingestion</groupId>
-        <artifactId>ingestion-base</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.slc.sli.ingestion</groupId>
-        <artifactId>ingestion-core</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>junit-addons</groupId>
-        <artifactId>junit-addons</artifactId>
-        <version>${junit-addons.version}</version>
-        <scope>test</scope>
-      </dependency>
-    </dependencies>
-
-  </dependencyManagement>
->>>>>>> Release Candidate
-
 </project>
