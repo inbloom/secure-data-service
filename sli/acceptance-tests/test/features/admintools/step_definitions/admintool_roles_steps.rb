@@ -47,7 +47,3 @@ end
 Then /^I am informed that authentication has failed$/ do
   @driver.find_element(:class, "alert-error").should_not be_nil
 end
-
-Then /^I should get a message that I am not authorized$/ do
-  assertWithWait("Could not find Not Authorized in page title")  {@driver.page_source.index("Forbidden")!= nil}
-end
