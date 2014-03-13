@@ -78,7 +78,7 @@ def valid_user(user_type)
       'district-level administrator' => %w( sunsetadmin ),
       'realm administrator'          => %w( sunsetrealmadmin ),
       'federated district-level administrator' => %w( jstevenson ),
-      'SLC Operator'                           => %w( slcoperator ),
+      'SLC Operator'                           => %w( slcoperator-email@slidev.org slcoperator-email1234 ),
       'Super Administrator'                    => %w( daybreaknorealmadmin ),
       'non-SLI hosted user with no roles' => %w( administrator ),
       'SLI hosted user with no roles' => %w( leader ),
