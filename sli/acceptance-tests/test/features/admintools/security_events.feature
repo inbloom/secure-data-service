@@ -18,7 +18,7 @@ Scenario: Non-SLI-hosted valid user tries to access the Application Authorizatio
       | No valid role mappings exist |
 
 Scenario: Valid SLC operator successfully accesses the default administration page
-  Given I am a valid SLC Operator
+  Given I am a valid inBloom developer
    When I attempt to go to the default administration page
    Then I should be on the default administration page
    Then I should see security events for:
