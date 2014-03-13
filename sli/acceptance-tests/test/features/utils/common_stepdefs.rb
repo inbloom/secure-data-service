@@ -420,6 +420,17 @@ When /^I click the Go button$/ do
   @driver.find_element(:id, "submit").click
 end
 
+Given /^the following collections are empty in datastore:$/ do |table|
+  DbClient.new(:tenant => 'Midgar').open do |db_client|
+    table.hashes.map do |row|
+      db_client.remove_all row['collectionName']
+    end
+  end
+end
 
-
-#http://local.slidev.org:8080/api/rest/v1.5/staff/bcfcc33f-f4a6-488f-baee-b92fbd062e8d/staffEducationOrgAssignmentAssociations/educationOrganizations
+Then /^I should be able to use the token to make valid API calls$/ do
+  restHttpGet('/system/session/check', 'application/json')
+  @res.should_not be_nil
+  data = JSON.parse(@res.body)
+  data['authenticated'].should be_true
+end

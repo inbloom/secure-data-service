@@ -3,6 +3,19 @@ require_relative 'rakefile_common'
 
 class DbClient
 
+  class << self
+    def allow_table_scan!
+      client = DbClient.new
+      client.allow_table_scan!
+      client.close
+    end
+    def disallow_table_scan!
+      client = DbClient.new
+      client.disallow_table_scan!
+      client.close
+    end
+  end
+
   attr_reader :db
 
   # Valid options are :host, :port, :tenant or :db_name, :allow_table_scan (true/false)
@@ -84,6 +97,10 @@ class DbClient
 
   def remove(collection, query)
     db[collection].remove query
+  end
+
+  def remove_all(collection)
+    db[collection].remove {}
   end
 
   def remove_by_id(collection, id)

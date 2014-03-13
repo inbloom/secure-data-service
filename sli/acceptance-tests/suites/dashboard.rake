@@ -87,12 +87,7 @@ task :localDashboardTests do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["dashboardSdsTests"].invoke
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 desc "Run dashboard integration tests"
@@ -180,12 +175,6 @@ desc "Run dashboard qunit tests"
 task :dashboardQunitTests do
   runTests("test/features/dashboard/dash/qunit_tests.feature")
 end
-
-desc "Run dashboard qunit tests"
-task :dashboardJmeterTests do
-  runTests("test/features/dashboard/jmeter/dashboard_jmeter_performance.feature")
-end
-
 
 ############################################################
 # Dashboard local dev environmnet

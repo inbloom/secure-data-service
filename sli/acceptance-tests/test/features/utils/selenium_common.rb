@@ -16,14 +16,13 @@ limitations under the License.
 
 =end
 
-def webdriverDebugMessage(driver, message="Webdriver could not achieve expected results")
-  return "Debug Informaton\nCurrent Page: "+driver.title+"\nCurrent URL : "+driver.current_url+"\nCurrent Time: "+Time.now.getutc.to_s+"\n\n"+message
+def webdriverDebugMessage(driver, message='Webdriver could not achieve expected results')
+  "Debug Information\nCurrent Page: #{driver.title}\nCurrent URL: #{driver.current_url}\nCurrent Time: #{Time.now.getutc.to_s}\n\n#{message}"
 end
 
 def lower_timeout_for_same_page_validation
   #used for same page validation
   @driver.manage.timeouts.implicit_wait = 10 # seconds
-  #@driver.manage.timeouts.implicit_wait = 2 # seconds
 end
 
 def reset_timeouts_to_default
@@ -39,13 +38,9 @@ Given /^I have an open web browser$/ do
   else
     @profile ||= Selenium::WebDriver::Firefox::Profile.new
     @profile['network.http.prompt-temp-redirect'] = false
-    # if osx, use firefox background script
-    #if Selenium::WebDriver::Firefox::Binary.path['/Applications/Firefox.app'] != nil
-    #  Selenium::WebDriver::Firefox::Binary.path = 'test/features/utils/firefox_in_background.sh'
-    #end
-      if ENV['HEADLESS'] and RUBY_PLATFORM.include? "darwin"
-        Selenium::WebDriver::Firefox::Binary.path="/opt/local/bin/firefox-x11"  
-      end
+    if ENV['HEADLESS'] and RUBY_PLATFORM.include? "darwin"
+      Selenium::WebDriver::Firefox::Binary.path="/opt/local/bin/firefox-x11"
+    end
     client = Selenium::WebDriver::Remote::Http::Default.new
     client.timeout = 120 # seconds
     @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile, :http_client => client
@@ -54,12 +49,8 @@ Given /^I have an open web browser$/ do
   reset_timeouts_to_default
 end
 
-When /^I wait for a second$/ do
-  sleep(1)
-end
-
 When /^I wait for "([^"]*)" seconds$/ do |secs|
-  sleep(Integer(secs))
+  sleep secs.to_i
 end
 
 When /^I was redirected to the "([^"]*)" IDP Login page$/ do |idpType|
@@ -75,6 +66,7 @@ When /^I was redirected to the "([^"]*)" IDP Login page$/ do |idpType|
     raise "IDP type '#{arg1}' not implemented yet"
   end
 end
+
 When /^I submit the developer credentials "([^"]*)" "([^"]*)" for the impersonation login page$/ do |user, pass|
   @driver.find_element(:id, "user_id").send_keys user
   @driver.find_element(:id, "password").send_keys pass
@@ -187,17 +179,6 @@ AfterStep('@pause') do
   print "Press Return to continue..." 
   STDIN.getc  
 end 
-
-AfterStep do |scenario|
-    @count ||= 0
-    if ENV['SCREENSHOTS']
-        @count = @count + 1
-        #filename = scenario.feature.title + "#" + scenario.title + "#" + Time.new().strftime("%H:%M:%S")+ ".png"
-        filename = scenario.line.to_s() + "#" + Time.new().strftime("%H:%M:%S") + ":" + @count.to_s() + ".png"
-        #filename = filename.gsub(' ', '_').gsub(',', '')
-        system("xwd -root | xwdtopnm 2> /dev/null | pnmtopng -compression 9 > #{ENV['SCREENSHOTS']}/#{filename} 2> /dev/null")
-    end
-end
 
 def assertWithWait(msg, timeout = 15, &blk)
   wait = Selenium::WebDriver::Wait.new(:timeout => timeout)

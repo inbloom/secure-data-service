@@ -342,7 +342,7 @@ Before('~@no_ingestion_hooks') do
     @ingestion_lz_key_override = INGESTION_RC_TENANT + "-" + INGESTION_RC_EDORG
   end
 
-  if (INGESTION_MODE != 'remote')
+  if INGESTION_MODE != 'remote'
     #remove all tenants other than Midgar and Hyrule
     @tenantColl.find.each do |row|
       if row['body'] == nil
@@ -365,46 +365,38 @@ Before('~@no_ingestion_hooks') do
     @tenantId = @body['tenantId']
     @landingZones = @body['landingZone'].to_a
     @landingZones.each do |lz|
-      if lz['educationOrganization'] == nil
+      unless lz['educationOrganization']
         puts 'No educationOrganization for landing zone, skipping. Tenant id = ' + @tenantId
         next
       end
-      if lz['path'] == nil
+      unless lz['path']
         puts 'No path for landing zone, skipping. Tenant id = ' + @tenantId
         next
       end
 
       educationOrganization = lz['educationOrganization']
       path = lz['path']
+      path << '/' unless path[-1] == '/'
 
-      if path.rindex('/') != (path.length - 1)
-        path = path+ '/'
-      end
-
-      identifier = @tenantId + '-' + educationOrganization
+      identifier = "#{@tenantId}-#{educationOrganization}"
 
       #in remote trim the path to a relative user path rather than absolute path
       if INGESTION_MODE == 'remote'
         # if running against RC tenant and edorg, path will be root directory on sftp login
-        if identifier == INGESTION_RC_TENANT + '-' + INGESTION_RC_EDORG
-          path = "./"
+        if identifier == "#{INGESTION_RC_TENANT}-#{INGESTION_RC_EDORG}"
+          path = './'
         else
-          path = path.gsub(INGESTION_REMOTE_LZ_PATH, "")
+          path.gsub!(INGESTION_REMOTE_LZ_PATH, '')
         end
       end
 
-
-      #puts identifier + " -> " + path
       @ingestion_lz_identifer_map[identifier] = path
 
-      if !File.directory?(path) && INGESTION_MODE != 'remote'
-        FileUtils.mkdir_p(path)
-      end
-
+      FileUtils.mkdir_p(path) if !File.directory?(path) && INGESTION_MODE != 'remote'
     end
   end
 
-  initializeTenants()
+  initializeTenants
 end
 
 def initializeTenants()
@@ -647,6 +639,7 @@ Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_k
   lz_key = @ingestion_lz_key_override if @ingestion_lz_key_override
 
   lz = @ingestion_lz_identifer_map[lz_key]
+  puts @ingestion_lz_identifer_map.inspect
   initializeLandingZone(lz)
   initializeTenantDatabase(lz_key)
 end
@@ -666,17 +659,11 @@ def initializeTenantDatabase(lz_key)
 end
 
 def initializeLandingZone(lz)
-  unless lz.nil?
 
-    if lz.rindex('/') == (lz.length - 1)
-      @landing_zone_path = lz
-    else
-      @landing_zone_path = lz+ '/'
-    end
-  end
-
+  lz << '/' unless lz[-1] == '/'
   @landing_zone_path = lz
-  #puts "Landing Zone = " + @landing_zone_path unless @landing_zone_path.nil?
+
+  puts "Landing Zone: #{@landing_zone_path}"
 
   # clear out LZ before proceeding
   if (INGESTION_MODE == 'remote')

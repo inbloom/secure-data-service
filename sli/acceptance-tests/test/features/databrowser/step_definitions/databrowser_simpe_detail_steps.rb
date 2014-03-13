@@ -330,3 +330,19 @@ Then /^I should see a count of "([^"]*)" for id "([^"]*)" staff total and "([^"]
   assertWithWait("Failed to find the appropriate total count text") { @driver.find_element(:xpath, "//table[@id='edorgcounts_#{arg2}']//tr[1]/td[2][contains(text(), '#{arg1}')]") }
   assertWithWait("Failed to find the appropriate total count text") { @driver.find_element(:xpath, "//table[@id='edorgcounts_#{arg2}']//tr[1]/td[3][contains(text(), '#{arg3}')]") }
 end
+
+Then /^I should click on the <Number> link pound and get <Text> returned$/ do |table|
+  table.hashes.each do |hash|
+    elements = @driver.find_elements(:xpath, "//span[@class='count_link']")
+    count = 0
+    elements.each do |element|
+      if (count == hash['Number'].to_i)
+        element.click
+        sleep(1)
+        assert(element.text == hash['Text'])
+        break
+      end
+      count = count + 1
+    end
+  end
+end

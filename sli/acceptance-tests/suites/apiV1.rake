@@ -9,27 +9,27 @@ task :apiV1YearlyTranscriptTests => [:realmInit] do
 end
 
 desc "Run API V1 Granular Access Tests"
-task :apiV1GranularAccessTests => [:realmInit] do
+task :apiV1GranularAccessTests => :realmInit do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/granular_access")
 end
 
-task :apiVersionTests => [:realmInit] do
+task :apiVersionTests => :realmInit do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/api_versions/apiVersions.feature")
 end
 
-task :longLivedSessionTests => [:realmInit] do
+task :longLivedSessionTests => :realmInit do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/long_lived_session")
 end
 
-task :apiAdminCrudTests => [:realmInit] do
+task :apiAdminCrudTests => :realmInit do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud/admin_crud.feature")
 end
 
-task :apiV1EntityTests => [:realmInit] do
+task :apiV1EntityTests => :realmInit do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud/attendance_events_crud.feature")
   runTests("test/features/apiV1/entities/crud/class_period_crud.feature")
@@ -132,14 +132,8 @@ task :v1DirectReferenceCollectionsTests => [:realmInit] do
   runTests("test/features/apiV1/associations/directReferenceCollections/directReferenceCollections_teacher.feature")
 end
 
-desc "Run V1 Common Core Standards reference traversal Tests"
-task :v1CCSTests => [:realmInit] do
-  setFixture("learningStandard", "learningStandard_fixture.json")
-  runFixtureAndTests("test/features/apiV1/end_user_stories/commonCoreStandards/API/api_ccs.feature","learningObjective","learningObjective_fixture.json")
-end
-
-desc "Run V1 Home URI Tests"
-task :v1homeUriTests => [:realmInit] do
+desc 'Run V1 Home URI Tests'
+task :v1homeUriTests => :realmInit do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/home_uri")
 end
@@ -158,25 +152,25 @@ end
 
 desc "Run V1 Validation Tests"
 task :v1ValidationTests => [:realmInit] do
-  setFixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
-  setFixture("staff", "Midgar_data/staff_fixture.json")
-  setFixture("staffEducationOrganizationAssociation", "Midgar_data/staffEducationOrganizationAssociation_fixture.json")
-  setFixture("student", "Midgar_data/student_fixture.json")
-  setFixture("section", "Midgar_data/section_fixture.json")
-  setFixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
-  setFixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
+  set_fixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
+  set_fixture("staff", "Midgar_data/staff_fixture.json")
+  set_fixture("staffEducationOrganizationAssociation", "Midgar_data/staffEducationOrganizationAssociation_fixture.json")
+  set_fixture("student", "Midgar_data/student_fixture.json")
+  set_fixture("section", "Midgar_data/section_fixture.json")
+  set_fixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
+  set_fixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
   runTests("test/features/apiV1/validation/validation.feature")
 end
 
 desc "Run V1 Teacher Validation Tests"
 task :v1TeacherValidationTests => [:realmInit] do
-  setFixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
-  setFixture("staff", "Midgar_data/staff_fixture.json")
-  setFixture("staffEducationOrganizationAssociation", "Midgar_data/staffEducationOrganizationAssociation_fixture.json")
-  setFixture("student", "Midgar_data/student_fixture.json")
-  setFixture("section", "Midgar_data/section_fixture.json")
-  setFixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
-  setFixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
+  set_fixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
+  set_fixture("staff", "Midgar_data/staff_fixture.json")
+  set_fixture("staffEducationOrganizationAssociation", "Midgar_data/staffEducationOrganizationAssociation_fixture.json")
+  set_fixture("student", "Midgar_data/student_fixture.json")
+  set_fixture("section", "Midgar_data/section_fixture.json")
+  set_fixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
+  set_fixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
   runTests("test/features/apiV1/validation/teacher_validation.feature")
 end
 
@@ -242,14 +236,14 @@ end
 desc "Run V1 SecurityEvent Tests"
 task :v1SecurityEventTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  setFixture("securityEvent", "securityEvent_fixture.json")
+  set_fixture("securityEvent", "securityEvent_fixture.json")
   runTests("test/features/apiV1/securityEvent/securityEvent.feature")
 end
 
 desc "Run V1 Comma-Separated List Order Tests"
 task :v1CommaSeparatedListOrderTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  setFixture("student", "Midgar_data/student_fixture.json")
+  set_fixture("student", "Midgar_data/student_fixture.json")
   runTests("test/features/apiV1/comma_separated_list/comma_separated_list_ordering.feature")
 end
 
@@ -287,12 +281,6 @@ end
 desc "Run API JMeter Tests"
 task :apiJMeterTests do
   runTests("test/features/apiV1/jmeter/jmeterPerformance.feature")
-end
-
-desc "Import and Approve SDK Sample App"
-task :approveSdk => [:realmInit] do
-  allLeaAllowApp("SDK Sample")
-  authorizeEdorg("SDK Sample")
 end
 
 desc "Run Odin API Generation Task"
@@ -392,16 +380,12 @@ task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinConte
   runTests("test/features/apiV1/contextual_roles/student_patch.feature")
   runTests("test/features/apiV1/contextual_roles/student_post.feature")
   runTests("test/features/apiV1/contextual_roles/student_put.feature")
-  setFixture("calendarDate", "Midgar_data/calendarDate_fixture.json")
-  setFixture("staff", "staff_fixture.json")
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("staffEducationOrganizationAssociation",  "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
+  set_fixture("calendarDate", "Midgar_data/calendarDate_fixture.json")
+  set_fixture("staff", "staff_fixture.json")
+  set_fixture("educationOrganization", "educationOrganization_fixture.json")
+  set_fixture("staffEducationOrganizationAssociation",  "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
   runTests("test/features/apiV1/contextual_roles/classPeriod_bellSchedule_crud.feature")
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 desc "Run API V1 Elastic Search Limits Tests"
@@ -409,12 +393,7 @@ task :apiV1SearchLimitTests => [:realmInit] do
   Rake::Task["ingestionSmallSampleDataSet"].execute
   Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/search/search_limits.feature")
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 

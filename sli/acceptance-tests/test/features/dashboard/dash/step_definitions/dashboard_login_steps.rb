@@ -68,11 +68,7 @@ end
 Then /^I add a cookie for linda.kim$/ do
   #TODO fix using long lived session in web-based test
   @driver.manage.add_cookie(:name=> "SLI_DASHBOARD_COOKIE",:value=>"4cf7a5d4-37a1-ca19-8b13-b5f95131ac85")
-  if ENV['FORCE_COLOR']
-    puts "\e[31mWHY IS THIS TEST USING A LONG LIVED SESSION? THIS IS WRONG\e[0m"
-  else
-    puts "WHY IS THIS TEST USING A LONG LIVED SESSION? THIS IS WRONG"
-  end
+  puts '\e[31mWHY IS THIS TEST USING A LONG LIVED SESSION? THIS IS WRONG\e[0m'
 end
 
 Then /^I should see "(.*?)" prompt$/ do |expectedText|
