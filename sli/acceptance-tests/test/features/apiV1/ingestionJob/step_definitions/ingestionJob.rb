@@ -8,10 +8,10 @@ DB_HOST = ENV['DB_HOST'] ? ENV['DB_HOST'] : "localhost"
 
 ###############################################################################
 Given /^the ingestion batch job collection has been reset$/ do
-  disable_NOTABLESCAN()
-  status = system("#{MONGO_BIN}mongoimport --drop -d ingestion_batch_job -c newBatchJob -h #{DB_HOST} --file test/data/newBatchJob_fixture.json")
-  enable_NOTABLESCAN()
-  assert(status, "#{$?}")
+  importStatus = system("#{MONGO_BIN}mongoimport --drop -d ingestion_batch_job -c newBatchJob -h #{DB_HOST} --file test/data/newBatchJob_fixture.json")
+  indexStatus = system("mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js")
+  assert(importStatus, "#{$?}")
+  assert(indexStatus, "#{$?}")
 end
 
 And /^the ingestion batch job collection contains "([^"]*)" records$/ do |count|
