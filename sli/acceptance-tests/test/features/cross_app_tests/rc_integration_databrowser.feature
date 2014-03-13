@@ -141,30 +141,3 @@ Scenario: Search by id
   # Search for something I don't have access to
   When I search for the identifier "<ZOE LOCUST UNIQUE ID>" in "students"
   Then I see a "There were no entries matching your search" alert box
-
-@wip
-Scenario: Charter School - Search by id
-  When I see the realm selector I authenticate to "Charter School Test Realm"
-  And I was redirected to the "Simple" IDP Login page
-  And I submit the credentials "charteradmin" "charteradmin1234" for the "Simple" login page
-  Then I should be on Portal home page
-  And I should see Admin link
-  And I click on Admin
-  Then I should be on the admin page
-  And under System Tools, I click on "inBloom Data Browser"
-  Then I should be redirected to the Data Browser home page
-  When I search for the identifier "100000017" in "students"
-  Then I should see the text "Miha"
-  And I should see the text "Tran"
-  When I search for the identifier "IL-CHARTER-SCHOOL" in "educationOrganizations"
-  Then I should see the text "IL-CHARTER-SCHOOL"
-  And I should see the text "Elementary School"
-  When I search for the identifier "chartereducator" in "staff"
-  Then I should see the text "Catherine"
-  And I should see the text "Binkley"
-  When I search for the identifier "charteradmin" in "staff"
-  Then I should see the text "Hallie"
-  And I should see the text "Allison"
-  # Search for something I don't have access to
-  When I search for the identifier "<ZOE LOCUST UNIQUE ID>" in "students"
-  Then I see a "There were no entries matching your search" alert box

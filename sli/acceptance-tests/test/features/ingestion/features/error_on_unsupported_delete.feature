@@ -66,41 +66,6 @@ Scenario: Error When Attempting Cascade Delete with Force and LogViolations flag
         | student      |    0|
         | recordHash   |    0|
 
-@wip
-Scenario: Error when attempting safe delete using reference for unsupported entity
-    Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    And the "Midgar" tenant db is empty
-    When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
-    And I save the collection counts in "Midgar" tenant
-    And I post "OrphanGradeReferenceDelete.zip" file as the payload of the ingestion job
-    When zip file is scp to ingestion landing zone
-    And a batch job for file "OrphanGradeReferenceDelete.zip" is completed in database
-	And I should see "Processed 1 records." in the resulting batch job file
-	And I should see "records deleted successfully: 0" in the resulting batch job file
-	And I should see "records not considered for processing: 1" in the resulting batch job file
-    And I should see "CORE_0073" in the resulting error log file for "InterchangeStudentGrades.xml"
-	And I should not see a warning log file created
-    And I see that collections counts have changed as follows in tenant "Midgar"
-        | collection                                |     delta|
-        | grade                                     |         0|
-@wip
-Scenario: Error when attempting safe delete using full body for unsupported entity
-    Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    And the "Midgar" tenant db is empty
-    When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
-    And I save the collection counts in "Midgar" tenant
-    And I post "SafeSEADelete.zip" file as the payload of the ingestion job
-    When zip file is scp to ingestion landing zone
-    And a batch job for file "SafeSEADelete.zip" is completed in database
-	And I should see "Processed 1 records." in the resulting batch job file
-	And I should see "records deleted successfully: 0" in the resulting batch job file
-	And I should see "records not considered for processing: 1" in the resulting batch job file
-    And I should see "CORE_0073" in the resulting error log file for "InterchangeEducationOrganization.xml"
-	And I should not see a warning log file created
-    And I see that collections counts have changed as follows in tenant "Midgar"
-        | collection                                |     delta|
-        | educationOrganization                     |         0|
-
 Scenario: Error when attempting force delete of not found entity
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty

@@ -98,61 +98,6 @@ Examples:
 	|"/educationOrganizations/@id"|"/educationOrganizations/@id/staffEducationOrgAssignmentAssociations/staff"|"a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"|"6756e2b9-aba1-4336-80b8-4a5dde3c63fe"|
 	|"/educationOrganizations/@id"|"/educationOrganizations/@id/cohorts"                                      |"a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"|"6756e2b9-aba1-4336-80b8-4a5dde3c63fe"|
 
-@wip
-Scenario Outline: Teacher making calls to URIs through transitive relationships and being denied
-
-    Given I am logged in using "rbraverman" "rbraverman1234" to realm "IL"
-    When I call <Base Path> using ID <Direct ID>
-    Then I should receive a return code of 200
-    When I call <Extended Path> using ID <Direct ID>
-    Then I should receive a return code of 200
-    When I call <Base Path> using ID <Transitive ID>
-    Then I should receive a return code of 200
-    When I call <Extended Path> using ID <Transitive ID>
-    Then I should receive a return code of 403
-Examples:
-	| Base Path                   | Extended Path                                                              | Direct ID | Transitive ID |
-	|"/staff/@id"                 |"/staff/{id}/disciplineActions"                                             |""|""|
-	|"/staff/@id"                 |"/staff/{id}/disciplineIncidents"                                           |""|""|
-	|"/staff/@id"                 |"/staff/{id}/disciplineIncidents/studentDisciplineIncidentAssociations"     |""|""|
-	|"/staff/@id"                 |"/staff/{id}/staffCohortAssociations"                                       |""|""|
-	|"/staff/@id"                 |"/staff/{id}/staffCohortAssociations/cohorts"                               |""|""|
-	|"/staff/@id"                 |"/staff/{id}/staffCohortAssociations/cohorts/studentCohortAssociations"     |""|""|
-	|"/staff/@id"                 |"/staff/{id}/staffEducationOrgAssignmentAssociations"                       |""|""|
-	|"/staff/@id"                 |"/staff/{id}/staffEducationOrgAssignmentAssociations/educationOrganizations"|""|""|
-	|"/staff/@id"                 |"/staff/{id}/staffProgramAssociations"                                      |""|""|
-	|"/staff/@id"                 |"/staff/{id}/staffProgramAssociations/programs"                             |""|""|
-	|"/staff/@id"                 |"/staff/{id}/staffProgramAssociations/programs/studentProgramAssociations"  |""|""|
-	|"/educationOrganizations/@id"|"/educationOrganizations/{id}/staffEducationOrgAssignmentAssociations"      |""|""|
-	|"/educationOrganizations/@id"|"/educationOrganizations/{id}/staffEducationOrgAssignmentAssociations/staff"|""|""|
-	|"/educationOrganizations/@id"|"/educationOrganizations/{id}/graduationPlans"                              |""|""|
-	|"/educationOrganizations/@id"|"/educationOrganizations/{id}/cohorts"                                      |""|""|
-	#Teacher specific limitations
-	|"/sections/@id"|"/sections/@id/gradebookEntries"|""|""|
-	|"/sections/@id"|"/sections/@id/studentGradebookEntries"|""|""|
-	|"/sections/@id"|"/sections/@id/studentSectionAssociations"|""|""|
-	|"/sections/@id"|"/sections/@id/studentSectionAssociations/grades"|""|""|
-	|"/sections/@id"|"/sections/@id/studentSectionAssociations/studentCompetencies"|""|""|
-	|"/sections/@id"|"/sections/@id/studentSectionAssociations/students"|""|""|
-	|"/sections/@id"|"/sections/@id/studentSectionAssociations/students/attendances"|""|""|
-	|"/sections/@id"|"/sections/@id/studentSectionAssociations/students/courseTranscripts"|""|""|
-	|"/sections/@id"|"/sections/@id/studentSectionAssociations/students/reportCards"|""|""|
-	|"/sections/@id"|"/sections/@id/studentSectionAssociations/students/studentAcademicRecords"|""|""|
-	|"/sections/@id"|"/sections/@id/studentSectionAssociations/students/studentAssessments"|""|""|
-	|"/sections/@id"|"/sections/@id/studentSectionAssociations/students/studentGradebookEntries"|""|""|
-	|"/sections/@id"|"/sections/@id/studentSectionAssociations/students/studentParentAssociations"|""|""|
-	|"/sections/@id"|"/sections/@id/studentSectionAssociations/students/studentParentAssociations/parents"|""|""|
-	|"/sections/@id"|"/sections/@id/studentSectionAssociations/students/studentSchoolAssociations"|""|""|
-	|"/sections/@id"|"/sections/@id/teacherSectionAssociations"|""|""|
-	|"/sections/@id"|"/sections/@id/teacherSectionAssociations/teachers"|""|""|
-	|"/teachers/@id"|"/teachers/{id}/teacherSchoolAssociations"|""|""|
-	|"/teachers/@id"|"/teachers/{id}/teacherSectionAssociations"|""|""|
-	|"/teachers/@id"|"/teachers/{id}/teacherSectionAssociations/sections"|""|""|
-	|"/teachers/@id"|"/teachers/{id}/teacherSchoolAssociations/schools"|""|""|
-	|"/teachers/@id"|"/teachers/{id}/disciplineActions"|""|""|
-	|"/teachers/@id"|"/teachers/{id}/disciplineIncidents"|""|""|
-	|"/teachers/@id"|"/teachers/{id}/disciplineIncidents/studentDisciplineIncidentAssociations"|""|""|
-
 Scenario Outline: Denied Paths for Teacher
 	Given I am logged in using "manthony" "manthony1234" to realm "IL"
 	When I call <Allowed Path> using ID <ID>

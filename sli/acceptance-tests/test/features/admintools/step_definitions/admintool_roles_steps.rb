@@ -39,20 +39,7 @@ Before do
   @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
 end
 
-Given /^I am not authenticated to SLI IDP$/ do
-  @driver.manage.delete_all_cookies
-end
-
 When /^I navigate to the default Admin Page$/ do
-  url = Property['admintools_server_url']
-  @driver.get url
-end
-
-Then /^I should be redirected to the default Admin Page$/ do
-  assertWithWait("Failed to navigate to the Admintools default page")  {@driver.page_source.index("Admin Tool") != nil}
-end
-
-Given /^I have tried to access the default Admin Page$/ do
   url = Property['admintools_server_url']
   @driver.get url
 end
@@ -65,10 +52,6 @@ Given /^"([^"]*)" is valid "([^"]*)" user$/ do |arg1, arg2|
   #No code needed for this step
 end
 
-Then /^I am now authenticated to SLI IDP$/ do
-  #No code needed, this is tested implicitly by accessing the admin roles page
-end
-
 Given /^"([^"]*)" is invalid "([^"]*)" user$/ do |arg1, arg2|
   #No code needed for this step
 end
@@ -76,11 +59,6 @@ end
 Then /^I am informed that authentication has failed$/ do
   errorBox = @driver.find_element(:class, "alert-error")
   assert(errorBox != nil, webdriverDebugMessage(@driver,"Could not find error message div"))
-end
-
-Then /^I do not have access to the default Admin Page$/ do
-  @driver.get Property['admintools_server_url']
-  assert(@driver.page_source.index("Default SLI Roles") == nil, webdriverDebugMessage(@driver,"Navigated to the Admintools Role page with no credentials"))
 end
 
 Given /^I have a Role attribute equal to "([^"]*)"$/ do |arg1|

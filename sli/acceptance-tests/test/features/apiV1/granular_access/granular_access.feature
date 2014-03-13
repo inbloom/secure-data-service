@@ -195,32 +195,6 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | 2012-01-01 | 2012-05-01 | 0     | # Starts and ends after range ends                    |
     | 2012-01-01 | ?          | 0     | # Starts after range ends, ends unknown               |
 
-  @wip
-  Scenario Outline: Optional begin date - teacherSectionAssociation
-    # Multiple hops to session
-    Given I am logged in using "akopel" "akopel1234" to realm "IL"
-    And parameter "schoolYears" is "2009-2011"
-    And the session date range is "2009-09-06" to "2011-05-16"
-    When I navigate to GET "/v1/teacherSectionAssociations"
-    Then I should receive a return code of 200
-    And I should receive a collection of "0" entities
-    Given a new "teacherSectionAssociation"
-    When I set the date "endDate" to "<Exit Date>"
-    And I navigate to POST "/v1/teacherSectionAssociations"
-    Then I should receive a return code of 201
-    And I should receive a new entity URI
-    When I navigate to GET "/v1/teacherSectionAssociations"
-    Then I should receive a return code of 200
-    And I should receive a collection of "<Count>" entities
-    And I delete the new "teacherSectionAssociation" for the next test scenario
-    Examples:
-    | Exit Date  | Count | # Note                                                  |
-    | 2001-01-01 | 0     | # Starts unknown, ends before range starts              |
-    | 2009-09-06 | 0     | # Starts unknown, ends on the same day the range starts |
-    | 2010-01-01 | 1     | # Starts unknown, ends within range                     |
-    | 2012-01-01 | 1     | # Starts unknown, ends after range ends                 |
-    | ?          | 0     | # Starts unknown, ends unknown                          |
-
   Scenario: Provide a really wide school year range to "get everything"
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     And parameter "schoolYears" is "1900-2100"
