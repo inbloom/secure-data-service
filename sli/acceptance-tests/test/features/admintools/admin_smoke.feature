@@ -1,4 +1,4 @@
-@admin_smoke @smoke @javascript
+@track_entities @smoke @javascript @no_ingestion_hooks
 Feature:
   The administration tool can be used:
     - by a developer to register a new application
@@ -16,13 +16,16 @@ Scenario: A developer registers an application
    When I submit a new application for registration
    Then the application should get registered
     And the application status should be pending
+#    And the inBloom operator should be notified
 
 Scenario: An operator approves an application
   Given I am a valid inBloom operator
     And I am managing my applications
     And I see a pending application
-   When I approve the pending application
+   When I approve the application
    Then the application status should be approved
+    And the Client Id and Shared Secret should be set
+#    And the inBloom developer should be notified
 
 Scenario: A developer enables education organizations for her application
   Given I am a valid inBloom developer
@@ -45,6 +48,13 @@ Scenario: A district-level administrator de-authorizes an application for educat
    When I edit the authorizations for an approved application
     And de-authorize the application for all education organizations
    Then the application should not be approved
+
+Scenario: A developer deletes an application
+  Given I am a valid inBloom developer
+    And I am managing my applications
+    And I have a deletable application
+   When I delete the application
+   Then I no longer see the application
 
 Scenario: A realm administrator can create a realm
   Given I am a valid realm administrator

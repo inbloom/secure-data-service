@@ -18,7 +18,7 @@ Scenario: As a slc operator I disable an approved sandbox account
   And I switch to the iframe
   Then I should be on the Authorize Developer Account page
   And I should see an account with name "RCTest Developer"
-  And his account status is "approved"
+  And her account status is "approved"
   When I click the "Disable" button
   And I am asked "Do you really want to disable this user account?"
   When I click on Ok
@@ -44,6 +44,6 @@ Scenario: As a slc operator I enable an approved sandbox account
   And I switch to the iframe
   Then I should be on the Authorize Developer Account page
   And I should see an account with name "RCTest Developer"
-  And his account status is "disabled"
+  And her account status is "disabled"
   When I click the "Enable" button
   Then his account status changed to "approved"

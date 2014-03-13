@@ -22,36 +22,6 @@ require "selenium-webdriver"
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
-Given /^I navigated to the Data Browser Home URL$/ do
-  @driver.get Property['databrowser_server_url']
-end
-
-Given /^I was redirected to the Realm page$/ do
-  assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}
-end
-
-When /^I choose realm "([^"]*)" in the drop\-down list$/ do |arg1|
-  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
-  select.select_by(:text, arg1)
-end
-
-Given /^I click on the realm page Go button$/ do
-  assertWithWait("Could not find the Go button")  { @driver.find_element(:id, "go") }
-  @driver.find_element(:id, "go").click
-end
-
-Given /^I was redirected to the SLI IDP Login page$/ do
-  assertWithWait("Was not redirected to the IDP login page")  { @driver.find_element(:name, "Login.Submit") }
-end
-
-When /^I enter "([^"]*)" in the username text field$/ do |arg1|
-  @driver.find_element(:id, "IDToken1").send_keys arg1
-end
-
-When /^I enter "([^"]*)" in the password text field$/ do |arg1|
-  @driver.find_element(:id, "IDToken2").send_keys arg1
-end
-
 When /^I click the IDP page Go button$/ do
   @driver.find_element(:name, "Login.Submit").click
   begin
@@ -59,10 +29,6 @@ When /^I click the IDP page Go button$/ do
   rescue
   end
 
-end
-
-Then /^I should be redirected to the Data Browser home page$/ do
-  assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Welcome to the inBloom, inc. Data Browser")}
 end
 
 Then /^I should see my available links labeled$/ do
@@ -81,10 +47,6 @@ When /^I click on the Logout link$/ do
   end
   #@driver.find_element(:css, "a.menulink").click
   #@driver.find_element(:link, "Logout").click
-end
-
-Then /^I am redirected to a page that informs me that I have signed out$/ do
-  assertWithWait("Failed to find message stating that sign off was successful") { @driver.page_source.downcase.index("successfully logged out") != nil }
 end
 
 Then /^I am forced to reauthenticate to access the databrowser$/ do
@@ -294,6 +256,26 @@ Then /^I should be on the detailed page for an LEA$/ do
   assertWithWait("Failed to be directed to Databrowser's Page for an SEA")  {@driver.page_source.include?("Local Education Agency")}
 end
 
+Then /^I should go to the "([^"]*)" page and look for the EdOrg table with a "([^"]*)" result$/ do | arg1, arg2 |
+  assertWithWait("Failed to find '"+arg1+"' Link on page")  {@driver.find_element(:link_text, arg1)}
+  @driver.find_element(:link_text, arg1).click
+  # errors = @driver.find_elements(:class_name, "edOrg")
+  begin
+    @driver.find_element(:xpath, "//table[contains(@class, 'edOrg')]") 
+    if arg2 == "Pass"
+      assert(true)
+    else
+      assert(false, "There should be an EdOrg table on this page")
+    end
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    if arg2 == "Pass"
+      assert(false, "There should NOT be an EdOrg table on this page")
+    else
+      assert(true)
+    end
+  end
+end
+
 # this tests the current breadcrumb trail text for equivalence to the given value (case sig)
 Then /^I should see a breadcrumbtrail of "(.*?)"$/ do |crumb|
   begin
@@ -312,3 +294,55 @@ Then /^I click on the link "(.*?)"$/ do |link|
   end
 end
 
+And /^I should see a row containing "([^"]*)"$/ do |arg1|
+  assertWithWait("Failed to find row containing text: "+arg1)  {@driver.find_element(:xpath, "//tr/td[normalize-space()='#{arg1}']")}
+end
+
+And /^I should NOT see a row containing "([^"]*)"$/ do |arg1|
+  begin
+    assertWithWait("Failed to find row containing text: "+arg1)  {@driver.find_element(:xpath, "//tr/td[normalize-space()='#{arg1}']")}
+    assert(false)
+  rescue => e
+    assert(true)
+  end
+end
+
+Then /^I should navigate to <Link> and see columns in the correct order$/ do |table|
+  table.hashes.each do |hash|
+    steps %Q{
+      Then I should navigate to #{hash['Link']}
+    }
+    assertWithWait("Failed to find the Last Name column")  {@driver.find_element(:xpath, "//table[@id='simple-table']//thead/tr/th[2][contains(text(), 'Last Name')]")}
+    assertWithWait("Failed to find the First Name column")  {@driver.find_element(:xpath, "//table[@id='simple-table']//thead/tr/th[3][contains(text(), 'First Name')]")}
+    assertWithWait("Failed to find the State Id column")  {@driver.find_element(:xpath, "//table[@id='simple-table']//thead/tr/th[4][contains(text(), 'State ID')]")}
+    assertWithWait("Failed to find the ID column")  {@driver.find_element(:xpath, "//table[@id='simple-table']//thead/tr/th[5][contains(text(), 'Id')]")}
+  end
+end
+
+Then /^I should see a count of <Total> for id <ID> staff total and <Current> for current$/ do |table|
+  table.hashes.each do |hash|
+    assertWithWait("Failed to find the appropriate total count text") { @driver.find_element(:xpath, "//table[@id='edorgcounts_#{hash['ID']}']//tr[1]/td[2][contains(text(), '#{hash['Total']}')]") }
+    assertWithWait("Failed to find the appropriate total count text") { @driver.find_element(:xpath, "//table[@id='edorgcounts_#{hash['ID']}']//tr[1]/td[3][contains(text(), '#{hash['Current']}')]") }
+  end
+end
+
+Then /^I should see a count of "([^"]*)" for id "([^"]*)" staff total and "([^"]*)" for current$/ do |arg1, arg2, arg3|
+  assertWithWait("Failed to find the appropriate total count text") { @driver.find_element(:xpath, "//table[@id='edorgcounts_#{arg2}']//tr[1]/td[2][contains(text(), '#{arg1}')]") }
+  assertWithWait("Failed to find the appropriate total count text") { @driver.find_element(:xpath, "//table[@id='edorgcounts_#{arg2}']//tr[1]/td[3][contains(text(), '#{arg3}')]") }
+end
+
+Then /^I should click on the <Number> link pound and get <Text> returned$/ do |table|
+  table.hashes.each do |hash|
+    elements = @driver.find_elements(:xpath, "//span[@class='count_link']")
+    count = 0
+    elements.each do |element|
+      if (count == hash['Number'].to_i)
+        element.click
+        sleep(1)
+        assert(element.text == hash['Text'])
+        break
+      end
+      count = count + 1
+    end
+  end
+end

@@ -1,8 +1,5 @@
-
 <div id='data'>
   <h1>Welcome to the inBloom, inc. Data Browser</h1>
-  <h1>Listing Home </h1>
-
   <% @entities.each do |e| %>
       <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
   <% end %>
@@ -15,13 +12,20 @@
           <th>EdOrgs Parent</th>
         </tr>
         <% @edOrgArr.each do |parent| %>
-        <tr>
-          <td><%=link_to parent['EdOrgs Name'], parent['EdOrgs URL'] %></td>
-          <td><%=parent['EdOrgs Id']%></td>
-          <td><%=parent['EdOrgs Type']%></td>
-          <td><%=parent['EdOrgs Parent']%></td>
-        </tr>
+          <tr>
+            <td><%=link_to parent['EdOrgs Name'], parent['EdOrgs URL'] %></td>
+            <td><%=parent['EdOrgs Id']%></td>
+           <td><%=parent['EdOrgs Type']%></td>
+            <td><%=parent['EdOrgs Parent']%></td>
+          </tr>
         <% end %>
-        <% end %>
-        </table>
+      </table>
+  <% end %>
+  <% if !userIsAStudent %>
+	<%=
+    	html = ""
+    	html << display_edorg_table(@entities)
+    	html.html_safe
+	%>
+  <% end %>
 </div>

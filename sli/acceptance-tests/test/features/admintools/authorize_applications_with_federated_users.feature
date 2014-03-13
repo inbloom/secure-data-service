@@ -31,7 +31,7 @@ And the group "Application Authorizer" contains the roles "Application Authorize
 And the group "Application Authorizer" contains the "right" rights "APP AUTH"
 
 Scenario: Developer creates new application (set up data)
-Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
+#Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
@@ -49,7 +49,7 @@ And the client ID and shared secret fields are Pending
 And the Registration Status field is Pending
 
 Scenario: SLC Operator accepts application registration request (set up data)
-Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
+#Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
@@ -63,7 +63,7 @@ Then application "Boyne" is registered
 And the 'Approve' button is disabled for application "Boyne"
 
 Scenario: Developer registers application (set up data)
-Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
+#Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I select "inBloom" from the dropdown and click go
 And I was redirected to the "Simple" IDP Login page
@@ -326,3 +326,17 @@ And there are "200" educationalOrganizations in the targetEdOrgList of securityE
 And I see an application "Boyne" in the table
 And in Status it says "Not Approved"
 
+Scenario: Federated Users cannot access non-application authorization pages
+  Given I am a valid federated district-level administrator
+  And I have an open browser
+  And I am managing my application authorizations
+  Then I am not authorized to access the following pages:
+    | custom_roles        |
+    | users               |
+    | realm_management    |
+    | admin_delegations   |
+    | landing_zone        |
+    | change_passwords    |
+    | account_managements |
+    | lea                 |
+    | changePassword      |

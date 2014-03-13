@@ -128,6 +128,11 @@ Then /^I am redirected to the developer get-started page$/ do
   }
 end
 
+Then /^her account status is "([^"]*)"$/ do |arg1|
+  status=@driver.find_element(:id,"status."+@user_name)
+  assert(status.text==arg1,"user account status is not #{arg1}")
+end
+
 ###############################################################################
 # DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF
 ###############################################################################

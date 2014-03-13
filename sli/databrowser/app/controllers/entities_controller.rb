@@ -16,8 +16,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-#include EdorgTreeHelper
-#require "edorg_tree_helper"
 require "active_resource/base"
 # This is the main controller of the Databrowser.
 # We try to "Wrap" all api requests in this one single point
@@ -29,7 +27,7 @@ require "active_resource/base"
 # We make heavy use of params which is everything that comes into
 # this controller after /entities/
 class EntitiesController < ApplicationController
-   before_filter :set_url
+  before_filter :set_url
 
   # What we see mostly here is that we are looking for searh parameters.
   # Now, we also try to simply set up the search field and then remove it
@@ -42,28 +40,28 @@ class EntitiesController < ApplicationController
   def set_url
     @search_field = nil
     case params[:search_type]
-      when /studentByName/
-        @search_field = "q"
-      when /staffByName/
-        @search_field = "q"
-      when /edOrgByName/
-        @search_field = "q"
-      when /students/
-        @search_field = "studentUniqueStateId"
-      when /staff/
-        @search_field = "staffUniqueStateId"
-      when /parents/
-        @search_field = "parentUniqueStateId"
-      when /educationOrganizations/
-        @search_field = "stateOrganizationId"
+    when /studentByName/
+      @search_field = "q"
+    when /staffByName/
+      @search_field = "q"
+    when /edOrgByName/
+      @search_field = "q"
+    when /students/
+      @search_field = "studentUniqueStateId"
+    when /staff/
+      @search_field = "staffUniqueStateId"
+    when /parents/
+      @search_field = "parentUniqueStateId"
+    when /educationOrganizations/
+      @search_field = "stateOrganizationId"
     end
     params[:other] = params[:search_type] if @search_field
     if params[:search_type] == "studentByName"
       Entity.url_type = "search/students"
     elsif params[:search_type] == "staffByName"
-      Entity.url_type = "search/staff,teachers"
+        Entity.url_type = "search/staff,teachers"
     elsif params[:search_type] == "edOrgByName"
-      Entity.url_type = "search/educationOrganizations"
+        Entity.url_type = "search/educationOrganizations"
     else
       Entity.url_type = params[:other]
     end
@@ -90,8 +88,23 @@ class EntitiesController < ApplicationController
   # Second, if we see any offset in params then we make the call to
   # grab the next page of data from the Api.
   def show
-    logger.debug {"Parameters are:#{params.inspect}"}
-    @@LIMIT = 50
+    
+    # This section was put here for pagination. It sets the offset to 0 if not
+    # set and then has a session and params variable for the limit. If the params
+    # limit is set, it takes precedence. If there is no limit, the default is set
+    # to the first item in the paginate_ipp array in views.yml
+    if params[:offset].nil?
+      params[:offset] = 0
+    end
+    if params[:limit].nil? and session[:limit].nil?
+      params[:limit] = VIEW_CONFIG['paginate_ipp'].first.to_i
+      session[:limit] = params[:limit]
+    elsif !params[:limit].nil?
+      session[:limit] = params[:limit]
+    elsif params[:limit].nil? and !session[:limit].nil?
+      params[:limit] = session[:limit]
+    end
+    
     @page = Page.new
     if params[:search_id] && @search_field
       @entities = []
@@ -99,22 +112,18 @@ class EntitiesController < ApplicationController
       @entities = clean_up_results(@entities)
       flash.now[:notice] = "There were no entries matching your search" if @entities.size == 0 || @entities.nil?
     else
-      #Clean up the parameters to pass through to the API.
-      if params[:offset]
-        params[:limit] == @@LIMIT
-      end
       query = params.reject {|k, v| k == 'controller' || k == 'action' || k == 'other' || k == 'search_id'}
       logger.debug {"Keeping query parameters #{query.inspect}"}
       @entities = Entity.get("", query)
 
-
-      @page = Page.new(@entities.http_response)
+      @headers = @entities.http_response
+      @page = Page.new(@headers)
       @entities= clean_up_results(@entities)
     end
     if params[:other] == 'home'
       entidAndCollection = getUserEntityIdAndCollection
       if entidAndCollection['collection'] != "students"
-        getStudentAndStaffCounts(entidAndCollection)
+      	getStudentAndStaffCounts(entidAndCollection)
         @isAStudent = false
       else
         @isAStudent = true
@@ -125,11 +134,15 @@ class EntitiesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @entities }
+      format.json { render json:  {
+         entities: @entities,
+         headers: @headers
+         }
+      }
       format.js #show.js.erb
     end
   end
-
+  
   private
   def clean_up_results(entities)
     tmp = entities
@@ -254,4 +267,3 @@ class EntitiesController < ApplicationController
      userEdOrgsString
    end
 end
-

@@ -17,67 +17,51 @@
 
 package org.slc.sli.ingestion.model.da;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
-import com.mongodb.MongoException;
 import com.mongodb.WriteConcern;
-
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Matchers;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.RecordHash;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.model.Error;
-import org.slc.sli.ingestion.model.NewBatchJob;
-import org.slc.sli.ingestion.model.RecordHash;
-import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.util.BatchJobUtils;
+import java.util.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
 
 /**
  * JUnits for testing the BatchJobMongoDA class.
  *
  * @author bsuzuki
- *
- * TODO Missing unit test coverage as of sprint 6.5 start
- * (low) findLatestBatchJob
- * (low) createPersistenceLatch - MongoException
- * (medium) getStagedEntitiesForJob
- * (medium) removeAllPersistedStagedEntitiesFromJob
+ *         <p/>
+ *         TODO Missing unit test coverage as of sprint 6.5 start
+ *         (low) findLatestBatchJob
+ *         (low) createPersistenceLatch - MongoException
+ *         (medium) getStagedEntitiesForJob
+ *         (medium) removeAllPersistedStagedEntitiesFromJob
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/BatchJob-Mongo.xml" })
+@ContextConfiguration(locations = {"/spring/BatchJob-Mongo.xml"})
 public class BatchJobMongoDATest {
 
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
@@ -127,9 +111,9 @@ public class BatchJobMongoDATest {
         errorIndex += errorsReturnedSecond.size();
 
         when(mockMongoTemplate.find((Query) any(), eq(Error.class), eq(BATCHJOB_ERROR_COLLECTION)))
-        .thenReturn(errorsReturnedFirst)     // return the first time this method call is matched
-        .thenReturn(errorsReturnedSecond)    // return the second time this method call is matched
-        .thenReturn(Collections.<Error>emptyList()); // return the last time this method call is matched - should NOT be called
+              .thenReturn(errorsReturnedFirst)     // return the first time this method call is matched
+              .thenReturn(errorsReturnedSecond)    // return the second time this method call is matched
+              .thenReturn(Collections.<Error>emptyList()); // return the last time this method call is matched - should NOT be called
         when(mockMongoTemplate.getCollection(eq(BATCHJOB_ERROR_COLLECTION))).thenReturn(mockedCollection);
         when(mockedCollection.count(Matchers.isA(DBObject.class))).thenReturn((long) errorIndex);
 
@@ -159,9 +143,9 @@ public class BatchJobMongoDATest {
         errorIndex += errorsReturnedSecond.size();
 
         when(mockMongoTemplate.find((Query) any(), eq(Error.class), eq(BATCHJOB_ERROR_COLLECTION)))
-        .thenReturn(errorsReturnedFirst)     // return the first time this method call is matched
-        .thenReturn(errorsReturnedSecond)    // return the second time this method call is matched
-        .thenReturn(Collections.<Error>emptyList()); // return the last time this method call is matched - should NOT be called
+              .thenReturn(errorsReturnedFirst)     // return the first time this method call is matched
+              .thenReturn(errorsReturnedSecond)    // return the second time this method call is matched
+              .thenReturn(Collections.<Error>emptyList()); // return the last time this method call is matched - should NOT be called
         when(mockMongoTemplate.getCollection(eq(BATCHJOB_ERROR_COLLECTION))).thenReturn(mockedCollection);
         when(mockedCollection.count(Matchers.isA(DBObject.class))).thenReturn((long) errorIndex);
 
@@ -183,14 +167,14 @@ public class BatchJobMongoDATest {
 
         for (int errorIndex = errorStartIndex; errors.size() < numberOfErrors; errorIndex++) {
             errors.add(new Error(BATCHJOBID, BatchJobStageType.EDFI_PARSER_PROCESSOR.getName(),
-                "resourceid" + errorIndex,
-                "sourceIp" + errorIndex,
-                "hostname" + errorIndex,
-                "recordId" + errorIndex,
-                BatchJobUtils.getCurrentTimeStamp(),
-                FaultType.TYPE_ERROR.getName(),
-                "errorType" + errorIndex,
-                "errorDetail" + errorIndex));
+                  "resourceid" + errorIndex,
+                  "sourceIp" + errorIndex,
+                  "hostname" + errorIndex,
+                  "recordId" + errorIndex,
+                  BatchJobUtils.getCurrentTimeStamp(),
+                  FaultType.TYPE_ERROR.getName(),
+                  "errorType" + errorIndex,
+                  "errorDetail" + errorIndex));
         }
 
         return errors;
@@ -238,8 +222,7 @@ public class BatchJobMongoDATest {
                 } else if (method.equals("update")) {
                     savedRecordHash = new RecordHash((Map<String, Object>) args[1]);
                     return null;
-                }
-                else {
+                } else {
                     return null;
                 }
             }
@@ -258,16 +241,27 @@ public class BatchJobMongoDATest {
         String testRecordHashId = "0123456789abcdef0123456789abcdef01234567_id";
 
         // Record should not be in the db
+        System.out.println("Checking RecordHash reference...");
         RecordHash rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
+        if (rh != null) {
+            System.out.println(ToStringBuilder.reflectionToString(rh, ToStringStyle.MULTI_LINE_STYLE));
+        } else {
+            System.out.println("...RecordHash is null");
+        }
+        System.out.println("...Assert value of RecordHash...");
         Assert.assertNull(rh);
 
         mockBatchJobMongoDA.insertRecordHash(testRecordHashId, "fedcba9876543210fedcba9876543210fedcba98");
-        long savedTimestamp =  dbAnswer.savedRecordHash.getUpdated();
-        String savedId        =  dbAnswer.savedRecordHash.getId();
-        String savedHash      =  dbAnswer.savedRecordHash.getHash();
+        long savedTimestamp = dbAnswer.savedRecordHash.getUpdated();
+        String savedId = dbAnswer.savedRecordHash.getId();
+        String savedHash = dbAnswer.savedRecordHash.getHash();
 
         //introduce delay between calls so that recordHash timestamp changes.
-        try{Thread.sleep(5); } catch (Exception e){e.printStackTrace();}
+        try {
+            Thread.sleep(5);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // second call to findRecordHash should return non-null since Record is already in db.
         rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
@@ -275,8 +269,8 @@ public class BatchJobMongoDATest {
 
         mockBatchJobMongoDA.updateRecordHash(rh, "aaacba9876543210fedcba9876543210fedcba98");
         long updatedTimestamp = dbAnswer.savedRecordHash.getUpdated();
-        String updatedId        = dbAnswer.savedRecordHash.getId();
-        String updatedHash      = dbAnswer.savedRecordHash.getHash();
+        String updatedId = dbAnswer.savedRecordHash.getId();
+        String updatedHash = dbAnswer.savedRecordHash.getHash();
         Assert.assertTrue(savedId.equals(updatedId));
 
         // The timestamp on the recordHash should have changed after the second call, and the create time should be the same
@@ -295,12 +289,12 @@ public class BatchJobMongoDATest {
         DBCollection collection = Mockito.mock(DBCollection.class);
         Mockito.when(mockMongoTemplate.getCollection("fileEntryLatch")).thenReturn(collection);
         Mockito.when(collection.findAndModify(Mockito.any(DBObject.class), Mockito.any(DBObject.class), Mockito.any(DBObject.class),
-                Mockito.anyBoolean(), Mockito.any(DBObject.class), Mockito.anyBoolean(),Mockito.anyBoolean())).thenReturn(obj1, obj2);
+              Mockito.anyBoolean(), Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.anyBoolean())).thenReturn(obj1, obj2);
 
-        boolean result =  mockBatchJobMongoDA.updateFileEntryLatch(BATCHJOBID, "StudentParent.xml");
+        boolean result = mockBatchJobMongoDA.updateFileEntryLatch(BATCHJOBID, "StudentParent.xml");
         Assert.assertFalse(result);
 
-        result =  mockBatchJobMongoDA.updateFileEntryLatch(BATCHJOBID, "StudentProgram.xml");
+        result = mockBatchJobMongoDA.updateFileEntryLatch(BATCHJOBID, "StudentProgram.xml");
         Assert.assertTrue(result);
     }
 
@@ -308,16 +302,16 @@ public class BatchJobMongoDATest {
         DBCollection collection = Mockito.mock(DBCollection.class);
         Mockito.when(mockMongoTemplate.getCollection("fileEntryLatch")).thenReturn(collection);
         Mockito.when(collection
-                .insert(Matchers.any(DBObject.class), Matchers.any(WriteConcern.class))).thenReturn(null);
+              .insert(Matchers.any(DBObject.class), Matchers.any(WriteConcern.class))).thenReturn(null);
 
         List<String> fileEntries = new ArrayList<String>();
         fileEntries.add("test1.xml");
         fileEntries.add("test2.xml");
         Assert.assertTrue(mockBatchJobMongoDA.createFileLatch(BATCHJOBID, fileEntries));
-   }
+    }
 
     @Test
-    public void testError(){
+    public void testError() {
         Error error = new Error(null, null, null, null, null, null, new Date(), null, null, null);
 
         Assert.assertNotNull("BatchJobId should not be null!", error.getBatchJobId());
@@ -351,7 +345,7 @@ public class BatchJobMongoDATest {
         Assert.assertNotNull("getSeverity should not be null", error.getSeverity());
         Assert.assertNotNull("ErrorType should not be null", error.getErrorType());
         Assert.assertNotNull("ErrorDetail should not be null", error.getErrorDetail());
-           Assert.assertNotNull("Timestamp should not be null", error.getTimestamp());
+        Assert.assertNotNull("Timestamp should not be null", error.getTimestamp());
     }
 
 }
