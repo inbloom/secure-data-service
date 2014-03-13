@@ -42,21 +42,6 @@ task :apiV1EntityTests => [:realmInit] do
   runTests("test/features/apiV1/search/api_search.feature")
 end
 
-task :apiV1MultipleParentTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/multipleParents")
-end
-
-task :crudAutoTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/crud_auto")
-end
-
-task :writeValidationTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/security/write_validation.feature")
-end
-
 task :apiV1AssociationTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/associations/crud/assoc_crud.feature")
@@ -193,14 +178,6 @@ task :v1TeacherValidationTests => [:realmInit] do
   setFixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
   setFixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
   runTests("test/features/apiV1/validation/teacher_validation.feature")
-end
-
-desc "Run V1 White List Validation Tests"
-task :v1WhiteListValidationTests => [:realmInit] do
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("staff", "Midgar_data/staff_fixture.json")
-  setFixture("student", "Midgar_data/student_fixture.json")
-  runTests("test/features/apiV1/validation/whitelist_validation.feature")
 end
 
 desc "Run Sorting and Paging Tests"
@@ -374,24 +351,6 @@ desc "Set up api for odin tests"
 task :apiOdinSetupAPI => [:realmInit, :apiOdinSetupAPIApp] do
   Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/integration/parent_student_token_generator.feature")
-end
-
-desc "Prepare api odin hybrid edorg data"
-task :apiOdinHybridEdOrgPrep do
-  runTests("test/features/odin/generate_api_hybrid_edorg_data.feature")
-  runTests("test/features/ingestion/features/ingestion_OdinAPIHybridEdOrgData.feature")
-  Rake::Task["apiOdinSetupAPIApp"].execute
-end
-
-desc "Run API Security Tests using Odin ingested data"
-task :apiOdinHybridEdOrgTests => [:realmInit, :apiOdinHybridEdOrgPrep] do
-  runTests("test/features/apiV1/integration/hybrid_edorgs.feature")
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
 end
 
 desc "Run API Odin Student Integration Tests"

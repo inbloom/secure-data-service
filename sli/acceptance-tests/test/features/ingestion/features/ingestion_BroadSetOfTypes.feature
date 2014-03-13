@@ -1,8 +1,6 @@
 @RALLY_US5180
 Feature: Ingest BroadSetOfTypes.zip for regeneration of fixture data
 
-# cucumber test/features/ingestion/features/ingestion_BroadSetOfTypes.feature  --tags ~@wip --tags ~@sandbox   --strict -f junit --out ./target -f pretty
-
 Background: I have a landing zone route configured
 Given I am using local data store
 

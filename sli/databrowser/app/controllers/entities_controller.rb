@@ -138,8 +138,8 @@ class EntitiesController < ApplicationController
       logger.debug {"Keeping query parameters #{query.inspect}"}
       @entities = Entity.get("", query)
 
-
-      @page = Page.new(@entities.http_response)
+      @headers = @entities.http_response
+      @page = Page.new(@headers)
       @entities= clean_up_results(@entities)
     end
     if params[:other] == 'home'
@@ -149,7 +149,11 @@ class EntitiesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @entities }
+      format.json { render json:  {
+         entities: @entities,
+         headers: @headers
+         }
+      }
       format.js #show.js.erb
     end
   end

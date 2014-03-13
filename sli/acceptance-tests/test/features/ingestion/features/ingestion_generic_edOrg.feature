@@ -444,19 +444,6 @@ Feature: Generic EdOrg Ingestion
       | recordHash                               |                 18|
       | educationOrganization                    |                  0|
 
-  @wip
-  Scenario: Post Generic EdOrg Negative Cases Data Set
-    Given the "Midgar" tenant db is empty
-    And I am using local data store
-    And the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
-    When I post "NegativeGenericEdOrg.zip" file as the payload of the ingestion job
-    And zip file is scp to ingestion landing zone
-    Then a batch job for file "NegativeGenericEdOrg.zip" is completed in database
-    #self referencing case
-    And I should see "CORE_0006" in the resulting error log file for "InterchangeEducationOrganization.xml"
-    And I should not see a warning log file created
-
-
   Scenario: Confirm metadata.edOrgs set for schools on multiple parents data
     Given the "Midgar" tenant db is empty
     When I ingest "MultipleParents.zip"
