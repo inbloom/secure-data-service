@@ -77,7 +77,6 @@ end
 # add or remove the given right on the given role within the given tenant
 Given /^I change the custom role of "([^"]*)" in tenant "([^"]*)" to (add|remove) the "([^"]*)" right$/ do |role, tenant, function, right|
   tenant = convertTenantIdToDbName tenant
-  puts("tenant: " + tenant)
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
   db = conn[tenant]
@@ -88,16 +87,11 @@ Given /^I change the custom role of "([^"]*)" in tenant "([^"]*)" to (add|remove
   roles = custom_roles['body']['roles']
   index = roles.index {|entry| entry['names'].include?(role)}
 
-puts roles[index]['rights'].to_s
-
   if add
     roles[index]['rights'] << right
   else
     roles[index]['rights'].delete_if {|entry| entry == right}
   end
-
-puts roles[index]['rights'].to_s
-puts custom_roles['_id'].to_s
 
   update_mongo(tenant,'customRole',{},"body.roles.#{index}.rights", false, roles[index]['rights'])
 

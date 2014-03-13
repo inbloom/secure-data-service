@@ -592,7 +592,7 @@ task :apiAndSecurityTests => [
                               :onboardingTests,
                               :apiMegaTests,
                               :v1SecurityEventTests,
-			      :apiIngestionJobTests,
+                              :apiIngestionJobTests,
                               :runAssmtSearchIndexer ] do
   displayFailureReport()
   if $SUCCESS
@@ -848,6 +848,7 @@ end
 # files processed, records ingested, # errors encountered, etc.
 desc "Run tests for ingestion job data"
 task :apiIngestionJobTests => [] do
+  :turnOnNOTABLESCAN
   runTests("test/features/apiV1/ingestionJob/ingestionJob.feature")
 end
 
