@@ -29,9 +29,9 @@ Scenario: Validate that the api returns the appropriate ingestionJobs
     Given the ingestion batch job collection has been reset
     And the ingestion batch job collection contains "6" records
     And I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
-    And I navigate to GET "/ingestionJobs/"
+    And I navigate to ingestion job url "/ingestionJobs/"
     Then I should receive a response with "4" entities
-    And I navigate to GET "/ingestionJobs/SmallSampleDataSet.zip-46f724c2-c248-44a7-b830-d3be40ccfa8f"
+    And I navigate to ingestion job url "/ingestionJobs/SmallSampleDataSet.zip-46f724c2-c248-44a7-b830-d3be40ccfa8f"
     Then I should have only one entity with id "SmallSampleDataSet.zip-46f724c2-c248-44a7-b830-d3be40ccfa8f"
-    And I navigate to GET "/ingestionJobs/SmallSampleDataSet.zip-2d806bed-e9d5-43d0-9b61-01cfbef9369e"
+    And I navigate to ingestion job url "/ingestionJobs/SmallSampleDataSet.zip-2d806bed-e9d5-43d0-9b61-01cfbef9369e"
     Then I should receive a return code of 204
