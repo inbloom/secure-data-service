@@ -17,7 +17,7 @@ Scenario: Non-SLI-hosted valid user tries to access the Application Authorizatio
       | Successful login             |
       | No valid role mappings exist |
 
-Scenario: Valid SLI IDP user login to default Admin Page
+Scenario: Valid SLC operator successfully accesses the default administration page
   Given I am a valid SLC Operator
    When I attempt to go to the default administration page
    Then I should be on the default administration page
