@@ -1,9 +1,11 @@
 desc "Run Admin Tool Smoke Tests"
-task :adminWebTests => [:realmInit] do
+task :adminWebTests => :realmInit do
   Rake::Task["importSandboxData"].execute
 
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
+  Rake::Task["realmInit"].execute
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools/security_events.feature")
   runTests("test/features/admintools/authorize_applications_with_federated_users.feature")
   runTests("test/features/admintools/accountRequest.feature")
