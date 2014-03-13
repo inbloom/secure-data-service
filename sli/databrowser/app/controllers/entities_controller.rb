@@ -46,6 +46,14 @@ class EntitiesController < ApplicationController
       @search_field = "q"
     when /edOrgByName/
       @search_field = "q"
+    when /studentById/
+      @search_field = "_id"
+    when /staffById/
+      @search_field = "_id"
+    when /edOrgById/
+      @search_field = "_id"
+    when /parentsById/
+      @search_field = "_id"
     when /students/
       @search_field = "studentUniqueStateId"
     when /staff/
@@ -58,10 +66,23 @@ class EntitiesController < ApplicationController
     params[:other] = params[:search_type] if @search_field
     if params[:search_type] == "studentByName"
       Entity.url_type = "search/students"
+    elsif params[:search_type] == "studentById"
+      Entity.url_type = "search/students"
+
     elsif params[:search_type] == "staffByName"
         Entity.url_type = "search/staff,teachers"
+    elsif params[:search_type] == "staffById"
+      Entity.url_type = "search/staff,teachers"
+
     elsif params[:search_type] == "edOrgByName"
         Entity.url_type = "search/educationOrganizations"
+    elsif params[:search_type] == "edOrgById"
+        Entity.url_type = "search/educationOrganizations"
+
+    #parent by ID?
+    elsif params[:search_type] == "parentsById"
+        Entity.url_type = "search/parents"
+
     else
       Entity.url_type = params[:other]
     end
@@ -105,6 +126,7 @@ class EntitiesController < ApplicationController
       params[:limit] = session[:limit]
     end
     
+    logger.debug params.inspect
     @page = Page.new
     if params[:search_id] && @search_field
       @entities = []
