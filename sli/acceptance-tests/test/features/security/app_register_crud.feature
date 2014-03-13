@@ -125,20 +125,3 @@ Scenario: Bootstrapping of apps
 	And the "Admin Apps" bootstrap app should exist
 	And the "inBloom Dashboards" bootstrap app should exist
 	And the "inBloom Data Browser" bootstrap app should exist
-
-
-
-@sandbox @wip @RALLY_DE387
-Scenario: CRUD operations on Applications In production as an Operator
-	Given I am logged in using "operator" "operator1234" to realm "SLI"
-    When I have a valid application entity
-	 And I navigate to POST "/apps"
-	Then I should receive a return code of 400
-	When I navigate to GET "/apps/"
-	 Then I should receive a return code of 200
-     And I should only see "APPROVED" applications
-    When I navigate to PUT "/apps/<Testing App>" to update an application's name
-     Then I should receive a return code of 400
-	When I navigate to DELETE "/apps/<Testing App>"
-	Then I should receive a return code of 400
-

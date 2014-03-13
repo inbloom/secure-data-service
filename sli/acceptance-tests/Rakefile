@@ -548,24 +548,6 @@ task :loadDefaultIngestionTenants do
   end
 end
 
-# Run a whole series of acceptance and integration tests
-desc "Run API, Ingestion, Dashboard, SDK, and SimpleIDP acceptance tests"
-task :fullSuite => [
-  :production,
-  :dashboardTests,
-  :integrationTests,
-  :JavaSDKTests,
-  :sandboxTests,
-  :apiSeleniumTests] do
-
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
@@ -795,6 +777,7 @@ task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
   runTests("test/features/databrowser/student_authentication.feature")
   runTests("test/features/databrowser/databrowser_external_idp_login.feature")
+  runTests("test/features/databrowser/databrowser_breadcrumbtrail.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -806,6 +789,11 @@ end
 desc "Run sample breadcrumbtrail tests"
 task :breadcrumbTests => [] do
   runTests("test/features/databrowser/databrowser_breadcrumbtrail.feature")
+end
+
+desc "Run tests for countOnly URLs"
+task :apiCountOnlyTests => [] do
+  runTests("test/features/apiV1/countOnly/countOnly.feature")
 end
 
 desc "Run Device and Agent Tests"

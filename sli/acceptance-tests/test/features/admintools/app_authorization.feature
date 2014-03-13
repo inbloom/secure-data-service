@@ -23,22 +23,6 @@ And the unauthorized are colored red
 And are sorted by 'Name'
 And I see the Name, Version, Vendor and Status of the apps
 
-Scenario: Non SLI-hosted valid user tries to access the Application Authorization Tool
-	Given I have an open web browser
-	And the sli securityEvent collection is empty
-	When I hit the Admin Application Authorization Tool
-	 And I select "inBloom" from the dropdown and click go
-     And I submit the credentials "administrator" "administrator1234" for the "Simple" login page
-    Then the api should generate a 403 error
-      And I should see a count of "2" in the security event collection
-      And I check to find if record is in sli db collection:
-       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                                              | searchType |
-       | securityEvent   | 1                   | body.appId              | UNKNOWN                                                                                                  | string     |
-       | securityEvent   | 1                   | body.userEdOrg          | fakeab32-b493-999b-a6f3-sliedorg1234                                                                     | string     |
-       | securityEvent   | 1                   | body.className          | org.slc.sli.api.resources.security.SamlFederationResource                                                | string     |
-       | securityEvent   | 1                   | body.logMessage         | Access Denied:Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion. | string     |
-      And "1" security event with field "body.actionUri" matching "http.*/api/rest/saml/sso/post" should be in the sli db
-
 Scenario: SEA Admin Approves bulk extract application
 
    Given I have an open web browser
@@ -208,23 +192,6 @@ When I update edorg "bd086bae-ee82-4cf2-baf9-221a9407ea07" for tenant "Midgar" a
   And I see an application "SDK Sample" in the table
   And I click on the "Edit Authorizations" button next to it
   And I am redirected to the Admin Application Authorization Edit Page
-Then the checkbox with HTML id "cat_12_orphan" is unchecked
-  And the checkbox with HTML id "bd086bae-ee82-4cf2-baf9-221a9407ea07" is unchecked
-
-Scenario: Ensure that an orphaned edorg has been authorized
-Given I have an open web browser
-When I hit the Admin Application Authorization Tool
-  And I select "inBloom" from the dropdown and click go
-  And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
-  And I see an application "SDK Sample" in the table
-  And I click on the "Edit Authorizations" button next to it
-  And I am redirected to the Admin Application Authorization Edit Page
-  And I check the checkbox with HTML id "bd086bae-ee82-4cf2-baf9-221a9407ea07"
-  And I click Update
-Then I see an application "SDK Sample" in the table
-  And I click on the "Edit Authorizations" button next to it
-  And I am redirected to the Admin Application Authorization Edit Page
-  And the checkbox with HTML id "root" is checked
-  Then the checkbox with HTML id "cat_12_orphan" is checked
-  And the checkbox with HTML id "bd086bae-ee82-4cf2-baf9-221a9407ea07" is checked
+Then the edorg "bd086bae-ee82-4cf2-baf9-221a9407ea07" is present in the list of orphans
+  And the edorg "bd086bae-ee82-4cf2-baf9-221a9407ea07" is not present in the tree
   And I update edorg "bd086bae-ee82-4cf2-baf9-221a9407ea07" for tenant "Midgar" and update the parentEducationAgencyReference to a reference of "b1bd3db6-d020-4651-b1b8-a8dba688d9e1"

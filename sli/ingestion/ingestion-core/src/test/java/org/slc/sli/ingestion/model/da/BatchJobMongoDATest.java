@@ -131,9 +131,9 @@ public class BatchJobMongoDATest {
         errorIndex += errorsReturnedSecond.size();
 
         when(batchJobMongoTemplate.find((Query) any(), eq(Error.class), eq(BATCHJOB_ERROR_COLLECTION)))
-        .thenReturn(errorsReturnedFirst)     // return the first time this method call is matched
-        .thenReturn(errorsReturnedSecond)    // return the second time this method call is matched
-        .thenReturn(Collections.<Error>emptyList()); // return the last time this method call is matched - should NOT be called
+                .thenReturn(errorsReturnedFirst)     // return the first time this method call is matched
+                .thenReturn(errorsReturnedSecond)    // return the second time this method call is matched
+                .thenReturn(Collections.<Error>emptyList()); // return the last time this method call is matched - should NOT be called
         when(batchJobMongoTemplate.getCollection(eq(BATCHJOB_ERROR_COLLECTION))).thenReturn(mockedCollection);
         when(mockedCollection.count(Matchers.isA(DBObject.class))).thenReturn((long) errorIndex);
 
@@ -163,9 +163,9 @@ public class BatchJobMongoDATest {
         errorIndex += errorsReturnedSecond.size();
 
         when(batchJobMongoTemplate.find((Query) any(), eq(Error.class), eq(BATCHJOB_ERROR_COLLECTION)))
-        .thenReturn(errorsReturnedFirst)     // return the first time this method call is matched
-        .thenReturn(errorsReturnedSecond)    // return the second time this method call is matched
-        .thenReturn(Collections.<Error>emptyList()); // return the last time this method call is matched - should NOT be called
+                .thenReturn(errorsReturnedFirst)     // return the first time this method call is matched
+                .thenReturn(errorsReturnedSecond)    // return the second time this method call is matched
+                .thenReturn(Collections.<Error>emptyList()); // return the last time this method call is matched - should NOT be called
         when(batchJobMongoTemplate.getCollection(eq(BATCHJOB_ERROR_COLLECTION))).thenReturn(mockedCollection);
         when(mockedCollection.count(Matchers.isA(DBObject.class))).thenReturn((long) errorIndex);
 
@@ -187,14 +187,14 @@ public class BatchJobMongoDATest {
 
         for (int errorIndex = errorStartIndex; errors.size() < numberOfErrors; errorIndex++) {
             errors.add(new Error(BATCHJOBID, BatchJobStageType.EDFI_PARSER_PROCESSOR.getName(),
-                "resourceid" + errorIndex,
-                "sourceIp" + errorIndex,
-                "hostname" + errorIndex,
-                "recordId" + errorIndex,
-                BatchJobUtils.getCurrentTimeStamp(),
-                FaultType.TYPE_ERROR.getName(),
-                "errorType" + errorIndex,
-                "errorDetail" + errorIndex));
+                    "resourceid" + errorIndex,
+                    "sourceIp" + errorIndex,
+                    "hostname" + errorIndex,
+                    "recordId" + errorIndex,
+                    BatchJobUtils.getCurrentTimeStamp(),
+                    FaultType.TYPE_ERROR.getName(),
+                    "errorType" + errorIndex,
+                    "errorDetail" + errorIndex));
         }
 
         return errors;
@@ -318,7 +318,7 @@ public class BatchJobMongoDATest {
         fileEntries.add("test1.xml");
         fileEntries.add("test2.xml");
         Assert.assertTrue(mockBatchJobMongoDA.createFileLatch(BATCHJOBID, fileEntries));
-   }
+    }
 
     @Test
     public void testError(){
@@ -355,7 +355,7 @@ public class BatchJobMongoDATest {
         Assert.assertNotNull("getSeverity should not be null", error.getSeverity());
         Assert.assertNotNull("ErrorType should not be null", error.getErrorType());
         Assert.assertNotNull("ErrorDetail should not be null", error.getErrorDetail());
-           Assert.assertNotNull("Timestamp should not be null", error.getTimestamp());
+        Assert.assertNotNull("Timestamp should not be null", error.getTimestamp());
     }
 
 }

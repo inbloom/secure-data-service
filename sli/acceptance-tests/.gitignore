@@ -1,6 +1,8 @@
 cats_with_lasers*.*
+screenshot_*.*
 dummy_placeholder.png
 *.jtl
 .bundle
 vendor
 extract
+.ruby-version

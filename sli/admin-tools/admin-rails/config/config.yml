@@ -29,6 +29,15 @@ ldap_default: &ldap_default
     ldap_user: cn=Admin,dc=slidev,dc=org
     ldap_pass: c4f272eb123f68f1f5adc31711c93750
 
+ldap_local_inmemory_default: &ldap_local_inmemory_default
+    ldap_host: 127.0.0.1
+    ldap_port: 10389
+    ldap_use_ssl: false
+    ldap_user: cn=Admin,dc=slidev,dc=org
+    #This password was generated via the Java encryptor class (decrypts to test1234).
+    #ldap_pass: feebec071d0c8ca1886224930eee3f6d
+    ldap_pass: 95163f4dcd8cdf1b5c082659f7ac6a25
+
 email_mon: &email_mon
     email_sender_name: SLC Administrator
     email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
@@ -44,10 +53,14 @@ email_rumbster: &email_rumbster
     email_host: 127.0.0.1
     email_port: 2525
 
-development:
+development: &development
     <<: *common
     <<: *email_mon
     <<: *ldap_default
+
+    ## To use local inmemory ldap, just uncomment "ldap_local_inmemory_default".
+    ## <<: *ldap_local_inmemory_default
+
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
@@ -93,7 +106,8 @@ development_sb:
     <<: *common
     <<: *sandbox
     <<: *email_mon
-    <<: *ldap_default
+    <<: *ldap_local_inmemory_default
+
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF

@@ -1,6 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>sli</artifactId>
         <groupId>org.slc.sli</groupId>
@@ -149,9 +150,9 @@
             <version>5.7.0</version>
         </dependency>
         <dependency>
-	        <groupId>org.apache.xbean</groupId>
-	        <artifactId>xbean-spring</artifactId>
-	        <version>3.11.1</version>
+            <groupId>org.apache.xbean</groupId>
+            <artifactId>xbean-spring</artifactId>
+            <version>3.11.1</version>
         </dependency>
         <dependency>
             <groupId>xstream</groupId>
@@ -164,11 +165,12 @@
             <version>${spring.version}</version>
         </dependency>
         <dependency>
-			<groupId>janino</groupId>
-			<artifactId>janino</artifactId>
-			<version>2.5.10</version>
-		</dependency>
+            <groupId>janino</groupId>
+            <artifactId>janino</artifactId>
+            <version>2.5.10</version>
+        </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <!-- Ignore/Execute plugin execution -->
@@ -188,16 +190,18 @@
                                     </goals>
                                 </pluginExecutionFilter>
                                 <action>
-                                    <ignore />
+                                    <ignore/>
                                 </action>
                             </pluginExecution>
                         </pluginExecutions>
                     </lifecycleMappingMetadata>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven.jar.version}</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -208,10 +212,11 @@
                     </archive>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.1</version>
+                <version>${maven.plugin.dependencies.version}</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -228,10 +233,11 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2-beta-5</version>
+                <version>${maven.assembly.version}</version>
                 <configuration>
                     <finalName>search_indexer</finalName>
                     <descriptors>

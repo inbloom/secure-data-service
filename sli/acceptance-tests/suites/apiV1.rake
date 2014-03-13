@@ -37,25 +37,9 @@ task :apiV1EntityTests => [:realmInit] do
   runTests("test/features/apiV1/entities/crud/admin_crud.feature")
   runTests("test/features/apiV1/entities/crud/section_crud.feature")
   runTests("test/features/apiV1/entities/crud/crud.feature")
-  runTests("test/features/apiV1/entities/crud/multipleAttendanceEventCategories.feature")
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud_auto")
   runTests("test/features/apiV1/search/api_search.feature")
-end
-
-task :apiV1MultipleParentTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/multipleParents")
-end
-
-task :crudAutoTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/crud_auto")
-end
-
-task :writeValidationTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/security/write_validation.feature")
 end
 
 task :apiV1AssociationTests => [:realmInit] do
@@ -194,14 +178,6 @@ task :v1TeacherValidationTests => [:realmInit] do
   setFixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
   setFixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
   runTests("test/features/apiV1/validation/teacher_validation.feature")
-end
-
-desc "Run V1 White List Validation Tests"
-task :v1WhiteListValidationTests => [:realmInit] do
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("staff", "Midgar_data/staff_fixture.json")
-  setFixture("student", "Midgar_data/student_fixture.json")
-  runTests("test/features/apiV1/validation/whitelist_validation.feature")
 end
 
 desc "Run Sorting and Paging Tests"
@@ -377,24 +353,6 @@ task :apiOdinSetupAPI => [:realmInit, :apiOdinSetupAPIApp] do
   runTests("test/features/apiV1/integration/parent_student_token_generator.feature")
 end
 
-desc "Prepare api odin hybrid edorg data"
-task :apiOdinHybridEdOrgPrep do
-  runTests("test/features/odin/generate_api_hybrid_edorg_data.feature")
-  runTests("test/features/ingestion/features/ingestion_OdinAPIHybridEdOrgData.feature")
-  Rake::Task["apiOdinSetupAPIApp"].execute
-end
-
-desc "Run API Security Tests using Odin ingested data"
-task :apiOdinHybridEdOrgTests => [:realmInit, :apiOdinHybridEdOrgPrep] do
-  runTests("test/features/apiV1/integration/hybrid_edorgs.feature")
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
 desc "Run API Odin Student Integration Tests"
 task :apiOdinStudentLogin => [:apiOdinSetupAPI] do
   runTests("test/features/apiV1/integration/student_login.feature")
@@ -484,27 +442,3 @@ end
 ############################################################
 # Security tests end
 ############################################################
-
-############################################################
-# Aggregation API tests start
-############################################################
-desc "Run Aggregation API Tests"
-task :aggregationAPI => [:realmInit, :importCompletedAggData] do
-  runTests("test/features/apiV1/aggregations/calcValues_api.feature")
-  runTests("test/features/apiV1/aggregations/aggregate_api.feature")
-end
-
-desc "Import completed aggregation data"
-task :importCompletedAggData => [:importSandboxData] do
-  data = Hash[
-    "student" => "completedAggregation/students.json",
-    "studentSchoolAssociation" => "completedAggregation/studentSchools.json",
-    "studentSectionAssociation" => "completedAggregation/studentSections.json",
-    "educationOrganization_Midgar" => "completedAggregation/Midgar/educationOrganization.json",
-    "educationOrganization_Hyrule" => "completedAggregation/Hyrule/educationOrganization.json",
-    "educationOrganization_chaos_mokey_org" => "completedAggregation/chaos_mokey_org/educationOrganization.json",
-    "educationOrganization_fakedev@zork.net" => "completedAggregation/fakedev@zork.net/educationOrganization.json"
-  ]
-  setMultipleFixtureFiles(data)
-end
-

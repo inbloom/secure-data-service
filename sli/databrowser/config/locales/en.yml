@@ -3,8 +3,11 @@
 
 en:
   #Teacher
+  id: "Id"
   sex: "Gender"
   staffUniqueStateId: "State ID"
+  parentUniqueStateId: "State ID"
+  studentUniqueStateId: "State ID"
   hispanicLatinoEthnicity: "Hispanic/Latino Ethnicity"
   highlyQualifiedTeacher: "Highly Qualified"
   self: "Me"
@@ -39,4 +42,4 @@ en:
   true: "Yes"
   false: "No"
   date: "Date"
-
+  links: "Associated Entities"

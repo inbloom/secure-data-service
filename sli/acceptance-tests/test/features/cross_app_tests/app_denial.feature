@@ -5,7 +5,7 @@
   
 	Scenario: Application developer allows sunset access to the sample apps
   Given I have an open web browser
-  Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
+  #Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
   When I hit the Application Registration Tool URL
   And I was redirected to the "Simple" IDP Login page
   And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
@@ -50,7 +50,7 @@ Scenario: Can access the Sample App
 
 Scenario: Application developer disallows sunset access to the sample apps
   Given I have an open web browser
-  Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
+  #Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
   When I hit the Application Registration Tool URL
   And I was redirected to the "Simple" IDP Login page
   And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
@@ -79,7 +79,7 @@ Scenario: Can no longer access the sample app
 
 Scenario: Application developer allows sunset access to the sample apps
   Given I have an open web browser
-  Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
+  #Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
   When I hit the Application Registration Tool URL
   And I was redirected to the "Simple" IDP Login page
   And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page

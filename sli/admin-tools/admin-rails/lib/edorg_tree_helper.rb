@@ -104,10 +104,10 @@ module EdorgTreeHelper
         @edinf[id][:parents].each do |pid|
           if !@edinf.has_key?(pid)
             # Dangling reference to nonexistent parent
-            @debug += "\n<li>#{@edinf[id][:name]} parents to nonexistent #{pid.to_s} and should be investigated</li>"
-            the_ed_org = @edinf[id][:edOrg]
-            the_ed_org.organizationCategories = ["Orphaned Education Organization"]
-            orphan_ids.append id
+            @debug += "<li id='orphan_#{id}' style='color:#FF0000'>#{@edinf[id][:name]} is a child of an unknown parent id #{pid.to_s} and should be investigated</li>"
+            #the_ed_org = @edinf[id][:edOrg]
+            #the_ed_org.organizationCategories = ["Orphaned Education Organization"]
+            #orphan_ids.append id
           else
             @edinf[pid][:children].push(id)
           end
@@ -129,7 +129,7 @@ module EdorgTreeHelper
       @edinf[ROOT_ID] = root_edorg
 
       # DS-912: allow orphaned edorgs to be selected
-      orphan_ids.each { |id| @edinf[ROOT_ID][:children].push(id) }
+      #orphan_ids.each { |id| root_children.push(id) if !root_children.include?(id) }
 
       # Allow SEA admin to see everything, including edOrgs not parented
       # up to SEA.  LEA admin just his own edorg
@@ -333,6 +333,7 @@ module EdorgTreeHelper
       result += "<span"
       result += " class=\"categorynode\"" if is_category
       result += " class=\"repeatsubtree\"" if is_repeat_subtree
+      result += ' style="color:#FF0000" ' if is_orphaned
       result += ">"
       result += "<i>" if !isCheckable
       result += "(&rArr; see <a style=\"color: #0000ff; text-decoration:underline\" href=\"#" + id + "\">" if is_repeat_subtree
