@@ -1,15 +1,13 @@
 <div id='data'>
   <h1>Welcome to the inBloom, inc. Data Browser</h1>
-  <% @entities.each do |e| %>
-      <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
-  <% end %>
+  <h2>Your Education Organization(s):</h2>
   <% if @edOrgArr != nil %>
       <table id = "edOrg_home" class="edOrg_home">
         <tr>
-          <th>EdOrgs Name</th>
-          <th>EdOrgs Id</th>
-          <th>EdOrgs Type</th>
-          <th>EdOrgs Parent</th>
+          <th>Name</th>
+          <th>ID</th>
+          <th>Type</th>
+          <th>Parent</th>
         </tr>
         <% @edOrgArr.each do |parent| %>
           <tr>
@@ -21,7 +19,9 @@
         <% end %>
       </table>
   <% end %>
+  
   <% if !userIsAStudent %>
+    <h2>Counts:</h2>
 	<%=
     	html = ""
     	html << display_edorg_table(@entities)
