@@ -13,7 +13,7 @@
 
     <groupId>org.slc.sli</groupId>
     <artifactId>sli</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.DS-963.98.939</version>
     <packaging>pom</packaging>
     <name>SLI</name>
     <description>Shared Learning Infrastructure</description>
