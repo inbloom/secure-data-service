@@ -4,13 +4,12 @@ task :adminWebTests => [:realmInit] do
 
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
+  runTests("test/features/admintools/security_events.feature")
   runTests("test/features/admintools/authorize_applications_with_federated_users.feature")
-
   runTests("test/features/admintools/accountRequest.feature")
   runTests("test/features/admintools/Admin_Edit_Rules.feature")
   runTests("test/features/admintools/admin_smoke.feature")
   runTests("test/features/admintools/Admin_Welcome_Email.feature")
-  runTests("test/features/admintools/security_events.feature")
   runTests("test/features/admintools/app_authorization.feature")
   runTests("test/features/admintools/app_registration.feature")
   runTests("test/features/admintools/bulkExtract.feature")
