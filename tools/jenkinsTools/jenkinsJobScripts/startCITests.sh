@@ -6,7 +6,7 @@ show_usage() {
     echo
     echo "Options:"
     echo "  -d DIR         : Directory containing code files"
-    echo "  -e ENV         : Tests for which this script should run"
+    echo "  -t TESTS       : Test Suite that this script should run"
     echo "  -m MODE        : Mode of the applications. production or sandbox"
     echo "  -a APPS        : List of Applications to deploy"
     echo "  -w WORKSPACE   : Specify Workspace if jenkins is not the one running this script"
@@ -19,7 +19,7 @@ process_opts() {
             d)
                 CODEDIR=$OPTARG
                 ;;
-            e)
+            t)
                 if [[ "$OPTARG" != "ci" && \
                       "$OPTARG" != "ci_e2e_prod" && \
                       "$OPTARG" != "ci_e2e_sandbox" && \
@@ -32,11 +32,11 @@ process_opts() {
                       "$OPTARG" != "dashboard" && \
                       "$OPTARG" != "ingestion" && \
                       "$OPTARG" != "sandbox" ]]; then
-                    echo "Error: Environment must be one of ci|ci_e2e_prod|ci_e2e_sandbox|api_contextual_roles"
+                    echo "Error: Test Suite must be one of ci|ci_e2e_prod|ci_e2e_sandbox|api_contextual_roles|api_odin|bulk_extract|api_and_security|admin|databrowser|dashboard|ingestion|sandbox"
                     show_usage
                     exit 1
                 fi
-                ENV=$OPTARG
+                TESTS=$OPTARG
                 ;;
              m)
                 if [[ "$OPTARG" != "production" && \
@@ -67,8 +67,8 @@ process_opts() {
         esac
     done
     # -e and -a are required
-    if [[ -z "$ENV" || -z "$APPS" || -z "$MODE" ]]; then
-        echo "-e, -a, -m are required"
+    if [[ -z "$TEST" || -z "$APPS" || -z "$MODE" ]]; then
+        echo "-t, -a, -m are required"
         show_usage
         exit 1
     fi
@@ -214,7 +214,7 @@ runTests()
 }
 
 
-if [[ "$ENV" == "ci" ]]; then
+if [[ "$TEST" == "ci" ]]; then
   noTableScan
   cleanTomcat
   cleanRails
@@ -235,7 +235,7 @@ if [[ "$ENV" == "ci" ]]; then
   EXITCODE=$?
 fi
 
-if [[ "$ENV" == "ci_e2e_prod" ]]; then
+if [[ "$TEST" == "ci_e2e_prod" ]]; then
   noTableScan
   cleanTomcat
   cleanRails
@@ -256,7 +256,7 @@ if [[ "$ENV" == "ci_e2e_prod" ]]; then
   EXITCODE=$?
 fi
 
-if [[ "$ENV" == "ci_e2e_sandbox" ]]; then
+if [[ "$TEST" == "ci_e2e_sandbox" ]]; then
   noTableScan
   cleanTomcat
   cleanRails
@@ -277,7 +277,7 @@ if [[ "$ENV" == "ci_e2e_sandbox" ]]; then
   EXITCODE=$?
 fi
 
-if [[ "$ENV" == "api_contextual_roles" ]]; then
+if [[ "$TEST" == "api_contextual_roles" ]]; then
 	noTableScan
 	cleanTomcat
 	cleanRails
@@ -294,7 +294,7 @@ if [[ "$ENV" == "api_contextual_roles" ]]; then
   EXITCODE=$?
 fi
 
-if [[ "$ENV" == "api_odin" ]]; then
+if [[ "$TEST" == "api_odin" ]]; then
 	noTableScan
 	cleanTomcat
 	cleanRails
@@ -311,7 +311,7 @@ if [[ "$ENV" == "api_odin" ]]; then
   EXITCODE=$?
 fi
 
-if [[ "$ENV" == "bulk_extract" ]]; then
+if [[ "$TEST" == "bulk_extract" ]]; then
 	noTableScan
 	cleanTomcat
 	cleanRails
@@ -328,7 +328,7 @@ if [[ "$ENV" == "bulk_extract" ]]; then
   EXITCODE=$?
 fi
 
-if [[ "$ENV" == "api_and_security" ]]; then
+if [[ "$TEST" == "api_and_security" ]]; then
 	noTableScan
 	cleanTomcat
 	cleanRails
@@ -345,7 +345,7 @@ if [[ "$ENV" == "api_and_security" ]]; then
   EXITCODE=$?
 fi
 
-if [[ "$ENV" == "admin" ]]; then
+if [[ "$TEST" == "admin" ]]; then
 	noTableScan
 	cleanTomcat
 	cleanRails
@@ -363,7 +363,7 @@ if [[ "$ENV" == "admin" ]]; then
   EXITCODE=$?
 fi
 
-if [[ "$ENV" == "dashboard" ]]; then
+if [[ "$TEST" == "dashboard" ]]; then
 	noTableScan
 	cleanTomcat
 	cleanRails
@@ -380,7 +380,7 @@ if [[ "$ENV" == "dashboard" ]]; then
   EXITCODE=$?
 fi
 
-if [[ "$ENV" == "databrowser" ]]; then
+if [[ "$TEST" == "databrowser" ]]; then
 	noTableScan
 	cleanTomcat
 	cleanRails
@@ -398,7 +398,7 @@ if [[ "$ENV" == "databrowser" ]]; then
   EXITCODE=$?
 fi
 
-if [[ "$ENV" == "ingestion" ]]; then
+if [[ "$TEST" == "ingestion" ]]; then
 	noTableScan
 	cleanTomcat
 	cleanRails
@@ -415,7 +415,7 @@ if [[ "$ENV" == "ingestion" ]]; then
   EXITCODE=$?
 fi
 
-if [[ "$ENV" == "sandbox" ]]; then
+if [[ "$TEST" == "sandbox" ]]; then
 	noTableScan
 	cleanTomcat
 	cleanRails
