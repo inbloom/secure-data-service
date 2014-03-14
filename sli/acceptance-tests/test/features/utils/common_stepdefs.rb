@@ -68,6 +68,7 @@ When /^I navigate to GET "([^\"]*)"$/ do |uri|
   if defined? @queryParams
     uri = uri + "?#{@queryParams.join('&')}"
   end
+  puts uri
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.body != nil, "Response body is nil")

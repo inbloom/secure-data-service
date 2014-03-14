@@ -66,6 +66,8 @@ Given /^I am a valid (.*)$/ do |user_type|
   @user, @pass = valid_user user_type
   @federated = !!(user_type =~ /federated/)
   @sandbox = !!(user_type =~ /sandbox/)
+
+  puts "user: #{@user}, pass: #{@pass}, federated: #{@federated}, sandbox: #{@sandbox}"
 end
 
 def valid_user(user_type)
@@ -76,7 +78,7 @@ def valid_user(user_type)
       'district-level administrator' => %w( sunsetadmin ),
       'realm administrator'          => %w( sunsetrealmadmin ),
       'federated district-level administrator' => %w( jstevenson ),
-      'SLC Operator'                           => %w( slcoperator-email@slidev.org slcoperator-email1234),
+      'SLC Operator'                           => %w( slcoperator-email@slidev.org slcoperator-email1234 ),
       'Super Administrator'                    => %w( daybreaknorealmadmin ),
       'non-SLI hosted user with no roles' => %w( administrator ),
       'SLI hosted user with no roles' => %w( leader ),
@@ -123,7 +125,9 @@ When /^I attempt to manage application authorizations$/ do
 end
 
 When /^I attempt to go to the (.*) page$/ do |page|
-  browser.visit path_for(page)
+  url = path_for page
+  puts "Attempting to go to page: #{url}"
+  browser.visit url
   login_to_the_realm
 end
 
@@ -386,6 +390,7 @@ def login_to_the_tenants_realm
 end
 
 def login_to_realm(realm)
+  puts "Logging into realm: #{realm}"
   choose_realm realm unless @sandbox
   submit_idp_credentials @user, @pass
 end

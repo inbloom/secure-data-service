@@ -354,6 +354,31 @@ def swap_app_ids(dbName)
   end
 end
 
+def setRealmIdpUrls
+  old_idp_url = "http://local.slidev.org:8082/simple-idp"
+  new_idp_url = Property['simpleIDP_login_url']
+
+  conn = Mongo::Connection.new(DB_HOST)
+  db = conn.db(SYSTEM_DB_NAME)
+
+  realms = db['realm']
+  realms.find.each do |realm|
+    # reset the idp if it points to local.slidev.org:8082
+    if realm['body']['idp']['id'].start_with?(old_idp_url)
+      new_url = realm['body']['idp']['id'].sub(old_idp_url,new_idp_url)
+      realms.update(
+        {'_id' => realm['_id']},
+        {
+          '$set' => {
+            'body.idp.id' => new_url,
+            'body.idp.redirectEndpoint' => new_url
+          }
+        }
+      )
+    end
+  end
+end
+
 ############################################################################################################
 
 
@@ -369,6 +394,7 @@ task :realmInit => [:appInit] do
   #Preserve the bootstrap realm
   cleanseRealms()
   setFixture("realm", "realm_fixture.json", "test/data", false)
+  setRealmIdpUrls
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "anotherfakerealm")
   setFixture("customRole", "customRole_anotherfakerealm_fixture.json", "test/data")
@@ -440,7 +466,10 @@ task :appInit do
   disable_NOTABLESCAN()
   #Preserve the bootstrap apps
   cleanseApps()
+
   setFixture("application", "application_fixture.json", "test/data", false)
+  update_sample_app_urls
+
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
   cleanseCollectionWithTenantID("applicationAuthorization", "Midgar")
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
@@ -458,6 +487,7 @@ task :appInit do
   swap_app_ids(convertTenantIdToDbName("Midgar"))
   swap_app_ids(convertTenantIdToDbName("Hyrule"))
   enable_NOTABLESCAN()
+
 end
 
 desc "Approve inBloom apps for ingested realms"
@@ -475,6 +505,7 @@ task :loadDefaultIngestionTenants do
   # chung - the code below is a ruby port of tenant bootstrapping by ingestion.
   # It generates time-based shard type 1 uuids and replaces dbName with SHA1 digest.
   private
+
   def get_default_tenant_docs
     # Read default tenant JSON documents specified in ingestion-core
     tenant_doc_dir = "#{File.dirname(__FILE__)}/../ingestion/ingestion-core/src/main/resources/tenants"
@@ -493,8 +524,7 @@ task :loadDefaultIngestionTenants do
     tenants
   end
 
-  private
-  def replace_placeholders(lzs)
+      def replace_placeholders(lzs)
     hostname_placeholder = "<hostname>"
     lzpath_placeholder = "<lzpath>"
     hostname = Socket.gethostname
@@ -812,7 +842,7 @@ task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser/databrowser_selective_deny.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
   runTests("test/features/databrowser/student_authentication.feature")
-  runTests("test/features/databrowser/databrowser_external_idp_login.feature")
+  runTests("test/features/databrowser/databrowser_external_idp_login.feature") unless Property['ci_artifact_idp_type'].nil? || Property['ci_artifact_idp_type'].downcase == 'none'
   runTests("test/features/databrowser/databrowser_breadcrumbtrail.feature")
   runTests("test/features/databrowser/databrowser_homepagecounts.feature")
   displayFailureReport()
@@ -1606,6 +1636,33 @@ class ShardType1UUIDPKFactory
     prefix = Time.new.year.to_s + Array.new(2, '').collect{chars[rand(chars.size)]}.join
     doc["_id"] ||= prefix + "-" + SecureRandom.uuid
     doc
+  end
+end
+
+def update_sample_app_urls
+  old_url = 'http://local.slidev.org:8081/'
+  new_url = Property['sampleApp_server_address']
+
+  conn = Mongo::Connection.new(DB_HOST)
+  db = conn.db(SYSTEM_DB_NAME)
+
+  apps = db['application']
+
+  apps.find.each do |app|
+    # reset urls if it points to old sample app url
+    set_vals = {}
+    set_vals['body.administration_url'] = app['body']['administration_url'].sub(old_url,new_url) if app['body']['administration_url'].start_with?(old_url)
+    set_vals['body.application_url']    = app['body']['application_url'].sub(old_url,new_url) if app['body']['application_url'].start_with?(old_url)
+    set_vals['body.redirect_uri']       = app['body']['redirect_uri'].sub(old_url,new_url) if app['body']['redirect_uri'].start_with?(old_url)
+
+    unless set_vals.empty?
+      apps.update(
+          {'_id' => app['_id']},
+          {
+              '$set' => set_vals
+          }
+      )
+    end
   end
 end
 
