@@ -8,12 +8,12 @@ and not otherwise.  Admins have this privilege by default.
 # writing.  We do this with 2 IT Admin accounts; if we do it with one, the API's caching
 # mechanism causes the test to fail.
 
-Scenario: Change right for IT Admin to do a successful ingestion log API query
-    And   I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+Scenario: Verify an IT Administrator has the correct rights to view ingestion job information
+    And I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
     When I navigate to GET "/ingestionJobs/"
     Then I should receive a return code of 200
     
-Scenario: Attempt ingestion log data as a local admin, get denied because of insufficient privilege
+Scenario: Verify that an IT Administrator can no longer view ingestion job information after removing the INGESTION_LOG_VIEW right
     Given I change the custom role of "IT Administrator" in tenant "Midgar" to remove the "INGESTION_LOG_VIEW" right
     And   I am logged in using "rrogers" "rrogers1234" to realm "IL"
     When  I navigate to GET "/ingestionJobs/"
