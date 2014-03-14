@@ -65,10 +65,17 @@
   <dependency>
     <groupId>org.mockito</groupId>
     <artifactId>mockito-all</artifactId>
-    <version>1.8.5</version>
+    <version>${mockito.version}</version>
     <scope>test</scope>
   </dependency>
 
+  <!-- JSON Assert (JSON comparison in unit tests) -->
+  <dependency>
+      <groupId>org.skyscreamer</groupId>
+      <artifactId>jsonassert</artifactId>
+      <version>${jsonassert.version}</version>
+      <scope>test</scope>
+  </dependency>
 
   </dependencies>
 
