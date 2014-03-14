@@ -345,7 +345,7 @@ Then /^a notification email is sent to "([^"]*)"$/ do |email|
     @email_content = content
     @email_subject = subject
     puts subject,content
-    imap.disconnect
+    imap.disconnect unless imap.disconnected?
     assert(found, "Email was not found on SMTP server")
 end
 

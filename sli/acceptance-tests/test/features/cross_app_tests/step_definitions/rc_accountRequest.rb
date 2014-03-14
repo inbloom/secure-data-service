@@ -175,6 +175,6 @@ def check_email_for_verification(subject_substring = nil, content_substring = ni
       end
     end
   end
-  imap.disconnect
+  imap.disconnect unless imap.disconnected?
   fail("timed out getting email with subject substring = #{subject_substring}, content substring = #{content_substring}")
 end

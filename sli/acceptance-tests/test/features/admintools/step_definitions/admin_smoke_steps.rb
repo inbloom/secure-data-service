@@ -322,7 +322,7 @@ def most_recent_email(email, username=nil, password=nil)
     subject = email_data.attr[subject_attr]
   end
 
-  imap.disconnect
+  imap.disconnect unless imap.disconnected?
 
   [subject, content]
 end
