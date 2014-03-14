@@ -64,6 +64,7 @@ end
 
 Given /^I am a valid (.*)$/ do |user_type|
   @user, @pass = valid_user user_type
+  @user.should_not be_nil
   @federated = !!(user_type =~ /federated/)
   @sandbox = !!(user_type =~ /sandbox/)
 end
@@ -122,13 +123,13 @@ When /^I attempt to manage application authorizations$/ do
   login_to_the_realm
 end
 
-When /^I attempt to go to the (.*) page$/ do |page|
+When /^I (?:attempt )?to go to the (.*) page$/ do |page|
   browser.visit path_for(page)
   login_to_the_realm
 end
 
-Then /^I should (not )?be on the default administration page$/ do |not_see|
-  selector, header = 'h1', 'Admin Tools'
+Then /^I should (not )?be on the (.*) page$/ do |not_see, page|
+  selector, header = 'h1', header_for(page)
   if not_see
     browser.page.should have_no_selector(selector, :text => header)
   else
@@ -347,6 +348,14 @@ def path_for(page)
             page.gsub(' ','_')
          end
   "#{Property['admintools_server_url']}/#{path}"
+end
+
+def header_for(page)
+  case page
+    when /default administration/; 'Admin Tools'
+    when /applications/; 'Applications'
+    when /custom roles/; 'Custom Roles'
+  end
 end
 
 def admin_apps_page
