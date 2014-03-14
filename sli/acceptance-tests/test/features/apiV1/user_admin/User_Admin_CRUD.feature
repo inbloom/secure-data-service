@@ -76,7 +76,6 @@ Feature: As an admin I can create admin accounts for tenancies I administer
 	
   Examples:
     |USER       |PASSWORD       |ADMIN_ROLE             |REALM      |WANTED_ADMIN_ROLE           |CODE|Number   |Full_Name       |User_ID                          |Email_Address               |Event_Num|User |
-    |operator   |operator1234   |SLC Operator           |SLI        |SLC Operator                |200 |1 or more|Bill Operator   |slcoperator-email@slidev.org     |slcoperator-email@slidev.org|0        ||
     |operator   |operator1234   |SLC Operator           |SLI        |SEA Administrator           |200 |1 or more|NY Admin        |nyadmin                          |                            |0        ||
     |operator   |operator1234   |SLC Operator           |SLI        |LEA Administrator           |200 |1 or more|Daybreak Admin  |daybreakadmin                    |daybreakadmin@slidev.org    |0        ||
     |operator   |operator1234   |SLC Operator           |SLI        |Realm Administrator         |200 |1 or more|Mal Admin       |mreynolds                        |mreynolds@slidev.org        |0        ||
