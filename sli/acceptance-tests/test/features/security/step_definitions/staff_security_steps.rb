@@ -20,39 +20,35 @@ limitations under the License.
 require_relative '../../utils/sli_utils.rb'
 
 Given /^my role is Educator$/ do
-  @format = "application/json"
-  restHttpGet("/system/session/check", @format)
+  restHttpGet('/system/session/check', 'application/json')
   check = JSON.parse(@res.body)
-  assert(check["sliRoles"].include?("Educator"), "Should be an Educator") 
+  check['sliRoles'].should include('Educator')
 end
 
 When /^I make an API call to access teachers$/ do
-  restHttpGet("/v1/teachers", @format)
+  restHttpGet('/v1/teachers', 'application/json')
   @staff = JSON.parse(@res.body)
 end
 
 When /^I make an API call to access staff$/ do
-  restHttpGet("/v1/staff", @format)
+  restHttpGet('/v1/staff', 'application/json')
   @staff = JSON.parse(@res.body)
 end
 
 Then /^I get a response$/ do
-  assert(!@staff.nil?, "Should have a valid list of entities.") 
+  @staff.should_not be_nil, 'Should have a valid list of entities.'
 end
 
 Then /^the response does not includes the protected fields$/ do
 
-  restHttpGet("/v1/home", "application/json")
+  restHttpGet('/v1/home', 'application/json')
   home = JSON.parse(@res.body)
-  home['links'].each do |link|
-    if link['rel'] == 'self'
-      $my_id = link['href'].split('/').last
-    end
-  end
+  self_link = home['links'].detect {|link| link['rel'] == 'self'}
+  my_id = self_link.split('/').last if self_link
 
   @staff.each do |staff|
-    next if staff['id'] == $my_id
-    assert(!staff.has_key?("birthDate"), "Shouldn't see fields like BirthDay")
+    next if staff['id'] == my_id
+    assert(!staff.has_key?('birthDate'), 'Shouldn\'t see fields like BirthDay')
     staff['telephone'].each do |phone|
       type = phone['telephoneNumberType']
       assert(phone == nil || type == 'Work', 'Should not see non-work telephone')
@@ -68,35 +64,31 @@ Given /^my role is Leader$/ do
   @format = "application/json"
   restHttpGet("/system/session/check", @format)
   check = JSON.parse(@res.body)
-  assert(check["sliRoles"].include?("Leader"), "Should be an Educator") 
+  check['sliRoles'].should include('Leader')
 end
 
 Then /^the response includes the protected fields$/ do
-  restHttpGet("/v1/home", "application/json")
+  restHttpGet('/v1/home', 'application/json')
   home = JSON.parse(@res.body)
-  home['links'].each do |link|
-    if link['rel'] == 'self'
-      $my_id = link['href'].split('/').last
-    end
-  end
+  self_link = home['links'].detect {|link| link['rel'] == 'self'}
+  my_id = self_link.split('/').last if self_link
 
   found_protected = false
   @staff.each do |staff|
-    next if staff['id'] == $my_id
+    next if staff['id'] == my_id
     found_protected = true if staff.has_key?('birthDate')
   end
-  assert(found_protected, "Should have staff with protected fields (birthDate)")
-
+  found_protected.should be_true, 'Should have staff with protected fields (birthDate)'
 
   found_protected = false
   @staff.each do |staff|
-    next if staff['id'] == $my_id
+    next if staff['id'] == my_id
     staff['telephone'].each do |phone|
       type = phone['telephoneNumberType']
       found_protected = true if phone != nil && type != 'Work'
     end
   end
-  assert(found_protected, 'Should have response with protected fields (telephone)')
+  found_protected.should be_true, 'Should have staff with protected fields (telephone)'
 
   found_protected = false
   @staff.each do |staff|
@@ -106,24 +98,23 @@ Then /^the response includes the protected fields$/ do
       found_protected = true if email != nil && type != 'Work'
     end
   end
-  assert(found_protected, 'Should have response with protected fields (email)')
-
+  found_protected.should be_true, 'Should have staff with protected fields (email)'
 end
 
 Then /^I should see my restricted information$/ do
-  assert(@staff.has_key?("birthDate"), "Should see their own birthday")
+  assert(@staff.has_key?('birthDate'), 'Should see their own birthday')
 end
 
 When /^I make an API call to access myself$/ do
   #In this context, myself equals "Rebecca Braverman"
-  restHttpGet("/v1/teachers/bcfcc33f-f4a6-488f-baee-b92fbd062e8d", @format)
+  restHttpGet('/v1/teachers/bcfcc33f-f4a6-488f-baee-b92fbd062e8d', 'application/json')
   @staff = JSON.parse(@res.body)
 end
 
 When /^I update association "(.*?)" "(.*?)" to set studentAccessFlag to "(.*?)"$/ do |type, id, boolean|
-  @format = "application/json"
+  @format = 'application/json'
   flag = (boolean == "true")
   restHttpPatch("/v1/#{type}/#{id}", {"studentRecordAccess"=>flag}.to_json)
-  assert(@res.code==204, "There was an error patching studentRecordAccess flag")
+  @res.code.should == 204
 end
 

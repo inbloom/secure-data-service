@@ -663,27 +663,13 @@ task :apiOdinTests => [:apiOdinFederatedAppsTests, :apiOdinPrep, :apiOdinFederat
 end
 
 desc "Run API Security Tests using Odin ingested data"
-task :apiOdinSecurityTests => [:apiOdinPrep, :apiOdinStudentLogin, :apiOdinParentLogin, :apiOdinPublicData] do
-  display_failure_report
-end
-
-desc "Run API Student Security Tests using Odin ingested data"
-task :apiOdinStudentTests => [:apiOdinPrep, :apiOdinStudentLogin] do
-  display_failure_report
-end
-
-desc "Run API Parent Security Tests using Odin ingested data"
-task :apiOdinParentTests => [:apiOdinPrep, :apiOdinParentLogin] do
+task :apiOdinSecurityTests => [:apiOdinPrep, :apiOdinStudentLogin, :apiOdinParentLogin] do
+  runTests("test/features/apiV1/integration/public_data.feature")
   display_failure_report
 end
 
 desc "Prep for running api odin tests"
 task :apiOdinPrep => [:apiOdinSecurityGenerate, :apiOdinSecurityIngestion, :apiOdinSetupAPI] do
-  display_failure_report
-end
-
-desc "Run API V1 Super Assessment acceptance tests"
-task :apiSuperAssessmentTests => [:apiOdinSuperAssessment] do
   display_failure_report
 end
 

@@ -362,11 +362,6 @@ task :apiOdinParentLogin => [:apiOdinSetupAPI] do
   runTests("test/features/apiV1/integration/parent_crud_operations.feature")
 end
 
-desc "Run API Odin Public Data Integration Tests"
-task :apiOdinPublicData do
-  runTests("test/features/apiV1/integration/public_data.feature")
-end
-
 desc "Run contextual roles acceptance tests"
 task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinContextualRolesIngestion, :runSearchBulkExtract] do
   runTests("test/features/apiV1/contextual_roles/classPeriod_bellSchedule.feature")
@@ -378,10 +373,9 @@ task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinConte
   runTests("test/features/apiV1/contextual_roles/student_patch.feature")
   runTests("test/features/apiV1/contextual_roles/student_post.feature")
   runTests("test/features/apiV1/contextual_roles/student_put.feature")
-  set_fixture("calendarDate", "Midgar_data/calendarDate_fixture.json")
-  set_fixture("staff", "staff_fixture.json")
-  set_fixture("educationOrganization", "educationOrganization_fixture.json")
-  set_fixture("staffEducationOrganizationAssociation",  "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
+  set_fixture 'calendarDate', 'Midgar_data/calendarDate_fixture.json'
+  set_fixtures %w(staff educationOrganization)
+  set_fixture 'staffEducationOrganizationAssociation',  'staffEducationOrganizationAssociation_fixture_contextual_roles.json'
   runTests("test/features/apiV1/contextual_roles/classPeriod_bellSchedule_crud.feature")
   display_failure_report
 end
@@ -393,7 +387,6 @@ task :apiV1SearchLimitTests => :realmInit do
   runTests("test/features/apiV1/search/search_limits.feature")
   display_failure_report
 end
-
 
 ############################################################
 # API V1 tests end

@@ -273,7 +273,6 @@ end
 #              It is suggested you assert the state of the @res response before returning success from the calling function
 def restHttpGet(id, format = @format, sessionId = @sessionId)
   sessionId.should_not be_nil
-
   urlHeader = makeUrlAndHeaders('get',id,sessionId,format)
   puts "GET urlHeader: #{urlHeader}" if $SLI_DEBUG
   @res = RestClient.get(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
