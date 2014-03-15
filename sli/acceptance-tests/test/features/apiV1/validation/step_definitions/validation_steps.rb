@@ -85,11 +85,11 @@ Given /^I create a valid base level school object$/ do
 end
 
 Given /^I create a valid base level school object without parent education organization reference$/ do
-  @result = CreateEntityHash.createBaseSchoolRandomId()
+  @result = CreateEntityHash.createBaseSchoolRandomId
 end
 
 Given /^I create a blank json object$/ do
-  @result = Hash[]
+  @result = {}
 end
 
 When /^I navigate to POST "([^"]*)"$/ do |arg1|
@@ -197,10 +197,6 @@ end
 
 When /^I create a blank request body object$/ do
   @result = {}
-end
-
-When /^I create a base school object$/ do
-  @result = CreateEntityHash.createBaseSchool()
 end
 
 When /^"([^\"]*)" has a value of "([^\"]*)"$/ do |key, value|

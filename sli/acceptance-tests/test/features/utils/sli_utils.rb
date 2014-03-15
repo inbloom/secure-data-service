@@ -629,61 +629,58 @@ def recursive_hash_delete( hash, key_to_remove )
 end
 
 module CreateEntityHash
-  def CreateEntityHash.createBaseStudent()
-    data = Hash[
-        "studentUniqueStateId" => "123456",
-        "name" => Hash[
-          "firstName" => "fname",
-          "lastSurname" => "lname",
-          "middleName" => "mname"],
-        "sex" => "Male",
-        "birthData" => Hash[
-          "birthDate" => "2012-01-01"
-          ],
-        "learningStyles" => Hash[
-          "visualLearning" => 30,
-          "auditoryLearning" => 40,
-          "tactileLearning" => 30
-          ]
-       ]
-
-    return data
+  def self.createBaseStudent
+    {
+      'studentUniqueStateId' => '123456',
+      'name' => {
+        'firstName' => 'fname',
+        'lastSurname' => 'lname',
+        'middleName' => 'mname'},
+      'sex' => 'Male',
+      'birthData' => {
+        'birthDate' => '2012-01-01'
+      },
+      'learningStyles' => {
+        'visualLearning' => 30,
+        'auditoryLearning' => 40,
+        'tactileLearning' => 30
+      }
+    }
   end
 
-  def CreateEntityHash.createBaseStudentRandomId()
-    data = CreateEntityHash.createBaseStudent
+  def self.createBaseStudentRandomId
+    data = createBaseStudent
     data['studentUniqueStateId'] = (0...8).map{65.+(rand(25)).chr}.join
-    return data
+    data
   end
 
-  def CreateEntityHash.createBaseStudentDefinedId(id)
-    data = CreateEntityHash.createBaseStudent
+  def self.createBaseStudentDefinedId( id )
+    data = createBaseStudent
     data['studentUniqueStateId'] = id
-    return data
+    data
   end
 
-  def CreateEntityHash.createBaseSchool()
-    data = Hash[
-        "nameOfInstitution" => "school name",
-        "stateOrganizationId" => "12345678",
-        "gradesOffered" => ["First grade", "Second grade"],
-      "address"=>[
-      "streetNumberName" => "111 Ave C",
-      "city" => "Chicago",
-      "stateAbbreviation" => "IL",
-      "postalCode" => "10098",
-      "nameOfCounty" => "Wake"
-      ],
-        "organizationCategories" => ["School"],
-        "schoolCategories" => ["Elementary School"],
-        ]
-    return data
+  def self.createBaseSchool()
+    {
+      'nameOfInstitution' => 'school name',
+      'stateOrganizationId' => '12345678',
+      'gradesOffered' => ['First grade', 'Second grade'],
+      'address' => {
+          'streetNumberName' => '111 Ave C',
+          'city' => 'Chicago',
+          'stateAbbreviation' => 'IL',
+          'postalCode' => '10098',
+          'nameOfCounty' => 'Wake'
+      },
+      'organizationCategories' => ['School'],
+      'schoolCategories' => ['Elementary School'],
+    }
   end
 
-  def CreateEntityHash.createBaseSchoolRandomId()
-    data = CreateEntityHash.createBaseSchool
+  def self.createBaseSchoolRandomId
+    data = createBaseSchool
     data['stateOrganizationId'] = (0...8).map{65.+(rand(25)).chr}.join
-    return data
+    data
   end
 end
 
