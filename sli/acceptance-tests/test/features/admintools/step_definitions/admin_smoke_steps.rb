@@ -21,11 +21,12 @@ require 'capybara-screenshot'
 require 'capybara-screenshot/cucumber'
 #require_relative '../../utils/db_client.rb'
 
+Capybara.default_driver = :selenium
+
 # TODO Move the capybara setup code to a common location
 class Browser
   include Capybara::DSL
   def initialize
-    Capybara.default_driver = :selenium
     Capybara.reset_session!
   end
 

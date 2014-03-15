@@ -13,7 +13,7 @@ Scenario: App developer deletes installed bulk extract app
   Then I should be on Portal home page
   Then I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "Register Application"
   And I switch to the iframe
   Then I am redirected to the Application Registration Tool page
@@ -30,8 +30,7 @@ Scenario: App developer deletes installed non bulk extract app
   When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page
   Then I should be on Portal home page
   Then I should see Admin link
-  And I click on Admin
-  Then I should be on the admin page
+  And I click onThen the portal should be on the admin pagedmin page
   And under System Tools, I click on "Register Application"
   And I switch to the iframe
   Then I am redirected to the Application Registration Tool page

@@ -13,7 +13,7 @@ When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for t
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
-Then I should be on the admin page
+Then the portal should be on the admin page
 And under System Tools, I click on "Manage Realm"
 And I switch to the iframe
 And I should see that I am on the new realm page
@@ -49,8 +49,7 @@ Scenario:  LEA gives IT Admins bulk extract permissions
     When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page
     Then I should be on Portal home page
     Then I should see Admin link
-    And I click on Admin
-    Then I should be on the admin page
+    And I click on AThen the portal should be on the admin pagedmin page
     And under System Tools, I click on "Create Custom Roles"
     And I switch to the iframe
     And I edit the group "IT Administrator"
@@ -69,8 +68,7 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 Then I should be on Portal home page
 Then I should see Admin link
-And I click on Admin
-Then I should be on the admin page
+AndThen the portal should be on the admin page on the admin page
 And under System Tools, I click on "Authorize Applications"
 And I switch to the iframe
 Then I am redirected to the Admin Application Authorization Tool
@@ -158,8 +156,7 @@ Scenario: App developer creates new Bulk Extract App
     When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page
     Then I should be on Portal home page
     Then I should see Admin link
-    And I click on Admin
-    Then I should be on the admin page
+  Then the portal should be on the admin pageshould be on the admin page
     And under System Tools, I click on "Register Application"
     And I switch to the iframe
     Then I am redirected to the Application Registration Tool page
@@ -184,9 +181,7 @@ Scenario: App developer enables Bulk Extract App
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page
     Then I should be on Portal home page
-    Then I should see Admin link
-    And I click on Admin
-    Then I should be on the admin page
+    Then I should see AdmiThen the portal should be on the admin page  Then I should be on the admin page
     And under System Tools, I click on "Register Application"
     And I switch to the iframe
     Then I am redirected to the Application Registration Tool page
@@ -208,8 +203,7 @@ Scenario: App developer creates new non Bulk Extract App
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page
     Then I should be on Portal home page
-    Then I should see Admin link
-    And I click on Admin
+    Then I shouldThen the portal should be on the admin page Admin
     Then I should be on the admin page
     And under System Tools, I click on "Register Application"
     And I switch to the iframe
@@ -234,8 +228,7 @@ Scenario: App developer enables non Bulk Extract App
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page
     Then I should be on Portal home page
-    Then I should see Admin link
-    And I click on Admin
+    ThenThen the portal should be on the admin page click on Admin
     Then I should be on the admin page
     And under System Tools, I click on "Register Application"
     And I switch to the iframe
@@ -255,8 +248,7 @@ When I navigate to the Portal home page
 When I see the realm selector I authenticate to "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
-Then I should be on Portal home page
-Then I should see Admin link
+Then I should be on PortThen the portal should be on the admin pagein link
 And I click on Admin
 Then I should be on the admin page
 And under System Tools, I click on "Authorize Applications"

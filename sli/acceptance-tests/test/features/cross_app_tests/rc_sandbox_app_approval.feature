@@ -14,7 +14,7 @@ When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>"
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
-Then I should be on the admin page
+Then the portal should be on the admin page
 And under System Tools, I click on "Register Application"
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
@@ -41,8 +41,7 @@ Then "NotTheAppYoureLookingFor" is enabled for "5" education organizations
 
 #Full Window App
 And I exit out of the iframe
-And I click on Admin
-Then I should be on the admin page
+And I click Then the portal should be on the admin pagedmin page
 And under System Tools, I click on "Register Application"
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
