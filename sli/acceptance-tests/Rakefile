@@ -341,10 +341,6 @@ task :realmInit => :appInit do
   set_fixture('realm', nil, 'test/data', false)
   setRealmIdpUrls
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "anotherfakerealm")
-  setFixture("customRole", "customRole_anotherfakerealm_fixture.json", "test/data")
-  swap_realm_ids()
-
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'anotherfakerealm')
   set_fixture 'customRole', 'customRole_anotherfakerealm_fixture.json'
   swap_realm_ids
