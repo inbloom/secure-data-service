@@ -62,18 +62,18 @@ end
 
 Then /^I should receive an ID for the newly created ([\w-]+)$/ do |entity|
   headers = @res.raw_headers
-  headers['location'].should_not be_nil
+  headers['location'].should_not be_nil, "Location header not found"
   s = headers['location'][0]
   @newId = s[s.rindex('/')+1..-1]
-  @new_id.should_not be_nil
+  @new_id.should_not be_nil, "Location does not include ID"
 end
 
 When /^I navigate to GET "([^\"]*)"$/ do |uri|
   uri << "?#{@queryParams.join('&')}" if @queryParams && !@queryParams.empty?
   puts uri
   restHttpGet(uri)
-  @res.should_not be_nil
-  @res.body.should_not be_nil
+  @res.should_not be_nil, "Response should not be nil"
+  @res.body.should_not be_nil, "Response body does not exist"
   contentType = contentType(@res).gsub(/\s+/,"")
   jsonTypes = ["application/json", "application/json;charset=utf-8", "application/vnd.slc.full+json", "application/vnd.slc+json" "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].to_set
 
