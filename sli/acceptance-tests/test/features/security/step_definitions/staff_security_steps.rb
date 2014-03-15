@@ -40,11 +40,10 @@ Then /^I get a response$/ do
 end
 
 Then /^the response does not includes the protected fields$/ do
-
   restHttpGet('/v1/home', 'application/json')
   home = JSON.parse(@res.body)
   self_link = home['links'].detect {|link| link['rel'] == 'self'}
-  my_id = self_link.split('/').last if self_link
+  my_id = self_link['href'].split('/').last if self_link
 
   @staff.each do |staff|
     next if staff['id'] == my_id
@@ -71,7 +70,7 @@ Then /^the response includes the protected fields$/ do
   restHttpGet('/v1/home', 'application/json')
   home = JSON.parse(@res.body)
   self_link = home['links'].detect {|link| link['rel'] == 'self'}
-  my_id = self_link.split('/').last if self_link
+  my_id = self_link['href'].split('/').last if self_link
 
   found_protected = false
   @staff.each do |staff|
@@ -92,7 +91,7 @@ Then /^the response includes the protected fields$/ do
 
   found_protected = false
   @staff.each do |staff|
-    next if staff['id'] == $my_id
+    next if staff['id'] == my_id
     staff['electronicMail'].each do |email|
       type = email['emailAddressType']
       found_protected = true if email != nil && type != 'Work'
