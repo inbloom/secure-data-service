@@ -2,10 +2,9 @@
 source /usr/local/rvm/environments/default
 #Need to change environment to tests or something. Evolved into something other than environment
 show_usage() {
-    echo "Usage: $0 [-Dh] -d DIR -e prod|sandbox|stage|test [-g GROUP [-s SERVER]]"
+    echo "Usage: $0 -t ci_e2e_prod -m production -a api,dashboard,ingestion-service,simple-idp,sample"
     echo
     echo "Options:"
-    echo "  -d DIR         : Directory containing code files"
     echo "  -t TESTS       : Test Suite that this script should run"
     echo "  -m MODE        : Mode of the applications. production or sandbox"
     echo "  -a APPS        : List of Applications to deploy"
@@ -14,7 +13,7 @@ show_usage() {
 }
 
 process_opts() {
-    while getopts "d:t:m:a:w:h:" opt; do
+    while getopts "t:m:a:w:h:" opt; do
         case $opt in
             d)
                 CODEDIR=$OPTARG
@@ -36,7 +35,7 @@ process_opts() {
                     show_usage
                     exit 1
                 fi
-                TESTS=$OPTARG
+                TEST=$OPTARG
                 ;;
              m)
                 if [[ "$OPTARG" != "production" && \
