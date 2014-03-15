@@ -391,14 +391,6 @@ Then /^in tenant "(.*?)" I authorize the educationalOrganization "(.*?)"$/ do |t
   enable_NOTABLESCAN()
 end
 
-Then /^I authorize the educationalOrganization root node$/ do
-  app = @driver.find_element(:id, 'root').click
-end
-
-Then /^I de-authorize the educationalOrganization root node$/ do
-  app = @driver.find_element(:id, 'root').click
-end
-
 Then /^the checkbox with HTML id "([^"]*?)" is (checked|unchecked)$/ do |id,status|
   elt = @driver.find_element(:id, id)
   assert(elt, "Checkbox with id '" + id + "' not found")

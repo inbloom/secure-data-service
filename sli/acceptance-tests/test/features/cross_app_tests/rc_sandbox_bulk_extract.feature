@@ -31,7 +31,8 @@ Feature: Users can receive bulk extracts in sandbox mode
 
     #Add Bulk Extract role to IT Admin
     And I exit out of the iframe
-    And I click on AThen the portal should be on the admin pagedmin page
+    And I click on Admin
+    Then the portal should be on the admin page
     And under System Tools, I click on "Create Custom Roles"
     And I switch to the iframe
     And I edit the group "IT Administrator"
