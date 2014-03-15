@@ -35,7 +35,8 @@ Feature:  RC Integration Tests - Test Student Login
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
     And I want to select "800000025" from the "SmallDatasetUsers" in automatic mode
     Then I should be on Portal home page
-    And I click on AThen the portal should be on the admin pagedmin page
+    And I click on Admin
+    Then the portal should be on the admin page
     And under System Tools, I click on "inBloom Data Browser"
     Then I should be redirected to the Data Browser home page
     And I should see the name "Matt Sollars Jr" on the page
