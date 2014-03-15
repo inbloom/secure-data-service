@@ -152,11 +152,9 @@ end
 
 desc "Run V1 Validation Tests"
 task :v1ValidationTests => :realmInit do
+  # maybe I need studentSchoolAssociation and teacherSchoolAssociation
   set_fixtures(
-    %w(
-      educationOrganization staff staffEducationOrganizationAssociation
-      student section teacherSectionAssociation
-    ), 'test/data/Midgar_data'
+    %w( educationOrganization staff staffEducationOrganizationAssociation student section ), 'test/data/Midgar_data'
   )
   runTests("test/features/apiV1/validation/validation.feature")
 end
@@ -164,10 +162,7 @@ end
 desc "Run V1 Teacher Validation Tests"
 task :v1TeacherValidationTests => :realmInit do
   set_fixtures(
-      %w(
-      educationOrganization staff staffEducationOrganizationAssociation
-      student section teacherSectionAssociation
-    ), 'test/data/Midgar_data'
+    %w( educationOrganization staff staffEducationOrganizationAssociation student section ), 'test/data/Midgar_data'
   )
   runTests("test/features/apiV1/validation/teacher_validation.feature")
 end
