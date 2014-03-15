@@ -14,7 +14,7 @@ show_usage() {
 }
 
 process_opts() {
-    while getopts "d:e:m:a:w:h:" opt; do
+    while getopts "d:t:m:a:w:h:" opt; do
         case $opt in
             d)
                 CODEDIR=$OPTARG
