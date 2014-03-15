@@ -971,39 +971,6 @@ Given /^the following collections are empty in sli datastore:$/ do |table|
     enable_NOTABLESCAN()
 end
 
-
-
-Given /^the following collections are empty in datastore:$/ do |table|
-  disable_NOTABLESCAN()
-  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
-
-  @db = @conn[@ingestion_db_name]
-
-  puts "Clearing out collections in db " + @ingestion_db_name + " on " + INGESTION_DB
-
-  @result = "true"
-
-  table.hashes.map do |row|
-    parent = subDocParent row["collectionName"]
-    if parent
-      @entity_collection = @db[parent]
-      superDocs = @entity_collection.find()
-      cleanupSubDoc(superDocs, row["collectionName"])
-    else
-      @entity_collection = @db[row["collectionName"]]
-      @entity_collection.remove()
-
-      puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
-
-      if @entity_collection.count.to_s != "0"
-        @result = "false"
-      end
-    end
-  end
-  assert(@result == "true", "Some collections were not cleared successfully.")
-  enable_NOTABLESCAN()
-end
-
 Given /^the following collections are empty in batch job datastore:$/ do |table|
   disable_NOTABLESCAN()
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]

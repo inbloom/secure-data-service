@@ -151,26 +151,24 @@ task :v1HierarchyTraversalTests => [:realmInit] do
 end
 
 desc "Run V1 Validation Tests"
-task :v1ValidationTests => [:realmInit] do
-  set_fixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
-  set_fixture("staff", "Midgar_data/staff_fixture.json")
-  set_fixture("staffEducationOrganizationAssociation", "Midgar_data/staffEducationOrganizationAssociation_fixture.json")
-  set_fixture("student", "Midgar_data/student_fixture.json")
-  set_fixture("section", "Midgar_data/section_fixture.json")
-  set_fixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
-  set_fixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
+task :v1ValidationTests => :realmInit do
+  set_fixtures(
+    %w(
+      educationOrganization staff staffEducationOrganizationAssociation
+      student section teacherSectionAssociation
+    ), 'test/data/Midgar_data'
+  )
   runTests("test/features/apiV1/validation/validation.feature")
 end
 
 desc "Run V1 Teacher Validation Tests"
 task :v1TeacherValidationTests => [:realmInit] do
-  set_fixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
-  set_fixture("staff", "Midgar_data/staff_fixture.json")
-  set_fixture("staffEducationOrganizationAssociation", "Midgar_data/staffEducationOrganizationAssociation_fixture.json")
-  set_fixture("student", "Midgar_data/student_fixture.json")
-  set_fixture("section", "Midgar_data/section_fixture.json")
-  set_fixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
-  set_fixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
+  set_fixtures(
+      %w(
+      educationOrganization staff staffEducationOrganizationAssociation
+      student section teacherSectionAssociation
+    ), 'test/data/Midgar_data'
+  )
   runTests("test/features/apiV1/validation/teacher_validation.feature")
 end
 
