@@ -38,7 +38,7 @@ When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" log
 Then I should be on Portal home page
 Then I should not see "inBloom Dashboards"
 And I click on Admin
-And I should be on the admin page
+And the portal should be on the admin page
 And I should not see "inBloom Data Browser"
 And I click on log out
 

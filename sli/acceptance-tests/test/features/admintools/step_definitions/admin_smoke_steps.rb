@@ -358,6 +358,8 @@ def header_for(page)
     when /default administration/; 'Admin Tools'
     when /applications/; 'Applications'
     when /custom roles/; 'Custom Roles'
+    else
+      fail "Unexpected page: #{page}"
   end
 end
 
