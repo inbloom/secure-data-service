@@ -78,6 +78,7 @@ Given /^I create a valid base level school object$/ do
     oldParentId = "bd086bae-ee82-4cf2-baf9-221a9407ea07"
   end
   @result = CreateEntityHash.createBaseSchoolRandomId()
+  puts "Result: #{@result.inspect}"
 
   if defined? oldParentId
     @result["parentEducationAgencyReference"] = oldParentId
@@ -101,7 +102,7 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
     assert(false, "Unsupported MIME type")
   end
   restHttpPost(arg1, data)
-  assert(@res != nil, "Response from rest-client POST is nil")
+  @res.should_not be_nil, 'Response from rest-client POST is nil'
 end
 
 Given /^I create a student object with "([^"]*)" set to Guy$/ do |arg1|

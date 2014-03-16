@@ -47,6 +47,7 @@ When I submit the credentials "jdoe" "jdoe1234" for the "Simple" login page
 Then I get an error message "Forbidden"
 #Then I get an error message "We're sorry, your district has disallowed use of the Dashboard." #DE1112 should enable this step 
 
+@wip
 Scenario: Upload Config
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
