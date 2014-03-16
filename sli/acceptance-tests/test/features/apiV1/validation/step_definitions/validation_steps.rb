@@ -67,7 +67,7 @@ def createXlengthString(x)
 end
 
 Given /^I create a valid base level student object$/ do
-  @result = CreateEntityHash.createBaseStudent()
+  @result = CreateEntityHash.createBaseStudent
   @lastStudentId = @result['studentUniqueStateId']
 end
 

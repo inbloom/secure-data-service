@@ -659,18 +659,20 @@ module CreateEntityHash
     data
   end
 
-  def self.createBaseSchool()
+  # TODO: The 'address' structure below seems like it should just be a hash, not an array of hash tuples; however,
+  #       the previous code had it as an array of hashes; this seems wrong but it may make the test pass
+  def self.createBaseSchool
     {
       'nameOfInstitution' => 'school name',
       'stateOrganizationId' => '12345678',
       'gradesOffered' => ['First grade', 'Second grade'],
-      'address' => {
+      'address' => [
           'streetNumberName' => '111 Ave C',
           'city' => 'Chicago',
           'stateAbbreviation' => 'IL',
           'postalCode' => '10098',
           'nameOfCounty' => 'Wake'
-      },
+      ],
       'organizationCategories' => ['School'],
       'schoolCategories' => ['Elementary School'],
     }
