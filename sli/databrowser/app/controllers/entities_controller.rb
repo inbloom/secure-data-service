@@ -49,7 +49,7 @@ class EntitiesController < ApplicationController
     when /studentById/
       @search_field = "_id"
     when /staffById/
-      @search_field = "_id"
+      @search_field = "q"
     when /edOrgById/
       @search_field = "_id"
     when /parentsById/

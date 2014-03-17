@@ -7,6 +7,7 @@
             "body.otherName.firstName", 
             "body.otherName.middleName", 
             "body.otherName.lastSurname", 
+            "body.id",
             "schools.exitWithdrawDate", 
             "schools._id",
             "metaData.isOrphaned",
@@ -55,7 +56,8 @@
             "body.name.lastSurname", 
             "body.otherName.firstName", 
             "body.otherName.middleName", 
-            "body.otherName.lastSurname"
+            "body.otherName.lastSurname",
+            "body.id"
       ]
     },
     "teacher": {
@@ -65,7 +67,8 @@
             "body.name.lastSurname", 
             "body.otherName.firstName", 
             "body.otherName.middleName", 
-            "body.otherName.lastSurname"
+            "body.otherName.lastSurname",
+            "body.id"
       ]
     },
     "educationOrganization": {
