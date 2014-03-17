@@ -41,8 +41,8 @@ bulk_extract_delta_properties: "../config/properties/sli.properties"
 bulk_extract_delta_keystore: "../data-access/dal/keyStore/ciKeyStore.jks"
 bulk_extract_output_directory: "extract/"
 bulk_extract_jar_loc: ""
-bulk_extract_properties_file: ""
-bulk_extract_keystore_file: ""
+bulk_extract_properties_file: "/etc/datastore/sli.properties"
+bulk_extract_keystore_file: "/etc/datastore/sli-keystore.jks"
 bulk_extract_db: "localhost"
 bulk_extract_port: 27017
 
@@ -84,7 +84,7 @@ sb_get_started: "inbloom.org/getting-started"
 registration_app_suffix: "/registration"
 samt_app_suffix: "/users"
 validation_base_suffix: "/user_account_validation"
-user_registration_email: devldapuser@slidev.org
+user_registration_email: devldapuser@slidev2.org
 user_registration_pass: test1234
 
 jmeter_jmx_path: "../../tools/jmeter/"
@@ -109,8 +109,17 @@ email_imap_inbloom_operator_username: slcoperator-email
 email_imap_inbloom_operator_password: slcoperator-email1234
 
 email_imap_registration_user: devldapuser
-email_imap_registration_user_email: devldapuser@slidev.org
+email_imap_registration_user_email: devldapuser@slidev2.org
 email_imap_registration_pass: Y;Gtf@w{
+
+test_email: peacefrog@slidev.org
+test_email_sender: inBloom Administrator
+test_email_user: peacefrog
+test_email_pass: demouser
+
+operator_test_email_user: slcoperator-email
+operator_test_email_pass: slcoperator-email1234
+
 
 ################# e2e test properties #################################
 # For CI environments
@@ -119,39 +128,39 @@ email_imap_portname: 443
 
 #SEA Admin creds - For CI environments
 primary_email_imap_registration_user: e2etestsea
-primary_email_imap_registration_user_email: e2etestsea@slidev.org
+primary_email_imap_registration_user_email: e2etestsea@slidev2.org
 primary_email_imap_registration_pass: test1234
 
 #LEA Admin creds - For CI environments
 secondary_email_imap_registration_user: e2etestlea
-secondary_email_imap_registration_user_email: e2etestlea@slidev.org
+secondary_email_imap_registration_user_email: e2etestlea@slidev2.org
 secondary_email_imap_registration_pass: test1234
 
 #LEA Admin creds - For CI environments
 charter_email_imap_registration_user: e2echarter
-charter_email_imap_registration_user_email: e2echarter@slidev.org
+charter_email_imap_registration_user_email: e2echarter@slidev2.org
 charter_email_imap_registration_pass: test1234
 
 #Developer creds - For CI environments
 developer_email_imap_registration_user: e2etestdev
-developer_email_imap_registration_user_email: e2etestdev@slidev.org
+developer_email_imap_registration_user_email: e2etestdev@slidev2.org
 developer_email_imap_registration_pass: test1234
 
 #Developer creds (sandbox) - For CI environments
 developer_sb_email_imap_registration_user: e2etestdev_sb
-developer_sb_email_imap_registration_user_email: e2etestdev_sb@slidev.org
+developer_sb_email_imap_registration_user_email: e2etestdev_sb@slidev2.org
 developer_sb_email_imap_registration_pass: test1234
 
 #Developer 2 creds (sandbox) - For CI environments
 developer2_sb_email_imap_registration_user: e2etestdev_sb2
-developer2_sb_email_imap_registration_user_email: e2etestdev_sb2@slidev.org
+developer2_sb_email_imap_registration_user_email: e2etestdev_sb2@slidev2.org
 developer2_sb_email_imap_registration_pass: test1234
 
 #Landing zone -
 landingzone: picard-lz.slidev.org
 landingzone_port: 443
 
-sandbox_tenant: e2etestdev_sb@slidev.org
+sandbox_tenant: e2etestdev_sb@slidev2.org
 tenant: RCTestTenant
 edorg: STANDARD-SEA
 
