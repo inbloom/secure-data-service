@@ -52,13 +52,11 @@ INGESTION_PASSWORD = Property['ingestion_password']
 INGESTION_REMOTE_LZ_PATH = Property['ingestion_remote_lz_path']
 INGESTION_HEALTHCHECK_URL = Property['ingestion_healthcheck_url']
 INGESTION_PROPERTIES_FILE = Property['ingestion_properties_file']
-INGESTION_RC_TENANT = Property['ingestion_rc_tenant']
-INGESTION_RC_EDORG = Property['ingestion_rc_edorg']
 INGESTION_TIMEOUT_OVERRIDE = Property['ingestion_timeout_override_seconds']
 
 ACTIVEMQ_HOST = Property['activemq_host']
 
-TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT", INGESTION_RC_TENANT]
+TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
 INGESTION_LOGS_DIRECTORY = Property['ingestion_log_directory']
 
@@ -336,11 +334,7 @@ Before('~@no_ingestion_hooks') do
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
 
-  if (((INGESTION_RC_TENANT == "") || (INGESTION_RC_TENANT == nil)) && ((INGESTION_RC_EDORG == "") || (INGESTION_RC_EDORG == nil)))
-    @ingestion_lz_key_override = nil
-  else
-    @ingestion_lz_key_override = INGESTION_RC_TENANT + "-" + INGESTION_RC_EDORG
-  end
+  @ingestion_lz_key_override = nil
 
   if INGESTION_MODE != 'remote'
     #remove all tenants other than Midgar and Hyrule
@@ -382,12 +376,7 @@ Before('~@no_ingestion_hooks') do
 
       #in remote trim the path to a relative user path rather than absolute path
       if INGESTION_MODE == 'remote'
-        # if running against RC tenant and edorg, path will be root directory on sftp login
-        if identifier == "#{INGESTION_RC_TENANT}-#{INGESTION_RC_EDORG}"
-          path = './'
-        else
-          path.gsub!(INGESTION_REMOTE_LZ_PATH, '')
-        end
+        path.gsub!(INGESTION_REMOTE_LZ_PATH, '')
       end
 
       @ingestion_lz_identifer_map[identifier] = path

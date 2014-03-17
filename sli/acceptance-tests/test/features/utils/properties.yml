@@ -7,6 +7,7 @@ dashboard_app_prefix: /dashboard
 
 # Admin rails component
 admintools_server_url: http://local.slidev.org:3001
+
 ## TODO: The URL below is not valid; its anticipated that this property will go away when
 ##       we get CI to RC
 minisb_admintools_server_url: http://ycao-mint.slidev.org:3001
@@ -45,11 +46,7 @@ ingestion_properties_file: "../config/properties/sli.properties"
 ingestion_log_directory: "../ingestion/ingestion-service/target/ingestion/logs/"
 ingestion_index_validation: true
 ingestion_timeout_override_seconds: 0
-activemq_host: "localhost"
-
-# TODO: These values are never set and code dependent on them can be removed
-ingestion_rc_tenant: ""
-ingestion_rc_edorg: ""
+activemq_host: localhost
 
 #Bulk Extract Configuration
 bulk_extract_script: "../bulk-extract/scripts/local_bulk_extract.sh"
@@ -68,24 +65,24 @@ bulk_extract_scheduler_script: "../bulk-extract/scripts/schedule_bulk_extracts.s
 bulk_extract_script_directory: "../bulk-extract/scripts/"
 bulk_extract_cron_output_directory: "extract/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a/"
 
-sif_db: "localhost"
+sif_db: localhost
 sif_port: 27017
-sif_database_name: "sli"
-sif_zis_address_trigger: "http://local.slidev.org:8087/mock-zis/trigger"
+sif_database_name: sli
+sif_zis_address_trigger: http://local.slidev.org:8087/mock-zis/trigger
 
-sli_database_name: "sli"
+sli_database_name: sli
 
-DB_HOST: "localhost"
+DB_HOST: localhost
 DB_PORT: 27017
-api_database_name : "sli"
+api_database_name: sli
 
-sampleApp_server_address: "http://local.slidev.org:8081/"
+sampleApp_server_address: http://local.slidev.org:8081/
 
-simpleIDP_realm_server_address: "http://local.slidev.org:8080/"
+simpleIDP_realm_server_address: http://local.slidev.org:8080/
 simpleIDP_realm_params: "response_type%3dcode%26client_id%3dfm67sH6vZZ%26redirect_uri%3dhttp://local.slidev.org:8081/sample/callback"
-simpleIDP_login_url: "http://local.slidev.org:8082/simple-idp"
+simpleIDP_login_url: http://local.slidev.org:8082/simple-idp
 simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
-simpleIDP_realm_suffix: "Local"
+simpleIDP_realm_suffix: Local
 
 ldap_hostname: localhost
 ldap_port: 636
@@ -113,7 +110,7 @@ jmeter_regression_threshold: 0.25
 jmeter_reset_regression: false
 jmeter_consideration_percentile: .90
 
-app_bootstrap_server: "local"
+app_bootstrap_server: local
 
 test_email_sender: inBloom Administrator
 email_smtp_port: 8080
