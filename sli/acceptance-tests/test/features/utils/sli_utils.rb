@@ -221,7 +221,7 @@ def restHttpHead(id, extra_headers = nil, format = @format, sessionId = @session
   client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
   private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
 
-  urlHeader = makeUrlAndHeaders('head',id,sessionId,format,true)
+  urlHeader = makeUrlAndHeaders('head',id,sessionId,format)
   
   header = urlHeader[:headers]
   header.merge!(extra_headers) if extra_headers !=nil
@@ -312,7 +312,7 @@ def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId, 
   private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
   puts sessionId
 
-  urlHeader = makeUrlAndHeaders('get',url,sessionId,format,true)
+  urlHeader = makeUrlAndHeaders('get',url,sessionId,format)
 
   header = urlHeader[:headers]
   header.merge!(extra_headers) if extra_headers !=nil
@@ -403,13 +403,10 @@ def restHttpDeleteAbs(url, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
-def makeUrlAndHeaders(verb,id,sessionId,format, ssl_mode = false)
+def makeUrlAndHeaders(verb,id,sessionId,format)
   headers = makeHeaders(verb, sessionId, format)
   
-  property_name = 'api_server_url'
-  property_name = 'api_ssl_server_url' if ssl_mode
-
-  url = Property[property_name]+"/api/rest"+id
+  url = "#{Property[:api_server_url]}/api/rest#{id}"
   puts(url, headers) if $SLI_DEBUG
 
   return {:url => url, :headers => headers}
