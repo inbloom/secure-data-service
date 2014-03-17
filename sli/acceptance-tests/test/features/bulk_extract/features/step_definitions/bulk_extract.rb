@@ -1673,9 +1673,10 @@ end
 When /^I decrypt and save the full extract$/ do
   @filePath = "extract/extract.tar"
   @unpackDir = File.dirname(@filePath) + '/unpack'
-  if (!File.exists?("extract"))
-      FileUtils.mkdir("extract")
-  end
+  FileUtils.mkdir("extract") if !File.exists?("extract")
+
+  # Remove any files from the unpack dir
+  FileUtils.rm_rf Dir.glob("#{@unpackDir}/*")
 
   step "the response is decrypted"
   File.open(@filePath, 'w') {|f| f.write(@plain) }
@@ -2196,8 +2197,8 @@ Then /^the following test tenant and edorg are clean:$/ do |table|
 end
 
 Then /^I am willing to wait up to ([^ ]*) seconds for the bulk extract scheduler cron job to start and complete$/ do |limit|
-  @maxTimeout = limit
-  puts "Waited timeout for #{limit.to_i} seconds"
+  @maxTimeout = limit.to_i
+  puts "Waited timeout for #{@maxTimeout} seconds"
   intervalTime = 1
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
   iters = (1.0*@maxTimeout/intervalTime).ceil

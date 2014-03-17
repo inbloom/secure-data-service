@@ -218,12 +218,7 @@ task :rcTests do
   Rake::Task["rcDataBrowserTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
   Rake::Task["rcCleanUpTests"].execute
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 desc "Run RC E2E Tests in Sandbox mode"
@@ -244,12 +239,7 @@ task :rcSandboxTests do
   Rake::Task["rcSandboxDatabrowserTests"].execute
   Rake::Task["rcSandboxCleanUpTests"].execute
   Rake::Task["rcSandboxPurgeTests"].execute
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 

@@ -25,7 +25,6 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
-
 DATABASE_NAME = Property['sli_database_name']
 
 Then /^The following edOrgs are authorized for the application "(.*?)" in tenant "(.*?)"$/ do |application, tenant, table|
@@ -281,7 +280,7 @@ Then /^the Deny button next to it is enabled$/ do
 end
 
 Given /^I am asked 'Do you really want deny access to this application of the district's data'$/ do
-    @driver.switch_to.alert
+  @driver.switch_to.alert
 end
 
 Then /^the application is denied to use data of "([^"]*)"$/ do |arg1|
@@ -312,10 +311,6 @@ Then /^I see that it has an alert about bulk extract$/ do
   assert(!app.nil?, "There should be #{@appName} with a warning about Bulk Extract")
 end
 
-Given /^I am a valid District Super Administrator for "([^"]*)"$/ do |arg1|
-  #No code needed
-end
-
 Given /^I am an authenticated District Super Administrator for "([^"]*)"$/ do |arg1|
   step "I have an open web browser"
   step "I hit the Admin Application Authorization Tool"
@@ -340,7 +335,7 @@ def getApp(name)
 end
 
 Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the applicationAuthorization collection for the "(.*?)" tenant$/ do |expected_count, application, tenant|
-   disable_NOTABLESCAN()
+   disable_NOTABLESCAN
    db = @conn.db("sli")
    coll = db.collection("application")
    record = coll.find_one("body.name" => application)
@@ -352,7 +347,7 @@ Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the applicationAu
    edorgsArray = body["edorgs"]
    edorgsArrayCount = edorgsArray.count
    assert(edorgsArrayCount == expected_count.to_i, "Education organization count mismatch in applicationAuthorization collection. Expected #{expected_count}, actual #{edorgsArrayCount}")
-   enable_NOTABLESCAN()
+   enable_NOTABLESCAN
 end
 
 When /^I click Update$/ do
@@ -372,9 +367,7 @@ Then /^I authorize the educationalOrganization "(.*?)"$/ do |edOrgName|
   db = @conn[convertTenantIdToDbName("Midgar")]
   coll = db.collection("educationOrganization")
   record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
-  #puts record.to_s
   edOrgId = record["_id"]
-  #puts edOrgId.to_s
   app = @driver.find_element(:id, edOrgId.to_s).click
   enable_NOTABLESCAN()
 end
@@ -384,19 +377,9 @@ Then /^in tenant "(.*?)" I authorize the educationalOrganization "(.*?)"$/ do |t
   db = @conn[convertTenantIdToDbName(tenant)]
   coll = db.collection("educationOrganization")
   record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
-  #puts record.to_s
   edOrgId = record["_id"]
-  #puts edOrgId.to_s
   app = @driver.find_element(:id, edOrgId.to_s).click
   enable_NOTABLESCAN()
-end
-
-Then /^I authorize the educationalOrganization root node$/ do
-  app = @driver.find_element(:id, 'root').click
-end
-
-Then /^I de-authorize the educationalOrganization root node$/ do
-  app = @driver.find_element(:id, 'root').click
 end
 
 Then /^the checkbox with HTML id "([^"]*?)" is (checked|unchecked)$/ do |id,status|
@@ -426,13 +409,9 @@ Then /^there are "(.*?)" educationalOrganizations in the targetEdOrgList of secu
   db = @conn.db("sli")
   coll = db.collection("securityEvent")
   record = coll.find_one({'body.logMessage' => logMessage})
-  #puts record.to_s
   body = record["body"]
-  #puts body.to_s
   targetEdOrgList = body["targetEdOrgList"]
-  #puts targetEdOrgList.to_s
   targetEdOrgListCount = targetEdOrgList.count
-  #puts targetEdOrgListCount
   assert(targetEdOrgListCount == expected_count.to_i, "targetEdOrgList count mismatch in securityEvent collection. Expected #{expected_count}, actual #{targetEdOrgListCount}")
   enable_NOTABLESCAN()
 end
@@ -442,13 +421,9 @@ Then /^there are "(.*?)" educationalOrganizations in the targetEdOrgList$/ do |e
   db = @conn.db("sli")
   coll = db.collection("securityEvent")
   record = coll.find_one()
-  #puts record.to_s
   body = record["body"]
-  #puts body.to_s
   targetEdOrgList = body["targetEdOrgList"]
-  #puts targetEdOrgList.to_s
   targetEdOrgListCount = targetEdOrgList.count
-  #puts targetEdOrgListCount
   assert(targetEdOrgListCount == expected_count.to_i, "targetEdOrgList count mismatch in securityEvent collection. Expected #{expected_count}, actual #{targetEdOrgListCount}")
   enable_NOTABLESCAN()
 end
@@ -486,7 +461,6 @@ Then /^I see "(.*?)" occurrences of "(.*?)"$/ do |expectedCount, label|
    assert(expectedCount == actualCount.to_s, "Count of labels mismatched. Expecting #{expectedCount}, actual #{actualCount}")
 end
 
-
 Then /^those edOrgs enabled by the developer should be selectable for application "(.*?)" in tenant "(.*?)"$/ do |application, tenant|
   disable_NOTABLESCAN()
   db = @conn["sli"]
@@ -496,8 +470,6 @@ Then /^those edOrgs enabled by the developer should be selectable for applicatio
   edorgs.each do |edOrgId|
     element = @driver.find_element(:id, edOrgId.to_s)
     assert_not_nil(element,"#{edOrgId} should be selectable")
-
-    #assert(element!=nil, "#{edOrgId} should be selectable")
   end
 end
 
@@ -553,15 +525,10 @@ Then /^only below is present in the application authorization edOrgs array for t
 
   #compare
   assert(actual == expected, "edOrgs array mismatch in applicationAuthorization collection. Expected #{expected_array.to_s}, actual #{actual_array.to_s}")
-
 end
 
 Then /^I click Cancel on the application authorization page$/ do
-   #first cancel button
    @driver.find_element(:xpath, '//*[@id="edorgTree"]/button[1]').click
-   #second cancel button
-   #@driver.find_element(:xpath, '//*[@id="edorgTree"]/button[2]/button').click
-
 end
 
 Given /^"(.*?)" has an active staffEducationOrganizationAssociation of "(.*?)" for "(.*?)" in tenant "(.*?)"$/ do |user, role, edorg, tenant|
@@ -601,7 +568,7 @@ end
 
 Then /^the error message "(.*?)" is displayed$/ do | expected_message |
    actual_message = @driver.find_element(:xpath, '/html/body/div/div[2]').text
-   assert(actual_message == expected_message, "Unexpected message found. Expecting: #{expected_message} but got #{actual_message}")
+   actual_message.should == expected_message
 end
 
 When /^I update edorg "(.*?)" for tenant "(.*?)" and update the parentEducationAgencyReference to a reference of "(.*?)"$/ do |edOrgId, tenant, parent_reference|

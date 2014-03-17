@@ -24,11 +24,7 @@ MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
 EXPAND = ENV['CUKE_EXPAND'] ? "--expand" : ""
 
-COLOR = ENV['FORCE_COLOR'] ? "-c" : ""
-
 OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
-
-TODROP = ENV['TODROP'] ? true : false
 
 CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
 
@@ -84,17 +80,6 @@ $collectionSet = ["student",
                   "graduationPlan",
                   "yearlyTranscript"]
 
-#######################################################################################################
-# Helper defs
-
-# This method is to run a given test or set of tests that have a dependency on a fixture being loaded
-# Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
-# Inputs: (String) collectionName = name of mongo collection to load fixture data to
-# Inputs: (String) fixtureFileName = name of json file in the test/data folder
-def runFixtureAndTests(testDirPath, collectionName, fixtureFileName)
-  setFixture(collectionName,fixtureFileName) {runTests(testDirPath)}
-end
-
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
@@ -105,7 +90,7 @@ def runTests(testDirPath)
     @tags ||= ["~@wip", "~@sandbox"]
   end
 
-  sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} --strict -f junit --out ./target -f pretty" do |success, exit_code|
+  sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} -c --strict -f junit --out ./target -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
@@ -116,87 +101,46 @@ def runTests(testDirPath)
   end
 end
 
-def isSystemCollection(collectionName)
-  if collectionName == "tenant"
-    return true
-  elsif collectionName == "realm"
-    return true
-  elsif collectionName == "securityEvent"
-    return true
-  elsif collectionName == "application"
-    return true
-  elsif collectionName == "roles"
-    return true
-  elsif collectionName == "tenantJobLock"
-    return true
-  elsif collectionName == "userSession"
-    return true
-  elsif collectionName == "userAccount"
-    return true
-  else
-    return false
-  end
+def system_collection?(collection)
+  %w(tenant realm securityEvent application roles tenantJobLock userSession userAccount).include? collection
 end
 
-def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
-  disable_NOTABLESCAN()
+def set_fixture(collection, fixture_name=nil, fixture_path='test/data', drop=true)
+  disable_NOTABLESCAN
+  db_used = system_collection?(collection) ? SYSTEM_DB_NAME : DB_NAME
+  fixture_name ||= "#{collection}_fixture.json"
 
-  if isSystemCollection(collectionName)
-    db_used = SYSTEM_DB_NAME
-  else
-    db_used = DB_NAME
-  end
-
-  if TODROP
-    dropOption = (dropExistingCollection) ? "--drop":""
-  else
-    if dropExistingCollection
-      if CERTAIN_TENANTS
-        removeCollectionsCleanly(collectionName, TENANT_COLLECTION)
-      else
-        removeCollectionsCleanly(collectionName)
-      end
-      dropOption = ""
-    end
-  end
-
-  #sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
-
-  sh "#{MONGO_BIN}mongoimport #{dropOption}  -d #{db_used} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
-    #allow for user to pass block to run the test for each running of setFixture
-    if(success && block_given?)
-      yield
+  if drop
+    if CERTAIN_TENANTS
+      removeCollectionsCleanly(collection, TENANT_COLLECTION)
     else
-      puts "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
+      removeCollectionsCleanly(collection)
     end
   end
-end
 
-def addMultipleFixtureFiles(myHash, fixtureFilePath="test/data")
-  myHash.each do |key, value|
-    setFixture(key,value,fixtureFilePath,false)
+  sh "#{MONGO_BIN}mongoimport -d #{db_used} -c #{collection} -h #{DB_HOST} --file #{fixture_path}/#{fixture_name}" do |success, exit_code|
+    raise "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
   end
 end
 
-def setMultipleFixtureFiles(myHash)
-  myHash.each do |key, value|
-    setFixture(key,value)
+def set_fixtures(collections, fixture_path='test/data')
+  collections.each do |key, value|
+    set_fixture(key,value,fixture_path)
   end
 end
 
-def displayFailureReport()
-  startRed = "\e[31m"
-  startGreen = "\e[32m"
-  colorReset = "\e[0m"
+def display_failure_report
+  red, green, reset = '\e[31m', '\e[32m', '\e[0m'
 
   $failures.each do |key, value|
-    if ENV['FORCE_COLOR']
-      puts "#{startRed}#{key} tests #{value}#{colorReset}" if value == "Failed"
-      puts "#{startGreen}#{key} tests #{value}#{colorReset}" if value == "Passed"
-    else
-      puts "#{key} tests #{value}"
-    end
+    color = (value == 'Passed' ? green : red)
+    puts "#{color}#{key} tests #{value}#{reset}"
+  end
 
+  if $SUCCESS
+    puts 'Completed All Tests'
+  else
+    raise 'Tests have failed'
   end
 end
 
@@ -245,7 +189,7 @@ end
 
 
 def cleanseCollectionWithTenantID(collectionName, specificTenants)
-  if isSystemCollection(collectionName)
+  if system_collection?(collectionName)
     db_used = SYSTEM_DB_NAME
   else
     db_used = DB_NAME
@@ -265,7 +209,7 @@ def cleanseCollectionWithTenantID(collectionName, specificTenants)
 end
 
 def removeCollectionsCleanly(collectionName, specificTenants=nil)
-  if isSystemCollection(collectionName)
+  if system_collection?(collectionName)
     db_used = SYSTEM_DB_NAME
   else
     db_used = DB_NAME
@@ -284,7 +228,8 @@ end
 # The admin realm and sandbox realm IDs are dynamically created during bootstrap,
 # so here we swap out references to those realms in long-lived sessions with
 # the dynamic ID of the realm.
-def swap_realm_ids()
+# TODO: Refactor this method away if possible -- it stinks
+def swap_realm_ids
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(SYSTEM_DB_NAME)
   @dbTenant = @conn.db(DB_NAME)
@@ -354,6 +299,31 @@ def swap_app_ids(dbName)
   end
 end
 
+def setRealmIdpUrls
+  old_idp_url = "http://local.slidev.org:8082/simple-idp"
+  new_idp_url = Property['simpleIDP_login_url']
+
+  conn = Mongo::Connection.new(DB_HOST)
+  db = conn.db(SYSTEM_DB_NAME)
+
+  realms = db['realm']
+  realms.find.each do |realm|
+    # reset the idp if it points to local.slidev.org:8082
+    if realm['body']['idp']['id'].start_with?(old_idp_url)
+      new_url = realm['body']['idp']['id'].sub(old_idp_url,new_idp_url)
+      realms.update(
+          {'_id' => realm['_id']},
+          {
+              '$set' => {
+                  'body.idp.id' => new_url,
+                  'body.idp.redirectEndpoint' => new_url
+              }
+          }
+      )
+    end
+  end
+end
+
 ############################################################################################################
 
 
@@ -363,61 +333,58 @@ end
 task :default => :production
 
 # Task that initializes the realm fixture.  Should only be done once
-task :realmInit => [:appInit] do
-  disable_NOTABLESCAN()
+task :realmInit => :appInit do
+  disable_NOTABLESCAN
 
   #Preserve the bootstrap realm
-  cleanseRealms()
-  setFixture("realm", "realm_fixture.json", "test/data", false)
+  cleanseRealms
+  set_fixture('realm', nil, 'test/data', false)
+  setRealmIdpUrls
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "anotherfakerealm")
-  setFixture("customRole", "customRole_anotherfakerealm_fixture.json", "test/data")
-  swap_realm_ids()
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'anotherfakerealm')
+  set_fixture 'customRole', 'customRole_anotherfakerealm_fixture.json'
+  swap_realm_ids
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org")
-  setFixture("customRole", "customRole_chaos_mokey_org_fixture.json", "test/data")
-  swap_realm_ids()
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'chaos_mokey_org')
+  set_fixture 'customRole', 'customRole_chaos_mokey_org_fixture.json'
+  swap_realm_ids
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer-email@slidev.org")
-  setFixture("customRole", "customRole_developer-email@slidev.org_fixture.json", "test/data")
-  swap_realm_ids()
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'developer-email@slidev.org')
+  set_fixture 'customRole', 'customRole_developer-email@slidev.org_fixture.json'
+  swap_realm_ids
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net")
-  setFixture("customRole", "customRole_fakedev_zork_net_fixture.json", "test/data")
-  swap_realm_ids()
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'fakedev_zork_net')
+  set_fixture 'customRole', 'customRole_fakedev_zork_net_fixture.json'
+  swap_realm_ids
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "sandboxadministrator@slidev.org")
-  setFixture("customRole", "customRole_sandboxadministrator@slidev.org_fixture.json", "test/data")
-  swap_realm_ids()
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'sandboxadministrator@slidev.org')
+  set_fixture 'customRole', 'customRole_sandboxadministrator@slidev.org_fixture.json'
+  swap_realm_ids
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "anothersandboxdeveloper@slidev.org")
-  setFixture("customRole", "customRole_fixture.json", "test/data")
-  swap_realm_ids()
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'anothersandboxdeveloper@slidev.org')
+  set_fixture 'customRole'
+  swap_realm_ids
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
-  setFixture("customRole", "customRole_Security_fixture.json", "test/data")
-  swap_realm_ids()
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Security')
+  set_fixture 'customRole', 'customRole_Security_fixture.json'
+  swap_realm_ids
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Zork")
-  setFixture("customRole", "customRole_Zork_fixture.json", "test/data")
-  swap_realm_ids()
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Zork')
+  set_fixture 'customRole', 'customRole_Zork_fixture.json'
+  swap_realm_ids
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
-  setFixture("customRole", "customRole_Hyrule_fixture.json", "test/data")
-  swap_realm_ids()
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Hyrule')
+  set_fixture 'customRole', 'customRole_Hyrule_fixture.json'
+  swap_realm_ids
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-  setFixture("customRole", "customRole_Midgar_fixture.json", "test/data")
-  swap_realm_ids()
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Midgar')
+  set_fixture 'customRole', 'customRole_Midgar_fixture.json'
+  swap_realm_ids
 
-  enable_NOTABLESCAN()
+  enable_NOTABLESCAN
 end
 
-task :appDenialInit do
-  setFixture("application", "application_denial_fixture.json")
-end
-
-desc "Manual Test of Bulk Extract"
+desc 'Manual Test of Bulk Extract'
 task :callBeet do
   prompt = !(ENV['BEET_URL'] && ENV['BEET_TOKEN'] && ENV['BEET_APP'] && ENV['BEET_OUTFILE'])
   puts ENV['BEET_URL']
@@ -437,44 +404,54 @@ end
 
 # Task that initializes the application registration fixture
 task :appInit do
-  disable_NOTABLESCAN()
-  #Preserve the bootstrap apps
-  cleanseApps()
-  setFixture("application", "application_fixture.json", "test/data", false)
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-  cleanseCollectionWithTenantID("applicationAuthorization", "Midgar")
-  setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
-  setFixture("applicationAuthorization", "applicationAuthorization_Hyrule_fixture.json")
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net")
-  setFixture("applicationAuthorization", "applicationAuthorization_fakedev_fixture.json")
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org")
-  setFixture("applicationAuthorization", "applicationAuthorization_chaos_fixture.json")
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
-  setFixture("applicationAuthorization", "applicationAuthorization_secured_fixture.json")
+  disable_NOTABLESCAN
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-  setFixture("userSession", "oauth_authentication_tokens.json")
-  swap_app_ids(convertTenantIdToDbName("Midgar"))
-  swap_app_ids(convertTenantIdToDbName("Hyrule"))
-  enable_NOTABLESCAN()
+  #Preserve the bootstrap apps
+  cleanseApps
+  set_fixture 'application', 'application_fixture.json', 'test/data', false
+
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Midgar')
+  cleanseCollectionWithTenantID('applicationAuthorization', 'Midgar')
+  set_fixture 'applicationAuthorization'
+  update_sample_app_urls
+
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Hyrule')
+  set_fixture 'applicationAuthorization', 'applicationAuthorization_Hyrule_fixture.json'
+
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'fakedev_zork_net')
+  set_fixture 'applicationAuthorization', 'applicationAuthorization_fakedev_fixture.json'
+
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'chaos_mokey_org')
+  set_fixture 'applicationAuthorization', 'applicationAuthorization_chaos_fixture.json'
+
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Security')
+  set_fixture 'applicationAuthorization', 'applicationAuthorization_secured_fixture.json'
+
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Midgar')
+  set_fixture 'userSession', 'oauth_authentication_tokens.json'
+
+  swap_app_ids convertTenantIdToDbName('Midgar')
+  swap_app_ids convertTenantIdToDbName('Hyrule')
+
+  enable_NOTABLESCAN
 end
 
-desc "Approve inBloom apps for ingested realms"
+desc 'Approve inBloom apps for ingested realms'
 task :addBootstrapAppAuths do
   require_relative 'test/features/utils/rakefile_common.rb'
   require 'securerandom'
-  allLeaAllowApp("inBloom Dashboards")
-  allLeaAllowApp("inBloom Data Browser")
+  allLeaAllowApp 'inBloom Dashboards'
+  allLeaAllowApp 'inBloom Data Browser'
 end
 
 task :loadDefaultIngestionTenants do
   #jshort - must fix with some profile swap
-  #setFixture("tenant", "defaultIngestionTenant_fixture.json", "test/data")
+  #set_fixture("tenant", "defaultIngestionTenant_fixture.json", "test/data")
 
   # chung - the code below is a ruby port of tenant bootstrapping by ingestion.
   # It generates time-based shard type 1 uuids and replaces dbName with SHA1 digest.
   private
+
   def get_default_tenant_docs
     # Read default tenant JSON documents specified in ingestion-core
     tenant_doc_dir = "#{File.dirname(__FILE__)}/../ingestion/ingestion-core/src/main/resources/tenants"
@@ -493,7 +470,6 @@ task :loadDefaultIngestionTenants do
     tenants
   end
 
-  private
   def replace_placeholders(lzs)
     hostname_placeholder = "<hostname>"
     lzpath_placeholder = "<lzpath>"
@@ -550,31 +526,21 @@ end
 
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
-desc "Default Task: Run All Acceptances Tests"
+desc 'Default Task: Run All Acceptances Tests'
 task :production => [:apiAndSecurityTests, :ingestionTests, :ingestionOfflineToolTests] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 # This task is used as an entry point to run the smoke tests,
 # a suite of tests that will run quickly but only catch 80% or less of real failures
-desc "Run Smoke Tests"
+desc 'Run Smoke Tests'
 task :smokeTests => [
     :apiSmokeTests,
     :ingestionSmokeTests,
     :dashboardSmokeTests,
     :bulkExtractSmokeTests,
     :adminSmokeTests] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 
@@ -593,12 +559,7 @@ task :apiAndSecurityTests => [
     :apiMegaTests,
     :v1SecurityEventTests,
     :runAssmtSearchIndexer ] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 desc "Run all sandbox tests"
@@ -616,12 +577,7 @@ task :sandboxTests => :realmInit do
   Rake::Task['importSandboxBulkExtractData'].execute
   runTests('test/features/bulk_extract/features/bulk_extract_sandbox.feature')
 
-  displayFailureReport
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 ############################################################
@@ -632,30 +588,28 @@ task :apiSandboxTests do
 
   @tags = ["~@wip", "@sandbox", "~@rc"]
 
-  data = {
-      "educationOrganization" => "educationOrganization_fixture_zork.json",
-      "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture_zork.json",
-      "staff" => "staff_fixture_zork.json",
-      "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_zork.json"
-  }
+  data = [
+      %w( educationOrganization educationOrganization_fixture_zork.json ),
+      %w( staffEducationOrganizationAssociation staffEducationOrganizationAssociation_fixture_zork.json ),
+      %w( staff staff_fixture_zork.json ),
+      %w( teacherSchoolAssociation teacherSchoolAssociation_fixture_zork.json )
+  ]
 
   # TODO: Fix this god-awful mess of this global DB_NAME constant
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net")
-  setMultipleFixtureFiles(data)
+  set_fixtures(data)
 
-  data = {
-      "educationOrganization" => "educationOrganization_fixture_chaos.json",
-      "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture_chaos.json",
-      "staff" => "staff_fixture_chaos.json",
-      "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_chaos.json"
-  }
+  data = [
+      %w( educationOrganization educationOrganization_fixture_chaos.json ),
+      %w( staffEducationOrganizationAssociation staffEducationOrganizationAssociation_fixture_chaos.json ),
+      %w( staff staff_fixture_chaos.json ),
+      %w( teacherSchoolAssociation teacherSchoolAssociation_fixture_chaos.json )
+  ]
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org")
-  setMultipleFixtureFiles(data)
+  set_fixtures(data)
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-
-  Rake::Task["runDbIndexingScript"].execute if TODROP
 
   Rake::Task["securityTests"].invoke
 end
@@ -695,7 +649,6 @@ task :apiV1Tests => [
     :apiVersionTests,
     :apiV1GranularAccessTests,
     :apiV1YearlyTranscriptTests] do
-  displayFailureReport
 end
 
 task :apiV1EntitySecurityTests do
@@ -706,62 +659,18 @@ end
 
 desc "Run API Tests using Odin ingested data"
 task :apiOdinTests => [:apiOdinFederatedAppsTests, :apiOdinPrep, :apiOdinFederatedAppsTests, :apiOdinSuperAssessment, :apiOdinSecurityTests, :apiOdinMultipleParentTests, :apiV1SearchLimitTests] do
-  displayFailureReport
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 desc "Run API Security Tests using Odin ingested data"
-task :apiOdinSecurityTests => [:apiOdinPrep, :apiOdinStudentLogin, :apiOdinParentLogin, :apiOdinPublicData] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
-desc "Run API Student Security Tests using Odin ingested data"
-task :apiOdinStudentTests => [:apiOdinPrep, :apiOdinStudentLogin] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
-desc "Run API Parent Security Tests using Odin ingested data"
-task :apiOdinParentTests => [:apiOdinPrep, :apiOdinParentLogin] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+task :apiOdinSecurityTests => [:apiOdinPrep, :apiOdinStudentLogin, :apiOdinParentLogin] do
+  runTests("test/features/apiV1/integration/public_data.feature")
+  display_failure_report
 end
 
 desc "Prep for running api odin tests"
 task :apiOdinPrep => [:apiOdinSecurityGenerate, :apiOdinSecurityIngestion, :apiOdinSetupAPI] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
-desc "Run API V1 Super Assessment acceptance tests"
-task :apiSuperAssessmentTests => [:apiOdinSuperAssessment] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 ############################################################
@@ -777,12 +686,7 @@ end
 ############################################################
 desc "Run API Selenium Tests"
 task :apiSeleniumTests => [:adminToolsTests, :databrowserTests] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 desc "Run Admin-Tools Selenium Tests"
@@ -796,12 +700,7 @@ task :adminToolsTests => [
     :sandboxUserAdminTests,
     :samtEmailNotificationTests,
     :adminWebTests] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 desc "Run Dataprowler Selenium Tests"
@@ -812,25 +711,15 @@ task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser/databrowser_selective_deny.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
   runTests("test/features/databrowser/student_authentication.feature")
-  runTests("test/features/databrowser/databrowser_external_idp_login.feature")
+  runTests("test/features/databrowser/databrowser_external_idp_login.feature") unless Property['ci_artifact_idp_type'].nil? || Property['ci_artifact_idp_type'].downcase == 'none'
   runTests("test/features/databrowser/databrowser_breadcrumbtrail.feature")
   runTests("test/features/databrowser/databrowser_homepagecounts.feature")
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 task :homePageCountTests do
   runTests("test/features/databrowser/databrowser_homepagecounts.feature")
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 desc "Run sample breadcrumbtrail tests"
@@ -844,14 +733,9 @@ task :apiCountOnlyTests => [] do
 end
 
 desc "Run Device and Agent Tests"
-task :deviceTests => [:realmInit] do
+task :deviceTests => :realmInit do
   runTests("test/features/device")
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 ############################################################
@@ -868,13 +752,7 @@ task :dashboardTests => [
     :dashboardStudentContactInfoLiveTests,
     :dashboardHTMLEscapeTests,
     :dashboardQunitTests] do
-  displayFailureReport
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-
+  display_failure_report
 end
 ############################################################
 # Dashboard tests end
@@ -883,7 +761,7 @@ end
 ############################################################
 # Dashboard SDS tests start
 ############################################################
-desc "Run Dashboard Tests against SDS"
+desc 'Run Dashboard Tests against SDS'
 task :dashboardSdsTests => [
     :runSearchBulkExtract,
     :dashboardSdsUploadConfigTests,
@@ -903,12 +781,7 @@ task :dashboardSdsTests => [
     :dashboardSdsTeacherProfileTests,
     :dashboardSdsAttendanceCalendarTests,
     :dashboardSdsDashboardBuilderTests] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 ############################################################
 # Dashboard SDS tests end
@@ -954,27 +827,23 @@ task :ingestionTests => [
     :ingestionCompetencyLevelDescriptorTest,
     :ingestionDryRunTest,
     :ingestionHealthCheckTest,
-    :ingestionSmallSampleDataSet,
-    :ingestionMediumSampleDataSet,
-    :partialTransformedIngestionTest,
-    :partialIngestionTest,
-    :ingestionDeltaTest,
-    :ingestionPreloading,
-    :ingestionJeffCoOnboardingTest,
-    :ingestionSuperDocTests,
-    :ingestionSubdocTests,
-    :ingestionErrorWarnCountTest,
-    :ingestionRevertDataTest,
-    :ingestionUniqueSectionCodeTest,
-    :ingestionSecurityEventTest
+    :ingestionSmallSampleDataSet
 ] do
+  # TODO: Add these tests back in when they can be run and debugged locally
+  #      :ingestionMediumSampleDataSet,
+  #      :partialTransformedIngestionTest,
+  #      :partialIngestionTest,
+  #      :ingestionDeltaTest,
+  #      :ingestionPreloading,
+  #      :ingestionJeffCoOnboardingTest,
+  #      :ingestionSuperDocTests,
+  #      :ingestionSubdocTests,
+  #      :ingestionErrorWarnCountTest,
+  #      :ingestionRevertDataTest,
+  #      :ingestionUniqueSectionCodeTest,
+  #      :ingestionSecurityEventTest
 
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 ############################################################
@@ -988,13 +857,7 @@ desc "Run Odin Data Generation Acceptances Tests"
 task :odinTests do
   runTests("test/features/odin/generate_odin_data_set.feature")
   runTests("test/features/ingestion/features/ingestion_OdinDataSet.feature")
-
-  displayFailureReport
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 ############################################################
@@ -1011,13 +874,7 @@ task :listAttendanceEndPoint => [
     :ingestOdin10k1DataSet,
     :realmInit,
     :v1ListAttendanceEndpointTests] do
-
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 ############################################################
 # List Attendance Endpoint tests end
@@ -1034,12 +891,7 @@ task :integrationTests => [:realmInit] do
   Rake::Task["crossAppTests"].execute
   Rake::Task["searchApiTests"].invoke
   Rake::Task["dashboardSdsTests"].invoke
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 ############################################################
 # Integration Tests end
@@ -1050,12 +902,7 @@ end
 ############################################################
 desc "Run JavaSDK acceptance tests"
 task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest,:JavaRESTCRUDTest] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 ############################################################
 # SDK Tests end
@@ -1143,12 +990,7 @@ end
 
 desc "Run User Registration App Tests"
 task :userRegistrationTests => [:userRegistrationProdTests, :userRegistrationSbTests] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 desc "Run User Registration App Tests - Production"
@@ -1172,12 +1014,7 @@ end
 ############################################################
 desc "Run the data setup needed to generate the API Documentation"
 task :apiDocumentationSetup => [:realmInit, :ingestionAcceptanceSdsTest, :runSearchBulkExtract] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 ############################################################
 # Api Documentation Setup
@@ -1200,12 +1037,7 @@ task :sifTests => [
     :sifIntegratedTest,
     :sifEmployeeAssignmentTest
 ] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 ############################################################
 # SIF tests end
@@ -1226,11 +1058,7 @@ task :exportStoriedData do
       sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/sds_#{collection}.json"
     end
   else
-    if ENV['FORCE_COLOR']
-      puts "\e[31m Ingestion Failed! Fixture Data Not Updated! Please fix and re-run \e[0m"
-    else
-      puts "Ingestion Failed! Fixture Data Not Updated! Please fix and re-run"
-    end
+    puts '\e[31m Ingestion Failed! Fixture Data Not Updated! Please fix and re-run \e[0m'
   end
 
 end
@@ -1238,22 +1066,16 @@ end
 desc "Import Storied Data Set"
 task :importStoriedData do
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
-  hyruleHash = Hash[]
-  $collectionSet.each do |collection|
-    hyruleHash["#{collection}"] = "storied_data/Hyrule/sds_#{collection}.json"
+  hyruleData = $collectionSet.map do |collection|
+    [collection, "storied_data/Hyrule/sds_#{collection}.json"]
   end
-  setMultipleFixtureFiles(hyruleHash)
+  set_fixtures(hyruleData)
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-  testHash = Hash[]
-  $collectionSet.each do |collection|
-    testHash["#{collection}"] = "storied_data/sds_#{collection}.json"
+  midgarData = $collectionSet.map do |collection|
+    [collection, "storied_data/sds_#{collection}.json"]
   end
-  setMultipleFixtureFiles(testHash)
-
-  if TODROP
-    Rake::Task["runDbIndexingScript"].execute
-  end
+  set_fixtures(midgarData)
 end
 
 desc "Import Secured Data Set"
@@ -1264,139 +1086,132 @@ task :importSecuredData do
     rescue
     end
   end
-  testHash = Hash[
-      "assessment" => "secured/assessment.json",
-      "attendance" => "secured/attendance.json",
-      "cohort" => "secured/cohort.json",
-      "course" => "secured/course.json",
-      "courseTranscript" => "secured/courseTranscript.json",
-      "educationOrganization" => "secured/educationOrganization.json",
-      "program" => "secured/program.json",
-      "section" => "secured/section.json",
-      "session" => "secured/session.json",
-      "staff" => "secured/staff.json",
-      "staffCohortAssociation" => "secured/staffCohortAssociation.json",
-      "staffEducationOrganizationAssociation" => "secured/staffEducationOrganizationAssociation.json",
-      "staffProgramAssociation" => "secured/staffProgramAssociation.json",
-      "student" => "secured/student.json",
-      "studentAssessment" => "secured/studentAssessment.json",
-      "studentCompetency" => "secured/studentCompetency.json",
-      "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
-      "studentGradebookEntry" => "secured/studentGradebookEntry.json",
-      "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
-      "parent" => "secured/parent.json",
-      "yearlyTranscript" => "secured/yearlyTranscript.json"
-  ]
+  secured_data = %w(
+    assessment
+    attendance
+    cohort
+    course
+    courseTranscript
+    educationOrganization
+    program
+    section
+    session
+    staff
+    staffCohortAssociation
+    staffEducationOrganizationAssociation
+    staffProgramAssociation
+    student
+    studentAssessment
+    studentCompetency
+    studentSchoolAssociation
+    studentGradebookEntry
+    teacherSchoolAssociation
+    parent
+    yearlyTranscript
+  ).map {|c| [c,"#{c}.json"]}
 
   tenant = {
-      "type" => "tenant",
-      "body" => {
-          "tenantId" => "Security",
-          "dbName" => convertTenantIdToDbName("Security")
+      'type' => 'tenant',
+      'body' => {
+          'tenantId' => 'Security',
+          'dbName' => convertTenantIdToDbName('Security')
       },
-      "metaData" => {
-          "tenantId" => "Security"
+      'metaData' => {
+          'tenantId' => 'Security'
       }
   }
 
   db = Mongo::Connection.new(DB_HOST)['sli']
   db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Security"}).nil?
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
-  setMultipleFixtureFiles(testHash)
+  set_fixtures(secured_data, 'test/data/secured')
 
-  testHash = Hash[
-      "educationOrganization" => "secured/Other/educationOrganization.json",
-      "student" => "secured/Other/student.json",
-      "studentSchoolAssociation" => "secured/Other/studentSchoolAssociation.json"
-  ]
+  other_secured_data = %w(
+    educationOrganization
+    student
+    studentSchoolAssociation
+  ).map {|c| [c, "#{c}.json"]}
 
   tenant = {
-      "type" => "tenant",
-      "body" => {
-          "tenantId" => "Other",
-          "dbName" => convertTenantIdToDbName("Other")
+      'type' => 'tenant',
+      'body' => {
+          'tenantId' => 'Other',
+          'dbName' => convertTenantIdToDbName('Other')
       },
-      "metaData" => {
-          "tenantId" => "Other"
+      'metaData' => {
+          'tenantId' => 'Other'
       }
   }
 
   db = Mongo::Connection.new(DB_HOST)['sli']
   db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Other"}).nil?
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Other")
-  setMultipleFixtureFiles(testHash)
+  set_fixtures(other_secured_data, 'test/data/secured/Other')
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-
-  if TODROP
-    Rake::Task["runDbIndexingScript"].execute
-  end
 end
 
-desc "Import Sandbox Test Data to Midgar"
+desc 'Import Sandbox Test Data to Midgar'
 task :importSandboxMidgarData do
-  testHash = Hash[
-      "session" => "Midgar_data/session_fixture.json",
-      "program" => "Midgar_data/program_fixture.json",
-      "section" => "Midgar_data/section_fixture.json",
-      "calendarDate" => "Midgar_data/calendarDate_fixture.json",
-      "course" => "Midgar_data/course_fixture.json",
-      "student" => "Midgar_data/student_fixture.json",
-      "parent" => "Midgar_data/parent_fixture.json",
-      "staff" => "Midgar_data/staff_fixture.json",
-      "assessment" => "Midgar_data/assessment_fixture.json",
-      "assessmentFamily" => "Midgar_data/assessmentFamily_fixture.json",
-      "assessmentPeriodDescriptor" => "Midgar_data/assessmentPeriodDescriptor_fixture.json",
-      "studentAssessment" => "Midgar_data/studentAssessment_fixture.json",
-      "attendance" => "Midgar_data/attendance_fixture.json",
-      "studentSchoolAssociation" => "Midgar_data/studentSchoolAssociation_fixture.json",
-      "teacherSchoolAssociation" => "Midgar_data/teacherSchoolAssociation_fixture.json",
-      "educationOrganization" => "Midgar_data/educationOrganization_fixture.json",
-      "staffEducationOrganizationAssociation" => "Midgar_data/staffEducationOrganizationAssociation_fixture.json",
-      "schoolSessionAssociation" => "Midgar_data/schoolSessionAssociation_fixture.json",
-      "courseOffering" => "Midgar_data/sessionCourseAssociation_fixture.json",
-      "courseTranscript" => "Midgar_data/courseTranscript_fixture.json",
-      "studentGradebookEntry" => "Midgar_data/studentGradebookEntry_fixture.json",
-      "disciplineIncident" => "Midgar_data/disciplineIncident_fixture.json",
-      # "studentDisciplineIncidentAssociation" => "Midgar_data/studentDisciplineIncidentAssociation_fixture.json",
-      "disciplineAction" => "Midgar_data/disciplineAction_fixture.json",
-      "cohort" => "Midgar_data/cohort_fixture.json",
-      "staffCohortAssociation" => "Midgar_data/staffCohortAssociation_fixture.json",
-      "staffProgramAssociation" => "Midgar_data/staffProgramAssociation_fixture.json",
-      "learningStandard" => "Midgar_data/learningStandard_fixture.json",
-      "learningObjective" => "Midgar_data/learningObjective_fixture.json",
-      "studentCompetency" => "Midgar_data/studentCompetency_fixture.json",
-      "gradingPeriod" => "Midgar_data/gradingPeriod_fixture.json",
-      "adminDelegation" => "Midgar_data/adminDelegation_fixture.json",
-      "graduationPlan" => "Midgar_data/graduationPlan_fixture.json",
-      "studentCompetencyObjective" => "Midgar_data/studentCompetencyObjective_fixture.json",
-      "competencyLevelDescriptor" => "Midgar_data/competencyLevelDescriptor_fixture.json",
-      "yearlyTranscript" => "Midgar_data/yearlyTranscript_fixture.json",
-      "classPeriod" => "Midgar_data/classPeriod_fixture.json"
-  ]
-  setMultipleFixtureFiles(testHash)
+  midgar_data = %w(
+    session
+    program
+    section
+    calendarDate
+    course
+    student
+    parent
+    staff
+    assessment
+    assessmentFamily
+    assessmentPeriodDescriptor
+    studentAssessment
+    attendance
+    studentSchoolAssociation
+    teacherSchoolAssociation
+    educationOrganization
+    staffEducationOrganizationAssociation
+    schoolSessionAssociation
+    courseOffering
+    courseTranscript
+    studentGradebookEntry
+    disciplineIncident
+    disciplineAction
+    cohort
+    staffCohortAssociation
+    staffProgramAssociation
+    learningStandard
+    learningObjective
+    studentCompetency
+    gradingPeriod
+    graduationPlan
+    studentCompetencyObjective
+    competencyLevelDescriptor
+    yearlyTranscript
+    classPeriod
+  )
+  set_fixtures(midgar_data, 'test/data/Midgar_data')
 end
-
 
 desc "Import Sandbox Test Data to Hyrule"
 task :importSandboxHyruleData do
-  testHash = Hash[
-      "session" => "Hyrule_data/session_fixture.json",
-      "section" => "Hyrule_data/section_fixture.json",
-      "course" => "Hyrule_data/course_fixture.json",
-      "student" => "Hyrule_data/student_fixture.json",
-      "staff" => "Hyrule_data/staff_fixture.json",
-      "assessment" => "Hyrule_data/assessment_fixture.json",
-      "assessmentFamily" => "Hyrule_data/assessmentFamily_fixture.json",
-      "assessmentPeriodDescriptor" => "Hyrule_data/assessmentPeriodDescriptor_fixture.json",
-      "studentSchoolAssociation" => "Hyrule_data/studentSchoolAssociation_fixture.json",
-      "teacherSchoolAssociation" => "Hyrule_data/teacherSchoolAssociation_fixture.json",
-      "educationOrganization" => "Hyrule_data/educationOrganization_fixture.json",
-      "staffEducationOrganizationAssociation" => "Hyrule_data/staffEducationOrganizationAssociation_fixture.json",
-      "gradingPeriod" => "Hyrule_data/gradingPeriod_fixture.json",
-      "yearlyTranscript" => "Hyrule_data/yearlyTranscript_fixture.json"
-  ]
-  setMultipleFixtureFiles(testHash)
+  hyrule_data = %w(
+    session
+    section
+    course
+    student
+    staff
+    assessment
+    assessmentFamily
+    assessmentPeriodDescriptor
+    studentSchoolAssociation
+    teacherSchoolAssociation
+    educationOrganization
+    staffEducationOrganizationAssociation
+    gradingPeriod
+    yearlyTranscript
+  )
+  set_fixtures(hyrule_data, 'test/data/Hyrule_data')
 end
 
 desc "Import Sandbox Test Data"
@@ -1409,132 +1224,108 @@ task :importSandboxData do
   Rake::Task["importSandboxHyruleData"].execute
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 
-  if TODROP
-    Rake::Task["runDbIndexingScript"].execute
-  end
   Rake::Task["runSearchBulkExtract"].execute
 end
-
 
 desc "Import Migration Test Data to Midgar"
 task :importMigrationData do
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-  testHash = Hash[
-      "session" => "migration_data/session_fixture.json",
-      "program" => "migration_data/program_fixture.json",
-      "section" => "migration_data/section_fixture.json",
-      "course" => "migration_data/course_fixture.json",
-      "student" => "migration_data/student_fixture.json",
-      "parent" => "migration_data/parent_fixture.json",
-      "staff" => "migration_data/staff_fixture.json",
-      "assessment" => "migration_data/assessment_fixture.json",
-      "attendance" => "migration_data/attendance_fixture.json",
-      "studentSchoolAssociation" => "migration_data/studentSchoolAssociation_fixture.json",
-      "teacherSchoolAssociation" => "migration_data/teacherSchoolAssociation_fixture.json",
-      "educationOrganization" => "migration_data/educationOrganization_fixture.json",
-      "staffEducationOrganizationAssociation" => "migration_data/staffEducationOrganizationAssociation_fixture.json",
-      "schoolSessionAssociation" => "migration_data/schoolSessionAssociation_fixture.json",
-      "courseOffering" => "migration_data/courseOffering_fixture.json",
-      "courseTranscript" => "migration_data/courseTranscript_fixture.json",
-      "studentGradebookEntry" => "migration_data/studentGradebookEntry_fixture.json",
-      "disciplineIncident" => "migration_data/disciplineIncident_fixture.json",
-      # "studentDisciplineIncidentAssociation" => "migration_data/studentDisciplineIncidentAssociation_fixture.json",
-      "disciplineAction" => "migration_data/disciplineAction_fixture.json",
-      "cohort" => "migration_data/cohort_fixture.json",
-      "staffCohortAssociation" => "migration_data/staffCohortAssociation_fixture.json",
-      "staffProgramAssociation" => "migration_data/staffProgramAssociation_fixture.json",
-      "learningStandard" => "migration_data/learningStandard_fixture.json",
-      "learningObjective" => "migration_data/learningObjective_fixture.json",
-      "studentCompetency" => "migration_data/studentCompetency_fixture.json",
-      "gradingPeriod" => "migration_data/gradingPeriod_fixture.json",
-      "graduationPlan" => "migration_data/graduationPlan_fixture.json",
-      "studentCompetencyObjective" => "migration_data/studentCompetencyObjective_fixture.json",
-      "competencyLevelDescriptor" => "migration_data/competencyLevelDescriptor_fixture.json",
-      "yearlyTranscript" => "migration_data/yearlyTranscript_fixture.json"
-  ]
-  setMultipleFixtureFiles(testHash)
+  migration_data = %w( 
+    session
+    program
+    section
+    course
+    student
+    parent
+    staff
+    assessment
+    attendance
+    studentSchoolAssociation
+    teacherSchoolAssociation
+    educationOrganization
+    staffEducationOrganizationAssociation
+    schoolSessionAssociation
+    courseOffering
+    courseTranscript
+    studentGradebookEntry
+    disciplineIncident
+    disciplineAction
+    cohort
+    staffCohortAssociation
+    staffProgramAssociation
+    learningStandard
+    learningObjective
+    studentCompetency
+    gradingPeriod
+    graduationPlan
+    studentCompetencyObjective
+    competencyLevelDescriptor
+    yearlyTranscript
+  )
+  set_fixtures(migration_data, 'test/data/migration_data')
 end
 
 desc "Import developer email Test Data"
 task :importDevAccountData do
-  testHash = Hash[
-      "educationOrganization" => "developer-email_data/educationOrganization_fixture.json",
-  ]
+  collection, file= 'educationOrganization', 'developer-email_data/educationOrganization_fixture.json'
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer-email@slidev.org")
-  setMultipleFixtureFiles(testHash)
+  set_fixture(collection, file)
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "slcdeveloper")
-  setMultipleFixtureFiles(testHash)
+  set_fixture(collection, file)
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-
-  if TODROP
-    Rake::Task["runDbIndexingScript"].execute
-  end
 end
 
 desc "Import Sandbox Test Data"
 task :importPurgeData do
-  tenantTestHash = Hash[
-      "educationOrganization" => "PurgeFixtureData/educationOrganization_fixture.json",
-      "applicationAuthorization" => "PurgeFixtureData/applicationAuthorization_Hyrule_fixture.json",
-      "customRole" => "PurgeFixtureData/customRole_Hyrule_fixture.json"
+  purge_data = [
+      %w( educationOrganization PurgeFixtureData/educationOrganization_fixture.json ),
+      %w( applicationAuthorization PurgeFixtureData/applicationAuthorization_Hyrule_fixture.json ),
+      %w( customRole PurgeFixtureData/customRole_Hyrule_fixture.json )
   ]
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
-  setMultipleFixtureFiles(tenantTestHash)
+  set_fixtures purge_data
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-
-  if TODROP
-    Rake::Task["runDbIndexingScript"].execute
-  end
 end
 
 desc "Import Unified Data Set"
-task :importUnifiedData => [:realmInit] do
-  testHash = Hash[
-      "assessment" => "unified_data/uds_assessment.json",
-      "assessmentFamily" => "unified_data/uds_assessmentFamily.json",
-      "assessmentPeriodDescriptor" => "unified_data/uds_assessmentPeriodDescriptor.json",
-      "studentAssessment" => "unified_data/uds_studentAssessment_fixture.json",
-      "attendance" => "unified_data/uds_attendance.json",
-      "course" => "unified_data/uds_course.json",
-      "courseOffering" => "unified_data/uds_courseOffering.json",
-      "educationOrganization" => "unified_data/uds_educationOrganization.json",
-      "staffEducationOrganizationAssociation" => "unified_data/uds_staffEducationOrganizationAssociation.json",
-      "parent" => "unified_data/uds_parent.json",
-      "section" => "unified_data/uds_section.json",
-      "session" => "unified_data/uds_session.json",
-      "student" => "unified_data/uds_student.json",
-      "studentSchoolAssociation" => "unified_data/uds_studentSchoolAssociation.json",
-      "studentGradebookEntry" => "unified_data/uds_studentGradebookEntry.json",
-      "courseTranscript" => "unified_data/uds_courseTranscript.json",
-      "staff" => "unified_data/uds_staff.json",
-      "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json"
-  ]
-  setMultipleFixtureFiles(testHash)
-
-  if TODROP
-    Rake::Task["runDbIndexingScript"].execute
-  end
+task :importUnifiedData => :realmInit do
+  unified_data = %w(
+    assessment
+    assessmentFamily
+    assessmentPeriodDescriptor
+    studentAssessment
+    attendance
+    course
+    courseOffering
+    educationOrganization
+    staffEducationOrganizationAssociation
+    parent
+    section
+    session
+    student
+    studentSchoolAssociation
+    studentGradebookEntry
+    courseTranscript
+    staff
+    teacherSchoolAssociation
+  ).map {|c| [c, "unified_data/uds_#{c}.json"]}
+  set_fixtures unified_data
 end
 
 desc "Import Bulk Extract"
 task :importSandboxBulkExtractData => [:realmInit] do
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer-email@slidev.org")
 
-  testHash = Hash[]
-  $collectionSet.each do |collection|
-    testHash["#{collection}"] = "bulk_extract_data/sds_#{collection}.json"
-  end
-  setMultipleFixtureFiles(testHash)
-  testHash = Hash[
-      "applicationAuthorization" => "applicationAuthorization_developer-email_fixture.json",
-  ]
-  setMultipleFixtureFiles(testHash)
+  bulk_extract_data = $collectionSet.map {|c| [c, "bulk_extract_data/sds_#{c}.json"]}
+  set_fixtures(bulk_extract_data)
 
-  cleanseApps()
-  setFixture("application", "application_sandbox_BE.json", "test/data", false)
+  set_fixture('applicationAuthorization', 'applicationAuthorization_developer-email_fixture.json')
+
+  cleanseApps
+  set_fixture('application', 'application_sandbox_BE.json', 'test/data', false)
 end
 
-desc "Run indexing script on databases, no drop"
+desc 'Run indexing script on databases, no drop'
 task :runDbIndexingScript do
   sh "cd #{File.dirname(__FILE__)}/../config/scripts; sh resetAllDbs.sh --nodrop"
 end
@@ -1606,6 +1397,33 @@ class ShardType1UUIDPKFactory
     prefix = Time.new.year.to_s + Array.new(2, '').collect{chars[rand(chars.size)]}.join
     doc["_id"] ||= prefix + "-" + SecureRandom.uuid
     doc
+  end
+end
+
+def update_sample_app_urls
+  old_url = 'http://local.slidev.org:8081/'
+  new_url = Property['sampleApp_server_address']
+
+  conn = Mongo::Connection.new(DB_HOST)
+  db = conn.db(SYSTEM_DB_NAME)
+
+  apps = db['application']
+
+  apps.find.each do |app|
+    # reset urls if it points to old sample app url
+    set_vals = {}
+    set_vals['body.administration_url'] = app['body']['administration_url'].sub(old_url,new_url) if app['body']['administration_url'].start_with?(old_url)
+    set_vals['body.application_url']    = app['body']['application_url'].sub(old_url,new_url) if app['body']['application_url'].start_with?(old_url)
+    set_vals['body.redirect_uri']       = app['body']['redirect_uri'].sub(old_url,new_url) if app['body']['redirect_uri'].start_with?(old_url)
+
+    unless set_vals.empty?
+      apps.update(
+          {'_id' => app['_id']},
+          {
+              '$set' => set_vals
+          }
+      )
+    end
   end
 end
 

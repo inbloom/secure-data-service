@@ -83,7 +83,7 @@ def check_email(config = {})
       end
     end
   ensure
-    imap.disconnect
+    imap.disconnect unless imap.disconnected?
   end
   fail("timed out getting email with subject substring = #{subject_substring}, content substring = #{content_substring}")
 end
