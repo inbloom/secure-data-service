@@ -1,9 +1,11 @@
-dashboard_server_address: "http://local.slidev.org:8888"
-dashboard_app_prefix: "/dashboard"
-dashboard_landing_page: "/"
+# The browser used by Selenium; valid values are: firefox, chrome, ie
+browser: firefox
+
+dashboard_server_address: http://local.slidev.org:8888
+dashboard_app_prefix: /dashboard
+dashboard_landing_page: /
 dashboard_api_server_uri: "http://local.slidev.org:8080"
 realm_page_url: "http://local.slidev.org:8080/api/oauth/authorize"
-browser: "firefox"
 
 admintools_server_url: "http://local.slidev.org:3001"
 minisb_admintools_server_url: "http://ycao-mint.slidev.org:3001"
