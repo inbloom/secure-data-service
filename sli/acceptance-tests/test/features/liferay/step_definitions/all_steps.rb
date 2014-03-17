@@ -71,7 +71,7 @@ Then /^I should be on the authentication failed page$/ do
 end
 
 
-Then /^I should be on the admin page$/ do
+Then /^the portal should be on the admin page$/ do
   title = @driver.find_element(:class, "sli_home_title").text
   assert(title == "ADMIN", "User is not in the admin page")
 end
@@ -91,7 +91,7 @@ When /^I click on Admin$/ do
     clickOnLink("Admin")
     sleep 2
     eula_go_away()
-    step "I should be on the admin page"
+    step "the portal should be on the admin page"
   end
 end
 

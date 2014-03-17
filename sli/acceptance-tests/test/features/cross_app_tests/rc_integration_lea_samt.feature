@@ -18,7 +18,7 @@ Scenario: SEA Admin logs into SAMT and creates an LEA Admin with Realm Admin and
   Then I should be on Portal home page
   Then I should see Admin link  
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "Manage Administrator Accounts"
 
   And I switch to the iframe

@@ -14,7 +14,7 @@ When I submit the credentials "<PRIMARY_EMAIL>" "<PRIMARY_EMAIL_PASS>" for the "
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
-Then I should be on the admin page
+Then the portal should be on the admin page
 And under System Tools, I click on "Create Landing Zone"
 And I switch to the iframe
 When I click the Provision button

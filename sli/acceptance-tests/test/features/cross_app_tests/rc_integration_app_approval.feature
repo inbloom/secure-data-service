@@ -13,7 +13,7 @@ When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for t
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
-Then I should be on the admin page
+Then the portal should be on the admin page
 And under System Tools, I click on "Manage Realm"
 And I switch to the iframe
 And I should see that I am on the new realm page
@@ -38,7 +38,7 @@ When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" log
 Then I should be on Portal home page
 Then I should not see "inBloom Dashboards"
 And I click on Admin
-And I should be on the admin page
+And the portal should be on the admin page
 And I should not see "inBloom Data Browser"
 And I click on log out
 
@@ -50,7 +50,7 @@ When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login pag
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
-Then I should be on the admin page
+Then the portal should be on the admin page
 And under System Tools, I click on "Authorize Applications"
 And I switch to the iframe
 Then I am redirected to the Admin Application Authorization Tool

@@ -17,7 +17,7 @@ Scenario:  LEA deletes realm
   Then I should be on Portal home page
   Then I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "Manage Realm"
   And I switch to the iframe
   Then I see the realms for "IL-DAYBREAK"

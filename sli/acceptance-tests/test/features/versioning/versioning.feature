@@ -1,4 +1,5 @@
 @RALLY_US3567
+#TODO: This entire feature is suspect in my book; some of the stepdefs are not even valid
 Feature: Entity versioning and mock migration tests
   As a system that supports versions, I want to start tracking versions of entities.
 

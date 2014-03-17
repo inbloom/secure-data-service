@@ -8,7 +8,7 @@ Feature:
 
   Scenario Outline: API admin GET endpoints are inaccessible for federated users
     When I navigate to <Action> "/<Resource URI>"
-    Then I should receive a return code of <Expected Status>
+    Then the response status should be <Expected Status>
 
   Examples:
     | Resource URI     | Action | Expected Status |
@@ -26,7 +26,7 @@ Feature:
 
    Scenario Outline: API admin GET "application" and "applicationAuthorization" endpoints are inaccessible for federated users with proper rights
       When I navigate to <Action> "/<Resource URI>"
-      Then I should receive a return code of <Expected Status>
+      Then the response status should be <Expected Status>
 
     Examples:
      | Resource URI     | Action | Expected Status |
