@@ -1,6 +1,4 @@
-@RALLY_US209
 Feature: Test schema based validation on entities/associations
-
 
 Background: Logged in as a super-user and using the small data set
 	Given I am logged in using "rrogers" "rrogers1234" to realm "IL"

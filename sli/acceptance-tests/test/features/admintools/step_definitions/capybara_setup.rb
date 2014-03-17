@@ -37,4 +37,8 @@ class Browser
   def dismiss_popup
     page.driver.browser.switch_to.alert.dismiss
   end
+
+  def alert_popup_message
+    page.driver.browser.switch_to.alert.text
+  end
 end

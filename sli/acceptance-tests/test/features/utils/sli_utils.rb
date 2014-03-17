@@ -273,7 +273,6 @@ end
 #              It is suggested you assert the state of the @res response before returning success from the calling function
 def restHttpGet(id, format = @format, sessionId = @sessionId)
   sessionId.should_not be_nil
-
   urlHeader = makeUrlAndHeaders('get',id,sessionId,format)
   puts "GET urlHeader: #{urlHeader}" if $SLI_DEBUG
   @res = RestClient.get(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
@@ -319,7 +318,10 @@ def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId, 
   header.merge!(extra_headers) if extra_headers !=nil
   
   puts "GET TLS urlHeader: #{urlHeader}" if $SLI_DEBUG
-
+  puts "url #{urlHeader[:url]}" if $SLI_DEBUG
+  puts "client_cert #{client_cert}" if $SLI_DEBUG
+  puts "client_key #{private_key}" if $SLI_DEBUG
+  puts "headers #{header}" if $SLI_DEBUG
   @res = RestClient::Request.execute(:method => :get, :url => urlHeader[:url], :headers => header, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
   puts(@res.code,@res.raw_headers) if $SLI_DEBUG
   @res
@@ -626,61 +628,60 @@ def recursive_hash_delete( hash, key_to_remove )
 end
 
 module CreateEntityHash
-  def CreateEntityHash.createBaseStudent()
-    data = Hash[
-        "studentUniqueStateId" => "123456",
-        "name" => Hash[
-          "firstName" => "fname",
-          "lastSurname" => "lname",
-          "middleName" => "mname"],
-        "sex" => "Male",
-        "birthData" => Hash[
-          "birthDate" => "2012-01-01"
-          ],
-        "learningStyles" => Hash[
-          "visualLearning" => 30,
-          "auditoryLearning" => 40,
-          "tactileLearning" => 30
-          ]
-       ]
-
-    return data
+  def self.createBaseStudent
+    {
+      'studentUniqueStateId' => '123456',
+      'name' => {
+        'firstName' => 'fname',
+        'lastSurname' => 'lname',
+        'middleName' => 'mname'},
+      'sex' => 'Male',
+      'birthData' => {
+        'birthDate' => '2012-01-01'
+      },
+      'learningStyles' => {
+        'visualLearning' => 30,
+        'auditoryLearning' => 40,
+        'tactileLearning' => 30
+      }
+    }
   end
 
-  def CreateEntityHash.createBaseStudentRandomId()
-    data = CreateEntityHash.createBaseStudent
+  def self.createBaseStudentRandomId
+    data = createBaseStudent
     data['studentUniqueStateId'] = (0...8).map{65.+(rand(25)).chr}.join
-    return data
+    data
   end
 
-  def CreateEntityHash.createBaseStudentDefinedId(id)
-    data = CreateEntityHash.createBaseStudent
+  def self.createBaseStudentDefinedId( id )
+    data = createBaseStudent
     data['studentUniqueStateId'] = id
-    return data
+    data
   end
 
-  def CreateEntityHash.createBaseSchool()
-    data = Hash[
-        "nameOfInstitution" => "school name",
-        "stateOrganizationId" => "12345678",
-        "gradesOffered" => ["First grade", "Second grade"],
-      "address"=>[
-      "streetNumberName" => "111 Ave C",
-      "city" => "Chicago",
-      "stateAbbreviation" => "IL",
-      "postalCode" => "10098",
-      "nameOfCounty" => "Wake"
+  # TODO: The 'address' structure below seems like it should just be a hash, not an array of hash tuples; however,
+  #       the previous code had it as an array of hashes; this seems wrong but it may make the test pass
+  def self.createBaseSchool
+    {
+      'nameOfInstitution' => 'school name',
+      'stateOrganizationId' => '12345678',
+      'gradesOffered' => ['First grade', 'Second grade'],
+      'address' => [
+          'streetNumberName' => '111 Ave C',
+          'city' => 'Chicago',
+          'stateAbbreviation' => 'IL',
+          'postalCode' => '10098',
+          'nameOfCounty' => 'Wake'
       ],
-        "organizationCategories" => ["School"],
-        "schoolCategories" => ["Elementary School"],
-        ]
-    return data
+      'organizationCategories' => ['School'],
+      'schoolCategories' => ['Elementary School'],
+    }
   end
 
-  def CreateEntityHash.createBaseSchoolRandomId()
-    data = CreateEntityHash.createBaseSchool
+  def self.createBaseSchoolRandomId
+    data = createBaseSchool
     data['stateOrganizationId'] = (0...8).map{65.+(rand(25)).chr}.join
-    return data
+    data
   end
 end
 

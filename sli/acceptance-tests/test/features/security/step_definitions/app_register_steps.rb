@@ -135,9 +135,10 @@ When /^I PUT an application updating the auto\-generated field "([^"]*)"$/ do |a
   assert(@res != nil, "Response from PUT operation was null")
 end
 
-Then /^it should be "([^"]*)"$/ do |arg1|
+Then /^it should be "([^"]*)"$/ do |value|
   app = JSON.parse(@res.body)
-  assert(app["registration"]["status"] === arg1, "Registration field should be #{arg1}, not #{app["registration"]["status"]}")
+  puts "App resource: #{app.inspect}"
+  app["registration"]["status"].should == value
 end
 
 Then /^I should only see "([^"]*)" applications$/ do |arg1|

@@ -265,11 +265,11 @@ Then /^I should go to the "([^"]*)" page and look for the EdOrg table with a "([
     if arg2 == "Pass"
       assert(true)
     else
-      assert(false, "There should be an EdOrg table on this page")
+      assert(false, "There should NOT be an EdOrg table on this page")
     end
   rescue Selenium::WebDriver::Error::NoSuchElementError => e
     if arg2 == "Pass"
-      assert(false, "There should NOT be an EdOrg table on this page")
+      assert(false, "There should be an EdOrg table on this page")
     else
       assert(true)
     end

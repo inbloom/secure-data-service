@@ -413,7 +413,7 @@ def verifyEmail
     @email_content = content
     @email_subject = subject
     puts subject,content
-    imap.disconnect
+    imap.disconnect unless imap.disconnected?
     assert(found, "Email was not found on SMTP server")
   else
     assert(@message_observer.messages.size == 1, "Number of messages is #{@message_observer.messages.size} but should be 1")
