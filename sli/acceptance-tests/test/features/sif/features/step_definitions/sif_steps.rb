@@ -93,10 +93,10 @@ def getMessageForIdentifier(identifier)
 end
 
 Given /^the fixture data "(.*?)" has been imported into collection "(.*?)"$/ do |identifier, collection|
-  setFixture(collection, "#{identifier}.json", "test/data/sif")
+  set_sif_fixture(collection, "#{identifier}.json", "test/data/sif")
 end
 
-def setFixture(collectionName, fixtureFileName, fixtureFilePath="test/data/sif")
+def set_sif_fixture(collectionName, fixtureFileName, fixtureFilePath="test/data/sif")
   success = system("#{MONGO_BIN}mongoimport --jsonArray -d #{convertTenantIdToDbName('Midgar')} -c #{collectionName} -h #{SIF_DB} --file #{fixtureFilePath}/#{fixtureFileName}")
   assert(success, "Exited with code: #{$?.exitstatus}, please confirm that mongo binaries are on your PATH")
 end

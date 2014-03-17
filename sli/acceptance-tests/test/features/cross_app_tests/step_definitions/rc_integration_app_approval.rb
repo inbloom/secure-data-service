@@ -110,16 +110,6 @@ Then /^I should receive a json response containing my authorization token$/ do
   puts @sessionId
 end
 
-Then /^I should be able to use the token to make valid API calls$/ do
-  restHttpGet("/system/session/check", "application/json")
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res != nil, "Response is nil")
-  data = JSON.parse(@res.body)
-  assert(data != nil, "Response body is nil")
-  assert(data['authenticated'] == true, 
-         "Session debug context 'authentication.authenticated' is not true")
-end
-
 Then /^my current url is "(.*?)"$/ do |url|
   assertWithWait("Not in expected URL") {@driver.current_url == url}
 end
