@@ -14,7 +14,7 @@ Scenario: App developer deletes installed app
   Then I should be on Portal home page
   Then I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "Register Application"
   And I switch to the iframe
   Then I am redirected to the Application Registration Tool page
@@ -36,7 +36,7 @@ Scenario: slcoperator deletes SB Dev1 and Dev2
     Then I should be on Portal home page
     Then I should see Admin link
     And I click on Admin
-    Then I should be on the admin page
+    Then the portal should be on the admin page
     And under System Tools, I click on "Manage Developer Accounts"
 
     And I switch to the iframe

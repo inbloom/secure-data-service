@@ -324,12 +324,7 @@ desc "Run Ingestion Deletion Tests"
 	    :ingestionCascadingDeletionReingestTest,
         ] do
 
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 task :ingestionCascadingDeletionBroadSEATest do
@@ -622,14 +617,9 @@ end
 ############################################################
 # Ingestion Offline Tool tests start
 ############################################################
-desc "Run Ingestion Offline Tool Acceptances Tests"
-task :ingestionOfflineToolTests => [:ingestionOfflineSimpleTest] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+desc 'Run Ingestion Offline Tool Acceptances Tests'
+task :ingestionOfflineToolTests => :ingestionOfflineSimpleTest do
+  display_failure_report
 end
 ############################################################
 # Ingestion Offline Tool tests end

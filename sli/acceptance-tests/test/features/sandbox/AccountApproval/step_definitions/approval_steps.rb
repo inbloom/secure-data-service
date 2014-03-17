@@ -155,7 +155,7 @@ def verifyEmail
     content = imap.fetch(ids[-1], "BODY[TEXT]")[0].attr["BODY[TEXT]"]
     subject = imap.fetch(ids[-1], "BODY[HEADER.FIELDS (SUBJECT)]")[0].attr["BODY[HEADER.FIELDS (SUBJECT)]"]
     found = true if content != nil
-    imap.disconnect
+    imap.disconnect unless imap.disconnected?
     assert(found, "Email was not found on SMTP server")
     assert(subject.include?("Welcome to the inBloom Developer Sandbox"), "Subject in email is not correct")
   else

@@ -18,7 +18,7 @@ Scenario: All-in-one scenario
     Then I should be on Portal home page  
 	Then I should see Admin link
 	And I click on Admin
-	Then I should be on the admin page
+	Then the portal should be on the admin page
 	And under Application Configuration, I click on "inBloom Dashboards"
 	Then I am authorized to the Configuration Area
 	And I paste Valid json config into the text box
@@ -147,7 +147,7 @@ Scenario: All-in-one scenario
 	Then I should be on Portal home page
 	Then I should see Admin link
 	And I click on Admin
-	Then I should be on the admin page
+	Then the portal should be on the admin page
 	And under Application Configuration, I click on "inBloom Dashboards"
 	Then I am authorized to the Configuration Area
 	And I paste Valid json config into the text box

@@ -19,7 +19,7 @@ Feature: Data Browser
     Then I should be on Portal home page
     And I should see Admin link
     And I click on Admin
-    Then I should be on the admin page
+    Then the portal should be on the admin page
     And under System Tools, I click on "inBloom Data Browser"
     Then I should be redirected to the Data Browser home page
     And I should see the name "Rick Rogers" on the page
@@ -49,7 +49,7 @@ Feature: Data Browser
     Then I should be on Portal home page
     And I should see Admin link
     And I click on Admin
-    Then I should be on the admin page
+    Then the portal should be on the admin page
     And under System Tools, I click on "inBloom Data Browser"
     Then I should be redirected to the Data Browser home page
     And I should see the name "James Stevenson" on the page
@@ -76,7 +76,7 @@ Feature: Data Browser
     Then I should be on Portal home page
     And I should see Admin link
     And I click on Admin
-    Then I should be on the admin page
+    Then the portal should be on the admin page
     And under System Tools, I click on "inBloom Data Browser"
     Then I should be redirected to the Data Browser home page
     And I should see the name "Amy Kopel" on the page
@@ -135,7 +135,7 @@ Feature: Data Browser
     Then I should be on Portal home page
     And I should see Admin link
     And I click on Admin
-    Then I should be on the admin page
+    Then the portal should be on the admin page
     And under System Tools, I click on "inBloom Data Browser"
     Then I should be redirected to the Data Browser home page
     And I should see the name "Charles Gray" on the page
