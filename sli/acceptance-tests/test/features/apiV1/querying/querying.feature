@@ -133,7 +133,7 @@ Scenario Outline: Query subdoc
       | "jstevenson"   | "jstevenson1234" |
       | "linda.kim"    | "linda.kim1234"  |
 
-
+  @ds-1249
   Scenario Outline: Include, Exclude and uniqueStateIds combination
     Given I am logged in using "<username>" "<password>" to realm "IL"
     And format "application/json;charset=utf-8"
