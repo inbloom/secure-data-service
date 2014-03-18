@@ -86,25 +86,6 @@ public class DefaultSAML2ValidatorTest {
         Assert.assertTrue(!validator.isDocumentValid(doc));
     }
 
-    //3-10-2014 TAF  Removed unused unit test (which was removed in JDK7 branch as well).
-    //@Test
-    //public void testIsDigestValidWithValid() throws Exception {
-    //    Document doc = getDocument("complete-valid.xml");
-    //    Assert.assertTrue(validator.isDigestValid(doc));
-    //}
-
-    @Test
-    public void testIsDigestValidWithValid2() throws Exception {
-        Document doc = getDocument("complete-valid2.xml");
-        Assert.assertTrue(validator.isDigestValid(doc));
-    }
-
-    @Test
-    public void testIsDigestInvalidWithInvalid() throws Exception {
-        Document doc = getDocument("complete-invalid.xml");
-        Assert.assertTrue(!validator.isDigestValid(doc));
-    }
-
     @Test
     public void testIsUntrustedAssertionTrusted() throws Exception {
         Document doc = getDocument("adfs-invalid.xml");
