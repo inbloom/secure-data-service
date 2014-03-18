@@ -24,15 +24,6 @@ db_port: 27017
 sli_db_name: sli
 ingestion_batch_job_db_name: ingestion_batch_job
 
-# Ingestion component
-# TODO: Determine if these properties can be removed
-ingestion_db: localhost
-ingestion_db_port: 27017
-ingestion_database_name: sli
-ingestion_batchjob_db: localhost
-ingestion_batchjob_database_name: ingestion_batch_job
-ingestion_batchjob_db_port: 27017
-
 # TODO: Determine if this is valid
 lz_server_url: "devpantheon.slidev.org"
 lz_sftp_port: "22"

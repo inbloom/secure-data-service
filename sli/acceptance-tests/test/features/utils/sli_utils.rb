@@ -851,8 +851,8 @@ end
 def check_records_in_sli_collection(table)
   disable_NOTABLESCAN()
   #First cut. Method has to be optimised. Connection should be cached.
-  secConn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
-  secDb = secConn.db('sli')
+  secConn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
+  secDb = secConn.db(Property[:sli_db_name])
   result = "true"
   table.hashes.map do |row|
       entity_collection = secDb.collection(row["collectionName"])

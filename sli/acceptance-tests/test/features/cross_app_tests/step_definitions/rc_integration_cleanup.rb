@@ -29,20 +29,7 @@ limitations under the License.
 ###############################################################################
 
 Given /^I have a connection to Mongo$/ do
-  host = Property['ingestion_db']
-  port = Property['ingestion_db_port']
-
-  @conn = Mongo::Connection.new(host, port)
-
-  # HACK TO WORK AROUND MONGOS DROP DATABASE BUG
-  port2 = Property['rcingest02_port']
-  port3 = Property['rcingest03_port']
-  port4 = Property['rcapi01_port']
-  port5 = Property['rcapi02_port']
-  @conn2 = Mongo::Connection.new(host, port2) if port2
-  @conn3 = Mongo::Connection.new(host, port3) if port3
-  @conn4 = Mongo::Connection.new(host, port4) if port4
-  @conn5 = Mongo::Connection.new(host, port5) if port5
+  @conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
 end
 
 ###############################################################################
@@ -104,25 +91,6 @@ Then /^I will drop the whole database$/ do
     raise "Could not drop database" if (attempts > 15)
   end while @conn.database_names.include?(@tenant_db_name)
 
-  # HACK TO WORK AROUND MONGOS DROP DATABASE BUG
-  if @conn2
-    res = @conn2.drop_database(@tenant_db_name)
-    puts "Attempted to drop database from second mongos: #{res.to_a}"
-  end
-  if @conn3
-    res = @conn3.drop_database(@tenant_db_name)
-    puts "Attempted to drop database from third mongos: #{res.to_a}"
-  end
-  if @conn4
-    res = @conn4.drop_database(@tenant_db_name)
-    puts "Attempted to drop database from fourth mongos: #{res.to_a}"
-  end
-  if @conn5
-    res = @conn5.drop_database(@tenant_db_name)
-    puts "Attempted to drop database from fifth mongos: #{res.to_a}"
-  end
-  #/ HACK TO WORK AROUND MONGOS DROP DATABASE BUG
-
   tenant_dropped = false
   if (!@conn.database_names.include?(@tenant_db_name) || @conn.db(@tenant_db_name).collection_names.empty?)
     tenant_dropped = true
@@ -133,13 +101,7 @@ end
 Then /^I flush all mongos instances$/ do
   # if one connection is to a mongos, then they all should be.
   if @conn['admin'].command({:serverStatus => true})['process'] == 'mongos'
-    step "I have a connection to Mongo"
-    [@conn, @conn2, @conn3, @conn4, @conn5].each do |mon|
-      if mon != nil
-        result = mon['admin'].command({:flushRouterConfig => true})
-        puts "Flushed #{mon.host_port} with result: #{result}"
-      end
-    end
+    result = @conn['admin'].command({:flushRouterConfig => true})
     step "I close all open Mongo connections"
   else
     puts "Not running against mongos. Skipping."
@@ -147,10 +109,8 @@ Then /^I flush all mongos instances$/ do
 end
 
 Then /^I will clean my tenants recordHash documents from ingestion_batch_job db$/ do
-  host = Property['ingestion_batchjob_db']
-  port = Property['ingestion_batchjob_db_port']
-  batchJobconn = Mongo::Connection.new(host, port)
-  batchJobDb = batchJobconn.db(Property['ingestion_batchjob_database_name'])
+  batchJobconn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
+  batchJobDb = batchJobconn.db(Property[:ingestion_batch_job_db_name])
   batchJobDb['recordHash'].remove("t" => @tenant_name)
 end
 
@@ -183,19 +143,19 @@ Then /^I clean up the (production|sandbox) tenant's bulk extract file entries in
   else
     tenant = Property['tenant']
   end
-  sli_db = @conn.db(Property['sli_database_name'])
+  sli_db = @conn.db(Property[:sli_db_name])
   sli_db['bulkExtractFiles'].remove('body.tenantId' => tenant)
   assert(sli_db['application'].find('body.tenantId' => tenant).count == 0, "Bulk extract file entries for tenant '#{tenant}' have not been deleted.")
 end
 
 Then /^I will drop the tenant document from the collection$/ do
-  sli_db = @conn.db(Property['sli_database_name'])
+  sli_db = @conn.db(Property[:sli_db_name])
   sli_db['tenant'].remove("body.tenantId" => @tenant_name)
   assert(sli_db['tenant'].find("body.tenantId" => @tenant_name).count == 0, "Tenant document not dropped.")
 end
 
 Then /^I will delete the realm for this tenant from the collection$/ do
-  sli_db = @conn.db(Property['sli_database_name'])
+  sli_db = @conn.db(Property[:sli_db_name])
   sli_db['realm'].remove("body.uniqueIdentifier" => "RC-IL-Daybreak")
   assert(sli_db['realm'].find("body.uniqueIdentifier" => "RC-IL-Daybreak").count == 0, "Realm document not deleted.")
   if RUN_ON_RC
@@ -219,9 +179,5 @@ end
 
 
 Then /^I close all open Mongo connections$/ do
-  @conn.close if @conn != nil
-  @conn2.close if @conn2 != nil
-  @conn3.close if @conn3 != nil
-  @conn4.close if @conn4 != nil
-  @conn5.close if @conn5 != nil
+  @conn.close if @conn
 end

@@ -30,14 +30,14 @@ require_relative '../../../ingestion/features/step_definitions/ingestion_steps.r
 PRELOAD_EDORG = "STANDARD-SEA"
 PRELOAD_EDORGS = ["STANDARD-SEA", "CAP0"]
 
-API_DB = Property['DB_HOST']
-API_DB_PORT = Property['DB_PORT']
-API_DB_NAME = Property['api_database_name']
-INGESTION_DB = Property['ingestion_db']
-INGESTION_DB_PORT = Property['ingestion_db_port']
-INGESTION_BATCHJOB_DB_NAME = Property['ingestion_batchjob_database_name']
-INGESTION_BATCHJOB_DB = Property['ingestion_batchjob_db']
-INGESTION_BATCHJOB_DB_PORT = Property['ingestion_batchjob_db_port']
+API_DB = Property[:db_host]
+API_DB_PORT = Property[:db_port]
+API_DB_NAME = Property[:sli_db_name]
+INGESTION_DB = Property[:db_host]
+INGESTION_DB_PORT = Property[:db_host]
+INGESTION_BATCHJOB_DB_NAME = Property[:ingestion_batch_job_db_name]
+INGESTION_BATCHJOB_DB = Property[:db_host]
+INGESTION_BATCHJOB_DB_PORT = Property[:db_host]
 
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)

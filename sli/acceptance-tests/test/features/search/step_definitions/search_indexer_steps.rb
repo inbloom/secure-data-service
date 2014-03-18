@@ -136,7 +136,7 @@ When /^I update some assessment records in mongo$/ do
   }
   
 
-  conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   @mdb = conn.db(MIDGAR_DB_NAME)
   
   # update the assessment entity with id is e33ce38ad4136e409b426b1ffe7781d09aed2aec_id
