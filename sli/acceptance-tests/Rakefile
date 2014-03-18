@@ -534,7 +534,7 @@ end
 # This task is used as an entry point to run the smoke tests,
 # a suite of tests that will run quickly but only catch 80% or less of real failures
 desc 'Run Smoke Tests'
-task :smokeTests => [
+task :smokeTests => [:displayProperties,
                     :apiSmokeTests,
                     :ingestionSmokeTests,
                     :dashboardSmokeTests,
@@ -543,6 +543,10 @@ task :smokeTests => [
   display_failure_report
 end
 
+desc 'Display all properties'
+task :displayProperties do
+  Property.getProps.each {|k,v| puts "#{k}: #{v}"}
+end
 
 # This task is used as an entry point in Jenkins to run API and Security Tests
 # It is needed so that it fails the build if there are any failures based on the
