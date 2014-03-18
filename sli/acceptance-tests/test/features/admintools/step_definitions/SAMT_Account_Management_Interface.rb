@@ -27,9 +27,10 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require_relative '../../sandbox/UserAdmin/step_definitions/User_Admin_Interface_steps.rb'
 
+#TODO: Evaluate if this Before block can be removed
 Before("@RALLY_3071") do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
-  @db = Mongo::Connection.new.db(convertTenantIdToDbName(Property['api_database_name']))
+  @db = Mongo::Connection.new.db('sli')
 end
 
 After("@RALLY_3071") do

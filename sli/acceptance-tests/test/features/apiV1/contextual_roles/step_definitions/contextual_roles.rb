@@ -256,7 +256,7 @@ def all_lea_allow_app_for_tenant(app_name, tenant_name)
   sleep 1
   disable_NOTABLESCAN
   conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
-  db = conn[Property['api_database_name']]
+  db = conn['sli']
   app_coll = db.collection("application")
   app = app_coll.find_one({"body.name" => app_name})
   raise "ERROR: Could not find an application named #{app_name}" if app.nil?

@@ -108,7 +108,7 @@ end
 
 def dissallowDatabrowser(district, tenantName)
   conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
-  db = conn[Property['api_database_name']]
+  db = conn['sli']
   appColl = db.collection("application")
   databrowserId = appColl.find_one({"body.name" => "inBloom Data Browser"})["_id"]
   puts("The databrowser id is #{databrowserId}") if ENV['DEBUG']

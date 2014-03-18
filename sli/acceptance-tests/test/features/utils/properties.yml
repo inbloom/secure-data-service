@@ -59,7 +59,6 @@ sif_zis_address_trigger: http://local.slidev.org:8087/mock-zis/trigger
 
 DB_HOST: localhost
 DB_PORT: 27017
-api_database_name: sli
 
 sampleApp_server_address: http://local.slidev.org:8081/
 
