@@ -5,7 +5,7 @@ body { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:0.8em;
 /*div.details {background-color: rgb(45,73,128);}*/
 
 table.dataTable tr.odd:hover td.sorting_1, table.dataTable tr.even:hover td.sorting_1,
-table.dataTable tr.odd:hover td, table.dataTable tr.even:hover td
+table.dataTable tr.odd:hover td, table.dataTable tr.even:hover td, .count_link:hover
 {
     background-color: #B0E0F0;
     cursor: pointer;
@@ -63,4 +63,8 @@ table.edOrg_home td {
     background-color: #B0E0F0;
     padding: 5px;
     margin: 5px;
+}
+
+.loader {
+    height: 10px;
 }

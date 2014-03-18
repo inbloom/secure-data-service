@@ -17,13 +17,16 @@ limitations under the License.
 =end
 
 require 'capybara'
+require 'capybara-screenshot'
+require 'capybara-screenshot/cucumber'
 #require_relative '../../utils/db_client.rb'
+
+Capybara.default_driver = :selenium
 
 # TODO Move the capybara setup code to a common location
 class Browser
   include Capybara::DSL
   def initialize
-    Capybara.default_driver = :selenium
     Capybara.reset_session!
   end
 
@@ -45,7 +48,7 @@ Before('@track_entities') do
 end
 
 def add_for_cleanup(collection, name)
-  @created_entities << [collection, name]
+  (@created_entities ||= []) << [collection, name]
 end
 
 After('@track_entities') do
@@ -62,7 +65,33 @@ end
 
 Given /^I am a valid (.*)$/ do |user_type|
   @user, @pass = valid_user user_type
+  @user.should_not be_nil
   @federated = !!(user_type =~ /federated/)
+  @sandbox = !!(user_type =~ /sandbox/)
+end
+
+def valid_user(user_type)
+  valid_users = {
+      'inBloom developer'            => %w( slcdeveloper ),
+      'inBloom operator'             => %w( slcoperator ),
+      'tenant-level administrator'   => %w( iladmin ),
+      'district-level administrator' => %w( sunsetadmin ),
+      'realm administrator'          => %w( sunsetrealmadmin ),
+      'federated district-level administrator' => %w( jstevenson ),
+      'SLC Operator'                           => %w( slcoperator-email@slidev.org slcoperator-email1234 ),
+      'Super Administrator'                    => %w( daybreaknorealmadmin ),
+      'non-SLI hosted user with no roles' => %w( administrator ),
+      'SLI hosted user with no roles' => %w( leader ),
+      'tenant-level realm administrator' => %w( daybreakadmin ),
+      'tenant-level IT administrator' => %w( rrogers ),
+      'sandbox developer'             => %w( developer-email@slidev.org test1234 )
+  }
+  username, password = valid_users[user_type]
+  [username, password || "#{username}1234"]
+end
+
+Given /^I am an unknown user$/ do
+  @user, @pass = 'unknown_user','invalid_password'
 end
 
 Given /^I am managing my applications$/ do
@@ -88,6 +117,27 @@ Given /^I am managing my application authorizations$/ do
   browser.visit path_for('application authorizations')
   login_to_the_realm
   browser.page.should have_selector('h1', :text => 'Approve Applications')
+end
+
+When /^I attempt to manage application authorizations$/ do
+  browser.visit path_for('application authorizations')
+  login_to_the_realm
+end
+
+When /^I (?:attempt )?to go to the (.*) page$/ do |page|
+  browser.visit path_for(page)
+  puts "Attempting to go to page: #{url}"
+  browser.visit url
+  login_to_the_realm
+end
+
+Then /^I should (not )?be on the (.*) page$/ do |not_see, page|
+  selector, header = 'h1', header_for(page)
+  if not_see
+    browser.page.should have_no_selector(selector, :text => header)
+  else
+    browser.page.should have_selector(selector, :text => header)
+  end
 end
 
 Given /^I have an in\-progress application$/ do
@@ -250,34 +300,6 @@ end
 
 # METHODS
 
-def valid_user(user_type)
-  valid_users = {
-      'inBloom developer'            => 'slcdeveloper',
-      'inBloom operator'             => 'slcoperator',
-      'tenant-level administrator'   => 'iladmin',
-      'district-level administrator' => 'sunsetadmin',
-      'realm administrator'          => 'sunsetrealmadmin',
-      'federated district-level administrator' => 'jstevenson',
-      'SLC Operator' => 'slcoperator-email@slidev.org',
-      'Super Administrator' => 'daybreaknorealmadmin'
-  }
-  username = valid_users[user_type]
-  username.should_not be_nil
-  [username, "#{username.split('@').first}1234"] # if username is an e-mail, drop the '@slidev.org' before adding 1234
-end
-
-
-#Given /^I am a valid SLC Operator$/ do
-#  @user = 'slcoperator-email@slidev.org' # an :operator
-#  @pass = 'slcoperator-email1234'
-#end
-#
-#Given /^I am a valid Super Administrator$/ do
-#  @user = 'daybreaknorealmadmin' # a :super_admin
-#  @pass = 'daybreaknorealmadmin1234'
-#end
-#
-
 def page_alerts_access_error
   browser.page.should have_selector('.alert-error', :text => /access to this page/)
 end
@@ -304,7 +326,7 @@ def most_recent_email(email, username=nil, password=nil)
     subject = email_data.attr[subject_attr]
   end
 
-  imap.disconnect
+  imap.disconnect unless imap.disconnected?
 
   [subject, content]
 end
@@ -323,13 +345,22 @@ end
 
 def path_for(page)
   path = case page
+         when /default administration/; ''
          when /applications/; 'apps'
-         when /application authorizations/; 'application_authorizations'
-         when /realm management/; 'realm_management'
          else
             page.gsub(' ','_')
          end
   "#{Property['admintools_server_url']}/#{path}"
+end
+
+def header_for(page)
+  case page
+    when /default administration/; 'Admin Tools'
+    when /applications/; 'Applications'
+    when /custom roles/; 'Custom Roles'
+    else
+      fail "Unexpected page: #{page}"
+  end
 end
 
 def admin_apps_page
@@ -357,7 +388,8 @@ def login_to_the_tenants_realm
 end
 
 def login_to_realm(realm)
-  choose_realm realm
+  puts "Logging into realm: #{realm}"
+  choose_realm realm unless @sandbox
   submit_idp_credentials @user, @pass
 end
 
@@ -393,10 +425,4 @@ def fill_in_application_fields(values)
   values.each do |name, value|
     browser.fill_in("app[#{name}]", :with => value)
   end
-end
-
-def verify_registered_application(name)
-  value = @driver.find_element(:id, 'notice').text
-  assert(value =~ /successfully created/, "Should have valid flash message")
-  assertWithWait("Couldn't locate #{app} at the top of the page") {@driver.find_element(:xpath, "//tbody/tr[1]/td[text()='#{app}']")}
 end

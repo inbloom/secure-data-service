@@ -5,24 +5,24 @@
 desc "Import SIF Sandbox Test Data"
 task :importSifSandboxData do
   Rake::Task["importSifBootstrapData"].execute
-  setFixture("educationOrganization", "sif/sif_lea_fixture.json", "test/data", false)
-  setFixture("educationOrganization", "sif/sif_educationOrganization_fixture.json", "test/data", false)
-  setFixture("studentSchoolAssociation", "sif/sif_studentSchoolAssociation_fixture.json", "test/data", true)
-  setFixture("student", "sif/sif_student_fixture.json", "test/data", true)
+  set_fixture("educationOrganization", "sif/sif_lea_fixture.json", "test/data", false)
+  set_fixture("educationOrganization", "sif/sif_educationOrganization_fixture.json", "test/data", false)
+  set_fixture("studentSchoolAssociation", "sif/sif_studentSchoolAssociation_fixture.json", "test/data", true)
+  set_fixture("student", "sif/sif_student_fixture.json", "test/data", true)
 end
 
 desc "Import SIF Bootstrap Test Data"
 task :importSifBootstrapData do
-  testHash = Hash[
-    "staff" => "sif/sif_bootstrap_staff_fixture.json",
-    "educationOrganization" => "sif/sif_bootstrap_educationOrganization_fixture.json",
-    "staffEducationOrganizationAssociation" => "sif/sif_bootstrap_staffEducationOrganizationAssociation_fixture.json"
-  ]
-  setMultipleFixtureFiles(testHash)
+  data = %w(
+    staff
+    educationOrganization
+    staffEducationOrganizationAssociation
+  ).map {|c| [c, "sif/sif_bootstrap_#{c}_fixture.json"]}
+  set_fixtures(data)
 end
 
-desc "Run SIF Smoke Tests"
-task :sifSmokeTests => [:realmInit] do
+desc 'Run SIF Smoke Tests'
+task :sifSmokeTests => :realmInit do
   Rake::Task["importSifBootstrapData"].execute
   runTests("test/features/sif/features/sif_smoke.feature")
 end
@@ -43,12 +43,6 @@ desc "Run SIF LEAInfo Tests"
 task :sifLEAInfoTest => [:realmInit] do
   Rake::Task["importSifBootstrapData"].execute
   runTests("test/features/sif/features/sif_LEAInfo.feature")
-end
-
-desc "Run SIF SEAInfo Tests"
-task :sifSEAInfoTest => [:realmInit] do
-  Rake::Task["importSifBootstrapData"].execute
-  runTests("test/features/sif/features/sif_SEAInfo.feature")
 end
 
 desc "Run SIF StudentSchoolEnrollment Tests"

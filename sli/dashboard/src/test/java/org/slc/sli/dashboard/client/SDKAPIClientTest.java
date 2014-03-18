@@ -16,18 +16,7 @@
 
 package org.slc.sli.dashboard.client;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.api.client.Entity;
@@ -36,6 +25,16 @@ import org.slc.sli.api.client.SLIClientException;
 import org.slc.sli.api.client.SLIClientFactory;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.util.Constants;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * @author: sashton
@@ -70,8 +69,8 @@ public class SDKAPIClientTest {
     public void shouldGetCourseSectionMappings() throws SLIClientException, IOException, URISyntaxException {
         
         List<GenericEntity> sections = new ArrayList<GenericEntity>();
-        sections.add(createSection("S1", "CO1"));
-        sections.add(createSection("S2", "CO2"));
+        sections.add(createSection("S1", "CO1", "Section 1"));
+        sections.add(createSection("S2", "CO2", "Section 2"));
         
         List<Entity> courseOfferings = new ArrayList<Entity>();
         courseOfferings.add(createCourseOffering("CO1", "C1"));
@@ -92,10 +91,11 @@ public class SDKAPIClientTest {
         Assert.assertEquals(2, result.size());
     }
     
-    private GenericEntity createSection(String id, String courseOfferingId) {
+    private GenericEntity createSection(String id, String courseOfferingId, String sectionName) {
         GenericEntity e = new GenericEntity();
         e.put(Constants.ATTR_ID, id);
         e.put(Constants.ATTR_COURSE_OFFERING_ID, courseOfferingId);
+        e.put(Constants.ATTR_SECTION_NAME, sectionName);
         return e;
     }
     

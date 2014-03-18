@@ -305,7 +305,7 @@ checked = Set.new
 # STEPS: BEFORE
 ############################################################
 
-Before do
+Before('~@no_ingestion_hooks') do
   extend Test::Unit::Assertions
 
   @ingestion_db_name = convertTenantIdToDbName('Midgar')
@@ -342,7 +342,7 @@ Before do
     @ingestion_lz_key_override = INGESTION_RC_TENANT + "-" + INGESTION_RC_EDORG
   end
 
-  if (INGESTION_MODE != 'remote')
+  if INGESTION_MODE != 'remote'
     #remove all tenants other than Midgar and Hyrule
     @tenantColl.find.each do |row|
       if row['body'] == nil
@@ -365,46 +365,38 @@ Before do
     @tenantId = @body['tenantId']
     @landingZones = @body['landingZone'].to_a
     @landingZones.each do |lz|
-      if lz['educationOrganization'] == nil
+      unless lz['educationOrganization']
         puts 'No educationOrganization for landing zone, skipping. Tenant id = ' + @tenantId
         next
       end
-      if lz['path'] == nil
+      unless lz['path']
         puts 'No path for landing zone, skipping. Tenant id = ' + @tenantId
         next
       end
 
       educationOrganization = lz['educationOrganization']
       path = lz['path']
+      path << '/' unless path[-1] == '/'
 
-      if path.rindex('/') != (path.length - 1)
-        path = path+ '/'
-      end
-
-      identifier = @tenantId + '-' + educationOrganization
+      identifier = "#{@tenantId}-#{educationOrganization}"
 
       #in remote trim the path to a relative user path rather than absolute path
       if INGESTION_MODE == 'remote'
         # if running against RC tenant and edorg, path will be root directory on sftp login
-        if identifier == INGESTION_RC_TENANT + '-' + INGESTION_RC_EDORG
-          path = "./"
+        if identifier == "#{INGESTION_RC_TENANT}-#{INGESTION_RC_EDORG}"
+          path = './'
         else
-          path = path.gsub(INGESTION_REMOTE_LZ_PATH, "")
+          path.gsub!(INGESTION_REMOTE_LZ_PATH, '')
         end
       end
 
-
-      #puts identifier + " -> " + path
       @ingestion_lz_identifer_map[identifier] = path
 
-      if !File.directory?(path) && INGESTION_MODE != 'remote'
-        FileUtils.mkdir_p(path)
-      end
-
+      FileUtils.mkdir_p(path) if !File.directory?(path) && INGESTION_MODE != 'remote'
     end
   end
 
-  initializeTenants()
+  initializeTenants
 end
 
 def initializeTenants()
@@ -644,11 +636,12 @@ end
 
 Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_key|
   # if the lz_key is overridden from the command line, use the override value
-  unless (@ingestion_lz_key_override == nil)
-    lz_key = @ingestion_lz_key_override
-  end
+  lz_key = @ingestion_lz_key_override if @ingestion_lz_key_override
+  puts "Looking up landing zone for #{lz_key}"
+  puts "Ingestion landing zone identifier map: #{@ingestion_lz_identifier_map.inspect}"
 
   lz = @ingestion_lz_identifer_map[lz_key]
+  puts @ingestion_lz_identifer_map.inspect
   initializeLandingZone(lz)
   initializeTenantDatabase(lz_key)
 end
@@ -668,17 +661,11 @@ def initializeTenantDatabase(lz_key)
 end
 
 def initializeLandingZone(lz)
-  unless lz.nil?
 
-    if lz.rindex('/') == (lz.length - 1)
-      @landing_zone_path = lz
-    else
-      @landing_zone_path = lz+ '/'
-    end
-  end
-
+  lz << '/' unless lz[-1] == '/'
   @landing_zone_path = lz
-  #puts "Landing Zone = " + @landing_zone_path unless @landing_zone_path.nil?
+
+  puts "Landing Zone: #{@landing_zone_path}"
 
   # clear out LZ before proceeding
   if (INGESTION_MODE == 'remote')
@@ -984,39 +971,6 @@ Given /^the following collections are empty in sli datastore:$/ do |table|
     enable_NOTABLESCAN()
 end
 
-
-
-Given /^the following collections are empty in datastore:$/ do |table|
-  disable_NOTABLESCAN()
-  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
-
-  @db = @conn[@ingestion_db_name]
-
-  puts "Clearing out collections in db " + @ingestion_db_name + " on " + INGESTION_DB
-
-  @result = "true"
-
-  table.hashes.map do |row|
-    parent = subDocParent row["collectionName"]
-    if parent
-      @entity_collection = @db[parent]
-      superDocs = @entity_collection.find()
-      cleanupSubDoc(superDocs, row["collectionName"])
-    else
-      @entity_collection = @db[row["collectionName"]]
-      @entity_collection.remove()
-
-      puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
-
-      if @entity_collection.count.to_s != "0"
-        @result = "false"
-      end
-    end
-  end
-  assert(@result == "true", "Some collections were not cleared successfully.")
-  enable_NOTABLESCAN()
-end
-
 Given /^the following collections are empty in batch job datastore:$/ do |table|
   disable_NOTABLESCAN()
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
@@ -1269,6 +1223,8 @@ Given /^the tenant database for "([^"]*)" does not exist/ do |tenantToDrop|
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|
+  puts "INGESTION_MODE: #{INGESTION_MODE}"
+  puts "INGESTION_LOGS_DIRECTORY: #{INGESTION_LOGS_DIRECTORY}"
   if (INGESTION_MODE == 'remote')
     fileExist = remoteDirContainsFile(logfile, INGESTION_LOGS_DIRECTORY)
   else
@@ -4130,7 +4086,7 @@ end
 # STEPS: AFTER
 ############################################################
 
-After do
+After('~@no_ingestion_hooks') do
   if (!@landing_zone_path.nil? && Dir.exists?(@landing_zone_path))
     Dir.foreach(@landing_zone_path) do |entry|
       if (entry.rindex("warn.") || entry.rindex("error."))

@@ -18,11 +18,6 @@ limitations under the License.
 
 
 require 'selenium-webdriver'
-# require_relative '../../utils/sli_utils.rb'
-
-
-# idpLogin("demo", "demo1234")
-
 
 Given /^I selected the "([^"]*)" application$/ do |appName|
   @driver.find_element(:link_text, appName).click

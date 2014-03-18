@@ -2,7 +2,7 @@
 # Read by cleanup_bulk_extract.rb script upon cleanup of bulk extract files.
 
 # Bulk extract cleanup logging parameters.
-log_file_pathname: logs/cleanup_bulk_extract.log
+log_file_pathname: /var/log/bulkextract/cleanup_bulk_extract.log
 log_file_rotation: daily
 log_level: INFO
 

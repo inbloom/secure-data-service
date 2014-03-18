@@ -3,20 +3,44 @@ require_relative 'rakefile_common'
 
 class DbClient
 
+  class << self
+    def allow_table_scan!
+      client = DbClient.new
+      client.allow_table_scan!
+      client.close
+    end
+    def disallow_table_scan!
+      client = DbClient.new
+      client.disallow_table_scan!
+      client.close
+    end
+  end
+
   attr_reader :db
 
-  # Valid options are :host, :port, :tenant or :db_name
+  # Valid options are :host, :port, :tenant or :db_name, :allow_table_scan (true/false)
   def initialize(options={})
     host = options[:host] || Property['DB_HOST'] || 'localhost'
     port = options[:port] || Property['DB_PORT'] || 27017
-    db_name = options[:db_name] || tenant_to_db_name(options[:tenant] || ENV['DB_NAME'] || 'Midgar')
+
     @conn = Mongo::Connection.new(host, port)
-    @db = @conn[db_name]
+    @db = @conn[ derive_db_name(options) ]
+
+    allow_table_scan(options[:allow_table_scan]) if !options[:allow_table_scan].nil?
   end
 
-  def open
-    yield self
-    close
+  # Options:
+  #  - allow_table_scan: true/false
+  def open(options = {})
+    begin
+      current_allow_table_scan = allow_table_scan?
+      allow_table_scan(options[:allow_table_scan]) unless options[:allow_table_scan].nil?
+      res = yield self
+      allow_table_scan(current_allow_table_scan)
+    ensure
+      close
+    end
+    res
   end
 
   def for_tenant(tenant)
@@ -39,6 +63,10 @@ class DbClient
 
   def collection(collection)
     db[collection]
+  end
+
+  def count(collection, query={})
+    db[collection].count(:query => query)
   end
 
   def find(collection, query={})
@@ -71,6 +99,10 @@ class DbClient
     db[collection].remove query
   end
 
+  def remove_all(collection)
+    db[collection].remove {}
+  end
+
   def remove_by_id(collection, id)
     remove collection, id_query(id)
   end
@@ -79,22 +111,40 @@ class DbClient
     db[collection].insert(document)
   end
 
+  def allow_table_scan?
+    !get_notablescan
+  end
+
+  def allow_table_scan(enable)
+    enable ? allow_table_scan! : disallow_table_scan!
+  end
+
   def allow_table_scan!
-    set_notablescan(false)
+    set_notablescan(false) unless allow_table_scan?
   end
 
   def disallow_table_scan!
-    set_notablescan(true)
+    set_notablescan(true) if allow_table_scan?
   end
 
   private
 
+  def derive_db_name(options={})
+    options[:db_name] || tenant_to_db_name(options[:tenant] || ENV['DB_NAME'] || 'Midgar')
+  end
+
+  def get_notablescan
+    val = false
+    admin_db = @conn['admin']
+    res = admin_db.command({getParameter: 1, notablescan: 1})
+    val = res['notablescan'] if res
+    val
+  end
+
   def set_notablescan(enabled)
-    open do
-      admin_db = @conn['admin']
-      admin_db.command({setParameter: 1, notablescan: enabled})
-      set_notablescan_on_shards(admin_db, enabled)
-    end
+    admin_db = @conn['admin']
+    admin_db.command({setParameter: 1, notablescan: enabled})
+    set_notablescan_on_shards(admin_db, enabled)
   end
 
   def set_notablescan_on_shards(admin_db, enabled)

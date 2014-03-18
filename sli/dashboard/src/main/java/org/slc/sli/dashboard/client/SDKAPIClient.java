@@ -1544,11 +1544,7 @@ public class SDKAPIClient implements APIClient {
     /**
      * Given a link in the API response, extract the entity's unique id
      *
-<<<<<<< HEAD
-     * @param link
-=======
      * @param path
->>>>>>> master
      * @return
      */
     private String parseId(String path) {

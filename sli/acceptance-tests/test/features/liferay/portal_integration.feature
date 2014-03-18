@@ -13,7 +13,7 @@ When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" log
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
-Then I should be on the admin page
+Then the portal should be on the admin page
 And under Application Configuration, I click on "inBloom Dashboards"
 Then I am authorized to the Configuration Area
 

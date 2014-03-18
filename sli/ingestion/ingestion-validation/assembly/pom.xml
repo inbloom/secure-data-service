@@ -40,9 +40,9 @@
     <commons.beanutils.version>1.8.3</commons.beanutils.version>
     <maven.jar.version>2.3.2</maven.jar.version>
     <junit.version>4.9</junit.version>
-    <mockito.version>1.8.5</mockito.version>
+    <mockito.version>1.9.5</mockito.version>
     <logback.version>1.0.1</logback.version>
-    <aspectj.version>1.6.11</aspectj.version>
+    <aspectj.version>1.7</aspectj.version>
   </properties>
 
   <modules>

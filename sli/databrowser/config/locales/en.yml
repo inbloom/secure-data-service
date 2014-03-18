@@ -11,6 +11,10 @@ en:
   hispanicLatinoEthnicity: "Hispanic/Latino Ethnicity"
   highlyQualifiedTeacher: "Highly Qualified"
   self: "Me"
+  getTeacherSectionAssociations: "Teacher to Section List"
+  getSections: "My Sections"
+  getTeacherSchoolAssociations: "Teacher to School List"
+  getSchools: "My Schools"
   yearsOfPriorTeachingExperience: "Years of Teaching Experience"
   yearsOfPriorProfessionalExperience: "Years of Experience"
   address: "Address"
@@ -38,7 +42,6 @@ en:
   true: "Yes"
   false: "No"
   date: "Date"
-
   getTeacherSectionAssociations: "Teacher Section Associations"
   getTeacherSchoolAssociations: "Teacher School Associations"
   getSections: "My Sections"
@@ -142,19 +145,4 @@ en:
   getStaffCohortAssociation: "Staff Cohort Association"
   getStudent: "Student"
   getStudentCohortAssociation: "Student Cohort Association"
-
-  
-
-  
-  
-  
-
-
- 
-
-
-
-
-
-
 

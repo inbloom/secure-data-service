@@ -69,7 +69,7 @@ Given /^There is a user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in LDAP Serv
     step "There is a user with \"#{full_name}\", \"#{role}\", \"#{addition_roles}\", and \"#{email}\" in \"Midgar\" \"IL-SUNSET\" LDAP Server"
 end
 
-Given /^there is a production "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |role, tenant, edorg|
+Given /^there is a (?:production )?"(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |role, tenant, edorg|
   @sandboxMode=false
   ApprovalEngine.init(@ldap, nil, false)
   @email = "#{get_mac_address('_')}_prodtestuser2@testwgen.net"
@@ -104,11 +104,7 @@ Given /^there is a production "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |
 
 end
 
-Given /^there is a "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |role, tenant, edorg|
-    step "there is a production \"#{role}\" with tenancy \"#{tenant}\" and in \"#{edorg}\""
-end
-
-Given /^there is no users in edorg "(.*?)"$/ do |edorg| 
+Given /^there are no users in edorg "(.*?)"$/ do |edorg|
     idpRealmLogin("operator", nil)
     step "I navigate to GET \"/users\""
     sessionId = @sessionId

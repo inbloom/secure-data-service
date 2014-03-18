@@ -14,7 +14,7 @@ Scenario: Login and logout
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   When I click on the Logout link
@@ -27,7 +27,7 @@ Scenario: Navigate to home page from any page
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I should see my available links labeled
@@ -45,7 +45,7 @@ Scenario: Associations List - Expand/Collapse between Simple View and Detail Vie
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I click on the "Staff Program Associations" link
@@ -64,7 +64,7 @@ Scenario: Click on Available Links associations and entities
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I have navigated to the "Me" page of the Data Browser
@@ -79,7 +79,7 @@ Scenario: Get a Forbidden message when we access something that is forbidden
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I click on the "Education Organizations" link
@@ -99,7 +99,7 @@ Scenario: Traverse Edorg Hiearchy from SEA down to LEA
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   When I click on the "Education Organizations" link
@@ -123,7 +123,7 @@ Scenario: Search by id
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   When I search for the identifier "<BRANDON SUZUKI UNIQUE ID>" in "students"
@@ -138,33 +138,6 @@ Scenario: Search by id
   When I search for the identifier "<AMY KOPEL UNIQUE ID>" in "staff"
   Then I should see the text "Amy"
   And I should see the text "Kopel"
-  # Search for something I don't have access to
-  When I search for the identifier "<ZOE LOCUST UNIQUE ID>" in "students"
-  Then I see a "There were no entries matching your search" alert box
-
-@wip
-Scenario: Charter School - Search by id
-  When I see the realm selector I authenticate to "Charter School Test Realm"
-  And I was redirected to the "Simple" IDP Login page
-  And I submit the credentials "charteradmin" "charteradmin1234" for the "Simple" login page
-  Then I should be on Portal home page
-  And I should see Admin link
-  And I click on Admin
-  Then I should be on the admin page
-  And under System Tools, I click on "inBloom Data Browser"
-  Then I should be redirected to the Data Browser home page
-  When I search for the identifier "100000017" in "students"
-  Then I should see the text "Miha"
-  And I should see the text "Tran"
-  When I search for the identifier "IL-CHARTER-SCHOOL" in "educationOrganizations"
-  Then I should see the text "IL-CHARTER-SCHOOL"
-  And I should see the text "Elementary School"
-  When I search for the identifier "chartereducator" in "staff"
-  Then I should see the text "Catherine"
-  And I should see the text "Binkley"
-  When I search for the identifier "charteradmin" in "staff"
-  Then I should see the text "Hallie"
-  And I should see the text "Allison"
   # Search for something I don't have access to
   When I search for the identifier "<ZOE LOCUST UNIQUE ID>" in "students"
   Then I see a "There were no entries matching your search" alert box
