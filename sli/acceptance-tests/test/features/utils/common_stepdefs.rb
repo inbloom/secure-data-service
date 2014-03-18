@@ -431,6 +431,10 @@ Given /^the following collections are empty in datastore:$/ do |table|
   end
 end
 
+Given /^the security event collection is empty$/ do
+  DbClient.new.for_sli.open { |db| db.remove_all row['securityEvent'] }
+end
+
 Then /^I should be able to use the token to make valid API calls$/ do
   restHttpGet('/system/session/check', 'application/json')
   @res.should_not be_nil
