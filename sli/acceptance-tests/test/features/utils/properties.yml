@@ -21,7 +21,8 @@ databrowser_server_url: http://local.slidev.org:3000
 # Mongo DB properties
 db_host: localhost
 db_port: 27017
-api_db_name: sli
+sli_db_name: sli
+ingestion_batch_job_db_name: ingestion_batch_job
 
 # Ingestion component
 # TODO: Determine if these properties can be removed

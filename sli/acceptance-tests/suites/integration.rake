@@ -255,9 +255,9 @@ end
 private
 
 def tenant_exists(tenant_name = Property['tenant'])
-  host = Property['ingestion_db']
-  port = Property['ingestion_db_port']
+  host = Property[:db_host]
+  port = Property[:db_port]
   conn = Mongo::Connection.new(host, port)
-  sli_db = conn.db(Property['sli_database_name'])
+  sli_db = conn.db(Property[:sli_db_name])
   (sli_db['tenant'].find("body.tenantId" => tenant_name).count == 0) ? false : true
 end

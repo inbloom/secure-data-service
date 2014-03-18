@@ -23,8 +23,8 @@ $TAR_FILE_NAME = "Final.tar"
 LEA_DAYBREAK_ID_VAL2 = '1b223f577827204a1c7e9c851dba06bea6b031fe_id'
 
 Given /^I update the "(.*?)" with ID "(.*?)" field "(.*?)" to "(.*?)" on the sli database$/ do |collection, id, field, boolean|
-  conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
-  sli = conn.db("sli")
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
+  sli = conn.db(Property[:sli_db_name])
 
   coll = sli[collection]
   entity = coll.find_one({"_id" => id})

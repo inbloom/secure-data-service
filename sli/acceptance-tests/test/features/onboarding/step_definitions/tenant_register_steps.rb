@@ -24,9 +24,6 @@ require 'mongo'
 # ENVIRONMENT CONFIGURATION
 ############################################################
 
-INGESTION_DB_NAME = Property['ingestion_database_name']
-INGESTION_DB = Property['ingestion_db']
-INGESTION_DB_PORT = Property['ingestion_db_port']
 UNIQUE_TENANT_ID_1 = "694132a09a05"
 UNIQUE_TENANT_ID_2 ="e04161f09a09"
 UNIQUE_TENANT_ID_3 = "4fa3fe8be4b00b3987bec778"
@@ -46,8 +43,8 @@ end
 ############################################################
 
 Before do
-  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
-  @mdb = @conn.db(INGESTION_DB_NAME)
+  @conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
+  @mdb = @conn.db(Property[:sli_db_name])
   @tenantColl = @mdb.collection('tenant')
   @edOrgColl = @mdb.collection('educationOrganization')
   @ingestion_db_name = convertTenantIdToDbName('Midgar')

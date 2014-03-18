@@ -142,9 +142,9 @@ end
 Given /^I have a local configured landing zone for my tenant$/ do
   @local_lz = true
 
-  host = Property['ingestion_db']
-  port = Property['ingestion_db_port']
-  db_name = Property['ingestion_database_name']
+  host = Property[:db_host]
+  port = Property[:db_port]
+  db_name = Property[:sli_db_name]
   conn = Mongo::Connection.new(host, port)
   db = conn.db(db_name)
 

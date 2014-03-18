@@ -35,11 +35,11 @@ require_relative '../../../security/step_definitions/securityevent_util_steps.rb
 # ENVIRONMENT CONFIGURATION
 ############################################################
 
-INGESTION_DB_NAME = Property['ingestion_database_name']
-CONFIG_DB_NAME = "config"
-INGESTION_DB = Property['ingestion_db']
-INGESTION_DB_PORT = Property['ingestion_db_port']
-INGESTION_BATCHJOB_DB_NAME = Property['ingestion_batchjob_database_name']
+CONFIG_DB_NAME = 'config'
+INGESTION_DB = Property[:db_host]
+INGESTION_DB_PORT = Property[:db_port]
+INGESTION_BATCHJOB_DB_NAME = Property[:ingestion_batch_job_db_name]
+
 INGESTION_BATCHJOB_DB = Property['ingestion_batchjob_db']
 INGESTION_BATCHJOB_DB_PORT = Property['ingestion_batchjob_db_port']
 LZ_SERVER_URL = Property['lz_server_url']
@@ -307,11 +307,11 @@ Before('~@no_ingestion_hooks') do
   extend Test::Unit::Assertions
 
   @ingestion_db_name = convertTenantIdToDbName('Midgar')
-  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
-  @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB, INGESTION_BATCHJOB_DB_PORT)
+  @conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
+  @batchConn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
 
   if (INGESTION_MODE != 'remote')
-    @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
+    @batchConn.drop_database(Property[:ingestion_batch_job_db_name])
     `mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js`
     #puts "Dropped " + INGESTION_BATCHJOB_DB_NAME + " database"
   else
@@ -331,7 +331,7 @@ Before('~@no_ingestion_hooks') do
   @recordHash = @tenant_conn.collection('recordHash')
   @recordHash.remove()
 
-  @mdb = @conn.db(INGESTION_DB_NAME)
+  @mdb = @conn.db(Property[:sli_db_name])
   @tenantColl = @mdb.collection('tenant')
 
   @ingestion_lz_key_override = nil
@@ -434,10 +434,10 @@ def initializeTenants()
   end
 end
 
-def cleanTenants()
-  disable_NOTABLESCAN()
+def cleanTenants
+  disable_NOTABLESCAN
 
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[Property[:sli_db_name]]
   @tenantColl = @db.collection('tenant')
   @tenantColl.remove("type" => "tenantTest")
 
@@ -944,20 +944,17 @@ Given /^I want to ingest locally provided data "([^"]*)" file as the payload of 
 end
 
 Given /^the following collections are empty in sli datastore:$/ do |table|
-    disable_NOTABLESCAN()
-    @db = @conn[INGESTION_DB_NAME]
-    puts "Clearing out collections in db " + INGESTION_DB_NAME + " on " + INGESTION_DB_NAME
-    @result = "true"
-    table.hashes.map do |row|
-            @entity_collection = @db[row["collectionName"]]
-            @entity_collection.remove()
-            puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
-            if @entity_collection.count.to_s != "0"
-                @result = "false"
-            end
-    end
-    assert(@result == "true", "Some collections were not cleared successfully.")
-    enable_NOTABLESCAN()
+  disable_NOTABLESCAN
+  @db = @conn[Property[:sli_db_name]]
+  result = true
+  table.hashes.map do |row|
+    @entity_collection = @db[row["collectionName"]]
+    @entity_collection.remove()
+    puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
+    @result = "false" if @entity_collection.count.to_s != "0"
+  end
+  @result.should be('true'), 'Some collections were not cleared successfully.'
+  enable_NOTABLESCAN
 end
 
 Given /^the following collections are empty in batch job datastore:$/ do |table|
@@ -985,19 +982,19 @@ When /^the tenant indexes are applied to the tenant "(.*?)"$/ do |tenant|
 end
 
 When /^the tenant with tenantId "(.*?)" is locked$/ do |tenantId|
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[Property[:sli_db_name]]
   @tenantColl = @db.collection('tenant')
   @tenantColl.update({"body.tenantId" => tenantId}, {"$set" => {"body.tenantIsReady" => false}})
 end
 
 Then /^the tenant with tenantId "(.*?)" is unlocked$/ do |tenantId|
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[Property[:sli_db_name]]
   @tenantColl = @db.collection('tenant')
   @tenantColl.update({"body.tenantId" => tenantId}, {"$set" => {"body.tenantIsReady" => true}})
 end
 
 Then /^the tenantIsReady flag for the tenant "(.*?)" is reset$/ do |tenantId|
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[Property[:sli_db_name]]
   @tenantColl = @db.collection('tenant')
   @tenantColl.update({"body.tenantId" => tenantId}, {"$unset" => {"body.tenantIsReady" => 1}})
 end
@@ -1005,7 +1002,7 @@ end
 Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   disable_NOTABLESCAN()
 
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[Property[:sli_db_name]]
   @tenantColl = @db.collection('tenant')
   @tenantColl.remove("body.tenantId" => lz_key)
 
@@ -1070,7 +1067,7 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
       "metaData" => @metaData
   }
 
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[Property[:sli_db_name]]
   @tenantColl = @db.collection('tenant')
   @tenantColl.save(@newTenant)
 
@@ -1092,7 +1089,7 @@ Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
     edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
   end
 
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[Property[:sli_db_name]]
   @tenantColl = @db.collection('tenant')
 
   matches = @tenantColl.find("body.tenantId" => tenant, "body.landingZone.educationOrganization" => edOrg).to_a
@@ -1155,7 +1152,7 @@ Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
     edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
   end
 
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[Property[:sli_db_name]]
   @tenantColl = @db.collection('tenant')
 
   matches = @tenantColl.find("body.tenantId" => tenant, "body.landingZone.educationOrganization" => edOrg).to_a
@@ -1429,9 +1426,8 @@ end
 When /^the most recent batch job for file "([^"]*)" has completed successfully for tenant "([^"]*)"$/ do |batch_file, tenant|
   disable_NOTABLESCAN()
 
-  @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB, INGESTION_BATCHJOB_DB_PORT)
-  puts "tenant : #{tenant}, INGESTION_BATCHJOB_DB : #{INGESTION_BATCHJOB_DB}, INGESTION_BATCHJOB_DB_PORT : #{INGESTION_BATCHJOB_DB_PORT}, INGESTION_BATCHJOB_DB_NAME : #{INGESTION_BATCHJOB_DB_NAME}" if $SLI_DEBUG
-  db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
+  @batchConn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
+  db   = @batchConn[Property[:ingestion_batch_job_db_name]]
   job_collection = db.collection('newBatchJob')
   puts "job_collection.count() : " + job_collection.count().to_s if $SLI_DEBUG
   zip_suffix='.zip'
@@ -2059,31 +2055,26 @@ Then /^I should see following map of entry counts in the corresponding collectio
 end
 
 Then /^I should see following map of entry counts in the corresponding sli db collections:$/ do |table|
-disable_NOTABLESCAN()
-puts INGESTION_DB_NAME
-@db = @conn[INGESTION_DB_NAME]
-@result = "true"
+  disable_NOTABLESCAN
+  @db = @conn[Property[:sli_db_name]]
+  result = true
 
+  table.hashes.map do |row|
+    @entity_collection = @db.collection(row["collectionName"])
+    @entity_count = @entity_collection.count.to_i
+    puts @entity_count
+    puts "There are #{@entity_count} entities in the #{row["collectionName"]} collection"
 
-table.hashes.map do |row|
-  @entity_collection = @db.collection(row["collectionName"])
-  @entity_count = @entity_collection.count().to_i
-  puts @entity_count
-  puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection"
-
-  if @entity_count.to_s != row["count"].to_s
-    @result = "false"
+    result = false if @entity_count.to_s != row["count"].to_s
   end
-end
 
-                                                                                                    
-assert(@result == "true", "Some records didn't load successfully.")
-enable_NOTABLESCAN()
+  result.should be_true, 'Some records did not load successfully.'
+  enable_NOTABLESCAN
 end
 
 Then /^I should see following map of entry counts in the corresponding batch job db collections:$/ do |table|
-  disable_NOTABLESCAN()
-  @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
+  disable_NOTABLESCAN
+  @db   = @batchConn[Property[:ingestion_batch_job_db_name]]
 
   @result = "true"
 
@@ -2111,11 +2102,11 @@ Then /^I check to find if record is in collection:$/ do |table|
 end
 
 Then /^I check to find if record is in sli database collection:$/ do |table|
-   check_records_in_collection(table, INGESTION_DB_NAME)
+   check_records_in_collection(table, Property[:sli_db_name])
 end
 
 Then /^there are "(.*?)" counts of "(.*?)" that reference \("(.*?)" with attribute "(.*?)" equals "(.*?)"\)$/ do |count, entity, referenced_entity, attribute, value|
-  disable_NOTABLESCAN()
+  disable_NOTABLESCAN
 
   entity_parent = subDocParent(entity)
   referenced_entity_parent = subDocParent(referenced_entity)
@@ -2139,7 +2130,7 @@ Then /^there are "(.*?)" counts of "(.*?)" that reference \("(.*?)" with attribu
   result = entity_collection.aggregate(pipeline)
   assert_equal(count.to_i, result.size)
 
-  enable_NOTABLESCAN()
+  enable_NOTABLESCAN
 end
 
 # Deep-document inspection when we are interested in top-level entities (_id, type, etc)
@@ -3087,7 +3078,7 @@ Then /^the following collections counts are the same:$/ do |table|
 end
 
 Then /^application "(.*?)" has "(.*?)" authorized edorgs$/ do |arg1, arg2|
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[Property[:sli_db_name]]
   appColl = @db.collection("application")
 
   application = appColl.find({"_id" => arg1})
