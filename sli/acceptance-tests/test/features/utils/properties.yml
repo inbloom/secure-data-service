@@ -49,20 +49,13 @@ bulk_extract_output_directory: "extract/"
 bulk_extract_jar_loc: ""
 bulk_extract_properties_file: ""
 bulk_extract_keystore_file: ""
-bulk_extract_db: "localhost"
-bulk_extract_port: 27017
 
 #Bulk Extract Scheduler Configuration
 bulk_extract_scheduler_script: "../bulk-extract/scripts/schedule_bulk_extracts.sh"
 bulk_extract_script_directory: "../bulk-extract/scripts/"
 bulk_extract_cron_output_directory: "extract/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a/"
 
-sif_db: localhost
-sif_port: 27017
-sif_database_name: sli
 sif_zis_address_trigger: http://local.slidev.org:8087/mock-zis/trigger
-
-sli_database_name: sli
 
 DB_HOST: localhost
 DB_PORT: 27017

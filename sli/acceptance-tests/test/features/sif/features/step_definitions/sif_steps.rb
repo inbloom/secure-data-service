@@ -31,9 +31,9 @@ require_relative '../../../utils/sli_utils.rb'
 # ENVIRONMENT CONFIGURATION
 ############################################################
 
-SIF_DB_NAME= Property['sif_database_name']
-SIF_DB = Property['sif_db']
-SIF_PORT = Property['sif_port']
+SIF_DB_NAME= Property[:sli_db_name]
+SIF_DB = Property[:db_host]
+SIF_PORT = Property[:db_port]
 SIF_ZIS_ADDRESS_TRIGGER = Property['sif_zis_address_trigger']
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 

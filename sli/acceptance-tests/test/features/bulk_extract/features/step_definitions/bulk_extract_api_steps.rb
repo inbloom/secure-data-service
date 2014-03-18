@@ -277,7 +277,7 @@ end
 
 
 When /^the return code is 404 I ensure there is no bulkExtractFiles entry for Midgar$/ do
-  @db ||= Mongo::Connection.new(Property['DB_HOST']).db('sli')
+  @db ||= Mongo::Connection.new(Property[:db_host],Property[:db_port]).db('sli')
   @coll = "bulkExtractFiles";
   @src_coll = @db[@coll]
 
@@ -496,7 +496,7 @@ def check_response_header(tenant = 'Midgar')
   if @zip_file_name == "sample-extract.tar"
     assert(@res.headers[:last_modified].to_s==EXPECTED_LAST_MODIFIED, "Last Modified date is wrong! Actual: #{@res.headers[:last_modified]} Expected: #{EXPECTED_LAST_MODIFIED}" )
   elsif @res.code == 200
-    @db ||= Mongo::Connection.new(Property['DB_HOST']).db('sli')
+    @db ||= Mongo::Connection.new(Property[:db_host],Property[:db_port]).db('sli')
     coll = "bulkExtractFiles";
     src_coll = @db[coll]
     raise "Could not find #{coll} collection" if src_coll.count == 0
@@ -651,7 +651,7 @@ After("@TempFileCleanup") do
 end
 
 def getAppId()
-  conn ||= Mongo::Connection.new(Property['DB_HOST'])
+  conn ||= Mongo::Connection.new(Property[:db_host],Property[:db_port])
   db ||= conn.db('sli')
   userSessionColl = db.collection("userSession")
   clientId = userSessionColl.find_one({"body.appSession.token" => @sessionId}) ["body"]["appSession"][0]["clientId"]

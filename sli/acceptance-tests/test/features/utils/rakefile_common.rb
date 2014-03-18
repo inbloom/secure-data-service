@@ -101,9 +101,9 @@ def authorizeEdorgForTenant(appName, tenantName)
   puts "Entered authorizeEdorg" if ENV['DEBUG']
   disable_NOTABLESCAN()
   puts "Getting mongo cursor" if ENV['DEBUG']
-  conn = Mongo::Connection.new(Property['DB_HOST'], Property['DB_PORT'])
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   puts "Setting into the sli db" if ENV['DEBUG']
-  db = conn[Property['api_database_name']]
+  db = conn[Property[:sli_db_name]]
   puts "Setting into the application collection" if ENV['DEBUG']
   appColl = db.collection("application")
   puts "Finding the application with name #{appName}" if ENV['DEBUG']

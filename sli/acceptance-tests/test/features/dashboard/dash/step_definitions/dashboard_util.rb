@@ -26,7 +26,7 @@ Given /^the district "([^\"]*)" has dissallowed use of the dashboard$/ do |distr
 end
 
 def dissallowDashboard(district, tenantName)
-  conn = Mongo::Connection.new(Property['DB_HOST'], Property['DB_PORT'])
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   db = conn[Property['api_database_name']]
   appColl = db.collection("application")
   dashboardId = appColl.find_one({"body.name" => "inBloom Dashboards"})["_id"]

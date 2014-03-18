@@ -170,7 +170,7 @@ end
 
 Then /^I will delete the applications "([^\"]*)" from the collection$/ do |apps|
   app_names = apps.split(",")
-  sli_db = @conn.db(Property['sli_database_name'])
+  sli_db = @conn.db(Property[:sli_db_name])
   app_names.each do |name|
     sli_db['application'].remove("body.name" => name)
     assert(sli_db['application'].find("body.name" => name).count == 0, "The application '#{name}' is not deleted.")

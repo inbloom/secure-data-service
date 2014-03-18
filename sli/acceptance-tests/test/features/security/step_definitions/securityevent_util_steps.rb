@@ -50,7 +50,7 @@ Then /^"([^"]*)" security event with field "([^"]*)" matching "([^"]*)" should b
 end
 
 def securityEventCollection
-  db ||= Mongo::Connection.new(Property['DB_HOST']).db('sli')
+  db ||= Mongo::Connection.new(Property[:db_host],Property[:db_port]).db('sli')
   coll ||= db.collection('securityEvent')
   return coll
 end

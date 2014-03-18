@@ -397,8 +397,8 @@ end
 
 Given /^I import into tenant collection$/ do
   tenants = ["Midgar", "Hyrule"]
-  dbname = Property["api_database_name"]
-  db = Mongo::Connection.new(Property["DB_HOST"], Property["DB_PORT"])[dbname]
+  dbname = Property[:sli_db_name]
+  db = Mongo::Connection.new(Property[:db_host], Property[:db_port])[dbname]
   tenants.each do |tenant|
     doc = generateTenantDoc(tenant)
     db['tenant'].insert(doc) if db['tenant'].find_one({"body.tenantId" => tenant}).nil?
@@ -407,8 +407,8 @@ end
 
 Given /^I clear the tenants that I previously imported$/ do
   tenants = ["Midgar", "Hyrule"]
-  dbname = Property["api_database_name"]
-  db = Mongo::Connection.new(Property["DB_HOST"], Property["DB_PORT"])[dbname]
+  dbname = Property[:sli_db_name]
+  db = Mongo::Connection.new(Property[:db_host], Property[:db_port])[dbname]
   tenants.each do |tenant|
     id = convertTenantIdToDbName(tenant)
     db['tenant'].remove("_id" => id)
