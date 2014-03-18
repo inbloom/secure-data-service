@@ -16,6 +16,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+#include EdorgTreeHelper
+#require "edorg_tree_helper"
 require "active_resource/base"
 # This is the main controller of the Databrowser.
 # We try to "Wrap" all api requests in this one single point

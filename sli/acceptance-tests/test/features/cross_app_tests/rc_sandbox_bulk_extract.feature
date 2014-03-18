@@ -14,7 +14,7 @@ Feature: Users can receive bulk extracts in sandbox mode
     Then I should be on Portal home page
     And I should see Admin link
     When I click on Admin
-    Then I should be on the admin page
+    Then the portal should be on the admin page
     When under System Tools, I click on "Register Application"
     And I switch to the iframe
     Then I am redirected to the Application Registration Tool page
@@ -32,7 +32,7 @@ Feature: Users can receive bulk extracts in sandbox mode
     #Add Bulk Extract role to IT Admin
     And I exit out of the iframe
     And I click on Admin
-    Then I should be on the admin page
+    Then the portal should be on the admin page
     And under System Tools, I click on "Create Custom Roles"
     And I switch to the iframe
     And I edit the group "IT Administrator"

@@ -13,7 +13,7 @@ When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for t
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
-Then I should be on the admin page
+Then the portal should be on the admin page
 And under System Tools, I click on "Manage Realm"
 And I switch to the iframe
 And I should see that I am on the new realm page
@@ -38,7 +38,7 @@ When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" log
 Then I should be on Portal home page
 Then I should not see "inBloom Dashboards"
 And I click on Admin
-And I should be on the admin page
+And the portal should be on the admin page
 And I should not see "inBloom Data Browser"
 And I click on log out
 
@@ -50,7 +50,7 @@ When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login pag
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
-Then I should be on the admin page
+Then the portal should be on the admin page
 And under System Tools, I click on "Authorize Applications"
 And I switch to the iframe
 Then I am redirected to the Admin Application Authorization Tool
@@ -106,6 +106,24 @@ And I should forced to reauthenticate to gain access
 When I navigate to the dashboard home page
 Then I should forced to reauthenticate to gain access
 
+@wip
+Scenario: Charter School Sessions are shared between Dashboard and Databrowser apps
+When I navigate to the Portal home page
+When I select "Charter School Test Realm" and click go
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "charteradmin" "charteradmin1234" for the "Simple" login page
+Then I should be on Portal home page
+When I navigate to the dashboard page
+And I am redirected to the dashboard home page
+When I navigate to the databrowser page
+Then I do not see any login pages
+Then I am redirected to the databrowser home page
+And I click on the logout link
+Then I should see a message that I was logged out
+And I should forced to reauthenticate to gain access
+When I navigate to the dashboard home page
+Then I should forced to reauthenticate to gain access
+
 Scenario: User sees non-installed Developer App
 When I navigate to the Portal home page
 When I selected the realm "Daybreak Test Realm"
@@ -113,3 +131,14 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 Then I should be on Portal home page
 And under My Applications, I see the following apps: "inBloom Dashboards"
+
+@wip
+Scenario: Charter School User sees non-installed Developer App
+When I navigate to the Portal home page
+When I selected the realm "Charter School Test Realm"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "chartereducator" "chartereducator1234" for the "Simple" login page
+Then I should be on Portal home page
+And under My Applications, I see the following apps: "inBloom Dashboards"
+
+

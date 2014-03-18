@@ -2,36 +2,36 @@
     "type": "student",
     "body": {
         "studentUniqueStateId": "WB0025",
-        "sex": "ESTRING:3vOcMrQ5d+OUiY9KrE/VBQ==",
+        "sex": "Male",
         "economicDisadvantaged": false,
         "hispanicLatinoEthnicity": false,
         "address": [
             {
-                "postalCode": "ESTRING:epX1LXOwnx1/OmpNYclpHw==",
-                "streetNumberName": "ESTRING:x+OkhO3RiigKzfq8DQFCOQ==",
-                "stateAbbreviation": "ESTRING:9bf8VbYs7dRbhGibBJWgKw==",
-                "addressType": "ESTRING:wrDQM2ppmDinKc0xlgGIfQ==",
-                "city": "ESTRING:qHXy4YoCS4eu2y7uyJxc6Q=="
+                "postalCode": "60660",
+                "streetNumberName": "6799 33rd",
+                "stateAbbreviation": "IL",
+                "addressType": "Mailing",
+                "city": "Chicago"
             }
         ],
         "electronicMail": [
             {
-                "emailAddress": "ESTRING:eYEXrq2DPoZXMiEotzSrWpaIBHjvLG22emeupUimWnI="
+                "emailAddress": "Joe.Student@anyschool.com"
             }
         ],
         "name": {
-            "lastSurname": "ESTRING:x8swkqvw/53R7sl1eMFSsQ==",
-            "firstName": "ESTRING:M+FlLVsqRiH8CbAomRno7g=="
+            "lastSurname": "Jones",
+            "firstName": "Joe"
         },
         "telephone": [
             {
-                "telephoneNumberType": "ESTRING:DCaqMgPRST/PrZvgDyDrUA==",
-                "telephoneNumber": "ESTRING:t/Z0XDus3ZJ1ZFhrYifRaw=="
+                "telephoneNumberType": "Other",
+                "telephoneNumber": "(312) 555-1234"
             }
         ],
         "birthData": {
-            "countryOfBirthCode": "ESTRING:HhH6VUCRRXqx71k1xVvshA==",
-            "birthDate": "ESTRING:wr48aeCRiQnLDeVve/CPlA=="
+            "countryOfBirthCode": "US",
+            "birthDate": "1981-12-20"
         }
     }
 }

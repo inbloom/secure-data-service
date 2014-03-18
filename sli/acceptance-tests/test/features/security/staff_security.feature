@@ -1,4 +1,4 @@
-@smoke
+@smoke @no_ingestion_hooks
 Feature: As a staff I want to demonstrate that all other staff I am associated with has secured data
 
 Scenario: Teacher accesses another teacher in same school
@@ -40,7 +40,6 @@ Examples:
 | StaffId                              | Code |
 | 85585b27-5368-4f10-a331-3abcaf3a3f4c | 403  |
 
-@DE2657
 Scenario: Staff can access staff via cohort despite studentAccess flag. Student Access flag works
     Given I am logged in using "rrogers" "заря" to realm "IL"
     When I update association "staffCohortAssociations" "8fef446f-fc63-15f9-8606-0b85086c07d5" to set studentAccessFlag to "false"
@@ -56,8 +55,7 @@ Scenario: Staff can access staff via cohort despite studentAccess flag. Student 
     When I navigate to GET "/v1/cohorts/b408635d-8fd5-11e1-86ec-0021701f543f_id/studentCohortAssociations/students"
     Then I should receive a return code of 200
     And I should see a count of 2
-    
-@DE2657
+
 Scenario: Staff can access staff via programs despite studentAccess flag. Student Access flag works
     Given I am logged in using "rrogers" "заря" to realm "IL"
     When I update association "staffProgramAssociations" "9bf906cc-8fd5-11e1-86ec-0021701f5432" to set studentAccessFlag to "false"

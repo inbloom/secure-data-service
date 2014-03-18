@@ -51,26 +51,29 @@ Given /^I want to use format "([^\"]*)"$/ do |fmt|
   @format = fmt
 end
 
-Then /^I should receive a return code of (\d+)$/ do |arg1|
-  assert(@res.code == Integer(arg1), "Return code was not expected: #{@res.code} but expected #{arg1}")
+# DEPRECATED use step given below this one
+Then /^I should receive a return code of (\d+)$/ do |code|
+  @res.code.should == code.to_i
+end
+
+Then /^the response status should be ([0-9]{3})(?:.*)$/ do |status|
+  @res.code.should == status.to_i
 end
 
 Then /^I should receive an ID for the newly created ([\w-]+)$/ do |entity|
   headers = @res.raw_headers
-  assert(headers != nil, "Headers are nil")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
+  headers['location'].should_not be_nil, "Location header not found"
   s = headers['location'][0]
   @newId = s[s.rindex('/')+1..-1]
-  assert(@newId != nil, "After POST, #{entity} ID is nil")
+  @newId.should_not be_nil, "Location does not include ID"
 end
 
 When /^I navigate to GET "([^\"]*)"$/ do |uri|
-  if defined? @queryParams
-    uri = uri + "?#{@queryParams.join('&')}"
-  end
+  uri << "?#{@queryParams.join('&')}" if @queryParams && !@queryParams.empty?
+  puts uri
   restHttpGet(uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.body != nil, "Response body is nil")
+  @res.should_not be_nil, "Response should not be nil"
+  @res.body.should_not be_nil, "Response body does not exist"
   contentType = contentType(@res).gsub(/\s+/,"")
   jsonTypes = ["application/json", "application/json;charset=utf-8", "application/vnd.slc.full+json", "application/vnd.slc+json" "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].to_set
 
@@ -420,6 +423,17 @@ When /^I click the Go button$/ do
   @driver.find_element(:id, "submit").click
 end
 
+Given /^the following collections are empty in datastore:$/ do |table|
+  DbClient.new(:tenant => 'Midgar').open do |db_client|
+    table.hashes.map do |row|
+      db_client.remove_all row['collectionName']
+    end
+  end
+end
 
-
-#http://local.slidev.org:8080/api/rest/v1.5/staff/bcfcc33f-f4a6-488f-baee-b92fbd062e8d/staffEducationOrgAssignmentAssociations/educationOrganizations
+Then /^I should be able to use the token to make valid API calls$/ do
+  restHttpGet('/system/session/check', 'application/json')
+  @res.should_not be_nil
+  data = JSON.parse(@res.body)
+  data['authenticated'].should be_true
+end

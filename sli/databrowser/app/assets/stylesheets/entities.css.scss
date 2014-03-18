@@ -17,10 +17,10 @@ td.expandable.expanded > div {background-position: -64px -128px;}
 table.edOrg_home {
     border: solid 1px black;
     border-collapse: collapse;
-    width: 60%;
+    width: 99%;
     margin: 10px;
     padding: 10px;
-    //float: left;
+    float: left;
 }
 
 table.edOrg_home th {
@@ -30,7 +30,6 @@ table.edOrg_home th {
 
 table.edOrg_home td {
     border: solid 1px black;
-    text-align:center;
 }
 
 #table_info {
