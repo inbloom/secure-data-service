@@ -202,12 +202,6 @@ module EntitiesHelper
     ed_orgs.each do |ed_org|
       get_feeder_edorgs(ed_org['id'], ed_orgs)
     end
-    
-    ed_orgs.each do |ed_org |
-      logger.info("=================================================")
-      logger.info("Ed-Org: #{ed_org['nameOfInstitution']}")
-      logger.info("=================================================")
-    end
       
     student_counts = get_student_counts(ed_orgs)
     staff_counts = get_staff_counts(ed_orgs)
