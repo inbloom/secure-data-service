@@ -96,9 +96,14 @@ module EntitiesHelper
       html << "<ul class='values'>"
       html << "<p>Click on the # to display the counts of associated entities (Total/Current)</p>"
       hash.sort_by{|link| t(link["rel"]).downcase}.each do |link|
-        html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"]))
-        
+      html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"]))
+
         url = link['href']
+
+        if (url.include? "Association")
+          url = drop_entity_for_association(url)
+        end
+
         if (url.include? "?")
           url = "#{url}&countOnly=true"
         else
@@ -181,7 +186,6 @@ module EntitiesHelper
     ed_orgs = []
     html ||= ""
 
-
     if (entity.is_a?(Array))
       entities = get_user_edorg(entity)
       entities.each do |ent|
@@ -195,9 +199,9 @@ module EntitiesHelper
     
     # Build the list of EdOrgs and it's children
 
-    ed_orgs.each do |ed_org|
-      get_feeder_edorgs(ed_org['id'], ed_orgs)
-    end
+    #ed_orgs.each do |ed_org|
+    #  get_feeder_edorgs(ed_org['id'], ed_orgs)
+    #end
       
     student_counts = get_student_counts(ed_orgs)
     staff_counts = get_staff_counts(ed_orgs)
@@ -250,21 +254,21 @@ module EntitiesHelper
   # the appropriate url can be chosen based on the count needed. If total = true, this returns all of the entities
   # and if total is false, the currentOnly parameter is passed to the api.
   def get_student_counts(ed_orgs)
-    total = Hash.new
-    current = Hash.new
-    #UseForTotaltotal = 0
-    #UseForTotalcurrent = 0
+    #total = Hash.new
+    #current = Hash.new
+    total = 0
+    current = 0
     ed_orgs.each do | ed_org |
       url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{ed_org['id']}/studentSchoolAssociations?limit=0"
       begin
         entities = RestClient.get(url, get_header)
         entities = JSON.parse(entities)
         entities.each do | entity |
-          total[entity['studentId']] = entity['studentId']
-          #UseForTotaltotal += 1
+          #total[entity['studentId']] = entity['studentId']
+          total += 1
           if (is_current(entity))
-            current[entity['studentId']] = entity['studentId']
-            #UseForTotalcurrent += 1
+            #current[entity['studentId']] = entity['studentId']
+            current += 1
           end
         end
       rescue => e
@@ -272,10 +276,10 @@ module EntitiesHelper
       end
     end
     result = Hash.new
-    #UseForTotalresult['total'] = total
-    #UseForTotalresult['current'] = current
-    result['total'] = total.size()
-    result['current'] = current.size()
+    result['total'] = total
+    result['current'] = current
+    #result['total'] = total.size()
+    #result['current'] = current.size()
     
     result
   end
@@ -287,19 +291,19 @@ module EntitiesHelper
   # of the two counts
   def get_staff_counts(ed_orgs)
 # Can be used for unique staff
-    total = Hash.new
-    current = Hash.new
-    total_teachers = Hash.new
-    total_non_teachers = Hash.new
-    current_teachers = Hash.new
-    current_non_teachers = Hash.new
+    #total = Hash.new
+    #current = Hash.new
+    #total_teachers = Hash.new
+    #total_non_teachers = Hash.new
+    #current_teachers = Hash.new
+    #current_non_teachers = Hash.new
 
-#UseForTotal    total = 0
-#UseForTotal    current = 0
-#UseForTotal    total_teachers = 0
-#UseForTotal    total_non_teachers = 0
-#UseForTotal    current_teachers = 0
-#UseForTotal    current_non_teachers = 0
+    total = 0
+    current = 0
+    total_teachers = 0
+    total_non_teachers = 0
+    current_teachers = 0
+    current_non_teachers = 0
 
     ed_orgs.each do | ed_org |
       url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{ed_org['id']}/staffEducationOrgAssignmentAssociations?limit=0"
@@ -309,31 +313,31 @@ module EntitiesHelper
         associations = JSON.parse(associations)
         associations.each do |association|
           # Increment the total
-          total[association['staffReference']] = association['staffReference']
-          #UseForTotaltotal += 1
+          #total[association['staffReference']] = association['staffReference']
+          total += 1
           
           # Increment totals for teachers and non-teachers as necessary for totals
           if (!association['staffClassification'].nil?)
             if (association['staffClassification'].include? "Educator")
-              total_teachers[association['staffReference']] = association['staffReference']
-              #UseForTotaltotal_teachers += 1
+              #total_teachers[association['staffReference']] = association['staffReference']
+              total_teachers += 1
             else
-              total_non_teachers[association['staffReference']] = association['staffReference']
-              #UseForTotaltotal_non_teachers += 1
+              #total_non_teachers[association['staffReference']] = association['staffReference']
+              total_non_teachers += 1
             end
           end
           
           # Increment current for staff, teachers and non-teachers
           if (is_current(association))
-            current[association['staffReference']] = association['staffReference']
-            #UseForTotalcurrent += 1
+            #current[association['staffReference']] = association['staffReference']
+            current += 1
             if (!association['staffClassification'].nil?)
               if (association['staffClassification'].include? "Educator")
-                #UseForTotalcurrent_teachers += 1
-                current_teachers[association['staffReference']] = association['staffReference']
+                current_teachers += 1
+                #current_teachers[association['staffReference']] = association['staffReference']
               else
-                #UseForTotalcurrent_non_teachers += 1
-                current_non_teachers[association['staffReference']] = association['staffReference']
+                current_non_teachers += 1
+                #current_non_teachers[association['staffReference']] = association['staffReference']
               end
             end
           end
@@ -345,12 +349,12 @@ module EntitiesHelper
     end
     
     result = Hash.new
-    result['total'] = total.size()
-    result['current'] = current.size()
-    result['total_teachers'] = total_teachers.size()
-    result['total_non_teachers'] = total_non_teachers.size()
-    result['current_teachers'] = current_teachers.size()
-    result['current_non_teachers'] = current_non_teachers.size()
+    result['total'] = total#.size()
+    result['current'] = current#.size()
+    result['total_teachers'] = total_teachers#.size()
+    result['total_non_teachers'] = total_non_teachers#.size()
+    result['current_teachers'] = current_teachers#.size()
+    result['current_non_teachers'] = current_non_teachers#.size()
     result    
   end
 
@@ -389,6 +393,36 @@ module EntitiesHelper
     result
    
   end
+
+# Drops the version number off of the base url for unversioned resources
+def drop_entity_for_association(in_url)
+  
+  # Convert api_base to URI
+  url = URI(in_url)
+  
+  # Start building back the new url with scheme and host
+  new_url = url.scheme + "://" + url.host
+  
+  # Check if there is a port, if so add it
+  if url.port
+    new_url += ":" + url.port.to_s
+  end
+  
+  # Split the parts from the url. The first part will be blank since url.path starts with a slash
+  # Skip that one, and if it is the last part, then don't add it as it will be the version.
+  url_path_parts = url.path.split("/")
+  url_path_parts.each do |part|
+    if part == url_path_parts.first
+      next
+    end
+    if !(part == url_path_parts.last)
+      new_url += "/" + part
+    end
+  end
+  
+  # return the new url
+  new_url
+end
 
   def get_user_edorg(entities)
     user = getUserEntityIdAndCollection(entities)
