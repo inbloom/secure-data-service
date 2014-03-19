@@ -380,8 +380,9 @@ def credentials_for(user_type)
     'school-level Educator'         => %w( rbraverman rbraverman1234 bcfcc33f-f4a6-488f-baee-b92fbd062e8d ),
     'school-level Leader'           => %w( mgonzales  mgonzales1234  4a39f944-c238-4787-965a-50f22f3a2d9c )
   }
-  creds = users[user_type]
-  creds.should_not be_nil
+  user = users.detect{|k,v| k.downcase == user_type.downcase}
+  user.should_not be_nil, "Unknown user type: #{user_type}"
+  creds = user.last
   [*creds, realm]
 end
 
