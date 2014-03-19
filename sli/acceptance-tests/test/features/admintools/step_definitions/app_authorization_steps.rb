@@ -223,17 +223,6 @@ Then /^the application is authorized to use data of "([^"]*)"$/ do |arg1|
   assert(row != nil)
 end
 
-Then /^is put on the top of the table$/ do
-  rows = @driver.find_elements(:xpath, ".//tbody/tr/td/..")
-  rows.each do |curRow|
-    if curRow.displayed?
-      @row = curRow
-      break
-    end
-  end
-  assert(@row.find_element(:xpath, ".//td[1]").text == @appName, "The approved application should have moved to the top")
-end
-
 Then /^the app "([^"]*)" Status becomes "([^"]*)"$/ do |app, arg1|
   @row = getApp(app)
   assert(@row.displayed?, "#{app} should be present and visible")
