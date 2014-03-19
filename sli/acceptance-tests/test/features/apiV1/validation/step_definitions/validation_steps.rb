@@ -111,13 +111,14 @@ Given /^I create a student object with sex equal to "([^"]*)" instead of "([^"]*
   @lastStudentId = @result['studentUniqueStateId']
 end
 
-Given /^I create a create a school object with "([^"]*)" set to a single map$/ do |arg1|
-  @result = CreateEntityHash.createBaseSchoolRandomId()
-  @result[arg1] = Hash["streetNumberName" => "123 Elm Street",
-                       'city'=>"New York",
-                       "stateAbbreviation" => "NY",
-                       "postalCode" => "12345"
-                       ]
+Given /^I create a school object with "([^"]*)" set to a single map$/ do |field|
+  @result = CreateEntityHash.createBaseSchoolRandomId
+  @result[field] = {
+    'streetNumberName' => '123 Elm Street',
+    'city' => 'New York',
+    'stateAbbreviation' => 'NY',
+    'postalCode' => '12345'
+  }
 end
 
 Given /^I create the same school object with "([^"]*)" as an array with the same map$/ do |arg1|

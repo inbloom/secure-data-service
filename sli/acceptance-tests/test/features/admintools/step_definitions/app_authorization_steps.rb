@@ -195,15 +195,11 @@ Given /^in Status it says "([^"]*)"$/ do |arg1|
   assert(actualStatus == arg1, "Expected status of #{@appName} to be #{arg1} instead it's #{actualStatus.inspect}")
 end
 
-# TODO: assert fail if no button is matched and then clicked
-Given /^I click on the "([^"]*)" button next to it$/ do |arg1|
+Given /^I click on the "([^"]*)" button next to it$/ do |button_value|
   inputs = @appRow.find_elements(:xpath, ".//td/form/input")
-  inputs.each do |cur|
-    if cur.attribute(:value) == arg1
-      cur.click
-      break
-    end
-  end
+  button = inputs.detect {|element| element.attribute(:value) == button_value}
+  button.should_not be_nil, "Unable to find #{button_value} button"
+  button.click
 end
 
 # FIXME: All callers of this assertion should actually match the text in the popup
