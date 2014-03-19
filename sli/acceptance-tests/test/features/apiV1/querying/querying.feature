@@ -132,8 +132,29 @@ Scenario Outline: Query subdoc
       | username       | password         |
       | "jstevenson"   | "jstevenson1234" |
       | "linda.kim"    | "linda.kim1234"  |
-      
-    @RALLY_DE2088
+
+  @ds-1249
+  Scenario Outline: Include, Exclude and uniqueStateIds combination
+    Given I am logged in using "<username>" "<password>" to realm "IL"
+    And format "application/json;charset=utf-8"
+    And parameter "excludeFields" is "<excludeFields>"
+    And parameter "includeFields" is "<includeFields>"
+    And parameter "<searchField>" is "<searchKey>"
+    When I navigate to GET "<url>"
+    Then in the response body I should see the following fields only:
+      | id                  |
+      | entityType          |
+      | <searchField>       |
+    Examples:
+      | username  | password    | excludeFields | includeFields           | searchField          | searchKey   | url                          |
+      | rrogers   | rrogers1234 | links         | id,stateOrganizationId  | stateOrganizationId  | IL-DAYBREAK | /v1.3/educationOrganizations |
+      | rrogers   | rrogers1234 | links         | id,studentUniqueStateId | studentUniqueStateId | 800000006   | /v1.3/students               |
+      | rrogers   | rrogers1234 | links         | id,staffUniqueStateId   | staffUniqueStateId   | linda.kim   | /v1.3/staff                  |
+      | rrogers   | rrogers1234 | links         | id,parentUniqueStateId  | parentUniqueStateId  | 3152275783  | /v1.3/parents                |
+
+
+
+  @RALLY_DE2088
   Scenario Outline: Learning Objective tests
     Given I am logged in using "<username>" "<password>" to realm "IL"
     And format "application/json;charset=utf-8"
