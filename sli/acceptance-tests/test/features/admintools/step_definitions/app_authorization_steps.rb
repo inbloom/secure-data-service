@@ -169,10 +169,6 @@ Then /^I am not logged into the application$/ do
   step "I hit the Admin Application Authorization Tool"
 end
 
-
-Given /^I am logged into the Application Authorization Tool$/ do
-end
-
 Given /^I see an application "([^"]*)" in the table$/ do |arg1|
     @appName = arg1
     @appRow = getApp(@appName)
