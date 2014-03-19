@@ -171,7 +171,7 @@ end
 #              It is suggested you assert the @sessionId before returning success from the calling function
 def idpRealmLogin(user, passwd, realm="SLI")
   token = LongLivedSession.token(user, realm)
-  token.should_not be_nil
+  token.should_not be_nil, "Unable to find long-lived session token for user: #{user}"
   @sessionId = token
   puts(@sessionId) if $SLI_DEBUG
 end

@@ -1,11 +1,11 @@
-@smoke @RALLY_US209 @RALLY_DE87
+@smoke
 Feature: As an SLI application, I want to be able to perform CRUD operations on various resources
   This means I want to be able to perform CRUD on all entities.
   and verify that the correct links are made available.
 
   Background: Nothing yet
-    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
-    And format "application/vnd.slc+json"
+    Given I am logged in as a tenant-level IT administrator
+      And I want to use format "application/vnd.slc+json"
 
   @DE2943
   Scenario: Search on fields with insufficient rights returns bad request
