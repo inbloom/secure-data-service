@@ -18,7 +18,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Then I should receive a return code of 403
 
   Scenario Outline: CRUD operations requiring explicit associations on an entity as staff
-    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     Given entity URI <Entity Resource URI>
   # Create
     Given a valid entity json document for a <Entity Type>
