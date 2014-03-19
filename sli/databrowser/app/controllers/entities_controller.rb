@@ -47,13 +47,13 @@ class EntitiesController < ApplicationController
     when /edOrgByName/
       @search_field = "q"
     when /studentById/
-      @search_field = "_id"
+      @search_field = "q"
     when /staffById/
       @search_field = "q"
     when /edOrgById/
-      @search_field = "_id"
+      @search_field = "q"
     when /parentsById/
-      @search_field = "_id"
+      @search_field = "q"
     when /students/
       @search_field = "studentUniqueStateId"
     when /staff/

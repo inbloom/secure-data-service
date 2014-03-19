@@ -7,7 +7,8 @@
             "body.otherName.firstName", 
             "body.otherName.middleName", 
             "body.otherName.lastSurname", 
-            "body.id",
+            "body.studentUniqueStateId",
+            "body._id",
             "schools.exitWithdrawDate", 
             "schools._id",
             "metaData.isOrphaned",
@@ -51,25 +52,39 @@
     },
     "staff": {
       "fields": [
+            "body._id",
             "body.name.firstName", 
             "body.name.middleName", 
             "body.name.lastSurname", 
             "body.otherName.firstName", 
             "body.otherName.middleName", 
             "body.otherName.lastSurname",
-            "body.id"
+            "body.staffUniqueStateId"
       ]
     },
     "teacher": {
       "fields": [
+            "body._id",
             "body.name.firstName", 
             "body.name.middleName", 
             "body.name.lastSurname", 
             "body.otherName.firstName", 
             "body.otherName.middleName", 
             "body.otherName.lastSurname",
-            "body.id"
+            "body.staffUniqueStateId"
       ]
+    },
+    "parent": {
+        "fields": [
+            "body._id",
+            "body.name.firstName", 
+            "body.name.middleName", 
+            "body.name.lastSurname", 
+            "body.otherName.firstName", 
+            "body.otherName.middleName", 
+            "body.otherName.lastSurname",
+            "body.parentUniqueStateId"
+        ]
     },
     "educationOrganization": {
       "fields": [
