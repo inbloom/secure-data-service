@@ -1,15 +1,15 @@
-dashboard_server_address: "https://cislave-1-dashboard.dev.inbloom.org"
+dashboard_server_address: "http://local.slidev.org:8888"
 dashboard_app_prefix: "/dashboard"
 dashboard_landing_page: "/"
-dashboard_api_server_uri: "https://cislave-1-api.dev.inbloom.org"
-realm_page_url: "https://cislave-1-api.dev.inbloom.org/api/oauth/authorize"
+dashboard_api_server_uri: "http://local.slidev.org:8080"
+realm_page_url: "http://local.slidev.org:8080/api/oauth/authorize"
 browser: "firefox"
 
-admintools_server_url: "https://cislave-1-admin.dev.inbloom.org"
+admintools_server_url: "http://local.slidev.org:3001"
 minisb_admintools_server_url: "http://ycao-mint.slidev.org:3001"
-api_server_url: "https://cislave-8-api.dev.inbloom.org"
-api_ssl_server_url: "https://cislave-8-api.dev.inbloom.org"
-databrowser_server_url: "https://cislave-1-databrowser.dev.inbloom.org"
+api_server_url: "http://local.slidev.org:8080"
+api_ssl_server_url: "https://local.slidev.org:8443"
+databrowser_server_url: "http://local.slidev.org:3000"
 
 ingestion_db: "localhost"
 ingestion_db_port: 27017
@@ -41,8 +41,8 @@ bulk_extract_delta_properties: "../config/properties/sli.properties"
 bulk_extract_delta_keystore: "../data-access/dal/keyStore/ciKeyStore.jks"
 bulk_extract_output_directory: "extract/"
 bulk_extract_jar_loc: ""
-bulk_extract_properties_file: "/etc/datastore/sli.properties"
-bulk_extract_keystore_file: "/etc/datastore/sli-keystore.jks"
+bulk_extract_properties_file: ""
+bulk_extract_keystore_file: ""
 bulk_extract_db: "localhost"
 bulk_extract_port: 27017
 
@@ -64,14 +64,14 @@ api_database_name : "sli"
 
 sampleApp_server_address: "http://local.slidev.org:8081/"
 
-simpleIDP_realm_server_address: "https://cislave-1-sidp.dev.inbloom.org/simple-idp/"
-simpleIDP_realm_params: "response_type%3dcode%26client_id%3dfm67sH6vZZ%26redirect_uri%3dhttps://cislave-1-sidp.dev.inbloom.org/sample/callback"
-simpleIDP_login_url: "https://cislave-1-sidp.dev.inbloom.org/simple-idp"
+simpleIDP_realm_server_address: "http://local.slidev.org:8080/"
+simpleIDP_realm_params: "response_type%3dcode%26client_id%3dfm67sH6vZZ%26redirect_uri%3dhttp://local.slidev.org:8081/sample/callback"
+simpleIDP_login_url: "http://local.slidev.org:8082/simple-idp"
 simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
 simpleIDP_realm_suffix: "Local"
 
-ldap_hostname: ldap.slidev.org
-ldap_port: 443
+ldap_hostname: localhost
+ldap_port: 636
 ldap_use_ssl: true
 ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
 ldap_admin_user: cn=Admin,dc=slidev,dc=org
@@ -84,8 +84,8 @@ sb_get_started: "inbloom.org/getting-started"
 registration_app_suffix: "/registration"
 samt_app_suffix: "/users"
 validation_base_suffix: "/user_account_validation"
-user_registration_email: devldapuser@slidev2.org
-user_registration_pass: test1234
+user_registration_email: devldapuser@inbloomdev.org
+user_registration_pass: password
 
 jmeter_jmx_path: "../../tools/jmeter/"
 jmeter_jtl_archive: "/storage/logs/jmeter/archive"
@@ -98,69 +98,70 @@ jmeter_consideration_percentile: .90
 
 app_bootstrap_server: "local"
 
-emaiL_smtp_host: mon.slidev.org
+test_email_sender: inBloom Administrator
 email_smtp_port: 8080
 
 email_imap_port: 443
 email_imap_host: mon.slidev.org
 email_imap_use_ssl: true
 email_imap_inbloom_operator_email: slcoperator-email@slidev.org
-email_imap_inbloom_operator_username: slcoperator-email
-email_imap_inbloom_operator_password: slcoperator-email1234
+emaiL_smtp_host: smtp.gmail.com
+email_smtp_port: 587
 
-email_imap_registration_user: devldapuser
-email_imap_registration_user_email: devldapuser@slidev2.org
-email_imap_registration_pass: Y;Gtf@w{
+email_imap_host: imap.gmail.com
+email_imap_port: 993
 
-test_email: peacefrog@slidev.org
-test_email_sender: inBloom Administrator
-test_email_user: peacefrog
-test_email_pass: demouser
+email_imap_registration_user: devldapuser@inbloomdev.org
+email_imap_registration_user_email: devldapuser@inbloomdev.org
+email_imap_registration_pass: password
 
-operator_test_email_user: slcoperator-email
-operator_test_email_pass: slcoperator-email1234
+test_email: cifuckifiknow@inbloomdev.org
+test_email_user: cifuckifiknow@inbloomdev.org
+test_email_pass: password
 
+operator_test_email_user: slcoperator-email@inbloomdev.org
+operator_test_email_pass: '!password'
 
 ################# e2e test properties #################################
 # For CI environments
-email_imap_hostname: mon.slidev.org
-email_imap_portname: 443
+email_imap_hostname: imap.gmail.com
+email_imap_portname: 993
 
 #SEA Admin creds - For CI environments
 primary_email_imap_registration_user: e2etestsea
-primary_email_imap_registration_user_email: e2etestsea@slidev2.org
+primary_email_imap_registration_user_email: e2etestsea@slidev.org
 primary_email_imap_registration_pass: test1234
 
 #LEA Admin creds - For CI environments
 secondary_email_imap_registration_user: e2etestlea
-secondary_email_imap_registration_user_email: e2etestlea@slidev2.org
+secondary_email_imap_registration_user_email: e2etestlea@slidev.org
 secondary_email_imap_registration_pass: test1234
 
 #LEA Admin creds - For CI environments
 charter_email_imap_registration_user: e2echarter
-charter_email_imap_registration_user_email: e2echarter@slidev2.org
+charter_email_imap_registration_user_email: e2echarter@slidev.org
 charter_email_imap_registration_pass: test1234
 
 #Developer creds - For CI environments
 developer_email_imap_registration_user: e2etestdev
-developer_email_imap_registration_user_email: e2etestdev@slidev2.org
+developer_email_imap_registration_user_email: e2etestdev@slidev.org
 developer_email_imap_registration_pass: test1234
 
 #Developer creds (sandbox) - For CI environments
 developer_sb_email_imap_registration_user: e2etestdev_sb
-developer_sb_email_imap_registration_user_email: e2etestdev_sb@slidev2.org
+developer_sb_email_imap_registration_user_email: e2etestdev_sb@slidev.org
 developer_sb_email_imap_registration_pass: test1234
 
 #Developer 2 creds (sandbox) - For CI environments
 developer2_sb_email_imap_registration_user: e2etestdev_sb2
-developer2_sb_email_imap_registration_user_email: e2etestdev_sb2@slidev2.org
+developer2_sb_email_imap_registration_user_email: e2etestdev_sb2@slidev.org
 developer2_sb_email_imap_registration_pass: test1234
 
 #Landing zone -
 landingzone: picard-lz.slidev.org
 landingzone_port: 443
 
-sandbox_tenant: e2etestdev_sb@slidev2.org
+sandbox_tenant: e2etestdev_sb@slidev.org
 tenant: RCTestTenant
 edorg: STANDARD-SEA
 
@@ -216,10 +217,10 @@ bulk_extract_cleanup_script: "../bulk-extract/scripts/cleanup_bulk_extract.rb"
 
 ################# /e2e test properties #################################
 
-portal_server_address: https://cislave-1-portal.dev.inbloom.org
+portal_server_address: http://local.slidev.org:7000
 portal_app_suffix: "/portal"
 
-elastic_search_address: http://localhost:9200
+elastic_search_address: http://local.slidev.org:9200
 elastic_search_inbox: "../search-indexer/data/inbox"
 elastic_search_host: localhost
 elastic_search_remote_command_port: 10024
