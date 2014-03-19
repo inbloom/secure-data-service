@@ -100,9 +100,9 @@ module EntitiesHelper
 
         url = link['href']
 
-        if (url.include? "Association")
-          url = drop_entity_for_association(url)
-        end
+        #if (url.include? "Association")
+        #  url = drop_entity_for_association(url)
+        #end
 
         if (url.include? "?")
           url = "#{url}&countOnly=true&showAll=true"
@@ -199,9 +199,15 @@ module EntitiesHelper
     
     # Build the list of EdOrgs and it's children
 
-    #ed_orgs.each do |ed_org|
-    #  get_feeder_edorgs(ed_org['id'], ed_orgs)
-    #end
+    ed_orgs.each do |ed_org|
+      get_feeder_edorgs(ed_org['id'], ed_orgs)
+    end
+    
+    ed_orgs.each do |ed_org |
+      logger.info("=================================================")
+      logger.info("Ed-Org: #{ed_org['nameOfInstitution']}")
+      logger.info("=================================================")
+    end
       
     student_counts = get_student_counts(ed_orgs)
     staff_counts = get_staff_counts(ed_orgs)
@@ -229,9 +235,8 @@ module EntitiesHelper
         destination = []
       end
       entities.each do |ed_org|
-        if ed_org['organizationCategories'].include? "School"
-          destination.push(ed_org) unless destination.include? ed_org
-        else
+        destination.push(ed_org) unless destination.include? ed_org
+        if !ed_org['organizationCategories'].include? "School"
           get_feeder_edorgs(ed_org['id'], destination)
         end
       end
@@ -254,21 +259,21 @@ module EntitiesHelper
   # the appropriate url can be chosen based on the count needed. If total = true, this returns all of the entities
   # and if total is false, the currentOnly parameter is passed to the api.
   def get_student_counts(ed_orgs)
-    #total = Hash.new
-    #current = Hash.new
-    total = 0
-    current = 0
+    total = Hash.new
+    current = Hash.new
+    #total = 0
+    #current = 0
     ed_orgs.each do | ed_org |
       url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{ed_org['id']}/studentSchoolAssociations?limit=0&showAll=true"
       begin
         entities = RestClient.get(url, get_header)
         entities = JSON.parse(entities)
         entities.each do | entity |
-          #total[entity['studentId']] = entity['studentId']
-          total += 1
+          total[entity['studentId']] = entity['studentId']
+          #total += 1
           if (is_current(entity))
-            #current[entity['studentId']] = entity['studentId']
-            current += 1
+            current[entity['studentId']] = entity['studentId']
+            #current += 1
           end
         end
       rescue => e
@@ -276,10 +281,10 @@ module EntitiesHelper
       end
     end
     result = Hash.new
-    result['total'] = total
-    result['current'] = current
-    #result['total'] = total.size()
-    #result['current'] = current.size()
+    #result['total'] = total
+    #result['current'] = current
+    result['total'] = total.size()
+    result['current'] = current.size()
     
     result
   end
