@@ -96,9 +96,18 @@ module EntitiesHelper
       html << "<ul class='values'>"
       html << "<p>Click on the # to display the counts of associated entities (Total/Current)</p>"
       hash.sort_by{|link| t(link["rel"]).downcase}.each do |link|
-      html << '<li>' << link_to(t(link["rel"]), localize_url(link["href"]))
-
         url = link['href']
+        
+        if (url.include? "student")
+          if url.include? "?"
+            url = url + "&showAll=true"
+          else
+            url = url + "?showAll=true"
+          end
+          html << '<li>' << link_to(t(link["rel"]), localize_url(url))
+        else
+          html << '<li>' << link_to(t(link["rel"]), localize_url(url))
+        end
 
         #if (url.include? "Association")
         #  url = drop_entity_for_association(url)
