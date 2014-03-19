@@ -40,42 +40,30 @@ class EntitiesController < ApplicationController
   def set_url
     @search_field = nil
     case params[:search_type]
-    when /studentByName/
-      @search_field = "q"
-    when /staffByName/
-      @search_field = "q"
-    when /edOrgByName/
-      @search_field = "q"
     when /studentById/
-      @search_field = "q"
+      @search_field = "_id"
     when /staffById/
-      @search_field = "q"
+      @search_field = "_id"
     when /edOrgById/
-      @search_field = "q"
+      @search_field = "_id"
     when /parentsById/
-      @search_field = "q"
+      @search_field = "_id"
     when /students/
-      @search_field = "studentUniqueStateId"
+      @search_field = "q"
     when /staff/
-      @search_field = "staffUniqueStateId"
+      @search_field = "q"
     when /parents/
-      @search_field = "parentUniqueStateId"
+      @search_field = "q"
     when /educationOrganizations/
-      @search_field = "stateOrganizationId"
+      @search_field = "q"
     end
     params[:other] = params[:search_type] if @search_field
-    if params[:search_type] == "studentByName"
-      Entity.url_type = "search/students"
-    elsif params[:search_type] == "studentById"
+    if params[:search_type] == "studentById"
       Entity.url_type = "search/students"
 
-    elsif params[:search_type] == "staffByName"
-        Entity.url_type = "search/staff,teachers"
     elsif params[:search_type] == "staffById"
       Entity.url_type = "search/staff,teachers"
 
-    elsif params[:search_type] == "edOrgByName"
-        Entity.url_type = "search/educationOrganizations"
     elsif params[:search_type] == "edOrgById"
         Entity.url_type = "search/educationOrganizations"
 

@@ -2,20 +2,17 @@
   
   
   <%= select_tag "search_type","
-    <option value=\"studentByName\">Student - By Name</option>
+    <option value=\"students\">Student</option>
     <option value=\"studentById\">Student - By ID</option>
-    <option value=\"students\">Student - studentUniqueStateId</option>
 
-    <option value=\"staffByName\">Staff - By Name</option>
+    <option value=\"staff\">Staff</option>
     <option value=\"staffById\">Staff - By ID</option>
-    <option value=\"staff\">Staff - staffUniqueStateId</option>
 
-    <option value=\"edOrgByName\">Education Organization - By Name</option>
+    <option value=\"educationOrganizations\">Education Organization</option>
     <option value=\"edOrgById\">Education Organization - By ID</option>
-    <option value=\"educationOrganizations\">Education Organization - stateOrganizationId</option>
 
-    <option value=\"parentsById\">Parent - By ID</option>
     <option value=\"parents\">Parent - parentUniqueStateId</option>
+    <option value=\"parentsById\">Parent - By ID</option>
     ".html_safe %>
   <%= text_field_tag :search_id, params[:search_id], :placeholder => "Enter the ID or Name here" %>
   
