@@ -349,6 +349,7 @@ Given /^I am logged in as an? (.*)$/ do |user_type|
   @sessionId.should_not be_nil
   restHttpGet("#{staff_endpoint}/#{user_id}")
   @res.code.should == 200
+  puts JSON.parse @res
   @current_user = JSON.parse @res
 end
 
