@@ -105,9 +105,9 @@ module EntitiesHelper
         end
 
         if (url.include? "?")
-          url = "#{url}&countOnly=true"
+          url = "#{url}&countOnly=true&showAll=true"
         else
-          url = "#{url}?countOnly=true"
+          url = "#{url}?countOnly=true&showAll=true"
         end
 
         # Adds the count span to the page for use with getting the counts by ajax request.
@@ -259,7 +259,7 @@ module EntitiesHelper
     total = 0
     current = 0
     ed_orgs.each do | ed_org |
-      url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{ed_org['id']}/studentSchoolAssociations?limit=0"
+      url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{ed_org['id']}/studentSchoolAssociations?limit=0&showAll=true"
       begin
         entities = RestClient.get(url, get_header)
         entities = JSON.parse(entities)
@@ -291,19 +291,19 @@ module EntitiesHelper
   # of the two counts
   def get_staff_counts(ed_orgs)
 # Can be used for unique staff
-    #total = Hash.new
-    #current = Hash.new
-    #total_teachers = Hash.new
-    #total_non_teachers = Hash.new
-    #current_teachers = Hash.new
-    #current_non_teachers = Hash.new
+    total = Hash.new
+    current = Hash.new
+    total_teachers = Hash.new
+    total_non_teachers = Hash.new
+    current_teachers = Hash.new
+    current_non_teachers = Hash.new
 
-    total = 0
-    current = 0
-    total_teachers = 0
-    total_non_teachers = 0
-    current_teachers = 0
-    current_non_teachers = 0
+    #total = 0
+    #current = 0
+    #total_teachers = 0
+    #total_non_teachers = 0
+    #current_teachers = 0
+    #current_non_teachers = 0
 
     ed_orgs.each do | ed_org |
       url = "#{APP_CONFIG['api_base']}/educationOrganizations/#{ed_org['id']}/staffEducationOrgAssignmentAssociations?limit=0"
@@ -313,31 +313,31 @@ module EntitiesHelper
         associations = JSON.parse(associations)
         associations.each do |association|
           # Increment the total
-          #total[association['staffReference']] = association['staffReference']
-          total += 1
+          total[association['staffReference']] = association['staffReference']
+          #total += 1
           
           # Increment totals for teachers and non-teachers as necessary for totals
           if (!association['staffClassification'].nil?)
             if (association['staffClassification'].include? "Educator")
-              #total_teachers[association['staffReference']] = association['staffReference']
-              total_teachers += 1
+              total_teachers[association['staffReference']] = association['staffReference']
+              #total_teachers += 1
             else
-              #total_non_teachers[association['staffReference']] = association['staffReference']
-              total_non_teachers += 1
+              total_non_teachers[association['staffReference']] = association['staffReference']
+              #total_non_teachers += 1
             end
           end
           
           # Increment current for staff, teachers and non-teachers
           if (is_current(association))
-            #current[association['staffReference']] = association['staffReference']
-            current += 1
+            current[association['staffReference']] = association['staffReference']
+            #current += 1
             if (!association['staffClassification'].nil?)
               if (association['staffClassification'].include? "Educator")
-                current_teachers += 1
-                #current_teachers[association['staffReference']] = association['staffReference']
+                #current_teachers += 1
+                current_teachers[association['staffReference']] = association['staffReference']
               else
-                current_non_teachers += 1
-                #current_non_teachers[association['staffReference']] = association['staffReference']
+                #current_non_teachers += 1
+                current_non_teachers[association['staffReference']] = association['staffReference']
               end
             end
           end
@@ -349,12 +349,12 @@ module EntitiesHelper
     end
     
     result = Hash.new
-    result['total'] = total#.size()
-    result['current'] = current#.size()
-    result['total_teachers'] = total_teachers#.size()
-    result['total_non_teachers'] = total_non_teachers#.size()
-    result['current_teachers'] = current_teachers#.size()
-    result['current_non_teachers'] = current_non_teachers#.size()
+    result['total'] = total.size()
+    result['current'] = current.size()
+    result['total_teachers'] = total_teachers.size()
+    result['total_non_teachers'] = total_non_teachers.size()
+    result['current_teachers'] = current_teachers.size()
+    result['current_non_teachers'] = current_non_teachers.size()
     result    
   end
 
@@ -415,7 +415,8 @@ def drop_entity_for_association(in_url)
     if part == url_path_parts.first
       next
     end
-    if !(part == url_path_parts.last)
+    #if (!(part == url_path_parts.last) || (url_path_parts.last == part && (part.include? "Association")))
+    if (!(part == url_path_parts.last) || (part.include? "Association"))
       new_url += "/" + part
     end
   end
