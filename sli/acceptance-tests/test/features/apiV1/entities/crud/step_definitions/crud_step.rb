@@ -784,32 +784,30 @@ When /^I create an association of type "([^"]*)"$/ do |type|
 end
 
 When /^I POST the association of type "([^"]*)"$/ do |type|
-  @assocUrl = {
-    "studentCohortAssocation" => "studentCohortAssociations",
-    "courseOffering" => "courseOfferings",
-    "section" => "sections",
-    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
-    "studentParentAssociation" => "studentParentAssociations",
-    "studentProgramAssociation" => "studentProgramAssociations",
-    "studentSectionAssociation" => "studentSectionAssociations",
-    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
-    "staffEducationOrganizationAssociation2" => "staffEducationOrgAssignmentAssociations",
-    "studentSectionAssociation2" => "studentSectionAssociations",
-    "teacherSchoolAssociation" => "teacherSchoolAssociations",
-    "teacherSchoolAssociation2" => "teacherSchoolAssociations",
-    "studentParentAssociation2" => "studentParentAssociations",
-    "staffProgramAssociation" => "staffProgramAssociations",
-    "student_studentParentAssociation" => "studentParentAssociations"
+  assoc_url = {
+    'studentCohortAssocation' => 'studentCohortAssociations',
+    'courseOffering' => 'courseOfferings',
+    'section' => 'sections',
+    'studentDisciplineIncidentAssociation' => 'studentDisciplineIncidentAssociations',
+    'studentParentAssociation' => 'studentParentAssociations',
+    'studentProgramAssociation' => 'studentProgramAssociations',
+    'studentSectionAssociation' => 'studentSectionAssociations',
+    'staffEducationOrganizationAssociation' => 'staffEducationOrgAssignmentAssociations',
+    'staffEducationOrganizationAssociation2' => 'staffEducationOrgAssignmentAssociations',
+    'studentSectionAssociation2' => 'studentSectionAssociations',
+    'teacherSchoolAssociation' => 'teacherSchoolAssociations',
+    'teacherSchoolAssociation2' => 'teacherSchoolAssociations',
+    'studentParentAssociation2' => 'studentParentAssociations',
+    'staffProgramAssociation' => 'staffProgramAssociations',
+    'student_studentParentAssociation' => 'studentParentAssociations'
   }
-  if type != ""
-    api_version = "v1"
-    step "I navigate to POST \"/#{api_version}/#{@assocUrl[type]}\""
-    headers = @res.raw_headers
-    assert(headers != nil, "Headers are nil")
-    assert(headers['location'] != nil, "There is no location link from the previous request")
-    s = headers['location'][0]
-    @assocId = s[s.rindex('/')+1..-1]
-  end
+  type.should_not be_empty, 'No association type was specified'
+
+  step "I navigate to POST \"/v1/#{assoc_url[type]}\""
+  headers = @res.raw_headers
+  headers['location'].should_not be_nil, 'There is no location link'
+  link = headers['location'][0]
+  @assocId = link.split('/').last
 end
 
 When /^I delete the superdoc "([^"]*)" of "([^"]*)"$/ do |entity_uri, subdoc_id|

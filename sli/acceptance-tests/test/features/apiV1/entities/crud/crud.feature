@@ -11,14 +11,10 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     When I navigate to GET "/v1/students/0c2756fd-6a30-4010-af79-488d6ef2735a_id?economicDisadvantaged=false"
     Then I should receive a return code of 400
-    When I navigate to GET "/v1/students/0c2756fd-6a30-4010-af79-488d6ef2735a_id?economicDisadvantaged=true"
-    Then I should receive a return code of 400
 
-  Scenario: Search on inaccessible entities with fields returns acess denied
+  Scenario: Search on inaccessible entities with fields returns access denied
     Given I am logged in using "jvasquez" "jvasquez" to realm "IL"
-    When I navigate to GET "/v1/students/414106a9-6156-1023-a477-4bd4dda7e21a_id?economicDisadvantaged=false"
-    Then I should receive a return code of 403
-    When I navigate to GET "/v1/students/414106a9-6156-1023-a477-4bd4dda7e21a_id?economicDisadvantaged=true"
+    When I navigate to GET "/v1/students/414106a9-6156-1023-a477-4bd4dda7e21a_id"
     Then I should receive a return code of 403
 
   Scenario Outline: CRUD operations requiring explicit associations on an entity as staff
