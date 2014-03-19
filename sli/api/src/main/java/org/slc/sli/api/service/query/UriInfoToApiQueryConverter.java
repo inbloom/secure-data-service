@@ -184,6 +184,13 @@ public class UriInfoToApiQueryConverter {
         		}
         	}
         });
+
+        reservedQueryKeywordImplementations.put("showAll", new NeutralCriteriaImplementation() {
+        	@Override
+        	public void convert(ApiQuery apiQuery, Object value) {
+        		// Ignore showAll as the appropriate code for it is in PreProcessFilter.java
+        	}
+        });
     }
 
     public ApiQuery convert(ApiQuery apiQuery, URI requestURI) {

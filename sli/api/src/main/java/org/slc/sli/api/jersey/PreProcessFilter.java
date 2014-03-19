@@ -195,7 +195,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
                     break;
                 }
 
-                if (CONTEXTERS.contains(resourceName)) {
+                if (CONTEXTERS.contains(resourceName) && !request.getQueryParameters().containsKey("showAll")) {
                     if (ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS.equals(resourceName)) {
                         prince.addObligation(resourceName.replaceAll("s$", ""), construct("exitWithdrawDate"));
                     } else {
