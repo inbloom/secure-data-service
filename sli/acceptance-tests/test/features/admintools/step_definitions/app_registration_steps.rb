@@ -26,6 +26,7 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require 'date'
 
+#TODO: This step is defined (one way or another) in multiple places; need to DRY it up
 Given /^my LDAP server has been setup and running$/ do
   @ldap = ldap_storage
   @email_sender_name= "Administrator"
