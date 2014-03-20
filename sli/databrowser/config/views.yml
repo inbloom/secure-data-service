@@ -7,19 +7,6 @@ student:
     - studentUniqueStateId
     - id
 
-studentSchoolAssociation:
-    - studentId
-    - schoolId
-    - entryDate
-    - exitWithdrawDate
-
-staffEducationOrganizationAssociation:
-    - staffReference
-    - educationOrganizationReference
-    - staffClassification
-    - beginDate
-    - endDate
-
 parent:
     - name/lastSurname
     - name/firstName
@@ -49,6 +36,73 @@ staff:
     - name/firstName
     - staffUniqueStateId
     - id
+
+programParticipation:
+    - designatedBy
+    - program
+    - beginDate
+    - endDate
+
+staffCohortAssociation:
+    - staff
+    - cohort
+    - beginDate
+    - endDate
+
+staffEducationOrganizationAssociation:
+    - staffReference
+    - educationOrganizationReference
+    - beginDate
+    - endDate
+
+staffProgramAssociation:
+    - staff
+    - program
+    - beginDate
+    - endDate
+
+studentCohortAssociation:
+    - student
+    - cohort
+    - beginDate
+    - endDate
+
+studentProgramAssociation:
+    - student
+    - program
+    - beginDate
+    - endDate
+
+studentSpecialEdProgramAssociation:
+    - student
+    - program
+    - iepBeginDate
+    - iepEndDate
+
+studentSchoolAssociation:
+    - studentId
+    - schoolId
+    - entryDate
+    - exitWithdrawDate
+
+studentSectionAssociation:
+    - student
+    - section
+    - beginDate
+    - endDate
+
+teacherSchoolAssociation:
+    - school
+    - teacher
+    - academicSubjects
+    - instructionalGradeLevels
+    - programAssignment
+
+teacherSectionAssociation:
+    - teacher
+    - section
+    - beginDate
+    - endDate
 
 # Paginate items per page. The first number will be the default
 # This will be all of the options available
