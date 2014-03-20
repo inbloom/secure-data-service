@@ -41,13 +41,13 @@ class EntitiesController < ApplicationController
     @search_field = nil
     case params[:search_type]
     when /studentById/
-      @search_field = "_id"
+      @search_field = "_all"
     when /staffById/
-      @search_field = "_id"
+      @search_field = "_all"
     when /edOrgById/
-      @search_field = "_id"
+      @search_field = "_all"
     when /parentsById/
-      @search_field = "_id"
+      @search_field = "_all"
     when /students/
       @search_field = "q"
     when /staff/
