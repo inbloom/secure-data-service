@@ -354,47 +354,6 @@ Then /^a notification email is sent to "([^"]*)"$/ do |email|
   #  assert(found, "Email was not found on SMTP server")
 end
 
-When /^I click on the In Progress button$/ do
-  step 'I clicked on the button Edit for the application "NewApp"'
-end
-
-Then /^I can see the ed\-orgs I want to approve for my application$/ do
-  assert(@driver.find_element(:css, 'div.edorgs input[type="checkbox"]') != nil, "We should see the edorgs available for this app")
-end
-
-And /^I can update the version to "100"$/ do 
-  @driver.find_element(:name, 'app[version]').send_keys "100"
-end 
-
-And /^I can delete "(.*?)"$/ do |app_name|
-    step "I have clicked on the button 'Delete' for the application named \"#{app_name}\""
-    step "I got warning message saying 'You are trying to remove this application from inBloom. By doing so, you will prevent any active user to access it. Do you want to continue?'"
-    step "I click 'Yes'"
-    step "the application named \"#{app_name}\" is removed from the SLI"
-end
-
-Then /^I have enabled "(.*?)"$/ do |arg1|
-  client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[11]').text
-  assert(client_id == 'true', "Expected 'true', got #{client_id}")
-end
-
 Then /^I check Bulk Extract$/ do
   @driver.find_element(:id, 'app_isBulkExtract').click
-end
-
-private
-def build_edorg(name, tenant, parent = nil, stateId = "Waffles", isLea=true)
-  @@mongoid ||= 0
-  ed_org = {}
-  ed_org[:_id] = "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb#{@@mongoid}"
-  ed_org[:body] = {}
-  ed_org[:metaData] = {}
-  ed_org[:metaData][:tenantId] = tenant
-  ed_org[:body][:address] = [{:stateAbbreviation => 'WA'}]
-  ed_org[:body][:nameOfInstitution] = name
-  ed_org[:body][:parentEducationAgencyReference] = parent
-  ed_org[:body][:stateOrganizationId] = stateId
-  ed_org[:body][:organizationCategories] = isLea ? ["Local Education Agency"] : ["School"]
-  @@mongoid += 1
-  ed_org
 end
