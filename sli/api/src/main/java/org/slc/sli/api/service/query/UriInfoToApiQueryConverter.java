@@ -287,6 +287,9 @@ public class UriInfoToApiQueryConverter {
     	if ("studentSchoolAssociation".equals(apiQuery.getEntityType())) {
     		beginDateField = ParameterConstants.STUDENT_SCHOOL_BEGIN_DATE;
     		endDateField = ParameterConstants.STUDENT_SCHOOL_END_DATE;
+    	} else if ("studentSpecialEdProgramAssociation".equals(apiQuery.getEntityType())) {
+    		beginDateField = ParameterConstants.STUDENT_SPECIAL_ED_PROGRAM_BEGIN_DATE;
+    		endDateField = ParameterConstants.STUDENT_SPECIAL_ED_PROGRAM_END_DATE;
     	}
 
     	/**

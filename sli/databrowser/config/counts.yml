@@ -1,0 +1,14 @@
+include_current:
+  - programParticipations
+  - staffCohortAssociations
+  - staffEducationOrgAssignmentAssociations
+  - staffProgramAssociations
+  - studentCohortAssociations
+  - studentProgramAssociations
+  - studentSpecialEdProgramAssociations
+  - studentSchoolAssociations
+  - studentSectionAssociations
+  - teacherSchoolAssociations
+  - teacherSectionAssociations
+
+
