@@ -16,8 +16,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-#include EdorgTreeHelper
-#require "edorg_tree_helper"
 require "active_resource/base"
 # This is the main controller of the Databrowser.
 # We try to "Wrap" all api requests in this one single point
@@ -123,12 +121,12 @@ class EntitiesController < ApplicationController
       @entities= clean_up_results(@entities)
     end
     if params[:other] == 'home'
-      entidAndCollection = getUserEntityIdAndCollection
-      if entidAndCollection['collection'] != "students"
-      	getStudentAndStaffCounts(entidAndCollection)
-        @isAStudent = false
+      user_id, collection, links = get_user_entity_id_collection_and_links
+      if collection != "students"
+        get_user_ed_orgs(links)
+        @is_a_student = false
       else
-        @isAStudent = true
+        @is_a_student = true
       end
       render :index
       return
@@ -154,118 +152,62 @@ class EntitiesController < ApplicationController
     end
     tmp
   end
+
   private
-  def getStudentAndStaffCounts(entidAndCollection)
-    userEdOrgsString = getUserEdOrgsString(entidAndCollection['entid'])
+  def get_user_entity_id_collection_and_links
+    #new way after drew's advice
+    body = JSON.parse(@entities.http_response.body)
+    # get the link to self
+    #logger.debug{"Body{'links']: #{body['links']}"}
+    self_url = get_url_from_hateoas_array(body['links'],'self')
+    *garbage, user_id, collection = self_url.split('/')
+    return user_id, collection, body['links']
   end
 
   private
-  def getUserEntityIdAndCollection
-    logger.debug {"Try to print Response:"}
-    bodyparts = JSON.parse(@entities.http_response.body)
-    #bodyparts['links'].each do |e|
-    bodyparts.each do |e|
-      logger.debug {"#{e} \n"}
+  def get_url_from_hateoas_array(hateoas_array,target)
+    target_url=""
+    #find the correct url
+    hateoas_array.each do |e|
+      if e['rel'] == target
+        logger.debug {"found #{target}"}
+	      target_url = e['href']
+      end
     end
-    logger.debug {"After Try to print Response:"}
-    #get one link
-    linkstring = bodyparts['links'][0]
-    logger.debug {"linkstring = #{linkstring['href']}"}
-    #split the link on "rest/", as that always comes before the version number, user's entity collection, and entityId
-    linksplit = linkstring['href'].split("rest/")
-    # then take the part of the string that comes after
-    entidPlus = linksplit[1]
-    # drop everything after "/" to isolate the id from other url parts
-    #break the string into version number, user's entity collection, entityId, and other parts that follow
-    entidplussplit = entidPlus.split("/")
-    collection = entidplussplit[1]
-    logger.debug {"User entity collection: #{collection}"}
-    entid = entidplussplit[2]
-    logger.debug {"User entity ID: #{entid}"}
-    entidAndCollection = {"entid"=>entid,"collection"=>collection}
-    entidAndCollection
+    logger.debug{"URL from hateoas array #{target_url}"}
+    #strip hostname/api/rest/v1
+    target_url.partition("v1.5/").last
   end
 
   #This function is used to set the values for EdOrg table for Id, name, parent and type fields in the homepage
   private
-  def getUserEdOrgsString(entid)
-    userEdOrgsIdVar = ""
-    userEdOrgsNameVar = ""
-    userEdOrgsTypeVar = ""
-    userEdOrgsParentVar = ""
-    userFeederUrl =  ""
-    parentArr = ""
-    edOrgArr = []
-
-    userURL = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
-    userEdOrgs  = getEdOrgs(userURL)
-
-    #Looping through parent EdOrgs and sending an API call to get the parent EdOrg attributes associated with Parent EdOrg Id
-    userEdOrgs.each do |entity|
-    #Setting variables to be sent to the View
-    userEdOrgsIdVar = entity["id"]
-    userEdOrgsNameVar = entity["nameOfInstitution"]
-    userEdOrgsTypeVar = entity["entityType"]
-    parentArr = entity["parentEducationAgencyReference"]
-
-    parentURL =  "educationOrganizations?parentEducationAgencyReference=#{userEdOrgsIdVar}"
-    Entity.url_type = parentURL
-    userFeederUrl = Entity.url_type
-    userFeederUrl = clean_up_results(userFeederUrl)
-
-
-    #Parsing the parent names for the EdOrgs
-    begin
-      userEdOrgsParentVar = ""
-        if parentArr.nil?
-          userEdOrgsParentVar = "N/A"
-        else
-            parentArr.each do |parentid|
-            parent = parentid.split("\"")
-
-              parentUrl = "educationOrganizations/#{parent[0]}"
-              name = "nameOfInstitution"
-              temp = getParentEdOrgs(parentUrl, name)
-
-            userEdOrgsParentVar = "#{userEdOrgsParentVar}, #{temp[0]}"
-            userEdOrgsParentVar = userEdOrgsParentVar[1..-1]
-          end
-        end
-      end
-
-    #Creating hashmap to inject the key-value pairs for the attributes to EdOrgs
-    edOrgHash = {"EdOrgs Id"=>userEdOrgsIdVar,"EdOrgs Name"=>userEdOrgsNameVar, "EdOrgs Type"=>userEdOrgsTypeVar,"EdOrgs Parent"=>userEdOrgsParentVar, "EdOrgs URL"=>userFeederUrl}
-
-    #Pushing the hashmap into an array to handle multiple entities associated with a single EdOrg
-    edOrgArr.push(edOrgHash)
-    logger.debug("ALERRRRT : #{edOrgArr}")
-    @edOrgArr  = edOrgArr
-   end
+  def get_user_ed_orgs(links)
+    @edOrgArr = []
+    userEdOrgs  = get_edorgs(links)
+    #Looping through EdOrgs and sending an API call to get the parent EdOrg attributes associated EdOrg Id
+    userEdOrgs.each do |edOrg|
+      @edOrgArr.push({"EdOrgs Id"=>edOrg["id"],"EdOrgs Name"=>edOrg["nameOfInstitution"], "EdOrgs Type"=>edOrg["entityType"],"EdOrgs Parent"=>get_parent_edorg_name(edOrg), "EdOrgs URL"=>get_url_from_hateoas_array(edOrg['links'],'self')})
+    end
   end
 
   #This function is used to run an API call to fetch the values of attributes associated with Entity Id
   private
-  def getEdOrgs(url)
+  def get_edorgs(links)
     #The URL to get edOrgs
-    Entity.url_type = url
-    #Entity.url_type = entityUrl
-    userEdOrgs = Entity.get("")
-    userEdOrgs = clean_up_results(userEdOrgs)
-    userEdOrgs
+    Entity.url_type = get_url_from_hateoas_array(links,'getEducationOrganizations')
+    user_edorgs = Entity.get("")
+    user_edorgs = clean_up_results(user_edorgs)
   end
 
-   #This function is used to run an API call to fetch the values of parent attributes associated with an EdOrg
-   def getParentEdOrgs(entityUrl, attribute)
-     #Entity.url_type = "staff/#{entid}/staffEducationOrgAssignmentAssociations/educationOrganizations"
-     Entity.url_type = entityUrl
-     userEdOrgs = Entity.get("")
-
-     userEdOrgs = clean_up_results(userEdOrgs)
-     userEdOrgsString = []
-     edOrgHash = ""
-     userEdOrgs.each do |e|
-       userEdOrgsString.push("#{e[attribute]}")
-     end
-     userEdOrgsString
-   end
+  private
+  def get_parent_edorg_name(edorg)
+    edorg_name = 'N/A'
+    if !edorg['parentEducationAgencyReference'].nil?
+      parent_edorg_id = edorg['parentEducationAgencyReference'][0]
+      logger.debug{"Parent ID: #{parent_edorg_id}"}
+      Entity.url_type = "educationOrganizations/#{parent_edorg_id}"
+      edorg_name = Entity.get("")['nameOfInstitution']
+    end
+    edorg_name
+  end
 end
