@@ -7,6 +7,19 @@ student:
     - studentUniqueStateId
     - id
 
+studentSchoolAssociation:
+    - studentId
+    - schoolId
+    - entryDate
+    - exitWithdrawDate
+
+staffEducationOrganizationAssociation:
+    - staffReference
+    - educationOrganizationReference
+    - staffClassification
+    - beginDate
+    - endDate
+
 parent:
     - name/lastSurname
     - name/firstName
