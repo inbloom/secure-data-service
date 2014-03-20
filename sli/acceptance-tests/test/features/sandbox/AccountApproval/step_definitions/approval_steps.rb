@@ -137,9 +137,7 @@ end
 
 #### Common methods ##############
 def intializaApprovalEngineAndLDAP(email_conf = @email_conf, prod=true)
-  @ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
-                          Property['ldap_base'], Property['ldap_admin_user'],
-                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
+  @ldap = ldap_storage
   ApprovalEngine.init(@ldap, nil, !prod)
 end
 
@@ -155,7 +153,7 @@ def verifyEmail
     content = imap.fetch(ids[-1], "BODY[TEXT]")[0].attr["BODY[TEXT]"]
     subject = imap.fetch(ids[-1], "BODY[HEADER.FIELDS (SUBJECT)]")[0].attr["BODY[HEADER.FIELDS (SUBJECT)]"]
     found = true if content != nil
-    imap.disconnect
+    imap.disconnect unless imap.disconnected?
     assert(found, "Email was not found on SMTP server")
     assert(subject.include?("Welcome to the inBloom Developer Sandbox"), "Subject in email is not correct")
   else

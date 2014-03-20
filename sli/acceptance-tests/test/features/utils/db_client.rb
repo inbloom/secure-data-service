@@ -3,6 +3,26 @@ require_relative 'rakefile_common'
 
 class DbClient
 
+  class << self
+
+    def allow_table_scan!
+      client = DbClient.new
+      client.allow_table_scan!
+      client.close
+    end
+
+    def disallow_table_scan!
+      client = DbClient.new
+      client.disallow_table_scan!
+      client.close
+    end
+
+    def tenant_to_db_name(tenant)
+      Digest::SHA1.hexdigest tenant
+    end
+
+  end
+
   attr_reader :db
 
   # Valid options are :host, :port, :tenant or :db_name, :allow_table_scan (true/false)
@@ -31,7 +51,7 @@ class DbClient
   end
 
   def for_tenant(tenant)
-    @db = @conn[tenant_to_db_name(tenant)]
+    @db = @conn[DbClient.tenant_to_db_name(tenant)]
     self
   end
 
@@ -56,8 +76,16 @@ class DbClient
     db[collection].count(:query => query)
   end
 
+  # Find documents for the collection.
+  # If a block is given, each document will be yielded to the block;
+  # Otherwise, a Mongo::Cursor will be returned
   def find(collection, query={})
-    db[collection].find query
+    coll = db[collection]
+    if block_given?
+      coll.find(query).each {|doc| yield doc}
+    else
+      coll.find(query)
+    end
   end
 
   def find_one(collection, query)
@@ -84,6 +112,10 @@ class DbClient
 
   def remove(collection, query)
     db[collection].remove query
+  end
+
+  def remove_all(collection)
+    db[collection].remove {}
   end
 
   def remove_by_id(collection, id)
@@ -113,7 +145,7 @@ class DbClient
   private
 
   def derive_db_name(options={})
-    options[:db_name] || tenant_to_db_name(options[:tenant] || ENV['DB_NAME'] || 'Midgar')
+    options[:db_name] || DbClient.tenant_to_db_name(options[:tenant] || ENV['DB_NAME'] || 'Midgar')
   end
 
   def get_notablescan
@@ -144,10 +176,6 @@ class DbClient
 
   def id_query(id)
     {'_id' => id}
-  end
-
-  def tenant_to_db_name(tenant)
-    Digest::SHA1.hexdigest tenant
   end
 
 end

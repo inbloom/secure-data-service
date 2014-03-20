@@ -14,7 +14,7 @@ Scenario: Login and logout
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   When I click on the Logout link
@@ -27,7 +27,7 @@ Scenario: Navigate to home page from any page
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I should see my available links labeled
@@ -45,7 +45,7 @@ Scenario: Associations List - Expand/Collapse between Simple View and Detail Vie
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I click on the "GetStaffProgramAssociations" link
@@ -64,7 +64,7 @@ Scenario: Click on Available Links associations and entities
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I have navigated to the "Me" page of the Data Browser
@@ -79,7 +79,7 @@ Scenario: Get a Forbidden message when we access something that is forbidden
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I click on the "GetEducationOrganizations" link
@@ -99,7 +99,7 @@ Scenario: Traverse Edorg Hiearchy from SEA down to LEA
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   When I click on the "GetEducationOrganizations" link
@@ -123,7 +123,7 @@ Scenario: Search by id
   Then I should be on Portal home page
   And I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   When I search for the identifier "<BRANDON SUZUKI UNIQUE ID>" in "students"

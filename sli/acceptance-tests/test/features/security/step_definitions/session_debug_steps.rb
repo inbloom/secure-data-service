@@ -28,7 +28,7 @@ require_relative '../../utils/sli_utils.rb'
 Given /^I login with "([^"]*)" and "([^"]*)"$/ do |arg1, arg2|
     @user = arg1
     @passwd = arg2
-    idpLogin(@user, @passwd)
+    idpRealmLogin(@user, @passwd)
 end
 
 Given /^I get an authentication session ID from the gatekeeper$/ do

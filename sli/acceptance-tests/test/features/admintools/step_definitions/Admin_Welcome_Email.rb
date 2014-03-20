@@ -125,85 +125,65 @@ Then /^I get a welcome email of (.*?)$/ do |email_type|
                           "When you are ready to register your application, use the Application Registration feature. Click the Admin"]
   end
   strings_included.each do |string_included|
-    assert(@welcome_email_content.include?(string_included), "FAILED:\n\nemail = #{@welcome_email_content}\n\nstring_included = <#{string_included}>\n\n")
+    @welcome_email_content.should include(string_included)
   end
 end
 
 Then /^the email has a link to "([^"]*)"$/ do |substring|
-  found = @welcome_email_content.include?(substring)
-  puts @welcome_email_content
-  assert(found, "welcome email does not have a link to #{substring}")
+  @welcome_email_content.should include(substring)
 end
 
-Then /^I can log in with my username and password$/ do
+Then /^I can log in with my (sandbox )?username and password$/ do |sandbox|
   @driver.get(Property["admintools_server_url"])
-  step "I select \"inBloom\" from the dropdown and click go"
+  step "I select \"inBloom\" from the dropdown and click go" unless sandbox
   step "I submit the credentials \"#{@newly_created_user[:uid]}\" \"#{NEW_PASSWORD}\" for the \"Simple\" login page"
   actual_page_content = @driver.find_element(:tag_name, "body")
-  expected_page_content = "Admin Tool"
-  assert(actual_page_content.text.include?(expected_page_content), "Cannot find page id: #{expected_page_content}")
-end
-
-Then /^I can log in with my sandbox username and password$/ do
-  @driver.get(Property["admintools_server_url"])
-  step "I submit the credentials \"#{@newly_created_user[:uid]}\" \"#{NEW_PASSWORD}\" for the \"Simple\" login page"
-  actual_page_content = @driver.find_element(:tag_name, "body")
-  expected_page_content = "Admin Tool"
-  assert(actual_page_content.text.include?(expected_page_content), "Cannot find page id: #{expected_page_content}")
+  actual_page_content.text.should include('Admin Tool')
 end
 
 def cleanup_users(uid_prefix, mode)
-  if mode == "production"
-    idpRealmLogin("operator", nil)
-  else
-    idpRealmLogin("sandboxoperator", nil)
-  end
+  idpRealmLogin(mode == 'production' ? 'operator' : 'sandboxoperator', nil)
 
   sessionId = @sessionId
-  format = "application/json"
+  format = 'application/json'
 
   # clean up users
-  restHttpGet("/users", format, sessionId)
+  restHttpGet('/users', format, sessionId)
   users = JSON.parse(@res.body)
-  prefix = uid_prefix + get_mac_address('_')
-  assert(users.kind_of?(Array), "Problem getting users: #{users}")
+  prefix = "#{uid_prefix}#{get_mac_address('_')}"
+  users.should be_a_kind_of(Array)
   users.each do |user|
-    if(/#{prefix}/.match("#{user["uid"]}"))
-      #puts "deleting user #{user['uid']}"
+    if user['uid'].include? prefix
       restHttpDelete("/users/#{user['uid']}", format, sessionId)
     end
   end
 end
 
 def create_user(uid_prefix, groups, mode)
-  if mode == "production"
-    idpRealmLogin("operator", nil)
-  else
-    idpRealmLogin("sandboxoperator", nil)
-  end
+  idpRealmLogin(mode == 'production' ? 'operator' : 'sandboxoperator', nil)
 
   sessionId = @sessionId
-  format = "application/json"
+  format = 'application/json'
 
   # create the new user
-  prefix = uid_prefix + get_mac_address('_')
+  prefix = "#{uid_prefix}#{get_mac_address('_')}"
   letters = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
   firstname, lastname = (0..1).map{(0..50).map{letters[rand(letters.length)]}.join}
-  uid = prefix + lastname
+  uid = "#{prefix}#{lastname}"
   groups = groups.split(',').map{|group| group.strip}
   new_user = {
-      "uid" => uid,
-      "groups" => groups,
-      "fullName" => "#{firstname} #{lastname}",
-      "password" => uid + "1234",
-      "email" => Property['email_imap_registration_user_email'],
-      "homeDir" => "/dev/null"
+      'uid' => uid,
+      'groups' => groups,
+      'fullName' => "#{firstname} #{lastname}",
+      'password' => "#{uid}1234",
+      'email' => Property['email_imap_registration_user_email'],
+      'homeDir' => '/dev/null'
   }
-  if (["SLC Operator", "Sandbox SLC Operator"] & groups).empty?
-    new_user["tenant"] = "Midgar"
-    new_user["edorg"] = "IL-DAYBREAK"
+  if (['SLC Operator', 'Sandbox SLC Operator'] & groups).empty?
+    new_user['tenant'] = 'Midgar'
+    new_user['edorg'] = 'IL-DAYBREAK'
   end
-  puts "creating user = #{new_user}"
-  restHttpPost("/users", new_user.to_json, format, sessionId)
-  {:firstname => firstname, :uid => uid, :password => new_user["password"]}
+  puts "creating user: #{new_user}"
+  restHttpPost('/users', new_user.to_json, format, sessionId)
+  {:firstname => firstname, :uid => uid, :password => new_user['password']}
 end

@@ -53,6 +53,5 @@ Feature: Admininstrating role-based access to bulking
   Scenario: District administrator is alerted to applications that want bulk extract
     Given I have an open web browser
     Given I am an authenticated District Super Administrator for "Sunset School District"
-  	And I am logged into the Application Authorization Tool
   	And I see an application "Testing App" in the table
   	Then I see that it has an alert about bulk extract

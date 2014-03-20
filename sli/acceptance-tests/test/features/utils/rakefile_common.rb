@@ -20,22 +20,19 @@ require 'ldapstorage'
 require 'digest/sha1'
 require 'yaml'
 require 'rest-client'
+require_relative 'db_client'
 
 def cleanUpLdapUser(user_email)
-  ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
-                         Property['ldap_base'], Property['ldap_admin_user'],
-                         Property['ldap_admin_pass'], Property['ldap_use_ssl'])
-
+  ldap = ldap_storage
   cleanUpUser(user_email, ldap)
 end
 
 def cleanUpMiniSandboxLdapUser(user_email)
+  # TODO: Once properties.yml is refactored and cleaned; these custom ldap properties probably go away
   ldap_sb = LDAPStorage.new(Property['minisb_ldap_hostname'], Property['minisb_ldap_port'],
                          Property['minisb_ldap_base'], Property['minisb_ldap_admin_user'],
                          Property['minisb_ldap_admin_pass'], Property['minisb_ldap_use_ssl'])
-
   cleanUpUser(user_email, ldap_sb)
-
 end
 
 def cleanUpUser(user_email, ldap)
@@ -173,7 +170,8 @@ end
 
 # Property Loader class
 class Property
-  @@yml = YAML.load_file File.join(File.dirname(__FILE__),'properties.yml')
+  properties_file = ENV['PROPERTIES'] || File.join(File.dirname(__FILE__),'properties.yml')
+  @@yml = YAML.load_file properties_file
 
   def self.getProps
     self.updateHash
@@ -202,40 +200,12 @@ end
 # turn ON --notablescan MongoDB flag, if set in ENV
 ##############################################################################
 def enable_NOTABLESCAN()
-  setTableScan true
+  DbClient.disallow_table_scan! if ENV['TOGGLE_TABLESCANS']
 end
-
-
 
 ##############################################################################
 # turn OFF --notablescan MongoDB flag, if set in ENV
 ##############################################################################
 def disable_NOTABLESCAN()
-  setTableScan false
-end
-
-def setTableScan(enabled)
-  if ENV["TOGGLE_TABLESCANS"]
-    puts "Turning --notablescan flag #{enabled}"
-    adminconn = Mongo::Connection.new
-    admindb = adminconn.db('admin')
-    cmd = {setParameter: 1, notablescan: enabled}
-    admindb.command(cmd)
-    begin
-      shards = admindb.command({listShards: 1})["shards"]
-    rescue Mongo::OperationFailure => e
-      puts "Could not get the shard list"
-      shards = []
-    end
-    shards.each{ |shard|
-      hostname, port = shard['host'].split(":")
-      shardconn = Mongo::Connection.new(hostname, port)
-      sharddb = shardconn['admin']
-      sharddb.command(cmd)
-      sharddb.get_last_error()
-      shardconn.close()
-    }
-    admindb.get_last_error()
-    adminconn.close
-  end
+  DbClient.allow_table_scan! if ENV['TOGGLE_TABLESCANS']
 end

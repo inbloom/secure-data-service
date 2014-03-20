@@ -25,9 +25,10 @@ require_relative '../../../utils/selenium_common.rb'
 
 SAMT_EMAIL_NOTIFICATION_SUBJECT_SANDBOX = "inBloom Sandbox Account - Email Confirmation"
 SAMT_EMAIL_NOTIFICATION_SUBJECT_PROD = "inBloom Administrator Account - Email Confirmation"
-TEST_EMAIL = "peacefrog@slidev.org"
-TEST_EMAIL_USER ="peacefrog"
-TEST_EMAIL_PASS ="demouser"
+TEST_EMAIL = Property['test_email'] || "peacefrog@slidev.org"
+TEST_EMAIL_USER = Property['test_email_user'] || "peacefrog"
+TEST_EMAIL_PASS = Property['test_email_pass'] || "demouser"
+TEST_EMAIL_SENDER = Property['test_email_sender'] || 'inBloom Administrator'
 
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
@@ -38,7 +39,13 @@ After do
 end
 
 Given /^I have a SMTP\/Email server configured$/ do
-  @email_sender_name= "SLC Administrator"
+
+  puts "Email Email: #{TEST_EMAIL}" if $SLI_DEBUG
+  puts "Email Username: #{TEST_EMAIL_USER}" if $SLI_DEBUG
+  puts "Email Password: #{TEST_EMAIL_PASS}" if $SLI_DEBUG
+  puts "Email Sender Email: #{TEST_EMAIL_SENDER}" if $SLI_DEBUG
+
+  @email_sender_name= TEST_EMAIL_SENDER
   @email = TEST_EMAIL
 
   @last_id = get_last_email_id
@@ -65,18 +72,24 @@ Then /^I enter Full Name "(.*?)" and Email "(.*?)" into the required fields$/ do
 end
 
 Then /^a verify email notification is sent to user$/ do
-  sleep(3)
+  sleep 5
   verify_email
-
 end
 
 def get_last_email_id
   defaultUser = TEST_EMAIL_USER
   defaultPassword = TEST_EMAIL_PASS
+
+  puts "=============  IMAP host is #{Property['email_imap_host']}"
+  puts "=============  IMAP port is #{Property['email_imap_port']}"
+  puts "=============  IMAP user is #{defaultUser}"
+  puts "=============  IMAP pass is #{defaultPassword}"
   @imap = Net::IMAP.new(Property['email_imap_host'], Property['email_imap_port'], true, nil, false)
-  @imap.authenticate('LOGIN', defaultUser, defaultPassword)
+  #@imap.authenticate('LOGIN', defaultUser, defaultPassword)
+  @imap.login(defaultUser, defaultPassword) # This works with Gmail; #authenticate does not
   @imap.examine('INBOX')
   ids = @imap.search(["FROM", @email_sender_name,"TO",@email])
+  puts "============= Found IDs: #{ids.inspect}"
   last_id = ids[-1]
   return last_id
 end
@@ -92,8 +105,8 @@ end
 
 def verify_email
   current_id = get_last_email_id
-  if  (current_id <= @last_id)
-  found = false
+  if  !current_id || (current_id <= @last_id)
+    found = false
   else
     ids = (@last_id+1)..current_id
     ids.each do |id|

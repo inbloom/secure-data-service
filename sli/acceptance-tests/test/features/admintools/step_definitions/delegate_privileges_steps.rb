@@ -85,16 +85,14 @@ Then /^I do not see the table for "([^"]*)"$/ do |district|
   assert(!table.displayed?)
 end
 
-
 def getCheckbox(feature)
-    if feature == "Application Authorization"
-    id = "admin_delegation_appApprovalEnabled"
-    elsif feature == "View Security Events"
-    id = "admin_delegation_viewSecurityEventsEnabled"
+  if feature == 'Application Authorization'
+    id = 'admin_delegation_appApprovalEnabled'
+  elsif feature == 'View Security Events'
+    id = 'admin_delegation_viewSecurityEventsEnabled'
   else
-    assert(false, "Could not find the ID for #{feature} checkbox")
+    fail "Could not find the ID for #{feature} checkbox"
   end
-  checkbox = @driver.find_element(:id, id)
-  return checkbox
+  @driver.find_element(:id, id)
 end
 

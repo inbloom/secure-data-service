@@ -16,18 +16,9 @@
 
 package org.slc.sli.ingestion.delta;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.MapUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
@@ -41,6 +32,11 @@ import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdRes
 import org.slc.sli.ingestion.transformation.normalization.did.DidNaturalKey;
 import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 /**
  * @author unavani
@@ -118,9 +114,7 @@ public final class SliDeltaManager {
 
             String recordId = dIdStrategy.generateId(nkd);
 
-            // Calculate record hash using natural keys' values
-            String recordHashValues = DigestUtils.shaHex(neutralRecordResolved.getRecordType() + "-"
-                    + neutralRecordResolved.getAttributes().toString() + "-" + tenantId);
+            String recordHashValues = neutralRecordResolved.generateRecordHash(tenantId);
             RecordHash record = batchJobDAO.findRecordHash(tenantId, recordId);
 
             // TODO consider making this a util
