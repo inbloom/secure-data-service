@@ -23,7 +23,7 @@ import java.util.List;
  * A model element is something that has an identifier, can be tagged, and can
  * be visited.
  */
-public abstract class ModelElement implements HasIdentity, Taggable, Visitable {
+public abstract class ModelElement implements HasIdentity, Taggable, Visitable, Comparable<ModelElement> {
     
     protected static final List<TaggedValue> EMPTY_TAGGED_VALUES = Collections.emptyList();
     
@@ -77,4 +77,12 @@ public abstract class ModelElement implements HasIdentity, Taggable, Visitable {
     public int hashCode() {
         return id.hashCode();
     }
+
+    @Override
+    public int compareTo(ModelElement modElem)
+    {
+        return id.toString().compareTo(modElem.getId().toString());
+    }
+
+
 }

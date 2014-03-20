@@ -26,7 +26,6 @@
 
 Scenario: District admin allows access to sample app
   Given I am an authenticated District Super Administrator for "Sunset School District"
-  And I am logged into the Application Authorization Tool
   And I see an application "Sample" in the table
   And in Status it says "Not Approved"
   And I click on the "Approve" button next to it
@@ -109,7 +108,6 @@ Scenario: Can access the Sample App
 
 Scenario: District admin denies access to sample app
   Given I am an authenticated District Super Administrator for "Sunset School District"
-  And I am logged into the Application Authorization Tool
   And I see an application "SDK Sample App (CI)" in the table
   And in Status it says "Approved"
   And I click on the "Deny" button next to it
@@ -133,7 +131,6 @@ Scenario: Can no longer access the sample app
 
 Scenario: District admin allows access to sample app
   Given I am an authenticated District Super Administrator for "Sunset School District"
-  And I am logged into the Application Authorization Tool
   And I see an application "Sample" in the table
   And in Status it says "Not Approved"
   And I click on the "Approve" button next to it

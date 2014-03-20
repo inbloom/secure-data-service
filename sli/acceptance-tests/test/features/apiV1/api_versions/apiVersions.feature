@@ -5,7 +5,7 @@ Feature: As an API user, I want to be able to make requests to different version
 # TODO: Review with product? Is this test legitimate? It seems weird that we can supply *any* version to the API and it will work.
 
 Background: Nothing yet
-    Given format "application/vnd.slc+json"
+    Given I want to use format "application/vnd.slc+json"
 
 Scenario Outline: Validate all links returned by the API are versioned based on input
     Given I am logged in using "<user name>" "<password>" to realm "<realm>"

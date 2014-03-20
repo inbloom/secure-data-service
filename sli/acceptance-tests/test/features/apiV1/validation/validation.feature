@@ -53,7 +53,7 @@ Scenario: Fail when passing an incorrectly capitalized enum during POST for stud
 
 Scenario: Fail when passing map instead of array during POST for school
 	Given format "application/json"
-	Given I create a create a school object with "address" set to a single map
+	Given I create a school object with "address" set to a single map
 	When I navigate to POST "/v1/schools"
     Then I should receive a return code of 400
     Given I create the same school object with "address" as an array with the same map
