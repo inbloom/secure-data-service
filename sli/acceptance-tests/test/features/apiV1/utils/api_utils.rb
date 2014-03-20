@@ -87,11 +87,11 @@ When /^I create an empty json object$/ do
   @fields = Hash[]
 end
 
+# TODO: Remove these duplicate steps
 When /^I navigate to POST "([^"]*)"$/ do |post_uri|
   data = prepareData(@format, @fields)
-  puts("POSTing: #{data.inspect}") if $SLI_DEBUG
   restHttpPost(post_uri, data)
-  assert(@res != nil, "Response from rest-client POST is nil")
+  @res.should_not be_nil, 'Response from rest-client POST is nil'
 end
 
 When /^I set the "([^"]*)" array to (.*)$/ do |property,value|

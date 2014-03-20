@@ -38,7 +38,6 @@ Given /^I am logged in using "([^\"]*)" "([^\"]*)" to realm "([^\"]*)"$/ do |use
   @passwd = pass
   @realm = realm
   idpRealmLogin(@user, @passwd, @realm)
-  assert(@sessionId != nil, "Session returned was nil")
 end
 
 Given /^format "([^\"]*)"$/ do |fmt|
@@ -47,7 +46,16 @@ Given /^format "([^\"]*)"$/ do |fmt|
 end
 
 Given /^I want to use format "([^\"]*)"$/ do |fmt|
-  ["application/json", "application/json;charset=utf-8", "application/xml", "text/plain", "application/vnd.slc.full+json", "application/vnd.slc+json", "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].should include(fmt)
+  [
+    'application/json', 
+    'application/json;charset=utf-8', 
+    'application/xml', 
+    'text/plain', 
+    'application/vnd.slc.full+json', 
+    'application/vnd.slc+json', 
+    'application/vnd.slc.full+json;charset=utf-8', 
+    'application/vnd.slc+json;charset=utf-8'
+  ].should include(fmt)
   @format = fmt
 end
 
@@ -349,6 +357,7 @@ Given /^I am logged in as an? (.*)$/ do |user_type|
   @sessionId.should_not be_nil
   restHttpGet("#{staff_endpoint}/#{user_id}")
   @res.code.should == 200
+  puts JSON.parse @res
   @current_user = JSON.parse @res
 end
 
@@ -380,8 +389,9 @@ def credentials_for(user_type)
     'school-level Educator'         => %w( rbraverman rbraverman1234 bcfcc33f-f4a6-488f-baee-b92fbd062e8d ),
     'school-level Leader'           => %w( mgonzales  mgonzales1234  4a39f944-c238-4787-965a-50f22f3a2d9c )
   }
-  creds = users[user_type]
-  creds.should_not be_nil
+  user = users.detect{|k,v| k.downcase == user_type.downcase}
+  user.should_not be_nil, "Unknown user type: #{user_type}"
+  creds = user.last
   [*creds, realm]
 end
 

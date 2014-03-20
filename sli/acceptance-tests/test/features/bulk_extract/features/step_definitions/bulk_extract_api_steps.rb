@@ -50,7 +50,6 @@ Given /^I delete the previous tar file if it exists$/ do
 end
 
 When /^I make a call to the bulk extract end point "([^"]*)"$/ do |url|
-
   restTls(url)
 end
 

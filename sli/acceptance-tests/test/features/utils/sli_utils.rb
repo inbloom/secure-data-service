@@ -171,7 +171,7 @@ end
 #              It is suggested you assert the @sessionId before returning success from the calling function
 def idpRealmLogin(user, passwd, realm="SLI")
   token = LongLivedSession.token(user, realm)
-  token.should_not be_nil
+  token.should_not be_nil, "Unable to find long-lived session token for user: #{user}"
   @sessionId = token
   puts(@sessionId) if $SLI_DEBUG
 end
@@ -474,9 +474,7 @@ end
 Around('@LDAP_Reset_developer-email') do |scenario, block|
   block.call
   if scenario.failed?
-    ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
-                          Property['ldap_base'], Property['ldap_admin_user'],
-                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
+    ldap = ldap_storage
     ldap.update_user_info({:email=> "developer-email@slidev.org", :password=>"test1234"})
   end
 end
@@ -899,6 +897,15 @@ puts results.to_s
   }
 
   return matches_all
+end
+
+# Get a new instance of the LDAPStorage given the global properties
+def ldap_storage
+  LDAPStorage.new(
+    Property[:ldap_hostname], Property[:ldap_port],
+    Property[:ldap_base], Property[:ldap_admin_user],
+    Property[:ldap_admin_pass], Property[:ldap_use_ssl]
+  )
 end
 
 When /^I (enable|disable) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action,edOrgName,tenant|

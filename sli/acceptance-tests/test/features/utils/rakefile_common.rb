@@ -23,20 +23,16 @@ require 'rest-client'
 require_relative 'db_client'
 
 def cleanUpLdapUser(user_email)
-  ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
-                         Property['ldap_base'], Property['ldap_admin_user'],
-                         Property['ldap_admin_pass'], Property['ldap_use_ssl'])
-
+  ldap = ldap_storage
   cleanUpUser(user_email, ldap)
 end
 
 def cleanUpMiniSandboxLdapUser(user_email)
+  # TODO: Once properties.yml is refactored and cleaned; these custom ldap properties probably go away
   ldap_sb = LDAPStorage.new(Property['minisb_ldap_hostname'], Property['minisb_ldap_port'],
                          Property['minisb_ldap_base'], Property['minisb_ldap_admin_user'],
                          Property['minisb_ldap_admin_pass'], Property['minisb_ldap_use_ssl'])
-
   cleanUpUser(user_email, ldap_sb)
-
 end
 
 def cleanUpUser(user_email, ldap)
