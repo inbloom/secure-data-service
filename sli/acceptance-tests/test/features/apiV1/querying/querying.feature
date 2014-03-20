@@ -1,6 +1,4 @@
-@RALLY_US210
 Feature: Querying the API to receive subsets of results
- 
 
 Scenario Outline: Confirm ability to use all API query operators with different data type
   Given I am logged in using <username> <password> to realm "NY"
@@ -69,8 +67,6 @@ Scenario Outline: Test that include fields only affect body fields (type remains
       | "rrogers"          | "rrogers1234"         |
       | "linda.kim"        | "linda.kim1234"       |
 
-
-@subdoc
 Scenario Outline: Query subdoc
   Given I am logged in using <username> <password> to realm "IL"
   And format "application/json;charset=utf-8"
@@ -133,7 +129,6 @@ Scenario Outline: Query subdoc
       | "jstevenson"   | "jstevenson1234" |
       | "linda.kim"    | "linda.kim1234"  |
 
-  @ds-1249
   Scenario Outline: Include, Exclude and uniqueStateIds combination
     Given I am logged in using "<username>" "<password>" to realm "IL"
     And format "application/json;charset=utf-8"
@@ -152,9 +147,6 @@ Scenario Outline: Query subdoc
       | rrogers   | rrogers1234 | links         | id,staffUniqueStateId   | staffUniqueStateId   | linda.kim   | /v1.3/staff                  |
       | rrogers   | rrogers1234 | links         | id,parentUniqueStateId  | parentUniqueStateId  | 3152275783  | /v1.3/parents                |
 
-
-
-  @RALLY_DE2088
   Scenario Outline: Learning Objective tests
     Given I am logged in using "<username>" "<password>" to realm "IL"
     And format "application/json;charset=utf-8"

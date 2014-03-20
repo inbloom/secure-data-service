@@ -4,7 +4,6 @@ Feature: Admin users of SAMT can only update certain fields of existing accounts
 Background: 
 Given I have an open web browser
 And LDAP and email server has been setup and running
-And I already have a SLC Operator account
 
 Scenario Outline: As a SLC Operator I am able to edit any field
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
