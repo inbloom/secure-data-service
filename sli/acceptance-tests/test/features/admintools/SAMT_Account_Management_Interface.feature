@@ -1,4 +1,3 @@
-@RALLY_3071
 Feature: Super Admin Interface
 
 	

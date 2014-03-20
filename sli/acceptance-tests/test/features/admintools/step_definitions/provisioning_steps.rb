@@ -39,7 +39,7 @@ Given /^LDAP and email server has been setup and running$/ do
        :sender_name => @email_sender_name,
        :sender_email_addr => @email_sender_address
      }
-  
+
    @edorgId =  "Test_Ed_Org"
    @email = "devldapuser_#{get_mac_address('_')}@slidev.org"
 end
