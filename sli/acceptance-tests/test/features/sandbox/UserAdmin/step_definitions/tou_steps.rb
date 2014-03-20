@@ -2,9 +2,7 @@ require 'ldapstorage'
 require_relative '../../../admintools/step_definitions/reset_change_password.rb'
 
 $user_email = 'jraynor@inbloomdev.org'
-$ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
-                        Property['ldap_base'], Property['ldap_admin_user'],
-                        Property['ldap_admin_pass'], Property['ldap_use_ssl'])
+$ldap = ldap_storage
 
 Given /^I have an account of (.*) in (.*) status$/ do |role, tou_status|
   status = (tou_status == "TOU not set") ? "submitted" : "approved"

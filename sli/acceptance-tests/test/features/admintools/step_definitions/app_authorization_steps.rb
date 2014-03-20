@@ -75,8 +75,7 @@ Then /^The following edOrgs are authorized for the application "(.*?)" in tenant
 end
 
 When /^I hit the Admin Application Authorization Tool$/ do
-  #XXX - Once the API is ready, remove the ID
-  @driver.get(Property['admintools_server_url']+"/application_authorizations/")
+  @driver.get("#{Property['admintools_server_url']}/application_authorizations/")
 end
 
 Then /^I am redirected to the Admin Application Authorization Tool$/ do
@@ -165,31 +164,15 @@ Then /^I do not get message that I am not authorized$/ do
   end
 end
 
-Then /^I am not logged into the application$/ do
-  step "I hit the Admin Application Authorization Tool"
-end
-
-
-Given /^I am logged into the Application Authorization Tool$/ do
-end
-
-Given /^I see an application "([^"]*)" in the table$/ do |arg1|
-    @appName = arg1
-    @appRow = getApp(@appName)
-    #t = Time.now.getutc.to_s
-    #puts t
-    #apps = @driver.find_elements(:xpath, ".//tbody/tr/td[text()='#{arg1}']/..")
-    apps = @driver.find_elements(:xpath, './/tbody/tr/td[contains(.,"' + arg1 +'")]')
-
-    apps.each do |cur|
-        puts("The app is #{cur.inspect} and #{cur.text}")
-    end
-    assert(apps != nil)
+Given /^I see an application "([^"]*)" in the table$/ do |app|
+  @appName = app
+  @appRow = getApp(@appName)
+  apps = @driver.find_elements(:xpath, './/tbody/tr/td[contains(.,"' + app +'")]')
+  apps.should_not be_empty, "Unable to find app #{app}"
 end
 
 Given /^in Status it says "([^"]*)"$/ do |arg1|
   statusIndex = 4
-  
   @appRow = getApp(@appName)
   actualStatus = @appRow.find_element(:xpath, ".//td[#{statusIndex}]").text
   assert(actualStatus == arg1, "Expected status of #{@appName} to be #{arg1} instead it's #{actualStatus.inspect}")
@@ -221,17 +204,6 @@ end
 Then /^the application is authorized to use data of "([^"]*)"$/ do |arg1|
   row = getApp(@appName)
   assert(row != nil)
-end
-
-Then /^is put on the top of the table$/ do
-  rows = @driver.find_elements(:xpath, ".//tbody/tr/td/..")
-  rows.each do |curRow|
-    if curRow.displayed?
-      @row = curRow
-      break
-    end
-  end
-  assert(@row.find_element(:xpath, ".//td[1]").text == @appName, "The approved application should have moved to the top")
 end
 
 Then /^the app "([^"]*)" Status becomes "([^"]*)"$/ do |app, arg1|

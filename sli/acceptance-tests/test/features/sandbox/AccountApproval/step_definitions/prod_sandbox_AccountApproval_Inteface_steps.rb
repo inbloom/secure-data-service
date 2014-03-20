@@ -35,9 +35,7 @@ end
 
 Given /^LDAP server has been setup and running$/ do
   @email = "devldapuser"+get_mac_address('_')+"@slidev.org"
-  @ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
-                          Property['ldap_base'], Property['ldap_admin_user'],
-                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
+  @ldap = ldap_storage
 end
 
 Given /^there are accounts in requests pending in the system$/ do

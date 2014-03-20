@@ -38,7 +38,6 @@ Given /^I am logged in using "([^\"]*)" "([^\"]*)" to realm "([^\"]*)"$/ do |use
   @passwd = pass
   @realm = realm
   idpRealmLogin(@user, @passwd, @realm)
-  assert(@sessionId != nil, "Session returned was nil")
 end
 
 Given /^format "([^\"]*)"$/ do |fmt|
@@ -47,7 +46,16 @@ Given /^format "([^\"]*)"$/ do |fmt|
 end
 
 Given /^I want to use format "([^\"]*)"$/ do |fmt|
-  ["application/json", "application/json;charset=utf-8", "application/xml", "text/plain", "application/vnd.slc.full+json", "application/vnd.slc+json", "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].should include(fmt)
+  [
+    'application/json', 
+    'application/json;charset=utf-8', 
+    'application/xml', 
+    'text/plain', 
+    'application/vnd.slc.full+json', 
+    'application/vnd.slc+json', 
+    'application/vnd.slc.full+json;charset=utf-8', 
+    'application/vnd.slc+json;charset=utf-8'
+  ].should include(fmt)
   @format = fmt
 end
 
