@@ -1,11 +1,8 @@
+@no_ingestion_hooks
 Feature: Super Admin Interface
-
 	
 Background: 
 Given I have an open web browser
-And my LDAP server has been setup and running
-And I already have a SLC Operator account
-
 
 Scenario: As a SLC Operator I can cancel adding an account 
 When I navigate to the User Management Page 
