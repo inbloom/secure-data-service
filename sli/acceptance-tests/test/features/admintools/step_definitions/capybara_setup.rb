@@ -19,6 +19,9 @@ require 'capybara'
 require 'capybara-screenshot'
 require 'capybara-screenshot/cucumber'
 
+require_relative '../../utils/sli_utils.rb'
+require_relative '../../utils/selenium_common.rb'
+
 class Browser
   include Capybara::DSL
   def initialize

@@ -6,57 +6,24 @@ Background:
 #  Given I have an open web browser
 
 Scenario: Prepare Custom Roles (set up)
-  #Reset to default state
+  # Reset to default state
   Given I am a valid tenant-level realm administrator
    When I navigate to the Custom Role Mapping page
    Then I should get to the correct Custom Role Mapping Page
    When I click on the Reset to Defaults button
    Then The page should be reset back to default
 
-#Scenario: Prepare Custom Roles (set up)
-#  #Reset mapping to default to start from known state
-#  When I navigate to the Custom Role Mapping Page
-#   And I select "inBloom" from the dropdown and click go
-#   And I was redirected to the "Simple" IDP Login page
-#  When I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
-#  When I click on the Custom Roles button next to Illinois Daybreak School District 4529
-#  Then I have navigated to my Custom Role Mapping Page
-#  When I click on the Reset Mapping button
-#   And I got a warning message saying "Are you sure you want to reset the mappings to factory defaults? This will remove any custom defined roles!"
-#  When I click 'OK' on the warning message
-#  Then I am no longer in edit mode
-#  Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
-#   And the Leader, Educator, Aggregate Viewer and IT Administrator role groups have the correct default role names
-#   And the IT Administrator role is the only admin role
-#
-#  #Create custom role
-#  When I click on the Add Group button
-#   And I type the name "Application Authorizer" in the Group name textbox
-#  When I add the right "APP_AUTHORIZE" to the group "Application Authorizer"
-#  When I add the right "READ_GENERAL" to the group "Application Authorizer"
-#   And I add the role "Application Authorizer" to the group "Application Authorizer"
-#   And I hit the save button
-#  Then I am no longer in edit mode
-#   And the group "Application Authorizer" contains the roles "Application Authorizer"
-#   And the group "Application Authorizer" contains the "right" rights "APP AUTH"
-#
-#Scenario: Developer creates new application (set up data)
-#  #Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
-#  When I hit the Application Registration Tool URL
-#   And I select "inBloom" from the dropdown and click go
-#   And I was redirected to the "Simple" IDP Login page
-#   And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
-#  Then I am redirected to the Application Registration Tool page
-#   And I have clicked to the button New
-#   And I am redirected to a new application page
-#  When I entered the name "Boyne" into the field titled "Name"
-#   And I have entered data into the other required fields except for the shared secret and the app id which are read-only
-#   And I click on the button Submit
-#  Then I am redirected to the Application Registration Tool page
-#   And the application "Boyne" is listed in the table on the top
-#  When I expand the application row for "Boyne"
-#   And the client ID and shared secret fields are Pending
-#   And the Registration Status field is Pending
+  # Create custom role
+  When I add a new role group
+  Then I should see the new role group
+
+Scenario: Developer creates new application (set up data)
+  Given I am a valid inBloom developer
+    And I am managing my applications
+    And I want to create a new application
+    And I create new application "Boyne"
+#  This step might need to be revisited
+   Then Application "Boyne" should be created
 #
 #Scenario: SLC Operator accepts application registration request (set up data)
 #  #Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
@@ -354,3 +321,52 @@ Scenario: Prepare Custom Roles (set up)
 #    | account_managements |
 #    | lea                 |
 #    | changePassword      |
+
+# Done
+#Scenario: Prepare Custom Roles (set up)
+#  #Reset mapping to default to start from known state
+#  When I navigate to the Custom Role Mapping Page
+#   And I select "inBloom" from the dropdown and click go
+#   And I was redirected to the "Simple" IDP Login page
+#  When I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
+#  When I click on the Custom Roles button next to Illinois Daybreak School District 4529
+#  Then I have navigated to my Custom Role Mapping Page
+#  When I click on the Reset Mapping button
+#   And I got a warning message saying "Are you sure you want to reset the mappings to factory defaults? This will remove any custom defined roles!"
+#  When I click 'OK' on the warning message
+#  Then I am no longer in edit mode
+#  Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
+#   And the Leader, Educator, Aggregate Viewer and IT Administrator role groups have the correct default role names
+#   And the IT Administrator role is the only admin role
+
+#  #Create custom role
+#  When I click on the Add Group button
+#   And I type the name "Application Authorizer" in the Group name textbox
+#  When I add the right "APP_AUTHORIZE" to the group "Application Authorizer"
+#  When I add the right "READ_GENERAL" to the group "Application Authorizer"
+#   And I add the role "Application Authorizer" to the group "Application Authorizer"
+#   And I hit the save button
+#  Then I am no longer in edit mode
+#   And the group "Application Authorizer" contains the roles "Application Authorizer"
+#   And the group "Application Authorizer" contains the "right" rights "APP AUTH"
+
+#Scenario: Developer creates new application (set up data)
+#  #Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
+#  When I hit the Application Registration Tool URL
+#   And I select "inBloom" from the dropdown and click go
+#   And I was redirected to the "Simple" IDP Login page
+#   And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
+#  Then I am redirected to the Application Registration Tool page
+#   And I have clicked to the button New
+#   And I am redirected to a new application page
+#  When I entered the name "Boyne" into the field titled "Name"
+#   And I have entered data into the other required fields except for the shared secret and the app id which are read-only
+#   And I click on the button Submit
+#  Then I am redirected to the Application Registration Tool page
+#   And the application "Boyne" is listed in the table on the top
+#  When I expand the application row for "Boyne"
+#   And the client ID and shared secret fields are Pending
+#   And the Registration Status field is Pending
+
+#Done
+

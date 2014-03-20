@@ -45,8 +45,68 @@ When /^I click on the Reset to Defaults button$/ do
 end
 
 Then /^The page should be reset back to default$/ do
-  # Check for correct default group titles, title, and text
+  numChecked = 0
 
-  # Check IT Administrator is the only one with Admin Role
-  #binding.pry
+  # Check for correct default group titles should be the same as titles
+  ["Educator","Leader","Aggregate Viewer","IT Administrator", "Student", "Parent"].each do |role|
+    results = browser.find(:xpath, "//td/div[text()='#{role}']")
+    moreResults = browser.find(:xpath, "//td/div/span[text()='#{role}']")
+
+    results.text.should eql(moreResults.text)
+  end
+
+  # Check IT Administrator is the only Admin Role
+  browser.all("input[type='checkbox']").each do |checkbox|
+    if checkbox.checked? == true
+      numChecked += 1
+    end
+  end
+
+  numChecked.should == 1
+  browser.find(:xpath, '/html/body/div/div[2]/div[2]/div/table/tbody/tr[3]/td[4]/input').should be_checked
+end
+
+# This step might need to be refactored
+When /^I add a new role group$/ do
+  browser.click_button('Add Role Group')
+  browser.fill_in('Enter group name', :with => 'Application Authorizer')
+  browser.fill_in('addRoleInput', :with => 'Application Authorizer')
+  browser.click_on('Add')
+  browser.select('APP_AUTHORIZE', :from => 'addRightSelect')
+  browser.click_on('addRightButton')
+  browser.select('READ_GENERAL', :from => 'addSelfRightSelect')
+  browser.click_on('addSelfRightButton')
+  browser.click_on('Save')
+end
+
+# Possible refactor will be required
+Then /^I should see the new role group$/ do
+  browser.within '#custom_roles' do
+    @new_custom_role = browser.find(:xpath, '/html/body/div/div[2]/div[2]/div/table/tbody/tr[7]')
+
+    browser.within @new_custom_role do
+      browser.find('.groupTitle').text.should == 'Application Authorizer'
+      browser.find('.role').text.should == 'Application Authorizer'
+      browser.find('.right').text.should == 'APP_AUTHORIZE'
+      browser.find('.self-right').text.should == 'READ_GENERAL'
+    end
+  end
+end
+
+And /^I create new application "([^"]*)"$/ do |app_name|
+  fill_in_application_fields(:name => app_name,
+                             :description => 'new application',
+                             :version => '0.9',
+                             :application_url => 'https://example.com',
+                             :administration_url => 'https://example.com',
+                             :redirect_uri => 'https://example.com',
+                             :image_url => 'https://example.com')
+  browser.check('app[installed]')
+  browser.click_button 'Register'
+end
+
+Then /^Application "([^"]*)" should be created$/ do |app_name|
+  browser.page.should have_css('#notice')
+  browser.page.should have_content(app_name)
+  browser.reset_session!
 end
