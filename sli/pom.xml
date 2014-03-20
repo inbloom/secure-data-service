@@ -94,6 +94,7 @@
         <sli.build.tools>1.0-SNAPSHOT</sli.build.tools>
 
         <!-- Maven Plugin Versions -->
+        <aspectj.maven.version>1.5</aspectj.maven.version>
         <maven.assembly.version>2.2-beta-5</maven.assembly.version>
         <maven.checkstyle.version>2.11</maven.checkstyle.version>
         <maven.compiler.version>2.5.1</maven.compiler.version> <!-- 2014-3-3: Attempted upgrade to 3.1 which threw compile errors. -->
@@ -123,7 +124,6 @@
         <activemq.version>5.7.0</activemq.version>
         <activemq-ingest.version>5.6.0</activemq-ingest.version>
         <aspectj.version>1.7.3</aspectj.version>
-        <aspectj.maven.version>1.5</aspectj.maven.version>
         <aspectjweaver.version>1.7.3</aspectjweaver.version>
         <camel.version>2.8.1</camel.version>
         <cglib.version>2.2.2</cglib.version>
@@ -177,6 +177,7 @@
         <javax.servlet.version>2.4</javax.servlet.version>
         <javax.servlet.jsp.version>2.0</javax.servlet.jsp.version>
         <javax.jstl.version>1.2</javax.jstl.version>
+        <javax.ws.rs-api.version>2.0-m09</javax.ws.rs-api.version>
         <taglibs.version>1.1.2</taglibs.version>
 
         <!-- Apache Versions -->
@@ -693,35 +694,35 @@
             </dependency>
 
             <!-- Java EE Framework -->
-            <!-- Java Validation dependency -->
             <dependency>
                 <groupId>javax.validation</groupId>
                 <artifactId>validation-api</artifactId>
                 <version>${javax.validation.version}</version>
                 <scope>compile</scope>
             </dependency>
-            <!-- Java EL dependency -->
             <dependency>
                 <groupId>javax.el</groupId>
                 <artifactId>el-api</artifactId>
                 <version>${javax.el.version}</version>
                 <scope>provided</scope>
             </dependency>
-            <!-- Java Servlet dependency -->
+            <dependency>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>javax.ws.rs-api</artifactId>
+                <version>${javax.ws.rs-api.version}</version>
+            </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>servlet-api</artifactId>
                 <version>${javax.servlet.version}</version>
                 <scope>provided</scope>
             </dependency>
-            <!-- Java Servlet JSTL dependency -->
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>jstl</artifactId>
                 <version>${javax.jstl.version}</version>
                 <scope>runtime</scope>
             </dependency>
-            <!-- Java Servlet Taglibs dependency -->
             <dependency>
                 <groupId>taglibs</groupId>
                 <artifactId>standard</artifactId>
@@ -902,6 +903,11 @@
                 <groupId>stax</groupId>
                 <artifactId>stax-api</artifactId>
                 <version>${stax.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.scribe</groupId>
+                <artifactId>scribe</artifactId>
+                <version>${scribe.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
