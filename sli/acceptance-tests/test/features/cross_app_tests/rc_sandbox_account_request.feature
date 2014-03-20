@@ -7,6 +7,7 @@ Background:
   And I am running in Sandbox mode
 
 Scenario: As an app developer I request a sandbox account and  I want to verify my registration email
+  Given there is not a user with an email address of "<DEVELOPER_SB_EMAIL>"
   And I go to the account registration page
   When I fill out the field "First Name" as "RCTest"
   And I fill out the field "Last Name" as "Developer"
