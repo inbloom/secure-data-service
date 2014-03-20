@@ -4,6 +4,7 @@ require 'json'
 require 'socket'
 require_relative './test/features/utils/db_client'
 require_relative './test/features/utils/rakefile_common'
+require_relative './test/features/utils/db_utils'
 
 
 Dir.glob('suites/*.rake').each { |r| import r }
@@ -225,80 +226,6 @@ def removeCollectionsCleanly(collectionName, specificTenants=nil)
 #  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{db_used} --quiet --eval \"db.getLastError()\""
 end
 
-# The admin realm and sandbox realm IDs are dynamically created during bootstrap,
-# so here we swap out references to those realms in long-lived sessions with
-# the dynamic ID of the realm.
-# TODO: Refactor this method away if possible -- it stinks
-def swap_realm_ids
-  @conn = Mongo::Connection.new(DB_HOST)
-  @db = @conn.db(SYSTEM_DB_NAME)
-  @dbTenant = @conn.db(DB_NAME)
-  realm_col = @db.collection('realm')
-  user_sessions = @db.collection('userSession')
-  custom_roles = @dbTenant.collection('customRole')
-  to_swap = [
-        {"unique_realm_id" => "Shared Learning Collaborative", "placeholder" => "ADMIN_REALM_ID_PLACEHOLDER"},
-        {"unique_realm_id" => "Shared Learning Collaborative", "placeholder" => "SANDBOX_REALM_ID_PLACEHOLDER"},
-  ]
-
-  to_swap.each do |realm|
-    realm_ent = realm_col.find_one({"body.uniqueIdentifier" => realm['unique_realm_id']})
-
-    if realm_ent
-      puts "Swapping realm ID for #{realm['unique_realm_id']}"
-      realm_id = realm_ent['_id']
-      update_count = 0
-      user_sessions.find({"body.principal.realm" => realm['placeholder']}).each do |row|
-        user_sessions.update({"_id" => row["_id"]}, {"$set" => {"body.principal.realm" => realm_id}})
-        update_count = update_count + 1
-      end
-      puts "\tUpdated #{update_count} user sessions"
-
-      update_count = 0
-      custom_roles.find({"body.realmId" => realm['placeholder']}).each do |row|
-        custom_roles.update({"_id" => row["_id"]}, {"$set" => {"body.realmId" => realm_id}})
-        update_count = update_count + 1
-      end
-      puts "\tUpdated #{update_count} custom roles."
-
-    else
-      puts "Skipping realm ID swap for #{realm['unique_realm_id']}"
-    end
-  end
-end
-
-# The app ids for bootstrapped apps are dynamically generated,
-# so here we swap out references to those apps in the app authroization
-# wht the dynamic ID of the app.
-def swap_app_ids(dbName)
-  @conn = Mongo::Connection.new(DB_HOST)
-  @db = @conn.db(SYSTEM_DB_NAME)
-  @dbTenant = @conn.db(dbName)
-
-  to_swap = [
-        {"app_name" => "inBloom Data Browser", "placeholder" => "DATABROWSER_ID_PLACEHOLDER"},
-        {"app_name" => "inBloom Dashboards", "placeholder" => "DASHBOARD_ID_PLACEHOLDER"},
-  ]
-  apps = @db.collection('application')
-  app_auths = @dbTenant.collection('applicationAuthorization')
-
-  to_swap.each do |app|
-    puts "Swapping IDs for #{app['app_name']}"
-    app_ent = apps.find_one({"body.name" => app['app_name']})
-    if app_ent
-      app_id = app_ent['_id']
-      update_count = 0
-      app_auths.find("body.appIds" =>  app['placeholder']).each do |row|
-        app_ids = row['body']['appIds']
-        app_ids[app_ids.index(app['placeholder'])] = app_id
-        app_auths.update({"_id" => row["_id"]}, {"$set" => {"body.appIds" => app_ids}})
-        update_count = update_count + 1
-      end
-      puts "\tUpdate #{update_count} entries"
-    end
-  end
-end
-
 def setRealmIdpUrls
   old_idp_url = "http://local.slidev.org:8082/simple-idp"
   new_idp_url = Property['simpleIDP_login_url']
@@ -341,45 +268,22 @@ task :realmInit => :appInit do
   set_fixture('realm', nil, 'test/data', false)
   setRealmIdpUrls
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'anotherfakerealm')
-  set_fixture 'customRole', 'customRole_anotherfakerealm_fixture.json'
-  swap_realm_ids
-
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'chaos_mokey_org')
-  set_fixture 'customRole', 'customRole_chaos_mokey_org_fixture.json'
-  swap_realm_ids
-
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'developer-email@slidev.org')
-  set_fixture 'customRole', 'customRole_developer-email@slidev.org_fixture.json'
-  swap_realm_ids
-
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'fakedev_zork_net')
-  set_fixture 'customRole', 'customRole_fakedev_zork_net_fixture.json'
-  swap_realm_ids
-
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'sandboxadministrator@slidev.org')
-  set_fixture 'customRole', 'customRole_sandboxadministrator@slidev.org_fixture.json'
-  swap_realm_ids
-
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'anothersandboxdeveloper@slidev.org')
-  set_fixture 'customRole'
-  swap_realm_ids
-
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Security')
-  set_fixture 'customRole', 'customRole_Security_fixture.json'
-  swap_realm_ids
-
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Zork')
-  set_fixture 'customRole', 'customRole_Zork_fixture.json'
-  swap_realm_ids
-
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Hyrule')
-  set_fixture 'customRole', 'customRole_Hyrule_fixture.json'
-  swap_realm_ids
-
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Midgar')
-  set_fixture 'customRole', 'customRole_Midgar_fixture.json'
-  swap_realm_ids
+  [
+    ['anotherfakerealm', 'customRole_anotherfakerealm_fixture.json'],
+    ['chaos_mokey_org', 'customRole_chaos_mokey_org_fixture.json'],
+    ['developer-email@slidev.org', 'customRole_chaos_mokey_org_fixture.json'],
+    ['fakedev_zork_net',  'customRole_fakedev_zork_net_fixture.json'],
+    ['sandboxadministrator@slidev.org', 'customRole_sandboxadministrator@slidev.org_fixture.json'],
+    ['anothersandboxdeveloper@slidev.org', nil],
+    ['Security', 'customRole_Security_fixture.json'],
+    ['Zork', 'customRole_Zork_fixture.json'],
+    ['Hyrule', 'customRole_Hyrule_fixture.json'],
+    ['Midgar', 'customRole_Midgar_fixture.json']
+  ].each do |tenant, fixture|
+    DB_NAME = DbClient.tenant_to_db_name(tenant)
+    set_fixture 'customRole', fixture
+    DbUtils.swap_realm_ids tenant
+  end
 
   enable_NOTABLESCAN
 end
@@ -412,7 +316,7 @@ task :appInit do
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Midgar')
   cleanseCollectionWithTenantID('applicationAuthorization', 'Midgar')
-set_fixture 'applicationAuthorization'
+  set_fixture 'applicationAuthorization'
   update_sample_app_urls
 
    DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Hyrule')
@@ -429,9 +333,6 @@ set_fixture 'applicationAuthorization'
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Midgar')
   set_fixture 'userSession', 'oauth_authentication_tokens.json'
-
-  swap_app_ids convertTenantIdToDbName('Midgar')
-  swap_app_ids convertTenantIdToDbName('Hyrule')
 
   enable_NOTABLESCAN
 end

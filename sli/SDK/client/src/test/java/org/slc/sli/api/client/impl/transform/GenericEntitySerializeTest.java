@@ -17,16 +17,17 @@
 
 package org.slc.sli.api.client.impl.transform;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONException;
+import org.junit.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.slc.sli.api.client.impl.GenericEntity;
 
 import java.io.IOException;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
-
-import org.slc.sli.api.client.impl.GenericEntity;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test GenericEntity serialization
@@ -36,7 +37,7 @@ public class GenericEntitySerializeTest {
     ObjectMapper mapper = new ObjectMapper();
     
     @Test
-    public void testSerializeBasicEntity() throws IOException {
+    public void testSerializeBasicEntity() throws IOException, JSONException {
         
         GenericEntity e = TestHelpers.createSimpleGenericEntity();
         
@@ -44,15 +45,12 @@ public class GenericEntitySerializeTest {
         
         assertNotNull(jsonString);
         JsonNode eNode = mapper.readTree(jsonString);
-        
-        // System.err.println(TestHelpers.SIMPLE_JSON_BODY.toString());
-        // System.err.println(eNode.toString());
-        
-        assertTrue(TestHelpers.SIMPLE_JSON_BODY.equals(eNode.toString()));
+
+        JSONAssert.assertEquals(TestHelpers.SIMPLE_JSON_BODY.toString(), eNode.toString(), true);
     }
     
     @Test
-    public void testComplexEntity() throws IOException {
+    public void testComplexEntity() throws IOException, JSONException {
         
         GenericEntity e = TestHelpers.createComplexEntity();
         
@@ -60,10 +58,7 @@ public class GenericEntitySerializeTest {
         assertNotNull(jsonString);
         
         JsonNode eNode = mapper.readTree(jsonString);
-        
-        // System.err.println(TestHelpers.COMPLEX_JSON_BODY.toString());
-        // System.err.println(eNode.toString());
-        
-        assertTrue(TestHelpers.COMPLEX_JSON_BODY.equals(eNode.toString()));
+
+        JSONAssert.assertEquals(TestHelpers.COMPLEX_JSON_BODY.toString(), eNode.toString(), true);
     }
 }

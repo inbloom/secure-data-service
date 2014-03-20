@@ -16,17 +16,15 @@
 
 package org.slc.sli.common.encrypt.security.saml2;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.xml.crypto.MarshalException;
+import javax.xml.crypto.dsig.XMLSignature;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-
-import javax.xml.crypto.MarshalException;
-import javax.xml.crypto.dsig.XMLSignature;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  * Simple interface for SAML2 validation and signing.
@@ -60,8 +58,6 @@ public interface SAML2Validator {
      */
     public boolean isSignatureTrusted(XMLSignature signature, String issuer) throws KeyStoreException,
             InvalidAlgorithmParameterException, CertificateException, NoSuchAlgorithmException;
-
-    public boolean isDigestValid(Document samlDocument);
 
     public Document signDocumentWithSAMLSigner(Document samlDocument, SAML2Signer signer);
 

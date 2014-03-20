@@ -137,9 +137,7 @@ end
 
 #### Common methods ##############
 def intializaApprovalEngineAndLDAP(email_conf = @email_conf, prod=true)
-  @ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
-                          Property['ldap_base'], Property['ldap_admin_user'],
-                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
+  @ldap = ldap_storage
   ApprovalEngine.init(@ldap, nil, !prod)
 end
 

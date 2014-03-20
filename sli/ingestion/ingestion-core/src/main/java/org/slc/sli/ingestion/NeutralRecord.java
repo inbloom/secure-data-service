@@ -34,13 +34,12 @@
 
 package org.slc.sli.ingestion;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.apache.commons.codec.digest.DigestUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
-
 import org.slc.sli.ingestion.reporting.ElementSource;
+
+import java.util.*;
 
 /**
  * Container format to store any type of Ingestion data generically.
@@ -558,5 +557,39 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
 
     public void setActionAttributes(Map<String, String> actionAttributes) {
         metaData.put(KEY_ACTION_ATTRS, actionAttributes);
+    }
+
+    public String generateRecordHash(String tenantId){
+        // Calculate record hash using attributes, tenantId and entityType
+        StringBuffer recordHashValuesBuff = new StringBuffer(tenantId).append(":").append(this.getRecordType()).append(":");
+        Map<String, Object> attributes = this.getAttributes();
+
+        appendSerializedMap(recordHashValuesBuff, attributes);
+
+        return DigestUtils.shaHex(recordHashValuesBuff.toString());
+    }
+
+    private String appendSerializedMap(StringBuffer stringBuff, Map<String, Object> attributes)
+    {
+        stringBuff.append("{");
+
+        List<String> keys = new ArrayList(attributes.keySet());
+        Collections.sort(keys);
+
+        for(String key : keys)
+        {
+            Object value = attributes.get(key);
+            stringBuff.append(key + "=");
+            if (Map.class.isAssignableFrom(value.getClass())) {
+                appendSerializedMap(stringBuff, (Map<String, Object>) value);
+            } else {
+                stringBuff.append(value);
+            }
+            stringBuff.append(",");
+        }
+
+        stringBuff.append("}");
+
+        return stringBuff.toString();
     }
 }
