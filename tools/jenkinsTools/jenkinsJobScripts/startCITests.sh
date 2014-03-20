@@ -238,7 +238,7 @@ if [[ "$TEST" == "ci" ]]; then
   done
   echo "Waiting for APPS to finish deploying"
   sleep 120
-  runTests bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz TOGGLE_TABLESCANS=true smokeTests
+  runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz TOGGLE_TABLESCANS=true smokeTests
   EXITCODE=$?
 fi
 
@@ -259,7 +259,7 @@ if [[ "$TEST" == "ci_e2e_prod" ]]; then
   done
   echo "Waiting for APPS to finish deploying"
   sleep 120
-  runTests bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz rcTests
+  runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz rcTests
   EXITCODE=$?
 fi
 
@@ -280,7 +280,7 @@ if [[ "$TEST" == "ci_e2e_sandbox" ]]; then
   done
   echo "Waiting for APPS to finish deploying"
   sleep 120
-  runTests bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz rcSandboxTests
+  runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz rcSandboxTests
   EXITCODE=$?
 fi
 
@@ -297,7 +297,7 @@ if [[ "$TEST" == "api_contextual_roles" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiContextualRolesTests
+	runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiContextualRolesTests
   EXITCODE=$?
 fi
 
@@ -314,7 +314,7 @@ if [[ "$TEST" == "api_odin" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiOdinTests
+	runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiOdinTests
   EXITCODE=$?
 fi
 
@@ -331,7 +331,7 @@ if [[ "$TEST" == "bulk_extract" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz bulkExtractTests
+	runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz bulkExtractTests
   EXITCODE=$?
 fi
 
@@ -348,7 +348,7 @@ if [[ "$TEST" == "api_and_security" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests apiAndSecurityTests
+	runTests PROPERTIES=$PROPERTIES apiAndSecurityTests
   EXITCODE=$?
 fi
 
@@ -366,7 +366,7 @@ if [[ "$TEST" == "admin" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests adminToolsTests
+	runTests PROPERTIES=$PROPERTIES adminToolsTests
   EXITCODE=$?
 fi
 
@@ -383,7 +383,7 @@ if [[ "$TEST" == "dashboard" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests localDashboardTests
+	runTests PROPERTIES=$PROPERTIES localDashboardTests
   EXITCODE=$?
 fi
 
@@ -401,7 +401,7 @@ if [[ "$TEST" == "databrowser" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests databrowserTests
+	runTests PROPERTIES=$PROPERTIES databrowserTests
   EXITCODE=$?
 fi
 
@@ -418,7 +418,7 @@ if [[ "$TEST" == "ingestion" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests ingestionTests
+	runTests PROPERTIES=$PROPERTIES ingestionTests
   EXITCODE=$?
 fi
 
@@ -437,7 +437,7 @@ if [[ "$TEST" == "sandbox" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz sandboxTests
+	runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz sandboxTests
   EXITCODE=$?
 fi
 exit $EXITCODE
