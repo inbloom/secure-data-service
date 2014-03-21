@@ -64,7 +64,6 @@ UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_fil
 ERROR_REPORT_MISSING_STRING_PREFIX = "#?"
 ERROR_REPORT_MISSING_STRING_SUFFIX = "?#"
 
-updated = Set.new
 deleted = Set.new
 checked = Set.new
 
@@ -1638,15 +1637,6 @@ Then /^I remove the following indexes in the corresponding collections:$/ do |ta
   end
 end
 
-def cleanupSubDoc(superdocs, subdoc)
-  superdocs.each do |superdoc|
-    if superdoc.has_key? subdoc
-      superdoc[subdoc] = []
-      @entity_collection.update({"_id"=>superdoc["_id"]}, superdoc)
-    end
-  end
-end
-
 $superDocTypes = [ 'section', 'student', 'studentAssessment', 'assessment']
   
 $subDocEntity2ParentType = {
@@ -1673,7 +1663,7 @@ $denormalizedTypeInfo = {
 }
 
 def subDocParent(subDocType)
-    return $subDocEntity2ParentType[subDocType]
+  $subDocEntity2ParentType[subDocType]
 end
 
 def subDocCount(parent, subdoc, opts=nil, key=nil, match_value=nil)
@@ -1752,43 +1742,10 @@ end
 
 def runSubDocQuery(subdoc_parent, subdoc, searchType, searchParameter, searchValue, opts=nil)
   subDocCount(subdoc_parent, subdoc, opts, searchParameter, searchValue)
-
-  #  This requires mongo driver 1.7.0, on CI it is still 1.6.4... Shall we upgrade?
-  #
-  #  coll.aggregate([ {"$match" => {"#{subdoc}.#{searchParameter}" => {"$exists" => true}}},
-  #                 {"$project" => {"#{subdoc}" => 1, "_id" => 0, "count" => 1}},
-  #                 {"$unwind" => "$#{subdoc}"},
-  #                 {"$match" => {"#{subdoc}.#{searchParameter}" => "#{searchValue}"}},
-  #              ]).size
-
-  #
-  # This does not work as it counts the number of the parents, not number of
-  # subdocs
-  #
-  #-------------------------------------------
-  # @entity_collection = @db.collection(subdoc_parent)
-  # param = subdoc + "." + searchParameter
-  #
-  # if searchType == "integer"
-  #      @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-  # elsif searchType == "double"
-  #      @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_f}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-  # elseif searchType == "boolean"
-  #   if searchValue == "false"
-  #     @entity_count = @entity_collection.find({"$and" => [{param => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-  #   else
-  #     @entity_count = @entity_collection.find({"$and" => [{param => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-  #   end
-  # elsif searchType == "nil"
-  #      @entity_count = @entity_collection.find({"$and" => [{param => nil}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-  # else
-  #   @entity_count = @entity_collection.find({"$and" => [{param => searchValue},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-  # end
-  # ----------------------------------------
 end
 
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
-  disable_NOTABLESCAN()
+  disable_NOTABLESCAN
   @db   = @conn[@ingestion_db_name]
   @result = "true"
   puts "db name #{@db.name} on server #{INGESTION_DB}"
@@ -1812,7 +1769,7 @@ Then /^I should see following map of entry counts in the corresponding collectio
   end
 
   assert(@result == "true", "Some records didn't load successfully.")
-  enable_NOTABLESCAN()
+  enable_NOTABLESCAN
 end
 
 Then /^I should see following map of entry counts in the corresponding sli db collections:$/ do |table|
@@ -1835,7 +1792,7 @@ end
 
 Then /^I should see following map of entry counts in the corresponding batch job db collections:$/ do |table|
   disable_NOTABLESCAN
-  @db   = @batchConn[Property[:ingestion_batch_job_db_name]]
+  @db   = @batchConn['ingestion_batch_job']
 
   @result = "true"
 
@@ -1850,12 +1807,7 @@ Then /^I should see following map of entry counts in the corresponding batch job
   end
 
   assert(@result == "true", "Some records didn't load successfully.")
-  enable_NOTABLESCAN()
-end
-
-Then /^I should say that we started processing$/ do
-  puts "Ingestion Performance Dataset started Ingesting.  Please wait a few hours for it to complete."
-  assert(true, "Some records didn't load successfully.")
+  enable_NOTABLESCAN
 end
 
 Then /^I check to find if record is in collection:$/ do |table|
@@ -1863,7 +1815,7 @@ Then /^I check to find if record is in collection:$/ do |table|
 end
 
 Then /^I check to find if record is in sli database collection:$/ do |table|
-   check_records_in_collection(table, Property[:sli_db_name])
+   check_records_in_collection(table, 'sli')
 end
 
 Then /^there are "(.*?)" counts of "(.*?)" that reference \("(.*?)" with attribute "(.*?)" equals "(.*?)"\)$/ do |count, entity, referenced_entity, attribute, value|
@@ -2949,7 +2901,7 @@ def verifySubDocDid(subdoc_parent, subdoc, didId, field, value)
 end
 
 Then /^I check that ids were generated properly:$/ do |table|
-  disable_NOTABLESCAN()
+  disable_NOTABLESCAN
   @db = @conn[@ingestion_db_name]
   table.hashes.map do |row|
     subdoc_parent = subDocParent row["collectionName"]
@@ -2971,7 +2923,7 @@ Then /^I check that ids were generated properly:$/ do |table|
 end
 
 Then /^I check that multiple educationOrganization ids were generated properly:$/ do |table|
-  disable_NOTABLESCAN()
+  disable_NOTABLESCAN
   @db = @conn[@ingestion_db_name]
   table.hashes.map do |row|
     
@@ -2986,7 +2938,7 @@ Then /^I check that multiple educationOrganization ids were generated properly:$
       
     assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
   end
-  enable_NOTABLESCAN()
+  enable_NOTABLESCAN
 end
 
 
@@ -3034,28 +2986,23 @@ def getRecord(did, collectionName)
 end
 
 Then /^I check that references were resolved correctly:$/ do |table|
-  disable_NOTABLESCAN()
+  disable_NOTABLESCAN
   table.hashes.map do |row|
     did = row['entityId']
-      refField = row['referenceField']
-      refCollectionName = row['referenceCollection']
-      collectionName = row['entityCollection']
+    refField = row['referenceField']
+    refCollectionName = row['referenceCollection']
+    collectionName = row['entityCollection']
   
     entity = getRecord(did, collectionName)
-    assert(entity != nil, "Failed to find an entity with _id = #{did} in collection #{collectionName}")
+    entity.should_not be_nil, "Failed to find an entity with _id = #{did} in collection #{collectionName}"
   
     parentCollectionName = subDocParent(collectionName)
-    if parentCollectionName
-      refDid = extractField(entity, refField, collectionName, did)
-    else
-      refDid = extractField(entity, refField, nil, nil)
-    end
-    
+    refDid = parentCollectionName ? extractField(entity, refField, collectionName, did) : extractField(entity, refField, nil, nil)
+
     referredEntity = getRecord(refDid, refCollectionName)
-    assert(referredEntity != nil, "Referenced #{refCollectionName} entity with _id = #{refDid} in #{collectionName} does not exist")
-    
+    referredEntity.should_not be_nil, "Referenced #{refCollectionName} entity with _id = #{refDid} in #{collectionName} does not exist"
   end
-  enable_NOTABLESCAN()
+  enable_NOTABLESCAN
 end
 
 def recursiveCount (list, containPath, param)
@@ -3127,10 +3074,8 @@ end
 
 def recurseAndCount(path, param, resetCount=true)
 
-  if resetCount == true
-    @entity_count = 0
-  end
-  
+  @entity_count = 0 if resetCount == true
+
   dotPath = String.new(path)
   dotPath[":"] = "." while dotPath.include? ":"
   dotPath.gsub!(/\.\..*/, "")
@@ -3139,15 +3084,12 @@ def recurseAndCount(path, param, resetCount=true)
   doc = @entity_collection.find({"#{dotPath}" => { "$exists" => true }}).to_a
     
   doc.each do |inner|
-            
     truncParam = String.new(param)
-
     truncParam[dotPath] = ""
     truncParam = truncParam[1..-1] if truncParam[0]=='.'
     paramList = truncParam.split "."
     pathList = path.split(":",-1)
     recursiveCount(inner, pathList, paramList)
-      
   end
 end
 
@@ -3201,115 +3143,36 @@ Then /^I check the number of records in collection:/ do |table|
 end
 
 Then /^I check the number of elements in array of collection:/ do |table|
-  
-  disable_NOTABLESCAN()
+  disable_NOTABLESCAN
   @db = @conn[@ingestion_db_name]
-  @result = "true"
+  result = true
   
   table.hashes.map do |row|
-      coll = row["collectionName"]
-      param = row["field"]
-      value = row["value"]
-      parentList = row["searchContainer"]
+    coll = row["collectionName"]
+    param = row["field"]
+    value = row["value"]
+    parentList = row["searchContainer"]
 
     @entity_collection = @db.collection(coll)
     
     @entity_count = @entity_collection.aggregate( [ {"$match" => {"#{param}" => "#{value}"}},{"$unwind"=> "$#{parentList}"}]).size
     
     if @entity_count.to_s != row["expectedRecordCount"].to_s
-      @result = "false"
+      result = false
       red = "\e[31m"
       reset = "\e[0m"
     end
 
     puts "#{red}There are " + @entity_count.to_s + " in "+ row["collectionName"] + " collection for record with " + row["searchContainer"] + " . Expected: " + row["expectedRecordCount"].to_s+"#{reset}"
   end
-  
-  assert(@result == "true", "Some entities were not stored.")
-  enable_NOTABLESCAN()   
+  result.should be_true, 'Some entities were not stored.'
+  enable_NOTABLESCAN
 end
 
-@original_count
-@after_count
-
-def dumpDb(tenant)
-     `rm -rf temp/*|wc -l`
-     `sh exportMongoDb.sh #{convertTenantIdToDbName(tenant)} temp 2>&1 /dev/null`
-end
-
-def cleanUpDbDump
-     `rm -rf temp/*`
-end
-
-Then /^I should not see "(.*?)" in the "(.*?)" database$/ do |id, tenant|
-       dumpDb(tenant)
-       `rm -f temp/exp_*_deltas.json`
-       output = `grep #{id} ./temp/*`
-       assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
-
-end
-
-Then /^I should not see any entity mandatorily referring to "(.*?)" in the "(.*?)" database$/ do |id, tenant|
-   @after_count = `grep id ./temp/*|wc -l`
-   puts "after_count = " + @after_count
-      if(deleted.length()>0)
-          deleted.each do |id|
-              puts id
-              output = `grep #{id} ./temp/*`
-              assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
-          end
-      end
-
-end
-
-def check_record_in_collection(table,db_name,found)
-    @db   = @conn[db_name]
-    for i in 0..deleted.length-1
-        recordId = deleted[i]
-        subdoc_parent = subDocParent table
-        if subdoc_parent
-           @entity_count = runSubDocQuery(subdoc_parent, table, "string", "_id", recordId)
-        else
-           @entity_collection = @db.collection(table)
-           @entity_count = @entity_collection.find({"$and" => [{"_id" => recordId}]}).count().to_s
-           if found
-             assert(@entity_count!=0, "ID: #{recordId} not found in tenant database")
-           else
-             assert(@entity_count==0, "ID: #{recordId} found in tenant database")
-           end
-        end
-    end
-end
-
-Then /^I should see entities optionally referring to "(.*?)" be updated in the "(.*?)" database$/ do |id, tenant|
-        count = @after_count.to_i + deleted.length()
-        #puts count
-        #puts @original_count.to_i
-        #assert(@original_count.to_i==count, "Some records which should not be deleted are deleted.")
-
-        if(updated.length()>0)
-             updated.each do |id|
-                 puts id
-                 output = `grep #{id} ./temp/*`
-                 assert($?.to_i==0, "ID: #{id} not found in tenant database: #{output}")
-             end
-        end
-        cleanUpDbDump
-end
-
-Then /^I should see "(.*?)" in the "(.*?)" database$/ do |id, tenant|
-  `rm -rf temp/*`
-  `sh exportMongoDb.sh #{convertTenantIdToDbName(tenant)} temp 2>&1 /dev/null`
-  output = `grep #{id} ./temp/*`
-  assert($?.to_i==0, "ID: #{id} not found in tenant database: #{output}")
-  `rm -rf temp/*`
-end
-
-Then /^all attendance entities should should have the expected structure./ do
+Then /^all attendance entities should should have the expected structure/ do
   @db = @conn[@ingestion_db_name]
   @coll = @db['attendance']
   @coll.find.each do | entity |
-
     assert(entity["body"].has_key?("schoolId"))
     assert(entity["body"].has_key?("schoolYear"))
     assert(entity["body"].has_key?("studentId"))
@@ -3325,17 +3188,17 @@ Then /^all attendance entities should should have the expected structure./ do
 end
 
 Then /^a query on attendance of for studentId "(.*?)", schoolYear "(.*?)" and date "(.*?)" on the "(.*?)" tenant has a count of "(.*?)"$/ do |student, year, date, tenant, count|
-    disable_NOTABLESCAN()
-    @db = @conn[convertTenantIdToDbName(tenant)]
-    @coll = @db['attendance']
-    entity_count = @coll.find({"body.studentId" => student, "body.schoolYear" => year, "body.attendanceEvent.date" => date}).count()
-    assert(entity_count.to_i==count.to_i, "Count mismatch. Actual count is #{entity_count}")
-    enable_NOTABLESCAN()
+  disable_NOTABLESCAN
+  @db = @conn[convertTenantIdToDbName(tenant)]
+  @coll = @db['attendance']
+  entity_count = @coll.find({"body.studentId" => student, "body.schoolYear" => year, "body.attendanceEvent.date" => date}).count
+  entity_count.should == count.to_i
+  enable_NOTABLESCAN
 end
 
 Then /^correct number of records should be ingested for "(.*?)"$/ do |dataSet|
-    correct_count = getCorrectCountForDataset(dataSet)
-    step "I should see \"Processed #{correct_count} records.\" in the resulting batch job file"
+  correct_count = getCorrectCountForDataset(dataSet)
+  step "I should see \"Processed #{correct_count} records.\" in the resulting batch job file"
 end
 
   

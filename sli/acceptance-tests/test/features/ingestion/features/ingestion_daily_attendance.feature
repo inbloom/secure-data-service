@@ -94,4 +94,4 @@ Then I should see following map of entry counts in the corresponding collections
     When zip file is scp to ingestion landing zone
     And a batch job for file "DailyAttendance.zip" is completed in database
     And I should not see a warning log file created
-    Then all attendance entities should should have the expected structure.
+    Then all attendance entities should should have the expected structure
