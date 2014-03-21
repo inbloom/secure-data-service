@@ -1005,6 +1005,8 @@
 			<xs:enumeration value="Twelfth grade"/>
 			<xs:enumeration value="Ungraded"/>
 			<xs:enumeration value="Not Available"/>
+            <xs:enumeration value="Middle School"/>
+            <xs:enumeration value="Elementary School"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="schoolCategoryItemType">
@@ -3052,6 +3054,7 @@
 			<xs:enumeration value="Black, Not Of Hispanic Origin"/>
 			<xs:enumeration value="Hispanic"/>
 			<xs:enumeration value="White, Not Of Hispanic Origin"/>
+            <xs:enumeration value="Two Or More Races"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="electronicMailAddressType">

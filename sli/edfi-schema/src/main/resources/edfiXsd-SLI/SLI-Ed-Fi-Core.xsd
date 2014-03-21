@@ -2260,6 +2260,8 @@
             <xs:enumeration value="Transitional Kindergarten"/>
             <xs:enumeration value="Twelfth grade"/>
             <xs:enumeration value="Ungraded"/>
+            <xs:enumeration value="Middle School"/>
+            <xs:enumeration value="Elementary School"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:complexType name="SLC-GradeReferenceType">
