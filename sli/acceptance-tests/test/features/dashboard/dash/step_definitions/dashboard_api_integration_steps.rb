@@ -42,36 +42,6 @@ When /^I select "([^"]*)" and click go$/ do |arg1|
   
 end
 
-Then /^The students who have an ELL lozenge exist in the API$/ do
-  #todo: grab a token id from api 
-  @sessionId = "4cf7a5d4-37a1-ca19-8b13-b5f95131ac85"
-  
-  students_w_lozenges = getStudentsWithELLLozenge()
-  students_w_lozenges.each do |student_id|
-    urlHeader = makeUrlAndHeaders('get' ,"/v1/students/"+student_id, @sessionId, @format)
-
-    @res = RestClient.get(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
-    @result = JSON.parse(@res.body)
-    assert(@result["limitedEnglishProficiency"].to_s == "Limited")
-  end  
-end
-
-def getStudentsWithELLLozenge()
-  studentTable = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
-  all_trs = studentTable.find_elements(:css,"tr[class*='ui-widget']")
-  students_with_lozenges = []
-  i = 0
-  all_trs.each do |tr|
-   fullName = tr.find_element(:css, "td[aria-describedby*='name.fullName']")
-   programParticipation = tr.find_element(:css, "td[aria-describedby*='programParticipation'][title='ELL']")
-   if (programParticipation.length > 0)
-    students_with_lozenges[i] = fullName
-    i+=1
-   end
-  end  
-  return students_with_lozenges    
-end
-
 When /^the following students have "([^"]*)" lozenges: "([^"]*)"$/ do |lozengeName, studentList|
   studentTable = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
 
