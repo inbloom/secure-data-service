@@ -3,6 +3,7 @@
   
   <%= select_tag "search_type","
     <option value=\"students\">Student</option>
+    <--! remove 'By ID' options later -->
     <option value=\"studentById\">Student - By ID</option>
 
     <option value=\"staff\">Staff</option>
@@ -11,7 +12,7 @@
     <option value=\"educationOrganizations\">Education Organization</option>
     <option value=\"edOrgById\">Education Organization - By ID</option>
 
-    <option value=\"parents\">Parent - parentUniqueStateId</option>
+    <option value=\"parents\">Parent</option>
     <option value=\"parentsById\">Parent - By ID</option>
     ".html_safe %>
   <%= text_field_tag :search_id, params[:search_id], :placeholder => "Enter the ID or Name here" %>

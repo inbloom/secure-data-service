@@ -40,10 +40,11 @@ class EntitiesController < ApplicationController
   def set_url
     @search_field = nil
     case params[:search_type]
+    #searching by _id specifically must cause something in Elastic Search to convert the string that is sent into the MongoID Object type
     when /studentById/
-      @search_field = "_id,studentUniqueStateId"
+      @search_field = "_id"
     when /staffById/
-      @search_field = "_id,staffUniqueStateId"
+      @search_field = "_id"
     when /edOrgById/
       @search_field = "_id"
     when /parentsById/

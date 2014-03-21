@@ -52,43 +52,44 @@
     },
     "staff": {
       "fields": [
-            "body._id",
             "body.name.firstName", 
             "body.name.middleName", 
             "body.name.lastSurname", 
             "body.otherName.firstName", 
             "body.otherName.middleName", 
             "body.otherName.lastSurname",
-            "body.staffUniqueStateId"
+            "body.staffUniqueStateId",
+            "body._id"
       ]
     },
     "teacher": {
       "fields": [
-            "body._id",
             "body.name.firstName", 
             "body.name.middleName", 
             "body.name.lastSurname", 
             "body.otherName.firstName", 
             "body.otherName.middleName", 
             "body.otherName.lastSurname",
-            "body.staffUniqueStateId"
+            "body.staffUniqueStateId",
+            "body._id"
       ]
     },
     "parent": {
         "fields": [
-            "body._id",
             "body.name.firstName", 
             "body.name.middleName", 
             "body.name.lastSurname", 
             "body.otherName.firstName", 
             "body.otherName.middleName", 
             "body.otherName.lastSurname",
-            "body.parentUniqueStateId"
+            "body.parentUniqueStateId",
+            "body._id"
         ]
     },
     "educationOrganization": {
       "fields": [
-            "body.nameOfInstitution"
+            "body.nameOfInstitution",
+            "body._id"
       ]
     },
     "learningStandard": {
