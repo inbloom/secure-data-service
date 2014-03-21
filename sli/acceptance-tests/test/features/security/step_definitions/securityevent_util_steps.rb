@@ -50,9 +50,11 @@ Then /^"([^"]*)" security event with field "([^"]*)" matching "([^"]*)" should b
 end
 
 def securityEventCollection
-  db ||= Mongo::Connection.new(Property[:db_host],Property[:db_port]).db('sli')
-  coll ||= db.collection('securityEvent')
-  return coll
+  puts "Connecting to Mongo #{Property[:db_host]}:#{Property[:db_port]}"
+  db = Mongo::Connection.new(Property[:db_host],Property[:db_port]).db('sli')
+  db.collection_names.each { |name| puts name }
+  puts "securityEvent count: #{db.collection('securityEvent').count}"
+  db.collection('securityEvent')
 end
 
 def getMatchingSecEvents(field="body.logMessage", securityeventpattern)
