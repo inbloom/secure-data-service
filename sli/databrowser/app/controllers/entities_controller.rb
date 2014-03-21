@@ -41,13 +41,15 @@ class EntitiesController < ApplicationController
     @search_field = nil
     case params[:search_type]
     when /studentById/
-      @search_field = "_all"
+      @search_field = "_id,studentUniqueStateId"
     when /staffById/
-      @search_field = "_all"
+      @search_field = "_id,staffUniqueStateId"
     when /edOrgById/
-      @search_field = "_all"
+      @search_field = "_id"
     when /parentsById/
-      @search_field = "_all"
+      @search_field = "_id"
+   #The q is for query parameters. So what the api does with that is basically just forwards it on to elastic search. 
+   #It doesn't even really stop in between other than to format the url in a search indexer friendly way and pass the results back out.
     when /students/
       @search_field = "q"
     when /staff/
