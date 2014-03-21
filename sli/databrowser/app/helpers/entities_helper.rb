@@ -104,14 +104,8 @@ module EntitiesHelper
           else
             url = url + "?showAll=true"
           end
-          html << '<li>' << link_to(t(link["rel"]), localize_url(url))
-        else
-          html << '<li>' << link_to(t(link["rel"]), localize_url(url))
         end
-
-        #if (url.include? "Association")
-        #  url = drop_entity_for_association(url)
-        #end
+        html << '<li>' << link_to(t(link["rel"]), localize_url(url))
 
         if (url.include? "?")
           url = "#{url}&countOnly=true&showAll=true"
@@ -120,7 +114,11 @@ module EntitiesHelper
         end
 
         # Adds the count span to the page for use with getting the counts by ajax request.
-        html << " (" << "<span class=count_link data-url=#{localize_url(url)}>#</span>" << ")"
+        if (COUNT_CONFIG['include_current'].include? get_last_url_part(url))
+          html << " (" << "<span class=count_link data-url=#{localize_url(url)} data-include_current=true>#</span>" << ")"
+        else
+          html << " (" << "<span class=count_link data-url=#{localize_url(url)} data-include_current=false>#</span>" << ")"
+        end
         
         html << '</li>'
 
@@ -130,6 +128,11 @@ module EntitiesHelper
       html << link_to(t(hash["rel"]), localize_url(hash["href"]))
     end
     html
+  end
+  
+  private
+  def get_last_url_part(url)
+    return URI(url).path.split("/").last
   end
 
   # This method sorts the entity into the order determined by ./config/order.yml
@@ -401,37 +404,6 @@ module EntitiesHelper
     result
    
   end
-
-# Drops the version number off of the base url for unversioned resources
-def drop_entity_for_association(in_url)
-  
-  # Convert api_base to URI
-  url = URI(in_url)
-  
-  # Start building back the new url with scheme and host
-  new_url = url.scheme + "://" + url.host
-  
-  # Check if there is a port, if so add it
-  if url.port
-    new_url += ":" + url.port.to_s
-  end
-  
-  # Split the parts from the url. The first part will be blank since url.path starts with a slash
-  # Skip that one, and if it is the last part, then don't add it as it will be the version.
-  url_path_parts = url.path.split("/")
-  url_path_parts.each do |part|
-    if part == url_path_parts.first
-      next
-    end
-    #if (!(part == url_path_parts.last) || (url_path_parts.last == part && (part.include? "Association")))
-    if (!(part == url_path_parts.last) || (part.include? "Association"))
-      new_url += "/" + part
-    end
-  end
-  
-  # return the new url
-  new_url
-end
 
   def get_user_edorg(entities)
     user = getUserEntityIdAndCollection(entities)

@@ -2,6 +2,7 @@ jQuery(function($) {
   $(document).on('click', '.count_link', function(event) {
 	  var element = event.target;
 	  var url = $(event.target).data("url");
+	  var include_current = $(event.target).data("include_current");
 	  var count = "";
 	  
 	  // Set text to nothing to be ready for appending
@@ -10,13 +11,15 @@ jQuery(function($) {
 	  //setTimeout(function() { get_counts(element, url) }, 3000);
 	  // Get the total count
 	  count = count + get_count(element, url);
+
+	  if (include_current) {		
+		  // Add a spacing marker
+		  count = count + " / ";
 		
-	  // Add a spacing marker
-	  count = count + " / ";
-		
-	  // Change url to get currentOnly and then get current counts
-	  url = url + "&currentOnly=true";
-	  count = count + get_count(element, url);
+		  // Change url to get currentOnly and then get current counts
+		  url = url + "&currentOnly=true";
+		  count = count + get_count(element, url);
+          }
 	
 	  element.innerHTML = count;
   })
