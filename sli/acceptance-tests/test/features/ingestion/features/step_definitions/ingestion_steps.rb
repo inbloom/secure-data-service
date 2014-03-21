@@ -945,15 +945,15 @@ end
 
 Given /^the following collections are empty in sli datastore:$/ do |table|
   disable_NOTABLESCAN
-  @db = @conn[Property[:sli_db_name]]
+  @db = @conn['sli']
   result = true
   table.hashes.map do |row|
-    @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove()
+    @entity_collection = @db[row['collectionName']]
+    @entity_collection.remove
     puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
-    @result = "false" if @entity_collection.count.to_s != "0"
+    @result = false if @entity_collection.count != 0
   end
-  @result.should be('true'), 'Some collections were not cleared successfully.'
+  result.should be_true, 'Some collections were not cleared successfully.'
   enable_NOTABLESCAN
 end
 
