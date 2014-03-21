@@ -44,7 +44,7 @@ Scenario: CRUD on other developer's app
         | securityEvent   | 1                   | body.tenantId           | anothersandboxdeveloper@slidev.org                     | string     |
         | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                             | string     |
         | securityEvent   | 1                   | body.className          | org.slc.sli.api.resources.security.ApplicationResource | string     |
-        | securityEvent   | 1                   | body.userEdOrg          | fakeab32-b493-999b-a6f3-sliedorg1234                   | string     |
+     #   | securityEvent   | 1                   | body.userEdOrg          | fakeab32-b493-999b-a6f3-sliedorg1234                   | string     |
      # targetEdOrgList - not populated because the application entry data itself is not owned by edOrgs
      And "1" security event with field "body.actionUri" matching "http.*/api/rest/apps/.*" should be in the sli db
      And "1" security event matching "Access Denied:Developer anothersandboxdeveloper is not the creator of this app and does not share same sandbox tenant as the creator hence cannot modify it." should be in the sli db
