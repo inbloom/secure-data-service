@@ -27,8 +27,6 @@ EXPAND = ENV['CUKE_EXPAND'] ? "--expand" : ""
 
 OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
-CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
-
 TENANT_COLLECTION = [convertTenantIdToDbName("Midgar"), convertTenantIdToDbName("Hyrule"), convertTenantIdToDbName("Security"), convertTenantIdToDbName("Other"), convertTenantIdToDbName("Zork"), convertTenantIdToDbName("SLI"), convertTenantIdToDbName("T1"), convertTenantIdToDbName("T2"), convertTenantIdToDbName("T3"), convertTenantIdToDbName("mreynolds"), convertTenantIdToDbName("chaos_mokey_org"), convertTenantIdToDbName("fakedev_zork_net")]
 
 IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
@@ -111,13 +109,7 @@ def set_fixture(collection, fixture_name=nil, fixture_path='test/data', drop=tru
   db_used = system_collection?(collection) ? SYSTEM_DB_NAME : DB_NAME
   fixture_name ||= "#{collection}_fixture.json"
 
-  if drop
-    if CERTAIN_TENANTS
-      removeCollectionsCleanly(collection, TENANT_COLLECTION)
-    else
-      removeCollectionsCleanly(collection)
-    end
-  end
+  removeCollectionsCleanly(collection) if drop
 
   sh "#{MONGO_BIN}mongoimport -d #{db_used} -c #{collection} -h #{DB_HOST} --file #{fixture_path}/#{fixture_name}" do |success, exit_code|
     raise "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
