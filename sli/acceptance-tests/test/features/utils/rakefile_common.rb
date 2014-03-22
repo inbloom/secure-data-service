@@ -21,12 +21,6 @@ require 'digest/sha1'
 require 'yaml'
 require 'rest-client'
 require_relative 'db_client'
-require_relative 'sli_utils'
-
-def cleanUpLdapUser(user_email)
-  ldap = ldap_storage
-  cleanUpUser(user_email, ldap)
-end
 
 def cleanUpMiniSandboxLdapUser(user_email)
   # TODO: Once properties.yml is refactored and cleaned; these custom ldap properties probably go away
