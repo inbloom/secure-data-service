@@ -89,10 +89,7 @@ def lzContainsFile(pattern, landingZone, lz_server_url = nil, lz_username = nil,
 end
 
 def fileContainsMessage(prefix, message, landingZone, lz_server_url = nil, lz_username = nil, lz_password = nil, lz_port_number = nil)
-  puts "fileContainsMessage prefix " + prefix + ", message " + message + ", landingZone " + landingZone
-  puts "prefix = " + prefix
-  puts "message = " + message
-  puts "landingZone = " + landingZone
+  puts "fileContainsMessage prefix #{prefix}, message #{message}, landingZone #{landingZone}"
 
   if @local_lz
     Dir["#{landingZone + prefix + "*"}"].each do |file|
