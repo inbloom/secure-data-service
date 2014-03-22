@@ -80,9 +80,9 @@ Before('~@no_ingestion_hooks') do
   @batchConn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
 
   if (INGESTION_MODE != 'remote')
-    @batchConn.drop_database(Property[:ingestion_batch_job_db_name])
+    @batchConn.drop_database('ingestion_batch_job')
     `mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js`
-    #puts "Dropped " + INGESTION_BATCHJOB_DB_NAME + " database"
+    puts "Dropped #{INGESTION_BATCHJOB_DB_NAME} database"
   else
     @tenant_conn = @conn.db(convertTenantIdToDbName(Property['tenant']))
     @recordHash = @tenant_conn.collection('recordHash')
@@ -100,7 +100,7 @@ Before('~@no_ingestion_hooks') do
   @recordHash = @tenant_conn.collection('recordHash')
   @recordHash.remove()
 
-  @mdb = @conn.db(Property[:sli_db_name])
+  @mdb = @conn.db('sli')
   @tenantColl = @mdb.collection('tenant')
 
   @ingestion_lz_key_override = nil
@@ -154,11 +154,11 @@ Before('~@no_ingestion_hooks') do
     end
   end
 
-  initializeTenants
+  initialize_tenants
 end
 
-def initializeTenants()
-  @lzs_to_remove  = Array.new
+def initialize_tenants
+  @lzs_to_remove = []
 
   defaultLz = @ingestion_lz_identifer_map['Midgar-Daybreak']
   if defaultLz == nil then
