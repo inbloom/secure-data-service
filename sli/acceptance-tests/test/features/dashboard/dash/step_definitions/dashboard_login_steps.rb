@@ -27,11 +27,6 @@ Then /^I should be redirected to the Realm page$/ do
   assertWithWait("Failed to navigate to Realm page")  { @driver.title.index("Choose your realm") }
 end
 
-#TODO this should support both live and test mode
-Given /^I am authenticated to SLI as "([^"]*)" password "([^"]*)"$/ do |username, password|
-  localLogin(username, password)
-end
-
 Then /^I should be redirected to the Dashboard landing page$/ do
   @expected_url = getBaseUrl() + Property['dashboard_landing_page'];
   @explicitWait ||= Selenium::WebDriver::Wait.new(:timeout => 10)  
@@ -54,11 +49,6 @@ end
 
 Then /^I get an error message "([^"]*)"$/ do |errMsg|
   @explicitWait.until{@driver.page_source.include?(errMsg)}
-end
-
-Then /^I get an error code "([^"]*)"$/ do |errCode|
-  # TODO: 
-  # Is there's no way to get the http status code from selenium?? 
 end
 
 Then /^I can see "([^"]*)"$/ do |arg1|
