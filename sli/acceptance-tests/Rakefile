@@ -428,12 +428,18 @@ end
 # a suite of tests that will run quickly but only catch 80% or less of real failures
 desc 'Run Smoke Tests'
 task :smokeTests => [
+                    :displayProperties,
                     :apiSmokeTests,
                     :ingestionSmokeTests,
                     :dashboardSmokeTests,
                     :bulkExtractSmokeTests,
                     :adminSmokeTests] do
   display_failure_report
+end
+
+desc 'Display all properties'
+task :displayProperties do
+  Property.getProps.each {|k,v| puts "#{k}: #{v}"}
 end
 
 
