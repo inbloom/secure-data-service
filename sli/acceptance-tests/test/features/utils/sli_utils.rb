@@ -908,11 +908,6 @@ def ldap_storage
   )
 end
 
-def cleanUpLdapUser(user_email)
-  ldap = ldap_storage
-  cleanUpUser(user_email, ldap)
-end
-
 When /^I (enable|disable) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action,edOrgName,tenant|
   disable_NOTABLESCAN()
   db = @conn[convertTenantIdToDbName(tenant)]
