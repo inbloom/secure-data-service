@@ -39,7 +39,7 @@ Given /^I go to the portal page on RC$/ do
 end
 
 Given /^I am running in Sandbox mode$/ do
-  @mode = "SANDBOX"
+  @mode = 'SANDBOX'
 end
 
 Given /^when I click Accept$/ do 

@@ -141,11 +141,10 @@ Given /^I have a local configured landing zone for my tenant$/ do
 
   host = Property[:db_host]
   port = Property[:db_port]
-  db_name = Property[:sli_db_name]
   conn = Mongo::Connection.new(host, port)
-  db = conn.db(db_name)
+  db = conn.db('sli')
 
-  if (@mode == "SANDBOX")
+  if (@mode == 'SANDBOX')
     @tenant_name = Property['sandbox_tenant']
   else
     @tenant_name = Property['tenant']
