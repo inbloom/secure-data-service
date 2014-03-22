@@ -32,10 +32,10 @@ PRELOAD_EDORGS = ["STANDARD-SEA", "CAP0"]
 
 API_DB = Property[:db_host]
 API_DB_PORT = Property[:db_port]
-API_DB_NAME = Property[:sli_db_name]
+API_DB_NAME = 'sli'
 INGESTION_DB = Property[:db_host]
 INGESTION_DB_PORT = Property[:db_host]
-INGESTION_BATCHJOB_DB_NAME = Property[:ingestion_batch_job_db_name]
+INGESTION_BATCHJOB_DB_NAME = 'ingestion_batch_job'
 INGESTION_BATCHJOB_DB = Property[:db_host]
 INGESTION_BATCHJOB_DB_PORT = Property[:db_host]
 

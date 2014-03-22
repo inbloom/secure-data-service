@@ -38,7 +38,7 @@ require_relative '../../../security/step_definitions/securityevent_util_steps.rb
 CONFIG_DB_NAME = 'config'
 INGESTION_DB = Property[:db_host]
 INGESTION_DB_PORT = Property[:db_port]
-INGESTION_BATCHJOB_DB_NAME = Property[:ingestion_batch_job_db_name]
+INGESTION_BATCHJOB_DB_NAME = 'ingestion_batch_job'
 
 INGESTION_BATCHJOB_DB = Property[:db_host]
 INGESTION_BATCHJOB_DB_PORT = Property[:db_port]
@@ -1194,7 +1194,7 @@ When /^the most recent batch job for file "([^"]*)" has completed successfully f
   disable_NOTABLESCAN()
 
   @batchConn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
-  db   = @batchConn[Property[:ingestion_batch_job_db_name]]
+  db   = @batchConn['ingestion_batch_job']
   job_collection = db.collection('newBatchJob')
   puts "job_collection.count() : " + job_collection.count().to_s if $SLI_DEBUG
   zip_suffix='.zip'

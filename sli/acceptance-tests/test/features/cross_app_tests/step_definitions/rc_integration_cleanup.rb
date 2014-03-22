@@ -110,7 +110,7 @@ end
 
 Then /^I will clean my tenants recordHash documents from ingestion_batch_job db$/ do
   batchJobconn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
-  batchJobDb = batchJobconn.db(Property[:ingestion_batch_job_db_name])
+  batchJobDb = batchJobconn.db('ingestion_batch_job')
   batchJobDb['recordHash'].remove("t" => @tenant_name)
 end
 
