@@ -2,6 +2,7 @@ require 'mongo'
 require 'rbconfig'
 require 'json'
 require 'socket'
+require 'colorize'
 require_relative './test/features/utils/db_client'
 require_relative './test/features/utils/rakefile_common'
 require_relative './test/features/utils/db_utils'
@@ -123,11 +124,10 @@ def set_fixtures(collections, fixture_path='test/data')
 end
 
 def display_failure_report
-  red, green, reset = '\e[31m', '\e[32m', '\e[0m'
 
   $failures.each do |key, value|
-    color = (value == 'Passed' ? green : red)
-    puts "#{color}#{key} tests #{value}#{reset}"
+    color = (value == 'Passed' ? :green : :red)
+    puts "#{key} tests #{value}".colorize(color)
   end
 
   if $SUCCESS
@@ -427,8 +427,7 @@ end
 # This task is used as an entry point to run the smoke tests,
 # a suite of tests that will run quickly but only catch 80% or less of real failures
 desc 'Run Smoke Tests'
-task :smokeTests => [
-                    :displayProperties,
+task :smokeTests => [:displayProperties,
                     :apiSmokeTests,
                     :ingestionSmokeTests,
                     :dashboardSmokeTests,
@@ -439,6 +438,7 @@ end
 
 desc 'Display all properties'
 task :displayProperties do
+  puts "Acceptance properties:"
   Property.getProps.each {|k,v| puts "#{k}: #{v}"}
 end
 
