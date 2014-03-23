@@ -222,8 +222,7 @@ task :rcTests do
 end
 
 desc "Run RC E2E Tests in Sandbox mode"
-task :rcSandboxTest do
-  Rake::Task["displayProperties"].execute
+task :rcSandboxTest => :displayProperties do
   @tags = ["~@wip", "@rc", "@sandbox"]
   @tags = ["~@wip", "@rc", "@sandbox", "~@ci"] if RUN_ON_RC
   Rake::Task["rcSandboxTenantCleanUp"].execute # if tenant_exists(Property['sandbox_tenant'])
