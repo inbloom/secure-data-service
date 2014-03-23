@@ -446,6 +446,7 @@ end
 
 desc 'Display all properties'
 task :displayProperties do
+  puts "Acceptance properties:"
   Property.getProps.each {|k,v| puts "#{k}: #{v}"}
 end
 
