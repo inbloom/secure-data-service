@@ -161,6 +161,7 @@ def initialize_tenants
   @lzs_to_remove = []
 
   defaultLz = @ingestion_lz_identifer_map['Midgar-Daybreak']
+  puts "defaultLz: #{defaultLz}"
   if defaultLz == nil then
     puts "Default landing zone not defined"
     return
@@ -190,7 +191,7 @@ def initialize_tenants
 
   end
 
-  #puts "Top level LZ is -> " + @topLevelLandingZone
+  puts "Top level LZ is -> " + @topLevelLandingZone
 
   cleanTenants()
 
