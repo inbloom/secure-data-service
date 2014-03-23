@@ -957,7 +957,7 @@ task :exportStoriedData do
       sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/sds_#{collection}.json"
     end
   else
-    puts '\e[31m Ingestion Failed! Fixture Data Not Updated! Please fix and re-run \e[0m'
+    puts 'Ingestion Failed! Fixture Data Not Updated! Please fix and re-run'.red
   end
 
 end
