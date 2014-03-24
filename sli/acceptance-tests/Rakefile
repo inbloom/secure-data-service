@@ -135,34 +135,28 @@ def display_failure_report
   end
 end
 
-def cleanseRealms
-  puts 'About to clean up all but the boostrapped realms in mongo'
-  @conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
-  @db = @conn.db('sli')
-  @realmColl = @db.collection('realm')
+def cleanse_realms
+  puts 'Clean up all but the boostrapped realms in mongo'
 
-  @realmColl.find.each do |row|
-    if row['body']['uniqueIdentifier'] != 'Shared Learning Collaborative' and row['body']['uniqueIdentifier'] != 'SandboxIDP'
-      @realmColl.remove(row)
-    end
+  query = {'$and' => [
+    {'body.uniqueIdentifier' => {'$ne'=>'Shared Learning Collaborative'}},
+    {'body.uniqueIdentifier' => {'$ne' => 'Sandbox IDP'}}
+  ]}
+
+  DbClient.new.for_sli.open do |db|
+    db.remove(:realm, query)
   end
 end
 
-def cleanseApps
-  puts 'About to clean up all but the boostrapped applications in mongo'
-  @conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
-  @db = @conn.db('sli')
-  @appColl = @db.collection('application')
-
-  @appColl.find.each do |row|
-    if row['body']['bootstrap'] != true
-      @appColl.remove(row, :safe => true)
-    end
+def cleanse_apps
+  puts 'Clean up all but the boostrapped applications in mongo'
+  DbClient.new.for_sli.open do |db|
+    db.remove(:application, {'$not' => {'body.bootstrap' => true}}, :safe => true)
   end
 end
 
-def cleanseTenantCollection
-  puts 'About to clean up test tenants in mongo'
+def cleanse_tenant_collection
+  puts 'Clean up test tenants in mongo'
   @conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
   @db = @conn.db('sli')
   @tenantColl = @db.collection('tenant')
@@ -179,12 +173,7 @@ end
 
 
 def cleanseCollectionWithTenantID(collectionName, specificTenants)
-  if system_collection?(collectionName)
-    db_used = 'sli'
-  else
-    db_used = DB_NAME
-  end
-
+  db_used = system_collection?(collectionName) ? 'sli' : DB_NAME
   puts "Removing documents in #{collectionName} with tenantIds #{specificTenants}"
   @conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
   @db = @conn.db(db_used)
@@ -192,20 +181,16 @@ def cleanseCollectionWithTenantID(collectionName, specificTenants)
 
   #need a few if blocks for apps, app Auth, oauth tokens, realms
   if collectionName == "tenant"
-    cleanseTenantCollection
+    cleanse_tenant_collection
   else
     coll.remove({}, :safe => true)
   end
 end
 
 def removeCollectionsCleanly(collectionName, specificTenants=nil)
-  if system_collection?(collectionName)
-    db_used = 'sli'
-  else
-    db_used = DB_NAME
-  end
+  db_used = system_collection?(collectionName) ? 'sli' : DB_NAME
 
-  if specificTenants != nil
+  unless specificTenants
     cleanseCollectionWithTenantID(collectionName, specificTenants)
   else
     sh "#{MONGO_BIN}mongo #{Property[:db_host]}/#{db_used} --quiet --eval \"db.#{collectionName}.remove({}); assert.eq(null, db.getLastError());\""
@@ -214,27 +199,24 @@ def removeCollectionsCleanly(collectionName, specificTenants=nil)
   sh "#{MONGO_BIN}mongo #{Property[:db_host]}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig'); assert.eq(null, db.getLastError());\""
 end
 
-def setRealmIdpUrls
-  old_idp_url = "http://local.slidev.org:8082/simple-idp"
-  new_idp_url = Property['simpleIDP_login_url']
+def set_realm_idp_urls
+  old_idp_url = 'http://local.slidev.org:8082/simple-idp'
+  new_idp_url = Property[:simpleIDP_login_url]
 
-  conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
-  db = conn.db('sli')
-
-  realms = db['realm']
-  realms.find.each do |realm|
-    # reset the idp if it points to local.slidev.org:8082
-    if realm['body']['idp']['id'].start_with?(old_idp_url)
-      new_url = realm['body']['idp']['id'].sub(old_idp_url,new_idp_url)
-      realms.update(
-        {'_id' => realm['_id']},
-        {
-          '$set' => {
-            'body.idp.id' => new_url,
-            'body.idp.redirectEndpoint' => new_url
+  DbClient.new.for_sli.open do |db|
+    db.find(:realm).each do |realm|
+      if realm['body']['idp']['id'].start_with?(old_idp_url)
+        new_url = realm['body']['idp']['id'].sub(old_idp_url,new_idp_url)
+        db.update(:realm,
+          {'_id' => realm['_id']},
+          {
+            '$set' => {
+              'body.idp.id' => new_url,
+              'body.idp.redirectEndpoint' => new_url
+            }
           }
-        }
-      )
+        )
+      end
     end
   end
 end
@@ -252,9 +234,9 @@ task :realmInit => :appInit do
   disable_NOTABLESCAN
 
   #Preserve the bootstrap realm
-  cleanseRealms
+  cleanse_realms
   set_fixture('realm', nil, 'test/data', false)
-  setRealmIdpUrls
+  set_realm_idp_urls
 
   [
     ['anotherfakerealm', 'customRole_anotherfakerealm_fixture.json'],
@@ -299,7 +281,7 @@ task :appInit do
   disable_NOTABLESCAN
 
   #Preserve the bootstrap apps
-  cleanseApps
+  cleanse_apps
   set_fixture 'application', 'application_fixture.json', 'test/data', false
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Midgar')
@@ -1215,7 +1197,7 @@ task :importSandboxBulkExtractData => [:realmInit] do
 
   set_fixture('applicationAuthorization', 'applicationAuthorization_developer-email_fixture.json')
 
-  cleanseApps
+  cleanse_apps
   set_fixture('application', 'application_sandbox_BE.json', 'test/data', false)
 end
 

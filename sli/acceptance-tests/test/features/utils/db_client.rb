@@ -110,8 +110,8 @@ class DbClient
     db[collection].update(query, document, flags)
   end
 
-  def remove(collection, query)
-    db[collection].remove query
+  def remove(collection, query, flags={})
+    db[collection].remove(query, flags)
   end
 
   def remove_all(collection)

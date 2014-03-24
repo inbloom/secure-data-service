@@ -57,11 +57,7 @@ sif_zis_address_trigger: http://local.slidev.org:8087/mock-zis/trigger
 
 sampleApp_server_address: http://local.slidev.org:8081/
 
-simpleIDP_realm_server_address: http://local.slidev.org:8080/
-simpleIDP_realm_params: "response_type%3dcode%26client_id%3dfm67sH6vZZ%26redirect_uri%3dhttp://local.slidev.org:8081/sample/callback"
 simpleIDP_login_url: http://local.slidev.org:8082/simple-idp
-simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
-simpleIDP_realm_suffix: Local
 
 ldap_hostname: localhost
 ldap_port: 636
@@ -70,8 +66,6 @@ ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
 ldap_admin_user: cn=Admin,dc=slidev,dc=org
 ldap_admin_pass: slidev
 
-user_registration_app_production_url: "http://local.slidev.org:3001"
-user_registration_app_sandbox_url: "http://local.slidev.org:3001"
 user_registration_app_host_url: "inbloom.org"
 sb_get_started: "inbloom.org/getting-started"
 registration_app_suffix: "/registration"
