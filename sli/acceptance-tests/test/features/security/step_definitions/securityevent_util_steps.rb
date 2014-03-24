@@ -23,8 +23,8 @@ require 'mongo'
 require_relative '../../utils/sli_utils.rb'
 
 Given /^the sli securityEvent collection is empty$/ do
-  coll = securityEventCollection()
-  coll.remove()
+  coll = securityEventCollection
+  coll.remove
 end
 
 Then /^a security event matching "([^"]*)" should be in the sli db$/ do |securityeventpattern|

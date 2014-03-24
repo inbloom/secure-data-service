@@ -847,10 +847,10 @@ end
 
 
 def check_records_in_sli_collection(table)
-  disable_NOTABLESCAN()
+  disable_NOTABLESCAN
   #First cut. Method has to be optimised. Connection should be cached.
   secConn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
-  secDb = secConn.db(Property[:sli_db_name])
+  secDb = secConn.db('sli')
   result = "true"
   table.hashes.map do |row|
       entity_collection = secDb.collection(row["collectionName"])
@@ -858,6 +858,7 @@ def check_records_in_sli_collection(table)
           # ignore checks with empty value
           next
       end
+      puts entity_collection.find({}).to_a.inspect
       entity_count = entity_collection.find( {row["searchParameter"] => {"$in" => [row["searchValue"]]}}).count().to_s
       if  entity_count.to_s != row["expectedRecordCount"].to_s
           result = "false"
