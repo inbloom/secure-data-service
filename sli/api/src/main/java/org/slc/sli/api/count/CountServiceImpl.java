@@ -159,6 +159,11 @@ public class CountServiceImpl implements CountService {
 				Entity staffAssociation = getStaffAssocForTeacherAssoc(entity, entity.getBody().get("schoolId").toString());
 				// Add it if it isn't null
 				if (null != staffAssociation) {
+					// This is a little trickery for performance. Add the staffEducationOrganization
+					//   begin and end dates to the teacherSchoolAssociation as if it belongs there.
+					//   This will make getting the whether or not it is current easier.
+					entity.getBody().put("beginDate", staffAssociation.getBody().get("beginDate"));
+					entity.getBody().put("endDate", staffAssociation.getBody().get("endDate"));
 					associations.add(entity);
 				} else {
 					// Else we need to loop up through the edorg hierarchy looking for a match at a higher level
@@ -167,6 +172,9 @@ public class CountServiceImpl implements CountService {
 					for (String parent : parentEdOrgs) {
 						Entity staffParentAssociation = getStaffAssocForTeacherAssoc(entity, parent);
 						if (null != staffParentAssociation) {
+							// Trickery as above
+							entity.getBody().put("beginDate", staffParentAssociation.getBody().get("beginDate"));
+							entity.getBody().put("endDate", staffParentAssociation.getBody().get("endDate"));
 							associations.add(entity);
 							// Break out so the closest association to the ed org is the one that is used.
 							break;
@@ -197,28 +205,8 @@ public class CountServiceImpl implements CountService {
 				endDateField = ParameterConstants.STUDENT_SCHOOL_END_DATE;
 			}
 
-			// As above, if we are dealing with teachers we need to get their staffAssociation
-			//   because a teacher association does not have a begin and end date and we need
-			//   the referenced date from the staffAssociation.
-			if ("teacherSchoolAssociation".equals(entity.getType())) {
-				Entity staffAssociation = getStaffAssocForTeacherAssoc(entity, entity.getBody().get("schoolId").toString());
-				// If there is a match to staffEdOrg and it is current, add it
-				if (null != staffAssociation && isCurrent(staffAssociation, beginDateField, endDateField)) {
-					current.add(entity);
-				} else if (null == staffAssociation) {
-					// else if it is null, go up the heirarchy looking for one that is current
-					List<String> parentEdOrgs = edOrgHelper.getParentEdOrgs(mongoEntityRepository.findById("educationOrganization", entity.getBody().get("schoolId").toString()));
-					for (String parent : parentEdOrgs) {
-						Entity staffParentAssociation = getStaffAssocForTeacherAssoc(entity, parent);
-						if (null != staffParentAssociation && isCurrent(staffAssociation, beginDateField, endDateField)) {
-							current.add(entity);
-							// Break out so the closest association to the ed org is the one that is used.
-							break;
-						}
-					}
-				}
-			} else if (isCurrent(entity, beginDateField, endDateField)) {
-				// If not a teacherSchoolAssociation, just add it if it is current
+			// If it is current, add it
+			if (isCurrent(entity, beginDateField, endDateField)) {
 				current.add(entity);
 			}
 		}
