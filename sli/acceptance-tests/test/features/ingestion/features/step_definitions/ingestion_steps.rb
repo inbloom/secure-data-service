@@ -2259,24 +2259,29 @@ def checkForContentInFileGivenPrefix(message, prefix)
 
     aFile = File.new(@landing_zone_path + @job_status_filename, "r")
     puts "STATUS FILENAME = " + @landing_zone_path + @job_status_filename
-    assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
+    aFile.should_not be_nil, "File #{@job_status_filename} doesn't exist"
 
-    if aFile
-      file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
-      #puts "FILE CONTENTS = " + file_contents
+    file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join
+    puts "FILE CONTENTS:\n#{file_contents}"
 
-      missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
-      missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
-      if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
-        assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
-      end
-      if (file_contents.rindex(message) == nil)
-        assert(false, "File doesn't contain correct processing message, contents were:\n#{file_contents}")
-      end
-      aFile.close
-    else
-      raise "File " + @job_status_filename + "can't be opened"
+    missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
+    missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
+    if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
+      assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
     end
+    if (file_contents.rindex(message) == nil)
+      prefix = "error." + @source_file_name + "-"
+      job_status_filename = ""
+      Dir.foreach(@landing_zone_path) do |entry|
+        if (entry.rindex(prefix))
+          # LAST ENTRY IS OUR FILE
+          job_status_filename = entry
+        end
+      end
+      puts "ERROR FILE CONTENTS:\n #{IO.readlines(@landing_zone_path + job_status_filename)}"
+      assert(false, "File doesn't contain correct processing message, contents were:\n#{file_contents}")
+    end
+    aFile.close
   end
 end
 
@@ -2492,14 +2497,7 @@ And /^the only errors I want to see in the resulting (.*?) log file for "(.*?)" 
 end
 
 Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
-  prefix = "job-" + @source_file_name + "-"
-  checkForContentInFileGivenPrefix(message, prefix)
-end
-
-Then /^I should not see "([^"]*)" in the resulting batch job file$/ do |message|
-  # Why is this exactly the same as above?
-  prefix = "job-" + @source_file_name + "-"
-  checkForContentInFileGivenPrefix(message, prefix)
+  checkForContentInFileGivenPrefix(message, "job-#{@source_file_name}-")
 end
 
 Then /^I should see "([^"]*)" in the resulting batch job error file$/ do |message|

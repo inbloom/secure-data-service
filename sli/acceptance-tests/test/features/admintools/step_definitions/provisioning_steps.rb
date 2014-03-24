@@ -107,7 +107,7 @@ end
 
 Then /^I check to find if default roles were created for the tenant$/ do
   @conn             = Mongo::Connection.new(Property[:db_host], Property[:db_port])
-  @db               = @conn[:sli_db_name]
+  @db               = @conn['sli']
   @roles_collection = @db.collection('customRole')
   
   @result = "true"
