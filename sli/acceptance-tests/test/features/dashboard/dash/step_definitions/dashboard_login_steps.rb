@@ -55,12 +55,6 @@ Then /^I can see "([^"]*)"$/ do |arg1|
   assertText(arg1)
 end
 
-Then /^I add a cookie for linda.kim$/ do
-  #TODO fix using long lived session in web-based test
-  @driver.manage.add_cookie(:name=> "SLI_DASHBOARD_COOKIE",:value=>"4cf7a5d4-37a1-ca19-8b13-b5f95131ac85")
-  puts '\e[31mWHY IS THIS TEST USING A LONG LIVED SESSION? THIS IS WRONG\e[0m'
-end
-
 Then /^I should see "(.*?)" prompt$/ do |expectedText|
   @explicitWait.until{@driver.current_url.include?("studentSearch") == true}
   checkForTextInBody(expectedText)
