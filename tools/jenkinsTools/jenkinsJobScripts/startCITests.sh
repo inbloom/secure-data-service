@@ -217,7 +217,7 @@ runTests()
   cd $WORKSPACE/sli/acceptance-tests
   export LANG=en_US.UTF-8
   bundle install --deployment
-  bundle exec rake FORCE_COLOR=true $@
+  bundle exec rake --trace FORCE_COLOR=true $@
 }
 
 
