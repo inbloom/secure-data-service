@@ -93,15 +93,9 @@ Given /^I create a blank json object$/ do
   @result = {}
 end
 
-When /^I navigate to POST "([^"]*)"$/ do |arg1|
-  if @format == "application/json"
-    data = @result.to_json
-  elsif @format == "application/xml"
-    data = @result
-  else
-    assert(false, "Unsupported MIME type")
-  end
-  restHttpPost(arg1, data)
+When /^I navigate to POST "([^"]*)"$/ do |uri|
+  data = prepareData(@format, @result)
+  restHttpPost(uri, data)
   @res.should_not be_nil, 'Response from rest-client POST is nil'
 end
 

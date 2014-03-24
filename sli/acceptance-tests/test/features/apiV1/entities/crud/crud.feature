@@ -1,33 +1,24 @@
-@smoke @RALLY_US209 @RALLY_DE87
+@smoke
 Feature: As an SLI application, I want to be able to perform CRUD operations on various resources
   This means I want to be able to perform CRUD on all entities.
   and verify that the correct links are made available.
 
   Background: Nothing yet
-    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
-    And format "application/vnd.slc+json"
+    Given I am logged in as a tenant-level IT administrator
+      And I want to use format "application/vnd.slc+json"
 
-  @DE2943
   Scenario: Search on fields with insufficient rights returns bad request
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
-    And format "application/vnd.slc+json"
     When I navigate to GET "/v1/students/0c2756fd-6a30-4010-af79-488d6ef2735a_id?economicDisadvantaged=false"
     Then I should receive a return code of 400
-    When I navigate to GET "/v1/students/0c2756fd-6a30-4010-af79-488d6ef2735a_id?economicDisadvantaged=true"
-    Then I should receive a return code of 400
 
-  @DE2943
-  Scenario: Search on inaccessible entities with fields returns acess denied
+  Scenario: Search on inaccessible entities with fields returns access denied
     Given I am logged in using "jvasquez" "jvasquez" to realm "IL"
-    And format "application/vnd.slc+json"
-    When I navigate to GET "/v1/students/414106a9-6156-1023-a477-4bd4dda7e21a_id?economicDisadvantaged=false"
-    Then I should receive a return code of 403
-    When I navigate to GET "/v1/students/414106a9-6156-1023-a477-4bd4dda7e21a_id?economicDisadvantaged=true"
+    When I navigate to GET "/v1/students/414106a9-6156-1023-a477-4bd4dda7e21a_id"
     Then I should receive a return code of 403
 
   Scenario Outline: CRUD operations requiring explicit associations on an entity as staff
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
-    And format "application/vnd.slc+json"
     Given entity URI <Entity Resource URI>
   # Create
     Given a valid entity json document for a <Entity Type>
@@ -127,7 +118,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
   Scenario Outline: CRUD operations requiring explicit associations on an entity as an IT Admin Teacher
     Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
-    And format "application/vnd.slc+json"
     Given entity URI <Entity Resource URI>
   # Create
     Given a valid entity json document for a <Entity Type>
@@ -173,7 +163,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
   Scenario Outline: CRUD operations requiring explicit associations on an entity as an IT Admin Teacher and can't update natural keys
     Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
-    And format "application/vnd.slc+json"
     Given entity URI <Entity Resource URI>
   # Create
     Given a valid entity json document for a <Entity Type>
@@ -208,7 +197,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
   Scenario Outline: Get All Entities as School Teacher
 
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
-    And format "application/vnd.slc+json"
     And my contextual access is defined by table:
       | Context                | Ids                                                                             |
       | schools                | 92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe       |
@@ -256,7 +244,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     #these entities can still be read by accessing them by id.
     #| "studentCompetencyObjective" | "studentCompetencyObjectives" | 1     | /search/studentCompetencyObjectives                                                  |
 
-  @DE1825
   Scenario: Invalid data parsing fails gracefully
     When I navigate to GET "/v1/staffEducationOrgAssignmentAssociations?endDate=blah"
     Then I should receive a return code of 400
