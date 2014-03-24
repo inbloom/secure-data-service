@@ -106,17 +106,11 @@ Then /^I get the success message$/ do
 end
 
 Then /^I check to find if default roles were created for the tenant$/ do
-  @conn             = Mongo::Connection.new(Property[:db_host], Property[:db_port])
-  @db               = @conn['sli']
-  @roles_collection = @db.collection('customRole')
-  
-  @result = "true"
-  @roles_collection.find.each do |row|
-    if row['metaData']['tenantId'] == 'Macro Corp'
-      @result = "false" unless @row['body']['roles'].size == 4        
-    end
+  role = DbClient.new.for_sli.open do |db|
+    db.find_one(:customRole, {'metaData.tenantId' => 'Macro Corp'})
   end
-  assert(@result == "true", "Failed to initialize default roles correctly.")
+  role.should_not be_nil, 'No roles found for tenantId: Macro Corp'
+  role['body']['roles'].size.should be(4), 'Unexpected number of roles'
 end
 
 Given /^there is a sandbox account in ldap for vendor "([^"]*)"$/ do |vendor|

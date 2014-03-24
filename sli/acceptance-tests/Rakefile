@@ -16,8 +16,6 @@ end
 ###################################################
 # Section to setup necessary env vars and overrides
 
-DB_HOST = Property[:db_host]
-
 DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 SYSTEM_DB_NAME = ENV['SYSTEM_DB_NAME'] ? ENV['DB_NAME'] : "sli"
 
