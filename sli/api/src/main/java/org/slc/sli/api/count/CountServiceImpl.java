@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -36,7 +35,7 @@ public class CountServiceImpl implements CountService {
 		for (String edOrg : edOrgs) {
 			counts.add(getCountsForEdOrg(edOrg));
 		}
-		
+
 		return counts;
 	}
 
@@ -45,6 +44,10 @@ public class CountServiceImpl implements CountService {
 	}
 
 	private EducationOrganizationCount getCountsForEdOrg(String edOrg) {
+		return getCountsForEdOrg(edOrg, true);
+	}
+
+	private EducationOrganizationCount getCountsForEdOrg(String edOrg, boolean recursive) {
 		EducationOrganizationCount count = new EducationOrganizationCount();
 		Set<Entity> staffAssociations = getAssociations(edOrg, "educationOrganizationReference", "staffEducationOrganizationAssociation");
 		Set<Entity> teacherAssociations = getAssociations(edOrg, "schoolId", "teacherSchoolAssociation");
@@ -53,6 +56,20 @@ public class CountServiceImpl implements CountService {
 		Set<Entity> currentStaffAssociations = filterCurrent(staffAssociations);
 		Set<Entity> currentTeacherAssociations = filterCurrent(teacherAssociations);
 		Set<Entity> currentStudentAssociations = filterCurrent(studentAssociations);
+
+		if (recursive) {
+			Set<String> childEdOrgs = edOrgHelper.getChildEdOrgs(edOrg);
+			for (String childEdOrg : childEdOrgs) {
+				staffAssociations.addAll(getAssociations(childEdOrg, "educationOrganizationReference", "staffEducationOrganizationAssociation"));
+				teacherAssociations.addAll(getAssociations(childEdOrg, "schoolId", "teacherSchoolAssociation"));
+				studentAssociations.addAll(getAssociations(childEdOrg, "schoolId", "studentSchoolAssociation"));
+				currentStaffAssociations = filterCurrent(staffAssociations);
+				currentTeacherAssociations = filterCurrent(teacherAssociations);
+				currentStudentAssociations = filterCurrent(studentAssociations);
+			}
+		}
+		
+		count.setEducationOrganizationId(edOrg);
 
 		count.setTotalStaff(getUniqueCount(staffAssociations, "staffReference"));
 		count.setTotalTeacher(getUniqueCount(teacherAssociations, "teacherId"));
@@ -67,6 +84,9 @@ public class CountServiceImpl implements CountService {
 		return count;
 	}
 
+	/*
+	 * Get Associations for the Ed Org passed in
+	 */
 	private Set<Entity> getAssociations(String edOrg, String edOrgField, String collectionName) {
 		Set<Entity> associations = new HashSet<Entity>();
 		NeutralQuery neutralQuery = new NeutralQuery();
@@ -76,13 +96,17 @@ public class CountServiceImpl implements CountService {
 		while (it.hasNext()) {
 			Entity entity = (Entity) it.next();
 			if ("teacherSchoolAssociation".equals(entity.getType())) {
-				// Check if there is a matching staff Ed Org association before adding
-				NeutralQuery staffNeutralQuery = new NeutralQuery();
-				staffNeutralQuery.addCriteria(new NeutralCriteria("educationOrganizationReference", NeutralCriteria.OPERATOR_EQUAL, edOrg));
-				staffNeutralQuery.addCriteria(new NeutralCriteria("staffReference", NeutralCriteria.OPERATOR_EQUAL, entity.getBody().get("teacherId")));
-				Entity staffAssociation = mongoEntityRepository.findOne("staffEducationOrganizationAssociation", staffNeutralQuery);
+				Entity staffAssociation = getStaffAssocForTeacherAssoc(entity, entity.getBody().get("schoolId").toString());
 				if (null != staffAssociation) {
 					associations.add(entity);
+				} else {
+					List<String> parentEdOrgs = edOrgHelper.getParentEdOrgs(mongoEntityRepository.findById("educationOrganization", edOrg));
+					for (String parent : parentEdOrgs) {
+						Entity staffParentAssociation = getStaffAssocForTeacherAssoc(entity, parent);
+						if (null != staffParentAssociation) {
+							associations.add(entity);
+						}
+					}
 				}
 			} else {
 				associations.add(entity);
@@ -91,6 +115,9 @@ public class CountServiceImpl implements CountService {
 		return associations;
 	}
 
+	/*
+	 * Filter out entities that are not current
+	 */
 	private Set<Entity> filterCurrent(Set<Entity> associations) {
 		Set<Entity> current = new HashSet<Entity>();
 
@@ -104,13 +131,17 @@ public class CountServiceImpl implements CountService {
 			}
 
 			if ("teacherSchoolAssociation".equals(entity.getType())) {
-				// Check if there is a matching staff Ed Org association before adding
-				NeutralQuery staffNeutralQuery = new NeutralQuery();
-				staffNeutralQuery.addCriteria(new NeutralCriteria("educationOrganizationReference", NeutralCriteria.OPERATOR_EQUAL, entity.getBody().get("schoolId")));
-				staffNeutralQuery.addCriteria(new NeutralCriteria("staffReference", NeutralCriteria.OPERATOR_EQUAL, entity.getBody().get("teacherId")));
-				Entity staffAssociation = mongoEntityRepository.findOne("staffEducationOrganizationAssociation", staffNeutralQuery);
+				Entity staffAssociation = getStaffAssocForTeacherAssoc(entity, entity.getBody().get("schoolId").toString());
 				if (null != staffAssociation && isCurrent(staffAssociation, beginDateField, endDateField)) {
 					current.add(entity);
+				} else if (null == staffAssociation) {
+					List<String> parentEdOrgs = edOrgHelper.getParentEdOrgs(mongoEntityRepository.findById("educationOrganization", entity.getBody().get("schoolId").toString()));
+					for (String parent : parentEdOrgs) {
+						Entity staffParentAssociation = getStaffAssocForTeacherAssoc(entity, parent);
+						if (null != staffParentAssociation) {
+							current.add(entity);
+						}
+					}
 				}
 			} else if (isCurrent(entity, beginDateField, endDateField)) {
 				current.add(entity);
@@ -119,6 +150,19 @@ public class CountServiceImpl implements CountService {
 		return current;
 	}
 
+	/*
+	 * Get the staffEducationOrganization that matches the teacherSchoolAssociation if it exists otherwise null
+	 */
+	private Entity getStaffAssocForTeacherAssoc(Entity teacherSchoolAssociation, String edOrg) {
+		NeutralQuery staffNeutralQuery = new NeutralQuery();
+		staffNeutralQuery.addCriteria(new NeutralCriteria("educationOrganizationReference", NeutralCriteria.OPERATOR_EQUAL, edOrg));
+		staffNeutralQuery.addCriteria(new NeutralCriteria("staffReference", NeutralCriteria.OPERATOR_EQUAL, teacherSchoolAssociation.getBody().get("teacherId")));
+		return mongoEntityRepository.findOne("staffEducationOrganizationAssociation", staffNeutralQuery);
+	}
+
+	/*
+	 * Check to see if the entity is current or not.
+	 */
 	private boolean isCurrent(Entity entity, String beginDateField, String endDateField) {
 		boolean result = false;
 
@@ -152,6 +196,9 @@ public class CountServiceImpl implements CountService {
 		return result;
 	}
 
+	/*
+	 * Return a count of unique entities from a set based on the reference Field
+	 */
 	private int getUniqueCount(Set<Entity> associations, String referenceField) {
 		Set<String> unique = new HashSet<String>();
 		

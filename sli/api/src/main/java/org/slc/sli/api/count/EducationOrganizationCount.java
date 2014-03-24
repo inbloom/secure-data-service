@@ -2,6 +2,7 @@ package org.slc.sli.api.count;
 
 public class EducationOrganizationCount {
 
+	private String educationOrganizationId;
 	private int totalStaff;
 	private int currentStaff;
 	private int totalStudent;
@@ -10,6 +11,14 @@ public class EducationOrganizationCount {
 	private int currentTeacher;
 	private int totalNonTeacher;
 	private int currentNonTeacher;
+
+	public String getEducationOrganizationId() {
+		return educationOrganizationId;
+	}
+
+	public void setEducationOrganizationId(String educationOrganizationId) {
+		this.educationOrganizationId = educationOrganizationId;
+	}
 
 	public int getTotalStaff() {
 		return totalStaff;
