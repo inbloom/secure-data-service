@@ -98,7 +98,7 @@ end
 
 def set_fixture(collection, fixture_name=nil, fixture_path='test/data', drop=true)
   disable_NOTABLESCAN
-  db_used = system_collection?(collection) ? SYSTEM_DB_NAME : DB_NAME
+  db_used = system_collection?(collection) ? 'sli' : DB_NAME
   fixture_name ||= "#{collection}_fixture.json"
 
   if drop
@@ -277,7 +277,7 @@ task :callBeet do
 end
 
 # Task that initializes the application registration fixture
-task :appInit do
+task :appInit => :displayProperties do
   disable_NOTABLESCAN
 
   #Preserve the bootstrap apps
