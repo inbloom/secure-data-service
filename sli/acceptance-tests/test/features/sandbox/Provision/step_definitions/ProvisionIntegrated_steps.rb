@@ -31,10 +31,10 @@ PRELOAD_EDORG = "STANDARD-SEA"
 PRELOAD_EDORGS = ["STANDARD-SEA", "CAP0"]
 
 INGESTION_DB = Property[:db_host]
-INGESTION_DB_PORT = Property[:db_host]
+INGESTION_DB_PORT = Property[:db_port]
 INGESTION_BATCHJOB_DB_NAME = 'ingestion_batch_job'
 INGESTION_BATCHJOB_DB = Property[:db_host]
-INGESTION_BATCHJOB_DB_PORT = Property[:db_host]
+INGESTION_BATCHJOB_DB_PORT = Property[:db_port]
 
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
