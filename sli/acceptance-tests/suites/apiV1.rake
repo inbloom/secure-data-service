@@ -260,17 +260,6 @@ task :apiOdinFederatedAppsTests => :realmInit do
   runTests("test/features/apiV1/integration/federated_apps.feature")
 end
 
-desc "Run API Performance Tests"
-task :apiPerformanceTests => :realmInit do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/performance/performance.feature")
-end
-
-desc "Run API JMeter Tests"
-task :apiJMeterTests do
-  runTests("test/features/apiV1/jmeter/jmeterPerformance.feature")
-end
-
 desc "Run Odin API Generation Task"
 task :apiOdinGenerate do
   runTests("test/features/odin/generate_api_data.feature")
