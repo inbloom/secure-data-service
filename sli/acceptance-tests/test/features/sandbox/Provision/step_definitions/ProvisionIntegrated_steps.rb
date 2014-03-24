@@ -30,9 +30,6 @@ require_relative '../../../ingestion/features/step_definitions/ingestion_steps.r
 PRELOAD_EDORG = "STANDARD-SEA"
 PRELOAD_EDORGS = ["STANDARD-SEA", "CAP0"]
 
-API_DB = Property[:db_host]
-API_DB_PORT = Property[:db_port]
-API_DB_NAME = 'sli'
 INGESTION_DB = Property[:db_host]
 INGESTION_DB_PORT = Property[:db_host]
 INGESTION_BATCHJOB_DB_NAME = 'ingestion_batch_job'
@@ -42,11 +39,11 @@ INGESTION_BATCHJOB_DB_PORT = Property[:db_host]
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
 
-  api_mongo_conn = Mongo::Connection.new(API_DB, API_DB_PORT)
+  api_mongo_conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   @ingestion_mongo_conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
   @batch_job_mongo_conn = Mongo::Connection.new(INGESTION_BATCHJOB_DB, INGESTION_BATCHJOB_DB_PORT)
 
-  @db = api_mongo_conn.db(API_DB_NAME)
+  @db = api_mongo_conn.db('sli')
 
   @edorgId =  "Test_Ed_Org"
   @email = "devldapuser_#{get_mac_address('_')}@slidev.org"

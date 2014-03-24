@@ -21,8 +21,6 @@ databrowser_server_url: http://local.slidev.org:3000
 # Mongo DB properties
 db_host: localhost
 db_port: 27017
-sli_db_name: sli
-ingestion_batch_job_db_name: ingestion_batch_job
 
 # TODO: Determine if this is valid
 lz_server_url: "devpantheon.slidev.org"
@@ -56,9 +54,6 @@ bulk_extract_script_directory: "../bulk-extract/scripts/"
 bulk_extract_cron_output_directory: "extract/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a/"
 
 sif_zis_address_trigger: http://local.slidev.org:8087/mock-zis/trigger
-
-DB_HOST: localhost
-DB_PORT: 27017
 
 sampleApp_server_address: http://local.slidev.org:8081/
 
