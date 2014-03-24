@@ -123,6 +123,7 @@ en:
   getLearningObjective:	"Learning Objective"
   getLearningStandard: "Learning Standard"
   getProgram: "Program"
+  getProgram[1]: "Program[1]"
   getSession: "Session"
   getStaff: "Staff"
   getStaffEducationOrgAssignmentAssociation: "Staff Education Organization Association"
@@ -135,6 +136,7 @@ en:
   getYearlyAttendance: "Yearly Attendance"
   getStudentCompetencyObjective: "Student Competency Objective"
   getParentEducationOrganization: "Parent Education Organization"
+  getParentEducationOrganization[1]: "Parent Education Organization[1]"
   getFeederSchool: "Feeder School"
   getFeederEducationOrganization: "Feeder Education Organization"
   getParentLearningObjective: "Parent Learning Objective"
@@ -145,4 +147,5 @@ en:
   getStaffCohortAssociation: "Staff Cohort Association"
   getStudent: "Student"
   getStudentCohortAssociation: "Student Cohort Association"
+  links: "Associated Entities"
 

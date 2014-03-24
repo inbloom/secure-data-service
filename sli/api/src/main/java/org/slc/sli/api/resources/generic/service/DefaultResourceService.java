@@ -337,7 +337,7 @@ public class DefaultResourceService implements ResourceService {
 
         try {
             final String associationKey = getConnectionKey(base, resource);
-            List<EntityBody> entityBodyList = null;     // DS-1046 - initialize in case we don't fill this in
+            List<EntityBody> entityBodyList = new ArrayList<EntityBody>();     // DS-1046 - initialize in case we don't fill this in
             List<String> valueList = Arrays.asList(id.split(","));
 
             final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);

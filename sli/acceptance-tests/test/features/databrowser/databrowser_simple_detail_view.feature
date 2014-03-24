@@ -194,7 +194,7 @@ Then I should be redirected to the Data Browser home page
 When I click on the "Education Organizations" link
 When I click on the row containing "92d6d5a0-852c-45f4-907a-912752831772"
 Then the row expands below listing the rest of the attributes for the item
-When I click on the "GetParentEducationOrganization[1]" link
+When I click on the "Parent Education Organization[1]" link
 Then I click on the "Feeder Education Organizations" link
 Then I click on the row containing "92d6d5a0-852c-45f4-907a-912752831772"
 Then the row expands below listing the rest of the attributes for the item
@@ -243,12 +243,12 @@ Then I should go to the <Page> page and look for the EdOrg table with a <Result>
 
 Examples:
   | Realm                                    | User           | Password           | Page                           | Result |
-  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "GetEducationOrganizations"    | "Pass" |
-  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "GetPrograms"                  | "Fail" |
-  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "GetCohorts"                   | "Fail" |
+  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "Education Organizations"    | "Pass" |
+  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "Programs"                  | "Fail" |
+  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "Cohorts"                   | "Fail" |
   | "Illinois Daybreak Students"             | "carmen.ortiz" | "carmen.ortiz1234" | "My Schools"                   | "Pass" |
   | "Illinois Daybreak Students"             | "carmen.ortiz" | "carmen.ortiz1234" | "My Sections"                  | "Fail" |
-  | "Illinois Daybreak Students"             | "carmen.ortiz" | "carmen.ortiz1234" | "GetStudentParentAssociations" | "Fail" |
+  | "Illinois Daybreak Students"             | "carmen.ortiz" | "carmen.ortiz1234" | "Student Parent Associations" | "Fail" |
 
 Scenario: EducationOrganization table should have the following counts in the table
 
@@ -259,8 +259,8 @@ And I choose realm "Illinois Daybreak School District 4529" in the drop-down lis
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
-And I click on the "GetEducationOrganizations" link
-And I click on the "GetFeederEducationOrganizations" link
+And I click on the "Education Organizations" link
+And I click on the "Feeder Education Organizations" link
 Then I should see a count of <Total> for id <ID> staff total and <Current> for current
 
   | ID						            | Total	| Current |
@@ -324,11 +324,11 @@ And I choose realm "Illinois Daybreak School District 4529" in the drop-down lis
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
-And I click on the "GetEducationOrganizations" link
+And I click on the "Education Organizations" link
 Then I should click on the <Number> link pound and get <Text> returned
 
     | Number | Text      |
-    | 4      | 0 / 0     |
-    | 8      | 13 / 13   |
-    | 16     | 4 / 4     |
-    | 22     | N/A / N/A |
+    | 4      | 1 / 1     |
+    | 16     | 1 / 1     |
+    | 22     | 0 / 0     |
+    | 25     | N/A / N/A |
