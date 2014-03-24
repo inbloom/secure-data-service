@@ -2273,6 +2273,7 @@ def checkForContentInFileGivenPrefix(message, prefix)
       prefix = "error." + @source_file_name + "-"
       job_status_filename = ""
       Dir.foreach(@landing_zone_path) do |entry|
+        puts entry.inspect
         if (entry.rindex(prefix))
           # LAST ENTRY IS OUR FILE
           job_status_filename = entry
