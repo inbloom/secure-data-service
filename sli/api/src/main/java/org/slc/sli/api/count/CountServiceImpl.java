@@ -74,12 +74,12 @@ public class CountServiceImpl implements CountService {
 		count.setTotalStaff(getUniqueCount(staffAssociations, "staffReference"));
 		count.setTotalTeacher(getUniqueCount(teacherAssociations, "teacherId"));
 		count.setTotalStudent(getUniqueCount(studentAssociations, "studentId"));
-		count.setTotalNonTeacher(count.getTotalStaff() - count.getTotalTeacher());
+		count.setTotalNonTeacher(staffAssociations.size() - teacherAssociations.size());
 
 		count.setCurrentStaff(getUniqueCount(currentStaffAssociations, "staffReference"));
 		count.setCurrentTeacher(getUniqueCount(currentTeacherAssociations, "teacherId"));
 		count.setCurrentStudent(getUniqueCount(currentStudentAssociations, "studentId"));
-		count.setCurrentNonTeacher(count.getCurrentStaff() - count.getCurrentTeacher());
+		count.setCurrentNonTeacher(currentStaffAssociations.size() - currentTeacherAssociations.size());
 
 		return count;
 	}
