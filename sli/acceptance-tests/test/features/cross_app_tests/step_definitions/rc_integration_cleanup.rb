@@ -143,19 +143,19 @@ Then /^I clean up the (production|sandbox) tenant's bulk extract file entries in
   else
     tenant = Property['tenant']
   end
-  sli_db = @conn.db(Property[:sli_db_name])
+  sli_db = @conn.db('sli')
   sli_db['bulkExtractFiles'].remove('body.tenantId' => tenant)
   assert(sli_db['application'].find('body.tenantId' => tenant).count == 0, "Bulk extract file entries for tenant '#{tenant}' have not been deleted.")
 end
 
 Then /^I will drop the tenant document from the collection$/ do
-  sli_db = @conn.db(Property[:sli_db_name])
+  sli_db = @conn.db('sli')
   sli_db['tenant'].remove("body.tenantId" => @tenant_name)
   assert(sli_db['tenant'].find("body.tenantId" => @tenant_name).count == 0, "Tenant document not dropped.")
 end
 
 Then /^I will delete the realm for this tenant from the collection$/ do
-  sli_db = @conn.db(Property[:sli_db_name])
+  sli_db = @conn.db('sli')
   sli_db['realm'].remove("body.uniqueIdentifier" => "RC-IL-Daybreak")
   assert(sli_db['realm'].find("body.uniqueIdentifier" => "RC-IL-Daybreak").count == 0, "Realm document not deleted.")
   if RUN_ON_RC
@@ -170,7 +170,7 @@ end
 
 Then /^I will delete the applications "([^\"]*)" from the collection$/ do |apps|
   app_names = apps.split(",")
-  sli_db = @conn.db(Property[:sli_db_name])
+  sli_db = @conn.db('sli')
   app_names.each do |name|
     sli_db['application'].remove("body.name" => name)
     assert(sli_db['application'].find("body.name" => name).count == 0, "The application '#{name}' is not deleted.")

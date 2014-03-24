@@ -170,7 +170,7 @@ Then /^the stamper runs and completes$/ do
 
   puts `ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017`
   #Clear the session caches
-  db = Mongo::Connection.new(Property[:db_host], Property[:db_port])[Property[:sli_db_name]]
+  db = Mongo::Connection.new(Property[:db_host], Property[:db_port])['sli']
   db[:userSession].update({"body.cache" => {"$exists" => true}}, {"$unset" => {"body.cache" =>1}}, {:upsert => false, :multi => true})
   assert(db[:userSession].find({"body.cache" => {"$exists" => true}}).count == 0)
   #puts `ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017`

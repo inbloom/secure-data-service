@@ -56,7 +56,7 @@ class DbClient
   end
 
   def for_sli
-    @db = @conn[Property[:sli_db_name]]
+    @db = @conn['sli']
     self
   end
 

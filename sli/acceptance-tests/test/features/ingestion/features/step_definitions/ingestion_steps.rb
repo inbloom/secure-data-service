@@ -750,19 +750,19 @@ When /^the tenant indexes are applied to the tenant "(.*?)"$/ do |tenant|
 end
 
 When /^the tenant with tenantId "(.*?)" is locked$/ do |tenantId|
-  @db = @conn[Property[:sli_db_name]]
+  @db = @conn['sli']
   @tenantColl = @db.collection('tenant')
   @tenantColl.update({"body.tenantId" => tenantId}, {"$set" => {"body.tenantIsReady" => false}})
 end
 
 Then /^the tenant with tenantId "(.*?)" is unlocked$/ do |tenantId|
-  @db = @conn[Property[:sli_db_name]]
+  @db = @conn['sli']
   @tenantColl = @db.collection('tenant')
   @tenantColl.update({"body.tenantId" => tenantId}, {"$set" => {"body.tenantIsReady" => true}})
 end
 
 Then /^the tenantIsReady flag for the tenant "(.*?)" is reset$/ do |tenantId|
-  @db = @conn[Property[:sli_db_name]]
+  @db = @conn['sli']
   @tenantColl = @db.collection('tenant')
   @tenantColl.update({"body.tenantId" => tenantId}, {"$unset" => {"body.tenantIsReady" => 1}})
 end
@@ -770,7 +770,7 @@ end
 Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   disable_NOTABLESCAN()
 
-  @db = @conn[Property[:sli_db_name]]
+  @db = @conn['sli']
   @tenantColl = @db.collection('tenant')
   @tenantColl.remove("body.tenantId" => lz_key)
 
@@ -835,7 +835,7 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
       "metaData" => @metaData
   }
 
-  @db = @conn[Property[:sli_db_name]]
+  @db = @conn['sli']
   @tenantColl = @db.collection('tenant')
   @tenantColl.save(@newTenant)
 
@@ -857,7 +857,7 @@ Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
     edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
   end
 
-  @db = @conn[Property[:sli_db_name]]
+  @db = @conn['sli']
   @tenantColl = @db.collection('tenant')
 
   matches = @tenantColl.find("body.tenantId" => tenant, "body.landingZone.educationOrganization" => edOrg).to_a
@@ -920,7 +920,7 @@ Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
     edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
   end
 
-  @db = @conn[Property[:sli_db_name]]
+  @db = @conn['sli']
   @tenantColl = @db.collection('tenant')
 
   matches = @tenantColl.find("body.tenantId" => tenant, "body.landingZone.educationOrganization" => edOrg).to_a
@@ -1775,7 +1775,7 @@ end
 
 Then /^I should see following map of entry counts in the corresponding sli db collections:$/ do |table|
   disable_NOTABLESCAN
-  @db = @conn[Property[:sli_db_name]]
+  @db = @conn['sli']
   result = true
 
   table.hashes.map do |row|
@@ -2792,7 +2792,7 @@ Then /^the following collections counts are the same:$/ do |table|
 end
 
 Then /^application "(.*?)" has "(.*?)" authorized edorgs$/ do |arg1, arg2|
-  @db = @conn[Property[:sli_db_name]]
+  @db = @conn['sli']
   appColl = @db.collection("application")
 
   application = appColl.find({"_id" => arg1})

@@ -31,7 +31,7 @@ require_relative '../../../utils/sli_utils.rb'
 # ENVIRONMENT CONFIGURATION
 ############################################################
 
-SIF_DB_NAME= Property[:sli_db_name]
+SIF_DB_NAME= 'sli'
 SIF_DB = Property[:db_host]
 SIF_PORT = Property[:db_port]
 SIF_ZIS_ADDRESS_TRIGGER = Property['sif_zis_address_trigger']

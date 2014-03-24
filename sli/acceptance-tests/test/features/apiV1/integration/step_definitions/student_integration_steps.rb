@@ -235,7 +235,7 @@ end
 
 Given /^I set the userSession clientId to nil$/ do
   conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
-  sli = conn.db(Property[:sli_db_name])
+  sli = conn.db('sli')
   coll = sli["userSession"]
   entity = coll.find_one({"body.appSession.token" => @sessionId})
   assert(entity, "cant find userSession with token #{@sessionId}")

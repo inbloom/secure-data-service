@@ -44,7 +44,7 @@ end
 
 Before do
   @conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
-  @mdb = @conn.db(Property[:sli_db_name])
+  @mdb = @conn.db('sli')
   @tenantColl = @mdb.collection('tenant')
   @edOrgColl = @mdb.collection('educationOrganization')
   @ingestion_db_name = convertTenantIdToDbName('Midgar')

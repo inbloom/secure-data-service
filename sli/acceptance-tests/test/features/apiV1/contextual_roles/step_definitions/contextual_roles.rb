@@ -195,7 +195,7 @@ When /^I log in as "(.*?)"/ do |user|
   seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
   assert(seoas.size > 0, "No SEOAs found for #{user}")
 
-  sli_db_name = Property[:sli_db_name]
+  sli_db_name = 'sli'
   sli_db = conn[sli_db_name]
   user_session_coll = sli_db.collection('userSession')
   user_session_coll.remove()
@@ -288,7 +288,7 @@ def authorize_edorg_for_tenant(app_name, tenant_name)
   puts "Getting mongo cursor" if ENV['DEBUG']
   conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   puts "Setting into the sli db" if ENV['DEBUG']
-  db = conn[Property[:sli_db_name]]
+  db = conn['sli']
   puts "Setting into the application collection" if ENV['DEBUG']
   app_coll = db.collection('application')
   puts "Finding the application with name #{app_name}" if ENV['DEBUG']
