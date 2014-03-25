@@ -111,7 +111,7 @@ def set_fixture(collection, fixture_name=nil, fixture_path='test/data', drop=tru
   db_used = system_collection?(collection) ? SYSTEM_DB_NAME : DB_NAME
   fixture_name ||= "#{collection}_fixture.json"
 
-  if drop
+   if drop
     if CERTAIN_TENANTS
       removeCollectionsCleanly(collection, TENANT_COLLECTION)
     else
@@ -319,7 +319,7 @@ task :appInit do
   set_fixture 'applicationAuthorization'
   update_sample_app_urls
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Hyrule')
+   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Hyrule')
   set_fixture 'applicationAuthorization', 'applicationAuthorization_Hyrule_fixture.json'
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'fakedev_zork_net')
@@ -371,7 +371,8 @@ task :loadDefaultIngestionTenants do
     tenants
   end
 
-      def replace_placeholders(lzs)
+  private
+  def replace_placeholders(lzs)
     hostname_placeholder = "<hostname>"
     lzpath_placeholder = "<lzpath>"
     hostname = Socket.gethostname
@@ -646,14 +647,24 @@ desc "Run Dashboard Tests"
 task :dashboardTests => [
         :dashboardPopWidgetTests,
         :dashboardK3ViewTests,
+        :dashboardHSViewTests,
         :dashboardUserBasedViewTests,
+        :dashboardIntegratedTests,
         :dashboardLoginTests,
         :dashboardStudentProfileTests,
         :dashboardAttendance,
+        :dashboardStudentHistoricalDataTests,
         :dashboardStudentContactInfoLiveTests,
+        :dashboardStudentGradebookEntryTests,
         :dashboardHTMLEscapeTests,
         :dashboardQunitTests] do
-  display_failure_report
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+
 end
 ############################################################
 # Dashboard tests end
@@ -662,7 +673,7 @@ end
 ############################################################
 # Dashboard SDS tests start
 ############################################################
-desc 'Run Dashboard Tests against SDS'
+desc "Run Dashboard Tests against SDS"
 task :dashboardSdsTests => [
         :runSearchBulkExtract,
         :dashboardSdsUploadConfigTests,
@@ -682,7 +693,12 @@ task :dashboardSdsTests => [
         :dashboardSdsTeacherProfileTests,
         :dashboardSdsAttendanceCalendarTests,
         :dashboardSdsDashboardBuilderTests] do
-  display_failure_report
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 ############################################################
 # Dashboard SDS tests end

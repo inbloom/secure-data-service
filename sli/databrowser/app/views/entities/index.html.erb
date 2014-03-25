@@ -1,14 +1,31 @@
 <div id='data'>
-<h1>Welcome to the inBloom, inc. Data Browser</h1>
-<% if !userIsAStudent %>
+  <h1>Welcome to the inBloom, inc. Data Browser</h1>
+  <h2>Your Education Organization(s):</h2>
+  <% if @edOrgArr != nil %>
+      <table id = "edOrg_home" class="edOrg_home">
+        <tr>
+          <th>Name</th>
+          <th>ID</th>
+          <th>Type</th>
+          <th>Parent Education Organization</th>
+        </tr>
+        <% @edOrgArr.each do |parent| %>
+          <tr>
+            <td><%=link_to parent['EdOrgs Name'], parent['EdOrgs URL'] %></td>
+            <td><%=parent['EdOrgs Id']%></td>
+           <td><%=parent['EdOrgs Type']%></td>
+            <td><%=parent['EdOrgs Parent']%></td>
+          </tr>
+        <% end %>
+      </table>
+  <% end %>
+  
+  <% if !userIsAStudent %>
+    <h2>Counts:</h2>
 	<%=
     	html = ""
     	html << display_edorg_table(@entities)
     	html.html_safe
 	%>
-<% end %>
-<% @entities.each do |e| %>
-    <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
-<% end %>
-	
+  <% end %>
 </div>
