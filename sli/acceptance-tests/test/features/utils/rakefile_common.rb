@@ -91,7 +91,7 @@ def allLeaAllowAppForTenant(appName, tenantName)
 end
 
 def authorize_ed_org(app_name, tenant='Midgar')
-  DbClient.allow_table_scan!
+  enable_NOTABLESCAN
 
   app_id = DbClient.new.for_sli.open {|db| db.find_one(:application, 'body.name' => app_name)}['_id']
 
@@ -106,7 +106,7 @@ def authorize_ed_org(app_name, tenant='Midgar')
     end
   end
 
-  DbClient.disallow_table_scan!
+  disable_NOTABLESCAN
 end
 
 def randomizeRcProdTenant()
