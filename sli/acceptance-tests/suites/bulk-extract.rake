@@ -22,7 +22,7 @@ desc "LEA Level Extract"
 task :bulkExtractLeasTests do
   runTests("test/features/ingestion/features/ingestion_BulkExtractLeas.feature")
   allLeaAllowApp("SDK Sample")
-  authorizeEdorg("SDK Sample")
+  authorize_ed_org("SDK Sample")
   runTests("test/features/bulk_extract/features/bulk_extract_integration_lea.feature")
 end
 
@@ -32,9 +32,9 @@ task :bulkExtractDeltasTest do
   Rake::Task["realmInit"].execute
   Rake::Task["appInit"].execute
   allLeaAllowApp("SDK Sample")  
-  authorizeEdorg("SDK Sample")
+  authorize_ed_org("SDK Sample")
   allLeaAllowApp("Paved Z00")
-  authorizeEdorg("Paved Z00")
+  authorize_ed_org("Paved Z00")
   runTests("test/features/bulk_extract/features/bulk_extract_deltas_ingestion.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_deltas_api.feature")
   runTests("test/features/bulk_extract/features/delta_recording.feature")
@@ -45,7 +45,7 @@ desc "Extract SEA only public data"
 task :bulkExtractPublicTest do
   runTests("test/features/bulk_extract/features/bulk_extract_sea_ingest.feature")
   allLeaAllowApp("SDK Sample")
-  authorizeEdorg("SDK Sample")
+  authorize_ed_org("SDK Sample")
   runTests("test/features/bulk_extract/features/bulk_extract_public.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
@@ -56,9 +56,9 @@ task :bulkExtractTlsTests do
   Rake::Task["realmInit"].execute
   Rake::Task["appInit"].execute
   allLeaAllowApp("SDK Sample")
-  authorizeEdorg("SDK Sample")
+  authorize_ed_org("SDK Sample")
   allLeaAllowApp("Paved Z00")
-  authorizeEdorg("Paved Z00")
+  authorize_ed_org("Paved Z00")
   runTests("test/features/bulk_extract/features/bulk_extract_tls.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
@@ -74,9 +74,9 @@ task :bulkExtractTests => [:realmInit] do
 
   Rake::Task["addBootstrapAppAuths"].execute
   allLeaAllowApp("SDK Sample")
-  authorizeEdorg("SDK Sample")
+  authorize_ed_org("SDK Sample")
   allLeaAllowApp("Paved Z00")
-  authorizeEdorg("Paved Z00")
+  authorize_ed_org("Paved Z00")
 
   runTests("test/features/bulk_extract/features/bulk_extract.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_simple_entities.feature")
