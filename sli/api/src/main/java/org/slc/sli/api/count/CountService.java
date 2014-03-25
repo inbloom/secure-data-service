@@ -29,5 +29,6 @@ public interface CountService {
 	
 	public EducationOrganizationCount find();
 	public EducationOrganizationCount findOne(String edOrgId);
-
+	public TeacherAssociationCount findTeacherAssociations(String edOrgId);
+	public TeacherAssociationCount findTeachers(String edOrgId);
 }

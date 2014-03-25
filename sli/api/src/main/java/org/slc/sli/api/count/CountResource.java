@@ -58,4 +58,16 @@ public class CountResource extends DefaultResource {
 	public @ResponseBody EducationOrganizationCount find(@PathParam("edOrgId") String edOrgId, @Context HttpServletRequest request) {
 		return countService.findOne(edOrgId);
 	}
+
+	@GET
+	@Path("teacherAssociations/{edOrgId}")
+	public @ResponseBody TeacherAssociationCount findTeacherAssociations(@PathParam("edOrgId") String edOrgId, @Context HttpServletRequest request) {
+		return countService.findTeacherAssociations(edOrgId);
+	}
+
+	@GET
+	@Path("teacherAssociations/{edOrgId}/teachers")
+	public @ResponseBody TeacherAssociationCount findTeachers(@PathParam("edOrgId") String edOrgId, @Context HttpServletRequest request) {
+		return countService.findTeachers(edOrgId);
+	}
 }

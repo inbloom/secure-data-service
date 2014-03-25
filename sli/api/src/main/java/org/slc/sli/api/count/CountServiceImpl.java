@@ -17,7 +17,6 @@
 package org.slc.sli.api.count;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -70,6 +69,38 @@ public class CountServiceImpl implements CountService {
 		Set<String> edOrgs = new HashSet<String>();
 		edOrgs.add(edOrgId);
 		return getCountsForEdOrg(edOrgs, true);
+	}
+
+	@Override
+	public TeacherAssociationCount findTeacherAssociations(String edOrgId) {
+		TeacherAssociationCount count = new TeacherAssociationCount();
+		Set<Entity> rawTeacherAssociations = getAssociations(edOrgId, "schoolId", "teacherSchoolAssociation");
+		Set<Entity> teacherAssociations = new HashSet<Entity>();
+		for (Entity entity : rawTeacherAssociations) {
+			Entity association = getStaffForTeacher(entity, edOrgId);
+			if (null != association.getBody().get("isTeacher")) {
+				teacherAssociations.add(association);
+			}
+		}
+
+		count.setTotal(teacherAssociations.size());
+		count.setCurrent(filterCurrent(teacherAssociations).size());
+		return count;
+	}
+
+	@Override
+	public TeacherAssociationCount findTeachers(String edOrgId) {
+		TeacherAssociationCount count = new TeacherAssociationCount();
+		Set<Entity> rawTeacherAssociations = getAssociations(edOrgId, "schoolId", "teacherSchoolAssociation");
+		Set<Entity> teacherAssociations = new HashSet<Entity>();
+		for (Entity entity : rawTeacherAssociations) {
+			Entity association = getStaffForTeacher(entity, edOrgId);
+			if (null != association.getBody().get("isTeacher")) {
+				teacherAssociations.add(association);
+			}
+		}
+		count.setTotal(getUniqueCount(teacherAssociations, "teacherId"));
+		return count;
 	}
 
 	/*
@@ -210,6 +241,36 @@ public class CountServiceImpl implements CountService {
 			}
 		}
 		return current;
+	}
+
+	private Entity getStaffForTeacher(Entity teacherSchoolAssociation, String edOrg) {
+		// Get relevant staffAssociation based on this teacher association
+		Entity staffAssociation = getStaffAssocForTeacherAssoc(teacherSchoolAssociation, teacherSchoolAssociation.getBody().get("schoolId").toString());
+		// Add it if it isn't null
+		if (null != staffAssociation) {
+			// This is a little trickery for performance. Add the staffEducationOrganization
+			//   begin and end dates to the teacherSchoolAssociation as if it belongs there.
+			//   This will make getting the whether or not it is current easier.
+			teacherSchoolAssociation.getBody().put("beginDate", staffAssociation.getBody().get("beginDate"));
+			teacherSchoolAssociation.getBody().put("endDate", staffAssociation.getBody().get("endDate"));
+			teacherSchoolAssociation.getBody().put("isTeacher", true);
+		} else {
+			// Else we need to loop up through the edorg hierarchy looking for a match at a higher level
+			//	and add it if there is one.
+			List<String> parentEdOrgs = edOrgHelper.getParentEdOrgs(mongoEntityRepository.findById("educationOrganization", edOrg));
+			for (String parent : parentEdOrgs) {
+				Entity staffParentAssociation = getStaffAssocForTeacherAssoc(teacherSchoolAssociation, parent);
+				if (null != staffParentAssociation) {
+					// Trickery as above
+					teacherSchoolAssociation.getBody().put("beginDate", staffParentAssociation.getBody().get("beginDate"));
+					teacherSchoolAssociation.getBody().put("endDate", staffParentAssociation.getBody().get("endDate"));
+					teacherSchoolAssociation.getBody().put("isTeacher", true);
+					// Break out so the closest association to the ed org is the one that is used.
+					break;
+				}
+			}
+		}
+		return teacherSchoolAssociation;
 	}
 
 	/*
