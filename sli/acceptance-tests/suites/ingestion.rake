@@ -104,11 +104,6 @@ task :ingestionParallelTests do
  runTests("test/features/ingestion/features/ingestion_acceptance_parallel_test.feature")
 end
 
-desc "Run Ingestion for Dashboard Sad Path Tests"
-task :ingestionDashboardSadPathTest do
-  runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
-end
-
 desc "Run Blacklist Validation Tests"
 task :ingestionBlacklistValidationTests do
   runTests("test/features/ingestion/features/blacklistValidation_testing.feature")

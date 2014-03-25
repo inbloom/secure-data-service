@@ -637,25 +637,19 @@ task :deviceTests => :realmInit do
   display_failure_report
 end
 
-############################################################
-# Dashboard tests start
-############################################################
 desc "Run Dashboard Tests"
-task :dashboardTests => [
-        :dashboardPopWidgetTests,
-        :dashboardK3ViewTests,
-        :dashboardUserBasedViewTests,
-        :dashboardLoginTests,
-        :dashboardStudentProfileTests,
-        :dashboardAttendance,
-        :dashboardStudentContactInfoLiveTests,
-        :dashboardHTMLEscapeTests,
-        :dashboardQunitTests] do
+task :dashboardTests do
+  runTests("test/features/dashboard/dash/population_widget.feature")
+  runTests("test/features/dashboard/dash/k3view.feature")
+  runTests("test/features/dashboard/dash/user_based_views.feature")
+  runTests("test/features/dashboard/dash/dashboard_login.feature")
+  runTests("test/features/dashboard/dash/student_profile.feature")
+  runTests("test/features/dashboard/dash/attendance.feature")
+  runTests("test/features/dashboard/dash/contact_info_live.feature")
+  runTests("test/features/dashboard/dash/dashboard_html_escape.feature")
+  runTests("test/features/dashboard/dash/qunit_tests.feature")
   display_failure_report
 end
-############################################################
-# Dashboard tests end
-############################################################
 
 ############################################################
 # Dashboard SDS tests start
