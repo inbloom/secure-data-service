@@ -1275,16 +1275,6 @@ eos
 
 end
 
-desc "Get a list of all available tasks"
-task :tasks do
-    puts "The following are all the available tasks:"
-
-    tasks = Rake.application.tasks
-    tasks.each do |t|
-      puts ":" + t.to_s
-    end
-end
-
 #######################################################
 # Primary Key Factory Class for Shard Type 1 UUIDs
 #######################################################
@@ -1292,9 +1282,9 @@ end
 class ShardType1UUIDPKFactory
   require 'securerandom'
   def create_pk(doc)
-    chars = ("a".."z").to_a
+    chars = ('a'..'z').to_a
     prefix = Time.new.year.to_s + Array.new(2, '').collect{chars[rand(chars.size)]}.join
-    doc["_id"] ||= prefix + "-" + SecureRandom.uuid
+    doc['_id'] ||= "#{prefix}-#{SecureRandom.uuid}"
     doc
   end
 end
