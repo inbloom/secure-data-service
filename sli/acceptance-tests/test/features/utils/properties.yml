@@ -40,6 +40,7 @@ activemq_host: localhost
 
 #Bulk Extract Configuration
 bulk_extract_script: "../bulk-extract/scripts/local_bulk_extract.sh"
+bulk_extract_cleanup_script: "../bulk-extract/scripts/cleanup_bulk_extract.rb"
 bulk_extract_delta_script: "../bulk-extract/scripts/local_bulk_extract.sh"
 bulk_extract_delta_properties: "../config/properties/sli.properties"
 bulk_extract_delta_keystore: "../data-access/dal/keyStore/ciKeyStore.jks"
@@ -73,14 +74,12 @@ user_registration_pass: password
 
 app_bootstrap_server: local
 
-test_email_sender: inBloom Administrator
-email_smtp_port: 8080
-
 email_imap_port: 443
 email_imap_host: mon.slidev.org
 email_imap_use_ssl: true
 email_imap_inbloom_operator_email: slcoperator-email@slidev.org
-emaiL_smtp_host: smtp.gmail.com
+
+email_smtp_host: smtp.gmail.com
 email_smtp_port: 587
 
 email_imap_host: imap.gmail.com
@@ -99,9 +98,6 @@ operator_test_email_pass: '!password'
 
 ################# e2e test properties #################################
 # For CI environments
-email_imap_hostname: imap.gmail.com
-email_imap_portname: 993
-
 #SEA Admin creds - For CI environments
 primary_email_imap_registration_user: e2etestsea
 primary_email_imap_registration_user_email: e2etestsea@slidev.org
@@ -154,38 +150,6 @@ ci_artifact_source_id: 3605606709cf2df22c208f5f472f7f3ce0b5a3ea
 post_encrypt_idp_type: Shibboleth
 post_encrypt_idp_id_url: https://shibboleth.slidev.org/idp3/shibboleth
 post_encrypt_idp_redirect_url: https://shibboleth.slidev.org/idp3/profile/SAML2/Redirect/SSO
-
-##For RC environments
-#email_imap_hostname: imap.gmail.com
-#email_imap_portname: 993
-
-##SEA Admin creds - For RC environments
-#primary_email_imap_registration_user: testuser0.wgen@gmail.com
-#primary_email_imap_registration_user_email: testuser0.wgen@gmail.com
-#primary_email_imap_registration_pass: liferaywgen
-
-##LEA Admin creds - For RC environments
-#secondary_email_imap_registration_user: testuser1.wgen@gmail.com
-#secondary_email_imap_registration_user_email: testuser1.wgen@gmail.com
-#secondary_email_imap_registration_pass: liferaywgen
-
-##Developer creds - For RC environments
-#developer_email_imap_registration_user: testdev.wgen@gmail.com
-#developer_email_imap_registration_user_email: testdev.wgen@gmail.com
-#developer_email_imap_registration_pass: test1234
-
-##Developer creds (sandbox) - For RC environments
-#developer_sb_email_imap_registration_user:
-#developer_sb_email_imap_registration_user_email:
-#developer_sb_email_imap_registration_pass:
-
-##Developer 2 creds (sandbox) - For RC environments
-#developer2_sb_email_imap_registration_user:
-#developer2_sb_email_imap_registration_user_email:
-#developer2_sb_email_imap_registration_pass:
-
-#Bulk extract cleanup script
-bulk_extract_cleanup_script: "../bulk-extract/scripts/cleanup_bulk_extract.rb"
 
 ################# /e2e test properties #################################
 

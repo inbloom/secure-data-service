@@ -52,10 +52,10 @@ Given /^when I click Accept$/ do
     @imap_password = Property['developer_email_imap_registration_pass']
   end
 
-  @content = check_email({:imap_host => Property['email_imap_hostname'],
-                         :imap_port => Property['email_imap_portname'],
-                         :content_substring => "RCTest",
-                         :subject_substring => "Email Confirmation",
+  @content = check_email({:imap_host => Property[:email_imap_host],
+                         :imap_port => Property[:email_imap_port],
+                         :content_substring => 'RCTest',
+                         :subject_substring => 'Email Confirmation',
                          :imap_username => @imap_username ,
                          :imap_password => @imap_password }) do
 
@@ -152,8 +152,8 @@ def check_email_for_verification(subject_substring = nil, content_substring = ni
     @imap_password = Property['developer_email_imap_registration_pass']
   end
 
-  imap_host = Property['email_imap_hostname']
-  imap_port = Property['email_imap_portname']
+  imap_host = Property[:email_imap_host]
+  imap_port = Property[:email_imap_port]
   imap_user = @imap_username
   imap_password = @imap_password 
   not_so_distant_past = Date.today.prev_day

@@ -18,6 +18,8 @@ limitations under the License.
 
 require 'mongo'
 
+DATABASE_HOST = Property[:db_host]
+DATABASE_PORT = Property[:db_port]
 
 #############################################################################################
 # After Steps
