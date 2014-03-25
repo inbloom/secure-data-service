@@ -107,11 +107,7 @@ module EntitiesHelper
         end
         html << '<li>' << link_to(t(link["rel"]), localize_url(url))
 
-        if (url.include? "?")
-          url = "#{url}&countOnly=true&showAll=true"
-        else
-          url = "#{url}?countOnly=true&showAll=true"
-        end
+        url = "#{url}&countOnly=true"
 
         # Adds the count span to the page for use with getting the counts by ajax request.
         if (COUNT_CONFIG['include_current'].include? get_last_url_part(url))
