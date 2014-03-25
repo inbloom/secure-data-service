@@ -90,7 +90,7 @@ module EntitiesHelper
   # Here we detect links and turn it into an alphabetized list of links that
   # reference the databrowser instead of the API. We also use the i18n
   # translation file to make some of the links more readable.
-  def build_links(hash)
+  def build_links(hash, entity)
     html = ""
     if hash.is_a?(Array)
       html << "<ul class='values'>"
@@ -105,15 +105,28 @@ module EntitiesHelper
             url = url + "?showAll=true"
           end
         end
-        html << '<li>' << link_to(t(link["rel"]), localize_url(url))
 
-        url = "#{url}&countOnly=true"
-
+        if (link['rel'] == "getTeachers")
+          html << '<li>' << link_to(t(link["rel"]), localize_url(url))
+          link_url = request.protocol + request.host_with_port + "/count/teacherAssociations/#{entity['id']}/teachers"
+        elsif (link['rel'] == "getTeacherSchoolAssociations")
+          html << '<li>' << link_to(t(link["rel"]), localize_url(url))
+          link_url = request.protocol + request.host_with_port + "/count/teacherAssociations/#{entity['id']}"
+        else
+          html << '<li>' << link_to(t(link["rel"]), localize_url(url))
+          if url.include? "?"
+            url = url + "&countOnly=true"
+          else
+            url = url + "?countOnly=true"
+          end
+          link_url = localize_url(url)
+        end
+        
         # Adds the count span to the page for use with getting the counts by ajax request.
         if (COUNT_CONFIG['include_current'].include? get_last_url_part(url))
-          html << " (" << "<span class=count_link data-url=#{localize_url(url)} data-include_current=true>#</span>" << ")"
+          html << " (" << "<span class=count_link data-url=#{link_url} data-include_current=true>#</span>" << ")"
         else
-          html << " (" << "<span class=count_link data-url=#{localize_url(url)} data-include_current=false>#</span>" << ")"
+          html << " (" << "<span class=count_link data-url=#{link_url} data-include_current=false>#</span>" << ")"
         end
         
         html << '</li>'
@@ -164,7 +177,7 @@ module EntitiesHelper
     if entity.is_a?(Hash)
       entity = sort_entity(entity)
       entity.each { |key, value|
-        val_text = (key == 'links' || key == 'link') ? build_links(value) : display_entity(value)
+        val_text = (key == 'links' || key == 'link') ? build_links(value, entity) : display_entity(value)
         val_text = "&nbsp" if val_text.nil? || val_text.empty?
         address_text = (key == 'address') ? " address" : ""
         html << "<div class='row'><div class='key left'>#{t(key)}:</div><div class='value#{address_text}'>#{val_text}</div></div>"
@@ -207,7 +220,6 @@ module EntitiesHelper
       end
       counts = RestClient.get(url, get_header)
       counts = JSON.parse(counts)
-      logger.info("Counts: #{counts}")
     rescue => e
       logger.info("Could not get staff counts for because of #{e.message}")
     end
@@ -260,5 +272,5 @@ module EntitiesHelper
     
     # return the new url
     new_url
-  end
+  end 
 end
