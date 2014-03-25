@@ -26,16 +26,16 @@ Given /^there is not a user with an email address of "(.*?)"$/ do |email|
   cleanUpLdapUser(email)
 end
 Given /^I go to the account registration page on RC$/ do
-  @driver.get Property['admintools_server_url'] + Property['registration_app_suffix']
+  @driver.get "#{Property[:admintools_server_url]}/registration"
 end
 
 Given /^I go to the mini sandbox account registration page$/ do
-  @baseUrl = Property['minisb_admintools_server_url']
-  @driver.get Property['minisb_admintools_server_url'] + Property['registration_app_suffix']
+  @baseUrl = Property[:minisb_admintools_server_url]
+  @driver.get "#{Property[:minisb_admintools_server_url]}/registration"
 end
 
 Given /^I go to the portal page on RC$/ do
-  @driver.get Property['portal_server_address'] + Property['portal_app_suffix']
+  @driver.get "#{Property[:portal_server_address]}#{Property[:portal_app_suffix]}"
 end
 
 Given /^I am running in Sandbox mode$/ do

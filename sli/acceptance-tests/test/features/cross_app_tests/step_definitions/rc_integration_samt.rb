@@ -121,7 +121,7 @@ Before do
 end
 
 When /^I navigate to the user account management page$/ do
-  samt_url = Property['admintools_server_url']+Property['samt_app_suffix']
+  samt_url = "#{Property[:admintools_server_url]}/users"
   @driver.get samt_url
 end
 

@@ -68,9 +68,6 @@ ldap_admin_pass: slidev
 
 user_registration_app_host_url: "inbloom.org"
 sb_get_started: "inbloom.org/getting-started"
-registration_app_suffix: "/registration"
-samt_app_suffix: "/users"
-validation_base_suffix: "/user_account_validation"
 user_registration_email: devldapuser@inbloomdev.org
 user_registration_pass: password
 

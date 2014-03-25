@@ -26,12 +26,12 @@ require_relative '../../utils/selenium_common.rb'
 
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
-  @baseUrl = Property['admintools_server_url']
-  @registrationAppSuffix = Property['registration_app_suffix']
-  @validationBaseSuffix = Property['validation_base_suffix']
+  @baseUrl = Property[:admintools_server_url]
+  @registrationAppSuffix = '/registration'
+  @validationBaseSuffix = '/user_account_validation'
   @emailConf = {
-      :host => Property['email_smtp_host'],
-      :port => Property['email_smtp_port'],
+      :host => Property[:email_smtp_host],
+      :port => Property[:email_smtp_port],
   }
 end
 
