@@ -11,7 +11,7 @@ Scenario: Prepare Custom Roles (set up)
    When I navigate to the Custom Role Mapping page
    Then I should get to the correct Custom Role Mapping Page
    When I click on the Reset to Defaults button
-   Then The page should be reset back to default
+   Then the page should be reset back to default
 
   # Create custom role
   When I add a new role group
@@ -23,37 +23,26 @@ Scenario: Developer creates new application (set up data)
     And I want to create a new application
     And I create new application "Boyne"
 #  This step might need to be revisited
-   Then Application "Boyne" should be created
-#
-#Scenario: SLC Operator accepts application registration request (set up data)
-#  #Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
-#  When I hit the Application Registration Tool URL
-#   And I select "inBloom" from the dropdown and click go
-#   And I was redirected to the "Simple" IDP Login page
-#   And I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
-#  Then I am redirected to the Application Approval Tool page
-#   And I see all the applications registered on SLI
-#   And I see all the applications pending registration
-#   And the pending apps are on top
-#  When I click on 'Approve' next to application "Boyne"
-#  Then application "Boyne" is registered
-#   And the 'Approve' button is disabled for application "Boyne"
-#
-#Scenario: Developer registers application (set up data)
-#  #Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
-#  When I hit the Application Registration Tool URL
-#   And I select "inBloom" from the dropdown and click go
-#   And I was redirected to the "Simple" IDP Login page
-#   And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
-#  Then I am redirected to the Application Registration Tool page
-#   And I see the list of (only) my applications
-#   And a "In Progress" button is displayed for application "Boyne"
-#   And I clicked on the button Edit for the application "Boyne"
-#   And I expand all nodes
-#   And I enable the educationalOrganization "Illinois State Board of Education" in tenant "Midgar"
-#   And I enable the educationalOrganization "New York State Education System" in tenant "Hyrule"
-#   And I click on Save
-#  Then "Boyne" is enabled for "208" education organizations
+   Then application "Boyne" should be created
+
+Scenario: SLC Operator accepts application registration request (set up data)
+  Given I am a valid SLC Operator
+    And I am managing my applications
+    And I should see all applications and new application "Boyne"
+   When the application "Boyne" is approved
+   Then the 'Approve' button is disabled for the application
+
+Scenario: Developer registers application (set up data)
+  Given I am a valid inBloom developer
+    And I am managing my applications
+   Then I should see application "Boyne" as In Progress
+   When I enable the education Organizations for the application
+   Then "Boyne" is enabled for "208" education organizations
+
+Scenario: NY Hosted User Authorizes App (set up data)
+  Given I am a valid NY Hosted User
+    And I am managing my application authorizations
+   Then I should see application "Boyne" as Not Approved
 #
 #Scenario: NY Hosted User Authorizes App (set up data)
 #  When I hit the Admin Application Authorization Tool
@@ -367,6 +356,37 @@ Scenario: Developer creates new application (set up data)
 #  When I expand the application row for "Boyne"
 #   And the client ID and shared secret fields are Pending
 #   And the Registration Status field is Pending
+
+  #Scenario: SLC Operator accepts application registration request (set up data)
+#  #Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
+#  When I hit the Application Registration Tool URL
+#   And I select "inBloom" from the dropdown and click go
+#   And I was redirected to the "Simple" IDP Login page
+#   And I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
+#  Then I am redirected to the Application Approval Tool page
+#   And I see all the applications registered on SLI
+#   And I see all the applications pending registration
+#   And the pending apps are on top
+#  When I click on 'Approve' next to application "Boyne"
+#  Then application "Boyne" is registered
+#   And the 'Approve' button is disabled for application "Boyne"
+
+#
+#Scenario: Developer registers application (set up data)
+#  #Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
+#  When I hit the Application Registration Tool URL
+#   And I select "inBloom" from the dropdown and click go
+#   And I was redirected to the "Simple" IDP Login page
+#   And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
+#  Then I am redirected to the Application Registration Tool page
+#   And I see the list of (only) my applications
+#   And a "In Progress" button is displayed for application "Boyne"
+#   And I clicked on the button Edit for the application "Boyne"
+#   And I expand all nodes
+#   And I enable the educationalOrganization "Illinois State Board of Education" in tenant "Midgar"
+#   And I enable the educationalOrganization "New York State Education System" in tenant "Hyrule"
+#   And I click on Save
+#  Then "Boyne" is enabled for "208" education organizations
 
 #Done
 

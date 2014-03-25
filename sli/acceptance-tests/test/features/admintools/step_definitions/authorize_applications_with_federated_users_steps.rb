@@ -18,6 +18,8 @@ limitations under the License.
 
 require_relative 'capybara_setup.rb'
 require 'selenium-webdriver'
+require_relative '../../utils/sli_utils.rb'
+require_relative '../../utils/selenium_common.rb'
 
 require 'pry'
 
@@ -44,7 +46,7 @@ When /^I click on the Reset to Defaults button$/ do
   browser.confirm_popup
 end
 
-Then /^The page should be reset back to default$/ do
+Then /^the page should be reset back to default$/ do
   numChecked = 0
 
   # Check for correct default group titles should be the same as titles
@@ -105,8 +107,50 @@ And /^I create new application "([^"]*)"$/ do |app_name|
   browser.click_button 'Register'
 end
 
-Then /^Application "([^"]*)" should be created$/ do |app_name|
+Then /^application "([^"]*)" should be created$/ do |app_name|
   browser.page.should have_css('#notice')
   browser.page.should have_content(app_name)
   browser.reset_session!
+end
+
+Then /^I should see all applications and new application "([^"]*)"$/ do |app_name|
+  browser.should have_css('table#applications.table')
+  @new_app_id = browser.find('table#applications tbody').first('tr')[:id]
+  @new_app = browser.find_by_id(@new_app_id)
+  @new_app.should satisfy{|page| page.has_content?(app_name) && page.has_content?('PENDING')}
+end
+
+When /^the application "Boyne" is approved$/ do
+  browser.within @new_app do
+    browser.should have_css('.approve-button')
+    browser.find('.approve-button').click
+  end
+end
+
+Then /^the 'Approve' button is disabled for the application$/ do
+  browser.within @new_app do
+    browser.should have_css('.approve-button[disabled]')
+  end
+end
+
+Then /^I should see application "([^"]*)" as (.*)$/ do |new_app, status|
+  @my_new_app = browser.all('table tbody tr').first
+  browser.within @my_new_app do
+    browser.should have_text(new_app)
+    browser.should have_text(status)
+  end
+end
+
+When /^I enable the education Organizations for the application$/ do
+  browser.within @my_new_app do
+    browser.find('.btn').click
+  end
+  browser.click_link('Expand All')
+
+  # check the checkbox for Illinois State Board of Education
+  browser.check('b1bd3db6-d020-4651-b1b8-a8dba688d9e1')
+  # check the checkbox for New York State Education System
+  browser.check('87d0ab29-b493-46eb-a6f3-110701953afb')
+
+  browser.all('span.edOrgTreeActions input.btn').find("option[value='Save & Update']").first.click
 end

@@ -84,7 +84,8 @@ def valid_user(user_type)
       'SLI hosted user with no roles' => %w( leader ),
       'tenant-level realm administrator' => %w( daybreakadmin ),
       'tenant-level IT administrator' => %w( rrogers ),
-      'sandbox developer'             => %w( developer-email@slidev.org test1234 )
+      'sandbox developer'             => %w( developer-email@slidev.org test1234 ),
+      'NY Hosted User'                => %w(nyadmin)
   }
   username, password = valid_users[user_type]
   [username, password || "#{username}1234"]
