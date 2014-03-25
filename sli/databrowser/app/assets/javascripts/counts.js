@@ -10,7 +10,7 @@ jQuery(function($) {
 	  
 	  // Get the total count
 	  count = count + get_count(element, url);
-alert(url);	  
+	  
 	  if (include_current) {
 		  // Add a spacing marker
 		  count = count + " / ";
@@ -18,7 +18,7 @@ alert(url);
 		  // Change url to get currentOnly and then get current counts
 		  url = url + "&currentOnly=true";
 		  count = count + get_count(element, url);
-          }
+      }
 	
 	  element.innerHTML = count;
   })
@@ -38,10 +38,14 @@ function get_count(element, url) {
         dataType: "json" 
     }).success(function(data) {
     	//var text = null;
-    	if (data.entities === undefined) {
+    	if (data.entities === undefined && data.total === undefined) {
     		text = "N/A"
         } else if (data.total != undefined) {
-            text = data.total
+            if (data.type == "TEACHER") {
+                text = data.total;
+            } else {
+                text = data.total + " / " + data.current
+            }
     	} else {
     		text = data.headers.totalcount;
     	}

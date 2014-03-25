@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.api.count.TeacherAssociationCount.TeacherAssociationType;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -74,6 +75,7 @@ public class CountServiceImpl implements CountService {
 	@Override
 	public TeacherAssociationCount findTeacherAssociations(String edOrgId) {
 		TeacherAssociationCount count = new TeacherAssociationCount();
+		count.setType(TeacherAssociationType.ASSOCIATION);
 		Set<Entity> rawTeacherAssociations = getAssociations(edOrgId, "schoolId", "teacherSchoolAssociation");
 		Set<Entity> teacherAssociations = new HashSet<Entity>();
 		for (Entity entity : rawTeacherAssociations) {
@@ -91,6 +93,7 @@ public class CountServiceImpl implements CountService {
 	@Override
 	public TeacherAssociationCount findTeachers(String edOrgId) {
 		TeacherAssociationCount count = new TeacherAssociationCount();
+		count.setType(TeacherAssociationType.TEACHER);
 		Set<Entity> rawTeacherAssociations = getAssociations(edOrgId, "schoolId", "teacherSchoolAssociation");
 		Set<Entity> teacherAssociations = new HashSet<Entity>();
 		for (Entity entity : rawTeacherAssociations) {
