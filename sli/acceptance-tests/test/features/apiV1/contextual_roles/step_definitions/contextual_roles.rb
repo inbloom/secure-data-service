@@ -334,7 +334,7 @@ Given /^I import the odin setup application and realm data$/ do
       db.update(
           :realm,
           {'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'},
-          {'$set' => {'body.idp.id' => Property[:ci_idp_redirect_url}}
+          {'$set' => {'body.idp.id' => Property[:ci_idp_redirect_url]}}
       )
       db.update(
           :realm,
