@@ -104,6 +104,7 @@ public class CountServiceImpl implements CountService {
 			// If recursive is true, get the child edOrgs and process them.
 			if (recursive) {
 				Set<String> childEdOrgs = edOrgHelper.getChildEdOrgs(edOrg);
+				childEdOrgs = getUniqueEdOrgs(edOrgs, childEdOrgs);
 				for (String childEdOrg : childEdOrgs) {
 					// Add all of the child ed org associations to the sets
 					staffAssociations.addAll(getAssociations(childEdOrg, "educationOrganizationReference", "staffEducationOrganizationAssociation"));
@@ -273,5 +274,12 @@ public class CountServiceImpl implements CountService {
 		}
 
 		return unique.size();
+	}
+
+	private Set<String> getUniqueEdOrgs(Set<String> directlyAssoc, Set<String> childEdOrgs) {
+		for (String edOrg : directlyAssoc) {
+			childEdOrgs.remove(edOrg);
+		}
+		return childEdOrgs;
 	}
 }
