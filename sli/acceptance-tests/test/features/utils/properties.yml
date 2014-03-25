@@ -143,9 +143,6 @@ edorg: STANDARD-SEA
 # IDP and Redirect Endpoint URL for Realm Management
 ci_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Daybreak
 
-# IDP and Redirect Endpoint URL for Charter School Realm Management
-ci_charter_idp_redirect_url: https://local.slidev.org/simple-idp?realm=IL-Charter
-
 #Properties for Artifact Binding IdP
 ci_artifact_idp_type: Shibboleth
 ci_artifact_idp_artifact_resolution_url: https://shibboleth.slidev.org:8001/idp2/profile/SAML2/SOAP/ArtifactResolution

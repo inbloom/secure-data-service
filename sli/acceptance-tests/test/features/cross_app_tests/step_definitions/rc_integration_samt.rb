@@ -77,8 +77,6 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
       value = Property['sandbox_tenant']
     when "CI_IDP_Redirect_URL"
       value = Property[:ci_idp_redirect_url]
-    when "CI_CHARTER_IDP_Redirect_URL"
-      value = Property["ci_charter_idp_redirect_url"]
     when "MATT SOLLARS UNIQUE ID"
       value = "800000025"
     when "CARMEN ORTIZ UNIQUE ID"
