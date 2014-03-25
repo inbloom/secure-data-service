@@ -22,6 +22,9 @@ limitations under the License.
 
 require_relative '../../utils/email.rb'
 
+Given /^there is not a user with an email address of "(.*?)"$/ do |email|
+  cleanUpLdapUser(email)
+end
 Given /^I go to the account registration page on RC$/ do
   @driver.get Property['admintools_server_url'] + Property['registration_app_suffix']
 end

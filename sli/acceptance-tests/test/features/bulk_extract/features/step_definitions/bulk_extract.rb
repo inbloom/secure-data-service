@@ -346,11 +346,10 @@ end
 ############################################################
 
 When /^I insert the tenant for developer-email@slidev.org$/ do
-  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
-  db = conn['sli']
-  tenant_coll = db.collection('tenant')
-  new_tenant = {'_id'=>'57b2dac7-e337-40a1-9f9f-7fdbb6274651','type'=>'tenant','body'=>{'landingZone'=>[{'educationOrganization'=>'IL','ingestionServer'=>'demoIngestionServer','path'=>'/home/ingestion/lz/inbound/developeremailslidevorg','desc'=>'Landing zone for NY','userNames'=>['johndoe']}],'tenantId'=>'developer-email@slidev.org','dbName'=>'e4b96dfb6c102e5cd98859ff4e92710cd6efded2','tenantIsReady'=>true},'metaData'=>{}}
-  tenant_coll.insert(new_tenant)
+  DbClient.new.for_sli.open do |db|
+    new_tenant = {'_id'=>'57b2dac7-e337-40a1-9f9f-7fdbb6274651','type'=>'tenant','body'=>{'landingZone'=>[{'educationOrganization'=>'IL','ingestionServer'=>'demoIngestionServer','path'=>'/home/ingestion/lz/inbound/developeremailslidevorg','desc'=>'Landing zone for NY','userNames'=>['johndoe']}],'tenantId'=>'developer-email@slidev.org','dbName'=>'e4b96dfb6c102e5cd98859ff4e92710cd6efded2','tenantIsReady'=>true},'metaData'=>{}}
+    db.insert('tenant', new_tenant)
+  end
 end
 
 When /^I only remove bulk extract file for tenant:"(.*?)", edorg:"(.*?)", app:"(.*?)", date:"(.*?)"$/ do |tenant, edorg, app, date|

@@ -17,6 +17,7 @@
 
 package org.slc.sli.api.service;
 
+import com.google.common.collect.Lists;
 import junit.framework.Assert;
 import org.junit.AfterClass;
 import org.junit.Before;
