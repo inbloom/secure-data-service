@@ -33,8 +33,8 @@ Scenario: Navigate to home page from any page
   And I should see my available links labeled
   And I have navigated to the <Page> of the Data Browser
     | Page                                       |
-    | GetStaffEducationOrgAssignmentAssociations |
-    | GetStaffProgramAssociations                |
+    | Staff Education Organization Associations  |
+    | Staff Program Associations                 |
     | Me                                         |
   Then I should click on the Home link and be redirected back
 
@@ -48,7 +48,7 @@ Scenario: Associations List - Expand/Collapse between Simple View and Detail Vie
   Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
-  And I click on the "GetStaffProgramAssociations" link
+  And I click on the "Staff Program Associations" link
   Then I am redirected to the associations list page
   And I see a table displaying the associations in a list
   And those names include the IDs of both "ProgramId" and "StaffId" in the association
@@ -69,7 +69,7 @@ Scenario: Click on Available Links associations and entities
   Then I should be redirected to the Data Browser home page
   And I have navigated to the "Me" page of the Data Browser
   Then I am redirected to the particular entity Detail View
-  When I click on the "GetStaffCohortAssociations" link
+  When I click on the "Staff Cohort Associations" link
   Then I am redirected to the particular associations Simple View
 
 Scenario: Get a Forbidden message when we access something that is forbidden
@@ -82,12 +82,12 @@ Scenario: Get a Forbidden message when we access something that is forbidden
   Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
-  And I click on the "GetEducationOrganizations" link
-  And I click on the "GetParentEducationOrganization" link
-  And I click on the "GetFeederSchools" link
+  And I click on the "Education Organizations" link
+  And I click on the "Parent Education Organization" link
+  And I click on the "Feeder Schools" link
   When I click on the row containing "Daybreak Central High"
   And I click on the "Me" of any of the associating entities
-  And I click on the "GetTeachers" link
+  And I click on the "Teachers" link
   Then I see a "You do not have access to view this." alert box
   And I click the X
   Then the error is dismissed
@@ -102,9 +102,9 @@ Scenario: Traverse Edorg Hiearchy from SEA down to LEA
   Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
-  When I click on the "GetEducationOrganizations" link
+  When I click on the "Education Organizations" link
   Then I should be on the detailed page for an SEA
-  When I click on the "GetFeederEducationOrganizations" link
+  When I click on the "Feeder Education Organizations" link
   Then I should be on the detailed page for an LEA
 
 Scenario: Educators are not authorized to use databrowser
