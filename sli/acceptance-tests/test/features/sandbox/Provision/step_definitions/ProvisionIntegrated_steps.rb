@@ -55,13 +55,10 @@ end
 
 After do
   begin
-    STDOUT.puts "Attempting to delete #{@lz}" if $SLI_DEBUG
+    puts "Attempting to delete #{@lz}" if $SLI_DEBUG
     initializeLandingZone(@lz)
   rescue
-    if $SLI_DEBUG
-      STDOUT.puts "Could not clean out landing zone:  #{@lz}"
-      STDOUT.puts "Reason:  #{$!}"
-    end
+    puts "Could not clean out landing zone: #{@lz}\nReason: #{$!}" if $SLI_DEBUG
   end
 
   # This is a hack to clean up the landing zone for the pre-populate sample data scenario
@@ -71,13 +68,10 @@ After do
   PRELOAD_EDORGS.each do |preload_edorg|
     begin
       sample_data_set_lz = @lz[0..@lz.rindex("/")] + sha256(preload_edorg) + "/"
-      STDOUT.puts "Attempting to delete #{sample_data_set_lz}" if $SLI_DEBUG
+      puts "Attempting to delete #{sample_data_set_lz}" if $SLI_DEBUG
       initializeLandingZone(sample_data_set_lz)
     rescue
-      if $SLI_DEBUG
-        STDOUT.puts "Could not clean out landing zone:  #{sample_data_set_lz}"
-        STDOUT.puts "Reason:  #{$!}"
-      end
+      puts "Could not clean out landing zone:  #{sample_data_set_lz}\nReason:  #{$!}" if $SLI_DEBUG
     end
   end
 end
@@ -100,11 +94,11 @@ end
 
 Given /^LDAP server has been setup and running$/ do
   @ldap = ldap_storage
-  @email_sender_name= "Administrator"
-  @email_sender_address= "noreply@slidev.org"
+  @email_sender_name= 'Administrator'
+  @email_sender_address= 'noreply@slidev.org'
   @email_conf = {
-      :host =>  Property['email_smtp_host'],
-      :port => Property['email_smtp_port'],
+      :host =>  Property[:email_smtp_host],
+      :port => Property[:email_smtp_port],
       :sender_name => @email_sender_name,
       :sender_email_addr => @email_sender_address
   }
@@ -118,7 +112,6 @@ end
 Given /^there is an production Ingestion Admin account in ldap$/ do
   @sandbox = false
   ApprovalEngine.init(@ldap, nil,true)
-
 end
 
 Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
