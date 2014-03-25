@@ -16,8 +16,6 @@
 
 package org.slc.sli.api.count;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -51,7 +49,7 @@ public class CountResource extends DefaultResource {
 
 	@GET
 	@Path("educationOrganizations")
-	public @ResponseBody List<EducationOrganizationCount> find(@Context HttpServletRequest request) {
+	public @ResponseBody EducationOrganizationCount find(@Context HttpServletRequest request) {
 		return countService.find();
 	}
 

@@ -57,15 +57,9 @@ public class CountServiceImpl implements CountService {
      * to the logged in user.
      */
 	@Override
-	public List<EducationOrganizationCount> find() {
-		List<EducationOrganizationCount> counts = new ArrayList<EducationOrganizationCount>();
+	public EducationOrganizationCount find() {
 		Set<String> edOrgs = edOrgHelper.getDirectEdorgs();
-		
-		for (String edOrg : edOrgs) {
-			counts.add(getCountsForEdOrg(edOrg));
-		}
-
-		return counts;
+		return getCountsForEdOrg(edOrgs, true);
 	}
 
 	/*
@@ -73,13 +67,9 @@ public class CountServiceImpl implements CountService {
 	 */
 	@Override
 	public EducationOrganizationCount findOne(String edOrgId) {
-		return getCountsForEdOrg(edOrgId);
-	}
-
-	// Method that is used to call the main one if recursive is not used.
-	//   By default all counts should be recursive.
-	private EducationOrganizationCount getCountsForEdOrg(String edOrg) {
-		return getCountsForEdOrg(edOrg, true);
+		Set<String> edOrgs = new HashSet<String>();
+		edOrgs.add(edOrgId);
+		return getCountsForEdOrg(edOrgs, true);
 	}
 
 	/*
@@ -88,38 +78,46 @@ public class CountServiceImpl implements CountService {
 	 * true then it will also get all of the children ed orgs and parse them
 	 * for their associations as well.
 	 */
-	private EducationOrganizationCount getCountsForEdOrg(String edOrg, boolean recursive) {
+	private EducationOrganizationCount getCountsForEdOrg(Set<String> edOrgs, boolean recursive) {
 		EducationOrganizationCount count = new EducationOrganizationCount();
-		
-		// Get total associations for the specified edOrg
-		Set<Entity> staffAssociations = getAssociations(edOrg, "educationOrganizationReference", "staffEducationOrganizationAssociation");
-		Set<Entity> teacherAssociations = getAssociations(edOrg, "schoolId", "teacherSchoolAssociation");
-		Set<Entity> studentAssociations = getAssociations(edOrg, "schoolId", "studentSchoolAssociation");
 
-		// Filter out and return only the current associations
-		Set<Entity> currentStaffAssociations = filterCurrent(staffAssociations);
-		Set<Entity> currentTeacherAssociations = filterCurrent(teacherAssociations);
-		Set<Entity> currentStudentAssociations = filterCurrent(studentAssociations);
+		Set<Entity> staffAssociations = new HashSet<Entity>();
+		Set<Entity> teacherAssociations = new HashSet<Entity>();
+		Set<Entity> studentAssociations = new HashSet<Entity>();
+		Set<Entity> currentStaffAssociations = new HashSet<Entity>();
+		Set<Entity> currentTeacherAssociations = new HashSet<Entity>();
+		Set<Entity> currentStudentAssociations = new HashSet<Entity>();
 
-		// If recursive is true, get the child edOrgs and process them.
-		if (recursive) {
-			Set<String> childEdOrgs = edOrgHelper.getChildEdOrgs(edOrg);
-			for (String childEdOrg : childEdOrgs) {
-				// Add all of the child ed org associations to the sets
-				staffAssociations.addAll(getAssociations(childEdOrg, "educationOrganizationReference", "staffEducationOrganizationAssociation"));
-				teacherAssociations.addAll(getAssociations(childEdOrg, "schoolId", "teacherSchoolAssociation"));
-				studentAssociations.addAll(getAssociations(childEdOrg, "schoolId", "studentSchoolAssociation"));
-				
-				// and again filter out the current
-				currentStaffAssociations = filterCurrent(staffAssociations);
-				currentTeacherAssociations = filterCurrent(teacherAssociations);
-				currentStudentAssociations = filterCurrent(studentAssociations);
+		for (String edOrg : edOrgs) {
+			count.addEducationOrganizationId(edOrg);
+			
+			// Get total associations for the specified edOrg
+			staffAssociations.addAll(getAssociations(edOrg, "educationOrganizationReference", "staffEducationOrganizationAssociation"));
+			teacherAssociations.addAll(getAssociations(edOrg, "schoolId", "teacherSchoolAssociation"));
+			studentAssociations.addAll(getAssociations(edOrg, "schoolId", "studentSchoolAssociation"));
+	
+			// Filter out and return only the current associations
+			currentStaffAssociations.addAll(filterCurrent(staffAssociations));
+			currentTeacherAssociations.addAll(filterCurrent(teacherAssociations));
+			currentStudentAssociations.addAll(filterCurrent(studentAssociations));
+	
+			// If recursive is true, get the child edOrgs and process them.
+			if (recursive) {
+				Set<String> childEdOrgs = edOrgHelper.getChildEdOrgs(edOrg);
+				for (String childEdOrg : childEdOrgs) {
+					// Add all of the child ed org associations to the sets
+					staffAssociations.addAll(getAssociations(childEdOrg, "educationOrganizationReference", "staffEducationOrganizationAssociation"));
+					teacherAssociations.addAll(getAssociations(childEdOrg, "schoolId", "teacherSchoolAssociation"));
+					studentAssociations.addAll(getAssociations(childEdOrg, "schoolId", "studentSchoolAssociation"));
+					
+					// and again filter out the current
+					currentStaffAssociations = filterCurrent(staffAssociations);
+					currentTeacherAssociations = filterCurrent(teacherAssociations);
+					currentStudentAssociations = filterCurrent(studentAssociations);
+				}
 			}
 		}
 		
-		// Add the Ed Org Id to the count that is being returned
-		count.setEducationOrganizationId(edOrg);
-
 		// Set the values of the unique students, teachers and staff. The
 		//   nonTeachers are calculated by the difference between the number
 		//   of staffAssociations and teacherAssociations

@@ -16,8 +16,6 @@
 
 package org.slc.sli.api.count;
 
-import java.util.List;
-
 /**
  * Service that is used to return counts of entities that are custom to
  * specific use cases. At this time, the use case for these counts are
@@ -29,7 +27,7 @@ import java.util.List;
 
 public interface CountService {
 	
-	public List<EducationOrganizationCount> find();
+	public EducationOrganizationCount find();
 	public EducationOrganizationCount findOne(String edOrgId);
 
 }

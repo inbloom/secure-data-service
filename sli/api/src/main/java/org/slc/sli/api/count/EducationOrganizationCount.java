@@ -15,6 +15,9 @@
  */
 package org.slc.sli.api.count;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 /**
  * This is a model class that models the EducationOrganization counts that are
@@ -26,7 +29,7 @@ package org.slc.sli.api.count;
 
 public class EducationOrganizationCount {
 
-	private String educationOrganizationId;
+	private Set<String> educationOrganizationId;
 	private int totalStaff;
 	private int currentStaff;
 	private int totalStudent;
@@ -36,12 +39,18 @@ public class EducationOrganizationCount {
 	private int totalNonTeacher;
 	private int currentNonTeacher;
 
-	public String getEducationOrganizationId() {
+	public Set<String> getEducationOrganizationId() {
+		if (null == this.educationOrganizationId) {
+			this.educationOrganizationId = new HashSet<String>();
+		}
 		return educationOrganizationId;
 	}
 
-	public void setEducationOrganizationId(String educationOrganizationId) {
-		this.educationOrganizationId = educationOrganizationId;
+	public void addEducationOrganizationId(String educationOrganizationId) {
+		if (null == this.educationOrganizationId) {
+			this.educationOrganizationId = new HashSet<String>();
+		}
+		this.educationOrganizationId.add(educationOrganizationId);
 	}
 
 	public int getTotalStaff() {
