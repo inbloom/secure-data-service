@@ -39,4 +39,3 @@ Then I get the success message
 When I go to the provisioning application
 And I click the Provision button
 Then I get a already provisioned message
-Then I check to find if default roles were created for the tenant

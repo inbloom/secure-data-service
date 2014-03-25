@@ -60,8 +60,8 @@ sampleApp_server_address: http://local.slidev.org:8081/
 simpleIDP_login_url: http://local.slidev.org:8082/simple-idp
 
 ldap_hostname: localhost
-ldap_port: 636
-ldap_use_ssl: true
+ldap_port: 10389
+ldap_use_ssl: false
 ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
 ldap_admin_user: cn=Admin,dc=slidev,dc=org
 ldap_admin_pass: slidev
