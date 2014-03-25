@@ -23,27 +23,22 @@ db_host: localhost
 db_port: 27017
 
 # TODO: Determine if this is valid
-lz_server_url: "devpantheon.slidev.org"
-lz_sftp_port: "22"
+lz_server_url: devpantheon.slidev.org
+lz_sftp_port: 22
 ingestion_server_url: "devpantheon.slidev.org"
 ingestion_username: "ingestion"
 ingestion_password: "password"
 ingestion_remote_lz_path: "/home/ingestion/"
-ingestion_mode: "local"
+ingestion_mode: local
 ingestion_destination_data_store: "../ingestion/ingestion-service/target/ingestion/logs/"
 ingestion_healthcheck_url: "http://local.slidev.org:8000/ingestion-service/healthcheck"
-ingestion_properties_file: "../config/properties/sli.properties"
 ingestion_log_directory: "../ingestion/ingestion-service/target/ingestion/logs/"
 ingestion_index_validation: true
 ingestion_timeout_override_seconds: 0
-activemq_host: localhost
 
 #Bulk Extract Configuration
 bulk_extract_script: "../bulk-extract/scripts/local_bulk_extract.sh"
 bulk_extract_cleanup_script: "../bulk-extract/scripts/cleanup_bulk_extract.rb"
-bulk_extract_delta_script: "../bulk-extract/scripts/local_bulk_extract.sh"
-bulk_extract_delta_properties: "../config/properties/sli.properties"
-bulk_extract_delta_keystore: "../data-access/dal/keyStore/ciKeyStore.jks"
 bulk_extract_output_directory: "extract/"
 bulk_extract_jar_loc: ""
 bulk_extract_properties_file: ""
@@ -72,8 +67,6 @@ user_registration_pass: password
 
 app_bootstrap_server: local
 
-email_imap_port: 443
-email_imap_host: mon.slidev.org
 email_imap_use_ssl: true
 email_imap_inbloom_operator_email: slcoperator-email@slidev.org
 

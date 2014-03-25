@@ -50,7 +50,6 @@ INGESTION_DESTINATION_DATA_STORE = Property['ingestion_destination_data_store']
 INGESTION_USERNAME = Property['ingestion_username']
 INGESTION_PASSWORD = Property['ingestion_password']
 INGESTION_REMOTE_LZ_PATH = Property['ingestion_remote_lz_path']
-INGESTION_PROPERTIES_FILE = Property['ingestion_properties_file']
 INGESTION_TIMEOUT_OVERRIDE = Property['ingestion_timeout_override_seconds']
 
 ACTIVEMQ_HOST = Property['activemq_host']
@@ -563,22 +562,6 @@ def copyFilesInDir(file_name)
     end
   end
 end
-
-#get the max number of errors or warnings to be written to error or warning log
-#def getMaxErrorWarnCount
-#    maxError = 0
-#    maxWarning = 0
-#    file=File.open(INGESTION_PROPERTIES_FILE,"r")
-#    file.each_line do |line|
-#       if (line.rindex('sli.ingestion.errorsCountPerInterchange'))
-#          maxError = line[line.rindex('=')+1,line.length-1]
-#       end
-#       if(line.rindex('sli.ingestion.warningsCountPerInterchange'))
-#          maxWarning = line[line.rindex('=')+1, line.length-1]
-#       end
-#    end
-#    return Integer(maxError), Integer(maxWarning)
-#end
 
 #get the number of errors actually be written to error log
 def getErrorCount
