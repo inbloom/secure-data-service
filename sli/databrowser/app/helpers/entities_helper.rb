@@ -197,14 +197,14 @@ module EntitiesHelper
   def display_edorg_table(entity = nil)
     html ||= ""
 
-    if (entity.is_a?(Array))
+    if (entity.nil?)
       html << "<table id=\"edorgcounts_home\" class=\"home_table\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
     else
       html << "<table id=\"edorgcounts_#{entity['id']}\" class=\"edOrg\"><thead><tr><th>Entity/Role</th><th>Total</th><th>Current</th></tr></thead><tbody>"
     end
 
     begin
-      if (entity.is_a?(Array))
+      if (entity.nil?)
         url = drop_url_version + "/count/educationOrganizations"
       else
         url = drop_url_version + "/count/educationOrganizations/#{entity['id']}"

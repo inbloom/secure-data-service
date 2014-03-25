@@ -2,7 +2,7 @@
 <h1>Welcome to the inBloom, inc. Data Browser</h1>
 	<%=
     	html = ""
-    	html << display_edorg_table(@entities)
+    	html << display_edorg_table()
     	html.html_safe
 	%>
 <% @entities.each do |e| %>
