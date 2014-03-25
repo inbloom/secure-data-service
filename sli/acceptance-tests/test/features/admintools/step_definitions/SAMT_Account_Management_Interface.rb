@@ -27,10 +27,6 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require_relative '../../sandbox/UserAdmin/step_definitions/User_Admin_Interface_steps.rb'
 
-Given /^I already have a SLC Operator account$/ do
-  #do nothing, guaranteed by configuration
-end
-
 Given /^I have a valid account as a SEA Administrator$/ do
   #do nothing, guaranteed by configuration
 end

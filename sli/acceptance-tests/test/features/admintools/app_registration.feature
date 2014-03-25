@@ -74,18 +74,3 @@ Scenario: A sandbox app developer can add a new application
     And I am managing my applications
    When I submit a new application for registration
    Then the application should get registered
-
-# TODO: Determine if this is a legitimate use case; can there be multiple developer's in the same sandbox tenancy?
-@wip @sandbox
-Scenario: The other app developer in my tenancy can also modify and delete my apps
-  Given I have an open web browser
-  And my LDAP server has been setup and running
-    Given there is a "Application Developer" with tenancy "developer-email@slidev.org" and in "STANDARD-SEA"
-    Then I can navigate to app registration page with that user
-	    And I am redirected to the Application Registration Tool page
-    Then I clicked on the button Edit for the application "NewApp"
-        Then every field except the shared secret and the app ID became editable
-        And I can update the version to "100" 
-        Then I clicked Save
-        Then I am redirected to the Application Registration Tool page
-    And I can delete "NewApp"
