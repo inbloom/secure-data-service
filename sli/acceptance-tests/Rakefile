@@ -894,30 +894,6 @@ end
 # Api Documentation Setup
 ############################################################
 
-############################################################
-# SIF tests start
-############################################################
-desc "Run SIF Tests"
-task :sifTests => [
-        :sifSchoolInfoTest,
-        :sifLEAInfoTest,
-        :sifStudentSchoolEnrollmentTest,
-        :sifStudentLEARelationshipTest,
-        :sifStaffPersonalTest,
-        :sifEmployeePersonalTest,
-        :sifEmploymentRecordTest,
-        :sifStaffAssignmentTest,
-        :sifSmokeTests,
-        :sifIntegratedTest,
-        :sifEmployeeAssignmentTest
-        ] do
-  display_failure_report
-end
-############################################################
-# SIF tests end
-############################################################
-
-
 desc "Export Storied Test Data"
 task :exportStoriedData do
   Rake::Task["ingestionAcceptanceSdsTest"].execute
