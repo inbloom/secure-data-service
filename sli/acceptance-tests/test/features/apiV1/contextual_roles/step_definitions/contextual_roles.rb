@@ -27,8 +27,6 @@ require_relative '../../entities/crud/step_definitions/crud_step.rb'
 require_relative '../../end_user_stories/CustomEntities/step_definitions/CustomEntities_steps.rb'
 require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 
-DATABASE_HOST = Property[:db_host]
-DATABASE_PORT = Property[:db_port]
 MAX_ENTITIES_PER_API_CALL = 1000
 
 #############################################################################################
@@ -318,37 +316,32 @@ Given /^I import the odin setup application and realm data$/ do
   #get current working dir
   current_dir = Dir.getwd
   # Get current server environment (ci or local) from properties.yml
-  app_server = Property['app_bootstrap_server']
+  app_server = Property[:app_bootstrap_server]
   # Drop in ci specific app-auth fixture data
-  if app_server == "ci"
-    puts "\b\bDEBUG: We are setting CI environment app auth data"
-    Dir.chdir(@ci_realm_store_path)
-    `sh ci-jmeter-realm.sh`
-    disable_NOTABLESCAN()
-    conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
-    db = conn['sli']
-    coll = db.collection('realm')
-    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.id' => Property['ci_idp_redirect_url']}})
-    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.redirectEndpoint' => Property['ci_idp_redirect_url']}})
-    conn.close
-    enable_NOTABLESCAN
-    # Drop in local specific app-auth fixture data
-  elsif app_server == "local"
-    puts "\b\bDEBUG: We are setting LOCAL environment app auth data"
+  if app_server == 'local'
+    puts 'DEBUG: We are setting LOCAL environment app auth data'
     Dir.chdir(@local_realm_store_path)
     `sh local-jmeter-realm.sh`
   else
-    puts "\n\nWARNING: No App server context set, assuming CI environment.."
+    if app_server == 'ci'
+      puts 'DEBUG: We are setting CI environment app auth data'
+    else
+      puts 'WARNING: No App server context set, assuming CI environment..'
+    end
     Dir.chdir(@ci_realm_store_path)
     `sh ci-jmeter-realm.sh`
-    disable_NOTABLESCAN()
-    conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
-    db = conn['sli']
-    coll = db.collection('realm')
-    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.id' => Property[:ci_idp_redirect_url]}})
-    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.redirectEndpoint' => Property[:ci_idp_redirect_url]}})
-    conn.close
-    enable_NOTABLESCAN
+    DbClient.new.for_sli.open(:allow_table_scan => true) do |db|
+      db.update(
+          :realm,
+          {'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'},
+          {'$set' => {'body.idp.id' => Property[:ci_idp_redirect_url}}
+      )
+      db.update(
+          :realm,
+          {'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'},
+          {'$set' => {'body.idp.redirectEndpoint' => Property[:ci_idp_redirect_url]}}
+      )
+    end
   end
   @tenant = 'Midgar'
   @realm = 'IL-DAYBREAK'
