@@ -92,8 +92,8 @@ studentSectionAssociation:
     - endDate
 
 teacherSchoolAssociation:
-    - school
-    - teacher
+    - schoolId
+    - teacherId
     - academicSubjects
     - instructionalGradeLevels
     - programAssignment
