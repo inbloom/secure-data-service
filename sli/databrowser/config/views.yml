@@ -56,8 +56,8 @@ staffEducationOrganizationAssociation:
     - endDate
 
 staffProgramAssociation:
-    - staff
-    - program
+    - staffId
+    - programId
     - beginDate
     - endDate
 
@@ -92,8 +92,8 @@ studentSectionAssociation:
     - endDate
 
 teacherSchoolAssociation:
-    - school
-    - teacher
+    - schoolId
+    - teacherId
     - academicSubjects
     - instructionalGradeLevels
     - programAssignment
