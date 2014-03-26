@@ -26,9 +26,8 @@ task :localDashboardTests do
   Rake::Task["importUnifiedData"].invoke
   Rake::Task["dashboardTests"].invoke
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
-  # TODO: Re-enable these tests when we can get consistent response from the ingestion bit
-  #Rake::Task["ingestionAcceptanceSdsTest"].execute
-  #Rake::Task["dashboardSdsTests"].invoke
+  Rake::Task["ingestionAcceptanceSdsTest"].execute
+  Rake::Task["dashboardSdsTests"].invoke
   display_failure_report
 end
 

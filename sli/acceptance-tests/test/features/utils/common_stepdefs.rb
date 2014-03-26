@@ -434,7 +434,7 @@ When /^I click the Go button$/ do
 end
 
 Given /^the following collections are empty in datastore:$/ do |table|
-  DbClient.new(:tenant => 'Midgar').open do |db_client|
+  DbClient.new(:tenant => @tenant || 'Midgar').open do |db_client|
     table.hashes.map do |row|
       db_client.remove_all row['collectionName']
     end
