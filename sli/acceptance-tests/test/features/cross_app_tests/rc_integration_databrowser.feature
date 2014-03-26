@@ -38,6 +38,7 @@ Scenario: Navigate to home page from any page
     | Me                                         |
   Then I should click on the Home link and be redirected back
 
+@wip
 Scenario: Associations List - Expand/Collapse between Simple View and Detail View
   When I see the realm selector I authenticate to "Daybreak Test Realm"
   And I was redirected to the "Simple" IDP Login page
