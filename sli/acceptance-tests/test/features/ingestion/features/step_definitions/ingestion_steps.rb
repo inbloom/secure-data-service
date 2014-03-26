@@ -657,6 +657,7 @@ def initializeTenantDatabase(lz_key)
     lz_key = lz_key[0, lz_key.index('-')]
   end
 
+  @tenant = lz_key # This instance variable is used by the clear collections step
   @ingestion_db_name = convertTenantIdToDbName(lz_key)
 end
 

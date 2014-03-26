@@ -23,7 +23,11 @@ require 'rest-client'
 require_relative 'db_client'
 
 def cleanUpLdapUser(user_email)
-  ldap = ldap_storage
+  ldap = LDAPStorage.new(
+      Property[:ldap_hostname], Property[:ldap_port],
+      Property[:ldap_base], Property[:ldap_admin_user],
+      Property[:ldap_admin_pass], Property[:ldap_use_ssl]
+  )
   cleanUpUser(user_email, ldap)
 end
 
@@ -55,35 +59,33 @@ end
 # ALL edOrgs (appearing in "educationOrganization") in the given
 # tenant
 #
-def allLeaAllowAppForTenant(appName, tenantName)
-  sleep 1
+def allLeaAllowAppForTenant(app_name, tenant)
   disable_NOTABLESCAN
-  db = DbClient.new(:db_name => Property['api_database_name'])
-  #conn = Mongo::Connection.new(Property['DB_HOST'], Property['DB_PORT'])
-  #db = conn[Property['api_database_name']]
-  #appColl = db.collection("application")
-  app = db.find_one('application', {"body.name" => appName})
-  raise "ERROR: Could not find an application named #{appName}" if app.nil?
+  db = DbClient.new.for_sli
+  app = db.find_one('application', {'body.name' => app_name})
+  raise "ERROR: Could not find an application named #{app_name}" unless app
 
-  appId = app["_id"]
-  puts("The app #{appName} id is #{appId}") if ENV['DEBUG']
-  
-  db.for_tenant(tenantName)
+  app_id = app["_id"]
+  puts("The app #{app_name} id is #{app_id}") if ENV['DEBUG']
 
-  appAuthColl = db.collection("applicationAuthorization")
-  #edOrgColl = db.collection("educationOrganization")
+  db.for_tenant(tenant)
 
-  neededEdOrgs = db.find_ids('educationOrganization').map{ |id| {'authorizedEdorg' => id} }
+  app_auth_coll = db.collection('applicationAuthorization')
+  needed_ed_orgs = db.find_ids('educationOrganization').map{ |id| {'authorizedEdorg' => id} }
 
-  #edOrgColl.find.each do |edorg|
-  #  edorg_entry = {}
-  #  edorg_entry["authorizedEdorg"]= edorg["_id"]
-  #  neededEdOrgs.push(edorg_entry)
-  #end
-
-  appAuthColl.remove("body.applicationId" => appId)
-  newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"applicationId" => appId, "edorgs" => neededEdOrgs}, "metaData" => {"tenantId" => tenantName}, "type" => "applicationAuthorization"}
-  appAuthColl.insert(newAppAuth)
+  app_auth_coll.remove('body.applicationId' => app_id)
+  new_app_auth = {
+    '_id' => "2012ls-#{SecureRandom.uuid}",
+    'body' => {
+      'applicationId' => app_id,
+      'edorgs' => needed_ed_orgs
+    },
+    'metaData' => {
+      'tenantId' => tenant
+    },
+    'type' => 'applicationAuthorization'
+  }
+  app_auth_coll.insert(new_app_auth)
   db.close
   enable_NOTABLESCAN
 end
@@ -93,7 +95,6 @@ def authorizeEdorg(appName)
 end
 
 def authorizeEdorgForTenant(appName, tenantName)
-  #sleep 1
   puts "Entered authorizeEdorg" if ENV['DEBUG']
   disable_NOTABLESCAN()
   puts "Getting mongo cursor" if ENV['DEBUG']

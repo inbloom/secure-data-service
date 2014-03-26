@@ -2,6 +2,7 @@ require 'mongo'
 require 'rbconfig'
 require 'json'
 require 'socket'
+require 'colorize'
 require_relative './test/features/utils/db_client'
 require_relative './test/features/utils/rakefile_common'
 require_relative './test/features/utils/db_utils'
@@ -26,8 +27,6 @@ MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 EXPAND = ENV['CUKE_EXPAND'] ? "--expand" : ""
 
 OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
-
-CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
 
 TENANT_COLLECTION = [convertTenantIdToDbName("Midgar"), convertTenantIdToDbName("Hyrule"), convertTenantIdToDbName("Security"), convertTenantIdToDbName("Other"), convertTenantIdToDbName("Zork"), convertTenantIdToDbName("SLI"), convertTenantIdToDbName("T1"), convertTenantIdToDbName("T2"), convertTenantIdToDbName("T3"), convertTenantIdToDbName("mreynolds"), convertTenantIdToDbName("chaos_mokey_org"), convertTenantIdToDbName("fakedev_zork_net")]
 
@@ -111,13 +110,7 @@ def set_fixture(collection, fixture_name=nil, fixture_path='test/data', drop=tru
   db_used = system_collection?(collection) ? SYSTEM_DB_NAME : DB_NAME
   fixture_name ||= "#{collection}_fixture.json"
 
-  if drop
-    if CERTAIN_TENANTS
-      removeCollectionsCleanly(collection, TENANT_COLLECTION)
-    else
-      removeCollectionsCleanly(collection)
-    end
-  end
+  removeCollectionsCleanly(collection) if drop
 
   sh "#{MONGO_BIN}mongoimport -d #{db_used} -c #{collection} -h #{DB_HOST} --file #{fixture_path}/#{fixture_name}" do |success, exit_code|
     raise "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
@@ -131,11 +124,10 @@ def set_fixtures(collections, fixture_path='test/data')
 end
 
 def display_failure_report
-  red, green, reset = '\e[31m', '\e[32m', '\e[0m'
 
   $failures.each do |key, value|
-    color = (value == 'Passed' ? green : red)
-    puts "#{color}#{key} tests #{value}#{reset}"
+    color = (value == 'Passed' ? :green : :red)
+    puts "#{key} tests #{value}".colorize(color)
   end
 
   if $SUCCESS
@@ -223,7 +215,6 @@ def removeCollectionsCleanly(collectionName, specificTenants=nil)
   end
 
   sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig'); assert.eq(null, db.getLastError());\""
-#  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{db_used} --quiet --eval \"db.getLastError()\""
 end
 
 def setRealmIdpUrls
@@ -315,7 +306,7 @@ task :appInit do
   set_fixture 'application', 'application_fixture.json', 'test/data', false
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Midgar')
-  cleanseCollectionWithTenantID('applicationAuthorization', 'Midgar')
+  DbClient.new(:tenant => 'Midgar').open { |db| db.remove_all(:applicationAuthorization) }
   set_fixture 'applicationAuthorization'
   update_sample_app_urls
 
@@ -435,13 +426,19 @@ end
 # This task is used as an entry point to run the smoke tests,
 # a suite of tests that will run quickly but only catch 80% or less of real failures
 desc 'Run Smoke Tests'
-task :smokeTests => [
+task :smokeTests => [:displayProperties,
                     :apiSmokeTests,
                     :ingestionSmokeTests,
                     :dashboardSmokeTests,
                     :bulkExtractSmokeTests,
                     :adminSmokeTests] do
   display_failure_report
+end
+
+desc 'Display all properties'
+task :displayProperties do
+  puts "Acceptance properties:"
+  Property.getProps.each {|k,v| puts "#{k}: #{v}"}
 end
 
 
@@ -474,7 +471,6 @@ task :sandboxTests => :realmInit do
   Rake::Task['apiSandboxTests'].execute
   Rake::Task['adminToolsTests'].execute
 
-  #Rake::Task['realmInit'].execute #TODO: This may need to be uncommented if the test below fails
   Rake::Task['importSandboxBulkExtractData'].execute
   runTests('test/features/bulk_extract/features/bulk_extract_sandbox.feature')
 
@@ -639,25 +635,19 @@ task :deviceTests => :realmInit do
   display_failure_report
 end
 
-############################################################
-# Dashboard tests start
-############################################################
 desc "Run Dashboard Tests"
-task :dashboardTests => [
-        :dashboardPopWidgetTests,
-        :dashboardK3ViewTests,
-        :dashboardUserBasedViewTests,
-        :dashboardLoginTests,
-        :dashboardStudentProfileTests,
-        :dashboardAttendance,
-        :dashboardStudentContactInfoLiveTests,
-        :dashboardHTMLEscapeTests,
-        :dashboardQunitTests] do
+task :dashboardTests do
+  runTests("test/features/dashboard/dash/population_widget.feature")
+  runTests("test/features/dashboard/dash/k3view.feature")
+  runTests("test/features/dashboard/dash/user_based_views.feature")
+  runTests("test/features/dashboard/dash/dashboard_login.feature")
+  runTests("test/features/dashboard/dash/student_profile.feature")
+  runTests("test/features/dashboard/dash/attendance.feature")
+  runTests("test/features/dashboard/dash/contact_info_live.feature")
+  runTests("test/features/dashboard/dash/dashboard_html_escape.feature")
+  runTests("test/features/dashboard/dash/qunit_tests.feature")
   display_failure_report
 end
-############################################################
-# Dashboard tests end
-############################################################
 
 ############################################################
 # Dashboard SDS tests start
@@ -959,7 +949,7 @@ task :exportStoriedData do
       sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/sds_#{collection}.json"
     end
   else
-    puts '\e[31m Ingestion Failed! Fixture Data Not Updated! Please fix and re-run \e[0m'
+    puts 'Ingestion Failed! Fixture Data Not Updated! Please fix and re-run'.red
   end
 
 end
@@ -1277,16 +1267,6 @@ eos
 
 end
 
-desc "Get a list of all available tasks"
-task :tasks do
-    puts "The following are all the available tasks:"
-
-    tasks = Rake.application.tasks
-    tasks.each do |t|
-      puts ":" + t.to_s
-    end
-end
-
 #######################################################
 # Primary Key Factory Class for Shard Type 1 UUIDs
 #######################################################
@@ -1294,9 +1274,9 @@ end
 class ShardType1UUIDPKFactory
   require 'securerandom'
   def create_pk(doc)
-    chars = ("a".."z").to_a
+    chars = ('a'..'z').to_a
     prefix = Time.new.year.to_s + Array.new(2, '').collect{chars[rand(chars.size)]}.join
-    doc["_id"] ||= prefix + "-" + SecureRandom.uuid
+    doc['_id'] ||= "#{prefix}-#{SecureRandom.uuid}"
     doc
   end
 end

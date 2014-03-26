@@ -24,6 +24,7 @@ gem 'nokogiri'
 gem 'headless'
 gem 'archive-tar-minitar'
 gem 'macaddr'
+gem 'colorize'
 
 group :test, :development do
   gem 'pry'
