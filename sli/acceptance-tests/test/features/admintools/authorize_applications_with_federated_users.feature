@@ -43,27 +43,14 @@ Scenario: NY Hosted User Authorizes App (set up data)
   Given I am a valid NY Hosted User
     And I am managing my application authorizations
    Then I should see application "Boyne" as Not Approved
-#
-#Scenario: NY Hosted User Authorizes App (set up data)
-#  When I hit the Admin Application Authorization Tool
-#   And I select "inBloom" from the dropdown and click go
-#   And I submit the credentials "nyadmin" "nyadmin1234" for the "Simple" login page
-#   And the sli securityEvent collection is empty
-#   And I see an application "Boyne" in the table
-#   And in Status it says "Not Approved"
-#   And I click on the "Edit Authorizations" button next to it
-#   And I expand all nodes
-#   And in tenant "Hyrule" I authorize the educationalOrganization "New York State Education System"
-#   And I click Update
-#  Then there are "8" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Hyrule" tenant
-#  And I check to find if record is in sli db collection:
-#    | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-#    | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-#    | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
-#  And there are "8" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
-#  And I see an application "Boyne" in the table
-#  And in Status it says "8 EdOrg(s)"
-#
+   When I authorize the application
+   Then the application status should be "8 EdOrg(s)"
+
+Scenario: Federated SEA Admin Approves application for SEA only (set up data)
+  Given I am a valid tenant-level IT administrator
+    And I navigate to the application authorization page
+
+
 #Scenario: Federated SEA Admin Approves application for SEA only (set up data)
 #  When I hit the Admin Application Authorization Tool
 #   And I select "Illinois Daybreak School District 4529" from the dropdown and click go
@@ -387,6 +374,27 @@ Scenario: NY Hosted User Authorizes App (set up data)
 #   And I enable the educationalOrganization "New York State Education System" in tenant "Hyrule"
 #   And I click on Save
 #  Then "Boyne" is enabled for "208" education organizations
+
+  #
+#Scenario: NY Hosted User Authorizes App (set up data)
+#  When I hit the Admin Application Authorization Tool
+#   And I select "inBloom" from the dropdown and click go
+#   And I submit the credentials "nyadmin" "nyadmin1234" for the "Simple" login page
+#   And the sli securityEvent collection is empty
+#   And I see an application "Boyne" in the table
+#   And in Status it says "Not Approved"
+#   And I click on the "Edit Authorizations" button next to it
+#   And I expand all nodes
+#   And in tenant "Hyrule" I authorize the educationalOrganization "New York State Education System"
+#   And I click Update
+#  Then there are "8" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Hyrule" tenant
+#  And I check to find if record is in sli db collection:
+#    | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+#    | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+#    | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234      |
+#  And there are "8" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
+#  And I see an application "Boyne" in the table
+#  And in Status it says "8 EdOrg(s)"
 
 #Done
 

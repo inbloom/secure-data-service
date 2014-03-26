@@ -134,7 +134,7 @@ Then /^the 'Approve' button is disabled for the application$/ do
 end
 
 Then /^I should see application "([^"]*)" as (.*)$/ do |new_app, status|
-  @my_new_app = browser.all('table tbody tr').first
+  @my_new_app = browser.all('tr', :text => new_app).first
   browser.within @my_new_app do
     browser.should have_text(new_app)
     browser.should have_text(status)
@@ -153,4 +153,24 @@ When /^I enable the education Organizations for the application$/ do
   browser.check('87d0ab29-b493-46eb-a6f3-110701953afb')
 
   browser.all('span.edOrgTreeActions input.btn').find("option[value='Save & Update']").first.click
+end
+
+When /^I authorize the application$/ do
+  browser.within @my_new_app do
+    @app_id = browser.find('td form')[:id]
+    browser.find('td form input').click
+  end
+  browser.check('87d0ab29-b493-46eb-a6f3-110701953afb')
+  browser.find(:xpath, '//form/div[2]/div/input[3]').click
+end
+
+Then /^the application status should be "([^"]*)"$/ do |status|
+  browser.find('#' + @app_id).all(:xpath, ".//../..").first.should have_text(status)
+end
+
+
+And /^I navigate to the application authorization page$/ do
+  browser.visit path_for('')
+  login_to_the_tenants_realm
+  browser.should have_link('Application Authorizations')
 end
