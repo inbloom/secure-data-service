@@ -378,9 +378,7 @@ When /^the state super admin set the custom high\-level ed\-org to "([^"]*)"$/ d
 end
 
 Given /^the "(.*?)" has "(.*?)" defined in LDAP by the operator$/ do |email, edorg|
-  ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
-                          Property['ldap_base'], Property['ldap_admin_user'],
-                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
+  ldap = ldap_storage
   user = ldap.read_user(email)
   if user[:edorg] != edorg
     user[:edorg] = edorg
@@ -390,9 +388,7 @@ end
 
 def initializeApprovalAndLDAP(emailConf, prod)
   # ldapBase need to be configured in admin-tools and acceptance test to match simple idp branch
-   @ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
-                           Property['ldap_base'], Property['ldap_admin_user'],
-                           Property['ldap_admin_pass'], Property['ldap_use_ssl'])
+   @ldap = ldap_storage
    ApprovalEngine.init(@ldap, nil, !prod)
  end
 

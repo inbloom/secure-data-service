@@ -27,19 +27,6 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require_relative '../../sandbox/UserAdmin/step_definitions/User_Admin_Interface_steps.rb'
 
-Before("@RALLY_3071") do
-  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
-  @db = Mongo::Connection.new.db(convertTenantIdToDbName(Property['api_database_name']))
-end
-
-After("@RALLY_3071") do
-  step "the prod testing user does not already exists in LDAP"
-end
-
-Given /^I already have a SLC Operator account$/ do
-  #do nothing, guaranteed by configuration
-end
-
 Given /^I have a valid account as a SEA Administrator$/ do
   #do nothing, guaranteed by configuration
 end
@@ -131,11 +118,11 @@ When /^I navigate to the User Management Page$/ do
 end
 
 Given /^the prod testing user does not already exists in LDAP$/ do
-    idpRealmLogin("operator", nil)
-    sessionId = @sessionId
-    format = "application/json"
-    restHttpDelete("/users/"+get_mac_address('_')+"_prodtestuser@testwgen.net", format, sessionId)
-    restHttpDelete("/users/"+get_mac_address('_')+"_prodtestuser2@testwgen.net", format, sessionId)
+  idpRealmLogin("operator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+  restHttpDelete("/users/"+get_mac_address('_')+"_prodtestuser@testwgen.net", format, sessionId)
+  restHttpDelete("/users/"+get_mac_address('_')+"_prodtestuser2@testwgen.net", format, sessionId)
 end
 
 

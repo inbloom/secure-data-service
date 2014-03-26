@@ -72,9 +72,8 @@ Then /^I enter Full Name "(.*?)" and Email "(.*?)" into the required fields$/ do
 end
 
 Then /^a verify email notification is sent to user$/ do
-  sleep(3)
+  sleep 5
   verify_email
-
 end
 
 def get_last_email_id

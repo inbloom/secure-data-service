@@ -30,10 +30,8 @@ SAMPLE_DATA_RADIO_ID = "ed_org_from_sample"
 CUSTOM_DATA_SET_CHOICE = "custom"
 
 Given /^LDAP and email server has been setup and running$/ do
-  @ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
-                          Property['ldap_base'], Property['ldap_admin_user'],
-                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
-   @email_sender_name= "Administrator"
+  @ldap = ldap_storage
+  @email_sender_name= "Administrator"
      @email_sender_address= "noreply@slidev.org"
       @email_conf = {
        :host => Property['email_smtp_host'],
@@ -41,7 +39,7 @@ Given /^LDAP and email server has been setup and running$/ do
        :sender_name => @email_sender_name,
        :sender_email_addr => @email_sender_address
      }
-  
+
    @edorgId =  "Test_Ed_Org"
    @email = "devldapuser_#{get_mac_address('_')}@slidev.org"
 end
