@@ -215,7 +215,6 @@ def removeCollectionsCleanly(collectionName, specificTenants=nil)
   end
 
   sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig'); assert.eq(null, db.getLastError());\""
-#  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{db_used} --quiet --eval \"db.getLastError()\""
 end
 
 def setRealmIdpUrls
@@ -307,7 +306,7 @@ task :appInit do
   set_fixture 'application', 'application_fixture.json', 'test/data', false
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Midgar')
-  cleanseCollectionWithTenantID('applicationAuthorization', 'Midgar')
+  DbClient.new(:tenant => 'Midgar').open { |db| db.remove_all(:applicationAuthorization) }
   set_fixture 'applicationAuthorization'
   update_sample_app_urls
 
