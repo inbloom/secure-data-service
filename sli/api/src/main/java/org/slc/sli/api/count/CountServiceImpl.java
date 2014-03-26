@@ -159,13 +159,13 @@ public class CountServiceImpl implements CountService {
 		count.setTotalStaff(getUniqueCount(staffAssociations, "staffReference"));
 		count.setTotalTeacher(getUniqueCount(teacherAssociations, "teacherId"));
 		count.setTotalStudent(getUniqueCount(studentAssociations, "studentId"));
-		count.setTotalNonTeacher(staffAssociations.size() - teacherAssociations.size());
+		count.setTotalNonTeacher(count.getTotalStaff() - count.getTotalTeacher());
 
 		// Dido for the current
 		count.setCurrentStaff(getUniqueCount(currentStaffAssociations, "staffReference"));
 		count.setCurrentTeacher(getUniqueCount(currentTeacherAssociations, "teacherId"));
 		count.setCurrentStudent(getUniqueCount(currentStudentAssociations, "studentId"));
-		count.setCurrentNonTeacher(currentStaffAssociations.size() - currentTeacherAssociations.size());
+		count.setCurrentNonTeacher(count.getCurrentStaff() - count.getCurrentTeacher());
 
 		return count;
 	}
