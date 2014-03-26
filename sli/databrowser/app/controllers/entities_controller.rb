@@ -121,13 +121,6 @@ class EntitiesController < ApplicationController
       @entities= clean_up_results(@entities)
     end
     if params[:other] == 'home'
-      user_id, collection, links = get_user_entity_id_collection_and_links
-      if collection != "students"
-        get_user_ed_orgs(links)
-        @is_a_student = false
-      else
-        @is_a_student = true
-      end
       render :index
       return
     end
@@ -151,63 +144,5 @@ class EntitiesController < ApplicationController
       tmp.push(entities)
     end
     tmp
-  end
-
-  private
-  def get_user_entity_id_collection_and_links
-    #new way after drew's advice
-    body = JSON.parse(@entities.http_response.body)
-    # get the link to self
-    #logger.debug{"Body{'links']: #{body['links']}"}
-    self_url = get_url_from_hateoas_array(body['links'],'self')
-    *garbage, user_id, collection = self_url.split('/')
-    return user_id, collection, body['links']
-  end
-
-  private
-  def get_url_from_hateoas_array(hateoas_array,target)
-    target_url=""
-    #find the correct url
-    hateoas_array.each do |e|
-      if e['rel'] == target
-        logger.debug {"found #{target}"}
-	      target_url = e['href']
-      end
-    end
-    logger.debug{"URL from hateoas array #{target_url}"}
-    #strip hostname/api/rest/v1
-    target_url.partition("v1.5/").last
-  end
-
-  #This function is used to set the values for EdOrg table for Id, name, parent and type fields in the homepage
-  private
-  def get_user_ed_orgs(links)
-    @edOrgArr = []
-    userEdOrgs  = get_edorgs(links)
-    #Looping through EdOrgs and sending an API call to get the parent EdOrg attributes associated EdOrg Id
-    userEdOrgs.each do |edOrg|
-      @edOrgArr.push({"EdOrgs Id"=>edOrg["id"],"EdOrgs Name"=>edOrg["nameOfInstitution"], "EdOrgs Type"=>edOrg["entityType"],"EdOrgs Parent"=>get_parent_edorg_name(edOrg), "EdOrgs URL"=>get_url_from_hateoas_array(edOrg['links'],'self')})
-    end
-  end
-
-  #This function is used to run an API call to fetch the values of attributes associated with Entity Id
-  private
-  def get_edorgs(links)
-    #The URL to get edOrgs
-    Entity.url_type = get_url_from_hateoas_array(links,'getEducationOrganizations')
-    user_edorgs = Entity.get("")
-    user_edorgs = clean_up_results(user_edorgs)
-  end
-
-  private
-  def get_parent_edorg_name(edorg)
-    edorg_name = 'N/A'
-    if !edorg['parentEducationAgencyReference'].nil?
-      parent_edorg_id = edorg['parentEducationAgencyReference'][0]
-      logger.debug{"Parent ID: #{parent_edorg_id}"}
-      Entity.url_type = "educationOrganizations/#{parent_edorg_id}"
-      edorg_name = Entity.get("")['nameOfInstitution']
-    end
-    edorg_name
   end
 end

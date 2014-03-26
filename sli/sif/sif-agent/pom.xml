@@ -29,7 +29,7 @@
         <dependency>
             <groupId>openadk</groupId>
             <artifactId>openadk-library</artifactId>
-            <version>${openadk.version}</version>
+            <version>1.0.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.logging.log4j</groupId>
