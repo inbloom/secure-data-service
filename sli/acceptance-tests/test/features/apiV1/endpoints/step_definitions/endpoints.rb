@@ -7,6 +7,15 @@ When /^I navigate to "([^"]*)" with "([^"]*)"$/ do |arg1, arg2|
   url = "/v1" << arg1.gsub!(/#\{id\}/, arg2)
   restHttpGet(url)
 end
+
+When /^I navigate to count "(.*?)" and get (\d+) in field "(.*?)"$/ do |arg1,arg2,arg3|
+  @format = "application/vnd.slc+json"
+  result = restHttpGet(arg1)
+  result = JSON.parse result
+  puts result["#{arg3}"]
+  assert(result["#{arg3}"].to_i == arg2.to_i)
+end
+
 Then /^I should receive a valid return code$/ do
   assert [403, 200].include?(@res.code)
 end

@@ -299,27 +299,27 @@ public class CountServiceImpl implements CountService {
 		Map<String, Object> body = entity.getBody();
 
 		// If the beginDate and endDate fields both exist and are both appropriate
-		if (body.containsKey(beginDateField)
-				&& body.containsKey(endDateField)
+		if (null != body.get(beginDateField)
+				&& null != body.get(endDateField)
 				&& body.get(beginDateField).toString().compareTo(today) <= 0
 				&& body.get(endDateField).toString().compareTo(today) >= 0
 				) {
 			return true;
 		// If the beginDate field exists and endDate does not and beginDate is today or before
-		} else if (body.containsKey(beginDateField)
-				&& !body.containsKey(endDateField)
+		} else if (null != body.get(beginDateField)
+				&& null == body.get(endDateField)
 				&& body.get(beginDateField).toString().compareTo(today) <= 0
 				) {
 			return true;
 		// If the endDate field exists and beginDate does not and endDate is today or later
-		} else if (!body.containsKey(beginDateField)
-				&& body.containsKey(endDateField)
+		} else if (null == body.get(beginDateField)
+				&& null != body.get(endDateField)
 				&& body.get(endDateField).toString().compareTo(today) >= 0
 				) {
 			return true;
 		// If neither field exists, then the entity will be current
-		} else if (!body.containsKey(beginDateField)
-				&& !body.containsKey(endDateField)
+		} else if (null == body.get(beginDateField)
+				&& null == body.get(endDateField)
 				) {
 			return true;
 		}
