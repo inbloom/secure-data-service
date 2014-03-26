@@ -472,7 +472,6 @@ task :sandboxTests => :realmInit do
   Rake::Task['apiSandboxTests'].execute
   Rake::Task['adminToolsTests'].execute
 
-  #Rake::Task['realmInit'].execute #TODO: This may need to be uncommented if the test below fails
   Rake::Task['importSandboxBulkExtractData'].execute
   runTests('test/features/bulk_extract/features/bulk_extract_sandbox.feature')
 
