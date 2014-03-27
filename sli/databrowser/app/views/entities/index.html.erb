@@ -1,13 +1,31 @@
 <div id='data'>
-<h1>Welcome to the inBloom, inc. Data Browser</h1>
-	<%=
-    	html = ""
-    	html << display_edorg_table()
-    	html.html_safe
-	%>
-
-<table id="home_ingestion_table" class="home_table">
-    <tr>
+  <h1>Welcome to the inBloom, inc. Data Browser</h1>
+  <h2>Your Education Organization(s):</h2>
+  <% if @edOrgArr != nil %>
+    <table id = "edOrg_home" class="home_table">
+      <tr>
+        <th>Name</th>
+        <th>ID</th>
+        <th>Type</th>
+        <th>Parent Education Organization</th>
+      </tr>
+      <% @edOrgArr.each do |parent| %>
+        <tr>
+          <td><%=link_to parent['EdOrgs Name'], parent['EdOrgs URL'] %></td>
+          <td><%=parent['EdOrgs Id']%></td>
+          <td><%=parent['EdOrgs Type']%></td>
+          <td><%=parent['EdOrgs Parent']%></td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+  
+  <% if !@user_is_a_student %>
+    <h2>Counts:</h2>
+    <%=display_edorg_table().html_safe%>
+    <h2>Ingestion Jobs Status:</h2>
+    <table id="home_ingestion_table" class="home_table">
+      <tr>
         <th>File Name</th>
         <th>Job Status</th>
         <th>Requested</th>
@@ -16,40 +34,35 @@
         <th>Total Records</th>
         <th>Successful Records</th>
         <th>Failed Records</th>
-    </tr>
-    <%
-    ingestion_jobs = get_ingestion_data(VIEW_CONFIG['ingestion_jobs'].to_i)
-    if (!ingestion_jobs.nil?)
-        ingestion_jobs.each do |job|
-        %>
+      </tr>
+      <%
+        ingestion_jobs = get_ingestion_data(VIEW_CONFIG['ingestion_jobs'].to_i)
+        if (!ingestion_jobs.nil?)
+          ingestion_jobs.each do |job|
+            %>
             <tr>
-                <td><%= job['sourceId'].split("/").last %></td>
-                <td><%= job['status'] %></td>
-                <td><%= Time.at(((job['jobStartTimestamp']/1000).to_i)).strftime('%F %R %Z') %></td>
-                <td><%= Time.at(((job['jobStopTimestamp']/1000).to_i)).strftime('%F %R %Z') %></td>
-                <td><%= job['totalFiles'] %></td>
-                <%
+              <td><%= job['sourceId'].split("/").last %></td>
+              <td><%= job['status'] %></td>
+              <td><%= Time.at(((job['jobStartTimestamp']/1000).to_i)).strftime('%F %R %Z') %></td>
+              <td><%= Time.at(((job['jobStopTimestamp']/1000).to_i)).strftime('%F %R %Z') %></td>
+              <td><%= job['totalFiles'] %></td>
+              <%
                 total_records = 0
                 successful_records = 0
                 failed_records = 0
                 job['resourceEntries'].each do |entry|
-                    total_records += entry['recordCount']
-                    failed_records += entry['errorCount'] + entry['validationErrorCount']
-                    successful_records += entry['recordCount'] - (entry['errorCount'] + entry['validationErrorCount'])
-                end
-                %>
-                <td><%= total_records %></td>
-                <td><%= successful_records %></td>
-                <td><%= failed_records %></td>
-            </tr>
-        <%
-        end
-    end
+                total_records += entry['recordCount']
+                failed_records += entry['errorCount'] + entry['validationErrorCount']
+                successful_records += entry['recordCount'] - (entry['errorCount'] + entry['validationErrorCount'])
+          end%>
+            <td><%= total_records %></td>
+            <td><%= successful_records %></td>
+            <td><%= failed_records %></td>
+          </tr>
+        <%end
+      end
     %>
     </table>
+  <%end%>
 
-<% @entities.each do |e| %>
-    <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
-<% end %>
-	
 </div>
