@@ -122,10 +122,10 @@ When I click on the row containing <Text>
 And I click on the <Link> of any of the associating entities
 Then I am redirected to a page that page lists all of the <Entity> entity's fields
  Examples:
-| Page                                      | Text                                    | Link         | Entity                                 |
-| "GetStaffProgramAssociations"             | "9bf906cc-8fd5-11e1-86ec-0021701f5431"  | "Me"         | "9bf906cc-8fd5-11e1-86ec-0021701f5431" |
-| "GetStaffCohortAssociations" | "8fef446f-fc63-15f9-8606-0b85086c07d5"| "GetCohort" | "District-wide academic intervention cohort for Social Studies" |
-| "GetStaffCohortAssociations" | "8fef446f-fc63-15f9-8606-0b85086c07d5"| "GetStaff" | "rrogers"        |
+| Page                                      | Text                                       | Link         | Entity                                 |
+| "GetStaffProgramAssociations"             | "9b8c3aab-8fd5-11e1-86ec-0021701f543f_id"  | "Me"         | "9bf906cc-8fd5-11e1-86ec-0021701f5432" |
+| "GetStaffCohortAssociations" | "85585b27-5368-4f10-a331-3abcaf3a3f4c"| "GetCohort" | "District-wide academic intervention cohort for Social Studies" |
+| "GetStaffCohortAssociations" | "85585b27-5368-4f10-a331-3abcaf3a3f4c"| "GetStaff" | "rrogers"        |
 
 Scenario: Click on Available Links associations
 
@@ -328,7 +328,9 @@ And I click on the "GetEducationOrganizations" link
 Then I should click on the <Number> link pound and get <Text> returned
 
     | Number | Text      |
-    | 4      | 0 / 0     |
-    | 8      | 13 / 13   |
-    | 16     | 4 / 4     |
-    | 22     | N/A / N/A |
+    | 4      | 0         |
+    | 8      | 13        |
+    | 16     | 4         |
+    | 17     | 4 / 4     |
+    | 20     | 0 / 0     |
+    | 22     | N/A       |
