@@ -328,9 +328,9 @@ And I click on the "Education Organizations" link
 Then I should click on the <Number> link pound and get <Text> returned
 
     | Number | Text      |
-    | 4      | 0         |
+    | 4      | 1         |
     | 8      | 13        |
-    | 16     | 4         |
-    | 17     | 4 / 4     |
-    | 20     | 0 / 0     |
-    | 22     | N/A       |
+    | 16     | 1         |
+    | 19     | 4 / 4     |
+    | 21     | 0 / 0     |
+    | 25     | N/A       |
