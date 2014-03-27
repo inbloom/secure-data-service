@@ -717,13 +717,13 @@ task :ingestionTests => [
         :ingestionCompetencyLevelDescriptorTest,
         :ingestionDryRunTest,
         :ingestionHealthCheckTest,
-        :ingestionSmallSampleDataSet, # multi
+        :ingestionSmallSampleDataSet,
         :ingestionMediumSampleDataSet,
         :partialTransformedIngestionTest,
         :partialIngestionTest,
         :ingestionDeltaTest,
         :ingestionPreloading,
-        :ingestionJeffCoOnboardingTest
+        :ingestionJeffCoOnboardingTest,
         :ingestionSuperDocTests,
         :ingestionSubdocTests,
         :ingestionErrorWarnCountTest,
