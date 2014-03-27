@@ -124,8 +124,8 @@ Then I am redirected to a page that page lists all of the <Entity> entity's fiel
  Examples:
 | Page                                      | Text                                       | Link         | Entity                                 |
 | "Staff Program Associations"             | "9b8c3aab-8fd5-11e1-86ec-0021701f543f_id"  | "Me"         | "9bf906cc-8fd5-11e1-86ec-0021701f5432" |
-| "Staff Cohort Associations" | "85585b27-5368-4f10-a331-3abcaf3a3f4c"| "GetCohort" | "District-wide academic intervention cohort for Social Studies" |
-| "Staff Cohort Associations" | "85585b27-5368-4f10-a331-3abcaf3a3f4c"| "GetStaff" | "rrogers"        |
+| "Staff Cohort Associations" | "85585b27-5368-4f10-a331-3abcaf3a3f4c"| "Cohort" | "District-wide academic intervention cohort for Social Studies" |
+| "Staff Cohort Associations" | "85585b27-5368-4f10-a331-3abcaf3a3f4c"| "Staff" | "rrogers"        |
 
 Scenario: Click on Available Links associations
 
