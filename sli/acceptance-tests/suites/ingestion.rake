@@ -608,15 +608,3 @@ end
 ############################################################
 # Ingestion tests end
 ############################################################
-
-############################################################
-# Ingestion Offline Tool tests start
-############################################################
-desc 'Run Ingestion Offline Tool Acceptances Tests'
-task :ingestionOfflineToolTests => :ingestionOfflineSimpleTest do
-  display_failure_report
-end
-############################################################
-# Ingestion Offline Tool tests end
-############################################################
-

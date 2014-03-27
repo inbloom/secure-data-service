@@ -204,7 +204,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | teachers               | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                            |
       | sections               | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234_id |
     Given entity URI <Entity Resource URI>
-  #TODO BUG for the 6 entities routed to ES, revert back to "0" when bug is fixed
     Given parameter "limit" is "250"
     When I navigate to GET "/<ENTITY URI>"
     Then I should receive a return code of 200
