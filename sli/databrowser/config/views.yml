@@ -44,8 +44,8 @@ programParticipation:
     - endDate
 
 staffCohortAssociation:
-    - staff
-    - cohort
+    - staffId
+    - cohortId
     - beginDate
     - endDate
 
@@ -56,26 +56,26 @@ staffEducationOrganizationAssociation:
     - endDate
 
 staffProgramAssociation:
-    - staff
-    - program
+    - staffId
+    - programId
     - beginDate
     - endDate
 
 studentCohortAssociation:
-    - student
-    - cohort
+    - studentId
+    - cohortId
     - beginDate
     - endDate
 
 studentProgramAssociation:
-    - student
-    - program
+    - studentId
+    - programId
     - beginDate
     - endDate
 
 studentSpecialEdProgramAssociation:
-    - student
-    - program
+    - studentId
+    - programId
     - iepBeginDate
     - iepEndDate
 
@@ -86,8 +86,8 @@ studentSchoolAssociation:
     - exitWithdrawDate
 
 studentSectionAssociation:
-    - student
-    - section
+    - studentId
+    - sectionId
     - beginDate
     - endDate
 
@@ -99,8 +99,8 @@ teacherSchoolAssociation:
     - programAssignment
 
 teacherSectionAssociation:
-    - teacher
-    - section
+    - teacherId
+    - sectionId
     - beginDate
     - endDate
 

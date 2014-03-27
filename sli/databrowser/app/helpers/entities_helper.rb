@@ -226,10 +226,12 @@ module EntitiesHelper
       
       
     # Add all of the counts to the table
-    html << "<tr><td>Staff</td><td>#{counts['totalStaff']}</td><td>#{counts['currentStaff']}</td></tr>"
-    html << "<tr><td>Students</td><td>#{counts['totalStudent']}</td><td>#{counts['currentStudent']}</td></tr>"
-    html << "<tr><td>Teachers</td><td>#{counts['totalTeacher']}</td><td>#{counts['currentTeacher']}</td></tr>"
-    html << "<tr><td>Non-Teachers</td><td>#{counts['totalNonTeacher']}</td><td>#{counts['currentNonTeacher']}</td></tr>"
+    if (!counts.nil?)
+      html << "<tr><td>Staff</td><td>#{counts['totalStaff']}</td><td>#{counts['currentStaff']}</td></tr>"
+      html << "<tr><td>Students</td><td>#{counts['totalStudent']}</td><td>#{counts['currentStudent']}</td></tr>"
+      html << "<tr><td>Teachers</td><td>#{counts['totalTeacher']}</td><td>#{counts['currentTeacher']}</td></tr>"
+      html << "<tr><td>Non-Teachers</td><td>#{counts['totalNonTeacher']}</td><td>#{counts['currentNonTeacher']}</td></tr>"
+    end
 
     # End the table
     html << "</tbody></table>"
