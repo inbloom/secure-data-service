@@ -419,7 +419,7 @@ end
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc 'Default Task: Run All Acceptances Tests'
-task :production => [:apiAndSecurityTests, :ingestionTests, :ingestionOfflineToolTests] do
+task :production => [:apiAndSecurityTests, :ingestionTests, :ingestionOfflineSimpleTest] do
   display_failure_report
 end
 
@@ -684,8 +684,7 @@ end
 ############################################################
 desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [
-        :loadDefaultIngestionTenants,
-        :IngestionIndexValidationTest,
+        :loadDefaultIngestionTenants, # called multi
         :corruptZip,
         :genericEdOrgs,
         :ingestionBellSchedulesAndClassPeriodsTest,
@@ -697,7 +696,7 @@ task :ingestionTests => [
         :ingestionDbSpinupTest,
         :ingestionDupDetectTest,
         :ingestionInternationalAddressTests,
-        :ingestionAcceptanceSdsTest,
+        :ingestionAcceptanceSdsTest, # called multi
         :ingestionConcurrentTenantTest,
         :ingestionLearningObjectiveTest,
         :ingestionSeoaa,
@@ -718,22 +717,20 @@ task :ingestionTests => [
         :ingestionCompetencyLevelDescriptorTest,
         :ingestionDryRunTest,
         :ingestionHealthCheckTest,
-        :ingestionSmallSampleDataSet
+        :ingestionSmallSampleDataSet, # multi
+        :ingestionMediumSampleDataSet,
+        :partialTransformedIngestionTest,
+        :partialIngestionTest,
+        :ingestionDeltaTest,
+        :ingestionPreloading,
+        :ingestionJeffCoOnboardingTest
+        :ingestionSuperDocTests,
+        :ingestionSubdocTests,
+        :ingestionErrorWarnCountTest,
+        :ingestionRevertDataTest,
+        :ingestionUniqueSectionCodeTest,
+        :ingestionSecurityEventTest
   ] do
-  # TODO: Add these tests back in when they can be run and debugged locally
-  #      :ingestionMediumSampleDataSet,
-  #      :partialTransformedIngestionTest,
-  #      :partialIngestionTest,
-  #      :ingestionDeltaTest,
-  #      :ingestionPreloading,
-  #      :ingestionJeffCoOnboardingTest,
-  #      :ingestionSuperDocTests,
-  #      :ingestionSubdocTests,
-  #      :ingestionErrorWarnCountTest,
-  #      :ingestionRevertDataTest,
-  #      :ingestionUniqueSectionCodeTest,
-  #      :ingestionSecurityEventTest
-
   display_failure_report
 end
 

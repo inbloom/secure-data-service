@@ -23,7 +23,6 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
       | disciplineAction                      |
       | disciplineIncident                    |
       | educationOrganization                 |
-      | grade                                 |
       | gradebookEntry                        |
       | gradingPeriod                         |
       | graduationPlan                        |
@@ -31,7 +30,6 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
       | learningStandard                      |
       | parent                                |
       | program                               |
-      | reportCard                            |
       | section                               |
       | session                               |
       | staff                                 |
@@ -39,7 +37,6 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
       | staffEducationOrganizationAssociation |
       | staffProgramAssociation               |
       | student                               |
-      | studentAcademicRecord                 |
       | studentAssessment                     |
       | studentCohortAssociation              |
       | studentCompetency                     |
@@ -53,6 +50,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
       | courseTranscript                      |
       | teacherSchoolAssociation              |
       | teacherSectionAssociation             |
+      | yearlyTranscript                      |
     When zip file is scp to ingestion landing zone
     And a batch job log has been created
     Then I should see following map of entry counts in the corresponding collections:

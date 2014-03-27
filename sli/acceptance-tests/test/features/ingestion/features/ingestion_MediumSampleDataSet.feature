@@ -32,7 +32,7 @@ Given I post "MediumSampleDataSet.zip" file as the payload of the ingestion job
      | parent                                    |
      | program                                   |
      | recordHash                                |
-     | reportCard                                |
+     | yearlyTranscript                          |
      | school                                    |
      | schoolSessionAssociation                  |
      | section                                   |
@@ -44,7 +44,6 @@ Given I post "MediumSampleDataSet.zip" file as the payload of the ingestion job
      | staffEducationOrganizationAssociation     |
      | staffProgramAssociation                   |
      | student                                   |
-     | studentAcademicRecord                     |
      | studentAssessment                         |
      | studentCohortAssociation                  |
      | studentCompetency                         |
