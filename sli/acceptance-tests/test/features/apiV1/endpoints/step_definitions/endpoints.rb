@@ -13,7 +13,6 @@ end
 
 Then /^I can see all the attendances in a school$/ do
   attendances = JSON.parse @res.body
-  p "number of attendances = #{attendances.size}"
 
   # TODO: link to get the next set of students - doesn't work!
   #link = @res.raw_headers['link'][0]
