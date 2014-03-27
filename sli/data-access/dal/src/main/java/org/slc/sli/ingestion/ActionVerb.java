@@ -16,8 +16,6 @@
 package org.slc.sli.ingestion;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Various Action Types that will be allowed in the schema

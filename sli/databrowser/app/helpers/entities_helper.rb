@@ -247,6 +247,19 @@ module EntitiesHelper
     header
   end
 
+  # Method to get the Ingestion data needed for the ingestion pages and tables
+  def get_ingestion_data(limit = 0)
+    url = drop_url_version + "/ingestionJobs" + "?limit=" + limit.to_s + "&sortBy=jobStartTimestamp&sortOrder=DESC"
+    begin
+      entities = RestClient.get(url, get_header)
+      entities = JSON.parse(entities)
+    rescue => e
+      logger.info("Could not get ed orgs for #{entities} because of #{e.message}")
+    end
+    entities
+  end
+
+  # Drops the version number off of the base url for unversioned resources
   def drop_url_version
     
     # Convert api_base to URI
@@ -274,5 +287,5 @@ module EntitiesHelper
     
     # return the new url
     new_url
-  end 
+  end
 end

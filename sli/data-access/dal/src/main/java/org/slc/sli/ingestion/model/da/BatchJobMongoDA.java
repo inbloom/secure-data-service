@@ -19,28 +19,9 @@ package org.slc.sli.ingestion.model.da;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.MongoException;
-import com.mongodb.WriteConcern;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Order;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -52,12 +33,35 @@ import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.Stage;
-import org.slc.sli.ingestion.queues.MessageType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Order;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.MongoException;
+import com.mongodb.WriteConcern;
 
 /**
  *
  * @author ldalgado
  *
+ */
+
+/*
+ * @author rcook
+ * This class was moved from the ingestion-core project to the dal project, along with ~20 other supporting classes.
+ * This was done in support of a request to make ingestion job data available via the API; until this, the only
+ * project in the inBloom system that accessed ingestion job data was the ingestion project.  In order to avoid
+ * making the API project dependent on the ingestion project, the necessary classes were moved to the dal project,
+ * which contains library classes and was already a dependency for both ingestion-core and api.  In the course of the
+ * resulting work, ingestion-base was also made dependent on dal.
  */
 @Component
 public class BatchJobMongoDA implements BatchJobDAO {
@@ -131,16 +135,23 @@ public class BatchJobMongoDA implements BatchJobDAO {
     public NewBatchJob findBatchJobById(String batchJobId) {
         return batchJobMongoTemplate.findOne(query(where("_id").is(batchJobId)), NewBatchJob.class);
     }
-
-    public NewBatchJob findLatestBatchJob() {
+    
+    public List<NewBatchJob> findLatestBatchJobs(int limit)
+    {
         Query query = new Query();
         query.sort().on("jobStartTimestamp", Order.DESCENDING);
-        query.limit(1);
+        query.limit(limit);
         List<NewBatchJob> sortedBatchJobs = batchJobMongoTemplate.find(query, NewBatchJob.class);
-        if (sortedBatchJobs == null || sortedBatchJobs.size() == 0) {
-            return null;
-        }
-        return batchJobMongoTemplate.find(query, NewBatchJob.class).get(0);
+        if (sortedBatchJobs.size() == 0) { sortedBatchJobs = null; } 
+        return sortedBatchJobs;
+    }
+
+    public NewBatchJob findLatestBatchJob() 
+    {
+    	NewBatchJob result = null;
+    	List<NewBatchJob> list = findLatestBatchJobs(1);
+    	if (list != null && list.size() > 0) { result = list.get(0); }
+    	return result;
     }
 
     @Override
@@ -164,6 +175,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     public void setBatchJobMongoTemplate(MongoTemplate mongoTemplate) {
+    	LOG.debug("setting batchJobMongoTemplate");
         this.batchJobMongoTemplate = mongoTemplate;
     }
 
@@ -172,6 +184,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     public void setSliMongo(MongoTemplate sliMongo) {
+    	LOG.debug("setting sliMongo");
         this.sliMongo = sliMongo;
     }
 
