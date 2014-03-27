@@ -10,5 +10,4 @@ Feature: List-Attendance endpoint should return a list of all student attendance
   Examples:
     | url                                                                         | id                                     |
     | "/schools/#{id}/studentSchoolAssociations/students/attendances"             | "92d6d5a0-852c-45f4-907a-912752831772" |
-# TODO: Fix this - offset makes API throw out of bound exception.`
-#    | "/schools/#{id}/studentSchoolAssociations/students/attendances?offset=50"   | "92d6d5a0-852c-45f4-907a-912752831772" |
+    | "/schools/#{id}/studentSchoolAssociations/students/attendances?offset=50"   | "92d6d5a0-852c-45f4-907a-912752831772" |
