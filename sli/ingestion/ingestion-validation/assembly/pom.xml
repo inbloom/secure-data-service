@@ -29,7 +29,8 @@
   <properties>
     <slc.open.source>true</slc.open.source>
     <java.version>1.6</java.version>
-    <maven.compiler.version>2.3.2</maven.compiler.version>
+
+    <!-- <maven.compiler.version>2.3.2</maven.compiler.version>  -->
     <lifecycle.mapping.version>1.0.0</lifecycle.mapping.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <commons.lang.version>3.0.1</commons.lang.version>

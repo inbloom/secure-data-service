@@ -16,9 +16,7 @@
     <name>client-api</name>
     <description>Client API for communicating with the SLI REST API</description>
 
-
     <dependencies>
-
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>

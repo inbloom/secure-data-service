@@ -53,9 +53,7 @@
                     <artifactId>maven-checkstyle-plugin</artifactId>
                     <configuration>
                         <skip>false</skip>
-                        <configLocation>${project.parent.basedir}/checkstyle/checkstyle.xml</configLocation>
-                        <propertyExpansion>checkstyle.import.control.file=${project.parent.basedir}/checkstyle/import-control.xml</propertyExpansion>
-                        <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                        <includeTestSourceDirectory>false</includeTestSourceDirectory>
                         <linkXRef>false</linkXRef>
                         <failsOnError>false</failsOnError>
                     </configuration>

@@ -1,19 +1,20 @@
-<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
-  <includeBaseDirectory>false</includeBaseDirectory>
-  <formats>
-    <format>tar</format>
-  </formats>
-  <fileSets>
-    <fileSet>
-      <directory>${project.build.directory}/..</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>/scripts/cleanup_bulk_extract.rb</include>
-        <include>/scripts/Gemfile</include>
-        <include>/lib/TenantCleaner.rb</include>
-        <include>/config/bulk_extract_cleanup.yml</include>
-      </includes>
-    </fileSet>
-  </fileSets>
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+    <id>tar</id>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <formats>
+        <format>tar</format>
+    </formats>
+    <fileSets>
+        <fileSet>
+            <directory>${project.build.directory}/..</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>/scripts/cleanup_bulk_extract.rb</include>
+                <include>/scripts/Gemfile</include>
+                <include>/lib/TenantCleaner.rb</include>
+                <include>/config/bulk_extract_cleanup.yml</include>
+            </includes>
+        </fileSet>
+    </fileSets>
 </assembly>
