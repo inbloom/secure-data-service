@@ -54,11 +54,7 @@ When /^I wait for "([^"]*)" seconds$/ do |secs|
 end
 
 When /^I was redirected to the "([^"]*)" IDP Login page$/ do |idpType|
-  if idpType=="OpenAM"
-    assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "IDToken1")}
-  elsif idpType=="ADFS"
-    assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "ctl00_ContentPlaceHolder1_SubmitButton")}
-  elsif idpType=="Simple"
+  if idpType=="Simple"
     assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "login_button")}
   elsif idpType=="Shibboleth"
     assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:css, ".form-button")}
@@ -86,16 +82,7 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
   disable_NOTABLESCAN
   puts "Logging in with credentials \"#{user}\" \"#{pass}\"" if $SLI_DEBUG
   # TODO Determine if anything other than "Simple" is needed
-  if idpType=="OpenAM"
-    @driver.find_element(:id, "IDToken1").send_keys user
-    @driver.find_element(:id, "IDToken2").send_keys pass
-    @driver.find_element(:name, "Login.Submit").click
-    ignore_security_alert
-  elsif idpType=="ADFS"
-    @driver.find_element(:id, "ctl00_ContentPlaceHolder1_UsernameTextBox").send_keys user
-    @driver.find_element(:id, "ctl00_ContentPlaceHolder1_PasswordTextBox").send_keys pass
-    @driver.find_element(:id, "ctl00_ContentPlaceHolder1_SubmitButton").click
-  elsif idpType=="Simple"
+  if idpType=="Simple"
     @driver.find_element(:id, "user_id").send_keys user
     @driver.find_element(:id, "password").send_keys pass
     @driver.find_element(:id, "login_button").click
