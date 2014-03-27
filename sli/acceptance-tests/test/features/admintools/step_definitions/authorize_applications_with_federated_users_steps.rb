@@ -134,7 +134,8 @@ Then /^the 'Approve' button is disabled for the application$/ do
 end
 
 Then /^I should see application "([^"]*)" as (.*)$/ do |new_app, status|
-  @my_new_app = browser.all('tr', :text => new_app).first
+  @my_new_app = browser.all('tr', :text => /#{new_app}.*#{status}/).first
+
   browser.within @my_new_app do
     browser.should have_text(new_app)
     browser.should have_text(status)
@@ -155,15 +156,6 @@ When /^I enable the education Organizations for the application$/ do
   browser.all('span.edOrgTreeActions input.btn').find("option[value='Save & Update']").first.click
 end
 
-When /^I authorize the application$/ do
-  browser.within @my_new_app do
-    @app_id = browser.find('td form')[:id]
-    browser.find('td form input').click
-  end
-  browser.check('87d0ab29-b493-46eb-a6f3-110701953afb')
-  browser.find(:xpath, '//form/div[2]/div/input[3]').click
-end
-
 Then /^the application status should be "([^"]*)"$/ do |status|
   browser.find('#' + @app_id).all(:xpath, ".//../..").first.should have_text(status)
 end
@@ -173,4 +165,36 @@ And /^I navigate to the application authorization page$/ do
   browser.visit path_for('')
   login_to_the_tenants_realm
   browser.should have_link('Application Authorizations')
+
+  browser.click_on('Application Authorizations')
+  browser.should have_selector('h1', :text=> "Approve Applications")
+end
+
+When /^I authorize the application for "([^"]*)"$/ do |edOrg|
+  browser.within @my_new_app do
+    @app_id = browser.find('td form')[:id]
+    browser.find('td form input').click
+  end
+  if edOrg == 'Illinois State Board of Education'
+    browser.find('#hierarchical_mode').set(false)
+  end
+
+  browser.find(:xpath, '//form/div[2]/div/div/ul/li/ul/li/ul/li/input').set(true)
+  browser.find(:xpath, '//form/div[2]/div/input[3]').click
+end
+
+And /^I go to application authorization page$/ do
+  browser.visit path_for('application authorizations')
+  login_to_the_tenants_realm
+end
+
+Then /^I should see the error message$/ do
+  browser.should have_css('.alert')
+  browser.should have_text("Sorry, you don't have access to this page. if you feel like you are getting this message in error, please contact your administrator.")
+end
+
+When /^I de-authorize the application for "([^"]*)"$/ do |edOrg|
+  browser.find('#' + @app_id).find('input').click
+  browser.find(:xpath, '//form/div[2]/div/div/ul/li/ul/li/ul/li/input').set(false)
+  browser.find(:xpath, '//form/div[2]/div/input[3]').click
 end

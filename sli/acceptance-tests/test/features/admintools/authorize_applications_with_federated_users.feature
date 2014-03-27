@@ -43,84 +43,36 @@ Scenario: NY Hosted User Authorizes App (set up data)
   Given I am a valid NY Hosted User
     And I am managing my application authorizations
    Then I should see application "Boyne" as Not Approved
-   When I authorize the application
+   When I authorize the application for "New York State Education System"
    Then the application status should be "8 EdOrg(s)"
 
 Scenario: Federated SEA Admin Approves application for SEA only (set up data)
   Given I am a valid tenant-level IT administrator
     And I navigate to the application authorization page
+   Then I should see application "Boyne" as Not Approved
+   When I authorize the application for "Illinois State Board of Education"
+   Then the application status should be "1 EdOrg(s)"
+
+Scenario: Linda Kim encounters Access Denied Message when attempting to access Application Authorization Tool using default Educator role
+  Given I am a valid Educator
+    And I go to application authorization page
+   Then I should see the error message
+
+Scenario: Create Application Authorizer Staff Education Organization Association (set up)
+  When I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
+   And a staffEducationOrgAssignmentAssociation is created for user "linda.kim" with role "Application Authorizer" for education organization "South Daybreak Elementary" in tenant "Midgar"
+   And a staffEducationOrgAssignmentAssociation is created for user "linda.kim" with role "Educator" for education organization "Sunset Central High School" in tenant "Midgar"
+
+Scenario: Linda Kim encounters Access Denied Message when attempting to access Application Authorization Tool using default Educator role
+  Given I am a valid Educator
+    And I navigate to the application authorization page
+   Then I should see application "Boyne" as Not Approved
+   When I authorize the application for "Illinois State Board of Education"
+   Then the application status should be "1 EdOrg(s)"
+   When I de-authorize the application for "Illinois State Board of Education"
+   Then I should see application "Boyne" as Not Approved
 
 
-#Scenario: Federated SEA Admin Approves application for SEA only (set up data)
-#  When I hit the Admin Application Authorization Tool
-#   And I select "Illinois Daybreak School District 4529" from the dropdown and click go
-#   And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
-#   And I see an application "Boyne" in the table
-#   And in Status it says "Not Approved"
-#   And the sli securityEvent collection is empty
-#   And I click on the "Edit Authorizations" button next to it
-#   And I expand all nodes
-#   And I deselect hierarchical mode
-#   And I authorize the educationalOrganization "Illinois State Board of Education"
-#   And I click Update
-#  Then there are "1" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
-#   And I check to find if record is in sli db collection:
-#    | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-#    | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-#    | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
-#   And there are "1" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
-#   And I see an application "Boyne" in the table
-#   And in Status it says "1 EdOrg(s)"
-#
-#Scenario: Linda Kim encounters Access Denied Message when attempting to access Application Authorization Tool using default Educator role
-#  #check educator seoa exists
-#  Given "linda.kim" has an active staffEducationOrganizationAssociation of "Educator" for "East Daybreak Junior High" in tenant "Midgar"
-#   And the sli securityEvent collection is empty
-#  When I hit the Admin Application Authorization Tool
-#   And I select "Illinois Daybreak School District 4529" from the dropdown and click go
-#   And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
-#   And the error message "Sorry, you don't have access to this page. if you feel like you are getting this message in error, please contact your administrator." is displayed
-#
-#Scenario: Create Application Authorizer Staff Education Organization Association (set up)
-#  When I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
-#   And a staffEducationOrgAssignmentAssociation is created for user "linda.kim" with role "Application Authorizer" for education organization "South Daybreak Elementary" in tenant "Midgar"
-#   And a staffEducationOrgAssignmentAssociation is created for user "linda.kim" with role "Educator" for education organization "Sunset Central High School" in tenant "Midgar"
-#
-#Scenario: Linda Kim Approves application as Application Authorizer
-#  When I hit the Admin Application Authorization Tool
-#   And I select "Illinois Daybreak School District 4529" from the dropdown and click go
-#   And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
-#   And I see an application "Boyne" in the table
-#   And in Status it says "Not Approved"
-#   And the sli securityEvent collection is empty
-#   And I click on the "Edit Authorizations" button next to it
-#   And I expand all nodes
-#   And I deselect hierarchical mode
-#   And I authorize the educationalOrganization "South Daybreak Elementary"
-#   And I click Update
-#  Then there are "2" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
-#   And I check to find if record is in sli db collection:
-#    | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-#    | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
-#    | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
-#   And there are "1" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
-#   And I see an application "Boyne" in the table
-#   And in Status it says "1 EdOrg(s)"
-#  Given the sli securityEvent collection is empty
-#  When I click on the "Edit Authorizations" button next to it
-#   And I expand all nodes
-#   And I deselect hierarchical mode
-#   And I de-authorize the educationalOrganization "South Daybreak Elementary"
-#   And I click Update
-#  Then there are "1" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
-#   And I check to find if record is in sli db collection:
-#    | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
-#    | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
-#    | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
-#   And there are "1" educationalOrganizations in the targetEdOrgList of securityEvent "EdOrg data access has been revoked!"
-#   And I see an application "Boyne" in the table
-#   And in Status it says "Not Approved"
-#
 #Scenario: Give Educators APP_AUTHORIZE Right (set up)
 #  When I navigate to the Custom Role Mapping Page
 #   And I select "inBloom" from the dropdown and click go
@@ -396,5 +348,73 @@ Scenario: Federated SEA Admin Approves application for SEA only (set up data)
 #  And I see an application "Boyne" in the table
 #  And in Status it says "8 EdOrg(s)"
 
+#Scenario: Federated SEA Admin Approves application for SEA only (set up data)
+#  When I hit the Admin Application Authorization Tool
+#   And I select "Illinois Daybreak School District 4529" from the dropdown and click go
+#   And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+#   And I see an application "Boyne" in the table
+#   And in Status it says "Not Approved"
+#   And the sli securityEvent collection is empty
+#   And I click on the "Edit Authorizations" button next to it
+#   And I expand all nodes
+#   And I deselect hierarchical mode
+#   And I authorize the educationalOrganization "Illinois State Board of Education"
+#   And I click Update
+#  Then there are "1" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
+#   And I check to find if record is in sli db collection:
+#    | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+#    | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+#    | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+#   And there are "1" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
+#   And I see an application "Boyne" in the table
+#   And in Status it says "1 EdOrg(s)"
+
+#
+#Scenario: Linda Kim encounters Access Denied Message when attempting to access Application Authorization Tool using default Educator role
+#  #check educator seoa exists
+#  Given "linda.kim" has an active staffEducationOrganizationAssociation of "Educator" for "East Daybreak Junior High" in tenant "Midgar"
+#   And the sli securityEvent collection is empty
+#  When I hit the Admin Application Authorization Tool
+#   And I select "Illinois Daybreak School District 4529" from the dropdown and click go
+#   And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+#   And the error message "Sorry, you don't have access to this page. if you feel like you are getting this message in error, please contact your administrator." is displayed
+
+#
+#Scenario: Linda Kim Approves application as Application Authorizer
+#  When I hit the Admin Application Authorization Tool
+#   And I select "Illinois Daybreak School District 4529" from the dropdown and click go
+#   And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+#   And I see an application "Boyne" in the table
+#   And in Status it says "Not Approved"
+#   And the sli securityEvent collection is empty
+#   And I click on the "Edit Authorizations" button next to it
+#   And I expand all nodes
+#   And I deselect hierarchical mode
+#   And I authorize the educationalOrganization "South Daybreak Elementary"
+#   And I click Update
+#  Then there are "2" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
+#   And I check to find if record is in sli db collection:
+#    | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+#    | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+#    | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+#   And there are "1" educationalOrganizations in the targetEdOrgList of securityEvent "Application granted access to EdOrg data!"
+#   And I see an application "Boyne" in the table
+#   And in Status it says "1 EdOrg(s)"
+
+#  Given the sli securityEvent collection is empty
+#  When I click on the "Edit Authorizations" button next to it
+#   And I expand all nodes
+#   And I deselect hierarchical mode
+#   And I de-authorize the educationalOrganization "South Daybreak Elementary"
+#   And I click Update
+#  Then there are "1" edOrgs for the "Boyne" application in the applicationAuthorization collection for the "Midgar" tenant
+#   And I check to find if record is in sli db collection:
+#    | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+#    | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!       |
+#    | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                               |
+#   And there are "1" educationalOrganizations in the targetEdOrgList of securityEvent "EdOrg data access has been revoked!"
+#   And I see an application "Boyne" in the table
+#   And in Status it says "Not Approved"
+#
 #Done
 

@@ -85,7 +85,8 @@ def valid_user(user_type)
       'tenant-level realm administrator' => %w( daybreakadmin ),
       'tenant-level IT administrator' => %w( rrogers ),
       'sandbox developer'             => %w( developer-email@slidev.org test1234 ),
-      'NY Hosted User'                => %w(nyadmin)
+      'NY Hosted User'                => %w(nyadmin),
+      'Educator'                      => %w{linda.kim}
   }
   username, password = valid_users[user_type]
   [username, password || "#{username}1234"]
