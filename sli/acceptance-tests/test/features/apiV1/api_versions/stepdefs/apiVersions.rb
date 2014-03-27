@@ -16,26 +16,11 @@ limitations under the License.
 
 =end
 
-
-require 'rest-client'
-require 'json'
-require 'builder'
-require 'rexml/document'
-require 'uri'
-include REXML
-require_relative '../../../utils/sli_utils.rb'
 require_relative '../../utils/api_utils.rb'
 
-###############################################################################
-# THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
-###############################################################################
-
 Then /^all returned links should be version "(.*?)"$/ do |expected_version|
-              
   link_substring = "/api/rest/#{expected_version}/"
-              
-  @result["links"].each do |link|
-     assert(link["href"] =~ /.+#{Regexp.escape(link_substring)}.+/, "A link was found that did not contain the requested/propert version. Expected: #{link_substring} Received: #{link['href']}")
+  @result['links'].each do |link|
+    link['href'].should include(link_substring)
   end
-              
 end
