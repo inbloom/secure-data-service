@@ -56,6 +56,7 @@ Before do
   DB_NAME = Property['api_database_name']
   DB_HOST = Property['DB_HOST']
   DB_PORT = Property['DB_PORT']
+  DbClient.new.for_sli.open {|db| db.remove_all :metaData}
 end
 
 ###############################################################################
@@ -90,10 +91,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     assert(false,"Unexpected entity type: " + arg1)
   end
 
-end
-
-Given /^I drop the "([^\"]*)" collection$/ do |collection|
-  DbClient.new.open {|db| db.remove_all collection}
 end
 
 ###############################################################################

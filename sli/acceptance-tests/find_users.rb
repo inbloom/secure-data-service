@@ -1,3 +1,7 @@
+# Ad hoc script to find users referenced by the ATs
+# This script was needed when we first switched to use of IM-LDAP and needed
+# to populate LDAP with needed users
+
 require 'find'
 require 'json'
 require 'pp'

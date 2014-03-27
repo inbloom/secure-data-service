@@ -442,6 +442,10 @@ Given /^the following collections are empty in datastore:$/ do |table|
   end
 end
 
+Given /^the "([^"]*)" collection is empty in the SLI datastore$/ do |collection|
+  DbClient.new.for_sli.open {|db| db.remove_all collection}
+end
+
 Then /^I should be able to use the token to make valid API calls$/ do
   restHttpGet('/system/session/check', 'application/json')
   @res.should_not be_nil
