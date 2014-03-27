@@ -25,6 +25,8 @@ import javax.ws.rs.core.Context;
 
 import org.slc.sli.api.resources.generic.DefaultResource;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -48,24 +50,28 @@ public class CountResource extends DefaultResource {
 	CountService countService;
 
 	@GET
+	@RightsAllowed({ Right.STAFF_CONTEXT })
 	@Path("educationOrganizations")
 	public @ResponseBody EducationOrganizationCount find(@Context HttpServletRequest request) {
 		return countService.find();
 	}
 
 	@GET
+	@RightsAllowed({ Right.STAFF_CONTEXT })
 	@Path("educationOrganizations/{edOrgId}")
 	public @ResponseBody EducationOrganizationCount find(@PathParam("edOrgId") String edOrgId, @Context HttpServletRequest request) {
 		return countService.findOne(edOrgId);
 	}
 
 	@GET
+	@RightsAllowed({ Right.STAFF_CONTEXT })
 	@Path("teacherAssociations/{edOrgId}")
 	public @ResponseBody TeacherAssociationCount findTeacherAssociations(@PathParam("edOrgId") String edOrgId, @Context HttpServletRequest request) {
 		return countService.findTeacherAssociations(edOrgId);
 	}
 
 	@GET
+	@RightsAllowed({ Right.STAFF_CONTEXT })
 	@Path("teacherAssociations/{edOrgId}/teachers")
 	public @ResponseBody TeacherAssociationCount findTeachers(@PathParam("edOrgId") String edOrgId, @Context HttpServletRequest request) {
 		return countService.findTeachers(edOrgId);
