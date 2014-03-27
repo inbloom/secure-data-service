@@ -81,7 +81,6 @@ end
 When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page$/ do |user, pass, idpType|
   disable_NOTABLESCAN
   puts "Logging in with credentials \"#{user}\" \"#{pass}\"" if $SLI_DEBUG
-  # TODO Determine if anything other than "Simple" is needed
   if idpType=="Simple"
     @driver.find_element(:id, "user_id").send_keys user
     @driver.find_element(:id, "password").send_keys pass
