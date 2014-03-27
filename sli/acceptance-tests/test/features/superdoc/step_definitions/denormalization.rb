@@ -79,11 +79,8 @@ end
 ###############################################################################
 
 When /^I look at "([^\"]*)" in the "([^\"]*)"$/ do |id, coll|
-  conn = Mongo::Connection.new(Property['ingestion_db'], Property['ingestion_db_port'])
-  mdb = conn.db(@midgar_db_name)
-  @doc = mdb.collection(coll).find("_id" => id).to_a
-  assert(!@doc.nil?, "Cannot find the document with _id=#{id} in #{coll}")
-  assert(@doc.size == 1, "Number of entities returned != 1 (received #{@doc.size}")
+  @doc = DbClient.new(:tenant => 'Midgar').open{|db| db.find_by_id id}
+  @doc.should_not be_nil, "Cannot find the document with _id=#{id} in #{coll}"
 end
 
 ###############################################################################
@@ -97,7 +94,7 @@ end
 Then /^I (should|should not) find "([^\"]*)" in "([^\"]*)"$/ do |should_or_not, id, field|
   should = should_or_not == "should"? true : false
   found = false
-  sub_doc = @doc[0][field]
+  sub_doc = @doc[field]
   unless sub_doc.nil?
     sub_doc.each do |row|
       if row["_id"] == id

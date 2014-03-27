@@ -56,7 +56,6 @@ Before do
   DB_NAME = Property['api_database_name']
   DB_HOST = Property['DB_HOST']
   DB_PORT = Property['DB_PORT']
-  DbClient.new.for_sli.open {|db| db.remove_all :metaData}
 end
 
 ###############################################################################
