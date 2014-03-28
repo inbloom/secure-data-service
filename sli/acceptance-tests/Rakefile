@@ -780,10 +780,15 @@ end
 ############################################################
 # SDK Tests start
 ############################################################
+
 desc "Run JavaSDK acceptance tests"
-task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest,:JavaRESTCRUDTest] do
+task :JavaSDKTests => [:realmInit, :importSandboxData] do
+  runTests("test/features/apiV1/end_user_stories/sandbox/JavaSDK/sampleApp/sampleApp.feature")
+  runTests("test/features/apiV1/end_user_stories/sandbox/JavaSDK/CRUD/CRUD.feature")
+  runTests("test/features/apiV1/end_user_stories/sandbox/JavaSDK/CRUD/RESTCRUD.feature")
   display_failure_report
 end
+
 ############################################################
 # SDK Tests end
 ############################################################
