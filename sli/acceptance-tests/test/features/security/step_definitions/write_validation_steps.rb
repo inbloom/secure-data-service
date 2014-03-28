@@ -400,10 +400,6 @@ When /^the entities referenced or associated edorg is out of my context$/ do
   end
 end
 
-When /^the entities referenced or associated edorg is in my context$/ do
-  # no op. entities already contains valid reference
-end
-
 When /^I try to update the previously created entity with an invalid reference$/ do
   step "the entities referenced or associated edorg is out of my context"
   step "I navigate to PUT \"/v1/#@entityUri/#@newId\""

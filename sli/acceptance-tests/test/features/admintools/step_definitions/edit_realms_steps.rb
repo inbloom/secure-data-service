@@ -37,9 +37,7 @@ Then /^I should be redirected back to the realm listing page$/ do
 end
 
 Then /^I should receive a notice that the realm was successfully "([^"]*)"$/ do |action|
-  message = "Realm was successfully updated." if action == "updated"
-  message = "Realm was successfully deleted." if action == "deleted"
-  message = "Realm was successfully created." if action == "created"
+  message = "Realm was successfully #{action}."
   assertWithWait("Should give successful #{action} notice") do
     notice = (@driver.find_element(:id, "notice")).text
     notice.index(message) != nil

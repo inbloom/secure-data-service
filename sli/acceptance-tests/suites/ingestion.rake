@@ -104,11 +104,6 @@ task :ingestionParallelTests do
  runTests("test/features/ingestion/features/ingestion_acceptance_parallel_test.feature")
 end
 
-desc "Run Ingestion for Dashboard Sad Path Tests"
-task :ingestionDashboardSadPathTest do
-  runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
-end
-
 desc "Run Blacklist Validation Tests"
 task :ingestionBlacklistValidationTests do
   runTests("test/features/ingestion/features/blacklistValidation_testing.feature")
@@ -613,15 +608,3 @@ end
 ############################################################
 # Ingestion tests end
 ############################################################
-
-############################################################
-# Ingestion Offline Tool tests start
-############################################################
-desc 'Run Ingestion Offline Tool Acceptances Tests'
-task :ingestionOfflineToolTests => :ingestionOfflineSimpleTest do
-  display_failure_report
-end
-############################################################
-# Ingestion Offline Tool tests end
-############################################################
-
