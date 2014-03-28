@@ -16,8 +16,9 @@ limitations under the License.
 
 =end
 
-require_relative 'capybara_setup.rb'
 require 'selenium-webdriver'
+
+require_relative 'capybara_setup.rb'
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
@@ -175,6 +176,7 @@ When /^I authorize the application for "([^"]*)"$/ do |edOrg|
     @app_id = browser.find('td form')[:id]
     browser.find('td form input').click
   end
+
   if edOrg == 'Illinois State Board of Education'
     browser.find('#hierarchical_mode').set(false)
   end
@@ -197,4 +199,44 @@ When /^I de-authorize the application for "([^"]*)"$/ do |edOrg|
   browser.find('#' + @app_id).find('input').click
   browser.find(:xpath, '//form/div[2]/div/div/ul/li/ul/li/ul/li/input').set(false)
   browser.find(:xpath, '//form/div[2]/div/input[3]').click
+end
+
+When /^I edit role for group "([^"]*)"$/ do |group_name|
+  row = browser.find('tr', :text => group_name)
+  browser.within row do
+    browser.should have_css('.rowEditToolEditButton')
+
+    browser.click_on('Edit')
+    browser.select('APP_AUTHORIZE', :from => 'addRightSelect')
+    browser.click_on('addRightButton')
+    browser.click_on('Save')
+  end
+end
+
+Then /^I should the new right for group "([^"]*)"$/ do |group_name|
+  row = browser.find('tr', :text => group_name)
+  browser.within row do
+    browser.should have_text('APP_AUTHORIZE')
+  end
+end
+
+When /^I (authorize|de\-authorize) the application$/ do |check|
+  check = (check =~ /^(authorize)$/) ? true : false
+
+  if check
+    browser.within @my_new_app do
+      @app_id = browser.find('td form')[:id]
+      browser.find('td form input').click
+    end
+
+    browser.find('#hierarchical_mode').set(false)
+    browser.find(:xpath, '//form/div[2]/div/div/ul/li/ul/li/ul/li[1]/input').set(true)
+    browser.find(:xpath, '//form/div[2]/div/div/ul/li/ul/li/ul/li[3]/input').set(true)
+  else
+    browser.find('#' + @app_id).find('input').click
+    browser.find(:xpath, '//form/div[2]/div/div/ul/li/ul/li/ul/li[1]/input').set(false)
+    browser.find(:xpath, '//form/div[2]/div/div/ul/li/ul/li/ul/li[3]/input').set(false)
+  end
+
+  browser.all("input[type='submit']").first.click
 end
