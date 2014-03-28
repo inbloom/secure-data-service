@@ -372,17 +372,15 @@ When /^I validate the allowed association entities via API "(.*?)":$/ do |uri, t
 end
 
 When /^I validate that I am denied access to restricted endpoints via API:$/ do |table|
-  startRed = "\e[31m"
-  colorReset = "\e[0m"
   success = true
 
   table.hashes.map do |row|
     step "I navigate to GET \"#{row['uri']}\""
     if @res.code != row['rc'].to_i
-      print "#{startRed}Expected a #{row['rc']} response from #{row['uri']}, but got #{@res.code}#{colorReset}\n"
+      puts "Expected a #{row['rc']} response from #{row['uri']}, but got #{@res.code}".red
       success = false
     else
-      print "Expected a #{row['rc']} response from #{row['uri']}, and got #{@res.code}\n"
+      puts "Expected a #{row['rc']} response from #{row['uri']}, and got #{@res.code}"
     end
   end
   assert(success, "Received an unexpected http return code..")
@@ -670,6 +668,7 @@ else
 end
 
 def fieldExtract(field, body)
+  puts "Extracting field #{field} from body #{body}"
   # Split the field string into URI segments
   part = field.split(".")
   # Parse the response field value based on how deep that field is embedded
