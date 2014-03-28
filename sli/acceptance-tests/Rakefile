@@ -556,7 +556,14 @@ task :apiV1EntitySecurityTests do
 end
 
 desc "Run API Tests using Odin ingested data"
-task :apiOdinTests => [:apiOdinFederatedAppsTests, :apiOdinPrep, :apiOdinFederatedAppsTests, :apiOdinSuperAssessment, :apiOdinSecurityTests, :apiOdinMultipleParentTests, :apiV1SearchLimitTests] do
+task :apiOdinTests => [
+    :apiOdinPrep,
+    :apiOdinFederatedAppsTests,
+    :apiOdinSuperAssessment,
+    :apiOdinSecurityTests,
+    :apiOdinMultipleParentTests,
+    :apiV1SearchLimitTests
+] do
   display_failure_report
 end
 

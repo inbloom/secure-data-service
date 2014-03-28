@@ -354,15 +354,19 @@ end
 
 desc "Run contextual roles acceptance tests"
 task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinContextualRolesIngestion, :runSearchBulkExtract] do
-  runTests("test/features/apiV1/contextual_roles/classPeriod_bellSchedule.feature")
-  runTests("test/features/apiV1/contextual_roles/custom_entities.feature")
-  runTests("test/features/apiV1/contextual_roles/matchRoles.feature")
-  runTests("test/features/apiV1/contextual_roles/other_entities_crud.feature")
-  runTests("test/features/apiV1/contextual_roles/student_delete.feature")
-  runTests("test/features/apiV1/contextual_roles/student_gets.feature")
-  runTests("test/features/apiV1/contextual_roles/student_patch.feature")
-  runTests("test/features/apiV1/contextual_roles/student_post.feature")
-  runTests("test/features/apiV1/contextual_roles/student_put.feature")
+  %w(
+    classPeriod_bellSchedule
+    custom_entities
+    matchRoles
+    other_entities_crud
+    student_delete
+    student_gets
+    student_patch
+    student_post
+    student_put
+  ).each do |test|
+    runTests "test/features/apiV1/contextual_roles/#{test}.feature"
+  end
   set_fixture 'calendarDate', 'Midgar_data/calendarDate_fixture.json'
   set_fixtures %w(staff educationOrganization)
   set_fixture 'staffEducationOrganizationAssociation',  'staffEducationOrganizationAssociation_fixture_contextual_roles.json'
