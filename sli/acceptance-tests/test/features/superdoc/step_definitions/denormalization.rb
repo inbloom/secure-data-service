@@ -79,7 +79,7 @@ end
 ###############################################################################
 
 When /^I look at "([^\"]*)" in the "([^\"]*)"$/ do |id, coll|
-  @doc = DbClient.new(:tenant => 'Midgar').open{|db| db.find_by_id id}
+  @doc = DbClient.new(:tenant => 'Midgar').open{|db| db.find_by_id coll, id}
   @doc.should_not be_nil, "Cannot find the document with _id=#{id} in #{coll}"
 end
 
