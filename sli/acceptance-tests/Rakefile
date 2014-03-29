@@ -1106,8 +1106,6 @@ task :importSandboxData do
   Rake::Task["importSandboxHyruleData"].execute
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 
-  Rake::Task["importNewBatchJobData"].execute
-
   Rake::Task["runSearchBulkExtract"].execute
 end
 
