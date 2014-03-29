@@ -346,3 +346,12 @@ Then /^I should click on the <Number> link pound and get <Text> returned$/ do |t
     end
   end
 end
+
+Then /^I should verify that the Ingestion Job table is on the home page$/ do
+  begin
+    @driver.find_element(:xpath, "//table[@id='home_ingestion_table']") 
+    assert(true)
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    assert(false, "There should be an Ingestion Job table on the home page")
+  end
+end

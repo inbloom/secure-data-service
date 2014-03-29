@@ -1106,7 +1106,18 @@ task :importSandboxData do
   Rake::Task["importSandboxHyruleData"].execute
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 
+  Rake::Task["importNewBatchJobData"].execute
+
   Rake::Task["runSearchBulkExtract"].execute
+end
+
+desc "Import ingestion_batch_job data to newBatchJob"
+task :importNewBatchJobData do
+  DB_NAME = "ingestion_batch_job"
+  ingestion_data = %w(
+    newBatchJob
+  )
+  set_fixtures(ingestion_data, 'test/data')
 end
 
 desc "Import Migration Test Data to Midgar"

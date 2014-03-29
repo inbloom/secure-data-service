@@ -334,3 +334,15 @@ Then I should click on the <Number> link pound and get <Text> returned
     | 19     | 4 / 4     |
     | 21     | 0 / 0     |
     | 25     | N/A       |
+
+    
+Scenario: Ingestion Jobs table should be displayed on the home page 
+
+Given I have an open web browser
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+Then I should verify that the Ingestion Job table is on the home page
