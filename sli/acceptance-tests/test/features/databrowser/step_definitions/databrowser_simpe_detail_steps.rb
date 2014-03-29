@@ -355,3 +355,18 @@ Then /^I should verify that the Ingestion Job table is on the home page$/ do
     assert(false, "There should be an Ingestion Job table on the home page")
   end
 end
+
+Then /^I should have the appropriate tables on the single ingestion job page$/ do
+  begin
+    @driver.find_element(:xpath, "//table[@id='show_ingestion_table']") 
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    assert(false, "There should be an Ingestion Job table on the single ingestion page")
+  end
+
+  begin
+    @driver.find_element(:xpath, "//table[@id='show_ingestion_table_details']") 
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    assert(false, "There should be an Ingestion Job details table on the single ingestion page")
+  end
+  assert(true)
+end

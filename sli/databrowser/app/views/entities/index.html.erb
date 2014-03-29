@@ -23,7 +23,7 @@
         ingestion_jobs.each do |job|
         %>
             <tr>
-                <td><%= job['sourceId'].split("/").last %></td>
+                <td><a href=<%= "#{request.protocol}#{request.host_with_port}/ingestion/#{job['id']}" %>><%= job['sourceId'].split("/").last %></a></td>
                 <td><%= job['status'] %></td>
                 <td><%= Time.at(((job['jobStartTimestamp']/1000).to_i)).strftime('%F %R %Z') %></td>
                 <td><%= Time.at(((job['jobStopTimestamp']/1000).to_i)).strftime('%F %R %Z') %></td>

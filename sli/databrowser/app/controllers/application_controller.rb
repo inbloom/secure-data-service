@@ -101,7 +101,7 @@ class ApplicationController < ActionController::Base
   def not_found
     logger.debug {"Not found"}
     respond_to do |format|
-      format.html {
+      format.html {Type
         flash[:alert] = "No resource found with id: #{params[:id] || params[:search_id]}"
         redirect_to :back
       }
@@ -173,7 +173,7 @@ class ApplicationController < ActionController::Base
       return
     end
     
-    logger.debug("===================")
+    #logger.debug("===================")
     # logger.debug("handling breadcrumb for <" + current_url + ">")
 
     trail = session[:breadcrumbtrail]
@@ -218,7 +218,10 @@ class ApplicationController < ActionController::Base
       else
         # this URL is not in our list; we determine a user-friendly name for the URL, 
         # create a breadcrumb, and add it to the end of the list
-	name = getUserFriendlyUrlName(urlNoParams)
+        name = getUserFriendlyUrlName(urlNoParams)
+        if (name.include? "zip")
+          name = name.split("-").first
+        end
         trail.push Breadcrumbhelper::Breadcrumb.new name, urlNoParams, current_url
 	# logger.debug("pushing new link onto array")
       end
