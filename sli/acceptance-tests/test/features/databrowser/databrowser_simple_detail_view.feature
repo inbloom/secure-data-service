@@ -30,7 +30,7 @@ Then I should be redirected to the Data Browser home page
 When I click on the Logout link
 And I am forced to reauthenticate to access the databrowser
 
-@smoke
+@wip
 Scenario: Navigate to home page from any page
 
 Given I have an open web browser

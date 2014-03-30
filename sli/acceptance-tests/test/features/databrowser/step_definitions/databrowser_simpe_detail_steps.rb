@@ -388,33 +388,33 @@ Then /^I should have the appropriate tables on the ingestion job page$/ do
   end
 end
 
-# When /^I have navigated to the <Page> page of the Data Browser as user <User> with edorg <EdOrg>$/ do |table|
-#   p arg1
-#   p arg2
-#   p table
-#   table.hashes.each do |hash|
-#     @driver.get Property['databrowser_server_url']
-#     # Wait for home page to load
-#     # Navigate to edorg
-#     assertWithWait("Failed to find '"+hash['EdOrg']+"' Link on page")  {@driver.find_element(:link_text, hash['EdOrg'])}
-#     @driver.find_element(:link_text, hash['EdOrg']).click
-#     # Navigate to Staff
-#     assertWithWait("Failed to find Staff Link on page")  {@driver.find_element(:link_text, 'Staff')}
-#     @driver.find_element(:link_text, 'Staff').click
-#     #Click to expand self on staff list
-#     assertWithWait("Failed to find row containing text: "+hash['User'])  {@driver.find_element(:xpath, "//tr/td[normalize-space()='#{hash['User']}']")}
-#     @driver.find_element(:xpath, "//tr/td[normalize-space()='#{hash['User']}']").click
+When /^I have navigated to the <Page> page of the Data Browser as user <User> with edorg <EdOrg>$/ do |table|
+  p arg1
+  p arg2
+  p table
+  table.hashes.each do |hash|
+    @driver.get Property['databrowser_server_url']
+    # Wait for home page to load
+    # Navigate to edorg
+    assertWithWait("Failed to find '"+hash['EdOrg']+"' Link on page")  {@driver.find_element(:link_text, hash['EdOrg'])}
+    @driver.find_element(:link_text, hash['EdOrg']).click
+    # Navigate to Staff
+    assertWithWait("Failed to find Staff Link on page")  {@driver.find_element(:link_text, 'Staff')}
+    @driver.find_element(:link_text, 'Staff').click
+    #Click to expand self on staff list
+    assertWithWait("Failed to find row containing text: "+hash['User'])  {@driver.find_element(:xpath, "//tr/td[normalize-space()='#{hash['User']}']")}
+    @driver.find_element(:xpath, "//tr/td[normalize-space()='#{hash['User']}']").click
      
-#      assertWithWait("Failed to find '"+hash["Page"]+"' Link on page")  {@driver.find_element(:link_text, hash["Page"])}
-#      @driver.find_element(:link_text, hash["Page"]).click
+     assertWithWait("Failed to find '"+hash["Page"]+"' Link on page")  {@driver.find_element(:link_text, hash["Page"])}
+     @driver.find_element(:link_text, hash["Page"]).click
     
-#      assertWithWait("Failed to find 'Home' Link on page")  {@driver.find_element(:link_text, "home")}
-#      @driver.find_element(:link_text, "data browser").click
+     assertWithWait("Failed to find 'Home' Link on page")  {@driver.find_element(:link_text, "home")}
+     @driver.find_element(:link_text, "data browser").click
 
-#      #assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Welcome to the inBloom, inc. Data Browser")}
+     #assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Welcome to the inBloom, inc. Data Browser")}
 
-#   end
-# end
+  end
+end
 And /^I navigate to myself as user "([^"]*)" of edorg "([^"]*)"$/ do |arg1, arg2|
     assertWithWait("Failed to find '"+arg2+"' Link on page")  {@driver.find_element(:link_text, arg2)}
     @driver.find_element(:link_text, arg2).click
