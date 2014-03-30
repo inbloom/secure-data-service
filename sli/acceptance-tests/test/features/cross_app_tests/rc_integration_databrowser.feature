@@ -30,7 +30,7 @@ Scenario: Navigate to home page from any page
   Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
-  And I navigate to myself as user "rrogers" of edorg "Illinois State Board of Education"
+  And I navigate to myself as user "rrogers" of edorg "Standard State Education Agency"
   And I should see my available links labeled
   And I have navigated to the <Page> of the Data Browser
     | Page                                       |
