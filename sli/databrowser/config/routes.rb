@@ -31,6 +31,9 @@ DbRails::Application.routes.draw do
 
   get "count/teacherAssociations/:edorg_id/" => 'count#associations'
   get "count/teacherAssociations/:edorg_id/teachers" => 'count#teachers'
+
+  get "ingestion" => 'ingestion#list'
+  get "ingestion/:id" => 'ingestion#show'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

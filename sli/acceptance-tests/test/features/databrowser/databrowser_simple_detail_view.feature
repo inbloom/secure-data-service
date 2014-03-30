@@ -352,3 +352,45 @@ Then I should click on the <Number> link pound and get <Text> returned
     | 19     | 4 / 4     |
     | 21     | 0 / 0     |
     | 25     | N/A       |
+
+    
+Scenario: Ingestion Jobs table should be displayed on the home page 
+
+    Given the ingestion batch job collection has been reset
+    And the ingestion batch job collection contains "6" records
+    Given I have an open web browser
+    And I navigated to the Data Browser Home URL
+    And I was redirected to the Realm page
+    And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+    And I click on the realm page Go button
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+    Then I should verify that the Ingestion Job table is on the home page
+
+Scenario: Verify that the view on the single ingestion page has the correct tables.
+
+    Given the ingestion batch job collection has been reset
+    And the ingestion batch job collection contains "6" records
+    Given I have an open web browser
+    And I navigated to the Data Browser Home URL
+    And I was redirected to the Realm page
+    And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+    And I click on the realm page Go button
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+    Then I should navigate to "/ingestion/MediumSampleDataSet.zip-4effed87-90f1-43db-a620-7d75d70b4dbc"
+    Then I should have the appropriate tables on the single ingestion job page
+
+Scenario: Verify that the view on the list ingestion page has the correct tables.
+
+    Given the ingestion batch job collection has been reset
+    And the ingestion batch job collection contains "6" records
+    Given I have an open web browser
+    And I navigated to the Data Browser Home URL
+    And I was redirected to the Realm page
+    And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+    And I click on the realm page Go button
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+    Then I should navigate to "/ingestion"
+    Then I should have the appropriate tables on the ingestion job page

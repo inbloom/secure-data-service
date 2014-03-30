@@ -5,7 +5,6 @@ Feature: As a student or staff I want to use apps that access the inBloom API
 
   Background: None
 
-@student_endpoints @shortcut
 Scenario: Student has access to entities via API endpoints
 Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
   And format "application/json"

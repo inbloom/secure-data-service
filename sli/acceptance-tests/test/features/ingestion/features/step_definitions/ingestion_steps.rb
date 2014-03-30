@@ -638,10 +638,8 @@ Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_k
   # if the lz_key is overridden from the command line, use the override value
   lz_key = @ingestion_lz_key_override if @ingestion_lz_key_override
   puts "Looking up landing zone for #{lz_key}"
-  puts "Ingestion landing zone identifier map: #{@ingestion_lz_identifier_map.inspect}"
-
+  puts "Ingestion landing zone identifier map: #{@ingestion_lz_identifer_map.inspect}"
   lz = @ingestion_lz_identifer_map[lz_key]
-  puts @ingestion_lz_identifer_map.inspect
   initializeLandingZone(lz)
   initializeTenantDatabase(lz_key)
 end
@@ -657,6 +655,7 @@ def initializeTenantDatabase(lz_key)
     lz_key = lz_key[0, lz_key.index('-')]
   end
 
+  @tenant = lz_key # This instance variable is used by the clear collections step
   @ingestion_db_name = convertTenantIdToDbName(lz_key)
 end
 

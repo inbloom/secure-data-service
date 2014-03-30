@@ -1,6 +1,7 @@
 =begin
+#--
 
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
+Copyright 2012-2014 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,11 +17,12 @@ limitations under the License.
 
 =end
 
-require_relative '../../utils/api_utils.rb'
+require 'rest-client'
 
-Then /^all returned links should be version "(.*?)"$/ do |expected_version|
-  link_substring = "/api/rest/#{expected_version}/"
-  @result['links'].each do |link|
-    link['href'].should include(link_substring)
+class IngestionController < ApplicationController
+  def list
+  end
+
+  def show
   end
 end

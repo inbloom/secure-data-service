@@ -21,6 +21,7 @@ require "selenium-webdriver"
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
+require_relative '../../apiV1/ingestionJob/step_definitions/ingestionJob.rb'
 
 When /^I click the IDP page Go button$/ do
   @driver.find_element(:name, "Login.Submit").click
@@ -346,7 +347,46 @@ Then /^I should click on the <Number> link pound and get <Text> returned$/ do |t
     end
   end
 end
-#When /^I have navigated to the "(.*?)" page of the Data Browser as user "(.*?)" with edorg "(.*?)"$/ do |arg1, arg2, arg3|
+
+Then /^I should verify that the Ingestion Job table is on the home page$/ do
+  begin
+    @driver.find_element(:xpath, "//table[@id='home_ingestion_table']") 
+    assert(true)
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    assert(false, "There should be an Ingestion Job table on the home page")
+  end
+end
+
+Then /^I should have the appropriate tables on the single ingestion job page$/ do
+  begin
+    @driver.find_element(:xpath, "//table[@id='show_ingestion_table']") 
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    assert(false, "There should be an Ingestion Job table on the single ingestion page")
+  end
+
+  begin
+    @driver.find_element(:xpath, "//table[@id='show_ingestion_table_details']")
+    assert(true) 
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    assert(false, "There should be an Ingestion Job details table on the single ingestion page")
+  end
+end
+
+Then /^I should have the appropriate tables on the ingestion job page$/ do
+  begin
+    @driver.find_element(:xpath, "//table[@id='list_ingestion_table']")
+    assert(true) 
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    assert(false, "There should be an Ingestion Job table on the ingestion page")
+  end
+
+  begin
+    @driver.find_element(:xpath, "//div[@id='list_ingestion_table_info']")
+    assert(true)
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    assert(false, "There should be an Ingestion Job counts on the ingestion page")
+  end
+end
 
 # When /^I have navigated to the <Page> page of the Data Browser as user <User> with edorg <EdOrg>$/ do |table|
 #   p arg1

@@ -8,20 +8,19 @@ Scenario: Post UniqueSectionCode test XML templates
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I post "UniqueSectionCodeTest.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
-     | collectionName                            |
-     | assessment                                |
-     | attendance                                |
-     | teacherSectionAssociation                 |
-     | studentSectionAssociation                 |
-     | gradebookEntry                            |
+     | collectionName             |
+     | assessment                 |
+     | attendance                 |
+     | teacherSectionAssociation  |
+     | section                    |
 When zip file is scp to ingestion landing zone
   And a batch job for file "UniqueSectionCodeTest.zip" is completed in database
   Then I should see following map of entry counts in the corresponding collections:
-     | collectionName                            |              count|
-     | assessment                                |                  1|
-     | attendance                                |                  1|
-     | teacherSectionAssociation                 |                  1|
-     | studentSectionAssociation                 |                  1|
-     | gradebookEntry                            |                  1|
+     | collectionName             | count |
+     | assessment                 |     1 |
+     | attendance                 |     1 |
+     | teacherSectionAssociation  |     1 |
+     | studentSectionAssociation  |     1 |
+     | gradebookEntry             |     1 |
     And I should not see an error log file created
     And I should not see a warning log file created
