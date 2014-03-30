@@ -85,7 +85,7 @@ Scenario: Get a Forbidden message when we access something that is forbidden
   Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
-  And I navigate to myself as user "akopel" of edorg "Daybreak Charter School"
+  And I navigate to myself as user "akopel" of edorg "South Daybreak Elementary"
   And I click on the "Education Organizations" link
   And I click on the "Parent Education Organization" link
   And I click on the "Feeder Schools" link
