@@ -338,6 +338,8 @@ Then I should click on the <Number> link pound and get <Text> returned
     
 Scenario: Ingestion Jobs table should be displayed on the home page 
 
+    Given the ingestion batch job collection has been reset
+    And the ingestion batch job collection contains "6" records
     Given I have an open web browser
     And I navigated to the Data Browser Home URL
     And I was redirected to the Realm page
@@ -349,6 +351,8 @@ Scenario: Ingestion Jobs table should be displayed on the home page
 
 Scenario: Verify that the view on the single ingestion page has the correct tables.
 
+    Given the ingestion batch job collection has been reset
+    And the ingestion batch job collection contains "6" records
     Given I have an open web browser
     And I navigated to the Data Browser Home URL
     And I was redirected to the Realm page
@@ -361,6 +365,8 @@ Scenario: Verify that the view on the single ingestion page has the correct tabl
 
 Scenario: Verify that the view on the list ingestion page has the correct tables.
 
+    Given the ingestion batch job collection has been reset
+    And the ingestion batch job collection contains "6" records
     Given I have an open web browser
     And I navigated to the Data Browser Home URL
     And I was redirected to the Realm page

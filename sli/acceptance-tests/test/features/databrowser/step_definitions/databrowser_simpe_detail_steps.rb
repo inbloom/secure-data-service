@@ -21,6 +21,7 @@ require "selenium-webdriver"
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
+require_relative '../../apiV1/ingestionJob/step_definitions/ingestionJob.rb'
 
 When /^I click the IDP page Go button$/ do
   @driver.find_element(:name, "Login.Submit").click
