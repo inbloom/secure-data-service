@@ -70,7 +70,7 @@ Scenario: Click on Available Links associations and entities
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I navigate to myself as user "rrogers" of edorg "Standard State Education Agency"
-  And I click on "Me"
+  And I click on the "Me" link
   Then I am redirected to the particular entity Detail View
   When I click on the "Staff Cohort Associations" link
   Then I am redirected to the particular associations Simple View
