@@ -14,7 +14,8 @@ And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jwashington" "jwashington1234" for the "Simple" login page
 Then I should be redirected to the Data Browser home page
-And I should see my available links labeled
+# DS-1034 removes databrowser homepage links.
+# And I should see my available links labeled
 
 Scenario: Logout
 
@@ -39,7 +40,7 @@ And I choose realm "Illinois Daybreak School District 4529" in the drop-down lis
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
-And I have navigated to the <Page> of the Data Browser
+When I have navigated to the <Page> of the Data Browser as user "rrogers" with edorg "Illinois State Board of Education"
 	|Page|
 	|Staff Education Organization Associations|
 	|Staff Program Associations|
@@ -55,7 +56,7 @@ And I choose realm "Illinois Daybreak School District 4529" in the drop-down lis
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
-And I click on the "Education Organizations" link
+And I click on the "Illinois State Board of Education" link
 Then I am redirected to the educationOrganization page
 And I see the properties in the following <Order>
 | Order |
@@ -75,7 +76,7 @@ And I choose realm "Illinois Daybreak School District 4529" in the drop-down lis
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
-And I click on the "Education Organizations" link
+And I click on the "Illinois State Board of Education" link
 Then I am redirected to the educationOrganization page
 And I see the list of "Associated Entities" in alphabetical order
 
@@ -88,6 +89,9 @@ And I choose realm "Illinois Daybreak School District 4529" in the drop-down lis
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+And I click on the "Illinois State Board of Education" link
+And I click on the "Staff" link
+When I click on the row containing "rrogers"
 And I click on the "Staff Program Associations" link
 Then I am redirected to the associations list page
 And I see a table displaying the associations in a list
@@ -102,12 +106,16 @@ And I choose realm "Illinois Daybreak School District 4529" in the drop-down lis
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
-And I have navigated to the "Staff Cohort Associations" page of the Data Browser
+And I click on the "Illinois State Board of Education" link
+And I click on the "Staff" link
+When I click on the row containing "rrogers"
+And I click on the "Staff Cohort Associations" link
 When I click on the row containing "b408635d-8fd5-11e1-86ec-0021701f543f_id"
 Then the row expands below listing the rest of the attributes for the item
 When I click on the row containing "b408635d-8fd5-11e1-86ec-0021701f543f_id"
 Then the row collapses hiding the additional attributes
 
+@wip
 Scenario Outline: Entity Detail View
 
 Given I have an open web browser
@@ -117,15 +125,15 @@ And I choose realm "Illinois Daybreak School District 4529" in the drop-down lis
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
-And I have navigated to the <Page> page of the Data Browser
+When I have navigated to the <Page> page of the Data Browser as user <User> with edorg <EdOrg>
 When I click on the row containing <Text>
 And I click on the <Link> of any of the associating entities
 Then I am redirected to a page that page lists all of the <Entity> entity's fields
  Examples:
-| Page                                      | Text                                       | Link         | Entity                                 |
-| "Staff Program Associations"             | "9b8c3aab-8fd5-11e1-86ec-0021701f543f_id"  | "Me"         | "9bf906cc-8fd5-11e1-86ec-0021701f5432" |
-| "Staff Cohort Associations" | "85585b27-5368-4f10-a331-3abcaf3a3f4c"| "Cohort" | "District-wide academic intervention cohort for Social Studies" |
-| "Staff Cohort Associations" | "85585b27-5368-4f10-a331-3abcaf3a3f4c"| "Staff" | "rrogers"        |
+| Page                                      | User | EdOrg | Text                                       | Link         | Entity                                 |
+| "Staff Program Associations"             | "rrogers" |"Illinois State Board of Education"| "9b8c3aab-8fd5-11e1-86ec-0021701f543f_id"  | "Me"         | "9bf906cc-8fd5-11e1-86ec-0021701f5432" |
+| "Staff Cohort Associations" | "rrogers" |"Illinois State Board of Education"| "85585b27-5368-4f10-a331-3abcaf3a3f4c"| "Cohort" | "District-wide academic intervention cohort for Social Studies" |
+| "Staff Cohort Associations" | "rrogers" |"Illinois State Board of Education"| "85585b27-5368-4f10-a331-3abcaf3a3f4c"| "Staff" | "rrogers"        |
 
 Scenario: Click on Available Links associations
 
@@ -136,7 +144,10 @@ And I choose realm "Illinois Sunset School District 4526" in the drop-down list
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jwashington" "jwashington1234" for the "Simple" login page
-And I have navigated to the "Me" page of the Data Browser
+And I click on the "Sunset School District 4526" link
+And I click on the "Staff" link
+When I click on the row containing "jwashington"
+And I click on the "Me" link
 When I click on the "Staff Cohort Associations" link
 Then I am redirected to the particular associations Simple View
 
@@ -148,7 +159,10 @@ And I choose realm "Illinois Sunset School District 4526" in the drop-down list
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jwashington" "jwashington1234" for the "Simple" login page
-And I have navigated to the "Me" page of the Data Browser
+And I click on the "Sunset School District 4526" link
+And I click on the "Staff" link
+When I click on the row containing "jwashington"
+And I click on the "Me" link
 Then I am redirected to the particular entity Detail View
 
 Scenario: Get a Forbidden message when we access something that is forbidden
@@ -159,7 +173,11 @@ And I choose realm "Illinois Sunset School District 4526" in the drop-down list
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jwashington" "jwashington1234" for the "Simple" login page
-And I have navigated to the "Schools" listing of the Data Browser
+And I click on the "Sunset School District 4526" link
+And I click on the "Staff" link
+When I click on the row containing "jwashington"
+And I click on the "My Schools" link
+#And I have navigated to the "Schools" listing of the Data Browser
 When I should navigate to "/entities/schools/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
 And I click on the "Teachers" link
 Then I see a "You do not have access to view this." alert box
@@ -174,7 +192,7 @@ And I choose realm "Illinois Daybreak Charter School" in the drop-down list
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "swood" "swood1234" for the "Simple" login page
-Then I should be redirected to the Data Browser home page
+And I navigate to myself as user "swood" of edorg "Daybreak Charter School"
 When I click on the "Education Organizations" link
 And I click on the "Staff Education Organization Associations" link
 And I have navigated to the "Schools" listing of the Data Browser
@@ -191,6 +209,7 @@ And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 Then I should be redirected to the Data Browser home page
+And I navigate to myself as user "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b" of edorg "Sunset Central High School"
 When I click on the "Education Organizations" link
 When I click on the row containing "92d6d5a0-852c-45f4-907a-912752831772"
 Then the row expands below listing the rest of the attributes for the item
@@ -215,12 +234,13 @@ And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 Then I should be redirected to the Data Browser home page
+And I navigate to myself as user "rrogers" of edorg "Illinois State Board of Education"
 When I click on the "Education Organizations" link
 Then I should be on the detailed page for an SEA
 When I click on the "Feeder Education Organizations" link
 Then I should be on the detailed page for an LEA
 
- @wip
+@wip
 Scenario: Click on an entity ID in Simple View (same for Detail View)
 
 Given I have an open web browser
@@ -239,16 +259,14 @@ And I choose realm <Realm> in the drop-down list
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials <User> <Password> for the "Simple" login page
+And I navigate to myself as user <User> of edorg <EdOrg>
 Then I should go to the <Page> page and look for the EdOrg table with a <Result> result
 
 Examples:
-  | Realm                                    | User           | Password           | Page                           | Result |
-  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "Education Organizations"    | "Pass" |
-  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "Programs"                  | "Fail" |
-  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "Cohorts"                   | "Fail" |
-  | "Illinois Daybreak Students"             | "carmen.ortiz" | "carmen.ortiz1234" | "My Schools"                   | "Pass" |
-  | "Illinois Daybreak Students"             | "carmen.ortiz" | "carmen.ortiz1234" | "My Sections"                  | "Fail" |
-  | "Illinois Daybreak Students"             | "carmen.ortiz" | "carmen.ortiz1234" | "Student Parent Associations" | "Fail" |
+  | Realm                                    | User           | Password           | Page                           | Result | EdOrg                          |
+  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "Education Organizations"     | "Pass" | "Daybreak School District 4529" |
+  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "Programs"                    | "Fail" | "Daybreak School District 4529" |
+  | "Illinois Daybreak School District 4529" | "jstevenson"   | "jstevenson1234"   | "Cohorts"                     | "Fail" | "Daybreak School District 4529" | 
 
 Scenario: EducationOrganization table should have the following counts in the table
 
@@ -259,7 +277,7 @@ And I choose realm "Illinois Daybreak School District 4529" in the drop-down lis
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
-And I click on the "Education Organizations" link
+And I click on the "Daybreak School District 4529" link
 And I click on the "Feeder Education Organizations" link
 Then I should see a count of <Total> for id <ID> staff total and <Current> for current
 
@@ -324,7 +342,7 @@ And I choose realm "Illinois Daybreak School District 4529" in the drop-down lis
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
-And I click on the "Education Organizations" link
+And I click on the "Daybreak School District 4529" link
 Then I should click on the <Number> link pound and get <Text> returned
 
     | Number | Text      |
