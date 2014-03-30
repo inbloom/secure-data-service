@@ -358,3 +358,15 @@ Scenario: Verify that the view on the single ingestion page has the correct tabl
     When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
     Then I should navigate to "/ingestion/MediumSampleDataSet.zip-4effed87-90f1-43db-a620-7d75d70b4dbc"
     Then I should have the appropriate tables on the single ingestion job page
+
+Scenario: Verify that the view on the list ingestion page has the correct tables.
+
+    Given I have an open web browser
+    And I navigated to the Data Browser Home URL
+    And I was redirected to the Realm page
+    And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+    And I click on the realm page Go button
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+    Then I should navigate to "/ingestion"
+    Then I should have the appropriate tables on the ingestion job page

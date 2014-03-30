@@ -364,9 +364,25 @@ Then /^I should have the appropriate tables on the single ingestion job page$/ d
   end
 
   begin
-    @driver.find_element(:xpath, "//table[@id='show_ingestion_table_details']") 
+    @driver.find_element(:xpath, "//table[@id='show_ingestion_table_details']")
+    assert(true) 
   rescue Selenium::WebDriver::Error::NoSuchElementError => e
     assert(false, "There should be an Ingestion Job details table on the single ingestion page")
   end
-  assert(true)
+end
+
+Then /^I should have the appropriate tables on the ingestion job page$/ do
+  begin
+    @driver.find_element(:xpath, "//table[@id='list_ingestion_table']")
+    assert(true) 
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    assert(false, "There should be an Ingestion Job table on the ingestion page")
+  end
+
+  begin
+    @driver.find_element(:xpath, "//div[@id='list_ingestion_table_info']")
+    assert(true)
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    assert(false, "There should be an Ingestion Job counts on the ingestion page")
+  end
 end

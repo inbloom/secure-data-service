@@ -47,6 +47,7 @@
     end
     %>
     </table>
+    <div id="show_all_link"><a href=<%= "/ingestion" %>>Show All Jobs</a></div>
 
 <% @entities.each do |e| %>
     <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>

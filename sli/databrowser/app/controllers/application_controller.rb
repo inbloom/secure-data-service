@@ -221,6 +221,8 @@ class ApplicationController < ActionController::Base
         name = getUserFriendlyUrlName(urlNoParams)
         if (name.include? "zip")
           name = name.split("-").first
+        elsif (name == "ingestion")
+          name = "All Ingestion Jobs"
         end
         trail.push Breadcrumbhelper::Breadcrumb.new name, urlNoParams, current_url
 	# logger.debug("pushing new link onto array")
