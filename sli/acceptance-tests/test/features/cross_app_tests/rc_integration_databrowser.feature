@@ -19,7 +19,7 @@ Scenario: Login and logout
   Then I should be redirected to the Data Browser home page
   When I click on the Logout link
   And I am forced to reauthenticate to access the databrowser
-
+@wip
 Scenario: Navigate to home page from any page
   When I see the realm selector I authenticate to "Daybreak Test Realm"
   And I was redirected to the "Simple" IDP Login page
@@ -69,7 +69,7 @@ Scenario: Click on Available Links associations and entities
   Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
-  And I have navigated to the "Me" page of the Data Browser
+  And I navigate to myself as user "rrogers" of edorg "Standard State Education Agency"
   Then I am redirected to the particular entity Detail View
   When I click on the "Staff Cohort Associations" link
   Then I am redirected to the particular associations Simple View
@@ -84,6 +84,7 @@ Scenario: Get a Forbidden message when we access something that is forbidden
   Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
+  And I navigate to myself as user "akopel" of edorg "Daybreak Charter School"
   And I click on the "Education Organizations" link
   And I click on the "Parent Education Organization" link
   And I click on the "Feeder Schools" link
@@ -104,6 +105,7 @@ Scenario: Traverse Edorg Hiearchy from SEA down to LEA
   Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
+  And I navigate to myself as user "rrogers" of edorg "Standard State Education Agency"
   When I click on the "Education Organizations" link
   Then I should be on the detailed page for an SEA
   When I click on the "Feeder Education Organizations" link
