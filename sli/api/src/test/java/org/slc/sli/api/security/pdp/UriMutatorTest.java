@@ -136,7 +136,7 @@ public class UriMutatorTest {
         PathSegment v1 = Mockito.mock(PathSegment.class);
         when(v1.getPath()).thenReturn("/staff");
         Assert.assertEquals("Endpoint should be rewritten to /teachers/id",
-                createMutatedContainer("/teachers/" + teacher.getEntityId(), null),
+                createMutatedContainer("/teachers/" + teacher.getEntityId(), "staffUniqueStateId=teacher"),
                 mutator.mutate(Arrays.asList(v1), "staffUniqueStateId=teacher", principal, null));
 
         body.put("staffUniqueStateId", "staff");
@@ -144,7 +144,7 @@ public class UriMutatorTest {
         v1 = Mockito.mock(PathSegment.class);
         when(v1.getPath()).thenReturn("/staff");
         Assert.assertEquals("Endpoint should be rewritten to /staff/id",
-                createMutatedContainer("/staff/" + teacher.getEntityId(), null),
+                createMutatedContainer("/staff/" + teacher.getEntityId(), "staffUniqueStateId=staff"),
                 mutator.mutate(Arrays.asList(v1), "staffUniqueStateId=staff", principal, null));
     }
 

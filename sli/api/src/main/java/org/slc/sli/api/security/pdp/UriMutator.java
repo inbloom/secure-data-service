@@ -160,6 +160,8 @@ public class UriMutator {
 						}
 						newMutated.setPath(path);
 
+                        newMutated.setQueryParameters(queryParameters);
+
 						LOG.info("Rewriting URI to {} based on natural keys",
 								newMutated.getPath());
 						return newMutated;

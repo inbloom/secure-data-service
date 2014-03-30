@@ -104,11 +104,6 @@ task :ingestionParallelTests do
  runTests("test/features/ingestion/features/ingestion_acceptance_parallel_test.feature")
 end
 
-desc "Run Ingestion for Dashboard Sad Path Tests"
-task :ingestionDashboardSadPathTest do
-  runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
-end
-
 desc "Run Blacklist Validation Tests"
 task :ingestionBlacklistValidationTests do
   runTests("test/features/ingestion/features/blacklistValidation_testing.feature")
@@ -139,11 +134,6 @@ end
 desc "Run Dry Run Test"
 task :ingestionDryRunTest do
   runTests("test/features/ingestion/features/ingestion_dry_run.feature")
-end
-
-desc "Run Complex Object Array Id Reference Resolution Test"
-task :ingestionComplexObjectArrayIdRefTest do
-  runTests("test/features/ingestion/features/ingestion_complexObjectArrayIdResolution.feature")
 end
 
 desc "Run Sandbox Data Test"
@@ -269,7 +259,6 @@ desc "Run Ingestion Deletion Tests"
         :ingestionSuperSectionDelete,
         :ingestionSuperAssessmentDelete,
 	    :ingestionSuperStudentAssessmentDelete,
-	    :ingestionDeleteAndReingest,
         :multipleForceDeletesTest,
         :multipleOrphansDeleteTest,
         :errorsOnUnsupportedDeleteRequestsTest,
@@ -299,7 +288,6 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionBroadLEATest,
         :ingestionCascadingDeletionBroadEdOrgTest,
         :ingestionCascadingDeletionBroadObjectiveAssessmentTest,
-        :ingestionNonNativeInterchangeDeleteTest,
         :ingestionCascadingDeletionBroadParentTest,
         :ingestionCascadingDeletionBroadProgramTest,
         :ingestionCascadingDeletionBroadReportCardTest,
@@ -307,7 +295,6 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionBroadSEATest,
         :ingestionCascadingDeletionBroadSectionTest,
         :ingestionCascadingDeletionBroadSessionTest,
-        :ingestionCascadingDeletionBroadStaffCohortAssociationTest,
         :ingestionCascadingDeletionBroadStaffEducationOrgAssignmentAssociationTest,
         :ingestionCascadingDeletionBroadStaffProgramAssociationTest,
         :ingestionCascadingDeletionBroadStaffTest,
@@ -329,27 +316,10 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionBroadTeacherSectionAssociationTest,
         :ingestionCascadingDeletionBroadTeacherTest,
         :ingestionCascadingDeletionBroadYearlyTranscriptTest,
-        :ingestionCascadingDeletionJetsSharksScenario,
-        :ingestionCascadingDeletionReportCardNotFoundTest,
-        :ingestionCascadingDeleteReportTest,
 	    :ingestionCascadingDeletionReingestTest,
         ] do
 
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
-desc "Run Cascading Deletion Report Test"
-task :ingestionCascadingDeleteReportTest do
-  runTests("test/features/ingestion/features/ingestion_broad_cascading_deleteReport.feature")
-end
-
-task :ingestionCascadingDeletionJetsSharksScenario do
-  runTests("test/features/ingestion/features/ingestion_cascading_delete_jets_sharks_scenario.feature")
+  display_failure_report
 end
 
 task :ingestionCascadingDeletionBroadSEATest do
@@ -520,10 +490,6 @@ task :ingestionCascadingDeletionBroadStudentCohortAssociationTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_studentCohortAssociation_delete.feature")
 end
 
-task :ingestionCascadingDeletionBroadStaffCohortAssociationTest do
-  runTests("test/features/ingestion/features/ingestion_broad_cascading_staffCohortAssociation_delete.feature")
-end
-
 task :ingestionCascadingDeletionBroadStudentCompetencyObjectiveTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_studentCompetencyObjective_delete.feature")
 end
@@ -562,14 +528,6 @@ end
 
 task :ingestionCascadingDeletionBroadLearningObjectiveFromStudentGradesTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_learningObjectiveFromStudentGrades_delete.feature")
-end
-
-task :ingestionNonNativeInterchangeDeleteTest do
-  runTests("test/features/ingestion/features/ingestion_non-native_interchange_delete.feature")
-end
-
-task :ingestionCascadingDeletionReportCardNotFoundTest do
-  runTests("test/features/ingestion/features/ingestion_broad_cascading_reportCardNotFound_delete.feature")
 end
 
 task :ingestionCascadingDeletionBroadStudentTest do
@@ -620,15 +578,6 @@ task :ingestionSuperStudentAssessmentDelete do
   runTests("test/features/ingestion/features/ingestion_super_studentAssessment_delete.feature")
 end
 
-task :ingestionDeleteAndReingest do
-  runTests("test/features/ingestion/features/ingestion_nes_delete_reingest.feature")
-end
-
-desc "Ingest Bulk Extract LEA dataset"
-task :ingestionBulkExtractLeas do
-  runTests("test/features/ingestion/features/ingestion_BulkExtractLeas.feature")
-end
-
 task :ingestionSeoaa do
   runTests("test/features/ingestion/features/seoaa.feature")
 end
@@ -659,20 +608,3 @@ end
 ############################################################
 # Ingestion tests end
 ############################################################
-
-############################################################
-# Ingestion Offline Tool tests start
-############################################################
-desc "Run Ingestion Offline Tool Acceptances Tests"
-task :ingestionOfflineToolTests => [:ingestionOfflineSimpleTest] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-############################################################
-# Ingestion Offline Tool tests end
-############################################################
-

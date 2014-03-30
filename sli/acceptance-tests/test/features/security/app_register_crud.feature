@@ -44,7 +44,7 @@ Scenario: CRUD on other developer's app
         | securityEvent   | 1                   | body.tenantId           | anothersandboxdeveloper@slidev.org                     | string     |
         | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                             | string     |
         | securityEvent   | 1                   | body.className          | org.slc.sli.api.resources.security.ApplicationResource | string     |
-        | securityEvent   | 1                   | body.userEdOrg          | fakeab32-b493-999b-a6f3-sliedorg1234                   | string     |
+     #   | securityEvent   | 1                   | body.userEdOrg          | fakeab32-b493-999b-a6f3-sliedorg1234                   | string     |
      # targetEdOrgList - not populated because the application entry data itself is not owned by edOrgs
      And "1" security event with field "body.actionUri" matching "http.*/api/rest/apps/.*" should be in the sli db
      And "1" security event matching "Access Denied:Developer anothersandboxdeveloper is not the creator of this app and does not share same sandbox tenant as the creator hence cannot modify it." should be in the sli db
@@ -125,20 +125,3 @@ Scenario: Bootstrapping of apps
 	And the "Admin Apps" bootstrap app should exist
 	And the "inBloom Dashboards" bootstrap app should exist
 	And the "inBloom Data Browser" bootstrap app should exist
-
-
-
-@sandbox @wip @RALLY_DE387
-Scenario: CRUD operations on Applications In production as an Operator
-	Given I am logged in using "operator" "operator1234" to realm "SLI"
-    When I have a valid application entity
-	 And I navigate to POST "/apps"
-	Then I should receive a return code of 400
-	When I navigate to GET "/apps/"
-	 Then I should receive a return code of 200
-     And I should only see "APPROVED" applications
-    When I navigate to PUT "/apps/<Testing App>" to update an application's name
-     Then I should receive a return code of 400
-	When I navigate to DELETE "/apps/<Testing App>"
-	Then I should receive a return code of 400
-

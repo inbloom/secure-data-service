@@ -1,4 +1,4 @@
-@track_entities
+@track_entities @no_ingestion_hooks
 Feature: Realm Management
   As a realm administrator
   In order to manage security realms for my SDS instance

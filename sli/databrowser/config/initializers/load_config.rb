@@ -25,3 +25,5 @@ VIEW_CONFIG = YAML::load_file("#{Rails.root}/config/views.yml")
 
 # And the Entity component sort configuration
 SORT_CONFIG = YAML::load_file("#{Rails.root}/config/order.yml")
+
+COUNT_CONFIG = YAML::load_file("#{Rails.root}/config/counts.yml")

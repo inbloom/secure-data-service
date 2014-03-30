@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative '../../admintools/step_definitions/developer_enable_steps.rb'
+
 #portal, which also imports dashboard step def
 Dir["./test/features/liferay/step_definitions/*.rb"].each {|file| require file}
 
@@ -106,16 +108,6 @@ Then /^I should receive a json response containing my authorization token$/ do
   assertWithWait("Could not find text 'authorization_token' on page") {@driver.page_source.include?("access_token")}
   @sessionId = @driver.page_source.match(/"access_token":"(?<Token>[^"]*)"/)[:Token]
   puts @sessionId
-end
-
-Then /^I should be able to use the token to make valid API calls$/ do
-  restHttpGet("/system/session/check", "application/json")
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res != nil, "Response is nil")
-  data = JSON.parse(@res.body)
-  assert(data != nil, "Response body is nil")
-  assert(data['authenticated'] == true, 
-         "Session debug context 'authentication.authenticated' is not true")
 end
 
 Then /^my current url is "(.*?)"$/ do |url|

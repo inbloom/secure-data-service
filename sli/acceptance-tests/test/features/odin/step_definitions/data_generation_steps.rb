@@ -50,13 +50,6 @@ When /^I zip generated data under filename (.*?) to the new (.*?) directory$/ do
   runShellCommand("zip -j #{@zip_path}#{zip_file} #{@gen_path}*.xml #{@gen_path}*.ctl")
 end
 
-When /^I zip generated data under filename "(.*?)"$/ do |zip_file|
-  @zip_path = "#{@gen_path}/"
-  FileUtils.mkdir_p(@zip_path)
-  FileUtils.chmod(0777, @zip_path)
-  runShellCommand("zip -j #{@zip_path}#{zip_file} #{@gen_path}*.xml #{@gen_path}*.ctl")
-end
-
 When /^I copy generated data to the new (.*?) directory$/ do |new_dir|
   @zip_path = "#{@gen_path}#{new_dir}"
   Dir["#{@gen_path}*.xml"].each do |f|
@@ -114,10 +107,6 @@ Then /^I should see the generated files?:$/ do |table|
   @files.should == table.raw.flatten.sort
 end
 
-Then /^I should see (.*?) has been generated$/ do |filename|
-  raise "#{filename} does not exist" if !File.exist?("#{@gen_path}#{filename}")
-end
-
 Given /^the edfi manifest that was generated in the '([^\']*)' directory$/ do |dir|
   @manifest = "#{@odin_working_path}#{dir}/manifest.json"
 end
@@ -127,7 +116,7 @@ Given /^the tenant is '([^\']*)'$/ do |tenant_id|
 end
 
 Then /^the sli\-verify script completes successfully$/ do
-  disable_NOTABLESCAN()
+  disable_NOTABLESCAN
   results = `bundle exec ruby #{@odin_working_path}sli-verify.rb #{@tenant_id} #{@manifest}`
   assert(results.include?("All expected entities found\n"), "verification script failed, results are #{results}")
   enable_NOTABLESCAN

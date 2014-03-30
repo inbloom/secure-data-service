@@ -271,10 +271,6 @@ When /^I make an API call to get (the student "[^"]*")$/ do |arg1|
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-Then /^I should receive a return code of "(.*?)"$/ do |arg1|
-  assert(@res.code == arg1.to_i, "Response code should be #{arg1}, not #{@res.code}")
-end
-
 When /^I expire my staffEdorgAssignmentAssociation$/ do
   id = "2c6face89f0c2854667310b46808e21156ed73cc_id"
   body = { "beginDate" => "2007-07-07",

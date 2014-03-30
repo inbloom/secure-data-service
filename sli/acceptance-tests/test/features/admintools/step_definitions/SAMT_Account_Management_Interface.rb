@@ -27,19 +27,6 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require_relative '../../sandbox/UserAdmin/step_definitions/User_Admin_Interface_steps.rb'
 
-Before("@RALLY_3071") do
-  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
-  @db = Mongo::Connection.new.db(convertTenantIdToDbName(Property['api_database_name']))
-end
-
-After("@RALLY_3071") do
-  step "the prod testing user does not already exists in LDAP"
-end
-
-Given /^I already have a SLC Operator account$/ do
-  #do nothing, guaranteed by configuration
-end
-
 Given /^I have a valid account as a SEA Administrator$/ do
   #do nothing, guaranteed by configuration
 end
@@ -69,7 +56,7 @@ Given /^There is a user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in LDAP Serv
     step "There is a user with \"#{full_name}\", \"#{role}\", \"#{addition_roles}\", and \"#{email}\" in \"Midgar\" \"IL-SUNSET\" LDAP Server"
 end
 
-Given /^there is a production "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |role, tenant, edorg|
+Given /^there is a (?:production )?"(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |role, tenant, edorg|
   @sandboxMode=false
   ApprovalEngine.init(@ldap, nil, false)
   @email = "#{get_mac_address('_')}_prodtestuser2@testwgen.net"
@@ -104,11 +91,7 @@ Given /^there is a production "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |
 
 end
 
-Given /^there is a "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |role, tenant, edorg|
-    step "there is a production \"#{role}\" with tenancy \"#{tenant}\" and in \"#{edorg}\""
-end
-
-Given /^there is no users in edorg "(.*?)"$/ do |edorg| 
+Given /^there are no users in edorg "(.*?)"$/ do |edorg|
     idpRealmLogin("operator", nil)
     step "I navigate to GET \"/users\""
     sessionId = @sessionId
@@ -135,19 +118,17 @@ When /^I navigate to the User Management Page$/ do
 end
 
 Given /^the prod testing user does not already exists in LDAP$/ do
-    idpRealmLogin("operator", nil)
-    sessionId = @sessionId
-    format = "application/json"
-    restHttpDelete("/users/"+get_mac_address('_')+"_prodtestuser@testwgen.net", format, sessionId)
-    restHttpDelete("/users/"+get_mac_address('_')+"_prodtestuser2@testwgen.net", format, sessionId)
+  idpRealmLogin("operator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+  restHttpDelete("/users/"+get_mac_address('_')+"_prodtestuser@testwgen.net", format, sessionId)
+  restHttpDelete("/users/"+get_mac_address('_')+"_prodtestuser2@testwgen.net", format, sessionId)
 end
-
 
 Then /^the new user has (.*?) updated to (.*?)$/ do |field_name, value|
   @user_unique_id=@user_email
   step "the user has #{field_name} updated to #{value}"
 end
-
 
 Then /^the (.*?) textbox is disabled$/ do |field_name|
   sleep 3
@@ -188,10 +169,9 @@ Then /^I do not see an option to change my primary admin role$/ do
 end
 
 Then /^I can change the EdOrg dropdown to "(.*?)"$/ do |selection| 
-    drop_down = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "user_edorg"))
-    drop_down.select_by(:text, selection)
+  drop_down = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "user_edorg"))
+  drop_down.select_by(:text, selection)
 end 
-
 
 Then /^the new user has the same "(.*?)" field as "(.*?)" has$/ do |field_name, match_user| 
   @user_unique_id=@user_email
@@ -207,63 +187,4 @@ end
 Then /^the (.*?) field is prefilled$/ do |field_name|
   field=getField(field_name)
   assert("#{field.attribute("value")}" != "", "#{field_name} is empty!") 
-end
-
-Given /^I have a account as a "LEA Administrator"$/ do 
-end
-
-Then /^I am redirected to "(.*?)" page which has a table of all accounts for my tenancy$/ do |pageTitle|
-  assertWithWait("Failed to navigate to the #{pageTitle} page")  {@driver.page_source.index("#{pageTitle}") != nil}
-  assertWithWait("Failed to find the table of accounts") {@driver.find_element(:id => "Users_Management_Table") != nil}
-end
-
-Then /^I can update email address$/ do
-  step "I can update the \"Email\" field to \"sunsetadmin2@slcedu.org\""
-end
-
-Then /^I can update the Fullname$/ do
-  step "I can update the \"Email\" field to \"Sunset Admin 2\""
-end
-
-Then /^I cannot update any other field$/ do
-          pending # express the regexp above with the code you wish you had
-end
-
-Then /^I do not see any other LEA admin from (.*?) besides me$/ do |edorg|
-  my_name="#{@user_info[:first]} #{@user_info[:last]}"
-  my_edorg="#{@user_info[:edorg]}"
-  found_myself=false
-  table=@driver.find_element(:id, "Users_Management_Table")
-  table.find_elements(:xpath, ".//tbody/tr").each do |tr|
-    full_name = tr.find_elements(:xpath, ".//td")[0].text()
-    roles = tr.find_element(:id, "#{full_name}_role").text()
-    edorg = tr.find_element(:id, "#{full_name}_edorg").text()
-    if(roles.rindex("LEA Administrator") != nil) 
-        if(full_name == my_name) 
-            found_myself = true
-        end 
-        assert(my_edorg != edorg || full_name == my_name, "I see other LEA besides me #{full_name}") 
-    end 
-  end
-
-  assert(found_myself, "I didn't show up on the LEA list")
-end
-
-
-Then /^any other LEA admin belongs to "(.*?)"$/ do |edorgs| 
-  my_name="#{@user_info[:first]} #{@user_info[:last]}"
-  sub_edorgs = edorgs.split(",")
-  sub_edorgs.each do |sub|
-    sub.strip!
-  end
-      
-  table=@driver.find_element(:id, "Users_Management_Table")
-  table.find_elements(:xpath, ".//tbody/tr").each do |tr|
-    full_name = tr.find_elements(:xpath, ".//td")[0].text()
-    roles = tr.find_element(:id, "#{full_name}_role").text()
-    edorg = [tr.find_element(:id, "#{full_name}_edorg").text()]
-    if(roles.rindex("LEA Administrator") != nil and my_name != full_name) 
-        assert((sub_edorgs & edorg).size==1, " other LEA #{full_name} besides me in #{edorg[0]}") 
-    end 
-  end
 end

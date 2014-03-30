@@ -16,6 +16,8 @@
 #
 
 require 'mongo'
+require 'securerandom'
+
 
 DEBUG = true
 APPAUTH_COLLECTION = "applicationAuthorization"
@@ -29,14 +31,12 @@ def usage(params, tenant2db)
     end
     puts "--------------------------------------------------------------------------------------------"
     puts ""
-    puts "Usage : #{$0} <app_id> <auth_user>  [<host>:<port>] <tenant1> [<tenant2> ...]"
+    puts "Usage : #{$0} <app_client_id> <auth_user>  [<host>:<port>] <tenant1> [<tenant2> ...]"
     puts ""
     puts "--------------------------------------------------------------------------------------------"
     puts "| Authorizes only top level edorgs for the specified bulk extract application, give argument(s) as follows:"
     puts "|"
-    puts "|    <app_id>                                  Database id of the application to be modified"
-    puts "|"
-    puts "|    <auth_user>                               The user executing the application authorization"
+    puts "|    <app_client_id>                           the Application's client id"
     puts "|"
     puts "|    <tenant1> [<tenant2> ...]                 Migrate only database(s) for the given tenant(s)"
     puts "|"
@@ -44,7 +44,7 @@ def usage(params, tenant2db)
     puts "--------------------------------------------------------------------------------------------"
     puts ""
     puts "Example:"
-    puts "   #{$0} 2013qu-69c75b20-673f-11e3-ba76-02445bc9997c bsuzuki@wgen.net Midgar Hyrule myhost.com:12345"
+    puts "   #{$0} zi0azh7ec8 me@inbloom.org Midgar Hyrule myhost.com:12345"
     puts ""
     puts "Note:"
     puts "   This script does not support tenant names with ':' characters in them."
@@ -54,8 +54,7 @@ end
 def parseArgs(argv)
   result = { "mongo_host" => "localhost", "mongo_port" => 27017, "tenants" => [], "auth_user" => nil }
 
-  result["app_id"] = argv.shift
-  result["auth_user"] = argv.shift
+  result["app_client_id"] = argv.shift
 
   for arg in argv
     if arg.include?(":")
@@ -103,32 +102,42 @@ def getTopLevelEdorgs(dbname)
   return ids
 end
 
-def updateAppAuth(dbName, app_id, edorg_ids, auth_user)
+def updateAppAuth(dbName, app_id, edorg_ids)
   edorgs_new = []
   edorg_ids.each do |edorg_id|
     edorg_entry = {}
     edorg_entry["authorizedEdorg"] = edorg_id
     edorg_entry["lastAuthorizedDate"] = Time.now.to_i
-    edorg_entry["lastAuthorizingUser"] = auth_user if !auth_user.nil?
     edorgs_new.push(edorg_entry)
   end
 
-  results = @conn[dbName][APPAUTH_COLLECTION].update({"body.applicationId"=>app_id}, { "$set" => {"body.edorgs"=>edorgs_new}}, {"multi"=>true})
-  if results["err"].nil?
-    puts "   " + "Updated #{results["n"]} application authorization documents"
+  if(@conn[dbName][APPAUTH_COLLECTION].find_one({"body.applicationId"=>app_id}).nil?)
+    #add new app auth record
+
+    puts "Could not find an existing applicationAuthorization, so I'm creating a new one"
+    app_auth_body = {"applicationId" => app_id, "edorgs" => edorgs_new}
+    app_auth = {"_id" => SecureRandom.uuid, "type" => "applicationAuthorization", "body" => app_auth_body}
+    @conn[dbName][APPAUTH_COLLECTION].save(app_auth)
+
   else
-    $stderr.puts "   " + "Update failed with the following error : "
-    $stderr.puts results["err"].to_s
+    #update app auth record
+    results = @conn[dbName][APPAUTH_COLLECTION].update({"body.applicationId"=>app_id}, { "$set" => {"body.edorgs"=>edorgs_new}}, {"multi"=>true})
+    if results["err"].nil?
+      puts "   " + "Updated #{results["n"]} application authorization documents"
+    else
+      $stderr.puts "   " + "Update failed with the following error : "
+      $stderr.puts results["err"].to_s
+    end
   end
 end
 
-def updateDB(dbname, app_id, auth_user = nil)
+def updateDB(dbname, app_id)
   # Get all edorgs with the SEA as parent
   top_level_edorg_ids = getTopLevelEdorgs(dbname)
   puts "   " + "Top level edorgs: #{top_level_edorg_ids}" if DEBUG == true
 
   # update the app auth info
-  updateAppAuth(dbname, app_id, top_level_edorg_ids, auth_user)
+  updateAppAuth(dbname, app_id, top_level_edorg_ids)
 end
 
 # Main driver
@@ -159,10 +168,17 @@ def main(argv)
     usage(params, tenant2db)
   end
 
+  # look up app id
+  app = @conn['sli']['application'].find_one({"body.client_id" => params["app_client_id"]})
+  if app.nil?
+    puts "Could not find app with clientId: #{params["app_client_id"]}"
+    usage(params, tenant2db);
+  end
+
   for tenant in tenants
     dbname = tenant2db[tenant]
-    puts "Updating authorization for application " + params['app_id'] + " in tenant: " + tenant + ", database " + dbname
-    updateDB(dbname, params['app_id'], params['auth_user'])
+    puts "Updating authorization for application " + params['app_client_id'] + " in tenant: " + tenant + ", database " + dbname
+    updateDB(dbname, app["_id"])
     puts "Completed update of tenant: " + tenant + ", database " + dbname + "\n"
   end
 

@@ -8256,6 +8256,7 @@ Clarification - Word or phrase
 			<xs:enumeration value="Black, Not Of Hispanic Origin"/>
 			<xs:enumeration value="Hispanic"/>
 			<xs:enumeration value="White, Not Of Hispanic Origin"/>
+            <xs:enumeration value="Two Or More Races"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="OperationalStatusType">

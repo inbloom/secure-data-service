@@ -18,33 +18,9 @@ limitations under the License.
 
 # TODO: Delete this file when all ugly steps have been replaced
 
-When /^I hit the realm editing URL$/ do
-  @url = Property['admintools_server_url'] + "/realm_management"
-  @driver.get @url
-end
-
-When /^I should see that I am on the "([^"]*)" edit page$/ do |realmName|
-  message = "Realm Management For #{realmName}"
-  assertWithWait("Should show '#{message}' message") do
-    @driver.page_source.index(message) != nil
-   end
-end
-
 When /^I should enter "([^"]*)" into the Display Name field$/ do |newRealmName|
   @driver.find_element(:id, "realm_name").clear
   @driver.find_element(:id, "realm_name").send_keys newRealmName
-end
-
-Then /^I copy the idp information$/ do
-  $redirectEndpointElem =  @driver.find_element(:name, 'realm[idp][redirectEndpoint]').attribute('VALUE')
-  $idpIdElem =  @driver.find_element(:name, 'realm[idp][id]').attribute('VALUE')
-end
-
-Then /^I should update the idp to captured information$/ do
-  @driver.find_element(:name, 'realm[idp][id]').clear
-  @driver.find_element(:name, 'realm[idp][id]').send_keys $idpIdElem
-  @driver.find_element(:name, 'realm[idp][redirectEndpoint]').clear
-  @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys $redirectEndpointElem
 end
 
 Then /^I should enter "(.*?)" into Realm Identifier$/ do |identifier|
@@ -61,9 +37,7 @@ Then /^I should be redirected back to the realm listing page$/ do
 end
 
 Then /^I should receive a notice that the realm was successfully "([^"]*)"$/ do |action|
-  message = "Realm was successfully updated." if action == "updated"
-  message = "Realm was successfully deleted." if action == "deleted"
-  message = "Realm was successfully created." if action == "created"
+  message = "Realm was successfully #{action}."
   assertWithWait("Should give successful #{action} notice") do
     notice = (@driver.find_element(:id, "notice")).text
     notice.index(message) != nil

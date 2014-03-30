@@ -92,41 +92,14 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
 
 end
 
-
-
-Given /^I drop the "([^\"]*)" collection$/ do |collection|
-  #steps %Q{
-  #  Given the following collections are empty in datastore:
-  #    | collectionName |
-  #    | #{collection}  |
-  #}
-
-  @conn = Mongo::Connection.new(DB_HOST, DB_PORT)
-  @db = @conn[DB_NAME]
-
-  entity_collection = @db[collection]
-  puts "There are #{entity_collection.count} records in collection #{collection}."
-  entity_collection.remove()
-
-  assert(entity_collection.count.to_i == 0, "#{collection} is not empty")
-end
-
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
 
 Then /^there should be (\d+) records in the "([^\"]*)" collection$/ do |count, collection|
-  #steps %Q{
-  #  Then I should see following map of entry counts in the corresponding collections:
-  #    | collectionName | count    |
-  #    | #{collection}  | #{count} |
-  #}
-
-  @conn = Mongo::Connection.new(DB_HOST, DB_PORT)
-  @db = @conn[DB_NAME]
-
-  @entity_collection = @db[collection]
-  assert(@entity_collection.count.to_i == count.to_i, "#{collection} is not empty")
+  DbClient.new.for_sli.open do |db_client|
+    db_client.count(collection).should == count.to_i
+  end
 end
 
 Then /^"([^\"]*)" field is "([^\"]*)" for all records$/ do |field, value|

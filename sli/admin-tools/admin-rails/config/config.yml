@@ -106,7 +106,8 @@ development_sb:
     <<: *common
     <<: *sandbox
     <<: *email_mon
-    <<: *ldap_default
+    <<: *ldap_local_inmemory_default
+
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF

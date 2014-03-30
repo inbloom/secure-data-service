@@ -37,7 +37,7 @@ Scenario: As an SLC Operator I want to check that the developer account is auto 
   Then I should be on Portal home page
   Then I should see Admin link
   And I click on Admin
-  Then I should be on the admin page
+  Then the portal should be on the admin page
   And I click on Approve Account
   And I switch to the iframe
   Then I should be on the Authorize Developer Account page

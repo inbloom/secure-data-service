@@ -4,7 +4,6 @@ Feature: Admin users of SAMT can only update certain fields of existing accounts
 Background: 
 Given I have an open web browser
 And LDAP and email server has been setup and running
-And I already have a SLC Operator account
 
 Scenario Outline: As a SLC Operator I am able to edit any field
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
@@ -87,7 +86,7 @@ And the user has Roles as "<NEW_ROLE>"
     |Prod EditAdmin_hostname     |Realm Administrator |hostname_prodtestuser@testwgen.net  |                        |LEA Administrator |random4@4.net |
 
 Scenario Outline: As a SEA Admin I can not assign an ingestion user to a district without LEA
-Given there is no users in edorg "IL-NIGHTFALL" 
+Given there are no users in edorg "IL-NIGHTFALL"
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
 When I navigate to the User Management Page 
 And I submit the credentials "<LOGIN>" "<PASSWORD>" for the "Simple" login page
@@ -106,7 +105,7 @@ Then a "there is no LEA Administrator" message is displayed
 
     
 Scenario Outline: As a SLC operator I can not assign an ingestion user to a district without LEA
-Given there is no users in edorg "IL-NIGHTFALL" 
+Given there are no users in edorg "IL-NIGHTFALL"
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
 When I navigate to the User Management Page 
 And I submit the credentials "<LOGIN>" "<PASSWORD>" for the "Simple" login page
