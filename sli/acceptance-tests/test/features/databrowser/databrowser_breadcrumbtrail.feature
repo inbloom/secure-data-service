@@ -13,10 +13,12 @@ When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login pag
 Scenario: Moving through breadcrumbs
   When I navigated to the Data Browser Home URL
   Then I should see a breadcrumbtrail of "home"
+  And I navigate to myself as user "rrogers" of edorg "Illinois State Board of Education"
   When I click on the link "Staff Education Organization Associations"
   Then I should see a breadcrumbtrail of "home > staffEducationOrgAssignmentAssociations"
   When I click on the link "home"
   Then I should see a breadcrumbtrail of "home"
+  And I navigate to myself as user "rrogers" of edorg "Illinois State Board of Education"
   When I click on the link "Education Organizations"
   When I click on the link "Staff Education Organization Associations"
   Then I should see a breadcrumbtrail of "home > educationOrganizations > staffEducationOrgAssignmentAssociations"
