@@ -16,9 +16,9 @@ Scenario: Seeing the counts table on the homepage as a staff member
     And my counts for <type> are <ever> and <current>
     |type		|ever	|current|
     |Staff      |11 |11 |
-    |Students       |125    |124    |
+    |Students       |126    |124    |
     |Teachers       | 4 | 4 |       
-    |Non-Teachers   |9 |8 |
+    |Non-Teachers   |7 |7 |
 
 
 

@@ -33,22 +33,10 @@ Then I should see a table for EdOrgs
 And I should see the values for EdOrgs Table
       |EdOrgsName	|EdOrgsId	|EdOrgsType| EdOrgsParent|     
       |Sunset Central High School	|6756e2b9-aba1-4336-80b8-4a5dde3c63fe	|educationOrganization	 |Sunset School District 4526|
-      |Daybreak Central High	        |92d6d5a0-852c-45f4-907a-912752831772	|educationOrganization	 |Daybreak School District 4529, Daybreak School District 4529|
+      |Daybreak Central High	        |92d6d5a0-852c-45f4-907a-912752831772	|educationOrganization	 | Daybreak School District 4529|
 
 Then I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "false"
 
-
-
-
-@smoke
-Scenario: Not seeing the EdOrgs table on the homepage as a student
- 
-  When I choose realm "Illinois Daybreak Students" in the drop-down list
-  And I click on the realm page Go button
-  And I was redirected to the "Simple" IDP Login page
-  When I submit the credentials "carmen.ortiz" "carmen.ortiz1234" for the "Simple" login page
-  Then I should be redirected to the Data Browser home page
-  Then I should not see a table for EdOrgs
 
 
 

@@ -15,11 +15,11 @@ Scenario: Moving through breadcrumbs
   Then I should see a breadcrumbtrail of "home"
   And I navigate to myself as user "rrogers" of edorg "Illinois State Board of Education"
   When I click on the link "Staff Education Organization Associations"
-  Then I should see a breadcrumbtrail of "home > staffEducationOrgAssignmentAssociations"
+  Then I should see a breadcrumbtrail of "home > educationOrganizations > staff > staffEducationOrgAssignmentAssociations"
   When I click on the link "home"
   Then I should see a breadcrumbtrail of "home"
   And I navigate to myself as user "rrogers" of edorg "Illinois State Board of Education"
   When I click on the link "Education Organizations"
   When I click on the link "Staff Education Organization Associations"
-  Then I should see a breadcrumbtrail of "home > educationOrganizations > staffEducationOrgAssignmentAssociations"
+  Then I should see a breadcrumbtrail of "home > educationOrganizations > staff > educationOrganizations > staffEducationOrgAssignmentAssociations"
 

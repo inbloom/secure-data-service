@@ -613,6 +613,7 @@ task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser/databrowser_external_idp_login.feature") unless Property['ci_artifact_idp_type'].nil? || Property['ci_artifact_idp_type'].downcase == 'none'
   runTests("test/features/databrowser/databrowser_breadcrumbtrail.feature")
   runTests("test/features/databrowser/databrowser_homepagecounts.feature")
+  runTests("test/features/databrowser/databrowser_homepageEdOrgsTable.feature")
   display_failure_report
 end
 
