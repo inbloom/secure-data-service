@@ -74,13 +74,12 @@
         <pluginManagement>
             <plugins>
                 <!-- Ignore/Execute plugin execution -->
-                <plugin>
+                <!-- <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
                     <configuration>
                         <lifecycleMappingMetadata>
                             <pluginExecutions>
-                                <!-- copy-dependency plugin -->
                                 <pluginExecution>
                                     <pluginExecutionFilter>
                                         <groupId>org.apache.maven.plugins</groupId>
@@ -97,7 +96,7 @@
                             </pluginExecutions>
                         </lifecycleMappingMetadata>
                     </configuration>
-                </plugin>
+                </plugin> -->
             </plugins>
         </pluginManagement>
 
