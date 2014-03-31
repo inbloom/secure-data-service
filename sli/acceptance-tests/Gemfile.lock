@@ -6,8 +6,6 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    active_support (3.0.0)
-      activesupport (= 3.0.0)
     activesupport (3.0.0)
     addressable (2.3.5)
     archive-tar-minitar (0.5.2)
@@ -169,7 +167,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  active_support
+  activesupport
   approval!
   archive-tar-minitar
   bson_ext
