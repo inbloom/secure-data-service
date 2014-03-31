@@ -1,15 +1,19 @@
 @RALLY_US4305
 @RALLY_US4306
 
-Feature: As a student or staff I want to use apps that access the inBloom API
+Feature:
+  As a student
+  In order to view information about me
+  I want to be able to be able to access API entities to which I am associated
+  But be denied access to associations that have expired
 
-  Background: None
+Background:
+  Given I use the token generator for realm "Illinois Daybreak Students" and user "student.m.sollars"
+    And I want to use format "application/json"
+    And I am using api version "v1"
 
 Scenario: Student has access to entities via API endpoints
-Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
-  And format "application/json"
-  And I am using api version "v1"
- Then I validate I have access to entities via the API access pattern "/v1/Entity/Id":
+ When I validate I have access to entities via the API access pattern "/v1/Entity/Id":
     | entity                                   | id                                          |
     | students                                 | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
     | parents                                  | 5f8989384287747b1960d16edd95ff2bb318e3bd_id |
@@ -42,9 +46,6 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
 
 @student_endpoints
 Scenario: Student has access to non-transitive associations
-Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
-  And format "application/json"
-  And I am using api version "v1" 
   When I validate the allowed association entities via API "/v1/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentSectionAssociations":
     | id                                                                                     |
     | 57277fceb3592d0c8f3faadcdd824690bc2b2586_id6e94350a7db678fd3f8fddb521a2a117728c832a_id |
@@ -73,10 +74,7 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | ec8b76883033432dc83b97e71fbc5bf881b4ccbb_id |
 
   Scenario: I check the response to uris with query parameters
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    And I am accessing data about myself, "matt.sollars"
+    Given I am accessing data about myself, "matt.sollars"
     Then I verify the following response body fields in "/schools?parentEducationAgencyReference=1b223f577827204a1c7e9c851dba06bea6b031fe_id&sortBy=stateOrganizationId":
       | field                                                 | value                                       |
       | 0.stateOrganizationId                                 | Daybreak Central High                       |
