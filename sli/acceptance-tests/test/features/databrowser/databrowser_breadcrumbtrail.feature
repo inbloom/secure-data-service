@@ -27,6 +27,6 @@ Scenario Outline: Displaying Search Breadcrumbs
   When I can search for <Type> with a <Field>
   Then I should see a breadcrumbtrail of <Result>
   Examples:
-    |Type                  |Field     | Result          |
-    |students              |900000006 | home > search   |
-    |parents               |6231066736| home > search   |
+    |Type                  |Field     | Result            |
+    |students              |900000006 | "home > search"   |
+    |parents               |6231066736| "home > search"   |
