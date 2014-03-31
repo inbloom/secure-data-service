@@ -86,7 +86,6 @@ Given /^there is a (?:production )?"(.*?)" with tenancy "(.*?)" and in "(.*?)"$/
   @user_info = ApprovalEngine.get_user(@email)
   ApprovalEngine.verify_email(@user_info[:emailtoken])
 
-
   @ldap.add_user_group(@email, role)
 
 end
