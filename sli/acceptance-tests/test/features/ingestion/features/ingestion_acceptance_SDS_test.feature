@@ -653,12 +653,12 @@ Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
         | section                             |
         | studentSectionAssociation           |
         | staff                               |
-        |staffEducationOrganizationAssociation|
+        | staffEducationOrganizationAssociation|
         | teacherSchoolAssociation            |
         | teacherSectionAssociation           |
         | session                             |
         | assessment                          |
-        | studentAssessment        |
+        | studentAssessment                   |
         | gradebookEntry                      |
         | courseTranscript                    |
         | studentGradebookEntry               |
@@ -681,7 +681,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
         | grade                               |
         | gradingPeriod                       |
         | calendarDate                        |
-        | reportCard                          |
+        | yearlyTranscript                    |
         | courseOffering                      |
         | studentAcademicRecord               |
         | graduationPlan                      |
@@ -701,7 +701,7 @@ Then I should see following map of entry counts in the corresponding collections
         | gradebookEntry              | 0     |
         | parent                      | 0     |
         | program                     | 0     |
-        | reportCard                  | 0     |
+        | yearlyTranscript            | 0     |
         | section                     | 16    |
         | session                     | 4     |
         | staff                       | 37    |
@@ -753,7 +753,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 7" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed processing: 0" in the resulting batch job file
 
-
+@wip
 Scenario: Post an append zip file containing append data for Illinois Daybreak as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And the following collections are empty in datastore:

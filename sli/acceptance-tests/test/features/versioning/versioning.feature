@@ -1,12 +1,11 @@
-@RALLY_US3567
 Feature: Entity versioning and mock migration tests
   As a system that supports versions, I want to start tracking versions of entities.
 
-  Background: None
+#TODO: This entire feature is suspect in my book; some of the stepdefs are not even valid
 
   @DB_MIGRATION_BEFORE_API_STARTS
   Scenario: Remove all records in the metaData collection
-    Given I drop the "metaData" collection
+    Given the "metaData" collection is empty in the SLI datastore
 
   @DB_MIGRATION_AFTER_API_STARTS
   Scenario: Check that after starting the API, documents exist in the collection

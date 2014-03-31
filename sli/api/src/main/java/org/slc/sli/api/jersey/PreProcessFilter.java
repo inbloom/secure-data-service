@@ -23,6 +23,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
+import org.slc.sli.api.exceptions.RequestBlockedException;
 import org.slc.sli.api.resources.generic.MethodNotAllowedException;
 import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
@@ -195,7 +196,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
                     break;
                 }
 
-                if (CONTEXTERS.contains(resourceName)) {
+                if (CONTEXTERS.contains(resourceName) && !request.getQueryParameters().containsKey("showAll")) {
                     if (ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS.equals(resourceName)) {
                         prince.addObligation(resourceName.replaceAll("s$", ""), construct("exitWithdrawDate"));
                     } else {
@@ -286,7 +287,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         }
 
         if (this.resourceEndPoint.getBlockGetRequestEndPoints().contains(requestPath)) {
-            throw new EntityNotFoundException(request.getPath());
+            throw new RequestBlockedException(request.getPath());
         }
     }
 }

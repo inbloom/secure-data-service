@@ -46,20 +46,6 @@
 
   <import resource="camel-context.xml" />
 
-  <context:component-scan base-package="org.slc.sli">
-    <context:exclude-filter type="regex" expression=".*CustomImpl" />
-    <context:exclude-filter type="regex" expression=".*DummyEntityRepository" />
-    <context:exclude-filter type="regex" expression=".*AvroEntityValidator"></context:exclude-filter>
-    <context:exclude-filter type="regex" expression=".*AesCipher" />
-    <context:exclude-filter type="regex" expression=".*MemcachedCacheProvider" />
-    <context:exclude-filter type="regex" expression=".*LdapServiceImpl" />
-    <context:exclude-filter type="regex" expression=".*GenericSuperdocConverter" />
-    <context:exclude-filter type="regex" expression=".*AssessmentConverter" />
-    <context:exclude-filter type="regex" expression=".*StudentAssessmentConverter" />
-    <context:exclude-filter type="regex" expression=".*SuperdocConverterRegistry" />
-  </context:component-scan>
-
-
   <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
 
   <!-- <bean id="entitySchemaRegistry" class="org.slc.sli.validation.AvroEntitySchemaRegistry"></bean> -->

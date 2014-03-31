@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+    xsi:schemaLocation="http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context-3.0.xsd
+          http://www.springframework.org/schema/data/mongo
+          http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+          http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <mongo:mongo id="ingestionBatchJobMongo" host="${sli.ingestion.batchjob.mongodb.host}" port="${sli.ingestion.batchjob.mongodb.port}">
+    <mongo:options connections-per-host="${sli.batchjobmongodb.connections}" auto-connect-retry="true"
+      socket-timeout="600000" socket-keep-alive="true" />
+  </mongo:mongo>
+
+  <mongo:db-factory id="ingestionBatchJobFactory" dbname="${sli.ingestion.batchjob.mongodb.database}"
+    mongo-ref="ingestionBatchJobMongo" />
+
+  <bean id="ingestionBatchJobMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+    <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="ingestionBatchJobFactory" />
+  </bean>
+
+</beans>

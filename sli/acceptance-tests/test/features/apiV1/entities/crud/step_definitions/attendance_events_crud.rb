@@ -78,10 +78,6 @@ Then /^the attendance event should be updated$/ do
   attendance_event.should == @updated['attendanceEvent']
 end
 
-Then /^the response status should be ([0-9]{3})(?:.*)$/ do |status|
-  @res.code.should == status.to_i
-end
-
 Then /^the response location header should link to the new attendance event$/ do
   location = @res.headers[:location]
   location.should match( resource_regexp(attendance_endpoint) )

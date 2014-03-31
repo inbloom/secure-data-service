@@ -38,7 +38,6 @@ Given /^I am logged in using "([^\"]*)" "([^\"]*)" to realm "([^\"]*)"$/ do |use
   @passwd = pass
   @realm = realm
   idpRealmLogin(@user, @passwd, @realm)
-  assert(@sessionId != nil, "Session returned was nil")
 end
 
 Given /^format "([^\"]*)"$/ do |fmt|
@@ -47,30 +46,42 @@ Given /^format "([^\"]*)"$/ do |fmt|
 end
 
 Given /^I want to use format "([^\"]*)"$/ do |fmt|
-  ["application/json", "application/json;charset=utf-8", "application/xml", "text/plain", "application/vnd.slc.full+json", "application/vnd.slc+json", "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].should include(fmt)
+  [
+    'application/json', 
+    'application/json;charset=utf-8', 
+    'application/xml', 
+    'text/plain', 
+    'application/vnd.slc.full+json', 
+    'application/vnd.slc+json', 
+    'application/vnd.slc.full+json;charset=utf-8', 
+    'application/vnd.slc+json;charset=utf-8'
+  ].should include(fmt)
   @format = fmt
 end
 
-Then /^I should receive a return code of (\d+)$/ do |arg1|
-  assert(@res.code == Integer(arg1), "Return code was not expected: #{@res.code} but expected #{arg1}")
+# DEPRECATED use step given below this one
+Then /^I should receive a return code of (\d+)$/ do |code|
+  @res.code.should == code.to_i
+end
+
+Then /^the response status should be ([0-9]{3})(?:.*)$/ do |status|
+  @res.code.should == status.to_i
 end
 
 Then /^I should receive an ID for the newly created ([\w-]+)$/ do |entity|
   headers = @res.raw_headers
-  assert(headers != nil, "Headers are nil")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
+  headers['location'].should_not be_nil, "Location header not found"
   s = headers['location'][0]
   @newId = s[s.rindex('/')+1..-1]
-  assert(@newId != nil, "After POST, #{entity} ID is nil")
+  @newId.should_not be_nil, "Location does not include ID"
 end
 
 When /^I navigate to GET "([^\"]*)"$/ do |uri|
-  if defined? @queryParams
-    uri = uri + "?#{@queryParams.join('&')}"
-  end
+  uri << "?#{@queryParams.join('&')}" if @queryParams && !@queryParams.empty?
+  puts uri
   restHttpGet(uri)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.body != nil, "Response body is nil")
+  @res.should_not be_nil, "Response should not be nil"
+  @res.body.should_not be_nil, "Response body does not exist"
   contentType = contentType(@res).gsub(/\s+/,"")
   jsonTypes = ["application/json", "application/json;charset=utf-8", "application/vnd.slc.full+json", "application/vnd.slc+json" "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].to_set
 
@@ -332,11 +343,6 @@ Then /^I should see a count of (\d+)$/ do |arg1|
   end
 end
 
-# Useful to exit at a specific point during test development
-Then /^I assert false/ do
-  assert(false, 'Explicitly asserting false.')
-end
-
 # HERE BELOW LIES IMPROVED STEP DEFS
 
 # Set the session for the given type of user and also set up the +current_user+
@@ -347,6 +353,11 @@ Given /^I am logged in as an? (.*)$/ do |user_type|
   restHttpGet("#{staff_endpoint}/#{user_id}")
   @res.code.should == 200
   @current_user = JSON.parse @res
+end
+
+Given /^I have a session as an? (.*)$/ do |user_type|
+  @user, @passwd, user_id, @realm = *(credentials_for user_type)
+  idpRealmLogin(@user, @passwd, @realm)
 end
 
 def current_user
@@ -364,7 +375,7 @@ def ed_orgs_for_staff(staff)
 end
 
 def staff_endpoint
-  "/v1.5/staff"
+  '/v1.5/staff'
 end
 
 # Map meaningful user types to user, password, and realm
@@ -375,11 +386,14 @@ def credentials_for(user_type)
     'school-level IT Administrator' => %w( akopel     akopel1234     cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4 ),
     'local-level IT Administrator'  => %w( jstevenson jstevenson1234 e59d9991-9d8f-48ab-8790-59df9bcf9bc7 ),
     'school-level Educator'         => %w( rbraverman rbraverman1234 bcfcc33f-f4a6-488f-baee-b92fbd062e8d ),
-    'school-level Leader'           => %w( mgonzales  mgonzales1234  4a39f944-c238-4787-965a-50f22f3a2d9c )
+    'school-level Leader'           => %w( mgonzales  mgonzales1234  4a39f944-c238-4787-965a-50f22f3a2d9c ),
+    'ingestion user'                => ['ingestionuser', 'ingestionuser1234', nil, 'SLI']
   }
-  creds = users[user_type]
-  creds.should_not be_nil
-  [*creds, realm]
+  user = users.detect{|k,v| k.downcase == user_type.downcase}
+  user.should_not be_nil, "Unknown user type: #{user_type}"
+  creds = user.last
+  # username, password, user_id,  realm
+  [creds[0], creds[1], creds[2], creds[3] || realm]
 end
 
 Given /^I navigated to the Data Browser Home URL$/ do
@@ -420,6 +434,21 @@ When /^I click the Go button$/ do
   @driver.find_element(:id, "submit").click
 end
 
+Given /^the following collections are empty in datastore:$/ do |table|
+  DbClient.new(:tenant => @tenant || 'Midgar').open do |db_client|
+    table.hashes.map do |row|
+      db_client.remove_all row['collectionName']
+    end
+  end
+end
 
+Given /^the "([^"]*)" collection is empty in the SLI datastore$/ do |collection|
+  DbClient.new.for_sli.open {|db| db.remove_all collection}
+end
 
-#http://local.slidev.org:8080/api/rest/v1.5/staff/bcfcc33f-f4a6-488f-baee-b92fbd062e8d/staffEducationOrgAssignmentAssociations/educationOrganizations
+Then /^I should be able to use the token to make valid API calls$/ do
+  restHttpGet('/system/session/check', 'application/json')
+  @res.should_not be_nil
+  data = JSON.parse(@res.body)
+  data['authenticated'].should be_true
+end

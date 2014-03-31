@@ -50,7 +50,6 @@ Given /^I delete the previous tar file if it exists$/ do
 end
 
 When /^I make a call to the bulk extract end point "([^"]*)"$/ do |url|
-
   restTls(url)
 end
 
@@ -71,6 +70,8 @@ Given /^in my list of rights I have BULK_EXTRACT$/ do
 end
 
 When /^I make a full bulk extract API call for edorg "(.*?)"$/ do |arg1|
+  puts 'waiting 4.25 minutes for ingestion to finish'
+  sleep 255
   restTls("/bulk/extract/#{arg1}")
 end
 
@@ -675,14 +676,14 @@ def decrypt(content, client_id = "vavedra9ub")
   aes.iv = decrypted_iv
   @decrypted = aes.update(encryptedmessage) + aes.final
 
-  if $SLI_DEBUG 
-    puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
-    puts("Encrypted message is #{encryptedmessage}")
-    puts("Cipher is #{aes}")
-    puts("Plain text length is #{@decrypted.length} and it is #{@decrypted}")
-    puts "length #{content.length}"
-  end
-  return @decrypted
+  #if $SLI_DEBUG
+  #  puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
+  #  puts("Encrypted message is #{encryptedmessage}")
+  #  puts("Cipher is #{aes}")
+  #  puts("Plain text length is #{@decrypted.length} and it is #{@decrypted}")
+  #  puts "length #{content.length}"
+  #end
+  @decrypted
 end
 
 def compareWithOriginalFile(content, range_start, range_end)

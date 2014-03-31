@@ -218,16 +218,11 @@ task :rcTests do
   Rake::Task["rcDataBrowserTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
   Rake::Task["rcCleanUpTests"].execute
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 desc "Run RC E2E Tests in Sandbox mode"
-task :rcSandboxTests do
+task :rcSandboxTests => :displayProperties do
   @tags = ["~@wip", "@rc", "@sandbox"]
   @tags = ["~@wip", "@rc", "@sandbox", "~@ci"] if RUN_ON_RC
   Rake::Task["rcSandboxTenantCleanUp"].execute # if tenant_exists(Property['sandbox_tenant'])
@@ -244,12 +239,7 @@ task :rcSandboxTests do
   Rake::Task["rcSandboxDatabrowserTests"].execute
   Rake::Task["rcSandboxCleanUpTests"].execute
   Rake::Task["rcSandboxPurgeTests"].execute
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  display_failure_report
 end
 
 

@@ -67,7 +67,7 @@ def createXlengthString(x)
 end
 
 Given /^I create a valid base level student object$/ do
-  @result = CreateEntityHash.createBaseStudent()
+  @result = CreateEntityHash.createBaseStudent
   @lastStudentId = @result['studentUniqueStateId']
 end
 
@@ -78,6 +78,7 @@ Given /^I create a valid base level school object$/ do
     oldParentId = "bd086bae-ee82-4cf2-baf9-221a9407ea07"
   end
   @result = CreateEntityHash.createBaseSchoolRandomId()
+  puts "Result: #{@result.inspect}"
 
   if defined? oldParentId
     @result["parentEducationAgencyReference"] = oldParentId
@@ -85,23 +86,17 @@ Given /^I create a valid base level school object$/ do
 end
 
 Given /^I create a valid base level school object without parent education organization reference$/ do
-  @result = CreateEntityHash.createBaseSchoolRandomId()
+  @result = CreateEntityHash.createBaseSchoolRandomId
 end
 
 Given /^I create a blank json object$/ do
-  @result = Hash[]
+  @result = {}
 end
 
-When /^I navigate to POST "([^"]*)"$/ do |arg1|
-  if @format == "application/json"
-    data = @result.to_json
-  elsif @format == "application/xml"
-    data = @result
-  else
-    assert(false, "Unsupported MIME type")
-  end
-  restHttpPost(arg1, data)
-  assert(@res != nil, "Response from rest-client POST is nil")
+When /^I navigate to POST "([^"]*)"$/ do |uri|
+  data = prepareData(@format, @result)
+  restHttpPost(uri, data)
+  @res.should_not be_nil, 'Response from rest-client POST is nil'
 end
 
 Given /^I create a student object with "([^"]*)" set to Guy$/ do |arg1|
@@ -116,13 +111,14 @@ Given /^I create a student object with sex equal to "([^"]*)" instead of "([^"]*
   @lastStudentId = @result['studentUniqueStateId']
 end
 
-Given /^I create a create a school object with "([^"]*)" set to a single map$/ do |arg1|
-  @result = CreateEntityHash.createBaseSchoolRandomId()
-  @result[arg1] = Hash["streetNumberName" => "123 Elm Street",
-                       'city'=>"New York",
-                       "stateAbbreviation" => "NY",
-                       "postalCode" => "12345"
-                       ]
+Given /^I create a school object with "([^"]*)" set to a single map$/ do |field|
+  @result = CreateEntityHash.createBaseSchoolRandomId
+  @result[field] = {
+    'streetNumberName' => '123 Elm Street',
+    'city' => 'New York',
+    'stateAbbreviation' => 'NY',
+    'postalCode' => '12345'
+  }
 end
 
 Given /^I create the same school object with "([^"]*)" as an array with the same map$/ do |arg1|
@@ -185,7 +181,7 @@ Given /^I create a student object with "([^"]*)" set to MM\-DD\-YYYY$/ do |arg1|
 end
 
 Given /^a valid json document for ([^\"]*)$/ do |entity|
-  @result = deep_copy($validationTestData[entity])
+  @result = deep_copy(validationTestData[entity])
 end
 
 When /^I navigate to PUT "([^\"]*)"$/ do |url|
@@ -197,10 +193,6 @@ end
 
 When /^I create a blank request body object$/ do
   @result = {}
-end
-
-When /^I create a base school object$/ do
-  @result = CreateEntityHash.createBaseSchool()
 end
 
 When /^"([^\"]*)" has a value of "([^\"]*)"$/ do |key, value|
@@ -268,269 +260,270 @@ Given /^I post a null document$/ do
 end
 
 # Entity data for POST and PUT validation
-$validationTestData = {
-    "gradingPeriod" => {
-        "gradingPeriodIdentity" => {
-            "educationalOrgIdentity" => [{
-                                             "stateOrganizationId" => "Daybreak Elementary School",
+def validationTestData
+  @validation_test_data ||= {
+    'gradingPeriod' => {
+        'gradingPeriodIdentity' => {
+            'educationalOrgIdentity' => [{
+                                             'stateOrganizationId' => 'Daybreak Elementary School',
                                          }],
-            "stateOrganizationId" => "Daybreak Elementary School",
-            "gradingPeriod" => "First Six Weeks",
-            "schoolYear" => "2011-2012"
+            'stateOrganizationId' => 'Daybreak Elementary School',
+            'gradingPeriod' => 'First Six Weeks',
+            'schoolYear' => '2011-2012'
         },
-        "beginDate" => "1890-07-01",
-        "endDate" => "2012-07-31",
-        "totalInstructionalDays" => 20
+        'beginDate' => '1890-07-01',
+        'endDate' => '2012-07-31',
+        'totalInstructionalDays' => 20
     },
-    "userAccount" => {
-        "userName" => "bob3@bob.com",
-        "firstName" => "Bob",
-        "lastName" => "Roberts",
-        "validated" => false,
-        "environment" => "Sandbox"
+    'userAccount' => {
+        'userName' => 'bob3@bob.com',
+        'firstName' => 'Bob',
+        'lastName' => 'Roberts',
+        'validated' => false,
+        'environment' => 'Sandbox'
     },
-    "attendance" => {
-        "studentId" => "12345678-1234-1234-1234-1234567890ab",
-        "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
-        "schoolYearAttendance" => [{
-                                       "schoolYear" => "2011-2012",
-                                       "attendanceEvent" => [{
-                                                                 "date" => "2011-09-16",
-                                                                 "event" => "Tardy",
-                                                                 "reason" => "Missed school bus"
+    'attendance' => {
+        'studentId' => '12345678-1234-1234-1234-1234567890ab',
+        'schoolId' => 'a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb',
+        'schoolYearAttendance' => [{
+                                       'schoolYear' => '2011-2012',
+                                       'attendanceEvent' => [{
+                                                                 'date' => '2011-09-16',
+                                                                 'event' => 'Tardy',
+                                                                 'reason' => 'Missed school bus'
                                                              }]
                                    }]
     },
-    "studentAcademicRecord" => {
-        "studentId" => "1563ec1d-924d-4c02-8099-3a0e314ef1d4_id",
-        "sessionId" => "c549e272-9a7b-4c02-aff7-b105ed76c904",
-        "cumulativeGradePointsEarned" => 99.0
+    'studentAcademicRecord' => {
+        'studentId' => '1563ec1d-924d-4c02-8099-3a0e314ef1d4_id',
+        'sessionId' => 'c549e272-9a7b-4c02-aff7-b105ed76c904',
+        'cumulativeGradePointsEarned' => 99.0
     },
-    "student" => {
-        "birthData" => {
-            "birthDate" => "1994-04-04"
+    'student' => {
+        'birthData' => {
+            'birthDate' => '1994-04-04'
         },
-        "sex" => "Male",
-        "studentUniqueStateId" => "87654321",
-        "economicDisadvantaged" => false,
-        "name" => {
-            "firstName" => "Mister",
-            "middleName" => "John",
-            "lastSurname" => "Doe"
+        'sex' => 'Male',
+        'studentUniqueStateId' => '87654321',
+        'economicDisadvantaged' => false,
+        'name' => {
+            'firstName' => 'Mister',
+            'middleName' => 'John',
+            'lastSurname' => 'Doe'
         }
     },
-    "cohort" => {
-        "cohortIdentifier" => "ACC-TEST-COH-4",
-        "cohortDescription" => "Validation Test Cohort Desc",
-        "cohortType" => "Extracurricular Activity",
-        "cohortScope" => "Statewide",
-        "academicSubject" => "Physical, Health, and Safety Education",
-        "educationOrgId" => "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
-        "programId" => ["9b8c3aab-8fd5-11e1-86ec-0021701f543f_id"]
+    'cohort' => {
+        'cohortIdentifier' => 'ACC-TEST-COH-4',
+        'cohortDescription' => 'Validation Test Cohort Desc',
+        'cohortType' => 'Extracurricular Activity',
+        'cohortScope' => 'Statewide',
+        'academicSubject' => 'Physical, Health, and Safety Education',
+        'educationOrgId' => 'b1bd3db6-d020-4651-b1b8-a8dba688d9e1',
+        'programId' => ['9b8c3aab-8fd5-11e1-86ec-0021701f543f_id']
     },
-    "course" => {
-        "courseTitle" => "Chinese 1",
-        "numberOfParts" => 1,
-        "courseCode" => [{
-                             "ID" => "C1",
-                             "identificationSystem" => "School course code",
-                             "assigningOrganizationCode" => "Bob's Code Generator"
+    'course' => {
+        'courseTitle' => 'Chinese 1',
+        'numberOfParts' => 1,
+        'courseCode' => [{
+                             'ID' => 'C1',
+                             'identificationSystem' => 'School course code',
+                             'assigningOrganizationCode' => 'Bob\'s Code Generator'
                          }],
-        "courseLevel" => "Basic or remedial",
-        "courseLevelCharacteristics" => ["Advanced Placement"],
-        "gradesOffered" => ["Eighth grade"],
-        "subjectArea" => "Foreign Language and Literature",
-        "courseDescription" => "Validation Test Course Desc",
-        "dateCourseAdopted" => "2001-01-01",
-        "highSchoolCourseRequirement" => false,
-        "courseDefinedBy" => "LEA",
-        "minimumAvailableCredit" => {
-            "credit" => 1.0
+        'courseLevel' => 'Basic or remedial',
+        'courseLevelCharacteristics' => ['Advanced Placement'],
+        'gradesOffered' => ['Eighth grade'],
+        'subjectArea' => 'Foreign Language and Literature',
+        'courseDescription' => 'Validation Test Course Desc',
+        'dateCourseAdopted' => '2001-01-01',
+        'highSchoolCourseRequirement' => false,
+        'courseDefinedBy' => 'LEA',
+        'minimumAvailableCredit' => {
+            'credit' => 1.0
         },
-        "maximumAvailableCredit" => {
-            "credit" => 1.0
+        'maximumAvailableCredit' => {
+            'credit' => 1.0
         },
-        "careerPathway" => "Hospitality and Tourism",
-        "schoolId" => "bd086bae-ee82-4cf2-baf9-221a9407ea07"
+        'careerPathway' => 'Hospitality and Tourism',
+        'schoolId' => 'bd086bae-ee82-4cf2-baf9-221a9407ea07'
     },
-    "disciplineAction" => {
-        "disciplineActionIdentifier" => "Validation Test Discip. Act. ID",
-        "disciplines" => [[
-                              {"codeValue" => "Discp Act 3"},
-                              {"shortDescription" => "Disciplinary Action 3"},
-                              {"description" => "Long disciplinary Action 3"}
+    'disciplineAction' => {
+        'disciplineActionIdentifier' => 'Validation Test Discip. Act. ID',
+        'disciplines' => [[
+                              {'codeValue' => 'Discp Act 3'},
+                              {'shortDescription' => 'Disciplinary Action 3'},
+                              {'description' => 'Long disciplinary Action 3'}
                           ]],
-        "disciplineDate" => "2012-01-28",
-        "disciplineIncidentId" => ["0e26de79-22ea-5d67-9201-5113ad50a03b"],
-        "studentId" => ["1563ec1d-924d-4c02-8099-3a0e314ef1d4_id"],
-        "responsibilitySchoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
-        "assignmentSchoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+        'disciplineDate' => '2012-01-28',
+        'disciplineIncidentId' => ['0e26de79-22ea-5d67-9201-5113ad50a03b'],
+        'studentId' => ['1563ec1d-924d-4c02-8099-3a0e314ef1d4_id'],
+        'responsibilitySchoolId' => 'a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb',
+        'assignmentSchoolId' => 'a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb'
     },
-    "disciplineIncident" => {
-        "incidentIdentifier" => "Validation Test Discip. Inc. ID",
-        "incidentDate" => "2012-02-14",
-        "incidentTime" => "01:00:00",
-        "incidentLocation" => "On School",
-        "behaviors" => [[
-                            {"shortDescription" => "Behavior 012 description"},
-                            {"codeValue" => "BEHAVIOR 012"}
+    'disciplineIncident' => {
+        'incidentIdentifier' => 'Validation Test Discip. Inc. ID',
+        'incidentDate' => '2012-02-14',
+        'incidentTime' => '01:00:00',
+        'incidentLocation' => 'On School',
+        'behaviors' => [[
+                            {'shortDescription' => 'Behavior 012 description'},
+                            {'codeValue' => 'BEHAVIOR 012'}
                         ]],
-        "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+        'schoolId' => 'a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb'
     },
-    "educationOrganization" => {
-        "organizationCategories" => ["State Education Agency"],
-        "stateOrganizationId" => "15",
-        "nameOfInstitution" => "Validation Test School District",
-        "address" => [
-            "streetNumberName" => "111 Ave C",
-            "city" => "Chicago",
-            "stateAbbreviation" => "IL",
-            "postalCode" => "10098",
-            "nameOfCounty" => "Wake"
+    'educationOrganization' => {
+        'organizationCategories' => ['State Education Agency'],
+        'stateOrganizationId' => '15',
+        'nameOfInstitution' => 'Validation Test School District',
+        'address' => [
+            'streetNumberName' => '111 Ave C',
+            'city' => 'Chicago',
+            'stateAbbreviation' => 'IL',
+            'postalCode' => '10098',
+            'nameOfCounty' => 'Wake'
         ]
     },
-    "gradebookEntry" => {
-        "gradebookEntryType" => "Validation Test GBE Type",
-        "dateAssigned" => "2012-02-14",
-        "sectionId" => "7295e51e-cd51-4901-ae67-fa33966478c7_id"
+    'gradebookEntry' => {
+        'gradebookEntryType' => 'Validation Test GBE Type',
+        'dateAssigned' => '2012-02-14',
+        'sectionId' => '7295e51e-cd51-4901-ae67-fa33966478c7_id'
     },
-    "learningObjective" => {
-        "academicSubject" => "Mathematics",
-        "objective" => "Validation Test Objective",
-        "objectiveGradeLevel" => "Fifth grade"
+    'learningObjective' => {
+        'academicSubject' => 'Mathematics',
+        'objective' => 'Validation Test Objective',
+        'objectiveGradeLevel' => 'Fifth grade'
     },
-    "learningStandard" => {
-        "learningStandardId" => {
-            "identificationCode" => "G.SRT.1"},
-        "description" => "Validation Test Learning Standard Desc.",
-        "gradeLevel" => "Ninth grade",
-        "contentStandard"=>"State Standard",
-        "subjectArea" => "English"
+    'learningStandard' => {
+        'learningStandardId' => {
+            'identificationCode' => 'G.SRT.1'},
+        'description' => 'Validation Test Learning Standard Desc.',
+        'gradeLevel' => 'Ninth grade',
+        'contentStandard'=>'State Standard',
+        'subjectArea' => 'English'
     },
-    "program" => {
-        "programId" => "ACC-TEST-PROG-3",
-        "programType" => "Title I Part A",
-        "programSponsor" => "Local Education Agency",
-        "services" => [[
-                           {"codeValue" => "codeValue3"},
-                           {"shortDescription" => "Short description for acceptance test program 3"},
-                           {"description" => "This is a longer description of the services provided by acceptance test program 3. More detail could be provided here."}]]
+    'program' => {
+        'programId' => 'ACC-TEST-PROG-3',
+        'programType' => 'Title I Part A',
+        'programSponsor' => 'Local Education Agency',
+        'services' => [[
+                           {'codeValue' => 'codeValue3'},
+                           {'shortDescription' => 'Short description for acceptance test program 3'},
+                           {'description' => 'This is a longer description of the services provided by acceptance test program 3. More detail could be provided here.'}]]
     },
-    "section" => {
-        "uniqueSectionCode" => "SpanishB09",
-        "sequenceOfCourse" => 1,
-        "educationalEnvironment" => "Off-school center",
-        "mediumOfInstruction" => "Independent study",
-        "populationServed" => "Migrant Students",
-        "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
-        "sessionId" => "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92",
-        "courseId" => "82ad1eb0-c6d4-4b00-909a-edd1c8d04e41"
+    'section' => {
+        'uniqueSectionCode' => 'SpanishB09',
+        'sequenceOfCourse' => 1,
+        'educationalEnvironment' => 'Off-school center',
+        'mediumOfInstruction' => 'Independent study',
+        'populationServed' => 'Migrant Students',
+        'schoolId' => 'a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb',
+        'sessionId' => 'fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92',
+        'courseId' => '82ad1eb0-c6d4-4b00-909a-edd1c8d04e41'
     },
-    "session" => {
-        "sessionName" => "Validation Test Spring 2012",
-        "schoolYear" => "2011-2012",
-        "term" => "Spring Semester",
-        "beginDate" => "2012-01-01",
-        "endDate" => "2012-06-30",
-        "totalInstructionalDays" => 80,
-        "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130", "ef72b883-90fa-40fa-afc2-4cb1ae17623b"],
+    'session' => {
+        'sessionName' => 'Validation Test Spring 2012',
+        'schoolYear' => '2011-2012',
+        'term' => 'Spring Semester',
+        'beginDate' => '2012-01-01',
+        'endDate' => '2012-06-30',
+        'totalInstructionalDays' => 80,
+        'gradingPeriodReference' => ['b40a7eb5-dd74-4666-a5b9-5c3f4425f130', 'ef72b883-90fa-40fa-afc2-4cb1ae17623b'],
     },
-    "staff" => {
-        "staffUniqueStateId" => "WLVDSUSID00001",
-        "sex" => "Male",
-        "hispanicLatinoEthnicity" => false,
-        "highestLevelOfEducationCompleted" => "No Degree",
-        "name" => {
-            "firstName" => "Teaches",
-            "middleName" => "D.",
-            "lastSurname" => "Students"
+    'staff' => {
+        'staffUniqueStateId' => 'WLVDSUSID00001',
+        'sex' => 'Male',
+        'hispanicLatinoEthnicity' => false,
+        'highestLevelOfEducationCompleted' => 'No Degree',
+        'name' => {
+            'firstName' => 'Teaches',
+            'middleName' => 'D.',
+            'lastSurname' => 'Students'
         }
     },
-    "studentGradebookEntry" => {
-        "gradebookEntryId" => "706ee3be-0dae-4e98-9525-f564e05aa388_id008fd89d-88a2-43aa-8af1-74ac16a29380_id",
-        "letterGradeEarned" => "A",
-        "sectionId" => "706ee3be-0dae-4e98-9525-f564e05aa388_id",
-        "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085_id",
-        "numericGradeEarned" => 11,
-        "dateFulfilled" => "2012-01-31",
-        "diagnosticStatement" => "Validation Test Diag. Stmt."
+    'studentGradebookEntry' => {
+        'gradebookEntryId' => '706ee3be-0dae-4e98-9525-f564e05aa388_id008fd89d-88a2-43aa-8af1-74ac16a29380_id',
+        'letterGradeEarned' => 'A',
+        'sectionId' => '706ee3be-0dae-4e98-9525-f564e05aa388_id',
+        'studentId' => '74cf790e-84c4-4322-84b8-fca7206f1085_id',
+        'numericGradeEarned' => 11,
+        'dateFulfilled' => '2012-01-31',
+        'diagnosticStatement' => 'Validation Test Diag. Stmt.'
     },
-    "assessment" => {
-        "assessmentTitle" => "Validation Test Assessment Title",
-        "assessmentIdentificationCode" => [{
-                                               "identificationSystem" => "School",
-                                               "ID" => "01234B"
+    'assessment' => {
+        'assessmentTitle' => 'Validation Test Assessment Title',
+        'assessmentIdentificationCode' => [{
+                                               'identificationSystem' => 'School',
+                                               'ID' => '01234B'
                                            }],
-        "academicSubject" => "Mathematics",
-        "assessmentCategory" => "Achievement test",
-        "gradeLevelAssessed" => "Adult Education",
-        "contentStandard" => "LEA Standard",
-        "version" => 2
+        'academicSubject' => 'Mathematics',
+        'assessmentCategory' => 'Achievement test',
+        'gradeLevelAssessed' => 'Adult Education',
+        'contentStandard' => 'LEA Standard',
+        'version' => 2
     },
-    "parent" => {
-        "parentUniqueStateId" => "ValidationTestParentUniqId",
-        "name" =>
-            { "firstName" => "John",
-              "lastSurname" => "Doe",
+    'parent' => {
+        'parentUniqueStateId' => 'ValidationTestParentUniqId',
+        'name' =>
+            { 'firstName' => 'John',
+              'lastSurname' => 'Doe',
             }
     },
-    "school" => {
-        "shortNameOfInstitution" => "SCTS",
-        "nameOfInstitution" => "Validation Test School",
-        "webSite" => "www.scts.edu",
-        "stateOrganizationId" => "152901001",
-        "organizationCategories" => ["School"],
-        "address" => [
-            "addressType" => "Physical",
-            "streetNumberName" => "123 Main Street",
-            "city" => "Lebanon",
-            "stateAbbreviation" => "KS",
-            "postalCode" => "66952",
-            "nameOfCounty" => "Smith County"
+    'school' => {
+        'shortNameOfInstitution' => 'SCTS',
+        'nameOfInstitution' => 'Validation Test School',
+        'webSite' => 'www.scts.edu',
+        'stateOrganizationId' => '152901001',
+        'organizationCategories' => ['School'],
+        'address' => [
+            'addressType' => 'Physical',
+            'streetNumberName' => '123 Main Street',
+            'city' => 'Lebanon',
+            'stateAbbreviation' => 'KS',
+            'postalCode' => '66952',
+            'nameOfCounty' => 'Smith County'
         ],
-        "gradesOffered" => [
-            "Kindergarten",
-            "First grade",
-            "Second grade",
-            "Third grade",
-            "Fourth grade",
-            "Fifth grade"
+        'gradesOffered' => [
+            'Kindergarten',
+            'First grade',
+            'Second grade',
+            'Third grade',
+            'Fourth grade',
+            'Fifth grade'
         ]
     },
-    "teacher" => {
-        "birthDate" => "1954-08-31",
-        "sex" => "Male",
-        "yearsOfPriorTeachingExperience" => 32,
-        "staffUniqueStateId" => "12345678",
-        "teacherUniqueStateId" => "testing123",
-        "highlyQualifiedTeacher" => true,
-        "highestLevelOfEducationCompleted" => "No Degree",
-        "name" => {
-            "firstName" => "Rafe",
-            "middleName" => "Hairfire",
-            "lastSurname" => "Esquith"
+    'teacher' => {
+        'birthDate' => '1954-08-31',
+        'sex' => 'Male',
+        'yearsOfPriorTeachingExperience' => 32,
+        'staffUniqueStateId' => '12345678',
+        'teacherUniqueStateId' => 'testing123',
+        'highlyQualifiedTeacher' => true,
+        'highestLevelOfEducationCompleted' => 'No Degree',
+        'name' => {
+            'firstName' => 'Rafe',
+            'middleName' => 'Hairfire',
+            'lastSurname' => 'Esquith'
         }
     },
-    "grade" => {
-        "studentSectionAssociationId" => "706ee3be-0dae-4e98-9525-f564e05aa388_idbac890d6-b580-4d9d-a0d4-8bce4e8d351a_id",
-        "letterGradeEarned" => "F--",
-        "gradeType" => "Final"
+    'grade' => {
+        'studentSectionAssociationId' => '706ee3be-0dae-4e98-9525-f564e05aa388_idbac890d6-b580-4d9d-a0d4-8bce4e8d351a_id',
+        'letterGradeEarned' => 'F--',
+        'gradeType' => 'Final'
     },
-    "studentCompetency" => {
-        "competencyLevel" => {
-                                  "description" => "really hard competency"
+    'studentCompetency' => {
+        'competencyLevel' => {
+                                  'description' => 'really hard competency'
                               },
-        "diagnosticStatement" => "Validation Test Diag. Stmt."
+        'diagnosticStatement' => 'Validation Test Diag. Stmt.'
     },
-    "reportCard" => {
-        "grades" => ["708c4e08-9942-11e1-a8a9-68a86d21d918", "708b3c95-9942-11e1-a8a9-68a86d21d918"],
-        "studentCompetencyId" => ["b57643e4-9acf-11e1-89a7-68a86d21d918"],
-        "gpaGivenGradingPeriod" => 3.14,
-        "gpaCumulative" => 2.9,
-        "numberOfDaysAbsent" => 999,
-        "numberOfDaysInAttendance" => 150,
-        "numberOfDaysTardy" => 10,
-        "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id"
-        #"gradingPeriodId" => "TODO"
+    'reportCard' => {
+        'grades' => ['708c4e08-9942-11e1-a8a9-68a86d21d918', '708b3c95-9942-11e1-a8a9-68a86d21d918'],
+        'studentCompetencyId' => ['b57643e4-9acf-11e1-89a7-68a86d21d918'],
+        'gpaGivenGradingPeriod' => 3.14,
+        'gpaCumulative' => 2.9,
+        'numberOfDaysAbsent' => 999,
+        'numberOfDaysInAttendance' => 150,
+        'numberOfDaysTardy' => 10,
+        'studentId' => '0f0d9bac-0081-4900-af7c-d17915e02378_id'
     }
 }
+end

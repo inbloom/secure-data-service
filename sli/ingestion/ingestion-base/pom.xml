@@ -104,6 +104,19 @@
             <version>${xerces.impl.version}</version>
         </dependency>
 
+		<!-- SLI - DAL -->
+		<dependency>
+		  <groupId>org.slc.sli.dal</groupId>
+		  <artifactId>dal</artifactId>
+
+		  <exclusions>
+		    <exclusion>
+		      <groupId>org.slc.sli</groupId>
+		      <artifactId>sli-configuration</artifactId>
+		    </exclusion>
+		  </exclusions>
+		</dependency>
+
     </dependencies>
 
     <build>

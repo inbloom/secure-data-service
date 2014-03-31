@@ -122,9 +122,9 @@
         <!-- 3rd Party Libraries -->
         <activemq.version>5.7.0</activemq.version>
         <activemq-ingest.version>5.6.0</activemq-ingest.version>
-        <aspectj.version>1.6.11</aspectj.version>
-        <aspectj.maven.version>1.4</aspectj.maven.version>
-        <aspectjweaver.version>1.6.12</aspectjweaver.version>
+        <aspectj.version>1.7.3</aspectj.version>
+        <aspectj.maven.version>1.5</aspectj.maven.version>
+        <aspectjweaver.version>1.7.3</aspectjweaver.version>
         <camel.version>2.8.1</camel.version>
         <cglib.version>2.2.2</cglib.version>
         <easymock.version>3.0</easymock.version> <!-- dashboard -->
@@ -148,8 +148,6 @@
         <opensaml.version>2.6.0</opensaml.version>
         <org.reflections.version>0.9.5</org.reflections.version>
         <oro.version>2.0.8</oro.version>  <!-- verify version -->
-        <powermock.version>1.4.10</powermock.version>  <!-- verify version -->
-        <selenium.version>2.14.0</selenium.version>
         <scribe.version>1.3.0</scribe.version>
         <smooks.version>1.5.1</smooks.version>
         <stax.api.version>1.0.1</stax.api.version>
@@ -160,12 +158,12 @@
 
         <!-- Spring Framework Versions -->
         <bean.validator.version>4.2.0.Final</bean.validator.version>
-        <spring.version>3.0.7.RELEASE</spring.version>
+        <spring.version>3.2.6.RELEASE</spring.version>
         <spring-dashboard.version>3.1.1.RELEASE</spring-dashboard.version>
         <springdata-mongodb-version>1.0.4.RELEASE</springdata-mongodb-version>
         <springdata.version>1.2.1.RELEASE</springdata.version>
         <spring-ldap-core.version>1.3.1.RELEASE</spring-ldap-core.version>
-        <spring.security.version>3.0.6.RELEASE</spring.security.version>
+        <spring.security.version>3.2.0.RELEASE</spring.security.version>
         <spring.security.oath2.version>1.0.0.M5</spring.security.oath2.version>
 
         <!-- MongoDB Java Driver Version -->
@@ -206,20 +204,23 @@
         <elasticsearch.version>0.19.9</elasticsearch.version>
 
         <!-- Rest Services (JAX-RS) Framework Versions -->
-        <jackson.version>1.9.1</jackson.version>
+        <jackson.version>1.9.2</jackson.version>
         <jackson.mapper.version>1.9.10</jackson.mapper.version>
         <jackson.xml.databind.version>0.6.1</jackson.xml.databind.version>
         <jersey.version>1.9.1</jersey.version>
         <jersey.maven.plugin.version>1.0.1</jersey.maven.plugin.version>
 
         <!-- Logging Framework Versions -->
-        <logback.version>1.0.1</logback.version>
-        <slf4j.version>1.6.4</slf4j.version>
+        <logback.version>1.0.13</logback.version>
+        <slf4j.version>1.7.5</slf4j.version>
 
         <!-- Testing Framework Versions -->
         <junit.version>4.9</junit.version>
         <junit.addons.version>1.4</junit.addons.version>
-        <mockito.version>1.8.5</mockito.version>
+        <mockito.version>1.9.5</mockito.version>
+        <powermock.version>1.5.4</powermock.version>  <!-- verify version -->
+        <selenium.version>2.14.0</selenium.version>
+        <jsonassert.version>1.2.3</jsonassert.version>
     </properties>
 
     <!-- Environment profiles. A profile encapsulates a set of properties and
@@ -655,22 +656,22 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-core</artifactId>
-                <version>${spring.version}</version>
+                <version>${spring.security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-config</artifactId>
-                <version>${spring.version}</version>
+                <version>${spring.security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
-                <version>${spring.version}</version>
+                <version>${spring.security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-taglibs</artifactId>
-                <version>${spring.version}</version>
+                <version>${spring.security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -865,7 +866,6 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-
             <!-- bean validation -->
             <dependency>
                 <groupId>org.hibernate</groupId>
@@ -915,6 +915,17 @@
                 </exclusions>
             </dependency>
             <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>log4j-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
                 <groupId>org.jdom</groupId>
                 <artifactId>jdom</artifactId>
                 <version>${jdom.version}</version>
@@ -935,6 +946,13 @@
                 <artifactId>emma</artifactId>
                 <version>${emma.version}</version>
             </dependency>
+            <!-- JSON Assert (JSON comparison in unit tests) -->
+            <dependency>
+                <groupId>org.skyscreamer</groupId>
+                <artifactId>jsonassert</artifactId>
+                <version>${jsonassert.version}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -943,6 +961,11 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.skyscreamer</groupId>
+            <artifactId>jsonassert</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -1032,37 +1055,38 @@
                     </dependencies>
                 </plugin>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-pmd-plugin</artifactId>
-                    <version>${maven.pmd.version}</version>
-                    <configuration>
-                        <linkXref>true</linkXref>
-                        <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
-                        <minimumTokens>100</minimumTokens>
-                        <targetJdk>${java.version}</targetJdk>
-                        <includeTests>false</includeTests>
-                        <failurePriority>3</failurePriority>
-                        <rulesets>
-                            <ruleset>PMD/SLI-PMD-Rules.xml</ruleset>
-                        </rulesets>
-                    </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.slc.sli</groupId>
-                            <artifactId>build-tools</artifactId>
-                            <version>${sli.build.tools}</version>
-                        </dependency>
-                    </dependencies>
-                    <executions>
-                        <execution>
-                            <phase>test</phase>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
+                <!--<plugin>-->
+                    <!--<groupId>org.apache.maven.plugins</groupId>-->
+                    <!--<artifactId>maven-pmd-plugin</artifactId>-->
+                    <!--<version>${maven.pmd.version}</version>-->
+                    <!--<configuration>-->
+                        <!--<enable>true</enable>-->
+                        <!--<linkXref>true</linkXref>-->
+                        <!--<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>-->
+                        <!--<minimumTokens>100</minimumTokens>-->
+                        <!--<targetJdk>${java.version}</targetJdk>-->
+                        <!--<includeTests>false</includeTests>-->
+                        <!--<failurePriority>3</failurePriority>-->
+                        <!--<rulesets>-->
+                            <!--<ruleset>PMD/SLI-PMD-Rules.xml</ruleset>-->
+                        <!--</rulesets>-->
+                    <!--</configuration>-->
+                    <!--<dependencies>-->
+                        <!--<dependency>-->
+                            <!--<groupId>org.slc.sli</groupId>-->
+                            <!--<artifactId>build-tools</artifactId>-->
+                            <!--<version>${sli.build.tools}</version>-->
+                        <!--</dependency>-->
+                    <!--</dependencies>-->
+                    <!--<executions>-->
+                        <!--<execution>-->
+                            <!--<phase>test</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>check</goal>-->
+                            <!--</goals>-->
+                        <!--</execution>-->
+                    <!--</executions>-->
+                <!--</plugin>-->
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

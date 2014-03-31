@@ -262,5 +262,7 @@ public class ParameterConstants {
     public static final String DEFAULT_END_DATE = "endDate";
     public static final String STUDENT_SCHOOL_BEGIN_DATE = "entryDate";
     public static final String STUDENT_SCHOOL_END_DATE = "exitWithdrawDate";
+    public static final String STUDENT_SPECIAL_ED_PROGRAM_BEGIN_DATE = "iepBeginDate";
+    public static final String STUDENT_SPECIAL_ED_PROGRAM_END_DATE = "iepEndDate";
 
 }

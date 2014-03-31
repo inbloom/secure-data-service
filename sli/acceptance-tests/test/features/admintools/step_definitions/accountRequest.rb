@@ -62,8 +62,8 @@ Given /^I go to the account registration page$/ do
 end
 
 Given /^there is no registered account for "([^\"]*)" in LDAP$/ do |email|
-  removeUser(email)
-  assert(!ApprovalEngine.user_exists?(email), "#{email} still exists in LDAP")
+  ApprovalEngine.remove_user(email) if ApprovalEngine.user_exists?(email)
+  ApprovalEngine.user_exists?(email).should_not be_true
 end
 
 Given /^I go to the production account registration page$/ do
@@ -79,7 +79,7 @@ end
 Given /^there is an (\w+) account with login name "([^\"]*)"$/ do |status, email|
    assert(ApprovalEngine.user_exists?(email), "#{email} does not exists in LDAP")
    user = ApprovalEngine.get_user(email)
-   assert(user[:status] == status, "#{email} has status #{user[:status]}, expected #{status}.")
+   user[:status].should == status
 end
 
 ###############################################################################
@@ -91,13 +91,12 @@ When /^I fill out the field "([^\"]*)" as "([^\"]*)"$/ do |field, value|
   @driver.find_element(:xpath, "//input[contains(
     translate(@id, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '#{trimmed.downcase}')
     ]").send_keys(value)
-  puts "field = #{field}, value = #{value}"
 end
 
 When /^I query LDAP for EULA acceptance for account with login name "([^\"]*)"$/ do |email|
    assert(ApprovalEngine.user_exists?(email), "#{email} does not exists in LDAP")
    user = ApprovalEngine.get_user(email)
-   assert(user[:status] == "eula-accepted" || user[:status] == "pending" || user[:status] == "approved", "#{email} did not accept the EULA.")
+   %w(eula-accepted pending approved).should include(user[:status])
 end
 
 When /^I visit "([^\"]*)"$/ do |link|
@@ -133,7 +132,7 @@ end
 
 Then /^my field entries are validated$/ do
   errorMsgs = @driver.find_elements(:xpath, "//td[contains(@id, 'error_explanation')]")
-  assert(errorMsgs.size == 0, "Found input error(s) in page")
+  errorMsgs.should be_empty
 end
 
 Then /^I am redirected to a page with terms and conditions$/ do
@@ -166,7 +165,7 @@ Then /^"([^\"]*)" is "([^\"]*)"$/ do |inKey, value|
   key_map = { "First Name" => :first, "Last Name" => :last, "Email" => :email, "Vendor" => :vendor }
   @record.should_not == nil
   @record[key_map[inKey]].should == value
-  
+
   # key = toCamelCase(inKey)
   # if (@validatedRecords.size == 1)
   #   assert(@validatedRecords[0]["body"][key] == convert(value), "Expected #{value} for #{inKey},
@@ -177,9 +176,8 @@ Then /^"([^\"]*)" is "([^\"]*)"$/ do |inKey, value|
 end
 
 Then /^an email verification link for "([^\"]*)" is generated$/ do |email|
-  emailToken = getEmailToken(email)
+  emailToken = ApprovalEngine.get_user(email)[:emailtoken]
   @validationLink = @baseUrl + @validationBaseSuffix + "/" + emailToken
-  puts @validationLink
 end
 
 Then /^I should see the text "([^\"]*)"$/ do |text|
@@ -191,18 +189,12 @@ Then /^I should see the error message "([^\"]*)"$/ do |errorMsg|
          "Cannot find error message \"#{errorMsg}\"")
 end
 
-Then /^the account for "([^\"]*)" is removed from LDAP$/ do |email|
-  assert(ApprovalEngine.user_exists?(email) == false, "Account for #{email} is not removed.")
-end
-
 ###############################################################################
 # DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF
 ###############################################################################
 
 def initializeApprovalAndLDAP(emailConf, prod)
-  @ldap = LDAPStorage.new(Property['ldap_hostname'], Property['ldap_port'],
-                          Property['ldap_base'], Property['ldap_admin_user'],
-                          Property['ldap_admin_pass'], Property['ldap_use_ssl'])
+  @ldap = ldap_storage
   ApprovalEngine.init(@ldap, nil, !prod)
 end
 
@@ -210,22 +202,4 @@ def assertText(text)
   @explicitWait.until{@driver.find_element(:tag_name,"body")}
   body = @driver.find_element(:tag_name, "body")
   assert(body.text.include?(text), "Cannot find the text \"#{text}\"")
-end
-
-def toCamelCase(key)
-  return "userName" if key == "Email"
-  str = key.sub(" ", "")
-  return str.camelize(:lower)
-end
-
-def getEmailToken(email)
-  userInfo= ApprovalEngine.get_user(email)
-  return userInfo[:emailtoken]
-end
-
-def removeUser(email)
-puts email
-  if ApprovalEngine.user_exists?(email)
-    ApprovalEngine.remove_user(email)
-  end
 end

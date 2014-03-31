@@ -57,14 +57,10 @@ end
 ##############################################################################
 
 Then /^the response at position (\d)+ should include the information (.+)$/ do |position, string|
-  assert(@result[convert(position)].to_s.include?(string), "Can't find the specified string \"#{string}\" at position #{position}")
+  @result[position.to_i].to_s.should include(string)
 end
 
-Then /^I should see a total of (\d+) entities$/ do |arg1|
-  if @result.class == {}.class
-    size = 0
-  else
-    size = @result.size
-  end
-  assert(size == convert(arg1), "Expected to see #{arg1} entities, actual number #{@result.size}")
+Then /^I should see a total of (\d+) entities$/ do |count|
+  size = (Hash === @result ? 0 : @result.size)
+  size.should == count.to_i
 end

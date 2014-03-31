@@ -1,5 +1,3 @@
-@RALLY_US209
-@RALLY_US210
 Feature: As a teacher or leader I want to see all my students in 3rd period Algebra II class and view StateTest Math 2011 assessment scores
 
 This is the data I am assuming for these tests

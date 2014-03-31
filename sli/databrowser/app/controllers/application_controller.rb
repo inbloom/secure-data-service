@@ -42,13 +42,13 @@ class ApplicationController < ActionController::Base
   
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
     logger.debug {"401 detected"}
-    #logger.info { "Unauthorized Access: Redirecting..." }
+    logger.info { "Unauthorized Access: Redirecting..." }
     reset_session
     handle_oauth
   end
   
   rescue_from ActiveResource::ForbiddenAccess do |exception|
-    #logger.info { "Forbidden access."}
+    logger.info { "Forbidden access."}
     respond_to do |format|
       format.html {
         flash[:error] = "Sorry, you don't have access to this page. If you feel like you are getting this page in error, please contact your administrator."
@@ -62,7 +62,6 @@ class ApplicationController < ActionController::Base
       }
       format.json { render json: { :alert => "403" } }
     end
-    redirect_to :back
   end
   
   rescue_from ActiveResource::ServerError do |exception|
@@ -141,7 +140,7 @@ class ApplicationController < ActionController::Base
           logger.warn {"We couldn't load the portal header and footer #{e.message}"}
         end
         SessionResource.access_token = oauth.token
-        #logger.info {"*********  Token is #{oauth.token}"}
+        logger.info {"*********  Token is #{oauth.token}"}
         Check.url_type = "check"
         check = Check.get("")
         session[:full_name] = check["full_name"]
@@ -157,7 +156,7 @@ class ApplicationController < ActionController::Base
         redirect_to oauth.authorize_url + "&state=" + CGI::escape(form_authenticity_token)
       end
     else
-      #logger.info { "OAuth disabled."}
+      logger.info { "OAuth disabled."}
     end
 
   end
@@ -197,9 +196,16 @@ class ApplicationController < ActionController::Base
 
   private
   def getBreadcrumbName(uri)
+
     if uri.query.nil? then
       # the last section of the path shall be our name
-      uri.path.split("\/").last
+	  last = uri.path.split("\/").last
+	  if (last.include? "zip")
+		last = last.split("-").first
+      elsif (last == "ingestion")
+		last = "All Ingestion Jobs"
+	  end
+      last
     else 
       # if there is a query string, assume we're searching
       "search"

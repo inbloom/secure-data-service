@@ -1,12 +1,54 @@
 <div id='data'>
 <h1>Welcome to the inBloom, inc. Data Browser</h1>
-<% if !userIsAStudent %>
 	<%=
     	html = ""
-    	html << display_edorg_table(@entities)
+    	html << display_edorg_table()
     	html.html_safe
 	%>
-<% end %>
+
+<table id="home_ingestion_table" class="home_table">
+    <tr>
+        <th>File Name</th>
+        <th>Job Status</th>
+        <th>Requested</th>
+        <th>Completed</th>
+        <th>Number of XML Files</th>
+        <th>Total Records</th>
+        <th>Successful Records</th>
+        <th>Failed Records</th>
+    </tr>
+    <%
+    ingestion_jobs = get_ingestion_data(VIEW_CONFIG['ingestion_jobs'].to_i)
+    if (!ingestion_jobs.nil?)
+        ingestion_jobs.each do |job|
+        %>
+            <tr>
+                <td><a href=<%= "#{request.protocol}#{request.host_with_port}/ingestion/#{job['id']}" %>><%= job['sourceId'].split("/").last %></a></td>
+                <td><%= job['status'] %></td>
+                <td><%= Time.at(((job['jobStartTimestamp']/1000).to_i)).strftime('%F %R %Z') %></td>
+                <td><%= Time.at(((job['jobStopTimestamp']/1000).to_i)).strftime('%F %R %Z') %></td>
+                <td><%= job['totalFiles'] %></td>
+                <%
+                total_records = 0
+                successful_records = 0
+                failed_records = 0
+                job['resourceEntries'].each do |entry|
+                    total_records += entry['recordCount']
+                    failed_records += entry['errorCount'] + entry['validationErrorCount']
+                    successful_records += entry['recordCount'] - (entry['errorCount'] + entry['validationErrorCount'])
+                end
+                %>
+                <td><%= total_records %></td>
+                <td><%= successful_records %></td>
+                <td><%= failed_records %></td>
+            </tr>
+        <%
+        end
+    end
+    %>
+    </table>
+    <div id="show_all_link"><a href=<%= "/ingestion" %>>Show All Jobs</a></div>
+
 <% @entities.each do |e| %>
     <p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
 <% end %>
