@@ -534,6 +534,7 @@ task :apiV1Tests => [
                      :v1SortingAndPagingTests,
                      :v1ListTests,
                      :v1NewEndpointTests,
+                     :v1ListAttendanceEndpointTests,
                      :v1TargetTests,
                      :v1EndUserStoryCustomEntityTests,
                      :v1StudentOptionalFieldsTests,
@@ -750,22 +751,6 @@ end
 
 ############################################################
 # Odin Data Generation tests end
-############################################################
-
-############################################################
-# List Attendance Endpoint tests start
-############################################################
-desc "Run List Attendance Endpoint tests"
-task :listAttendanceEndPoint => [
-        :loadDefaultIngestionTenants,
-        :odin10k1GenerateTests,
-        :ingestOdin10k1DataSet,
-        :realmInit,
-        :v1ListAttendanceEndpointTests] do
-  display_failure_report
-end
-############################################################
-# List Attendance Endpoint tests end
 ############################################################
 
 ############################################################
