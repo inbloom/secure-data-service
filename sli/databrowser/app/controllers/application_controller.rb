@@ -197,7 +197,7 @@ class ApplicationController < ActionController::Base
   private
   def getBreadcrumbName(uri)
 
-    if uri.query.include? "search" then
+    if uri.query.to_s.include? "search" then
       # if the query string says search, assume we're searching
       return "search"
     else 
