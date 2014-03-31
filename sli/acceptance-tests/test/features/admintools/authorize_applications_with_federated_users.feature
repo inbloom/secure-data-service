@@ -26,7 +26,7 @@ Scenario: Developer creates new application (set up data)
    Then application "Boyne" should be created
 
 Scenario: SLC Operator accepts application registration request (set up data)
-  Given I am a valid SLC Operator
+  Given I am a valid inBloom operator
     And I am managing my applications
     And I should see all applications and new application "Boyne"
    When the application "Boyne" is approved
