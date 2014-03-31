@@ -197,25 +197,25 @@ class ApplicationController < ActionController::Base
   private
   def getBreadcrumbName(uri)
 
-    if uri.query.nil? then
+    if uri.query.include? "search" then
+      # if the query string says search, assume we're searching
+      return "search"
+    else 
       # the last section of the path shall be our name
-  	  name = uri.path.split("\/").last
+      name = uri.path.split("\/").last
 
       # Special cases:
-  	  if (name.include? "zip")
+      if (name.include? "zip")
         # if we're looking at an ingestion job
-  		  name = name.split("-").first
+        name = name.split("-").first
       elsif (name == "ingestion")
         # if we're looking at all of the ingestion jobs
-  		  name = "All Ingestion Jobs"
+        name = "All Ingestion Jobs"
       elsif (is_id? name)
         # if we're looking at an individual record, so show what type of thing it is.
         name = uri.path.split("\/")[-2]
-  	  end
+      end
       return name
-    else 
-      # if there is a query string, assume we're searching
-      return "search"
     end
   end
 
