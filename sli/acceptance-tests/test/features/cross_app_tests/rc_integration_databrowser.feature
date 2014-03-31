@@ -75,6 +75,7 @@ Scenario: Click on Available Links associations and entities
   When I click on the "Staff Cohort Associations" link
   Then I am redirected to the particular associations Simple View
 
+@wip
 Scenario: Get a Forbidden message when we access something that is forbidden
   When I see the realm selector I authenticate to "Daybreak Test Realm"
   And I was redirected to the "Simple" IDP Login page
