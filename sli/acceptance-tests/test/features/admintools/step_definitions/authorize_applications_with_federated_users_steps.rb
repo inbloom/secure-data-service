@@ -25,7 +25,8 @@ require_relative '../../utils/selenium_common.rb'
 require 'pry'
 
 Before('@reset-user-linda') do
-  binding.pry
+  reset_user_linda("linda.kim", "Application Authorizer", "South Daybreak Elementary", "Midgar")
+  reset_user_linda("linda.kim", "Educator", "Sunset Central High School", "Midgar")
 end
 
 
@@ -111,6 +112,7 @@ And /^I create new application "([^"]*)"$/ do |app_name|
                              :image_url => 'https://example.com')
   browser.check('app[installed]')
   browser.click_button 'Register'
+
 end
 
 Then /^application "([^"]*)" should be created$/ do |app_name|
@@ -244,4 +246,22 @@ When /^I (authorize|de\-authorize) the application$/ do |check|
   end
 
   browser.all("input[type='submit']").first.click
+end
+
+def reset_user_linda(user, role, edorg, tenant)
+  disable_NOTABLESCAN()
+  db = @conn[convertTenantIdToDbName(tenant)]
+  coll = db.collection('staff')
+  staffId = coll.find_one({'body.staffUniqueStateId' => user})['_id']
+  coll = db.collection('educationOrganization')
+  edOrgId = coll.find_one({'body.nameOfInstitution' => edorg})['_id']
+  enable_NOTABLESCAN()
+  seoa_hash = {'staffReference' => staffId, 'educationOrganizationReference' =>  edOrgId, 'staffClassification' => role}
+  puts seoa_hash.to_json.to_s
+
+  coll = db.collection('staffEducationOrganizationAssociation')
+  user_record = coll.find_one('body.staffReference'=> staffId, 'body.educationOrganizationReference'=> edOrgId)
+  unless user_record.nil?
+    coll.remove(user_record)
+  end
 end
