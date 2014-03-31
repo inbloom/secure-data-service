@@ -199,17 +199,29 @@ class ApplicationController < ActionController::Base
 
     if uri.query.nil? then
       # the last section of the path shall be our name
-	  last = uri.path.split("\/").last
-	  if (last.include? "zip")
-		last = last.split("-").first
-      elsif (last == "ingestion")
-		last = "All Ingestion Jobs"
-	  end
-      last
+  	  name = uri.path.split("\/").last
+
+      # Special cases:
+  	  if (name.include? "zip")
+        # if we're looking at an ingestion job
+  		  name = name.split("-").first
+      elsif (name == "ingestion")
+        # if we're looking at all of the ingestion jobs
+  		  name = "All Ingestion Jobs"
+      elsif (is_id? name)
+        # if we're looking at an individual record, so show what type of thing it is.
+        name = uri.path.split("\/")[-2]
+  	  end
+      return name
     else 
       # if there is a query string, assume we're searching
-      "search"
+      return "search"
     end
+  end
+
+  private
+  def is_id?(text)
+    text =~ /^\h{8}-\h{4}-\h{4}-\h{4}-\h{12}/
   end
 
 end
