@@ -23,3 +23,12 @@ Scenario: Moving through breadcrumbs
   When I click on the link "Staff Education Organization Associations"
   Then I should see a breadcrumbtrail of "home > educationOrganizations > staff > educationOrganizations > staffEducationOrgAssignmentAssociations"
 
+@DS-1144
+Scenario Outline: Displaying Search Breadcrumbs
+  When I navigated to the Data Browser Home URL
+  When I can search for <Type> with a <Field>
+  Then I should see a breadcrumbtrail of <Result>
+  Examples:
+    |Type                  |Field     | Result            |
+    |students              |900000006 | "home > search"   |
+    |parents               |6231066736| "home > search"   |

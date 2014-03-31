@@ -10,27 +10,28 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   And that databrowser has been authorized for all ed orgs
 
-Scenario: Searching for a entities
-  
-  Then I can search for <Type> with a <Field> and get a <Result>
-|Type                  |Field     | Result |
-|students              |900000006 | Pass   |
-|students              |waffles   | Fail   |
-|parents               |6231066736| Pass   |
-|parents               |waffles   | Fail   |
-|educationOrganizations|IL-SUNSET | Pass   |
-|educationOrganizations|waffles   | Fail   |
-|staff                 |wgoodman  | Pass   |
-|staff                 |waffles   | Fail   |
-|staff                 |          | Fail   |
-|studentByName         |rud       | Pass   |
-|studentByName         |          | Fail   |
-|staffByName           |steven    | Pass   |
-|staffByName           |stephen   | Fail   |
-|staffByName           |Charles   | Pass   |
-|staffByName           |waffles   | Fail   |
-|edOrgByName           |Illinois  | Pass   |
-|edOrgByName           |Mdigra    | Fail   |
+Scenario Outline: Searching for a entities
+  When I can search for <Type> with a <Field>
+  Then I get result <Result>
+  Examples:
+    |Type                  |Field     | Result |
+    |students              |900000006 | Pass   |
+    |students              |waffles   | Fail   |
+    |parents               |6231066736| Pass   |
+    |parents               |waffles   | Fail   |
+    |educationOrganizations|IL-SUNSET | Pass   |
+    |educationOrganizations|waffles   | Fail   |
+    |staff                 |wgoodman  | Pass   |
+    |staff                 |waffles   | Fail   |
+    |staff                 |          | Fail   |
+    |studentByName         |rud       | Pass   |
+    |studentByName         |          | Fail   |
+    |staffByName           |steven    | Pass   |
+    |staffByName           |stephen   | Fail   |
+    |staffByName           |Charles   | Pass   |
+    |staffByName           |waffles   | Fail   |
+    |edOrgByName           |Illinois  | Pass   |
+    |edOrgByName           |Mdigra    | Fail   |
 
 @wip
 Scenario: Sorting in ascending/descending

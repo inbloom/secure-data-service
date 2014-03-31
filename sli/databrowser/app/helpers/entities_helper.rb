@@ -94,7 +94,7 @@ module EntitiesHelper
     html = ""
     if hash.is_a?(Array)
       html << "<ul class='values'>"
-      html << "<p>Click on the # to display the counts of associated entities (Total/Current)</p>"
+      html << "<p>Click on the # to display the (Total) or (Total/Current) of number of associated entities</p>"
       hash.sort_by{|link| t(link["rel"]).downcase}.each do |link|
         url = link['href']
         

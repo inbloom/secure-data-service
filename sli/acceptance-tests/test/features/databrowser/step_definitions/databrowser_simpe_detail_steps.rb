@@ -278,12 +278,13 @@ Then /^I should go to the "([^"]*)" page and look for the EdOrg table with a "([
 end
 
 # this tests the current breadcrumb trail text for equivalence to the given value (case sig)
-Then /^I should see a breadcrumbtrail of "(.*?)"$/ do |crumb|
+Then /^I should see a breadcrumbtrail of "([^"]*)"$/ do |crumb|
   begin
     # @driver.get PropLoader.getProps['databrowser_server_url']
-    bctValue = @driver.find_element(:class_name, "breadcrumb").text()
-    puts "got breadcrumbtrail value of #{bctValue}"
-    assert(crumb == bctValue, "breadcrumbtrail #{bctValue}, not #{crumb}")
+    bctElem = @driver.find_element(:class_name, "breadcrumb")
+    bctValue = bctElem.text()
+    puts "got breadcrumbtrail value of #{bctElem.text()}"
+    assert(crumb == bctValue, "breadcrumbtrail #{bctElem.text()}, not #{crumb}")
   end
 end
 
