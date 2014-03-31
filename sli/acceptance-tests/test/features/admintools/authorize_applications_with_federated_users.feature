@@ -3,7 +3,7 @@ Feature: Authorize Applications with Federated Users
 
 Background:
   Given I have an open browser
-#  Given I have an open web browser
+
 
 Scenario: Prepare Custom Roles (set up)
   # Reset to default state
@@ -53,6 +53,7 @@ Scenario: Federated SEA Admin Approves application for SEA only (set up data)
    When I authorize the application for "Illinois State Board of Education"
    Then the application status should be "1 EdOrg(s)"
 
+@reset-user-linda
 Scenario: Linda Kim encounters Access Denied Message when attempting to access Application Authorization Tool using default Educator role
   Given I am a valid Educator
     And I go to application authorization page

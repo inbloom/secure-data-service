@@ -24,6 +24,11 @@ require_relative '../../utils/selenium_common.rb'
 
 require 'pry'
 
+Before('@reset-user-linda') do
+  binding.pry
+end
+
+
 When /^I navigate to the Custom Role Mapping page$/ do
   browser.visit path_for('')
   login_to_the_inbloom_realm
