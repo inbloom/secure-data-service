@@ -14,28 +14,30 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.representation;
 
-import org.slc.sli.api.selectors.model.SelectorParseException;
-import org.springframework.stereotype.Component;
+package org.slc.sli.api.jersey.exceptionhandlers;
 
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.slc.sli.api.representation.ErrorResponse;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.service.EntityNotFoundException;
+
 /**
- * @author jstokes
+ * Hander for entity not found errors
  */
 @Provider
 @Component
-public class SelectorParseExceptionHandler implements ExceptionMapper<SelectorParseException> {
+public class EntityNotFoundHandler implements ExceptionMapper<EntityNotFoundException> {
 
-    public Response toResponse(SelectorParseException e) {
+    public Response toResponse(EntityNotFoundException e) {
+        Response.Status errorStatus = Response.Status.NOT_FOUND;
         return Response
-                .status(Response.Status.BAD_REQUEST)
-                .entity(new ErrorResponse(Status.BAD_REQUEST.getStatusCode(), Status.BAD_REQUEST.getReasonPhrase(),
-                        e.getMessage())).build();
+                .status(errorStatus)
+                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
+                        "Entity not found: " + e.getId())).build();
     }
 }
-

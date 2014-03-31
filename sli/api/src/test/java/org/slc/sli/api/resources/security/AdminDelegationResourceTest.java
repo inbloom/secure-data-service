@@ -18,19 +18,14 @@
 package org.slc.sli.api.resources.security;
 
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.SecurityEventBuilder;
-import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -58,19 +53,18 @@ public class AdminDelegationResourceTest {
     @Autowired
     private SecurityContextInjector securityContextInjector;
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test(expected = APIAccessDeniedException.class)
     public void testGetDelegationsNoEdOrg() throws Exception {
 
         securityContextInjector.setLeaAdminContext();
         resource.getDelegations();
-
     }
 
     @Test
     public void testGetDelegationsBadRole() throws Exception {
 
         securityContextInjector.setEducatorContext();
-        Assert.assertEquals(resource.getDelegations().getStatus(), Response.Status.FORBIDDEN.getStatusCode());
+        Assert.assertEquals(Response.Status.FORBIDDEN.getStatusCode(), resource.getDelegations().getStatus());
 
     }
 
@@ -82,6 +76,6 @@ public class AdminDelegationResourceTest {
         ((SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setEdOrgId("1234");
 
 
-        Assert.assertEquals(resource.getSingleDelegation().getStatus(), Response.Status.NOT_FOUND.getStatusCode());
+        Assert.assertEquals(Response.Status.NOT_FOUND.getStatusCode(), resource.getSingleDelegation().getStatus());
     }
 }

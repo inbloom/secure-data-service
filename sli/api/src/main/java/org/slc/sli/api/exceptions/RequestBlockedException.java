@@ -14,30 +14,15 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.representation;
-
-import java.io.EOFException;
-
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
-
-import org.springframework.stereotype.Component;
+package org.slc.sli.api.exceptions;
 
 /**
- * Exception handler to catch cases where an EOF exception is thrown. This can be the case if a user
- * tries to post a null body
- *
- * @author nbrown
- *
+ * Indicates that a request to the API has been blocked.
  */
-@Provider
-@Component
-public class EOFExceptionHandler implements ExceptionMapper<EOFException> {
+public class RequestBlockedException extends RuntimeException {
+    private static final long serialVersionUID = 1L;
 
-    @Override
-    public Response toResponse(EOFException exception) {
-        return Response.status(Response.Status.BAD_REQUEST).build();
+    public RequestBlockedException(String message) {
+        super(message);
     }
-
 }

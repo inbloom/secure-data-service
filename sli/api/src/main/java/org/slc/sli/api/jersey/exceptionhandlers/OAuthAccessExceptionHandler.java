@@ -15,7 +15,7 @@
  */
 
 
-package org.slc.sli.api.representation;
+package org.slc.sli.api.jersey.exceptionhandlers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +25,6 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import org.slc.sli.api.security.oauth.OAuthAccessException;
 import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
@@ -36,7 +35,6 @@ import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
  */
 @Component
 @Provider
-@Repository
 public class OAuthAccessExceptionHandler implements ExceptionMapper<OAuthAccessException>  {
 
 

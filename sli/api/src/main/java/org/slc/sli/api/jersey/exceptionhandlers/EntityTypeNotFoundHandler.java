@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.representation;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.validation.NaturalKeyValidationException;
+package org.slc.sli.api.jersey.exceptionhandlers;
+
+import org.slc.sli.api.exceptions.EntityTypeNotFoundException;
+import org.slc.sli.api.representation.ErrorResponse;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.Response;
@@ -25,19 +27,21 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 /**
- * Exception mapper NaturalKeyValidationExceptions
- *
- * @author srupasinghe
+ * Handler for entity type not found errors
  */
 @Provider
 @Component
-public class NaturalKeyValidationExceptionHandler implements ExceptionMapper<NaturalKeyValidationException> {
+public class EntityTypeNotFoundHandler implements ExceptionMapper<EntityTypeNotFoundException> {
 
-    public Response toResponse(NaturalKeyValidationException e) {
-        String exceptionMessage = "Natural Key Validation failed: " + e.getEntityType() + " " + StringUtils.join(e.getNaturalKeys());
+    public Response toResponse(EntityTypeNotFoundException e) {
+        String message = "entity type not found";
+        if (e.getMessage() != null) {
+            message += ": " + e.getMessage();
+        }
+        Response.Status errorStatus = Response.Status.NOT_FOUND;
         return Response
-                .status(Response.Status.CONFLICT)
-                .entity(new ErrorResponse(Response.Status.CONFLICT.getStatusCode(), Response.Status.CONFLICT.getReasonPhrase(),
-                        exceptionMessage)).build();
+                .status(errorStatus)
+                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
+                        message)).build();
     }
 }

@@ -14,28 +14,34 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.representation;
+
+package org.slc.sli.api.jersey.exceptionhandlers;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.slc.sli.api.security.context.ResponseTooLargeException;
+import org.slc.sli.api.representation.ErrorResponse;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.service.query.SortingException;
+
 /**
- * Hander for when the request is too large to manage
+ * Exception handler for SortingExceptions
+ * 
+ * @author Ryan Farris <rfarris@wgen.net>
+ * 
  */
 @Provider
 @Component
-public class ResponseTooLargeExceptionHandler implements ExceptionMapper<ResponseTooLargeException> {
+public class SortingExceptionHandler implements ExceptionMapper<SortingException> {
     
     @Override
-    public Response toResponse(ResponseTooLargeException exception) {
-        
-        return Response
-                .status(CustomStatus.ENTITY_TOO_LARGE)
-                .entity(new ErrorResponse(CustomStatus.ENTITY_TOO_LARGE.getStatusCode(), CustomStatus.ENTITY_TOO_LARGE.getReasonPhrase(),
-                        "The request is too large to resolve.")).build();
+    public Response toResponse(SortingException e) {
+        Response.Status errorStatus = Response.Status.BAD_REQUEST;
+        return Response.status(errorStatus)
+                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), e.getMessage()))
+                .build();
     }
+    
 }

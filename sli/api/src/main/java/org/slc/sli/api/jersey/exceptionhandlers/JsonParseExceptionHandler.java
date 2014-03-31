@@ -15,13 +15,14 @@
  */
 
 
-package org.slc.sli.api.representation;
+package org.slc.sli.api.jersey.exceptionhandlers;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import org.codehaus.jackson.JsonParseException;
+import org.slc.sli.api.representation.ErrorResponse;
 import org.springframework.stereotype.Component;
 
 /**

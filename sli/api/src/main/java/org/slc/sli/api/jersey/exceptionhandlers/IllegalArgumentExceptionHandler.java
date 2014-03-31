@@ -15,32 +15,24 @@
  */
 
 
-package org.slc.sli.api.representation;
+package org.slc.sli.api.jersey.exceptionhandlers;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.service.query.SortingException;
-
 /**
- * Exception handler for SortingExceptions
- * 
- * @author Ryan Farris <rfarris@wgen.net>
- * 
- */
+ * Handles bad requests
+  */
 @Provider
 @Component
-public class SortingExceptionHandler implements ExceptionMapper<SortingException> {
-    
+public class IllegalArgumentExceptionHandler implements ExceptionMapper<IllegalArgumentException> {
+
     @Override
-    public Response toResponse(SortingException e) {
-        Response.Status errorStatus = Response.Status.BAD_REQUEST;
-        return Response.status(errorStatus)
-                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), e.getMessage()))
-                .build();
+    public Response toResponse(IllegalArgumentException e) {
+        return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
     }
-    
 }

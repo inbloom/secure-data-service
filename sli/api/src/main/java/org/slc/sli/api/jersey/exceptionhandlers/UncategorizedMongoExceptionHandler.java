@@ -13,30 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
-package org.slc.sli.api.representation;
+package org.slc.sli.api.jersey.exceptionhandlers;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.slc.sli.api.representation.ErrorResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.QueryParseException;
-
 /**
- * Handler for Query Parsing errors
+ * Handle connection issues to mongo
+ *
+ * @author nbrown
+ *
  */
 @Provider
 @Component
-public class QueryParseExceptionHandler implements ExceptionMapper<QueryParseException> {
-    
-    public Response toResponse(QueryParseException e) {
-        Response.Status errorStatus = Response.Status.BAD_REQUEST;
+public class UncategorizedMongoExceptionHandler implements ExceptionMapper<UncategorizedMongoDbException> {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UncategorizedMongoExceptionHandler.class);
+
+    @Override
+    public Response toResponse(UncategorizedMongoDbException exception) {
+        Status errorStatus = Status.SERVICE_UNAVAILABLE;
+        LOG.error("Could not access database", exception);
         return Response
                 .status(errorStatus)
                 .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
-                        "Error Parsing the Query: " + e.getMessage())).build();
+                        "Could not access database:" + exception.getMessage())).build();
     }
+
 }
