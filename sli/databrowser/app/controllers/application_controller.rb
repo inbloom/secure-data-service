@@ -221,7 +221,7 @@ class ApplicationController < ActionController::Base
 
   private
   def is_id?(text)
-    text =~ /^\h{8}-\h{4}-\h{4}-\h{4}-\h{12}/
+    text =~ /^\h{8}-\h{4}-\h{4}-\h{4}-\h{12}|_id$/
   end
 
 end
