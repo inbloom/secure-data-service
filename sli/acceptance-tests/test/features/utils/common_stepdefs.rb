@@ -397,7 +397,7 @@ def credentials_for(user_type)
 end
 
 Given /^I navigated to the Data Browser Home URL$/ do
-  @driver.get Property['databrowser_server_url']
+  @driver.get Property[:databrowser_server_url]
 end
 
 Given /^I was redirected to the Realm page$/ do

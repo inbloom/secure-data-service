@@ -924,16 +924,11 @@ Then /^I set the "(.*?)" to "(.*?)" in "(.*?)"$/ do |key, value, field|
   @fields[field].merge!(key=>value)
 end
 
-Then /^I verify there are "(\d)" "(.*?)" with "(.*?)" in mongo$/ do |count, type, query| 
-  @conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
-  @db = @conn.db(convertTenantIdToDbName("Midgar"))
-  @coll = @db[type]
-  disable_NOTABLESCAN
-  query_key="body."+query.split("=")[0]
-  query_value=query.split("=")[1]
-  count_in_db = @coll.find(query_key=>query_value).count
-  assert(count.to_i == count_in_db, "expected #{count}, but only found #{count_in_db}")
-  enable_NOTABLESCAN
+Then /^I verify there are "(\d)" "(.*?)" with "(.*?)" in mongo$/ do |count, type, query|
+  DbClient.new(:tenant => 'Midgar', :allow_table_scan => true).open do |db|
+    key, value = query.split('=')
+    db.count(type, "body.#{key}" => value).should == count.to_i
+  end
 end
 
 Then /^I verify "(.*?)" and "(.*?)" is collapsed in response body$/ do |subdocs, last_subdoc| 

@@ -254,10 +254,6 @@ end
 
 private
 
-def tenant_exists(tenant_name = Property['tenant'])
-  host = Property[:db_host]
-  port = Property[:db_port]
-  conn = Mongo::Connection.new(host, port)
-  sli_db = conn.db(Property[:sli_db_name])
-  (sli_db['tenant'].find("body.tenantId" => tenant_name).count == 0) ? false : true
+def tenant_exists(tenant_name = Property[:tenant])
+  DbClient.new.for_sli.open {|db| db.count('tenant',{'body.tenantId' => tenant_name}) != 0}
 end
