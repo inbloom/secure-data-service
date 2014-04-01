@@ -370,7 +370,7 @@ public class LdapServiceImpl implements LdapService {
 
     private void mapUserToContext(DirContextAdapter context, User user, final boolean isCreate) {
 
-        LOG.info("Before mapUserToContext:  " + ToStringBuilder.reflectionToString(context, ToStringStyle.MULTI_LINE_STYLE));
+        //LOG.info("Before mapUserToContext:  " + ToStringBuilder.reflectionToString(context, ToStringStyle.MULTI_LINE_STYLE));
 
         // TAF 2014-04-01 : Commented out for updates.  Why override the ObjectClasses that are returned from LDAP?  Should respect what hte LDAP server returns for updates.
         if (isCreate) {
@@ -407,7 +407,7 @@ public class LdapServiceImpl implements LdapService {
             context.setAttributeValue("o", user.getVendor());
         }
 
-        LOG.info("After mapUserToContext:  " + ToStringBuilder.reflectionToString(context, ToStringStyle.MULTI_LINE_STYLE));
+       //LOG.info("After mapUserToContext:  " + ToStringBuilder.reflectionToString(context, ToStringStyle.MULTI_LINE_STYLE));
 
     }
 
