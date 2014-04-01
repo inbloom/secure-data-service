@@ -343,11 +343,6 @@ Then /^I should see a count of (\d+)$/ do |arg1|
   end
 end
 
-# Useful to exit at a specific point during test development
-Then /^I assert false/ do
-  assert(false, 'Explicitly asserting false.')
-end
-
 # HERE BELOW LIES IMPROVED STEP DEFS
 
 # Set the session for the given type of user and also set up the +current_user+
@@ -357,8 +352,12 @@ Given /^I am logged in as an? (.*)$/ do |user_type|
   @sessionId.should_not be_nil
   restHttpGet("#{staff_endpoint}/#{user_id}")
   @res.code.should == 200
-  puts JSON.parse @res
   @current_user = JSON.parse @res
+end
+
+Given /^I have a session as an? (.*)$/ do |user_type|
+  @user, @passwd, user_id, @realm = *(credentials_for user_type)
+  idpRealmLogin(@user, @passwd, @realm)
 end
 
 def current_user
@@ -376,7 +375,7 @@ def ed_orgs_for_staff(staff)
 end
 
 def staff_endpoint
-  "/v1.5/staff"
+  '/v1.5/staff'
 end
 
 # Map meaningful user types to user, password, and realm
@@ -387,12 +386,14 @@ def credentials_for(user_type)
     'school-level IT Administrator' => %w( akopel     akopel1234     cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4 ),
     'local-level IT Administrator'  => %w( jstevenson jstevenson1234 e59d9991-9d8f-48ab-8790-59df9bcf9bc7 ),
     'school-level Educator'         => %w( rbraverman rbraverman1234 bcfcc33f-f4a6-488f-baee-b92fbd062e8d ),
-    'school-level Leader'           => %w( mgonzales  mgonzales1234  4a39f944-c238-4787-965a-50f22f3a2d9c )
+    'school-level Leader'           => %w( mgonzales  mgonzales1234  4a39f944-c238-4787-965a-50f22f3a2d9c ),
+    'ingestion user'                => ['ingestionuser', 'ingestionuser1234', nil, 'SLI']
   }
   user = users.detect{|k,v| k.downcase == user_type.downcase}
   user.should_not be_nil, "Unknown user type: #{user_type}"
   creds = user.last
-  [*creds, realm]
+  # username, password, user_id,  realm
+  [creds[0], creds[1], creds[2], creds[3] || realm]
 end
 
 Given /^I navigated to the Data Browser Home URL$/ do
@@ -434,15 +435,15 @@ When /^I click the Go button$/ do
 end
 
 Given /^the following collections are empty in datastore:$/ do |table|
-  DbClient.new(:tenant => 'Midgar').open do |db_client|
+  DbClient.new(:tenant => @tenant || 'Midgar').open do |db_client|
     table.hashes.map do |row|
       db_client.remove_all row['collectionName']
     end
   end
 end
 
-Given /^the security event collection is empty$/ do
-  DbClient.new.for_sli.open { |db| db.remove_all row['securityEvent'] }
+Given /^the "([^"]*)" collection is empty in the SLI datastore$/ do |collection|
+  DbClient.new.for_sli.open {|db| db.remove_all collection}
 end
 
 Then /^I should be able to use the token to make valid API calls$/ do

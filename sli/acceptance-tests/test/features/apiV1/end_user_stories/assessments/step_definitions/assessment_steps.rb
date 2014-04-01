@@ -275,12 +275,7 @@ Then /^I sort the studentAssessmentItems$/ do
 end
 
 Then /^the response field "(.*?)" should be "(.*?)"$/ do |field, value|
-  #puts "\n\nDEBUG: @result[#{field}]=#{@result[field]}\n"
-  # dig the value for that field out of a potentially
-  # dot-delimited response-body structure
-  # ex: field=body.name.firstName, @result=[json response body]
-  puts @result
-  result = fieldExtract(field, @result) 
+  result = fieldExtract(field, @result)
   assert(result.to_s == value, "Unexpected response: expected #{value}, found #{result}")  
 end
 

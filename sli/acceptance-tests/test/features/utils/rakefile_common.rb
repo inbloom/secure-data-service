@@ -59,33 +59,33 @@ end
 # ALL edOrgs (appearing in "educationOrganization") in the given
 # tenant
 #
-def allLeaAllowAppForTenant(appName, tenantName)
-  sleep 1
+def allLeaAllowAppForTenant(app_name, tenant)
   disable_NOTABLESCAN
   db = DbClient.new.for_sli
+  app = db.find_one('application', {'body.name' => app_name})
+  raise "ERROR: Could not find an application named #{app_name}" unless app
 
-  app = db.find_one('application', {"body.name" => appName})
-  raise "ERROR: Could not find an application named #{appName}" if app.nil?
+  app_id = app["_id"]
+  puts("The app #{app_name} id is #{app_id}") if ENV['DEBUG']
 
-  appId = app["_id"]
-  puts("The app #{appName} id is #{appId}") if ENV['DEBUG']
-  
-  db.for_tenant(tenantName)
+  db.for_tenant(tenant)
 
-  appAuthColl = db.collection("applicationAuthorization")
-  #edOrgColl = db.collection("educationOrganization")
+  app_auth_coll = db.collection('applicationAuthorization')
+  needed_ed_orgs = db.find_ids('educationOrganization').map{ |id| {'authorizedEdorg' => id} }
 
-  neededEdOrgs = db.find_ids('educationOrganization').map{ |id| {'authorizedEdorg' => id} }
-
-  #edOrgColl.find.each do |edorg|
-  #  edorg_entry = {}
-  #  edorg_entry["authorizedEdorg"]= edorg["_id"]
-  #  neededEdOrgs.push(edorg_entry)
-  #end
-
-  appAuthColl.remove("body.applicationId" => appId)
-  newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"applicationId" => appId, "edorgs" => neededEdOrgs}, "metaData" => {"tenantId" => tenantName}, "type" => "applicationAuthorization"}
-  appAuthColl.insert(newAppAuth)
+  app_auth_coll.remove('body.applicationId' => app_id)
+  new_app_auth = {
+    '_id' => "2012ls-#{SecureRandom.uuid}",
+    'body' => {
+      'applicationId' => app_id,
+      'edorgs' => needed_ed_orgs
+    },
+    'metaData' => {
+      'tenantId' => tenant
+    },
+    'type' => 'applicationAuthorization'
+  }
+  app_auth_coll.insert(new_app_auth)
   db.close
   enable_NOTABLESCAN
 end

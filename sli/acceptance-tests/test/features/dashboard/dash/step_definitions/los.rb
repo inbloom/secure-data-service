@@ -44,46 +44,31 @@ def getStudentCell (student_name)
   return studentCell
 end
 
-#TODO call studentAttribute inside here
-def getStudentName(studentTr)
-  return getAttribute(studentTr, getStudentColumnName())
-end
-
 def getStudentProgramParticipation(studentTr)
-  td = getTdBasedOnAttribute(studentTr, getStudentProgramParticipationColumnName())
-  programParticipations = td.find_elements(:tag_name, "span")
-  return programParticipations
+  td = getTdBasedOnAttribute(studentTr, 'programParticipation')
+  td.find_elements(:tag_name, "span")
 end
-
-#returns an array of grades
-def getStudentGrades(studentTr)
-  return getAttributes(studentTr, getGradeColumnName())
-end
-
 
 def getColumnLookupName(headerName)
   headerName.downcase!
-  if (headerName == "student")
-    return getStudentColumnName()
-  elsif (headerName == "absence count")
-    return getAbsenceCountColumnName()
-  elsif (headerName == "statetest reading performance level") 
-    return "StateTest Reading.perfLevel"
-  elsif (headerName == "statetest writing performance level") 
-    return "StateTest Writing.perfLevel"
-  elsif (headerName == "unit test 1")
-    return "currentSession-0"
-  else
-    assert(false, "unknown header name: " + headerName)
+  case headerName
+    when 'student'
+      'fullName'
+    when 'absence count'
+      'absenceCount'
+    when 'statetest reading performance level'
+      'StateTest Reading.perfLevel'
+    when 'statetest writing performance level'
+      'StateTest Writing.perfLevel'
+    when 'unit test 1'
+      'currentSession-0'
+    else
+      fail("Unknown header name: #{headerName}")
   end
 end
 
-def getStudentColumnName()
-  return "fullName"
-end
-
-def getStudentProgramParticipationColumnName()
-  return "programParticipation"
+def getStudentColumnName
+  'fullName'
 end
 
 def getAbsenceCountColumnName()

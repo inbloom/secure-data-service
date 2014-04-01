@@ -115,7 +115,6 @@ When /^I navigate to PUT "([^<>"]*)"$/ do |url|
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
-
 When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |url|
   @result = @fields if !defined? @result
   @result.update(@fields)
@@ -137,7 +136,6 @@ Then /^the "([^\"]*)" should be "([^\"]*)"$/ do |arg1, arg2|
   end
 end
 
-
  Then /^the "name" should be "([^\"]*)" "([^\"]*)" "([^\"]*)"$/ do |first_name, middle_name, last_name|
   @result = @res if !defined? @result
   assert(@result["name"] != nil, "Name is nil")
@@ -151,13 +149,11 @@ end
   assert(expected_middle_name == middle_name, "Unexpected middle name. Input: #{middle_name} Expected: #{expected_middle_name}")
   assert(expected_last_name == last_name, "Unexpected last name. Input: #{last_name} Expected: #{expected_last_name}")
 end
-                                
 
-
-Then /^I should receive a collection with (\d+) elements$/ do |count|;
-  count = convert(count)
-  assert(@result != nil, "Response contains no data")
-  assert(@result.is_a?(Array), "Expected array of links, got #{@result}")
+Then /^I should receive a collection with (\d+) elements$/ do |count|
+  count = count.to_i
+  @result.should_not be_nil, 'Response contains no data'
+  @result.should be_a_kind_of(Array), "Expected array of links, got #{@result}"
   @result.length.should == count
 end
 

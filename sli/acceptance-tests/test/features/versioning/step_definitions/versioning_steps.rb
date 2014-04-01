@@ -77,10 +77,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   end
 end
 
-Given /^I drop the "([^\"]*)" collection$/ do |collection|
-  DbClient.new.open {|db| db.remove_all collection}
-end
-
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################

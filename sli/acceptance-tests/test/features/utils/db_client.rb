@@ -114,8 +114,8 @@ class DbClient
     db[collection].remove(query, flags)
   end
 
-  def remove_all(collection)
-    db[collection].remove {}
+  def remove_all(collection, flags={})
+    db[collection].remove({}, flags)
   end
 
   def remove_by_id(collection, id)

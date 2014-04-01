@@ -16,7 +16,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | section                     |
         | studentSectionAssociation   |
         | staff                       |
-        |staffEducationOrganizationAssociation|
+        | staffEducationOrganizationAssociation|
         | teacherSchoolAssociation    |
         | teacherSectionAssociation   |
         | session                     |
@@ -46,9 +46,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | grade                       |
         | gradingPeriod               |
         | calendarDate                |
-        | reportCard                  |
+        | yearlyTranscript            |
         | courseOffering              |
-        | studentAcademicRecord       |
         | graduationPlan              |
         | recordHash                  |
   When zip file is scp to ingestion landing zone

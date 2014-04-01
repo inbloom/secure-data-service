@@ -43,87 +43,65 @@ end
 ############################################################
 
 Before do
-  @conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
-  @mdb = @conn.db('sli')
-  @tenantColl = @mdb.collection('tenant')
-  @edOrgColl = @mdb.collection('educationOrganization')
-  @ingestion_db_name = convertTenantIdToDbName('Midgar')
-  
-  # 2012-05-10: this is necessary to remove old style data from the tenant collection; 
-  # it can go away once there is no lingering bad data anywhere
-  disable_NOTABLESCAN()
-  @tenantColl.find().each do |row|
-    if row['tenantId'] != nil
-      @tenantColl.remove(row)
-    end
+  DbClient.new.for_sli.open do |db|
+    db.remove(:tenant, {'body.tenantId' => UNIQUE_TENANT_ID_1})
+    db.remove(:tenant, {'body.tenantId' => UNIQUE_TENANT_ID_2})
+    db.remove(:tenant, {'body.tenantId' => UNIQUE_TENANT_ID_3})
   end
-  
-  @tenantColl.remove({"body.tenantId" => UNIQUE_TENANT_ID_1})
-  @tenantColl.remove({"body.tenantId" => UNIQUE_TENANT_ID_2})
-  @tenantColl.remove({"body.tenantId" => UNIQUE_TENANT_ID_3})
-  @edOrgColl.remove({"body.stateOrganizationId" => UNIQUE_ED_ORG_ID})
-  enable_NOTABLESCAN()
-  
 end
 
 When /^I POST a new tenant$/ do
-  @format = "application/json;charset=utf-8"
   dataObj =  {
-      "landingZone" => [ 
-        { 
-          "educationOrganization" => "Sunset",
-          "ingestionServer" => "ingServIL",
-          "path" => "#{INGESTION_ZONE_PATH}/lz/inbound/IL-STATE-SUNSET",
-          "desc" => "Sunset district landing zone",
-          "userNames" => [ "jwashington", "jstevenson" ]
-        },
-        {
-          "educationOrganization" => "Daybreak",
-          "ingestionServer" => "ingServIL",
-          "path" => "#{INGESTION_ZONE_PATH}/lz/inbound/IL-STATE-DAYBREAK",
-          "desc" => "Daybreak district landing zone",
-          "userNames" => [ "jstevenson" ]
-        }
-      ],
-      "tenantId" => UNIQUE_TENANT_ID_1
+    'landingZone' => [
+      {
+        'educationOrganization' => 'Sunset',
+        'ingestionServer' => 'ingServIL',
+        'path' => "#{INGESTION_ZONE_PATH}/lz/inbound/IL-STATE-SUNSET",
+        'desc' => 'Sunset district landing zone',
+        'userNames' => [ 'jwashington', 'jstevenson' ]
+      },
+      {
+        'educationOrganization' => 'Daybreak',
+        'ingestionServer' => 'ingServIL',
+        'path' => "#{INGESTION_ZONE_PATH}/lz/inbound/IL-STATE-DAYBREAK",
+        'desc' => 'Daybreak district landing zone',
+        'userNames' => [ 'jstevenson' ]
+      }
+    ],
+    'tenantId' => UNIQUE_TENANT_ID_1
   }
-  data = prepareData("application/json;charset=utf-8", dataObj)
-  restHttpPost("/tenants/", data)
-  assert(@res != nil, "Response from POST operation was null")
+  data = prepareData('application/json', dataObj)
+  restHttpPost '/tenants/', data
+  @res.should_not be_nil, 'Response from POST operation was null'
 end
 
 When /^I provision a new landing zone$/ do
-  @format = "application/json;charset=utf-8"
   dataObj = {
-      "stateOrganizationId" => UNIQUE_ED_ORG_ID,
-      "tenantId" => UNIQUE_TENANT_ID_1
+    'stateOrganizationId' => UNIQUE_ED_ORG_ID,
+    'tenantId' => UNIQUE_TENANT_ID_1
   }
-  data = prepareData("application/json;charset=utf-8", dataObj)
-  restHttpPost("/provision/", data)
-  assert(@res != nil, "Response from POST operation was null")
+  data = prepareData('application/json', dataObj)
+  restHttpPost '/provision/', data
+  @res.should_not be_nil, 'Response from POST operation was null'
 end
-
-
 
 And /^I should receive the same tenant id$/ do
   headers = @res.raw_headers
-  assert(headers != nil, "Headers are nil")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
+  headers['location'].should_not be_nil, 'There is no location link from the previous request'
   s = headers['location'][0]
   newNewId = s[s.rindex('/')+1..-1]
-  assert(newNewId != nil, "After POST, tenant ID is nil")
-  assert(@newId == newNewId, "POSTing to tenant collection with same tenant Id does not result in the same guid")
+  newNedId.should_not be_empty, 'After POST, tenant ID is blank'
+  newNewId.should be(@newId), 'POSTing to tenant collection with same tenant Id does not result in the same guid'
 end
 
 Then /^I should receive the data for the specified tenant entry$/ do
   result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
+  result.should_not be_nil, 'Result of JSON parsing is nil'
   @landing_zone = result[0]["landing_zone"]
   @tenant_id = result[0]["tenant_id"]
 end
 
 When /^I navigate to PUT "([^"]*)"$/ do |arg1|
-  @format = "application/json;charset=utf-8"
   dataObj = {
       "landingZone" => [ 
         { 
@@ -142,51 +120,13 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
   assert(@res != nil, "Response from PUT operation was null")
 end
 
-And /^I should see following map of indexes in the corresponding collections:$/ do |table|
-  disable_NOTABLESCAN()
-  @db   = @conn[@ingestion_db_name]
-
-  @result = "true"
-
-  table.hashes.map do |row|
-    @entity_collection = @db.collection(row["collectionName"])
-    @indexcollection = @db.collection("system.indexes")
-    #puts "ns" + @ingestion_db_name+"student," + "name" + row["index"].to_s
-    @indexCount = @indexcollection.find("ns" => @ingestion_db_name + "." + row["collectionName"], "name" => row["index"]).to_a.count()
-
-    #puts "Index Count = " + @indexCount.to_s
-
-    if @indexCount.to_s == "0"
-      puts "Index was not created for " + @ingestion_db_name+ "." + row["collectionName"] + " with name = " + row["index"]
-      @result = "false"
-    end
-  end
-
-  assert(@result == "true", "Some indexes were not created successfully.")
-  enable_NOTABLESCAN()
-
-end
-
-
 Then /^I should no longer be able to get that tenant's data$/ do
-  @format = "application/json;charset=utf-8"
-  restHttpGet("/tenants/#{@newId}")
-  assert(@res != nil, "Response from PUT operation was null")
-  assert(@res.code == 404, "Return code was not expected: "+@res.code.to_s+" but expected 404")
-end
-
-# TODO delete
-When /^I POST a tenant specifying an invalid field$/ do
-  @format = "application/json;charset=utf-8"
-  dataObj = DataProvider.getValidAppData()
-  dataObj["foo"] = "A Bar Tenant"
-  data = prepareData("application/json;charset=utf-8", dataObj)
-  restHttpPost("/tenants/", data)
-  assert(@res != nil, "Response from POST operation was null")
+  restHttpGet "/tenants/#{@newId}"
+  @res.should_not be_nil
+  @res.code.should be(404)
 end
 
 When /^I PUT a tenant specifying an invalid field$/ do
-  @format = "application/json;charset=utf-8"
   dataObj = DataProvider.getValidAppData()
   dataObj["foo"] = "A Bar Tenant"
   data = prepareData("application/json;charset=utf-8", dataObj)
@@ -194,40 +134,37 @@ When /^I PUT a tenant specifying an invalid field$/ do
   assert(@res != nil, "Response from POST operation was null")
 end
 
-
 def postToTenants(dataObj)
-  @format = "application/json;charset=utf-8"
   data = prepareData("application/json;charset=utf-8", dataObj)
   restHttpPost("/tenants/", data)
   assert(@res != nil, "Response from POST operation was null")
 end
 
 def postToProvision(dataObj)
-  @format = "application/json;charset=utf-8"
   data = prepareData("application/json;charset=utf-8", dataObj)
   restHttpPost("/provision/", data)
   assert(@res != nil, "Response from POST operation was null")
 end
 
 def getBaseTenant
-    return {
-      "landingZone" => [ 
-        { 
-          "educationOrganization" => "Twilight",
-          "ingestionServer" => "ingServIL",
-          "path" => "#{INGESTION_ZONE_PATH}/lz/inbound/IL-STATE-TWILIGHT",
-          "desc" => "Twilight district landing zone",
-          "userNames" => [ "rrogers" ]
-        }
-      ],
-      "tenantId" => UNIQUE_TENANT_ID_1
+  {
+    'landingZone' => [ 
+      { 
+        'educationOrganization' => 'Twilight',
+        'ingestionServer' => 'ingServIL',
+        'path' => "#{INGESTION_ZONE_PATH}/lz/inbound/IL-STATE-TWILIGHT",
+        'desc' => 'Twilight district landing zone',
+        'userNames' => [ 'rrogers' ]
+      }
+    ],
+    'tenantId' => UNIQUE_TENANT_ID_1
   }
 end
 
 def getBaseProvisionData
-    return {
-      "stateOrganizationId" => "Twilight",
-      "tenantId" => UNIQUE_TENANT_ID_1
+  {
+    'stateOrganizationId' => 'Twilight',
+    'tenantId' => UNIQUE_TENANT_ID_1
   }
 end
 
@@ -263,7 +200,6 @@ When /^I PUT a basic tenant with userName "([^"]*)"$/ do |value|
   data = prepareData(@format, @result[0])
   restHttpPut("/tenants/#{@newId}", data)
   assert(@res != nil, "Response from rest-client PUT is nil")
-
 end
 
 When /^I POST a basic tenant with no userName$/ do
@@ -286,15 +222,11 @@ When /^I PUT a basic tenant with missing "([^"]*)"$/ do |property|
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
-
-
-
 When /^I POST a provision request with missing "([^"]*)"$/ do |property|
   dataObject = getBaseProvisionData
   dataObject.delete(property)
   postToProvision(dataObject)
 end
-
 
 When /^I PUT a basic tenant with missing landingZone "([^"]*)"$/ do |property|
   @result = @fields if !defined? @result
@@ -309,8 +241,7 @@ When /^I PUT a basic tenant with "([^"]*)" set to "([^"]*)"$/ do |property,value
   @result[0][property] = value
   data = prepareData(@format, @result[0])
   restHttpPut("/tenants/#{@newId}", data)
-  assert(@res != nil, "Response from rest-client PUT is nil")
-  
+  assert(@res != nil, "Response from rest-client PUT is nil")  
 end
 
 When /^I PUT a basic tenant with landingZone "([^"]*)" set to "([^"]*)"$/ do |property,value|
@@ -321,13 +252,9 @@ When /^I PUT a basic tenant with landingZone "([^"]*)" set to "([^"]*)"$/ do |pr
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
-
-
-
-
 Then /^I should receive a UUID$/ do 
   @newId = @result[0]['id']
-  assert(@newId != nil, "After GET, UUID is nil")
+  @newId.should_not be_nil, 'After GET, UUID is nil'
 end
 
 
