@@ -210,7 +210,7 @@ def getCellValue(tr, columnName, columnType, attributeName = nil)
   elsif (columnType == ColumnType::LETTERGRADE)
     value = letterGradeMapping(value)
   end
-  return value
+  value
 end
 
 def getColumnValues(columnName, columnType, attributeName = nil)

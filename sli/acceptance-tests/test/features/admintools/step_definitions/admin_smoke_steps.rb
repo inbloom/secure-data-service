@@ -16,32 +16,33 @@ limitations under the License.
 
 =end
 
-require 'capybara'
-require 'capybara-screenshot'
-require 'capybara-screenshot/cucumber'
+#require 'capybara'
+#require 'capybara-screenshot'
+#require 'capybara-screenshot/cucumber'
 #require_relative '../../utils/db_client.rb'
 
-Capybara.default_driver = :selenium
+require_relative 'capybara_setup.rb'
 
 # TODO Move the capybara setup code to a common location
-class Browser
-  include Capybara::DSL
-  def initialize
-    Capybara.reset_session!
-  end
-
-  def reset_session!
-    Capybara.reset_session!
-  end
-
-  def confirm_popup
-    page.driver.browser.switch_to.alert.accept
-  end
-
-  def dismiss_popup
-    page.driver.browser.switch_to.alert.dismiss
-  end
-end
+#class Browser
+#  include Capybara::DSL
+#  def initialize
+#    Capybara.default_driver = :selenium
+#    Capybara.reset_session!
+#  end
+#
+#  def reset_session!
+#    Capybara.reset_session!
+#  end
+#
+#  def confirm_popup
+#    page.driver.browser.switch_to.alert.accept
+#  end
+#
+#  def dismiss_popup
+#    page.driver.browser.switch_to.alert.dismiss
+#  end
+#end
 
 Before('@track_entities') do
   @created_entities = []
@@ -65,7 +66,6 @@ end
 
 Given /^I am a valid (.*)$/ do |user_type|
   @user, @pass = valid_user user_type
-  @user.should_not be_nil
   @federated = !!(user_type =~ /federated/)
   @sandbox = !!(user_type =~ /sandbox/)
 end
@@ -78,13 +78,15 @@ def valid_user(user_type)
       'district-level administrator' => %w( sunsetadmin ),
       'realm administrator'          => %w( sunsetrealmadmin ),
       'federated district-level administrator' => %w( jstevenson ),
-      'SLC Operator'                           => %w( slcoperator-email@slidev.org slcoperator-email1234 ),
+      'SLC Operator'                           => %w( slcoperator-email@slidev.org slcoperator-email1234),
       'Super Administrator'                    => %w( daybreaknorealmadmin ),
       'non-SLI hosted user with no roles' => %w( administrator ),
       'SLI hosted user with no roles' => %w( leader ),
       'tenant-level realm administrator' => %w( daybreakadmin ),
       'tenant-level IT administrator' => %w( rrogers ),
-      'sandbox developer'             => %w( developer-email@slidev.org test1234 )
+      'sandbox developer'             => %w( developer-email@slidev.org test1234 ),
+      'NY Hosted User'                => %w(nyadmin),
+      'Educator'                      => %w{linda.kim}
   }
   username, password = valid_users[user_type]
   [username, password || "#{username}1234"]
@@ -124,15 +126,13 @@ When /^I attempt to manage application authorizations$/ do
   login_to_the_realm
 end
 
-When /^I (?:attempt )?to go to the (.*) page$/ do |page|
+When /^I attempt to go to the (.*) page$/ do |page|
   browser.visit path_for(page)
-  puts "Attempting to go to page: #{url}"
-  browser.visit url
   login_to_the_realm
 end
 
-Then /^I should (not )?be on the (.*) page$/ do |not_see, page|
-  selector, header = 'h1', header_for(page)
+Then /^I should (not )?be on the default administration page$/ do |not_see|
+  selector, header = 'h1', 'Admin Tools'
   if not_see
     browser.page.should have_no_selector(selector, :text => header)
   else
@@ -326,7 +326,7 @@ def most_recent_email(email, username=nil, password=nil)
     subject = email_data.attr[subject_attr]
   end
 
-  imap.disconnect unless imap.disconnected?
+  imap.disconnect
 
   [subject, content]
 end
@@ -351,16 +351,6 @@ def path_for(page)
             page.gsub(' ','_')
          end
   "#{Property['admintools_server_url']}/#{path}"
-end
-
-def header_for(page)
-  case page
-    when /default administration/; 'Admin Tools'
-    when /applications/; 'Applications'
-    when /custom roles/; 'Custom Roles'
-    else
-      fail "Unexpected page: #{page}"
-  end
 end
 
 def admin_apps_page
@@ -388,7 +378,6 @@ def login_to_the_tenants_realm
 end
 
 def login_to_realm(realm)
-  puts "Logging into realm: #{realm}"
   choose_realm realm unless @sandbox
   submit_idp_credentials @user, @pass
 end

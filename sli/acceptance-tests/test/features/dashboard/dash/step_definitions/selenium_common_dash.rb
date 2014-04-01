@@ -125,7 +125,7 @@ def selectDropdownOption(selectFieldId, optionToSelect)
 end
 
 # TODO: add this paramteres (tableRef, by), also may want to add TR class
-def countTableRows()
+def countTableRows
   @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
   # we'll read from current tab if present
   source = @driver
