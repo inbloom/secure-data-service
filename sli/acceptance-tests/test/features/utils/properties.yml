@@ -58,7 +58,7 @@ ldap_port: 10389
 ldap_use_ssl: false
 ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
 ldap_admin_user: cn=Admin,dc=slidev,dc=org
-ldap_admin_pass: slidev
+ldap_admin_pass: 95163f4dcd8cdf1b5c082659f7ac6a25
 
 user_registration_app_host_url: "inbloom.org"
 sb_get_started: "inbloom.org/getting-started"
