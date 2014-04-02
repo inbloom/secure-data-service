@@ -16,12 +16,19 @@ limitations under the License.
 
 =end
 
-require_relative 'capybara_setup.rb'
 require 'selenium-webdriver'
+
+require_relative 'capybara_setup.rb'
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
 require 'pry'
+
+Before('@reset-user-linda') do
+  reset_user_linda("linda.kim", "Application Authorizer", "South Daybreak Elementary", "Midgar")
+  reset_user_linda("linda.kim", "Educator", "Sunset Central High School", "Midgar")
+end
+
 
 When /^I navigate to the Custom Role Mapping page$/ do
   browser.visit path_for('')
@@ -105,6 +112,7 @@ And /^I create new application "([^"]*)"$/ do |app_name|
                              :image_url => 'https://example.com')
   browser.check('app[installed]')
   browser.click_button 'Register'
+
 end
 
 Then /^application "([^"]*)" should be created$/ do |app_name|
@@ -175,6 +183,7 @@ When /^I authorize the application for "([^"]*)"$/ do |edOrg|
     @app_id = browser.find('td form')[:id]
     browser.find('td form input').click
   end
+
   if edOrg == 'Illinois State Board of Education'
     browser.find('#hierarchical_mode').set(false)
   end
@@ -197,4 +206,62 @@ When /^I de-authorize the application for "([^"]*)"$/ do |edOrg|
   browser.find('#' + @app_id).find('input').click
   browser.find(:xpath, '//form/div[2]/div/div/ul/li/ul/li/ul/li/input').set(false)
   browser.find(:xpath, '//form/div[2]/div/input[3]').click
+end
+
+When /^I edit role for group "([^"]*)"$/ do |group_name|
+  row = browser.find('tr', :text => group_name)
+  browser.within row do
+    browser.should have_css('.rowEditToolEditButton')
+
+    browser.click_on('Edit')
+    browser.select('APP_AUTHORIZE', :from => 'addRightSelect')
+    browser.click_on('addRightButton')
+    browser.click_on('Save')
+  end
+end
+
+Then /^I should the new right for group "([^"]*)"$/ do |group_name|
+  row = browser.find('tr', :text => group_name)
+  browser.within row do
+    browser.should have_text('APP_AUTHORIZE')
+  end
+end
+
+When /^I (authorize|de\-authorize) the application$/ do |check|
+  check = (check =~ /^(authorize)$/) ? true : false
+
+  if check
+    browser.within @my_new_app do
+      @app_id = browser.find('td form')[:id]
+      browser.find('td form input').click
+    end
+
+    browser.find('#hierarchical_mode').set(false)
+    browser.find(:xpath, '//form/div[2]/div/div/ul/li/ul/li/ul/li[1]/input').set(true)
+    browser.find(:xpath, '//form/div[2]/div/div/ul/li/ul/li/ul/li[3]/input').set(true)
+  else
+    browser.find('#' + @app_id).find('input').click
+    browser.find(:xpath, '//form/div[2]/div/div/ul/li/ul/li/ul/li[1]/input').set(false)
+    browser.find(:xpath, '//form/div[2]/div/div/ul/li/ul/li/ul/li[3]/input').set(false)
+  end
+
+  browser.all("input[type='submit']").first.click
+end
+
+def reset_user_linda(user, role, edorg, tenant)
+  disable_NOTABLESCAN()
+  db = @conn[convertTenantIdToDbName(tenant)]
+  coll = db.collection('staff')
+  staffId = coll.find_one({'body.staffUniqueStateId' => user})['_id']
+  coll = db.collection('educationOrganization')
+  edOrgId = coll.find_one({'body.nameOfInstitution' => edorg})['_id']
+  enable_NOTABLESCAN()
+  seoa_hash = {'staffReference' => staffId, 'educationOrganizationReference' =>  edOrgId, 'staffClassification' => role}
+  puts seoa_hash.to_json.to_s
+
+  coll = db.collection('staffEducationOrganizationAssociation')
+  user_record = coll.find_one('body.staffReference'=> staffId, 'body.educationOrganizationReference'=> edOrgId)
+  unless user_record.nil?
+    coll.remove(user_record)
+  end
 end
