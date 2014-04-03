@@ -17,10 +17,8 @@ Scenario Outline: Control the presence of links by specifying an accept type for
         | format                                    | return links |
         | "application/json;charset=utf-8"         | "links"      |
         | "application/vnd.slc+json;charset=utf-8" | "links"      |
-#       | "application/xml"                         |              |
 
-  @pause
-Scenario Outline: Confirm all known reference fields generate two valid links that are implemented and update-able
+ Scenario Outline: Confirm all known reference fields generate two valid links that are implemented and update-able
    Given format "application/vnd.slc+json;charset=utf-8"
      And referring collection <source entity type> exposed as <source expose name>
      And referring field <reference field> with value <reference value>

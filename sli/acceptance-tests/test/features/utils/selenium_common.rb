@@ -159,13 +159,6 @@ After do |scenario|
   @driver.quit if @driver
 end
 
-AfterStep('@pause') do
-  # Debug function only:
-  # To enable, tag your feature/scenario/step with @pause and hit enter to step through the selenium test
-  print "Press Return to continue..." 
-  STDIN.getc  
-end 
-
 def assertWithWait(msg, timeout = 15, &blk)
   wait = Selenium::WebDriver::Wait.new(:timeout => timeout)
   begin
