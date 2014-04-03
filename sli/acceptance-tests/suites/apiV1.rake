@@ -16,7 +16,7 @@ end
 
 task :apiVersionTests => :realmInit do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/api_versions/apiVersions.feature")
+  runTests("test/features/apiV1/api_versions/api_versions.feature")
 end
 
 task :longLivedSessionTests => :realmInit do
