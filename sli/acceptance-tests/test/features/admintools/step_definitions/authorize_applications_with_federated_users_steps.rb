@@ -25,8 +25,8 @@ require_relative '../../utils/selenium_common.rb'
 require 'pry'
 
 Before('@reset-user-linda') do
-  reset_user_linda("linda.kim", "Application Authorizer", "South Daybreak Elementary", "Midgar")
-  reset_user_linda("linda.kim", "Educator", "Sunset Central High School", "Midgar")
+  reset_user("linda.kim", "Application Authorizer", "South Daybreak Elementary", "Midgar")
+  reset_user("linda.kim", "Educator", "Sunset Central High School", "Midgar")
 end
 
 
@@ -220,7 +220,7 @@ When /^I edit role for group "([^"]*)"$/ do |group_name|
   end
 end
 
-Then /^I should the new right for group "([^"]*)"$/ do |group_name|
+Then /^I should see the new right for group "([^"]*)"$/ do |group_name|
   row = browser.find('tr', :text => group_name)
   browser.within row do
     browser.should have_text('APP_AUTHORIZE')
@@ -248,29 +248,15 @@ When /^I (authorize|de\-authorize) the application$/ do |check|
   browser.all("input[type='submit']").first.click
 end
 
-def reset_user_linda(user, role, edorg, tenant)
+def reset_user(user, role, edorg, tenant)
   DbClient.new(:tenant => tenant).open(:allow_table_scan => true) do |db|
-    staff_id = db.find_one(:staff, 'body.staffUniqueStateId' => user)['_id']
-    edorg_id = db.find_one(:staff, 'body.nameOfInstitution' => edorg)['_id']
+    staff_id = db.find_one(:staff, {'body.staffUniqueStateId' => user})['_id']
+    edorg_id = db.find_one(:educationOrganization, {'body.nameOfInstitution' => edorg})['_id']
     seoa_hash = {'staffReference' => staff_id, 'educationOrganizationReference' =>  edorg_id, 'staffClassification' => role}
     puts seoa_hash.to_json.to_s
     user_record = db.find_one(:staffEducationOrganizationAssociation,
                               {'body.staffReference' => staff_id, 'body.educationOrganizationReference' => edorg_id})
+
     db.remove(:staffEducationOrganizationAssociation, user_record)
   end
-  #disable_NOTABLESCAN()
-  #db = @conn[convertTenantIdToDbName(tenant)]
-  #coll = db.collection('staff')
-  #staffId = coll.find_one({'body.staffUniqueStateId' => user})['_id']
-  #coll = db.collection('educationOrganization')
-  #edOrgId = coll.find_one({'body.nameOfInstitution' => edorg})['_id']
-  #enable_NOTABLESCAN()
-  #seoa_hash = {'staffReference' => staffId, 'educationOrganizationReference' =>  edOrgId, 'staffClassification' => role}
-  #puts seoa_hash.to_json.to_s
-  #
-  #coll = db.collection('staffEducationOrganizationAssociation')
-  #user_record = coll.find_one('body.staffReference'=> staffId, 'body.educationOrganizationReference'=> edOrgId)
-  #unless user_record.nil?
-  #  coll.remove(user_record)
-  #end
 end
