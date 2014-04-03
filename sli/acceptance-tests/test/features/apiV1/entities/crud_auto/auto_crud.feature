@@ -75,7 +75,6 @@ Background: Nothing yet
     | bellSchedules                           | bellSchedules                            | 0     |/educationOrganizations/@ids/bellSchedules|
     Then the staff queries and rewrite rules work
 
- @Teacher_crud
     Scenario: CRUD operations requiring explicit associations on an entity as an IT Admin Teacher
     Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
       And format "application/vnd.slc+json"

@@ -64,10 +64,6 @@ Then /^I should receive a list containing (the student "[^"]*")'s attendance eve
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")end
 
-Given /^I do not teach (the student "[^"]*")$/ do |arg1|
-  # No code needed, this is done as configuration
-end
-
 Then /^I get a message that I am not authorized$/ do
   assert(@res.code == 403, "Response code not expected: expected 403 but received "+@res.code.to_s)
 end

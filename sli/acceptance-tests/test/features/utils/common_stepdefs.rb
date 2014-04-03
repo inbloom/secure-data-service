@@ -77,6 +77,7 @@ Then /^I should receive an ID for the newly created ([\w-]+)$/ do |entity|
 end
 
 When /^I navigate to GET "([^\"]*)"$/ do |uri|
+  uri, _ = uri.split('?') # replace all existing query params
   uri << "?#{@queryParams.join('&')}" if @queryParams && !@queryParams.empty?
   puts uri
   restHttpGet(uri)
@@ -387,6 +388,7 @@ def credentials_for(user_type)
     'local-level IT Administrator'  => %w( jstevenson jstevenson1234 e59d9991-9d8f-48ab-8790-59df9bcf9bc7 ),
     'school-level Educator'         => %w( rbraverman rbraverman1234 bcfcc33f-f4a6-488f-baee-b92fbd062e8d ),
     'school-level Leader'           => %w( mgonzales  mgonzales1234  4a39f944-c238-4787-965a-50f22f3a2d9c ),
+    'middle school-level Educator'  => %w( linda.kim  linda.kim1234  4cf7a5d4-37a1-ca19-8b13-b5f95131ac85 ),
     'ingestion user'                => ['ingestionuser', 'ingestionuser1234', nil, 'SLI']
   }
   user = users.detect{|k,v| k.downcase == user_type.downcase}
