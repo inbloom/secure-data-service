@@ -89,10 +89,7 @@ def lzContainsFile(pattern, landingZone, lz_server_url = nil, lz_username = nil,
 end
 
 def fileContainsMessage(prefix, message, landingZone, lz_server_url = nil, lz_username = nil, lz_password = nil, lz_port_number = nil)
-  puts "fileContainsMessage prefix " + prefix + ", message " + message + ", landingZone " + landingZone
-  puts "prefix = " + prefix
-  puts "message = " + message
-  puts "landingZone = " + landingZone
+  puts "fileContainsMessage prefix #{prefix}, message #{message}, landingZone #{landingZone}"
 
   if @local_lz
     Dir["#{landingZone + prefix + "*"}"].each do |file|
@@ -142,13 +139,12 @@ end
 Given /^I have a local configured landing zone for my tenant$/ do
   @local_lz = true
 
-  host = Property['ingestion_db']
-  port = Property['ingestion_db_port']
-  db_name = Property['ingestion_database_name']
+  host = Property[:db_host]
+  port = Property[:db_port]
   conn = Mongo::Connection.new(host, port)
-  db = conn.db(db_name)
+  db = conn.db('sli')
 
-  if (@mode == "SANDBOX")
+  if (@mode == 'SANDBOX')
     @tenant_name = Property['sandbox_tenant']
   else
     @tenant_name = Property['tenant']

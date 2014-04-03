@@ -8,7 +8,7 @@ require "mongo"
 Before do
   extend Test::Unit::Assertions
   @conn = Mongo::Connection.new
-  @db = @conn.db(Property['api_database_name'])
+  @db = @conn.db('sli')
 end
 
 After do

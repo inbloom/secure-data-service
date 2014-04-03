@@ -90,38 +90,23 @@ def allLeaAllowAppForTenant(app_name, tenant)
   enable_NOTABLESCAN
 end
 
-def authorizeEdorg(appName)
-  authorizeEdorgForTenant(appName, 'Midgar')
-end
+def authorize_ed_org(app_name, tenant='Midgar')
+  enable_NOTABLESCAN
 
-def authorizeEdorgForTenant(appName, tenantName)
-  puts "Entered authorizeEdorg" if ENV['DEBUG']
-  disable_NOTABLESCAN()
-  puts "Getting mongo cursor" if ENV['DEBUG']
-  conn = Mongo::Connection.new(Property['DB_HOST'], Property['DB_PORT'])
-  puts "Setting into the sli db" if ENV['DEBUG']
-  db = conn[Property['api_database_name']]
-  puts "Setting into the application collection" if ENV['DEBUG']
-  appColl = db.collection("application")
-  puts "Finding the application with name #{appName}" if ENV['DEBUG']
-  appId = appColl.find_one({"body.name" => appName})["_id"]
-  puts("The app #{appName} id is #{appId}") if ENV['DEBUG']
-  
-  dbTenant = conn[convertTenantIdToDbName(tenantName)]
-  appAuthColl = dbTenant.collection("applicationAuthorization")
-  
-  puts("The app #{appName} id is #{appId}")
-  neededEdOrgsArray = appAuthColl.find_one({"body.applicationId" => appId})["body"]["edorgs"]
-  neededEdOrgs = []
-  neededEdOrgsArray.each do |edorg_entry|
-    neededEdOrgs.push(edorg_entry["authorizedEdorg"])
+  app_id = DbClient.new.for_sli.open {|db| db.find_one(:application, 'body.name' => app_name)}['_id']
+
+  ed_org_ids = DbClient.new(:tenant => tenant).open do |db|
+    ed_orgs = db.find_one(:applicationAuthorization, 'body.applicationId' => app_id)['body']['edorgs']
+    ed_orgs.map{|edorg| edorg['authorizedEdorg']}
   end
-  neededEdOrgs.each do |edorg|
-    appColl.update({"_id" => appId}, {"$push" => {"body.authorized_ed_orgs" => edorg}})
+
+  DbClient.new.for_sli.open do |db|
+    ed_org_ids.each do |ed_org_id|
+      db.update :application, {'_id' => app_id}, {'$push' => {'body.authorized_ed_orgs' => ed_org_id}}
+    end
   end
-  
-  conn.close
-  enable_NOTABLESCAN()
+
+  disable_NOTABLESCAN
 end
 
 def randomizeRcProdTenant()
@@ -172,7 +157,8 @@ end
 # Property Loader class
 class Property
   properties_file = ENV['PROPERTIES'] || File.join(File.dirname(__FILE__),'properties.yml')
-  @@yml = YAML.load_file properties_file
+  puts "Loading properties from #{properties_file}"
+  @@yml ||= YAML.load_file properties_file
 
   def self.getProps
     self.updateHash
@@ -200,13 +186,13 @@ end
 ##############################################################################
 # turn ON --notablescan MongoDB flag, if set in ENV
 ##############################################################################
-def enable_NOTABLESCAN()
+def enable_NOTABLESCAN
   DbClient.disallow_table_scan! if ENV['TOGGLE_TABLESCANS']
 end
 
 ##############################################################################
 # turn OFF --notablescan MongoDB flag, if set in ENV
 ##############################################################################
-def disable_NOTABLESCAN()
+def disable_NOTABLESCAN
   DbClient.allow_table_scan! if ENV['TOGGLE_TABLESCANS']
 end

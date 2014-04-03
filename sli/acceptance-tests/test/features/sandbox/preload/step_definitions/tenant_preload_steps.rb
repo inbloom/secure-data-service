@@ -24,7 +24,7 @@ require_relative '../../../utils/sli_utils.rb'
 PRELOAD_EDORG = "STANDARD-SEA"
 
 Before do
-  @db = Mongo::Connection.new.db(Property['api_database_name'])
+  @db = Mongo::Connection.new.db('sli')
 end
 
 After do |scenario|

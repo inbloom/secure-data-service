@@ -23,7 +23,7 @@ require_relative '../../../search/step_definitions/search_indexer_steps.rb'
 
 # TODO: figure out a clean way to remove deterministic IDs from stepdef
 When /^I update the "(.*?)" with ID "(.*?)" field "(.*?)" to "(.*?)"$/ do |collection, id, field, value|
-  conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   mdb = conn.db(MIDGAR_DB_NAME)
 
   coll = mdb[collection]
@@ -41,7 +41,7 @@ When /^I update the "(.*?)" with ID "(.*?)" field "(.*?)" to "(.*?)"$/ do |colle
 end
 
 When /^I delete the "(.*?)" with ID "(.*?)"$/ do |collection, id|
-  conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   mdb = conn.db(MIDGAR_DB_NAME)
 
   coll = mdb[collection]
@@ -56,7 +56,7 @@ When /^I delete the "(.*?)" with ID "(.*?)"$/ do |collection, id|
 end
 
 When /^I create the previously deleted entity$/ do
-  conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   mdb = conn.db(MIDGAR_DB_NAME)
   coll = mdb[@last_deleted_doc_collection]
   puts "inserting entity: #{@last_deleted_doc}"

@@ -248,7 +248,7 @@ desc "Run API Multiple Parent Tests"
 task :apiOdinMultipleParentTests => :realmInit do
   Rake::Task["importSandboxData"].execute
   allLeaAllowApp("Mobile App")
-  authorizeEdorg("Mobile App")
+  authorize_ed_org("Mobile App")
   runTests("test/features/apiV1/integration/multiple_parents.feature")
 end
 
@@ -256,19 +256,8 @@ desc "Run API Federated Apps Tests"
 task :apiOdinFederatedAppsTests => :realmInit do
   Rake::Task["importSandboxData"].execute
   allLeaAllowApp("Mobile App")
-  authorizeEdorg("Mobile App")
+  authorize_ed_org("Mobile App")
   runTests("test/features/apiV1/integration/federated_apps.feature")
-end
-
-desc "Run API Performance Tests"
-task :apiPerformanceTests => :realmInit do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/performance/performance.feature")
-end
-
-desc "Run API JMeter Tests"
-task :apiJMeterTests do
-  runTests("test/features/apiV1/jmeter/jmeterPerformance.feature")
 end
 
 desc "Run Odin API Generation Task"
@@ -304,7 +293,7 @@ end
 desc "Run API Odin Assessment Integration Tests"
 task :apiOdinSuperAssessment => :realmInit do
   allLeaAllowApp("Mobile App")
-  authorizeEdorg("Mobile App")
+  authorize_ed_org("Mobile App")
 # This is to extract assessment, learningStandard, etc. into Elastic Search  
   Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/integration/super_assessment.feature")
@@ -320,7 +309,7 @@ end
 desc "Set up app for api odin tests"
 task :apiOdinSetupAPIApp => :realmInit do
   allLeaAllowApp("Mobile App")
-  authorizeEdorg("Mobile App")
+  authorize_ed_org("Mobile App")
 end
 
 desc "Set up api for odin tests"

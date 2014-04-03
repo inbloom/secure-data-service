@@ -882,7 +882,7 @@ Then /^I should see all entities$/ do
   end
 
   #Get entity ids from the database
-  @conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
+  @conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   @db = @conn.db(convertTenantIdToDbName("Midgar"))
   @coll = @db[currentEntity]
 
@@ -903,7 +903,7 @@ Then /^I should see all entities$/ do
 end
 
 Then /^I verify "(.*?)" and "(.*?)" should be subdoc'ed in mongo for this new "(.*?)"$/ do |subdoc1, subdoc2, type|
-  @conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
+  @conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   @db = @conn.db(convertTenantIdToDbName("Midgar"))
   @coll = @db[type]
   entity = @coll.find_one("_id"=>@newId);
@@ -925,7 +925,7 @@ Then /^I set the "(.*?)" to "(.*?)" in "(.*?)"$/ do |key, value, field|
 end
 
 Then /^I verify there are "(\d)" "(.*?)" with "(.*?)" in mongo$/ do |count, type, query| 
-  @conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
+  @conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   @db = @conn.db(convertTenantIdToDbName("Midgar"))
   @coll = @db[type]
   disable_NOTABLESCAN

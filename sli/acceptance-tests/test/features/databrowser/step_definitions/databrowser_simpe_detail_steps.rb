@@ -36,17 +36,13 @@ Then /^I should see my available links labeled$/ do
 end
 
 When /^I click on the Logout link$/ do
-
-  # current logout functionaly means delete all the cookies
+  # current logout functionally means delete all the cookies
   @driver.manage.delete_all_cookies
-  browser = Property['browser'].downcase
   # cannot delete httponly cookie in IE
-  if (browser == "ie")
+  if @driver.browser == :ie
     @driver.quit
     @driver = Selenium::WebDriver.for :ie
   end
-  #@driver.find_element(:css, "a.menulink").click
-  #@driver.find_element(:link, "Logout").click
 end
 
 Then /^I am forced to reauthenticate to access the databrowser$/ do
