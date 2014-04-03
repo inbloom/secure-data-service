@@ -31,11 +31,6 @@ require_relative '../../../../security/step_definitions/securityevent_util_steps
 ###############################################################################
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
-
-  # values to support the test for whether or not to display links
-  id = "schools"                                if human_readable_id == "URI FOR ENTITY THAT CAN RETURN LINKS"
-  id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"   if human_readable_id == "ID OF ENTITY THAT CAN RETURN LINKS"
-
   #values to support direct entity reference tests
   id = @referring_collection_expose_name        if human_readable_id == "REFERRING COLLECTION URI"
   id = @testing_id                              if human_readable_id == "REFERRING ENTITY ID"
@@ -44,18 +39,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = @referring_field                         if human_readable_id == "REFERENCE FIELD"
   id = @new_valid_value                         if human_readable_id == "NEW VALID VALUE"
 
-
-
   #query URI
   id = @referring_collection_expose_name + "?" + @referring_field + "=" + @reference_value                    if human_readable_id == "URI OF ENTITIES THAT REFER TO TARGET"
-
-
-
-
-
-
-
-
 
   #general
   id = ["11111111-1111-1111-9999-111111111111"] if human_readable_id == "INVALID REFERENCE"

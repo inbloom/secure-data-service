@@ -11,17 +11,6 @@ and that the links are valid
 Background: Nothing yet
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
 
-Scenario Outline: Control the presence of links by specifying an accept type format
-   Given format <format>
-     And I request <return links>
-     And I navigate to GET "/<URI FOR ENTITY THAT CAN RETURN LINKS>/<ID OF ENTITY THAT CAN RETURN LINKS>"
-    Then I should receive a return code of 200
-     And the response should contain links if I requested them
-    Examples:
-        | format                     | return links |
-        | "application/json"         | "links"      |
-        | "application/vnd.slc+json" | "links"      |
-
 Scenario Outline: Confirm all known non-list reference fields generate two valid links that are implemented and update-able
    Given format "application/vnd.slc+json"
      And the sli securityEvent collection is empty

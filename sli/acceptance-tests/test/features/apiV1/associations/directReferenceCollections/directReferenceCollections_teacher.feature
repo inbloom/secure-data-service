@@ -8,17 +8,6 @@ Feature: As an SLI application, I want entity references displayed as usable lin
   Background: Nothing yet
     Given I am logged in using "cgrayadmin" "cgrayadmin1234" to realm "IL"
 
-  Scenario Outline: Control the presence of links by specifying an accept type format
-    Given format <format>
-    And I request <return links>
-    And I navigate to GET "/<URI FOR ENTITY THAT CAN RETURN LINKS>/<ID OF ENTITY THAT CAN RETURN LINKS>"
-    Then I should receive a return code of 200
-    And the response should contain links if I requested them
-    Examples:
-      | format                                    | return links |
-      | "application/json;charset=utf-8"         | "links"      |
-      | "application/vnd.slc+json;charset=utf-8" | "links"      |
-
   Scenario Outline: Confirm all known reference fields generate two valid links that are implemented and update-able
     Given format "application/vnd.slc+json;charset=utf-8"
     And referring collection <source entity type> exposed as <source expose name>
