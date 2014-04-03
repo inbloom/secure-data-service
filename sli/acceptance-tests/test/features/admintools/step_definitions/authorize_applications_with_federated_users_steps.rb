@@ -249,19 +249,28 @@ When /^I (authorize|de\-authorize) the application$/ do |check|
 end
 
 def reset_user_linda(user, role, edorg, tenant)
-  disable_NOTABLESCAN()
-  db = @conn[convertTenantIdToDbName(tenant)]
-  coll = db.collection('staff')
-  staffId = coll.find_one({'body.staffUniqueStateId' => user})['_id']
-  coll = db.collection('educationOrganization')
-  edOrgId = coll.find_one({'body.nameOfInstitution' => edorg})['_id']
-  enable_NOTABLESCAN()
-  seoa_hash = {'staffReference' => staffId, 'educationOrganizationReference' =>  edOrgId, 'staffClassification' => role}
-  puts seoa_hash.to_json.to_s
-
-  coll = db.collection('staffEducationOrganizationAssociation')
-  user_record = coll.find_one('body.staffReference'=> staffId, 'body.educationOrganizationReference'=> edOrgId)
-  unless user_record.nil?
-    coll.remove(user_record)
+  DbClient.new(:tenant => tenant).open(:allow_table_scan => true) do |db|
+    staff_id = db.find_one(:staff, 'body.staffUniqueStateId' => user)['_id']
+    edorg_id = db.find_one(:staff, 'body.nameOfInstitution' => edorg)['_id']
+    seoa_hash = {'staffReference' => staff_id, 'educationOrganizationReference' =>  edorg_id, 'staffClassification' => role}
+    puts seoa_hash.to_json.to_s
+    user_record = db.find_one(:staffEducationOrganizationAssociation,
+                              {'body.staffReference' => staff_id, 'body.educationOrganizationReference' => edorg_id})
+    db.remove(:staffEducationOrganizationAssociation, user_record)
   end
+  #disable_NOTABLESCAN()
+  #db = @conn[convertTenantIdToDbName(tenant)]
+  #coll = db.collection('staff')
+  #staffId = coll.find_one({'body.staffUniqueStateId' => user})['_id']
+  #coll = db.collection('educationOrganization')
+  #edOrgId = coll.find_one({'body.nameOfInstitution' => edorg})['_id']
+  #enable_NOTABLESCAN()
+  #seoa_hash = {'staffReference' => staffId, 'educationOrganizationReference' =>  edOrgId, 'staffClassification' => role}
+  #puts seoa_hash.to_json.to_s
+  #
+  #coll = db.collection('staffEducationOrganizationAssociation')
+  #user_record = coll.find_one('body.staffReference'=> staffId, 'body.educationOrganizationReference'=> edOrgId)
+  #unless user_record.nil?
+  #  coll.remove(user_record)
+  #end
 end
