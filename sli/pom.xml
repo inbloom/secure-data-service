@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -96,7 +96,7 @@
         <!-- Maven Plugin Versions -->
         <aspectj.maven.version>1.5</aspectj.maven.version>
         <maven.assembly.version>2.4</maven.assembly.version>
-        <maven.checkstyle.version>2.11</maven.checkstyle.version>
+        <maven.checkstyle.version>2.12</maven.checkstyle.version>
         <maven.clean.version>2.5</maven.clean.version>
         <maven.compiler.version>2.5.1</maven.compiler.version> <!-- 2014-3-3: Attempted upgrade to 3.1 which threw compile errors. -->
         <maven.deploy.version>2.8.1</maven.deploy.version>
@@ -114,8 +114,8 @@
         <maven.release.version>2.5</maven.release.version>
         <maven.resources.version>2.6</maven.resources.version>
         <maven.source.version>2.2.1</maven.source.version>
-        <maven.surefire.version>2.16</maven.surefire.version>
-        <maven.tomcat.version>1.1</maven.tomcat.version>
+        <maven.surefire.version>2.17</maven.surefire.version>
+        <maven.tomcat.version>2.2</maven.tomcat.version>
         <maven.yuicompressor.version>1.4</maven.yuicompressor.version>
         <maven.war.version>2.4</maven.war.version>
         <maven.plugin.codehaus.aspectj.version>1.5</maven.plugin.codehaus.aspectj.version>
@@ -1251,7 +1251,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jarsigner-plugin</artifactId>
-                    <version>$[maven.jarsigner.version}</version>
+                    <version>${maven.jarsigner.version}</version>
                     <executions>
                         <execution>
                             <id>sign</id>
@@ -1554,8 +1554,8 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>tomcat-maven-plugin</artifactId>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>${maven.tomcat.version}</version>
             </plugin>
         </plugins>
