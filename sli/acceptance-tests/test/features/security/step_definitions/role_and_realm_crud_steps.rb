@@ -32,7 +32,7 @@ Transform /^realm "([^"]*)"$/ do |arg1|
   init_realm_map if @realm_lookup_map == nil 
   if arg1 == "Sandbox"
     disable_NOTABLESCAN
-    conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
+    conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
     db = conn.db('sli')
     coll = db.collection('realm')
     sandboxRealm = coll.find_one({"body.uniqueIdentifier" => "Shared Learning Collaborative"})

@@ -27,8 +27,6 @@ require_relative '../../entities/crud/step_definitions/crud_step.rb'
 require_relative '../../end_user_stories/CustomEntities/step_definitions/CustomEntities_steps.rb'
 require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 
-DATABASE_HOST = Property['ingestion_db']
-DATABASE_PORT = Property['ingestion_db_port']
 MAX_ENTITIES_PER_API_CALL = 1000
 
 #############################################################################################
@@ -184,7 +182,7 @@ When /^I log in as "(.*?)"/ do |user|
   script_loc = File.dirname(__FILE__) + '/../../../../../../opstools/token-generator/generator.rb'
 
   disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   db_name = convertTenantIdToDbName @tenant
   db = conn[db_name]
   staff_coll = db.collection('staff')
@@ -195,7 +193,7 @@ When /^I log in as "(.*?)"/ do |user|
   seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
   assert(seoas.size > 0, "No SEOAs found for #{user}")
 
-  sli_db_name = Property['sli_database_name']
+  sli_db_name = 'sli'
   sli_db = conn[sli_db_name]
   user_session_coll = sli_db.collection('userSession')
   user_session_coll.remove()
@@ -220,11 +218,11 @@ When /^I log in as "(.*?)"/ do |user|
   puts "The generated token is #{@sessionId}"
 
   conn.close
-  enable_NOTABLESCAN()
+  enable_NOTABLESCAN
 end
 
 When /^I navigate to the API authorization endpoint with my client ID$/ do
-  @driver.get Property['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
+  @driver.get "#{Property[:api_server_url]}/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
 end
 
 Then /^I should be redirected to the realm choosing page$/ do
@@ -254,9 +252,9 @@ end
 
 def all_lea_allow_app_for_tenant(app_name, tenant_name)
   sleep 1
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(Property['DB_HOST'], Property['DB_PORT'])
-  db = conn[Property['api_database_name']]
+  disable_NOTABLESCAN
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
+  db = conn['sli']
   app_coll = db.collection("application")
   app = app_coll.find_one({"body.name" => app_name})
   raise "ERROR: Could not find an application named #{app_name}" if app.nil?
@@ -284,13 +282,13 @@ end
 def authorize_edorg_for_tenant(app_name, tenant_name)
   #sleep 1
   puts "Entered authorizeEdorg" if ENV['DEBUG']
-  disable_NOTABLESCAN()
+  disable_NOTABLESCAN
   puts "Getting mongo cursor" if ENV['DEBUG']
-  conn = Mongo::Connection.new(Property['DB_HOST'], Property['DB_PORT'])
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   puts "Setting into the sli db" if ENV['DEBUG']
-  db = conn[Property['api_database_name']]
+  db = conn['sli']
   puts "Setting into the application collection" if ENV['DEBUG']
-  app_coll = db.collection("application")
+  app_coll = db.collection('application')
   puts "Finding the application with name #{app_name}" if ENV['DEBUG']
   app_id = app_coll.find_one({"body.name" => app_name})["_id"]
   puts("The app #{app_name} id is #{app_id}") if ENV['DEBUG']
@@ -309,7 +307,7 @@ def authorize_edorg_for_tenant(app_name, tenant_name)
   end
 
   conn.close
-  enable_NOTABLESCAN()
+  enable_NOTABLESCAN
 end
 
 Given /^I import the odin setup application and realm data$/ do
@@ -318,37 +316,32 @@ Given /^I import the odin setup application and realm data$/ do
   #get current working dir
   current_dir = Dir.getwd
   # Get current server environment (ci or local) from properties.yml
-  app_server = Property['app_bootstrap_server']
+  app_server = Property[:app_bootstrap_server]
   # Drop in ci specific app-auth fixture data
-  if app_server == "ci"
-    puts "\b\bDEBUG: We are setting CI environment app auth data"
-    Dir.chdir(@ci_realm_store_path)
-    `sh ci-jmeter-realm.sh`
-    disable_NOTABLESCAN()
-    conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-    db = conn['sli']
-    coll = db.collection('realm')
-    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.id' => Property['ci_idp_redirect_url']}})
-    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.redirectEndpoint' => Property['ci_idp_redirect_url']}})
-    conn.close
-    enable_NOTABLESCAN()
-    # Drop in local specific app-auth fixture data
-  elsif app_server == "local"
-    puts "\b\bDEBUG: We are setting LOCAL environment app auth data"
+  if app_server == 'local'
+    puts 'DEBUG: We are setting LOCAL environment app auth data'
     Dir.chdir(@local_realm_store_path)
     `sh local-jmeter-realm.sh`
   else
-    puts "\n\nWARNING: No App server context set, assuming CI environment.."
+    if app_server == 'ci'
+      puts 'DEBUG: We are setting CI environment app auth data'
+    else
+      puts 'WARNING: No App server context set, assuming CI environment..'
+    end
     Dir.chdir(@ci_realm_store_path)
     `sh ci-jmeter-realm.sh`
-    disable_NOTABLESCAN()
-    conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-    db = conn['sli']
-    coll = db.collection('realm')
-    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.id' => Property['ci_idp_redirect_url']}})
-    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.redirectEndpoint' => Property['ci_idp_redirect_url']}})
-    conn.close
-    enable_NOTABLESCAN()
+    DbClient.new.for_sli.open(:allow_table_scan => true) do |db|
+      db.update(
+          :realm,
+          {'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'},
+          {'$set' => {'body.idp.id' => Property[:ci_idp_redirect_url]}}
+      )
+      db.update(
+          :realm,
+          {'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'},
+          {'$set' => {'body.idp.redirectEndpoint' => Property[:ci_idp_redirect_url]}}
+      )
+    end
   end
   @tenant = 'Midgar'
   @realm = 'IL-DAYBREAK'
@@ -463,7 +456,7 @@ Then /^I should see all global entities$/ do
   end
 
   #Get entity ids from the database
-  conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   db = conn.db(convertTenantIdToDbName("Midgar"))
   coll = db[@currentEntity]
 
@@ -517,8 +510,8 @@ When /^I set the ([^"]*) to ([^"]*)$/ do |key, value|
 end
 
 Given /^a valid json document for entity "([^"]*)"$/ do |entity|
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  disable_NOTABLESCAN
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   db_name = convertTenantIdToDbName @tenant
   db = conn[db_name]
   gp_coll = db.collection('gradingPeriod')
@@ -1059,13 +1052,13 @@ end
 ############################################################################################
 
 Given /^I create a student entity with restricted data$/ do
-  @fields = CreateEntityHash.createBaseStudentRandomId()
-  @fields["economicDisadvantaged"] = true
+  @fields = CreateEntityHash.createBaseStudentRandomId
+  @fields['economicDisadvantaged'] = true
   @lastStudentId = @fields['studentUniqueStateId']
 end
 
 Given /^I create a student entity without restricted data$/ do
-  @fields = CreateEntityHash.createBaseStudentRandomId()
+  @fields = CreateEntityHash.createBaseStudentRandomId
   @lastStudentId = @fields['studentUniqueStateId']
 end
 
@@ -1079,7 +1072,7 @@ Then /^I remove the new entity from "([^"]*)"$/ do |collection|
   db_name = convertTenantIdToDbName @tenant
   if collection.include? '.'
     disable_NOTABLESCAN
-    conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+    conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
     db = conn[db_name]
     coll_split = collection.split('.')
     coll = db.collection(coll_split[0])
@@ -1159,7 +1152,7 @@ end
  }
 
 And(/^I delete all classPeriods$/) do
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   tenant = convertTenantIdToDbName @tenant
   db = conn[tenant]
   role_coll = db.collection('classPeriod')
@@ -1168,7 +1161,7 @@ And(/^I delete all classPeriods$/) do
 end
 
 And(/^I delete all bellSchedules$/) do
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   tenant = convertTenantIdToDbName @tenant
   db = conn[tenant]
   role_coll = db.collection('bellSchedule')

@@ -1,4 +1,3 @@
-@RALLY_US4835
 @rc
 @sandbox
 Feature: User provisions a landing zone, and preloads Small Sample Dataset

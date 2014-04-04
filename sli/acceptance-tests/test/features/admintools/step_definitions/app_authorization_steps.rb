@@ -25,7 +25,7 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
-DATABASE_NAME = Property['sli_database_name']
+DATABASE_NAME = 'sli'
 
 Then /^The following edOrgs are authorized for the application "(.*?)" in tenant "(.*?)"$/ do |application, tenant, table|
     disable_NOTABLESCAN()

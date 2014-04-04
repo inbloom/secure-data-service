@@ -24,14 +24,14 @@ After do
 end
 
 Given /^I have an empty delta collection$/ do
-    @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
+    @conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
     @db = @conn[@ingestion_db_name]
     @coll = @db.collection("deltas")
     @coll.remove()
 end
 
 Given /^I have an empty bulk extract files collection$/ do
-    @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
+    @conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
     @db = @conn["sli"]
     @coll = @db.collection("bulkExtractFiles")
     @coll.remove()
@@ -53,7 +53,7 @@ Then /^I see deltas for each (.*?) (.*?) operation$/ do |type, operation|
     manifest = JSON.parse(file.read)
     manifest.default = 0
     count = getEdfiEntities(type).map{|t| manifest[t]}.reduce(:+)
-    @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
+    @conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
     @db = @conn[@ingestion_db_name]
     @coll = @db['deltas']
     disable_NOTABLESCAN()
@@ -65,7 +65,7 @@ end
 
 Then /^deltas collection should have "(.*?)" records$/ do |count|
     count = count.to_i
-    @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
+    @conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
     @db = @conn[@ingestion_db_name]
     @coll = @db['deltas']
     assert(@coll.count() == count, "expecting #{count}, but has #{@coll.count()} delta records")

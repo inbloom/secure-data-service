@@ -24,19 +24,11 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
 ############################################################
-# ENVIRONMENT CONFIGURATION - for security event testing
-############################################################
-
-INGESTION_DB_NAME = convertTenantIdToDbName('Midgar')
-INGESTION_DB = Property['ingestion_db']
-INGESTION_DB_PORT = Property['ingestion_db_port']
-
-############################################################
 # STEPS: BEFORE - for security event testing
 ############################################################
 
 Before do
-  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
+  @conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
 end
 
 When /^I navigate to the default Admin Page$/ do

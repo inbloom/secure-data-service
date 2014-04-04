@@ -91,7 +91,7 @@ end
 
 Given /^I change the isAdminRole flag for role "(.*?)" to in (the realm ".*?") to be "(.*?)"$/ do |role, realm, isAdminRole|
   disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(Property['DB_HOST'])
+  conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
   db = conn.db(convertTenantIdToDbName('Midgar'))
   coll = db.collection('customRole')
   customRoleDoc = coll.find_one({"body.realmId" => realm})
@@ -107,8 +107,8 @@ Given /^I change the isAdminRole flag for role "(.*?)" to in (the realm ".*?") t
 end
 
 def dissallowDatabrowser(district, tenantName)
-  conn = Mongo::Connection.new(Property['DB_HOST'], Property['DB_PORT'])
-  db = conn[Property['api_database_name']]
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
+  db = conn['sli']
   appColl = db.collection("application")
   databrowserId = appColl.find_one({"body.name" => "inBloom Data Browser"})["_id"]
   puts("The databrowser id is #{databrowserId}") if ENV['DEBUG']

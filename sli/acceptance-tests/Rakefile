@@ -17,21 +17,15 @@ end
 ###################################################
 # Section to setup necessary env vars and overrides
 
-DB_HOST = ENV['DB_HOST'] ? ENV['DB_HOST'] : "localhost"
-
 DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 SYSTEM_DB_NAME = ENV['SYSTEM_DB_NAME'] ? ENV['DB_NAME'] : "sli"
 
 MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
-EXPAND = ENV['CUKE_EXPAND'] ? "--expand" : ""
-
 OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
 TENANT_COLLECTION = [convertTenantIdToDbName("Midgar"), convertTenantIdToDbName("Hyrule"), convertTenantIdToDbName("Security"), convertTenantIdToDbName("Other"), convertTenantIdToDbName("Zork"), convertTenantIdToDbName("SLI"), convertTenantIdToDbName("T1"), convertTenantIdToDbName("T2"), convertTenantIdToDbName("T3"), convertTenantIdToDbName("mreynolds"), convertTenantIdToDbName("chaos_mokey_org"), convertTenantIdToDbName("fakedev_zork_net")]
 
-IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
-  
 #######################################################
 
 if ENV['HEADLESS'] 
@@ -83,14 +77,8 @@ $collectionSet = ["student",
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-
-  if IS_WINDOWS
-    @tags ||= ["~@wip", "~@sandbox", "~@not-windows"]
-  else
-    @tags ||= ["~@wip", "~@sandbox"]
-  end
-
-  sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} -c --strict -f junit --out ./target -f pretty" do |success, exit_code|
+  @tags ||= ["~@wip", "~@sandbox"]
+  sh "cucumber #{testDirPath} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} -c --strict -f junit --out ./target -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
@@ -107,12 +95,12 @@ end
 
 def set_fixture(collection, fixture_name=nil, fixture_path='test/data', drop=true)
   disable_NOTABLESCAN
-  db_used = system_collection?(collection) ? SYSTEM_DB_NAME : DB_NAME
+  db_used = system_collection?(collection) ? 'sli' : DB_NAME
   fixture_name ||= "#{collection}_fixture.json"
 
   removeCollectionsCleanly(collection) if drop
 
-  sh "#{MONGO_BIN}mongoimport -d #{db_used} -c #{collection} -h #{DB_HOST} --file #{fixture_path}/#{fixture_name}" do |success, exit_code|
+  sh "#{MONGO_BIN}mongoimport -d #{db_used} -c #{collection} -h #{Property[:db_host]} --file #{fixture_path}/#{fixture_name}" do |success, exit_code|
     raise "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
   end
 end
@@ -137,37 +125,30 @@ def display_failure_report
   end
 end
 
-def cleanseRealms()
-  puts 'About to clean up all but the boostrapped realms in mongo'
-  @conn = Mongo::Connection.new(DB_HOST)
-  @db = @conn.db(SYSTEM_DB_NAME)
-  @realmColl = @db.collection('realm')
+def cleanse_realms
+  puts 'Clean up all but the boostrapped realms in mongo'
 
-  @realmColl.find.each do |row|
-    if row['body']['uniqueIdentifier'] != 'Shared Learning Collaborative' and row['body']['uniqueIdentifier'] != 'SandboxIDP'
-      @realmColl.remove(row)
-    end
-  end
+  query = {'$and' => [
+    {'body.uniqueIdentifier' => {'$ne'=>'Shared Learning Collaborative'}},
+    {'body.uniqueIdentifier' => {'$ne' => 'Sandbox IDP'}}
+  ]}
 
-end
-
-def cleanseApps()
-  puts 'About to clean up all but the boostrapped applications in mongo'
-  @conn = Mongo::Connection.new(DB_HOST)
-  @db = @conn.db(SYSTEM_DB_NAME)
-  @appColl = @db.collection('application')
-
-  @appColl.find.each do |row|
-    if row['body']['bootstrap'] != true
-      @appColl.remove(row, :safe => true)
-    end
+  DbClient.new.for_sli.open do |db|
+    db.remove(:realm, query)
   end
 end
 
-def cleanseTenantCollection()
-  puts 'About to clean up test tenants in mongo'
-  @conn = Mongo::Connection.new(DB_HOST)
-  @db = @conn.db(SYSTEM_DB_NAME)
+def cleanse_apps
+  puts 'Clean up all but the boostrapped applications in mongo'
+  DbClient.new.for_sli.open do |db|
+    db.remove(:application, {'$not' => {'body.bootstrap' => true}}, :safe => true)
+  end
+end
+
+def cleanse_tenant_collection
+  puts 'Clean up test tenants in mongo'
+  @conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
+  @db = @conn.db('sli')
   @tenantColl = @db.collection('tenant')
 
   @tenantColl.find.each do |row|
@@ -182,62 +163,50 @@ end
 
 
 def cleanseCollectionWithTenantID(collectionName, specificTenants)
-  if system_collection?(collectionName)
-    db_used = SYSTEM_DB_NAME
-  else
-    db_used = DB_NAME
-  end
-
+  db_used = system_collection?(collectionName) ? 'sli' : DB_NAME
   puts "Removing documents in #{collectionName} with tenantIds #{specificTenants}"
-  @conn = Mongo::Connection.new(DB_HOST)
+  @conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
   @db = @conn.db(db_used)
   coll = @db.collection(collectionName)
 
   #need a few if blocks for apps, app Auth, oauth tokens, realms
   if collectionName == "tenant"
-    cleanseTenantCollection
+    cleanse_tenant_collection
   else
     coll.remove({}, :safe => true)
   end
 end
 
 def removeCollectionsCleanly(collectionName, specificTenants=nil)
-  if system_collection?(collectionName)
-    db_used = SYSTEM_DB_NAME
-  else
-    db_used = DB_NAME
-  end
+  db_used = system_collection?(collectionName) ? 'sli' : DB_NAME
 
-  if specificTenants != nil
+  unless specificTenants
     cleanseCollectionWithTenantID(collectionName, specificTenants)
   else
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{db_used} --quiet --eval \"db.#{collectionName}.remove({}); assert.eq(null, db.getLastError());\""
+    sh "#{MONGO_BIN}mongo #{Property[:db_host]}/#{db_used} --quiet --eval \"db.#{collectionName}.remove({}); assert.eq(null, db.getLastError());\""
   end
 
-  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig'); assert.eq(null, db.getLastError());\""
+  sh "#{MONGO_BIN}mongo #{Property[:db_host]}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig'); assert.eq(null, db.getLastError());\""
 end
 
-def setRealmIdpUrls
-  old_idp_url = "http://local.slidev.org:8082/simple-idp"
-  new_idp_url = Property['simpleIDP_login_url']
+def set_realm_idp_urls
+  old_idp_url = 'http://local.slidev.org:8082/simple-idp'
+  new_idp_url = Property[:simpleIDP_login_url]
 
-  conn = Mongo::Connection.new(DB_HOST)
-  db = conn.db(SYSTEM_DB_NAME)
-
-  realms = db['realm']
-  realms.find.each do |realm|
-    # reset the idp if it points to local.slidev.org:8082
-    if realm['body']['idp']['id'].start_with?(old_idp_url)
-      new_url = realm['body']['idp']['id'].sub(old_idp_url,new_idp_url)
-      realms.update(
-        {'_id' => realm['_id']},
-        {
-          '$set' => {
-            'body.idp.id' => new_url,
-            'body.idp.redirectEndpoint' => new_url
+  DbClient.new.for_sli.open do |db|
+    db.find(:realm).each do |realm|
+      if realm['body']['idp']['id'].start_with?(old_idp_url)
+        new_url = realm['body']['idp']['id'].sub(old_idp_url,new_idp_url)
+        db.update(:realm,
+          {'_id' => realm['_id']},
+          {
+            '$set' => {
+              'body.idp.id' => new_url,
+              'body.idp.redirectEndpoint' => new_url
+            }
           }
-        }
-      )
+        )
+      end
     end
   end
 end
@@ -255,9 +224,9 @@ task :realmInit => :appInit do
   disable_NOTABLESCAN
 
   #Preserve the bootstrap realm
-  cleanseRealms
+  cleanse_realms
   set_fixture('realm', nil, 'test/data', false)
-  setRealmIdpUrls
+  set_realm_idp_urls
 
   [
     ['anotherfakerealm', 'customRole_anotherfakerealm_fixture.json'],
@@ -298,11 +267,11 @@ task :callBeet do
 end
 
 # Task that initializes the application registration fixture
-task :appInit do
+task :appInit => :displayProperties do
   disable_NOTABLESCAN
 
   #Preserve the bootstrap apps
-  cleanseApps
+  cleanse_apps
   set_fixture 'application', 'application_fixture.json', 'test/data', false
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : 'Midgar')
@@ -405,7 +374,7 @@ task :loadDefaultIngestionTenants do
     tenant["body"]["dbName"].replace(convertTenantIdToDbName(tenant["body"]["dbName"]))
   end
 
-  tenant_col = Mongo::Connection.new(DB_HOST).db(SYSTEM_DB_NAME).collection('tenant')
+  tenant_col = Mongo::Connection.new(Property[:db_host],Property[:db_port]).db('sli').collection('tenant')
   get_default_tenant_docs.each do |tenant|
     lzs = tenant["body"]["landingZone"]
     replace_placeholders(lzs)
@@ -893,30 +862,6 @@ end
 # Api Documentation Setup
 ############################################################
 
-############################################################
-# SIF tests start
-############################################################
-desc "Run SIF Tests"
-task :sifTests => [
-        :sifSchoolInfoTest,
-        :sifLEAInfoTest,
-        :sifStudentSchoolEnrollmentTest,
-        :sifStudentLEARelationshipTest,
-        :sifStaffPersonalTest,
-        :sifEmployeePersonalTest,
-        :sifEmploymentRecordTest,
-        :sifStaffAssignmentTest,
-        :sifSmokeTests,
-        :sifIntegratedTest,
-        :sifEmployeeAssignmentTest
-        ] do
-  display_failure_report
-end
-############################################################
-# SIF tests end
-############################################################
-
-
 desc "Export Storied Test Data"
 task :exportStoriedData do
   Rake::Task["ingestionAcceptanceSdsTest"].execute
@@ -924,11 +869,11 @@ task :exportStoriedData do
     $collectionSet.each do |collection|
       sh "rm -f test/data/storied_data/Hyrule/sds_#{collection}.json"
       DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
-      sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/Hyrule/sds_#{collection}.json"
+      sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{Property[:db_host]} -o test/data/storied_data/Hyrule/sds_#{collection}.json"
 
       sh "rm -f test/data/storied_data/sds_#{collection}.json"
       DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-      sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/sds_#{collection}.json"
+      sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{Property[:db_host]} -o test/data/storied_data/sds_#{collection}.json"
     end
   else
     puts 'Ingestion Failed! Fixture Data Not Updated! Please fix and re-run'.red
@@ -994,7 +939,7 @@ task :importSecuredData do
     }
   }
 
-  db = Mongo::Connection.new(DB_HOST)['sli']
+  db = Mongo::Connection.new(Property[:db_host],Property[:db_port])['sli']
   db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Security"}).nil?
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
   set_fixtures(secured_data, 'test/data/secured')
@@ -1016,7 +961,7 @@ task :importSecuredData do
     }
   }
 
-  db = Mongo::Connection.new(DB_HOST)['sli']
+  db = Mongo::Connection.new(Property[:db_host],Property[:db_port])['sli']
   db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Other"}).nil?
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Other")
   set_fixtures(other_secured_data, 'test/data/secured/Other')
@@ -1194,7 +1139,7 @@ task :importSandboxBulkExtractData => [:realmInit] do
 
   set_fixture('applicationAuthorization', 'applicationAuthorization_developer-email_fixture.json')
 
-  cleanseApps
+  cleanse_apps
   set_fixture('application', 'application_sandbox_BE.json', 'test/data', false)
 end
 
@@ -1223,26 +1168,20 @@ are on your PATH.
 By default, the tests run against the deployed API/application that is running on
 localhost:8080 and also assumes a mongo server running on localhost (at default port).
 
-By default, any Scenario Outlines will be expanded in the console output for ease of development,
-but at the command line, the env var "NO_EXPAND" may be defined to run without expanding the Scenario
-Outline to allow for proper JUnit XML output files for display in Jenkins
-
 To change this behavior use the following syntax to override:
 
 cmd>rake property=value <rake Task>
 
 Example:
 
-cmd>rake DB_HOST=myNewDbHost.domain.name api_server_url=my.API.server.com production
+cmd>rake DB_NAME=sli api_server_url=my.API.server.com production
 
 The properties available to override are as follows:
 
-DB_HOST                This property selects which mongo instance to set the fixture to (default: localhost)
 DB_NAME                This property selects which mongo db to set the fixture to (default: sli)
 api_server_url         This property selects which running instance of the API to run tests against (default: localhost)
 admintools_server_url  This property selects which running instance of the Admin Tools to run tests against (default: localhost)
 DEBUG                  This property tells the test code to display debug output in the console
-CUKE_EXPAND            This property tells cucumber to expand Scenario Outlines (for use in jenkins, default: not expand)
 OTHER_TAGS             This property allows you to run tests with debug tags, so pass a tag for this env var ie: @test
 FAILSLOW               This property will tell cucumber to continue even if tests fail. Normally it will fail on the first error.
 eos
@@ -1267,8 +1206,8 @@ def update_sample_app_urls
   old_url = 'http://local.slidev.org:8081/'
   new_url = Property['sampleApp_server_address']
 
-  conn = Mongo::Connection.new(DB_HOST)
-  db = conn.db(SYSTEM_DB_NAME)
+  conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
+  db = conn.db('sli')
 
   apps = db['application']
 
