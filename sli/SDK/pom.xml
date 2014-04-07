@@ -1,258 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.slc.sli</groupId>
-  <artifactId>SDK</artifactId>
-  <version>1.0-SNAPSHOT</version>
+    <parent>
+        <groupId>org.slc.sli</groupId>
+        <artifactId>sli</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-  <packaging>pom</packaging>
-  <name>SDK</name>
-  <description>inBloom SDK</description>
 
-  <properties>
-    <!-- End of Release process-->
-    <java.version>1.6</java.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.checkstyle.version>2.8</maven.checkstyle.version>
-    <maven.release.version>2.2</maven.release.version>
-    <maven.compiler.version>2.3.2</maven.compiler.version>
-    <maven.surefire.version>2.10</maven.surefire.version>
-    <maven.resources.version>2.6</maven.resources.version>
-    <maven.deploy.version>2.7</maven.deploy.version>
-    <maven.war.version>2.3</maven.war.version>
-    <maven.jar.version>2.4</maven.jar.version>
-    <maven.install.version>2.4</maven.install.version>
-    <junit.version>4.9</junit.version>
-    <jaxrs-api>2.0-m09</jaxrs-api>
-    <jersey-client>2.0-m05-1</jersey-client>
-    <commons-cli>1.2</commons-cli>
-    <commons-io>2.1</commons-io>
-    <scribe>1.3.0</scribe>
-    <servlet>2.5</servlet>
-    <jstl>1.2</jstl>
-    <junit>4.9</junit>
-    <maven.jetty.version>6.1.10</maven.jetty.version>
-    <slf4j.version>1.6.4</slf4j.version>
-    <jersey.version>1.9.1</jersey.version>
-    <jackson-jaxrs>1.9.1</jackson-jaxrs>
-    <sli.build.tools>1.0-SNAPSHOT</sli.build.tools>
-    <mockito.version>1.9.5</mockito.version>
-    <jsonassert.version>1.2.3</jsonassert.version>
-  </properties>
+    <groupId>org.slc.sli</groupId>
+    <artifactId>SDK</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
-  <modules>
-    <module>client</module>
-    <module>sample</module>
-  </modules>
+    <packaging>pom</packaging>
+    <name>SDK</name>
+    <description>inBloom SDK</description>
 
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${maven.compiler.version}</version>
-          <configuration>
-            <source>${java.version}</source>
-            <target>${java.version}</target>
-            <encoding>${project.build.sourceEncoding}</encoding>
-          </configuration>
-        </plugin>
+    <properties>
+        <jaxrs-api>2.0-m09</jaxrs-api>
+        <jersey-client>2.0-m05-1</jersey-client>
 
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
-            <version>${maven.resources.version}</version>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-deploy-plugin</artifactId>
-            <version>${maven.deploy.version}</version>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>${maven.war.version}</version>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <version>${maven.jar.version}</version>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-install-plugin</artifactId>
-            <version>${maven.install.version}</version>
-        </plugin>
+        <!--
+        <junit.version>4.9</junit.version>
+        <commons-cli>1.2</commons-cli>
+        <commons-io>2.1</commons-io>
+        <scribe>1.3.0</scribe>
+        <servlet>2.5</servlet>
+        <jstl>1.2</jstl>
+        <junit>4.9</junit>
+        <maven.jetty.version>6.1.10</maven.jetty.version>
+        <slf4j.version>1.6.4</slf4j.version>
+        <jersey.version>1.9.1</jersey.version>
+        <jackson-jaxrs>1.9.1</jackson-jaxrs>
+        <sli.build.tools>1.0-SNAPSHOT</sli.build.tools>
+        <mockito.version>1.9.5</mockito.version>
+        <jsonassert.version>1.2.3</jsonassert.version>
+        -->
+    </properties>
 
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-release-plugin</artifactId>
-          <version>${maven.release.version}</version>
-        </plugin>
+    <modules>
+        <module>client</module>
+        <module>sample</module>
+    </modules>
 
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>${maven.checkstyle.version}</version>
-          <configuration>
-            <skip>false</skip>
-            <configLocation>${project.parent.basedir}/checkstyle/checkstyle.xml</configLocation>
-            <propertyExpansion>checkstyle.import.control.file=${project.parent.basedir}/checkstyle/import-control.xml</propertyExpansion>
-            <includeTestSourceDirectory>true</includeTestSourceDirectory>
-            <linkXRef>false</linkXRef>
-            <failsOnError>false</failsOnError>
-          </configuration>
-        </plugin>
+    <build>
+        <pluginManagement>
+            <plugins>
 
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin</artifactId>
-          <version>2.3.2</version>
-          <configuration>
-            <findbugsXmlOutput>true</findbugsXmlOutput>
-            <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-            <xmlOutput>true</xmlOutput>
-            <effort>Max</effort>
-            <failOnError>false</failOnError>
-          </configuration>
-        </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <configuration>
+                        <skip>false</skip>
+                        <includeTestSourceDirectory>false</includeTestSourceDirectory>
+                        <linkXRef>false</linkXRef>
+                        <failsOnError>false</failsOnError>
+                    </configuration>
+                </plugin>
 
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${maven.surefire.version}</version>
-          <configuration>
-            <systemPropertyVariables>
-              <emma.rt.control>false</emma.rt.control>
-              <sli.conf>${sli.conf}</sli.conf>
-            </systemPropertyVariables>
-          </configuration>
-        </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                    <configuration>
+                        <findbugsXmlOutput>true</findbugsXmlOutput>
+                        <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+                        <xmlOutput>true</xmlOutput>
+                        <effort>Max</effort>
+                        <failOnError>false</failOnError>
+                    </configuration>
+                </plugin>
 
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>3.0-beta-3</version>
-          <configuration>
-            <reportPlugins>
-              <plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.surefire.version}</version>
+                    <configuration>
+                        <systemPropertyVariables>
+                            <emma.rt.control>false</emma.rt.control>
+                            <sli.conf>${sli.conf}</sli.conf>
+                        </systemPropertyVariables>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <configuration>
+                        <reportPlugins>
+                            <plugin>
+                                <groupId>org.apache.maven.plugins</groupId>
+                                <artifactId>maven-project-info-reports-plugin</artifactId>
+                                <version>2.4</version>
+                                <reports>
+                                    <report>dependencies</report>
+                                    <report>dependency-management</report>
+                                    <report>dependency-convergence</report>
+                                    <report>project-team</report>
+                                    <report>mailing-list</report>
+                                    <report>cim</report>
+                                    <report>issue-tracking</report>
+                                    <report>license</report>
+                                    <report>index</report>
+                                    <report>summary</report>
+                                    <report>plugins</report>
+                                    <report>plugin-management</report>
+                                </reports>
+                            </plugin>
+                        </reportPlugins>
+                    </configuration>
+                    <!-- uncomment this execution block if you want to generate the site reports in conjunction with the regular build -->
+                    <!--executions> <execution> <id>site</id> <phase>compile</phase> <goals> <goal>stage</goal> </goals> </execution>
+                      </executions -->
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.4</version>
-                <reports>
-                  <report>dependencies</report>
-                  <report>dependency-management</report>
-                  <report>dependency-convergence</report>
-                  <report>project-team</report>
-                  <report>mailing-list</report>
-                  <report>cim</report>
-                  <report>issue-tracking</report>
-                  <report>license</report>
-                  <report>index</report>
-                  <report>summary</report>
-                  <report>plugins</report>
-                  <report>plugin-management</report>
-                </reports>
-              </plugin>
-            </reportPlugins>
-          </configuration>
-          <!-- uncomment this execution block if you want to generate the site reports in conjunction with the regular build -->
-          <!--executions> <execution> <id>site</id> <phase>compile</phase> <goals> <goal>stage</goal> </goals> </execution> 
-            </executions -->
-        </plugin>
-      </plugins>
-    </pluginManagement>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
 
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-      </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+            </plugin>
 
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-      </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-      </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+            </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-      </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+            </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-      </plugin>
-      
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>2.1.2</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.8.1</version>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
-      <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jar-plugin</artifactId>
-          <configuration>
-              <archive>
-                  <manifestSection>
-                      <name>Specification</name>
-                      <manifestEntries>
-                          <Title>${project.name}</Title>
-                          <Build-Version>${project.version}</Build-Version>
-                      </manifestEntries>
-                  </manifestSection>
-              </archive>
-          </configuration>
-      </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestSection>
+                            <name>Specification</name>
+                            <manifestEntries>
+                                <Title>${project.name}</Title>
+                                <Build-Version>${project.version}</Build-Version>
+                            </manifestEntries>
+                        </manifestSection>
+                    </archive>
+                </configuration>
+            </plugin>
 
-      <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-war-plugin</artifactId>
-          <configuration>
-              <archive>
-                  <manifestSection>
-                      <name>Specification</name>
-                      <manifestEntries>
-                          <Title>${project.name}</Title>
-                          <Build-Version>${project.version}</Build-Version>
-                      </manifestEntries>
-                  </manifestSection>
-              </archive>
-          </configuration>
-      </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestSection>
+                            <name>Specification</name>
+                            <manifestEntries>
+                                <Title>${project.name}</Title>
+                                <Build-Version>${project.version}</Build-Version>
+                            </manifestEntries>
+                        </manifestSection>
+                    </archive>
+                </configuration>
+            </plugin>
 
-    </plugins>
-  </build>
+        </plugins>
+
+    </build>
+
     <profiles>
         <profile>
             <id>with-emma</id>
@@ -262,7 +214,6 @@
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>emma-maven-plugin</artifactId>
                         <inherited>true</inherited>
-                        <version>1.0-alpha-3</version>
                         <executions>
                             <execution>
                                 <id>instrument</id>
@@ -285,4 +236,5 @@
             </build>
         </profile>
     </profiles>
+
 </project>
