@@ -43,7 +43,7 @@
 		<c:if test="${errorMsg!=null}">
 			<div class="alert alert-error"><c:out value="${errorMsg}"/></div>
 		</c:if>
-		
+                <div class="alert alert-warning">Please note that as of 4/9/2014 we require all users to reset there passwords using the "forgot your password?" link below.</div>		
 		<div class='form-container'>
 			<form id="login_form" name="login_form" action="login" method="post" class="form-horizontal">
 				<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
