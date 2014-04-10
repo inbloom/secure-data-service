@@ -41,9 +41,9 @@
 			<div class="alert alert-success"><c:out value="${msg}"/></div>
 		</c:if>
 		<c:if test="${errorMsg!=null}">
-			<div class="alert alert-error"><c:out value="${errorMsg}"/></div>
+                    <div class="alert alert-error"><c:out value="${errorMsg}"/></div>
+                    <div class="alert alert-warning"><p>We have been made aware of a security vulnerability affecting the open-source software OpenSSL, which inBloom uses on its public facing web servers. We have taken appropriate action to protect against this and while we have no evidence of a compromise,  as a precaution we are requiring all users to reset their passwords. If you have not done so yet, please use the “Forgot your password?” link below to reset your password. If you have already performed this action then perhaps the password you specified was simply incorrect. Please try again or use the password reset feature below. </p>Thank you for your cooperation.</div>
 		</c:if>
-                <div class="alert alert-warning">Please note that as of 4/9/2014 we require all users to reset there passwords using the "forgot your password?" link below.</div>		
 		<div class='form-container'>
 			<form id="login_form" name="login_form" action="login" method="post" class="form-horizontal">
 				<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
