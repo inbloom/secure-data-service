@@ -1,17 +1,9 @@
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../utils/api_utils.rb'
 
-When /^I navigate to a countOnly "([^"]*)" with "([^"]*)"$/ do |path, id|
+When /^I navigate to a countOnly "([^"]*)"$/ do |url|
   @format = 'application/json'
-
-  separator = path.include?('?') ? '&' : '?'
-
-  # if path includes a "#{id}", then substitute it, otherwise just use path as the url
-  url = path.include?("/#\{id\}") ? path.gsub!(/#\{id\}/, id) : path
-
-  # add the global parameter for a countOnly query, and execute it.
-  url = "#{url}#{separator}countOnly=true"
-  restHttpGet(url)
+  restHttpGet("#{url}?countOnly=true")
 end
 
 Then /^I should get back just a count$/ do
