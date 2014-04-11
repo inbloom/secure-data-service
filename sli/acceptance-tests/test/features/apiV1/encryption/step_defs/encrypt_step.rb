@@ -226,65 +226,50 @@ end
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
 
-Then /^I find a mongo record in "([^\"]*)" with "([^\"]*)" equal to "([^\"]*)"$/ do |collection, searchTerm, value|
-  @record = db.find_one(collection, searchTerm => value)
+Then /^I find a mongo record in "([^\"]*)" with "([^\"]*)" equal to "([^\"]*)"$/ do |collection, search_term, value|
+  search_term = "body.#{search_term}"
+  @record = db.find_one(collection, search_term => value)
   @record.should_not be_nil
 end
 
-Then /^the field "([^\"]*)" has value "([^\"]*)"$/ do |field, value|
+Then(/^the following fields should (not )?be encrypted:$/) do |unencrypted, table|
   object = @record
+  encrypted_regex = /^E(STRING|INT|LONG|BOOL|DOUBLE):/
+  table.raw.each do |row|
+    value = find_value(row.first)
+    value.should_not be_nil
+    if unencrypted
+      value.to_s.should_not match(encrypted_regex)
+    else
+      value.to_s.should match(encrypted_regex)
+    end
+  end
+end
+
+def find_value(field)
+  object = @record['body']
   field.split('.').each do |f|
-    if /(.+)\[(\d+)\]/.match f
-      f = $1
-      i = $2.to_i
-      object[f].should be_a Array
-      object[f][i].should_not == nil
+    if md = %r{(.+)\[(\d+)\]}.match(f)
+      f, i = md.captures[0], md.captures[1].to_i
+      object[f].should be_an Array
+      object[f][i].should_not be_nil
       object = object[f][i]
     else
-      object[f].should_not == nil
+      object[f].should_not be_nil
       object = object[f]
     end
   end
-  object.to_s.should == value.to_s
+  object
 end
 
-Then /^the field "([^\"]*)" with value "([^\"]*)" is encrypted$/ do |field, value|
-  object = @record
-  field.split('.').each do |f|
-    if /(.+)\[(\d+)\]/.match f
-      f = $1
-      i = $2.to_i
-      object[f].should be_a Array
-      object[f][i].should_not == nil
-      object = object[f][i]
-    else
-      object[f].should_not == nil
-      object = object[f]
-    end
-  end
-  object.should_not =~ /#{value}/i
-end
-
-Then /^all students should have "([^\"]*)" equal to "([^\"]*)"$/ do |field, value|
-  @result.should be_a Array
+Then /^(all students|no student) should have "([^\"]*)" equal to "([^\"]*)"$/ do |all_or_none, field, value|
+  @result.should be_an Array
   @result.each do |entity|
     object = entity
     field.split(".").each do |f|
-      object[f].should_not == nil
+      object[f].should_not be_nil
       object = object[f]
     end
-    object.should == value
-  end
-end
-
-Then /^no student should have "([^"]*)" equal to "([^"]*)"$/ do |field, value|
-  @result.should be_a Array
-  @result.each do |entity|
-    object = entity
-    field.split(".").each do |f|
-      object[f].should_not == nil
-      object = object[f]
-    end
-    object.should_not == value
+    all_or_none == 'all students' ? (object.should == value) : (object.should_not == value)
   end
 end

@@ -79,20 +79,16 @@ Then /^a "([^"]*)" should be "([^"]*)"$/ do |key, value|
 end
 
 Then /^the "([^"]*)" should be "([^"]*)"$/ do |key, value|
-  @result[key].should_not == nil
-  found = false;
-  @result[key].each do |value_from_array|
-    found = (value==value_from_array) ? true:found;
-  end
-  assert(found, "Expected value #{value} not found in array")
+  @result[key].should_not be_nil
+  @result[key].should include(value)
 end
 
 Transform /^(\/[\w-].+\/)([\w-]+\/)(<.+>)$/ do |version, uri, template|
-  version + uri + Transform(template)
+  "#{version}#{uri}#{Transform(template)}"
 end
 
 Transform /^(\/[\w-]+\/)([\w-]+\/)(<.+>)(\/+[\w-]+)$/ do |version, uri, template, uri2|
-  version + uri + Transform(template) + uri2
+  "#{version}#{uri}#{Transform(template)}#{uri2}"
 end
 
 Transform /^(\/[\w-]+\/)([\w-]+\??[=\w-]*)(<.+>)$/ do |version, uri, template|
