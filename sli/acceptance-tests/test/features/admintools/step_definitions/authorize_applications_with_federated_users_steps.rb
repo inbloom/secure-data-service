@@ -253,10 +253,7 @@ def reset_user(user, role, edorg, tenant)
     staff_id = db.find_one(:staff, {'body.staffUniqueStateId' => user})['_id']
     edorg_id = db.find_one(:educationOrganization, {'body.nameOfInstitution' => edorg})['_id']
     seoa_hash = {'staffReference' => staff_id, 'educationOrganizationReference' =>  edorg_id, 'staffClassification' => role}
-    puts seoa_hash.to_json.to_s
-    user_record = db.find_one(:staffEducationOrganizationAssociation,
+    db.remove(:staffEducationOrganizationAssociation,
                               {'body.staffReference' => staff_id, 'body.educationOrganizationReference' => edorg_id})
-
-    db.remove(:staffEducationOrganizationAssociation, user_record)
   end
 end
