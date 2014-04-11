@@ -14,11 +14,11 @@ When /^I navigate to a countOnly "([^"]*)" with "([^"]*)"$/ do |path, id|
   restHttpGet(url)
 end
 
-Then /^I should get back just a count of ([^"]*)$/ do |count|
+Then /^I should get back just a count$/ do
   # if any body is returned, that's an error
   JSON.parse(@res.body).should be_empty
 
   count_from_header = @res.headers[:totalcount]
   count_from_header.should_not be_nil
-  count_from_header.to_i.should == count.to_i
+  count_from_header.to_i.should be > 0
 end
