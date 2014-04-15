@@ -1214,9 +1214,9 @@ def update_sample_app_urls
   apps.find.each do |app|
     # reset urls if it points to old sample app url
     set_vals = {}
-    set_vals['body.administration_url'] = app['body']['administration_url'].sub(old_url,new_url) if app['body']['administration_url'].start_with?(old_url)
-    set_vals['body.application_url']    = app['body']['application_url'].sub(old_url,new_url) if app['body']['application_url'].start_with?(old_url)
-    set_vals['body.redirect_uri']       = app['body']['redirect_uri'].sub(old_url,new_url) if app['body']['redirect_uri'].start_with?(old_url)
+    set_vals['body.administration_url'] = app['body']['administration_url'].sub(old_url,new_url) if app['body']['administration_url'] && app['body']['administration_url'].start_with?(old_url)
+    set_vals['body.application_url']    = app['body']['application_url'].sub(old_url,new_url) if app['body']['application_url'] && app['body']['application_url'].start_with?(old_url)
+    set_vals['body.redirect_uri']       = app['body']['redirect_uri'].sub(old_url,new_url) if app['body']['redirect_uri'] && app['body']['redirect_uri'].start_with?(old_url)
 
     unless set_vals.empty?
       apps.update(
