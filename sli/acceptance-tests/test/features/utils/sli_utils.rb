@@ -841,34 +841,18 @@ end
 
 
 Then /^I check to find if record is in sli db collection:$/ do |table|
-   check_records_in_sli_collection(table)
+  check_records_in_sli_collection(table)
 end
 
-
 def check_records_in_sli_collection(table)
-  disable_NOTABLESCAN
-  #First cut. Method has to be optimised. Connection should be cached.
-  secConn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
-  secDb = secConn.db('sli')
-  result = "true"
-  table.hashes.map do |row|
-      entity_collection = secDb.collection(row["collectionName"])
-      if row["searchValue"].empty?
-          # ignore checks with empty value
-          next
+  DbClient.new(:allow_table_scan => true).for_sli.open do |db|
+    table.hashes.map do |row|
+      unless row['searchValue'].empty?
+        count = db.count(row['collectionName'], {row['searchParameter'] => {'$in' => [row['searchValue']]}})
+        count.should == row['expectedRecordCount'].to_i
       end
-      puts entity_collection.find({}).to_a.inspect
-      entity_count = entity_collection.find( {row["searchParameter"] => {"$in" => [row["searchValue"]]}}).count().to_s
-      if  entity_count.to_s != row["expectedRecordCount"].to_s
-          result = "false"
-          red = "\e[31m"
-          reset = "\e[0m"
-          STDOUT.puts "#{red}There are " + entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"] + ". Expected: " + row["expectedRecordCount"].to_s + "#{reset}"
-      end
+    end
   end
-  secConn.close
-  assert(result == "true", "Some records are not found in collection.")
-  enable_NOTABLESCAN()
 end
 
 # Returns whether the expected number of results are returned
