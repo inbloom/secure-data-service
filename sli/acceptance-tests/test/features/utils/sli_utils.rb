@@ -745,48 +745,6 @@ module EntityProvider
 
 end
 
-module X509
-  def self.newApp(clientId, trustStore)
-    cert_path = File.expand_path("../keys/#{clientId}.crt", __FILE__)
-    key_path = File.expand_path("../keys/#{clientId}.key", __FILE__)
-
-    puts "Generating key pair for app: #{clientId}"
-    `openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout #{key_path} -out #{cert_path} -subj "/C=UA/ST=Denial/L=gru/O=pnewed/CN=*.slidev.org"`
-    puts "New Certificate created at #{cert_path}"
-    puts "New Private Key created at #{key_path}"
-    
-    puts "importing generating cert into trust store #{trustStore}"
-    `keytool -import -file #{cert_path} -keystore #{trustStore} -alias #{clientId} -storepass changeit -noprompt` 
-    
-  end
-  
-  def self.cleanse(clientId, trustStore)
-    cert_path = File.expand_path("../keys/#{clientId}.crt", __FILE__)
-    key_path = File.expand_path("../keys/#{clientId}.key", __FILE__)
-    
-    puts "Deleting #{clientId} from #{trustStore}"
-    `keytool -delete -alias #{clientId} -keystore #{trustStore} -storepass changeit -noprompt`
-    
-    puts "Cleaning up Certificate from file system at #{cert_path}"
-    `rm #{cert_path}`
-    puts "Cleaning up Private Key from file system at #{key_path}"
-    `rm #{key_path}`
-
-  end  
-end
-######################
-######################
-### Create uuids that can be used thusly:  @db['collection'].find_one( '_id' => id_from_juuid("e5420397-908e-11e1-9a9d-68a86d2267de"))
-def id_from_juuid(uuid)
-  hex = uuid.gsub(/[-]+/, '')
-  msb = hex[0, 16]
-  lsb = hex[16, 16]
-  msb = msb[14, 2] + msb[12, 2] + msb[10, 2] + msb[8, 2] + msb[6, 2] + msb[4, 2] + msb[2, 2] + msb[0, 2]
-  lsb = lsb[14, 2] + lsb[12, 2] + lsb[10, 2] + lsb[8, 2] + lsb[6, 2] + lsb[4, 2] + lsb[2, 2] + lsb[0, 2]
-  hex = msb + lsb;
-  BSON::Binary.new([hex].pack('H*'), BSON::Binary::SUBTYPE_UUID)
-end
-
 ######################
 ### create a deep copy of entity data used in API CRUD tests
 def deep_copy(o)
