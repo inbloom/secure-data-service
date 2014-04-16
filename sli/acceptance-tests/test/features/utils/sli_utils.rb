@@ -855,34 +855,6 @@ def check_records_in_sli_collection(table)
   end
 end
 
-# Returns whether the expected number of results are returned
-# and ALL the results contain the specified field and value
-def resultsContain?(field, value, expected_count = 1)
-  matches_all = true
-  results = JSON.parse @res
-
-puts "The results:"
-puts results.to_s
-
-  # handle non-array single result - not tested
-  if ! results.is_a? Array
-    results = [results]
-  end
-
-  if results.count != expected_count
-    return false
-  end
-
-  results.each { |result|
-    if result[field] != value
-      matches_all = false
-      break
-    end
-  }
-
-  return matches_all
-end
-
 # Get a new instance of the LDAPStorage given the global properties
 def ldap_storage
   LDAPStorage.new(
@@ -892,15 +864,12 @@ def ldap_storage
   )
 end
 
-When /^I (enable|disable) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action,edOrgName,tenant|
-  disable_NOTABLESCAN()
-  db = @conn[convertTenantIdToDbName(tenant)]
-  coll = db.collection("educationOrganization")
-  record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
-  enable_NOTABLESCAN()
-  edOrgId = record["_id"]
-  elt = @driver.find_element(:id, edOrgId)
-  assert(elt, "Educational organization element for '" + edOrgName + "' (" + edOrgId + ") not found")
-  assert(action == "enable" && !elt.selected? || action == "disable" && elt.selected?, "Cannot " + action + " educationalOrganization element with id '" + edOrgId + "' whose checked status is " + elt.selected?.to_s())
-  elt.click()
+When /^I (enable|disable) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action, ed_org_name, tenant|
+  ed_org_id = DbClient.new(:tenant => tenant, :allow_table_scan => true) do |db|
+    db.find_one('educationOrganization', 'body.nameOfInstitution' => ed_org_name)['_id']
+  end
+  elt = @driver.find_element(:id, ed_org_id)
+  elt.should_not be_nil
+  (action == 'enable' && !elt.selected? || action == 'disable' && elt.selected?).should be_true, "Cannot #{action} educationalOrganization element with id '#{ed_org_id}' whose checked status is #{elt.selected?}"
+  elt.click
 end
