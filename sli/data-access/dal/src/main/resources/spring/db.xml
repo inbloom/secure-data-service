@@ -133,10 +133,6 @@
       <constructor-arg name="keyStoreLocation" value="${sli.encryption.keyStore}" />
       <constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
    </bean>
-<<<<<<< HEAD
-=======
-
->>>>>>> e039b2c9957ca7f7dd5ddef7eea983b4dea54cae
 
   <util:set id="tenantAgnosticCollections" value-type="java.lang.String">
     <value>tenant</value>
