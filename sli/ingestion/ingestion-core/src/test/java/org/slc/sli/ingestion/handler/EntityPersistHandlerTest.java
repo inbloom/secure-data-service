@@ -16,43 +16,15 @@
 
 package org.slc.sli.ingestion.handler;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
+import com.google.common.collect.ImmutableMap;
 import junit.framework.Assert;
-
-import org.elasticsearch.common.collect.ImmutableMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import org.slc.sli.dal.repository.MongoEntityRepository;
-import org.slc.sli.domain.AccessibilityCheck;
-import org.slc.sli.domain.CascadeResult;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.*;
 import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
@@ -65,6 +37,18 @@ import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.*;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests for EntityPersistHandler
@@ -210,8 +194,8 @@ public class EntityPersistHandlerTest {
 
         studentEntity.setAction( ActionVerb.CASCADE_DELETE);
         studentEntity.setActionAttributes(ImmutableMap.of(
-                "Force"        , "true",
-                "LogViolations", "true"
+              "Force", "true",
+              "LogViolations", "true"
         ));
         entityPersistHandler.handle( studentEntity, errorReport, reportStats);
 

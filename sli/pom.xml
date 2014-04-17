@@ -207,7 +207,7 @@
         <xerces.impl.version>2.10.0</xerces.impl.version>
 
         <!-- ElasticSearch Versions -->
-        <elasticsearch.version>0.19.9</elasticsearch.version>
+        <!-- <elasticsearch.version>0.19.9</elasticsearch.version> -->
 
         <!-- Rest Services (JAX-RS) Framework Versions -->
         <jackson.version>1.9.2</jackson.version>
@@ -431,7 +431,7 @@
         <module>dashboard</module>
         <module>simple-idp</module>
         <module>sif</module>
-        <module>search-indexer</module>
+        <!-- <module>search-indexer</module> -->
         <module>bulk-extract</module>
     </modules>
 

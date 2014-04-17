@@ -99,11 +99,11 @@
             <artifactId>commons-beanutils</artifactId>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
             <version>${elasticsearch.version}</version>
-        </dependency>
+        </dependency> -->
     </dependencies>
 
     <build>

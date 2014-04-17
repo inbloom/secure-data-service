@@ -16,21 +16,21 @@
 
 package org.slc.sli.ingestion;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
+import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.elasticsearch.common.jackson.core.JsonGenerationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is to support Deletes by Reference ( in their current form ): mapping fields in the
