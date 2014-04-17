@@ -616,14 +616,6 @@
   "nameSpace": ["v1.1", "v1.2", "v1.3", "v1.4", "v1.5"],
   "resources": [
     {
-      "path": "/search",
-      "doc": "Provides search functionality for students, sections, and other entities.",
-      "resourceClass": "org.slc.sli.api.search.resource.SearchResource",
-      "queryable": true,
-      "dateSearchDisallowed": true,
-      "availableSince" : "v1.1"
-    },
-    {
       "path": "/educationOrganizations",
       "queryable": true,
       "dateSearchDisallowed": true,
