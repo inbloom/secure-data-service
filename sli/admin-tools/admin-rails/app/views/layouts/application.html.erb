@@ -10,11 +10,12 @@
 </script>
 </head>
 <body>
+  <%= render 'layouts/header' %>
   <div style="margin-left:30px;margin-right:30px">
     <%= render 'layouts/notifications' %>
     <%= yield %>
   </div>
-
+  <%= render 'layouts/footer' %>
 </body>
 </html>
 
