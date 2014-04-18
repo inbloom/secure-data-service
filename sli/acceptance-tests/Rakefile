@@ -424,8 +424,7 @@ task :apiAndSecurityTests => [
                               :provisioningTests,
                               :onboardingTests,
                               :apiMegaTests,
-                              :v1SecurityEventTests,
-                              :runAssmtSearchIndexer ] do
+                              :v1SecurityEventTests] do
   display_failure_report
 end
 
@@ -731,7 +730,6 @@ task :integrationTests => [:realmInit] do
   Rake::Task["loadDefaultIngestionTenants"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
-  Rake::Task["searchApiTests"].invoke
   Rake::Task["dashboardSdsTests"].invoke
   display_failure_report
 end
@@ -855,7 +853,7 @@ end
 # Api Documentation Setup
 ############################################################
 desc "Run the data setup needed to generate the API Documentation"
-task :apiDocumentationSetup => [:realmInit, :ingestionAcceptanceSdsTest, :runSearchBulkExtract] do
+task :apiDocumentationSetup => [:realmInit, :ingestionAcceptanceSdsTest] do
   display_failure_report
 end
 ############################################################
@@ -1040,9 +1038,6 @@ task :importSandboxData do
   Rake::Task["importDevAccountData"].execute
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
   Rake::Task["importSandboxHyruleData"].execute
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-
-  Rake::Task["runSearchBulkExtract"].execute
 end
 
 desc "Import Migration Test Data to Midgar"
