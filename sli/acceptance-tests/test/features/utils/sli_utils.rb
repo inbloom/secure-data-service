@@ -823,7 +823,7 @@ def ldap_storage
 end
 
 When /^I (enable|disable) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action, ed_org_name, tenant|
-  ed_org_id = DbClient.new(:tenant => tenant, :allow_table_scan => true) do |db|
+  ed_org_id = DbClient.new(:tenant => tenant, :allow_table_scan => true).open do |db|
     ed_org = db.find_one('educationOrganization', 'body.nameOfInstitution' => ed_org_name)
     ed_org ? ed_org['_id'] : nil
   end
