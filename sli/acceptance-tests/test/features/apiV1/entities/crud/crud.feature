@@ -194,7 +194,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     | "parent"    | "parents"           | "studentParentAssociation" | "parentUniqueStateId" | "ParentID102" |
 
 
-@WIP - search functionality is currently broken
+@wip
   Scenario Outline: Get All Entities as School Teacher
 
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
