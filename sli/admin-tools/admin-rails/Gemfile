@@ -12,8 +12,11 @@ gem 'net-ldap'
 gem 'approval', :path => '../approval'
 gem 'json'
 gem 'rest-client'
-gem 'twitter-bootstrap-rails'
-gem 'less-rails'
+gem 'twitter-bootstrap-rails',
+    :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git',
+    :branch => 'bootstrap3'
+gem 'less-rails', git: 'git://github.com/metaskills/less-rails.git'
+# gem 'less-rails'
 gem 'ruby-recaptcha'
 
 group :deployment, :integration do
