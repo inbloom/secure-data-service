@@ -13,65 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.api.search.service;
+//package org.slc.sli.api.search.service;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+//import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import junit.framework.Assert;
-
-import org.apache.commons.lang3.tuple.Pair;
-import org.elasticsearch.action.bulk.BulkRequestBuilder;
-import org.elasticsearch.action.bulk.BulkResponse;
-import org.elasticsearch.client.Client;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-import org.springframework.web.client.HttpClientErrorException;
-
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.constants.ResourceNames;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.generic.PreConditionFailedException;
-import org.slc.sli.api.resources.generic.representation.Resource;
-import org.slc.sli.api.resources.generic.representation.ServiceResponse;
-import org.slc.sli.api.search.service.SearchResourceService.Embedded;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.service.query.ApiQuery;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.enums.Right;
+//import org.elasticsearch.action.bulk.BulkRequestBuilder;
+//import org.elasticsearch.action.bulk.BulkResponse;
+//import org.elasticsearch.client.Client;
+//import org.slc.sli.api.search.service.SearchResourceService.Embedded;
 
 /**
  * Tests for the search resource/service.
@@ -79,6 +28,8 @@ import org.slc.sli.domain.enums.Right;
  * @author kmyers
  *
  */
+
+/*
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class,
@@ -458,9 +409,6 @@ public class SearchResourceServiceTest {
         return new ArrayList<EntityBody>(list.subList(0, Math.min(num, list.size())));
     }
 
-    /**
-    * Unit test for method added to resolve DE2300.
-    */
     @Test
     public void testDisallowHardEntityCountLimitDE2300() {
         Boolean result = null;
@@ -511,3 +459,4 @@ public class SearchResourceServiceTest {
     }
 
 }
+ */

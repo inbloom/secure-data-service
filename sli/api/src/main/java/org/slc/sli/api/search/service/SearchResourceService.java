@@ -15,44 +15,13 @@
  */
 package org.slc.sli.api.search.service;
 
-import java.io.File;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-
 import com.google.common.base.Predicate;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Table;
-
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.common.collect.Lists;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.node.Node;
-import org.elasticsearch.node.NodeBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpStatusCodeException;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.Constraints;
 import org.slc.sli.api.constants.ResourceNames;
@@ -67,7 +36,6 @@ import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
-import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
@@ -77,6 +45,26 @@ import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
+import javax.annotation.PostConstruct;
+import java.net.URI;
+import java.util.*;
+
+//import org.elasticsearch.node.Node;
+//import org.elasticsearch.node.NodeBuilder;
+
+//import org.elasticsearch.client.Client;
+//import org.elasticsearch.common.collect.Lists;
+//import org.elasticsearch.common.settings.ImmutableSettings;
+//import org.elasticsearch.common.settings.Settings;
 
 /**
  * Service class to handle all API search requests. Retrieves results using data
@@ -459,10 +447,10 @@ public class SearchResourceService {
 
       // use filter map to return final entity list
       return Lists.newArrayList(Iterables.filter(finalEntities, new Predicate<EntityBody>() {
-         @Override
-         public boolean apply(EntityBody input) {
-            return (filterMap.contains(input.get("id"), input.get("type")));
-         }
+          @Override
+          public boolean apply(EntityBody input) {
+              return (filterMap.contains(input.get("id"), input.get("type")));
+          }
       }));
    }
 
@@ -594,6 +582,7 @@ public class SearchResourceService {
     *
     * @author dwu
     */
+   /*
    @Component
    static final class Embedded {
       private static final String ES_DIR = "es";
@@ -650,6 +639,7 @@ public class SearchResourceService {
          }
       }
    }
+   */
 
    /**
     * This method will apply the date filter for schoolYears query param.

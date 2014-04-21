@@ -16,32 +16,18 @@
 
 package org.slc.sli.dal.repository;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.FilterBuilder;
-import org.elasticsearch.index.query.FilterBuilders;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralCriteria.SearchType;
-import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Converter from Neutral Query to ES Query DSL
  */
+
 @Component
 public class ElasticSearchQueryConverter {
     public static final String Q = "q";
     private static final int IN_LIMIT = 1000;
+
+    /*
 
     private interface Operator {
         FilterBuilder getFilter(NeutralCriteria criteria);
@@ -199,13 +185,7 @@ public class ElasticSearchQueryConverter {
         shouldQuery.minimumNumberShouldMatch(1);
        return shouldQuery;
     }
-    /**
-     * Build elasticsearch query
-     *
-     * @param client
-     * @param query
-     * @return
-     */
+
     public QueryBuilder getQuery(NeutralQuery query) {
         if (query.getCriteria().size() == 1 && query.getOrQueries().isEmpty()) {
             return getQuery(query.getCriteria().get(0));
@@ -242,4 +222,5 @@ public class ElasticSearchQueryConverter {
         }
             return ((String) value).split(",");
     }
+    */
 }
