@@ -4,7 +4,6 @@ package org.slc.sli.dal.repository;
 import com.google.common.collect.Iterators;
 import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.codehaus.jackson.JsonNode;
@@ -45,13 +44,12 @@ public class MongoSearchRepository implements Repository<Entity> {
     //@Autowired
     // private ElasticSearchQueryConverter converter;
 
-    private String esUri;
+    //private String esUri;
 
     private RestTemplate searchTemplate;
 
-    private String esUsername;
-
-    private String esPassword;
+    //private String esUsername;
+    //private String esPassword;
 
     private Encryptor encryptor;
 
@@ -69,9 +67,7 @@ public class MongoSearchRepository implements Repository<Entity> {
     //}
 
     public void init() throws Exception {
-
         LOG.info(">>>MongoSearchRepository.init()");
-
         // This is an ugly hack to prevent an exception to be written to
         // standard output by the elastic search package, when it cannot load the "snappy" library
         // TODO: remove this when elastic search removes snappy compression as a dependency.
@@ -97,11 +93,9 @@ public class MongoSearchRepository implements Repository<Entity> {
         LOG.info(">>>MongoSearchRepository.findAll()");
         LOG.info("   collectionName: " + collectionName);
         LOG.info("   neutralQuery: " + ToStringBuilder.reflectionToString(neutralQuery, ToStringStyle.MULTI_LINE_STYLE));
-
         //return ReadConverter.fromSearchJson(queryForSearch(getQuery(neutralQuery, false)));
         String qry = getQuery(neutralQuery, false);
         queryForSearch(qry);
-
         LOG.info("<<<MongoSearchRepository.findAll()");
         return null;
     }
@@ -124,20 +118,20 @@ public class MongoSearchRepository implements Repository<Entity> {
         headers.set("Content-Type", "application/json;charset=utf-8");
 
         // Basic Authentication when username and password are provided
-        if (esUsername != null && esPassword != null) {
-            try {
-                headers.set(
-                      "Authorization",
-                      "Basic "
-                            + Base64.encodeBase64String(((this.enableEncryption ? this.encryptor.decrypt(
-                            this.dalKeyAlias, this.keyStorePass, this.esUsername) : this.esUsername) + ":" + (this.enableEncryption ? this.encryptor
-                            .decrypt(this.dalKeyAlias, this.keyStorePass, this.esPassword)
-                            : this.esPassword)).getBytes())
-                );
-            } catch (Exception e) {
-                MongoSearchRepository.LOG.error("Error decrypting", e);
-            }
-        }
+//        if (esUsername != null && esPassword != null) {
+//            try {
+//                headers.set(
+//                      "Authorization",
+//                      "Basic "
+//                            + Base64.encodeBase64String(((this.enableEncryption ? this.encryptor.decrypt(
+//                            this.dalKeyAlias, this.keyStorePass, this.esUsername) : this.esUsername) + ":" + (this.enableEncryption ? this.encryptor
+//                            .decrypt(this.dalKeyAlias, this.keyStorePass, this.esPassword)
+//                            : this.esPassword)).getBytes())
+//                );
+//            } catch (Exception e) {
+//                MongoSearchRepository.LOG.error("Error decrypting", e);
+//            }
+//        }
 
         long start = System.currentTimeMillis();
         HttpEntity<String> entity = new HttpEntity<String>(query, headers);
@@ -178,28 +172,30 @@ public class MongoSearchRepository implements Repository<Entity> {
 
     private HttpEntity<String> queryForSearch(String query) {
         LOG.info(">>>MongoSearchRepository.queryForSearch()");
+        String esUri = "<esUri foo>";
         return query(esUri + "/{tenantId}/_search", HttpMethod.POST, query, new Object[]{getIndex()});
     }
 
     private HttpEntity<String> queryForMapping() {
+        String esUri = "<esUri foo>";
         return query(esUri + "/{tenantId}/_mapping", HttpMethod.GET, null, new Object[]{getIndex()});
     }
 
-    public void setSearchUrl(String esUrl) {
-        this.esUri = esUrl;
-    }
+    //public void setSearchUrl(String esUrl) {
+    //    this.esUri = esUrl;
+    //}
 
     public void setSearchTemplate(RestTemplate searchTemplate) {
         this.searchTemplate = searchTemplate;
     }
 
-    public void setSearchUsername(String esUsername) {
-        this.esUsername = esUsername;
-    }
+    //public void setSearchUsername(String esUsername) {
+    //    this.esUsername = esUsername;
+    //}
 
-    public void setSearchPassword(String esPassword) {
-        this.esPassword = esPassword;
-    }
+    //public void setSearchPassword(String esPassword) {
+    //    this.esPassword = esPassword;
+    //}
 
     public void setEncryptor(Encryptor encryptor) {
         this.encryptor = encryptor;
@@ -286,21 +282,22 @@ public class MongoSearchRepository implements Repository<Entity> {
 
     @Override
     public void deleteAll(String collectionName, NeutralQuery query) {
-        throw new UnsupportedOperationException("ElasticSearchRepository.deleteAll not implemented");
+        throw new UnsupportedOperationException("deleteAll not implemented");
     }
 
     @Override
     public DBCollection getCollection(String collectionName) {
-        throw new UnsupportedOperationException("ElasticSearchRepository.getCollection not implemented");
+        throw new UnsupportedOperationException("getCollection not implemented");
     }
 
     @Override
     public List<DBCollection> getCollections(boolean includeSystemCollections) {
-        throw new UnsupportedOperationException("ElasticSearchRepository.getCollections not implemented");
+        throw new UnsupportedOperationException("getCollections not implemented");
     }
 
    @Override
     public boolean collectionExists(String collection) {
+       LOG.info(">>>MongoSearchRepository.collectionExists()");
 //        try {
 //            return Boolean.TRUE == availableTypesCache.get(collection);
 //        } catch (ExecutionException e) {
@@ -389,6 +386,9 @@ public class MongoSearchRepository implements Repository<Entity> {
          * @return
          */
         static Collection<Entity> fromSearchJson(HttpEntity<String> response) {
+            LOG.info(">>>MongoSearchRepository.fromSearchJson()");
+            LOG.info("   response: " + ToStringBuilder.reflectionToString(response, ToStringStyle.MULTI_LINE_STYLE));
+
             Collection<Entity> hits = new ArrayList<Entity>();
             try {
                 JsonNode hitsNode = getHitsNode(response).get("hits");
@@ -406,6 +406,7 @@ public class MongoSearchRepository implements Repository<Entity> {
             } catch (IOException e) {
                 MongoSearchRepository.LOG.error("Error converting search response to entities", e);
             }
+            LOG.info("<<<MongoSearchRepository.fromSearchJson()");
             return hits;
         }
 
@@ -413,6 +414,9 @@ public class MongoSearchRepository implements Repository<Entity> {
          * Converts a json response to a search hit entity
          */
         static SearchHitEntity fromSingleSearchJson(JsonNode hitNode) {
+            LOG.info(">>>MongoSearchRepository.fromSingleSearchJson()");
+            LOG.info("   hitNode: " + ToStringBuilder.reflectionToString(hitNode, ToStringStyle.MULTI_LINE_STYLE));
+
             try {
                 TypeReference<Map<String, Object>> tr = new TypeReference<Map<String, Object>>() {
                 };
@@ -433,19 +437,25 @@ public class MongoSearchRepository implements Repository<Entity> {
             } catch (IOException e) {
                 MongoSearchRepository.LOG.error("Error converting search json response to search hit entity", e);
             }
+            LOG.info("<<<MongoSearchRepository.fromSingleSearchJson()");
             return null;
         }
 
         static long fromCountJson(HttpEntity<String> response) {
+            LOG.info(">>>MongoSearchRepository.fromCountJson()");
+            LOG.info("   response: " + ToStringBuilder.reflectionToString(response, ToStringStyle.MULTI_LINE_STYLE));
             try {
                 return getHitsNode(response).get("total").asLong();
             } catch (Exception t) {
                 LOG.error("Unable to get count from search engine", t);
             }
+            LOG.info("<<<MongoSearchRepository.fromCountJson()");
             return 0;
         }
 
         static Set<String> fromMappingJson(HttpEntity<String> response) {
+            LOG.info(">>>MongoSearchRepository.fromMappingJson()");
+            LOG.info("   response: " + ToStringBuilder.reflectionToString(response, ToStringStyle.MULTI_LINE_STYLE));
             try {
                 Set<String> set = new HashSet<String>();
                 Iterators.addAll(set, objectMapper.readTree(response.getBody()).getElements().next().getFieldNames());
@@ -453,6 +463,7 @@ public class MongoSearchRepository implements Repository<Entity> {
             } catch (Exception t) {
                 LOG.error("Unable to get mappings from search engine", t);
             }
+            LOG.info("<<<MongoSearchRepository.fromMappingJson()");
             return Collections.emptySet();
         }
     }
