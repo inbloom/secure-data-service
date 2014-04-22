@@ -59,7 +59,7 @@ development: &development
     <<: *ldap_default
 
     ## To use local inmemory ldap, just uncomment "ldap_local_inmemory_default".
-    ## <<: *ldap_local_inmemory_default
+    <<: *ldap_local_inmemory_default
 
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
