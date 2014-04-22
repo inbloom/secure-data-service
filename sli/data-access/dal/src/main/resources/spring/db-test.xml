@@ -39,7 +39,7 @@
       <constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
    </bean>
   
-  <bean id="searchRepository" name="searchRepo" class="org.slc.sli.dal.repository.ElasticSearchRepository" init-method="init" destroy-method="destroy">
+  <bean id="searchRepository" name="searchRepo" class="org.slc.sli.dal.repository.MongoSearchRepository" init-method="init" destroy-method="destroy">
     <property name="searchTemplate" ref="searchTemplate" />
     <property name="searchUrl" value="${sli.search.url}" />
     <property name="searchUsername" value="#{encryptor.encrypt('${sli.encryption.dalKeyAlias}','${sli.encryption.keyStorePass}','${sli.search.username}')}" />
