@@ -240,6 +240,9 @@ class ApplicationController < ActionController::Base
     end
     email = SupportEmail.get("")
     logger.debug { "Email #{email}"}
+
+    session[:security_principal] = check
+
     session[:support_email] = email
     session[:full_name] ||= check["full_name"]
     session[:email] ||= check["email"]
