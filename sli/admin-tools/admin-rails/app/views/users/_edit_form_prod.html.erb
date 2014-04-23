@@ -59,28 +59,27 @@
 <%if @is_operator%>
     <div class="form-group<%=error if @user.errors[:tenant].size>0%>">
         <%= f.label :tenant, "Tenant", :class => "col-sm-2 control-label" %>
-        <div class="controls">
+        <div class="col-sm-6">
             <% if (!@is_operator || user.primary_role == "SLC Operator" || user.primary_role == nil) || (@loginUserId == user.uid and @is_lea)
             @disable_tenant = true
             else
             @disable_tenant = false
             end %>
-        <%= f.text_field :tenant, :disabled => @disable_tenant %> <%=@user.errors[:tenant][0]%>
+        <%= f.text_field :tenant, :disabled => @disable_tenant, :type => "text", :class => "form-control" %> <%=@user.errors[:tenant][0]%>
         </div>
     </div>
 <%end%>
 
 <%if @is_operator%>
-    <div class = "control-group<%=error if @user.errors[:edorg].size>0%>">
-        <label class="control-label" for="user_edorg" rel="tooltip" title="<%=edorg_tooltip_text%>">Education Organization <i id="tooltip" class="icon-question-sign" ></i></label>
-        <div class="controls">
-        <label style="color:#B94A48;" >
+    <div class="form-group<%=error if @user.errors[:edorg].size>0%>">
+        <label class="col-sm-2" for="user_edorg" rel="tooltip" title="<%=edorg_tooltip_text%>">Education Organization <i id="tooltip" class="icon-question-sign" ></i></label>
+        <div class="col-sm-6">
         <% if (user.primary_role == "SLC Operator" || user.primary_role == nil)
             @disable_edorg = true
             else
             @disable_edorg = false
             end %>
-        <%= f.text_field :edorg, :disabled => @disable_edorg%> <%=@user.errors[:edorg][0]%></label>
+        <%= f.text_field :edorg, :disabled => @disable_edorg, :type => "text", :class => "form-control" %> <%=@user.errors[:edorg][0]%>
         </div>
     </div>
 <%else%>
