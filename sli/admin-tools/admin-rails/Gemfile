@@ -2,6 +2,9 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.2.13'
 
+# Bundle edge Rails instead:
+# gem 'rails',     :git => 'git://github.com/rails/rails.git'
+
 gem 'execjs'
 gem 'therubyracer'
 gem 'oauth2'
@@ -13,9 +16,14 @@ gem 'twitter-bootstrap-rails',
     :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git',
     :branch => 'bootstrap3'
 gem 'less-rails', git: 'git://github.com/metaskills/less-rails.git'
+# gem 'less-rails'
 gem 'ruby-recaptcha'
 
 group :deployment, :integration do
+  # Deploy with Capistrano
+  gem 'capistrano'
+  # Multi-stage deployment
+  gem 'capistrano-ext'
   gem 'thin'
 end
 
@@ -35,7 +43,8 @@ group :test do
   gem 'test-unit'
 	gem 'simplecov'
 	gem 'simplecov-rcov'
-  gem 'mocha' ,'0.14.0', :require => false
+  gem "mocha" ,'0.14.0', :require => false
 end
 
 gem 'encrypted-cookie-store'
+gem 'eventmachine', '1.0.3'
