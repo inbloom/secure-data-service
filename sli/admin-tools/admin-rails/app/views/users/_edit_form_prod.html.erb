@@ -44,7 +44,7 @@
 
 <div class="form-group">
 	<%= f.label :optinal_role_1, "Optional Permissions" , :class => "col-sm-2 control-label" %>
-	<label class="checkbox-inline">
+    <label class="checkbox-inline">
         <% @role1_checked = true if user.optional_role_1=="Ingestion User" %>
         <% @role1_disabled = true if (user.primary_role == "Ingestion User" || user.primary_role == "SLC Operator" || user.primary_role == nil)%>
         <%= f.check_box :optional_role_1, {:id => "ingestion_user_role", :checked => @role1_checked, :disabled=>@role1_disabled}, "Ingestion User" %>Ingestion User
