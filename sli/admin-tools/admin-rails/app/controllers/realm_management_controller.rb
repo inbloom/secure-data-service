@@ -34,7 +34,7 @@ class RealmManagementController < ApplicationController
   # GET /realm_management.json
   def index
     userRealm = session[:edOrg]
-    @realms = GeneralRealmHelper.get_realm_to_redirect_to(userRealm)
+    @realms = Realm.get_realm_to_redirect_to(userRealm)
     logger.debug {"Realms #{@realms.to_json}"}
     if @realms.nil? or @realms.empty?
       redirect_to new_realm_management_path and return

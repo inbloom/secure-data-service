@@ -41,6 +41,11 @@ class Realm < SessionResource
     idp.valid?
   end
 
+
+  def self.get_realm_to_redirect_to(user_realm)
+    all.select {|realm| realm.edOrg && realm.edOrg == user_realm}
+  end
+
   schema do
     string "uniqueIdentifier", "name", "edOrg"
     string "saml"
