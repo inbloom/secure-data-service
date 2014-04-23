@@ -66,7 +66,7 @@ Then /^the page should be reset back to default$/ do
 
   numChecked.should == 1
 
-  browser.find(:xpath, '/html/body/div[2]/div/div/div/div[2]/div/table/tbody/tr[3]/td[4]/input').should be_checked
+  browser.find(:xpath, '//div/table/tbody/tr[3]/td[4]/input').should be_checked
 end
 
 # This step might need to be refactored
@@ -106,7 +106,6 @@ And /^I create new application "([^"]*)"$/ do |app_name|
                              :image_url => 'https://example.com')
   browser.check('app[installed]')
   browser.click_button 'Register'
-  binding.pry
 end
 
 Then /^application "([^"]*)" should be created$/ do |app_name|
