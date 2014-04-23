@@ -17,13 +17,11 @@ limitations under the License.
 =end
 
 
-include GeneralRealmHelper
-
 class RealmManagementController < ApplicationController
   before_filter :check_rights
 
   def check_rights
-    unless session[:rights].include?("CRUD_REALM")
+    unless session[:rights].include?('CRUD_REALM')
       logger.warn {'User does not have CRUD_REALM right and cannot create/delete/modify realms'}
       raise ActiveResource::ForbiddenAccess, caller
     end
@@ -33,21 +31,19 @@ class RealmManagementController < ApplicationController
   # GET /realm_management
   # GET /realm_management.json
   def index
-    userRealm = session[:edOrg]
-    @realms = Realm.get_realm_to_redirect_to(userRealm)
-    logger.debug {"Realms #{@realms.to_json}"}
-    if @realms.nil? or @realms.empty?
-      redirect_to new_realm_management_path and return
-    end
-    edorg_entity = EducationOrganization.get("", headers = {:stateOrganizationId => userRealm})
+    user_realm = session[:edOrg]
+    @realms = Realm.get_realm_to_redirect_to(user_realm)
+    redirect_to new_realm_management_path and return if @realms.empty?
+
+    edorg_entity = EducationOrganization.get("", headers = {:stateOrganizationId => user_realm})
     if edorg_entity != nil && !edorg_entity.empty?
-      @edorg = edorg_entity["nameOfInstitution"] + " (#{session[:edOrg]})"
+      @edorg = "#{edorg_entity['nameOfInstitution']} (#{session[:edOrg]})"
     else
       @edorg = session[:edOrg]       
     end
     respond_to do |format|
       format.html
-    end and return
+    end
   end
 
   # GET /realm_management/new

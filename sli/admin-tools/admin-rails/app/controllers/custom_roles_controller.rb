@@ -17,8 +17,6 @@ limitations under the License.
 =end
 
 
-include GeneralRealmHelper
-
 class CustomRolesController < ApplicationController
   before_filter :check_rights
 
