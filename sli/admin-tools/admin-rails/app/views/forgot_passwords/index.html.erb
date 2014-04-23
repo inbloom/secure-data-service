@@ -2,10 +2,11 @@
 <h1>Reset Password</h1>
 </div>
 <p></p>
+
 <%= form_tag(:action => "reset") do %>
   <%= label_tag(:user_id, "Please enter your email address.") %>
-  <%= text_field_tag(:user_id) %><br><br>
-  <div>
+  <%= text_field_tag(:user_id) %><br/><br/>
+  <p>
   <%# recaptcha section %>
       <% if APP_CONFIG['recaptcha_disable'] == true %>
           <span style="color:red; font-weight:bold;">Captcha validation is disabled to allow automated testing.</span>
@@ -15,8 +16,6 @@
       <div class="controls">
         <%= get_captcha(:options => {:theme => 'white', :tabindex => increment_counter, :lang => 'en'}, :ssl => 'true').html_safe %>
       </div>
-  </div>
   <br/>
   <%= submit_tag "Submit", :class => "btn btn-info", :id => "submit" %>
 <% end %>
-

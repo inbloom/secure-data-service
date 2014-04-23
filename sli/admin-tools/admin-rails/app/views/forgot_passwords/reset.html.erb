@@ -32,7 +32,7 @@
                 <%= get_captcha(:options => {:theme => 'white', :tabindex => increment_counter, :lang => 'en'}, :ssl => 'true').html_safe %>
               </div>
           </div>
-        <%= submit_tag("Submit", :id => "submit") %>
+        <%= submit_tag "Submit", :class => "btn btn-info", :id => "submit" %>
     <% end %>
 <% end %>
 
