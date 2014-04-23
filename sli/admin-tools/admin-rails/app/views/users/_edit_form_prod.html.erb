@@ -1,5 +1,5 @@
 <%edorg_tooltip_text="Identifier for the Local Education Agency (District) or State Education Agency"%>
-<%= form_for(user, :html => {:class => "form-horizontal"}) do |f| %>
+<%= form_for(user, :html => {:class => "form-horizontal", :role => "form"}) do |f| %>
 
 <script type="text/javascript" charset="utf-8">
   var is_lea = <%= @is_lea%> 
@@ -10,118 +10,95 @@
 </script>
 
 <% if @user.errors.any? %>
-        <div class="alert alert-error">
-          There was an error processing your request. Please fix any highlighted fields below.
-          <% error = " error" %>
-          <% if flash[:edit_error]%>
-            <br>
-            <p id="error_notice"><%=flash[:edit_error] %></p>
-          <%end%>
-        </div>
-    <% end %>
+    <div class="alert alert-error">
+      There was an error processing your request. Please fix any highlighted fields below.
+      <% error = " error" %>
+      <% if flash[:edit_error]%>
+        <br>
+        <p id="error_notice"><%=flash[:edit_error] %></p>
+      <%end%>
+    </div>
+<% end %>
 
-<fieldset>
-<div class = "control-group<%=error if @user.errors[:fullName].size>0%>">
-	<%= f.label :fullName, "Full Name",:class => "control-label" %>
-	<div class="controls">
-	<label style="color:#B94A48;" >
-	<%= f.text_field :fullName %> <%=@user.errors[:fullName][0]%></label>
+<div class="form-group<%=error if @user.errors[:fullName].size>0%>">
+	<%= f.label :fullName, "Full Name", :class => "col-sm-2 control-label"%>
+	<div class="col-sm-6">
+      <%= f.text_field :fullName, :type => "text", :class => "form-control" %> <%=@user.errors[:fullName][0]%>
 	</div>
 </div>
-</fieldset>
 
-<fieldset>
-<div class = "control-group<%=error if @user.errors[:email].size>0%>">
-	<%= f.label :email, "Email",:class => "control-label" %>
-	<div class="controls">
-		<label style="color:#B94A48;" >
-	<%= f.text_field :email %> <%=@user.errors[:email][0]%></label>
+<div class="form-group<%=error if @user.errors[:email].size>0%>">
+	<%= f.label :email, "Email",:class => "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+	    <%= f.text_field :email, :type => "text", :class => "form-control"%> <%=@user.errors[:email][0]%>
 	</div>
 </div>
-</fieldset>
 
 <div id="roles_edorg_block">
-<fieldset>
-<div class = "control-group" id="primary_role_block">
-	<%= f.label :primary_role, "Role" ,:class => "control-label" %>
-	<div class="controls">
-	<%= f.select :primary_role, @production_roles,{},:selected => user.primary_role %>
-	</div>
+<div class="form-group" id="primary_role_block">
+	<%= f.label :primary_role, "Role", :class => "col-sm-2 control-label" %>
+  <div class="col-sm-4">
+	<%= f.select :primary_role, @production_roles,{},:selected => user.primary_role, :class => "form-control" %>
+    </div>
 </div>
-</fieldset>
 
-<fieldset>
-<div class = "control-group">
-	<%= f.label :optinal_role_1, "Optional Permissions" ,:class => "control-label" %>
-	<div class="controls">
-	<label class="checkbox">
-	<% @role1_checked = true if user.optional_role_1=="Ingestion User" %>
-	<% @role1_disabled = true if (user.primary_role == "Ingestion User" || user.primary_role == "SLC Operator" || user.primary_role == nil)%>
-	<%= f.check_box :optional_role_1,{:id=> "ingestion_user_role",:checked => @role1_checked,:disabled=>@role1_disabled},"Ingestion User" %>Ingestion User
-	</label>
-	</div>
-	<div class="controls">
-	<label class="checkbox">
+<div class="form-group">
+	<%= f.label :optinal_role_1, "Optional Permissions" , :class => "col-sm-2 control-label" %>
+	<label class="checkbox-inline">
+        <% @role1_checked = true if user.optional_role_1=="Ingestion User" %>
+        <% @role1_disabled = true if (user.primary_role == "Ingestion User" || user.primary_role == "SLC Operator" || user.primary_role == nil)%>
+        <%= f.check_box :optional_role_1, {:id => "ingestion_user_role", :checked => @role1_checked, :disabled=>@role1_disabled}, "Ingestion User" %>Ingestion User
+      </label>
+      <label class="checkbox-inline">
 		<% @role2_checked = true if user.optional_role_2=="Realm Administrator" %>
 		<% @role2_disabled = true if (user.primary_role == "Realm Administrator" || user.primary_role == "SLC Operator" || user.primary_role == nil)%>
-	<%= f.check_box :optional_role_2,{:id=>"realm_administrator_role",:checked => @role2_checked,:disabled=>@role2_disabled},"Realm Administrator" %>Realm Administrator
+	    <%= f.check_box :optional_role_2,{:id => "realm_administrator_role", :checked => @role2_checked,:disabled=>@role2_disabled}, "Realm Administrator" %>Realm Administrator
 	</label>
-	</div>
-	
 </div>
-</fieldset>
 
 <%if @is_operator%>
-<fieldset>
-<div class = "control-group<%=error if @user.errors[:tenant].size>0%>">
-	<%= f.label :tenant, "Tenant",:class => "control-label" %>
-	<div class="controls">
-	<label style="color:#B94A48;" >
-		<% if (!@is_operator || user.primary_role == "SLC Operator" || user.primary_role == nil) || (@loginUserId == user.uid and @is_lea)
-		@disable_tenant = true
-		else 
-		@disable_tenant = false 
-		end %>
-	<%= f.text_field :tenant, :disabled => @disable_tenant %> <%=@user.errors[:tenant][0]%></label>
-	</div>
-</div>
-</fieldset>
-<%else%>
+    <div class="form-group<%=error if @user.errors[:tenant].size>0%>">
+        <%= f.label :tenant, "Tenant", :class => "col-sm-2 control-label" %>
+        <div class="controls">
+            <% if (!@is_operator || user.primary_role == "SLC Operator" || user.primary_role == nil) || (@loginUserId == user.uid and @is_lea)
+            @disable_tenant = true
+            else
+            @disable_tenant = false
+            end %>
+        <%= f.text_field :tenant, :disabled => @disable_tenant %> <%=@user.errors[:tenant][0]%>
+        </div>
+    </div>
 <%end%>
 
 <%if @is_operator%>
-<fieldset>
-<div class = "control-group<%=error if @user.errors[:edorg].size>0%>">
-	<label class="control-label" for="user_edorg" rel="tooltip" title="<%=edorg_tooltip_text%>">Education Organization <i id="tooltip" class="icon-question-sign" ></i></label>
-	<div class="controls">
-	<label style="color:#B94A48;" >
-	<% if (user.primary_role == "SLC Operator" || user.primary_role == nil) 
-		@disable_edorg = true
-		else 
-		@disable_edorg = false 
-		end %>	
-	<%= f.text_field :edorg, :disabled => @disable_edorg%> <%=@user.errors[:edorg][0]%></label>
-	</div>
-</div>
-</fieldset>
+    <div class = "control-group<%=error if @user.errors[:edorg].size>0%>">
+        <label class="control-label" for="user_edorg" rel="tooltip" title="<%=edorg_tooltip_text%>">Education Organization <i id="tooltip" class="icon-question-sign" ></i></label>
+        <div class="controls">
+        <label style="color:#B94A48;" >
+        <% if (user.primary_role == "SLC Operator" || user.primary_role == nil)
+            @disable_edorg = true
+            else
+            @disable_edorg = false
+            end %>
+        <%= f.text_field :edorg, :disabled => @disable_edorg%> <%=@user.errors[:edorg][0]%></label>
+        </div>
+    </div>
 <%else%>
-<fieldset>
-<div class = "control-group<%=error if @user.errors[:edorg].size>0%>">
-    <label class="control-label" for="user_edorg" rel="tooltip" title="<%=edorg_tooltip_text%>">Education Organization <i id="tooltip" class="icon-question-sign" ></i></label>
-	<div class="controls">
-	<label style="color:#B94A48;" >
-	<%= f.select :edorg,  @edorgs, {},:include_blank => true%> <%=@user.errors[:edorg][0]%></label>
-	</div>
-</div>
-</fieldset>
+    <div class="form-group<%=error if @user.errors[:edorg].size>0%>">
+        <label class="col-sm-2 control-label" for="user_edorg" rel="tooltip" title="<%=edorg_tooltip_text%>">Education Organization <i id="tooltip" class="icon-question-sign"></i></label>
+        <div class="col-sm-4">
+            <%= f.select :edorg,  @edorgs, {},:include_blank => true, :class => "form-control" %> <%=@user.errors[:edorg][0]%>
+        </div>
+    </div>
 <%end%>
+</div> <!-- roles and edorgs -->
 
-</div> <!-- roles and edorgs --> 
-<fieldset>
-<div class = "form-actions">
-	<%= f.submit "Update", :class => "btn btn-info",:style=>"margin-left:60px" %>
-	<%= link_to "Cancel", "/users",:class => "btn" %>
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+	    <%= f.submit "Update", :class => "btn btn-info"%>
+    	<%= link_to "Cancel", "/users", :class => "btn" %>
+    </div>
 </div>
-</fieldset>
+
 <% end %>
 
