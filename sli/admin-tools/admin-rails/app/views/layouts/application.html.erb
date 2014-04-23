@@ -49,13 +49,9 @@
         <a class="navbar-brand" href="/">inBloom Portal</a>
         <p class="navbar-text navbar-right">
           <% if session[:security_principal] %>
-            <a href="#" class="navbar-link">
-                <%= session[:security_principal]["email"] %>
-            </a>
+            <a href="#" class="navbar-link"><%= session[:security_principal]["email"] %></a>
           <% else  %>
-            <a href="/" class="navbar-link">
-              [ login ]
-            </a>
+            <a href="/" class="navbar-link">[ login ]</a>
           <% end %>
         </p>
       </div>
@@ -83,13 +79,12 @@
         <!--</div>&lt;!&ndash;/span&ndash;&gt;-->
 
       </div><!--/row-->
-
-      <footer>
-        <hr/>
-        <p>&copy; Company 2014</p>
-      </footer>
-
     </div> <!-- /container -->
+
+    <footer>
+      <hr/>
+      <p>&copy; Company 2014</p>
+    </footer>
 
   </body>
 </html>
