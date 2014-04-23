@@ -47,7 +47,15 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="/">inBloom Portal</a>
-        <p class="navbar-text navbar-right"><a href="#" class="navbar-link"><%=session[:security_principal]["email"]%></a></p>
+        <p class="navbar-text navbar-right">
+          <a href="#" class="navbar-link">
+            <% if session[:security_principal] %>
+                <%= session[:security_principal]["email"] %>
+            <% else  %>
+                <a class="navbar-brand" href="/">[ login ]</a>
+            <% end %>
+          </a>
+        </p>
       </div>
     </div>
 
