@@ -144,8 +144,8 @@ post_encrypt_idp_redirect_url: https://shibboleth.slidev.org/idp3/profile/SAML2/
 
 ################# /e2e test properties #################################
 
-portal_server_address: http://local.slidev.org:7000
-portal_app_suffix: "/portal"
+portal_server_address: http://local.slidev.org:3001
+portal_app_suffix: "/"
 
 elastic_search_address: http://local.slidev.org:9200
 elastic_search_inbox: "../search-indexer/data/inbox"

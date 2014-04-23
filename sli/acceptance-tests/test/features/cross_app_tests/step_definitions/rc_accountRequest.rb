@@ -34,10 +34,6 @@ Given /^I go to the mini sandbox account registration page$/ do
   @driver.get "#{Property[:minisb_admintools_server_url]}/registration"
 end
 
-Given /^I go to the portal page on RC$/ do
-  @driver.get "#{Property[:portal_server_address]}#{Property[:portal_app_suffix]}"
-end
-
 Given /^I am running in Sandbox mode$/ do
   @mode = 'SANDBOX'
 end
