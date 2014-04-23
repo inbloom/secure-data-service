@@ -49,18 +49,20 @@
         <td id="<%= @elementIdPrefix%>_edorg"><% if user.edorg==nil|| user.edorg=="null"%><%else%><%=user.edorg%><%end%></td>
         <td id="<%= @elementIdPrefix%>_date_created"><%= user.get_create_time.in_time_zone().strftime("%c %Z")%></td>
 		<td id="<%= @elementIdPrefix%>_actions" class="actions">
-            <div class="btn-group">
+            <!--<div class="btn-group">-->
                 <%@deleteButtonId = @elementIdPrefix + "_delete"%>
                 <%@editButtonId = @elementIdPrefix + "_edit"%>
-                                <%= link_to "Edit", "/users/#{user.uid}/edit", :method=> :get ,:class=>"btn btn-info", :id => @editButtonId %> 
+                                <%= link_to "Edit", "/users/#{user.uid}/edit", :method=> :get, :class=>"btn btn-info", :role => "button", :id => @editButtonId %>
                             <% if @loginUserId == user.uid %> 
-                                <button id="<%= @elementIdPrefix%>_delete" type="button" class= "btn" disabled="disabled"><i class="icon-trash"></i></button>
+                                <button id="<%= @elementIdPrefix%>_delete" type="button" class="btn btn-danger" disabled="disabled">
+                                  <i class="icon-trash"></i>
+                                </button>
                             <%else%>
                                 <%= link_to '<i class="icon-trash"></i>'.html_safe, "/users/#{user.uid}",
-                                    :confirm => "Do you really want to delete this user?", :method => :delete,:class=>"btn",:id => @deleteButtonId%>
+                                    :confirm => "Do you really want to delete this user?", :method => :delete, :class=>"btn btn-danger", :role => "button", :id => @deleteButtonId%>
                                 
                             <%end%> 
-            </div>
+            <!--</div>-->
         </td>
         </tr>
         <% end %>
