@@ -4,8 +4,11 @@
 <p></p>
 
 <%= form_tag(:action => "reset") do %>
-  <%= label_tag(:user_id, "Please enter your email address.") %>
-  <%= text_field_tag(:user_id) %><br/><br/>
+  <%= label_tag :user_id, "Please enter your email address", class: "col-sm-3" %>
+  <div class="col-sm-5">
+    <%= text_field_tag :user_id, nil, class: "form-control" %>
+  </div>
+  <br/><br/>
   <p>
   <%# recaptcha section %>
       <% if APP_CONFIG['recaptcha_disable'] == true %>
