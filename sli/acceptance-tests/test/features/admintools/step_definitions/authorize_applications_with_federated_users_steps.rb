@@ -65,7 +65,8 @@ Then /^the page should be reset back to default$/ do
   end
 
   numChecked.should == 1
-  browser.find(:xpath, '/html/body/div/div[2]/div[2]/div/table/tbody/tr[3]/td[4]/input').should be_checked
+
+  browser.find(:xpath, '/html/body/div[2]/div/div/div/div[2]/div/table/tbody/tr[3]/td[4]/input').should be_checked
 end
 
 # This step might need to be refactored
@@ -84,7 +85,7 @@ end
 # Possible refactor will be required
 Then /^I should see the new role group$/ do
   browser.within '#custom_roles' do
-    @new_custom_role = browser.find(:xpath, '/html/body/div/div[2]/div[2]/div/table/tbody/tr[7]')
+    @new_custom_role = browser.find(:xpath, '//div/table/tbody/tr[7]')
 
     browser.within @new_custom_role do
       browser.find('.groupTitle').text.should == 'Application Authorizer'
@@ -105,6 +106,7 @@ And /^I create new application "([^"]*)"$/ do |app_name|
                              :image_url => 'https://example.com')
   browser.check('app[installed]')
   browser.click_button 'Register'
+  binding.pry
 end
 
 Then /^application "([^"]*)" should be created$/ do |app_name|

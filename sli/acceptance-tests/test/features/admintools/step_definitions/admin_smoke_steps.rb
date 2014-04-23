@@ -104,7 +104,7 @@ end
 
 Given /^I want to create a new application$/ do
   browser.page.click_link 'New Application'
-  browser.page.should have_title('New Application')
+  browser.page.should have_selector('h1', :text => 'Register a New Application')
 end
 
 When /^I cancel out of the new application form$/ do
