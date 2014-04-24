@@ -19,12 +19,6 @@ class UserAccountRegistrationsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "redirect in prod mode when get new" do
-    APP_CONFIG['is_sandbox'] = false
-    get :new
-    assert_response :redirect
-  end
-
   test "should create user_account_registration" do
     UserAccountRegistration.stubs(:register).returns({"redirect"=>true, "error"=>""})
     ReCaptcha::AppHelper.stubs(:validate_recap).returns(true)
