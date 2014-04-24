@@ -2,7 +2,7 @@ require 'approval'
 
 class AccountManagementsController < ApplicationController
   before_filter :check_slc_operator
-  before_filter :enabled_only_in_sandbox
+  before_filter :check_if_sandbox
 
   # GET /account_managements
   # GET /account_managements.json
@@ -16,9 +16,6 @@ class AccountManagementsController < ApplicationController
     end
 
     respond_to do |format|
-      #    if @forbidden == true
-      #   format.html { render :file=> "#{Rails.root}/public/403.html" }
-      #   end
       format.html # index.html.erb
       format.json { render json: @account_managements }
     end
@@ -78,18 +75,12 @@ class AccountManagementsController < ApplicationController
   end
 
   def check_slc_operator
-    # if $check_slc.nil? || $check_slc == true
-      check = Check.get("")
-      roles = check["sliRoles"]
-      if roles.nil? || !roles.include?("SLC Operator")
-        render :file => "#{Rails.root}/public/403.html"
-      end
-    # end
+    check = Check.get('')
+    roles = check['sliRoles']
+    render(file:'public/403.html') unless roles && roles.include?('SLC Operator')
   end
 
-  def enabled_only_in_sandbox
-    unless APP_CONFIG['is_sandbox']
-      render :file => "#{Rails.root}/public/404.html"
-    end
+  def check_if_sandbox
+    render(file:'public/404.html', status: :not_found, layout: false) unless APP_CONFIG['is_sandbox']
   end
 end
