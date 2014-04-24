@@ -56,7 +56,7 @@ email_rumbster: &email_rumbster
 development: &development
     <<: *common
     <<: *email_mon
-    <<: *ldap_default
+    <<: *ldap_default                                                                     `
 
     ## To use local inmemory ldap, just uncomment "ldap_local_inmemory_default".
     <<: *ldap_local_inmemory_default
