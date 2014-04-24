@@ -1,38 +1,20 @@
-=begin
-
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end
-
-
 require 'approval'
 
 module ApplicationHelper
 
 
   REST_HEADER = {
-      "Content-Type" => "application/json",
-      "content_type" => "json",
-      "accept" => "application/json"
+      'Content-Type' => 'application/json',
+      'content_type' => 'json',
+      'accept' => 'application/json'
   }
 
-  API_BASE=APP_CONFIG["api_base"]+"/v1/userAccounts"
+  API_BASE = "#{APP_CONFIG["api_base"]}/v1/userAccounts"
+
   UNKNOWN_EMAIL = {
-      "email_address" => "UNKNOWN",
-      "first_name" => "UNKNOWN",
-      "last_name" => "UNKNOWN",
+      'email_address' => 'UNKNOWN',
+      'first_name' => 'UNKNOWN',
+      'last_name' => 'UNKNOWN',
   }
 
   # marker exception indicating something went wrong when sending email
@@ -49,7 +31,7 @@ module ApplicationHelper
   #     Nothing
   #
   def self.remove_user_account(email)
-    ApprovalEngine.remove_user(email) unless email == nil
+    ApprovalEngine.remove_user(email) if email
   end
 
   # Gets the email address for the supplied GUID and sends them a confirmation-request
@@ -62,12 +44,12 @@ module ApplicationHelper
   #     Nothing
   #
   def self.send_user_verification_email(validate_base, email_address)
-    ApprovalEngine.change_user_status(email_address, "accept_eula")
+    ApprovalEngine.change_user_status(email_address, 'accept_eula')
     user = ApprovalEngine.get_user(email_address)
     first_name = user[:first]
     email_token = user[:emailtoken]
 
-    if (email_token.nil?)
+    if email_token.nil?
       return false
     end
 
@@ -121,7 +103,7 @@ module ApplicationHelper
         :emailAddress    => userAccountRegistration.email,
         :password        => userAccountRegistration.password,
         :vendor          => userAccountRegistration.vendor,
-        :status          => "submitted"
+        :status          => 'submitted'
     }
     ApprovalEngine.add_disabled_user(new_user)
   end
@@ -155,28 +137,19 @@ module ApplicationHelper
     ApprovalEngine.update_user_info(new_user)
   end
 
-  #get email token for a specific user
   def self.get_email_token(email_address)
-    user_info= ApprovalEngine.get_user(email_address)
-    if (user_info.nil?)
-      return nil
-    else
-      return user_info[:emailtoken]
-    end
+    user_info = ApprovalEngine.get_user(email_address)
+    user_info[:emailtoken] if user_info
   end
 
   def self.get_edorg_from_ldap(email_address)
     user_info = ApprovalEngine.get_user(email_address)
-    if user_info.nil?
-      return nil
-    else
-      return user_info[:edorg]
-    end
+    user_info[:edorg] if user_info
   end
 
   # Returns an individual user via their email token or nil if the user does not exist.
   def self.get_user_with_emailtoken(email_token)
-    return ApprovalEngine.get_user_emailtoken(email_token)
+    ApprovalEngine.get_user_emailtoken(email_token)
   end
 
   def required?(obj, attr)
@@ -186,6 +159,7 @@ module ApplicationHelper
   end
 
 end
+
 class ErbBinding < OpenStruct
   def get_binding
     return binding()
