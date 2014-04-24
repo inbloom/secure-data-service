@@ -2,69 +2,57 @@
 <% "<span style=\"color:red\">*</span>" %>
 <% end %>
 
-<% def print(f, field, field_name, is_password_field, tab_index, password_field = nil, is_force_required = false) %>
-    <% required = is_force_required || required?(@user_account_registration, field) %>
-    <% error = "" %>
-    <% if @user_account_registration.errors[field].any? %>
-        <% error = " error" %>
-    <% elsif is_password_field && @user_account_registration.errors[password_field].any? %>
-        <% error = " error" %>
-    <% end %>
-    <%= tag("div", :class => "control-group#{error}") %>
-    <div class="control-label">
-      <%= f.label field do %>
-          <% required_string = "" %>
-          <% if required %>
-              <% required_string = " #{require_marker}" %>
-          <% end %>
-          <% "#{field_name}#{required_string}".html_safe %>
-      <% end %>
-    </div>
-    <div class="controls">
-      <% if is_password_field %>
-          <%= f.password_field password_field, :tabindex => tab_index, :autocomplete => 'off' %>
-      <% else %>
-          <% if required %>
-              <%= f.text_field field, :tabindex => tab_index %>
-          <% else %>
-              <%= f.text_field field, :placeholder => "optional", :tabindex => tab_index %>
-          <% end %>
-      <% end %>
 
-      <% if @user_account_registration.errors[field].any? %>
-            <span class="help-inline">
-	          <% if @user_account_registration.errors[field].size == 1 %>
-	            <%= @user_account_registration.errors[field][0] %>
-			  <% else %>
-			     <ul>
-                   <% @user_account_registration.errors[field].each_with_index do |err, i| %>
-                       <%= "</ul></span><span class='help-inline'><ul>".html_safe if i > 0 && i % 2 == 0 %>
-                       <li><%= err %></li>
-                   <% end %>
-                 </ul>
-			  <% end %>
-            </span>
-      <% end %>
-    </div>
+<% if @user_account_registration.errors.any? %>
+    <div class="alert alert-error">
+      There was an error processing your registration. Please fix any highlighted fields below.
+      <% error = " error" %>
     </div>
 <% end %>
 
-<%= form_for(@user_account_registration) do |f| %>
-    <% if @user_account_registration.errors.any? %>
-        <div class="alert alert-error">
-          There was an error processing your registration. Please fix any highlighted fields below.
-        </div>
-    <% end %>
-    <fieldset>
-      <% print f, :firstName, "First Name", false, increment_counter %>
-      <% print f, :lastName, "Last Name", false, increment_counter %>
-      <% print f, :vendor, "Company", false, increment_counter %>
-      <% print f, :email, "Email", false, increment_counter %>
-      <% print f, :password, "Password", true, increment_counter, :password %>
-      <% print f, :confirmation, "Re-enter Password", true, increment_counter, :password_confirmation, true %>
-      <div style="margin-bottom: 9px;">
-        <span style="color:red;">*</span> = required fields
+<%= form_for(@user_account_registration, :html => {:class => "form-horizontal", :role => "form"}) do |f| %>
+
+    <div class="form-group<%=error if @user_account_registration.errors[:firstName].size>0%>">
+      <%= f.label :firstName, "First Name #{require_marker}".html_safe, :class => "col-sm-2 control-label"%>
+      <div class="col-sm-6">
+        <%= f.text_field :firstName, :type => "text", :class => "form-control" %> <%=@user_account_registration.errors[:firstName][0]%>
       </div>
+    </div>
+
+    <div class="form-group<%=error if @user_account_registration.errors[:lastName].size>0%>">
+      <%= f.label :lastName, "Last Name#{require_marker}".html_safe, :class => "col-sm-2 control-label"%>
+      <div class="col-sm-6">
+        <%= f.text_field :lastName, :type => "text", :class => "form-control" %> <%=@user_account_registration.errors[:lastName][0]%>
+      </div>
+    </div>
+
+    <div class="form-group<%=error if @user_account_registration.errors[:vendor].size>0%>">
+      <%= f.label :vendor, "Company#{require_marker}".html_safe, :class => "col-sm-2 control-label"%>
+      <div class="col-sm-6">
+        <%= f.text_field :vendor, :type => "text", :class => "form-control" %> <%=@user_account_registration.errors[:vendor][0]%>
+      </div>
+    </div>
+
+    <div class="form-group<%=error if @user_account_registration.errors[:email].size>0%>">
+      <%= f.label :email, "Email#{require_marker}".html_safe, :class => "col-sm-2 control-label"%>
+      <div class="col-sm-6">
+        <%= f.email_field :email, :type => "text", :class => "form-control" %> <%=@user_account_registration.errors[:email][0]%>
+      </div>
+    </div>
+
+    <div class="form-group<%=error if @user_account_registration.errors[:password].size>0%>">
+      <%= f.label :password, "Password#{require_marker}".html_safe, :class => "col-sm-2 control-label"%>
+      <div class="col-sm-6">
+        <%= f.password_field :password, :class => "form-control" %> <%=@user_account_registration.errors[:password][0]%>
+      </div>
+    </div>
+
+    <div class="form-group<%=error if @user_account_registration.errors[:confirmation].size>0%>">
+      <%= f.label :confirmation, "Re-enter Password#{require_marker}".html_safe, :class => "col-sm-2 control-label"%>
+      <div class="col-sm-6">
+        <%= f.password_field :password_confirmation, :class => "form-control" %> <%=@user_account_registration.errors[:confirmation][0]%>
+      </div>
+    </div>
       <%# recaptcha section %>
       <% if APP_CONFIG['recaptcha_disable'] == true %>
           <span style="color:red; font-weight:bold;">Captcha validation is disabled to allow automated testing.</span>
@@ -91,7 +79,7 @@
                      :id => "submitRegButton", :class => "btn btn-info"%>
         <%= link_to "Cancel", APP_CONFIG['redirect_slc_url'], :class =>"btn" %>
       </div>
-    </fieldset>
+
 <% end %>
 
 <script type="text/javascript">
