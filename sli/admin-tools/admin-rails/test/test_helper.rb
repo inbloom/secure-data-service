@@ -1,23 +1,3 @@
-=begin
-
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end
-
-
-
 require 'simplecov'
 require 'simplecov-rcov'
 SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
@@ -36,9 +16,8 @@ class ActiveSupport::TestCase
   # fixtures :all
 
   def load_fixture(name)
-    path = File.join(Rails.root, "test", "fixtures", "#{name}.yml")
-    return nil unless File.exists?(path)
-    YAML::load(File.open path)
+    path = File.join(Rails.root, 'test', 'fixtures', "#{name}.yml")
+    YAML::load(File.open path) if File.exists?(path)
   end
 
   # Add more helper methods to be used by all tests here...
@@ -133,33 +112,20 @@ class ActiveSupport::TestCase
 
 end
 class MockResponse
-  @responseCode
-  @validation
-  @body
+  attr_reader :code, :body
 
-  def initialize(newCode,newValidation=true,newBody="DEFAULT")
-    @responseCode = newCode
-    @validation = newValidation
-    @body = newBody
+  def initialize(response_code, validated = true, body = nil)
+    @code = response_code
+    @body = body || "[{\"validated\":#{validated}, \"id\":\"1234567890\"}]"
   end
 
-  def body
-    if @body == "DEFAULT"
-      return "[{\"validated\":#{@validation}, \"id\":\"1234567890\"}]"
-    else
-      return @body
-    end
-  end
-
-  def code
-    return @responseCode
-  end
   def raw_headers
-    return {
-        "location"=>["http://host:8080/api/rest/v1/userAccounts/1234567890"],
-        "content-type"=>["application/json"],
-        "content-length"=>["0"],
-        "server"=>["Jetty(6.1.10)"]}
+    {
+      'location'       => ['http://host:8080/api/rest/v1/userAccounts/1234567890'],
+      'content-type'   => ['application/json'],
+      'content-length' => ['0'],
+      'server'         => ['Jetty(6.1.10)']
+    }
   end
 end
 

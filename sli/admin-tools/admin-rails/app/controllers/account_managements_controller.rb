@@ -51,6 +51,8 @@ class AccountManagementsController < ApplicationController
     end
   end
 
+  private
+
   def sort(account_managements)
     order = ["pending", "approved", "rejected", "disabled"]
     account_managements.select{|x| order.include? x.status.downcase}.sort{|x, y| order.index(x.status.downcase) <=> order.index(y.status.downcase)}
@@ -76,13 +78,13 @@ class AccountManagementsController < ApplicationController
   end
 
   def check_slc_operator
-    if $check_slc.nil? || $check_slc == true
+    # if $check_slc.nil? || $check_slc == true
       check = Check.get("")
       roles = check["sliRoles"]
       if roles.nil? || !roles.include?("SLC Operator")
         render :file => "#{Rails.root}/public/403.html"
       end
-    end
+    # end
   end
 
   def enabled_only_in_sandbox
