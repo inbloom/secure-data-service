@@ -1,22 +1,3 @@
-=begin
-
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end
-
-
 class LandingZoneController < ApplicationController
   before_filter :check_roles
   rescue_from ProvisioningError, :with => :handle_error
@@ -27,13 +8,13 @@ class LandingZoneController < ApplicationController
   def provision
 
     tenant = get_tenant
-    if (tenant == nil)
-      Rails.logger.fatal("Tenant ID is nil for user #{uid()}")
+    unless tenant
+      Rails.logger.fatal "Tenant ID is nil for user #{uid}"
       render_403
       return
     end
 
-    if APP_CONFIG["is_sandbox"]
+    if APP_CONFIG['is_sandbox']
       ed_org_id = params[:ed_org]
 
       if ed_org_id == "from_sample"
@@ -62,7 +43,7 @@ class LandingZoneController < ApplicationController
   end
 
   def index
-    @sample_data =LandingZone.possible_sample_data
+    @sample_data = LandingZone.possible_sample_data
   end
 
   def handle_validation_error(exception)
