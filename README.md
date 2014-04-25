@@ -117,7 +117,7 @@ Next, we start bringing services up. Before that however, we need to set up some
 Community
 =========
 
-LICENSING
+Licensing
 =========
 
 Secure Data Service is licensed under the Apache License, Version 2.0. See LICENSE for full license text.
