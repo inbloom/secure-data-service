@@ -2,9 +2,9 @@
 <table id="applications" class="table">
   <thead>
 	<tr>
-        <th><%= sortable "Name" %></th>
-      	<th><%= sortable "Version" %></th>
-      	<th><%= sortable "Vendor" %></th>
+    <th><%= sortable "Name" %></th>
+    <th><%= sortable "Version" %></th>
+    <th><%= sortable "Vendor" %></th>
 		<th><%= sortable "Request Date", "registration.request_date" %></th>
 		<th><%= sortable "Approval Date", "registration.approval_date" %></th>
 		<th>Status</th>
@@ -16,7 +16,7 @@
 	<% @apps.select {|app| app.registration.status == 'PENDING' || app.registration.status == 'APPROVED'}
             .sort{|a,b| b.registration.status <=> a.registration.status}.each do |app| %>
 		<tr id='<%= app.id %>'>
-      <td><%= app.name %></td
+      <td><%= app.name %></td>
       <td><%= app.version %></td>
       <td><%= app.vendor %></td>
       <td><%= I18n.localize(Time.at(app.registration.request_date / 1000)) unless !app.registration.attributes.has_key? :request_date %></td>
