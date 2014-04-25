@@ -3,7 +3,7 @@ class ChangePassword < SessionResource
   attr_accessor :old_pass, :new_pass, :confirmation
 
   validates_presence_of :old_pass, :new_pass, :confirmation
-  validates :new_pass, :confirmation => true #password_confirmation attr
+  validates :new_pass, confirmation: true #password_confirmation attr
   validate :confirm_new
 
   def initialize(attributes = {})
