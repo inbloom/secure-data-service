@@ -30,7 +30,7 @@ Background:
         When I hit the Application Registration Tool URL
         And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
-        And I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
+        And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
         Then I am redirected to the Application Approval Tool page
         And I see all the applications registered on SLI
         And I see all the applications pending registration
@@ -50,8 +50,8 @@ Background:
         And a "In Progress" button is displayed for application "Royal Oak"
         And I clicked on the button Edit for the application "Royal Oak"
         And I expand all nodes
-        And I enable the educationalOrganization "Illinois State Board of Education" in tenant "Midgar"
-        And I enable the educationalOrganization "Dusk High School" in tenant "Hyrule"
+        And in tenant "Midgar" I authorize the educationalOrganization "Illinois State Board of Education"
+        And in tenant "Hyrule" I authorize the educationalOrganization "Dusk High School"
         And I click on Save
         Then "Royal Oak" is enabled for "201" education organizations
 

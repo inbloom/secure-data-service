@@ -375,7 +375,7 @@ end
 
 def submit_new_application
   browser.page.click_link 'New Application'
-  browser.page.should have_title('New Application')
+  browser.should have_selector('h1', :text=> 'Register a New Application')
   yield if block_given?
   browser.click_button 'Register'
 end
