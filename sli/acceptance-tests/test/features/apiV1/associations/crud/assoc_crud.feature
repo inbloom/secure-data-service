@@ -107,7 +107,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | COUNT | REWRITE URI |
-      | courseOffering                         | courseOfferings                          | 138   | "/search/courseOfferings" |
+      | courseOffering                         | courseOfferings                          | 138   | "/courseOfferings" |
       | staffCohortAssociation                 | staffCohortAssociations                  | 7     | "/staff/@ids/staffCohortAssociations" |
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 2     | "/staff/@ids/staffEducationOrgAssignmentAssociations" |
       | staffProgramAssociation                | staffProgramAssociations                 | 3     | "/staff/@ids/staffProgramAssociations" |
@@ -142,7 +142,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | COUNT | REWRITE URI |
-      | courseOffering                         | courseOfferings                          | 138   | "/search/courseOfferings" |
+      | courseOffering                         | courseOfferings                          | 138   | "/courseOfferings" |
       | staffCohortAssociation                 | staffCohortAssociations                  | 0     | "/staff/@ids/staffCohortAssociations" |
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 8     | "/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations" |
       | staffProgramAssociation                | staffProgramAssociations                 | 0     | "/staff/@ids/staffProgramAssociations" |

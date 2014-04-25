@@ -178,6 +178,7 @@ Scenario Outline: Confirm that API blocks regex against no-context endpoints:
   Examples:
       | username       | password         | endpoint                             |    
 
+@wip
 Scenario Outline: Confirm that API inserts context against some endpoints:
   Given I am logged in using <username> <password> to realm "IL"
   And format "application/json;charset=utf-8"
@@ -190,7 +191,7 @@ Scenario Outline: Confirm that API inserts context against some endpoints:
       | "jstevenson"   | "jstevenson1234" | "/v1/studentCompetencyObjectives"    |
       | "linda.kim"    | "linda.kim1234"  | "/v1/studentCompetencyObjectives"    |
     
-
+@wip
 Scenario Outline: Confirm that entities that block queries dont block 2+ part URIs from querying
   Given I am logged in using <username> <password> to realm "IL"
   And format "application/json;charset=utf-8"
@@ -208,6 +209,7 @@ Scenario Outline: Confirm that entities that block queries dont block 2+ part UR
       | "linda.kim"    | "linda.kim1234"  | "/v1/learningObjectives/dd9165f2-65be-6d27-a8ac-bdc5f46757b6"               |
       | "linda.kim"    | "linda.kim1234"  | "/v1/learningStandards/dd9165f2-653e-6e27-a82c-bec5f48757b8"                |
 
+@wip
 Scenario Outline: Filter by collections routed to Elastic Search
   Given I am logged in using <username> <password> to realm "IL"
     And format "application/json"
@@ -266,7 +268,8 @@ Then I should receive a collection with 41 elements
       | "rrogers"          | "rrogers1234"         |
       | "jstevenson"       | "jstevenson1234"      |
       | "linda.kim"        | "linda.kim1234"       |
-      
+
+@wip
 Scenario Outline: Include fields for endpoints to Elastic Search
 Given I am logged in using <username> <password> to realm "IL"
 And format "application/json"
@@ -309,7 +312,8 @@ And format "application/json"
       | "rrogers"          | "rrogers1234"         |
       | "jstevenson"       | "jstevenson1234"      |
       | "linda.kim"        | "linda.kim1234"       |
-      
+
+@wip
  Scenario Outline:  Exclude Fields for endpoints to Elastic Search
  Given I am logged in using <username> <password> to realm "IL"
 And format "application/json"

@@ -7,6 +7,7 @@ Feature:
     Given I am logged in as a local-level IT Administrator
       And I want to use format "application/json"
 
+@wip
 Scenario Outline: An API user searches for assessments
     When I navigate to GET "/v1.5/<Entity URI>"
     Then I should receive a return code of 200
@@ -25,6 +26,7 @@ Scenario Outline: An API user searches for assessments
     |search/assessments?q=%22BadTest111%22|0|
     |search/assessments?q=BadTest111|0|
 
+@wip
 Scenario Outline: check that elastic search functions as expected for students, staff, teachers and educationOrganizations
     Given I am logged in as a local-level IT Administrator
     When I navigate to GET "/v1.5/<Entity URI>"
@@ -46,7 +48,8 @@ Scenario Outline: check that elastic search functions as expected for students, 
     |search/educationOrganizations?q=wat|1|
     |search/educationOrganizations?q=waffles|0|
     |search/staff,teachers?q=b|2|
-     
+
+@wip
   Scenario Outline: Result of elastic search should contain correct unicode encoding
     Given I am logged in using "akopel" "akopel1234" to realm "IL"
     And parameter "limit" is "0"

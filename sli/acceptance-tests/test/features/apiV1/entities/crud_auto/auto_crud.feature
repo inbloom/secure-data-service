@@ -29,16 +29,16 @@ Background: Nothing yet
     |staff                  |85585b27-5368-4f10-a331-3abcaf3a3f4c|
     Given the expected rewrite results are defined by table:
     | Entity Type                             | Entity Resource URI                      | Count | Rewrite URI|
-    | assessment                              | assessments                              | 18    |/search/assessments|
+    | assessment                              | assessments                              | 18    |/assessments|
     | attendance                              | attendances                              | 0     |/schools/@ids/studentSchoolAssociations/students/attendances|
     | cohort                                  | cohorts                                  | 2     |/staff/@ids/staffCohortAssociations/cohorts|
-    | course                                  | courses                                  | 92    |/search/courses| 
+    | course                                  | courses                                  | 92    |/courses|
     | disciplineAction                        | disciplineActions                        | 2     |/staff/@ids/disciplineActions|
     | disciplineIncident                      | disciplineIncidents                      | 0     |/staff/@ids/disciplineIncidents|
     | educationOrganization                   | educationOrganizations                   | 1     |/staff/@ids/staffEducationOrgAssignmentAssociations/educationOrganizations|
     | gradebookEntry                          | gradebookEntries                         | 0     |/schools/@ids/sections/gradebookEntries|
-    | learningObjective                       | learningObjectives                       | 5     |/search/learningObjectives|
-    | learningStandard                        | learningStandards                        | 14    |/search/learningStandards|
+    | learningObjective                       | learningObjectives                       | 5     |/learningObjectives|
+    | learningStandard                        | learningStandards                        | 14    |/learningStandards|
     | parent                                  | parents                                  | 0     |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations/parents|
     | program                                 | programs                                 | 2     |/staff/@ids/staffProgramAssociations/programs|
     | studentProgramAssociation               | studentProgramAssociations               | 6    |/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations|
@@ -51,15 +51,15 @@ Background: Nothing yet
     | studentSectionAssociation               | studentSectionAssociations               | 0     |/schools/@ids/sections/studentSectionAssociations|
     | staffCohortAssociation                  | staffCohortAssociations                  | 7     |/staff/@ids/staffCohortAssociations|
     | studentAssessment                       | studentAssessments                       | 0     |/schools/@ids/studentSchoolAssociations/students/studentAssessments|
-    | competencyLevelDescriptor               | competencyLevelDescriptor                | 2     |/search/competencyLevelDescriptor|
+    | competencyLevelDescriptor               | competencyLevelDescriptor                | 2     |/competencyLevelDescriptor|
     | staffProgramAssociation                 | staffProgramAssociations                 | 3     |/staff/@ids/staffProgramAssociations|
     | studentDisciplineIncidentAssociation    | studentDisciplineIncidentAssociations    | 0     |/staff/@ids/disciplineIncidents/studentDisciplineIncidentAssociations|
     | studentParentAssociation                | studentParentAssociations                | 0     |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations|
-    | courseOffering                          | courseOfferings                          | 138    |/search/courseOfferings|
+    | courseOffering                          | courseOfferings                          | 138    |/courseOfferings|
     | graduationPlan                          | graduationPlans                          | 5     |/graduationPlans|
     | educationOrganization                   | schools                                  | 0     |/staff/@ids/staffEducationOrgAssignmentAssociations/schools|
     | section                                 | sections                                 | 0     |/schools/@ids/sections|
-    | session                                 | sessions                                 | 29    |/search/sessions|
+    | session                                 | sessions                                 | 29    |/sessions|
     | staff                                   | staff                                    | 5     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
     | student                                 | students                                 | 0     |/schools/@ids/studentSchoolAssociations/students|
     | studentAcademicRecord                   | studentAcademicRecords                   | 0     |/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords|
@@ -67,9 +67,9 @@ Background: Nothing yet
     | teacher                                 | teachers                                 | 0     |/schools/@ids/teacherSchoolAssociations/teachers|
     | grade                                   | grades                                   | 0     |/schools/@ids/sections/studentSectionAssociations/grades|
     | studentCompetencie                      | studentCompetencies                      | 0     |/schools/@ids/sections/studentSectionAssociations/studentCompetencies|
-    | gradingPeriod                           | gradingPeriods                           | 3     |/search/gradingPeriods|
+    | gradingPeriod                           | gradingPeriods                           | 3     |/gradingPeriods|
     | reportCard                              | reportCards                              | 0     |/schools/@ids/studentSchoolAssociations/students/reportCards|
-    | studentCompetencyObjective              | studentCompetencyObjectives              | 1     |/search/studentCompetencyObjectives    |
+    | studentCompetencyObjective              | studentCompetencyObjectives              | 1     |/studentCompetencyObjectives    |
     | calendarDates                           | calendarDates                            | 4     |/educationOrganizations/@ids/calendarDates|
     | classPeriods                            | classPeriods                             | 1     |/educationOrganizations/@ids/classPeriods|
     | bellSchedules                           | bellSchedules                            | 0     |/educationOrganizations/@ids/bellSchedules|

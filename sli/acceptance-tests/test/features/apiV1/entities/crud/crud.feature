@@ -464,8 +464,8 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     | gradingPeriods              | /schools/@ids/sessions/gradingPeriods                    |
     | graduationPlans             | /schools/@ids/graduationPlans                            |
     #| assessments                 | /student/@ids/studentAssessments/assessments      |
-    | learningObjectives          | /search/learningObjectives                               |
-    | learningStandards           | /search/learningStandards                                |
+    | learningObjectives          | /learningObjectives                               |
+    | learningStandards           | /learningStandards                                |
     | studentCompetencyObjectives | /educationOrganizations/@ids/studentCompetencyObjectives |
 
   Scenario: Sub docs are preserved when a super doc is deleted

@@ -79,9 +79,6 @@ public class UriMutator {
     @Resource
     private SectionHelper sectionHelper;
 
-    @Resource
-    private RootSearchMutator rootSearchMutator;
-
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
@@ -165,16 +162,15 @@ public class UriMutator {
         }
         else if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
 
-            if (!shouldSkipMutation(segments, mutated.getQueryParameters(), principal, clientId)) {
-                if (segments.size() == 1) {
-                    // api/v1
-                    mutated = mutateBaseUri(segments.get(0).getPath(), ResourceNames.HOME,
-                            mutated.getQueryParameters(), user);
-                } else {
-                    mutated = mutateBaseUri(segments.get(0).getPath(), segments.get(1).getPath(),
-                            mutated.getQueryParameters(), user);
-                }
+            if (segments.size() == 1) {
+                // api/v1
+                mutated = mutateBaseUri(segments.get(0).getPath(), ResourceNames.HOME,
+                        mutated.getQueryParameters(), user);
+            } else {
+                mutated = mutateBaseUri(segments.get(0).getPath(), segments.get(1).getPath(),
+                        mutated.getQueryParameters(), user);
             }
+
         } else {
             mutated = mutateUriAsNecessary(segments, mutated.getQueryParameters(), user);
         }
@@ -182,12 +178,8 @@ public class UriMutator {
         return mutated;
     }
 
-    private Set<String> publicResourcesThatAllowSearch;
-
     @PostConstruct
     void init() {
-        publicResourcesThatAllowSearch = new HashSet<String>(Arrays.asList(ResourceNames.EDUCATION_ORGANIZATIONS,
-                ResourceNames.SCHOOLS));
 
         teacherSectionMutations = new HashMap<String, MutateInfo>() {
             {
@@ -282,12 +274,6 @@ public class UriMutator {
 
     }
 
-    private boolean shouldSkipMutation(List<PathSegment> segments, String queryParameters, SLIPrincipal principal, String clientId) {
-        return shouldSkipMutationToEnableSearch(segments, queryParameters) ||
-                ( SessionUtil.isAdminApp(clientId,repo) && hasAppAuthRight(principal) && isEducationOrganizationsEndPoint(segments) );
-    }
-
-
 
     // Check whether the principal has the 'APP_AUTHORIZE' right for any of its roles in any edorg
     private boolean hasAppAuthRight(SLIPrincipal principal) {
@@ -302,25 +288,6 @@ public class UriMutator {
             if (ResourceNames.EDUCATION_ORGANIZATIONS.equals(segments.get(baseResourceIndex).getPath())) {
                 skipMutation = true;
             }
-        }
-        return skipMutation;
-    }
-
-    private boolean shouldSkipMutationToEnableSearch(List<PathSegment> segments, String queryParameters) {
-        boolean skipMutation = false;
-        if (segments.size() == NUM_SEGMENTS_IN_ONE_PART_REQUEST) {
-            String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
-            for (String query : queries) {
-                if (!query
-                        .matches("(limit|offset|expandDepth|includeFields|excludeFields|sortBy|sortOrder|optionalFields|views|includeCustom|selector)=.+")) {
-                    final int baseResourceIndex = 1;
-                    if (publicResourcesThatAllowSearch.contains(segments.get(baseResourceIndex).getPath())) {
-                        skipMutation = true;
-                        break;
-                    }
-                }
-            }
-
         }
         return skipMutation;
     }
@@ -458,7 +425,7 @@ public class UriMutator {
                         StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
             } else if (Arrays.asList(PathConstants.LEARNING_STANDARDS, PathConstants.LEARNING_OBJECTIVES).contains(
                     baseEntity)) {
-                mutated.setPath(String.format("/search/%s", baseEntity));
+                mutated.setPath(String.format("/%s", baseEntity));
             } else if (PathConstants.STUDENT_COMPETENCY_OBJECTIVES.equals(baseEntity)) {
                 mutated.setPath(String.format("/educationOrganizations/%s/studentCompetencyObjectives",
                         StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
@@ -554,7 +521,7 @@ public class UriMutator {
             } else if (ResourceNames.HOME.equals(baseEntity)) {
                 mutated.setPath("/home");
             } else if (ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(baseEntity)) {
-                mutated.setPath("/search/" + baseEntity);
+                mutated.setPath("/" + baseEntity);
             } else {
                 throw new IllegalArgumentException("Not supported yet...");
             }
@@ -799,9 +766,9 @@ public class UriMutator {
                 || ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)
                 || ResourceNames.SESSIONS.equals(resource) || ResourceNames.COURSES.equals(resource)
                 || ResourceNames.COURSE_OFFERINGS.equals(resource) || ResourceNames.GRADING_PERIODS.equals(resource)) {
-            mutated.setPath("/" + ResourceNames.SEARCH + "/" + resource);
+            mutated.setPath("/" + resource);
             Map<String, String> mutatedHeaders = new HashMap<String, String>();
-            mutatedHeaders.put("Content-Type", "application/vnd.slc.search.full+json");
+            mutatedHeaders.put("Content-Type", "application/json");
             mutated.setHeaders(mutatedHeaders);
         } else if (ResourceNames.HOME.equals(resource)) {
             mutated.setPath("/" + resource);
@@ -991,9 +958,9 @@ public class UriMutator {
                 || ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)
                 || ResourceNames.SESSIONS.equals(resource) || ResourceNames.COURSES.equals(resource)
                 || ResourceNames.COURSE_OFFERINGS.equals(resource) || ResourceNames.GRADING_PERIODS.equals(resource)) {
-            mutated.setPath("/" + ResourceNames.SEARCH + "/" + resource);
+            mutated.setPath("/" + resource);
             Map<String, String> mutatedHeaders = new HashMap<String, String>();
-            mutatedHeaders.put("Content-Type", "application/vnd.slc.search.full+json");
+            mutatedHeaders.put("Content-Type", "application/json");
             mutated.setHeaders(mutatedHeaders);
         } else if (ResourceNames.HOME.equals(resource)) {
             mutated.setPath("/" + resource);
@@ -1128,7 +1095,6 @@ public class UriMutator {
             mutated.setQueryParameters("");
         }
 
-        mutated.setPath(rootSearchMutator.mutatePath(version, resource, mutated.getQueryParameters()));
         if (mutated.getPath() == null && mutateToTeacher()) {
             return this.mutateBaseUriForTeacher(resource, mutated.getQueryParameters(), user);
         } else if (mutated.getPath() == null && mutateToStaff()) {
