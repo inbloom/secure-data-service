@@ -20,43 +20,58 @@ limitations under the License.
 require 'test_helper'
 
 class AppTest < ActiveSupport::TestCase
-  test "get apps" do
+  test 'get apps' do
     apps = App.all
     assert_not_nil(apps)
     assert_equal(apps.size, 2)
   end
 
-  test "new app" do
+  test 'pending' do
+    app = App.all.first
+    assert_false(app.pending?)
+  end
+
+  test 'installed' do
+    app = App.all.first
+    assert_true(app.installed?)
+  end
+
+  test 'in_progress' do
+    app = App.all.first
+    assert_false(app.in_progress?)
+  end
+
+  test 'new app' do
     app = App.new
     assert_not_nil(app)
   end
 
-  test "app version validation" do
+  test 'app version validation' do
     app = build_app
     app.version = nil
-    assert !app.valid?, "App shouldn't be valid with a nil version"
-    app.version = ""
-    assert !app.valid?, "App shouldn't be valid with an empty string"
-    app.version = "123445123412341235123412351512323513413413412351362354134663241"
-    assert !app.valid?, "App should be less than 25 characters"
-    app.version = "Super duper!"
-    assert !app.valid?, "App can't contain special characters"
-    app.version = "Waffles"
-    assert app.valid?, "App is valid with a string"
+    assert !app.valid?, 'App should not be valid with a nil version'
+    app.version = ''
+    assert !app.valid?, 'App should not be valid with an empty string'
+    app.version = '123445123412341235123412351512323513413413412351362354134663241'
+    assert !app.valid?, 'App should be less than 25 characters'
+    app.version = 'Super duper!'
+    assert !app.valid?, 'App cannot contain special characters'
+    app.version = 'Waffles'
+    assert app.valid?, 'App is valid with a string'
   end
 
   private
   def build_app
     app = App.new
-    app.name = "name"
-    app.description = "description"
-    app.redirect_uri = "https://derp"
-    app.application_url = "https://derp"
-    app.vendor = "McDonalds"
-    app.version = "1.0"
+    app.name = 'name'
+    app.description = 'description'
+    app.redirect_uri = 'https://derp'
+    app.application_url = 'https://derp'
+    app.vendor = 'McDonalds'
+    app.version = '1.0'
     app.isBulkExtract = true
-    app.administration_url = "https://morederp"
-    app.image_url = "https://morederp"
+    app.administration_url = 'https://morederp'
+    app.image_url = 'https://morederp'
     app
   end
 end

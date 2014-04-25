@@ -56,6 +56,7 @@ GEM
     builder (3.0.4)
     ci_reporter (1.8.0)
       builder (>= 2.1.2)
+    coderay (1.1.0)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -94,6 +95,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     metaclass (0.0.1)
+    method_source (0.8.2)
     mime-types (1.23)
     mocha (0.14.0)
       metaclass (~> 0.0.1)
@@ -107,6 +109,10 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.2)
     polyglot (0.3.3)
+    pry (0.9.12.6)
+      coderay (~> 1.0)
+      method_source (~> 0.8)
+      slop (~> 3.4)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -146,6 +152,7 @@ GEM
     simplecov-html (0.7.1)
     simplecov-rcov (0.2.3)
       simplecov (>= 0.4.1)
+    slop (3.5.0)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -177,7 +184,6 @@ DEPENDENCIES
   ci_reporter
   coffee-rails
   encrypted-cookie-store
-  eventmachine (= 1.0.3)
   execjs
   jquery-rails
   json
@@ -185,6 +191,7 @@ DEPENDENCIES
   mocha (= 0.14.0)
   net-ldap
   oauth2
+  pry
   rails (= 3.2.13)
   rest-client
   ruby-recaptcha
