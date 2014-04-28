@@ -9,7 +9,7 @@
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript"></script>
     <![endif]-->
 
     <%= stylesheet_link_tag "application", :media => "all" %>
@@ -35,6 +35,11 @@
     <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
 
     <%= javascript_include_tag "application" %>
+
+    <script type="text/javascript">
+        var is_sandbox = <%= APP_CONFIG['is_sandbox'] %>
+    </script>
+
   </head>
   <body>
 
@@ -67,24 +72,10 @@
     <div class="container">
 
       <div class="row">
-
         <div class="col-lg-12">
           <%= bootstrap_flash %>
           <%= yield %>
         </div>
-
-        <!--<div class="col-lg-3">-->
-          <!--<div class="well sidebar-nav">-->
-            <!--<h3>Sidebar</h3>-->
-            <!--<ul class="nav nav-list">-->
-              <!--<li class="nav-header">Sidebar</li>-->
-              <!--<li><%= link_to "Link1", "/path1"  %></li>-->
-              <!--<li><%= link_to "Link2", "/path2"  %></li>-->
-              <!--<li><%= link_to "Link3", "/path3"  %></li>-->
-            <!--</ul>-->
-          <!--</div>&lt;!&ndash;/.well &ndash;&gt;-->
-        <!--</div>&lt;!&ndash;/span&ndash;&gt;-->
-
       </div><!--/row-->
 
       <footer>
