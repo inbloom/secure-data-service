@@ -136,11 +136,13 @@ default:
         sli.stagingmongodb.connections: 20
         sli.batchjobmongodb.connections: 20
 
+        # TAF : 2014-04-28 : Delete this old ES-related search config post sprint.
         # Elasticsearch config
-        sli.search.url : http://localhost:9200
-        sli.search.username: 17BF72EAF6893034F8FB4AE35BF3A567
-        sli.search.password: 4284B82ACF30963CA2315839AC939C62
-        sli.search.embedded: true
+        #sli.search.url : http://localhost:9200
+        #sli.search.username: 17BF72EAF6893034F8FB4AE35BF3A567
+        #sli.search.password: 4284B82ACF30963CA2315839AC939C62
+        #sli.search.embedded: true
+
         sli.search.encryption: true
 
         # Key substitutions
@@ -420,19 +422,20 @@ default:
         sli.sif-agent.idmap: default-idmap.csv
         sli.sif-agent.zonemap: default-zonemap.csv
 
+        # TAF : 2014-04-28 : Delete this old ES-related search config post sprint.
         # search indexer
-        sli.search.indexer.log.path: logs
-        sli.search.indexer.log.level: INFO
-        sli.search.indexer.dir.inbox: data/inbox
-        sli.search.indexer.dir.extract: data/tmp
-        sli.search.indexer.extract.schedule: 0 0 0 ? * SUN
-        sli.search.indexer.extract.runOnStartup: false
-        sli.search.indexer.service.port: 10024
-        sli.search.indexer.broker.uri: tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}
-        sli.search.indexer.queue.name: search
-        sli.search.indexer.sarje.sub.topic: /topic/oplog_subscribe
-        sli.search.indexer.sarje.sub.req.queue: /queue/subscription/poll
-        sli.search.indexer.env: local
+        #sli.search.indexer.log.path: logs
+        #sli.search.indexer.log.level: INFO
+        #sli.search.indexer.dir.inbox: data/inbox
+        #sli.search.indexer.dir.extract: data/tmp
+        #sli.search.indexer.extract.schedule: 0 0 0 ? * SUN
+        #sli.search.indexer.extract.runOnStartup: false
+        #sli.search.indexer.service.port: 10024
+        #sli.search.indexer.broker.uri: tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}
+        #sli.search.indexer.queue.name: search
+        #sli.search.indexer.sarje.sub.topic: /topic/oplog_subscribe
+        #sli.search.indexer.sarje.sub.req.queue: /queue/subscription/poll
+        #sli.search.indexer.env: local
 
         # bulk extract
         sli.bulk.extract.output.directory: extract
@@ -1373,7 +1376,8 @@ team:
         ## sli.sif-agent.zoneUrl: http://localhost:8080/mock-zis/zis
         sli.sif-agent.zoneUrl: http://local.slidev.org:8080/mock-zis/zis
 
-        sli.search.indexer.broker.embedded: false
+        # TAF : 2014-04-28 : Delete this old ES-related search config post sprint.
+        #sli.search.indexer.broker.embedded: false
 
 perf:
     data-access:
@@ -1462,9 +1466,10 @@ test-local:
         #Used to access hudson build number
         sli.application.buildTag: UNKNOWN
 
+        # TAF : 2014-04-28 : Delete this old ES-related search config post sprint.
         # ElasticSearch
-        sli.search.embedded.http.port: 19200
-        sli.search.url: http://localhost:19200
+        #sli.search.embedded.http.port: 19200
+        #sli.search.url: http://localhost:19200
 
 test-team:
     test:
@@ -1497,9 +1502,10 @@ test-team:
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
         sli.landingZone.server: landingZone
 
+        # TAF : 2014-04-28 : Delete this old ES-related search config post sprint.
         # ElasticSearch
-        sli.search.embedded.http.port: 19200
-        sli.search.url: http://localhost:19200
+        #sli.search.embedded.http.port: 19200
+        #sli.search.url: http://localhost:19200
 
 test-perf:
     ingestion:
@@ -1513,9 +1519,10 @@ test-perf:
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
+        # TAF : 2014-04-28 : Delete this old ES-related search config post sprint.
         # ElasticSearch
-        sli.search.embedded.http.port: 19200
-        sli.search.url: http://localhost:19200
+        #sli.search.embedded.http.port: 19200
+        #sli.search.url: http://localhost:19200
 
 sandbox:
     api:
