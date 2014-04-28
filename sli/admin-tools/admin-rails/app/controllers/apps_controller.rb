@@ -27,8 +27,6 @@ class AppsController < ApplicationController
     redirect_to :apps if params[:commit] == 'Cancel'
   end
 
-  $column_names = ["name", "vendor", "version", "metaData.created", "metaData.updated", "registration.approval_date", "registration.request_date"]
-
   # Let us add some docs to this confusing controller.
   # NOTE this controller is performing two actions:
   # It allows developers to create new apps.
@@ -297,33 +295,30 @@ class AppsController < ApplicationController
   end
 
   private
+
   def boolean_fix (parameter)
-    case parameter
-      when "1"
-        parameter = true
-      when "0"
-        parameter = false
-    end
+    parameter == '1'
   end
 
-
   def sort_column
-    $column_names.include?(params[:sort]) ? params[:sort] : "metaData.updated"
+    column_names = [
+      'name', 'vendor', 'version', 'metaData.created',
+      'metaData.updated', 'registration.approval_date', 'registration.request_date'
+    ]
+    column_names.include?(params[:sort]) ? params[:sort] :'metaData.updated'
   end
 
   def sort_direction
-    %w[asc desc].include?(params[:direction]) ?  params[:direction] : "desc"
+    %w[asc desc].include?(params[:direction]) ?  params[:direction] : 'desc'
   end
 
   def sort(app_array)
-    columns = sort_column().split(".")
-    puts("The sort_column is #{sort_column()}")
-    if sort_direction == "desc"
-      app_array = app_array.sort { |a, b| getAttribute(b, columns) <=> getAttribute(a, columns)}
+    columns = sort_column.split('.')
+    if sort_direction == 'desc'
+      app_array.sort { |a, b| getAttribute(b, columns) <=> getAttribute(a, columns) }
     else
-      app_array = app_array.sort { |a, b| getAttribute(a, columns) <=> getAttribute(b, columns)}
+      app_array.sort { |a, b| getAttribute(a, columns) <=> getAttribute(b, columns) }
     end
-    app_array
   end
 
   def getAttribute(model, column_array)
@@ -331,19 +326,18 @@ class AppsController < ApplicationController
     column_array.each do |col|
       cur = cur.attributes[col]
     end
-    return cur
-
+    cur
   end
 
   def get_user_info(uid)
     dev_info = APP_LDAP_CLIENT.read_user(uid)
-    if dev_info == nil
-        dev_info = Hash.new
-        dev_info[:first] = session[:first_name]
-        dev_info[:last] = session[:last_name]
-        dev_info[:vendor] = session[:vendor]
+    unless dev_info
+      dev_info = {}
+      dev_info[:first] = session[:first_name]
+      dev_info[:last] = session[:last_name]
+      dev_info[:vendor] = session[:vendor]
     end
-    dev_info[:vendor] = (dev_info.has_key?(:vendor) and dev_info[:vendor]) || (APP_CONFIG['is_sandbox'] ? "Sandbox" : "Unknown")
-    return dev_info
+    dev_info[:vendor] = dev_info[:vendor] || (APP_CONFIG['is_sandbox'] ? 'Sandbox' : 'Unknown')
+    dev_info
   end
 end

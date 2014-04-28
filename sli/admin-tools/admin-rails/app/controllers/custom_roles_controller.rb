@@ -1,32 +1,5 @@
-=begin
-
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end
-
-
 class CustomRolesController < ApplicationController
   before_filter :check_rights
-
-  def check_rights
-    unless session[:rights].include?("CRUD_ROLE")
-      logger.warn {'User does not have CRUD_ROLE right and cannot modify custom roles'}
-      raise ActiveResource::ForbiddenAccess, caller
-    end
-  end
-
 
   # GET /realms
   # GET /realms.json
@@ -69,11 +42,11 @@ class CustomRolesController < ApplicationController
       else
         #errorJson = JSON.parse(errorMsg)
         if /ValidationError.*groupTitle/.match(errorMsg)
-          flash[:error] = "Group name contains invalid characters."
+          flash[:error] = 'Group name contains invalid characters.'
         elsif /ValidationError.*names/.match(errorMsg)
-          flash[:error] = "Role name contains invalid characters."
+          flash[:error] = 'Role name contains invalid characters.'
         else
-          flash[:error] = "Changes could not be saved."
+          flash[:error] = 'Changes could not be saved.'
         end
         format.json { render json: errorMsg, status: :unprocessable_entity }
       end
@@ -83,8 +56,11 @@ class CustomRolesController < ApplicationController
 
   private
 
-  def get_user_realm
-    return session[:edOrg]
+  def check_rights
+    unless session[:rights].include?('CRUD_ROLE')
+      logger.warn 'User does not have CRUD_ROLE right and cannot modify custom roles'
+      raise ActiveResource::ForbiddenAccess, caller
+    end
   end
 
 end

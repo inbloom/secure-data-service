@@ -1,21 +1,3 @@
-=begin
-
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end
-
 class ChangePasswordsController < ApplicationController
   before_filter :check_allowed_user
 
@@ -48,7 +30,7 @@ class ChangePasswordsController < ApplicationController
     @change_password = ChangePassword.new(params[:change_password])
     @change_password.errors.clear
     respond_to do |format|
-      if @change_password.valid? == true
+      if @change_password.valid?
         email = session[:external_id]
 
         if !APP_LDAP_CLIENT.authenticate(email, @change_password.old_pass)
@@ -84,21 +66,22 @@ class ChangePasswordsController < ApplicationController
 
 
             @change_password.errors.add(:base, "Unable to change password, please try again.")
-            format.html { render action: "new" }
+            format.html { render action: 'new' }
             format.json { render json: @change_password.errors, status: :unprocessable_entity }
           end
         end
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @change_password.errors, status: :unprocessable_entity }
       end
     end
   end
 
+  private
 
   def check_allowed_user
     roles = session[:roles]
-    if roles == nil || !(is_operator? || is_sea_admin? || is_lea_admin? || is_developer? || is_realm_admin? || is_ingestion_user?)
+    if roles.nil? || !(is_operator? || is_sea_admin? || is_lea_admin? || is_developer? || is_realm_admin? || is_ingestion_user?)
       raise ActiveResource::ForbiddenAccess, caller
     end
   end
