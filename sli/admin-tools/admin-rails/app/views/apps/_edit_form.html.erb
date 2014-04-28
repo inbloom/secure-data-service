@@ -13,22 +13,24 @@
           </ul>
         </div>
     <%end%>
-    <div class="well">
-      <div class="row">
-        <div class="col-sm-2 text-right"><strong>Client ID</strong></div>
-        <div class="col-sm-6"><%=client_field_value(app, :client_id)%>
-        <p class="help-block"> The client ID needed to perform OAuth</p>
+    <div class="bg-info">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Client ID</label>
+        <div class="col-sm-6">
+          <p class="form-control-static"><%=client_field_value(app, :client_id)%></p>
+          <p class="help-block"> The client ID needed to perform OAuth</p>
         </div>
 
       </div>
       <div class="form-group">
-        <div class="col-sm-2 text-right"><strong>Shared Secret</strong></div>
+        <label class="col-sm-2 control-label">Shared Secret</label>
         <div class="col-sm-6">
-            <%= client_field_value(app, :client_secret) %>
+            <p class="form-control-static"><%= client_field_value(app, :client_secret) %></p>
             <p class="help-block">The shared secret needed to perform OAuth</p>
         </div>
       </div>
     </div>
+
     <div class = "form-group">
       <%= f.label :name, "Name #{require_marker}".html_safe, :class => "col-sm-2 control-label" %>
       <div class="col-sm-6">
