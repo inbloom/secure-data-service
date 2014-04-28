@@ -1,5 +1,5 @@
 class User < SessionResource
-  self.collection_name = "users"
+  self.collection_name = 'users'
   include ActiveModel::Validations
 
   validates_presence_of :email
@@ -28,7 +28,7 @@ class User < SessionResource
   end
 
   def get_create_time
-    Time.parse(self.createTime + "UTC")
+    Time.parse "#{self.createTime}UTC"
   end
 
 end

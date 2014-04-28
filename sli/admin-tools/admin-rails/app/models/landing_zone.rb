@@ -3,8 +3,8 @@ class LandingZone
   def self.possible_sample_data
     if APP_CONFIG['is_sandbox']
       [
-        ["Small Dataset (4k Records)", "small"],
-        ["Medium Dataset (40k Records)", "medium"]
+        ['Small Dataset (4k Records)', 'small'],
+        ['Medium Dataset (40k Records)', 'medium']
       ]
     else
       []

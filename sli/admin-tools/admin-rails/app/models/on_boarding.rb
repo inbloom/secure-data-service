@@ -1,46 +1,24 @@
-=begin
-
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end
-
-
 class OnBoarding < SessionResource
 
-  API_BASE=APP_CONFIG["api_base"]
-
   REST_HEADER = {
-      "Content-Type" => "application/json",
-      "content_type" => "json",
-      "accept" => "application/json"
+    'Content-Type' => 'application/json',
+    'content_type' => 'json',
+    'accept' => 'application/json'
   }
 
-
-  self.collection_name = "provision"
+  self.collection_name = 'provision'
   self.timeout = 300
+
   schema do
-    string  "tenantId"
-    string  "stateOrganizationId"
+    string  'tenantId'
+    string  'stateOrganizationId'
   end
 
   def preload(tenantUuid,sample_data_select)
     header = REST_HEADER
-    header['Authorization'] = "bearer " + SessionResource.access_token
-    resource = API_BASE+"/tenants/"+tenantUuid+"/"+"preload"
-
-    res  = RestClient.post(resource, sample_data_select,header){|response, request, result| response }
+    header['Authorization'] = "bearer #{SessionResource.access_token}"
+    resource = "#{APP_CONFIG['api_base']}/tenants/#{tenantUuid}/preload"
+    res  = RestClient.post(resource, sample_data_select,header) { |response, request, result| response }
   end
 
 end
