@@ -9,8 +9,8 @@ class RealmManagementController < ApplicationController
     @realms = Realm.get_realm_to_redirect_to(user_realm)
     redirect_to new_realm_management_path and return if @realms.empty?
 
-    edorg_entity = EducationOrganization.get("", headers = {:stateOrganizationId => user_realm})
-    if edorg_entity != nil && !edorg_entity.empty?
+    edorg_entity = EducationOrganization.get('', headers = {:stateOrganizationId => user_realm})
+    if edorg_entity && !edorg_entity.empty?
       @edorg = "#{edorg_entity['nameOfInstitution']} (#{session[:edOrg]})"
     else
       @edorg = session[:edOrg]       
