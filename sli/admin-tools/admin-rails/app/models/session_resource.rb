@@ -43,7 +43,7 @@ class SessionResource < ActiveResource::Base
   end
 
    # Util method to get an unlimited number of records in chunks since the API limits responses to a hardwired count
-   def self.findAllInChunks(parameters)
+   def self.findAllInChunks(parameters={})
      results = []
      offset = 0
 

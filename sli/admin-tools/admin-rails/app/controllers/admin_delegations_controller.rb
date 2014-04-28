@@ -1,13 +1,6 @@
 class AdminDelegationsController < ApplicationController
   before_filter :check_rights
 
-  def check_rights
-    unless is_lea_admin?
-      logger.warn 'User is not lea admin and cannot access admin delegations'
-      raise ActiveResource::ForbiddenAccess, caller
-    end
-  end
-
   # GET /admin_delegations
   # GET /admin_delegations.json
   def index
@@ -71,6 +64,15 @@ class AdminDelegationsController < ApplicationController
         format.html { render action: "edit" }
         format.json { render json: @admin_delegation.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  private
+
+  def check_rights
+    unless is_lea_admin?
+      logger.warn 'User is not lea admin and cannot access admin delegations'
+      raise ActiveResource::ForbiddenAccess, caller
     end
   end
 
