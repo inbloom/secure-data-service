@@ -23,27 +23,6 @@ limitations under the License.
 
 require_relative 'capybara_setup.rb'
 
-# TODO Move the capybara setup code to a common location
-#class Browser
-#  include Capybara::DSL
-#  def initialize
-#    Capybara.default_driver = :selenium
-#    Capybara.reset_session!
-#  end
-#
-#  def reset_session!
-#    Capybara.reset_session!
-#  end
-#
-#  def confirm_popup
-#    page.driver.browser.switch_to.alert.accept
-#  end
-#
-#  def dismiss_popup
-#    page.driver.browser.switch_to.alert.dismiss
-#  end
-#end
-
 Before('@track_entities') do
   @created_entities = []
 end
@@ -396,7 +375,7 @@ end
 
 def submit_new_application
   browser.page.click_link 'New Application'
-  browser.page.should have_title('New Application')
+  browser.should have_selector('h1', :text=> 'Register a New Application')
   yield if block_given?
   browser.click_button 'Register'
 end

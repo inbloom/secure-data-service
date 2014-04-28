@@ -53,10 +53,6 @@ class EulasController < ApplicationController
       rescue Exception => f
         logger.fatal "Could not delete user email account after failure: #{session[:guuid]}"
       end
-    rescue Exception => e
-      logger.error e.message
-      logger.error e.backtrace.join("\n")
-      render :noframe_500, :status => 500
     end
 
   end

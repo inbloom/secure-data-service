@@ -24,9 +24,7 @@ class AppsController < ApplicationController
   before_filter :check_rights
 
   def check_for_cancel
-    if params[:commit] == "Cancel"
-      redirect_to :apps
-    end
+    redirect_to :apps if params[:commit] == 'Cancel'
   end
 
   $column_names = ["name", "vendor", "version", "metaData.created", "metaData.updated", "registration.approval_date", "registration.request_date"]

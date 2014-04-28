@@ -1,28 +1,9 @@
-=begin
-
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end
-
-
 class AdminDelegationsController < ApplicationController
   before_filter :check_rights
 
   def check_rights
     unless is_lea_admin?
-      logger.warn {'User is not lea admin and cannot access admin delegations'}
+      logger.warn 'User is not lea admin and cannot access admin delegations'
       raise ActiveResource::ForbiddenAccess, caller
     end
   end
@@ -82,7 +63,6 @@ class AdminDelegationsController < ApplicationController
     @admin_delegation.id = "myEdOrg"
     params[:admin_delegation][:viewSecurityEventsEnabled] = boolean_fix(params[:admin_delegation][:viewSecurityEventsEnabled])
 
-
     respond_to do |format|
       if @admin_delegation.update_attributes(params[:admin_delegation])
         format.html { redirect_to admin_delegations_path, notice: 'Admin delegation was successfully updated.' }
@@ -94,14 +74,8 @@ class AdminDelegationsController < ApplicationController
     end
   end
 
-  def boolean_fix (parameter)
-    case parameter
-      when "1"
-        parameter = true
-      when "0"
-        parameter = false
-    end
+  def boolean_fix(parameter)
+    parameter == '1'
   end
-
 
 end

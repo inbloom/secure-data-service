@@ -164,47 +164,44 @@ class ApplicationController < ActionController::Base
   end
 
   def is_developer?
-    session[:roles].include? "Application Developer"
+    session[:roles].include? 'Application Developer'
   end
 
   def is_operator?
-    session[:roles].include? "SLC Operator"
+    session[:roles].include? 'SLC Operator'
   end
 
   def is_lea_admin?
-    session[:roles].include? "LEA Administrator"
+    session[:roles].include? 'LEA Administrator'
   end
 
   def is_sea_admin?
-    session[:roles].include? "SEA Administrator"
+    session[:roles].include? 'SEA Administrator'
   end
 
   def is_realm_admin?
-    session[:roles].include?("Realm Administrator")
+    session[:roles].include? 'Realm Administrator'
   end
 
   def is_ingestion_user?
-    session[:roles].include?("Ingestion User")
+    session[:roles].include? 'Ingestion User'
   end
 
   def is_it_admin?
-    session[:roles].include?("IT Administrator")
+    session[:roles].include? 'IT Administrator'
   end
 
   # (1) hosted user with global EDORG_APP_AUTHZ right
   # (2) federated user with the right APP_AUTHORIZE for at least one edOrg (see edOrgRights in session check)
   def is_app_authorizer?
     if is_admin_realm_authenticated?
-      return session[:rights].include?('EDORG_APP_AUTHZ')
-    elsif ! session[:edOrgRights].nil? && ! session[:edOrgRights].empty?
-      anyAppAuth =  session[:edOrgRights].any? do |edorg, rights|
-        rights.include?('APP_AUTHORIZE')
-      end
-      return anyAppAuth
+      session[:rights].include?('EDORG_APP_AUTHZ')
+    elsif !session[:edOrgRights].blank?
+      session[:edOrgRights].any? { |edorg, rights| rights.include?('APP_AUTHORIZE') }
+    else
+      false
     end
-    return false
   end
-
 
    def get_app_authorizer_edOrgs
      if is_admin_realm_authenticated?

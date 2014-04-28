@@ -41,7 +41,7 @@ module LandingZoneHelper
   #
   def self.valid_rsa_key?(key)
     Rails.logger.debug("Using regex #{@@rsaRegex}")
-    return @@rsaRegex.match(key) ? true : false
+    !!@@rsaRegex.match(key)
   end
 
   def self.create_key(key, uid)
@@ -54,26 +54,31 @@ module LandingZoneHelper
     # remove carrage returns
     key = key.tr("\r", "")
     # append trailing newline. 
-    key = key + "\n"
+    key << "\n"
     file = File.new(keyFile, "w")
-    file.write(key)
-    file.close()
+    file.write key
+    file.close
   end
 
   def self.convert_key(key, uid)
-    tempKeyFile = File.join(APP_CONFIG['tmp_dir'], uid + "_tmpKey")
-    Rails.logger.debug("Converting public key in #{tempKeyFile}")
+    tempKeyFile = File.join(APP_CONFIG['tmp_dir'], "#{uid}_tmpKey")
+    Rails.logger.debug "Converting public key in #{tempKeyFile}"
+
     file = File.new(tempKeyFile, "w")
-    file.write(key)
-    file.close()
-    cmd = @@keyConversionCmdPrefix + tempKeyFile
+    file.write key
+    file.close
+
+    cmd = "#{@@keyConversionCmdPrefix}#{tempKeyFile}"
+    puts cmd
     newkey = ExternalProcessRunner.run(cmd,@@keyConversionTimeout)
     File.delete(tempKeyFile)
-    unless newkey.nil?
+
+    if newkey
       return newkey.chop
     else
       return nil
     end
+
   end
 
 end

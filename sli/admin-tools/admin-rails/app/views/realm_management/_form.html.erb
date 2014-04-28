@@ -1,54 +1,95 @@
-<div>
-  <div class="whitespacesm"></div>
-  <% if @realm.errors.any? or @realm.idp.errors.any? %>
+<div class="whitespacesm"></div>
+<% if @realm.errors.any? or @realm.idp.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@realm.errors.count + @realm.idp.errors.count, "error") %> prohibited this Realm from being saved:</h2>
-
+      <h3><%= pluralize(@realm.errors.count + @realm.idp.errors.count, "error") %> prohibited this Realm from being
+        saved
+      </h3>
       <ul>
-      <% @realm.errors.full_messages.each do |msg| %>
-        <li><%= if msg.start_with?("Name"); msg.gsub(/Name/, "Display Name"); \
-                elsif msg.start_with?("Uniqueidentifier"); msg.gsub(/Uniqueidentifier/, "Realm Identifier"); \
-                else; msg; end %></li>
-      <% end %>
-      <% @realm.idp.errors.full_messages.each do |msg| %>
-        <li><%= if msg.start_with?("Id"); msg.gsub(/Id/, "IDP URL"); \
-                elsif msg.start_with?("Redirectendpoint"); msg.gsub(/Redirectendpoint/, "Redirect Endpoint"); \
-                elsif msg.start_with?("Artifactresolutionendpoint"); msg.gsub(/Artifactresolutionendpoint/, "Artifact Resolution Endpoint"); \
-                elsif msg.start_with?("Sourceid"); msg.gsub(/Sourceid/, "IDP Source ID"); \
-                else; msg; end %></li>
-      <% end %>
+        <% @realm.errors.full_messages.each do |msg| %>
+            <li><%= if msg.start_with?("Name");
+                      msg.gsub(/Name/, "Display Name"); \
+
+                    elsif msg.start_with?("Uniqueidentifier");
+                      msg.gsub(/Uniqueidentifier/, "Realm Identifier"); \
+
+                    else
+                      ; msg;
+                    end %></li>
+        <% end %>
+        <% @realm.idp.errors.full_messages.each do |msg| %>
+            <li><%= if msg.start_with?("Id");
+                      msg.gsub(/Id/, "IDP URL"); \
+
+                    elsif msg.start_with?("Redirectendpoint");
+                      msg.gsub(/Redirectendpoint/, "Redirect Endpoint"); \
+
+                    elsif msg.start_with?("Artifactresolutionendpoint");
+                      msg.gsub(/Artifactresolutionendpoint/, "Artifact Resolution Endpoint"); \
+
+                    elsif msg.start_with?("Sourceid");
+                      msg.gsub(/Sourceid/, "IDP Source ID"); \
+
+                    else
+                      ; msg;
+                    end %></li>
+        <% end %>
       </ul>
     </div>
-  <% end %>
+<% end %>
+
+<div class="form-group">
+  <%= f.label :name, "Display Name", :class => "col-sm-2 control-label" %>
+  <div class="col-sm-6">
+    <%= f.text_field :name, :type => "text", :class => "form-control" %>
+  </div>
+</div>
+
+<%= f.fields_for :idp, @realm.idp do |idp| %>
+    <div class="form-group">
+      <%= idp.label :id, "IDP URL", :class => "col-sm-2 control-label", :title => "URL that identifies the federated IDP" %>
+      <div class="col-sm-6">
+        <%= idp.text_field :id, :type => "text", :class => "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= idp.label :redirectEndpoint, "Redirect Endpoint", :class => "col-sm-2 control-label", :title => "URL where authentication requests are sent" %>
+      <div class="col-sm-6">
+        <%= idp.text_field :redirectEndpoint, :type => "text", :class => "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= idp.label :artifactResolutionEndpoint, 'Artifact Resolution Endpoint', :class => "col-sm-2 control-label", :title => "URL where artifact resolution requests are sent" %>
+      <div class="col-sm-6">
+        <%= idp.text_field :artifactResolutionEndpoint, :type => "text", :class => "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= idp.label :sourceId, 'IDP Source ID', :class => "col-sm-2 control-label", :title => "Unique source ID of the federated IDP" %>
+      <div class="col-sm-6">
+        <%= idp.text_field :sourceId, :type => "text", :class => "form-control" %>
+      </div>
+    </div>
+
+<% end %>
+
+<div class="form-group">
+  <%= f.label :uniqueIdentifier, 'Realm Identifier', :class => "col-sm-2 control-label", :title => "Unique source ID of the federated IDP used for skipping realm selection" %>
+  <div class="col-sm-6">
+    <%= f.text_field :uniqueIdentifier, :type => "text", :class => "form-control" %>
+  </div>
+</div>
 
 
-   	<%= f.label :name, "Display Name" %>
-	    <%= f.text_field :name, :size => 50 %>
-
-    <%= f.fields_for :idp, @realm.idp do |idp| %>
-    		<%= idp.label :id, 'IDP URL <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="URL that identifies the federated IDP"></i>'.html_safe %>
-    		<%= idp.text_field :id, :size => 50 %>
-
-        <%= idp.label :redirectEndpoint, 'Redirect Endpoint <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="URL where authentication requests are sent"></i>'.html_safe %>
-        <%= idp.text_field :redirectEndpoint, :size => 50 %>
-
-        <%= idp.label :artifactResolutionEndpoint, 'Artifact Resolution Endpoint <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="URL where artifact resolution requests are sent"></i>'.html_safe %>
-        <%= idp.text_field :artifactResolutionEndpoint, :size => 50 %>
-
-        <%= idp.label :sourceId, 'IDP Source ID <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="Unique source ID of the federated IDP"></i>'.html_safe %>
-        <%= idp.text_field :sourceId, :size => 20 %>
-    <% end %>
-
-    <%= f.label :uniqueIdentifier, 'Realm Identifier <i data-placement="right" rel="tooltip" class="icon-question-sign" data-original-title="Used for skipping realm selection"></i>'.html_safe %>
-   	<%= f.text_field :uniqueIdentifier, :size => 50 %>
-
-
-  <div class="actions form-actions">
-    <%= f.submit :value => "Save", :class=>"btn btn-info" %>
+<div class="form-group">
+  <div class="col-sm-offset-2 col-sm-10">
+    <%= f.submit :value => "Save", :class => "btn btn-info" %>
     <%= link_to "Cancel", :realm_management_index, :class => "btn" %>
   </div>
 </div>
-<script type="text/javascript">
-  $("[rel=tooltip]").tooltip();
-</script> 
 
+<script type="text/javascript">
+    $("[rel=tooltip]").tooltip();
+</script>
