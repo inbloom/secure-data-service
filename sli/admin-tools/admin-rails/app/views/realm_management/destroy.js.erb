@@ -1,1 +1,6 @@
 jQuery("#<%=@realm.id%>").fadeOut("normal", function() {$(this).remove();})
+var content = "<%= escape_javascript(render('shared/flash')) %>";
+if (jQuery("div.alert").length > 0)
+  jQuery("div.alert").replaceWith(jQuery(content));
+else
+  jQuery(content).insertBefore("div.page-header");

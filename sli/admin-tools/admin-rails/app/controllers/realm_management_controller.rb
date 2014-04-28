@@ -88,6 +88,7 @@ class RealmManagementController < ApplicationController
   def destroy
    @realm = Realm.find(params[:id])
    @realm.destroy
+   flash.now[:notice] = 'Realm was successfully deleted'
   end
 
   private
