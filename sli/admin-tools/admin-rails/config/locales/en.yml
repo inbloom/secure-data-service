@@ -3,3 +3,10 @@
 
 en:
   hello: "Hello world"
+
+  time:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      date_only: "%m/%d/%Y"
