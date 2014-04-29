@@ -13,7 +13,7 @@
   <tbody>
   <% @realms.each do |realm| %>
       <tr id='<%= realm.id %>'>
-        <td><%= link_to(realm.name, edit_realm_management_path(realm)) %></td>
+        <td><%= link_to(realm.name, edit_realm_management_path(realm), :id => 'edit_realm') %></td>
         <td><%= realm.uniqueIdentifier %></td>
         <td class="rowAction">
           <%= link_to("Custom Roles", custom_role_path(realm), :class => "btn btn-info") %>&nbsp;
