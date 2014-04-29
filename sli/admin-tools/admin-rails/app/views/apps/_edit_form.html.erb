@@ -13,7 +13,7 @@
           </ul>
         </div>
     <%end%>
-    <div class="bg-info">
+    <div class="bg-info img-rounded">
       <div class="form-group">
         <label class="col-sm-2 control-label">Client ID</label>
         <div class="col-sm-6">
@@ -133,23 +133,21 @@
 
       <a href="#" id="expand_all">Expand All</a>
       <a href="#" id="collapse_all">Collapse All</a>
-  <span class = "edOrgTreeActions">
-    <%= f.submit "Save & Update", :disable_with => 'Save & Update', :class => "btn btn-primary" %>
-    <%= f.submit 'Cancel', :id => 'Cancel1', :disable_with => 'Cancel', :class => "btn btn-info" %>
-  </span>
-
 
       <div>
         <%= @treeHtml.html_safe %>
       </div>
 
       <p><%= @treeHelperDebug.html_safe %></p>
-
-  <span class = "edOrgTreeActions" >
+    </div>
+  <div class = "form-group" >
+    <div class="col-sm-2"></div>
+    <div class="sm-col-6">
 	<%= f.submit "Save & Update", :disable_with => 'Save & Update', :class => "btn btn-primary" %>
     <%= f.submit 'Cancel', :id => 'Cancel2', :disable_with => 'Cancel', :class => "btn btn-info" %>
-  </span>
+        </div>
+  </div>
 
-    </div>
+
 
 <% end %>
