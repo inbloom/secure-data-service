@@ -57,8 +57,9 @@ class Realm < SessionResource
     validates_presence_of :id, :message => "can't be blank"
     validates_presence_of :redirectEndpoint, :message => "can't be blank"
     validates_presence_of :artifactResolutionEndpoint, :unless => proc{|obj| obj.sourceId.blank?}, :message => "can't be blank if IDP Source ID is non-blank"
-    validates_format_of [:id, :redirectEndpoint, :artifactResolutionEndpoint], with: URI.regexp(['http', 'https']), allow_nil: true, message: 'must be a valid url (starting with http:// or https://)'
+    validates_format_of [:id, :redirectEndpoint], with: URI.regexp(['http', 'https']), allow_nil: true, message: 'must be a valid url (starting with http:// or https://)'
     validates_presence_of :sourceId, :unless => proc{|obj| obj.artifactResolutionEndpoint.blank?}, :message => "can't be blank if Artifact Resolution Endpoint is non-blank"
+    validates_format_of [:artifactResolutionEndpoint], with: URI.regexp(['http', 'https']), allow_blank: true, message: 'must be a valid url (starting with http:// or https://)'
     validates_format_of :sourceId, :with => /^[a-fA-F0-9]*$/, :unless => proc{|obj| obj.sourceId.blank?}, :message => 'needs to be a hex-encoded string'
     validates_length_of :sourceId, :is => 40, :unless => proc{|obj| obj.sourceId.blank?}, :message => 'needs to be of length 40'
 
