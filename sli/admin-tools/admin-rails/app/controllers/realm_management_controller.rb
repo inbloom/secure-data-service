@@ -38,14 +38,17 @@ class RealmManagementController < ApplicationController
     @realm = Realm.new(params[:realm])
     @realm.edOrg = session[:edOrg]
     respond_to do |format|
-      success = false
-      begin
-        @realm.save
-        success = true if @realm.valid? && @realm.idp.valid?
-      rescue ActiveResource::BadRequest => error
-        @realm.errors.add(:uniqueIdentifier, 'must be unique') if error.response.body.include?('Cannot have duplicate unique identifiers')
-        @realm.errors.add(:name, 'must be unique') if error.response.body.include?('Cannot have duplicate display names')
+      success = @realm.valid? && @realm.idp.valid?
+      if success
+        begin
+          @realm.save
+        rescue ActiveResource::BadRequest => error
+          @realm.errors.add(:uniqueIdentifier, 'must be unique') if error.response.body.include?('Cannot have duplicate unique identifiers')
+          @realm.errors.add(:name, 'must be unique') if error.response.body.include?('Cannot have duplicate display names')
+          success = false
+        end
       end
+
       if success
         @realm = Realm.find(@realm.id)
         format.html { redirect_to realm_management_index_path,  notice: 'Realm was successfully created.' }
@@ -54,6 +57,7 @@ class RealmManagementController < ApplicationController
         format.html { render action: "new" }
         format.json { render json: @realm.errors, status: :unprocessable_entity }
       end
+
     end
   end
 

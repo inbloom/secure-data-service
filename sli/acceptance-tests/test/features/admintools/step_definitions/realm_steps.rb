@@ -133,6 +133,16 @@ def value_for(field, valid)
         :valid => 'http://example.com',
         :invalid => 'malformed_url'
       },
+    'IDP URL' => {
+        :valid => 'http://example.com',
+        :duplicate => 'http://example.com',
+        :invalid => 'malformed_url'
+    },
+    'Redirect Endpoint' => {
+        :valid => 'http://example.com',
+        :duplicate => 'http://example.com',
+        :invalid => 'malformed_url'
+    },
     'IDP Source ID' => {
         :valid => SecureRandom.hex(20),
         :invalid => '$362j9/' # some random string not 40 characters with characters outside of [a-fA-F0-9]
