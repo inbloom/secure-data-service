@@ -113,7 +113,11 @@ Next, we start bringing services up. Before that however, we need to set up some
   - `bundle exec rails server`
   - You will see that Databrowser is running on port 3000
 
-
+>Run Acceptance Smoke Tests
+ - `cd $SLI_ROOT/acceptance-tests`
+ - `bundle install`
+ - `bundle exec rake smokeTests`
+ 
 Community
 =========
 
