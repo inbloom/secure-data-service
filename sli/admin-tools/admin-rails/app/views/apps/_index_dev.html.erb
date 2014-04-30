@@ -18,7 +18,7 @@
   <tbody>
   <% @apps.each do |app| %>
       <tr id='<%= app.id %>'>
-        <td style="cursor:pointer">
+        <td style="cursor:pointer" class="expandable">
           <i class="fa fa-chevron-right"></i>
         </td>
         <td><%= app.name %></td>

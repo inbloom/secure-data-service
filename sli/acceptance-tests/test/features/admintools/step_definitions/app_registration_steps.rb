@@ -208,18 +208,16 @@ Then /^I clicked on the button Edit for the application "([^"]*)"$/ do |arg1|
   row = @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/..")
   assert(row)
   @id = row.attribute('id')
-  @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/../td/a[contains(@class, 'btn')]").click
+  @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/../td/div/a[contains(@class, 'btn')]").click
 end
 
 Then /^a "([^"]*)" button is displayed for application "([^"]*)"$/ do |button_label, app|
-   assert (@driver.find_element(:xpath, "//tr/td[text()='#{app}']/../td/a[text()='#{button_label}']"))
+   assert (@driver.find_element(:xpath, "//tr/td[text()='#{app}']/../td/div/a[text()='#{button_label}']"))
 end
 
 Then /^I click Cancel on the application enable page$/ do
    #first cancel button
-   @driver.find_element(:id, 'Cancel1').click
-   #second cancel button
-   #@driver.find_element(:id, 'Cancel2').click
+   @driver.find_element(:id, 'Cancel').click
 end
 
 Then /^the row of the app "([^"]*)" expanded$/ do |arg1|
