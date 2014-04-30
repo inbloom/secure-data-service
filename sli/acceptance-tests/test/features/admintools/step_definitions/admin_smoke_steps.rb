@@ -194,7 +194,7 @@ end
 When /^I see (?:a|the|that) (pending|approved) application$/ do |status|
   @app_row = browser.page.first('table#applications tr', :text => /#{app_prefix}.*#{status.upcase}/)
   @app_row.should_not be_nil
-  @app_name = @app_row.find('td:nth-child(1)').text
+  @app_name = @app_row.find('td:nth-child(2)').text
 end
 
 When /^I (approve|deny) the application$/ do |action|

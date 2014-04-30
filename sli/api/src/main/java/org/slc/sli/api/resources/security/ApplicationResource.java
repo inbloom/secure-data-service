@@ -32,6 +32,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.lang.StringUtils;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
@@ -143,7 +144,7 @@ public class ApplicationResource extends UnversionedResource {
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
 
-        if (!missingRequiredUrls(newApp)) {
+        if (missingRequiredUrls(newApp)) {
             EntityBody body = new EntityBody();
             body.put(MESSAGE, "Applications that are not marked as installed must have a application url and redirect url");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
@@ -287,7 +288,7 @@ public class ApplicationResource extends UnversionedResource {
     @RightsAllowed({ Right.DEV_APP_CRUD, Right.SLC_APP_APPROVE})
     @Override
     public Response put(@PathParam(UUID) String uuid, EntityBody app, @Context final UriInfo uriInfo) {
-        if (!missingRequiredUrls(app)) {
+        if (missingRequiredUrls(app)) {
             EntityBody body = new EntityBody();
             body.put(MESSAGE, "Applications that are not marked as installed must have a application url and redirect url");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
@@ -526,16 +527,12 @@ public class ApplicationResource extends UnversionedResource {
         String applicationUrl = (String) body.get("application_url");
 
         if (!(Boolean) body.get("installed")) {
-            if (redirectUrl == null || redirectUrl.isEmpty() || applicationUrl == null || applicationUrl.isEmpty()) {
-                return false;
-            }
-        } else {
-            if ((redirectUrl != null && redirectUrl.length() > 0) || (applicationUrl != null && applicationUrl.length() > 0)) {
-                return false;
+            if (StringUtils.isBlank(redirectUrl) || StringUtils.isBlank(applicationUrl)) {
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     /**
