@@ -145,7 +145,7 @@ end
 
 When /^I enable the education Organizations for the application$/ do
   browser.within @my_new_app do
-    browser.find('.btn').click
+    browser.find('.btn', text: 'In Progress').click
   end
   browser.click_link('Expand All')
 
@@ -154,7 +154,7 @@ When /^I enable the education Organizations for the application$/ do
   # check the checkbox for New York State Education System
   browser.check('87d0ab29-b493-46eb-a6f3-110701953afb')
 
-  browser.all('span.edOrgTreeActions input.btn').find("option[value='Save & Update']").first.click
+  browser.click_button 'Save & Update'
 end
 
 Then /^the application status should be "([^"]*)"$/ do |status|
