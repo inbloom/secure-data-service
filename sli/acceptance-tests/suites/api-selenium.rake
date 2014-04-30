@@ -17,7 +17,6 @@ task :adminWebTests => [:realmInit] do
   runTests("test/features/admintools/custom_role_mapping.feature")
   runTests("test/features/admintools/delegate_privileges.feature")
   runTests("test/features/admintools/realm_management.feature")
-  runTests("test/features/admintools/enable_and_authorize_apps_directly_by_edorg.feature")
   runTests("test/features/admintools/enable_and_authorize_bulk_extract_apps_directly_by_edorg.feature")
   runTests("test/features/admintools/encrypted_session_cookie.feature")
   runTests("test/features/admintools/ProvisioningApplication_Interface.feature")

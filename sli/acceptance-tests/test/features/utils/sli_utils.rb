@@ -823,9 +823,11 @@ def ldap_storage
 end
 
 When /^I (enable|disable) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action, ed_org_name, tenant|
-  ed_org_id = DbClient.new(:tenant => tenant, :allow_table_scan => true) do |db|
-    db.find_one('educationOrganization', 'body.nameOfInstitution' => ed_org_name)['_id']
+  ed_org_id = DbClient.new(:tenant => tenant, :allow_table_scan => true).open do |db|
+    ed_org = db.find_one('educationOrganization', 'body.nameOfInstitution' => ed_org_name)
+    ed_org ? ed_org['_id'] : nil
   end
+  ed_org_id.should_not be_nil
   elt = @driver.find_element(:id, ed_org_id)
   elt.should_not be_nil
   (action == 'enable' && !elt.selected? || action == 'disable' && elt.selected?).should be_true, "Cannot #{action} educationalOrganization element with id '#{ed_org_id}' whose checked status is #{elt.selected?}"
