@@ -2,9 +2,8 @@ class App < SessionResource
   self.format = ActiveResource::Formats::JsonFormat
   validates_presence_of [:description, :name, :vendor], message: 'must not be blank'
   validates_format_of :version, with: /^[A-Za-z0-9\.]{1,25}$/, message: 'must contain only alphanumeric characters and periods and be less than 25 characters long'
-  validates_format_of [:administration_url, :image_url], with: URI.regexp(['http', 'https']), allow_nil: true, message: 'must be a valid url (starting with http:// or https://)'
-  validates_format_of [:application_url, :redirect_uri], with: URI.regexp(['http', 'https']), message: 'must be a valid url (starting with http:// or https://)', if: '!installed?'
-  validates_presence_of [:application_url, :redirect_uri], message: 'must not be blank', if: '!installed'
+  validates_format_of [:application_url, :redirect_uri, :administration_url, :image_url], with: URI.regexp(['http', 'https']), allow_nil: true, message: 'must be a valid url (starting with http:// or https://)'
+  validates_presence_of [:application_url, :redirect_uri], message: 'must not be blank', if: '!installed?'
 
   def pending?
     registration.status == 'PENDING'

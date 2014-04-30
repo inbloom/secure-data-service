@@ -109,7 +109,7 @@ And /^I create new application "([^"]*)"$/ do |app_name|
 end
 
 Then /^application "([^"]*)" should be created$/ do |app_name|
-  browser.page.should have_css('#notice')
+  browser.page.should have_css('div.alert')
   browser.page.should have_content(app_name)
   browser.reset_session!
 end

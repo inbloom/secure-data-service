@@ -140,26 +140,22 @@ class AppsController < ApplicationController
   # POST /apps
   # POST /apps.json
   def create
-    # if operator?
-    #       redirect_to apps_path, notice: "Only developers can create new applications" and return
-    #     end
-    #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
     params[:app][:behavior] = params[:app_behavior]
     params[:app][:authorized_ed_orgs] = params[:authorized_ed_orgs]
-    params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
-    params[:app].delete_if {|key, value| ["administration_url", "image_url", "application_url", "redirect_uri"].include? key and value.length == 0 }
+    params[:app][:authorized_ed_orgs] ||= [] # initialize to an empty array if not set
 
-    logger.debug {params[:app].inspect}
+    # Remove these keys from the hash if the values are blank
+    params[:app].delete_if { |key, value| %w(administration_url image_url application_url redirect_uri).include?(key) && value.blank? }
 
     @app = App.new(params[:app])
-    # Want to read the created_by on the @app, which is stamped during the created.
-    # Tried @app.reload and it didn't work
+
     dev_info = get_user_info(session[:external_id])
     @app.vendor = dev_info[:vendor]
+
     @app.is_admin = boolean_fix @app.is_admin
     @app.installed = boolean_fix @app.installed
     @app.isBulkExtract = boolean_fix @app.isBulkExtract
-    logger.debug{"Application is valid? #{@app.valid?}"}
+
     respond_to do |format|
       if @app.save
         logger.debug {"Redirecting to #{apps_path}"}
@@ -176,6 +172,12 @@ class AppsController < ApplicationController
       end
     end
   end
+
+  # {
+  #     "type": "Bad Request",
+  #     "message": "Validation failed: ValidationError [type=REQUIRED_FIELD_MISSING, fieldName=vendor, fieldValue=, expectedTypes=[STRING]]\nValidationError [type=INVALID_VALUE, fieldName=redirect_uri, fieldValue=, expectedTypes=[pattern=http(s)*://.*]]\nValidationError [type=INVALID_VALUE, fieldName=application_url, fieldValue=, expectedTypes=[pattern=http(s)*://.*]]\nValidationError [type=INVALID_VALUE, fieldName=administration_url, fieldValue=, expectedTypes=[pattern=http(s)*://.*]]",
+  #     "code": 400
+  # }
 
   # PUT /apps/1
   # PUT /apps/1.json
