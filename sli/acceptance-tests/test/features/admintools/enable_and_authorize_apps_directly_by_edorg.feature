@@ -80,7 +80,7 @@ Background:
         Then I am redirected to the Application Registration Tool page
         And I clicked on the button Edit for the application "Royal Oak"
         And I expand all nodes
-        And I disable the educationalOrganization "Dusk High School" in tenant "Hyrule"
+        And I de-authorize the educationalOrganization "Dusk High School" in tenant "Hyrule"
         And I click on Save
         And a "Edit" button is displayed for application "Royal Oak"
         Then "Royal Oak" is enabled for "200" education organizations

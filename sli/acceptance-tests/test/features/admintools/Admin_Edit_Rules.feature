@@ -15,8 +15,8 @@ Then I am redirected to "Update a User" page
 #And all fields are editable
 And I can delete text in "Full Name" field 
 And I can delete text in "Email" field 
-And I can delete text in "Tenant" field 
-And I can delete text in "EdOrg" field 
+And I can delete text in "Tenant" field
+And I can delete text in "EdOrg" field
 And I can select "SEA Administrator" from a choice between "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
 And I can also check "Realm Administrator" Role 
 And I can also check "Ingestion User" Role 

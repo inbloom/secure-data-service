@@ -121,7 +121,7 @@ end
 
 When /^I click the "(.*?)" link for "(.*?)"$/ do |button_name, user_name|
   @user_full_name = user_name.gsub("hostname", get_mac_address('_'))
-  @explicitWait.until{@driver.find_element(:xpath, "//a[@id='#{@user_full_name}_#{button_name}']")}.click
+  @explicitWait.until{@driver.find_element(:link_text, @user_full_name)}.click
 end
 
 Then /^the (.*?) field is prefilled with "(.*?)"$/ do |field_name, value|
