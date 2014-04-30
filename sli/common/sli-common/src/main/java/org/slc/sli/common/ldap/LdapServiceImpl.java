@@ -16,21 +16,8 @@
 
 package org.slc.sli.common.ldap;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.naming.Name;
-import javax.naming.directory.BasicAttribute;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.ModificationItem;
-import javax.naming.directory.SearchControls;
-
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +33,13 @@ import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.OrFilter;
 import org.springframework.stereotype.Component;
+
+import javax.naming.Name;
+import javax.naming.directory.BasicAttribute;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.ModificationItem;
+import javax.naming.directory.SearchControls;
+import java.util.*;
 
 /**
  * implementation of LdapService interface for basic CRUD and search operations on LDAP directory
@@ -87,7 +81,7 @@ public class LdapServiceImpl implements LdapService {
         User user;
         try {
             List userList = ldapTemplate.search(dn, filter.toString(), SearchControls.SUBTREE_SCOPE, new String[] {
-                "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper());
+                  "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper());
             if (userList == null || userList.size() == 0) {
                 throw new EmptyResultDataAccessException(1);
             } else if (userList.size() > 1) {
@@ -149,7 +143,8 @@ public class LdapServiceImpl implements LdapService {
         }
         Collection<Group> oldGroups = getUserGroups(realm, user.getUid());
         DirContextAdapter context = (DirContextAdapter) ldapTemplate.lookupContext(buildUserDN(realm, oldUser.getCn()));
-        mapUserToContext(context, user);
+        boolean isCreate = false;
+        mapUserToContext(context, user, isCreate);
         ldapTemplate.modifyAttributes(context);
         Collection<String> newGroupNames = user.getGroups();
         Collection<String> oldGroupNames = getGroupNames(oldGroups);
@@ -175,7 +170,7 @@ public class LdapServiceImpl implements LdapService {
 
     @Override
     public Collection<User> findUsersByGroups(String realm, final Collection<String> allowedGroupNames,
-            final Collection<String> disallowedGroupNames, String tenant, Collection<String> edorgs) {
+                                              final Collection<String> disallowedGroupNames, String tenant, Collection<String> edorgs) {
 
         Collection<String> allowed = allowedGroupNames;
         Collection<String> disallowed = disallowedGroupNames;
@@ -227,7 +222,7 @@ public class LdapServiceImpl implements LdapService {
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
         @SuppressWarnings("unchecked")
         Collection<User> users = (ldapTemplate.search(dn, filter.toString(), SearchControls.SUBTREE_SCOPE,
-                new String[] { "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper()));
+              new String[] { "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper()));
         for (User user : users) {
             user.setGroups(uidToGroupsMap.get(user.getUid()));
         }
@@ -272,7 +267,7 @@ public class LdapServiceImpl implements LdapService {
 
     @Override
     public Collection<User> findUsersByGroups(String realm, Collection<String> groupNames, String tenant,
-            Collection<String> edorgs) {
+                                              Collection<String> edorgs) {
         return findUsersByGroups(realm, groupNames, null, tenant, edorgs);
     }
 
@@ -284,7 +279,7 @@ public class LdapServiceImpl implements LdapService {
     private boolean toggleUserInGroup(String realm, Group group, User user, int op) {
         BasicAttribute member = new BasicAttribute("memberUid", user.getUid());
         ModificationItem[] modGroups = new ModificationItem[] {
-                new ModificationItem(op, member) };
+              new ModificationItem(op, member) };
 
         Name groupName = buildGroupDN(realm, group.getGroupName());
 
@@ -305,7 +300,7 @@ public class LdapServiceImpl implements LdapService {
     @Override
     public boolean updateGroup(String realm, Group group) {
         DirContextAdapter context = (DirContextAdapter) ldapTemplate.lookupContext(buildGroupDN(realm,
-                group.getGroupName()));
+              group.getGroupName()));
         mapGroupToContext(context, group);
         ldapTemplate.modifyAttributes(context);
         return true;
@@ -340,7 +335,8 @@ public class LdapServiceImpl implements LdapService {
 
     private DirContextAdapter createUserContext(String realm, User user) {
         DirContextAdapter context = new DirContextAdapter(buildUserDN(realm, user));
-        mapUserToContext(context, user);
+        boolean isCreate = false;
+        mapUserToContext(context, user, isCreate);
         context.setAttributeValue("cn", user.getCn());
         return context;
     }
@@ -357,10 +353,27 @@ public class LdapServiceImpl implements LdapService {
         return new DistinguishedName("cn=" + groupName + ",ou=groups,ou=" + realm);
     }
 
-    private void mapUserToContext(DirContextAdapter context, User user) {
-        context.setAttributeValues(OBJECTCLASS, new String[] { "inetOrgPerson", "posixAccount", "top" });
+    /**
+     * This method is used for both create and update operations.  For updates, we do not want certain attributes overridden which could bork the LDAP server.
+     * @param context
+     * @param user
+     * @param isCreate boolean to identify if the context is for a create or update.
+     */
+
+    private void mapUserToContext(DirContextAdapter context, User user, final boolean isCreate) {
+
+        LOG.debug("Before mapUserToContext:  " + ToStringBuilder.reflectionToString(context, ToStringStyle.MULTI_LINE_STYLE));
+
+        // TAF 2014-04-01 : Commented out for updates.  Why override the ObjectClasses that are returned from LDAP?  Should respect what hte LDAP server returns for updates.
+        if (isCreate) {
+            LOG.info("mapUserToContext (create) -- set OBJECTCLASS array.");
+            context.setAttributeValues(OBJECTCLASS, new String[]{"inetOrgPerson", "posixAccount", "top"});
+        }
+
         context.setAttributeValue("givenName", user.getGivenName());
+
         String surName = user.getSn();
+
         context.setAttributeValue("sn", surName == null ? " " : surName);
         context.setAttributeValue("uid", user.getUid());
         context.setAttributeValue("uidNumber", USER_ID_NUMBER);
@@ -368,6 +381,7 @@ public class LdapServiceImpl implements LdapService {
         context.setAttributeValue("loginShell", LOGIN_SHELL);
         context.setAttributeValue("mail", user.getEmail());
         context.setAttributeValue("homeDirectory", user.getHomeDir());
+
         if (user.getStatus() != null && user.getStatus().getStatusString() != null) {
             context.setAttributeValue("destinationindicator", user.getStatus().getStatusString());
         }
@@ -384,6 +398,8 @@ public class LdapServiceImpl implements LdapService {
         if (user.getVendor() != null) {
             context.setAttributeValue("o", user.getVendor());
         }
+
+        LOG.debug("After mapUserToContext:  " + ToStringBuilder.reflectionToString(context, ToStringStyle.MULTI_LINE_STYLE));
 
     }
 
