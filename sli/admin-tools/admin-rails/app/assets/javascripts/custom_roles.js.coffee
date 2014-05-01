@@ -85,6 +85,12 @@ enableSaveButtonIfPossible = (tr)  ->
 
 createLabel = (type, name) ->
   label = $('#labelUi').clone()
+  if(type == 'role')
+    label.find("span").addClass("label-success")
+  else if (type =="right")
+    label.find("span").addClass("label-default")
+  else if (type =="self-right")
+    label.find("span").addClass("label-info")
   label.find("span").text(name)
   label.find("span").prop("title", name)
   label.children().addClass(type)
@@ -128,9 +134,9 @@ editRow = (tr) ->
     input.attr("placeholder", "Enter group name")
 
   #Add delete button to each role name
-  tr.find(ROLE_COL).find(".roleLabel").each -> wrapInputWithDeleteButton($(@), "div", groupName)
-  tr.find(RIGHT_COL).find(".roleLabel").each -> wrapInputWithDeleteButton($(@), "span", groupName)
-  tr.find(SELF_RIGHT_COL).find(".roleLabel").each -> wrapInputWithDeleteButton($(@), "span", groupName)
+  tr.find(ROLE_COL).find(".label-success").each -> wrapInputWithDeleteButton($(@), "div", groupName)
+  tr.find(RIGHT_COL).find(".label-default").each -> wrapInputWithDeleteButton($(@), "span", groupName)
+  tr.find(SELF_RIGHT_COL).find(".label-info").each -> wrapInputWithDeleteButton($(@), "span", groupName)
 
 populateRightComboBox = (tr) ->
   #Add right combobox - only add rights that haven't already been used
@@ -154,7 +160,7 @@ populateRightComboBox = (tr) ->
 
 wrapInputWithDeleteButton = (input, type, name) ->
   div = $('<span>').addClass("input-append")
-  button = $("<button class='btn' id='DELETE_" + input.text() + "' >&times;</button>")
+  button = $("<button class='btn btn-xs btn-danger' id='DELETE_" + input.text() + "' > <i class='fa fa-trash-o'></i></button>")
   div.append(button)
   button.click ->
     label = button.parent().parent().find('.editable')
@@ -217,26 +223,26 @@ getJsonData = () ->
 
 getRights = (tr) ->
     rights = []
-    tr.find(RIGHT_COL).find(".customLabel").each ->
+    tr.find(RIGHT_COL).find(".label-default").each ->
       rights.push($(@).text())
     return rights
 
 getSelfRights = (tr) ->
     rights = []
-    tr.find(SELF_RIGHT_COL).find(".customLabel").each ->
+    tr.find(SELF_RIGHT_COL).find(".label-info").each ->
       rights.push($(@).text())
     return rights
 
 getRoles = (tr) ->
     roles = []
-    tr.find(ROLE_COL).find(".customLabel").each ->
+    tr.find(ROLE_COL).find(".label-success").each ->
       roles.push($(@).text())
     return roles
 
 getAllRoles = () ->
   roles = []
   $("#custom_roles tr:gt(0)").each ->
-    $(@).find(ROLE_COL).find(".customLabel").each ->
+    $(@).find(ROLE_COL).find(".label-success").each ->
       roles.push($(@).text())
   return roles
 
