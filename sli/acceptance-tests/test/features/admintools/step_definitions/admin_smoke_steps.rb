@@ -126,8 +126,9 @@ Given /^I have an in\-progress application$/ do
 end
 
 Given /^I have a deletable application$/ do
-  @app_row = browser.page.first('table#applications tr', :text => /#{app_prefix}.*Delete/)
+  @app_row = browser.page.first('table#applications tr', :text => /#{app_prefix}/)
   @app_row.should_not be_nil
+  @app_row.should have_button('Delete')
   @app_name = @app_row.find('td:nth-child(2)').text.strip
 end
 
@@ -145,10 +146,10 @@ When /^I attempt to manage applications$/ do
 end
 
 When /^I delete the application$/ do
-  @app_row = browser.page.first("table#applications tr", :text => /#{@app_name}/)
+  @app_row = browser.page.first('table#applications tr', :text => /#{@app_name}/)
   @app_row.should_not be_nil
   browser.within @app_row do
-    browser.click_link 'Delete'
+    browser.click_on('Delete')
     browser.confirm_popup
   end
   sleep 2 # allow ajax action to occur TODO: Replace with better implementation (e.g. wait on a flash message)
