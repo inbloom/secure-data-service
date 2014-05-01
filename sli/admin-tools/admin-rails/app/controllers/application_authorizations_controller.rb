@@ -118,7 +118,7 @@ class ApplicationAuthorizationsController < ApplicationController
     ApplicationAuthorization.cur_edorg = edorg
     respond_to do |format|
       if success
-        format.html { redirect_to application_authorizations_path, notice: edorg}
+        format.html { redirect_to application_authorizations_path, notice: 'Application was succesfully updated.'}
         #format.html {redirect_to :action => 'index', notice: 'Application authorization was succesfully updated.'}
         format.json { head :ok }
       else

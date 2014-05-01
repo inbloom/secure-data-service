@@ -2,14 +2,6 @@
 <h6>Allow applications to access the platform</h6>
 
 <!-- application_authorizations -->
-<p id="notice"><%=
-    if notice != nil
-        "Application was successfully updated"
-    elsif notice != nil
-      notice
-    end
-%></p>
-
 <% if @app_auth_info.length == 0 && !APP_CONFIG["is_sandbox"]%>
     <h3 id='notApprovedStatus'>You are not authorized to make application authorizations</h3>
 <% elsif @app_auth_info.length == 0 && APP_CONFIG["is_sandbox"]%>
