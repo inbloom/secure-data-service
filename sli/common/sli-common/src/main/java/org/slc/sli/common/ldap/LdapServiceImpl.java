@@ -335,7 +335,7 @@ public class LdapServiceImpl implements LdapService {
 
     private DirContextAdapter createUserContext(String realm, User user) {
         DirContextAdapter context = new DirContextAdapter(buildUserDN(realm, user));
-        boolean isCreate = false;
+        boolean isCreate = true;
         mapUserToContext(context, user, isCreate);
         context.setAttributeValue("cn", user.getCn());
         return context;
@@ -362,11 +362,11 @@ public class LdapServiceImpl implements LdapService {
 
     private void mapUserToContext(DirContextAdapter context, User user, final boolean isCreate) {
 
-        LOG.debug("Before mapUserToContext:  " + ToStringBuilder.reflectionToString(context, ToStringStyle.MULTI_LINE_STYLE));
+        LOG.debug("Before mapUserToContext: " + Boolean.toString(isCreate) + ToStringBuilder.reflectionToString(context, ToStringStyle.MULTI_LINE_STYLE));
 
         // TAF 2014-04-01 : Commented out for updates.  Why override the ObjectClasses that are returned from LDAP?  Should respect what hte LDAP server returns for updates.
         if (isCreate) {
-            LOG.info("mapUserToContext (create) -- set OBJECTCLASS array.");
+            LOG.debug("mapUserToContext (create) -- set OBJECTCLASS array.");
             context.setAttributeValues(OBJECTCLASS, new String[]{"inetOrgPerson", "posixAccount", "top"});
         }
 
