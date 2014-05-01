@@ -16,11 +16,6 @@ limitations under the License.
 
 =end
 
-#require 'capybara'
-#require 'capybara-screenshot'
-#require 'capybara-screenshot/cucumber'
-#require_relative '../../utils/db_client.rb'
-
 require_relative 'capybara_setup.rb'
 
 Before('@track_entities') do
