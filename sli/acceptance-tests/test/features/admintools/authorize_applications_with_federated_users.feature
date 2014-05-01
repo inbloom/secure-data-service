@@ -2,7 +2,6 @@ Feature: Authorize Applications with Federated Users
 
 Background:
   Given I have an open browser
-#  Given I have an open web browser
 
 Scenario: Prepare Custom Roles (set up)
   # Reset to default state
