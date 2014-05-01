@@ -1,5 +1,5 @@
 @US5481
-Feature: Admininstrating role-based access to bulking
+Feature: Administrating role-based access to bulking
     
     Scenario: Make sure it works
         Given I have an open web browser

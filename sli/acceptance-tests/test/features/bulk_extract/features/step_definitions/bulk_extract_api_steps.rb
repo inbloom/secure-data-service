@@ -653,9 +653,9 @@ def getAppId()
   conn ||= Mongo::Connection.new(Property[:db_host],Property[:db_port])
   db ||= conn.db('sli')
   userSessionColl = db.collection("userSession")
-  clientId = userSessionColl.find_one({"body.appSession.token" => @sessionId}) ["body"]["appSession"][0]["clientId"]
+  clientId = userSessionColl.find_one({"body.appSession.token" => @sessionId})["body"]["appSession"][0]["clientId"]
   appColl = db.collection("application")
-  appId = appColl.find_one({"body.client_id" => clientId}) ["_id"]
+  appId = appColl.find_one({"body.client_id" => clientId})["_id"]
   conn.close
   return appId
 end
