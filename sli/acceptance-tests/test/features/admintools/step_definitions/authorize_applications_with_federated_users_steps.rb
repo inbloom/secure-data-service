@@ -179,9 +179,8 @@ When /^I authorize the application for "([^"]*)"$/ do |edOrg|
   if edOrg == 'Illinois State Board of Education'
     browser.find('#hierarchical_mode').set(false)
   end
-
-  browser.find(:xpath, '//form/div[2]/div/div/ul/li/ul/li/ul/li/input').set(true)
-  browser.find(:xpath, '//form/div[2]/div/input[3]').click
+  browser.find(:xpath, '//*[@id="edorgTree"]/div/ul/li/ul/li/ul/li/input').set(true)
+  browser.click_button 'Save & Update'
 end
 
 And /^I go to application authorization page$/ do
@@ -196,6 +195,6 @@ end
 
 When /^I de-authorize the application for "([^"]*)"$/ do |edOrg|
   browser.find('#' + @app_id).find('input').click
-  browser.find(:xpath, '//form/div[2]/div/div/ul/li/ul/li/ul/li/input').set(false)
-  browser.find(:xpath, '//form/div[2]/div/input[3]').click
+  browser.find(:xpath, '//*[@id="edorgTree"]/div/ul/li/ul/li/ul/li/input').set(false)
+  browser.click_button 'Save & Update'
 end
