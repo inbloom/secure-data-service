@@ -69,6 +69,56 @@
   display: none
 }
 
+.input-append {
+  padding:5px;
+  magin:5px;
+}
+
+.btn-dark {
+  color: #ffffff;
+  background-color: #999999;
+  border-color: #7D7D7D;
+}
+
+.btn-dark:hover,
+.btn-dark:focus,
+.btn-dark:active,
+.btn-dark.active,
+.open .dropdown-toggle.btn-dark {
+  color: #ffffff;
+  background-color: #757575;
+  border-color: #7D7D7D;
+}
+
+.btn-dark:active,
+.btn-dark.active,
+.open .dropdown-toggle.btn-dark {
+  background-image: none;
+}
+
+.btn-dark.disabled,
+.btn-dark[disabled],
+fieldset[disabled] .btn-dark,
+.btn-dark.disabled:hover,
+.btn-dark[disabled]:hover,
+fieldset[disabled] .btn-dark:hover,
+.btn-dark.disabled:focus,
+.btn-dark[disabled]:focus,
+fieldset[disabled] .btn-dark:focus,
+.btn-dark.disabled:active,
+.btn-dark[disabled]:active,
+fieldset[disabled] .btn-dark:active,
+.btn-dark.disabled.active,
+.btn-dark[disabled].active,
+fieldset[disabled] .btn-dark.active {
+  background-color: #999999;
+  border-color: #7D7D7D;
+}
+
+.btn-dark .badge {
+  color: #999999;
+  background-color: #ffffff;
+}
 
 tr td:first-child.highlight {
   box-shadow: 0 0 5px rgba(0, 0, 255, 1);

@@ -17,7 +17,7 @@ jQuery ->
       return
     text = option.text()
     right = createLabel('self-right', text)
-    right = wrapInputWithDeleteButton(right, "span", text)
+    right = populateDeleteButtons(right, "span", text)
     $("#addSelfRightUi").parent().append(right)
     $("#addSelfRightUi").parent().append(" ")
     populateRightComboBox($(@).parents("tr"))
@@ -29,7 +29,7 @@ jQuery ->
       return
     text = option.text()
     right = createLabel('right', text)
-    right = wrapInputWithDeleteButton(right, "span", text)
+    right = populateDeleteButtons(right, "span", text)
     $("#addRightUi").parent().append(right)
     $("#addRightUi").parent().append(" ")
     populateRightComboBox($(@).parents("tr"))
@@ -68,7 +68,7 @@ jQuery ->
     if (getAllRoles().indexOf(roleName) > -1)
       return alert("The role name " + roleName + " is already used.")
     div = createLabel('role', roleName)
-    div = wrapInputWithDeleteButton(div, "div", roleName)
+    div = populateDeleteButtons(div, "div", roleName)
     div.wrap("<div/>")
     td.append(div.parent())
     #$("#addRoleUi input").val("")
@@ -134,9 +134,9 @@ editRow = (tr) ->
     input.attr("placeholder", "Enter group name")
 
   #Add delete button to each role name
-  tr.find(ROLE_COL).find(".label-success").each -> wrapInputWithDeleteButton($(@), "div", groupName)
-  tr.find(RIGHT_COL).find(".label-default").each -> wrapInputWithDeleteButton($(@), "span", groupName)
-  tr.find(SELF_RIGHT_COL).find(".label-info").each -> wrapInputWithDeleteButton($(@), "span", groupName)
+  tr.find(ROLE_COL).find(".label-success").each -> populateDeleteButtons($(@), "div", groupName)
+  tr.find(RIGHT_COL).find(".label-default").each -> populateDeleteButtons($(@), "span", groupName)
+  tr.find(SELF_RIGHT_COL).find(".label-info").each -> populateDeleteButtons($(@), "span", groupName)
 
 populateRightComboBox = (tr) ->
   #Add right combobox - only add rights that haven't already been used
@@ -158,10 +158,20 @@ populateRightComboBox = (tr) ->
     if (curSelfRights.indexOf(right) < 0 and curRights.indexOf(right) < 0)
       $("#addSelfRightUi select").append($("<option></option>").val(right).text(right))
 
-wrapInputWithDeleteButton = (input, type, name) ->
+
+populateDeleteButtons = (input, type, name) ->
+  input.hide()
   div = $('<span>').addClass("input-append")
-  button = $("<button class='btn btn-xs btn-danger' id='DELETE_" + input.text() + "' > <i class='fa fa-trash-o'></i></button>")
+  buttonClass = ""
+  if(input.hasClass("label-success"))
+    buttonClass = "btn-success"
+  else if(input.hasClass("label-default"))
+    buttonClass = "btn-dark"
+  else if(input.hasClass("label-info"))
+    buttonClass = "btn-info"
+  button = $("<button class='btn btn-xs " + buttonClass + "' id='DELETE_" + input.text() + "' >" + input.text() + " <i class='fa fa-times'> </i></button>")
   div.append(button)
+
   button.click ->
     label = button.parent().parent().find('.editable')
     if label.hasClass('right')
@@ -178,8 +188,7 @@ wrapInputWithDeleteButton = (input, type, name) ->
       parentTr = $(this).parents('tr')
       $(this).remove()
       populateRightComboBox(parentTr)
-      
-  
+
   input.addClass("editable")
   input.wrap("<" + type + "/>").parent().css("white-space", "nowrap")
   input.parent().append(div)
