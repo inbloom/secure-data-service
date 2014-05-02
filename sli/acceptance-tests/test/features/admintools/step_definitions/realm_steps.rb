@@ -18,7 +18,7 @@ end
 When /^I add a new realm with the same IDP as an existing realm$/ do
   @realm_name = 'Illinois Daybreak School District'
   row = find_realm_row
-  browser.within(row) { browser.click_link 'Edit' }
+  browser.within(row) { browser.click_link 'edit_realm' }
   browser.page.should have_selector('h1', :text => "Realm Management For #{@realm_name}")
 
   idp_url = browser.page.find_field('IDP URL').value

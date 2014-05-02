@@ -59,7 +59,7 @@ end
 
 Then /^I see a user with Full Name is "(.*?)" in the table$/ do | fullName|
   fullName = fullName.gsub("hostname", get_mac_address('_'))
-  fullName_element = @explicitWait.until{@driver.find_element(:xpath,"//tr[td='#{fullName}']")}
+  fullName_element = @explicitWait.until{@driver.find_element(:xpath,"//tr/td[a='#{fullName}']")}
 
   assert_not_nil(fullName_element, "Cannot find user with full name is #{fullName}")
   @userFullName = fullName
