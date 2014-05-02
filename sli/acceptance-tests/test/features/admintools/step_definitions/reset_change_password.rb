@@ -26,14 +26,6 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require 'date'
 
-Given /^I am a SLI Developer "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
-  # No code needed, done as configuration
-end
-
-Given /^I am a SLC Operator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
-  # No code needed, done as configuration
-end
-
 Given /^I am a SLC Admin "([^"]*)" from the "([^"]*)" hosted directory logging in for the first time$/ do |arg1, arg2|
   @ldap = ldap_storage
   @ldap.delete_user_attribute(arg1, :emailtoken)

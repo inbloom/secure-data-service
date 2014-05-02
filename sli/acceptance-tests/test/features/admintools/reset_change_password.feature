@@ -10,7 +10,6 @@ Feature: Reset and Change Password
 @LDAP_Reset_developer-email
  Scenario: SLI Developer Reset Password
 
-    Given I am a SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
     When I hit the Admin URL
     And I select "inBloom" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
@@ -47,7 +46,6 @@ Feature: Reset and Change Password
     Then I see change password is disabled for production developers
 
  Scenario: I can navigate to reset password page after failed login attempts
-    Given I am a SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
     When I hit the Admin URL
     And I select "inBloom" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
