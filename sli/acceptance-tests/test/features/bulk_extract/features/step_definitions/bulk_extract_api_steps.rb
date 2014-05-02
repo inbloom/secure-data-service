@@ -305,6 +305,7 @@ end
 When /^the return code is 200 I get expected tar downloaded$/ do
 	puts "@res.headers: #{@res.headers}"
 	puts "@res.code: #{@res.code}"
+  puts "@res.body: #{@res.body}"
   assert(@res.code == 200,"The return code is #{@res.code}. Expected: 200")
 	
 	EXPECTED_CONTENT_TYPE = 'application/x-tar'

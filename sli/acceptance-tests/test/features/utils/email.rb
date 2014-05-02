@@ -4,6 +4,7 @@ def check_local_email(config={})
   content_substring = config[:content_substring]
   subject_substring = config[:subject_substring]
   mail_file = File.join(mail_dir, imap_username)
+  puts mail_file
 
   yield
 
