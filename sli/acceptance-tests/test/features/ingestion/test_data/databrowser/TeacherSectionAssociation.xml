@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeStaffAssociation xmlns="http://ed-fi.org/0100">
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Teacher of Record</ClassroomPosition>
+  </TeacherSectionAssociation>
+</InterchangeStaffAssociation>

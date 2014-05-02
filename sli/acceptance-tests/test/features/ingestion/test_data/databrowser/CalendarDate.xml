@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100">
+  <CalendarDate>
+    <Date>2011-09-19</Date>
+    <CalendarEvent>Instructional day</CalendarEvent>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </CalendarDate>
+</InterchangeEducationOrgCalendar>

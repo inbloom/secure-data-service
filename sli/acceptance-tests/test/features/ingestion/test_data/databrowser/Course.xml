@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeEducationOrganization xmlns="http://ed-fi.org/0100">
+  <Course>
+    <CourseTitle>Homeroom-Grade-K</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>SDE-HOME-K</ID>
+    </CourseCode>
+    <GradesOffered>
+      <GradeLevel>Kindergarten</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Other</SubjectArea>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>3rd-Grade-Homeroom-1</UniqueCourseId>
+  </Course>
+</InterchangeEducationOrganization>

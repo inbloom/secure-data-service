@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeEducationOrganization xmlns="http://ed-fi.org/0100">
+  <EducationOrganization>
+    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-0213</TelephoneNumber>
+    </Telephone>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+    <NameOfInstitution>Standard State Education Agency</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>State Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>124 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00001</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-0214</TelephoneNumber>
+    </Telephone>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>South Daybreak Elementary</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-0212</TelephoneNumber>
+    </Telephone>
+    <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+      <GradeLevel>Kindergarten</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Elementary School</SchoolCategory>
+    </SchoolCategories>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>South Daybreak Elementary</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-0212</TelephoneNumber>
+    </Telephone>
+    <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+      <GradeLevel>First grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Elementary School</SchoolCategory>
+    </SchoolCategories>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>South Daybreak Elementary</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-0212</TelephoneNumber>
+    </Telephone>
+    <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+      <GradeLevel>Second grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Elementary School</SchoolCategory>
+    </SchoolCategories>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>South Daybreak Elementary</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-0212</TelephoneNumber>
+    </Telephone>
+    <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+      <GradeLevel>Third grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Elementary School</SchoolCategory>
+    </SchoolCategories>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>South Daybreak Elementary</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-0212</TelephoneNumber>
+    </Telephone>
+    <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+      <GradeLevel>Fourth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Elementary School</SchoolCategory>
+    </SchoolCategories>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>South Daybreak Elementary</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>112 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11012</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-0213</TelephoneNumber>
+    </Telephone>
+    <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+      <GradeLevel>Fifth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Elementary School</SchoolCategory>
+    </SchoolCategories>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>East Daybreak Junior High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>East Daybreak Junior High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave B</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>10112</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-3312</TelephoneNumber>
+    </Telephone>
+    <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+      <GradeLevel>Sixth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Junior High School</SchoolCategory>
+    </SchoolCategories>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>East Daybreak Junior High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>East Daybreak Junior High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave B</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>10112</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-3312</TelephoneNumber>
+    </Telephone>
+    <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+      <GradeLevel>Seventh grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Junior High School</SchoolCategory>
+    </SchoolCategories>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>East Daybreak Junior High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>East Daybreak Junior High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave B</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>10112</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-3312</TelephoneNumber>
+    </Telephone>
+    <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+      <GradeLevel>Eighth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Junior High School</SchoolCategory>
+    </SchoolCategories>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>Daybreak Central High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>Daybreak Central High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave C</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>10098</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-0216</TelephoneNumber>
+    </Telephone>
+    <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+      <GradeLevel>Ninth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>High School</SchoolCategory>
+    </SchoolCategories>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>Daybreak Central High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>Daybreak Central High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave C</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>10098</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-0216</TelephoneNumber>
+    </Telephone>
+    <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>High School</SchoolCategory>
+    </SchoolCategories>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>Daybreak Central High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>Daybreak Central High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave C</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>10098</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-0216</TelephoneNumber>
+    </Telephone>
+    <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+      <GradeLevel>Eleventh grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>High School</SchoolCategory>
+    </SchoolCategories>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>Daybreak Central High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>Daybreak Central High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>111 Ave C</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>10098</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-0216</TelephoneNumber>
+    </Telephone>
+    <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>High School</SchoolCategory>
+    </SchoolCategories>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>SchoolA</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>SchoolA</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>SchoolA</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>112 Ave C</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>10099</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-0217</TelephoneNumber>
+    </Telephone>
+    <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+      <GradeLevel>Fifth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Junior High School</SchoolCategory>
+    </SchoolCategories>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>SchoolB</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>SchoolB</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>SchoolB</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>113 Ave C</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>10100</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>917-555-0218</TelephoneNumber>
+    </Telephone>
+    <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+      <GradeLevel>Fourth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Junior High School</SchoolCategory>
+    </SchoolCategories>
+  </EducationOrganization>
+</InterchangeEducationOrganization>

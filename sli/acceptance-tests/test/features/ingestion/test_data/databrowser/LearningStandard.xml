@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeAssessmentMetadata xmlns="http://ed-fi.org/0100">
+  <LearningStandard>
+    <LearningStandardId>
+      <IdentificationCode>LS-G3-1</IdentificationCode>
+    </LearningStandardId>
+    <Description>Description of learning standard for reading</Description>
+    <ContentStandard>State Standard</ContentStandard>
+    <GradeLevel>Third grade</GradeLevel>
+    <SubjectArea>Reading</SubjectArea>
+    <CourseTitle>Reading</CourseTitle>
+  </LearningStandard>
+</InterchangeAssessmentMetadata>

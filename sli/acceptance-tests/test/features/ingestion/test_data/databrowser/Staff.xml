@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeStaffAssociation xmlns="http://ed-fi.org/0100">
+  <Staff>
+    <StaffUniqueStateId>rrogers</StaffUniqueStateId>
+    <StaffIdentificationCode AssigningOrganizationCode="U.S. Military" IdentificationSystem="Selective Service">
+      <ID>a</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Life insurance policy">
+      <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+      <FirstName>Rick</FirstName>
+      <LastSurname>Rogers</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthDate>1980-02-01</BirthDate>
+    <Address AddressType="Work">
+      <StreetNumberName>123 Sesame Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>99999</PostalCode>
+      <BeginDate>1995-08-13</BeginDate>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>666-598-8561</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>rrogers@email.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Certification</CredentialType>
+      <CredentialField>
+        <CodeValue>IT Admin</CodeValue>
+      </CredentialField>
+      <Level>All Level (Grade Level PK-12)</Level>
+      <TeachingCredentialType>Standard</TeachingCredentialType>
+      <CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+    </Credentials>
+    <LoginId>a</LoginId>
+  </Staff>
+  <Staff>
+    <StaffUniqueStateId>mjohnson</StaffUniqueStateId>
+    <StaffIdentificationCode AssigningOrganizationCode="U.S. Military" IdentificationSystem="Selective Service">
+      <ID>mjohnson</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Life insurance policy">
+      <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+      <FirstName>Michael</FirstName>
+      <LastSurname>Johnson</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthDate>1980-02-01</BirthDate>
+    <Address AddressType="Work">
+      <StreetNumberName>123 Wall Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>99999</PostalCode>
+      <BeginDate>1995-08-14</BeginDate>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>312-555-1212</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>mjohnson@email.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Certification</CredentialType>
+      <CredentialField>
+        <CodeValue>IT Admin</CodeValue>
+      </CredentialField>
+      <Level>All Level (Grade Level PK-12)</Level>
+      <TeachingCredentialType>Standard</TeachingCredentialType>
+      <CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+    </Credentials>
+    <LoginId>mjohnson</LoginId>
+  </Staff>
+  <Staff>
+    <StaffUniqueStateId>ckoch</StaffUniqueStateId>
+    <StaffIdentificationCode AssigningOrganizationCode="U.S. Military" IdentificationSystem="Selective Service">
+      <ID>ckoch</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Life insurance policy">
+      <PersonalTitlePrefix>Dr</PersonalTitlePrefix>
+      <FirstName>Christopher</FirstName>
+      <LastSurname>Koch</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthDate>1980-02-01</BirthDate>
+    <Address AddressType="Work">
+      <StreetNumberName>123 Sesame Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>99999</PostalCode>
+      <BeginDate>1995-08-13</BeginDate>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>666-598-8562</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>ckoch@email.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Certification</CredentialType>
+      <CredentialField>
+        <CodeValue>IT Admin</CodeValue>
+      </CredentialField>
+      <Level>All Level (Grade Level PK-12)</Level>
+      <TeachingCredentialType>Standard</TeachingCredentialType>
+      <CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+    </Credentials>
+    <LoginId>ckoch</LoginId>
+  </Staff>
+  <Staff>
+    <StaffUniqueStateId>jstevenson</StaffUniqueStateId>
+    <StaffIdentificationCode AssigningOrganizationCode="U.S. Military" IdentificationSystem="Selective Service">
+      <ID>jstevenson</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Life insurance policy">
+      <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+      <FirstName>James</FirstName>
+      <LastSurname>Stevenson</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthDate>1980-02-01</BirthDate>
+    <Address AddressType="Work">
+      <StreetNumberName>123 Wall Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>99999</PostalCode>
+      <BeginDate>1995-08-13</BeginDate>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>312-555-1213</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>jstevenson@email.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Certification</CredentialType>
+      <CredentialField>
+        <CodeValue>IT Admin</CodeValue>
+      </CredentialField>
+      <Level>All Level (Grade Level PK-12)</Level>
+      <TeachingCredentialType>Standard</TeachingCredentialType>
+      <CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+    </Credentials>
+    <LoginId>jstevenson</LoginId>
+  </Staff>
+  <Staff>
+    <StaffUniqueStateId>jadmin</StaffUniqueStateId>
+    <StaffIdentificationCode AssigningOrganizationCode="U.S. Military" IdentificationSystem="Selective Service">
+      <ID>jadmin</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Life insurance policy">
+      <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+      <FirstName>Johnny</FirstName>
+      <LastSurname>Admin</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthDate>1956-08-14</BirthDate>
+    <Address AddressType="Work">
+      <StreetNumberName>123 Sesame Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>99999</PostalCode>
+      <BeginDate>1967-08-13</BeginDate>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>666-598-8563</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>jadmin@email.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Certification</CredentialType>
+      <CredentialField>
+        <CodeValue>IT Admin</CodeValue>
+      </CredentialField>
+      <Level>All Level (Grade Level PK-12)</Level>
+      <TeachingCredentialType>Standard</TeachingCredentialType>
+      <CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+    </Credentials>
+    <LoginId>jadmin</LoginId>
+  </Staff>
+  <Staff>
+    <StaffUniqueStateId>dsbantu</StaffUniqueStateId>
+    <StaffIdentificationCode AssigningOrganizationCode="U.S. Military" IdentificationSystem="Selective Service">
+      <ID>sbantu</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Life insurance policy">
+      <PersonalTitlePrefix>Dr</PersonalTitlePrefix>
+      <FirstName>Susan</FirstName>
+      <LastSurname>Bantu</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthDate>1980-02-01</BirthDate>
+    <Address AddressType="Work">
+      <StreetNumberName>123 Wall Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>99999</PostalCode>
+      <BeginDate>1995-08-13</BeginDate>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>312-555-1214</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>dsbantu@email.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Certification</CredentialType>
+      <CredentialField>
+        <CodeValue>IT Admin</CodeValue>
+      </CredentialField>
+      <Level>All Level (Grade Level PK-12)</Level>
+      <TeachingCredentialType>Standard</TeachingCredentialType>
+      <CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+    </Credentials>
+    <LoginId>sbantu</LoginId>
+  </Staff>
+  <Staff>
+    <StaffUniqueStateId>jjackson</StaffUniqueStateId>
+    <StaffIdentificationCode AssigningOrganizationCode="U.S. Military" IdentificationSystem="Selective Service">
+      <ID>jjackson</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Life insurance policy">
+      <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+      <FirstName>Jack</FirstName>
+      <LastSurname>Jackson</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthDate>1980-02-01</BirthDate>
+    <Address AddressType="Work">
+      <StreetNumberName>123 Wall Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>99999</PostalCode>
+      <BeginDate>1995-08-13</BeginDate>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>666-598-8564</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>jjackson@email.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Certification</CredentialType>
+      <CredentialField>
+        <CodeValue>IT Admin</CodeValue>
+      </CredentialField>
+      <Level>All Level (Grade Level PK-12)</Level>
+      <TeachingCredentialType>Standard</TeachingCredentialType>
+      <CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+    </Credentials>
+    <LoginId>jjackson</LoginId>
+  </Staff>
+  <Staff>
+    <StaffUniqueStateId>aexpired</StaffUniqueStateId>
+    <StaffIdentificationCode AssigningOrganizationCode="U.S. Military" IdentificationSystem="Selective Service">
+      <ID>aexpired</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Life insurance policy">
+      <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+      <FirstName>Admin</FirstName>
+      <LastSurname>Expired</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthDate>1980-02-01</BirthDate>
+    <Address AddressType="Work">
+      <StreetNumberName>1 Main St</StreetNumberName>
+      <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>99999</PostalCode>
+      <BeginDate>1995-08-13</BeginDate>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>666-598-8564</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>aexpired</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Certification</CredentialType>
+      <CredentialField>
+        <CodeValue>IT Admin</CodeValue>
+      </CredentialField>
+      <Level>All Level (Grade Level PK-12)</Level>
+      <TeachingCredentialType>Standard</TeachingCredentialType>
+      <CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+    </Credentials>
+    <LoginId>aexpired</LoginId>
+  </Staff>
+  <Staff>
+    <StaffUniqueStateId>demoadmin</StaffUniqueStateId>
+    <StaffIdentificationCode AssigningOrganizationCode="U.S. Military" IdentificationSystem="Selective Service">
+      <ID>demoadmin</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Life insurance policy">
+      <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+      <FirstName>Admin</FirstName>
+      <LastSurname>Demo</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthDate>1980-02-01</BirthDate>
+    <Address AddressType="Work">
+      <StreetNumberName>1 Main St</StreetNumberName>
+      <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>99999</PostalCode>
+      <BeginDate>1995-08-13</BeginDate>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>666-598-8564</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>demoadmin</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Certification</CredentialType>
+      <CredentialField>
+        <CodeValue>IT Admin</CodeValue>
+      </CredentialField>
+      <Level>All Level (Grade Level PK-12)</Level>
+      <TeachingCredentialType>Standard</TeachingCredentialType>
+      <CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+    </Credentials>
+    <LoginId>aexpired</LoginId>
+  </Staff>
+  <Staff>
+    <StaffUniqueStateId>StaffC</StaffUniqueStateId>
+    <StaffIdentificationCode AssigningOrganizationCode="U.S. Military" IdentificationSystem="Selective Service">
+      <ID>StaffC</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Life insurance policy">
+      <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+      <FirstName>C</FirstName>
+      <LastSurname>StaffC</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthDate>1980-02-04</BirthDate>
+    <Address AddressType="Work">
+      <StreetNumberName>127 Wall Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>100002</PostalCode>
+      <BeginDate>1995-08-17</BeginDate>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>312-555-1216</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>staff@email.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Certification</CredentialType>
+      <CredentialField>
+        <CodeValue>IT Admin</CodeValue>
+      </CredentialField>
+      <Level>All Level (Grade Level PK-12)</Level>
+      <TeachingCredentialType>Standard</TeachingCredentialType>
+      <CredentialIssuanceDate>2000-01-04</CredentialIssuanceDate>
+    </Credentials>
+    <LoginId>StaffC</LoginId>
+  </Staff>
+  <Staff>
+    <StaffUniqueStateId>StaffD</StaffUniqueStateId>
+    <StaffIdentificationCode AssigningOrganizationCode="U.S. Military" IdentificationSystem="Selective Service">
+      <ID>StaffD</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Life insurance policy">
+      <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+      <FirstName>D</FirstName>
+      <LastSurname>StaffD</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthDate>1980-02-05</BirthDate>
+    <Address AddressType="Work">
+      <StreetNumberName>128 Wall Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>100003</PostalCode>
+      <BeginDate>1995-08-18</BeginDate>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>312-555-1217</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>staff@email.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Certification</CredentialType>
+      <CredentialField>
+        <CodeValue>IT Admin</CodeValue>
+      </CredentialField>
+      <Level>All Level (Grade Level PK-12)</Level>
+      <TeachingCredentialType>Standard</TeachingCredentialType>
+      <CredentialIssuanceDate>2000-01-05</CredentialIssuanceDate>
+    </Credentials>
+    <LoginId>StaffD</LoginId>
+  </Staff>
+  <Staff>
+    <StaffUniqueStateId>StaffE</StaffUniqueStateId>
+    <StaffIdentificationCode AssigningOrganizationCode="U.S. Military" IdentificationSystem="Selective Service">
+      <ID>StaffE</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Life insurance policy">
+      <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+      <FirstName>E</FirstName>
+      <LastSurname>StaffE</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthDate>1980-02-06</BirthDate>
+    <Address AddressType="Work">
+      <StreetNumberName>129 Wall Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>100004</PostalCode>
+      <BeginDate>1995-08-19</BeginDate>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>312-555-1218</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>staff@email.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Certification</CredentialType>
+      <CredentialField>
+        <CodeValue>IT Admin</CodeValue>
+      </CredentialField>
+      <Level>All Level (Grade Level PK-12)</Level>
+      <TeachingCredentialType>Standard</TeachingCredentialType>
+      <CredentialIssuanceDate>2000-01-06</CredentialIssuanceDate>
+    </Credentials>
+    <LoginId>StaffE</LoginId>
+  </Staff>
+  <Staff>
+    <StaffUniqueStateId>StaffG</StaffUniqueStateId>
+    <StaffIdentificationCode AssigningOrganizationCode="U.S. Military" IdentificationSystem="Selective Service">
+      <ID>StaffG</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Life insurance policy">
+      <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+      <FirstName>G</FirstName>
+      <LastSurname>StaffG</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthDate>1980-02-08</BirthDate>
+    <Address AddressType="Work">
+      <StreetNumberName>131 Wall Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>100006</PostalCode>
+      <BeginDate>1995-08-21</BeginDate>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>312-555-1220</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>staff@email.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Certification</CredentialType>
+      <CredentialField>
+        <CodeValue>IT Admin</CodeValue>
+      </CredentialField>
+      <Level>All Level (Grade Level PK-12)</Level>
+      <TeachingCredentialType>Standard</TeachingCredentialType>
+      <CredentialIssuanceDate>2000-01-08</CredentialIssuanceDate>
+    </Credentials>
+    <LoginId>StaffG</LoginId>
+  </Staff>
+  <Staff>
+    <StaffUniqueStateId>StaffJ</StaffUniqueStateId>
+    <StaffIdentificationCode AssigningOrganizationCode="U.S. Military" IdentificationSystem="Selective Service">
+      <ID>StaffJ</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Life insurance policy">
+      <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+      <FirstName>J</FirstName>
+      <LastSurname>StaffJ</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthDate>1980-02-11</BirthDate>
+    <Address AddressType="Work">
+      <StreetNumberName>134 Wall Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>100009</PostalCode>
+      <BeginDate>1995-08-24</BeginDate>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>312-555-1223</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>staff@email.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Certification</CredentialType>
+      <CredentialField>
+        <CodeValue>IT Admin</CodeValue>
+      </CredentialField>
+      <Level>All Level (Grade Level PK-12)</Level>
+      <TeachingCredentialType>Standard</TeachingCredentialType>
+      <CredentialIssuanceDate>2000-01-11</CredentialIssuanceDate>
+    </Credentials>
+    <LoginId>StaffJ</LoginId>
+  </Staff>
+  <Staff>
+    <StaffUniqueStateId>StaffO</StaffUniqueStateId>
+    <StaffIdentificationCode AssigningOrganizationCode="U.S. Military" IdentificationSystem="Selective Service">
+      <ID>StaffO</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Life insurance policy">
+      <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+      <FirstName>O</FirstName>
+      <LastSurname>StaffO</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthDate>1980-02-16</BirthDate>
+    <Address AddressType="Work">
+      <StreetNumberName>139 Wall Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>100014</PostalCode>
+      <BeginDate>1995-08-29</BeginDate>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>312-555-1228</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>staff@email.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Certification</CredentialType>
+      <CredentialField>
+        <CodeValue>IT Admin</CodeValue>
+      </CredentialField>
+      <Level>All Level (Grade Level PK-12)</Level>
+      <TeachingCredentialType>Standard</TeachingCredentialType>
+      <CredentialIssuanceDate>2000-01-16</CredentialIssuanceDate>
+    </Credentials>
+    <LoginId>StaffO</LoginId>
+  </Staff>
+  <Staff>
+    <StaffUniqueStateId>StaffP</StaffUniqueStateId>
+    <StaffIdentificationCode AssigningOrganizationCode="U.S. Military" IdentificationSystem="Selective Service">
+      <ID>StaffP</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Life insurance policy">
+      <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+      <FirstName>P</FirstName>
+      <LastSurname>StaffP</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthDate>1980-02-17</BirthDate>
+    <Address AddressType="Work">
+      <StreetNumberName>140 Wall Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>100015</PostalCode>
+      <BeginDate>1995-08-30</BeginDate>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>312-555-1229</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>staff@email.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Certification</CredentialType>
+      <CredentialField>
+        <CodeValue>IT Admin</CodeValue>
+      </CredentialField>
+      <Level>All Level (Grade Level PK-12)</Level>
+      <TeachingCredentialType>Standard</TeachingCredentialType>
+      <CredentialIssuanceDate>2000-01-17</CredentialIssuanceDate>
+    </Credentials>
+    <LoginId>StaffP</LoginId>
+  </Staff>
+</InterchangeStaffAssociation>

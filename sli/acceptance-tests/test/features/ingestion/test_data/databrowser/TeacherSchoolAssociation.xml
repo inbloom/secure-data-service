@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeStaffAssociation xmlns="http://ed-fi.org/0100">
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Sixth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Seventh grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>English Language and Literature</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Eighth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Ninth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>John.Dog</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Ninth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>Jen.Smith</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>First grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Science</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>Greg.Manz</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Second grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Science</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>Greg.Manz</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Seventh grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Science</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>Greg.Manz</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Eighth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>Anna.Brown</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Ninth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>English</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>Abigail.Jones</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Tenth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Social Studies</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>Rena.Retired</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Eleventh grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>English Language and Literature</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>charles.gray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Seventh grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>English Language and Literature</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>charles.gray</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Sixth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>English Language and Literature</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>rebecca.braverman</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Sixth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>StaffA</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>SchoolA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Sixth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>StaffD</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>SchoolA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Sixth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>StaffG</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>SchoolA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Sixth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>StaffH</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>SchoolA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Sixth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>StaffH</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>SchoolB</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Sixth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>StaffI</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>SchoolB</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Sixth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>StaffK</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>SchoolA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Sixth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>StaffM</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>SchoolA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Sixth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>StaffP</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>SchoolA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Sixth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+</InterchangeStaffAssociation>
