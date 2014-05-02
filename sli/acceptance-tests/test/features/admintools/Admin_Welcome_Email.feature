@@ -1,5 +1,4 @@
-@RALLY_US3459
-
+@no_ingestion_hooks
 Feature: Tailored welcome email, user is able to log in
 
   Background:
