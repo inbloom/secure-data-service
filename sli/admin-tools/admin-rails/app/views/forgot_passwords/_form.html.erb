@@ -1,59 +1,57 @@
-<%= form_for(@forgot_password) do |f| %>
-  <% if @forgot_password.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@forgot_password.errors.count, "error") %> prohibited you from resetting your password</h2>
+<%= form_for(@forgot_password, :html => {:class => 'form-horizontal', :role => 'form'}) do |f| %>
+    <% if @forgot_password.errors.any? %>
+        <div id="error_explanation">
+          <p><%= pluralize(@forgot_password.errors.count, "error") %> prohibited you from resetting your password</p>
 
-      <ul>
-      <% @forgot_password.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+          <ul>
+            <% @forgot_password.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
 
-  <div class="field">
-    <table>
-        <tr class="field">
-            <td class="form-inline"><%= f.label :new_pass ,"New Password"%><span style="color:red"> *</span><br />
-                <%= f.hidden_field :token, :value => @forgot_password.token %>
-                <%= f.password_field :new_pass, :autocomplete => 'off' %>
-            </td>
-            <% if @forgot_password.errors[:new_pass].any? %>
-                <td id="error_explanation">
-                  <ul>
+    <div class="form-group">
+      <%= f.hidden_field :token, :value => @forgot_password.token %>
+
+      <%= f.label :new_pass, "New Password", :class => 'col-sm-2 control-label' %>
+      <div class="col-sm-4">
+        <%= f.password_field :new_pass, :autocomplete => 'off', :class => "form-control" %>
+      </div>
+
+      <% if @forgot_password.errors[:new_pass].any? %>
+            <span class="help-block col-sm-6">
+                <ul>
                   <% @forgot_password.errors[:new_pass].each do |msg| %>
-                    <li><%= msg %></li>
+                      <li style="list-style: none"><%= msg %></li>
                   <% end %>
-                  </ul>
-                </td>
-            <%end%>
-        </tr>
-        <tr class="field">
-            <td class="form-inline"><%= f.label :confirmation, "Confirm New Password" %><span style="color:red"> *</span><br/>
-                <%= f.password_field :confirmation, :autocomplete => 'off' %>
-             </td>
-             <% if @forgot_password.errors[:confirmation].any? %>
-                <td id="error_explanation">
-                  <ul>
-                  <% @forgot_password.errors[:confirmation].each do |msg| %>
-                    <li><%= msg %></li>
-                  <% end %>
-                  </ul>
-                </td>
-            <%end%>
-        </tr>
-    </table>
-  </div>
-  <div class="actions">
-    <br/>
-    <table>
-        <tr>
-          <td id="SubmitButton"><%= f.submit "Submit", 
-            :id => "submitForgotPasswordButton"%></td>
-          <td id="CancelLink"></td>
-        </tr>
-    </table>
-  </div>
+                </ul>
+            </span>
+      <% end %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :confirmation, "Confirm New Password", :class => 'col-sm-2 control-label' %>
+      <div class="col-sm-4">
+        <%= f.password_field :confirmation, :autocomplete => 'off', :class => "form-control" %>
+      </div>
+
+      <% if @forgot_password.errors[:confirmation].any? %>
+        <span class="help-block col-sm-6">
+          <ul>
+            <% @forgot_password.errors[:confirmation].each do |msg| %>
+                <li style="list-style: none"><%= msg %></li>
+            <% end %>
+          </ul>
+        </span>
+      <% end %>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <%= f.submit "Submit", :id => "submitForgotPasswordButton", :class => "btn btn-info" %>
+      </div>
+    </div>
 <% end %>
 
 <script type="text/javascript">
@@ -61,6 +59,6 @@
         html: true,
         content: "<%= APP_CONFIG['password_policy'].join("<br/>").html_safe %>",
         trigger: "focus",
-        template: '<div class="popover" style="width:auto"><div class="arrow"></div><div class="popover-inner"><div class="popover-content"><p></p></div></div></div>'
+        template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-content"><p></p></div></div></div>'
     });
 </script>
