@@ -29,7 +29,7 @@ Background:
         When I hit the Application Registration Tool URL
         And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
-        And I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
+        And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
         Then I am redirected to the Application Approval Tool page
         And I see all the applications registered on SLI
         And I see all the applications pending registration
