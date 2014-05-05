@@ -41,7 +41,7 @@ Scenario: Valid SLI user who does not have any roles
       | Failed login |
 
 Scenario Outline: Valid inBloom operator attempts to access restricted pages
-  Given I am a valid SLC Operator
+  Given I am a valid inBloom operator
    When I attempt to go to the <page> page
    Then I should see an error message indicating that "you don't have access to this page"
   Examples:
@@ -50,7 +50,7 @@ Scenario Outline: Valid inBloom operator attempts to access restricted pages
     | custom roles               |
 
 Scenario: Valid inBloom operator attempts to access accessible pages
-  Given I am a valid SLC Operator
+  Given I am a valid inBloom operator
   When I attempt to go to the applications page
   Then I should not see an error message indicating that "you don't have access to this page"
 
