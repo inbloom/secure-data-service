@@ -395,10 +395,11 @@ default:
         sli.dev.subdomain: ci
 
         # potentially not used anymore
-        sli.log4j.rootLogger: INFO, out
-        sli.log4j.logger.org.apache.camel: WARN
-        sli.log4j.logger.org.apache.activemq: WARN
-        sli.log4j.logger.org.springframework: WARN
+        # TAF : 5-1-2014 : If potentially not used anymore, commenting it out for future removal.
+        #sli.log4j.rootLogger: INFO, out
+        #sli.log4j.logger.org.apache.camel: WARN
+        #sli.log4j.logger.org.apache.activemq: WARN
+        #sli.log4j.logger.org.springframework: WARN
 
         # path to log directory (used by simple-idp and dashboard)
         log.path: ${user.home}/logs
@@ -425,7 +426,7 @@ default:
         # TAF : 2014-04-28 : Delete this old ES-related search config post sprint.
         # search indexer
         #sli.search.indexer.log.path: logs
-        #sli.search.indexer.log.level: INFO
+        #sli.search.indexer.log.level: DEBUG
         #sli.search.indexer.dir.inbox: data/inbox
         #sli.search.indexer.dir.extract: data/tmp
         #sli.search.indexer.extract.schedule: 0 0 0 ? * SUN
@@ -1018,7 +1019,7 @@ local:
 
         dashboard.minify.js: false
 
-        dashboard.log.level: info
+        dashboard.log.level: DEBUG
 
     apps: &APPS-LOCAL
         <<: *APPS-DEFAULT
@@ -1062,7 +1063,7 @@ local:
         sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
 
         # Log4J options
-        sli.log4j.rootLogger: INFO, out
+        sli.log4j.rootLogger: DEBUG, out
         sli.log4j.logger.org.apache.camel: WARN
         sli.log4j.logger.org.apache.activemq: WARN
         sli.log4j.logger.org.springframework: WARN
