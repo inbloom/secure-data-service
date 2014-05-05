@@ -56,7 +56,7 @@ If you have not done so, change the PermGen size to a higher number. If not, you
 
 `export SLI_ROOT = {git_root}/sli`
 
->Setup your Mongo DB's - It is important that this be run from the directory where it exists.
+>Setup your Mongo DBs - It is important that this be run from the directory where it exists.
   - `cd $SLI_ROOT/config/scripts`
   - `./resetAllDbs.sh`
 
@@ -69,7 +69,7 @@ Next, we start bringing services up. Before that however, we need to set up some
   - You will see that Ingestion is started by seeing it running on port 8000
 
 >Start Up API - Main part of the application for accessing the data
-  - `cp $SLI_ROOT/data-access/dal/keyStore/trustey.jks to /tmp`
+  - `cp $SLI_ROOT/data-access/dal/keyStore/trustey.jks /tmp`
   - `cd $SLI_ROOT/api`
   - `mvn jetty:run`
   - You will see that API is started by seeing it running on port 8080
