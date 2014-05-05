@@ -42,7 +42,7 @@ If you have not done so, change the PermGen size to a higher number. If not, you
   - export MAVEN_OPTS=-XX:MaxPermSize=512m
 
 >Get the source for the datastore
-  - git clone https://github.com/inbloom/datastore.git
+  - git clone https://github.com/inbloom/secure-data-service.git
 
 >Build the build-tools
   - `cd {git_root}/build-tools`
