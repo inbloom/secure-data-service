@@ -7,7 +7,6 @@ Background:
 	Given I have an open web browser
 
 	Scenario: Create new application (set up data)
-#        Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
         And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
@@ -26,7 +25,6 @@ Background:
 
 
     Scenario: SLC Operator accepts application registration request (set up data)
-        #Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
         And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
@@ -40,7 +38,6 @@ Background:
         And the 'Approve' button is disabled for application "Royal Oak"
 
     Scenario: Developer registers application (set up data)
-        #Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
         And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
@@ -72,7 +69,6 @@ Background:
 
         # clean up app state for DE2981
     Scenario: Developer disables application
-        #Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
         When I hit the Application Registration Tool URL
         And I select "inBloom" from the dropdown and click go
         And I was redirected to the "Simple" IDP Login page
@@ -80,7 +76,7 @@ Background:
         Then I am redirected to the Application Registration Tool page
         And I clicked on the button Edit for the application "Royal Oak"
         And I expand all nodes
-        And I de-authorize the educationalOrganization "Dusk High School" in tenant "Hyrule"
+        And I de-authorize the educational organization "Dusk High School" in tenant "Hyrule"
         And I click on Save
         And a "Edit" button is displayed for application "Royal Oak"
         Then "Royal Oak" is enabled for "200" education organizations

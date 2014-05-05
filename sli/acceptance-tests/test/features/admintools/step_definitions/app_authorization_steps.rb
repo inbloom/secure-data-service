@@ -317,7 +317,7 @@ When /^I click Update$/ do
   @driver.find_element(:xpath, '//*[@id="edorgTree"]/input[2]').click
 end
 
-When /^I (authorize|de-authorize) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action,edOrgName,tenant|
+When /^I (authorize|de-authorize) the educational organization "([^"]*?)" in tenant "([^"]*?)"$/ do |action,edOrgName,tenant|
   if action == 'authorize'
     step "I enable the educationalOrganization \"#{edOrgName}\" in tenant \"#{tenant}\""
   else
