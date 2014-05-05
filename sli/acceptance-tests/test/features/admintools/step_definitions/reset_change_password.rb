@@ -1,23 +1,4 @@
-=begin
-
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end
-
-
-require "selenium-webdriver"
+require 'selenium-webdriver'
 require 'json'
 require 'net/imap'
 require 'ldapstorage'
@@ -64,6 +45,10 @@ end
 
 Then /^I am redirected to the Reset Password page$/ do
   assertWithWait("Failed to navigate to the Reset Password page")  {@driver.page_source.index("Reset Password") != nil}
+end
+
+Then /^I am redirected to the Forgot Password notify page$/ do
+  assertWithWait("Failed to navigate to the Forgot Password notify page")  {@driver.page_source.index("Email Confirmed") != nil}
 end
 
 Then /^I see the input boxes to change my password$/ do

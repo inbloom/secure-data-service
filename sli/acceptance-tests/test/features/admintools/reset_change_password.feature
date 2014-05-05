@@ -1,8 +1,7 @@
-@RALLY_DE720
-@RALLY_US2121
-
 Feature: Reset and Change Password
-   As a super-admin/developer I want to be able to change my password and reset my password
+   As a registered developer
+   In order to manage my security credentials
+   I want to be able to change my password and reset my password
 
   Background:
     Given I have an open web browser
@@ -22,7 +21,7 @@ Feature: Reset and Change Password
     And I see the input box to enter user id
     And I fill out the input field "user_id" as "developer-email@slidev.org"
     Then I click on "submit"
-    Then I am redirected to the Reset Password page
+    Then I am redirected to the Forgot Password notify page
     Then I check for message  "Password reset instructions have been emailed to you. Please follow the instructions in the email." 
     When I visit the link sent to "developer-email@slidev.org"
     Then I am redirected to the Reset Password page
@@ -38,7 +37,6 @@ Feature: Reset and Change Password
 @LDAP_Reset_developer-email    
   Scenario: SLI Developer Change Password
 
-    Given I am a SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
     When I hit the Change Password URL
     And I select "inBloom" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
