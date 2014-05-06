@@ -22,6 +22,8 @@ SYSTEM_DB_NAME = ENV['SYSTEM_DB_NAME'] ? ENV['DB_NAME'] : "sli"
 
 MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
+ENCRYPT_TOOL_COMMAND = 'java -jar ../encryption-tool/target/OpenSourceEncryptionTool/target/EncryptionTool.jar ../data-access/dal/keyStore/ciKeyStore.jks ../data-access/dal/keyStore/ciEncryption.properties '
+
 OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
 TENANT_COLLECTION = [convertTenantIdToDbName("Midgar"), convertTenantIdToDbName("Hyrule"), convertTenantIdToDbName("Security"), convertTenantIdToDbName("Other"), convertTenantIdToDbName("Zork"), convertTenantIdToDbName("SLI"), convertTenantIdToDbName("T1"), convertTenantIdToDbName("T2"), convertTenantIdToDbName("T3"), convertTenantIdToDbName("mreynolds"), convertTenantIdToDbName("chaos_mokey_org"), convertTenantIdToDbName("fakedev_zork_net")]
@@ -74,6 +76,11 @@ $collectionSet = ["student",
                   "graduationPlan",
                   "yearlyTranscript"]
 
+
+# These fields are encrypted after we import the sandbox data
+# this is a map of tablename -> field name
+$encryptedPiiFields = {"student" => ["body.name.firstName","body.name.lastSurname"]}
+
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
@@ -103,6 +110,57 @@ def set_fixture(collection, fixture_name=nil, fixture_path='test/data', drop=tru
   sh "#{MONGO_BIN}mongoimport -d #{db_used} -c #{collection} -h #{Property[:db_host]} --file #{fixture_path}/#{fixture_name}" do |success, exit_code|
     raise "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
   end
+
+  if $encryptedPiiFields[collection] != nil
+
+    puts "GONNA ENCRYPT TABLE " + collection;
+    encryptFields(db_used, collection, $encryptedPiiFields[collection]);
+
+  end
+end
+
+def encryptFields(db_used, collection, fields)
+
+  conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
+  db = conn.db(db_used)
+  collection = db.collection(collection)
+
+  collection.find.each { |doc|
+    fields.each {|field|
+
+      ciphertext = encryptField(getNestedField(doc, field))
+      putNestedField(doc, field, "ESTRING:" + ciphertext.strip);
+
+    }
+    collection.remove({'_id' => doc['_id']})
+    collection.insert(doc)
+  }
+end
+
+def getNestedField(doc, field)
+  subdoc = doc
+  field.split('.').each { |fieldpart|
+    subdoc = subdoc[fieldpart] unless subdoc==nil
+  }
+  return subdoc;
+end
+
+def putNestedField(doc, field, value)
+  subdoc = doc
+  fieldParts = field.split('.')
+  i = 0;
+  while i < fieldParts.length - 1 do
+    subdoc = subdoc[fieldParts[i]] unless subdoc==nil
+    i=i+1;
+  end
+  subdoc[fieldParts[fieldParts.length-1]] = value unless subdoc==nil
+end
+
+def encryptField(value)
+  puts "encrypting #{value}"
+  cleartext = value
+  ciphertext = `#{ENCRYPT_TOOL_COMMAND} #{cleartext}`
+  return ciphertext
 end
 
 def set_fixtures(collections, fixture_path='test/data')
