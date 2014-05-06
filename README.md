@@ -48,9 +48,9 @@ If you have not done so, change the PermGen size to a higher number. If not, you
   - `cd {git_root}/build-tools`
   - `mvn clean install`
 
->Build the main part of the system
+>Build the main part of the system (this will need to use the ldap_in_memory project)
   - `cd {git_root}/sli`
-  - `mvn clean install -DskipTests`
+  - `mvn clean install -DskipTests -Dsli.env=local-ldap-server`
 
 >Exporting this variable will help with browsing the datastore as well as being required for some of the tests
 
