@@ -30,6 +30,7 @@ import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Scanner;
 
 /**
  * Class used to encrypt/decrypt properties
@@ -235,13 +236,17 @@ public class Encryptor {
           ../data-access/dal/keyStore/localEncryption.properties
           Lauretta
 
+     * you can also exclude the message at the end, then this program works
+     * in streaming mode: every line received from System.in is en/decrypted
+     * and returned to System.out
+
      * @param args
      * @throws Exception
      */
 
     public static void main(String[] args) throws Exception {
         PrintStream out = System.out;
-        if (args.length < 3 || args.length > 6) {
+        if (args.length < 2 || args.length > 6) {
             out.println("For encryption:");
             out.println("Usage: java -jar encryption-tool.jar <keystore_location> <keystore_password> <key_alias> <key_password> <string>");
             out.println("For decryption");
@@ -255,9 +260,9 @@ public class Encryptor {
             out.println("  " + DALALGORITHM + "(optional, defaults to \"AES/CBC/PKCS5Padding\")");
 
             out.println("Encryption:");
-            out.println("  Usage: java jar encyption-tool-1.0-jar <keystore_location> <properties_file> <string>");
+            out.println("  Usage: java jar encyption-tool-1.0-jar <keystore_location> <properties_file> [<string>]");
             out.println("Decryption:");
-            out.println("  Usage: java jar encyption-tool-1.0-jar -decrypt <keystore_location> <properties_file> <string>");
+            out.println("  Usage: java jar encyption-tool-1.0-jar -decrypt <keystore_location> <properties_file> [<string>]");
 
             return;
         }
@@ -301,11 +306,17 @@ public class Encryptor {
             //NEWER FUNCTIONALITY
             keystoreLocation = effectiveArgs[0];
             propertiesLocation = effectiveArgs[1];
-            message = effectiveArgs[2];
+
+            if(effectiveArgs.length==3) {
+                message = effectiveArgs[2];
+            } else {
+                message = null;
+            }
+
 
             Map<String, String> properties = parsePropertiesFile(propertiesLocation);
 
-            keystorePassword = properties.get(properties.get(KEYSTOREPASS));
+            keystorePassword = properties.get(KEYSTOREPASS);
             keyPassword = properties.get(DALKEYPASS);
             keyAlias = properties.get(DALKEYALIAS);
 
@@ -316,20 +327,35 @@ public class Encryptor {
                 algorithm = properties.get(DALALGORITHM);
             }
 
-            Encryptor encryptor = new Encryptor(keystoreLocation, keyPassword);
+            Encryptor encryptor = new Encryptor(keystoreLocation, keystorePassword);
 
             if(!decrypt) {
-                String encrypted = encryptor.encrypt(keyAlias, keyPassword, algorithm, initVector, message);
-                System.out.println(encrypted);
+                if(message != null) {
+                    String encrypted = encryptor.encrypt(keyAlias, keyPassword, algorithm, initVector, message);
+                    out.println(encrypted);
+                } else {
+                    Scanner s = new Scanner(System.in);
+                    s.useDelimiter("\n");
+                    while(s.hasNext()) {
+                        String cleartext = s.next();
+                        String encrypted = encryptor.encrypt(keyAlias, keyPassword, algorithm, initVector, cleartext);
+                        out.println(encrypted);
+                    }
+                }
             } else {
-                String decrypted = encryptor.decrypt(keyAlias, keyPassword, algorithm, initVector, message);
-                System.out.println(decrypted);
+                if(message != null) {
+                    String decrypted = encryptor.decrypt(keyAlias, keyPassword, algorithm, initVector, message);
+                    out.println(decrypted);
+                } else {
+                    Scanner s = new Scanner(System.in);
+                    s.useDelimiter("\n");
+                    while(s.hasNext()) {
+                        String ciphertext = s.next().trim();
+                        String decrypted = encryptor.decrypt(keyAlias, keyPassword, algorithm, initVector,  ciphertext);
+                        out.println(decrypted);
+                    }
+                }
             }
-
-
-
-
         }
-
     }
 }
