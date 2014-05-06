@@ -50,7 +50,8 @@ If you have not done so, change the PermGen size to a higher number. If not, you
 
 >Build the main part of the system (this will need to use the ldap_in_memory project)
   - `cd {git_root}/sli`
-  - `mvn clean install -DskipTests -Dsli.env=local-ldap-server`
+  - `mvn clean install -DskipTests [-Dsli.env=local-ldap-server]`
+  - Use the (optional) '-Dsli.env=local-ldap-server' flag to use configs for the ldap-in-memory component (https://github.com/inbloom/ldap-in-memory)
 
 >Exporting this variable will help with browsing the datastore as well as being required for some of the tests
 
