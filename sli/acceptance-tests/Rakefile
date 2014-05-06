@@ -22,7 +22,7 @@ SYSTEM_DB_NAME = ENV['SYSTEM_DB_NAME'] ? ENV['DB_NAME'] : "sli"
 
 MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
-ENCRYPT_TOOL_COMMAND = 'java -jar ../encryption-tool/target/OpenSourceEncryptionTool/target/EncryptionTool.jar ../data-access/dal/keyStore/ciKeyStore.jks ../data-access/dal/keyStore/ciEncryption.properties '
+ENCRYPT_TOOL_COMMAND = %Q<java -jar ../encryption-tool/target/OpenSourceEncryptionTool/target/EncryptionTool.jar ../data-access/dal/keyStore/ciKeyStore.jks ../data-access/dal/keyStore/ciEncryption.properties>
 
 OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
@@ -113,7 +113,9 @@ def set_fixture(collection, fixture_name=nil, fixture_path='test/data', drop=tru
 
   if $encryptedPiiFields[collection] != nil
 
-    puts "GONNA ENCRYPT TABLE " + collection;
+    puts "ENCRYPTING TABLE " + collection;
+
+    $encryptionToolProcess = IO.popen(ENCRYPT_TOOL_COMMAND, "w+");
     encryptFields(db_used, collection, $encryptedPiiFields[collection]);
 
   end
@@ -128,9 +130,11 @@ def encryptFields(db_used, collection, fields)
   collection.find.each { |doc|
     fields.each {|field|
 
-      ciphertext = encryptField(getNestedField(doc, field))
-      putNestedField(doc, field, "ESTRING:" + ciphertext.strip);
-
+      value = getNestedField(doc, field);
+      if not value =~ /(.*)ESTRING:(.*)/
+        ciphertext = encryptField(value)
+        putNestedField(doc, field, "ESTRING:" + ciphertext.strip);
+      end
     }
     collection.remove({'_id' => doc['_id']})
     collection.insert(doc)
@@ -157,9 +161,9 @@ def putNestedField(doc, field, value)
 end
 
 def encryptField(value)
-  puts "encrypting #{value}"
-  cleartext = value
-  ciphertext = `#{ENCRYPT_TOOL_COMMAND} #{cleartext}`
+  #puts "encrypting #{value}"
+  $encryptionToolProcess.write("#{value}\n")
+  ciphertext = $encryptionToolProcess.readline
   return ciphertext
 end
 
