@@ -42,21 +42,22 @@ If you have not done so, change the PermGen size to a higher number. If not, you
   - export MAVEN_OPTS=-XX:MaxPermSize=512m
 
 >Get the source for the datastore
-  - git clone https://github.com/inbloom/datastore.git
+  - git clone https://github.com/inbloom/secure-data-service.git
 
 >Build the build-tools
   - `cd {git_root}/build-tools`
   - `mvn clean install`
 
->Build the main part of the system
+>Build the main part of the system (this will need to use the ldap_in_memory project)
   - `cd {git_root}/sli`
-  - `mvn clean install -DskipTests`
+  - `mvn clean install -DskipTests [-Dsli.env=local-ldap-server]`
+  - Use the (optional) '-Dsli.env=local-ldap-server' flag to use configs for the ldap-in-memory component (https://github.com/inbloom/ldap-in-memory)
 
 >Exporting this variable will help with browsing the datastore as well as being required for some of the tests
 
 `export SLI_ROOT = {git_root}/sli`
 
->Setup your Mongo DB's - It is important that this be run from the directory where it exists.
+>Setup your Mongo DBs - It is important that this be run from the directory where it exists.
   - `cd $SLI_ROOT/config/scripts`
   - `./resetAllDbs.sh`
 
@@ -69,7 +70,7 @@ Next, we start bringing services up. Before that however, we need to set up some
   - You will see that Ingestion is started by seeing it running on port 8000
 
 >Start Up API - Main part of the application for accessing the data
-  - `cp $SLI_ROOT/data-access/dal/keyStore/trustey.jks to /tmp`
+  - `cp $SLI_ROOT/data-access/dal/keyStore/trustey.jks /tmp`
   - `cd $SLI_ROOT/api`
   - `mvn jetty:run`
   - You will see that API is started by seeing it running on port 8080
@@ -113,7 +114,11 @@ Next, we start bringing services up. Before that however, we need to set up some
   - `bundle exec rails server`
   - You will see that Databrowser is running on port 3000
 
-
+>Run Acceptance Smoke Tests
+ - `cd $SLI_ROOT/acceptance-tests`
+ - `bundle install`
+ - `bundle exec rake smokeTests`
+ 
 Community
 =========
 
