@@ -7,10 +7,10 @@ This is the inBloom Datastore. It contains the backend for the inBloom project. 
 Prerequisites
 =============
 
-Mongo - Version 2.2 is the current version although Version 2.4 has been tested without Shards locally
+Mongo - Version 2.4.8 is a tested version.  Version 2.6 is the current version but is incompatible.
   - Used as the database for the system.
   - Required to be running locally
-  - If you have space issues, add `smallfiles=true` to your mongodb.conf
+  - Add `smallfiles=true` to your mongodb.conf
 
 ActiveMQ - Version 5.8 is the current version.
   - Used as a processor for ingestion
