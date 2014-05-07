@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.slc.sli.sif</groupId>
 		<artifactId>sif</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.15.100.26</version>
 	</parent>
 
 	<properties>
