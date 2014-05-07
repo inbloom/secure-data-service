@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.slc.sli.modeling</groupId>
         <artifactId>modeling</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.15.100.22</version>
     </parent>
 
     <name>Modeling Tools</name>
