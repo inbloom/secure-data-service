@@ -41,11 +41,11 @@ class EntitiesController < ApplicationController
     @search_field = nil
     case params[:search_type]
     when /studentByName/
-      @search_field = "q"
+      @search_field = "name.lastSurname"
     when /staffByName/
-      @search_field = "q"
+      @search_field = "name.lastSurname"
     when /edOrgByName/
-      @search_field = "q"
+      @search_field = "stateOrganizationId"
     when /students/
       @search_field = "studentUniqueStateId"
     when /staff/
@@ -57,11 +57,13 @@ class EntitiesController < ApplicationController
     end
     params[:other] = params[:search_type] if @search_field
     if params[:search_type] == "studentByName"
-      Entity.url_type = "search/students"
+      Entity.url_type = "students"
     elsif params[:search_type] == "staffByName"
-        Entity.url_type = "search/staff,teachers"
+        Entity.url_type = "staff"
+    elsif params[:search_type] == "teacherByName"
+        Entity.url_type = "teachers"
     elsif params[:search_type] == "edOrgByName"
-        Entity.url_type = "search/educationOrganizations"
+        Entity.url_type = "educationOrganizations"
     else
       Entity.url_type = params[:other]
     end
