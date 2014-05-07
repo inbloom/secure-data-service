@@ -12,7 +12,7 @@ Mongo - Version 2.2 is the current version although Version 2.4 has been tested 
   - Required to be running locally
   - If you have space issues, add `smallfiles=true` to your mongodb.conf
 
-ActiveMQ - Version 5.7 is the current version although Version 5.8 has been tested.
+ActiveMQ - Version 5.8 is the current version.
   - Used as a processor for ingestion
   - Required to be running locally
   - Stomp must be activated by adding `<transportConnector name="stomp" uri="stomp://0.0.0.0:61613"/>` to the conf/activemq.xml file in the `<transportConnectors>` block
