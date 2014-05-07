@@ -23,7 +23,7 @@ SYSTEM_DB_NAME = ENV['SYSTEM_DB_NAME'] ? ENV['DB_NAME'] : "sli"
 
 MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
-ENCRYPT_TOOL_COMMAND = %Q<java -jar ../encryption-tool/target/OpenSourceEncryptionTool/target/EncryptionTool.jar ../data-access/dal/keyStore/ciKeyStore.jks ../data-access/dal/keyStore/ciEncryption.properties>
+ENCRYPT_TOOL_COMMAND = %Q<java -jar ../encryption-tool/target/EncryptionTool.jar ../data-access/dal/keyStore/ciKeyStore.jks ../data-access/dal/keyStore/ciEncryption.properties>
 
 COMPLEX_TYPES = '../domain/src/main/resources/sliXsd/ComplexTypes.xsd'
 
@@ -221,10 +221,14 @@ end
 #encryptes a field with the encryption-tool
 #external process
 def encryptField(value, encryptionToolProcess)
-  encryptionToolProcess.write("#{value}\n")
-  ciphertext = encryptionToolProcess.readline
-  ciphertext = "ESTRING:#{ciphertext.strip}"
-  return ciphertext
+  if not value =~ /^ESTRING:(.*)/
+    encryptionToolProcess.write("#{value}\n")
+    ciphertext = encryptionToolProcess.readline
+    ciphertext = "ESTRING:#{ciphertext.strip}"
+    return ciphertext
+  end
+
+  value
 end
 
 def set_fixtures(collections, fixture_path='test/data')
