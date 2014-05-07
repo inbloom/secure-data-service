@@ -123,18 +123,19 @@ Start Search Indexer
 Import Data
 -----------
 
-### Rake approach
+### Option 1:  Rake approach
   - Less hassle, but keys are assigned (not generated from the natural key data members as usual)
   - `cd $SLI_ROOT/acceptance-tests`
   - `bundle install`
   - `bundle exec rake realmInit`
   - `bundle exec rake importSandboxData`
 
-### Ingestion approach
+### Option 2:  Ingestion approach
+  - This is the method production uses.  Uses keys generated from natural key data members
   - `cd $SLI_ROOT/ingestion/ingestion-service/target/ingestion/lz/inbound/Midgar-DAYBREAK`
   - `cp $SLI_ROOT/acceptance-tests/test/features/ingestion/test_data/SmallSampleDataSet.zip ./`
   - `ruby $SLI_ROOT/opstools/ingestion_trigger/publish_file_uploaded.rb STOR $(pwd)/SmallSampleDataSet.zip`
-  - tail -F $SLI_ROOT/ingestion/ingestion-service/target/ingestion/logs/ingestion.log for verification. You should see 'Clearing cache at job completion' when it is finished.
+  - `tail -F $SLI_ROOT/ingestion/ingestion-service/target/ingestion/logs/ingestion.log` for verification. You should see 'Clearing cache at job completion' when it is finished.
 
 Start Dashboard
 ---------------
