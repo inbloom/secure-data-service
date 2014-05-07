@@ -36,6 +36,10 @@ Open-ADK Installation - Project Dependency
   - `cd ../OpenADK-java/adk-library`
   - `mvn -P US install`
 
+>Get the in-memory ldap application, required for an entirely local dev environment
+  - git clone https://github.com/inbloom/ldap-in-memory.git
+  - mvn clean install
+
 Building the Datastore
 ======================
 If you have not done so, change the PermGen size to a higher number. If not, you could run into PermGen space issues during the build.
@@ -43,9 +47,6 @@ If you have not done so, change the PermGen size to a higher number. If not, you
 
 >Get the source for the datastore
   - git clone https://github.com/inbloom/secure-data-service.git
-
->Get the in-memory ldap application, required for an entirely local dev environment
-  - git clone https://github.com/inbloom/ldap-in-memory.git
 
 >Build the build-tools
   - `cd {git_root}/build-tools`
