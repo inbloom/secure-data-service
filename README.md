@@ -20,7 +20,7 @@ ActiveMQ
   - Version 5.8 is the current version.
   - Used as a processor for ingestion
   - Required to be running locally
-  - Stomp must be activated by adding `<transportConnector name="stomp" uri="stomp://0.0.0.0:61613"/>` to the conf/activemq.xml file in the `<transportConnectors>` block
+  - Stomp must be activated.  Add `<transportConnector name="stomp" uri="stomp://0.0.0.0:61613"/>` to the conf/activemq.xml file in the `<transportConnectors>` block if it isn't there already
 
 libxml2-dev and libxslt-dev
 ---------------------------
