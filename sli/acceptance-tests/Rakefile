@@ -3,6 +3,7 @@ require 'rbconfig'
 require 'json'
 require 'socket'
 require 'colorize'
+require 'nokogiri'
 require_relative './test/features/utils/db_client'
 require_relative './test/features/utils/rakefile_common'
 require_relative './test/features/utils/db_utils'
@@ -23,6 +24,8 @@ SYSTEM_DB_NAME = ENV['SYSTEM_DB_NAME'] ? ENV['DB_NAME'] : "sli"
 MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
 ENCRYPT_TOOL_COMMAND = %Q<java -jar ../encryption-tool/target/OpenSourceEncryptionTool/target/EncryptionTool.jar ../data-access/dal/keyStore/ciKeyStore.jks ../data-access/dal/keyStore/ciEncryption.properties>
+
+COMPLEX_TYPES = '../domain/src/main/resources/sliXsd/ComplexTypes.xsd'
 
 OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
@@ -77,10 +80,6 @@ $collectionSet = ["student",
                   "yearlyTranscript"]
 
 
-# These fields are encrypted after we import the sandbox data
-# this is a map of tablename -> field name
-$encryptedPiiFields = {"student" => ["body.name.firstName","body.name.lastSurname"]}
-
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
@@ -100,6 +99,39 @@ def system_collection?(collection)
   %w(tenant realm securityEvent application roles tenantJobLock userSession userAccount).include? collection
 end
 
+##parses complexTypes.xsd and returns a hash of {tableName => [list,of,fields]}
+##for fields that are pii
+def getPiiFields()
+
+  encryptedPiiFields = {}
+
+  f = File.open(COMPLEX_TYPES);
+  doc = Nokogiri.XML(f)
+  doc.xpath('//xs:complexType').each do |complexType|
+    ctName = "#{complexType.attribute('name')}"
+    complexType.xpath('xs:sequence/xs:element').each do |element|
+      fieldName = "#{element.attribute('name')}"
+      piiNode = element.xpath('xs:annotation/xs:appinfo/sli:PersonallyIdentifiableInfo')
+      if !piiNode.empty? and piiNode.text =~ /true/
+        field = "body.#{fieldName}"
+        if encryptedPiiFields[ctName] == nil
+          encryptedPiiFields[ctName] = [field]
+        else
+          encryptedPiiFields[ctName].push(field)
+        end
+      end
+    end
+  end
+  f.close
+
+  encryptedPiiFields
+end
+
+task :testGetPii do
+  puts getPiiFields
+end
+
+
 def set_fixture(collection, fixture_name=nil, fixture_path='test/data', drop=true)
   disable_NOTABLESCAN
   db_used = system_collection?(collection) ? 'sli' : DB_NAME
@@ -111,17 +143,23 @@ def set_fixture(collection, fixture_name=nil, fixture_path='test/data', drop=tru
     raise "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
   end
 
-  if $encryptedPiiFields[collection] != nil
+  # These fields are encrypted after we import the sandbox data
+  # this is a map of tablename -> field name
+  encryptedPiiFields = getPiiFields();
 
-    puts "ENCRYPTING TABLE " + collection;
+  if encryptedPiiFields[collection] != nil
 
-    $encryptionToolProcess = IO.popen(ENCRYPT_TOOL_COMMAND, "w+");
-    encryptFields(db_used, collection, $encryptedPiiFields[collection]);
+    puts "ENCRYPTING TABLE #{collection}"
+
+    encryptionToolProcess = IO.popen(ENCRYPT_TOOL_COMMAND, "w+")
+    encryptFields(db_used, collection, encryptedPiiFields[collection], encryptionToolProcess)
 
   end
 end
 
-def encryptFields(db_used, collection, fields)
+#encryptes all the fields listed in 'fields' in
+#collection 'collection' in the 'db_used' database
+def encryptFields(db_used, collection, fields, encryptionToolProcess)
 
   conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
   db = conn.db(db_used)
@@ -131,16 +169,35 @@ def encryptFields(db_used, collection, fields)
     fields.each {|field|
 
       value = getNestedField(doc, field);
-      if not value =~ /(.*)ESTRING:(.*)/
-        ciphertext = encryptField(value)
-        putNestedField(doc, field, "ESTRING:" + ciphertext.strip);
+
+      if value != nil
+        value = recursiveEncrypt(value, encryptionToolProcess)
+        putNestedField(doc, field, value);
       end
+
     }
     collection.remove({'_id' => doc['_id']})
     collection.insert(doc)
   }
 end
 
+##encrypts a single value or every value in a Hash
+def recursiveEncrypt(document, encryptionToolProcess)
+
+  value = document
+  if value.is_a?(Hash)
+    value.each do |key, val|
+       value[key]=recursiveEncrypt(val, encryptionToolProcess)
+    end
+  else if value != nil
+    value = encryptField(value, encryptionToolProcess)
+       end
+  end
+  value
+end
+
+#returns a subdocument of a document
+#field names are separated by '.'
 def getNestedField(doc, field)
   subdoc = doc
   field.split('.').each { |fieldpart|
@@ -149,6 +206,7 @@ def getNestedField(doc, field)
   return subdoc;
 end
 
+#puts a document into another document
 def putNestedField(doc, field, value)
   subdoc = doc
   fieldParts = field.split('.')
@@ -160,10 +218,12 @@ def putNestedField(doc, field, value)
   subdoc[fieldParts[fieldParts.length-1]] = value unless subdoc==nil
 end
 
-def encryptField(value)
-  #puts "encrypting #{value}"
-  $encryptionToolProcess.write("#{value}\n")
-  ciphertext = $encryptionToolProcess.readline
+#encryptes a field with the encryption-tool
+#external process
+def encryptField(value, encryptionToolProcess)
+  encryptionToolProcess.write("#{value}\n")
+  ciphertext = encryptionToolProcess.readline
+  ciphertext = "ESTRING:#{ciphertext.strip}"
   return ciphertext
 end
 
