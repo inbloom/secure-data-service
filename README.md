@@ -43,7 +43,8 @@ Open-ADK Installation - Project Dependency
 Building the Datastore
 ======================
 If you have not done so, change the PermGen size to a higher number. If not, you could run into PermGen space issues during the build.
-  - export MAVEN_OPTS=-XX:MaxPermSize=512m
+  - `export MAVEN_OPTS=-XX:MaxPermSize=512m`
+  - More on `MAVEN_OPTS` below
 
 >Get the source for the datastore
   - git clone https://github.com/inbloom/secure-data-service.git
@@ -58,8 +59,7 @@ If you have not done so, change the PermGen size to a higher number. If not, you
   - Use the (optional) '-Dsli.env=local-ldap-server' flag to use configs for the ldap-in-memory component (https://github.com/inbloom/ldap-in-memory)
 
 >Exporting this variable will help with browsing the datastore as well as being required for some of the tests
-
-`export SLI_ROOT = {git_root}/sli`
+  - `export SLI_ROOT = {git_root}/sli`
 
 >Setup your Mongo DBs - It is important that this be run from the directory where it exists.
   - `cd $SLI_ROOT/config/scripts`
