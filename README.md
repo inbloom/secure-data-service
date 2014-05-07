@@ -122,10 +122,15 @@ Start Search Indexer
 
 Import Data
 -----------
+
+### Rake approach
+  - Less hassle, but keys are assigned (not generated from the natural key data members as usual)
   - `cd $SLI_ROOT/acceptance-tests`
   - `bundle install`
   - `bundle exec rake realmInit`
   - `bundle exec rake importSandboxData`
+
+### Ingestion approach
   - `cd $SLI_ROOT/ingestion/ingestion-service/target/ingestion/lz/inbound/Midgar-DAYBREAK`
   - `cp $SLI_ROOT/acceptance-tests/test/features/ingestion/test_data/SmallSampleDataSet.zip ./`
   - `ruby $SLI_ROOT/opstools/ingestion_trigger/publish_file_uploaded.rb STOR $(pwd)/SmallSampleDataSet.zip`
