@@ -44,6 +44,9 @@ If you have not done so, change the PermGen size to a higher number. If not, you
 >Get the source for the datastore
   - git clone https://github.com/inbloom/secure-data-service.git
 
+>Get the in-memory ldap application, required for an entirely local dev environment
+  - git clone https://github.com/inbloom/ldap-in-memory.git
+
 >Build the build-tools
   - `cd {git_root}/build-tools`
   - `mvn clean install`
