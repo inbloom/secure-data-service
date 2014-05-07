@@ -72,6 +72,15 @@
                             <descriptors>
                                 <descriptor>assembly/zip.xml</descriptor>
                             </descriptors>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <archive>
+                                <manifest>
+                                    <mainClass>org.slc.sli.encryption.tool.Encryptor</mainClass>
+                                </manifest>
+                            </archive>
                         </configuration>
                     </execution>
                     <execution>

@@ -1,15 +1,10 @@
 package org.slc.sli.encryption.tool;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-
 import junit.framework.Assert;
-
 import org.junit.Test;
+
+import java.io.*;
+import java.util.ArrayList;
 
 
 public class EncryptorTestIT {
@@ -24,11 +19,8 @@ public class EncryptorTestIT {
         Assert.assertTrue(srcZip.exists() && srcZip.isFile());
 
         File mvnTargetDir = new File(MAVEN_TARGET_DIR);
-
         Assert.assertTrue("Maven Target directory is not found", mvnTargetDir.isDirectory());
-
         File targetDir = new File(MAVEN_TARGET_DIR, TARGET_DIR);
-
         PrintStream ps = System.out;
 
         try {

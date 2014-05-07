@@ -189,7 +189,7 @@ default:
         sli.ingestion.exception.message.log: true
 
         # ingestion log level
-        sli.ingestion.log.level: info
+        sli.ingestion.log.level: debug
 
         # ingestion queue definitions (only used in ingestion)
         ## sli.ingestion.queue.workItem.host: {active_mq_host}
@@ -441,7 +441,7 @@ default:
         # bulk extract
         sli.bulk.extract.output.directory: extract
         sli.bulk.extract.log.path: logs
-        sli.bulk.extract.log.level: INFO
+        sli.bulk.extract.log.level: debug
         sli.be.mongo.failOnPrimary: false
 
 acceptance-tests:
@@ -734,110 +734,6 @@ dev:
     misc:
         <<: *MISC-DEFAULT
         log.path: ${user.home}/logs
-
-devjuggernauts:
-    api:
-        <<: *API-DEFAULT
-        # dev/api/security/security.properties
-        #
-        # Set of substitution filters used for ci builds
-        #
-
-        # Security
-        ## sli.security.noSession.landing.url: http://{api_host:port}/api/oauth/authorize?response_type=code
-        sli.security.noSession.landing.url: https://devjuggernauts.slidev.org/api/oauth/authorize?response_type=code
-
-        # Security SAML
-        ## sli.security.sp.issuerName: http://{api_host:port}
-        sli.security.sp.issuerName: https://devjuggernauts.slidev.org
-
-        # Trusted Certificate Authority Store
-        ## sli.trust.certificates: {file system directory}
-        sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
-
-        #Support Email
-        sli.support.email: sli@slc.org
-
-        ## api.perf.log.path: {file system path}
-        api.perf.log.path: /home/api/logs/
-    data-access:
-        <<: *DATA-ACCESS-DEFAULT
-        # dev/data-access/db.properties
-        #
-        # Set of substitution filters used for ci builds
-        #
-        sli.mongodb.database: sli
-        ## sli.mongodb.host: {mongo_host}:27017
-        sli.mongodb.host: devjuggernauts.slidev.org:27017
-        #sli.mongodb.user =
-        #sli.mongodb.pass =
-
-        # Ingestion Staging DB
-        sli.ingestion.staging.mongodb.database: is
-        sli.ingestion.staging.mongodb.host: devjuggernauts.slidev.org
-        sli.ingestion.staging.mongodb.port: 27017
-        sli.ingestion.staging.clearOnCompletion: true
-
-        # Ingestion BatchJob DB
-        sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
-        sli.ingestion.batchjob.mongodb.host: devjuggernauts.slidev.org
-        sli.ingestion.batchjob.mongodb.port: 27017
-        sli.ingestion.errors.tracking: true
-        sli.ingestion.warnings.tracking: true
-
-        # Security Event capsize
-        sli.ingestion.securityEvent.capSize:
-
-        # Health Check credentials
-        sli.ingestion.healthcheck.user: admin
-        sli.ingestion.healthcheck.pass: admin
-
-    ingestion:
-        <<: *INGESTION-DEFAULT
-        # dev/ingestion/ingestion_conf.properties
-        ## landingzone.inbounddir: {file system directory}
-        landingzone.inbounddir: /home/ingestion/lz/inbound
-        ## logging.path: {file system directory}
-        logging.path: /home/ingestion/logs
-
-        # dev/ingestion/queue.properties
-        ## sli.ingestion.queue.workItem.host: {active_mq_host}
-        sli.ingestion.queue.workItem.host:
-        sli.ingestion.queue.workItem.port:
-        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
-        sli.ingestion.queue.workItem.concurrentConsumers: 4
-        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
-
-        #Reference Schema reference check
-        sli.ingestion.referenceSchema.referenceCheckEnabled: false
-
-    dashboard:
-        <<: *DASHBOARD-DEFAULT
-        api.client: apiClient
-        ## api.server.url: http://{api_host:port}
-        api.server.url: https://devjuggernauts.slidev.org/
-        ## security.server.url: http://{dashboard_host:port}
-        security.server.url: https://devjuggernauts.slidev.org/
-        ## portal.footer.url: https://{portal_host}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
-        portal.footer.url: https://pike-portal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
-        ## portal.header.url: https://{portal_header}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
-        portal.header.url: https://pike-portal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
-        log.level: debug
-        oauth.client.id: CD02AAA8361D240617C98DFFA6B83C01
-        oauth.client.secret: 10FA774C06CBF589F5E4B4EA810C1B8FFEA04B3141AEE305069F33096E59CBD1D3B8560F9210293D5FD53D33B8746C1D57A2D2D65D536975E960723B26A2E6B1
-
-        ## oauth.redirect: http://{dashboard_host:port}/dashboard/callback
-        oauth.redirect: https://devjuggernauts.slidev.org/dashboard/callback
-
-        #specify "driver" and "custom" directory name for a user domain based configuration
-        panel.config.driver.dir: config
-        panel.config.custom.dir: custom
-
-        panel.data.use.cache: true
-
-    misc:
-        <<: *MISC-DEFAULT
-        log.path: /var/logs
 
 devapp1:
     api:
@@ -1380,65 +1276,6 @@ team:
         # TAF : 2014-04-28 : Delete this old ES-related search config post sprint.
         #sli.search.indexer.broker.embedded: false
 
-perf:
-    data-access:
-        <<: *DATA-ACCESS-DEFAULT
-        # perf/data-access/db.properties
-        #
-        # Set of substitution filters used for ci builds
-        #
-        sli.mongodb.database: sli_ing
-        ## sli.mongodb.host: {mongo_host}:27017
-        sli.mongodb.host: igmongo.slidev.org:27017
-        #sli.mongodb.user =
-        #sli.mongodb.pass =
-
-        # Ingestion Staging DB
-        sli.ingestion.staging.mongodb.database: is
-        sli.ingestion.staging.mongodb.host: igmongo.slidev.org
-        sli.ingestion.staging.mongodb.port: 27017
-        sli.ingestion.staging.clearOnCompletion: true
-
-        # Ingestion BatchJob DB
-        sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
-        sli.ingestion.batchjob.mongodb.host: igmongo.slidev.org
-        sli.ingestion.batchjob.mongodb.port: 27017
-        sli.ingestion.errors.tracking: true
-        sli.ingestion.warnings.tracking: true
-
-        # Security Event capsize
-        sli.ingestion.securityEvent.capSize:
-
-        # Health Check credentials
-        sli.ingestion.healthcheck.user: admin
-        sli.ingestion.healthcheck.pass: admin
-
-        sli.bulk.extract.deltasEnabled: false
-        sli.be.mongo.failOnPrimary: false
-
-    ingestion:
-        <<: *INGESTION-DEFAULT
-        # perf/ingestion/ingestion_conf.properties
-        ## landingzone.inbounddir: {file system directory}
-        landingzone.inbounddir: /home/ingestion/lz/inbound
-        ## logging.path: {file system directory}
-        logging.path: /home/ingestion/logs
-
-        # perf/ingestion/queue.properties
-        ## sli.ingestion.queue.workItem.host: {active_mq_host}
-        sli.ingestion.queue.workItem.host:
-        sli.ingestion.queue.workItem.port:
-        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
-        sli.ingestion.queue.workItem.concurrentConsumers: 4
-
-        # perf/ingestion/test.properties
-        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
-        sli.ingestion.queue.workItem.concurrentConsumers: 4
-        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
-
-        #Reference Schema reference check
-        sli.ingestion.referenceSchema.referenceCheckEnabled: false
-
 test-local:
     test:
         # local/data-access/test.properties
@@ -1508,23 +1345,6 @@ test-team:
         #sli.search.embedded.http.port: 19200
         #sli.search.url: http://localhost:19200
 
-test-perf:
-    ingestion:
-        # perf/ingestion/test.properties
-        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
-        sli.ingestion.queue.workItem.concurrentConsumers: 4
-
-        sli.ingestion.tenant.loadDefaultTenants: false
-        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
-
-        #Reference Schema reference check
-        sli.ingestion.referenceSchema.referenceCheckEnabled: false
-
-        # TAF : 2014-04-28 : Delete this old ES-related search config post sprint.
-        # ElasticSearch
-        #sli.search.embedded.http.port: 19200
-        #sli.search.url: http://localhost:19200
-
 sandbox:
     api:
         <<: *API-TEAM
@@ -1585,114 +1405,6 @@ sandbox:
         ## sli.simple-idp.cot: http://{api_host:port}=http://{api_host:port}/api/rest/saml/sso/post
         sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: true
-
-# Properties for systems being used by Team Hermod for ingestion performance
-# These are Amazon west instances
-nxteam:
-    api: &API-NXTEAM
-        <<: *API-TEAM
-    dashboard: &DASHBOARD-NXTEAM
-        <<: *DASHBOARD-TEAM
-    ingestion: &INGESTION-NXTEAM
-        <<: *INGESTION-TEAM
-        ## sli.ingestion.queue.workItem.host: {active_mq_host}
-        sli.ingestion.queue.workItem.host: nxmaestro.slidev.org
-        sli.ingestion.tenant.loadDefaultTenants: true
-        sli.ingestion.queue.parser.concurrentConsumers: 8
-        sli.ingestion.cache.type: inmemory
-        sli.ingestion.cache.opTimeout: 100
-        sli.ingestion.cache.servers: localhost:11211
-        #sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
-
-    data-access: &DATA-ACCESS-NXTEAM
-        <<: *DATA-ACCESS-TEAM
-        ## sli.mongodb.host: {mongo_host}:27017
-        sli.mongodb.host: localhost:27017
-        sli.ingestion.staging.mongodb.host: localhost
-        sli.ingestion.staging.mongodb.port: 27018
-        sli.ingestion.batchjob.mongodb.host: nxmongo5.slidev.org
-        sli.mongodb.connections: 30
-        sli.stagingmongodb.connections: 30
-        sli.batchjobmongodb.connections: 30
-
-        sli.ingestion.mongotemplate.writeConcern: SAFE
-        sli.default.mongotemplate.writeConcern: SAFE
-        sli.ingestion.staging.mongotemplate.writeConcern: SAFE
-        sli.ingestion.errors.tracking: true
-        sli.ingestion.warnings.tracking: true
-    misc: &MISC-NXTEAM
-        <<: *MISC-TEAM
-
-
-nxteam-maestro:
-    api:
-        <<: *API-NXTEAM
-    dashboard:
-        <<: *DASHBOARD-NXTEAM
-    ingestion:
-        <<: *INGESTION-NXTEAM
-        sli.ingestion.nodeType: maestro
-        sli.ingestion.cache.type: inmemory
-        sli.ingestion.cache.opTimeout: 100
-        sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
-
-    data-access:
-        <<: *DATA-ACCESS-NXTEAM
-        sli.ingestion.staging.clearOnCompletion: true
-    misc:
-        <<: *MISC-NXTEAM
-
-
-nxteam-pit:
-    api:
-        <<: *API-NXTEAM
-    dashboard:
-        <<: *DASHBOARD-NXTEAM
-    ingestion:
-        <<: *INGESTION-NXTEAM
-        sli.ingestion.nodeType: pit
-    data-access:
-        <<: *DATA-ACCESS-NXTEAM
-    misc:
-        <<: *MISC-NXTEAM
-
-
-local-maestro:
-    api:
-        <<: *API-LOCAL
-    dashboard:
-        <<: *DASHBOARD-LOCAL
-    ingestion:
-        <<: *INGESTION-TEAM
-        sli.ingestion.nodeType: maestro
-        ## landingzone.inbounddir: target/ingestion/lz/inbound
-        landingzone.inbounddir: target/ingestion/lz/inbound
-        ## logging.path: target/ingestion/logs
-        logging.path: target/ingestion/logs
-    data-access:
-        <<: *DATA-ACCESS-LOCAL
-        sli.ingestion.staging.clearOnCompletion: transformed
-    misc:
-        <<: *MISC-LOCAL
-
-
-local-pit:
-    api:
-        <<: *API-LOCAL
-    dashboard:
-        <<: *DASHBOARD-LOCAL
-    ingestion:
-        <<: *INGESTION-TEAM
-        sli.ingestion.nodeType: pit
-        ## landingzone.inbounddir: target/ingestion/lz/inbound
-        landingzone.inbounddir: target/ingestion/lz/inbound
-        ## logging.path: target/ingestion/logs
-        logging.path: target/ingestion/logs
-
-    data-access:
-        <<: *DATA-ACCESS-LOCAL
-    misc:
-        <<: *MISC-LOCAL
 
 #
 # Configuration to support running an ldap server locally
