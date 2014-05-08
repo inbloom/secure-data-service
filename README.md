@@ -85,6 +85,7 @@ Setup your Mongo DBs
   - It is important that this be run from the directory where it exists
   - `cd $SLI_ROOT/config/scripts`
   - `./resetAllDbs.sh`
+  - **NOTE:**  You must restart the API service whenever you reset the Mongo DBs
 
 Bringing Up Services
 ====================
