@@ -15,6 +15,33 @@ def convertTenantIdToDbName(tenantId)
   return Digest::SHA1.hexdigest tenantId
 end
 
+##parses complexTypes.xsd and returns a hash of {tableName => [list,of,fields]}
+##for fields that are pii
+def getPiiFields()
+
+  encryptedPiiFields = {}
+
+  f = File.open(COMPLEX_TYPES);
+  doc = Nokogiri.XML(f)
+  doc.xpath('//xs:complexType').each do |complexType|
+    ctName = "#{complexType.attribute('name')}"
+    complexType.xpath('xs:sequence/xs:element').each do |element|
+      fieldName = "#{element.attribute('name')}"
+      piiNode = element.xpath('xs:annotation/xs:appinfo/sli:PersonallyIdentifiableInfo')
+      if !piiNode.empty? and piiNode.text =~ /true/
+        field = "body.#{fieldName}"
+        if encryptedPiiFields[ctName] == nil
+          encryptedPiiFields[ctName] = [field]
+        else
+          encryptedPiiFields[ctName].push(field)
+        end
+      end
+    end
+  end
+  f.close
+  encryptedPiiFields
+end
+
 ###################################################
 # Section to setup necessary env vars and overrides
 
@@ -31,6 +58,7 @@ OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
 TENANT_COLLECTION = [convertTenantIdToDbName("Midgar"), convertTenantIdToDbName("Hyrule"), convertTenantIdToDbName("Security"), convertTenantIdToDbName("Other"), convertTenantIdToDbName("Zork"), convertTenantIdToDbName("SLI"), convertTenantIdToDbName("T1"), convertTenantIdToDbName("T2"), convertTenantIdToDbName("T3"), convertTenantIdToDbName("mreynolds"), convertTenantIdToDbName("chaos_mokey_org"), convertTenantIdToDbName("fakedev_zork_net")]
 
+ENCRYPTED_PII_FIELDS = getPiiFields()
 #######################################################
 
 if ENV['HEADLESS'] 
@@ -99,38 +127,6 @@ def system_collection?(collection)
   %w(tenant realm securityEvent application roles tenantJobLock userSession userAccount).include? collection
 end
 
-##parses complexTypes.xsd and returns a hash of {tableName => [list,of,fields]}
-##for fields that are pii
-def getPiiFields()
-
-  encryptedPiiFields = {}
-
-  f = File.open(COMPLEX_TYPES);
-  doc = Nokogiri.XML(f)
-  doc.xpath('//xs:complexType').each do |complexType|
-    ctName = "#{complexType.attribute('name')}"
-    complexType.xpath('xs:sequence/xs:element').each do |element|
-      fieldName = "#{element.attribute('name')}"
-      piiNode = element.xpath('xs:annotation/xs:appinfo/sli:PersonallyIdentifiableInfo')
-      if !piiNode.empty? and piiNode.text =~ /true/
-        field = "body.#{fieldName}"
-        if encryptedPiiFields[ctName] == nil
-          encryptedPiiFields[ctName] = [field]
-        else
-          encryptedPiiFields[ctName].push(field)
-        end
-      end
-    end
-  end
-  f.close
-
-  encryptedPiiFields
-end
-
-task :testGetPii do
-  puts getPiiFields
-end
-
 
 def set_fixture(collection, fixture_name=nil, fixture_path='test/data', drop=true)
   disable_NOTABLESCAN
@@ -145,14 +141,15 @@ def set_fixture(collection, fixture_name=nil, fixture_path='test/data', drop=tru
 
   # These fields are encrypted after we import the sandbox data
   # this is a map of tablename -> field name
-  encryptedPiiFields = getPiiFields();
 
-  if encryptedPiiFields[collection] != nil
+  if ENCRYPTED_PII_FIELDS[collection] != nil
 
     puts "ENCRYPTING TABLE #{collection}"
 
     encryptionToolProcess = IO.popen(ENCRYPT_TOOL_COMMAND, "w+")
-    encryptFields(db_used, collection, encryptedPiiFields[collection], encryptionToolProcess)
+    encryptFields(db_used, collection, ENCRYPTED_PII_FIELDS[collection], encryptionToolProcess)
+
+    Process.kill('SIGALRM', encryptionToolProcess.pid)
 
   end
 end
