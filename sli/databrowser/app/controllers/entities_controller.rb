@@ -32,6 +32,10 @@ class EntitiesController < ApplicationController
       @search_field = "studentUniqueStateId"
     when /staff/
       @search_field = "staffUniqueStateId"
+    when /teacherByName/
+      @search_field = "name.lastSurname"
+    when /teacher/
+      @search_field = "staffUniqueStateId"
     when /parents/
       @search_field = "parentUniqueStateId"
     when /educationOrganizations/
