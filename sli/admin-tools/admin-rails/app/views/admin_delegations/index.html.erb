@@ -1,29 +1,24 @@
-  <h2>Delegate District Privileges</h2>
-  <h4>District <%= @edorgName %></h4>
+<h2>Delegate District Privileges</h2>
+<h4>District <%= @edorgName %></h4>
 
-  <p>Delegate district level privileges to a State Super Administrator</p>
+<p>Delegate district level privileges to a State Super Administrator</p>
 
-  <div id="notice">
-	<%= notice %>
-</div>
-  <p />
-  <%= form_for @admin_delegation, :html=> {:class => "form-horizontal", :role => "form"} do |f| %>
+<%= form_for @admin_delegation, :html=> {:class => "form-horizontal", :role => "form"} do |f| %>
     <%= f.hidden_field :localEdOrgId %>
 
-      <div class = "form-group">
-        <div class="col-sm-4">
-          <div class="checkbox">
-            <label>
-                <%= f.check_box :viewSecurityEventsEnabled %> View Security Events
-            </label>
-          </div>
+    <div class = "form-group">
+      <div class="col-sm-4">
+        <div class="checkbox">
+          <label>
+            <%= f.check_box :viewSecurityEventsEnabled %> View Security Events
+          </label>
         </div>
       </div>
+    </div>
 
-      <div class = "form-group">
-          <div class="col-sm-4">
+    <div class = "form-group">
+      <div class="col-sm-4">
         <%= f.submit "Save", :class => "btn btn-primary" %>
       </div>
 
-  <% end %>
-
+<% end %>
