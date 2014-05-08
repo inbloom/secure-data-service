@@ -1,21 +1,3 @@
-=begin
-#--
-
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end
 require "active_resource/base"
 # This is the main controller of the Databrowser.
 # We try to "Wrap" all api requests in this one single point
@@ -45,7 +27,7 @@ class EntitiesController < ApplicationController
     when /staffByName/
       @search_field = "name.lastSurname"
     when /edOrgByName/
-      @search_field = "stateOrganizationId"
+      @search_field = "nameOfInstitution"
     when /students/
       @search_field = "studentUniqueStateId"
     when /staff/
@@ -55,30 +37,30 @@ class EntitiesController < ApplicationController
     when /educationOrganizations/
       @search_field = "stateOrganizationId"
     end
-    params[:other] = params[:search_type] if @search_field
+      params[:other] = params[:search_type] if @search_field
     if params[:search_type] == "studentByName"
       Entity.url_type = "students"
     elsif params[:search_type] == "staffByName"
-        Entity.url_type = "staff"
+      Entity.url_type = "staff"
     elsif params[:search_type] == "teacherByName"
-        Entity.url_type = "teachers"
+      Entity.url_type = "teachers"
     elsif params[:search_type] == "edOrgByName"
-        Entity.url_type = "educationOrganizations"
+      Entity.url_type = "educationOrganizations"
     else
       Entity.url_type = params[:other]
     end
-    params.delete(:search_type)
-    Entity.format = ActiveResource::Formats::JsonLinkFormat
+      params.delete(:search_type)
+      Entity.format = ActiveResource::Formats::JsonLinkFormat
   end
 
   # Ignoring some of the complicated parts, is we use the configured
   # model from set_url to make the Api call to get the data from the Api.
   #
   # Because we are trying to be generic with the data we get back, we handle
-  # two special cases. The first is if params is 'home' which is a 
+  # two special cases. The first is if params is 'home' which is a
   # special home page in the Api. So if we call that we, render the index
   # page instead of the normal 'show'.
-  # 
+  #
   # Second, if we only got one entity back, like the data for a single student
   # we go ahead and wrap that up into an array with that as the only element so
   # that our view logic can be simpler.
@@ -90,7 +72,7 @@ class EntitiesController < ApplicationController
   # Second, if we see any offset in params then we make the call to
   # grab the next page of data from the Api.
   def show
-    
+
     # This section was put here for pagination. It sets the offset to 0 if not
     # set and then has a session and params variable for the limit. If the params
     # limit is set, it takes precedence. If there is no limit, the default is set
@@ -106,7 +88,7 @@ class EntitiesController < ApplicationController
     elsif params[:limit].nil? and !session[:limit].nil?
       params[:limit] = session[:limit]
     end
-    
+
     @page = Page.new
     if params[:search_id] && @search_field
       @entities = []
@@ -137,7 +119,7 @@ class EntitiesController < ApplicationController
       format.js #show.js.erb
     end
   end
-  
+
   private
   def clean_up_results(entities)
     tmp = entities
