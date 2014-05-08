@@ -122,12 +122,13 @@ Start Search Indexer
 
 Import Data
 -----------
+### Required Steps
+  - `cd $SLI_ROOT/acceptance-tests`
+  - `bundle install`
+  - `bundle exec rake realmInit` 
 
 ### Option 1:  Rake approach
   - Less hassle, but keys are assigned (not generated from the natural key data members as usual)
-  - `cd $SLI_ROOT/acceptance-tests`
-  - `bundle install`
-  - `bundle exec rake realmInit`
   - `bundle exec rake importSandboxData`
 
 ### Option 2:  Ingestion approach
