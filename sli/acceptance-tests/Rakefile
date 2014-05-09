@@ -180,15 +180,15 @@ end
 
 ##encrypts a single value or every value in a Hash
 def recursiveEncrypt(document, encryptionToolProcess)
-
   value = document
   if value.is_a?(Hash)
     value.each do |key, val|
        value[key]=recursiveEncrypt(val, encryptionToolProcess)
     end
-  else if value != nil
-    value = encryptField(value, encryptionToolProcess)
-       end
+  elsif value.is_a?(Array)
+    value = value.map {|item| recursiveEncrypt(item, encryptionToolProcess)}
+  else
+    value = encryptField(value, encryptionToolProcess) if value
   end
   value
 end
