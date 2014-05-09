@@ -69,6 +69,7 @@ When /^I make an API call to change the Student address to "([^"]*)"$/ do |arg1|
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   
   dataH = JSON.parse(@res.body)
+  require 'pry';binding.pry
   @receivedAddress = dataH['address']
   assert(dataH != nil, "Result of JSON parsing is nil")
   dataH['address'] = [Hash["streetNumberName" => arg1,
