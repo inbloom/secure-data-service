@@ -70,6 +70,7 @@ Examples:
 	|"jcarlyle"|"jcarlyle1234"|"NY" |"NY-Parker"|"Malcolm Haehn NY"|
 	|"mhahn"   |"mhahn1234"   |"NY" |"NY-Dusk"  |"Larissa Marney" |
 
+@wip
 Scenario Outline: Aggregate Viewer getting their available district data
 
 Given I am logged in using <Username> <Password> to realm <Realm>
