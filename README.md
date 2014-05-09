@@ -21,6 +21,7 @@ ActiveMQ
   - Used as a processor for ingestion
   - Required to be running locally
   - Stomp must be activated.  Add `<transportConnector name="stomp" uri="stomp://0.0.0.0:61613"/>` to the conf/activemq.xml file in the `<transportConnectors>` block if it isn't there already
+  - You can start ActiveMQ with the following command (executed from apache-activemq-5.8.0/):  `bin/activemq console`
 
 libxml2-dev and libxslt-dev
 ---------------------------
