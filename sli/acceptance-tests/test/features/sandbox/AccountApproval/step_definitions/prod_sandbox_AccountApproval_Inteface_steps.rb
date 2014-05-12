@@ -33,8 +33,8 @@ Given /^I navigate to the account management page$/ do
   @driver.get url
 end
 
-Given /^LDAP server has been setup and running$/ do
-  @email = "devldapuser"+get_mac_address('_')+"@slidev.org"
+Given /^the LDAP server has been setup and running$/ do
+  @email = "devldapuser_"+get_mac_address('_')+"@slidev.org"
   @ldap = ldap_storage
 end
 
@@ -121,16 +121,17 @@ Given /^there is a "([^"]*)" production account request for vendor "([^"]*)"$/ d
 end
 
 Then /^I see one account with name "([^"]*)"$/ do |user_name|
- user_name = user_name+"_"+get_mac_address('_')
-  puts "And i am looking to find the element with id username.", user_name
-  user=@driver.find_element(:id,"username."+user_name)
-  assert(user.text==user_name,"didnt find the account with name #{user_name}")
-  @user_name=user_name
+  local_user_name = user_name + "_"+get_mac_address('_')
+  div_id = "username.#{local_user_name}"
+  user = @driver.find_element(:id, div_id)
+  puts "username div text = #{user.text}"
+  assert(user.text == local_user_name, "didnt find the account with name #{local_user_name}")
+  @user_name = local_user_name
 end
 
 Then /^his account status is "([^"]*)"$/ do |arg1|
-  status=@driver.find_element(:id,"status."+@user_name)
-  assert(status.text==arg1,"user account status is not #{arg1}")
+  status = @driver.find_element(:id, "status." + @user_name)
+  assert(status.text == arg1, "user account status is not #{arg1}")
 end
 
 When /^I click the "([^"]*)" button$/ do |button_name|
@@ -166,7 +167,7 @@ end
 
 
 
-Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
+Given /^there is an approved sandbox account for vendor "([^"]*)"$/ do |vendor|
  clear_users()
   sleep(1)
   user_info = {

@@ -1,55 +1,48 @@
 <p id="error_notice"><%= @error_notice %></p>
 <p id="notice"><%= @notice %></p>
 <div class="page-header">
-    <h1>Authorize Developer Account</h1>
+  <h1>Authorize Developer Account</h1>
 </div>
-<p></p>
-<h4>Manage which developers can access inBloom.</h4>
+<h4>Manage which developers can access inBloom</h4>
 <p>&nbsp;</p>
-<table id="Account_Management_Table" class="table table-striped">
+<table id="Account_Management_Table" class="table table-hover">
   <thead>
-  	<tr>
-        <th id="user_name">Username</th>
-  		<th id="vendor">Vendor</th>
-        <th id="email">Email Address</th>
-  		<th id="last_update">Last Update</th>
-  		<th id="status">Status</th>
-  		<th id="action">Actions</th>
-  	</tr>
-	</thead>
-	<tbody>
-	<% if @account_managements!=nil and @account_managements.length>0%>
-	<% @account_managements.each do |account_management| %>
-	<tr>
-      <td class="user_name" id="<%= 'username.'+account_management.name%>"><%= account_management.name%></td>
-      <td class="vendor"><%= account_management.vendor%></td>
-      <td class="email"><%= account_management.email%></td>
-		<td class="last_update"><%= account_management.lastUpdate%></td>
-		<% if account_management.status.downcase == "approved"%>
-		<td id="<%='status.'+account_management.name%>" class="account_management_table_approvedStatus"><%= account_management.status%></td>
-		<% elsif account_management.status.downcase == "pending"%>
-		<td id="<%='status.'+account_management.name%>" class="account_management_table_pendingStatus"><%= account_management.status%></td>
-		<% elsif account_management.status.downcase == "rejected"%>
-		<td id="<%='status.'+account_management.name%>" class="account_management_table_rejectedStatus"><%= account_management.status%></td>
-		<% elsif account_management.status.downcase == "disabled"%>
-		<td id="<%='status.'+account_management.name%>" class="account_management_table_disabledStatus"><%= account_management.status%></td>
-		<% end%>
-		<td><%=
-		form_for "" do |f|
-		%>
-		<%= f.hidden_field "email", :name=>"email", :value => account_management.email %>
-		<%= f.submit "Approve",:id=> "approve_button_"+account_management.name,:disabled => (account_management.transitions.index("approve")==nil),
-      :confirm => "Do you really want to approve this user account?", :class => "btn" %>
-		<%= f.submit "Reject",:id=> "reject_button_"+account_management.name,:disabled => (account_management.transitions.index("reject")==nil),
-      :confirm => "Do you really want to reject this user account?", :class => "btn btn-danger"%>
-      <%= f.submit "Disable",:id=> "disable_button_"+account_management.name,:disabled => (account_management.transitions.index("disable")==nil),
-      :confirm => "Do you really want to disable this user account?", :class => "btn btn-warning"%>
-      <%= f.submit "Enable",:id=> "enable_button_"+account_management.name,:disabled => (account_management.transitions.index("enable")==nil),
-      :confirm => "Do you really want to enable this user account?", :class => "btn"%>
-		<% end %>
-	</tr>
-	<% end %>
-	<% end %>
-	</tbody>
+  <tr>
+    <th id="user_name">Username</th>
+    <th id="email">Email Address</th>
+    <th id="vendor">Vendor</th>
+    <th id="last_update">Last Update</th>
+    <th id="status">Status</th>
+    <th id="action">Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% if @account_managements!=nil and @account_managements.length > 0 %>
+      <% @account_managements.each do |account_management| %>
+          <tr>
+            <td class="user_name" id="<%= 'username.'+account_management.name %>"><%= account_management.name %></td>
+            <td class="email"><%= account_management.email.truncate(50) %></td>
+            <td class="vendor"><%= account_management.vendor.truncate(25) if !account_management.vendor.nil? %></td>
+            <td class="last_update"><%= I18n.localize(account_management.lastUpdate, format: :date_only) %></td>
+            <td class="status" id="<%= 'status.' + account_management.name %>"><%= account_management.status %></td>
+            <td>
+              <%= form_for "" do |f| %>
+                  <%= f.hidden_field "email", :name => "email", :value => account_management.email %>
+                  <% case account_management.transitions[0] %>
+                    <% when "disable" %>
+                        <%= f.submit "Disable", :id => "disable_button_"+account_management.name, :confirm => "Do you really want to disable this user account?", :class => "btn btn-warning" %>
+                    <% when "approve" %>
+                        <%= f.submit "Approve", :id => "approve_button_"+account_management.name, :confirm => "Do you really want to approve this user account?", :class => "btn btn-primary" %>
+                    <% when "reject" %>
+                        <%= f.submit "Reject", :id => "reject_button_"+account_management.name, :confirm => "Do you really want to reject this user account?", :class => "btn btn-danger" %>
+                    <% when "enable" %>
+                        <%= f.submit "Enable", :id => "enable_button_"+account_management.name, :confirm => "Do you really want to enable this user account?", :class => "btn btn-success" %>
+                    <% else %>
+                  <% end %>
+              <% end %>
+            </td>
+          </tr>
+      <% end %>
+  <% end %>
+  </tbody>
 </table>
-<br />

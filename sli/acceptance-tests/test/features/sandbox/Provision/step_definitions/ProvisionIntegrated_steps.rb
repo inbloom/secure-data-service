@@ -92,7 +92,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 end
 
 
-Given /^LDAP server has been setup and running$/ do
+Given /^the LDAP server has been setup and running$/ do
   @ldap = ldap_storage
   @email_sender_name= 'Administrator'
   @email_sender_address= 'noreply@slidev.org'
