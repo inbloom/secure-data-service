@@ -4,7 +4,7 @@
 <%= form_for(@new_account_password, :html => {:class => 'form-horizontal', :role => 'form'}) do |f| %>
     <% if @new_account_password.errors.any? %>
         <div id="error_explanation">
-          <p><%= pluralize(@forgot_password.errors.count, "error") %> prohibited you from resetting your password</p>
+          <p><%= pluralize(@new_account_password.errors.count, "error") %> prohibited you from resetting your password</p>
 
           <ul>
             <% @new_account_password.errors.full_messages.each do |msg| %>

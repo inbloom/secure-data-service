@@ -185,7 +185,7 @@ end
 
 Given /^there is already a tenant with tenantId "(.*?)" in mongo$/ do |tenantId|
   clear_tenant
-  create_tenant(tenantId,"sandbox_edorg_2")
+  create_tenant_for_ed_org(tenantId, "sandbox_edorg_2")
 end
 
 Given /^there is already a edorg with stateOrganizationId "(.*?)" in mongo$/ do |stateOrganizationId|
@@ -216,7 +216,7 @@ end
 
 Given /^there is a landing zone for the "(.*?)" in mongo$/ do |edorgId|
   clear_tenant
-  create_tenant(@tenantId,edorgId)
+  create_tenant_for_ed_org(@tenantId,edorgId)
 end
 
 Given /^there is a landing zone for the "(.*?)" in LDAP$/ do |edorg|
@@ -428,7 +428,7 @@ def assertText(text)
   assert(body.text.include?(text), "Cannot find the text \"#{text}\"")
 end
 
-def create_tenant (tenantId,edorgId)
+def create_tenant_for_ed_org(tenantId, edorgId)
   tenant_entity =
       {
           "_id" => "2012lr-80a2ba9a-b9b6-11e1-a6ba-68a86d3e6628",

@@ -2,7 +2,7 @@ Feature: SLC operator approves/disables sandbox accounts using the account appro
 
 Background: 
 Given I have an open web browser
-And the LDAP server has been setup and running
+And an LDAP server has been setup and running
 
 @production
 Scenario: production account management tool is disabled in prod
