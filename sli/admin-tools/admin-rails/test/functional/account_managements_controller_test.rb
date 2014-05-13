@@ -30,7 +30,7 @@ class AccountManagementsControllerTest < ActionController::TestCase
       am.name = account["name"]
       am.vendor = account["vendor"]
       am.email = account["email"]
-      am.lastUpdate = account["lastUpdate"]
+      am.lastUpdate = DateTime.parse(account["lastUpdate"])
       am.status = account["status"]
       am.transitions = account["transitions"]
       am
