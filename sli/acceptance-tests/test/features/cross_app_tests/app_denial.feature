@@ -1,9 +1,9 @@
 @integration
 @RALLY_US215
-  Feature: User being denied access to sample app
+Feature: User being denied access to sample app
   
   
-	Scenario: Application developer allows sunset access to the sample apps
+Scenario: Application developer allows sunset access to the sample apps
   Given I have an open web browser
   #Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
   When I hit the Application Registration Tool URL
