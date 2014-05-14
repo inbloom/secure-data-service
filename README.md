@@ -74,7 +74,7 @@ Build the main part of the system
 ---------------------------------
   - `cd {git_root}/sli`
   - `mvn clean install -DskipTests [-Dsli.env=local-ldap-server]`
-  - Use the (optional) '-Dsli.env=local-ldap-server' flag to use configs for the ldap-in-memory component (https://github.com/inbloom/ldap-in-memory)
+  - Use the (optional) '-Dsli.env=local-ldap-server' flag to use configs for the ldap-in-memory component (https://github.com/inbloom/ldap-in-memory).  Optionally, use -Dsli.env=local-sandbox-ldap-server if you intend to run the sandbox version locally.  The list of available configurations are at $SLI_ROOT/config/config.in/canonical_config.yml
 
 Set the `SLI_ROOT` variable
 ---------------------------
