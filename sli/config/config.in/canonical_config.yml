@@ -128,7 +128,7 @@ default:
         sli.mongodb.pass:
         sli.perf.mongodb.database: apiPerf
         ## sli.perf.mongodb.host: {host}
-        sli.perf.mongodb.host: jenkins.slidev.org
+        sli.perf.mongodb.host: localhost
         sli.perf.mongodb.port: 27017
 
         #Connection pool

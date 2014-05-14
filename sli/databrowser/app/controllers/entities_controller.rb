@@ -121,6 +121,17 @@ class EntitiesController < ApplicationController
       @entities= clean_up_results(@entities)
     end
     if params[:other] == 'home'
+      user_id, collection, links = get_user_entity_id_collection_and_links
+      logger.debug{"user_id: #{user_id}"}
+      logger.debug{"collection: #{collection}"}
+      logger.debug{"links: #{links}"}
+      get_user_ed_orgs(links, collection)
+      if collection != "students"
+        
+        @is_a_student = false
+      else
+        @is_a_student = true
+      end
       render :index
       return
     end
@@ -142,6 +153,100 @@ class EntitiesController < ApplicationController
     if entities.is_a?(Hash)
       tmp = Array.new()
       tmp.push(entities)
+    end
+    tmp
+  end
+
+  private
+  def get_user_entity_id_collection_and_links
+    body = JSON.parse(@entities.http_response.body)
+    # get the link to self
+    logger.debug{"Body{'links']: #{body['links']}"}
+    logger.debug{"get_user_entity_id_collection_and_links"}
+    self_url = get_url_from_hateoas_array(body['links'],'self')
+    *garbage, user_id, collection = self_url.split('/')
+    # check for students, as student self link is arranged in reverse order
+    if user_id == 'students'
+      temp = collection
+      collection = user_id
+      user_id = temp
+    end
+    return user_id, collection, body['links']
+  end
+
+  private
+  def get_url_from_hateoas_array(hateoas_array,target)
+    logger.debug{"Target URL Key #{target}"}
+    target_url=""
+    #find the correct url
+    logger.debug{"HATEOAS array: #{hateoas_array}"}
+    hateoas_array.each do |e|
+      if e['rel'] == target
+        logger.debug {"found #{target}"}
+	      target_url = e['href']
+      end
+    end
+    logger.debug{"URL from hateoas array: #{target_url}"}
+    #strip hostname/api/rest/v1
+    target_url.partition("v1.5/").last
+  end
+
+  #This function is used to set the values for EdOrg table for Id, name, parent and type fields in the homepage
+  private
+  def get_user_ed_orgs(links, collection)
+    @edOrgArr = []
+    userEdOrgs  = get_edorgs(links,collection)
+    #Looping through EdOrgs and sending an API call to get the parent EdOrg attributes associated EdOrg Id
+    userEdOrgs.each do |edOrg|
+      #logger.debug{"get_user_ed_orgs"}
+      #logger.debug{"This edorg: #{edOrg}"}
+      #logger.debug{"cleanup"}
+      #edOrg = clean_up_results(edOrg)
+      #logger.debug{"This edorg: #{edOrg}"}
+      #if collection == 'students'
+       # @edOrgArr.push({"EdOrgs Id"=>edOrg["id"],"EdOrgs Name"=>edOrg["nameOfInstitution"], "EdOrgs Type"=>edOrg["entityType"],"EdOrgs Parent"=>get_parent_edorg_name(edOrg), "EdOrgs URL"=>get_url_from_hateoas_array(edOrg,'self')})
+      # else  
+      @edOrgArr.push({"EdOrgs Id"=>edOrg["id"],"EdOrgs Name"=>edOrg["nameOfInstitution"], "EdOrgs Type"=>edOrg["entityType"],"EdOrgs Parent"=>get_parent_edorg_name(edOrg), "EdOrgs URL"=>get_url_from_hateoas_array(edOrg['links'],'self')})
+      #edOrg =edOrg[0]
+      #logger.debug{'Array contents: EdOrgs Id '}
+      #logger.debug{edOrg['id']}
+      #logger.debug{"Array contents: EdOrgs Name #{edOrg['nameOfInstitution']}"}
+        #, "EdOrgs Type"=>edOrg["entityType"],"EdOrgs Parent"=>get_parent_edorg_name(edOrg), "EdOrgs URL"=>get_url_from_hateoas_array(edOrg['links'],'self')}"}
+      #@edOrgArr.push({'EdOrgs Id'=>'edorg ID goes here','EdOrgs Name'=>'edorg name goes here', 'EdOrgs Type'=>'edorg type goes here','EdOrgs Parent'=>'Parent edorg name goes here', 'EdOrgs URL'=>'URL to edog goes here'})
+      #end
+    end
+  end
+
+  #This function is used to run an API call to fetch the values of attributes associated with Entity Id
+  private
+  def get_edorgs(links,collection)
+    #The URL to get edOrgs
+    logger.debug{"get_edorgs"}
+    if collection =='students'
+      Entity.url_type = get_url_from_hateoas_array(links,'getSchools')
+    else
+      Entity.url_type = get_url_from_hateoas_array(links,'getEducationOrganizations')
+    end
+    user_edorgs = Entity.get("")
+    user_edorgs = clean_up_results(user_edorgs)
+  end
+
+  private
+  def get_parent_edorg_name(edorg)
+    edorg_name = 'N/A'
+    if !edorg['parentEducationAgencyReference'].nil?
+      parent_edorg_id = edorg['parentEducationAgencyReference'][0]
+      logger.debug{"Parent ID: #{parent_edorg_id}"}
+      Entity.url_type = "educationOrganizations/#{parent_edorg_id}"
+      edorg_name = Entity.get("")['nameOfInstitution']
+    end
+    edorg_name
+  end
+  private
+  def strip_wrapping_array(item)
+    tmp = item
+    if item.is_a?(Array)
+      tmp = item[0]
     end
     tmp
   end

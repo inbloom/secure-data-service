@@ -425,6 +425,7 @@ task :apiAndSecurityTests => [
                               :onboardingTests,
                               :apiMegaTests,
                               :v1SecurityEventTests,
+                              :apiIngestionJobTests,
                               :runAssmtSearchIndexer ] do
   display_failure_report
 end
@@ -577,10 +578,11 @@ task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/databrowser_selective_deny.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
-  runTests("test/features/databrowser/student_authentication.feature")
+  #runTests("test/features/databrowser/student_authentication.feature")
   runTests("test/features/databrowser/databrowser_external_idp_login.feature") unless Property['ci_artifact_idp_type'].nil? || Property['ci_artifact_idp_type'].downcase == 'none'
   runTests("test/features/databrowser/databrowser_breadcrumbtrail.feature")
   runTests("test/features/databrowser/databrowser_homepagecounts.feature")
+  runTests("test/features/databrowser/databrowser_homepageEdOrgsTable.feature")
   display_failure_report
 end
 
@@ -597,6 +599,14 @@ end
 desc "Run tests for countOnly URLs"
 task :apiCountOnlyTests => [] do
   runTests("test/features/apiV1/countOnly/countOnly.feature")
+end
+
+# ingestionJob api calls obtain data about previously run ingestion jobs:
+# files processed, records ingested, # errors encountered, etc.
+desc "Run tests for ingestion job data"
+task :apiIngestionJobTests => [] do
+  :turnOnNOTABLESCAN
+  runTests("test/features/apiV1/ingestionJob/ingestionJob.feature")
 end
 
 desc "Run Device and Agent Tests"
@@ -1043,6 +1053,15 @@ task :importSandboxData do
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 
   Rake::Task["runSearchBulkExtract"].execute
+end
+
+desc "Import ingestion_batch_job data to newBatchJob"
+task :importNewBatchJobData do
+  DB_NAME = "ingestion_batch_job"
+  ingestion_data = %w(
+    newBatchJob
+  )
+  set_fixtures(ingestion_data, 'test/data')
 end
 
 desc "Import Migration Test Data to Midgar"
