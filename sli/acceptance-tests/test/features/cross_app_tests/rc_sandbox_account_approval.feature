@@ -11,11 +11,7 @@ Scenario: As a slc operator I disable an approved sandbox account
   Then I am redirected to "Simple" login page
   When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
   Then I should be on Portal home page
-  Then I should see Admin link
-  And I click on Admin
-  Then the portal should be on the admin page
   And I click on Approve Account
-  And I switch to the iframe
   Then I should be on the Authorize Developer Account page
   And I should see an account with name "RCTest Developer"
   And her account status is "approved"
