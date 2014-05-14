@@ -4,7 +4,7 @@
     <parent>
         <artifactId>common</artifactId>
         <groupId>org.slc.sli.common</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.15.100.31</version>
     </parent>
 
     <artifactId>sli-common</artifactId>
