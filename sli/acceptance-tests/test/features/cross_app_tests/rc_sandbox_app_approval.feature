@@ -34,9 +34,6 @@ Then I am redirected to the Application Registration Tool page
 Then "NotTheAppYoureLookingFor" is enabled for "5" education organizations
 
 #Full Window App
-Then the portal should be on the admin page
-And under System Tools, I click on "Apps"
-Then I am redirected to the Application Registration Tool page
 And I have clicked to the button New
 And I am redirected to a new application page
 When I entered the name "Schlemiel" into the field titled "Name"
