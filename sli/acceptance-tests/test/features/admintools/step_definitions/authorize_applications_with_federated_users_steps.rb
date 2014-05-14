@@ -20,7 +20,7 @@ require_relative 'capybara_setup.rb'
 require 'selenium-webdriver'
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
-require_relative '../../cross_app_tests/step_definitions/sli_session_share_steps.rb'
+# require_relative '../../cross_app_tests/step_definitions/sli_session_share_steps.rb'
 
 require 'pry'
 
