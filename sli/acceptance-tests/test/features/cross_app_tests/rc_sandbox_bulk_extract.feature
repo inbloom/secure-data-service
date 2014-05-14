@@ -25,8 +25,7 @@ Feature: Users can receive bulk extracts in sandbox mode
     And "<Pre-installed Bulk Extract App Name>" is enabled for "2" education organizations
 
     #Add Bulk Extract role to IT Admin
-    And under System Tools, I click on "Create Custom Roles"
-    And I switch to the iframe
+    And under System Tools, I click on "Custom Roles"
     And I edit the group "IT Administrator"
     When I add the right "BULK_EXTRACT" to the group "IT Administrator"
     And I hit the save button

@@ -16,7 +16,7 @@ Feature:  RC Integration Tests - Test Parent Login
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page
     Then I should be on Portal home page
-    And under System Tools, I click on "Create Custom Roles"
+    And under System Tools, I click on "Custom Roles"
     When I edit the group "Parent"
     And I check the admin role box
     And I hit the save button
