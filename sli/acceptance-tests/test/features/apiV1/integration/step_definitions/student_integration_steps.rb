@@ -234,8 +234,8 @@ Given /^I am using api version "(.*?)"$/ do |version|
 end
 
 Given /^I set the userSession clientId to nil$/ do
-  conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
-  sli = conn.db("sli")
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
+  sli = conn.db('sli')
   coll = sli["userSession"]
   entity = coll.find_one({"body.appSession.token" => @sessionId})
   assert(entity, "cant find userSession with token #{@sessionId}")
@@ -781,8 +781,8 @@ Then(/^I PATCH entities and check return code$/) do |table|
 end
 
 Given /^I get the rights for the "(.*?)" role in realm "(.*?)"$/ do |role, realm|
-  @conn             = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
-  @db               = @conn['02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a']
+  @conn             = Mongo::Connection.new(Property[:db_host], Property[:db_port])
+  @db               = @conn[convertTenantIdToDbName('Midgar')]
   @roles_collection = @db.collection('customRole')
   puts "DEBUG: roles_collection is: #{@roles_collection}"
  #45b02cb0-1bad-4606-a936-094331bd47fe

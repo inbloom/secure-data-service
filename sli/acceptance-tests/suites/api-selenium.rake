@@ -3,7 +3,7 @@ task :adminWebTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
 
   allLeaAllowApp("Mobile App")
-  authorizeEdorg("Mobile App")
+  authorize_ed_org("Mobile App")
   #runTests("test/features/admintools/security_events.feature")
   runTests("test/features/admintools/authorize_applications_with_federated_users.feature")
   runTests("test/features/admintools/accountRequest.feature")
@@ -16,7 +16,6 @@ task :adminWebTests => [:realmInit] do
   runTests("test/features/admintools/custom_role_mapping.feature")
   runTests("test/features/admintools/delegate_privileges.feature")
   runTests("test/features/admintools/realm_management.feature")
-  runTests("test/features/admintools/enable_and_authorize_apps_directly_by_edorg.feature")
   runTests("test/features/admintools/enable_and_authorize_bulk_extract_apps_directly_by_edorg.feature")
   runTests("test/features/admintools/encrypted_session_cookie.feature")
   runTests("test/features/admintools/ProvisioningApplication_Interface.feature")

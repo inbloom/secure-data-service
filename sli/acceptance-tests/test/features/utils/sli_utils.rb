@@ -220,7 +220,7 @@ def restHttpHead(id, extra_headers = nil, format = @format, sessionId = @session
   client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
   private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
 
-  urlHeader = makeUrlAndHeaders('head',id,sessionId,format,true)
+  urlHeader = makeUrlAndHeaders('head',id,sessionId,format)
   
   header = urlHeader[:headers]
   header.merge!(extra_headers) if extra_headers !=nil
@@ -311,7 +311,7 @@ def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId, 
   private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
   puts sessionId
 
-  urlHeader = makeUrlAndHeaders('get',url,sessionId,format,true)
+  urlHeader = makeUrlAndHeaders('get',url,sessionId,format)
 
   header = urlHeader[:headers]
   header.merge!(extra_headers) if extra_headers !=nil
@@ -402,13 +402,10 @@ def restHttpDeleteAbs(url, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
-def makeUrlAndHeaders(verb,id,sessionId,format, ssl_mode = false)
+def makeUrlAndHeaders(verb,id,sessionId,format)
   headers = makeHeaders(verb, sessionId, format)
   
-  property_name = 'api_server_url'
-  property_name = 'api_ssl_server_url' if ssl_mode
-
-  url = Property[property_name]+"/api/rest"+id
+  url = "#{Property[:api_server_url]}/api/rest#{id}"
   puts(url, headers) if $SLI_DEBUG
 
   return {:url => url, :headers => headers}
@@ -748,48 +745,6 @@ module EntityProvider
 
 end
 
-module X509
-  def self.newApp(clientId, trustStore)
-    cert_path = File.expand_path("../keys/#{clientId}.crt", __FILE__)
-    key_path = File.expand_path("../keys/#{clientId}.key", __FILE__)
-
-    puts "Generating key pair for app: #{clientId}"
-    `openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout #{key_path} -out #{cert_path} -subj "/C=UA/ST=Denial/L=gru/O=pnewed/CN=*.slidev.org"`
-    puts "New Certificate created at #{cert_path}"
-    puts "New Private Key created at #{key_path}"
-    
-    puts "importing generating cert into trust store #{trustStore}"
-    `keytool -import -file #{cert_path} -keystore #{trustStore} -alias #{clientId} -storepass changeit -noprompt` 
-    
-  end
-  
-  def self.cleanse(clientId, trustStore)
-    cert_path = File.expand_path("../keys/#{clientId}.crt", __FILE__)
-    key_path = File.expand_path("../keys/#{clientId}.key", __FILE__)
-    
-    puts "Deleting #{clientId} from #{trustStore}"
-    `keytool -delete -alias #{clientId} -keystore #{trustStore} -storepass changeit -noprompt`
-    
-    puts "Cleaning up Certificate from file system at #{cert_path}"
-    `rm #{cert_path}`
-    puts "Cleaning up Private Key from file system at #{key_path}"
-    `rm #{key_path}`
-
-  end  
-end
-######################
-######################
-### Create uuids that can be used thusly:  @db['collection'].find_one( '_id' => id_from_juuid("e5420397-908e-11e1-9a9d-68a86d2267de"))
-def id_from_juuid(uuid)
-  hex = uuid.gsub(/[-]+/, '')
-  msb = hex[0, 16]
-  lsb = hex[16, 16]
-  msb = msb[14, 2] + msb[12, 2] + msb[10, 2] + msb[8, 2] + msb[6, 2] + msb[4, 2] + msb[2, 2] + msb[0, 2]
-  lsb = lsb[14, 2] + lsb[12, 2] + lsb[10, 2] + lsb[8, 2] + lsb[6, 2] + lsb[4, 2] + lsb[2, 2] + lsb[0, 2]
-  hex = msb + lsb;
-  BSON::Binary.new([hex].pack('H*'), BSON::Binary::SUBTYPE_UUID)
-end
-
 ######################
 ### create a deep copy of entity data used in API CRUD tests
 def deep_copy(o)
@@ -844,61 +799,18 @@ end
 
 
 Then /^I check to find if record is in sli db collection:$/ do |table|
-   check_records_in_sli_collection(table)
+  check_records_in_sli_collection(table)
 end
-
 
 def check_records_in_sli_collection(table)
-  disable_NOTABLESCAN()
-  #First cut. Method has to be optimised. Connection should be cached.
-  secConn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
-  secDb = secConn.db('sli')
-  result = "true"
-  table.hashes.map do |row|
-      entity_collection = secDb.collection(row["collectionName"])
-      if row["searchValue"].empty?
-          # ignore checks with empty value
-          next
+  DbClient.new(:allow_table_scan => true).for_sli.open do |db|
+    table.hashes.map do |row|
+      unless row['searchValue'].empty?
+        count = db.count(row['collectionName'], {row['searchParameter'] => {'$in' => [row['searchValue']]}})
+        count.should == row['expectedRecordCount'].to_i
       end
-      entity_count = entity_collection.find( {row["searchParameter"] => {"$in" => [row["searchValue"]]}}).count().to_s
-      if  entity_count.to_s != row["expectedRecordCount"].to_s
-          result = "false"
-          red = "\e[31m"
-          reset = "\e[0m"
-          STDOUT.puts "#{red}There are " + entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"] + ". Expected: " + row["expectedRecordCount"].to_s + "#{reset}"
-      end
-  end
-  secConn.close
-  assert(result == "true", "Some records are not found in collection.")
-  enable_NOTABLESCAN()
-end
-
-# Returns whether the expected number of results are returned
-# and ALL the results contain the specified field and value
-def resultsContain?(field, value, expected_count = 1)
-  matches_all = true
-  results = JSON.parse @res
-
-puts "The results:"
-puts results.to_s
-
-  # handle non-array single result - not tested
-  if ! results.is_a? Array
-    results = [results]
-  end
-
-  if results.count != expected_count
-    return false
-  end
-
-  results.each { |result|
-    if result[field] != value
-      matches_all = false
-      break
     end
-  }
-
-  return matches_all
+  end
 end
 
 # Get a new instance of the LDAPStorage given the global properties
@@ -910,15 +822,14 @@ def ldap_storage
   )
 end
 
-When /^I (enable|disable) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action,edOrgName,tenant|
-  disable_NOTABLESCAN()
-  db = @conn[convertTenantIdToDbName(tenant)]
-  coll = db.collection("educationOrganization")
-  record = coll.find_one("body.nameOfInstitution" => edOrgName.to_s)
-  enable_NOTABLESCAN()
-  edOrgId = record["_id"]
-  elt = @driver.find_element(:id, edOrgId)
-  assert(elt, "Educational organization element for '" + edOrgName + "' (" + edOrgId + ") not found")
-  assert(action == "enable" && !elt.selected? || action == "disable" && elt.selected?, "Cannot " + action + " educationalOrganization element with id '" + edOrgId + "' whose checked status is " + elt.selected?.to_s())
-  elt.click()
+When /^I (enable|disable) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action, ed_org_name, tenant|
+  ed_org_id = DbClient.new(:tenant => tenant, :allow_table_scan => true).open do |db|
+    ed_org = db.find_one('educationOrganization', 'body.nameOfInstitution' => ed_org_name)
+    ed_org ? ed_org['_id'] : nil
+  end
+  ed_org_id.should_not be_nil
+  elt = @driver.find_element(:id, ed_org_id)
+  elt.should_not be_nil
+  (action == 'enable' && !elt.selected? || action == 'disable' && elt.selected?).should be_true, "Cannot #{action} educationalOrganization element with id '#{ed_org_id}' whose checked status is #{elt.selected?}"
+  elt.click
 end

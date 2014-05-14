@@ -90,7 +90,7 @@ default:
         sli.tenant.ingestionServers: localhost
         sli.tenant.landingZoneMountPoint: /ingestion/lz
         ## sli.landingZone.server: {host}
-        sli.landingZone.server: devpantheon.slidev.org
+        sli.landingZone.server: landingZone
 
         # User a negative number for unlimited
         sli.useraccount.maximum: 500

@@ -18,7 +18,8 @@ limitations under the License.
 
 require 'mongo'
 
-require_relative '../../../utils/mongo_utils.rb'
+DATABASE_HOST = Property[:db_host]
+DATABASE_PORT = Property[:db_port]
 
 #############################################################################################
 # After Steps

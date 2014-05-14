@@ -28,7 +28,7 @@ Then /^I should be redirected to the Realm page$/ do
 end
 
 Then /^I should be redirected to the Dashboard landing page$/ do
-  @expected_url = getBaseUrl() + Property['dashboard_landing_page'];
+  @expected_url = "#{getBaseUrl}/"
   @explicitWait ||= Selenium::WebDriver::Wait.new(:timeout => 10)  
   assertWithWait("Failed to navigate to "+@expected_url)  { @driver.current_url == @expected_url }
 end

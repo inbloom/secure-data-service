@@ -136,7 +136,7 @@ When /^I update some assessment records in mongo$/ do
   }
   
 
-  conn = Mongo::Connection.new(Property["ingestion_db"], Property["ingestion_db_port"])
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   @mdb = conn.db(MIDGAR_DB_NAME)
   
   # update the assessment entity with id is e33ce38ad4136e409b426b1ffe7781d09aed2aec_id
@@ -396,19 +396,18 @@ Then /^no search results are returned$/ do
 end
 
 Given /^I import into tenant collection$/ do
-  tenants = ["Midgar", "Hyrule"]
-  dbname = Property["api_database_name"]
-  db = Mongo::Connection.new(Property["DB_HOST"], Property["DB_PORT"])[dbname]
-  tenants.each do |tenant|
-    doc = generateTenantDoc(tenant)
-    db['tenant'].insert(doc) if db['tenant'].find_one({"body.tenantId" => tenant}).nil?
+  tenants = ['Midgar', 'Hyrule']
+  DbClient.new.for_sli.open do |db|
+    tenants.each do |tenant|
+      doc = generateTenantDoc(tenant)
+      db.insert(:tenant, doc) unless db.find_one(:tenant, {'body.tenantId' => tenant})
+    end
   end
 end
 
 Given /^I clear the tenants that I previously imported$/ do
   tenants = ["Midgar", "Hyrule"]
-  dbname = Property["api_database_name"]
-  db = Mongo::Connection.new(Property["DB_HOST"], Property["DB_PORT"])[dbname]
+  db = Mongo::Connection.new(Property[:db_host], Property[:db_port])['sli']
   tenants.each do |tenant|
     id = convertTenantIdToDbName(tenant)
     db['tenant'].remove("_id" => id)

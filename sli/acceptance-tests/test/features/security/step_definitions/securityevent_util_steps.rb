@@ -23,8 +23,8 @@ require 'mongo'
 require_relative '../../utils/sli_utils.rb'
 
 Given /^the sli securityEvent collection is empty$/ do
-  coll = securityEventCollection()
-  coll.remove()
+  coll = securityEventCollection
+  coll.remove
 end
 
 Then /^a security event matching "([^"]*)" should be in the sli db$/ do |securityeventpattern|
@@ -50,9 +50,11 @@ Then /^"([^"]*)" security event with field "([^"]*)" matching "([^"]*)" should b
 end
 
 def securityEventCollection
-  db ||= Mongo::Connection.new(Property['DB_HOST']).db('sli')
-  coll ||= db.collection('securityEvent')
-  return coll
+  puts "Connecting to Mongo #{Property[:db_host]}:#{Property[:db_port]}"
+  db = Mongo::Connection.new(Property[:db_host],Property[:db_port]).db('sli')
+  db.collection_names.each { |name| puts name }
+  puts "securityEvent count: #{db.collection('securityEvent').count}"
+  db.collection('securityEvent')
 end
 
 def getMatchingSecEvents(field="body.logMessage", securityeventpattern)
@@ -61,18 +63,17 @@ def getMatchingSecEvents(field="body.logMessage", securityeventpattern)
     return secEventCount
 end
 
-And /^a security event "([^"]*)" should be created for these targetEdOrgs( ONLY)?$/ do |expectedEvent, only, table|
-  coll = securityEventCollection()
-  secEvent = coll.find({}, :fields => ["body.logMessage", "body.targetEdOrgList"]).sort("body.timeStamp" => :desc).next_document
-  secEventMessage      = secEvent["body"]["logMessage"]
-  secEventTargetEdOrgs = secEvent["body"]["targetEdOrgList"]
-  scenarioTargetEdOrgs = table.hashes.map {|e| e["targetEdOrg"]}
-  inScenarioButNotInSecEvents = scenarioTargetEdOrgs - secEventTargetEdOrgs
-  assert(secEventMessage == expectedEvent,        "Expected latest Security Event to be [" + expectedEvent + "]. Found [" + secEventMessage + "].");
-  assert(inScenarioButNotInSecEvents.length == 0, "Some targetEdOrgs [" + inScenarioButNotInSecEvents.join(",") + "] were not found in latest SecurityEvent [" + secEventMessage + "].");
+And /^a security event "([^"]*)" should be created for these targetEdOrgs( ONLY)?$/ do |expected_event, only, table|
+  latest_event = securityEventCollection.find({}, :fields => ['body.logMessage', 'body.targetEdOrgList']).sort('body.timeStamp' => :desc).next_document
+  message      = latest_event['body']['logMessage']
+  event_ed_orgs = latest_event['body']['targetEdOrgList'] || []
+  expected_ed_orgs = table.hashes.map {|e| e['targetEdOrg']}
+
+  message.should == expected_event
   if only
-      inSecEventsButNotInScenario =   secEventTargetEdOrgs -  scenarioTargetEdOrgs
-      assert(inSecEventsButNotInScenario.length == 0, "Some EXTRA targetEdOrgs [" + inSecEventsButNotInScenario.join(",") + "] were found in latest SecurityEvent [" + secEventMessage + "].");
+    event_ed_orgs.should =~ expected_ed_orgs
+  else
+    event_ed_orgs.should include(*expected_ed_orgs)
   end
 end
 

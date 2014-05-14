@@ -254,11 +254,10 @@ Then /^I paste Valid json config into the text box$/ do
 end
 
 When /^I logout$/ do
-  # current logout functionaly means delete all the cookies
+  # current logout functionally means delete all the cookies
   @driver.manage.delete_all_cookies
-  browser = Property['browser'].downcase
   # cannot delete httponly cookie in IE
-  if (browser == "ie")
+  if @driver.browser == :ie
     @driver.quit
     @driver = Selenium::WebDriver.for :ie
   end

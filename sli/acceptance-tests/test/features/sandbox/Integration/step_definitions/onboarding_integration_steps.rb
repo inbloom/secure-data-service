@@ -82,12 +82,12 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 end
 
 Given /^I have a SMTP\/Email server configured$/ do
-  @live_email_mode="live"
-  @email_sender_name= "Administrator"
-  @email_sender_address= "noreply@slidev.org"
+  @live_email_mode = 'live'
+  @email_sender_name= 'Administrator'
+  @email_sender_address= 'noreply@slidev.org'
   @email_conf = {
-    :host =>  Property['email_smtp_host'],
-    :port => Property['email_smtp_port'],
+    :host =>  Property[:email_smtp_host],
+    :port => Property[:email_smtp_port],
     :sender_name => @email_sender_name,
     :sender_email_addr => @email_sender_address
   }
@@ -96,7 +96,7 @@ end
 Given /^I go to the sandbox account registration page$/ do
   #the user registration path need to be fixed after talk with wolverine
 
-  @admin_url = Property['admintools_server_url']
+  @admin_url = Property[:admintools_server_url]
   url=@admin_url+"/user_account_registrations/new"
   @prod = false
   initializeApprovalAndLDAP(@email_conf, @prod)

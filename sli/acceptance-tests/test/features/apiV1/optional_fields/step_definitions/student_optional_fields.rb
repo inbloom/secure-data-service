@@ -16,7 +16,6 @@ limitations under the License.
 
 =end
 
-
 require 'rest-client'
 require 'json'
 require_relative '../../../utils/sli_utils.rb'
@@ -27,14 +26,14 @@ require_relative '../../entities/common.rb'
 ###############################################################################
 
 Transform /^<(.+)>$/ do |template|
-  id = template
-  id = "706ee3be-0dae-4e98-9525-f564e05aa388_id" if template == "SECTION ID"
-  id = "706ee3be-0dae-4e98-9525-f564e05aa388_idbac890d6-b580-4d9d-a0d4-8bce4e8d351a_id" if template == "STUDENT SECTION ASSOC ID"
-  id = "53777181-3519-4111-9210-529350429899" if template == "COURSE ID"
-  id = "fef10fc3-9dee-4bd9-ac9b-88bf3e850841" if template == "COURSE OFFERING ID"
-  id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb" if template == "SCHOOL ID"
-  id = "74cf790e-84c4-4322-84b8-fca7206f1085_id" if template == "STUDENT_ID"
-  id
+  case template
+    when 'SECTION ID'; '706ee3be-0dae-4e98-9525-f564e05aa388_id'
+    when 'STUDENT SECTION ASSOC ID'; '706ee3be-0dae-4e98-9525-f564e05aa388_idbac890d6-b580-4d9d-a0d4-8bce4e8d351a_id'
+    when 'COURSE ID'; '53777181-3519-4111-9210-529350429899'
+    when 'COURSE OFFERING ID'; 'fef10fc3-9dee-4bd9-ac9b-88bf3e850841'
+    when 'SCHOOL ID'; 'a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb'
+    when 'STUDENT_ID'; '74cf790e-84c4-4322-84b8-fca7206f1085_id'
+  end
 end
 
 ###############################################################################
@@ -42,12 +41,12 @@ end
 ###############################################################################
 
 Given /^optional field "([^\"]*)"$/ do |field|
-  if !defined? @queryParams
+  unless @queryParams
     @queryParams = [ "views=#{field}" ]
   else
-    @fields = @queryParams[0].split("=")[1];
-    @fields = @fields + ",#{field}"
-    @queryParams[0] = "views=#{@fields}"
+    fields = @queryParams.first.split('=').last
+    fields << ",#{field}"
+    @queryParams[0] = "views=#{fields}"
   end
 end
 
@@ -63,28 +62,19 @@ When /^I go back up one level$/ do
   @col = @colStack.pop
 end
 
-
 When /^I go into the item with the property "([^\"]*)" having the value "([^\"]*)"$/ do |key, value|
-  bool = false
-  @col.each do |col|
-    if col[key] == value
-      @col = col
-      bool = true
-      break
-    end
-  end
-  assert(bool, "No item found with having a #{key} with the value #{value}")
+  @col = @col.detect{|col| col[key] == value}
+  @col.should_not be_nil, "No item found with having a #{key} with the value #{value}"
 end
-
 
 #################################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 #################################################################################
 
 Then /^I should receive a collection of "([^"]*)" entities$/ do |number_of_entities|
-  assert(@result != nil, "Response contains no data")
-  assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-  assert(@result.length == Integer(number_of_entities), "Expected response of size #{number_of_entities}, received #{@result.length}: #{@result}");
+  @result.should_not be_nil, 'Response contains no data'
+  @result.should be_a_kind_of(Array)
+  @result.length.should be(number_of_entities.to_i)
   @col = @result
 end
 
@@ -112,21 +102,18 @@ Then /^I should see "([^\"]*)" is "([^\"]*)" in one of them$/ do |key, value|
 end
 
 Then /^I should see "([^\"]*)" is "([^\"]*)" in it$/ do |key, value|
-  assert(@col[key].to_s == value.to_s, "Expected #{value}, received #{@col[key]}")
+  @col[key].to_s.should == value
 end
 
 Then /^I should find "([\d]*)" "([^\"]*)"$/ do |count, collection|
-  #if !defined? @col
-  #  @col = @result
-  #end
   if @result.is_a?(Hash)
     @col = @result[collection]
   elsif @result.is_a?(Array)
     @col = @result
     steps "Then I should find \"#{count}\" \"#{collection}\" in one of them"
   end
-  assert(@col != nil, "Response contains no #{collection}")
-  assert(@col.length == convert(count), "Expected #{count} #{collection}, received #{@col.length}")
+  @col.should_not be_nil, "Response contains no #{collection}"
+  @col.length.should == count.to_i
 end
 
 Then /^I should find "([\d]*)" "([^\"]*)" in it$/ do |count, collection|
@@ -144,62 +131,33 @@ Then /^I should find "([\d]*)" "([^\"]*)" in one of them$/ do |count, collection
       break
     end
   end
-  assert(found, "Cannot find #{collection} with a size of #{count}")
+  found.should be_true, "Cannot find #{collection} with a size of #{count}"
 end
 
 Then /^I should find "([^\"]*)" expanded in each of them$/ do |key|
-  @col.each do |col|
-    assert(col[key] != nil, "Response contains no #{key}")
-  end
+  @col.each { |col| col[key].should_not be_nil, "Response contains no #{key}" }
 end
 
 Then /^I should find "([^\"]*)" expanded in it$/ do |key|
-  assert(@col[key] != nil, "Element contains no #{key}")
+  @col[key].should_not be_nil, "Element contains no #{key}"
 end
 
 Then /^I should find one with the property "([^\"]*)" having the value "([^\"]*)"$/ do |key, value|
-  bool = false
-  @col.each do |col|
-    if col[key] == value
-      bool = true
-    end
-  end
-  assert(bool, "No item found with having a #{key} with the value #{value}")
+  @col.any? {|col| col[key] == value}.should be_true, "No item found with having a #{key} with the value #{value}"
 end
-
 
 Then /^I should find "([^\"]*)" expanded in element "([\d]*)"$/ do |key, index|
-  assert(@col[convert(index)][key] != nil, "Response contains no #{key}")
+  @col[convert(index)][key].should_not be_nil, "Response contains no #{key}"
 end
 
-
 Then /^inside "([^\"]*)"$/ do |key|
-  if !defined? @col
-    @col = @result
-  end
-  if !defined? @colStack
-    @colStack = []
-  end
-  @colStack.push @col
+  @col ||= @result
+  @colStack ||= []
+  @colStack << @col
   @col = @col[key]
 end
 
-Then /^I should see the year "([\d]*)" in none of the attendance entries$/ do |year|
-  bool = true
-  @col.each do |col|
-    if col["eventDate"].include? year.to_s
-      bool = false
-    end
-  end
-  assert(bool, "Found some attendance data in the year #{year}")
-end
-
-Then /^I should see the year "([\d]*)" in some of the attendance entries$/ do |year|
-  bool = false
-  @col.each do |col|
-    if col["eventDate"].include? year.to_s
-      bool = true
-    end
-  end
-  assert(bool, "Cannot find attendance data in the year #{year}")
+Then /^I should see the year "([\d]*)" in (some|none) of the attendance entries$/ do |year, some_or_none|
+  some = (some_or_none == 'some')
+  @col.any? {|col| col['eventDate'].include? year}.should be(some)
 end

@@ -27,8 +27,8 @@ class DbClient
 
   # Valid options are :host, :port, :tenant or :db_name, :allow_table_scan (true/false)
   def initialize(options={})
-    host = options[:host] || Property['DB_HOST'] || 'localhost'
-    port = options[:port] || Property['DB_PORT'] || 27017
+    host = options[:host] || Property[:db_host] || 'localhost'
+    port = options[:port] || Property[:db_port] || 27017
 
     @conn = Mongo::Connection.new(host, port)
     @db = @conn[ derive_db_name(options) ]
@@ -56,7 +56,7 @@ class DbClient
   end
 
   def for_sli
-    @db = @conn[Property[:sli_database_name]]
+    @db = @conn['sli']
     self
   end
 
@@ -110,8 +110,8 @@ class DbClient
     db[collection].update(query, document, flags)
   end
 
-  def remove(collection, query)
-    db[collection].remove query
+  def remove(collection, query, flags={})
+    db[collection].remove(query, flags)
   end
 
   def remove_all(collection, flags={})

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -14,7 +14,7 @@
 	<properties>
 		<VERSION_NUMBER>1.0-SNAPSHOT</VERSION_NUMBER>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.assembly.version>2.2-beta-5</maven.assembly.version>
+		<maven.assembly.version>2.4</maven.assembly.version>
 	</properties>
 	<build>
 		<plugins>
@@ -22,7 +22,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>2.4</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -70,7 +70,8 @@
 							<descriptors>
 								<descriptor>assembly/zip.xml</descriptor>
 							</descriptors>
-						</configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
 					</execution>
 				</executions>
 			</plugin>

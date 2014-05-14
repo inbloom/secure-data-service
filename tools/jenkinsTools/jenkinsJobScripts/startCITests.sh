@@ -9,11 +9,12 @@ show_usage() {
     echo "  -m MODE        : Mode of the applications. production or sandbox"
     echo "  -a APPS        : List of Applications to deploy"
     echo "  -w WORKSPACE   : Specify Workspace if jenkins is not the one running this script"
+    echo "  -p PROPERTIES  : Specify location of test properties file if not /etc/datastore/test-properties.yml"
     echo "  -h             : Show this usage summary and exit"
 }
 
 process_opts() {
-    while getopts "t:m:a:w:h:" opt; do
+    while getopts "t:m:a:w:p:h:" opt; do
         case $opt in
             d)
                 CODEDIR=$OPTARG
@@ -54,6 +55,9 @@ process_opts() {
             w)
                 WORKSPACE=$OPTARG
                 ;;
+            p)
+                PROPERTIES=$OPTARG
+                ;;
             h)
                 show_usage
                 exit
@@ -76,6 +80,10 @@ process_opts() {
 process_opts $@
 
 HOSTNAME=`hostname -s`
+
+if [[ -z "$PROPERTIES" ]]; then
+	PROPERTIES="/etc/datastore/test-properties.yml"
+fi
 
 declare -A deployHash
 deployHash=( [api]="$WORKSPACE/sli/api/target/api.war"
@@ -209,7 +217,7 @@ runTests()
   cd $WORKSPACE/sli/acceptance-tests
   export LANG=en_US.UTF-8
   bundle install --deployment
-  bundle exec rake FORCE_COLOR=true $@
+  bundle exec rake --trace FORCE_COLOR=true $@
 }
 
 
@@ -230,7 +238,7 @@ if [[ "$TEST" == "ci" ]]; then
   done
   echo "Waiting for APPS to finish deploying"
   sleep 120
-  runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz TOGGLE_TABLESCANS=true smokeTests
+  runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz TOGGLE_TABLESCANS=true smokeTests
   EXITCODE=$?
 fi
 
@@ -251,7 +259,7 @@ if [[ "$TEST" == "ci_e2e_prod" ]]; then
   done
   echo "Waiting for APPS to finish deploying"
   sleep 120
-  runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz rcTests
+  runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz rcTests
   EXITCODE=$?
 fi
 
@@ -272,7 +280,7 @@ if [[ "$TEST" == "ci_e2e_sandbox" ]]; then
   done
   echo "Waiting for APPS to finish deploying"
   sleep 120
-  runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz rcSandboxTests
+  runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz rcSandboxTests
   EXITCODE=$?
 fi
 
@@ -289,7 +297,7 @@ if [[ "$TEST" == "api_contextual_roles" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiContextualRolesTests
+	runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiContextualRolesTests
   EXITCODE=$?
 fi
 
@@ -306,7 +314,7 @@ if [[ "$TEST" == "api_odin" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiOdinTests
+	runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiOdinTests
   EXITCODE=$?
 fi
 
@@ -323,7 +331,7 @@ if [[ "$TEST" == "bulk_extract" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz bulkExtractTests
+	runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz bulkExtractTests
   EXITCODE=$?
 fi
 
@@ -340,7 +348,7 @@ if [[ "$TEST" == "api_and_security" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests PROPERTIES=/etc/datastore/test-properties.yml apiAndSecurityTests
+	runTests PROPERTIES=$PROPERTIES apiAndSecurityTests
   EXITCODE=$?
 fi
 
@@ -358,7 +366,7 @@ if [[ "$TEST" == "admin" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests PROPERTIES=/etc/datastore/test-properties.yml adminToolsTests
+	runTests PROPERTIES=$PROPERTIES adminToolsTests
   EXITCODE=$?
 fi
 
@@ -375,7 +383,7 @@ if [[ "$TEST" == "dashboard" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests PROPERTIES=/etc/datastore/test-properties.yml localDashboardTests
+	runTests PROPERTIES=$PROPERTIES localDashboardTests
   EXITCODE=$?
 fi
 
@@ -393,7 +401,7 @@ if [[ "$TEST" == "databrowser" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests PROPERTIES=/etc/datastore/test-properties.yml databrowserTests
+	runTests PROPERTIES=$PROPERTIES databrowserTests
   EXITCODE=$?
 fi
 
@@ -410,7 +418,7 @@ if [[ "$TEST" == "ingestion" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests PROPERTIES=/etc/datastore/test-properties.yml ingestionTests
+	runTests PROPERTIES=$PROPERTIES ingestionTests
   EXITCODE=$?
 fi
 
@@ -429,7 +437,7 @@ if [[ "$TEST" == "sandbox" ]]; then
   done
 	echo "Waiting for APPS to finish deploying"
 	sleep 120
-	runTests PROPERTIES=/etc/datastore/test-properties.yml bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz sandboxTests
+	runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz sandboxTests
   EXITCODE=$?
 fi
 exit $EXITCODE

@@ -105,10 +105,8 @@ end
 
 Then /^the documents should be sub\-doc'ed in a "([^\"]*)" document$/ do |container_doc|
   disable_NOTABLESCAN
-  host = Property['ingestion_db']
-  port = Property['ingestion_db_port']
   db_name = convertTenantIdToDbName('Midgar')
-  conn = Mongo::Connection.new(host, port)
+  conn = Mongo::Connection.new(Property[:db_host], Property[:db_port])
   midgar_db = conn.db(db_name)
   container_coll = midgar_db.collection(container_doc)
   @entities.each do |entity|

@@ -44,20 +44,6 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id
 end
 
-
-
-
-
-###############################################################################
-# BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE
-###############################################################################
-
-Before do
-  DB_NAME = Property['api_database_name']
-  DB_HOST = Property['DB_HOST']
-  DB_PORT = Property['DB_PORT']
-end
-
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
@@ -89,7 +75,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   else 
     assert(false,"Unexpected entity type: " + arg1)
   end
-
 end
 
 ###############################################################################
@@ -97,8 +82,8 @@ end
 ###############################################################################
 
 Then /^there should be (\d+) records in the "([^\"]*)" collection$/ do |count, collection|
-  DbClient.new.for_sli.open do |db_client|
-    db_client.count(collection).should == count.to_i
+  DbClient.new.for_sli.open do |db|
+    db.count(collection).should == count.to_i
   end
 end
 
@@ -111,39 +96,20 @@ end
 
 Then /^"([^\"]*)" should exist$/ do |arg1|
   @result = @res if !defined? @result
-
   assert(@result.has_key?(arg1), "Expected '#{arg1}' field should exist")
 end
 
 Then /^"([^\"]*)" should not exist$/ do |arg1|
   @result = @res if !defined? @result
-
   assert(@result.has_key?(arg1) == false, "Expected '#{arg1}' field should not exist")
 end
 
-
 Then /^the entity should have a version of "([^\"]*)" in the database$/ do |arg1|
   @result = @res if !defined? @result
-
-  @conn = Mongo::Connection.new(DB_HOST)
-  @db = @conn[convertTenantIdToDbName('Midgar')]
-  @entity_collection = @db["educationOrganization"]
-
-  assert(@entity_collection.find({"_id" => @newId, "metaData.tenantId" => "Midgar"}).count == 1, "Entity with version number not found")
-  #assert(@entity_collection.find({"_id" => @newId, "metaData.version" => arg1}).count == 1, "Entity with version number not found")
-
+  DbClient.new(:tenant=>'Midgar').open do |db|
+    db.count('educationOrganization',{'_id' => @newId, 'metaData.tenantId' => 'Midgar'}).should == 1
+  end
 end
-
-
-
-###############################################################################
-# AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER
-###############################################################################
-
-After do
-  @conn.close if !@conn.nil?
-end
-
 
 
 
