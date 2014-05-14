@@ -98,7 +98,7 @@ Examples:
 | "IL"  | "john_doe" | "john_doe1234" | "Watson Elementary School"  | "Ted Bear"       | 403  |
 
 #Section
- 
+@wip
 Scenario Outline: Authenticated Educator makes API call to get own list of Sections 
 Given I am logged in using <Username> <Password> to realm <Realm> 
 And I have a Role attribute that equals "Educator" 

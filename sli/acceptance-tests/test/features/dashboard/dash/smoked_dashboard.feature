@@ -33,6 +33,7 @@ And the class for id "attendances.absenceCount" for student "Mi-Ha Tran" is "col
 And the count for id "attendances.tardyCount" for student "Mi-Ha Tran" is "0"
 And the class for id "attendances.tardyCount" for student "Mi-Ha Tran" is "color-widget-darkgreen"
 
+@wip
 Scenario: MEGA SHMOKE - Teacher
 #Selecting classes on LOS
 Given I have an open web browser

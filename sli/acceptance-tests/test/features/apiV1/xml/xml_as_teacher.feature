@@ -22,6 +22,7 @@ Background: Nothing yet
     | studentSectionAssociations  | studentSectionAssociation  | 706ee3be-0dae-4e98-9525-f564e05aa388_idbac890d6-b580-4d9d-a0d4-8bce4e8d351a_id |
     | courseOfferings             | courseOffering             | dc7df8c7-a5f1-48df-9e51-4c45afcc149f    |
 
+@wip
   Scenario Outline: Getting response from GET - Read all
   
 	#ES bug, set this back to zero after bug fix

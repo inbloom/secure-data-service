@@ -7,6 +7,7 @@ Feature: As an SLI application, I want to present links between an association a
     And format "application/vnd.slc+json"
     And parameter "limit" is "0"
 
+@wip
     Scenario Outline: Links to/from end points - single members
     When I navigate to GET "/<ASSOC URI>/<ASSOC ID>"
     Then I should receive a return code of 200

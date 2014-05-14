@@ -52,7 +52,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
 	|sunsetadmin|sunsetadmin1234|LEA Administrator	|SLI		|should			|sunsetingestionuser|
 	|sunsetadmin|sunsetadmin1234|LEA Administrator	|SLI		|should			|sunsetrealmadmin	|
 
- 
+@wip
   @production
   Scenario Outline:  As an administrator I can read all admin accounts in my tenancy if I am a SLC operator or a SEA.  If I am LEA, I can read myself and realm/ingestion users.     
     Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
@@ -359,7 +359,7 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
     |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Application Developer       |403 |Midgar|IL-SUNSET  |
     |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Ingestion User              |403 |Midgar|IL-SUNSET  |
 
-
+@wip
   @production
   Scenario: Unhappy path:  LEA cannot see SEA who has same edorg
   Given I have logged in to realm "SLI" using "iladmin" "iladmin1234"

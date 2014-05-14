@@ -39,6 +39,7 @@ def getPiiFields()
     end
   end
   f.close
+  puts "YOUR ENCRYPTED FIELDS ARE: #{encryptedPiiFields.to_s}"
   encryptedPiiFields
 end
 
@@ -176,6 +177,8 @@ def encryptFields(db_used, collection, fields, encryptionToolProcess)
     collection.remove({'_id' => doc['_id']})
     collection.insert(doc)
   }
+
+  conn.close
 end
 
 ##encrypts a single value or every value in a Hash

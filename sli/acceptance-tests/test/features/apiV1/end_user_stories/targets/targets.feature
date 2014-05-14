@@ -16,6 +16,7 @@ Examples:
   |rrogers    |rrogers1234    |
   |linda.kim  |linda.kim1234  |
 
+@wip
 Scenario Outline: Check targets resolution after reading a teacher by ID
   Given I am logged in using "<User>" "<Password>" to realm "IL"
   And format "application/vnd.slc+json"
@@ -36,6 +37,7 @@ Examples:
   |rrogers     |rrogers1234     |
   |rbraverman  |rbraverman1234  |
 
+@wip
 Scenario Outline: Check targets resolution after reading a student by ID
   Given I am logged in using "<User>" "<Password>" to realm "IL"
   And format "application/vnd.slc+json"

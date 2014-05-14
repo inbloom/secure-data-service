@@ -84,6 +84,7 @@ Examples:
 	|"rlindsey"|"rlindsey1234"|"NY" |"NY-Dusk"    |"Schools in Dusk District"|
 	|"jjackson"|"jjackson1234"|"IL" |"IL-Daybreak"|"South Daybreak Elementary"|
 
+@wip
 Scenario Outline: Aggregate Viewer trying to access non-school info data
 
 Given I am logged in using <Username> <Password> to realm <Realm>

@@ -8,6 +8,7 @@ Assume that Teacher, Student, Section, Assessment entity and associations are av
 
 Background: Using the small data set
 
+@wip
 Scenario Outline: As a teacher or leader I want to see all my students in 3rd period Algebra II class and view StateTest Math 2011 assessment scores
     Given I am logged in using <Username> <Password> to realm "IL"
     Given format "application/json"
