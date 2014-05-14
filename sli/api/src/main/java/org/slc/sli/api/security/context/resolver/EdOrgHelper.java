@@ -29,12 +29,10 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.Arrays;
 
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.resources.security.DelegationUtil;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.EntityOwnershipValidator;
@@ -372,6 +370,12 @@ public class EdOrgHelper {
         Set<String> visitedEdOrgs = new HashSet<String>();
         return getChildEdOrgs(visitedEdOrgs, edOrgs);
     }
+
+	public Set<String> getChildEdOrgs(String edOrg) {
+		Set<String> edOrgs = new HashSet<String>();
+		edOrgs.add(edOrg);
+		return getChildEdOrgs(edOrgs);
+	}
 
     public Set<String> getChildEdOrgs(final Set<String> visitedEdOrgs, Collection<String> edOrgs) {
 

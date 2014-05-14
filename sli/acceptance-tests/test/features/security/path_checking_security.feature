@@ -126,7 +126,7 @@ Scenario Outline: Deny multiple IDs in URI if those IDs are rewritten to query p
 #NOTE: This test will need to be reworked if the API is ever made to support multiple ids in query params
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
      When I call <Path> using ID <IDs>
-     Then I should receive a return code of 413
+     Then I should receive a return code of 400
 
 Examples:
   | Path                                   | IDs                                    |

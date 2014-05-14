@@ -28,6 +28,12 @@ DbRails::Application.routes.draw do
   match '/entities' => 'entities#show', :other => "home"
 
   match '/logout' => 'checks#logout'
+
+  get "count/teacherAssociations/:edorg_id/" => 'count#associations'
+  get "count/teacherAssociations/:edorg_id/teachers" => 'count#teachers'
+
+  get "ingestion" => 'ingestion#list'
+  get "ingestion/:id" => 'ingestion#show'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

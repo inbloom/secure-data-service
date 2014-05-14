@@ -111,6 +111,8 @@
                   value="#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.keystore.password}')}"/>
         <property name="keyStoreType" value="JCEKS"/>
     </bean>
+    
+    <import resource="ingestion-batchjob.xml" />
 
 </beans>
 

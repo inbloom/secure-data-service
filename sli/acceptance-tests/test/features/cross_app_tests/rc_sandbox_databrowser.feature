@@ -23,22 +23,23 @@ Feature: Data Browser
     And under System Tools, I click on "inBloom Data Browser"
     Then I should be redirected to the Data Browser home page
     And I should see the name "Rick Rogers" on the page
-    And I should see my available links labeled
-    And I have navigated to the <Page> of the Data Browser
-      | Page                                       |
-      | GetStaffEducationOrgAssignmentAssociations |
-      | GetStaffProgramAssociations                |
-      | Me                                         |
-    Then I should click on the Home link and be redirected back
-    And I have navigated to the "Me" page of the Data Browser
-    Then I am redirected to the particular entity Detail View
-    When I click on the "GetStaffCohortAssociations" link
-    Then I am redirected to the particular associations Simple View
-    When I click and go back to Home
-    And I click on the "GetEducationOrganizations" link
-    Then I should be on the detailed page for an SEA
-    When I click on the "GetFeederEducationOrganizations" link
-    Then I should be on the detailed page for an LEA
+    #DS-1034 removes the links from the homepage.
+    # And I should see my available links labeled
+    # And I have navigated to the <Page> of the Data Browser
+    #   | Page                                       |
+    #   | Staff Education Organization Associations  |
+    #   | Staff Program Associations                 |
+    #   | Me                                         |
+    # Then I should click on the Home link and be redirected back
+    # And I have navigated to the "Me" page of the Data Browser
+    # Then I am redirected to the particular entity Detail View
+    # When I click on the "Staff Cohort Associations" link
+    # Then I am redirected to the particular associations Simple View
+    # When I click and go back to Home
+    # And I click on the "Education Organizations" link
+    # Then I should be on the detailed page for an SEA
+    # When I click on the "Feeder Education Organizations" link
+    # Then I should be on the detailed page for an LEA
     Then I log out of Databrowser 
     And I navigate to the Portal home page
     Then I should be redirected to the impersonation page
@@ -52,20 +53,21 @@ Feature: Data Browser
     Then the portal should be on the admin page
     And under System Tools, I click on "inBloom Data Browser"
     Then I should be redirected to the Data Browser home page
-    And I should see the name "James Stevenson" on the page
-    And I click on the "GetStaffProgramAssociations" link
-    Then I am redirected to the associations list page
-    And I see a table displaying the associations in a list
-    And those names include the IDs of both "ProgramId" and "StaffId" in the association
-    When I click on the row containing "2012-02-15"
-    Then the row expands below listing the rest of the attributes for the item
-    When I click on the row containing "2012-02-15"
-    Then the row collapses hiding the additional attributes
-    When I click and go back to Home
-    And I have navigated to the "GetStaffProgramAssociations" page of the Data Browser
-    When I click on the row containing "2012-02-15"
-    And I click on the "Me" of any of the associating entities
-    Then I am redirected to a page that page lists all of the "2012-02-15" entity's fields
+    #DS-1034 removes the links from the homepage.
+    # And I should see the name "James Stevenson" on the page
+    # And I click on the "Staff Program Associations" link
+    # Then I am redirected to the associations list page
+    # And I see a table displaying the associations in a list
+    # And those names include the IDs of both "ProgramId" and "StaffId" in the association
+    # When I click on the row containing "2012-02-15"
+    # Then the row expands below listing the rest of the attributes for the item
+    # When I click on the row containing "2012-02-15"
+    # Then the row collapses hiding the additional attributes
+    # When I click and go back to Home
+    # And I have navigated to the "Staff Program Associations" page of the Data Browser
+    # When I click on the row containing "2012-02-15"
+    # And I click on the "Me" of any of the associating entities
+    # Then I am redirected to a page that page lists all of the "2012-02-15" entity's fields
     Then I log out of Databrowser 
     And I navigate to the Portal home page
     Then I should be redirected to the impersonation page
@@ -80,15 +82,16 @@ Feature: Data Browser
     And under System Tools, I click on "inBloom Data Browser"
     Then I should be redirected to the Data Browser home page
     And I should see the name "Amy Kopel" on the page
-    And I click on the "GetEducationOrganizations" link
-    And I click on the "GetParentEducationOrganization" link
-    And I click on the "GetFeederSchools" link
-    When I click on the row containing "Daybreak Central High"
-    And I click on the "Me" of any of the associating entities
-    And I click on the "GetTeachers" link
-    Then I see a "You do not have access to view this." alert box
-    And I click the X
-    Then the error is dismissed
+    #DS-1034 removes the links from the homepage.
+    # And I click on the "Education Organizations" link
+    # And I click on the "Parent Education Organization" link
+    # And I click on the "Feeder Schools" link
+    # When I click on the row containing "Daybreak Central High"
+    # And I click on the "Me" of any of the associating entities
+    # And I click on the "Teachers" link
+    # Then I see a "You do not have access to view this." alert box
+    # And I click the X
+    # Then the error is dismissed
     When I search for the identifier "<BRANDON SUZUKI UNIQUE ID>" in "students"
     Then I should see the text "Brandon"
     And I should see the text "Suzuki"
@@ -138,16 +141,17 @@ Feature: Data Browser
     Then the portal should be on the admin page
     And under System Tools, I click on "inBloom Data Browser"
     Then I should be redirected to the Data Browser home page
-    And I should see the name "Charles Gray" on the page
-    And I should see my available links labeled
-    And I have navigated to the <Page> of the Data Browser
-      | Page                    |
-      | Teacher to Section List |
-      | My Sections             |
-      | Teacher to School List  |
-      | My Schools              |
-      | Me                      |
-    Then I should click on the Home link and be redirected back
+    #DS-1034 removes the links from the homepage.
+    # And I should see the name "Charles Gray" on the page
+    # And I should see my available links labeled
+    # And I have navigated to the <Page> of the Data Browser
+    #   | Page                         |
+    #   | Teacher Section Associations |
+    #   | My Sections                  |
+    #   | Teacher School Associations  |
+    #   | My Schools                   |
+    #   | Me                           |
+    # Then I should click on the Home link and be redirected back
     When I search for the identifier "<CARMEN ORTIZ UNIQUE ID>" in "students"
     Then I should see the text "Carmen"
     And I should see the text "Ortiz"

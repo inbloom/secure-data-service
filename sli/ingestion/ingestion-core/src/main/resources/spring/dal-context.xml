@@ -21,39 +21,7 @@
 
   <util:map id="pii" key-type="java.lang.String" value-type="java.lang.Object"></util:map>
 
-  <bean id="errorWriteConverter" class="org.slc.sli.ingestion.dal.ErrorWriteConverter">
-    <property name="encryptor" ref="entityEncryption" />
-  </bean>
-  <bean id="errorReadConverter" class="org.slc.sli.ingestion.dal.ErrorReadConverter">
-    <property name="encryptor" ref="entityEncryption" />
-  </bean>
-
   <context:component-scan base-package="org.slc.sli.ingestion.dal" />
-
-  <!-- MONGODB BATCHJOB CONFIG -->
-  <mongo:mongo id="batchJobMongo" host="${sli.ingestion.batchjob.mongodb.host}" port="${sli.ingestion.batchjob.mongodb.port}">
-    <mongo:options connections-per-host="${sli.batchjobmongodb.connections}" auto-connect-retry="true"
-      socket-timeout="600000" socket-keep-alive="true" />
-  </mongo:mongo>
-
-  <mongo:db-factory id="mongoDbBatchJobFactory" dbname="${sli.ingestion.batchjob.mongodb.database}"
-    mongo-ref="batchJobMongo" />
-
-  <mongo:mapping-converter id="ErrorMappingConverter" base-package="org.slc.sli.ingestion.dal"
-    db-factory-ref="mongoDbBatchJobFactory">
-    <mongo:custom-converters>
-      <mongo:converter ref="errorReadConverter" />
-      <mongo:converter ref="errorWriteConverter" />
-    </mongo:custom-converters>
-  </mongo:mapping-converter>
-
-  <bean id="batchJobWriteConcernResolver" class="org.slc.sli.ingestion.model.da.BatchJobWriteConcernResolver"></bean>
-
-  <bean id="batchJobMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
-    <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbBatchJobFactory" />
-    <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="ErrorMappingConverter" />
-    <property name="writeConcernResolver" ref="batchJobWriteConcernResolver" />
-  </bean>
 
   <bean id="batchJobHashCacheMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
     <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbBatchJobFactory" />
@@ -61,11 +29,6 @@
     <property name="writeConcern">
       <util:constant static-field="com.mongodb.WriteConcern.SAFE"></util:constant>
     </property>
-  </bean>
-
-  <bean id="batchJobMongoDA" class="org.slc.sli.ingestion.model.da.BatchJobMongoDA">
-    <property name="batchJobMongoTemplate" ref="batchJobMongoTemplate" />
-    <property name="sliMongo" ref="mongoTemplate" />
   </bean>
 
   <bean class="org.slc.sli.aspect.LoggerCarrierAspect" factory-method="aspectOf">

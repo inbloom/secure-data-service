@@ -72,7 +72,8 @@ Scenario: Clicking Logout clears all sessions for an authenticated user
   And I should be redirected to the Data Browser home page
   And I remember the _tla cookie value
   # verify rrogers can do a few things
-  And I click on the "GetStaffProgramAssociations" link
+  And I navigate to myself as user "rrogers" of edorg "Illinois State Board of Education"
+  And I click on the "Staff Program Associations" link
   Then I am redirected to the associations list page
   And I see a table displaying the associations in a list
   # logout as rrogers (clear 2nd session)

@@ -8,7 +8,6 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-  <context:component-scan base-package="org.slc.sli.ingestion" />
   <context:annotation-config />
 
   <!-- Main application context, contains all other contexts in /spring -->

@@ -117,12 +117,13 @@ public class UriMutatorTest {
         when(v1.getPath()).thenReturn("v1");
 
         when(principal.getEntity()).thenReturn(staff);
-        Assert.assertEquals("Bad endpoint of /v1 is redirected to v1/home safely", createMutatedContainer("/home", ""),
-                mutator.mutate(Arrays.asList(v1), null, principal, "nonAdminAppId"));
+        Assert.assertEquals("Bad endpoint of /v1 is redirected to v1/home safely", createMutatedContainer("/home", "").toString(),
+                mutator.mutate(Arrays.asList(v1), null, principal, "nonAdminAppId").toString());
         when(principal.getEntity()).thenReturn(teacher);
-        Assert.assertEquals("Bad endpoint of /v1 is redirected to v1/home safely", createMutatedContainer("/home", ""),
-                mutator.mutate(Arrays.asList(v1), null, principal, "nonAdminAppId"));
+        Assert.assertEquals("Bad endpoint of /v1 is redirected to v1/home safely", createMutatedContainer("/home", "").toString(),
+                mutator.mutate(Arrays.asList(v1), null, principal, "nonAdminAppId").toString());
     }
+    
 
     @Test
     public void testDeterministicRewrite() {
