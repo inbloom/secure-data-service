@@ -11,13 +11,8 @@ Background:
 	And I was redirected to the "Simple" IDP Login page
 	When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page  
     Then I should be on Portal home page
-#    Then I should see Admin link
-#    And I click on Admin
-#    Then the portal should be on the admin page
     And under System Tools, I click on "Landing Zone"
-#    And I switch to the iframe
     When the developer selects to preload "Small Dataset"
-#    And I switch to the iframe
     Then I get the success message
 
 #Verify the file ingested on the Landing Zone
