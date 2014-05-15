@@ -28,6 +28,15 @@ public class MutatedContainer {
 	private Map<String, String> headers = null;
 	private boolean isModified = false;
 
+	public static MutatedContainer generate(String queryParameters,
+			String pathFormat, String... pathArgs) {
+		MutatedContainer rslt = new MutatedContainer();
+		rslt.setQueryParameters(queryParameters != null ? queryParameters : "");
+		String mutatedURL = String.format(pathFormat, (Object[]) pathArgs);
+		rslt.setPath(mutatedURL);
+		return rslt;
+	}
+	
 	public String getPath() {
 		return path;
 	}

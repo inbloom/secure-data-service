@@ -34,15 +34,11 @@ import javax.ws.rs.core.PathSegment;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.api.exceptions.UriMutationException;
-import org.slc.sli.api.resources.security.ApplicationResource;
-import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
@@ -100,28 +96,26 @@ public class UriMutator {
 	@Autowired
 	private GradingPeriodHelper gradingPeriodHelper;
 
-	@SuppressWarnings("unchecked")
-	private static final List<Pair<String, String>> PARAMETER_RESOURCE_PAIRS = Arrays
-			.asList(Pair.of(ParameterConstants.STUDENT_UNIQUE_STATE_ID,
-					ResourceNames.STUDENTS), Pair.of(
-					ParameterConstants.STAFF_UNIQUE_STATE_ID,
-					ResourceNames.STAFF), Pair.of(
-					ParameterConstants.PARENT_UNIQUE_STATE_ID,
-					ResourceNames.PARENTS), Pair.of(
-					ParameterConstants.STATE_ORGANIZATION_ID,
-					ResourceNames.EDUCATION_ORGANIZATIONS));
+	private static final List<Pair<String, String>> PARAMETER_RESOURCE_PAIRS = Arrays.asList(
+			Pair.of(ParameterConstants.STUDENT_UNIQUE_STATE_ID, ResourceNames.STUDENTS),
+			Pair.of(ParameterConstants.STAFF_UNIQUE_STATE_ID, ResourceNames.STAFF),
+			Pair.of(ParameterConstants.PARENT_UNIQUE_STATE_ID, ResourceNames.PARENTS),
+			Pair.of(ParameterConstants.STATE_ORGANIZATION_ID, ResourceNames.EDUCATION_ORGANIZATIONS));
 
 	/**
 	 * Acts as a filter to determine if the requested resource, given knowledge
-	 * of the user requesting it, should be rewritten. Returning null indicates
-	 * that the URI should NOT be rewritten.
+	 * of the user requesting it, should be rewritten. An empty path or 
+	 * queryString in the returned {@link MutatedContainer} indicates they don't
+	 * need to be rewritten. 
 	 * 
 	 * @param segments
 	 *            List of Path Segments representing request URI.
 	 * @param queryParameters
 	 *            String containing query parameters.
-	 * @param user
+	 * @param principal
 	 *            User requesting resource.
+	 * @param clientId
+	 *            The clientId String from the OAuth2 ClientToken.
 	 * @return MutatedContainer representing {mutated path (if necessary),
 	 *         mutated parameters (if necessary)}, where path will be null or
 	 *         parameters the empty string if they didn't need to be rewritten.
@@ -129,14 +123,9 @@ public class UriMutator {
 	public MutatedContainer mutate(List<PathSegment> segments,
 			String queryParameters, SLIPrincipal principal, String clientId) {
 		Entity user = principal.getEntity();
-		MutatedContainer mutated = new MutatedContainer();
-		mutated.setQueryParameters(queryParameters);
-		if (mutated.getQueryParameters() == null) {
-			mutated.setQueryParameters("");
-		}
 
-		Map<String, String> parameters = MutatorUtil.getParameterMap(mutated
-				.getQueryParameters());
+		// First check for mutations dictated by query parameters
+		Map<String, String> parameters = MutatorUtil.getParameterMap(queryParameters);
 		for (Pair<String, String> parameterResourcePair : PARAMETER_RESOURCE_PAIRS) {
 			String parameter = parameterResourcePair.getLeft();
 			String resource = parameterResourcePair.getRight();
@@ -170,31 +159,34 @@ public class UriMutator {
 			}
 		}
 
-		mutated.setPath(null);
-		mutated.setQueryParameters(queryParameters);
+		// Next check for "general mutations"
 		MutatedContainer generalMutation = doGeneralMutations(
 				stringifyPathSegments(segments), queryParameters, user);
-
 		if (generalMutation != null) {
-			mutated = generalMutation;
-		} else if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
+			return generalMutation;
+		}
 
-			if (!shouldSkipMutation(segments, mutated.getQueryParameters(),
-					principal, clientId)) {
+		MutatedContainer mutated;		
+		if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
+
+			if (shouldSkipMutation(segments, queryParameters, principal, clientId)) {
+				// Send a response that indicates no mutation is necessary
+				mutated = new MutatedContainer();
+				mutated.setPath(null);
+				mutated.setQueryParameters(queryParameters);
+			} else {
 				if (segments.size() == 1) {
 					// api/v1
 					mutated = mutateBaseUri(segments.get(0).getPath(),
-							ResourceNames.HOME, mutated.getQueryParameters(),
+							ResourceNames.HOME, queryParameters,
 							user);
 				} else {
-					mutated = mutateBaseUri(segments.get(0).getPath(), segments
-							.get(1).getPath(), mutated.getQueryParameters(),
-							user);
+					mutated = mutateBaseUri(segments.get(0).getPath(), 
+							segments.get(1).getPath(), queryParameters, user);
 				}
 			}
 		} else {
-			mutated = mutateUriAsNecessary(segments,
-					mutated.getQueryParameters(), user);
+			mutated = mutateUriBasedOnRole(segments, queryParameters, user);
 		}
 
 		return mutated;
@@ -208,6 +200,8 @@ public class UriMutator {
 				ResourceNames.EDUCATION_ORGANIZATIONS, ResourceNames.SCHOOLS));
 
 		teacherSectionMutations = new HashMap<String, MutateInfo>() {
+			private static final long serialVersionUID = 1L;
+
 			{
 				// TWO TYPE
 				put(joinPathSegments(PathConstants.ASSESSMENTS,
@@ -422,10 +416,10 @@ public class UriMutator {
 		return skipMutation;
 	}
 
-	private class MutateInfo {
-		String mutatedPathFormat;
-		String mutatedParameter;
-		boolean usePrincipleId;
+	private static class MutateInfo {
+		private final String mutatedPathFormat;
+		private final String mutatedParameter;
+		private final boolean usePrincipleId;
 
 		private MutateInfo(String mutatedPathFormat, String mutatedParameter,
 				boolean usePrincipleId) {
@@ -453,7 +447,7 @@ public class UriMutator {
 
 	/**
 	 * Mutates the API call (not to a base entity) to a more-specific (and
-	 * generally more constrained) URI.
+	 * generally more constrained) URI based on the user's role.
 	 * 
 	 * @param segments
 	 *            List of Path Segments representing request URI.
@@ -465,7 +459,7 @@ public class UriMutator {
 	 *         mutated parameters (if necessary)}, where path or parameters will
 	 *         be null if they didn't need to be rewritten.
 	 */
-	private MutatedContainer mutateUriAsNecessary(List<PathSegment> segments,
+	private MutatedContainer mutateUriBasedOnRole(List<PathSegment> segments,
 			String queryParameters, Entity user)
 			throws IllegalArgumentException {
 		MutatedContainer mutatedPathAndParameters = null;
@@ -483,37 +477,27 @@ public class UriMutator {
 		return mutatedPathAndParameters;
 	}
 
-	private MutatedContainer generateMutatedUrl(String queryParameters,
-			String format, String... args) {
-		MutatedContainer mutated = new MutatedContainer();
-		mutated.setQueryParameters(queryParameters != null ? queryParameters
-				: "");
-		String mutatedURL = String.format(format, args);
-		mutated.setPath(mutatedURL);
-		return mutated;
-	}
-
 	private MutatedContainer doGeneralMutations(List<String> segmentStrings,
 			String queryParameters, Entity user) {
-		MutatedContainer mutated = null;
+		MutatedContainer mutated = null;  // default;  indicates no "general mutations"
 		int segmentSize = segmentStrings.size();
 
 		if (segmentSize == 2) {
 			String baseEntity = segmentStrings.get(1);
 			// does following mutation
 			// v1.2/calendarDates -> v1.2/calendarDates/<user's edOrg Ids>
-			if (baseEntity.equals("calendarDates")) {
-				mutated = generateMutatedUrl(
+			if (baseEntity.equals(PathConstants.CALENDAR_DATES)) {
+				mutated = MutatedContainer.generate(
 						queryParameters,
 						"/educationOrganizations/%s/calendarDates",
 						StringUtils.join(edOrgHelper.getDirectEdorgs(user), ","));
 			} else if (baseEntity.equals(PathConstants.CLASS_PERIODS)) {
-				mutated = generateMutatedUrl(
+				mutated = MutatedContainer.generate(
 						queryParameters,
 						"/educationOrganizations/%s/classPeriods",
 						StringUtils.join(edOrgHelper.getDirectEdorgs(user), ","));
 			} else if (baseEntity.equals(PathConstants.BELL_SCHEDULES)) {
-				mutated = generateMutatedUrl(
+				mutated = MutatedContainer.generate(
 						queryParameters,
 						"/educationOrganizations/%s/bellSchedules",
 						StringUtils.join(edOrgHelper.getDirectEdorgs(user), ","));
@@ -531,7 +515,7 @@ public class UriMutator {
 			// because it wrongly assumes that calendarDate contains a reference
 			// to gradingPeriod.
 			if (baseEntity.equals("gradingPeriods")
-					&& resourceEntity.equals("calendarDates")) {
+					&& resourceEntity.equals(PathConstants.CALENDAR_DATES)) {
 				String[] gradingPeriodIds = segmentStrings.get(2).split(",");
 				List<String> gradingPeriodCalendarDates = gradingPeriodHelper
 						.getCalendarDatesForGradingPeriods(queryParameters,
@@ -812,7 +796,7 @@ public class UriMutator {
 			MutateInfo mutateInfo = teacherSectionMutations.get(joinedSegments);
 			if (mutateInfo != null) {
 				String ids;
-				if (mutateInfo.usePrincipleId) {
+				if (mutateInfo.isUsePrincipleId()) {
 					ids = user.getEntityId();
 				} else {
 					ids = StringUtils.join(
@@ -1560,11 +1544,23 @@ public class UriMutator {
 		return queryValue;
 	}
 
+	/**
+	 * Removes the first occurrence of the specified queryName from the
+	 * specified queryParameters String.  Almost redundant with
+	 * {@link removeQueryParameter}, except that method removes all occurrences.
+	 * 
+	 * @param queryName Name of a parameter to remove from the queryString
+	 * @param queryParameters The full queryString
+	 */
 	private String removeQueryFromQueryParameters(String queryName,
 			String queryParameters) {
 		String queryRegEx = Matcher.quoteReplacement(queryName) + "=[^&]*&?";
-		return queryParameters.replaceFirst(
-				Matcher.quoteReplacement(queryRegEx), "");
+		String rslt = queryParameters.replaceFirst(Matcher.quoteReplacement(queryRegEx), "");
+		if (rslt.endsWith("&")) {
+			// The queryRegEx will leave a trailing & if the removed parameter was the last
+			rslt = rslt.substring(0, rslt.length() - 1);
+		}
+		return rslt;
 	}
 
 	private boolean isStudent(Entity principal) {
@@ -1741,6 +1737,15 @@ public class UriMutator {
 		return mutated;
 	}
 
+	/**
+	 * Removes all occurrences of the specified queryParameterToRemove from the
+	 * specified parameters queryString.  Almost redundant with
+	 * {@link removeQueryFromQueryParameters}, except that method removes only
+	 * the first occurrence.
+	 * 
+	 * @param parameters The full queryString
+	 * @param queryParameterToRemove Name of a parameter to remove from the queryString
+	 */
 	private String removeQueryParameter(String parameters,
 			String queryParameterToRemove) {
 		if (parameters == null || parameters.isEmpty()) {
@@ -1750,7 +1755,7 @@ public class UriMutator {
 		StringBuilder builder = new StringBuilder();
 		String[] queryParameters = parameters.split("&");
 		for (String queryParameter : queryParameters) {
-			if (!queryParameter.startsWith(queryParameterToRemove)) {
+			if (!queryParameter.startsWith(queryParameterToRemove + "=")) {
 				builder.append(queryParameter).append("&");
 			}
 		}
