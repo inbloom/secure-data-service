@@ -10,6 +10,7 @@
 	<context:annotation-config />
     <mvc:annotation-driven />
     <mvc:resources mapping="/resources/**" location="/resources/" />
+    <mvc:resources mapping="/assets/**" location="classpath:/META-INF/resources/webjars/"/>
 
     <!-- URL based view resolver for OAuth 2.0 workflow -->
     <bean id="viewResolver"
@@ -62,6 +63,6 @@
 	
   <bean id="apiTrackingAspect" class="org.slc.sli.api.perf.APITrackingAspect" factory-method="aspectOf">
   </bean>	
-	
+
 	
 </beans>
