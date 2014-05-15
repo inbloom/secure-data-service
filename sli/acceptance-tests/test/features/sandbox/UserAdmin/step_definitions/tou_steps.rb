@@ -40,7 +40,7 @@ end
 
 Then /^I have to enter my password$/ do
   @explicitWait.until{@driver.find_element(:id, "submitForgotPasswordButton")}.click
-  assertWithWait("No error for password not being set") {@driver.find_element(:id, "password_error_explanation")}
+  assertWithWait("No error for password not being set") {@driver.find_element(:id, "error_explanation")}
 end
 
 Then /^I have to check the terms\-of\-use to submit the form$/ do

@@ -109,15 +109,3 @@ Given /^I have navigated to the sample app page$/ do
   @driver.get Property['sampleApp_server_address']+"sample"
 end
 
-Then /^I am redirected to the sample app home page$/ do
-    assertWithWait("Failed to navigate to Sample App home page") {@driver.title.index("List of Students") != nil}
-end
-
-When /^I navigate to the sample app page$/ do
-  @driver.get Property['sampleApp_server_address']+"sample"
-  begin
-    @driver.switch_to.alert.accept
-  rescue
-  end
-end
-

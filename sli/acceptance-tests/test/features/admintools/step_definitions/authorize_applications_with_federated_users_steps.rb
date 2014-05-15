@@ -20,6 +20,7 @@ require_relative 'capybara_setup.rb'
 require 'selenium-webdriver'
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
+# require_relative '../../cross_app_tests/step_definitions/sli_session_share_steps.rb'
 
 require 'pry'
 
@@ -197,4 +198,9 @@ When /^I de-authorize the application for "([^"]*)"$/ do |edOrg|
   browser.find('#' + @app_id).find('input').click
   browser.find(:xpath, '//*[@id="edorgTree"]/div/ul/li/ul/li/ul/li/input').set(false)
   browser.click_button 'Save & Update'
+end
+
+Then /^I see application "([^"]*)"$/ do |app_name|
+  browser.should have_text(app_name)
+  @app = browser.all('tr', text: app_name).first
 end

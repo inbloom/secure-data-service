@@ -12,22 +12,16 @@ Scenario: Login and logout
   And I was redirected to the "Simple" IDP Login page
   And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   Then I should be on Portal home page
-  And I should see Admin link
-  And I click on Admin
-  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
-  When I click on the Logout link
-  And I am forced to reauthenticate to access the databrowser
+#  When I click on the Logout link
+#  And I am forced to reauthenticate to access the databrowser
 
 Scenario: Navigate to home page from any page
   When I see the realm selector I authenticate to "Daybreak Test Realm"
   And I was redirected to the "Simple" IDP Login page
   And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   Then I should be on Portal home page
-  And I should see Admin link
-  And I click on Admin
-  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I should see my available links labeled
@@ -43,9 +37,6 @@ Scenario: Associations List - Expand/Collapse between Simple View and Detail Vie
   And I was redirected to the "Simple" IDP Login page
   And I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
   Then I should be on Portal home page
-  And I should see Admin link
-  And I click on Admin
-  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I click on the "GetStaffProgramAssociations" link
@@ -62,9 +53,6 @@ Scenario: Click on Available Links associations and entities
   And I was redirected to the "Simple" IDP Login page
   And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   Then I should be on Portal home page
-  And I should see Admin link
-  And I click on Admin
-  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I have navigated to the "Me" page of the Data Browser
@@ -77,9 +65,6 @@ Scenario: Get a Forbidden message when we access something that is forbidden
   And I was redirected to the "Simple" IDP Login page
   And I submit the credentials "akopel" "akopel1234" for the "Simple" login page
   Then I should be on Portal home page
-  And I should see Admin link
-  And I click on Admin
-  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I click on the "GetEducationOrganizations" link
@@ -97,9 +82,6 @@ Scenario: Traverse Edorg Hiearchy from SEA down to LEA
   And I was redirected to the "Simple" IDP Login page
   And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   Then I should be on Portal home page
-  And I should see Admin link
-  And I click on Admin
-  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   When I click on the "GetEducationOrganizations" link
@@ -112,7 +94,6 @@ Scenario: Educators are not authorized to use databrowser
   And I was redirected to the "Simple" IDP Login page
   And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
   Then I should be on Portal home page
-  And I should not see Admin link
   When I navigated to the Data Browser Home URL
   Then I am notified that "You are not authorized to use this app."
 
@@ -121,9 +102,6 @@ Scenario: Search by id
   And I was redirected to the "Simple" IDP Login page
   And I submit the credentials "akopel" "akopel1234" for the "Simple" login page
   Then I should be on Portal home page
-  And I should see Admin link
-  And I click on Admin
-  Then the portal should be on the admin page
   And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   When I search for the identifier "<BRANDON SUZUKI UNIQUE ID>" in "students"

@@ -3,7 +3,7 @@ Feature: Developer/Vendor can create a High Level Ed-Org and link it to the Land
 
 Background:
 Given I have an open web browser
-And LDAP server has been setup and running
+And the LDAP server has been setup and running
 
 @production
 Scenario: As a Vendor/Developer I use a defined High Level Ed-Org to Provision my Landing Zone

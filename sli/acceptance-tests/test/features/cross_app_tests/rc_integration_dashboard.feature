@@ -11,9 +11,6 @@ When I select "Daybreak Test Realm" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page    
 Then I should be on Portal home page
-Then I should see Admin link
-And I click on Admin
-Then the portal should be on the admin page
 And under Application Configuration, I click on "inBloom Dashboards"
 Then I am authorized to the Configuration Area
 And I paste Valid json config into the text box
@@ -34,7 +31,7 @@ Then I see a list of 28 students
 # |Student          			|Grade    |School                     |
 # |Rudolph Sennett			|1		  |South Daybreak Elementary  |
 # |Rudolph Theodore Krinsky  |12       |Daybreak Central High      |
-And I click on log out
+#And I click on log out
 
 Scenario: Educator Logs into dashboard from portal
 When I select "Daybreak Test Realm" and click go

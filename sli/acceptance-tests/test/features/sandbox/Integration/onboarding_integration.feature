@@ -4,8 +4,7 @@ Feature: Complete onboarding workflow for sandbox and production
 Background:
 Given I have an open web browser
 #And I have a "mock" SMTP/Email server configured
-And I have a SMTP/Email server configured
-
+And I have configured an SMTP\/Email server
 
 @sandbox
 Scenario: Developer is on-boarded in a sandbox environment

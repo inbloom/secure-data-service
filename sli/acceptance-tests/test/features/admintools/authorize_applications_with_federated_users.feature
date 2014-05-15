@@ -69,3 +69,17 @@ Scenario: Linda Kim encounters Access Denied Message when attempting to access A
    Then the application status should be "1 EdOrg(s)"
    When I de-authorize the application for "Illinois State Board of Education"
    Then I should see application "Boyne" as Not Approved
+
+Scenario: District admin allows access to sample app
+  Given I am a valid district-level administrator
+    And I am managing my application authorizations
+   Then I see application "Sample"
+    And I see application "SDK Sample App (CI)"
+
+Scenario: Can access the Sample App
+  Given I have an open web browser
+   When I navigate to the sample app page
+    And I select "Illinois Sunset School District 4526" from the dropdown and click go
+   When I submit the credentials "manthony" "manthony1234" for the "Simple" login page
+    And I am redirected to the sample app home page
+

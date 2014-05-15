@@ -16,18 +16,12 @@ Feature:  RC Integration Tests - Test Student Login
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page
     Then I should be on Portal home page
-    Then I should see Admin link
-    And I click on Admin
-    Then the portal should be on the admin page
-    And under System Tools, I click on "Create Custom Roles"
-    And I switch to the iframe
+    And under System Tools, I click on "Custom Roles"
     When I edit the group "Student"
     And I check the admin role box
     And I hit the save button
     Then I am no longer in edit mode
-    And I switch to the iframe
     And the group "Student" has the admin role box checked
-    And I exit out of the iframe
     And I click on log out
 
 # Login as a student a take a look at some stuff.
@@ -35,8 +29,6 @@ Feature:  RC Integration Tests - Test Student Login
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
     And I want to select "800000025" from the "SmallDatasetUsers" in automatic mode
     Then I should be on Portal home page
-    And I click on Admin
-    Then the portal should be on the admin page
     And under System Tools, I click on "inBloom Data Browser"
     Then I should be redirected to the Data Browser home page
     And I should see the name "Matt Sollars Jr" on the page

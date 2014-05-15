@@ -44,7 +44,7 @@ When /^I am forced to change password$/ do
 end
 
 Then /^I am redirected to the Reset Password page$/ do
-  assertWithWait("Failed to navigate to the Reset Password page")  {@driver.page_source.index("Reset Password") != nil}
+  assertWithWait("Failed to navigate to the Reset Password page")  {@driver.page_source.index("Email Confirmed") != nil}
 end
 
 Then /^I am redirected to the Forgot Password notify page$/ do
