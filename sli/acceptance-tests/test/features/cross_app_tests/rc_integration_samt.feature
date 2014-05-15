@@ -11,16 +11,9 @@ Feature:  RC Integration SAMT Tests
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
     Then I should be on Portal home page
-#    Then I should see Admin link
-#    And I click on Admin
-#    Then the portal should be on the admin page
     And under System Tools, I click on "Users"
-
-#    And I switch to the iframe
     Then I delete the user "RCTestSeaAdminFN RCTestSeaAdminLN" if exists
-#    And I switch to the iframe
     Then I click on the "Add User" button
-#    And I switch to the iframe
     And I am redirected to the "Add a User" page
     And I can directly update the "Full Name" field to "RCTestSeaAdminFN RCTestSeaAdminLN"
     And I can directly update the "Email" field to "<PRIMARY_EMAIL>"
@@ -35,8 +28,7 @@ Feature:  RC Integration SAMT Tests
     And the "Success" message is displayed
     And the newly created user has "Tenant" updated to "<TENANT>"
     And the newly created user has "EdOrg" updated to "STANDARD-SEA"
-    
-#    And I switch to the iframe
+
     Then I set my password to "<PRIMARY_EMAIL_PASS>"
 
 # This is used for local testing to bypass portal.
