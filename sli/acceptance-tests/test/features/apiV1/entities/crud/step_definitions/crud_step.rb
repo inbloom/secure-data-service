@@ -833,7 +833,7 @@ Then /^the tenant ID of the entity should be "([^"]*)"$/ do |arg1|
   assert(tenant == arg1, "Tenant ID expected #{arg1} but was #{tenant}")
 end
 
-Given /^my contextual access is defined by table:$/ do |table|
+ Given /^my contextual access is defined by table:$/ do |table|
   @ctx={}
   table.hashes.each do |hash|
   @ctx[hash["Context"]]=hash["Ids"]

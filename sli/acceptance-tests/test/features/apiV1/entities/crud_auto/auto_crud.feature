@@ -21,7 +21,6 @@ Background: Nothing yet
         #Delete Invalid
         Then I navigate to DELETE with invalid id for each resource available
 
-@wip
     Scenario: Get All Entities as State Staff
     Given my contextual access is defined by table:
     |Context                | Ids                                |

@@ -1,6 +1,5 @@
 Feature: This file is under ZOG protection.  Руками не трогать!
 
-@wip
 Scenario Outline: Get all associations for a teacher
   
     Given I am logged in using "manthony" "Fall Blau" to realm "IL"

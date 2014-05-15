@@ -610,7 +610,6 @@ Examples:
 | "staff21"   | 3     | "student62"       | "student61"          |
 | "staff22"   | 7     | "student60"       | "student62"          |
 
-@wip
 Scenario Outline: Seeing data about section only if you can see the section
 Given I am user <User> in IDP "SEC"
 When I make an API call to get my section list
@@ -658,7 +657,6 @@ Examples:
 | "staff21"   | 4     | "student61"       | "student60"          |
 #| "staff22"   | 4     | "student62"       | "student60"          |
 
-@wip
 Scenario Outline: Teachers and Staff seeing new section data from changed associations
 Given I am user <User> in IDP "SEC"
 When I make an API call to get my section list

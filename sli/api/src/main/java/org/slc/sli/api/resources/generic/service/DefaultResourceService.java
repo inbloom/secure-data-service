@@ -460,31 +460,27 @@ public class DefaultResourceService implements ResourceService {
 
             addGranularAccessCriteria(finalEntity, finalApiQuery);
 
-            //we don't ad this "id in [...]"
-            if( !EntityNames.isPublic(finalEntity.getType()) ) {
-
-                //Mongo blows up if we have multiple $in or equal criteria for the same key.
-                //To avoid that case, if we do have duplicate keys, set the value for that
-                //criteria to the intersection of the two critiera values
-                boolean skipIn = false;
-                for (NeutralCriteria crit : finalApiQuery.getCriteria()) {
-                    if (crit.getKey().equals(key)
-                            && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
-                        skipIn = true;
-                        Set<Object> valueSet = new HashSet<Object>();
-                        if (crit.getValue() instanceof Collection) {
-                            valueSet.addAll((Collection<Object>) crit.getValue());
-                        } else {
-                            valueSet.add(crit.getValue());
-                        }
-                        valueSet.retainAll(filteredIdList);
-                        crit.setValue(valueSet);
+            //Mongo blows up if we have multiple $in or equal criteria for the same key.
+            //To avoid that case, if we do have duplicate keys, set the value for that
+            //criteria to the intersection of the two critiera values
+            boolean skipIn = false;
+            for (NeutralCriteria crit : finalApiQuery.getCriteria()) {
+                if (crit.getKey().equals(key)
+                        && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
+                    skipIn = true;
+                    Set<Object> valueSet = new HashSet<Object>();
+                    if (crit.getValue() instanceof Collection) {
+                        valueSet.addAll((Collection<Object>) crit.getValue());
+                    } else {
+                        valueSet.add(crit.getValue());
                     }
+                    valueSet.retainAll(filteredIdList);                                                              ''
+                    crit.setValue(valueSet);
                 }
+            }
 
-                if (!skipIn) {
-                    finalApiQuery.addCriteria(new NeutralCriteria(key, "in", filteredIdList));
-                }
+            if (!skipIn) {
+                finalApiQuery.addCriteria(new NeutralCriteria(key, "in", filteredIdList));
             }
 
             // if we're only getting the count of this query, just create an empty list, otherwise

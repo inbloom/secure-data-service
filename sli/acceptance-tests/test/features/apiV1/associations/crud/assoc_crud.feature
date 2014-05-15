@@ -92,7 +92,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | studentCohortAssociation               | studentCohortAssociations                | beginDate                | 2012-02-29             | 2011-12-01             | cgrayadmin | cgray1234   |
       | teacherSchoolAssociation               | teacherSchoolAssociations                | programAssignment        | Special Education      | Regular Education      | cgrayadmin | cgray1234   |
 
-@wip
     Scenario Outline: Read All as State level Staff
       Given my contextual access is defined by table:
       | Context                | Ids                                  |
@@ -123,7 +122,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | teacherSchoolAssociation               | teacherSchoolAssociations                | 0     | "/schools/@ids/teacherSchoolAssociations" |
       | teacherSectionAssociation              | teacherSectionAssociations               | 0     | "/schools/@ids/teacherSchoolAssociations/teachers/teacherSectionAssociations" |
 
-@wip
+
     Scenario Outline: Read All as School level Teacher
       Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
       And format "application/vnd.slc+json"
@@ -260,8 +259,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
         | securityEvent   | 1                   | body.logMessage         | Access Denied:Invalid reference. No association to referenced entity. | string     |
      And "1" security event matching "Access Denied:Invalid reference. No association to referenced entity." should be in the sli db
      And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.1/teacherSectionAssociations" should be in the sli db   
-
-@wip
+  
     Scenario Outline: Read All as State level Staff for the currently associated entities only
      Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
       And parameter "currentOnly" is "true"
@@ -286,7 +284,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | teacherSchoolAssociations                | 0     |
       | teacherSectionAssociations               | 0     |
 
-@wip
     Scenario Outline: Read All as Teacher for the currently associated entities only
      Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
       And parameter "currentOnly" is "true"
