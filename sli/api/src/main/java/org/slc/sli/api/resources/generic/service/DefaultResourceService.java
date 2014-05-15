@@ -474,7 +474,7 @@ public class DefaultResourceService implements ResourceService {
                     } else {
                         valueSet.add(crit.getValue());
                     }
-                    valueSet.retainAll(filteredIdList);                                                              ''
+                    valueSet.retainAll(filteredIdList);
                     crit.setValue(valueSet);
                 }
             }
