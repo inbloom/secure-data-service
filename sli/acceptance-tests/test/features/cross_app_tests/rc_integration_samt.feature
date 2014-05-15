@@ -17,18 +17,15 @@ Feature:  RC Integration SAMT Tests
     And I am redirected to the "Add a User" page
     And I can directly update the "Full Name" field to "RCTestSeaAdminFN RCTestSeaAdminLN"
     And I can directly update the "Email" field to "<PRIMARY_EMAIL>"
-
     And I can select "SEA Administrator" from a choice of "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
     And I can also check "Ingestion User" Role
     And I can update the "Tenant" field to "<TENANT>"
     And I can update the "EdOrg" field to "STANDARD-SEA"
-
     When I click button "Save"
-    Then I am redirected to the "Manage Administrator Accounts" page
+    Then I am redirected to the "Users" page
     And the "Success" message is displayed
     And the newly created user has "Tenant" updated to "<TENANT>"
     And the newly created user has "EdOrg" updated to "STANDARD-SEA"
-
     Then I set my password to "<PRIMARY_EMAIL_PASS>"
 
 # This is used for local testing to bypass portal.
