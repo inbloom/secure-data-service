@@ -53,7 +53,7 @@ ldap-in-memory
   - `git clone https://github.com/inbloom/ldap-in-memory.git`
   - `cd ldap-in-memory`
   - `mvn clean install`
-  - `mvn jetty:run` #start the ldap server
+  - `mvn jetty:run` start the ldap server
 
 Building the Datastore
 ======================
