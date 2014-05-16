@@ -61,7 +61,7 @@ ldap_admin_user: cn=Admin,dc=slidev,dc=org
 ldap_admin_pass: slidev
 
 user_registration_app_host_url: "inbloom.org"
-sb_get_started: "inbloom.org/getting-started"
+sb_get_started: "registration"
 user_registration_email: devldapuser@inbloomdev.org
 user_registration_pass: password
 
