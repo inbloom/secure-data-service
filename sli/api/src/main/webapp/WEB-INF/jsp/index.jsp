@@ -22,11 +22,14 @@
     <div class="row">
         <div class="col-lg-12">
             <h2>Admin Tools</h2>
-            <a href="${adminUrl}">Admin Tools</a>
-            <h2>Data Browser</h2>
-            <a href="${dataBrowserUrl}">Data Browser</a>
-            <h2>Dashboards</h2>
-            <a href="${dashboardUrl}">Dashboards</a>
+            <ul>
+                <li><a href="${adminUrl}">Admin Tools</a></li>
+            </ul>
+            <h2>Data Tools</h2>
+            <ul>
+                <li><a href="${dataBrowserUrl}">Data Browser</a></li>
+                <li><a href="${dashboardUrl}">Dashboards</a></li>
+            </ul>
         </div>
     </div><!--/row-->
 
