@@ -9,6 +9,9 @@ require "active_resource/base"
 # We make heavy use of params which is everything that comes into
 # this controller after /entities/
 class EntitiesController < ApplicationController
+
+  ID_REGEX = /(^\w{8}-|^[a-z0-9]+_id$)/
+
   before_filter :set_url
 
   # What we see mostly here is that we are looking for searh parameters.
@@ -81,9 +84,8 @@ class EntitiesController < ApplicationController
     # set and then has a session and params variable for the limit. If the params
     # limit is set, it takes precedence. If there is no limit, the default is set
     # to the first item in the paginate_ipp array in views.yml
-    if params[:offset].nil?
-      params[:offset] = 0
-    end
+    params[:offset] = 0 unless params[:offset]
+
     if params[:limit].nil? and session[:limit].nil?
       params[:limit] = VIEW_CONFIG['paginate_ipp'].first.to_i
       session[:limit] = params[:limit]
@@ -98,7 +100,7 @@ class EntitiesController < ApplicationController
       @entities = []
       @entities = Entity.get("", @search_field => params[:search_id].strip) if params[:search_id] && !params[:search_id].strip.empty?
       @entities = clean_up_results(@entities)
-      flash.now[:notice] = "There were no entries matching your search" if @entities.size == 0 || @entities.nil?
+      flash.now[:notice] = 'There were no entries matching your search' if @entities.blank?
     else
       query = params.reject {|k, v| k == 'controller' || k == 'action' || k == 'other' || k == 'search_id'}
       logger.debug {"Keeping query parameters #{query.inspect}"}
@@ -108,18 +110,16 @@ class EntitiesController < ApplicationController
       @page = Page.new(@headers)
       @entities= clean_up_results(@entities)
     end
+
+    set_crumbs
+
     if params[:other] == 'home'
       user_id, collection, links = get_user_entity_id_collection_and_links
       logger.debug{"user_id: #{user_id}"}
       logger.debug{"collection: #{collection}"}
       logger.debug{"links: #{links}"}
       get_user_ed_orgs(links, collection)
-      if collection != "students"
-        
-        @is_a_student = false
-      else
-        @is_a_student = true
-      end
+      @is_a_student if collection == 'students'
       render :index
       return
     end
@@ -136,6 +136,45 @@ class EntitiesController < ApplicationController
   end
 
   private
+
+  def set_crumbs
+    if crumbable?
+      if request.path == '/entities/home'
+        add_breadcrumb 'home', '/entities/home'
+      else
+        parts = request.path.split('/').reject {|part| part.blank?}
+        parts.each_with_index do |part,index|
+          if part == 'entities'
+            add_breadcrumb 'home', '/entities/home'
+          else
+            add_breadcrumb crumb_name(part, index == parts.length-1), "/#{parts[0..index].join('/')}"
+          end
+        end
+      end
+    end
+  end
+
+  def crumb_name(path_part, terminus=false)
+    if @entities.nil? || @entities.length != 1 || path_part !~ ID_REGEX || !terminus
+      path_part
+    else
+      entity_display_name(@entities.first)
+    end
+  end
+
+  def entity_display_name(entity_hash)
+    case entity_hash['entityType']
+      when 'educationOrganization'; entity_hash['nameOfInstitution']
+      when 'staff','teacher','student'; "#{entity_hash['name']['firstName']} #{entity_hash['name']['lastSurname']}"
+      else
+        entity_hash['id']
+    end
+  end
+
+  def crumbable?
+    request.format != 'application/json' && !request.path.end_with?('/callback')
+  end
+
   def clean_up_results(entities)
     tmp = entities
     if entities.is_a?(Hash)
@@ -145,7 +184,6 @@ class EntitiesController < ApplicationController
     tmp
   end
 
-  private
   def get_user_entity_id_collection_and_links
     body = JSON.parse(@entities.http_response.body)
     # get the link to self
@@ -162,7 +200,6 @@ class EntitiesController < ApplicationController
     return user_id, collection, body['links']
   end
 
-  private
   def get_url_from_hateoas_array(hateoas_array,target)
     logger.debug{"Target URL Key #{target}"}
     target_url=""
@@ -180,33 +217,16 @@ class EntitiesController < ApplicationController
   end
 
   #This function is used to set the values for EdOrg table for Id, name, parent and type fields in the homepage
-  private
   def get_user_ed_orgs(links, collection)
     @edOrgArr = []
     userEdOrgs  = get_edorgs(links,collection)
     #Looping through EdOrgs and sending an API call to get the parent EdOrg attributes associated EdOrg Id
     userEdOrgs.each do |edOrg|
-      #logger.debug{"get_user_ed_orgs"}
-      #logger.debug{"This edorg: #{edOrg}"}
-      #logger.debug{"cleanup"}
-      #edOrg = clean_up_results(edOrg)
-      #logger.debug{"This edorg: #{edOrg}"}
-      #if collection == 'students'
-       # @edOrgArr.push({"EdOrgs Id"=>edOrg["id"],"EdOrgs Name"=>edOrg["nameOfInstitution"], "EdOrgs Type"=>edOrg["entityType"],"EdOrgs Parent"=>get_parent_edorg_name(edOrg), "EdOrgs URL"=>get_url_from_hateoas_array(edOrg,'self')})
-      # else  
       @edOrgArr.push({"EdOrgs Id"=>edOrg["id"],"EdOrgs Name"=>edOrg["nameOfInstitution"], "EdOrgs Type"=>edOrg["entityType"],"EdOrgs Parent"=>get_parent_edorg_name(edOrg), "EdOrgs URL"=>get_url_from_hateoas_array(edOrg['links'],'self')})
-      #edOrg =edOrg[0]
-      #logger.debug{'Array contents: EdOrgs Id '}
-      #logger.debug{edOrg['id']}
-      #logger.debug{"Array contents: EdOrgs Name #{edOrg['nameOfInstitution']}"}
-        #, "EdOrgs Type"=>edOrg["entityType"],"EdOrgs Parent"=>get_parent_edorg_name(edOrg), "EdOrgs URL"=>get_url_from_hateoas_array(edOrg['links'],'self')}"}
-      #@edOrgArr.push({'EdOrgs Id'=>'edorg ID goes here','EdOrgs Name'=>'edorg name goes here', 'EdOrgs Type'=>'edorg type goes here','EdOrgs Parent'=>'Parent edorg name goes here', 'EdOrgs URL'=>'URL to edog goes here'})
-      #end
     end
   end
 
   #This function is used to run an API call to fetch the values of attributes associated with Entity Id
-  private
   def get_edorgs(links,collection)
     #The URL to get edOrgs
     logger.debug{"get_edorgs"}
@@ -219,7 +239,6 @@ class EntitiesController < ApplicationController
     user_edorgs = clean_up_results(user_edorgs)
   end
 
-  private
   def get_parent_edorg_name(edorg)
     edorg_name = 'N/A'
     if !edorg['parentEducationAgencyReference'].nil?
@@ -230,12 +249,10 @@ class EntitiesController < ApplicationController
     end
     edorg_name
   end
-  private
+
   def strip_wrapping_array(item)
     tmp = item
-    if item.is_a?(Array)
-      tmp = item[0]
-    end
+    tmp = item[0] if item.is_a?(Array)
     tmp
   end
 end

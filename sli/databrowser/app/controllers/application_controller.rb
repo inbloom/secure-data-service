@@ -20,7 +20,7 @@ limitations under the License.
 
 require "active_resource/base"
 require "oauth_helper"
-require "breadcrumb"
+# require "breadcrumb"
 
 #
 # This is the standard base controller class that all others in the databrowser
@@ -36,8 +36,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   ActionController::Base.request_forgery_protection_token = 'state'
   before_filter :handle_oauth
-  before_filter :handle_breadcrumb
-  
+  # before_filter :handle_breadcrumb
+
   rescue_from ActiveResource::ResourceNotFound, :with => :not_found
   
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
   end
   
   rescue_from ActiveResource::ForbiddenAccess do |exception|
-    logger.info { "Forbidden access."}
+    logger.info { "Forbidden access" }
     respond_to do |format|
       format.html {
         flash[:error] = "Sorry, you don't have access to this page. If you feel like you are getting this page in error, please contact your administrator."
@@ -97,7 +97,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  private 
+  private
+
   def not_found
     logger.debug {"Not found"}
     respond_to do |format|
