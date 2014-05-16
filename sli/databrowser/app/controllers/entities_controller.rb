@@ -10,7 +10,7 @@ require "active_resource/base"
 # this controller after /entities/
 class EntitiesController < ApplicationController
 
-  ID_REGEX = /(^\w{8}-|^[a-z0-9]+_id$)/
+  ID_REGEX = /^\h{8}-\h{4}-\h{4}-\h{4}-\h{12}|_id$/
 
   before_filter :set_url
 
@@ -139,15 +139,15 @@ class EntitiesController < ApplicationController
 
   def set_crumbs
     if crumbable?
-      if request.path == '/entities/home'
-        add_breadcrumb 'home', '/entities/home'
-      else
-        parts = request.path.split('/').reject {|part| part.blank?}
-        parts.each_with_index do |part,index|
-          if part == 'entities'
-            add_breadcrumb 'home', '/entities/home'
-          else
-            add_breadcrumb crumb_name(part, index == parts.length-1), "/#{parts[0..index].join('/')}"
+      if request.path != '/entities/home'
+        if request.query_parameters.include?('search_id')
+          add_breadcrumb('search', request.url)
+        else
+          parts = request.path.split('/').reject {|part| part.blank?}
+          parts.each_with_index do |part,index|
+            if part != 'entities'
+              add_breadcrumb crumb_name(part, index == parts.length-1), "/#{parts[0..index].join('/')}"
+            end
           end
         end
       end

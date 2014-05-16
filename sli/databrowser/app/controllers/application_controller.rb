@@ -38,6 +38,8 @@ class ApplicationController < ActionController::Base
   before_filter :handle_oauth
   # before_filter :handle_breadcrumb
 
+  add_breadcrumb 'home', '/entities/home'
+
   rescue_from ActiveResource::ResourceNotFound, :with => :not_found
   
   rescue_from ActiveResource::UnauthorizedAccess do |exception|

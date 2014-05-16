@@ -20,6 +20,9 @@ limitations under the License.
 require 'rest-client'
 
 class IngestionController < ApplicationController
+
+  add_breadcrumb 'ingestion'
+
   def list
   end
 
