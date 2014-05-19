@@ -47,7 +47,7 @@ Scenario: Sorting a collection of full student school association entities
 Scenario: Validate PII cannot be sorted against
   Given I am logged in using "jpratt" "jpratt1234" to realm "NY"
     Given format "application/json"
-    And parameter "sortBy" is "name.firstName"
+    And parameter "sortBy" is "address.streetNumberName"
     And parameter "sortOrder" is "ascending"
     When I navigate to GET "/v1/schools/<'Dawn Elementary School' ID>/studentSchoolAssociations/students"
     Then I should receive a return code of 400

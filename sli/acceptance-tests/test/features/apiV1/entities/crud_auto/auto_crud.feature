@@ -57,7 +57,7 @@ Background: Nothing yet
     | studentParentAssociation                | studentParentAssociations                | 0     |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations|
     | courseOffering                          | courseOfferings                          | 138    |/courseOfferings|
     | graduationPlan                          | graduationPlans                          | 5     |/graduationPlans|
-    | educationOrganization                   | schools                                  | 0     |/staff/@ids/staffEducationOrgAssignmentAssociations/schools|
+    | educationOrganization                   | schools                                  | 198     |/staff/@ids/staffEducationOrgAssignmentAssociations/schools|
     | section                                 | sections                                 | 0     |/schools/@ids/sections|
     | session                                 | sessions                                 | 29    |/sessions|
     | staff                                   | staff                                    | 5     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
@@ -70,9 +70,9 @@ Background: Nothing yet
     | gradingPeriod                           | gradingPeriods                           | 3     |/gradingPeriods|
     | reportCard                              | reportCards                              | 0     |/schools/@ids/studentSchoolAssociations/students/reportCards|
     | studentCompetencyObjective              | studentCompetencyObjectives              | 1     |/studentCompetencyObjectives    |
-    | calendarDates                           | calendarDates                            | 4     |/educationOrganizations/@ids/calendarDates|
-    | classPeriods                            | classPeriods                             | 1     |/educationOrganizations/@ids/classPeriods|
-    | bellSchedules                           | bellSchedules                            | 0     |/educationOrganizations/@ids/bellSchedules|
+    | calendarDate                            | calendarDates                            | 4     |/educationOrganizations/@ids/calendarDates|
+    | classPeriod                             | classPeriods                             | 1     |/educationOrganizations/@ids/classPeriods|
+    | bellSchedule                            | bellSchedules                            | 0     |/educationOrganizations/@ids/bellSchedules|
     Then the staff queries and rewrite rules work
 
  @Teacher_crud

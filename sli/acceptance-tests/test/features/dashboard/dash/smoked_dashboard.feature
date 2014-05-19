@@ -19,7 +19,7 @@ Then I should be shown a success message
 #Login with District Level IT admin
 When I navigate to the Dashboard home page
 When I look in the ed org drop-down
-Then I only see "Daybreak School District 4529"
+#Then I only see "Daybreak School District 4529" <-- removed for DS-1490
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
 Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
@@ -45,7 +45,7 @@ Then I see these values in the drop-down: "Daybreak School District 4529"
 
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
-Then I only see "East Daybreak Junior High"
+#Then I only see "East Daybreak Junior High"  <-- removed for DS-1490
 
 When I select school "East Daybreak Junior High"
 And I look in the course drop-down
