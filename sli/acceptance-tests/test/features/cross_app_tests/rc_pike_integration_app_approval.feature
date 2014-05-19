@@ -11,11 +11,7 @@ When I see the realm selector I authenticate to "inBloom"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page
 Then I should be on Portal home page
-Then I should see Admin link
-And I click on Admin
-Then the portal should be on the admin page
 And under System Tools, I click on "Manage Realm"
-And I switch to the iframe
 And I should see that I am on the new realm page
 And all of the input fields should be blank
 And I should enter "Daybreak Test Realm" into the Display Name field
@@ -23,12 +19,11 @@ And I enter "<CI_IDP_Redirect_URL>" in the IDP URL field
 And I enter "<CI_IDP_Redirect_URL>" in the Redirect Endpoint field
 And I should enter "RC-IL-Daybreak" into Realm Identifier
 And I should click the "Save" button
-And I switch to the iframe
 And I should receive a notice that the realm was successfully "created"
 Then I see the realms for "Daybreak School District 4529 (IL-DAYBREAK)"
 And the realm "Daybreak Test Realm" will exist
-And I exit out of the iframe
-And I click on log out
+
+#And I click on log out
 
 Scenario: User cannot access Bootstrapped Apps before approval
 When I navigate to the Portal home page
@@ -37,10 +32,8 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page    
 Then I should be on Portal home page
 Then I should not see "inBloom Dashboards"
-And I click on Admin
-And I should be on the admin page
 And I should not see "inBloom Data Browser"
-And I click on log out
+#And I click on log out
 
 Scenario:  LEA gives IT Admins bulk extract permissions
     When I navigate to the Portal home page
