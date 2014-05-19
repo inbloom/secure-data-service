@@ -16,15 +16,15 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
-
-import com.sun.corba.se.impl.orb.ORBVersionImpl;
-import org.slc.sli.api.util.SecurityUtil;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.common.constants.EntityNames;
 
 /**
  * Validates the context of a user to see the requested set of education organizations. Returns
@@ -32,6 +32,7 @@ import org.slc.sli.common.constants.EntityNames;
  */
 @Component
 public class GenericToEdOrgValidator extends AbstractContextValidator {
+    private static final Logger LOG = LoggerFactory.getLogger(GenericToEdOrgValidator.class);
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -47,13 +48,28 @@ public class GenericToEdOrgValidator extends AbstractContextValidator {
 
     @Override
     public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
+        LOG.trace(">>>GenericToEdOrgValidator.validate()");
+        LOG.trace("  entityType: " + entityType);
+        LOG.trace("  ids: " + ids.toString());
+
         if (!areParametersValid(Arrays.asList(EntityNames.SCHOOL, EntityNames.EDUCATION_ORGANIZATION), entityType, ids)) {
+            LOG.trace("  ...return empty set - areParametersValid");
             return Collections.emptySet();
         }
 
         Set<String> edOrgs = getDirectEdorgs();
+        LOG.trace("  ...count after adding DirectEdorgs: " + edOrgs.size());
         edOrgs.addAll(getEdorgDescendents(edOrgs));
+        LOG.trace("  ...count after adding getEdorgDescendents: " + edOrgs.size());
+
+        /* Retains only the elements in this set that are contained in the specified collection (optional operation).  In other words, removes
+        * from this set all of its elements that are not contained in the specified collection. (An Intersection.) */
+
         edOrgs.retainAll(ids);
+        LOG.trace("  ...count after adding providedIds: " + edOrgs.size());
+
+        LOG.trace("  edOrgs: " + edOrgs.toString());
+
         return edOrgs;
     }
 

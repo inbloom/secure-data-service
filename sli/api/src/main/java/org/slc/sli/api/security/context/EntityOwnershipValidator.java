@@ -1,34 +1,17 @@
-/*
- * Copyright 2012 Shared Learning Collaborative, LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.slc.sli.api.security.context;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.annotation.PostConstruct;
-
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
+import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class EntityOwnershipValidator {
@@ -76,34 +59,38 @@ public class EntityOwnershipValidator {
      * @return True if the requested entity can be accessed, false otherwise.
      */
     public boolean canAccess(Entity entity, boolean isTransitive) {
+        LOG.trace(">>>EntityOwnershipValidator.canAccess()");
+
+        boolean result = false;
+
         if (SecurityUtil.getSLIPrincipal().getAuthorizingEdOrgs() == null) {
             // explicitly set null if the app is marked as authorized_for_all_edorgs
-            return true;
-        }
-
-        if (Arrays.asList(EntityNames.PROGRAM, EntityNames.SESSION).contains(entity.getType())) {
+            LOG.trace("  ...authorized for all edorgs.");
+            result = true;
+        } else if (Arrays.asList(EntityNames.PROGRAM, EntityNames.SESSION).contains(entity.getType())) {
             //  Some entities are just cannot be pnwed
-            return true;
-        }
-
-        if (isTransitive && globalEntities.contains(entity.getType())) {
-            LOG.debug("skipping ownership validation --> transitive access to global entity: {}", entity.getType());
-            return true;
-        }
-
-        Set<String> owningEdorgs = arbiter.determineEdorgs(Arrays.asList(entity), entity.getType());
-        if (owningEdorgs.size() == 0) {
-            LOG.warn("Potentially bad data found.");
-            return true;
-        }
-
-        for (String edOrgId : owningEdorgs) {
-            if (SecurityUtil.getSLIPrincipal().getAuthorizingEdOrgs().contains(edOrgId)) {
-                LOG.debug("discovered owning education organization: {}", edOrgId);
-                return true;
+            LOG.trace("  ...program or session.");
+            result = true;
+        } else if (isTransitive && globalEntities.contains(entity.getType())) {
+            LOG.trace("skipping ownership validation --> transitive access to global entity: {}", entity.getType());
+            result = true;
+        } else {
+            Set<String> owningEdorgs = arbiter.determineEdorgs(Arrays.asList(entity), entity.getType());
+            if (owningEdorgs.size() == 0) {
+                LOG.warn("Potentially bad data found.");
+                result = true;
+            } else {
+                for (String edOrgId : owningEdorgs) {
+                    if (SecurityUtil.getSLIPrincipal().getAuthorizingEdOrgs().contains(edOrgId)) {
+                        LOG.trace("discovered owning education organization: {}", edOrgId);
+                        result = true;
+                    }
+                }
             }
         }
-        return false;
+
+        LOG.trace("  ...returning canAccess result: " + result);
+        return result;
     }
 
 }

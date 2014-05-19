@@ -16,30 +16,10 @@
 
 package org.slc.sli.api.security.context;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.ws.rs.core.PathSegment;
-
 import com.sun.jersey.spi.container.ContainerRequest;
-
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.commons.lang.math.NumberUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
@@ -52,6 +32,17 @@ import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
+import javax.ws.rs.core.PathSegment;
+import java.util.*;
 
 /**
  * ContextValidator
@@ -283,13 +274,27 @@ public class ContextValidator implements ApplicationContextAware {
     * @throws APIAccessDeniedException - When entities cannot be accessed
     */
     public void validateContextToEntities(EntityDefinition def, Collection<String> ids, boolean isTransitive) throws APIAccessDeniedException {
+        LOG.debug(">>>ContextValidator.validateContextToEntities()");
+        LOG.debug("  def: " + ToStringBuilder.reflectionToString(def, ToStringStyle.DEFAULT_STYLE));
+        LOG.debug("  ids: " + ids.toString());
+        LOG.debug("  isTransitive" + isTransitive);
         IContextValidator validator = findValidator(def.getType(), isTransitive);
+        LOG.debug("  loaded validator: " + ToStringBuilder.reflectionToString(validator, ToStringStyle.DEFAULT_STYLE));
         if (validator != null) {
             NeutralQuery getIdsQuery = new NeutralQuery(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
+            LOG.debug("  getIdsQuery: " + getIdsQuery.toString());
+
             Collection<Entity> entities = (Collection<Entity>) repo.findAll(def.getStoredCollectionName(), getIdsQuery);
+            LOG.debug("  entities: " + ToStringBuilder.reflectionToString(entities, ToStringStyle.DEFAULT_STYLE));
+
             Set<String> idsToValidate = getEntityIdsToValidate(def, entities, isTransitive, ids);
+            LOG.debug("  idsToValidate: " + idsToValidate.toString());
+
             Set<String> validatedIds = getValidatedIds(def, idsToValidate, validator);
+            LOG.debug("  validatedIds: " + validatedIds.toString());
+
             if (!validatedIds.containsAll(idsToValidate)) {
+                LOG.debug("    ...APIAccessDeniedException");
                 throw new APIAccessDeniedException("Cannot access entities", def.getType(), idsToValidate);
             }
         } else {
