@@ -1526,8 +1526,6 @@
                     <xs:documentation>Full legal name of the person.
                     </xs:documentation>
                     <xs:appinfo>
-                        <sli:PersonallyIdentifiableInfo>true
-                        </sli:PersonallyIdentifiableInfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
                             <sli:allowedBy>WRITE_STUDENT_OWNED</sli:allowedBy>
@@ -1546,8 +1544,6 @@
                         legal name) associated with a person.
                     </xs:documentation>
                     <xs:appinfo>
-                        <sli:PersonallyIdentifiableInfo>true
-                        </sli:PersonallyIdentifiableInfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
                             <sli:allowedBy>WRITE_STUDENT_OWNED</sli:allowedBy>
@@ -3526,7 +3522,6 @@
                     <xs:documentation>Full legal name of the person.
                     </xs:documentation>
                     <xs:appinfo>
-                        <sli:PersonallyIdentifiableInfo>true</sli:PersonallyIdentifiableInfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
                             <sli:allowedBy>WRITE_STUDENT_GENERAL</sli:allowedBy>
@@ -3545,7 +3540,6 @@
                         name) associated with a person.
                     </xs:documentation>
                     <xs:appinfo>
-                        <sli:PersonallyIdentifiableInfo>true</sli:PersonallyIdentifiableInfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
                             <sli:allowedBy>WRITE_STUDENT_OWNED</sli:allowedBy>
