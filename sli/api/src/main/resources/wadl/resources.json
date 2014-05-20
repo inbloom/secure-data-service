@@ -345,7 +345,7 @@
       "path": "/learningStandards",
       "queryable": false,
       "dateSearchDisallowed": true,
-      "doc": "Represents a subelement of a learning objective consisting of a precise statement of the expectation of a student's proficiency. Caution: The learningStandards entity is public in the SLI API. Any metadata associated with a learningStandard can be viewed by anyone within the tenant to which the learningStandard belongs. For more information, see the schema for $$LearningStandard$$ resources."
+      "doc": "Represents a sub-element of a learning objective consisting of a precise statement of the expectation of a student's proficiency. Caution: The learningStandards entity is public in the SLI API. Any metadata associated with a learningStandard can be viewed by anyone within the tenant to which the learningStandard belongs. For more information, see the schema for $$LearningStandard$$ resources."
     },
     {
       "path": "/parents",
@@ -615,14 +615,6 @@
 {
   "nameSpace": ["v1.1", "v1.2", "v1.3", "v1.4", "v1.5"],
   "resources": [
-    {
-      "path": "/search",
-      "doc": "Provides search functionality for students, sections, and other entities.",
-      "resourceClass": "org.slc.sli.api.search.resource.SearchResource",
-      "queryable": true,
-      "dateSearchDisallowed": true,
-      "availableSince" : "v1.1"
-    },
     {
       "path": "/educationOrganizations",
       "queryable": true,

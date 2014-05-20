@@ -81,7 +81,7 @@ public abstract class OwnershipArbiter {
 
     public List<Entity> findOwner(Iterable<Entity> entities, String entityType, boolean ignoreOrphans) {
         List<Entity> edorgs = new ArrayList<Entity>();
-        LOG.debug("checking ownership for entities of type: {}", entityType);
+        LOG.trace("checking ownership for entities of type: {}", entityType);
 
         if (isBaseType(entityType)) {
             // No need to do an actual mongo lookup since we have the IDs we need
@@ -99,7 +99,7 @@ public abstract class OwnershipArbiter {
                 // Ignore orphaned entities created by the principal.
                 if (entity.getMetaData() != null && SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
                         && "true".equals(entity.getMetaData().get("isOrphaned")) && ignoreOrphans) {
-                    LOG.debug("Entity is orphaned: id {} of type {}", entity.getEntityId(), entity.getType());
+                    LOG.trace("Entity is orphaned: id {} of type {}", entity.getEntityId(), entity.getType());
                     continue;
                 }
 

@@ -16,17 +16,17 @@
 
 package org.slc.sli.api.service.query;
 
+import org.apache.commons.lang.StringUtils;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import javax.ws.rs.core.UriInfo;
-
-import org.apache.commons.lang.StringUtils;
-
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Converts a String into a database independent NeutralQuery object.
@@ -36,6 +36,7 @@ import org.slc.sli.domain.NeutralQuery;
  *
  */
 public class ApiQuery extends NeutralQuery {
+    private static final Logger LOG = LoggerFactory.getLogger(ApiQuery.class);
 
     private static final UriInfoToApiQueryConverter QUERY_CONVERTER = new UriInfoToApiQueryConverter();
 
