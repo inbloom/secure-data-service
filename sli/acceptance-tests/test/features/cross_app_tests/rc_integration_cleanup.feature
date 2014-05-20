@@ -15,7 +15,7 @@ Scenario:  LEA deletes realm
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page
   Then I should be on Portal home page
-  And under System Tools, I click on "Manage Realm"
+  And under System Tools, I click on "Realm Management"
   Then I see the realms for "IL-DAYBREAK"
   When I click the "Daybreak Test Realm" delete button and confirm deletion
   Then I see the realms for "IL-DAYBREAK"

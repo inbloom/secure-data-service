@@ -11,7 +11,7 @@ When I see the realm selector I authenticate to "inBloom"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page
 Then I should be on Portal home page
-And under System Tools, I click on "Manage Realm"
+And under System Tools, I click on "Realm Management"
 And I should see that I am on the new realm page
 And all of the input fields should be blank
 And I should enter "Daybreak Test Realm" into the Display Name field

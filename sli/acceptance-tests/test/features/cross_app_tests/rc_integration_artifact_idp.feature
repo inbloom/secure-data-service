@@ -11,7 +11,7 @@ Feature:  RC Integration Tests
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page
     Then I should be on Portal home page
-    And under System Tools, I click on "Manage Realm"
+    And under System Tools, I click on "Realm Management"
     And I should be redirected back to the realm listing page
     When I click on the Add new realm button
     Then I should see that I am on the new realm page
