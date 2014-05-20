@@ -27,10 +27,10 @@ Scenario Outline: Check targets resolution after reading a teacher by ID
       Then I should receive a return code of 200
         And I should have a list of 1 "section" entities
         And I should have an entity with ID "<Homeroom ID>"
-   When I navigate to GET "/<TEACHER URI>/<Braverman ID>/<TEACHER SCHOOL ASSOC URI>/<SCHOOL URI>"
-      Then I should receive a return code of 200
-        And I should have a list of 1 "educationOrganization" entities
-        And I should have an entity with ID "<South Daybreak Elementary ID>"
+#   When I navigate to GET "/<TEACHER URI>/<Braverman ID>/<TEACHER SCHOOL ASSOC URI>/<SCHOOL URI>"
+#      Then I should receive a return code of 200
+#        And I should have a list of 1 "educationOrganization" entities
+#        And I should have an entity with ID "<South Daybreak Elementary ID>"
 Examples:
   |User        |Password        |
   |rrogers     |rrogers1234     |
