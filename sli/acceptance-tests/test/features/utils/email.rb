@@ -37,8 +37,8 @@ def check_email(config = {})
   #end
 
   # remove spaces because the imap client may add unnecessary spaces
-  content_substring.gsub!(/\s/, '') if content_substring
-  subject_substring.gsub!(/\s/, '') if subject_substring
+  # content_substring.gsub!(/\s/, '') if content_substring
+  # subject_substring.gsub!(/\s/, '') if subject_substring
   
   #if ENV['DEBUG']
     puts "content substr #{content_substring}"
