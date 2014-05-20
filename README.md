@@ -1,7 +1,7 @@
 Summary
 =======
 
-This is teh Secure Data Service. The main projects that are to be used are ingestion-service, api, simple-idp, search-indexer, dashboard, admin-tools and databrowser. All of the projects are Maven driven with the exception of admin-tools and databrowser. Those are both Rails applications. This project runs on Java 6 and Maven 3. For Ruby, version 2.0.0 is the recommended version.
+This is the Secure Data Service. The main projects that are to be used are ingestion-service, api, simple-idp, search-indexer, dashboard, admin-tools and databrowser. All of the projects are Maven driven with the exception of admin-tools and databrowser. Those are both Rails applications. This project runs on Java 6 and Maven 3. For Ruby, version 2.0.0 is the recommended version.
 
 *Note - These instructions were written using Ubuntu 12.04 and above.
 
