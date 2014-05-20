@@ -20,8 +20,8 @@ Feature:  RC Integration Tests - Test Student Login
     When I edit the group "Student"
     And I check the admin role box
     And I hit the save button
-    Then I am no longer in edit mode
-    And the group "Student" has the admin role box checked
+#    Then I am no longer in edit mode
+#    And the group "Student" has the admin role box checked
     And I click on log out
 
 # Login as a student a take a look at some stuff.
