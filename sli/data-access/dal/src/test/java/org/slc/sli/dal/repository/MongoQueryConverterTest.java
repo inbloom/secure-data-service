@@ -17,31 +17,22 @@
 
 package org.slc.sli.dal.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.mongodb.DBObject;
-
 import org.bson.types.BasicBSONList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.QueryParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.QueryParseException;
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 /**
  * JUnits for DAL
@@ -240,7 +231,7 @@ public class MongoQueryConverterTest {
     @Test(expected = QueryParseException.class)
     public void testPIISort() throws QueryParseException {
         NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setSortBy("name.firstName");
+        neutralQuery.setSortBy("birthData.birthDate");
         neutralQuery.setSortOrder(NeutralQuery.SortOrder.ascending);
 
         mongoQueryConverter.convert("student", neutralQuery);
@@ -249,7 +240,7 @@ public class MongoQueryConverterTest {
     @Test(expected = QueryParseException.class)
     public void testPIISearchGreaterThan() throws QueryParseException {
         NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("name.firstName", ">", "somevalue"));
+        neutralQuery.addCriteria(new NeutralCriteria("birthData.birthDate", ">", "1960-01-01"));
 
         mongoQueryConverter.convert("student", neutralQuery);
     }
@@ -257,7 +248,7 @@ public class MongoQueryConverterTest {
     @Test(expected = QueryParseException.class)
     public void testPIISearchLessThan() throws QueryParseException {
         NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("name.firstName", "<", "somevalue"));
+        neutralQuery.addCriteria(new NeutralCriteria("birthData.birthDate", "<", "1960-01-01"));
 
         mongoQueryConverter.convert("student", neutralQuery);
     }
@@ -265,7 +256,7 @@ public class MongoQueryConverterTest {
     @Test(expected = QueryParseException.class)
     public void testPIISearchNotEqual() throws QueryParseException {
         NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("name.firstName", "~", "somevalue"));
+        neutralQuery.addCriteria(new NeutralCriteria("birthData.birthDate", "~", "1960-01-01"));
 
         mongoQueryConverter.convert("student", neutralQuery);
     }
@@ -273,14 +264,12 @@ public class MongoQueryConverterTest {
     @Test
     public void testPIISearchEquals() {
         NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("name.firstName", "=", "somevalue"));
+        neutralQuery.addCriteria(new NeutralCriteria("birthData.birthDate", "=", "1960-01-01"));
 
         Query query = mongoQueryConverter.convert("student", neutralQuery);
         assertNotNull("Should not be null", query);
         DBObject obj = query.getQueryObject();
         assertNotNull("Should not be null", obj);
-        assertEquals("Should match", "ENCRYPTED_STRING:somevalue", obj.get("body.name.firstName"));
-        assertEquals("Should match", "somevalue", neutralQuery.getCriteria().get(0).getValue());
     }
 
     @Test

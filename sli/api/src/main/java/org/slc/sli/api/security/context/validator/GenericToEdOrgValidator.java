@@ -50,7 +50,7 @@ public class GenericToEdOrgValidator extends AbstractContextValidator {
     public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         LOG.trace(">>>GenericToEdOrgValidator.validate()");
         LOG.trace("  entityType: " + entityType);
-        LOG.trace("  ids: " + ids.toString());
+        LOG.trace("  ids: " + ids);
 
         if (!areParametersValid(Arrays.asList(EntityNames.SCHOOL, EntityNames.EDUCATION_ORGANIZATION), entityType, ids)) {
             LOG.trace("  ...return empty set - areParametersValid");
