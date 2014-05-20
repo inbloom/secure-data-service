@@ -55,7 +55,7 @@ Scenario:  SEA approves Dashboard, Databrowser and Bulk Extract 2 End Applicatio
    And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   Then I should be on Portal home page
-   And under System Tools, I click on "Authorize Applications"
+   And under System Tools, I click on "Application Authorizations"
   Then I am redirected to the Admin Application Authorization Tool
 #Authorize the Dashboard
    And I see an application "inBloom Dashboards" in the table
@@ -211,7 +211,7 @@ Scenario:  SEA approves freshly registered Applications
    And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   Then I should be on Portal home page
-   And under System Tools, I click on "Authorize Applications"
+   And under System Tools, I click on "Application Authorizations"
   Then I am redirected to the Admin Application Authorization Tool
   #Authorize fresh non-bulk extract app
    And I see an application "NotABulkExtractApp" in the table
