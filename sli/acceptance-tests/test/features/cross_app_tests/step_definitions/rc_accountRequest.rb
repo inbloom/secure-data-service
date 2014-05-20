@@ -95,8 +95,8 @@ Then /^I should see an account with name "([^\"]*)"$/ do |user_name|
   @user_name = user_name
 end
 
-Then /^I click on Approve Account$/ do
-  @driver.find_element(:link_text, 'Approve Account').click
+Then /^I click on Account Management$/ do
+  @driver.find_element(:link_text, 'Account Managements').click
 end
 
 Then /^I should be on the Authorize Developer Account page$/ do
