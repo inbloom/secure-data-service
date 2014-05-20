@@ -1,7 +1,7 @@
 Summary
 =======
 
-This is the inBloom Datastore. It contains the backend for the inBloom project. The main projects that are to be used are ingestion-service, api, simple-idp, search-indexer, dashboard, admin-tools and databrowser. All of the projects are Maven driven with the exception of admin-tools and databrowser. Those are both Rails applications. This project runs on Java 6 and Maven 3. For Ruby, version 2.0.0 is the recommended version.
+This is teh Secure Data Service. The main projects that are to be used are ingestion-service, api, simple-idp, search-indexer, dashboard, admin-tools and databrowser. All of the projects are Maven driven with the exception of admin-tools and databrowser. Those are both Rails applications. This project runs on Java 6 and Maven 3. For Ruby, version 2.0.0 is the recommended version.
 
 *Note - These instructions were written using Ubuntu 12.04 and above.
 
@@ -55,14 +55,14 @@ ldap-in-memory
   - `mvn clean install`
   - `mvn jetty:run` start the ldap server
 
-Building the Datastore
+Building the Secure Data Service
 ======================
 
 If you have not done so, change the PermGen size to a higher number. If not, you could run into PermGen space issues during the build.
   - `export MAVEN_OPTS=-XX:MaxPermSize=512m`
   - More on `MAVEN_OPTS` below
 
-Get the source for the datastore
+Get the source for the Secure Data Service
 --------------------------------
   - git clone https://github.com/inbloom/secure-data-service.git
 
