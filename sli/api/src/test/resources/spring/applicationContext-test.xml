@@ -36,34 +36,20 @@
     <bean id="performanceRepo" class="org.slc.sli.validation.DummyEntityRepository"/>
 
     <context:component-scan base-package="org.slc">
-        <context:exclude-filter type="regex"
-                                expression=".*CustomImpl"/>
-        <context:exclude-filter type="regex"
-                                expression=".*DummyEntityRepository"/>
-        <context:exclude-filter type="regex"
-                                expression=".*MongoEntityRepository"/>
-        <context:exclude-filter type="regex"
-                                expression=".*AvroEntityValidator"/>
-        <context:exclude-filter type="regex"
-                                expression=".*AggregationLoader"/>
-        <context:exclude-filter type="regex"
-                                expression=".*NeutralSchemaValidator"/>
-        <context:exclude-filter type="regex"
-                                expression=".*DefaultGranularAccessFilterProvider"/>
-        <context:exclude-filter type="assignable"
-                                expression="org.slc.sli.api.model.ModelProvider"/>
-        <context:exclude-filter type="regex"
-                                expression=".*GenericSuperdocConverter"/>
-        <context:exclude-filter type="regex"
-                                expression=".*AssessmentConverter"/>
-        <context:exclude-filter type="regex"
-                                expression=".*StudentAssessmentConverter"/>
-        <context:exclude-filter type="regex"
-                                expression=".*SuperdocConverterRegistry"/>
-        <context:exclude-filter type="regex"
-                                expression=".*DeltaJournal"/>
+        <context:exclude-filter type="regex" expression=".*CustomImpl"/>
+        <context:exclude-filter type="regex" expression=".*DummyEntityRepository"/>
+        <context:exclude-filter type="regex" expression=".*MongoEntityRepository"/>
+        <context:exclude-filter type="regex" expression=".*AvroEntityValidator"/>
+        <context:exclude-filter type="regex" expression=".*AggregationLoader"/>
+        <context:exclude-filter type="regex" expression=".*NeutralSchemaValidator"/>
+        <context:exclude-filter type="regex" expression=".*DefaultGranularAccessFilterProvider"/>
+        <context:exclude-filter type="assignable" expression="org.slc.sli.api.model.ModelProvider"/>
+        <context:exclude-filter type="regex" expression=".*GenericSuperdocConverter"/>
+        <context:exclude-filter type="regex" expression=".*AssessmentConverter"/>
+        <context:exclude-filter type="regex" expression=".*StudentAssessmentConverter"/>
+        <context:exclude-filter type="regex" expression=".*SuperdocConverterRegistry"/>
+        <context:exclude-filter type="regex" expression=".*DeltaJournal"/>
     </context:component-scan>
-
 
     <context:annotation-config/>
 
@@ -90,10 +76,9 @@
         <property name="userDn" value="cn=DevLDAP User, ou=People,dc=slidev,dc=org"/>
         <property name="password" value="Y;Gtf@w{"/>
         <property name="pooled" value="true"/>
-
     </bean>
-    <bean
-            class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor"/>
+
+    <bean class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor"/>
 
     <bean id="apiSchemaAdapter" class="org.slc.sli.api.migration.ApiSchemaAdapter">
         <property name="upMigrationConfigResource" value="classpath:migration/up-api-migration.json/"/>
@@ -111,8 +96,8 @@
                   value="#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.keystore.password}')}"/>
         <property name="keyStoreType" value="JCEKS"/>
     </bean>
-    
-    <import resource="ingestion-batchjob.xml" />
+
+    <import resource="ingestion-batchjob.xml"/>
 
 </beans>
 

@@ -17,8 +17,9 @@
 
 package org.slc.sli.api.service;
 
-import com.google.common.collect.Lists;
 import junit.framework.Assert;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,6 +45,8 @@ import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.*;
 import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -76,6 +79,8 @@ import static org.junit.Assert.assertTrue;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class BasicServiceTest {
+    private static final Logger LOG = LoggerFactory.getLogger(BasicServiceTest.class);
+
     private BasicService service = null; //class under test
 
     @Autowired
@@ -389,22 +394,47 @@ public class BasicServiceTest {
     public void testCreate() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         securityContextInjector.setEducatorContext();
 
+        //adding this to research "Heisenbug" that may be related to timing of resource initialization, which causes nonrepeatable test failures.
+        try {
+            Thread.currentThread().sleep(5L); //sleep for 5 ms
+        } catch (InterruptedException is) {
+            //squish
+        }
+
         RightAccessValidator mockAccessValidator = Mockito.mock(RightAccessValidator.class);
         Field rightAccessValidator = BasicService.class.getDeclaredField("rightAccessValidator");
         rightAccessValidator.setAccessible(true);
         rightAccessValidator.set(service, mockAccessValidator);
 
+        //adding this to research "Heisenbug" that may be related to timing of resource initialization, which causes nonrepeatable test failures.
+        try {
+            Thread.currentThread().sleep(5L); //sleep for 5 ms
+        } catch (InterruptedException is) {
+            //squish
+        }
+
         EntityBody entityBody1 = new EntityBody();
         entityBody1.put("studentUniqueStateId", "student1");
         EntityBody entityBody2 = new EntityBody();
         entityBody2.put("studentUniqueStateId", "student2");
+
         List<EntityBody> entityBodies = Arrays.asList(entityBody1, entityBody2);
+
         Entity entity1 = new MongoEntity("student", "student1", entityBody1, new HashMap<String,Object>());
         Entity entity2 = new MongoEntity("student", "student2", entityBody2, new HashMap<String,Object>());
         Mockito.when(mockRepo.create(Mockito.eq("student"), Mockito.eq(entityBody1), Mockito.any(Map.class), Mockito.eq("student"))).thenReturn(entity1);
         Mockito.when(mockRepo.create(Mockito.eq("student"), Mockito.eq(entityBody2), Mockito.any(Map.class), Mockito.eq("student"))).thenReturn(entity2);
 
-        List<String> listResult = service.create(entityBodies);
+        LOG.debug(ToStringBuilder.reflectionToString(entityBodies, ToStringStyle.MULTI_LINE_STYLE));
+
+        //adding this to research "Heisenbug" that may be related to timing of resource initialization, which causes nonrepeatable test failures.
+        try {
+            Thread.currentThread().sleep(5L); //sleep for 5 ms
+        } catch (InterruptedException is) {
+            //squish
+        }
+
+        List<String> listResult = servic.e.create(entityBodies);
 
         Assert.assertEquals("EntityBody mismatch", entity1.getEntityId(), listResult.toArray()[0]);
         Assert.assertEquals("EntityBody mismatch", entity2.getEntityId(), listResult.toArray()[1]);
