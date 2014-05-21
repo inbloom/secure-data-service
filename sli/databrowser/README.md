@@ -1,8 +1,8 @@
 # Welcome to the Databrowser! #
 
-In a nutshell, this application is used to traverse the Api to see all of the data available to you.
+In a nutshell, this application is used to traverse the ESDS Api to see all of the data available to you.
 You can explore the data by clicking on the links that the Api shows, or you can even explicitly tell
-the Databrowser what part of the Api to visit.
+the Databrowser what part of the ESDS Api to visit.
 
 ## Configuration And Setup ##
 The Databrowser is a fairly simple Ruby on Rails application, but there are a few customizations and
