@@ -434,7 +434,7 @@ public class BasicServiceTest {
             //squish
         }
 
-        List<String> listResult = servic.e.create(entityBodies);
+        List<String> listResult = service.create(entityBodies);
 
         Assert.assertEquals("EntityBody mismatch", entity1.getEntityId(), listResult.toArray()[0]);
         Assert.assertEquals("EntityBody mismatch", entity2.getEntityId(), listResult.toArray()[1]);
