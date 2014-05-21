@@ -12,8 +12,8 @@ Once you've prepped the Databrowser by installing the pre-requisite gems using b
 a look in the `config/config.yml` file. This file contains the most important areas to configure. You will
 find configuration on a per-environment basis.
 
-First and foremost, are the url to the Api, `callback`, `client_id`, and `client_secret`. The first is the url
-needed to actually access the inBloom Api. Second, is the callback. You will want to replace everything before
+First and foremost, are the url to the ESDS Api, `callback`, `client_id`, and `client_secret`. The first is the url
+needed to actually access the ESDS Api. Second, is the callback. You will want to replace everything before
 `/callback` with the url to where you have the inBloom Databrowser running. Finally the `client_id` and
 client_secret are the two pieces of information you need to complete OAuth with this app. You can get these
 values by going through the application registration process with inBloom. Once you have completed these
@@ -45,4 +45,5 @@ We also use cucumber to do behavior tests.
 We make use of the localization in the config/locales directory to translate some of the fields that the Api
 Would return. Simple things like 'firstName' would be translated to 'First Name', and so on.
 
-
+##Licensing
+Databrowser is licensed under the Apache License, Version 2.0. See LICENSE-2.0.txt for full license text.
