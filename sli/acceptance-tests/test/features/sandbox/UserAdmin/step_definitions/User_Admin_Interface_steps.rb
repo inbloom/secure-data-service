@@ -194,7 +194,7 @@ Then /^I can change the Role from the dropdown to (.*?)$/ do |primary_role|
 end
 
 Then /^I can add additional Role "(.*?)"$/ do |optional_role|
-  checkboxes = @explicitWait.until{@driver.find_elements(:xpath, "//form/fieldset/div/div/label/input[@type=\"checkbox\"]")}
+  checkboxes = @explicitWait.until{@driver.find_elements(:xpath, "//form/fieldset/div/label/input[@type=\"checkbox\"]")}
   checkboxes.each do |checkbox|
     value = checkbox.attribute("value")
     if optional_role == value && checkbox.attribute("checked") != "true"
