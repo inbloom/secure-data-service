@@ -202,24 +202,26 @@ Then /^I set my password to "(.*?)"$/ do |password|
                                         :subject_substring => 'Reset Password',
                                         :imap_username => @email_username,
                                         :imap_password => @email_password}) do
-    reset_password_link = nil
-    content.split("\n").each do |line|
-      if(/#{Property["admintools_server_url"]}/.match(line))
-        reset_password_link = line.strip
-      end
-    end
-    puts "reset password link: #{reset_password_link}"
-    @driver.get(reset_password_link)
-
-    @driver.find_element(:id, "new_account_password_new_pass").clear
-    @driver.find_element(:id, "new_account_password_new_pass").send_keys password
-    @driver.find_element(:id, "new_account_password_confirmation").clear
-    @driver.find_element(:id, "new_account_password_confirmation").send_keys password
-    if(@mode == "SANDBOX")
-      @driver.find_element(:id, "terms_and_conditions").click
-    end
-    @driver.find_element(:id, "submitForgotPasswordButton").click
   end
+
+  reset_password_link = nil
+  @welcome_email_content.split("\n").each do |line|
+    if(/#{Property["admintools_server_url"]}/.match(line))
+      reset_password_link = line.strip
+      break
+    end
+  end
+
+  puts "reset password link: #{reset_password_link}"
+  @driver.get(reset_password_link)
+
+  @driver.find_element(:id, "new_account_password_new_pass").clear
+  @driver.find_element(:id, "new_account_password_new_pass").send_keys password
+  @driver.find_element(:id, "new_account_password_confirmation").clear
+  @driver.find_element(:id, "new_account_password_confirmation").send_keys password
+  @driver.find_element(:id, "terms_and_conditions").click if(@mode == "SANDBOX")
+  @driver.find_element(:id, "submitForgotPasswordButton").click
+
   puts @welcome_email_content
 end
 
