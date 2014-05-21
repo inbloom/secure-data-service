@@ -195,11 +195,10 @@ Then /^I set my password to "(.*?)"$/ do |password|
   reset_password_link = nil
   content.split("\n").each do |line|
     if(/#{Property["admintools_server_url"]}/.match(line))
-      reset_password_link = line
+      reset_password_link = line.strip
     end
   end
-  reset_password_link = reset_password_link.strip[0..-("<br>".size + 1)]
-  puts "reset password link = #{reset_password_link}"
+  puts "reset password link: #{reset_password_link}"
   @driver.get(reset_password_link)
 
   @welcome_email_content = check_email({:content_substring => first_name,
