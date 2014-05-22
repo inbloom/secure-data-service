@@ -74,8 +74,8 @@ def check_email(config = {})
             puts "subject is #{subject}"
           end
 
-          if (!content_substring || content.gsub(/\s/,'').include?(content_substring)) &&
-             (!subject_substring || subject.gsub(/\s/,'').include?(subject_substring))
+          if (!content_substring || content.include?(content_substring)) &&
+             (!subject_substring || subject.include?(subject_substring))
             return content
           else
             puts "incorrect email content = #{content}"
