@@ -15,13 +15,13 @@ Scenario: Moving through breadcrumbs
   Then I should see a breadcrumbtrail of "home"
   And I navigate to myself as user "rrogers" of edorg "Illinois State Board of Education"
   When I click on the link "Staff Education Organization Associations"
-  Then I should see a breadcrumbtrail of "home > educationOrganizations > staff > staffEducationOrgAssignmentAssociations"
+  Then I should see a breadcrumbtrail of "home > staff > 85585b27-5368-4f10-a331-3abcaf3a3f4c > staffEducationOrgAssignmentAssociations"
   When I click on the link "home"
   Then I should see a breadcrumbtrail of "home"
   And I navigate to myself as user "rrogers" of edorg "Illinois State Board of Education"
   When I click on the link "Education Organizations"
   When I click on the link "Staff Education Organization Associations"
-  Then I should see a breadcrumbtrail of "home > educationOrganizations > staff > educationOrganizations > staffEducationOrgAssignmentAssociations"
+  Then I should see a breadcrumbtrail of "home > educationOrganizations > b1bd3db6-d020-4651-b1b8-a8dba688d9e1 > staffEducationOrgAssignmentAssociations"
 
 @DS-1144
 Scenario Outline: Displaying Search Breadcrumbs
