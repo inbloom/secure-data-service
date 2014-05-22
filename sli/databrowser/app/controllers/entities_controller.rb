@@ -46,7 +46,7 @@ class EntitiesController < ApplicationController
     end
       params[:other] = params[:search_type] if @search_field
     if params[:search_type] == "studentByName"
-      Entity.url_type = "studentsgit status"
+      Entity.url_type = "students"
     elsif params[:search_type] == "staffByName"
       Entity.url_type = "staff"
     elsif params[:search_type] == "teacherByName"

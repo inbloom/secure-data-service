@@ -33,11 +33,6 @@ class EntitiesControllerTest < ActionController::TestCase
     assert_response :success
   end
   
-  test "search successfully" do
-    get(:show, {:search_type => "teachers", :search_id => @teacher_fixtures['one']['id'], :other => "students"})
-    assert_response :success
-  end
-  
   test "bad search goes nowhere" do
     get(:show, {:search_type => "sdfsdf", :search_id => "asdf", :other => "teachers"})
     assert_response :success
