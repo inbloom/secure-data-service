@@ -200,6 +200,7 @@ Then I should navigate to "/entities/schools/62d6d5a0-852c-45f4-906a-91275283166
 And I have navigated to the "EducationOrganizations" listing of the Data Browser
 Then I should navigate to "/entities/educationOrganizations/62d6d5a0-852c-45f4-906a-912752831662"
 
+@wip
 Scenario: Traverse Multiple Parents School and Education Service Center
 Given I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "true"
 And I have an open web browser
