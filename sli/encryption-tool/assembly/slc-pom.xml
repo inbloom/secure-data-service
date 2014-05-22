@@ -266,7 +266,7 @@
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <version>${ommons.codec.version}</version>
+            <version>${commons.codec.version}</version>
         </dependency>
 
     </dependencies>
