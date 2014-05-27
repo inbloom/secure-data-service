@@ -181,38 +181,47 @@ Then /^I can directly update the (.*?) field to "(.*?)"$/ do |field_name, new_va
 end
 
 Then /^I set my password to "(.*?)"$/ do |password|
+  @driver.get "#{Property["admintools_server_url"]}/reset_password"
+  @driver.find_element(:id, "user_id").clear
+  @driver.find_element(:id, "user_id").send_keys @user_email
+  @driver.find_element(:id, "submit").click
+
   first_name = @user_full_name.split(" ", 2)[0]
-  content = check_email({:content_substring => first_name,
-                         # :subject_substring => "Email Confirmation",
-                         :imap_username => @email_username,
-                         :imap_password => @email_password}) do
-    @driver.get(Property["admintools_server_url"] + "/forgot_passwords")
-    @driver.find_element(:id, "user_id").clear
-    @driver.find_element(:id, "user_id").send_keys @user_email
-    @driver.find_element(:id, "submit").click
+  # content = check_email({:content_substring => first_name,
+  #                        :subject_substring => "Reset Password",
+  #                        :imap_username => @email_username,
+  #                        :imap_password => @email_password}) do
+  #   @driver.get(Property["admintools_server_url"] + "/forgot_passwords")
+  #   @driver.find_element(:id, "user_id").clear
+  #   @driver.find_element(:id, "user_id").send_keys @user_email
+  #   @driver.find_element(:id, "submit").click
+  # end
+
+
+  @welcome_email_content = check_email({:content_substring => first_name,
+                                        :subject_substring => 'Reset Password',
+                                        :imap_username => @email_username,
+                                        :imap_password => @email_password}) do
   end
 
   reset_password_link = nil
-  content.split("\n").each do |line|
+  @welcome_email_content.split("\n").each do |line|
     if(/#{Property["admintools_server_url"]}/.match(line))
       reset_password_link = line.strip
+      break
     end
   end
+
   puts "reset password link: #{reset_password_link}"
   @driver.get(reset_password_link)
 
-  @welcome_email_content = check_email({:content_substring => first_name,
-                                        :imap_username => @email_username,
-                                        :imap_password => @email_password}) do
-    @driver.find_element(:id, "new_account_password_new_pass").clear
-    @driver.find_element(:id, "new_account_password_new_pass").send_keys password
-    @driver.find_element(:id, "new_account_password_confirmation").clear
-    @driver.find_element(:id, "new_account_password_confirmation").send_keys password
-    if(@mode == "SANDBOX")
-      @driver.find_element(:id, "terms_and_conditions").click
-    end
-    @driver.find_element(:id, "submitForgotPasswordButton").click
-  end
+  @driver.find_element(:id, "new_account_password_new_pass").clear
+  @driver.find_element(:id, "new_account_password_new_pass").send_keys password
+  @driver.find_element(:id, "new_account_password_confirmation").clear
+  @driver.find_element(:id, "new_account_password_confirmation").send_keys password
+  @driver.find_element(:id, "terms_and_conditions").click if(@mode == "SANDBOX")
+  @driver.find_element(:id, "submitForgotPasswordButton").click
+
   puts @welcome_email_content
 end
 
