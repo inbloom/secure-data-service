@@ -143,16 +143,16 @@ def set_fixture(collection, fixture_name=nil, fixture_path='test/data', drop=tru
   # These fields are encrypted after we import the sandbox data
   # this is a map of tablename -> field name
 
-  if ENCRYPTED_PII_FIELDS[collection] != nil
-
-    puts "ENCRYPTING TABLE #{collection}"
-
-    encryptionToolProcess = IO.popen(ENCRYPT_TOOL_COMMAND, "w+")
-    encryptFields(db_used, collection, ENCRYPTED_PII_FIELDS[collection], encryptionToolProcess)
-
-    Process.kill('SIGALRM', encryptionToolProcess.pid)
-
-  end
+  #if ENCRYPTED_PII_FIELDS[collection] != nil
+  #
+  #  puts "ENCRYPTING TABLE #{collection}"
+  #
+  #  encryptionToolProcess = IO.popen(ENCRYPT_TOOL_COMMAND, "w+")
+  #  encryptFields(db_used, collection, ENCRYPTED_PII_FIELDS[collection], encryptionToolProcess)
+  #
+  #  Process.kill('SIGALRM', encryptionToolProcess.pid)
+  #
+  #end
 end
 
 #encryptes all the fields listed in 'fields' in
