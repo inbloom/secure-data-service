@@ -17,16 +17,6 @@
 
 package org.slc.sli.dal.encrypt;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
@@ -34,6 +24,11 @@ import org.apache.commons.codec.binary.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import java.io.*;
+import java.security.GeneralSecurityException;
 
 /**
  * Encrypts/Decrypts data using AES
@@ -147,10 +142,13 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
     
     private byte[] decryptToBytes(String encodedData) {
         byte[] data = Base64.decodeBase64(encodedData);
+        byte[] decrypted = null;
         try {
-            byte[] decrypted = buildDecryptCipher().doFinal(data);
+            decrypted = buildDecryptCipher().doFinal(data);
             return decrypted;
         } catch (GeneralSecurityException e) {
+            LOG.error("encodedData: " + encodedData);
+            LOG.error("data: " + data.toString());
             throw new RuntimeException(e);
         }
     }

@@ -48,15 +48,14 @@ public class Encryptor {
     private static final String DALALGORITHM = "dalAlgorithm";
 
     private static final String KEYSTORE_TYPE = "JCEKS";
-    private static final String ALGORITHM = "AES";
+    private static final String CIPHER_ALGORITHM = "AES";
+    private static final String CHARSET = "UTF8";
 
     private String keyStorePass;
     private String keyLocation;
-
     KeyStore keystore;
 
     public Encryptor(String keyStoreLocation, String keyStorePassword)  throws Exception {
-
         setKeyLocation(keyStoreLocation);
         setKeyStorePass(keyStorePassword);
         
@@ -83,14 +82,12 @@ public class Encryptor {
         }
     }
 
-    public String encrypt(String alias, String password, String value) throws GeneralSecurityException,
-            IOException {
-
+    public String encrypt(String alias, String password, String value) throws GeneralSecurityException, IOException {
         Key key = keystore.getKey(alias, password.toCharArray());
         // create a cipher object and use the generated key to initialize it
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         cipher.init(Cipher.ENCRYPT_MODE, key);
-        byte[] encrypted = cipher.doFinal(value.getBytes("UTF8"));
+        byte[] encrypted = cipher.doFinal(value.getBytes(CHARSET));
 
         return byteArrayToHexString(encrypted);
     }
@@ -120,15 +117,13 @@ public class Encryptor {
         return encoded;
     }
 
-    public String decrypt(String alias, String password, String message) throws GeneralSecurityException,
-            IOException {
-
+    public String decrypt(String alias, String password, String message) throws GeneralSecurityException, IOException {
         Key key = keystore.getKey(alias, password.toCharArray());
         // create a cipher object and use the generated key to initialize it
-        Cipher cipher = Cipher.getInstance("AES");
+        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
-        return new String(decrypted, "UTF8");
+        return new String(decrypted, CHARSET);
     }
 
     public String decrypt(String alias, String password, String algorithm, String initVec, String message) throws GeneralSecurityException {
@@ -358,4 +353,5 @@ public class Encryptor {
             }
         }
     }
+
 }
