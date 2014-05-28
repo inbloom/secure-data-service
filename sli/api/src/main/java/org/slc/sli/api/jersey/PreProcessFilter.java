@@ -18,13 +18,10 @@ package org.slc.sli.api.jersey;
 
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
 import org.slc.sli.api.exceptions.RequestBlockedException;
-import org.slc.sli.api.resources.generic.MethodNotAllowedException;
 import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.security.OauthSessionManager;
@@ -33,7 +30,6 @@ import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.pdp.EndpointMutator;
-import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.translator.URITranslator;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.validation.URLValidator;
@@ -59,7 +55,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.ws.rs.core.PathSegment;
-import javax.xml.bind.DatatypeConverter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -224,7 +221,10 @@ public class PreProcessFilter implements ContainerRequestFilter {
      */
     private List<NeutralQuery> construct(String fieldName) {
 //        String now = DatatypeConverter.printDate(Calendar.getInstance());
-       String now = Long.toString(System.currentTimeMillis());
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String now = dateFormat.format(date);
 
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(fieldName, NeutralCriteria.CRITERIA_GT, now));
         NeutralQuery nq2 = new NeutralQuery(new NeutralCriteria(fieldName, NeutralCriteria.CRITERIA_EXISTS, false));
