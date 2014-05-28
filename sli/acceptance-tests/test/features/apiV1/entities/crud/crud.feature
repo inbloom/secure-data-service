@@ -247,7 +247,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     #ds-917: list endpoint for public data no longer shows entities from edorgs not directly associated with the user
     #these entities can still be read by accessing them by id.
     #| "studentCompetencyObjective" | "studentCompetencyObjectives" | 1     | /search/studentCompetencyObjectives                                                  |
-
+@wip
   Scenario: Invalid data parsing fails gracefully
     When I navigate to GET "/v1/staffEducationOrgAssignmentAssociations?endDate=blah"
     Then I should receive a return code of 400
