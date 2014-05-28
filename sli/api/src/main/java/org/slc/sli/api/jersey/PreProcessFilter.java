@@ -223,7 +223,11 @@ public class PreProcessFilter implements ContainerRequestFilter {
      * @return
      */
     private List<NeutralQuery> construct(String fieldName) {
-        String now = DatatypeConverter.printDate(Calendar.getInstance());
+//        String now = DatatypeConverter.printDate(Calendar.getInstance());
+        Calendar cal = new GregorianCalendar();
+        String now = new StringBuilder().append(cal.get(Calendar.YEAR)).append("-")
+                .append(cal.get(Calendar.MONTH)+1).append("-")
+                .append(cal.get(Calendar.DAY_OF_MONTH)).toString();
 
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(fieldName, NeutralCriteria.CRITERIA_GT, now));
         NeutralQuery nq2 = new NeutralQuery(new NeutralCriteria(fieldName, NeutralCriteria.CRITERIA_EXISTS, false));
