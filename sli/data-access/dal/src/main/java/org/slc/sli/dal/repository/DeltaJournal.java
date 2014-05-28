@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.slc.sli.dal.repository;
 
 import org.apache.commons.codec.DecoderException;
@@ -44,7 +29,6 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
  */
 @Component
 public class DeltaJournal implements InitializingBean {
-
     private static final Logger LOG = LoggerFactory.getLogger(DeltaJournal.class);
 
     @Value("${sli.bulk.extract.deltasEnabled:true}")
@@ -53,11 +37,7 @@ public class DeltaJournal implements InitializingBean {
     @Value("${sli.sandbox.enabled}")
     private boolean isSandbox;
 
-    public static final String DELTA_COLLECTION = "deltas";
-
-    public static final String PURGE = "purge";
-
-    // in paged query, get upto 50000 items each time
+    /* in paged query, get upto 50000 items each time. */
     @Value("${sli.bulk.extract.delta.iterationSize:50000}")
     private int limit;
 
@@ -69,11 +49,12 @@ public class DeltaJournal implements InitializingBean {
     @Qualifier("shardType1UUIDGeneratorStrategy")
     private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
+    public static final String DELTA_COLLECTION = "deltas";
+    public static final String PURGE = "purge";
     private final Map<String, String> subdocCollectionsToCollapse = new HashMap<String, String>();
 
     @Override
     public void afterPropertiesSet() throws Exception {
-
         subdocCollectionsToCollapse.put("assessmentItem", "assessment");
         subdocCollectionsToCollapse.put("objectiveAssessment", "assessment");
         subdocCollectionsToCollapse.put("studentAssessmentItem", "studentAssessment");
