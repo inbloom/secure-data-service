@@ -16,27 +16,30 @@ limitations under the License.
 
 =end
 
+# Instance variables to let the Search and Result steps communicate
 
-Then /^I can search for <Type> with a <Field> and get a <Result>$/ do |table|
-  table.hashes.each do |hash|
-    select = @driver.find_element(:tag_name, "select")
-    all_options = select.find_elements(:tag_name, "option")
-    all_options.each do |option|
-      if option.attribute("value") == hash["Type"]
-        option.click
-        break
-      end
+When /^I can search for (.*) with a (.*)$/ do |type, field|
+  select = @driver.find_element(:tag_name, "select")
+  all_options = select.find_elements(:tag_name, "option")
+  all_options.each do |option|
+    if option.attribute("value") == type
+      option.click
+      break
     end
-    @driver.find_element(:id, "search_id").clear
-    @driver.find_element(:id, "search_id").send_keys(hash["Field"])
-    @driver.find_element(:css, "input[type='submit']").click
-    errors = @driver.find_elements(:id, "alert")
-    if hash["Result"] == "Pass"
-      assert(errors.size == 0, "Should not be a flash error for #{hash["Type"]}/#{hash["Field"]}")
-    else
-      assert(errors.size == 1, "There should be an error message for #{hash["Type"]}/#{hash["Field"]}")
-    end   
   end
+  @driver.find_element(:id, "search_id").clear
+  @driver.find_element(:id, "search_id").send_keys(field)
+  @driver.find_element(:css, "input[type='submit']").click
+end
+
+Then /^I get result (.*)$/ do |result| 
+    errors = @driver.find_elements(:id, "alert")
+    if result == "Pass"
+      assert(errors.size == 0, "Should not be a flash error")
+    else
+      assert(errors.size == 1, "There should be an error message")
+    end   
+  
 end
 
 When /^I go to the students page$/ do

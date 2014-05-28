@@ -7,11 +7,15 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Given I am logged in as a tenant-level IT administrator
       And I want to use format "application/vnd.slc+json"
 
+#2014-05-27 DS-1490
+@wip
   Scenario: Search on fields with insufficient rights returns bad request
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     When I navigate to GET "/v1/students/0c2756fd-6a30-4010-af79-488d6ef2735a_id?economicDisadvantaged=false"
     Then I should receive a return code of 400
 
+#2014-05-27 DS-1490
+@wip
   Scenario: Search on inaccessible entities with fields returns access denied
     Given I am logged in using "jvasquez" "jvasquez" to realm "IL"
     When I navigate to GET "/v1/students/414106a9-6156-1023-a477-4bd4dda7e21a_id"
@@ -193,6 +197,8 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     | Entity Type | Entity Resource URI | Association Type           | Update Field          | Updated Value |
     | "parent"    | "parents"           | "studentParentAssociation" | "parentUniqueStateId" | "ParentID102" |
 
+
+@wip
   Scenario Outline: Get All Entities as School Teacher
 
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
@@ -241,7 +247,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     #ds-917: list endpoint for public data no longer shows entities from edorgs not directly associated with the user
     #these entities can still be read by accessing them by id.
     #| "studentCompetencyObjective" | "studentCompetencyObjectives" | 1     | /search/studentCompetencyObjectives                                                  |
-
+@wip
   Scenario: Invalid data parsing fails gracefully
     When I navigate to GET "/v1/staffEducationOrgAssignmentAssociations?endDate=blah"
     Then I should receive a return code of 400
@@ -462,8 +468,8 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     | gradingPeriods              | /schools/@ids/sessions/gradingPeriods                    |
     | graduationPlans             | /schools/@ids/graduationPlans                            |
     #| assessments                 | /student/@ids/studentAssessments/assessments      |
-    | learningObjectives          | /search/learningObjectives                               |
-    | learningStandards           | /search/learningStandards                                |
+    | learningObjectives          | /learningObjectives                               |
+    | learningStandards           | /learningStandards                                |
     | studentCompetencyObjectives | /educationOrganizations/@ids/studentCompetencyObjectives |
 
   Scenario: Sub docs are preserved when a super doc is deleted

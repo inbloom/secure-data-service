@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:tx="http://www.springframework.org/schema/tx"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-  xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-		">
-
-  <!-- <bean id="studentResource" class="org.slc.sli.api.resources.StudentResource"> <property name="studentService" ref="studentTorqueService" 
-    /> </bean> -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="apiKeyStoreAccessor" class="org.slc.sli.api.resources.security.KeyStoreAccessor">
         <property name="keyStoreFileName" value="${sli.api.keyStore}"/>
-        <property name="keyStorePassword" value="#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.keystore.password}')}"/>
+        <property name="keyStorePassword"
+                  value="#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.keystore.password}')}"/>
         <property name="keyStoreType" value="JCEKS"/>
     </bean>
 

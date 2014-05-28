@@ -23,63 +23,88 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class MutatedContainer {
 
-    private String path = null;
-    private String queryParameters = null;
-    private Map<String, String> headers = null;
-    private boolean isModified = false;
+	private String path = null;
+	private String queryParameters = null;
+	private Map<String, String> headers = null;
+	private boolean isModified = false;
 
-    public String getPath() {
-        return path;
-    }
-    public void setPath(String path) {
-        this.path = path;
-        isModified = true;
-    }
-    public String getQueryParameters() {
-        return queryParameters;
-    }
-    public void setQueryParameters(String queryParameters) {
-        this.queryParameters = queryParameters;
-        isModified = true;
-    }
-    public Map<String, String> getHeaders() {
-        return headers;
-    }
-    public void setHeaders(Map<String, String> headers) {
-        this.headers = headers;
-        isModified = true;
-    }
+	public static MutatedContainer generate(String queryParameters,
+			String pathFormat, String... pathArgs) {
+		MutatedContainer rslt = new MutatedContainer();
+		rslt.setQueryParameters(queryParameters != null ? queryParameters : "");
+		String mutatedURL = String.format(pathFormat, (Object[]) pathArgs);
+		rslt.setPath(mutatedURL);
+		return rslt;
+	}
+	
+	public String getPath() {
+		return path;
+	}
 
-    public boolean isModified() {
-        return isModified;
-    }
+	public void setPath(String path) {
+		this.path = path;
+		isModified = true;
+	}
 
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
-            append(path).
-            append(queryParameters).
-            append(headers).
-            toHashCode();
-    }
+	public String getQueryParameters() {
+		return queryParameters;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        if (obj.getClass() != getClass()) {
-            return false;
-        }
+	public void setQueryParameters(String queryParameters) {
+		this.queryParameters = queryParameters;
+		isModified = true;
+	}
 
-        MutatedContainer rhs = (MutatedContainer) obj;
-        return new EqualsBuilder().
-            append(path, rhs.path).
-            append(queryParameters, rhs.queryParameters).
-            append(headers, rhs.headers).
-            isEquals();
-    }
+	public Map<String, String> getHeaders() {
+		return headers;
+	}
+
+	public void setHeaders(Map<String, String> headers) {
+		this.headers = headers;
+		isModified = true;
+	}
+
+	public boolean isModified() {
+		return isModified;
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder(17, 31)
+				. // two randomly chosen prime numbers
+				append(path).append(queryParameters).append(headers)
+				.toHashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+		if (obj.getClass() != getClass()) {
+			return false;
+		}
+
+		MutatedContainer rhs = (MutatedContainer) obj;
+		return new EqualsBuilder().append(path, rhs.path)
+				.append(queryParameters, rhs.queryParameters)
+				.append(headers, rhs.headers).isEquals();
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		if (path == null) {
+			builder.append("/home");
+		} else {
+			builder.append(path);
+		}
+		builder.append("/" + queryParameters);
+		builder.append(headers);
+		return builder.toString();
+	}
+
 }

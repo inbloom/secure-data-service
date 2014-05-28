@@ -1,36 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  Copyright 2012-2013 inBloom, Inc. and its affiliates.
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
 
 <beans
-    xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:cache="http://www.springframework.org/schema/cache"
-	xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:mvc="http://www.springframework.org/schema/mvc"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:util="http://www.springframework.org/schema/util"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:cache="http://www.springframework.org/schema/cache"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
     	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
     	http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd"
->
-    <context:property-placeholder location="file:${sli.conf},file:${prop.location},file:${sli.encryption.properties}" ignore-resource-not-found="true" ignore-unresolvable="true" system-properties-mode="FALLBACK" />
+        >
+    <context:property-placeholder location="file:${sli.conf},file:${prop.location},file:${sli.encryption.properties}" ignore-resource-not-found="true"
+                                  ignore-unresolvable="true" system-properties-mode="FALLBACK"/>
 
     <bean id="systemProps" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="targetObject" value="#{@systemProperties}"/>
@@ -43,23 +27,23 @@
     </bean>
 
     <cache:annotation-driven key-generator="userCacheKeyGenerator"/>
-    <bean id="userCacheKeyGenerator" class="org.slc.sli.dashboard.util.UserCacheKeyGenerator" />
+    <bean id="userCacheKeyGenerator" class="org.slc.sli.dashboard.util.UserCacheKeyGenerator"/>
 
     <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:shared="true"/>
 
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-       <property name="cacheManager" ref="ehcache"/>
+        <property name="cacheManager" ref="ehcache"/>
     </bean>
 
-	<bean id="propertiesDecryptor" class="org.slc.sli.dashboard.security.PropertiesDecryptor">
-	    <constructor-arg name="keyStore" value="${sli.encryption.keyStore}" />
-	    <!--<constructor-arg name="keyStore" value="${dashboard.encryption.keyStore}" /> -->
-	    <constructor-arg name="clientSecret" value="${oauth.client.secret}" />
-	    <constructor-arg name="clientId" value="${oauth.client.id}" />
-	    <constructor-arg name="alias" value="${dashboard.encryption.dalKeyAlias}" />
-	    <constructor-arg name="keyStorePassword" value="${dashboard.encryption.keyStorePass}" />
-	    <constructor-arg name="aliasPassword" value="${dashboard.encryption.dalKeyPass}" />
-	</bean>
+    <bean id="propertiesDecryptor" class="org.slc.sli.dashboard.security.PropertiesDecryptor">
+        <constructor-arg name="keyStore" value="${sli.encryption.keyStore}"/>
+        <!--<constructor-arg name="keyStore" value="${dashboard.encryption.keyStore}" /> -->
+        <constructor-arg name="clientSecret" value="${oauth.client.secret}"/>
+        <constructor-arg name="clientId" value="${oauth.client.id}"/>
+        <constructor-arg name="alias" value="${dashboard.encryption.dalKeyAlias}"/>
+        <constructor-arg name="keyStorePassword" value="${dashboard.encryption.keyStorePass}"/>
+        <constructor-arg name="aliasPassword" value="${dashboard.encryption.dalKeyPass}"/>
+    </bean>
 
     <!-- managers -->
     <bean id="configManager" class="org.slc.sli.dashboard.manager.impl.ConfigManagerImpl">
@@ -69,11 +53,11 @@
     </bean>
 
     <bean id="entityManager" class="org.slc.sli.dashboard.manager.EntityManager">
-      <property name="apiClient" ref="apiClientRef"/>
+        <property name="apiClient" ref="apiClientRef"/>
     </bean>
 
-    <bean id="userEdOrgManager"    class="org.slc.sli.dashboard.manager.impl.UserEdOrgManagerImpl">
-      <property name="apiClient" ref="apiClientRef"/>
+    <bean id="userEdOrgManager" class="org.slc.sli.dashboard.manager.impl.UserEdOrgManagerImpl">
+        <property name="apiClient" ref="apiClientRef"/>
     </bean>
 
     <bean id="populationManager" class="org.slc.sli.dashboard.manager.impl.PopulationManagerImpl">
@@ -84,46 +68,46 @@
     <bean id="portalWSManager" class="org.slc.sli.dashboard.manager.impl.PortalWSManagerImpl">
         <property name="restClient" ref="restClient"/>
         <property name="portalHeaderUrl" value="${portal.header.url}"/>
-	<property name="portalFooterUrl" value="${portal.footer.url}" />
+        <property name="portalFooterUrl" value="${portal.footer.url}"/>
     </bean>
 
-    <bean id="restTemplate" class = "org.springframework.web.client.RestTemplate" />
-    <bean id="restTemplateWTimeout" class = "org.springframework.web.client.RestTemplate">
-	    <constructor-arg>
-	    <bean class="org.springframework.http.client.CommonsClientHttpRequestFactory">
-		    <property name="readTimeout" value="${dashboard.WSCall.timeout}" />
-	    </bean>
-	    </constructor-arg>
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
+    <bean id="restTemplateWTimeout" class="org.springframework.web.client.RestTemplate">
+        <constructor-arg>
+            <bean class="org.springframework.http.client.CommonsClientHttpRequestFactory">
+                <property name="readTimeout" value="${dashboard.WSCall.timeout}"/>
+            </bean>
+        </constructor-arg>
     </bean>
 
-    <bean id="restClient" class="org.slc.sli.dashboard.client.RESTClient" >
-	    <property name="securityUrl" value="${security.server.url}" />
-	    <property name="template" ref = "restTemplate" />
-	    <property name="templateWTimeout" ref="restTemplateWTimeout" />
+    <bean id="restClient" class="org.slc.sli.dashboard.client.RESTClient">
+        <property name="securityUrl" value="${security.server.url}"/>
+        <property name="template" ref="restTemplate"/>
+        <property name="templateWTimeout" ref="restTemplateWTimeout"/>
     </bean>
 
-	<bean id="clientFactory" class="org.slc.sli.api.client.impl.BasicClientFactory">
-		<constructor-arg index="0">
-			<bean class="java.net.URL">
-				<constructor-arg index="0" type="java.lang.String"
-					value="${api.server.url}" />
-			</bean>
-		</constructor-arg>
-		<constructor-arg index="1" type="java.lang.String"
-			value="#{propertiesDecryptor.getDecryptedClientId()}" />
-		<constructor-arg index="2" type="java.lang.String"
-			value="#{propertiesDecryptor.getDecryptedClientSecret()}" />
-		<constructor-arg index="3">
-			<bean class="java.net.URL">
-				<constructor-arg index="0" type="java.lang.String"
-					value="${oauth.redirect}" />
-			</bean>
-		</constructor-arg>
-	</bean>
-    
-    <bean id= "apiClientRef" class="org.slc.sli.dashboard.client.SDKAPIClient">
-        <property name="clientFactory" ref="clientFactory" />
-        <property name="gracePeriod" value="${sli.security.gracePeriod}" />
+    <bean id="clientFactory" class="org.slc.sli.api.client.impl.BasicClientFactory">
+        <constructor-arg index="0">
+            <bean class="java.net.URL">
+                <constructor-arg index="0" type="java.lang.String"
+                                 value="${api.server.url}"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1" type="java.lang.String"
+                         value="#{propertiesDecryptor.getDecryptedClientId()}"/>
+        <constructor-arg index="2" type="java.lang.String"
+                         value="#{propertiesDecryptor.getDecryptedClientSecret()}"/>
+        <constructor-arg index="3">
+            <bean class="java.net.URL">
+                <constructor-arg index="0" type="java.lang.String"
+                                 value="${oauth.redirect}"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="apiClientRef" class="org.slc.sli.dashboard.client.SDKAPIClient">
+        <property name="clientFactory" ref="clientFactory"/>
+        <property name="gracePeriod" value="${sli.security.gracePeriod}"/>
     </bean>
 
     <bean id="progressManager" class="org.slc.sli.dashboard.manager.impl.StudentProgressManagerImpl">
@@ -134,4 +118,5 @@
         <property name="configManager" ref="configManager"/>
         <property name="userEdOrgManager" ref="userEdOrgManager"/>
     </bean>
+
 </beans>

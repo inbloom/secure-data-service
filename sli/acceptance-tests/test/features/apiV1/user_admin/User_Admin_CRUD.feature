@@ -52,7 +52,6 @@ Feature: As an admin I can create admin accounts for tenancies I administer
 	|sunsetadmin|sunsetadmin1234|LEA Administrator	|SLI		|should			|sunsetingestionuser|
 	|sunsetadmin|sunsetadmin1234|LEA Administrator	|SLI		|should			|sunsetrealmadmin	|
 
- 
   @production
   Scenario Outline:  As an administrator I can read all admin accounts in my tenancy if I am a SLC operator or a SEA.  If I am LEA, I can read myself and realm/ingestion users.     
     Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
@@ -76,7 +75,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |USER       |PASSWORD       |ADMIN_ROLE             |REALM      |WANTED_ADMIN_ROLE           |CODE|Number   |Full_Name       |User_ID                          |Email_Address               |Event_Num|User |
     |operator   |operator1234   |SLC Operator           |SLI        |SEA Administrator           |200 |1 or more|NY Admin        |nyadmin                          |                            |0        ||
     |operator   |operator1234   |SLC Operator           |SLI        |LEA Administrator           |200 |1 or more|Daybreak Admin  |daybreakadmin                    |daybreakadmin@slidev.org    |0        ||
-    |operator   |operator1234   |SLC Operator           |SLI        |Realm Administrator         |200 |1 or more|Mal Admin       |mreynolds                        |mreynolds@slidev.org        |0        ||
+#    |operator   |operator1234   |SLC Operator           |SLI        |Realm Administrator         |200 |1 or more|Mal Admin       |mreynolds                        |mreynolds@slidev.org        |0        ||
     |operator   |operator1234   |SLC Operator           |SLI        |Ingestion User              |200 |1 or more|Sunset IngestionUser|sunsetingestionuser          |sunsetingestionuser@slidev.org|0      ||
     |iladmin    |iladmin1234    |SEA Administrator      |SLI        |SLC Operator                |200 |0        |                |                                 |                            |0        ||
     |iladmin    |iladmin1234    |SEA Administrator      |SLI        |SEA Administrator           |200 |1 or more|IL Admin        |iladmin                          |                            |0        ||
@@ -358,7 +357,6 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
     |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Sandbox Administrator       |403 |Midgar|IL-SUNSET  |
     |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Application Developer       |403 |Midgar|IL-SUNSET  |
     |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Ingestion User              |403 |Midgar|IL-SUNSET  |
-
 
   @production
   Scenario: Unhappy path:  LEA cannot see SEA who has same edorg

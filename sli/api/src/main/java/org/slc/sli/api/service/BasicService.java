@@ -16,28 +16,8 @@
 
 package org.slc.sli.api.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.PathConstants;
@@ -53,17 +33,22 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.UserContext;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.AccessibilityCheck;
-import org.slc.sli.domain.CalculatedData;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.FullSuperDoc;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.*;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -82,8 +67,10 @@ public class BasicService implements EntityService, AccessibilityCheck {
     protected static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
     protected static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
     protected static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
+
     protected static final List<String> STUDENT_SELF = Arrays.asList(EntityNames.STUDENT, EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION,
             EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.PARENT, EntityNames.STUDENT_PARENT_ASSOCIATION);
+
     protected String collectionName;
     protected List<Treatment> treatments;
     protected EntityDefinition defn;
@@ -196,6 +183,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
      */
     @Override
     public Iterable<String> listIds(final NeutralQuery neutralQuery) {
+        LOG.debug(">>>BasicService.listIds()");
+        LOG.debug("  neutralQuery: " + ToStringBuilder.reflectionToString(neutralQuery, ToStringStyle.MULTI_LINE_STYLE));
         checkAccess(true, false, null);
         checkFieldAccess(neutralQuery, false);
 
@@ -212,8 +201,9 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Override
     public String create(EntityBody content) {
-        checkAccess(false, false, content);
+        LOG.debug(">>>BasicService.create()");
 
+        checkAccess(false, false, content);
         checkReferences(null, content);
 
         List<String> entityIds = new ArrayList<String>();
@@ -229,6 +219,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Override
     public String createBasedOnContextualRoles(EntityBody content) {
+        LOG.debug(">>>BasicService.createBasedOnContextualRoles()");
 
         Entity entity = new MongoEntity(defn.getType(), null, content, createMetadata());
 
@@ -282,13 +273,13 @@ public class BasicService implements EntityService, AccessibilityCheck {
      * @param content item under inspection
      */
     protected void checkAccess(boolean isRead, boolean isSelf, EntityBody content) {
-
+        LOG.trace(">>>BasicService.checkAccess()");
         Collection<GrantedAuthority> auths = getAuths(isSelf);
-
         rightAccessValidator.checkAccess(isRead, content, defn.getType(), auths);
     }
 
     protected void checkAccess(boolean isRead, String entityId, EntityBody content) {
+        LOG.trace(">>>BasicService.checkAccess()");
         rightAccessValidator.checkSecurity(isRead, entityId, defn.getType(), collectionName, getRepo());
 
         try {
@@ -326,7 +317,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Override
      public void delete(String id) {
-
+        LOG.debug(">>>BasicService.delete()");
         checkAccess(false, id, null);
 
         if (!getRepo().delete(collectionName, id)) {
@@ -449,12 +440,14 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Override
     public EntityBody get(String id) {
+        LOG.debug(">>>BasicService.get(id)");
         return get(id, new NeutralQuery());
 
     }
 
     @Override
     public EntityBody get(String id, NeutralQuery neutralQuery) {
+        LOG.debug(">>>BasicService.get(id, neutralQuery)");
         Entity entity = getEntity(id, neutralQuery);
 
         if (entity == null) {
@@ -465,6 +458,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     protected Entity getEntity(String id, final NeutralQuery neutralQuery) {
+        LOG.debug(">>>BasicService.getEntity(id, neutralQuery)");
         checkAccess(true, id, null);
         checkFieldAccess(neutralQuery, isSelf(id));
 
@@ -497,7 +491,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids) {
-
+        LOG.debug(">>>BasicService.get(Iterable id)");
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(MAX_RESULT_SIZE);
@@ -507,6 +501,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids, final NeutralQuery neutralQuery) {
+        LOG.debug(">>>BasicService.get(Iterable id, neutralQuery)");
         if (!ids.iterator().hasNext()) {
             return Collections.emptyList();
         }
@@ -547,11 +542,13 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Override
     public Iterable<EntityBody> list(NeutralQuery neutralQuery) {
+        LOG.debug(">>>BasicService.list(neutralQuery)");
         listSecurityCheck(neutralQuery);
         return listImplementationAfterSecurityChecks(neutralQuery);
     }
 
     protected void listSecurityCheck(NeutralQuery neutralQuery) {
+        LOG.debug(">>>BasicService.list(neutralQuery)");
         boolean isSelf = isSelf(neutralQuery);
         checkAccess(true, isSelf, null);
         checkFieldAccess(neutralQuery, isSelf);
@@ -643,6 +640,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     protected Collection<Entity> getResponseEntities(NeutralQuery neutralQuery, boolean isSelf) throws AccessDeniedException {
+        LOG.debug(">>>BasicService.getResponseEntities()");
         Collection<Entity> responseEntities = new ArrayList<Entity>();
         Map<String, UserContext> entityContexts = new HashMap<String, UserContext>();
         final int limit = neutralQuery.getLimit();
@@ -702,6 +700,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     protected Collection<Entity> getBatchedEntities(NeutralQuery neutralQuery, int limit, int offset) {
+        LOG.debug(">>>BasicService.getBatchedEntities()");
         neutralQuery.setOffset(offset);
         neutralQuery.setLimit(limit);
         Collection<Entity> batchedEntities = (Collection<Entity>) getRepo().findAll(collectionName, neutralQuery);
@@ -730,6 +729,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     protected void validateQuery(NeutralQuery neutralQuery, boolean self) {
+        LOG.debug(">>>BasicService.validateQuery()");
         NeutralQuery newQuery = new NeutralQuery(neutralQuery);
         boolean removableCriteriaExists = false;
         for (NeutralCriteria cr : neutralQuery.getCriteria()) {

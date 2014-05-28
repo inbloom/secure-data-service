@@ -3,8 +3,8 @@ Feature: Data Browser: As a student, I want to login to InBloom
 
 Background:
   Given that databrowser has been authorized for all ed orgs
-
-@smoke 
+#Students will not be permitted to use the databrowser.
+@ignore
 Scenario: Åccess home page for student using Data Browser, then logout
   Given I have an open web browser
   And I navigated to the Data Browser Home URL
@@ -19,7 +19,7 @@ Scenario: Åccess home page for student using Data Browser, then logout
   Then I should see "Carmen" on the page
   When I click on the Logout link
   And I am forced to reauthenticate to access the databrowser
-
+@ignore
 Scenario: Login as Celeste Gray (student unique state id is equivalent to Charles Gray's staff unique state id)
   Given I have an open web browser
   And I navigated to the Data Browser Home URL

@@ -16,39 +16,21 @@
 
 package org.slc.sli.dal.convert;
 
-import static org.slc.sli.common.constants.EntityNames.ASSESSMENT;
-import static org.slc.sli.common.constants.EntityNames.ASSESSMENT_FAMILY;
-import static org.slc.sli.common.constants.EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR;
-import static org.slc.sli.common.constants.EntityNames.OBJECTIVE_ASSESSMENT;
-import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_FAMILY_HIERARCHY;
-import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_FAMILY_REFERENCE;
-import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_FAMILY_TITLE;
-import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_ID;
-import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_ITEM;
-import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_PERIOD_DESCRIPTOR_ID;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import org.elasticsearch.common.base.Joiner;
-import org.elasticsearch.common.collect.Lists;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
+import org.slc.sli.dal.repository.MongoEntityRepository;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.dal.repository.MongoEntityRepository;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
+import java.util.*;
+import java.util.Map.Entry;
+
+import static org.slc.sli.common.constants.EntityNames.*;
+import static org.slc.sli.common.constants.ParameterConstants.*;
 
 /**
  * assessment converter that transform assessment superdoc to sli assessment schema

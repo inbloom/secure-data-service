@@ -17,6 +17,7 @@
 
 db["error"].ensureIndex({"batchJobId":1, "resourceId":1});
 db["newBatchJob"].ensureIndex({"jobStartTimestamp":1}); // only for job reporting tool
+db["newBatchJob"].ensureIndex({"tenantId":1});
 db["batchJobStage"].ensureIndex({"jobId":1, "stageName":1});
 db["transformationLatch"].ensureIndex({"jobId" : 1, "syncStage" : 1, "recordType" : 1}, {unique : true});
 db["persistenceLatch"].ensureIndex({"jobId" : 1, "syncStage" : 1, "entities" : 1}, {unique : true});

@@ -1,19 +1,19 @@
-# Welcome to the inBloom Databrowser! #
+# Welcome to the Databrowser! #
 
-In a nutshell, this application is used to traverse the inBloom Api to see all of the data available to you.
+In a nutshell, this application is used to traverse the ESDS Api to see all of the data available to you.
 You can explore the data by clicking on the links that the Api shows, or you can even explicitly tell
-the Databrowser what part of the Api to visit.
+the Databrowser what part of the ESDS Api to visit.
 
 ## Configuration And Setup ##
-The inBloom Databrowser is a fairly simple Ruby on Rails application, but there are a few customizations and
+The Databrowser is a fairly simple Ruby on Rails application, but there are a few customizations and
 configuration files to be aware of.
 
 Once you've prepped the Databrowser by installing the pre-requisite gems using bundler, you should take
 a look in the `config/config.yml` file. This file contains the most important areas to configure. You will
 find configuration on a per-environment basis.
 
-First and foremost, are the url to the Api, `callback`, `client_id`, and `client_secret`. The first is the url
-needed to actually access the inBloom Api. Second, is the callback. You will want to replace everything before
+First and foremost, are the url to the ESDS Api, `callback`, `client_id`, and `client_secret`. The first is the url
+needed to actually access the ESDS Api. Second, is the callback. You will want to replace everything before
 `/callback` with the url to where you have the inBloom Databrowser running. Finally the `client_id` and
 client_secret are the two pieces of information you need to complete OAuth with this app. You can get these
 values by going through the application registration process with inBloom. Once you have completed these
@@ -45,4 +45,5 @@ We also use cucumber to do behavior tests.
 We make use of the localization in the config/locales directory to translate some of the fields that the Api
 Would return. Simple things like 'firstName' would be translated to 'First Name', and so on.
 
-
+##Licensing
+Databrowser is licensed under the Apache License, Version 2.0. See LICENSE-2.0.txt for full license text.

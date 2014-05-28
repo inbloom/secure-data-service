@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100">
+  <GradingPeriod>
+    <GradingPeriod>First Semester</GradingPeriod>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <BeginDate>2005-09-12</BeginDate>
+    <EndDate>2005-12-09</EndDate>
+    <TotalInstructionalDays>88</TotalInstructionalDays>
+    <CalendarDateReference>
+      <CalendarDateIdentity>
+        <Date>2005-09-12</Date>
+        <EducationOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationOrgReference>
+      </CalendarDateIdentity>
+    </CalendarDateReference>
+  </GradingPeriod>
+</InterchangeEducationOrgCalendar>

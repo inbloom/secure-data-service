@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeStudentParent xmlns="http://ed-fi.org/0100">
+  <StudentParentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>600000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ParentReference>
+      <ParentIdentity>
+        <ParentUniqueStateId>9870036500</ParentUniqueStateId>
+      </ParentIdentity>
+    </ParentReference>
+    <Relation>Father</Relation>
+    <PrimaryContactStatus>true</PrimaryContactStatus>
+    <LivesWith>true</LivesWith>
+    <EmergencyContactStatus>true</EmergencyContactStatus>
+    <ContactPriority>1</ContactPriority>
+  </StudentParentAssociation>
+</InterchangeStudentParent>

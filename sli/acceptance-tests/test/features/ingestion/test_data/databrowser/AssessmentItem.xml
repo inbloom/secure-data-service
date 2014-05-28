@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeAssessmentMetadata xmlns="http://ed-fi.org/0100">
+  <AssessmentItem>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentTitle>ACT</AssessmentTitle>
+        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+        <Version>1</Version>
+      </AssessmentIdentity>
+    </AssessmentReference>
+    <IdentificationCode>AssessmentItem-1</IdentificationCode>
+    <ItemCategory>True-False</ItemCategory>
+    <MaxRawScore>5</MaxRawScore>
+    <CorrectResponse>False</CorrectResponse>
+    <LearningStandardReference>
+      <LearningStandardIdentity>
+        <IdentificationCode>48AD7305975E4C38A38484926C2AC2B6</IdentificationCode>
+      </LearningStandardIdentity>
+    </LearningStandardReference>
+  </AssessmentItem>
+</InterchangeAssessmentMetadata>

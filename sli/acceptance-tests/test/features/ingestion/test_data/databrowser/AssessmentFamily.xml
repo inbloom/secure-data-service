@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeAssessmentMetadata xmlns="http://ed-fi.org/0100">
+  <AssessmentFamily>
+    <AssessmentFamilyTitle>AP Eng</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>AP Eng</ID>
+    </AssessmentFamilyIdentificationCode>
+    <AssessmentFamilyReference>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>AP</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </AssessmentFamily>
+</InterchangeAssessmentMetadata>

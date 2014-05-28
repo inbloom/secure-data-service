@@ -66,6 +66,7 @@ Examples:
 	|"rrogers" |"rrogers1234" |"IL" |"IL" |"Malcolm Haehn NY"|
 	|"jpratt"  |"jpratt1234"  |"NY" |"NY" |"Matt Sollars"|
 
+@wip
 Scenario Outline: Aggregate Viewer getting their available state data
 
 Given I am logged in using <Username> <Password> to realm <Realm>

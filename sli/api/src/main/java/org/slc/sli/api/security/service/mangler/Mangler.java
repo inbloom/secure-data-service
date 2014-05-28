@@ -16,12 +16,12 @@
 
 package org.slc.sli.api.security.service.mangler;
 
-import java.util.List;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
+import java.util.List;
 
 /**
  * Mangles queries based on paging, etc.
@@ -35,6 +35,7 @@ public abstract class Mangler {
 
     private NeutralCriteria securityCriteria;
     private NeutralQuery theQuery;
+
     public abstract NeutralQuery mangleQuery(NeutralQuery query, NeutralCriteria securityCriteria);
     
     public NeutralQuery mangleQuery() {
@@ -50,6 +51,7 @@ public abstract class Mangler {
     }
     
     protected List<String> adjustIdListForPaging(List<String> securedIds) {
+        LOG.debug(">>>Mangler.adjustIdListForPaging()");
         //There're fewer IDs than we have limited ourselves by, so don't worry.
         if (securedIds.size() <= theQuery.getLimit()) {
             LOG.debug("We aren't paging the security criteria because there is less security than limit");
@@ -65,6 +67,7 @@ public abstract class Mangler {
     
     @SuppressWarnings("unchecked")
     protected void adjustSecurityForPaging() {
+        LOG.debug(">>>Mangler.adjustSecurityForPaging()");
         List<String> fullIds = (List<String>) securityCriteria.getValue();
         fullIds = adjustIdListForPaging(fullIds);
         securityCriteria.setValue(fullIds);

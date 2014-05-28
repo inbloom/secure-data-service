@@ -47,7 +47,7 @@ Scenario: Sorting a collection of full student school association entities
 Scenario: Validate PII cannot be sorted against
   Given I am logged in using "jpratt" "jpratt1234" to realm "NY"
     Given format "application/json"
-    And parameter "sortBy" is "name.firstName"
+    And parameter "sortBy" is "address.streetNumberName"
     And parameter "sortOrder" is "ascending"
     When I navigate to GET "/v1/schools/<'Dawn Elementary School' ID>/studentSchoolAssociations/students"
     Then I should receive a return code of 400
@@ -246,6 +246,7 @@ Scenario: Confirm negative offset is blocked by API
     And I navigate to GET "/v1/schools"
    Then I should receive a return code of 400
 
+@wip
 Scenario: Sorting Collections routed to Elastic Search
   Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And format "application/json"
@@ -297,6 +298,7 @@ Scenario: Sorting Collections routed to Elastic Search
   Then I should receive a collection
    And the link at index 0 should have "objective" equal to "Learn to read"
 
+@wip
 Scenario: Paging collections routed to elastic search
   Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
   And format "application/json"

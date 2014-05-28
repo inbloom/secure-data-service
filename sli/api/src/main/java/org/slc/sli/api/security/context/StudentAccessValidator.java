@@ -332,7 +332,8 @@ public class StudentAccessValidator extends AccessValidator {
 
         switch (paths.size()) {
             case 1:
-                return baseEntity.equals("home") || !queryParams.isEmpty();
+                //return baseEntity.equals("home") || !queryParams.isEmpty();
+                return true;
             case 2:
                 return true;
             case 3:

@@ -20,7 +20,7 @@ limitations under the License.
 
 require "active_resource/base"
 require "oauth_helper"
-require "breadcrumb"
+# require "breadcrumb"
 
 #
 # This is the standard base controller class that all others in the databrowser
@@ -36,8 +36,10 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   ActionController::Base.request_forgery_protection_token = 'state'
   before_filter :handle_oauth
-  before_filter :handle_breadcrumb
-  
+  # before_filter :handle_breadcrumb
+
+  add_breadcrumb 'home', '/entities/home'
+
   rescue_from ActiveResource::ResourceNotFound, :with => :not_found
   
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
@@ -48,7 +50,7 @@ class ApplicationController < ActionController::Base
   end
   
   rescue_from ActiveResource::ForbiddenAccess do |exception|
-    logger.info { "Forbidden access."}
+    logger.info { "Forbidden access" }
     respond_to do |format|
       format.html {
         flash[:error] = "Sorry, you don't have access to this page. If you feel like you are getting this page in error, please contact your administrator."
@@ -97,7 +99,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  private 
+  private
+
   def not_found
     logger.debug {"Not found"}
     respond_to do |format|
@@ -168,95 +171,60 @@ class ApplicationController < ActionController::Base
   # the current page and has a way to return to a previous page 
   # with a single click.
   def handle_breadcrumb
-    
+
     if request.format == "application/json"
       return
     end
+
+    uri = URI request.url
     
-    logger.debug("===================")
-    # logger.debug("handling breadcrumb for <" + current_url + ">")
+    # do nothing for callbacks
+    if uri.path.end_with? "/callback" then 
+      return 
+    end 
 
     trail = session[:breadcrumbtrail]
 
-    # remove any parameters from end of string for breadcrumb trail
-    urlNoParams = current_url
-    qIndex = current_url.index('?')
-    if not qIndex.nil? then
-      urlNoParams = current_url.slice(0,qIndex)
-      # logger.debug("breadcrumb handling, trimmed " + current_url + " to " + urlNoParams)
-    end
-    
-    # if this url ends with "/callback", we don't adjust the breadcrumb trail at all.
-    logger.debug("checking <" + urlNoParams + "> for /callback")
-    if urlNoParams.end_with? "/callback" then 
-      return 
-    end
-
     if trail.nil? then
-      # we must have just started a session; create the
-      # first breadcrumb and the array that holds the breadcrumbs in the session
-      logger.debug("creating breadcrumb trail")
-      bc = Breadcrumbhelper::Breadcrumb.new "home", urlNoParams, current_url
-      trail = [ bc ]
-    else
-      # look through our array of breadcrumbs to see if this URL is already in it.
-      matchedIndex = -1		# set to real index if we find a match
-      trail.each_with_index do |crumb, current_index|
-        # logger.debug("matching against <" + crumb.strippedLink + ">")
-        if crumb.strippedLink.eql? urlNoParams then
-          # we've found the URL in our list -- save the index to trim the array
-          matchedIndex = current_index
-	  # logger.debug("matched URL at " + matchedIndex.to_s)
-	  break
-        end
-      end
-
-      if matchedIndex >= 0 then
-        # we have this URL in our list, so trim the list.
-        trail = trail.slice(0..matchedIndex)
-	# logger.debug("slicing urlArray")
-      else
-        # this URL is not in our list; we determine a user-friendly name for the URL, 
-        # create a breadcrumb, and add it to the end of the list
-	name = getUserFriendlyUrlName(urlNoParams)
-        trail.push Breadcrumbhelper::Breadcrumb.new name, urlNoParams, current_url
-	# logger.debug("pushing new link onto array")
-      end
+      # New session! Create home bread crumb!
+      trail = []
+      trail.push Breadcrumbhelper::Breadcrumb.new "home", uri.path, current_url
     end
 
-    # logger.debug("current_url = " + current_url)
-    # trail.each do |bc|
-      # logger.debug("  " + bc.name + "  " + bc.link)
-    # end
-
-    session[:breadcrumbtrail] = trail
-    # logger.debug("==========================")
-  end
-
-  # split the given URL on its slash chars; for each element starting from the 
-  # last, discard any elements that are made up of hex chars (plus '-') or 
-  # are "entities"
-  private
-  def getUserFriendlyUrlName(urlNoParams)
-    urlArray = urlNoParams.split("\/")
-    name = ""
-    urlArray.reverse_each do |urlPart|
-      name = urlPart
-      if urlPart.eql? "entities" then next end
-      if hex?(urlPart) then next end
-      break  # if we get here, we've found some other string, and we're done
-    end
-    return name
+    newtrail = trail.take_while{|crumb| crumb.actualLink != current_url}
+    newtrail.push Breadcrumbhelper::Breadcrumb.new getBreadcrumbName(uri), uri.path, current_url
+    
+    session[:breadcrumbtrail] = newtrail
   end
 
   private
-  def hex? str
-    # return true if the given string has only hex characters and/or "-", "_" or "i" 
-    # (that last to handle URLs which have _id); this returns false otherwise
-    str.each_char do |ch|
-      if "0123456789abcdefABCDEF-_i".index(ch).nil? then return false end
+  def getBreadcrumbName(uri)
+
+    if uri.query.to_s.include? "search" then
+      # if the query string says search, assume we're searching
+      return "search"
+    else 
+      # the last section of the path shall be our name
+      name = uri.path.split("\/").last
+
+      # Special cases:
+      if (name.include? "zip")
+        # if we're looking at an ingestion job
+        name = name.split("-").first
+      elsif (name == "ingestion")
+        # if we're looking at all of the ingestion jobs
+        name = "All Ingestion Jobs"
+      elsif (is_id? name)
+        # if we're looking at an individual record, so show what type of thing it is.
+        name = uri.path.split("\/")[-2]
+      end
+      return name
     end
-    return true
+  end
+
+  private
+  def is_id?(text)
+    text =~ /^\h{8}-\h{4}-\h{4}-\h{4}-\h{12}|_id$/
   end
 
 end

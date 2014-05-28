@@ -7,16 +7,16 @@
 			<layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
 	    </encoder>
   </appender>
-<!--
-  <logger name="org.springframework" level="warn" />
+
+  <logger name="org.springframework" level="ERROR" />
 
   <logger name="org.slc.sli.api.config" level="warn" />
   <logger name="org.slc.sli.validation" level="warn" />
   <logger name="org.slc.sli.dal.repository" level="warn" />
   <logger name="org.slc.sli.dal.encrypt.EntityEncryption" level="warn" />
   <logger name="audit" level="info" />
- -->
-  <root level="OFF">
+ 
+  <root level="ERROR">
     <appender-ref ref="STDOUT" />
   </root>
 </configuration>

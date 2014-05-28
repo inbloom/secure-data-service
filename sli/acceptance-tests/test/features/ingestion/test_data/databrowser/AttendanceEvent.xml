@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeStudentAttendance xmlns="http://ed-fi.org/0100">
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-09-12</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-09-13</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-09-14</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-09-15</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-09-16</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-09-19</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-09-20</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-09-21</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-09-22</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-09-23</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-09-26</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-09-27</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-09-28</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-09-29</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-09-30</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-10-03</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-10-04</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-10-05</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2005-2006</SchoolYear>
+    <EventDate>2005-10-06</EventDate>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+</InterchangeStudentAttendance>

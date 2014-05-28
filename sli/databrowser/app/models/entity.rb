@@ -23,7 +23,7 @@ limitations under the License.
 class Entity < SessionResource
   self.site = APP_CONFIG['api_base']
   add_response_method :http_response
-  
+
   # This method makes a call to get whatever it is we need from the Api
   # and proceeds to split the data up into two objects. Simple is for
   # the table view, and complex is a dump of the data

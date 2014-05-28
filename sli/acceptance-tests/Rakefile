@@ -3,6 +3,7 @@ require 'rbconfig'
 require 'json'
 require 'socket'
 require 'colorize'
+require 'nokogiri'
 require_relative './test/features/utils/db_client'
 require_relative './test/features/utils/rakefile_common'
 require_relative './test/features/utils/db_utils'
@@ -14,6 +15,34 @@ def convertTenantIdToDbName(tenantId)
   return Digest::SHA1.hexdigest tenantId
 end
 
+##parses complexTypes.xsd and returns a hash of {tableName => [list,of,fields]}
+##for fields that are pii
+def getPiiFields()
+
+  encryptedPiiFields = {}
+
+  f = File.open(COMPLEX_TYPES);
+  doc = Nokogiri.XML(f)
+  doc.xpath('//xs:complexType').each do |complexType|
+    ctName = "#{complexType.attribute('name')}"
+    complexType.xpath('xs:sequence/xs:element').each do |element|
+      fieldName = "#{element.attribute('name')}"
+      piiNode = element.xpath('xs:annotation/xs:appinfo/sli:PersonallyIdentifiableInfo')
+      if !piiNode.empty? and piiNode.text =~ /true/
+        field = "body.#{fieldName}"
+        if encryptedPiiFields[ctName] == nil
+          encryptedPiiFields[ctName] = [field]
+        else
+          encryptedPiiFields[ctName].push(field)
+        end
+      end
+    end
+  end
+  f.close
+  puts "YOUR ENCRYPTED FIELDS ARE: #{encryptedPiiFields.to_s}"
+  encryptedPiiFields
+end
+
 ###################################################
 # Section to setup necessary env vars and overrides
 
@@ -22,10 +51,15 @@ SYSTEM_DB_NAME = ENV['SYSTEM_DB_NAME'] ? ENV['DB_NAME'] : "sli"
 
 MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
+ENCRYPT_TOOL_COMMAND = %Q<java -jar ../encryption-tool/target/EncryptionTool.jar ../data-access/dal/keyStore/ciKeyStore.jks ../data-access/dal/keyStore/ciEncryption.properties>
+
+COMPLEX_TYPES = '../domain/src/main/resources/sliXsd/ComplexTypes.xsd'
+
 OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
 TENANT_COLLECTION = [convertTenantIdToDbName("Midgar"), convertTenantIdToDbName("Hyrule"), convertTenantIdToDbName("Security"), convertTenantIdToDbName("Other"), convertTenantIdToDbName("Zork"), convertTenantIdToDbName("SLI"), convertTenantIdToDbName("T1"), convertTenantIdToDbName("T2"), convertTenantIdToDbName("T3"), convertTenantIdToDbName("mreynolds"), convertTenantIdToDbName("chaos_mokey_org"), convertTenantIdToDbName("fakedev_zork_net")]
 
+ENCRYPTED_PII_FIELDS = getPiiFields()
 #######################################################
 
 if ENV['HEADLESS'] 
@@ -74,6 +108,7 @@ $collectionSet = ["student",
                   "graduationPlan",
                   "yearlyTranscript"]
 
+
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
@@ -93,6 +128,7 @@ def system_collection?(collection)
   %w(tenant realm securityEvent application roles tenantJobLock userSession userAccount).include? collection
 end
 
+
 def set_fixture(collection, fixture_name=nil, fixture_path='test/data', drop=true)
   disable_NOTABLESCAN
   db_used = system_collection?(collection) ? 'sli' : DB_NAME
@@ -103,6 +139,96 @@ def set_fixture(collection, fixture_name=nil, fixture_path='test/data', drop=tru
   sh "#{MONGO_BIN}mongoimport -d #{db_used} -c #{collection} -h #{Property[:db_host]} --file #{fixture_path}/#{fixture_name}" do |success, exit_code|
     raise "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
   end
+
+  # These fields are encrypted after we import the sandbox data
+  # this is a map of tablename -> field name
+
+  #if ENCRYPTED_PII_FIELDS[collection] != nil
+  #
+  #  puts "ENCRYPTING TABLE #{collection}"
+  #
+  #  encryptionToolProcess = IO.popen(ENCRYPT_TOOL_COMMAND, "w+")
+  #  encryptFields(db_used, collection, ENCRYPTED_PII_FIELDS[collection], encryptionToolProcess)
+  #
+  #  Process.kill('SIGALRM', encryptionToolProcess.pid)
+  #
+  #end
+end
+
+#encryptes all the fields listed in 'fields' in
+#collection 'collection' in the 'db_used' database
+def encryptFields(db_used, collection, fields, encryptionToolProcess)
+
+  conn = Mongo::Connection.new(Property[:db_host],Property[:db_port])
+  db = conn.db(db_used)
+  collection = db.collection(collection)
+
+  collection.find.each { |doc|
+    fields.each {|field|
+
+      value = getNestedField(doc, field);
+
+      if value != nil
+        value = recursiveEncrypt(value, encryptionToolProcess)
+        putNestedField(doc, field, value);
+      end
+
+    }
+    collection.remove({'_id' => doc['_id']})
+    collection.insert(doc)
+  }
+
+  conn.close
+end
+
+##encrypts a single value or every value in a Hash
+def recursiveEncrypt(document, encryptionToolProcess)
+  value = document
+  if value.is_a?(Hash)
+    value.each do |key, val|
+       value[key]=recursiveEncrypt(val, encryptionToolProcess)
+    end
+  elsif value.is_a?(Array)
+    value = value.map {|item| recursiveEncrypt(item, encryptionToolProcess)}
+  else
+    value = encryptField(value, encryptionToolProcess) if value
+  end
+  value
+end
+
+#returns a subdocument of a document
+#field names are separated by '.'
+def getNestedField(doc, field)
+  subdoc = doc
+  field.split('.').each { |fieldpart|
+    subdoc = subdoc[fieldpart] unless subdoc==nil
+  }
+  return subdoc;
+end
+
+#puts a document into another document
+def putNestedField(doc, field, value)
+  subdoc = doc
+  fieldParts = field.split('.')
+  i = 0;
+  while i < fieldParts.length - 1 do
+    subdoc = subdoc[fieldParts[i]] unless subdoc==nil
+    i=i+1;
+  end
+  subdoc[fieldParts[fieldParts.length-1]] = value unless subdoc==nil
+end
+
+#encryptes a field with the encryption-tool
+#external process
+def encryptField(value, encryptionToolProcess)
+  if not value =~ /^ESTRING:(.*)/
+    encryptionToolProcess.write("#{value}\n")
+    ciphertext = encryptionToolProcess.readline
+    ciphertext = "ESTRING:#{ciphertext.strip}"
+    return ciphertext
+  end
+
+  value
 end
 
 def set_fixtures(collections, fixture_path='test/data')
@@ -424,8 +550,12 @@ task :apiAndSecurityTests => [
                               :provisioningTests,
                               :onboardingTests,
                               :apiMegaTests,
-                              :v1SecurityEventTests,
-                              :runAssmtSearchIndexer ] do
+                              :v1SecurityEventTests] do
+# 2014-5-14 TAF : OSI added these but not relevant for Search indexer
+#                              :v1SecurityEventTests,
+#                              :apiIngestionJobTests,
+#                              :runAssmtSearchIndexer ] do
+
   display_failure_report
 end
 
@@ -577,10 +707,11 @@ task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/databrowser_selective_deny.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
-  runTests("test/features/databrowser/student_authentication.feature")
+  #runTests("test/features/databrowser/student_authentication.feature")
   runTests("test/features/databrowser/databrowser_external_idp_login.feature") unless Property['ci_artifact_idp_type'].nil? || Property['ci_artifact_idp_type'].downcase == 'none'
   runTests("test/features/databrowser/databrowser_breadcrumbtrail.feature")
   runTests("test/features/databrowser/databrowser_homepagecounts.feature")
+  runTests("test/features/databrowser/databrowser_homepageEdOrgsTable.feature")
   display_failure_report
 end
 
@@ -597,6 +728,14 @@ end
 desc "Run tests for countOnly URLs"
 task :apiCountOnlyTests => [] do
   runTests("test/features/apiV1/countOnly/countOnly.feature")
+end
+
+# ingestionJob api calls obtain data about previously run ingestion jobs:
+# files processed, records ingested, # errors encountered, etc.
+desc "Run tests for ingestion job data"
+task :apiIngestionJobTests => [] do
+  :turnOnNOTABLESCAN
+  runTests("test/features/apiV1/ingestionJob/ingestionJob.feature")
 end
 
 desc "Run Device and Agent Tests"
@@ -731,7 +870,6 @@ task :integrationTests => [:realmInit] do
   Rake::Task["loadDefaultIngestionTenants"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
-  Rake::Task["searchApiTests"].invoke
   Rake::Task["dashboardSdsTests"].invoke
   display_failure_report
 end
@@ -855,7 +993,7 @@ end
 # Api Documentation Setup
 ############################################################
 desc "Run the data setup needed to generate the API Documentation"
-task :apiDocumentationSetup => [:realmInit, :ingestionAcceptanceSdsTest, :runSearchBulkExtract] do
+task :apiDocumentationSetup => [:realmInit, :ingestionAcceptanceSdsTest] do
   display_failure_report
 end
 ############################################################
@@ -1040,9 +1178,15 @@ task :importSandboxData do
   Rake::Task["importDevAccountData"].execute
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
   Rake::Task["importSandboxHyruleData"].execute
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+end
 
-  Rake::Task["runSearchBulkExtract"].execute
+desc "Import ingestion_batch_job data to newBatchJob"
+task :importNewBatchJobData do
+  DB_NAME = "ingestion_batch_job"
+  ingestion_data = %w(
+    newBatchJob
+  )
+  set_fixtures(ingestion_data, 'test/data')
 end
 
 desc "Import Migration Test Data to Midgar"

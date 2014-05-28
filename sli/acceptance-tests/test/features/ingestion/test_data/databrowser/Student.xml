@@ -1,0 +1,1060 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeStudentParent xmlns="http://ed-fi.org/0100">
+  <Student>
+    <StudentUniqueStateId>600000001</StudentUniqueStateId>
+    <Name>
+      <FirstName>Gloria</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Casarez</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthData>
+      <BirthDate>2000-01-21</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>1136 Cherry Camp Road</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60654</PostalCode>
+      <Latitude>41.863123</Latitude>
+      <Longitude>-87.646695</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>773-439-1502</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>GloriaMCasarez@dayrep.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Stented</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>600000002</StudentUniqueStateId>
+    <Name>
+      <FirstName>Louis</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Yokoyama</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>2000-01-23</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>1022 Emeral Dreams Drive</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
+      <Latitude>41.943063</Latitude>
+      <Longitude>-87.628194</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>815-321-2893</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>LouisVYokoyama@armyspy.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Black - African American</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Avind2000</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>600000003</StudentUniqueStateId>
+    <Name>
+      <FirstName>Benjamin</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Koenig</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>2000-01-23</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>4697 Davis Court</StreetNumberName>
+      <City>Metropolis</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>62960</PostalCode>
+      <Latitude>37.252641</Latitude>
+      <Longitude>-88.810582</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>618-908-0606</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>BenjaminLKoenig@superrito.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Black - African American</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Drethe</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>600000004</StudentUniqueStateId>
+    <Name>
+      <FirstName>Robert</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Jordan</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>2000-02-02</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>1026 Cecil Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60605</PostalCode>
+      <Latitude>41.773871</Latitude>
+      <Longitude>-87.651359</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>312-206-2485</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>RobertTJordan@rhyta.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Black - African American</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Hurpres</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>600000005</StudentUniqueStateId>
+    <Name>
+      <FirstName>Stephanie</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Langley</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthData>
+      <BirthDate>2000-02-09</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>1327 Emeral Dreams Drive</StreetNumberName>
+      <City>Schaumburg</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60173</PostalCode>
+      <Latitude>42.062262</Latitude>
+      <Longitude>-88.145596</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>815-236-2033</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>StephanieMLangley@armyspy.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Noweeks</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>600000006</StudentUniqueStateId>
+    <Name>
+      <FirstName>Douglas</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Gragg</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>2000-02-24</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>1201 Vesta Drive</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60620</PostalCode>
+      <Latitude>41.704926</Latitude>
+      <Longitude>-87.639956</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>773-723-2729</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>DouglasRGragg@jourrapide.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Black - African American</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Gnalluggive</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>600000007</StudentUniqueStateId>
+    <Name>
+      <FirstName>Derrick</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Paris</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>2000-03-09</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>2959 Matthews Street</StreetNumberName>
+      <City>Sterling</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>61081</PostalCode>
+      <Latitude>41.805789</Latitude>
+      <Longitude>-89.789301</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>815-625-7754</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>DerrickSParis@teleworm.us</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Shosselame</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>600000008</StudentUniqueStateId>
+    <Name>
+      <FirstName>Charles</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Gould</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>2000-03-13</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>1206 Spinnaker Lane</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60654</PostalCode>
+      <Latitude>41.892562</Latitude>
+      <Longitude>-87.680456</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>815-660-4033</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>CharlesMGould@rhyta.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Witicagnall</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>600000009</StudentUniqueStateId>
+    <Name>
+      <FirstName>Rufus</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Allen</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>2000-03-14</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>4571 Eagle Street</StreetNumberName>
+      <City>Mount Vernon</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>62864</PostalCode>
+      <Latitude>38.339145</Latitude>
+      <Longitude>-88.909284</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>618-352-9536</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>RufusAAllen@cuvox.de</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Black - African American</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Layinnecage</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>600000010</StudentUniqueStateId>
+    <Name>
+      <FirstName>Heather</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Sexton</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthData>
+      <BirthDate>2000-03-27</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>4645 Johnstown Road</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60606</PostalCode>
+      <Latitude>41.923856</Latitude>
+      <Longitude>-87.670315</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>847-418-8387</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>HeatherESexton@gustr.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Paligar2000</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>600000011</StudentUniqueStateId>
+    <Name>
+      <FirstName>Anna</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Lewis</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthData>
+      <BirthDate>2000-03-27</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>4975 Johnstown Road</StreetNumberName>
+      <City>Evanston</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60219</PostalCode>
+      <Latitude>41.96783</Latitude>
+      <Longitude>-87.765658</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>847-475-0737</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>AnnaDLewis@jourrapide.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Reaccurtut</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>600000012</StudentUniqueStateId>
+    <Name>
+      <FirstName>Robert</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Brown</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>2000-03-29</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>480 West Drive</StreetNumberName>
+      <City>Burr Ridge</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>61257</PostalCode>
+      <Latitude>41.675711</Latitude>
+      <Longitude>-87.8468</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>312-452-3668</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>RobertDBrown@rhyta.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Sompery</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>600000013</StudentUniqueStateId>
+    <Name>
+      <FirstName>Cornell</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Bowers</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>2000-03-31</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>3555 Thomas Street</StreetNumberName>
+      <City>Northbrook</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60062</PostalCode>
+      <Latitude>42.041875</Latitude>
+      <Longitude>-87.776111</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>847-508-2055</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>CornellTBowers@teleworm.us</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Oloplath</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>600000014</StudentUniqueStateId>
+    <Name>
+      <FirstName>Zachary</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Thurman</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>2000-03-31</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>3338 Matthews Street</StreetNumberName>
+      <City>Apple River</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>61001</PostalCode>
+      <Latitude>42.473065</Latitude>
+      <Longitude>-90.038299</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>815-594-5558</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>ZacharyGThurman@armyspy.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Domis2000</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>600000015</StudentUniqueStateId>
+    <Name>
+      <FirstName>Michael</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Knox</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>2000-04-12</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>2983 Trainer Avenue</StreetNumberName>
+      <City>Pekin</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>61554</PostalCode>
+      <Latitude>40.585579</Latitude>
+      <Longitude>-89.567811</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>309-477-7537</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>MichaelVKnox@jourrapide.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Sevoy2000</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>600000016</StudentUniqueStateId>
+    <Name>
+      <FirstName>Amy</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Long</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthData>
+      <BirthDate>2000-04-16</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>3749 University Drive</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60607</PostalCode>
+      <Latitude>41.804552</Latitude>
+      <Longitude>-87.620036</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>312-710-1302</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>AmyBLong@gustr.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>American Indian - Alaskan Native</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Miltary</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>600000017</StudentUniqueStateId>
+    <Name>
+      <FirstName>Iris</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Frantz</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthData>
+      <BirthDate>2000-04-19</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>1690 Hickman Street</StreetNumberName>
+      <City>Wheaton</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60187</PostalCode>
+      <Latitude>41.905162</Latitude>
+      <Longitude>-88.11799</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>630-510-8034</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>IrisMFrantz@armyspy.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Thicaltat</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800000030</StudentUniqueStateId>
+    <Name>
+      <FirstName>August</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Manning</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>2002-06-26</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>4779 Patterson Fork Road</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60605</PostalCode>
+      <Latitude>41.80017</Latitude>
+      <Longitude>-87.537969</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>312-583-3413</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>AugustHManning@teleworm.us</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>Black - African American</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Prinkin</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800000031</StudentUniqueStateId>
+    <Name>
+      <FirstName>Kyle</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Menzel</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>2002-06-30</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>3173 Walkers Ridge Way</StreetNumberName>
+      <City>Northbrook</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60062</PostalCode>
+      <Latitude>42.074171</Latitude>
+      <Longitude>-87.936309</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>630-298-0571</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>KyleLMenzel@rhyta.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Herach</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800000032</StudentUniqueStateId>
+    <Name>
+      <FirstName>Richard</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Adams</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>2002-07-09</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>1133 Dovetail Drive</StreetNumberName>
+      <City>Westchester</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60154</PostalCode>
+      <Latitude>41.779927</Latitude>
+      <Longitude>-87.85293</Longitude>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+      <TelephoneNumber>847-365-6847</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>RichardIAdams@armyspy.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>true</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <LoginId>Casympere</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800050000</StudentUniqueStateId>
+    <Name>
+      <FirstName>Lashawn</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Aldama</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>1999-05-13</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>6564 Old New Utech Rd</StreetNumberName>
+      <ApartmentRoomSuiteNumber>Apt 9985</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60746-2735</PostalCode>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>642-665-6591</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <LoginId>Stented</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800050001</StudentUniqueStateId>
+    <Name>
+      <FirstName>Alton</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Ausiello</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>1999-04-30</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>6551 Old New Utech Rd</StreetNumberName>
+      <ApartmentRoomSuiteNumber>Apt 9972</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60746-2722</PostalCode>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>642-665-6578</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <LoginId>Stented</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800050002</StudentUniqueStateId>
+    <Name>
+      <FirstName>Dominic</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Bavinon</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>1999-04-20</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>6541 Old New Utech Rd</StreetNumberName>
+      <ApartmentRoomSuiteNumber>Apt 9962</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60746-2712</PostalCode>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>642-665-6568</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <LoginId>Stented</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800050003</StudentUniqueStateId>
+    <Name>
+      <FirstName>Rudy</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Bedoya</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>1999-05-07</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>6558 Old New Utech Rd</StreetNumberName>
+      <ApartmentRoomSuiteNumber>Apt 9979</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60746-2729</PostalCode>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>642-665-6585</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <LoginId>Stented</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800050026</StudentUniqueStateId>
+    <Name>
+      <FirstName>Lashawn</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Taite</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>1999-04-23</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>6544 Old New Utech Rd</StreetNumberName>
+      <ApartmentRoomSuiteNumber>Apt 9965</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60746-2715</PostalCode>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>642-665-6571</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <LoginId>Stented</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800050027</StudentUniqueStateId>
+    <Name>
+      <FirstName>Felipe</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Wierzbicki</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>1999-05-04</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>6555 Old New Utech Rd</StreetNumberName>
+      <ApartmentRoomSuiteNumber>Apt 9976</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60746-2726</PostalCode>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>642-665-6582</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <LoginId>Stented</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800050028</StudentUniqueStateId>
+    <Name>
+      <FirstName>Sue</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Smith</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthData>
+      <BirthDate>1999-05-05</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>6556 Old New Utech Rd</StreetNumberName>
+      <ApartmentRoomSuiteNumber>Apt 9977</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60746-2727</PostalCode>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>642-665-6583</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <LoginId>Stented</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800050029</StudentUniqueStateId>
+    <Name>
+      <FirstName>Amy</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Brown</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthData>
+      <BirthDate>1999-05-06</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>6557 Old New Utech Rd</StreetNumberName>
+      <ApartmentRoomSuiteNumber>Apt 9978</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60746-2728</PostalCode>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>642-665-6584</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <LoginId>Stented</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800050101</StudentUniqueStateId>
+    <Name>
+      <FirstName>Bobby</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Vicero</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>1999-07-17</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>6629 Old New Utech Rd</StreetNumberName>
+      <ApartmentRoomSuiteNumber>Apt 10050</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60746-2800</PostalCode>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>642-665-6656</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <LoginId>Stented</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800050102</StudentUniqueStateId>
+    <Name>
+      <FirstName>Ned</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Weir</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>1999-07-18</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>6630 Old New Utech Rd</StreetNumberName>
+      <ApartmentRoomSuiteNumber>Apt 10051</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60746-2801</PostalCode>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>642-665-6657</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <LoginId>Stented</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800050103</StudentUniqueStateId>
+    <Name>
+      <FirstName>Thomas</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Young</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>1999-07-19</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>6631 Old New Utech Rd</StreetNumberName>
+      <ApartmentRoomSuiteNumber>Apt 10052</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60746-2802</PostalCode>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>642-665-6658</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <LoginId>Stented</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800050104</StudentUniqueStateId>
+    <Name>
+      <FirstName>Lulu</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Zeno</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthData>
+      <BirthDate>1999-07-20</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>6632 Old New Utech Rd</StreetNumberName>
+      <ApartmentRoomSuiteNumber>Apt 10053</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60746-2803</PostalCode>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>642-665-6659</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <LoginId>Stented</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800050105</StudentUniqueStateId>
+    <Name>
+      <FirstName>Bruce</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Hammond</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>1999-07-21</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>6633 Old New Utech Rd</StreetNumberName>
+      <ApartmentRoomSuiteNumber>Apt 10054</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60746-2804</PostalCode>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>642-665-6660</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <LoginId>Stented</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>800050106</StudentUniqueStateId>
+    <Name>
+      <FirstName>Brucly</FirstName>
+      <MiddleName>M</MiddleName>
+      <LastSurname>Harper</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>1999-07-21</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>6633 Old New Utech Rd</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60746-2804</PostalCode>
+    </Address>
+    <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Mobile">
+      <TelephoneNumber>642-665-6660</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <LoginId>Stented</LoginId>
+  </Student>
+</InterchangeStudentParent>

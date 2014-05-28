@@ -17,24 +17,8 @@
 package org.slc.sli.api.security.context.resolver;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.Arrays;
-
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.slc.sli.api.resources.security.DelegationUtil;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.EntityOwnershipValidator;
@@ -48,6 +32,13 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import java.util.*;
 
 /**
  * Contains helper methods for traversing the edorg hierarchy.
@@ -67,6 +58,7 @@ import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
  */
 @Component
 public class EdOrgHelper {
+    private static final Logger LOG = LoggerFactory.getLogger(EdOrgHelper.class);
 
     @Autowired
     protected PagingRepositoryDelegate<Entity> repo;
@@ -373,6 +365,12 @@ public class EdOrgHelper {
         return getChildEdOrgs(visitedEdOrgs, edOrgs);
     }
 
+	public Set<String> getChildEdOrgs(String edOrg) {
+		Set<String> edOrgs = new HashSet<String>();
+		edOrgs.add(edOrg);
+		return getChildEdOrgs(edOrgs);
+	}
+
     public Set<String> getChildEdOrgs(final Set<String> visitedEdOrgs, Collection<String> edOrgs) {
 
         if (edOrgs.isEmpty()) {
@@ -566,6 +564,7 @@ public class EdOrgHelper {
      * Get directly associated education organizations for the authenticated principal.
      */
     public Set<String> getDirectEdorgs() {
+        LOG.trace(">>>GenericToEdOrgValidator.validate()");
         return getDirectEdorgs(SecurityUtil.getSLIPrincipal().getEntity());
     }
 
@@ -574,6 +573,8 @@ public class EdOrgHelper {
      * data ownership.
      */
     public Set<String> getDirectEdorgs(Entity principal) {
+        LOG.trace(">>>GenericToEdOrgValidator.getDirectEdorgs(using security principal)");
+        LOG.trace("  principal: " + ToStringBuilder.reflectionToString(principal, ToStringStyle.MULTI_LINE_STYLE));
         return getEdOrgs(principal, true);
     }
     
@@ -593,20 +594,28 @@ public class EdOrgHelper {
     }
 
     private Set<String> getEdOrgs(Entity principal, boolean filterByOwnership) {
+        LOG.trace(">>>GenericToEdOrgValidator.getDirectEdorgs()");
+        LOG.trace("  principal: " + ToStringBuilder.reflectionToString(principal, ToStringStyle.MULTI_LINE_STYLE));
+        LOG.trace("  filterByOwnership: " + filterByOwnership);
+
+        Set<String> result = new HashSet<String>();
+
         if (isStaff(principal) || isTeacher(principal)) {
-            return getStaffDirectlyAssociatedEdorgs(principal, filterByOwnership);
+            LOG.trace("  ...staff or teacher");
+            result = getStaffDirectlyAssociatedEdorgs(principal, filterByOwnership);
         } else if (isStudent(principal)) {
-            return getStudentsCurrentAssociatedEdOrgs(Collections.singleton(principal.getEntityId()), filterByOwnership);
+            LOG.trace("  ...student");
+            result = getStudentsCurrentAssociatedEdOrgs(Collections.singleton(principal.getEntityId()), filterByOwnership);
         } else if (isParent(principal)) {
+            LOG.trace("  ...parent");
             SLIPrincipal prince = new SLIPrincipal();
             prince.setEntity(principal);
             prince.populateChildren(repo);
-
-            return getStudentsCurrentAssociatedEdOrgs(prince.getOwnedStudentIds(), false);
-
+            result = getStudentsCurrentAssociatedEdOrgs(prince.getOwnedStudentIds(), false);
         }
 
-        return new HashSet<String>();
+        LOG.debug("  ...method did not do anything so return empty set...");
+        return result;
     }
 
     /**
@@ -618,13 +627,19 @@ public class EdOrgHelper {
      * @return
      */
     public Set<Entity> locateValidSEOAs(String staffId, boolean filterByOwnership) {
+        LOG.trace(">>>EdOrgHelper.locateValidSEOAs()");
+        LOG.trace("  staffId: " + staffId);
+
         Set<Entity> validAssociations = new HashSet<Entity>();
         Iterable<Entity> associations = locateNonExpiredSEOAs(staffId);
+
         for (Entity association : associations) {
+            LOG.trace("  ...association");
             if (!filterByOwnership || ownership.canAccess(association)) {
                 validAssociations.add(association);
             }
         }
+        LOG.trace("  ...count: " + validAssociations.size());
         return validAssociations;
     }
 
@@ -651,15 +666,17 @@ public class EdOrgHelper {
      * Get current education organizations for the specified staff member.
      */
     private Set<String> getStaffDirectlyAssociatedEdorgs(Entity staff, boolean filterByOwnership) {
+        LOG.trace(">>>EdOrgHelper.getStaffDirectlyAssociatedEdorgs()");
+        LOG.trace("  staff: " + ToStringBuilder.reflectionToString(staff, ToStringStyle.MULTI_LINE_STYLE));
+        LOG.trace("  filterByOwnership: " + filterByOwnership);
         Set<String> edorgs = new HashSet<String>();
-
         Iterable<Entity> associations = locateValidSEOAs(staff.getEntityId(), filterByOwnership);
 
         for (Entity association : associations) {
-
+            LOG.trace("  association: " + ToStringBuilder.reflectionToString(association, ToStringStyle.MULTI_LINE_STYLE));
             edorgs.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
-
         }
+
         return edorgs;
     }
 

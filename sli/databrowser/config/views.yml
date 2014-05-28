@@ -37,9 +37,79 @@ staff:
     - staffUniqueStateId
     - id
 
+programParticipation:
+    - designatedBy
+    - program
+    - beginDate
+    - endDate
+
+staffCohortAssociation:
+    - staffId
+    - cohortId
+    - beginDate
+    - endDate
+
+staffEducationOrganizationAssociation:
+    - staffReference
+    - educationOrganizationReference
+    - beginDate
+    - endDate
+
+staffProgramAssociation:
+    - staffId
+    - programId
+    - beginDate
+    - endDate
+
+studentCohortAssociation:
+    - studentId
+    - cohortId
+    - beginDate
+    - endDate
+
+studentProgramAssociation:
+    - studentId
+    - programId
+    - beginDate
+    - endDate
+
+studentSpecialEdProgramAssociation:
+    - studentId
+    - programId
+    - iepBeginDate
+    - iepEndDate
+
+studentSchoolAssociation:
+    - studentId
+    - schoolId
+    - entryDate
+    - exitWithdrawDate
+
+studentSectionAssociation:
+    - studentId
+    - sectionId
+    - beginDate
+    - endDate
+
+teacherSchoolAssociation:
+    - schoolId
+    - teacherId
+    - academicSubjects
+    - instructionalGradeLevels
+    - programAssignment
+
+teacherSectionAssociation:
+    - teacherId
+    - sectionId
+    - beginDate
+    - endDate
+
 # Paginate items per page. The first number will be the default
 # This will be all of the options available
 paginate_ipp:
     - 25
     - 50
     - 100
+
+# Number of ingestion jobs to show on the home page
+ingestion_jobs: 5

@@ -184,6 +184,13 @@ public class UriInfoToApiQueryConverter {
         		}
         	}
         });
+
+        reservedQueryKeywordImplementations.put("showAll", new NeutralCriteriaImplementation() {
+        	@Override
+        	public void convert(ApiQuery apiQuery, Object value) {
+        		// Ignore showAll as the appropriate code for it is in PreProcessFilter.java
+        	}
+        });
     }
 
     public ApiQuery convert(ApiQuery apiQuery, URI requestURI) {
@@ -280,6 +287,9 @@ public class UriInfoToApiQueryConverter {
     	if ("studentSchoolAssociation".equals(apiQuery.getEntityType())) {
     		beginDateField = ParameterConstants.STUDENT_SCHOOL_BEGIN_DATE;
     		endDateField = ParameterConstants.STUDENT_SCHOOL_END_DATE;
+    	} else if ("studentSpecialEdProgramAssociation".equals(apiQuery.getEntityType())) {
+    		beginDateField = ParameterConstants.STUDENT_SPECIAL_ED_PROGRAM_BEGIN_DATE;
+    		endDateField = ParameterConstants.STUDENT_SPECIAL_ED_PROGRAM_END_DATE;
     	}
 
     	/**

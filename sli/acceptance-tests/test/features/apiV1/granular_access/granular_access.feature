@@ -49,6 +49,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
 #    | teacherSectionAssociations              | 2010-2011    | 1                   | 0                |                                                                                |
     | teachers                                | 2010-2011    | 1                   | 1                | rbraverman                                                                     |
 
+@wip
   Scenario Outline: All data is returned within a specific school year range - teacher
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     And parameter "limit" is "0"
@@ -115,7 +116,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | parents                     |
     | reportCards                 |
     | schools                     |
-    | search                      |
+#    | search                      |
     | sections                    |
     | staff                       |
     | students                    |
@@ -150,7 +151,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | parents                     |
     | reportCards                 |
     | schools                     |
-    | search                      |
+#    | search                      |
     | sections                    |
     | staff                       |
     | students                    |

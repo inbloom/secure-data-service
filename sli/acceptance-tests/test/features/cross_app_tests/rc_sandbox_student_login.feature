@@ -29,10 +29,14 @@ Feature:  RC Integration Tests - Test Student Login
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
     And I want to select "800000025" from the "SmallDatasetUsers" in automatic mode
     Then I should be on Portal home page
-    And under System Tools, I click on "inBloom Data Browser"
-    Then I should be redirected to the Data Browser home page
-    And I should see the name "Matt Sollars Jr" on the page
-    And I have navigated to the "Me" page of the Data Browser
-    Then I can see my "Gender" is "Male"
-    Then I can see my "State ID" is "800000025"
-    Then I log out of Databrowser
+    And I click on Admin
+    Then the portal should be on the admin page
+
+    #students are not permitted to use the databrowser.
+    #And under System Tools, I click on "inBloom Data Browser"
+    #Then I should be redirected to the Data Browser home page
+    #And I should see the name "Matt Sollars Jr" on the page
+    #And I have navigated to the "Me" page of the Data Browser
+    #Then I can see my "Gender" is "Male"
+    #Then I can see my "State ID" is "800000025"
+    #Then I log out of Databrowser

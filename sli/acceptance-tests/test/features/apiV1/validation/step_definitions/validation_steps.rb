@@ -68,6 +68,7 @@ end
 
 Given /^I create a valid base level student object$/ do
   @result = CreateEntityHash.createBaseStudent
+  @result['studentUniqueStateId'] = Time.now.to_i.to_s
   @lastStudentId = @result['studentUniqueStateId']
 end
 
@@ -182,6 +183,10 @@ end
 
 Given /^a valid json document for ([^\"]*)$/ do |entity|
   @result = deep_copy(validationTestData[entity])
+  if entity == 'staff' || entity == 'teacher' then
+    @result['staffUniqueStateId'] = (Time.now.to_i + rand(100)).to_s
+    puts(@result['staffUniqueStateId']);
+  end
 end
 
 When /^I navigate to PUT "([^\"]*)"$/ do |url|

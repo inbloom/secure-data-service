@@ -16,16 +16,21 @@
 
 package org.slc.sli.encryption.tool;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintStream;
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Hex;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import java.io.*;
 import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.security.KeyStore;
-
-import javax.crypto.Cipher;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Scanner;
 
 /**
  * Class used to encrypt/decrypt properties
@@ -35,16 +40,22 @@ import javax.crypto.Cipher;
  */
 public class Encryptor {
 
+
+    private static final String KEYSTOREPASS = "keyStorePass";
+    private static final String DALKEYALIAS = "dalKeyAlias";
+    private static final String DALKEYPASS = "dalKeyPass";
+    private static final String DALINITVEC = "dalInitializationVector";
+    private static final String DALALGORITHM = "dalAlgorithm";
+
     private static final String KEYSTORE_TYPE = "JCEKS";
-    private static final String ALGORITHM = "AES";
+    private static final String CIPHER_ALGORITHM = "AES";
+    private static final String CHARSET = "UTF8";
 
     private String keyStorePass;
     private String keyLocation;
-
     KeyStore keystore;
 
     public Encryptor(String keyStoreLocation, String keyStorePassword)  throws Exception {
-
         setKeyLocation(keyStoreLocation);
         setKeyStorePass(keyStorePassword);
         
@@ -71,28 +82,75 @@ public class Encryptor {
         }
     }
 
-    public String encrypt(String alias, String password, String value) throws GeneralSecurityException,
-            IOException {
-
+    public String encrypt(String alias, String password, String value) throws GeneralSecurityException, IOException {
         Key key = keystore.getKey(alias, password.toCharArray());
         // create a cipher object and use the generated key to initialize it
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         cipher.init(Cipher.ENCRYPT_MODE, key);
-        byte[] encrypted = cipher.doFinal(value.getBytes("UTF8"));
+        byte[] encrypted = cipher.doFinal(value.getBytes(CHARSET));
 
         return byteArrayToHexString(encrypted);
     }
 
-    public String decrypt(String alias, String password, String message) throws GeneralSecurityException,
-            IOException {
+    public String encrypt(String alias, String password, String algorithm, String initVec, String message) throws GeneralSecurityException {
+        Key key = keystore.getKey(alias, password.toCharArray());
+        Cipher cipher = Cipher.getInstance(algorithm);
 
+        IvParameterSpec ivspec = null;
+        if(initVec != null) {
+            byte[] ivBytes;
+            try {
+                ivBytes = Hex.decodeHex(initVec.toCharArray());
+            } catch (DecoderException e) {
+                throw new RuntimeException(e);
+            }
+            ivspec = new IvParameterSpec(ivBytes);
+
+            cipher.init(Cipher.ENCRYPT_MODE, (SecretKey)key, ivspec);
+        } else {
+            cipher.init(Cipher.ENCRYPT_MODE, (SecretKey)key);
+        }
+
+        byte[] encryptedBytes = cipher.doFinal(message.getBytes());
+        String encoded = Base64.encodeBase64String(encryptedBytes);
+
+        return encoded;
+    }
+
+    public String decrypt(String alias, String password, String message) throws GeneralSecurityException, IOException {
         Key key = keystore.getKey(alias, password.toCharArray());
         // create a cipher object and use the generated key to initialize it
-        Cipher cipher = Cipher.getInstance("AES");
+        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
-        return new String(decrypted, "UTF8");
+        return new String(decrypted, CHARSET);
     }
+
+    public String decrypt(String alias, String password, String algorithm, String initVec, String message) throws GeneralSecurityException {
+        Key key = keystore.getKey(alias, password.toCharArray());
+        Cipher cipher = Cipher.getInstance(algorithm);
+
+        IvParameterSpec ivspec = null;
+        if(initVec != null) {
+            byte[] ivBytes;
+            try {
+                ivBytes = Hex.decodeHex(initVec.toCharArray());
+            } catch (DecoderException e) {
+                throw new RuntimeException(e);
+            }
+            ivspec = new IvParameterSpec(ivBytes);
+
+            cipher.init(Cipher.DECRYPT_MODE, (SecretKey)key, ivspec);
+        } else {
+            cipher.init(Cipher.DECRYPT_MODE, (SecretKey)key);
+        }
+
+        byte[] decoded = Base64.decodeBase64(message.getBytes());
+        String decrypted = new String(cipher.doFinal(decoded));
+
+        return decrypted;
+    }
+
 
     private static String byteArrayToHexString(byte[] b) {
         StringBuffer sb = new StringBuffer(b.length * 2);
@@ -132,14 +190,75 @@ public class Encryptor {
         this.keyLocation = keyLocation;
     }
 
+    private static Map<String, String> parsePropertiesFile(String propertiesFile) throws IOException {
+        Map<String, String> properties = new HashMap<String, String>();
+
+        Properties props = new Properties();
+        props.load(new FileInputStream(new File(propertiesFile)));
+
+        for(Object propObj : props.keySet()) {
+            String prop = propObj.toString();
+            if(prop.endsWith(KEYSTOREPASS)) {
+                properties.put(KEYSTOREPASS, props.get(prop).toString());
+            } else if(prop.endsWith(DALKEYALIAS)) {
+                properties.put(DALKEYALIAS, props.get(prop).toString());
+            } else if(prop.endsWith(DALKEYPASS)) {
+                properties.put(DALKEYPASS, props.get(prop).toString());
+            } else if(prop.endsWith(DALINITVEC)) {
+                properties.put(DALINITVEC, props.get(prop).toString());
+            } else if(prop.endsWith(DALALGORITHM)) {
+                properties.put(DALALGORITHM, props.get(prop).toString());
+            }
+        }
+
+        return properties;
+    }
+
+
+    /**
+     * New functionality allows encrypting using the same algorithm
+     * the api uses for encrypting PII fields in MongoDB.
+     *
+     * for example:
+          java -jar encryption-tool.java --decrypt
+          ../data-access/dal/keyStore/localKeyStore.jks
+          ../data-access/dal/keyStore/localEncryption.properties
+          aDvgicSt81j/YdPUhvr4Ig==
+
+     * or to encrypt:
+          java -jar encryption-tool.java
+          ../data-access/dal/keyStore/localKeyStore.jks
+          ../data-access/dal/keyStore/localEncryption.properties
+          Lauretta
+
+     * you can also exclude the message at the end, then this program works
+     * in streaming mode: every line received from System.in is en/decrypted
+     * and returned to System.out
+
+     * @param args
+     * @throws Exception
+     */
 
     public static void main(String[] args) throws Exception {
         PrintStream out = System.out;
-        if (args.length != 5 && args.length != 6) {
-            out.println("For encryption, please specify the keystore location, alias, password, and the string to be encrypted.");
+        if (args.length < 2 || args.length > 6) {
+            out.println("For encryption:");
             out.println("Usage: java -jar encryption-tool.jar <keystore_location> <keystore_password> <key_alias> <key_password> <string>");
-            out.println("For decryption, please specify the keystore location, alias, password, and the string to be encrypted, with '--decrypt' first");
+            out.println("For decryption");
             out.println("Usage: java -jar encryption-tool.jar --decrypt <keystore_location> <keystore_password> <key_alias> <key_password> <string>");
+            out.println();
+            out.println("Using a properties file: \n  Property names must end with the following values. ");
+            out.println("  " + KEYSTOREPASS + " (required)");
+            out.println("  " + DALKEYALIAS + " (required)");
+            out.println("  " + DALKEYPASS + " (required) ");
+            out.println("  " + DALINITVEC + " (optional)");
+            out.println("  " + DALALGORITHM + "(optional, defaults to \"AES/CBC/PKCS5Padding\")");
+
+            out.println("Encryption:");
+            out.println("  Usage: java jar encyption-tool-1.0-jar <keystore_location> <properties_file> [<string>]");
+            out.println("Decryption:");
+            out.println("  Usage: java jar encyption-tool-1.0-jar -decrypt <keystore_location> <properties_file> [<string>]");
+
             return;
         }
 
@@ -151,22 +270,88 @@ public class Encryptor {
             System.arraycopy(args, 1, effectiveArgs, 0, args.length - 1);
         }
 
-        String keystoreLocation = effectiveArgs[0];
-        String keystorePassword = effectiveArgs[1];
-        String keyAlias = effectiveArgs[2];
-        String keyPassword = effectiveArgs[3];
-        String message = effectiveArgs[4];
+        String propertiesLocation = null;
+        String keystoreLocation = null;
+        String keystorePassword = null;
+        String keyAlias = null;
+        String keyPassword = null;
+        String message = null;
+        String initVector = null;
+        String algorithm = "AES/CBC/PKCS5Padding";
 
-        Encryptor encryptor = new Encryptor(keystoreLocation, keystorePassword);
+        if(args.length == 5 || args.length == 6) {
+            //OLDER FUNCTIONALITY
+            keystoreLocation = effectiveArgs[0];
+            keystorePassword = effectiveArgs[1];
+            keyAlias = effectiveArgs[2];
+            keyPassword = effectiveArgs[3];
+            message = effectiveArgs[4];
 
+            Encryptor encryptor = new Encryptor(keystoreLocation, keystorePassword);
 
-        if (!decrypt) {
-            String encryptedString = encryptor.encrypt(keyAlias, keyPassword, message);
-            out.println("Encrypted string for " + message + " is: " + encryptedString + "\n");
+            if (!decrypt) {
+                String encryptedString = encryptor.encrypt(keyAlias, keyPassword, message);
+                out.println("Encrypted string for " + message + " is: " + encryptedString + "\n");
+            } else {
+                String decryptedString = encryptor.decrypt(keyAlias, keyPassword, message);
+                out.println("Descrypted string for " + message + " is: " + decryptedString + "\n");
+            }
+
         } else {
-            String decryptedString = encryptor.decrypt(keyAlias, keyPassword, message);
-            out.println("Descrypted string for " + message + " is: " + decryptedString + "\n");
-        }
+            //NEWER FUNCTIONALITY
+            keystoreLocation = effectiveArgs[0];
+            propertiesLocation = effectiveArgs[1];
 
+            if(effectiveArgs.length==3) {
+                message = effectiveArgs[2];
+            } else {
+                message = null;
+            }
+
+
+            Map<String, String> properties = parsePropertiesFile(propertiesLocation);
+
+            keystorePassword = properties.get(KEYSTOREPASS);
+            keyPassword = properties.get(DALKEYPASS);
+            keyAlias = properties.get(DALKEYALIAS);
+
+            if(properties.containsKey(DALINITVEC)) {
+                initVector = properties.get(DALINITVEC);
+            }
+            if(properties.containsKey(DALALGORITHM)) {
+                algorithm = properties.get(DALALGORITHM);
+            }
+
+            Encryptor encryptor = new Encryptor(keystoreLocation, keystorePassword);
+
+            if(!decrypt) {
+                if(message != null) {
+                    String encrypted = encryptor.encrypt(keyAlias, keyPassword, algorithm, initVector, message);
+                    out.println(encrypted);
+                } else {
+                    Scanner s = new Scanner(System.in);
+                    s.useDelimiter("\n");
+                    while(s.hasNext()) {
+                        String cleartext = s.next();
+                        String encrypted = encryptor.encrypt(keyAlias, keyPassword, algorithm, initVector, cleartext);
+                        out.println(encrypted);
+                    }
+                }
+            } else {
+                if(message != null) {
+                    String decrypted = encryptor.decrypt(keyAlias, keyPassword, algorithm, initVector, message);
+                    out.println(decrypted);
+                } else {
+                    Scanner s = new Scanner(System.in);
+                    s.useDelimiter("\n");
+                    while(s.hasNext()) {
+                        String ciphertext = s.next().trim();
+                        String decrypted = encryptor.decrypt(keyAlias, keyPassword, algorithm, initVector,  ciphertext);
+                        out.println(decrypted);
+                    }
+                }
+            }
+        }
     }
+
 }

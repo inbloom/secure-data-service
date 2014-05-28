@@ -195,7 +195,7 @@ public class RoleInitializer {
                 .addRights(
                         new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL,
                                 Right.READ_RESTRICTED, Right.WRITE_PUBLIC, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED, Right.STAFF_CONTEXT,
-                                Right.SECURITY_EVENT_VIEW, Right.APP_AUTHORIZE }).build();
+                                Right.SECURITY_EVENT_VIEW, Right.APP_AUTHORIZE, Right.INGESTION_LOG_VIEW }).build();
         role.setAdmin(true);
         return role;
     }

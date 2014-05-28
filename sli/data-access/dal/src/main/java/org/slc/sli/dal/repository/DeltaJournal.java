@@ -1,35 +1,9 @@
-/*
- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.slc.sli.dal.repository;
-
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -43,8 +17,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import java.util.*;
+
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 /**
  * Provides journaling of entity updates for delta processing
@@ -54,7 +29,6 @@ import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
  */
 @Component
 public class DeltaJournal implements InitializingBean {
-
     private static final Logger LOG = LoggerFactory.getLogger(DeltaJournal.class);
 
     @Value("${sli.bulk.extract.deltasEnabled:true}")
@@ -63,11 +37,7 @@ public class DeltaJournal implements InitializingBean {
     @Value("${sli.sandbox.enabled}")
     private boolean isSandbox;
 
-    public static final String DELTA_COLLECTION = "deltas";
-
-    public static final String PURGE = "purge";
-
-    // in paged query, get upto 50000 items each time
+    /* in paged query, get upto 50000 items each time. */
     @Value("${sli.bulk.extract.delta.iterationSize:50000}")
     private int limit;
 
@@ -79,11 +49,12 @@ public class DeltaJournal implements InitializingBean {
     @Qualifier("shardType1UUIDGeneratorStrategy")
     private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
+    public static final String DELTA_COLLECTION = "deltas";
+    public static final String PURGE = "purge";
     private final Map<String, String> subdocCollectionsToCollapse = new HashMap<String, String>();
 
     @Override
     public void afterPropertiesSet() throws Exception {
-
         subdocCollectionsToCollapse.put("assessmentItem", "assessment");
         subdocCollectionsToCollapse.put("objectiveAssessment", "assessment");
         subdocCollectionsToCollapse.put("studentAssessmentItem", "studentAssessment");
@@ -132,6 +103,7 @@ public class DeltaJournal implements InitializingBean {
             }
             for(String idPart: id.split("_id")){
                 if(!idPart.isEmpty()){
+                    idPart = idPart.replaceAll("[^\\p{XDigit}]", "");
                     result.add(0, Hex.decodeHex(idPart.toCharArray()));
                 }
             }

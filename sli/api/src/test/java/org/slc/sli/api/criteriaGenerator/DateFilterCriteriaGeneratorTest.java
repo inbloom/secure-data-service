@@ -16,7 +16,6 @@
 
 package org.slc.sli.api.criteriaGenerator;
 
-import com.sun.jersey.api.spring.Autowire;
 import com.sun.jersey.spi.container.ContainerRequest;
 import org.junit.Before;
 import org.junit.Test;

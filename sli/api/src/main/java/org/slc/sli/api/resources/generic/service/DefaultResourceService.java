@@ -33,6 +33,7 @@ import javax.ws.rs.core.Response;
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slc.sli.common.constants.EntityNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.joda.time.DateTime;
@@ -337,7 +338,7 @@ public class DefaultResourceService implements ResourceService {
 
         try {
             final String associationKey = getConnectionKey(base, resource);
-            List<EntityBody> entityBodyList = null;     // DS-1046 - initialize in case we don't fill this in
+            List<EntityBody> entityBodyList = new ArrayList<EntityBody>();     // DS-1046 - initialize in case we don't fill this in
             List<String> valueList = Arrays.asList(id.split(","));
 
             final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
@@ -459,27 +460,33 @@ public class DefaultResourceService implements ResourceService {
 
             addGranularAccessCriteria(finalEntity, finalApiQuery);
 
-            //Mongo blows up if we have multiple $in or equal criteria for the same key.
-            //To avoid that case, if we do have duplicate keys, set the value for that
-            //criteria to the intersection of the two critiera values
-            boolean skipIn = false;
-            for (NeutralCriteria crit : finalApiQuery.getCriteria()) {
-                if (crit.getKey().equals(key)
-                        && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
-                    skipIn = true;
-                    Set<Object> valueSet = new HashSet<Object>();
-                    if (crit.getValue() instanceof Collection) {
-                        valueSet.addAll((Collection<Object>) crit.getValue());
-                    } else {
-                        valueSet.add(crit.getValue());
-                    }
-                    valueSet.retainAll(filteredIdList);
-                    crit.setValue(valueSet);
-                }
-            }
+            //skip this when someone is querying on public entities
+            if(!(EntityNames.isPublic(finalEntity.getType()) && finalApiQuery.getCriteria().size()>1))
+            {
 
-            if (!skipIn) {
-                finalApiQuery.addCriteria(new NeutralCriteria(key, "in", filteredIdList));
+                //Mongo blows up if we have multiple $in or equal criteria for the same key.
+                //To avoid that case, if we do have duplicate keys, set the value for that
+                //criteria to the intersection of the two critiera values
+                boolean skipIn = false;
+                for (NeutralCriteria crit : finalApiQuery.getCriteria()) {
+                    if (crit.getKey().equals(key)
+                            && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
+                        skipIn = true;
+                        Set<Object> valueSet = new HashSet<Object>();
+                        if (crit.getValue() instanceof Collection) {
+                            valueSet.addAll((Collection<Object>) crit.getValue());
+                        } else {
+                            valueSet.add(crit.getValue());
+                        }
+                        valueSet.retainAll(filteredIdList);
+                        crit.setValue(valueSet);
+                    }
+                }
+
+                if (!skipIn) {
+                    finalApiQuery.addCriteria(new NeutralCriteria(key, "in", filteredIdList));
+                }
+
             }
 
             // if we're only getting the count of this query, just create an empty list, otherwise

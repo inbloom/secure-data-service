@@ -44,14 +44,14 @@ Scenario: Student data created via the API should be encrypted - Staff IT Admin
         And the field "body.cohortYears[0].cohortYearType" has value "First grade"
         And the field "body.studentIndicators[0].indicatorName" has value "At risk"
         And the field "body.studentIndicators[0].indicator" has value "At risk"
+        And the field "body.name.firstName" has value "Rhonda"
+        And the field "body.name.middleName" has value "Shannon"
+        And the field "body.name.lastSurname" has value "Delgado"
+        And the field "body.otherName[0].firstName" has value "Julie"
+        And the field "body.otherName[0].middleName" has value "Wren"
+        And the field "body.otherName[0].lastSurname" has value "Einstein"
+        And the field "body.otherName[0].otherNameType" has value "Nickname"
         # ENCRYPTED FIELDS
-        And the field "body.name.firstName" with value "Rhonda" is encrypted
-        And the field "body.name.middleName" with value "Shannon" is encrypted
-        And the field "body.name.lastSurname" with value "Delgado" is encrypted
-        And the field "body.otherName[0].firstName" with value "Julie" is encrypted
-        And the field "body.otherName[0].middleName" with value "Wren" is encrypted
-        And the field "body.otherName[0].lastSurname" with value "Einstein" is encrypted
-        And the field "body.otherName[0].otherNameType" with value "Nickname" is encrypted
         And the field "body.sex" with value "Female" is encrypted
         And the field "body.birthData.birthDate" with value "2006-07-02" is encrypted
         And the field "body.address[0].streetNumberName" with value "1234 Shaggy" is encrypted
@@ -94,14 +94,14 @@ Scenario: Student data created via the API should be encrypted - Teacher with IT
         And the field "body.cohortYears[0].cohortYearType" has value "First grade"
         And the field "body.studentIndicators[0].indicatorName" has value "At risk"
         And the field "body.studentIndicators[0].indicator" has value "At risk"
+        And the field "body.name.firstName" has value "Rhonda"
+        And the field "body.name.middleName" has value "Shannon"
+        And the field "body.name.lastSurname" has value "Delgado"
+        And the field "body.otherName[0].firstName" has value "Julie"
+        And the field "body.otherName[0].middleName" has value "Wren"
+        And the field "body.otherName[0].lastSurname" has value "Einstein"
+        And the field "body.otherName[0].otherNameType" has value "Nickname"
         # ENCRYPTED FIELDS
-        And the field "body.name.firstName" with value "Rhonda" is encrypted
-        And the field "body.name.middleName" with value "Shannon" is encrypted
-        And the field "body.name.lastSurname" with value "Delgado" is encrypted
-        And the field "body.otherName[0].firstName" with value "Julie" is encrypted
-        And the field "body.otherName[0].middleName" with value "Wren" is encrypted
-        And the field "body.otherName[0].lastSurname" with value "Einstein" is encrypted
-        And the field "body.otherName[0].otherNameType" with value "Nickname" is encrypted
         And the field "body.sex" with value "Female" is encrypted
         And the field "body.birthData.birthDate" with value "2006-07-02" is encrypted
         And the field "body.address[0].streetNumberName" with value "1234 Shaggy" is encrypted
@@ -111,20 +111,6 @@ Scenario: Student data created via the API should be encrypted - Teacher with IT
         And the field "body.telephone[0].telephoneNumber" with value "919-555-8765" is encrypted
         And the field "body.electronicMail[0].emailAddress" with value "rsd@summer.nc.edu" is encrypted
         And the field "body.loginId" with value "rsd" is encrypted
-
-Scenario: Sorting on PII across a hop should fail
-	Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
-        And format "application/vnd.slc+json"
-    Given format "application/json"
-        And parameter "sortBy" is "name.firstName"
-        And parameter "sortOrder" is "descending"
-    When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
-    Then I should receive a return code of 400
-    When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
-    Then I should receive a return code of 400
-    Given parameter "sortBy" is "studentUniqueStateId"
-    When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
-    Then I should receive a return code of 200
 
 Scenario: Can query PII fields by exact matching
 	Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
@@ -142,7 +128,7 @@ Scenario: Can query PII fields by exact matching
     Then I should receive a return code of 200
         And no student should have "name.firstName" equal to "Rhonda"
 
-Scenario: Can not query PII fields by non-exact matching
+Scenario: Can query PII fields by non-exact matching
 	Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
         And format "application/vnd.slc+json"
     Given format "application/json"
@@ -150,13 +136,13 @@ Scenario: Can not query PII fields by non-exact matching
 	And Rhonda Delagio is associated with "<English Sec 7>"
         And parameter "name.firstName" less than "Rhonda"
     When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
-    Then I should receive a return code of 400
+    Then I should receive a return code of 200
     Given parameter "name.firstName" greater than "Rhonda"
     When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
-    Then I should receive a return code of 400
+    Then I should receive a return code of 200
     Given parameter "name.firstName" greater than or equal to "Rhonda"
     When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
-    Then I should receive a return code of 400
+    Then I should receive a return code of 200
     Given parameter "name.firstName" less than or equal to "Rhonda"
     When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
-    Then I should receive a return code of 400
+    Then I should receive a return code of 200

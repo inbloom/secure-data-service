@@ -63,12 +63,12 @@ gem 'test-unit'
 
 # Lets use SimpleCov for Ruby > 1.9
 group :development, :test do
-
 	gem 'simplecov', :require=>false, :group=>:test
 	gem 'simplecov-rcov', :require=>false, :group=>:test
-	# gem 'turn', "~> 0.9.4"
+  gem 'pry'
 end
 
 gem 'eventmachine', '1.0.3'
 
 gem 'rest-client'
+gem 'breadcrumbs_on_rails'

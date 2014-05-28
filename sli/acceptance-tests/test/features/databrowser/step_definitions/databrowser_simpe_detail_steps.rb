@@ -21,6 +21,7 @@ require "selenium-webdriver"
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
+require_relative '../../apiV1/ingestionJob/step_definitions/ingestionJob.rb'
 
 When /^I click the IDP page Go button$/ do
   @driver.find_element(:name, "Login.Submit").click
@@ -84,7 +85,7 @@ Then /^I see the list of "([^"]+)" in alphabetical order$/ do |arg1|
   #TODO Find better way to get all the elements of the Links list.
   #TODO Find better way to assert that list of links is alphabetized also.
   while count < 21 do
-    realOrder.push(@driver.find_element(:xpath, "(//div/ul/li/a/span)[#{count}]").text.downcase)
+    realOrder.push(@driver.find_element(:xpath, "(//div/ul/li/a)[#{count}]").text.downcase)
     count = count + 1
   end
   alphaOrder = realOrder.clone.sort
@@ -273,12 +274,13 @@ Then /^I should go to the "([^"]*)" page and look for the EdOrg table with a "([
 end
 
 # this tests the current breadcrumb trail text for equivalence to the given value (case sig)
-Then /^I should see a breadcrumbtrail of "(.*?)"$/ do |crumb|
+Then /^I should see a breadcrumbtrail of "([^"]*)"$/ do |crumb|
   begin
     # @driver.get PropLoader.getProps['databrowser_server_url']
-    bctValue = @driver.find_element(:class_name, "breadcrumb").text()
-    puts "got breadcrumbtrail value of #{bctValue}"
-    assert(crumb == bctValue, "breadcrumbtrail #{bctValue}, not #{crumb}")
+    bctElem = @driver.find_element(:class_name, "breadcrumb")
+    bctValue = bctElem.text()
+    puts "got breadcrumbtrail value of #{bctElem.text()}"
+    assert(crumb == bctValue, "breadcrumbtrail #{bctElem.text()}, not #{crumb}")
   end
 end
 
@@ -341,4 +343,98 @@ Then /^I should click on the <Number> link pound and get <Text> returned$/ do |t
       count = count + 1
     end
   end
+end
+
+Then /^I should verify that the Ingestion Job table is on the home page$/ do
+  begin
+    @driver.find_element(:xpath, "//table[@id='home_ingestion_table']") 
+    assert(true)
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    assert(false, "There should be an Ingestion Job table on the home page")
+  end
+end
+
+Then /^I should have the appropriate tables on the single ingestion job page$/ do
+  begin
+    @driver.find_element(:xpath, "//table[@id='show_ingestion_table']") 
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    assert(false, "There should be an Ingestion Job table on the single ingestion page")
+  end
+
+  begin
+    @driver.find_element(:xpath, "//table[@id='show_ingestion_table_details']")
+    assert(true) 
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    assert(false, "There should be an Ingestion Job details table on the single ingestion page")
+  end
+end
+
+Then /^I should have the appropriate tables on the ingestion job page$/ do
+  begin
+    @driver.find_element(:xpath, "//table[@id='list_ingestion_table']")
+    assert(true) 
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    assert(false, "There should be an Ingestion Job table on the ingestion page")
+  end
+
+  begin
+    @driver.find_element(:xpath, "//div[@id='list_ingestion_table_info']")
+    assert(true)
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    assert(false, "There should be an Ingestion Job counts on the ingestion page")
+  end
+end
+
+When /^I have navigated to the <Page> page of the Data Browser as user <User> with edorg <EdOrg>$/ do |table|
+  p arg1
+  p arg2
+  p table
+  table.hashes.each do |hash|
+    @driver.get Property['databrowser_server_url']
+    # Wait for home page to load
+    # Navigate to edorg
+    assertWithWait("Failed to find '"+hash['EdOrg']+"' Link on page")  {@driver.find_element(:link_text, hash['EdOrg'])}
+    @driver.find_element(:link_text, hash['EdOrg']).click
+    # Navigate to Staff
+    assertWithWait("Failed to find Staff Link on page")  {@driver.find_element(:link_text, 'Staff')}
+    @driver.find_element(:link_text, 'Staff').click
+    #Click to expand self on staff list
+    assertWithWait("Failed to find row containing text: "+hash['User'])  {@driver.find_element(:xpath, "//tr/td[normalize-space()='#{hash['User']}']")}
+    @driver.find_element(:xpath, "//tr/td[normalize-space()='#{hash['User']}']").click
+     
+     assertWithWait("Failed to find '"+hash["Page"]+"' Link on page")  {@driver.find_element(:link_text, hash["Page"])}
+     @driver.find_element(:link_text, hash["Page"]).click
+    
+     assertWithWait("Failed to find 'Home' Link on page")  {@driver.find_element(:link_text, "home")}
+     @driver.find_element(:link_text, "data browser").click
+
+     #assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Welcome to the inBloom, inc. Data Browser")}
+
+  end
+end
+And /^I navigate to myself as user "([^"]*)" of edorg "([^"]*)"$/ do |arg1, arg2|
+    assertWithWait("Failed to find '"+arg2+"' Link on page")  {@driver.find_element(:link_text, arg2)}
+    @driver.find_element(:link_text, arg2).click
+    # Navigate to Staff
+    assertWithWait("Failed to find Staff Link on page")  {@driver.find_element(:link_text, 'Staff')}
+    @driver.find_element(:link_text, 'Staff').click
+    begin
+      @driver.find_element(:id, 'simple-table')
+      assertWithWait("Failed to find row containing text: "+arg1)  {@driver.find_element(:xpath, "//tr/td[normalize-space()='#{arg1}']")}
+      @driver.find_element(:xpath, "//tr/td[normalize-space()='#{arg1}']").click
+    rescue
+    end
+end
+And /^I navigate to myself as user "([^"]*)" of type "([^"]*)" and edorg "([^"]*)"$/ do |arg1, arg2, arg3|
+    assertWithWait("Failed to find '"+arg3+"' Link on page")  {@driver.find_element(:link_text, arg3)}
+    @driver.find_element(:link_text, arg3).click
+    # Navigate to user collection
+    assertWithWait("Failed to find #{arg2} Link on page")  {@driver.find_element(:link_text, arg2)}
+    @driver.find_element(:link_text, arg2).click
+    begin
+      @driver.find_element(:id, 'simple-table')
+      assertWithWait("Failed to find row containing text: "+arg1)  {@driver.find_element(:xpath, "//tr/td[normalize-space()='#{arg1}']")}
+      @driver.find_element(:xpath, "//tr/td[normalize-space()='#{arg1}']").click
+    rescue
+    end
 end

@@ -1,7 +1,7 @@
 Encryption Tool
 ------------------
 
-This is a Java-based application to encrypt select configuration parameters that require encryption for the SLC Educator Dashboard.
+This is a Java-based application to encrypt select configuration parameters that require encryption for the Educator Dashboard.
 
 Usage: java -jar encryption-tool.jar [--decrypt] <keystore_location> <keystore_password> <key_alias> <key_password> <string>
 

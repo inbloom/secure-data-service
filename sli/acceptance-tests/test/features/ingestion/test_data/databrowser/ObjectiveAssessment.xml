@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeAssessmentMetadata xmlns="http://ed-fi.org/0100">
+  <ObjectiveAssessment>
+    <IdentificationCode>ACT-English</IdentificationCode>
+    <MaxRawScore>36</MaxRawScore>
+    <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+        <ObjectiveAssessmentIdentificationCode>ACT-English-Usage</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentTitle>ACT</AssessmentTitle>
+        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+        <Version>1</Version>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </ObjectiveAssessment>
+</InterchangeAssessmentMetadata>

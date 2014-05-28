@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeStudentGrade xmlns="http://ed-fi.org/0100">
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
+    <Objective>Phonemic Awareness</Objective>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+</InterchangeStudentGrade>

@@ -16,18 +16,16 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.elasticsearch.common.collect.Sets;
+import com.google.common.collect.Sets;
 import org.slc.sli.api.util.SecurityUtil;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.stereotype.Component;
+
+import java.util.Collections;
+import java.util.Set;
 
 /**
  * Validates Write context to a global course offering.

@@ -300,14 +300,15 @@ Given /^the staff queries and rewrite rules work$/ do
     end
 
     resource = resource_as_uri[1..-1]
-    resource_type = get_resource_type resource_as_uri
 
     puts "Evaluating: #{resource}"
 
     row_data = @state_staff_expected_results[resource]
     assert(!row_data.nil?, "No entry in expected staff rewrite results table for resource uri: #{resource}")
 
-    
+    puts row_data
+    resource_type = row_data["Entity Type"]
+
     step "entity URI \"#{resource}\""
     step "parameter \"limit\" is \"0\""
     step "I navigate to GET \"/v1.5#{resource_as_uri}\""

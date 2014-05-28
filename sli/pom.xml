@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
@@ -18,58 +17,14 @@
     <name>SLI</name>
     <description>Shared Learning Infrastructure</description>
 
-    <url>http://www.inbloom.org</url>
     <inceptionYear>2012</inceptionYear>
+
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
-    <organization>
-        <name>inBloom</name>
-        <url>http://www.inbloom.org</url>
-    </organization>
-
-    <!--   Please update your information:  http://maven.apache.org/pom.html#Developers -->
-    <developers>
-        <!-- <developer>Lloyd Englebretsen</developer>
-        <developer>Chris Ertel</developer>
-        <developer>Karl Fehd</developer>
-        <developer>Michael Forrester</developer> -->
-        <developer>
-            <id>tfritz</id>
-            <name>Todd Fritz</name>
-            <email>todd.fritz@inbloom.org</email>
-            <organization>inBloom</organization>
-            <organizationUrl>http://www.inbloo.org</organizationUrl>
-            <roles>
-                <role>architect</role>
-                <role>developer</role>
-            </roles>
-            <timezone>-5</timezone>
-        </developer>
-        <!-- <developer>Verlin Henderson</developer>
-        <developer>Chris Kelly</developer>
-        <developer>Paul Lawler</developer>
-        <developer>Ben Morgan</developer>
-        <developer>Bill Siggelkow</developer> -->
-    </developers>
-    <!-- <contributors>
-        <contributor>Sharren Bates</contributor>
-        <contributor>Jennifer Jones</contributor>
-        <contributor>Greg Kisling</contributor>
-        <contributor>Lydia Neher</contributor>
-        <contributor>Garret Suhm</contributor>
-    </contributors> -->
-    <!-- <mailingLists>
-        <mailingList>
-            <name>Development List</name>
-            <subscribe>dev-subscribe@activemq.apache.org</subscribe>
-            <unsubscribe>dev-unsubscribe@activemq.apache.org</unsubscribe>
-            <post>dev@activemq.apache.org</post>
-        </mailingList>
-    </mailingLists> -->
 
     <scm>
         <connection>scm:git:git@github.com:inbloomdev/datastore.git</connection>
@@ -207,7 +162,7 @@
         <xerces.impl.version>2.10.0</xerces.impl.version>
 
         <!-- ElasticSearch Versions -->
-        <elasticsearch.version>0.19.9</elasticsearch.version>
+        <!-- <elasticsearch.version>0.19.9</elasticsearch.version> -->
 
         <!-- Rest Services (JAX-RS) Framework Versions -->
         <jackson.version>1.9.2</jackson.version>
@@ -434,7 +389,7 @@
         <module>dashboard</module>
         <module>simple-idp</module>
         <module>sif</module>
-        <module>search-indexer</module>
+        <!-- <module>search-indexer</module> -->
         <module>bulk-extract</module>
     </modules>
 

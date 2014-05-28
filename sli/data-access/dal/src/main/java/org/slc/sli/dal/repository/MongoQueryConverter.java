@@ -17,22 +17,6 @@
 
 package org.slc.sli.dal.repository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Order;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.dal.encrypt.EntityEncryption;
@@ -42,6 +26,16 @@ import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ListSchema;
 import org.slc.sli.validation.schema.NeutralSchema;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Order;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -53,11 +47,11 @@ import org.slc.sli.validation.schema.NeutralSchema;
  */
 @Component
 public class MongoQueryConverter {
+    private static final Logger LOG = LoggerFactory.getLogger(MongoQueryConverter.class);
+
     private static final String MONGO_ID = "_id";
     private static final String MONGO_BODY = "body.";
     private static final String ENCRYPTION_ERROR = "Unable to perform search operation on PII field.";
-
-    private static final Logger LOG = LoggerFactory.getLogger(MongoQueryConverter.class);
 
     @Autowired
     private IdConverter idConverter;
@@ -85,6 +79,8 @@ public class MongoQueryConverter {
 
     @SuppressWarnings("unchecked")
     private Collection<Object> convertIds(Object rawValues) {
+        LOG.debug(">>>MongoQueryConverter.convertIds()");
+
         Collection<String> idList = null;
 
         //type checking
@@ -119,6 +115,7 @@ public class MongoQueryConverter {
     }
 
     public MongoQueryConverter() {
+        LOG.debug(">>>MongoQueryConverter()");
 
         this.operatorImplementations = new HashMap<String, MongoCriteriaGenerator>();
 
@@ -304,6 +301,8 @@ public class MongoQueryConverter {
      * @return
      */
     protected static String prefixKey(NeutralCriteria neutralCriteria) {
+        LOG.debug(">>>MongoQueryConverter.prefixKey()");
+
         String key = neutralCriteria.getKey();
 
         if (key.equals(MONGO_ID)) {
@@ -326,9 +325,12 @@ public class MongoQueryConverter {
      * @return a mongo specific database query implementation of the neutral query
      */
     public Query convert(String entityName, NeutralQuery neutralQuery) {
+        LOG.debug(">>>MongoQueryConverter.convery(entityName, neutralQuery)");
     	return convert(entityName, neutralQuery, false);
     }
+
     public Query convert(String entityName, NeutralQuery neutralQuery, boolean allFields) {
+        LOG.debug(">>>MongoQueryConverter.convery(entityName, neutralQuery, allFields)");
     	Query mongoQuery = new Query();
 
         if (neutralQuery != null) {
@@ -399,6 +401,7 @@ public class MongoQueryConverter {
      * been converted into the proper type.
      */
     public List<Criteria> convertToCriteria(String entityName, NeutralQuery neutralQuery, NeutralSchema entitySchema) {
+        LOG.debug(">>>MongoQueryConverter.convertToCriteria()");
         Map<String, List<NeutralCriteria>> fields = new HashMap<String, List<NeutralCriteria>>();
 
         // other criteria
@@ -483,6 +486,7 @@ public class MongoQueryConverter {
      * @return The updated mongo query
      */
     protected List<Criteria> mergeCriteria(Map<String, List<NeutralCriteria>> criteriaForFields) {
+        LOG.debug(">>>MongoQueryConverter.mergeCriteria()");
         List<Criteria> criteriaList = new ArrayList<Criteria>();
 
         // Gather the criteria from the chain.
@@ -506,6 +510,7 @@ public class MongoQueryConverter {
     }
 
     private NeutralSchema getNestedSchema(NeutralSchema schema, String field) {
+        LOG.debug(">>>MongoQueryConverter.getNestedSchema()");
         if (schema == null) {
             return null;
         }
@@ -551,6 +556,7 @@ public class MongoQueryConverter {
     }
 
     private NeutralSchema getFieldSchema(NeutralSchema schema, String dottedField) {
+        LOG.debug(">>>MongoQueryConverter.getFieldSchema()");
         NeutralSchema tempSchema = schema;
         for (String field : dottedField.split("\\.")) {
             tempSchema = this.getNestedSchema(tempSchema, field);

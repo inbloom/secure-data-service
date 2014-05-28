@@ -331,15 +331,9 @@ end
 def restHttpPut(id, data, format = @format, sessionId = @sessionId)
   sessionId.should_not be_nil
 
+  puts "\n--------------------------START OF DATA--------------:\n#{data}\n--------------------END OF DATA---------------" if $SLI_DEBUG
   urlHeader = makeUrlAndHeaders('put',id,sessionId,format)
   @res = RestClient.put(urlHeader[:url], data, urlHeader[:headers]){|response, request, result| response }
-  puts "\n\n" if $SLI_DEBUG
-  puts @res.code if $SLI_DEBUG
-  puts "\n\n" if $SLI_DEBUG
-  puts @res.body if $SLI_DEBUG
-  puts "\n\n" if $SLI_DEBUG
-  puts @res.raw_headers if $SLI_DEBUG
-  puts "\n\n" if $SLI_DEBUG
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 

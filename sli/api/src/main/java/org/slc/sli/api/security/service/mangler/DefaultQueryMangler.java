@@ -15,21 +15,26 @@
  */
 package org.slc.sli.api.security.service.mangler;
 
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Mangles queries based on paging, etc.
  *
  */
 public class DefaultQueryMangler extends Mangler {
-    
+
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultQueryMangler.class);
+
     public NeutralQuery mangleQuery(NeutralQuery query, NeutralCriteria securityCriteria) {
+        LOG.debug(">>>DefaultQueryMangler.mangleQuery()");
         setTheQuery(query);
         setSecurityCriteria(securityCriteria);
         // Is this a  list query or a specific one?

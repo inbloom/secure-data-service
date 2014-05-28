@@ -80,7 +80,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                         .addGroupTitle(LEA_ADMINISTRATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ, Right.READ_PUBLIC,
-                                        Right.CRUD_LEA_ADMIN, Right.SECURITY_EVENT_VIEW }).setAdmin(true).build());
+                                        Right.CRUD_LEA_ADMIN, Right.SECURITY_EVENT_VIEW, Right.INGESTION_LOG_VIEW }).setAdmin(true).build());
         adminRoles.put(
                 SEA_ADMINISTRATOR,
                 RoleBuilder
@@ -88,7 +88,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                         .addGroupTitle(SEA_ADMINISTRATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE, Right.READ_PUBLIC,
-                                        Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN, Right.SECURITY_EVENT_VIEW }).setAdmin(true).build());
+                                        Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN, Right.SECURITY_EVENT_VIEW, Right.INGESTION_LOG_VIEW }).setAdmin(true).build());
         adminRoles.put(
                 SANDBOX_SLC_OPERATOR,
                 RoleBuilder
@@ -96,12 +96,12 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                         .addGroupTitle(SANDBOX_SLC_OPERATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.CRUD_SANDBOX_SLC_OPERATOR,
-                                        Right.CRUD_SANDBOX_ADMIN }).setAdmin(true).build());
+                                        Right.CRUD_SANDBOX_ADMIN, Right.INGESTION_LOG_VIEW }).setAdmin(true).build());
         adminRoles
                 .put(SANDBOX_ADMINISTRATOR,
                         RoleBuilder.makeRole(Arrays.asList(SANDBOX_ADMINISTRATOR))
                                 .addGroupTitle(SANDBOX_ADMINISTRATOR)
-                                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.CRUD_SANDBOX_ADMIN, Right.PRODUCTION_LOGIN }).setAdmin(true)
+                                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.CRUD_SANDBOX_ADMIN, Right.PRODUCTION_LOGIN, Right.INGESTION_LOG_VIEW }).setAdmin(true)
                                 .build());
         adminRoles.put(
                 REALM_ADMINISTRATOR,
@@ -110,7 +110,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                         .addGroupTitle(REALM_ADMINISTRATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM,
-                                        Right.READ_PUBLIC, Right.CRUD_ROLE }).setAdmin(true).build());
+                                        Right.READ_PUBLIC, Right.CRUD_ROLE, Right.INGESTION_LOG_VIEW }).setAdmin(true).build());
         
         Right[] appDevRights;
         if (isSandboxEnabled) {
@@ -128,7 +128,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
 
         List<Right> slcOperatorRights = new ArrayList<Right> ( Arrays.asList(Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.READ_GENERAL,
                                         Right.READ_PUBLIC, Right.CRUD_SLC_OPERATOR, Right.CRUD_SEA_ADMIN,
-                                        Right.CRUD_LEA_ADMIN, Right.SECURITY_EVENT_VIEW ));
+                                        Right.CRUD_LEA_ADMIN, Right.SECURITY_EVENT_VIEW, Right.INGESTION_LOG_VIEW ));
         if (isSandboxEnabled) {
             slcOperatorRights.add(Right.ACCOUNT_APPROVAL);
         }

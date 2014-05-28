@@ -252,14 +252,15 @@ public class ContextValidatorTest {
         Mockito.when(edOrgHelper.getDirectEdorgs(Mockito.eq(student1))).thenReturn(new HashSet<String>(Arrays.asList("edOrg1")));
         boolean isTransitive = false;
         Mockito.when(ownership.canAccess(student1, isTransitive)).thenReturn(true);
-
-        Collection<String> ids = new HashSet<String>(Arrays.asList("student1"));
-
+        
+        String id = "student1";
+        Collection<String> ids = new HashSet<String>(Arrays.asList(id));
+        
         try {
             contextValidator.validateContextToEntities(def, ids, isTransitive);
             Assert.fail();
         } catch (EntityNotFoundException ex) {
-            Assert.assertEquals("Could not locate " + def.getType() + " with ids " + ids, ex.getId());
+            Assert.assertEquals(id, ex.getId());
         }
     }
 

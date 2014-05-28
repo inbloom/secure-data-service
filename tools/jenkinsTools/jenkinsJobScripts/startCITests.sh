@@ -109,6 +109,7 @@ cleanTomcat()
     done
     sudo rm -r -f /opt/apache-tomcat-7.0.47/temp/*
     sudo rm -r -f /opt/apache-tomcat-7.0.47/Catalina/localhost/*
+    sudo rm -r -f /opt/apache-tomcat-7.0.47/logs/*
     sudo /etc/init.d/tomcat start
     echo "Removed deployed tomcat apps"
 }
@@ -203,13 +204,6 @@ deployTomcat()
   echo "Deployed $APP"
 }
 
-startSearchIndexer()
-{
-  cd $WORKSPACE/sli/search-indexer
-  scripts/local_search_indexer.sh restart target/search_indexer.tar.gz -Dsli.conf=/etc/datastore/sli.properties -Dsli.encryption.keyStore=/etc/datastore/sli-keystore.jks -Dlock.dir=data/
-  echo "Started Search Indexer"
-}
-
 runTests()
 {
   Xvfb :4 -screen 0 1024x768x24 >/dev/null 2>&1 &
@@ -231,7 +225,6 @@ if [[ "$TEST" == "ci" ]]; then
   databrowserUnitTests
   deployAdmin
   deployDatabrowser
-  startSearchIndexer
 
   for APP in $APPS; do
     deployTomcat $APP ${deployHash[$APP]}
@@ -252,7 +245,6 @@ if [[ "$TEST" == "ci_e2e_prod" ]]; then
   setMode $MODE
   deployAdmin
   deployDatabrowser
-  startSearchIndexer
 
   for APP in $APPS; do
     deployTomcat $APP ${deployHash[$APP]}
@@ -273,7 +265,6 @@ if [[ "$TEST" == "ci_e2e_sandbox" ]]; then
   setMode $MODE
   deployAdmin
   deployDatabrowser
-  startSearchIndexer
 
   for APP in $APPS; do
     deployTomcat $APP ${deployHash[$APP]}
@@ -290,7 +281,6 @@ if [[ "$TEST" == "api_contextual_roles" ]]; then
 	cleanRails
 	resetDatabases
 	setMode $MODE
-	startSearchIndexer
 
 	for APP in $APPS; do
   	deployTomcat $APP ${deployHash[$APP]}
@@ -307,7 +297,6 @@ if [[ "$TEST" == "api_odin" ]]; then
 	cleanRails
 	resetDatabases
 	setMode $MODE
-	startSearchIndexer
 
 	for APP in $APPS; do
   	deployTomcat $APP ${deployHash[$APP]}
@@ -324,7 +313,6 @@ if [[ "$TEST" == "bulk_extract" ]]; then
 	cleanRails
 	resetDatabases
 	setMode $MODE
-	startSearchIndexer
 
 	for APP in $APPS; do
   	deployTomcat $APP ${deployHash[$APP]}
@@ -341,7 +329,6 @@ if [[ "$TEST" == "api_and_security" ]]; then
 	cleanRails
 	resetDatabases
 	setMode $MODE
-	startSearchIndexer
 
 	for APP in $APPS; do
   	deployTomcat $APP ${deployHash[$APP]}
@@ -359,7 +346,6 @@ if [[ "$TEST" == "admin" ]]; then
 	resetDatabases
 	setMode $MODE
 	deployAdmin
-	startSearchIndexer
 
 	for APP in $APPS; do
   	deployTomcat $APP ${deployHash[$APP]}
@@ -376,7 +362,6 @@ if [[ "$TEST" == "dashboard" ]]; then
 	cleanRails
 	resetDatabases
 	setMode $MODE
-	startSearchIndexer
 
 	for APP in $APPS; do
   	deployTomcat $APP ${deployHash[$APP]}
@@ -394,7 +379,6 @@ if [[ "$TEST" == "databrowser" ]]; then
 	resetDatabases
 	setMode $MODE
   deployDatabrowser
-	startSearchIndexer
 
 	for APP in $APPS; do
   	deployTomcat $APP ${deployHash[$APP]}
@@ -411,7 +395,6 @@ if [[ "$TEST" == "ingestion" ]]; then
 	cleanRails
 	resetDatabases
 	setMode $MODE
-	startSearchIndexer
 
 	for APP in $APPS; do
   	deployTomcat $APP ${deployHash[$APP]}
@@ -430,7 +413,6 @@ if [[ "$TEST" == "sandbox" ]]; then
 	setMode $MODE
 	deployAdmin
   deployDatabrowser
-	startSearchIndexer
 
 	for APP in $APPS; do
   	deployTomcat $APP ${deployHash[$APP]}

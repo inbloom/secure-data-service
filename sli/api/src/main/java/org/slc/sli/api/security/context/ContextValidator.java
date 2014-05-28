@@ -16,30 +16,10 @@
 
 package org.slc.sli.api.security.context;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.ws.rs.core.PathSegment;
-
 import com.sun.jersey.spi.container.ContainerRequest;
-
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.commons.lang.math.NumberUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
@@ -52,6 +32,17 @@ import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
+import javax.ws.rs.core.PathSegment;
+import java.util.*;
 
 /**
  * ContextValidator
@@ -283,13 +274,27 @@ public class ContextValidator implements ApplicationContextAware {
     * @throws APIAccessDeniedException - When entities cannot be accessed
     */
     public void validateContextToEntities(EntityDefinition def, Collection<String> ids, boolean isTransitive) throws APIAccessDeniedException {
+        LOG.debug(">>>ContextValidator.validateContextToEntities()");
+        LOG.debug("  def: " + ToStringBuilder.reflectionToString(def, ToStringStyle.DEFAULT_STYLE));
+        LOG.debug("  ids: " + ids.toString());
+        LOG.debug("  isTransitive" + isTransitive);
         IContextValidator validator = findValidator(def.getType(), isTransitive);
+        LOG.debug("  loaded validator: " + ToStringBuilder.reflectionToString(validator, ToStringStyle.DEFAULT_STYLE));
         if (validator != null) {
             NeutralQuery getIdsQuery = new NeutralQuery(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
+            LOG.debug("  getIdsQuery: " + getIdsQuery.toString());
+
             Collection<Entity> entities = (Collection<Entity>) repo.findAll(def.getStoredCollectionName(), getIdsQuery);
+            LOG.debug("  entities: " + ToStringBuilder.reflectionToString(entities, ToStringStyle.DEFAULT_STYLE));
+
             Set<String> idsToValidate = getEntityIdsToValidate(def, entities, isTransitive, ids);
+            LOG.debug("  idsToValidate: " + idsToValidate.toString());
+
             Set<String> validatedIds = getValidatedIds(def, idsToValidate, validator);
+            LOG.debug("  validatedIds: " + validatedIds.toString());
+
             if (!validatedIds.containsAll(idsToValidate)) {
+                LOG.debug("    ...APIAccessDeniedException");
                 throw new APIAccessDeniedException("Cannot access entities", def.getType(), idsToValidate);
             }
         } else {
@@ -393,36 +398,47 @@ public class ContextValidator implements ApplicationContextAware {
     */
     protected Set<String> getEntityIdsToValidate(EntityDefinition def, Collection<Entity> entities, boolean isTransitive, Collection<String> ids)
                           throws APIAccessDeniedException, EntityNotFoundException {
-         int found = 0;
-         Set<String> entityIdsToValidate = new HashSet<String>();
-            for (Entity ent : entities) {
-                found++;
-                Collection<String> userEdOrgs = edOrgHelper.getDirectEdorgs(ent);
-                if (isOrphanCreatedByUser(ent)) {
-                    LOG.debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
-                } else if (SecurityUtil.getSLIPrincipal().getEntity() != null
+        Set<String> entityIdsToValidate = new HashSet<String>();
+        for (Entity ent : entities) {
+            Collection<String> userEdOrgs = edOrgHelper.getDirectEdorgs(ent);
+            if (isOrphanCreatedByUser(ent)) {
+                LOG.debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
+            } else if (SecurityUtil.getSLIPrincipal().getEntity() != null
                         && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
-                    LOG.debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
+                LOG.debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
+            } else {
+                if (ownership.canAccess(ent, isTransitive)) {
+                    entityIdsToValidate.add(ent.getEntityId());
                 } else {
-                    if (ownership.canAccess(ent, isTransitive)) {
-                        entityIdsToValidate.add(ent.getEntityId());
-                    } else {
-                        throw new APIAccessDeniedException("Access to " + ent.getEntityId() + " is not authorized", userEdOrgs);
-                    }
+                    throw new APIAccessDeniedException("Access to " + ent.getEntityId() + " is not authorized", userEdOrgs);
                 }
             }
+        }
 
-            if (found != ids.size()) {
-                LOG.debug("Invalid reference, an entity does not exist. collection: {} entities: {}",
-                        def.getStoredCollectionName(), entities);
-                throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + ids);
+        // report an EntityNotFoundException on the id we find without a corresponding entity
+        // so that we don't use the constructor for EntityNotFoundException incorrectly
+        if (entities.size() != ids.size()) {
+            for (String id : ids ) {
+                boolean foundentity = false;
+                for (Entity ent : entities) {
+                    if (ent.getEntityId().contains(id)){
+                    	foundentity = true;
+                    	break;
+                    }
+                }
+                if (!foundentity) {
+                    LOG.debug("Invalid reference, an entity does not exist. collection: {} entities: {}",
+                            def.getStoredCollectionName(), entities);
+                    throw new EntityNotFoundException(id);
+                }
             }
+        }
 
-         return entityIdsToValidate;
-       }
+        return entityIdsToValidate;
+    }
 
     /**
-     * Returns true is the entity is an orphan that is created by the user, false otherwise
+     * Returns true if the entity is an orphan that is created by the user, false otherwise
      *
      * @param entity - Collection of entities to filter for validation
      *

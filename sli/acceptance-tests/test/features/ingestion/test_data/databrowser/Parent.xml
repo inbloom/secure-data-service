@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeStudentParent xmlns="http://ed-fi.org/0100">
+  <Parent>
+    <ParentUniqueStateId>9870036500</ParentUniqueStateId>
+    <Name>
+      <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+      <FirstName>Richard</FirstName>
+      <LastSurname>Lê</LastSurname>
+    </Name>
+    <Sex>Male</Sex>
+    <Address>
+      <StreetNumberName>23 Rue Lecourbe</StreetNumberName>
+      <City>Paris</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>75229</PostalCode>
+      <NameOfCounty>France</NameOfCounty>
+    </Address>
+    <Telephone TelephoneNumberType="Home">
+      <TelephoneNumber>+33 (1) 45.23.35.48.12</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work">
+      <TelephoneNumber>4041234567</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other">
+      <TelephoneNumber>1234567</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>ti.troung@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>ti.troung@yahoo.com</EmailAddress>
+    </ElectronicMail>
+  </Parent>
+</InterchangeStudentParent>
