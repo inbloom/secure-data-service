@@ -122,7 +122,7 @@ public class DeltaJournal implements InitializingBean {
             }
             for(String idPart: id.split("_id")){
                 if(!idPart.isEmpty()){
-                    idPart.replaceAll("[^\\p{XDigit}]", "");
+                    idPart = idPart.replaceAll("[^\\p{XDigit}]", "");
                     result.add(0, Hex.decodeHex(idPart.toCharArray()));
                 }
             }
