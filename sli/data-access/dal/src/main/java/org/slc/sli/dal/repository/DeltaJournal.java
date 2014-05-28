@@ -15,21 +15,10 @@
  */
 package org.slc.sli.dal.repository;
 
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -43,8 +32,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import java.util.*;
+
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 /**
  * Provides journaling of entity updates for delta processing
@@ -132,6 +122,7 @@ public class DeltaJournal implements InitializingBean {
             }
             for(String idPart: id.split("_id")){
                 if(!idPart.isEmpty()){
+                    idPart.replaceAll("[^\\p{XDigit}]", "");
                     result.add(0, Hex.decodeHex(idPart.toCharArray()));
                 }
             }
