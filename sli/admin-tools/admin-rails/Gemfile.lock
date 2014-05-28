@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:metaskills/less-rails.git
+  remote: https://github.com/metaskills/less-rails.git
   revision: 6e2a775480cc1ce1f702a3409ef95ebff68ceb70
   specs:
     less-rails (2.5.0)
@@ -7,7 +7,7 @@ GIT
       less (~> 2.5.0)
 
 GIT
-  remote: git@github.com:seyhunak/twitter-bootstrap-rails.git
+  remote: https://github.com/seyhunak/twitter-bootstrap-rails.git
   revision: 0d430bc229e4e61591ca1615aae513a3416cc5f1
   branch: bootstrap3
   specs:
