@@ -37,6 +37,7 @@ Then I see a list of 28 students
 # |Rudolph Theodore Krinsky  |12       |Daybreak Central High      |
 And I click on log out
 
+@wip
 Scenario: Educator Logs into dashboard from portal
 When I select "Daybreak Test Realm" and click go
 And I was redirected to the "Simple" IDP Login page
