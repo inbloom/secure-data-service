@@ -6,6 +6,7 @@ Background:
 Given I have an open web browser
 When I navigate to the Portal home page
 
+@wip
 Scenario: District Level IT Admin Logs into dashboard from portal
 When I select "Daybreak Test Realm" and click go
 And I was redirected to the "Simple" IDP Login page
