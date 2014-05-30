@@ -316,7 +316,7 @@ SLC.namespace('SLC.util', (function () {
 		    $('#banner #dbrd_frm_search').live("submit", function(e) {
 			  e.preventDefault();
 			  var studentName = $('#dbrd_inp_search_studentName').val();
-			  if (!studentName || studentName === "Enter student name") {
+			  if (!studentName || studentName === "Enter student last name") {
 				  studentName = '';
 			  }
 

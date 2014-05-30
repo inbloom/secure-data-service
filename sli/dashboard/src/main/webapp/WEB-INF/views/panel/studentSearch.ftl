@@ -17,7 +17,7 @@
 
 <form id="dbrd_frm_search" class="student-search-form" float="right">
 
-	<input id='dbrd_inp_search_studentName' class="input-large" type="text" placeholder="Enter student name">
+	<input id='dbrd_inp_search_studentName' class="input-large" type="text" placeholder="Enter student last name">
 	<button id="dbrd_btn_name_search" class="btn" type="submit">
 		<img src="${CONTEXT_ROOT_PATH}/static/images/search_icon.png" alt="Search" width="12px" height="12px"/>
 	</button>
