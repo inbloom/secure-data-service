@@ -4,14 +4,14 @@
 	<jaxb:bindings >
 		<jaxb:globalBindings typesafeEnumMaxMembers="1000">
 			<jaxb:javaType name="java.util.Calendar" xmlType="xs:dateTime" 
-					parseMethod="javax.xml.bind.DatatypeConverter.parseDateTime" 
-					printMethod="javax.xml.bind.DatatypeConverter.printDateTime" />
+					parseMethod="javax.xml.bind.DatatypeConverter._parseDateTime"
+					printMethod="javax.xml.bind.DatatypeConverter._printDateTime" />
 			<jaxb:javaType name="java.util.Calendar" xmlType="xs:date" 
-					parseMethod="javax.xml.bind.DatatypeConverter.parseDate" 
-					printMethod="javax.xml.bind.DatatypeConverter.printDateTime" />
+					parseMethod="javax.xml.bind.DatatypeConverter._parseDate"
+					printMethod="javax.xml.bind.DatatypeConverter._printDateTime" />
 			<jaxb:javaType name="java.util.Calendar" xmlType="xs:time" 
-					parseMethod="javax.xml.bind.DatatypeConverter.parseTime" 
-					printMethod="javax.xml.bind.DatatypeConverter.printTime" />
+					parseMethod="javax.xml.bind.DatatypeConverter._parseTime"
+					printMethod="javax.xml.bind.DatatypeConverter._printTime" />
 		</jaxb:globalBindings>
 	</jaxb:bindings>
 </jaxb:bindings>

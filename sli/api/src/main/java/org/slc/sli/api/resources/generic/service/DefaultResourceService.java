@@ -16,17 +16,7 @@
 package org.slc.sli.api.resources.generic.service;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.core.Response;
@@ -34,6 +24,7 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.util.datetime.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.joda.time.DateTime;
@@ -618,9 +609,9 @@ public class DefaultResourceService implements ResourceService {
 
 
     private boolean isCurrent(EntityDefinition def, EntityBody body) {
-        String now = DatatypeConverter.printDate(Calendar.getInstance());
-        String assocEnd = (String) body.get(this.endDates.get(def
-                .getResourceName()));
+        String now = DateUtils.getFormattedDate(DateUtils.DateUtilFormat.DATE_YYYY_MM_dd, new Date());
+
+        String assocEnd = (String) body.get(this.endDates.get(def.getResourceName()));
 
         // Absent end date means association is 'current'
         if (assocEnd == null) {
