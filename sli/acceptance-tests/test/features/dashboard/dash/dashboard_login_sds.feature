@@ -14,8 +14,9 @@ When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
 Then I should be redirected to the Dashboard landing page
-When I look in the ed org drop-down
-Then I only see "Daybreak School District 4529"
+# Per removal of the elastic search implementation, the non-PII rules have been loosened a bit. IT admin can see other LEA non-PII data but has no access to PII data
+#When I look in the ed org drop-down
+#Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
 Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
@@ -40,6 +41,7 @@ And their id shown in proflie is "100000017"
 And their grade is "1"
 And the class is "Mrs. Braverman's Homeroom #38"
 And I paste my copied URL
+When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
@@ -88,6 +90,7 @@ And the Assessment History for "StateTest Writing" has the following entries:
 |2011-09-01   |8      |Grade 8 2011 StateTest Writing  |25        |25         |
 And I click on the browser back button
 Then I see a list of 28 students
+When I select ed org "Daybreak School District 4529"
 When I select school "Daybreak Central High"
 And I select course "American Literature"
 And I select section "Sec 145"
@@ -207,7 +210,7 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sbantu" "sbantu1234" for the "Simple" login page
 Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
-Then I only see "Daybreak School District 4529"
+#Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
 Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"

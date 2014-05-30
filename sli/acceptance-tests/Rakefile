@@ -763,7 +763,7 @@ end
 ############################################################
 desc 'Run Dashboard Tests against SDS'
 task :dashboardSdsTests => [
-        :runSearchBulkExtract,
+        #:runSearchBulkExtract
         :dashboardSdsUploadConfigTests,
         :dashboardSdsCoreStudentsTests,
         :dashboardSdsContactInfoTests,
