@@ -16,47 +16,28 @@
 
 package org.slc.sli.dashboard.client;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+import org.scribe.exceptions.OAuthException;
+import org.slc.sli.api.client.*;
+import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.dashboard.entity.ConfigMap;
+import org.slc.sli.dashboard.entity.GenericEntity;
+import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
+import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
+import org.slc.sli.dashboard.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.ws.rs.MessageProcessingException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
-import javax.ws.rs.MessageProcessingException;
-
-import org.apache.commons.lang.StringUtils;
-import org.scribe.exceptions.OAuthException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.slc.sli.api.client.Entity;
-import org.slc.sli.api.client.Link;
-import org.slc.sli.api.client.SLIClient;
-import org.slc.sli.api.client.SLIClientException;
-import org.slc.sli.api.client.SLIClientFactory;
-import org.slc.sli.api.constants.PathConstants;
-import org.slc.sli.dashboard.entity.ConfigMap;
-import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
-import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
-import org.slc.sli.dashboard.util.CacheableUserData;
-import org.slc.sli.dashboard.util.Constants;
-import org.slc.sli.dashboard.util.ExecutionTimeLogger;
-import org.slc.sli.dashboard.util.JsonConverter;
-import org.slc.sli.dashboard.util.SecurityUtil;
+import java.util.*;
 
 /**
  * This client will use the SDK client to communicate with the SLI API.
@@ -68,7 +49,7 @@ import org.slc.sli.dashboard.util.SecurityUtil;
  */
 public class SDKAPIClient implements APIClient {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SDKAPIClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SDKAPIClient.class);
 
     private SLIClientFactory clientFactory;
 
@@ -1087,8 +1068,11 @@ public class SDKAPIClient implements APIClient {
 
     @Override
     public List<GenericEntity> searchStudents(String token, String query, Map<String, String> params) {
+        LOG.info("searchStudents: " + query);
+        LOG.info("params: " + ToStringBuilder.reflectionToString(params, ToStringStyle.MULTI_LINE_STYLE));
 
-        return this.readEntityList(token, "search/students?q=" + query + "&" + this.buildQueryString(params));
+        //rreturn this.readEntityList(token, "search/students?q=" + query + "&" + this.buildQueryString(params));
+        return this.readEntityList(token, SDKConstants.STUDENTS + "?" + SDKConstants.PARAM_LAST_NAME  + "=~" + query + "&" + this.buildQueryString(params));
     }
 
     /**
@@ -1183,7 +1167,7 @@ public class SDKAPIClient implements APIClient {
             // association
             GenericEntity school = cache.get(schoolId);
             if (school == null) {
-                LOGGER.warn("reading school from API, but should be reading from cache.");
+                LOG.warn("reading school from API, but should be reading from cache.");
                 school = getSchool(token, schoolId);
             }
             enhancedStudentSchoolAssociation.put(Constants.ATTR_SCHOOL, school);
@@ -1287,15 +1271,15 @@ public class SDKAPIClient implements APIClient {
         } catch (SLIClientException e) {
             return null;
         } catch (MessageProcessingException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         } catch (OAuthException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         } catch (MalformedURLException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         } catch (URISyntaxException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         } catch (IOException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         }
         return entity;
     }
@@ -1318,19 +1302,19 @@ public class SDKAPIClient implements APIClient {
                 entity = new GenericEntity(theEntity);
             }
         } catch (MessageProcessingException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         } catch (OAuthException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         } catch (MalformedURLException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         } catch (URISyntaxException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         } catch (IOException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         } catch (SLIClientException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         } catch (ArrayIndexOutOfBoundsException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         }
         return entity;
     }
@@ -1373,15 +1357,15 @@ public class SDKAPIClient implements APIClient {
         } catch (SLIClientException e) {
             return Collections.EMPTY_LIST;
         } catch (MessageProcessingException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         } catch (OAuthException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         } catch (MalformedURLException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         } catch (URISyntaxException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         } catch (IOException e) {
-            LOGGER.error("Exception occurred during API read", e);
+            LOG.error("Exception occurred during API read", e);
         }
         return genericEntities;
     }
@@ -1475,15 +1459,15 @@ public class SDKAPIClient implements APIClient {
         try {
             getClient(token).create(entity, url);
         } catch (OAuthException e) {
-            LOGGER.error("Exception occurred during API create", e);
+            LOG.error("Exception occurred during API create", e);
         } catch (MalformedURLException e) {
-            LOGGER.error("Exception occurred during API create", e);
+            LOG.error("Exception occurred during API create", e);
         } catch (IOException e) {
-            LOGGER.error("Exception occurred during API create", e);
+            LOG.error("Exception occurred during API create", e);
         } catch (URISyntaxException e) {
-            LOGGER.error("Exception occurred during API create", e);
+            LOG.error("Exception occurred during API create", e);
         } catch (SLIClientException e) {
-            LOGGER.error("Exception occurred during API create", e);
+            LOG.error("Exception occurred during API create", e);
         }
     }
 
@@ -1500,17 +1484,17 @@ public class SDKAPIClient implements APIClient {
         try {
             getClient(token).update(entity);
         } catch (MessageProcessingException e) {
-            LOGGER.error("Exception occurred during API update", e);
+            LOG.error("Exception occurred during API update", e);
         } catch (OAuthException e) {
-            LOGGER.error("Exception occurred during API update", e);
+            LOG.error("Exception occurred during API update", e);
         } catch (MalformedURLException e) {
-            LOGGER.error("Exception occurred during API update", e);
+            LOG.error("Exception occurred during API update", e);
         } catch (URISyntaxException e) {
-            LOGGER.error("Exception occurred during API update", e);
+            LOG.error("Exception occurred during API update", e);
         } catch (IOException e) {
-            LOGGER.error("Exception occurred during API update", e);
+            LOG.error("Exception occurred during API update", e);
         } catch (SLIClientException e) {
-            LOGGER.error("Exception occurred during API update", e);
+            LOG.error("Exception occurred during API update", e);
         }
     }
 
@@ -1526,13 +1510,13 @@ public class SDKAPIClient implements APIClient {
         try {
             getClient(token).delete(entity);
         } catch (MalformedURLException e) {
-            LOGGER.error("Exception occurred during API delete", e);
+            LOG.error("Exception occurred during API delete", e);
         } catch (OAuthException e) {
-            LOGGER.error("Exception occurred during API delete", e);
+            LOG.error("Exception occurred during API delete", e);
         } catch (URISyntaxException e) {
-            LOGGER.error("Exception occurred during API delete", e);
+            LOG.error("Exception occurred during API delete", e);
         } catch (SLIClientException e) {
-            LOGGER.error("Exception occurred during API delete", e);
+            LOG.error("Exception occurred during API delete", e);
         }
     }
 
@@ -1660,7 +1644,7 @@ public class SDKAPIClient implements APIClient {
                     gracePeriodCalendar.add(Calendar.DATE, daysToSubtract);
                 }
             } catch (NumberFormatException exception) {
-                LOGGER.warn("Invalid grace period: {}", exception.getMessage());
+                LOG.warn("Invalid grace period: {}", exception.getMessage());
             }
 
             for (GenericEntity section : sections) {
@@ -1690,9 +1674,9 @@ public class SDKAPIClient implements APIClient {
                             }
 
                         } catch (IllegalArgumentException exception) {
-                            LOGGER.warn("Invalid session date formatter configuration: {}", exception.getMessage());
+                            LOG.warn("Invalid session date formatter configuration: {}", exception.getMessage());
                         } catch (ParseException exception) {
-                            LOGGER.warn("Invalid session date format: {}", exception.getMessage());
+                            LOG.warn("Invalid session date format: {}", exception.getMessage());
                         }
                     }
                 }
@@ -1838,7 +1822,7 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     private List<String> getEdorgHierarchy(String schoolId, String token) {
-        LOGGER.info("Begin getEdOrgHierarchy [" + schoolId + "]");
+        LOG.info("Begin getEdOrgHierarchy [" + schoolId + "]");
         List<String> ids = new ArrayList<String>();
         final String rootUrl = "/" + PathConstants.EDUCATION_ORGANIZATIONS + "/";
 
@@ -1854,7 +1838,7 @@ public class SDKAPIClient implements APIClient {
                 currentEdOrgId = null;
             } else {
             	List<String> currentEdOrgIdList = (List<String>) edorg.get(Constants.ATTR_PARENT_EDORG);
-                LOGGER.info("Parent of [" + currentEdOrgId + "] is [" + currentEdOrgIdList + "]");
+                LOG.info("Parent of [" + currentEdOrgId + "] is [" + currentEdOrgIdList + "]");
                 // TODO: Use the same recursive logic as in EdOrgHelper.getParentEdOrgs() so that
             	//  multiple parents are handled.  This implementation only traverses up one, arbitrarily
             	// selected parent.
