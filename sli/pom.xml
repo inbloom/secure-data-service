@@ -1612,7 +1612,7 @@
     </pluginRepositories>
 
     <!-- TODO NOTE:  This belongs within the mvn settings.xml file... -->
-    <distributionManagement>
+    <!-- <distributionManagement>
         <repository>
             <id>sli-releases</id>
             <name>SLI Repository</name>
@@ -1628,6 +1628,6 @@
             <name>SLI Site</name>
             <url>stage</url>
         </site>
-    </distributionManagement>
+    </distributionManagement> -->
 
 </project>
