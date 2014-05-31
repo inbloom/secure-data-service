@@ -232,12 +232,22 @@
 
 	<build>
 		<finalName>api</finalName>
+
 		<plugins>
+
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<attachClasses>true</attachClasses>
-					<classesClassifier>classes</classesClassifier>
+					<!-- <attachClasses>true</attachClasses>
+					<classesClassifier>classes</classesClassifier> -->
+                    <archive>
+                        <addMavenDescriptor>true</addMavenDescriptor>
+                        <index>true</index>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                    </archive>
 				</configuration>
 			</plugin>
 
