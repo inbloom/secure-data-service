@@ -1,5 +1,6 @@
 package org.slc.sli.common.util.logging;
 
+import org.slc.sli.common.util.datetime.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -314,9 +315,10 @@ public class SecurityEvent {
             dataMap.put("userOrigin", userOrigin);
         }
         if (timeStamp != null) {
-            Calendar cal = new GregorianCalendar();
-            cal.setTime(timeStamp);
-            String now = DatatypeConverter.printDateTime(cal);
+            //Calendar cal = new GregorianCalendar();
+            //cal.setTime(timeStamp);
+            //String now = DatatypeConverter.printDateTime(cal);
+            String now = DateUtils.getFormattedDate(DateUtils.DateUtilFormat.DATE_YYYY_MM_ddTHH_mm_ss_SSSXXX, timeStamp);
             //LOG.info("SECURITY EVENT TS: " + ts);
 
             dataMap.put("timeStamp", now);
