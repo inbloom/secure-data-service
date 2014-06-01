@@ -37,13 +37,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
-import java.util.List;
-import java.util.Arrays;
+
 import javax.annotation.Resource;
 import javax.ws.rs.core.PathSegment;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

@@ -53,23 +53,19 @@
         <maven.assembly.version>2.4</maven.assembly.version>
         <maven.checkstyle.version>2.12</maven.checkstyle.version>
         <maven.clean.version>2.5</maven.clean.version>
-        <maven.compiler.version>2.5.1</maven.compiler.version>
-        <!-- 2014-3-3: Attempted upgrade to 3.1 which threw compile errors. -->
+        <maven.compiler.version>2.5.1</maven.compiler.version> <!-- 2014-3-3: Attempted upgrade to 3.1 which threw compile errors. -->
         <maven.deploy.version>2.8.1</maven.deploy.version>
         <maven.eclipse.version>2.9</maven.eclipse.version>
         <maven.failsafe.version>2.17</maven.failsafe.version>
-        <maven.findbugs.version>2.3.2</maven.findbugs.version>
-        <!-- 2014-3-3: TBD Update version -->
+        <maven.findbugs.version>2.3.2</maven.findbugs.version>   <!-- 2014-3-3: TBD Update version -->
         <maven.install.version>2.5.1</maven.install.version>
         <maven.jar.version>2.4</maven.jar.version>
         <maven.jarsigner.version>1.2</maven.jarsigner.version>
         <maven.javadoc.version>2.9.1</maven.javadoc.version>
-        <maven.jaxb2.version>1.3.1</maven.jaxb2.version>
-        <!-- 2014-3-3: TBD Update version -->
+        <maven.jaxb2.version>1.3.1</maven.jaxb2.version>   <!-- 2014-3-3: TBD Update version -->
         <maven.jdepend.version>2.0-beta-2</maven.jdepend.version>
         <maven.jetty.version>6.1.26</maven.jetty.version>
-        <maven.pmd.version>2.7.1</maven.pmd.version>
-        <!-- 2014-3-3: TBD Update version -->
+        <maven.pmd.version>2.7.1</maven.pmd.version>   <!-- 2014-3-3: TBD Update version -->
         <maven.release.version>2.5</maven.release.version>
         <maven.resources.version>2.6</maven.resources.version>
         <maven.source.version>2.2.1</maven.source.version>
@@ -91,8 +87,7 @@
         <aspectjweaver.version>1.7.3</aspectjweaver.version>
         <camel.version>2.8.1</camel.version>
         <cglib.version>2.2.2</cglib.version>
-        <easymock.version>3.0</easymock.version>
-        <!-- dashboard -->
+        <easymock.version>3.0</easymock.version> <!-- dashboard -->
         <ehcache.version>2.6.3</ehcache.version>
         <emma.version>2.1.5320</emma.version>
         <freemarker.version>2.3.14</freemarker.version>
@@ -112,17 +107,14 @@
         <openam.version>954</openam.version>
         <opensaml.version>2.6.0</opensaml.version>
         <org.reflections.version>0.9.5</org.reflections.version>
-        <oro.version>2.0.8</oro.version>
-        <!-- verify version -->
+        <oro.version>2.0.8</oro.version>  <!-- verify version -->
         <scribe.version>1.3.0</scribe.version>
         <smooks.version>1.5.1</smooks.version>
         <stax.api.version>1.0.1</stax.api.version>
         <velocity.version>1.7</velocity.version>
         <yammer.metrics.version>2.1.2</yammer.metrics.version>
-        <xbean-spring.version>3.11.1</xbean-spring.version>
-        <!-- verify version -->
-        <xstream.version>1.2.2</xstream.version>
-        <!-- verify version -->
+        <xbean-spring.version>3.11.1</xbean-spring.version>  <!-- verify version -->
+        <xstream.version>1.2.2</xstream.version>  <!-- verify version -->
 
         <!-- Spring Framework Versions -->
         <bean.validator.version>4.2.0.Final</bean.validator.version>
@@ -157,8 +149,7 @@
         <commons.cli.version>1.2</commons.cli.version>
         <commons.dbcp.version>20030825.184428</commons.dbcp.version>
         <commons.httpclient.dashboard>3.1</commons.httpclient.dashboard>
-        <commons.httpclient>4.1.3</commons.httpclient>
-        <!-- check all poms for httpclient -->
+        <commons.httpclient>4.1.3</commons.httpclient>   <!-- check all poms for httpclient -->
         <commons.io.version>2.2</commons.io.version>
         <commons-lang.version>2.4</commons-lang.version>
         <commons-lang-dashboard.version>2.6</commons-lang-dashboard.version>
@@ -188,8 +179,7 @@
         <junit.version>4.9</junit.version>
         <junit.addons.version>1.4</junit.addons.version>
         <mockito.version>1.9.5</mockito.version>
-        <powermock.version>1.5.4</powermock.version>
-        <!-- verify version -->
+        <powermock.version>1.5.4</powermock.version>  <!-- verify version -->
         <selenium.version>2.14.0</selenium.version>
         <jsonassert.version>1.2.3</jsonassert.version>
     </properties>
@@ -1097,36 +1087,36 @@
                 </plugin>
 
                 <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-pmd-plugin</artifactId>-->
-                <!--<version>${maven.pmd.version}</version>-->
-                <!--<configuration>-->
-                <!--<enable>true</enable>-->
-                <!--<linkXref>true</linkXref>-->
-                <!--<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>-->
-                <!--<minimumTokens>100</minimumTokens>-->
-                <!--<targetJdk>${java.version}</targetJdk>-->
-                <!--<includeTests>false</includeTests>-->
-                <!--<failurePriority>3</failurePriority>-->
-                <!--<rulesets>-->
-                <!--<ruleset>PMD/SLI-PMD-Rules.xml</ruleset>-->
-                <!--</rulesets>-->
-                <!--</configuration>-->
-                <!--<dependencies>-->
-                <!--<dependency>-->
-                <!--<groupId>org.slc.sli</groupId>-->
-                <!--<artifactId>build-tools</artifactId>-->
-                <!--<version>${sli.build.tools}</version>-->
-                <!--</dependency>-->
-                <!--</dependencies>-->
-                <!--<executions>-->
-                <!--<execution>-->
-                <!--<phase>test</phase>-->
-                <!--<goals>-->
-                <!--<goal>check</goal>-->
-                <!--</goals>-->
-                <!--</execution>-->
-                <!--</executions>-->
+                    <!--<groupId>org.apache.maven.plugins</groupId>-->
+                    <!--<artifactId>maven-pmd-plugin</artifactId>-->
+                    <!--<version>${maven.pmd.version}</version>-->
+                    <!--<configuration>-->
+                        <!--<enable>true</enable>-->
+                        <!--<linkXref>true</linkXref>-->
+                        <!--<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>-->
+                        <!--<minimumTokens>100</minimumTokens>-->
+                        <!--<targetJdk>${java.version}</targetJdk>-->
+                        <!--<includeTests>false</includeTests>-->
+                        <!--<failurePriority>3</failurePriority>-->
+                        <!--<rulesets>-->
+                            <!--<ruleset>PMD/SLI-PMD-Rules.xml</ruleset>-->
+                        <!--</rulesets>-->
+                    <!--</configuration>-->
+                    <!--<dependencies>-->
+                        <!--<dependency>-->
+                            <!--<groupId>org.slc.sli</groupId>-->
+                            <!--<artifactId>build-tools</artifactId>-->
+                            <!--<version>${sli.build.tools}</version>-->
+                        <!--</dependency>-->
+                    <!--</dependencies>-->
+                    <!--<executions>-->
+                        <!--<execution>-->
+                            <!--<phase>test</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>check</goal>-->
+                            <!--</goals>-->
+                        <!--</execution>-->
+                    <!--</executions>-->
                 <!--</plugin>-->
 
                 <plugin>
@@ -1492,10 +1482,13 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
-                        <index>true</index>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                        </manifest>
+                        <manifestSection>
+                            <name>Specification</name>
+                            <manifestEntries>
+                                <Title>${project.name}</Title>
+                                <Build-Version>${project.version}</Build-Version>
+                            </manifestEntries>
+                        </manifestSection>
                     </archive>
                 </configuration>
             </plugin>
@@ -1505,25 +1498,16 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <archive>
-                        <addMavenDescriptor>true</addMavenDescriptor>
-                        <index>true</index>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                        </manifest>
+                        <manifestSection>
+                            <name>Specification</name>
+                            <manifestEntries>
+                                <Title>${project.name}</Title>
+                                <Build-Version>${project.version}</Build-Version>
+                            </manifestEntries>
+                        </manifestSection>
                     </archive>
                 </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>manifest</goal>
-                        </goals>
-                        <inherited>true</inherited>
-                    </execution>
-                </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
@@ -1609,7 +1593,7 @@
                 <updatePolicy>always</updatePolicy>
             </snapshots>
         </pluginRepository>
-    </pluginRepositories>
+   </pluginRepositories>
 
     <!-- TODO NOTE:  This belongs within the mvn settings.xml file... -->
     <distributionManagement>

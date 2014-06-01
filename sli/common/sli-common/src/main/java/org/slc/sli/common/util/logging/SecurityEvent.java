@@ -1,11 +1,9 @@
 package org.slc.sli.common.util.logging;
 
-//import com.sun.xml.bind.DatatypeConverterImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.DatatypeConverter;
-import java.net.URL;
 import java.util.*;
 
 /**
@@ -316,12 +314,6 @@ public class SecurityEvent {
             dataMap.put("userOrigin", userOrigin);
         }
         if (timeStamp != null) {
-
-
-            LOG.info("Calendar from: " + getClassURL(Calendar.class));
-            LOG.info("DatatypeConverter from: " + getClassURL(DatatypeConverter.class));
-            //LOG.info("DatatypeConverterImpl from: " + getClassURL(DatatypeConverterImpl.class));
-
             Calendar cal = new GregorianCalendar();
             cal.setTime(timeStamp);
             String now = DatatypeConverter.printDateTime(cal);
@@ -346,17 +338,4 @@ public class SecurityEvent {
         }
         return dataMap;
     }
-
-    public static URL getClassURL(Class klass) {
-        String name = klass.getName();
-        name = "/" + convertClassToPath(name);
-        URL url = klass.getResource(name);
-        return url;
-    }
-
-    public static String convertClassToPath(String className) {
-        String path = className.replaceAll("\\.", "/") + ".class";
-        return path;
-    }
-
 }
