@@ -296,12 +296,6 @@ task :apiOdinSuperAssessment => :realmInit do
   authorize_ed_org("Mobile App")
 # This is to extract assessment, learningStandard, etc. into Elastic Search  
   runTests("test/features/apiV1/integration/super_assessment.feature")
-  runTests("test/features/apiV1/integration/search_assessment.feature")
-end
-
-desc "Run API Odin Assessment Search Tests"
-task :apiOdinSearchAssessment do
-  runTests("test/features/apiV1/end_user_stories/assessments/searchAssessment.feature")
 end
 
 desc "Set up app for api odin tests"
