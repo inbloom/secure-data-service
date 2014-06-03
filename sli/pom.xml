@@ -27,9 +27,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git@github.com:inbloomdev/datastore.git</connection>
-        <developerConnection>scm:git:git@github.com:inbloomdev/datastore.git</developerConnection>
-        <url>https://github.com/inbloomdev/datastore</url>
+        <connection>scm:git:git@github.com:inbloom/secure-data-service.git</connection>
+        <developerConnection>scm:git:git@github.com:inbloom/secure-data-service.git</developerConnection>
+        <url>https://github.com/inbloom/secure-data-service</url>
     </scm>
 
     <properties>
