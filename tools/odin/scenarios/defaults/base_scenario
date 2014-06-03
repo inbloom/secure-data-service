@@ -1,6 +1,6 @@
 # Base set of configuration parameters required to run ODIN
 STUDENT_COUNT: 1
-BEGIN_YEAR: 2013
+BEGIN_YEAR: 2014
 NUMBER_OF_YEARS: 3
 
 # Select the output of the ODIN tool
