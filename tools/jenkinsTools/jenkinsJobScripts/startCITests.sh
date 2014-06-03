@@ -108,7 +108,7 @@ cleanTomcat()
        sudo rm -r -f /opt/apache-tomcat-7.0.47/webapps/$i
     done
     sudo rm -r -f /opt/apache-tomcat-7.0.47/temp/*
-    sudo rm -r -f /opt/apache-tomcat-7.0.47/Catalina/localhost/*
+    sudo rm -r -f /opt/apache-tomcat-7.0.47/work/Catalina/localhost/*
     sudo rm -r -f /opt/apache-tomcat-7.0.47/logs/*
     sudo /etc/init.d/tomcat start
     echo "Removed deployed tomcat apps"

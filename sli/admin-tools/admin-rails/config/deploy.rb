@@ -24,7 +24,9 @@ set :application, "Identity Management Admin Tool"
 
 set :working_dir, "sli/admin-tools/admin-rails"
 
-set :repository,  "git@github.com:inbloomdev/datastore.git"
+#set :repository,  "git@github.com:inbloomdev/datastore.git"
+set :repository, "git@github.com:inbloom/secure-data-service.git"
+
 set :bundle_gemfile, "sli/admin-tools/admin-rails/Gemfile"
 
 set :user, "rails"
