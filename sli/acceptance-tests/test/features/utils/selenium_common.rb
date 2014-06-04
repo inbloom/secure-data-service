@@ -166,7 +166,7 @@ AfterStep('@pause') do
   STDIN.getc  
 end 
 
-def assertWithWait(msg, timeout = 15, &blk)
+def assertWithWait(msg, timeout = 30, &blk)
   wait = Selenium::WebDriver::Wait.new(:timeout => timeout)
   begin
     wait.until {yield}

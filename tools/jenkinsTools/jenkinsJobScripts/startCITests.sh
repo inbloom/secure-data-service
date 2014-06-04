@@ -160,7 +160,7 @@ databrowserUnitTests()
   echo "Executing databrowser unit tests"
   cd $WORKSPACE/sli/databrowser
   bundle install --full-index --deployment
-  bundle exec rake ci:setup:testunit test
+  DEBUG=true bundle exec rake ci:setup:testunit test
   code=$?
   if [ "$code" != "0" ]; then
     exit $code
@@ -211,7 +211,7 @@ runTests()
   cd $WORKSPACE/sli/acceptance-tests
   export LANG=en_US.UTF-8
   bundle install --deployment
-  bundle exec rake --trace FORCE_COLOR=true $@
+  DEBUG=true bundle exec rake --trace FORCE_COLOR=true $@
 }
 
 
