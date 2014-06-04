@@ -65,10 +65,11 @@ Scenario: Ingested Student data should be encrypted: Clean Database
 		And I find a record in "parent" with "body.parentUniqueStateId" equal to "9870036500"
         #UNENCRYPTED FIELDS
 		And the field "body.loginId" has value "rle"
+        And the field "body.name.firstName" has value "Richard"
+        And the field "body.name.middleName" has value "Lee"
+        And the field "body.name.lastSurname" has value "Le"
+
         # ENCRYPTED FIELDS
-		And the field "body.name.firstName" with value "Richard" is encrypted
-		And the field "body.name.middleName" with value "Lee" is encrypted
-		And the field "body.name.lastSurname" with value "Le" is encrypted
 		And the field "body.sex" with value "Male" is encrypted
 		And the field "body.address[0].streetNumberName" with value "23 Rue Lecourbe" is encrypted
 		And the field "body.address[0].city" with value "Paris" is encrypted
