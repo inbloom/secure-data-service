@@ -566,6 +566,7 @@ class WorldBuilder
   def add_time_information_to_edOrgs
     begin_year   = @scenarioYAML["BEGIN_YEAR"]
     num_years    = @scenarioYAML["NUMBER_OF_YEARS"]
+    instructional_days = @scenarioYAML["INSTRUCTIONAL_DAYS"]
 
     if begin_year.nil?
       this_year = Date.today.year
@@ -580,6 +581,13 @@ class WorldBuilder
       num_years = 1
     else
       @log.info "Property: NUMBER_OF_YEARS  --> Set in configuration: #{num_years}"
+    end
+
+    if instructional_days.nil?
+      instructional_days = 180
+      @log.info "Property: INSTRUCTIONAL_DAYS --> not set for scenario. Using default: #{instructional_days}"
+    else
+      @log.info "Property: INSTRUCTIONAL_DAYS --> Set in configuration: #{instructional_days}"
     end
 
     # loop over years updating infrastructure and population
@@ -598,7 +606,7 @@ class WorldBuilder
         end
 
         start_date = DateUtility.random_school_day_on_interval(@prng, Date.new(year, 8, 25), Date.new(year, 9, 10))
-        interval   = DateInterval.create_using_start_and_num_days(@prng, start_date, 180)
+        interval   = DateInterval.create_using_start_and_num_days(@prng, start_date, instructional_days)
 
         session             = Hash.new
         session["term"]     = :YEAR_ROUND
