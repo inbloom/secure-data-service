@@ -73,6 +73,7 @@ Scenario: Student has access to non-transitive associations
     | 139f77e73ae5f1970c5d884d4d2b90367361d1f6_id |
     | ec8b76883033432dc83b97e71fbc5bf881b4ccbb_id |
 
+@wip
   Scenario: I check the response to uris with query parameters
     Given I am accessing data about myself, "matt.sollars"
     Then I verify the following response body fields in "/schools?parentEducationAgencyReference=1b223f577827204a1c7e9c851dba06bea6b031fe_id&sortBy=stateOrganizationId":
