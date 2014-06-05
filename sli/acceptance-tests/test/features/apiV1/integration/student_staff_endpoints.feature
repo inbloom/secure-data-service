@@ -2,6 +2,7 @@
 
 Feature: As a student I want to use apps that access my associated Staff, Teachers, and Students via the inBloom API
 
+@wip
 Background: Kludge an association endDate to not expire until a more permanent solution is found
     Given I update the "staffCohortAssociation" with ID "56318bd0507551f3eff40aea265f3ce1e47ec3cc_id" field "body.endDate" to "2023-08-27"
 
