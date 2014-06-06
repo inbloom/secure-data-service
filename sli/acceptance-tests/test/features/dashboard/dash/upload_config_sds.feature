@@ -66,7 +66,7 @@ When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 Then I see a list of 28 students
 Then I should have a dropdown selector named "viewSelect"
-And I should have a selectable view named "Middle School ELA View"
+And I should have a selectable view named "Default View"
 Then I should see a table heading "StateTest Reading (highest ever)"
 Then I should see a table heading "StateTest Writing (most recent)"
 Then I should see a table heading "Final Grades"
