@@ -81,8 +81,7 @@ When I select ed org "Sunset School District 4526"
 When I select school "Sunset Central High School"
 When I select course "A.P. Calculus"
 When I select section "A.P. Calculus Sec 201"
-Then I see a list of 3 students
-Then I should only see one view named "College Ready ELA View"
+#Then I should only see one view named "College Ready ELA View"
 
 @integration @RALLY_US2276
 Scenario:  State IT admin upload
