@@ -10,7 +10,7 @@ When I select "Illinois Daybreak School District 4529" and click go
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198 @RALLY_US2253 @RALLY_US196 @RALLY_US2254
 Scenario: View Matt Sollars
  And I was redirected to the "Simple" IDP Login page
- When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+ When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
 And the title of the page is "inBloom Dashboard"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
