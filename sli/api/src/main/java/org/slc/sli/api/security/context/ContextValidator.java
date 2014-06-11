@@ -278,8 +278,10 @@ public class ContextValidator implements ApplicationContextAware {
         LOG.debug("  def: " + ToStringBuilder.reflectionToString(def, ToStringStyle.DEFAULT_STYLE));
         LOG.debug("  ids: " + ids.toString());
         LOG.debug("  isTransitive" + isTransitive);
+
         IContextValidator validator = findValidator(def.getType(), isTransitive);
         LOG.debug("  loaded validator: " + ToStringBuilder.reflectionToString(validator, ToStringStyle.DEFAULT_STYLE));
+
         if (validator != null) {
             NeutralQuery getIdsQuery = new NeutralQuery(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
             LOG.debug("  getIdsQuery: " + getIdsQuery.toString());
@@ -491,6 +493,7 @@ public class ContextValidator implements ApplicationContextAware {
     * @return - Set of validated entities
     */
     protected Set<String> getValidatedIds(EntityDefinition def, Set<String> idsToValidate, IContextValidator validator) {
+        LOG.debug(">>>ContextValidator.getValidatedIds()");
         Set<String> validatedIds = new HashSet<String>();
         if (!idsToValidate.isEmpty()) {
             validatedIds = validator.validate(def.getType(), idsToValidate);

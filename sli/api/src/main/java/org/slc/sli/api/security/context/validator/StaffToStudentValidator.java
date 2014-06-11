@@ -16,14 +16,8 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
@@ -31,6 +25,15 @@ import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Validates the context of a staff member to see the requested set of students. Returns true if the
@@ -38,6 +41,8 @@ import org.slc.sli.domain.NeutralQuery;
  */
 @Component
 public class StaffToStudentValidator extends AbstractContextValidator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(StaffToStudentValidator.class);
 
     @Autowired
     private GenericToProgramValidator programValidator;
@@ -56,6 +61,9 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
     @Override
     public Set<String> getValid(String entityType, Set<String> studentIds) {
+        LOG.trace(">>>StaffToStudentValidator.getValid(?)", entityType);
+        LOG.trace("  studentIds" + ToStringBuilder.reflectionToString(studentIds, ToStringStyle.DEFAULT_STYLE));
+
         // first check if the entire set is valid. if not, check id by id.
         //return (validate(entityType, studentIds)) ? studentIds : super.getValid(entityType, studentIds);
         return validate(entityType, studentIds);
@@ -63,13 +71,20 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
     @Override
     public Set<String> validate(String entityType, Set<String> studentIds) throws IllegalStateException {
+        LOG.debug(">>>StaffToStudentValidator.validate(?)", entityType);
+        LOG.debug("  studentIds" + ToStringBuilder.reflectionToString(studentIds, ToStringStyle.DEFAULT_STYLE));
+
         if (!areParametersValid(EntityNames.STUDENT, entityType, studentIds)) {
+            LOG.debug("  !areParametersValid");
             return new HashSet<String>();
         }
+
         return validateStaffToStudentContextThroughSharedEducationOrganization(studentIds);
     }
 
     private Set<String> validateStaffToStudentContextThroughSharedEducationOrganization(Collection<String> ids) {
+        LOG.trace(">>>StaffToStudentValidator.validateStaffToStudentContextThroughSharedEducationOrganization()");
+        LOG.debug("  ids" + ToStringBuilder.reflectionToString(ids, ToStringStyle.DEFAULT_STYLE));
 
         // lookup current staff edOrg associations and get the Ed Org Ids
         Set<String> staffsEdOrgIds = getStaffCurrentAssociatedEdOrgs();
@@ -80,11 +95,18 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         Set<String> validIds = new HashSet<String>();
 
         if (students != null && students.iterator().hasNext()) {
+
+            LOG.debug("  Iterating on each student entity.");
+
             for (Entity entity : students) {
                 Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
                 Set<String> validPrograms = programValidator.validate(EntityNames.PROGRAM, getValidPrograms(entity));
                 Set<String> validCohorts = cohortValidator.validate(EntityNames.COHORT, getValidCohorts(entity));
-                if ((isIntersection(staffsEdOrgIds, studentsEdOrgs) || !validPrograms.isEmpty() || !validCohorts.isEmpty())) {
+
+                boolean hasStaffStudentIntersection = isIntersection(staffsEdOrgIds, studentsEdOrgs);
+                LOG.debug("   hasStaffStudentIntersection = " + hasStaffStudentIntersection);
+
+                if ((hasStaffStudentIntersection || !validPrograms.isEmpty() || !validCohorts.isEmpty())) {
                     validIds.add(entity.getEntityId());
                 }
             }
@@ -138,10 +160,19 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     }
 
     private Iterable<Entity> getStudentEntitiesFromIds(Collection<String> studentIds) {
-        NeutralQuery studentQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
-                NeutralCriteria.CRITERIA_IN, new ArrayList<String>(studentIds)));
+        LOG.debug("StaffToStudentValidator.getStudentEntitiesFromIds()");
+        LOG.debug("  studentIds: " + ToStringBuilder.reflectionToString(studentIds, ToStringStyle.DEFAULT_STYLE));
+
+        NeutralQuery studentQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, new ArrayList<String>(studentIds)));
         studentQuery.setEmbeddedFieldString("schools");
         Iterable<Entity> students = getRepo().findAll(EntityNames.STUDENT, studentQuery);
+
+        if (students == null) {
+            LOG.debug("   students NOT found in Repo.");
+        } else {
+            LOG.debug("   students WERE found in Repo.");
+        }
+
         return students;
     }
 
