@@ -614,7 +614,10 @@ public class EdOrgHelper {
             result = getStudentsCurrentAssociatedEdOrgs(prince.getOwnedStudentIds(), false);
         }
 
-        LOG.debug("  ...method did not do anything so return empty set...");
+        if (result == null) {
+            LOG.debug("  ...method did not do anything so return empty set...");
+        }
+
         return result;
     }
 

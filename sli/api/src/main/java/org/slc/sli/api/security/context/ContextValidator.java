@@ -276,7 +276,8 @@ public class ContextValidator implements ApplicationContextAware {
     public void validateContextToEntities(EntityDefinition def, Collection<String> ids, boolean isTransitive) throws APIAccessDeniedException {
         LOG.debug(">>>ContextValidator.validateContextToEntities()");
         LOG.debug("  def: " + ToStringBuilder.reflectionToString(def, ToStringStyle.DEFAULT_STYLE));
-        LOG.debug("  ids: " + ids.toString());
+        LOG.debug("  ids: {}", (ids==null) ? "null" : ids.toArray().toString() );
+
         LOG.debug("  isTransitive" + isTransitive);
 
         IContextValidator validator = findValidator(def.getType(), isTransitive);

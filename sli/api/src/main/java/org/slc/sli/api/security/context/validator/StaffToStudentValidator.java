@@ -55,14 +55,13 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return EntityNames.STUDENT.equals(entityType)
-                && isStaff();
+        return EntityNames.STUDENT.equals(entityType) && isStaff();
     }
 
     @Override
     public Set<String> getValid(String entityType, Set<String> studentIds) {
         LOG.trace(">>>StaffToStudentValidator.getValid(?)", entityType);
-        LOG.trace("  studentIds" + ToStringBuilder.reflectionToString(studentIds, ToStringStyle.DEFAULT_STYLE));
+        LOG.debug("  studentIds: {}", (studentIds==null) ? "null" : studentIds.toString() );
 
         // first check if the entire set is valid. if not, check id by id.
         //return (validate(entityType, studentIds)) ? studentIds : super.getValid(entityType, studentIds);
@@ -72,7 +71,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     @Override
     public Set<String> validate(String entityType, Set<String> studentIds) throws IllegalStateException {
         LOG.debug(">>>StaffToStudentValidator.validate(?)", entityType);
-        LOG.debug("  studentIds" + ToStringBuilder.reflectionToString(studentIds, ToStringStyle.DEFAULT_STYLE));
+        LOG.debug("  studentIds: {}", (studentIds==null) ? "null" : studentIds.toString() );
 
         if (!areParametersValid(EntityNames.STUDENT, entityType, studentIds)) {
             LOG.debug("  !areParametersValid");
@@ -84,7 +83,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
     private Set<String> validateStaffToStudentContextThroughSharedEducationOrganization(Collection<String> ids) {
         LOG.trace(">>>StaffToStudentValidator.validateStaffToStudentContextThroughSharedEducationOrganization()");
-        LOG.debug("  ids" + ToStringBuilder.reflectionToString(ids, ToStringStyle.DEFAULT_STYLE));
+        LOG.debug("  ids: {}" + ToStringBuilder.reflectionToString(ids, ToStringStyle.DEFAULT_STYLE));
 
         // lookup current staff edOrg associations and get the Ed Org Ids
         Set<String> staffsEdOrgIds = getStaffCurrentAssociatedEdOrgs();
@@ -99,9 +98,15 @@ public class StaffToStudentValidator extends AbstractContextValidator {
             LOG.debug("  Iterating on each student entity.");
 
             for (Entity entity : students) {
+                LOG.debug("  student: " + ToStringBuilder.reflectionToString(entity, ToStringStyle.DEFAULT_STYLE));
+
                 Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
                 Set<String> validPrograms = programValidator.validate(EntityNames.PROGRAM, getValidPrograms(entity));
                 Set<String> validCohorts = cohortValidator.validate(EntityNames.COHORT, getValidCohorts(entity));
+
+                LOG.debug("  # studentsEdOrgs: {}", (studentsEdOrgs==null) ? "null" : studentsEdOrgs.size() );
+                LOG.debug("  # validPrograms: {}", (validPrograms==null) ? "null" : validPrograms.size() );
+                LOG.debug("  # validCohorts: {}", (validCohorts==null) ? "null" : validCohorts.size() );
 
                 boolean hasStaffStudentIntersection = isIntersection(staffsEdOrgIds, studentsEdOrgs);
                 LOG.debug("   hasStaffStudentIntersection = " + hasStaffStudentIntersection);
@@ -143,6 +148,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         return cohorts;
     }
 
+    //TODO And, this is where a proper implementation in the bean of both equals and hashcode is critical...
     private boolean isIntersection(Set<String> setA, Set<String> setB) {
         boolean isIntersection = false;
         for (Object a : setA) {
@@ -161,11 +167,13 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
     private Iterable<Entity> getStudentEntitiesFromIds(Collection<String> studentIds) {
         LOG.debug("StaffToStudentValidator.getStudentEntitiesFromIds()");
-        LOG.debug("  studentIds: " + ToStringBuilder.reflectionToString(studentIds, ToStringStyle.DEFAULT_STYLE));
+        LOG.debug("  studentIds: {}", (studentIds==null) ? "null" : studentIds.toArray().toString() );
 
         NeutralQuery studentQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, new ArrayList<String>(studentIds)));
         studentQuery.setEmbeddedFieldString("schools");
-        Iterable<Entity> students = getRepo().findAll(EntityNames.STUDENT, studentQuery);
+
+        Iterable<Entity> students = null;
+        students = getRepo().findAll(EntityNames.STUDENT, studentQuery);
 
         if (students == null) {
             LOG.debug("   students NOT found in Repo.");
@@ -191,6 +199,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     public void setCohortValidator(GenericToCohortValidator cohortValidator) {
         this.cohortValidator = cohortValidator;
     }
+
     @Override
     public SecurityUtil.UserContext getContext() {
         return SecurityUtil.UserContext.STAFF_CONTEXT;
