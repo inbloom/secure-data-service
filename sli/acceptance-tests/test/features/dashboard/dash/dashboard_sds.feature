@@ -223,7 +223,7 @@ Then I see a list of 28 students
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: View Mi-Ha Tran
  And I was redirected to the "Simple" IDP Login page
- When I submit the credentials "rbraverman" "rbraverman1234" for the "Simple" login page
+ When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
 When I select school "South Daybreak Elementary"
 And I select course "1st Grade Homeroom"
@@ -331,7 +331,7 @@ Then I see a list of 25 students
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: View Carmen Ortiz
  And I was redirected to the "Simple" IDP Login page
- When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
+ When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
 When I select school "Daybreak Central High"
 And I select course "American Literature"
