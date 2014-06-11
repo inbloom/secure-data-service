@@ -83,7 +83,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
     private Set<String> validateStaffToStudentContextThroughSharedEducationOrganization(Collection<String> ids) {
         LOG.trace(">>>StaffToStudentValidator.validateStaffToStudentContextThroughSharedEducationOrganization()");
-        LOG.debug("  ids: {}" + ToStringBuilder.reflectionToString(ids, ToStringStyle.DEFAULT_STYLE));
+        LOG.debug("  ids: {}", (ids==null) ? "null" : ToStringBuilder.reflectionToString(ids, ToStringStyle.DEFAULT_STYLE));
 
         // lookup current staff edOrg associations and get the Ed Org Ids
         Set<String> staffsEdOrgIds = getStaffCurrentAssociatedEdOrgs();
@@ -167,7 +167,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
     private Iterable<Entity> getStudentEntitiesFromIds(Collection<String> studentIds) {
         LOG.debug("StaffToStudentValidator.getStudentEntitiesFromIds()");
-        LOG.debug("  studentIds: {}", (studentIds==null) ? "null" : studentIds.toArray().toString() );
+        LOG.debug("  studentIds: {}", (studentIds==null) ? "null" : ToStringBuilder.reflectionToString(studentIds, ToStringStyle.DEFAULT_STYLE));
 
         NeutralQuery studentQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, new ArrayList<String>(studentIds)));
         studentQuery.setEmbeddedFieldString("schools");
@@ -176,9 +176,9 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         students = getRepo().findAll(EntityNames.STUDENT, studentQuery);
 
         if (students == null) {
-            LOG.debug("   students NOT found in Repo.");
+            LOG.debug("  students NOT found in Repo.");
         } else {
-            LOG.debug("   students WERE found in Repo.");
+            LOG.debug("  students WERE found in Repo.");
         }
 
         return students;
