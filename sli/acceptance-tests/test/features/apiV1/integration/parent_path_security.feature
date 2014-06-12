@@ -34,7 +34,7 @@ Scenario: Verify Rewrites for entities for Parents
     | /assessments                 | /students/@ids/studentAssessments/assessments                                  |
     | /attendances                 | /students/@ids/attendances                                                     |
     | /cohorts                     | /students/@ids/studentCohortAssociations/cohorts                               |
-    | /competencyLevelDescriptor   | /search/competencyLevelDescriptor                                              |
+    | /competencyLevelDescriptor   | /competencyLevelDescriptor                                              |
     | /courseOfferings             | /schools/@ids/courseOfferings                                                  |
     | /courses                     | /schools/@ids/courses                                                          |
     | /courseTranscripts           | /studentAcademicRecords/@ids/courseTranscripts                                 |
@@ -43,8 +43,8 @@ Scenario: Verify Rewrites for entities for Parents
     | /grades                      | /studentSectionAssociations/@ids/grades                                        |
     | /gradingPeriods              | /schools/@ids/sessions/gradingPeriods                                          |
     | /graduationPlans             | /schools/@ids/graduationPlans                                                  |
-    | /learningObjectives          | /search/learningObjectives                                                     |
-    | /learningStandards           | /search/learningStandards                                                      |
+    | /learningObjectives          | /learningObjectives                                                     |
+    | /learningStandards           | /learningStandards                                                      |
     | /parents                     | /students/@ids/studentParentAssociations/parents                               |
     | /programs                    | /students/@ids/studentProgramAssociations/programs                             |
     | /reportCards                 | /students/@ids/reportCards                                                     |

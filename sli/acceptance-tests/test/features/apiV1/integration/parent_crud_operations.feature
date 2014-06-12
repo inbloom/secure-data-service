@@ -176,7 +176,7 @@ Feature: As a parent I want to use apps that access the inBloom API
       | studentDisciplineIncidentAssociation | 067198fd6da91e1aa8d67e28e850f224d6851713_idcc5123a629dee85e5f64ef188c1c33f2ffd6c210_id | 403 |
       | studentDisciplineIncidentAssociation | 908404e876dd56458385667fa383509035cd4312_id33a1c7ee086d4c488531652ab4a99cf0b6bd619d_id | 403 |
 
-
+@wip
 @parent_crud @clean_up_parent_posts
 Scenario: POST new entities as a parent without, then with extended rights
 Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
