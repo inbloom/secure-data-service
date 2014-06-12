@@ -3484,7 +3484,7 @@ def get_post_body_by_entity_name(entity_name)
       "totalInstructionalDays" => 180
     },
     "newGradingPeriod" => {
-      "endDate"=>"2017-05-22",
+      "endDate"=>"2014-05-22",
       "gradingPeriodIdentity"=>{
           "schoolYear"=>"2013-2014",
           "gradingPeriod"=>"End of Year",
