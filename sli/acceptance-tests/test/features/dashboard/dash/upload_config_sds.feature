@@ -66,12 +66,12 @@ When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 Then I see a list of 28 students
 Then I should have a dropdown selector named "viewSelect"
-And I should have a selectable view named "Middle School ELA View"
+#And I should have a selectable view named "Middle School ELA View"
 Then I should see a table heading "Student"
 Then I should see a table heading "Grade"
 And I click on student "Matt Sollars"
-And there are "4" Tabs
-And Tab has a title named "Middle School Overview"
+#And there are "4" Tabs
+#And Tab has a title named "Middle School Overview"
 And I logout
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
