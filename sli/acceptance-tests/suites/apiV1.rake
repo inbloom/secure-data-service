@@ -34,7 +34,6 @@ task :apiV1EntityTests => :realmInit do
   runTests("test/features/apiV1/entities/crud/crud.feature")
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud_auto")
-  runTests("test/features/apiV1/search/api_search.feature")
 end
 
 task :apiV1AssociationTests => :realmInit do
@@ -350,12 +349,6 @@ task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinConte
   display_failure_report
 end
 
-desc "Run API V1 Elastic Search Limits Tests"
-task :apiV1SearchLimitTests => :realmInit do
-  Rake::Task["ingestionSmallSampleDataSet"].execute
-  runTests("test/features/apiV1/search/search_limits.feature")
-  display_failure_report
-end
 
 ############################################################
 # API V1 tests end

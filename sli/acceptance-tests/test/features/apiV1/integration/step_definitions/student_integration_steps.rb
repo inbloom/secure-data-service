@@ -468,7 +468,7 @@ Then /^the response field "(.*?)" should be "(.*?)"$/ do |field, value|
   puts @result if $SLI_DEBUG
   result = fieldExtract(field, @result) 
   if (result.to_s != value)
-    puts "Result for #{field} was #{result.to_s}".red
+    puts "Result for #{field} was #{result.to_s}"
     assert(false, "Unexpected result for field #{field}, should be #{value} was #{result.to_s}")
   else
     puts "Result for #{field} was #{result.to_s}"
@@ -673,7 +673,7 @@ def fieldExtract(field, body)
   # Preserve the original response body
   result = body
   # Recursively loop through a response body to dig our fields
-  (1..(part.length)).each { |x| result = result[part[x-1]] }
+  (1..(part.length)).each { |x| result = result[part[x-1]] if !result.nil? }
   return result
 end
 

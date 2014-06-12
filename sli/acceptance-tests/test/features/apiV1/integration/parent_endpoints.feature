@@ -64,6 +64,7 @@ Scenario: Parent has access to non-transitive associations
     | 139f77e73ae5f1970c5d884d4d2b90367361d1f6_id |
     | ec8b76883033432dc83b97e71fbc5bf881b4ccbb_id |
 
+@wip
   Scenario: I check the response to uris with query parameters
     Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
@@ -79,4 +80,4 @@ Scenario: Parent has access to non-transitive associations
       | 0.stateOrganizationId                                 | East Daybreak Junior High                   |
     Then I verify the following response body fields in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentSectionAssociations?beginDate=2013-09-09&sortBy=beginDate":
       | field                                                 | value                                       |
-      | 0.beginDate                                           | 2013-09-09                                  |
+      | beginDate                                           | 2013-09-09                                  |
