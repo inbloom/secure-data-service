@@ -6,3 +6,4 @@ LIKELYHOOD_STUDENT_WAS_INVOLVED: 1
 STUDENTS_PER_SECTION: {'elementary': 1, 'middle': 1, 'high': 1}
 DELETE: 'safe'
 ENTITY_WHITELIST: ["School"]
+BEGIN_YEAR: 2014
