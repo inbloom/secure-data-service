@@ -1,3 +1,4 @@
+@wip
 Feature: Dashboard HTML Escape Validation
 
 As a secrutiy officer, I want the output strings to be HTML escaped.

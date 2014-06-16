@@ -2,8 +2,8 @@
 
 Feature: As a student I want to use apps that access my associated Staff, Teachers, and Students via the inBloom API
 
-Background: Kludge an association endDate to not expire until a more permanent solution is found
-    Given I update the "staffCohortAssociation" with ID "56318bd0507551f3eff40aea265f3ce1e47ec3cc_id" field "body.endDate" to "2023-08-27"
+#Background: Kludge an association endDate to not expire until a more permanent solution is found
+#    Given I update the "staffCohortAssociation" with ID "56318bd0507551f3eff40aea265f3ce1e47ec3cc_id" field "body.endDate" to "2023-08-27"
 
 @student_staff_endpoints
 Scenario: Student has access to directly associated teachers, staff, and student entities via API
@@ -108,29 +108,29 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | 4440ecc4484149919ad007ab8e0308a13a997912_id |
     | 5c2fb984eb2d508e8323c022c0cbb0e7a36ecdc4_id |
   # Sections 
-  When I validate the allowed association entities via API "/v1/sections/eb8663fe6856b49684a778446a0a1ad33238a86d_id/gradebookEntries":
-    | id                                                                                     |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_id8d1a0d400d72873c2425529b91150e7c3f967db7_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_id852c4a82822a7c66059123ae160d118660a62083_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_id023e957aac164958c5188d2fac8b706808702956_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_idb0898361fdb3206069218ae1fca62162041a84e3_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_idd1ece9bb8efd6d1a9c056aaad89d1e8d11fe34e1_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_id1fa3692f1a653c119c2be2d59e2e1fd6d15e5554_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_id0adcb8715eca390ec3c3587e577e4708f23d39b0_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_ide2ca0904f73c91570c5ea058d7685c7f12e0d7b6_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_id38beb6dd364803d45a72a6b9b7ce494479324a5e_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_id2b3cf0a514c8c0a8c96960f9dbd364e8dd0152e3_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_id4ff45056c082c8328dda2ec3c298fdb0d42f4c5c_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_id5b148c5635918fbc1421c12e476505699c451d51_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_idc57ddf6c82bb684f1bcbd9ef1dbd0aef7c54c5b7_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_idde803259be0ce208572456c2315dd8007a0163be_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_id1e0f700db933cda9dc1adf5f04d1204d2a9c2ddf_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_idb84a60d30c34987c884d686c7f3f1adba959b210_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_id6874e70a7d53547c2e6c038a5c5d469b9d8802da_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_id737be6e9f142cf208360d4b2f4173ac9373483b2_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_idf1d27a4c5ae5602985d718f15766a0ac92cb33d3_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_idbce001d4ef971b6ab2e390829dd49b81af30b3aa_id |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_idd3d7931bc74733979c18171f93073285816784c7_id |
+#  When I validate the allowed association entities via API "/v1/sections/eb8663fe6856b49684a778446a0a1ad33238a86d_id/gradebookEntries":
+#    | id                                                                                     |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_id8d1a0d400d72873c2425529b91150e7c3f967db7_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_id852c4a82822a7c66059123ae160d118660a62083_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_id023e957aac164958c5188d2fac8b706808702956_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_idb0898361fdb3206069218ae1fca62162041a84e3_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_idd1ece9bb8efd6d1a9c056aaad89d1e8d11fe34e1_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_id1fa3692f1a653c119c2be2d59e2e1fd6d15e5554_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_id0adcb8715eca390ec3c3587e577e4708f23d39b0_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_ide2ca0904f73c91570c5ea058d7685c7f12e0d7b6_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_id38beb6dd364803d45a72a6b9b7ce494479324a5e_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_id2b3cf0a514c8c0a8c96960f9dbd364e8dd0152e3_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_id4ff45056c082c8328dda2ec3c298fdb0d42f4c5c_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_id5b148c5635918fbc1421c12e476505699c451d51_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_idc57ddf6c82bb684f1bcbd9ef1dbd0aef7c54c5b7_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_idde803259be0ce208572456c2315dd8007a0163be_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_id1e0f700db933cda9dc1adf5f04d1204d2a9c2ddf_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_idb84a60d30c34987c884d686c7f3f1adba959b210_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_id6874e70a7d53547c2e6c038a5c5d469b9d8802da_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_id737be6e9f142cf208360d4b2f4173ac9373483b2_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_idf1d27a4c5ae5602985d718f15766a0ac92cb33d3_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_idbce001d4ef971b6ab2e390829dd49b81af30b3aa_id |
+#    | eb8663fe6856b49684a778446a0a1ad33238a86d_idd3d7931bc74733979c18171f93073285816784c7_id |
   When I validate the current allowed association entities via API "/v1/sections/24cdeb47d5ccfee1536dd8f6a8951baea76b82f3_id/studentSectionAssociations":
     | id                                          |
     | 24cdeb47d5ccfee1536dd8f6a8951baea76b82f3_idfbf78c465b21def53387e2aba9538b793a5944a7_id |

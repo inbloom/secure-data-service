@@ -76,7 +76,8 @@
 						</td>
 					</tr>
 				</#list>
-			<#list parentContact.address as address>
+            <#if parentContact.address ??>
+			    <#list parentContact.address as address>
 					<tr>
 						<th>
 							<#if address.addressType ??>
@@ -116,6 +117,7 @@
 						</td>
 					</tr>
 				</#list>
+            </#if>
 		</tbody>
 	</table>
 </div>

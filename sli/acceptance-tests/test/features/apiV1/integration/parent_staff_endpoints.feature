@@ -39,7 +39,7 @@ Scenario: Parent has access to directly associated teachers, staff, and student 
     | students                  | 153e8258f62c711861d4bbc51653ee5fcea8e8ac_id |
     | students                  | 18fff957f4618b2a492b4393153e8ef43858153f_id |
 
-
+@wip
 @parent_cohort_endpoints
 Scenario: Parent has access to non-transitive associations through cohorts, programs, sections, schools
   Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"

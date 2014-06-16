@@ -564,7 +564,7 @@ public class EdOrgHelper {
      * Get directly associated education organizations for the authenticated principal.
      */
     public Set<String> getDirectEdorgs() {
-        LOG.trace(">>>GenericToEdOrgValidator.validate()");
+        LOG.trace(">>>EdOrgHelper.getDirectEdorgs()");
         return getDirectEdorgs(SecurityUtil.getSLIPrincipal().getEntity());
     }
 
@@ -573,7 +573,7 @@ public class EdOrgHelper {
      * data ownership.
      */
     public Set<String> getDirectEdorgs(Entity principal) {
-        LOG.trace(">>>GenericToEdOrgValidator.getDirectEdorgs(using security principal)");
+        LOG.trace(">>>getDirectEdorgs.getDirectEdorgs(using security principal)");
         LOG.trace("  principal: " + ToStringBuilder.reflectionToString(principal, ToStringStyle.MULTI_LINE_STYLE));
         return getEdOrgs(principal, true);
     }
@@ -594,7 +594,7 @@ public class EdOrgHelper {
     }
 
     private Set<String> getEdOrgs(Entity principal, boolean filterByOwnership) {
-        LOG.trace(">>>GenericToEdOrgValidator.getDirectEdorgs()");
+        LOG.trace(">>>EdOrgHelper.getDirectEdorgs()");
         LOG.trace("  principal: " + ToStringBuilder.reflectionToString(principal, ToStringStyle.MULTI_LINE_STYLE));
         LOG.trace("  filterByOwnership: " + filterByOwnership);
 
@@ -614,7 +614,10 @@ public class EdOrgHelper {
             result = getStudentsCurrentAssociatedEdOrgs(prince.getOwnedStudentIds(), false);
         }
 
-        LOG.debug("  ...method did not do anything so return empty set...");
+        if (result == null) {
+            LOG.debug("  ...method did not do anything so return empty set...");
+        }
+
         return result;
     }
 

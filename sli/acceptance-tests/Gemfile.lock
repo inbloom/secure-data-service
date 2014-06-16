@@ -39,8 +39,7 @@ GEM
     faraday (0.8.4)
       multipart-post (~> 1.1)
     fastercsv (1.5.5)
-    ffi (1.9.3)
-    ffi (1.9.3-x86-mingw32)
+    ffi (1.0.11)
     gherkin (2.11.2)
       json (>= 1.4.6)
     gherkin (2.11.2-x86-mingw32)
@@ -176,7 +175,7 @@ DEPENDENCIES
   capybara-screenshot
   colorize
   cucumber
-  ffi (= 1.9.3)
+  ffi (= 1.0.11)
   headless
   java_properties
   json (= 1.6.2)

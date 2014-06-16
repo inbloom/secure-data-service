@@ -16,25 +16,24 @@
 
 package org.slc.sli.ingestion.landingzone.validation;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Map;
-
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.UnsupportedZipFeatureException;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.impl.FileSource;
 import org.slc.sli.ingestion.validation.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Map;
 
 /**
  * Zip file validator.
@@ -52,7 +51,7 @@ public class ZipFileValidator implements Validator<File> {
         boolean isValid = false;
 
         // we know more of our source
-        LOG.info("Validating " + zipFile.getAbsolutePath());
+        LOG.info("Validating zipFile: {}", zipFile.getAbsolutePath());
 
         ZipFile zf = null;
         try {
@@ -62,6 +61,8 @@ public class ZipFileValidator implements Validator<File> {
 
             while (zes.hasMoreElements()) {
                 ZipArchiveEntry ze = zes.nextElement();
+
+                LOG.debug("  ZipArchiveEntry:  name: {}, size {}", ze.getName(), ze.getSize());
 
                 if (isDirectory(ze)) {
                     report.error(reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0010, zipFile.getName());

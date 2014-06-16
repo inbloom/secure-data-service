@@ -108,7 +108,7 @@ cleanTomcat()
        sudo rm -r -f /opt/apache-tomcat-7.0.47/webapps/$i
     done
     sudo rm -r -f /opt/apache-tomcat-7.0.47/temp/*
-    sudo rm -r -f /opt/apache-tomcat-7.0.47/Catalina/localhost/*
+    sudo rm -r -f /opt/apache-tomcat-7.0.47/work/Catalina/localhost/*
     sudo rm -r -f /opt/apache-tomcat-7.0.47/logs/*
     sudo /etc/init.d/tomcat start
     echo "Removed deployed tomcat apps"
@@ -160,7 +160,7 @@ databrowserUnitTests()
   echo "Executing databrowser unit tests"
   cd $WORKSPACE/sli/databrowser
   bundle install --full-index --deployment
-  bundle exec rake ci:setup:testunit test
+  DEBUG=true bundle exec rake ci:setup:testunit test
   code=$?
   if [ "$code" != "0" ]; then
     exit $code
@@ -211,7 +211,7 @@ runTests()
   cd $WORKSPACE/sli/acceptance-tests
   export LANG=en_US.UTF-8
   bundle install --deployment
-  bundle exec rake --trace FORCE_COLOR=true $@
+  DEBUG=true bundle exec rake --trace FORCE_COLOR=true $@
 }
 
 
@@ -230,7 +230,7 @@ if [[ "$TEST" == "ci" ]]; then
     deployTomcat $APP ${deployHash[$APP]}
   done
   echo "Waiting for APPS to finish deploying"
-  sleep 120
+  sleep 240
   runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz TOGGLE_TABLESCANS=true smokeTests
   EXITCODE=$?
 fi
@@ -250,7 +250,7 @@ if [[ "$TEST" == "ci_e2e_prod" ]]; then
     deployTomcat $APP ${deployHash[$APP]}
   done
   echo "Waiting for APPS to finish deploying"
-  sleep 120
+  sleep 240
   runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz rcTests
   EXITCODE=$?
 fi
@@ -270,7 +270,7 @@ if [[ "$TEST" == "ci_e2e_sandbox" ]]; then
     deployTomcat $APP ${deployHash[$APP]}
   done
   echo "Waiting for APPS to finish deploying"
-  sleep 120
+  sleep 240
   runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz rcSandboxTests
   EXITCODE=$?
 fi
@@ -286,7 +286,7 @@ if [[ "$TEST" == "api_contextual_roles" ]]; then
   	deployTomcat $APP ${deployHash[$APP]}
   done
 	echo "Waiting for APPS to finish deploying"
-	sleep 120
+	sleep 240
 	runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiContextualRolesTests
   EXITCODE=$?
 fi
@@ -302,7 +302,7 @@ if [[ "$TEST" == "api_odin" ]]; then
   	deployTomcat $APP ${deployHash[$APP]}
   done
 	echo "Waiting for APPS to finish deploying"
-	sleep 120
+	sleep 240
 	runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz apiOdinTests
   EXITCODE=$?
 fi
@@ -318,7 +318,7 @@ if [[ "$TEST" == "bulk_extract" ]]; then
   	deployTomcat $APP ${deployHash[$APP]}
   done
 	echo "Waiting for APPS to finish deploying"
-	sleep 120
+	sleep 240
 	runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz bulkExtractTests
   EXITCODE=$?
 fi
@@ -334,7 +334,7 @@ if [[ "$TEST" == "api_and_security" ]]; then
   	deployTomcat $APP ${deployHash[$APP]}
   done
 	echo "Waiting for APPS to finish deploying"
-	sleep 120
+	sleep 240
 	runTests PROPERTIES=$PROPERTIES apiAndSecurityTests
   EXITCODE=$?
 fi
@@ -351,7 +351,7 @@ if [[ "$TEST" == "admin" ]]; then
   	deployTomcat $APP ${deployHash[$APP]}
   done
 	echo "Waiting for APPS to finish deploying"
-	sleep 120
+	sleep 240
 	runTests PROPERTIES=$PROPERTIES adminToolsTests
   EXITCODE=$?
 fi
@@ -367,7 +367,7 @@ if [[ "$TEST" == "dashboard" ]]; then
   	deployTomcat $APP ${deployHash[$APP]}
   done
 	echo "Waiting for APPS to finish deploying"
-	sleep 120
+	sleep 240
 	runTests PROPERTIES=$PROPERTIES localDashboardTests
   EXITCODE=$?
 fi
@@ -384,7 +384,7 @@ if [[ "$TEST" == "databrowser" ]]; then
   	deployTomcat $APP ${deployHash[$APP]}
   done
 	echo "Waiting for APPS to finish deploying"
-	sleep 120
+	sleep 240
 	runTests PROPERTIES=$PROPERTIES databrowserTests
   EXITCODE=$?
 fi
@@ -400,7 +400,7 @@ if [[ "$TEST" == "ingestion" ]]; then
   	deployTomcat $APP ${deployHash[$APP]}
   done
 	echo "Waiting for APPS to finish deploying"
-	sleep 120
+	sleep 240
 	runTests PROPERTIES=$PROPERTIES ingestionTests
   EXITCODE=$?
 fi
@@ -418,7 +418,7 @@ if [[ "$TEST" == "sandbox" ]]; then
   	deployTomcat $APP ${deployHash[$APP]}
   done
 	echo "Waiting for APPS to finish deploying"
-	sleep 120
+	sleep 240
 	runTests PROPERTIES=$PROPERTIES bulk_extract_script=$WORKSPACE/sli/bulk-extract/scripts/local_bulk_extract.sh bulk_extract_jar_loc=$WORKSPACE/sli/bulk-extract/target/bulk_extract.tar.gz sandboxTests
   EXITCODE=$?
 fi

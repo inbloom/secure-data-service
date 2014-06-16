@@ -45,16 +45,13 @@ Scenario: Ingested Student data should be encrypted: Clean Database
 		And the field "body.studentIndicators[0].indicator" has value "At risk"
 		And the field "body.studentIdentificationCode[0].identificationSystem" has value "State"
 		And the field "body.studentIdentificationCode[0].assigningOrganizationCode" has value "Federal"
+        And the field "body.name.firstName" has value "Rhonda"
+        And the field "body.name.middleName" has value "Shannon"
+        And the field "body.name.lastSurname" has value "Delgado"
+
 
 		# ENCRYPTED FIELDS
 		And the field "body.studentIdentificationCode[0].identificationCode" with value "555-55-5555" is encrypted
-		And the field "body.name.firstName" with value "Rhonda" is encrypted
-		And the field "body.name.middleName" with value "Shannon" is encrypted
-		And the field "body.name.lastSurname" with value "Delgado" is encrypted
-		And the field "body.otherName[0].firstName" with value "Julie" is encrypted
-		And the field "body.otherName[0].middleName" with value "Wren" is encrypted
-		And the field "body.otherName[0].lastSurname" with value "Einstein" is encrypted
-		And the field "body.otherName[0].otherNameType" with value "Nickname" is encrypted
 		And the field "body.sex" with value "Female" is encrypted
 		And the field "body.birthData.birthDate" with value "2006-07-02" is encrypted
 		And the field "body.address[0].streetNumberName" with value "1234 Shaggy" is encrypted
@@ -68,10 +65,11 @@ Scenario: Ingested Student data should be encrypted: Clean Database
 		And I find a record in "parent" with "body.parentUniqueStateId" equal to "9870036500"
         #UNENCRYPTED FIELDS
 		And the field "body.loginId" has value "rle"
+        And the field "body.name.firstName" has value "Richard"
+        And the field "body.name.middleName" has value "Lee"
+        And the field "body.name.lastSurname" has value "Le"
+
         # ENCRYPTED FIELDS
-		And the field "body.name.firstName" with value "Richard" is encrypted
-		And the field "body.name.middleName" with value "Lee" is encrypted
-		And the field "body.name.lastSurname" with value "Le" is encrypted
 		And the field "body.sex" with value "Male" is encrypted
 		And the field "body.address[0].streetNumberName" with value "23 Rue Lecourbe" is encrypted
 		And the field "body.address[0].city" with value "Paris" is encrypted
@@ -119,15 +117,11 @@ Scenario: Ingested Student data should be encrypted: Populated Database
 		And the field "body.studentIndicators[0].indicator" has value "At risk"
 		And the field "body.studentIdentificationCode[0].identificationSystem" has value "State"
 		And the field "body.studentIdentificationCode[0].assigningOrganizationCode" has value "Federal"
+        And the field "body.name.firstName" has value "Rhonda"
+        And the field "body.name.middleName" has value "Shannon"
+        And the field "body.name.lastSurname" has value "Delgado"
 		# ENCRYPTED FIELDS
 		And the field "body.studentIdentificationCode[0].identificationCode" with value "555-55-5555" is encrypted
-		And the field "body.name.firstName" with value "Rhonda" is encrypted
-		And the field "body.name.middleName" with value "Shannon" is encrypted
-		And the field "body.name.lastSurname" with value "Delgado" is encrypted
-		And the field "body.otherName[0].firstName" with value "Julie" is encrypted
-		And the field "body.otherName[0].middleName" with value "Wren" is encrypted
-		And the field "body.otherName[0].lastSurname" with value "Einstein" is encrypted
-		And the field "body.otherName[0].otherNameType" with value "Nickname" is encrypted
 		And the field "body.sex" with value "Female" is encrypted
 		And the field "body.birthData.birthDate" with value "2006-07-02" is encrypted
 		And the field "body.address[0].streetNumberName" with value "1234 Shaggy" is encrypted
@@ -141,10 +135,10 @@ Scenario: Ingested Student data should be encrypted: Populated Database
 		And I find a record in "parent" with "body.parentUniqueStateId" equal to "9870036500"
         # UNENCRYPTED FIELDS
 		And the field "body.loginId" has value "rle"
+        And the field "body.name.firstName" has value "Richard"
+        And the field "body.name.middleName" has value "Lee"
+        And the field "body.name.lastSurname" has value "Le"
         # ENCRYPTED FIELDS
-		And the field "body.name.firstName" with value "Richard" is encrypted
-		And the field "body.name.middleName" with value "Lee" is encrypted
-		And the field "body.name.lastSurname" with value "Le" is encrypted
 		And the field "body.sex" with value "Male" is encrypted
 		And the field "body.address[0].streetNumberName" with value "23 Rue Lecourbe" is encrypted
 		And the field "body.address[0].city" with value "Paris" is encrypted

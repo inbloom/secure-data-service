@@ -34,7 +34,6 @@ task :apiV1EntityTests => :realmInit do
   runTests("test/features/apiV1/entities/crud/crud.feature")
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud_auto")
-  runTests("test/features/apiV1/search/api_search.feature")
 end
 
 task :apiV1AssociationTests => :realmInit do
@@ -295,15 +294,7 @@ task :apiOdinSuperAssessment => :realmInit do
   allLeaAllowApp("Mobile App")
   authorize_ed_org("Mobile App")
 # This is to extract assessment, learningStandard, etc. into Elastic Search  
-  Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/integration/super_assessment.feature")
-  runTests("test/features/apiV1/integration/search_assessment.feature")
-end
-
-desc "Run API Odin Assessment Search Tests"
-task :apiOdinSearchAssessment do
-  Rake::Task["runSearchBulkExtract"].execute
-  runTests("test/features/apiV1/end_user_stories/assessments/searchAssessment.feature")
 end
 
 desc "Set up app for api odin tests"
@@ -314,7 +305,6 @@ end
 
 desc "Set up api for odin tests"
 task :apiOdinSetupAPI => [:realmInit, :apiOdinSetupAPIApp] do
-  Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/integration/parent_student_token_generator.feature")
 end
 
@@ -342,7 +332,7 @@ task :apiOdinParentLogin => [:apiOdinSetupAPI] do
 end
 
 desc "Run contextual roles acceptance tests"
-task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinContextualRolesIngestion, :runSearchBulkExtract] do
+task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinContextualRolesIngestion] do
   runTests("test/features/apiV1/contextual_roles/classPeriod_bellSchedule.feature")
   runTests("test/features/apiV1/contextual_roles/custom_entities.feature")
   runTests("test/features/apiV1/contextual_roles/matchRoles.feature")
@@ -359,13 +349,6 @@ task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinConte
   display_failure_report
 end
 
-desc "Run API V1 Elastic Search Limits Tests"
-task :apiV1SearchLimitTests => :realmInit do
-  Rake::Task["ingestionSmallSampleDataSet"].execute
-  Rake::Task["runSearchBulkExtract"].execute
-  runTests("test/features/apiV1/search/search_limits.feature")
-  display_failure_report
-end
 
 ############################################################
 # API V1 tests end

@@ -18,6 +18,7 @@ import org.slc.sli.api.translator.URITranslator;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.validation.URLValidator;
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.util.datetime.DateUtils;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
 import org.slc.sli.domain.Entity;
@@ -207,10 +208,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
      */
     private List<NeutralQuery> construct(String fieldName) {
 //        String now = DatatypeConverter.printDate(Calendar.getInstance());
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String now = dateFormat.format(date);
+        String now = DateUtils.getFormattedDate(DateUtils.DateUtilFormat.DATE_YYYY_MM_dd, new Date());
 
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(fieldName, NeutralCriteria.CRITERIA_GT, now));
         NeutralQuery nq2 = new NeutralQuery(new NeutralCriteria(fieldName, NeutralCriteria.CRITERIA_EXISTS, false));

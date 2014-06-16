@@ -219,6 +219,7 @@ Scenario: POST to other student entity as a privileged student with extended rig
     | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService             | string     |
   And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.5/grades" should be in the sli db
 
+@wip
 @student_crud @clean_up_student_posts
 Scenario: POST new entities as a privileged student with extended rights
   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "leader.m.sollars" with password "leader.m.sollars1234"

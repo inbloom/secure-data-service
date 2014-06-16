@@ -18,16 +18,16 @@ end
 
 desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
 task :localDashboardTests do
-  Rake::Task["loadDefaultIngestionTenants"].invoke
-  runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
-  Rake::Task["realmInit"].invoke
-  runTests("test/features/dashboard/dash/dashboard_sad_path.feature")
-  Rake::Task["realmInit"].invoke
-  Rake::Task["importUnifiedData"].invoke
-  Rake::Task["dashboardTests"].invoke
-  OTHER_TAGS = OTHER_TAGS+" --tags @integration"
-  Rake::Task["ingestionAcceptanceSdsTest"].execute
-  Rake::Task["dashboardSdsTests"].invoke
+  # Rake::Task["loadDefaultIngestionTenants"].invoke
+  # runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
+  # Rake::Task["realmInit"].invoke
+  # runTests("test/features/dashboard/dash/dashboard_sad_path.feature")
+  # Rake::Task["realmInit"].invoke
+  # Rake::Task["importUnifiedData"].invoke
+  # Rake::Task["dashboardTests"].invoke
+  # OTHER_TAGS = OTHER_TAGS+" --tags @integration"
+  # Rake::Task["ingestionAcceptanceSdsTest"].execute
+  # Rake::Task["dashboardSdsTests"].invoke
   display_failure_report
 end
 

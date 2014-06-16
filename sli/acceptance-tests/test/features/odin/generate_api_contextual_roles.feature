@@ -29,4 +29,3 @@ Feature: Generate API Contextual Roles sample data using Odin data generator
       |InterchangeStudentGrades.xml|
       |InterchangeStudentParent.xml|
       |InterchangeStudentProgram.xml|
-      |OdinSampleDataSet.zip|

@@ -98,8 +98,10 @@ end
 ############################################################
 Then /^I should see generated file <File>$/ do |table|
   generated_files = Dir.entries(@gen_path)
+  puts "Generated Files: #{generated_files}"
   table.hashes.each do |f|
-    raise "Did not find expected file #{f}" unless generated_files.find(f)
+    filename = f["File"];
+    raise "Did not find expected file #{filename}" unless generated_files.include?(filename)
   end
 end
 

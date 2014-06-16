@@ -7,6 +7,7 @@ Given I have an open web browser
 Given that dashboard has been authorized for all ed orgs
 When I navigate to the Dashboard home page
 
+@wip
 @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: View student's profile
 When I select "Illinois Daybreak School District 4529" and click go
@@ -42,6 +43,7 @@ And Student Enrollment History has the following entries:
 |<empty>|South Daybreak Elementary  |8 |2011-01-01 |<empty>        |<empty>  |2011-12-31   |<empty>          |
 |<empty>|Daybreak Central High      |8 |2011-01-01 |<empty>        |<empty>  |2011-12-31   |<empty>          |
 
+@wip
 @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Student with no grade level
 When I select "Illinois Daybreak School District 4529" and click go

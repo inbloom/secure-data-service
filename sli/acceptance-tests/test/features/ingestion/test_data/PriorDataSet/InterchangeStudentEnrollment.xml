@@ -531,7 +531,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <RepeatGradeIndicator>true</RepeatGradeIndicator>
       <ClassOf>2018-2019</ClassOf>
       <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
-    <ExitWithdrawDate>2014-05-22</ExitWithdrawDate>
+    <ExitWithdrawDate>2017-05-22</ExitWithdrawDate>
       <EducationalPlans>
       	<EducationalPlan>High School Education Plan</EducationalPlan>
       </EducationalPlans>
@@ -564,7 +564,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <RepeatGradeIndicator>true</RepeatGradeIndicator>
       <ClassOf>2018-2019</ClassOf>
       <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
-    <ExitWithdrawDate>2014-05-22</ExitWithdrawDate>
+    <ExitWithdrawDate>2017-05-22</ExitWithdrawDate>
       <EducationalPlans>
       	<EducationalPlan>High School Education Plan</EducationalPlan>
       </EducationalPlans>
@@ -597,7 +597,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <RepeatGradeIndicator>true</RepeatGradeIndicator>
       <ClassOf>2018-2019</ClassOf>
       <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
-    <ExitWithdrawDate>2014-05-22</ExitWithdrawDate>
+    <ExitWithdrawDate>2017-05-22</ExitWithdrawDate>
       <EducationalPlans>
       	<EducationalPlan>High School Education Plan</EducationalPlan>
       </EducationalPlans>

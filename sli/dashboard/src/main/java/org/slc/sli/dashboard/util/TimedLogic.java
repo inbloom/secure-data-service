@@ -1,8 +1,9 @@
 package org.slc.sli.dashboard.util;
 
+import org.slc.sli.common.util.datetime.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.text.DateFormat;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -172,9 +173,7 @@ public class TimedLogic {
     private static AssessmentPeriod getMostRecentWindow(Collection<Map<String, Object>> assessmentMetaData) {
 
         //String now = javax.xml.bind.DatatypeConverter.printDate(Calendar.getInstance());
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String now = dateFormat.format(date);
+        String now = DateUtils.getFormattedDate(DateUtils.DateUtilFormat.DATE_YYYY_MM_dd, new Date());
 
         List<AssessmentPeriod> periods = new ArrayList<AssessmentPeriod>();
         for (Map assessment : assessmentMetaData) {

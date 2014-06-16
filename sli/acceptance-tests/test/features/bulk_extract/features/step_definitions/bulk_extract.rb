@@ -2831,7 +2831,7 @@ def get_post_body_by_entity_name(entity_name)
       "educationOrganizationReference" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
       "positionTitle" => "IT Administrator",
       "staffReference" => "e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id",
-      "endDate" => "2014-05-22",
+      "endDate" => "2017-05-22",
       "entityType" => "staffEducationOrganizationAssociation",
       "beginDate" => "2013-08-28"
     },
@@ -2840,7 +2840,7 @@ def get_post_body_by_entity_name(entity_name)
       "educationOrganizationReference" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
       "positionTitle" => "IT Administrator",
       "staffReference" => "e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id",
-      "endDate" => "2014-05-22",
+      "endDate" => "2017-05-22",
       "entityType" => "staffEducationOrganizationAssociation",
       "beginDate" => "2013-08-28"
     },
@@ -2849,7 +2849,7 @@ def get_post_body_by_entity_name(entity_name)
       "educationOrganizationReference" => "a13489364c2eb015c219172d561c62350f0453f3_id",
       "positionTitle" => "IT Administrator",
       "staffReference" => "2472b775b1607b66941d9fb6177863f144c5ceae_id",
-      "endDate" => "2014-05-22",
+      "endDate" => "2017-05-22",
       "entityType" => "staffEducationOrganizationAssociation",
       "beginDate" => "2013-08-26"
     },
@@ -3033,7 +3033,7 @@ def get_post_body_by_entity_name(entity_name)
       }
     },
     "HwStudentSchoolAssociation" => {
-      "exitWithdrawDate" => "2014-05-22",
+      "exitWithdrawDate" => "2017-05-22",
       "entityType" => "studentSchoolAssociation",
       "entryDate" => "2013-08-27",
       "entryGradeLevel" => "Third grade",
@@ -3046,7 +3046,7 @@ def get_post_body_by_entity_name(entity_name)
       "schoolId" => "1b5de2516221069fd8f690349ef0cc1cffbb6dca_id",
     },
     "DbStudentSchoolAssociation" => {
-      "exitWithdrawDate" => "2014-05-22",
+      "exitWithdrawDate" => "2017-05-22",
       "entityType" => "studentSchoolAssociation",
       "entryDate" => "2013-08-27",
       "entryGradeLevel" => "Eleventh grade",
@@ -3449,7 +3449,7 @@ def get_post_body_by_entity_name(entity_name)
       ],
       "programId" => "0ee2b448980b720b722706ec29a1492d95560798_id",
       "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
-      "endDate" => "2014-05-22",
+      "endDate" => "2017-05-22",
       "reasonExited" => "Reached maximum age",
       "entityType" => "studentProgramAssociation",
       "beginDate" => "2013-08-26",
@@ -4144,7 +4144,7 @@ def get_post_body_by_entity_name(entity_name)
       "contactPriority" => 1
     },
     "cgray.studentSchoolAssociation.myClass" => {
-      "exitWithdrawDate" => "2014-05-22",
+      "exitWithdrawDate" => "2017-05-22",
       "entityType" => "studentSchoolAssociation",
       "entryDate" => "2013-08-27",
       "entryGradeLevel" => "Ninth grade",

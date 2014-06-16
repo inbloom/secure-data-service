@@ -147,10 +147,10 @@ post_encrypt_idp_redirect_url: https://shibboleth.slidev.org/idp3/profile/SAML2/
 portal_server_address: http://local.slidev.org:3001
 portal_app_suffix: "/"
 
-elastic_search_address: http://local.slidev.org:9200
-elastic_search_inbox: "../search-indexer/data/inbox"
-elastic_search_host: localhost
-elastic_search_remote_command_port: 10024
+#elastic_search_address: http://local.slidev.org:9200
+#elastic_search_inbox: "../search-indexer/data/inbox"
+#elastic_search_host: localhost
+#elastic_search_remote_command_port: 10024
 
 activemq_host: localhost
 activemq_port: 61613
