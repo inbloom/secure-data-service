@@ -14,8 +14,8 @@
     <artifactId>sli</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>SLI</name>
-    <description>Shared Learning Infrastructure</description>
+    <name>ESDS</name>
+    <description>Educational Secure Data Service</description>
 
     <inceptionYear>2012</inceptionYear>
 
@@ -82,7 +82,7 @@
 
         <!-- 3rd Party Libraries -->
         <activemq.version>5.7.0</activemq.version>
-        <activemq-ingest.version>5.6.0</activemq-ingest.version>
+        <activemq-ingest.version>5.7.0</activemq-ingest.version>
         <aspectj.version>1.7.3</aspectj.version>
         <aspectjweaver.version>1.7.3</aspectjweaver.version>
         <camel.version>2.8.1</camel.version>
@@ -127,7 +127,7 @@
         <spring.security.oath2.version>1.0.0.M5</spring.security.oath2.version>
 
         <!-- MongoDB Java Driver Version -->
-        <mongodb.java.driver.version>2.10.1</mongodb.java.driver.version>
+        <mongodb.java.driver.version>2.12.2</mongodb.java.driver.version>
 
         <!-- Java EE Versions -->
         <javax.validation.version>1.0.0.GA</javax.validation.version>
@@ -141,28 +141,25 @@
         <taglibs.version>1.1.2</taglibs.version>
 
         <!-- Apache Versions -->
-        <avro.version>1.6.1</avro.version>
-        <commons.beanutils.version>1.8.3</commons.beanutils.version>
-        <commons.codec.version>1.6</commons.codec.version>
+        <avro.version>1.7.6</avro.version>
+        <commons.beanutils.version>1.9.2</commons.beanutils.version>
+        <commons.codec.version>1.9</commons.codec.version>
         <commons.collections.version>3.2.1</commons.collections.version>
         <commons.compression.version>1.8.1</commons.compression.version>
         <commons.cli.version>1.2</commons.cli.version>
-        <commons.dbcp.version>20030825.184428</commons.dbcp.version>
+        <!-- <commons.dbcp.version>20030825.184428</commons.dbcp.version> -->
         <commons.httpclient.dashboard>3.1</commons.httpclient.dashboard>
         <commons.httpclient>4.1.3</commons.httpclient>   <!-- check all poms for httpclient -->
-        <commons.io.version>2.2</commons.io.version>
-        <commons-lang.version>2.4</commons-lang.version>
+        <commons.io.version>2.4</commons.io.version>
+        <commons-lang.version>2.6</commons-lang.version>
         <commons-lang-dashboard.version>2.6</commons-lang-dashboard.version>
         <commons.lang.version>3.0.1</commons.lang.version>
         <commons.logging.version>1.1.1</commons.logging.version>
-        <commons.pool.version>20030825.183949</commons.pool.version>
+        <!-- <commons.pool.version>20030825.183949</commons.pool.version> -->
         <commons.schema.version>1.4.7</commons.schema.version>
         <commons.validator.version>1.4.0</commons.validator.version>
         <xerces.version>2.4.0</xerces.version>
         <xerces.impl.version>2.10.0</xerces.impl.version>
-
-        <!-- ElasticSearch Versions -->
-        <!-- <elasticsearch.version>0.19.9</elasticsearch.version> -->
 
         <!-- Rest Services (JAX-RS) Framework Versions -->
         <jackson.version>1.9.2</jackson.version>
@@ -386,13 +383,11 @@
         <module>dashboard</module>
         <module>simple-idp</module>
         <module>sif</module>
-        <!-- <module>search-indexer</module> -->
         <module>bulk-extract</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
-            <!-- WGEN dependencies -->
             <dependency>
                 <groupId>org.slc.sli</groupId>
                 <artifactId>client-api</artifactId>
@@ -775,19 +770,19 @@
 
             <!-- Persistence Framework -->
             <!-- Apache Commons DBCP dependency -->
-            <dependency>
+            <!-- <dependency>
                 <groupId>commons-dbcp</groupId>
                 <artifactId>commons-dbcp</artifactId>
                 <version>${commons.dbcp.version}</version>
                 <scope>compile</scope>
-            </dependency>
+            </dependency>  -->
             <!-- Apache Commons Pool dependency -->
-            <dependency>
+            <!-- <dependency>
                 <groupId>commons-pool</groupId>
                 <artifactId>commons-pool</artifactId>
                 <version>${commons.pool.version}</version>
                 <scope>compile</scope>
-            </dependency>
+            </dependency> -->
 
             <!-- Testing Framework -->
             <!-- JUnit dependency -->
