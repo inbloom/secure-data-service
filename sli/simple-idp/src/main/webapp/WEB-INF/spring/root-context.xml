@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="commonProperties"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -30,6 +29,7 @@
 		<property name="userDn" value="${sli.api.ldap.user}" />
         <property name="password" value="#{encryptor.decrypt('${sli.encryption.ldapKeyAlias}', '${sli.encryption.ldapKeyPass}', '${sli.api.ldap.pass}')}" />
 	</bean>
-	<bean
-		class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" />
+
+	<bean class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" />
+
 </beans>
