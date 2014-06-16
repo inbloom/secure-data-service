@@ -118,12 +118,7 @@
 
         <!-- Spring Framework Versions -->
         <bean.validator.version>4.2.0.Final</bean.validator.version>
-        <spring.version>3.2.9git add
-
-
-
-
-            .RELEASE</spring.version>
+        <spring.version>3.2.9.RELEASE</spring.version>
         <spring-dashboard.version>3.1.1.RELEASE</spring-dashboard.version>
         <springdata-mongodb-version>1.0.4.RELEASE</springdata-mongodb-version>
         <springdata.version>1.2.1.RELEASE</springdata.version>
