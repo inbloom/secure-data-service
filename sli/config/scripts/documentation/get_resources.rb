@@ -13,6 +13,8 @@ $generated_ids = []
 # URL. This is for the context re-writing.
 # Jenkins is currently setup to use SDS data set.
 $known_ids = {
+  'bellSchedules' => '',
+  'classPeriods' => '',
   'assessments' => '',
   'attendances' => '4851c7adbe7beecf29cc4a3046a8e62d1bced079_id',
   'cohorts' => 'd4141f13a54a30a0daef0adced5db8ef9c3d8879_id',
