@@ -55,11 +55,6 @@ task :rcDashboardTests do
   runTests("test/features/cross_app_tests/rc_integration_dashboard.feature")
 end
 
-desc "Run DataBrowser RC Test"
-task :rcDataBrowserTests do
-  runTests("test/features/cross_app_tests/rc_integration_databrowser.feature")
-end
-
 desc "Run RC SAMT Tests"
 task :rcSamtTests do
   runTests("test/features/cross_app_tests/rc_integration_samt.feature")
@@ -206,7 +201,6 @@ task :rcTests do
   Rake::Task["rcArtifactBindingTests"].execute unless Property['ci_artifact_idp_type'].nil? || Property['ci_artifact_idp_type'].downcase == 'none'
   Rake::Task["rcPostEncryptionTests"].execute unless Property['post_encrypt_idp_type'].nil? || Property['post_encrypt_idp_type'].downcase == 'none'
   Rake::Task["rcDashboardTests"].execute
-  Rake::Task["rcDataBrowserTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
   Rake::Task["rcCleanUpTests"].execute
   display_failure_report
