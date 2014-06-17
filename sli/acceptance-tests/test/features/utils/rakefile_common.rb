@@ -27,7 +27,7 @@ def cleanUpUser(user_email, ldap)
     ldap.remove_user_group(user_email, group_id)
   end 
 
-  ldap.delete_user("#{user_email}")
+  ldap.delete_user(user_email)
 end
 
 def allLeaAllowApp(appName)

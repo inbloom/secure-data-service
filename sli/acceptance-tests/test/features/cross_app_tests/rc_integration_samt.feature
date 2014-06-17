@@ -26,9 +26,7 @@ Feature:  RC Integration SAMT Tests
     And the "Success" message is displayed
     And the newly created user has "Tenant" updated to "<TENANT>"
     And the newly created user has "EdOrg" updated to "STANDARD-SEA"
-# disable this step temporarily for further investigation
-# seems it is sending 2 emails (email confirmation and reset password) at the same time
-#    Then I set my password to "<PRIMARY_EMAIL_PASS>"
+    Then I set my password to "<PRIMARY_EMAIL_PASS>"
 
 # This is used for local testing to bypass portal.
 #@local
