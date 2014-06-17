@@ -1,21 +1,3 @@
-=begin
-
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end
-
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
@@ -32,10 +14,6 @@ end
 Given /^I go to the mini sandbox account registration page$/ do
   @baseUrl = Property[:minisb_admintools_server_url]
   @driver.get "#{Property[:minisb_admintools_server_url]}/registration"
-end
-
-Given /^I go to the portal page on RC$/ do
-  @driver.get "#{Property[:portal_server_address]}#{Property[:portal_app_suffix]}"
 end
 
 Given /^I am running in Sandbox mode$/ do
@@ -117,8 +95,8 @@ Then /^I should see an account with name "([^\"]*)"$/ do |user_name|
   @user_name = user_name
 end
 
-Then /^I click on Approve Account$/ do
-  @driver.find_element(:link_text, 'Approve Account').click
+Then /^I click on Account Management$/ do
+  @driver.find_element(:link_text, 'Account Managements').click
 end
 
 Then /^I should be on the Authorize Developer Account page$/ do

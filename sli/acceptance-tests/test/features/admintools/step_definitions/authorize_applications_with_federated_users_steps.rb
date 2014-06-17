@@ -20,6 +20,7 @@ require_relative 'capybara_setup.rb'
 require 'selenium-webdriver'
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
+# require_relative '../../cross_app_tests/step_definitions/sli_session_share_steps.rb'
 
 require 'pry'
 
@@ -65,7 +66,8 @@ Then /^the page should be reset back to default$/ do
   end
 
   numChecked.should == 1
-  browser.find(:xpath, '/html/body/div/div[2]/div[2]/div/table/tbody/tr[3]/td[4]/input').should be_checked
+
+  browser.find(:xpath, '//div/table/tbody/tr[3]/td[4]/input').should be_checked
 end
 
 # This step might need to be refactored
@@ -84,7 +86,7 @@ end
 # Possible refactor will be required
 Then /^I should see the new role group$/ do
   browser.within '#custom_roles' do
-    @new_custom_role = browser.find(:xpath, '/html/body/div/div[2]/div[2]/div/table/tbody/tr[7]')
+    @new_custom_role = browser.find(:xpath, '//div/table/tbody/tr[7]')
 
     browser.within @new_custom_role do
       browser.find('.groupTitle').text.should == 'Application Authorizer'
@@ -108,7 +110,7 @@ And /^I create new application "([^"]*)"$/ do |app_name|
 end
 
 Then /^application "([^"]*)" should be created$/ do |app_name|
-  browser.page.should have_css('#notice')
+  browser.page.should have_css('div.alert')
   browser.page.should have_content(app_name)
   browser.reset_session!
 end
@@ -144,7 +146,7 @@ end
 
 When /^I enable the education Organizations for the application$/ do
   browser.within @my_new_app do
-    browser.find('.btn').click
+    browser.find('.btn', text: 'In Progress').click
   end
   browser.click_link('Expand All')
 
@@ -153,7 +155,7 @@ When /^I enable the education Organizations for the application$/ do
   # check the checkbox for New York State Education System
   browser.check('87d0ab29-b493-46eb-a6f3-110701953afb')
 
-  browser.all('span.edOrgTreeActions input.btn').find("option[value='Save & Update']").first.click
+  browser.click_button 'Save & Update'
 end
 
 Then /^the application status should be "([^"]*)"$/ do |status|
@@ -178,9 +180,8 @@ When /^I authorize the application for "([^"]*)"$/ do |edOrg|
   if edOrg == 'Illinois State Board of Education'
     browser.find('#hierarchical_mode').set(false)
   end
-
-  browser.find(:xpath, '//form/div[2]/div/div/ul/li/ul/li/ul/li/input').set(true)
-  browser.find(:xpath, '//form/div[2]/div/input[3]').click
+  browser.find(:xpath, '//*[@id="edorgTree"]/div/ul/li/ul/li/ul/li/input').set(true)
+  browser.click_button 'Save & Update'
 end
 
 And /^I go to application authorization page$/ do
@@ -195,6 +196,11 @@ end
 
 When /^I de-authorize the application for "([^"]*)"$/ do |edOrg|
   browser.find('#' + @app_id).find('input').click
-  browser.find(:xpath, '//form/div[2]/div/div/ul/li/ul/li/ul/li/input').set(false)
-  browser.find(:xpath, '//form/div[2]/div/input[3]').click
+  browser.find(:xpath, '//*[@id="edorgTree"]/div/ul/li/ul/li/ul/li/input').set(false)
+  browser.click_button 'Save & Update'
+end
+
+Then /^I see application "([^"]*)"$/ do |app_name|
+  browser.should have_text(app_name)
+  @app = browser.all('tr', text: app_name).first
 end

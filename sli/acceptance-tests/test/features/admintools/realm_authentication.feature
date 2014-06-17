@@ -1,5 +1,4 @@
 @no_ingestion_hooks
-
 Feature: Multiple realms with the same IDP should be able to authenticate users.
 
   Background:

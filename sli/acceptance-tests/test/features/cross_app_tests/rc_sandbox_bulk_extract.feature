@@ -12,11 +12,7 @@ Feature: Users can receive bulk extracts in sandbox mode
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page
     Then I should be on Portal home page
-    And I should see Admin link
-    When I click on Admin
-    Then the portal should be on the admin page
-    When under System Tools, I click on "Register Application"
-    And I switch to the iframe
+    When under System Tools, I click on "Apps"
     Then I am redirected to the Application Registration Tool page
     When I clicked on the button Edit for the application "<Pre-installed Bulk Extract App Name>"
     And I expand all nodes
@@ -25,21 +21,15 @@ Feature: Users can receive bulk extracts in sandbox mode
     And I click on Save
     Then my new apps client ID is present
     And my new apps shared secret is present
-    When I switch to the iframe
     Then I am redirected to the Application Registration Tool page
     And "<Pre-installed Bulk Extract App Name>" is enabled for "2" education organizations
 
     #Add Bulk Extract role to IT Admin
-    And I exit out of the iframe
-    And I click on Admin
-    Then the portal should be on the admin page
-    And under System Tools, I click on "Create Custom Roles"
-    And I switch to the iframe
+    And under System Tools, I click on "Custom Roles"
     And I edit the group "IT Administrator"
     When I add the right "BULK_EXTRACT" to the group "IT Administrator"
     And I hit the save button
     Then I am no longer in edit mode
-    And I switch to the iframe
     And the group "IT Administrator" contains the "right" rights "Bulk IT Administrator"
 
   Scenario: Operator triggers a full extract for the sandbox tenant

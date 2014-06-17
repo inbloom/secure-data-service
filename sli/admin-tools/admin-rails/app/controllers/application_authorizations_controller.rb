@@ -1,21 +1,3 @@
-=begin
-
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end
-
 include EdorgTreeHelper
 
 class ApplicationAuthorizationsController < ApplicationController
@@ -47,14 +29,14 @@ class ApplicationAuthorizationsController < ApplicationController
     end
 
     # Get app data
-    load_apps()
+    load_apps
     appId = params[:application_authorization][:appId]
     @app = @apps_map[appId]
     raise "Application '" + appId + "' not found in sli.application" if @app.nil?
 
-    @app_description = app_description(@app)
-    @app_bulk_extract_description = if @app.isBulkExtract then "Bulk Extract" else "Non-Bulk Extract" end
-    @app_version_description = if is_empty(@app.version) then "Unknown" else "v" + @app.version.to_s() end
+    @app_description = app_description @app
+    @app_bulk_extract_description = @app.isBulkExtract ? 'Bulk Extract' : 'Non-Bulk Extract'
+    @app_version_description = @app.version.blank? ? 'Unknown' : "v#{@app.version}"
 
     # Get developer-enabled edorgsfor the app.  NOTE: Even though the field is
     # sli.application.authorized_ed_orgs[] these edorgs are called "developer-
@@ -76,15 +58,6 @@ class ApplicationAuthorizationsController < ApplicationController
   end
   
 
-  # NOTE this controller allows ed org super admins to enable/disable apps for their LEA(s)
-  # It allows LEA(s) to see (but not change) their app authorizations
-  def check_rights
-    unless is_app_authorizer?
-      logger.warn {'User is not lea or sea admin and cannot access application authorizations'}
-      raise ActiveResource::ForbiddenAccess, caller
-    end
-  end
-
   # GET /application_authorizations
   # GET /application_authorizations.json
   def index
@@ -94,13 +67,13 @@ class ApplicationAuthorizationsController < ApplicationController
 
     # create a list of app auth info including edorgs element, count of authorized edorgs, and app name
     @app_auth_info = []
-    user_app_auths = ApplicationAuthorization.findAllInChunks({})
+    user_app_auths = ApplicationAuthorization.findAllInChunks
     user_app_auths.each do |auth|
       info = {}
       app = @apps_map[auth.appId]
       info[:edorg_auth] = auth
       info[:count] = get_edorg_auth_count(auth)
-      info[:name] = if app.nil? then "" else app.name end
+      info[:name] = app ? app.name : ''
       @app_auth_info.push(info)
     end
 
@@ -115,20 +88,18 @@ class ApplicationAuthorizationsController < ApplicationController
 
     # Only allow update by SEA  or LEA admin.
     unless is_app_authorizer?
-      logger.warn {'User is not SEA or LEA admin and cannot update application authorizations'}
+      logger.warn 'User is not SEA or LEA admin and cannot update application authorizations'
       raise ActiveResource::ForbiddenAccess, caller
     end
 
     # Top level edOrg to expand
     edorg = session[:edOrgId]
     # EdOrgs selected using Tree Control
-    added = params[:application_authorization][:edorgsAdded]
-    added = "" if added.nil?
+    added = params[:application_authorization][:edorgsAdded] || ''
     added.strip!
     addedEdOrgs = added.split(/,/)
 
-    removed = params[:application_authorization][:edorgsRemoved]
-    removed = "" if removed.nil?
+    removed = params[:application_authorization][:edorgsRemoved] || ''
     removed.strip!
     removedEdOrgs = removed.split(/,/)
 
@@ -147,7 +118,7 @@ class ApplicationAuthorizationsController < ApplicationController
     ApplicationAuthorization.cur_edorg = edorg
     respond_to do |format|
       if success
-        format.html { redirect_to application_authorizations_path, notice: edorg}
+        format.html { redirect_to application_authorizations_path, notice: 'Application was succesfully updated.'}
         #format.html {redirect_to :action => 'index', notice: 'Application authorization was succesfully updated.'}
         format.json { head :ok }
       else
@@ -157,11 +128,23 @@ class ApplicationAuthorizationsController < ApplicationController
     end
   end
 
+  private
+
+  # NOTE this controller allows ed org super admins to enable/disable apps for their LEA(s)
+  # It allows LEA(s) to see (but not change) their app authorizations
+  def check_rights
+    unless is_app_authorizer?
+      logger.warn 'User is not lea or sea admin and cannot access application authorizations'
+      raise ActiveResource::ForbiddenAccess, caller
+    end
+  end
+
+
   # Load up all apps into @apps_map
-  def load_apps()
+  def load_apps
     # Slurp all apps into @apps_map = a map of appId -> info
     @apps_map = {}
-    allApps = App.findAllInChunks({})
+    allApps = App.findAllInChunks
     allApps.each { |app| @apps_map[app.id] = app }
   end
 
@@ -193,9 +176,9 @@ class ApplicationAuthorizationsController < ApplicationController
   # Format app description
   def app_description(a)
     s = ""
-    s += a.name
-    s += " (id " + a.client_id + ")" if !is_empty(a.client_id)
-    return s
+    s << a.name
+    s << " (id #{a.client_id})" unless a.client_id.blank?
+    s
   end
 
   # String is neither nil nor empty?

@@ -59,7 +59,7 @@ end
 
 Then /^I see a user with Full Name is "(.*?)" in the table$/ do | fullName|
   fullName = fullName.gsub("hostname", get_mac_address('_'))
-  fullName_element = @explicitWait.until{@driver.find_element(:xpath,"//tr[td='#{fullName}']")}
+  fullName_element = @explicitWait.until{@driver.find_element(:xpath, "//tr/td[a='#{fullName}']")}
 
   assert_not_nil(fullName_element, "Cannot find user with full name is #{fullName}")
   @userFullName = fullName
@@ -121,7 +121,7 @@ end
 
 When /^I click the "(.*?)" link for "(.*?)"$/ do |button_name, user_name|
   @user_full_name = user_name.gsub("hostname", get_mac_address('_'))
-  @explicitWait.until{@driver.find_element(:xpath, "//a[@id='#{@user_full_name}_#{button_name}']")}.click
+  @explicitWait.until{@driver.find_element(:link_text, @user_full_name)}.click
 end
 
 Then /^the (.*?) field is prefilled with "(.*?)"$/ do |field_name, value|
@@ -194,7 +194,7 @@ Then /^I can change the Role from the dropdown to (.*?)$/ do |primary_role|
 end
 
 Then /^I can add additional Role "(.*?)"$/ do |optional_role|
-  checkboxes = @explicitWait.until{@driver.find_elements(:xpath, "//form/fieldset/div/div/label/input[@type=\"checkbox\"]")}
+  checkboxes = @explicitWait.until{@driver.find_elements(:xpath, "//form/fieldset/div/label/input[@type=\"checkbox\"]")}
   checkboxes.each do |checkbox|
     value = checkbox.attribute("value")
     if optional_role == value && checkbox.attribute("checked") != "true"

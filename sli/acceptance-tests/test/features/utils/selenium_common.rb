@@ -82,6 +82,7 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
   disable_NOTABLESCAN
   puts "Logging in with credentials \"#{user}\" \"#{pass}\"" if $SLI_DEBUG
   if idpType=="Simple"
+    puts "Logging in with credentials \"#{user}\" \"#{pass}\""
     @driver.find_element(:id, "user_id").send_keys user
     @driver.find_element(:id, "password").send_keys pass
     @driver.find_element(:id, "login_button").click

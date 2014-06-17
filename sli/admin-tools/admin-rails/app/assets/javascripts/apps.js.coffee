@@ -89,7 +89,9 @@ jQuery ->
   $("#applications tr.odd td").click ->
     if $(@).attr("class") != "rowAction"
       $(@).parent().find("td:first-child.expandable").toggleClass("expanded")
+      $(@).parent().children(":first").children(":first").toggleClass("fa-chevron-right fa-chevron-down")
       $(@).parent().next("tr").toggle()
+
 
 jQuery ->
   if $('#isBulkExtract > :checkbox').is(':checked')

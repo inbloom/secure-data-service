@@ -40,7 +40,6 @@ SLIAdmin::Application.routes.draw do
   end
 
   resources :change_passwords
-  resources :waitlist_users
   resources :admin_delegations
 
   resources :realm_management

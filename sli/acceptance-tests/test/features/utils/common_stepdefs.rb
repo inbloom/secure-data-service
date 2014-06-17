@@ -1,21 +1,3 @@
-=begin
-
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end
-
 require 'mongo'
 require 'securerandom'
 require 'rumbster'
@@ -451,4 +433,16 @@ Then /^I should be able to use the token to make valid API calls$/ do
   @res.should_not be_nil
   data = JSON.parse(@res.body)
   data['authenticated'].should be_true
+end
+
+Then /^I am redirected to the sample app home page$/ do
+  assertWithWait("Failed to navigate to Sample App home page") {@driver.title.index("List of Students") != nil}
+end
+
+When /^I navigate to the sample app page$/ do
+  @driver.get Property['sampleApp_server_address']+"sample"
+  begin
+    @driver.switch_to.alert.accept
+  rescue
+  end
 end

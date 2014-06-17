@@ -2,9 +2,11 @@
 	<%= notice %>
 </div>
 
-<h1>Realm Management For <%= @realm.name %> </h1>
+<div class="page-header">
+    <h1>Realm Management For <%= @realm.name %> </h1>
+</div>
 
-<%= form_for(@realm, :url => {:controller => 'realm_management', :action => 'update'}) do |f| %>
+<%= form_for(@realm, :url => {:controller => 'realm_management', :action => 'update'}, :html => {:class => 'form-horizontal', :role => 'form'} ) do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>
 <% end %>
  

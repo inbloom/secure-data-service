@@ -12,21 +12,15 @@ Scenario: App developer deletes installed app
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page
   Then I should be on Portal home page
-  Then I should see Admin link
-  And I click on Admin
-  Then the portal should be on the admin page
-  And under System Tools, I click on "Register Application"
-  And I switch to the iframe
+  And under System Tools, I click on "Apps"
   Then I am redirected to the Application Registration Tool page
   Then I have clicked on the button 'Delete' for the application named "NotTheAppYoureLookingFor"
   And I got warning message saying 'You are trying to remove this application from inBloom. By doing so, you will prevent any active user to access it. Do you want to continue?'
   When I click 'Yes'
-  And I switch to the iframe
   Then the application named "NotTheAppYoureLookingFor" is removed from the SLI
   Then I have clicked on the button 'Delete' for the application named "Schlemiel"
   And I got warning message saying 'You are trying to remove this application from inBloom. By doing so, you will prevent any active user to access it. Do you want to continue?'
   When I click 'Yes'
-  And I switch to the iframe
   Then the application named "Schlemiel" is removed from the SLI
 
 Scenario: slcoperator deletes SB Dev1 and Dev2
@@ -34,10 +28,5 @@ Scenario: slcoperator deletes SB Dev1 and Dev2
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page
     Then I should be on Portal home page
-    Then I should see Admin link
-    And I click on Admin
-    Then the portal should be on the admin page
     And under System Tools, I click on "Manage Developer Accounts"
-
-    And I switch to the iframe
    Then I delete the user "RCTestDev PartTwo"

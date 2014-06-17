@@ -1,21 +1,18 @@
 @import "twitter/bootstrap/bootstrap";
-@import "twitter/bootstrap/responsive";
 
 // Set the correct sprite paths
-@iconSpritePath: asset-path("twitter/bootstrap/glyphicons-halflings");
-@iconWhiteSpritePath: asset-path("twitter/bootstrap/glyphicons-halflings-white");
+@iconSpritePath: image-url("twitter/bootstrap/glyphicons-halflings.png");
+@iconWhiteSpritePath: image-url("twitter/bootstrap/glyphicons-halflings-white.png");
 
 // Set the Font Awesome (Font Awesome is default. You can disable by commenting below lines)
-// Note: If you use asset_path() here, your compiled bootstrap_and_overrides.css will not
-//       have the proper paths. So for now we use the absolute path.
-@fontAwesomeEotPath: asset-path("fontawesome-webfont.eot");
-@fontAwesomeEotPath_iefix: asset-path("fontawesome-webfont.eot#iefix");
-@fontAwesomeWoffPath: asset-path("fontawesome-webfont.woff");
-@fontAwesomeTtfPath: asset-path("fontawesome-webfont.ttf");
-@fontAwesomeSvgPath: asset-path("fontawesome-webfont.svg");
+@fontAwesomeEotPath: asset-url("fontawesome-webfont.eot");
+@fontAwesomeEotPath_iefix: asset-url("fontawesome-webfont.eot?#iefix");
+@fontAwesomeWoffPath: asset-url("fontawesome-webfont.woff");
+@fontAwesomeTtfPath: asset-url("fontawesome-webfont.ttf");
+@fontAwesomeSvgPath: asset-url("fontawesome-webfont.svg#fontawesomeregular");
 
 // Font Awesome
-@import "fontawesome";
+@import "fontawesome/font-awesome";
 
 // Glyphicons
 //@import "twitter/bootstrap/sprites.less";
@@ -30,27 +27,3 @@
 //
 // Example:
 // @linkColor: #ff0000;
-
-.form-horizontal .control-label {
-  float: left;
-  /*original: width: 140px;*/
-  width: 200px;
-  padding-top: 5px;
-  text-align: right;
-}
-.form-horizontal .controls {
-  /*original: margin-left: 160px;*/
-  margin-left: 220px;
-}
-.dl-horizontal dt {
-  float: left;
-  width: 170px;
-  clear: left;
-  text-align: right;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  }

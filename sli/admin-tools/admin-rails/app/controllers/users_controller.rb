@@ -282,25 +282,25 @@ class UsersController < ApplicationController
 
 
   def get_login_id
-    check = Check.get ""
-    @loginUserId=check["external_id"]
+    check = Check.get ''
+    @loginUserId=check['external_id']
   end
 
   def get_login_tenant
-    check = Check.get""
-    @loginUserTenant = check["tenantId"]
+    check = Check.get ''
+    @loginUserTenant = check['tenantId']
   end
 
   def set_edorg_options
     if is_sea_admin? || is_lea_admin?
-      check = Check.get ""
+      check = Check.get ''
       @login_user_edorg_name = check['edOrg']
       @edorgs={check['edOrg']=> check ['edOrg']}
     end
 
     if is_sea_admin?
       if @login_user_edorg_name !=nil
-        current_edorgs = EducationOrganization.get("", {"stateOrganizationId" => @login_user_edorg_name})
+        current_edorgs = EducationOrganization.get('', {'stateOrganizationId' => @login_user_edorg_name})
       end
       if current_edorgs !=nil && current_edorgs.length>0
         child_edorgs=[]
@@ -401,31 +401,24 @@ class UsersController < ApplicationController
   end
 
   def validate_tenant_edorg
-    valid =true
-    if (is_operator? && !@user.groups.include?("SLC Operator")) && (@user.edorg==nil || @user.edorg=="")
-      @user.errors[:edorg] << "can't be blank"
-      valid=false
+    valid = true
+    if is_operator? && !@user.groups.include?('SLC Operator')
+      if @user.edorg.blank?
+        @user.errors[:edorg] << "can't be blank"
+        valid = false
+      end
+      if @user.tenant.blank?
+        @user.errors[:tenant] << "can't be blank"
+        valid = false
+      end
     end
-
-    if (is_operator? && !@user.groups.include?("SLC Operator")) && (@user.tenant == nil || @user.tenant=="")
-      @user.errors[:tenant] << "can't be blank"
-      valid=false
-    end
-    return valid
+    valid
   end
 
   def check_rights
-    if APP_CONFIG['is_sandbox']
-      allowed_roles =SANDBOX_ALLOWED_ROLES
-    else
-      allowed_roles = PRODUCTION_ALLOWED_ROLES
-    end
+    allowed_roles = APP_CONFIG['is_sandbox'] ? SANDBOX_ALLOWED_ROLES : PRODUCTION_ALLOWED_ROLES
     overlap_roles = allowed_roles & session[:roles]
-    if not overlap_roles.length>0
-      render_403
-    end
-
-
+    render_403 if overlap_roles.empty?
   end
 
 end

@@ -23,23 +23,23 @@ class AccountManagementsControllerTest < ActionController::TestCase
   
   setup do
     APP_CONFIG['is_sandbox'] = true
-    @account_managements = Array.new()
-    @account_managements.push(@account_managements_fixtures['account1'])
-    @account_managements.collect! do |account|
+    @account_managements = []
+    @account_managements << @account_managements_fixtures['account1']
+    @account_managements.map! do |account|
       am = AccountManagement.new
       am.name = account["name"]
       am.vendor = account["vendor"]
       am.email = account["email"]
-      am.lastUpdate = account["lastUpdate"]
+      am.lastUpdate = DateTime.parse(account["lastUpdate"])
       am.status = account["status"]
       am.transitions = account["transitions"]
       am
     end
-    $check_slc=false
   end
 
   test "should get index" do
     @controller.stubs(:get_all).returns(@account_managements)
+    Check.expects(:get).returns({'sliRoles' => ['SLC Operator']})
     get :index
     assert_response :success
     assert_not_nil assigns(:account_managements)

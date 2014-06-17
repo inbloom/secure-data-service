@@ -50,9 +50,9 @@ Then /^I see all the applications registered on SLI$/ do
 end
 
 Then /^I see all the applications pending registration$/ do
-  appsTable = @driver.find_element(:id, "applications")
+  appsTable = @driver.find_element(:id, 'applications')
   trs = appsTable.find_elements(:xpath, ".//tr/td[text()='PENDING']")
-  assert(trs.length == 1, "Should see a pending application")
+  assert(trs.length != 0, "Should see a pending application")
 end
 
 Then /^the pending apps are on top$/ do
@@ -208,18 +208,16 @@ Then /^I clicked on the button Edit for the application "([^"]*)"$/ do |arg1|
   row = @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/..")
   assert(row)
   @id = row.attribute('id')
-  @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/../td/a[contains(@class, 'btn')]").click
+  @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/../td/div/a[contains(@class, 'btn')]").click
 end
 
 Then /^a "([^"]*)" button is displayed for application "([^"]*)"$/ do |button_label, app|
-   assert (@driver.find_element(:xpath, "//tr/td[text()='#{app}']/../td/a[text()='#{button_label}']"))
+   assert (@driver.find_element(:xpath, "//tr/td[text()='#{app}']/../td/div/a[text()='#{button_label}']"))
 end
 
 Then /^I click Cancel on the application enable page$/ do
    #first cancel button
-   @driver.find_element(:id, 'Cancel1').click
-   #second cancel button
-   #@driver.find_element(:id, 'Cancel2').click
+   @driver.find_element(:id, 'Cancel').click
 end
 
 Then /^the row of the app "([^"]*)" expanded$/ do |arg1|

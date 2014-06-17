@@ -28,19 +28,19 @@ Before do
 end
 
 After do |scenario|
-begin
-tenant_coll = @db['tenant']
-tenant_coll.remove({"body.tenantId" => @tenantId})
+  begin
+    tenant_coll = @db['tenant']
+    tenant_coll.remove({"body.tenantId" => @tenantId})
 
-edorg_coll = @db["educationOrganization"]
-edorg_coll.remove({"body.stateOrganizationId" => @edorgId})
-rescue
-end
+    edorg_coll = @db["educationOrganization"]
+    edorg_coll.remove({"body.stateOrganizationId" => @edorgId})
+  rescue
+  end
 end
 
 Given /^There is a Tenant with tenantId "(.*?)" in mongo$/ do |tenantId|
-create_tenant(tenantId)
-@tenantId = tenantId
+  create_tenant(tenantId)
+  @tenantId = tenantId
 end
 
 Given /^There is a EdOrg with stateOrganizationId "(.*?)" in mongo$/ do |edorgId|
@@ -57,29 +57,29 @@ Given /^the tenant has a landing zone path for this edorg$/ do
 end
 
 When /^I navigate to POST "(.*?)"$/ do |url|
-preload_url=url.gsub("tenant_UUID", @tenant_uuid)
-puts preload_url
- 
- @format = "application/json"
-  
- # data = prepareData("application/json;charset=utf-8", dataObj)
+  preload_url=url.gsub("tenant_UUID", @tenant_uuid)
+  puts preload_url
+
+  @format = "application/json"
+
+  # data = prepareData("application/json;charset=utf-8", dataObj)
   restHttpPost(preload_url, "small")
   assert(@res != nil, "Response from POST operation was null")
 
 end
 
 def create_tenant (tenantId)
-tenant_entity = {
+  tenant_entity = {
       "_id" => "2012fy-a82073df-b9ba-11e1-a6ba-68a86d3e1111",
       "type" => "tenant",
       "body" => {
           "tenantId" => tenantId
-          }
+      }
   }
- tenant_coll = @db['tenant']
- tenant_coll.remove({"body.tenantId" => tenantId})
- tenant_coll.save(tenant_entity)
- @tenant_uuid = "2012fy-a82073df-b9ba-11e1-a6ba-68a86d3e1111"
+  tenant_coll = @db['tenant']
+  tenant_coll.remove({"body.tenantId" => tenantId})
+  tenant_coll.save(tenant_entity)
+  @tenant_uuid = "2012fy-a82073df-b9ba-11e1-a6ba-68a86d3e1111"
 end
 
 def create_edorg (edorgId)
@@ -111,19 +111,19 @@ def create_edorg (edorgId)
 end
 
 def update_landingzone
-tenant_coll = @db['tenant']
-tenant_coll.update(
-{"body.tenantId" => @tenantId}, {"body" => 
-{"tenantId" => @tenantId,
-"landingZone" =>
- [
- {"educationOrganization" => @edorgId,
- "ingestionServer" => "testserver",
- "path" => "/home/ingestion/lz/inbound/sandboxadministrator@slidev.org",
- "desc" => nil,
- "userNames" => nil}
- ] 
- } })
+  tenant_coll = @db['tenant']
+  tenant_coll.update(
+      {"body.tenantId" => @tenantId}, {"body" =>
+                                           {"tenantId" => @tenantId,
+                                            "landingZone" =>
+                                                [
+                                                    {"educationOrganization" => @edorgId,
+                                                     "ingestionServer" => "testserver",
+                                                     "path" => "/home/ingestion/lz/inbound/sandboxadministrator@slidev.org",
+                                                     "desc" => nil,
+                                                     "userNames" => nil}
+                                                ]
+                                           }})
 end
 
 

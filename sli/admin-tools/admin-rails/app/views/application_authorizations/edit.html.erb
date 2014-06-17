@@ -1,10 +1,31 @@
 <h1>Application Authorization Dashboard</h1>
 <h2>Education Organizations</h2>
-<table cellpadding="3">
-<tr><td><b>Application:</b></td><td><b><%= @app_description %></b></td></tr>
-<tr><td><b>Build:</b></td><td><b><%= @app_version_description %></b></td></tr>
-<tr><td><b>Description:</b></td><td><b><%= @app_bulk_extract_description %></b></td></tr>
-</table>
+
+<%=form_for @appAuth,  :action => :update, :html=> {:class => "form-horizontal", :role => "form"} do |f|%>
+    <%= f.hidden_field :appId, :value => @appAuth.appId %>
+    <%= f.hidden_field :edorgsAdded,   :class => 'edorgsAdded', :value => '' %>
+    <%= f.hidden_field :edorgsRemoved, :class => 'edorgsRemoved', :value => '' %>
+
+<div class="bg-info img-rounded">
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Application</label>
+    <div class="col-sm-5">
+      <p class="form-control-static"><%= @app_description %></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Build</label>
+    <div class="col-sm-6">
+      <p class="form-control-static"><%= @app_version_description %></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Description</label>
+    <div class="col-sm-6">
+      <p class="form-control-static"><%= @app_bulk_extract_description %></p>
+    </div>
+  </div>
+</div>
 
 <p>
 Please choose from the EdOrgs below to authorize for this application.
@@ -28,29 +49,22 @@ Quick tips:
 
 </ul>
 
-<%=form_for @appAuth,  :action => :update do |f|%>
-  <%= f.hidden_field :appId, :value => @appAuth.appId %>
-  <%= f.hidden_field :edorgsAdded,   :class => 'edorgsAdded', :value => '' %>
-  <%= f.hidden_field :edorgsRemoved, :class => 'edorgsRemoved', :value => '' %>
+
   
   <div class="content">
     <div id="edorgTree">
       <input id="hierarchical_mode" type="checkbox" checked="true">Enable Hierarchical Selection Mode</input>
       <a href="#" id="expand_all">Expand All</a>
       <a href="#" id="collapse_all">Collapse All</a>
-      
-      <%= f.submit 'Save & Update' %>
-      <button onclick="window.location.href='/application_authorizations'">Cancel</button>
-      
-      
+
       <div>
 	    <%= @edorg_tree_html.html_safe %>
       </div>
 
       <p><%= @treeHelperDebug.html_safe %></p>
 
-      <%= f.submit 'Save & Update' %>
-      <button onclick="window.location.href='/application_authorizations'">Cancel</button>
+      <%= f.submit 'Save & Update', :class => "btn btn-primary" %>
+      <button onclick="window.location.href='/application_authorizations'" class="btn btn-info">Cancel</button>
       
       <%= @debug %>
     </div>

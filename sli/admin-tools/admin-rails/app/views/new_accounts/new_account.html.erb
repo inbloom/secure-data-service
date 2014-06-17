@@ -1,90 +1,93 @@
 <div class="page-header">
-<h1>New Account Registration</h1>
+  <h1>New Account Registration</h1>
 </div>
-<p></p>
-<%= form_for(@new_account_password) do |f| %>
-  <% if @new_account_password.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@new_account_password.errors.count, "error") %> prohibited you from setting your password</h2>
+<%= form_for(@new_account_password, :html => {:class => 'form-horizontal', :role => 'form'}) do |f| %>
+    <% if @new_account_password.errors.any? %>
+        <div id="error_explanation">
+          <p><%= pluralize(@new_account_password.errors.count, "error") %> prohibited you from resetting your password</p>
 
-      <ul>
-      <% @new_account_password.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+          <ul>
+            <% @new_account_password.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <p>
+      <% if !APP_CONFIG["is_sandbox"]&&@new_account_password.edorg!=nil&&@new_account_password.edorg!="" %>
+          You've been invited to be a member of <%= @new_account_password.edorg %>.
       <% end %>
-      </ul>
+    </p>
+    <p>
+      Please create a password for your your account.
+    </p>
+
+    <div class="form-group">
+      <%= f.hidden_field :token, :value => @new_account_password.token %>
+
+      <%= f.label :new_pass, "Password", :class => 'col-sm-2 control-label' %>
+      <div class="col-sm-4">
+        <%= f.password_field :new_pass, :autocomplete => 'off', :class => "form-control" %>
+      </div>
+
+      <% if @new_account_password.errors[:new_pass].any? %>
+        <span class="help-block col-sm-6">
+            <ul>
+              <% @new_account_password.errors[:new_pass].each do |msg| %>
+                  <li style="list-style: none"><%= msg %></li>
+              <% end %>
+            </ul>
+        </span>
+      <% end %>
     </div>
-  <% end %>
 
-  <div> 
-    <% if !APP_CONFIG["is_sandbox"]&&@new_account_password.edorg!=nil&&@new_account_password.edorg!=""%>
-      You've been invited to be a member of <%= @new_account_password.edorg %>. 
-    <%end %>
-  </div>
-  <div>
-    Please create a password for your your account. 
-  </div> 
-  <br/>
-  <div class="field">
-    <table>
-        <tr class="field">
-            <td class="form-inline"><%= f.label :new_pass ,"Password"%><span style="color:red"> *</span><br />
-                <%= f.hidden_field :token, :value => @new_account_password.token %>
-                <%= f.password_field :new_pass, :autocomplete => 'off' %>
-            </td>
-            <% if @new_account_password.errors[:new_pass].any? %>
-                <td id="password_error_explanation">
-                  <ul>
-                  <% @new_account_password.errors[:new_pass].each do |msg| %>
-                    <li><%= msg %></li>
-                  <% end %>
-                  </ul>
-                </td>
-            <%end%>
-        </tr>
-        <tr class="field">
-            <td class="form-inline"><%= f.label :confirmation, "Confirm Password" %><span style="color:red"> *</span><br/>
-                <%= f.password_field :confirmation, :autocomplete => 'off'  %>
-             </td>
-             <% if @new_account_password.errors[:confirmation].any? %>
-                <td id="confirmation_error_explanation">
-                  <ul>
-                  <% @new_account_password.errors[:confirmation].each do |msg| %>
-                    <li><%= msg %></li>
-                  <% end %>
-                  </ul>
-                </td>
-            <%end%>
-        </tr>
-    </table>
-  </div>
+    <div class="form-group">
+      <%= f.label :confirmation, "Confirm New Password", :class => 'col-sm-2 control-label' %>
+      <div class="col-sm-4">
+        <%= f.password_field :confirmation, :autocomplete => 'off', :class => "form-control" %>
+      </div>
 
-  <% if @new_account_password.tou_required %>
-    <br/>
-    <div>
-      <label class="checkbox">
-              <%= check_box_tag "terms_and_conditions" %>
-              I have read and agree to <a id="terms_and_conditions_link" data-toggle="modal" href="#tou_modal">the inBloom Terms and Conditions</a>
-              <div id="tou_modal" class="modal hide">
-                <div class="modal-body">
-                  <%= render :partial => 'eulas/eula' %>
-                </div>
-                <div class="modal-footer">
-                  <a href="#" class="btn" data-dismiss="modal">Close</a>
-                </div>
-             </div>
-      </label>
-    <div>
-  <% end %>
+      <% if @new_account_password.errors[:confirmation].any? %>
+        <span class="help-block col-sm-6">
+          <ul>
+            <% @new_account_password.errors[:confirmation].each do |msg| %>
+                <li style="list-style: none"><%= msg %></li>
+            <% end %>
+          </ul>
+        </span>
+      <% end %>
+    </div>
 
-  <div class="actions">
-    <br/>
-    <table>
-        <tr>
-          <td id="SubmitButton"><%= f.submit "Submit", 
-            :id => "submitForgotPasswordButton"%></td>
-        </tr>
-    </table>
-  </div>
+    <% if @new_account_password.tou_required %>
+        <div class="form-group">
+
+          <label class="checkbox">
+            <%= check_box_tag "terms_and_conditions" %>
+            I have read and agree to
+            <a id="terms_and_conditions_link" data-toggle="modal" href="#tou_modal">
+              the inBloom Terms and Conditions
+            </a>
+
+            <div id="tou_modal" class="modal hide">
+              <div class="modal-body">
+                <%= render :partial => 'eulas/eula' %>
+              </div>
+              <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Close</a>
+              </div>
+            </div>
+          </label>
+
+        </div>
+    <% end %>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <%= f.submit "Submit", :id => "submitForgotPasswordButton", :class => "btn btn-info" %>
+      </div>
+    </div>
+
 <% end %>
 
 <script type="text/javascript">

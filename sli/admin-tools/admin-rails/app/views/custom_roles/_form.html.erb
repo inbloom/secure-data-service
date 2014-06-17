@@ -19,7 +19,7 @@ $(document).ready(function(){
       <th>Rights</th>
       <th>Rights for Self <a id="self-question" href="#"><i class="icon-question-sign"></i></a></th>
       <th>Admin Role</th>
-      <th style='width: 120px'></th>
+      <th style='width: 130px'></th>
     </tr>
   </thead>
   <tbody>
@@ -27,9 +27,9 @@ $(document).ready(function(){
 </table>
 
 <div>
-  <button href="#" id="addGroupButton" class="btn">Add Role Group</button>
-  <button href="#" id="resetToDefaultsButton" class="btn">Reset To Defaults</button>
-  <%= link_to "Cancel", :back, :class => "btn" %>
+  <button href="#" id="addGroupButton" class="btn btn-primary">Add Role Group</button>
+  <button href="#" id="resetToDefaultsButton" class="btn btn-warning">Reset To Defaults</button>
+  <%= link_to "Cancel", :back, :class => "btn btn-link" %>
 </div>
 
 </div> <!-- span11 -->
@@ -39,13 +39,13 @@ $(document).ready(function(){
 <div id="components">
 
 <div id="rowEditTool">
-    <div class="rowButtons btn-group editButtons">
-      <button class="rowEditToolEditButton btn btn-small">Edit</button>
-      <button class="rowEditToolDeleteButton btn btn-small"><i class="icon-trash"></i></button>
+    <div class="rowButtons btn-group-sm editButtons">
+      <button class="rowEditToolEditButton btn btn-primary">Edit</button>
+      <button class="rowEditToolDeleteButton btn btn-danger"><i class="fa fa-trash-o"></i></button>
     </div>
-  <div class="rowButtons btn-group saveButtons">
-    <button class="rowEditToolSaveButton btn btn-small">Save</button>
-    <button class="rowEditToolCancelButton btn btn-small">Cancel</button>
+  <div class="rowButtons btn-group-sm saveButtons">
+    <button class="rowEditToolSaveButton btn btn-primary">Save</button>
+    <button class="rowEditToolCancelButton btn btn-info">Cancel</button>
   </div>
 </div>
 
@@ -57,7 +57,7 @@ $(document).ready(function(){
         <select id="addRightSelect">
         <option value="none">Choose one...</option>
         </select>
-        <button class="btn" type="button" id="addRightButton">Add Right</button>
+        <button class="btn btn-primary" type="button" id="addRightButton">Add Right</button>
         </div>
       </div>
     </div>
@@ -72,7 +72,7 @@ $(document).ready(function(){
             <select id="addSelfRightSelect">
                 <option value="none">Choose one...</option>
             </select>
-            <button class="btn" type="button" id="addSelfRightButton">Add Right</button>
+            <button class="btn btn-primary" type="button" id="addSelfRightButton">Add Right</button>
             </div>
         </div>
     </div>
@@ -89,7 +89,7 @@ $(document).ready(function(){
   <label class="control-label" for="addRoleInput">New Role Name:</label>
   <div class="controls">
     <div class="input-append">
-      <input size="16" type="text" id="addRoleInput"><button class="btn" type="button">Add</button>
+      <input size="16" type="text" id="addRoleInput"><button class="btn btn-primary" type="button">Add</button>
    </div>
   </div>
 </div>
@@ -103,6 +103,6 @@ $(document).ready(function(){
 </div>
 
 <div id="labelUi">
-  <span class="btn btn-small customLabel roleLabel">foo</span>
+  <span class="label ">foo</span>
 </div>
 </div>

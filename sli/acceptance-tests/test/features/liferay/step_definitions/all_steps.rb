@@ -22,9 +22,8 @@ require_relative '../../utils/sli_utils.rb'
 # Require all dashboard step definitions
 Dir["./test/features/dashboard/dash/step_definitions/*"].each {|file| require file}
 
-When /^I navigate to the Portal home page$/ do
-  puts Property['portal_server_address'] + Property['portal_app_suffix']
-  @driver.get Property['portal_server_address'] + Property['portal_app_suffix']
+ When /^I navigate to the Portal home page$/ do
+  @driver.get Property['admintools_server_url']
   @explicitWait ||= Selenium::WebDriver::Wait.new(:timeout => 15)
 end
 
@@ -61,7 +60,8 @@ end
 Then /^I should be on Portal home page$/ do
   sleep 2
   home = @driver.find_elements(:class, "sli_home_title")
-  assert(home.length == 1, "User is not on the portal home page. Current URL: " + @driver.current_url)
+  @driver.page_source.should include('inBloom Portal')
+  # assert(home.length == 1, "User is not on the portal home page. Current URL: " + @driver.current_url)
 
   eula_go_away()
 end

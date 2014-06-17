@@ -206,7 +206,7 @@ public class LdapServiceImpl implements LdapService {
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
         @SuppressWarnings("unchecked")
         Collection<User> users = (ldapTemplate.search(dn, filter.toString(), SearchControls.SUBTREE_SCOPE,
-                new String[] { "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper()));
+              new String[] { "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper()));
         for (User user : users) {
             user.setGroups(uidToGroupsMap.get(user.getUid()));
         }
@@ -263,7 +263,7 @@ public class LdapServiceImpl implements LdapService {
     private boolean toggleUserInGroup(String realm, Group group, User user, int op) {
         BasicAttribute member = new BasicAttribute("memberUid", user.getUid());
         ModificationItem[] modGroups = new ModificationItem[] {
-                new ModificationItem(op, member) };
+              new ModificationItem(op, member) };
 
         Name groupName = buildGroupDN(realm, group.getGroupName());
 
@@ -284,7 +284,7 @@ public class LdapServiceImpl implements LdapService {
     @Override
     public boolean updateGroup(String realm, Group group) {
         DirContextAdapter context = (DirContextAdapter) ldapTemplate.lookupContext(buildGroupDN(realm,
-                group.getGroupName()));
+              group.getGroupName()));
         mapGroupToContext(context, group);
         ldapTemplate.modifyAttributes(context);
         return true;

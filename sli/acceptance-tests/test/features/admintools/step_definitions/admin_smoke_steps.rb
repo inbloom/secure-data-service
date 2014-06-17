@@ -1,48 +1,4 @@
-=begin
-
-Copyright 2012-2014 inBloom, Inc. and its affiliates.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end
-
-#require 'capybara'
-#require 'capybara-screenshot'
-#require 'capybara-screenshot/cucumber'
-#require_relative '../../utils/db_client.rb'
-
 require_relative 'capybara_setup.rb'
-
-# TODO Move the capybara setup code to a common location
-#class Browser
-#  include Capybara::DSL
-#  def initialize
-#    Capybara.default_driver = :selenium
-#    Capybara.reset_session!
-#  end
-#
-#  def reset_session!
-#    Capybara.reset_session!
-#  end
-#
-#  def confirm_popup
-#    page.driver.browser.switch_to.alert.accept
-#  end
-#
-#  def dismiss_popup
-#    page.driver.browser.switch_to.alert.dismiss
-#  end
-#end
 
 Before('@track_entities') do
   @created_entities = []
@@ -104,7 +60,7 @@ end
 
 Given /^I want to create a new application$/ do
   browser.page.click_link 'New Application'
-  browser.page.should have_title('New Application')
+  browser.page.should have_selector('h1', :text => 'Register a New Application')
 end
 
 When /^I cancel out of the new application form$/ do
@@ -147,8 +103,9 @@ Given /^I have an in\-progress application$/ do
 end
 
 Given /^I have a deletable application$/ do
-  @app_row = browser.page.first('table#applications tr', :text => /#{app_prefix}.*Delete/)
+  @app_row = browser.page.first('table#applications tr', :text => /#{app_prefix}/)
   @app_row.should_not be_nil
+  @app_row.should have_button('Delete')
   @app_name = @app_row.find('td:nth-child(2)').text.strip
 end
 
@@ -166,10 +123,10 @@ When /^I attempt to manage applications$/ do
 end
 
 When /^I delete the application$/ do
-  @app_row = browser.page.first("table#applications tr", :text => /#{@app_name}/)
+  @app_row = browser.page.first('table#applications tr', :text => /#{@app_name}/)
   @app_row.should_not be_nil
   browser.within @app_row do
-    browser.click_link 'Delete'
+    browser.click_on('Delete')
     browser.confirm_popup
   end
   sleep 2 # allow ajax action to occur TODO: Replace with better implementation (e.g. wait on a flash message)
@@ -215,7 +172,7 @@ end
 When /^I see (?:a|the|that) (pending|approved) application$/ do |status|
   @app_row = browser.page.first('table#applications tr', :text => /#{app_prefix}.*#{status.upcase}/)
   @app_row.should_not be_nil
-  @app_name = @app_row.find('td:nth-child(1)').text
+  @app_name = @app_row.find('td:nth-child(2)').text
 end
 
 When /^I (approve|deny) the application$/ do |action|
@@ -396,7 +353,7 @@ end
 
 def submit_new_application
   browser.page.click_link 'New Application'
-  browser.page.should have_title('New Application')
+  browser.should have_selector('h1', :text=> 'Register a New Application')
   yield if block_given?
   browser.click_button 'Register'
 end

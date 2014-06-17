@@ -176,6 +176,9 @@
         <powermock.version>1.5.4</powermock.version>  <!-- verify version -->
         <selenium.version>2.14.0</selenium.version>
         <jsonassert.version>1.2.3</jsonassert.version>
+
+        <!-- Bootstrap -->
+        <bootstrap.version>3.1.1-1</bootstrap.version>
     </properties>
 
     <!-- Environment profiles. A profile encapsulates a set of properties and
@@ -894,6 +897,13 @@
                 <artifactId>jsonassert</artifactId>
                 <version>${jsonassert.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <!-- Bootstrap -->
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>bootstrap</artifactId>
+                <version>${bootstrap.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

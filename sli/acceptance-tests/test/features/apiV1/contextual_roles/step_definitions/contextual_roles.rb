@@ -1174,7 +1174,7 @@ And(/^I create a "([^"]*)" classPeriod for "([^"]*)"$/) do |classPeriodName, edO
   classPeriod = {:classPeriodName=>classPeriodName, :educationOrganizationId => edOrgId}
   data = prepareData('application/json', classPeriod)
   restHttpPost('/v1/classPeriods', data, 'Application/json')
-  assert(@res.code == 201, "Expected return code 201!")
+  @res.code.should == 201
   location = @res.raw_headers['location'][0]
   id = location.split(/\//)[-1]
   $createdEntityIds[classPeriodName] = id
@@ -1183,7 +1183,7 @@ end
 
 And(/^I try to delete ([^ ]*) "([^"]*)" and get "([^"]*)"$/) do |entityType, entityName, codeStr|
   restHttpDelete("/v1/#{entityType}s/#{$createdEntityIds[entityName]}", 'Application/json')
-  assert(@res.code == codeStr.to_i, 'Expected return code 200!')
+  @res.code.should == codeStr.to_i
 end
 
 And(/^I create a "([^"]*)" bellSchedule for "([^"]*)"$/) do |bellScheduleName, classPeriod|
@@ -1196,7 +1196,7 @@ And(/^I create a "([^"]*)" bellSchedule for "([^"]*)"$/) do |bellScheduleName, c
 
       data = prepareData('application/json',calDate)
       restHttpPost("/v1/calendarDates/", data, 'Application/json')
-      assert(@res.code == 201, "Expected return code 201!")
+      @res.code.should == 201
       location = @res.raw_headers['location'][0]
       $calId = location.split(/\//)[-1]
     end
@@ -1214,7 +1214,7 @@ And(/^I create a "([^"]*)" bellSchedule for "([^"]*)"$/) do |bellScheduleName, c
     }
     data = prepareData('application/json',bellSchedule)
     restHttpPost('/v1/bellSchedules', data, 'Application/json')
-    assert(@res.code == 201, 'Expected return code 201!')
+    @res.code.should == 201
     location = @res.raw_headers['location'][0]
     id = location.split(/\//)[-1]
     $createdEntityIds[bellScheduleName] = id

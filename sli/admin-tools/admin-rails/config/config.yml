@@ -18,7 +18,6 @@ common: &common
 sandbox: &sandbox
     is_sandbox: true
     auto_approve: true
-    maximum_user_count: 500
     app_dev_documentation_link: http://www.inbloom.org/for-developers/sandbox
     sample_data_url: http://inbloom.org
 
@@ -56,7 +55,7 @@ email_rumbster: &email_rumbster
 development: &development
     <<: *common
     <<: *email_mon
-    <<: *ldap_default
+    ## <<: *ldap_default                                                                     `
 
     ## To use local inmemory ldap, just uncomment "ldap_local_inmemory_default".
     <<: *ldap_local_inmemory_default
@@ -68,7 +67,7 @@ development: &development
     redirect_uri: http://local.slidev.org:3001/callback
     ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
     is_sandbox: false
-    auto_approve: false
+    auto_approve: true
     ## email_replace_uri: http://localhost:3001
     email_replace_uri: http://local.slidev.org:3001
     ## portal_url: https://{portal_host}/portal

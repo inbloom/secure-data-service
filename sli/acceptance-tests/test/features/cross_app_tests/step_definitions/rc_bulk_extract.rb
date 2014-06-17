@@ -1,3 +1,5 @@
+require_relative '../../utils/sli_utils.rb'
+
 #bulk extract
 TRIGGER_SCRIPT = File.expand_path(Property['bulk_extract_script'])
 OUTPUT_DIRECTORY = Property['bulk_extract_output_directory']

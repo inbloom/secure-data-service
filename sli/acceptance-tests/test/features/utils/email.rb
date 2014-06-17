@@ -1,20 +1,22 @@
-=begin
+def check_local_email(config={})
+  mail_dir = config[:mail_dir] || File.expand_path('../../../../../admin-tools/admin-rails/tmp/mails',__FILE__)
+  imap_username = config[:imap_username] || Property['email_imap_registration_user']
+  content_substring = config[:content_substring]
+  subject_substring = config[:subject_substring]
+  mail_file = File.join(mail_dir, imap_username)
+  puts mail_file
 
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
+  yield
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+  File.exists?(mail_file).should be_true
+  content = File.read(mail_file)
+  content.should include(content_substring) if content_substring
+  content.should include(subject_substring) if subject_substring
+  File.delete mail_file
 
-http://www.apache.org/licenses/LICENSE-2.0
+  content
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end
+end
 
 def check_email(config = {})
   imap_host = config[:imap_host] || Property['email_imap_host']
@@ -35,8 +37,8 @@ def check_email(config = {})
   #end
 
   # remove spaces because the imap client may add unnecessary spaces
-  content_substring.gsub!(/\s/, '') if content_substring
-  subject_substring.gsub!(/\s/, '') if subject_substring
+  # content_substring.gsub!(/\s/, '') if content_substring
+  # subject_substring.gsub!(/\s/, '') if subject_substring
   
   #if ENV['DEBUG']
     puts "content substr #{content_substring}"
@@ -72,8 +74,8 @@ def check_email(config = {})
             puts "subject is #{subject}"
           end
 
-          if (!content_substring || content.gsub(/\s/,'').include?(content_substring)) &&
-             (!subject_substring || subject.gsub(/\s/,'').include?(subject_substring))
+          if (!content_substring || content.include?(content_substring)) &&
+             (!subject_substring || subject.include?(subject_substring))
             return content
           else
             puts "incorrect email content = #{content}"

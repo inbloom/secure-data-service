@@ -74,8 +74,6 @@ desc "Run RC Account Registration Tests"
 task :rcAccountRequestTests do
   if RUN_ON_RC
     runTests("test/features/cross_app_tests/rc_pike_integration_account_request.feature")
-  else
-    runTests("test/features/cross_app_tests/rc_integration_account_request.feature")
   end
 end
 
@@ -152,11 +150,6 @@ task :rcSandboxTenantCleanUp do
   runTests("test/features/cross_app_tests/rc_sandbox_delete_tenant.feature")
 end
 
-desc "Run RC Portal Compile"
-task :rcPortalCompile do
-  runTests("test/features/cross_app_tests/rc_portal_init.feature")
-end
-
 desc "Delete SEA, LEA and dev from LDAP"
 task :rcDeleteLDAPUsers do
   #emailsToDelete = ["testuser0.wgen@gmail.com", "testuser1.wgen@gmail.com", "testdev.wgen@gmail.com"]
@@ -203,7 +196,6 @@ task :rcTests do
   @tags = ["~@wip", "@rc", "~@sandbox"]
   Rake::Task["rcDeleteLDAPUsers"].execute
   Rake::Task["rcTenantCleanUp"].execute # if tenant_exists
-  Rake::Task["rcPortalCompile"].execute if RUN_ON_RC
   randomizeRcProdTenant() if RUN_ON_RC
   Rake::Task["rcSamtTests"].execute
   Rake::Task["rcProvisioningTests"].execute

@@ -4,12 +4,6 @@ Feature: User requests for an account for production or sandbox account
 Background:
   Given I have an open web browser
 
-@production
-Scenario: As a user I request for a production account, and is redirected to get-start page
-  Given I go to the account registration page
-  And I go to the production account registration page
-  Then I am redirected to the hosting website
-
 @sandbox
 Scenario: As a user I request for a sandbox account
   Given I go to the account registration page

@@ -1,10 +1,8 @@
-<div id="notice">
-	<%= notice %>
+<div class="page-header">
+  <h1>Realms for <%= @edorg %></h1>
 </div>
 
-<h1>Realms for <%= @edorg %> </h1>
-
-<table id="realms" class="table">
+<table id="realms" class="table table-hover">
   <thead>
   <tr>
     <th><%= "Name" %></th>
@@ -14,19 +12,18 @@
   </thead>
   <tbody>
   <% @realms.each do |realm| %>
-    <tr id='<%= realm.id %>'>
-      <td><%= realm.name %></td>
-      <td><%= realm.uniqueIdentifier %></td>
-      <td class="rowAction">
-        <%= link_to("Edit", edit_realm_management_path(realm), :class => "btn btn-info") %>
-        <%= link_to("Custom Roles", custom_role_path(realm), :class => "btn btn-info") %> 
-        <%= link_to 'Delete Realm', realm_management_path(realm), :method => :delete, :remote => true, confirm: 'WARNING: DELETING REALM WILL PREVENT ANY USER ASSOCIATED WITH THIS REALM FROM AUTHENTICATING ON inBloom AND WILL RESET ROLE MAPPING. ARE YOU SURE?', :class => 'btn btn-danger' %>
-
-      </td>
-    </tr>
+      <tr id='<%= realm.id %>'>
+        <td><%= link_to(realm.name, edit_realm_management_path(realm), :id => 'edit_realm') %></td>
+        <td><%= realm.uniqueIdentifier %></td>
+        <td class="rowAction">
+          <%= link_to("Custom Roles", custom_role_path(realm), :class => "btn btn-info") %>&nbsp;
+          <%= link_to '<i class="fa fa-trash-o"></i>'.html_safe + '  Delete', realm_management_path(realm), :method => :delete, :remote => true,
+                      confirm: 'WARNING: Deleting will prevent any user associated with this realm from authenticating and will reset role mapping. Are you sure?', :class => 'btn btn-danger' %>
+        </td>
+      </tr>
   <% end %>
   </tbody>
 </table>
+
 <%= link_to "Add new", new_realm_management_path, :class => "btn btn-info" %>
-<br />
 

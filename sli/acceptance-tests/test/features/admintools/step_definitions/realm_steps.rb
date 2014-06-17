@@ -18,7 +18,7 @@ end
 When /^I add a new realm with the same IDP as an existing realm$/ do
   @realm_name = 'Illinois Daybreak School District'
   row = find_realm_row
-  browser.within(row) { browser.click_link 'Edit' }
+  browser.within(row) { browser.click_link 'edit_realm' }
   browser.page.should have_selector('h1', :text => "Realm Management For #{@realm_name}")
 
   idp_url = browser.page.find_field('IDP URL').value
@@ -42,7 +42,7 @@ end
 
 When /^I edit that realm$/ do
   row = find_realm_row
-  browser.within(row) { browser.click_link 'Edit' }
+  browser.within(row) { browser.click_link 'edit_realm' }
   browser.page.should have_selector('h1', :text => "Realm Management For #{@realm_name}")
 end
 
@@ -54,7 +54,7 @@ end
 
 When /^I delete that realm$/ do
   row = find_realm_row
-  browser.within(row) { browser.click_link 'Delete Realm' }
+  browser.within(row) { browser.click_link 'Delete' }
   browser.confirm_popup
 end
 
@@ -66,7 +66,7 @@ end
 
 Then /^I see the (new|edited) realm listed$/ do |change_type|
   message = "Realm was successfully #{change_type == 'new' ? 'created' : 'updated'}"
-  browser.page.should have_selector('#notice', :text => message)
+  browser.page.should have_selector('div.alert', :text => message)
   browser.page.should have_selector('table#realms tr > td:nth-child(1)', :text => @realm_name)
 end
 
@@ -133,6 +133,16 @@ def value_for(field, valid)
         :valid => 'http://example.com',
         :invalid => 'malformed_url'
       },
+    'IDP URL' => {
+        :valid => 'http://example.com',
+        :duplicate => 'http://example.com',
+        :invalid => 'malformed_url'
+    },
+    'Redirect Endpoint' => {
+        :valid => 'http://example.com',
+        :duplicate => 'http://example.com',
+        :invalid => 'malformed_url'
+    },
     'IDP Source ID' => {
         :valid => SecureRandom.hex(20),
         :invalid => '$362j9/' # some random string not 40 characters with characters outside of [a-fA-F0-9]

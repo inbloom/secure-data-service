@@ -1,5 +1,6 @@
-<h1>Forgot Password</h1>
-<br>
+<div class="page-header">
+    <h1>Forgot Password</h1>
+</div>
 <% if notice != nil %>
     <ul style="color:green">
       <li id="successNotice"><%= notice %></li>
@@ -32,7 +33,7 @@
                 <%= get_captcha(:options => {:theme => 'white', :tabindex => increment_counter, :lang => 'en'}, :ssl => 'true').html_safe %>
               </div>
           </div>
-        <%= submit_tag("Submit", :id => "submit") %>
+        <%= submit_tag "Submit", :class => "btn btn-info", :id => "submit" %>
     <% end %>
 <% end %>
 

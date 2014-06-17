@@ -24,10 +24,6 @@ When /^I hit the Portal home page$/ do
   end
 end
 
-Then /^the Portal .*? page should be compiled$/ do
-  # Dummy step. No really, this step is stupid
-end
-
 When /^I hit the Portal Admin page$/ do
   portal_admin_url = "#{Property['portal_server_address']}/portal/web/guest/admin"
   begin

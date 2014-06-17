@@ -147,11 +147,6 @@ end
 Given /^I am a valid SEA\/LEA user$/ do
 end
 
-Then /^I get message that I am not authorized$/ do
-  isForbidden = @driver.find_element(:xpath, '//title[text()="Not Authorized (403)"]')
-  assert(isForbidden != nil)
-end
-
 Then /^I do not get message that I am not authorized$/ do
   isForbidden = nil
   begin
@@ -322,7 +317,7 @@ When /^I click Update$/ do
   @driver.find_element(:xpath, '//*[@id="edorgTree"]/input[2]').click
 end
 
-When /^I (authorize|de-authorize) the educationalOrganization "([^"]*?)" in tenant "([^"]*?)"$/ do |action,edOrgName,tenant|
+When /^I (authorize|de-authorize) the educational organization "([^"]*?)" in tenant "([^"]*?)"$/ do |action,edOrgName,tenant|
   if action == 'authorize'
     step "I enable the educationalOrganization \"#{edOrgName}\" in tenant \"#{tenant}\""
   else
@@ -503,9 +498,9 @@ Given /^"(.*?)" has an active staffEducationOrganizationAssociation of "(.*?)" f
   disable_NOTABLESCAN()
   db = @conn[convertTenantIdToDbName(tenant)]
   coll = db.collection("staff")
-  staffId = coll.find_one({"body.staffUniqueStateId" => user}) ["_id"]
+  staffId = coll.find_one({"body.staffUniqueStateId" => user})["_id"]
   coll = db.collection("educationOrganization")
-  edorgId = coll.find_one({"body.nameOfInstitution" => edorg}) ["_id"]
+  edorgId = coll.find_one({"body.nameOfInstitution" => edorg})["_id"]
   coll = db.collection("staffEducationOrganizationAssociation")
   record_count = coll.find({"body.staffReference" => staffId, "body.staffClassification" => role, "body.educationOrganizationReference" => edorgId}).count
   assert(record_count > 0, "No staffEducationOrganizationAssociation matching criteria found.")
@@ -524,9 +519,9 @@ When /^a staffEducationOrgAssignmentAssociation is created for user "(.*?)" with
   disable_NOTABLESCAN()
   db = @conn[convertTenantIdToDbName(tenant)]
   coll = db.collection("staff")
-  staffId = coll.find_one({"body.staffUniqueStateId" => user}) ["_id"]
+  staffId = coll.find_one({"body.staffUniqueStateId" => user})["_id"]
   coll = db.collection("educationOrganization")
-  edorgId = coll.find_one({"body.nameOfInstitution" => edorg}) ["_id"]
+  edorgId = coll.find_one({"body.nameOfInstitution" => edorg})["_id"]
   enable_NOTABLESCAN()
   seoa_hash = {"staffReference" => staffId, "educationOrganizationReference" =>  edorgId, "staffClassification" => role, "beginDate" => "2011-01-13"}
   puts seoa_hash.to_json.to_s

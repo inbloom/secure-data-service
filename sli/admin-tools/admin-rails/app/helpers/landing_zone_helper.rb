@@ -20,9 +20,9 @@ require 'fileutils'
 
 module LandingZoneHelper
 
-  @@rsaRegex = /\A---- BEGIN SSH2 PUBLIC KEY ----[\r|\n|(\r\n)](.{0,72}[\r|\n|(\r\n)])+---- END SSH2 PUBLIC KEY ----\z/
-  @@keyConversionCmdPrefix = "ssh-keygen -e -f "
-  @@keyConversionTimeout = 3
+  @@rsa_regex = /\A---- BEGIN SSH2 PUBLIC KEY ----[\r|\n|(\r\n)](.{0,72}[\r|\n|(\r\n)])+---- END SSH2 PUBLIC KEY ----\z/
+  @@keygen_cmd = "ssh-keygen -e -f "
+  @@keygen_timeout = 3
 
   # Lightweight check of RSA key format - will not reject all invalid keys; just makes sure they look pretty much right
   # SEE: RFC4716
@@ -31,17 +31,12 @@ module LandingZoneHelper
   # Middle lines must not be longer than 72 characters, excluding line terminators
   # Last line MUST be "---- END SSH2 PUBLIC KEY ----"
   #
-  # Future improvement: each line MUST NOT be longer than 72 8-bit bytes excluding line termination characters
-  #
   # Input Parameters:
   #   - key : RSA key string
-  #
   # Returns:
   #     true for valid key, false for invalid
-  #
   def self.valid_rsa_key?(key)
-    Rails.logger.debug("Using regex #{@@rsaRegex}")
-    return @@rsaRegex.match(key) ? true : false
+    !!@@rsa_regex.match(key)
   end
 
   def self.create_key(key, uid)
@@ -54,26 +49,31 @@ module LandingZoneHelper
     # remove carrage returns
     key = key.tr("\r", "")
     # append trailing newline. 
-    key = key + "\n"
+    key << "\n"
     file = File.new(keyFile, "w")
-    file.write(key)
-    file.close()
+    file.write key
+    file.close
   end
 
   def self.convert_key(key, uid)
-    tempKeyFile = File.join(APP_CONFIG['tmp_dir'], uid + "_tmpKey")
-    Rails.logger.debug("Converting public key in #{tempKeyFile}")
+    tempKeyFile = File.join(APP_CONFIG['tmp_dir'], "#{uid}_tmpKey")
+    Rails.logger.debug "Converting public key in #{tempKeyFile}"
+
     file = File.new(tempKeyFile, "w")
-    file.write(key)
-    file.close()
-    cmd = @@keyConversionCmdPrefix + tempKeyFile
-    newkey = ExternalProcessRunner.run(cmd,@@keyConversionTimeout)
+    file.write key
+    file.close
+
+    cmd = "#{@@keygen_cmd}#{tempKeyFile}"
+    puts cmd
+    newkey = ExternalProcessRunner.run(cmd,@@keygen_timeout)
     File.delete(tempKeyFile)
-    unless newkey.nil?
+
+    if newkey
       return newkey.chop
     else
       return nil
     end
+
   end
 
 end

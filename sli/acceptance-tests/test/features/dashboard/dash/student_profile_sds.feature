@@ -49,7 +49,7 @@ When I select ed org "Sunset School District 4526"
 When I select school "Sunset Central High School"
 When I select course "A.P. Calculus"
 When I select section "A.P. Calculus Sec 201"
-Then I should only see one view named "Default View"
+Then I should only see one view named "College Ready ELA View"
 And I click on student "Betty Davis"
 And I view its student profile
 And their grade is "!"

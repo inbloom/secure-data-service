@@ -1,53 +1,23 @@
-=begin
-
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end
-
-
-include GeneralRealmHelper
-
 class RealmManagementController < ApplicationController
+
   before_filter :check_rights
-
-  def check_rights
-    unless session[:rights].include?("CRUD_REALM")
-      logger.warn {'User does not have CRUD_REALM right and cannot create/delete/modify realms'}
-      raise ActiveResource::ForbiddenAccess, caller
-    end
-  end
-
 
   # GET /realm_management
   # GET /realm_management.json
   def index
-    userRealm = session[:edOrg]
-    @realms = GeneralRealmHelper.get_realm_to_redirect_to(userRealm)
-    logger.debug {"Realms #{@realms.to_json}"}
-    if @realms.nil? or @realms.empty?
-      redirect_to new_realm_management_path and return
-    end
-    edorg_entity = EducationOrganization.get("", headers = {:stateOrganizationId => userRealm})
-    if edorg_entity != nil && !edorg_entity.empty?
-      @edorg = edorg_entity["nameOfInstitution"] + " (#{session[:edOrg]})"
+    user_realm = session[:edOrg]
+    @realms = Realm.get_realm_to_redirect_to(user_realm)
+    redirect_to new_realm_management_path and return if @realms.empty?
+
+    edorg_entity = EducationOrganization.get('', headers = {:stateOrganizationId => user_realm})
+    if edorg_entity && !edorg_entity.empty?
+      @edorg = "#{edorg_entity['nameOfInstitution']} (#{session[:edOrg]})"
     else
       @edorg = session[:edOrg]       
     end
     respond_to do |format|
       format.html
-    end and return
+    end
   end
 
   # GET /realm_management/new
@@ -68,14 +38,17 @@ class RealmManagementController < ApplicationController
     @realm = Realm.new(params[:realm])
     @realm.edOrg = session[:edOrg]
     respond_to do |format|
-      success = false
-      begin
-        @realm.save
-        success = true if @realm.valid? and @realm.idp.valid?
-      rescue ActiveResource::BadRequest => error
-        @realm.errors.add(:uniqueIdentifier, "must be unique") if error.response.body.include?("Cannot have duplicate unique identifiers")
-        @realm.errors.add(:name, "must be unique") if error.response.body.include?("Cannot have duplicate display names")
+      success = @realm.valid? && @realm.idp.valid?
+      if success
+        begin
+          @realm.save
+        rescue ActiveResource::BadRequest => error
+          @realm.errors.add(:uniqueIdentifier, 'must be unique') if error.response.body.include?('Cannot have duplicate unique identifiers')
+          @realm.errors.add(:name, 'must be unique') if error.response.body.include?('Cannot have duplicate display names')
+          success = false
+        end
       end
+
       if success
         @realm = Realm.find(@realm.id)
         format.html { redirect_to realm_management_index_path,  notice: 'Realm was successfully created.' }
@@ -84,6 +57,7 @@ class RealmManagementController < ApplicationController
         format.html { render action: "new" }
         format.json { render json: @realm.errors, status: :unprocessable_entity }
       end
+
     end
   end
 
@@ -91,32 +65,43 @@ class RealmManagementController < ApplicationController
   # PUT /realm_management/1.json
   def update
     @realm = Realm.find(params[:id])
-    params[:realm] = {} if params[:realm] == nil
+    params[:realm] ||= {}
 
     respond_to do |format|
       success = false
       begin
         @realm.update_attributes(params[:realm])
-        success = true if @realm.valid? and @realm.idp.valid?
+        success = true if @realm.valid? && @realm.idp.valid?
       rescue ActiveResource::BadRequest => error
-        @realm.errors.add(:uniqueIdentifier, "must be unique") if error.response.body.include? "unique"
-        @realm.errors.add(:name, "must be unique") if error.response.body.include? "display"
-        @realm.errors[:base].push("IDP URL must be unique") if error.response.body.include? "idp ids"
+        @realm.errors.add(:uniqueIdentifier, 'must be unique') if error.response.body.include? 'unique'
+        @realm.errors.add(:name, 'must be unique') if error.response.body.include? 'display'
+        @realm.errors[:base].push('IDP URL must be unique') if error.response.body.include? 'idp ids'
       end
       if success
         format.html { redirect_to realm_management_index_path, notice: 'Realm was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @realm.errors, status: :unprocessable_entity }
       end
     end
   end
-  #
+
   ## DELETE /realm_management/1
   ## DELETE /realm_management/1.json
   def destroy
    @realm = Realm.find(params[:id])
    @realm.destroy
+   flash.now[:notice] = 'Realm was successfully deleted'
   end
+
+  private
+
+  def check_rights
+    unless session[:rights].include?('CRUD_REALM')
+      logger.warn 'User does not have CRUD_REALM right and cannot create/delete/modify realms'
+      raise ActiveResource::ForbiddenAccess, caller
+    end
+  end
+
 end

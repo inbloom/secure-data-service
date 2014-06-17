@@ -46,8 +46,9 @@ $(document).ready(function() {
         	  $("#application_developer_role").removeAttr("disabled");
           }
         });
-    
-  } else {
+
+  }
+  else {
 	  $("#user_primary_role").change(function() {
 	        if($("#user_primary_role option:selected").attr("value")== "SLC Operator") {
 	        	 $("#ingestion_user_role").attr("disabled", "disabled").attr("checked",false);

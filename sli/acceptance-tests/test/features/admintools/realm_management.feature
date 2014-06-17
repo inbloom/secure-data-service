@@ -50,11 +50,13 @@ Scenario: A realm administrator attempts to create realm with display name and i
 
 Scenario: A realm administrator attempts to create a realm with non-unique display name and identifier
   Given I am a valid realm administrator
-    And I am managing my realms
-    And I add a new realm
+  And I am managing my realms
+  And I add a new realm
   When I try to add a new realm with duplicate values for:
-    | Realm Identifier |
-    | Display Name     |
+    | Realm Identifier  |
+    | Display Name      |
+    | IDP URL           |
+    | Redirect Endpoint |
   Then I should see uniqueness validation errors for:
     | Realm Identifier  |
 #    | Display Name      | TODO: Re-enable when bug about not reporting of dup display name is resolved

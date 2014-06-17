@@ -24,12 +24,8 @@ class AppsController < ApplicationController
   before_filter :check_rights
 
   def check_for_cancel
-    if params[:commit] == "Cancel"
-      redirect_to :apps
-    end
+    redirect_to :apps if params[:commit] == 'Cancel'
   end
-
-  $column_names = ["name", "vendor", "version", "metaData.created", "metaData.updated", "registration.approval_date", "registration.request_date"]
 
   # Let us add some docs to this confusing controller.
   # NOTE this controller is performing two actions:
@@ -144,26 +140,22 @@ class AppsController < ApplicationController
   # POST /apps
   # POST /apps.json
   def create
-    # if operator?
-    #       redirect_to apps_path, notice: "Only developers can create new applications" and return
-    #     end
-    #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
     params[:app][:behavior] = params[:app_behavior]
     params[:app][:authorized_ed_orgs] = params[:authorized_ed_orgs]
-    params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
-    params[:app].delete_if {|key, value| ["administration_url", "image_url", "application_url", "redirect_uri"].include? key and value.length == 0 }
+    params[:app][:authorized_ed_orgs] ||= [] # initialize to an empty array if not set
 
-    logger.debug {params[:app].inspect}
+    # Remove these keys from the hash if the values are blank
+    params[:app].delete_if { |key, value| %w(administration_url image_url application_url redirect_uri).include?(key) && value.blank? }
 
     @app = App.new(params[:app])
-    # Want to read the created_by on the @app, which is stamped during the created.
-    # Tried @app.reload and it didn't work
+
     dev_info = get_user_info(session[:external_id])
     @app.vendor = dev_info[:vendor]
+
     @app.is_admin = boolean_fix @app.is_admin
     @app.installed = boolean_fix @app.installed
     @app.isBulkExtract = boolean_fix @app.isBulkExtract
-    logger.debug{"Application is valid? #{@app.valid?}"}
+
     respond_to do |format|
       if @app.save
         logger.debug {"Redirecting to #{apps_path}"}
@@ -180,6 +172,12 @@ class AppsController < ApplicationController
       end
     end
   end
+
+  # {
+  #     "type": "Bad Request",
+  #     "message": "Validation failed: ValidationError [type=REQUIRED_FIELD_MISSING, fieldName=vendor, fieldValue=, expectedTypes=[STRING]]\nValidationError [type=INVALID_VALUE, fieldName=redirect_uri, fieldValue=, expectedTypes=[pattern=http(s)*://.*]]\nValidationError [type=INVALID_VALUE, fieldName=application_url, fieldValue=, expectedTypes=[pattern=http(s)*://.*]]\nValidationError [type=INVALID_VALUE, fieldName=administration_url, fieldValue=, expectedTypes=[pattern=http(s)*://.*]]",
+  #     "code": 400
+  # }
 
   # PUT /apps/1
   # PUT /apps/1.json
@@ -299,33 +297,30 @@ class AppsController < ApplicationController
   end
 
   private
+
   def boolean_fix (parameter)
-    case parameter
-      when "1"
-        parameter = true
-      when "0"
-        parameter = false
-    end
+    parameter == '1'
   end
 
-
   def sort_column
-    $column_names.include?(params[:sort]) ? params[:sort] : "metaData.updated"
+    column_names = [
+      'name', 'vendor', 'version', 'metaData.created',
+      'metaData.updated', 'registration.approval_date', 'registration.request_date'
+    ]
+    column_names.include?(params[:sort]) ? params[:sort] :'metaData.updated'
   end
 
   def sort_direction
-    %w[asc desc].include?(params[:direction]) ?  params[:direction] : "desc"
+    %w[asc desc].include?(params[:direction]) ?  params[:direction] : 'desc'
   end
 
   def sort(app_array)
-    columns = sort_column().split(".")
-    puts("The sort_column is #{sort_column()}")
-    if sort_direction == "desc"
-      app_array = app_array.sort { |a, b| getAttribute(b, columns) <=> getAttribute(a, columns)}
+    columns = sort_column.split('.')
+    if sort_direction == 'desc'
+      app_array.sort { |a, b| getAttribute(b, columns) <=> getAttribute(a, columns) }
     else
-      app_array = app_array.sort { |a, b| getAttribute(a, columns) <=> getAttribute(b, columns)}
+      app_array.sort { |a, b| getAttribute(a, columns) <=> getAttribute(b, columns) }
     end
-    app_array
   end
 
   def getAttribute(model, column_array)
@@ -333,19 +328,18 @@ class AppsController < ApplicationController
     column_array.each do |col|
       cur = cur.attributes[col]
     end
-    return cur
-
+    cur
   end
 
   def get_user_info(uid)
     dev_info = APP_LDAP_CLIENT.read_user(uid)
-    if dev_info == nil
-        dev_info = Hash.new
-        dev_info[:first] = session[:first_name]
-        dev_info[:last] = session[:last_name]
-        dev_info[:vendor] = session[:vendor]
+    unless dev_info
+      dev_info = {}
+      dev_info[:first] = session[:first_name]
+      dev_info[:last] = session[:last_name]
+      dev_info[:vendor] = session[:vendor]
     end
-    dev_info[:vendor] = (dev_info.has_key?(:vendor) and dev_info[:vendor]) || (APP_CONFIG['is_sandbox'] ? "Sandbox" : "Unknown")
-    return dev_info
+    dev_info[:vendor] = dev_info[:vendor] || (APP_CONFIG['is_sandbox'] ? 'Sandbox' : 'Unknown')
+    dev_info
   end
 end

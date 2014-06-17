@@ -39,7 +39,7 @@ end
 Then /^I should receive a notice that the realm was successfully "([^"]*)"$/ do |action|
   message = "Realm was successfully #{action}."
   assertWithWait("Should give successful #{action} notice") do
-    notice = (@driver.find_element(:id, "notice")).text
+    notice = (@driver.find_element(:css, "div[class*='alert']")).text
     notice.index(message) != nil
   end
 end

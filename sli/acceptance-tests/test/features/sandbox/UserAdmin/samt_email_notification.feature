@@ -1,4 +1,4 @@
-@US_3455
+@wip
 Feature: As a new SAMT account holder I get an email when my account is created.
 
 Background: 

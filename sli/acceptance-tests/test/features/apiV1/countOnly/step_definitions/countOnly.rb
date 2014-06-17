@@ -26,21 +26,9 @@ end
 
 Then /^I should get back just a count of ([^"]*)$/ do |count|
   # if any body is returned, that's an error
-  assert @res.body == "[]"
+  @res.body.should == '[]'
 
-#  if @res.raw_headers["totalcount"].nil?
-#    puts "nil" << " and " << "#{count}"
-#  else
-#    puts @res.raw_headers["totalcount"] << "#{count}"
-#  end
-
-  # we get the count out of the HTTP header 'totalcount'
-  # if it's not there we fail, otherwise compare it to the given count
-  returnedCount = @res.raw_headers["totalcount"]
-  if returnedCount.nil? 
-    puts "no count returned"
-    false
-  else
-    assert returnedCount[0].to_i == count.to_i
-  end
+  returned_count = @res.raw_headers['totalcount']
+  returned_count.should_not be_nil
+  returned_count.to_i.should == count.to_i
 end
