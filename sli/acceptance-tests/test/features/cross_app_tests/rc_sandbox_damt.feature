@@ -12,7 +12,7 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
     Scenario: Creating a developer account using DAMT
       When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page
       Then I should be on Portal home page
-      And under System Tools, I click on "Manage Developer Accounts"
+      And under System Tools, I click on "Users"
       #These two waits were added by the operator to improve test reliability
       And I wait for "5" seconds
       And I wait for "2" seconds
