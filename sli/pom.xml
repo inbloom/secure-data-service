@@ -71,7 +71,6 @@
         <maven.source.version>2.2.1</maven.source.version>
         <maven.surefire.version>2.17</maven.surefire.version>
         <maven.tomcat.version>2.2</maven.tomcat.version>
-        <maven.yuicompressor.version>1.4</maven.yuicompressor.version>
         <maven.war.version>2.4</maven.war.version>
         <maven.plugin.codehaus.aspectj.version>1.5</maven.plugin.codehaus.aspectj.version>
         <maven.plugin.codehaus.exec.plugin>1.2.1</maven.plugin.codehaus.exec.plugin>
