@@ -113,6 +113,7 @@ And I should forced to reauthenticate to gain access
 When I navigate to the dashboard home page
 Then I should forced to reauthenticate to gain access
 
+@wip
 Scenario: User sees non-installed Developer App
 When I navigate to the Portal home page
 When I selected the realm "Daybreak Test Realm"
