@@ -7,15 +7,6 @@ Background:
   Given I have an open web browser
   When I navigate to the Portal home page
 
-Scenario: Login and logout
-  When I see the realm selector I authenticate to "Daybreak Test Realm"
-  And I was redirected to the "Simple" IDP Login page
-  And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
-  Then I should be on Portal home page
-  And under System Tools, I click on "inBloom Data Browser"
-  Then I should be redirected to the Data Browser home page
-#  When I click on the Logout link
-#  And I am forced to reauthenticate to access the databrowser
 
 Scenario: Navigate to home page from any page
   When I see the realm selector I authenticate to "Daybreak Test Realm"
