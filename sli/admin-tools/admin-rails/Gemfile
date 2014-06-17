@@ -6,19 +6,12 @@ gem 'rails', '3.2.13'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'execjs'
-
 gem 'therubyracer'
-
 gem 'oauth2'
-
-gem "net-ldap"
-
+gem 'net-ldap'
 gem 'approval', :path => '../approval'
-
 gem 'json'
-
 gem 'rest-client'
-
 gem 'twitter-bootstrap-rails'
 gem 'less-rails'
 gem 'ruby-recaptcha'
@@ -51,7 +44,5 @@ group :test do
 end
 
 gem 'encrypted-cookie-store'
-
 gem 'warbler'
-
 gem 'eventmachine', '1.0.3'

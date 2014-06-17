@@ -90,7 +90,7 @@
                                 <configuration>
                                     <executable>curl</executable>
                                     <commandlineArgs>
-                                        ${api.server.url}api/rest/application.wadl > ${project.build.outputDirectory}/../doc/base_wadl.wadl
+                                        ${api.server.url}api/rest/application.wadl -o ${project.build.outputDirectory}/../doc/base_wadl.wadl
                                     </commandlineArgs>
                                 </configuration>
                             </execution>
