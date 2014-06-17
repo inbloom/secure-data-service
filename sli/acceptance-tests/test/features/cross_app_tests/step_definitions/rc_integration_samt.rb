@@ -212,6 +212,8 @@ Then /^I set my password to "(.*?)"$/ do |password|
     end
   end
 
+  reset_password_link = reset_password_link[0..-5] if reset_password_link.end_with?('<br>')
+
   puts "reset password link: #{reset_password_link}"
   @driver.get(reset_password_link)
 

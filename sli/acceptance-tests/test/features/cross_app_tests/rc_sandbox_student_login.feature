@@ -1,6 +1,7 @@
 @RALLY_F38
 @rc
 @sandbox
+@wip
 Feature:  RC Integration Tests - Test Student Login
 
 ###
@@ -25,7 +26,7 @@ Feature:  RC Integration Tests - Test Student Login
 #    And I click on log out
 
 # Login as a student a take a look at some stuff.
-    Then I should be redirected to the impersonation page
+#    Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
     And I want to select "800000025" from the "SmallDatasetUsers" in automatic mode
     Then I should be on Portal home page

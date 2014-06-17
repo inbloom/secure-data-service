@@ -113,21 +113,4 @@ And I should forced to reauthenticate to gain access
 When I navigate to the dashboard home page
 Then I should forced to reauthenticate to gain access
 
-Scenario: User sees non-installed Developer App
-When I navigate to the Portal home page
-When I selected the realm "Daybreak Test Realm"
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
-Then I should be on Portal home page
-And under My Applications, I see the following apps: "inBloom Dashboards"
-
-@wip
-Scenario: Charter School User sees non-installed Developer App
-When I navigate to the Portal home page
-When I selected the realm "Charter School Test Realm"
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "chartereducator" "chartereducator1234" for the "Simple" login page
-Then I should be on Portal home page
-And under My Applications, I see the following apps: "inBloom Dashboards"
-
 
