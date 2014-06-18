@@ -221,8 +221,8 @@ task :rcSandboxTests => :displayProperties do
   Rake::Task["rcSandboxDamtTests"].execute
   Rake::Task["rcSandboxDashboardTests"].execute
   Rake::Task["rcSandboxDatabrowserTests"].execute
-  Rake::Task["rcSandboxCleanUpTests"].execute
-  Rake::Task["rcSandboxPurgeTests"].execute
+  # Rake::Task["rcSandboxCleanUpTests"].execute
+  # Rake::Task["rcSandboxPurgeTests"].execute
   display_failure_report
 end
 
