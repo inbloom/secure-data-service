@@ -137,13 +137,17 @@ Then /^under Application Configuration, I see the following: "(.*?)"$/ do |links
 end
 
 Then /^under System Tools, I see the following "(.*?)"$/ do |links|
-  section = @driver.find_element(:id, "column-4")
-  verifyItemsInSections(links, section, "System Tools")
+  values = links.split(';')
+
+  values.each do |link_text|
+    assert(@driver.find_element(:link_text, link_text))
+  end
 end
 
 Then /^under System Tools, I shouldn't see the following "(.*?)"$/ do |links|
-  section = @driver.find_element(:id, "column-4")
-  verifyItemsInSections(links, section, "System Tools", false)
+  values = links.split(';')
+
+  assert(@driver.find_elements(:link_text, values).empty?)
 end
 
 Then /^under My Applications, I see the following apps: "(.*?)"$/ do |apps|
