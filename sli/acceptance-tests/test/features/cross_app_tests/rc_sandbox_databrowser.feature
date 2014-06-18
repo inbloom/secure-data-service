@@ -1,6 +1,7 @@
 @RALLY_US4835
 @rc
 @sandbox
+@wip
 Feature: Data Browser
   As a Data Browser user, I want to be able to traverse all of the data I have access to so that I can investigate/troubleshoot issues as they come up
 
