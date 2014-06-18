@@ -15,7 +15,7 @@
       <tr id='<%= realm.id %>'>
         <td><%= link_to(realm.name, edit_realm_management_path(realm), :id => 'edit_realm') %></td>
         <td><%= realm.uniqueIdentifier %></td>
-        <td class="rowAction">
+        <td class="rowAction" title="<% realm.name %>">
           <%= link_to("Custom Roles", custom_role_path(realm), :class => "btn btn-info") %>&nbsp;
           <%= link_to '<i class="fa fa-trash-o"></i>'.html_safe + '  Delete', realm_management_path(realm), :method => :delete, :remote => true,
                       confirm: 'WARNING: Deleting will prevent any user associated with this realm from authenticating and will reset role mapping. Are you sure?', :class => 'btn btn-danger' %>

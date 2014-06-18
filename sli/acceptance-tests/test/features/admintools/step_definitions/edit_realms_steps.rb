@@ -71,7 +71,7 @@ When /^I click the "(.*?)" edit button$/ do |arg1|
 end
 
 When /^I click the "(.*?)" delete button and confirm deletion$/ do |arg1|
-  realm_row = @driver.find_element(:xpath, "//td[text()='#{arg1}']/..")
+  realm_row = @driver.find_element(:css, "td[title='#{arg1}']")
   realm_row.find_element(:link, "Delete Realm").click
   alert = @driver.switch_to().alert()
   assert(alert.text.index("WARNING: DELETING REALM WILL PREVENT ANY USER ASSOCIATED WITH THIS REALM FROM AUTHENTICATING ON inBloom AND WILL RESET ROLE MAPPING") != nil, "Popup message was not expected")
