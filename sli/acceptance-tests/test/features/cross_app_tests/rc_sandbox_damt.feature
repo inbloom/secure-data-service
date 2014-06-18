@@ -34,12 +34,12 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
     Scenario: Newly created sandbox developer can login and check available admin links
       When I submit the credentials "<DEVELOPER2_SB_EMAIL>" "<DEVELOPER2_SB_EMAIL_PASS>" for the "Simple" login page
       Then I should be on Portal home page
-      And under System Tools, I see the following "Register Application;Create Custom Roles;Create Landing Zone;Change Password;Manage Developer Accounts"
+      And under System Tools, I see the following "Apps;Custom Roles;Landing Zone;Users"
 
     Scenario: Original developer change the role of new developer and confirm admin links
       When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page
       Then I should be on Portal home page
-      And under System Tools, I click on "Manage Developer Accounts"
+      And under System Tools, I click on "Users"
       #These two waits were added by the operator to improve test reliability
       And I wait for "5" seconds
       And I wait for "2" seconds
@@ -67,6 +67,6 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
       And I was redirected to the "Simple" IDP Login page
       When I submit the credentials "<DEVELOPER2_SB_EMAIL>" "<DEVELOPER2_SB_EMAIL_PASS>" for the "Simple" login page
       Then I should be on Portal home page
-      And under System Tools, I see the following "Register Application;Create Custom Roles;Change Password"
+      And under System Tools, I see the following "Apps;Custom Roles"
       #DE2242 causes this step to fail - And under System Tools, I shouldn't see the following "Create Landing Zone;Manage Developer Accounts"
-      And under System Tools, I shouldn't see the following "Manage Developer Accounts"
+      And under System Tools, I shouldn't see the following "Users"
