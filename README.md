@@ -150,6 +150,8 @@ Start Dashboard
 Start Admin Tools
 -----------------
   - `cd $SLI_ROOT/admin-tools/admin-rails`
+  - if you will be running in "Sandbox Mode", add the following environment variable
+  - `export RAILS_ENV=development_sb`
   - `bundle install`
   - `bundle exec rails server`
   - You will see that admin tools are running on port 3001
