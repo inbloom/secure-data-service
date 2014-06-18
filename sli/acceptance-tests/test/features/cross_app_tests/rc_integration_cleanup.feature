@@ -18,7 +18,6 @@ Scenario:  LEA deletes realm
   And under System Tools, I click on "Realm Management"
   Then I see the realms for "IL-DAYBREAK"
   When I click the "Daybreak Test Realm" delete button and confirm deletion
-  Then I see the realms for "IL-DAYBREAK"
 
 #  And I click on log out
 
