@@ -60,9 +60,9 @@ When /^I click on the Add new realm button$/ do
 end
 
 When /^I see the realms for "([^"]*)"$/ do |uid|
-  title = (@driver.find_elements(:xpath, "//html/body/div/h1"))[0].text
+  title = (@driver.find_elements(:xpath, '//h1'))[0].text
   expectedTitle = "Realms for #{uid}"
-  assert(title == expectedTitle, "Page title in body/div/h1 mismatch: got '" + title + "' expected '" + expectedTitle + "'")
+  assert(title == expectedTitle, "Page title in h1 mismatch: got '" + title + "' expected '" + expectedTitle + "'")
 end
 
 When /^I click the "(.*?)" edit button$/ do |arg1|
