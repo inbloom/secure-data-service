@@ -57,14 +57,9 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
       When I click button "Update"
       Then I am redirected to the "Sandbox Account Management" page
       And the "Success" message is displayed
-      And I click on log out
-      Then I should be redirected to the impersonation page
-      When I click on the simple-idp logout link
-      Then I was redirected to the "Simple" IDP Login page
 
-      # Switch account and verify admin links
-      When I navigate to the Portal home page
-      And I was redirected to the "Simple" IDP Login page
+
+    Scenario: Switch account and verify admin links
       When I submit the credentials "<DEVELOPER2_SB_EMAIL>" "<DEVELOPER2_SB_EMAIL_PASS>" for the "Simple" login page
       Then I should be on Portal home page
       And under System Tools, I see the following "Apps;Custom Roles"
