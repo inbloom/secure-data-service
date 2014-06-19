@@ -81,7 +81,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id
 end
 
-Given /^I have configured an SMTP\/Email server$/ do
+Given /^I have configured an Email server$/ do
   @live_email_mode = 'live'
   @email_sender_name= 'Administrator'
   @email_sender_address= 'noreply@slidev.org'
