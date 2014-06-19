@@ -59,7 +59,7 @@ When /^I set my password$/ do
   puts "reset password link = #{reset_password_link}"
   @driver.get(reset_password_link)
 
-  @welcome_email_content = check_local_email({:content_substring => @newly_created_user[:firstname]}) do
+  @welcome_email_content = check_email({:content_substring => @newly_created_user[:firstname]}) do
     @driver.find_element(:id, "new_account_password_new_pass").clear
     @driver.find_element(:id, "new_account_password_new_pass").send_keys NEW_PASSWORD
     @driver.find_element(:id, "new_account_password_confirmation").clear
