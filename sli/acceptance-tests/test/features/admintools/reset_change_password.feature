@@ -1,3 +1,4 @@
+@wip
 Feature: Reset and Change Password
    As a registered developer
    In order to manage my security credentials
