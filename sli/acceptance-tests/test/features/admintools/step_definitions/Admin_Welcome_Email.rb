@@ -42,7 +42,7 @@ Given /^I have a new account with (.*?) in "([^"]*)"$/ do |groups, mode|
 end
 
 When /^I set my password$/ do
-  content = check_local_email({:content_substring => @newly_created_user[:firstname]}) do
+  content = check_email({:content_substring => @newly_created_user[:firstname]}) do
     @driver.get(Property["admintools_server_url"] + "/forgot_passwords")
     @driver.find_element(:id, "user_id").clear
     @driver.find_element(:id, "user_id").send_keys @newly_created_user[:uid]

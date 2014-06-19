@@ -43,12 +43,6 @@ task :userAdminSandboxTests do
 runTests("test/features/sandbox/UserAdmin/User_Admin_Interface.feature")
 end
 
-desc "Run Admin Welcome Email Sandbox Tests"
-task :sandboxAdminWelcomeEmail do
-  @tags ||= ["~wip", "@sandbox"]
-  runTests("test/features/admintools/Admin_Welcome_Email.feature")
-end
-
 ###########################################################
 # Super Admin Management Tools Tests end
 ############################################################

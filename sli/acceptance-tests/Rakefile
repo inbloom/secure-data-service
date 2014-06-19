@@ -949,19 +949,9 @@ task :samtEmailNotificationTests do
 runTests("test/features/sandbox/UserAdmin/samt_email_notification.feature")
 end
 
-desc "Run Admin Welcome Email Production Tests"
-task :adminWelcomeEmail do
-  @tags ||= ["~@wip", "~@sandbox"]
-  runTests("test/features/admintools/Admin_Welcome_Email.feature")
-end
-
 ###########################################################
 # Super Admin Management Tools Tests end
 ############################################################
-
-
-
-
 
 ############################################################
 # User Registration App Tests
