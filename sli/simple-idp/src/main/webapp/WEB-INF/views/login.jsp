@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript"/>
 <title>inBloom Login</title>
 <link rel="icon" type="image/x-icon" href="resources/favicon.ico"/>
-<script type="text/javascript" src="resources/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="resources/jquery-1.11.1.min.js"></script>
 
 <link href="resources/bootstrap.css" rel="stylesheet"/>
 <link href="resources/bootstrap-responsive.min.css" rel="stylesheet"/>

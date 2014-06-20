@@ -14,8 +14,8 @@
     <artifactId>sli</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>SLI</name>
-    <description>Shared Learning Infrastructure</description>
+    <name>ESDS</name>
+    <description>Educational Secure Data Service</description>
 
     <inceptionYear>2012</inceptionYear>
 
@@ -71,7 +71,6 @@
         <maven.source.version>2.2.1</maven.source.version>
         <maven.surefire.version>2.17</maven.surefire.version>
         <maven.tomcat.version>2.2</maven.tomcat.version>
-        <maven.yuicompressor.version>1.4</maven.yuicompressor.version>
         <maven.war.version>2.4</maven.war.version>
         <maven.plugin.codehaus.aspectj.version>1.5</maven.plugin.codehaus.aspectj.version>
         <maven.plugin.codehaus.exec.plugin>1.2.1</maven.plugin.codehaus.exec.plugin>
@@ -82,13 +81,13 @@
 
         <!-- 3rd Party Libraries -->
         <activemq.version>5.7.0</activemq.version>
-        <activemq-ingest.version>5.6.0</activemq-ingest.version>
+        <activemq-ingest.version>5.7.0</activemq-ingest.version>
         <aspectj.version>1.7.3</aspectj.version>
         <aspectjweaver.version>1.7.3</aspectjweaver.version>
-        <camel.version>2.8.1</camel.version>
+        <camel.version>2.9.8</camel.version>
         <cglib.version>2.2.2</cglib.version>
         <easymock.version>3.0</easymock.version> <!-- dashboard -->
-        <ehcache.version>2.6.3</ehcache.version>
+        <ehcache.version>2.6.9</ehcache.version>
         <emma.version>2.1.5320</emma.version>
         <freemarker.version>2.3.14</freemarker.version>
         <google.findbugs.jsr305.version>2.0.1</google.findbugs.jsr305.version>
@@ -97,7 +96,7 @@
         <gson-dashboard.version>2.0</gson-dashboard.version>
         <janino.version>2.5.10</janino.version>
         <java-uuid.version>3.1.3</java-uuid.version>
-        <jboss.netty.verion>3.2.3.Final</jboss.netty.verion>
+        <jboss.netty.verion>3.2.10.Final</jboss.netty.verion>
         <jdom.version>1.1</jdom.version>
         <jdom2.version>2.0.2</jdom2.version>
         <jexl.version>1.1</jexl.version>
@@ -108,7 +107,7 @@
         <opensaml.version>2.6.0</opensaml.version>
         <org.reflections.version>0.9.5</org.reflections.version>
         <oro.version>2.0.8</oro.version>  <!-- verify version -->
-        <scribe.version>1.3.0</scribe.version>
+        <scribe.version>1.3.5</scribe.version>
         <smooks.version>1.5.1</smooks.version>
         <stax.api.version>1.0.1</stax.api.version>
         <velocity.version>1.7</velocity.version>
@@ -118,7 +117,7 @@
 
         <!-- Spring Framework Versions -->
         <bean.validator.version>4.2.0.Final</bean.validator.version>
-        <spring.version>3.2.6.RELEASE</spring.version>
+        <spring.version>3.2.9.RELEASE</spring.version>
         <spring-dashboard.version>3.1.1.RELEASE</spring-dashboard.version>
         <springdata-mongodb-version>1.0.4.RELEASE</springdata-mongodb-version>
         <springdata.version>1.2.1.RELEASE</springdata.version>
@@ -127,7 +126,7 @@
         <spring.security.oath2.version>1.0.0.M5</spring.security.oath2.version>
 
         <!-- MongoDB Java Driver Version -->
-        <mongodb.java.driver.version>2.10.1</mongodb.java.driver.version>
+        <mongodb.java.driver.version>2.12.2</mongodb.java.driver.version>
 
         <!-- Java EE Versions -->
         <javax.validation.version>1.0.0.GA</javax.validation.version>
@@ -141,28 +140,23 @@
         <taglibs.version>1.1.2</taglibs.version>
 
         <!-- Apache Versions -->
-        <avro.version>1.6.1</avro.version>
-        <commons.beanutils.version>1.8.3</commons.beanutils.version>
-        <commons.codec.version>1.6</commons.codec.version>
+        <avro.version>1.7.6</avro.version>
+        <commons.beanutils.version>1.9.2</commons.beanutils.version>
+        <commons.codec.version>1.9</commons.codec.version>
         <commons.collections.version>3.2.1</commons.collections.version>
         <commons.compression.version>1.8.1</commons.compression.version>
         <commons.cli.version>1.2</commons.cli.version>
-        <commons.dbcp.version>20030825.184428</commons.dbcp.version>
         <commons.httpclient.dashboard>3.1</commons.httpclient.dashboard>
         <commons.httpclient>4.1.3</commons.httpclient>   <!-- check all poms for httpclient -->
-        <commons.io.version>2.2</commons.io.version>
-        <commons-lang.version>2.4</commons-lang.version>
+        <commons.io.version>2.4</commons.io.version>
+        <commons-lang.version>2.6</commons-lang.version>
         <commons-lang-dashboard.version>2.6</commons-lang-dashboard.version>
         <commons.lang.version>3.0.1</commons.lang.version>
         <commons.logging.version>1.1.1</commons.logging.version>
-        <commons.pool.version>20030825.183949</commons.pool.version>
         <commons.schema.version>1.4.7</commons.schema.version>
         <commons.validator.version>1.4.0</commons.validator.version>
         <xerces.version>2.4.0</xerces.version>
         <xerces.impl.version>2.10.0</xerces.impl.version>
-
-        <!-- ElasticSearch Versions -->
-        <!-- <elasticsearch.version>0.19.9</elasticsearch.version> -->
 
         <!-- Rest Services (JAX-RS) Framework Versions -->
         <jackson.version>1.9.2</jackson.version>
@@ -389,13 +383,11 @@
         <module>dashboard</module>
         <module>simple-idp</module>
         <module>sif</module>
-        <!-- <module>search-indexer</module> -->
         <module>bulk-extract</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
-            <!-- WGEN dependencies -->
             <dependency>
                 <groupId>org.slc.sli</groupId>
                 <artifactId>client-api</artifactId>
@@ -776,22 +768,6 @@
                 <version>${jackson.version}</version>
             </dependency>
 
-            <!-- Persistence Framework -->
-            <!-- Apache Commons DBCP dependency -->
-            <dependency>
-                <groupId>commons-dbcp</groupId>
-                <artifactId>commons-dbcp</artifactId>
-                <version>${commons.dbcp.version}</version>
-                <scope>compile</scope>
-            </dependency>
-            <!-- Apache Commons Pool dependency -->
-            <dependency>
-                <groupId>commons-pool</groupId>
-                <artifactId>commons-pool</artifactId>
-                <version>${commons.pool.version}</version>
-                <scope>compile</scope>
-            </dependency>
-
             <!-- Testing Framework -->
             <!-- JUnit dependency -->
             <dependency>
@@ -1033,11 +1009,6 @@
                     <artifactId>maven-jetty-plugin</artifactId>
                     <version>${maven.jetty.version}</version>
                 </plugin>
-                <!-- <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jarsigner-plugin</artifactId>
-                    <version>$[maven.jarsigner.version}</version>
-                </plugin> -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
