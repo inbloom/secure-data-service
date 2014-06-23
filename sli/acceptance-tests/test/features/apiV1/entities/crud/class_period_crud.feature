@@ -95,7 +95,6 @@ Feature:
     Then the response status should be 405 Method Not Allowed
 
   # Verify restricted lists
-@wip
   Scenario: An Educator gets the list of class periods for her education organizations
     Given I am logged in as a school-level Educator
     When I GET the list of class periods
