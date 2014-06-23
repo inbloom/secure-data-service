@@ -80,11 +80,11 @@
             <artifactId>spring-data-mongodb</artifactId>
             <version>${springdata-mongodb-version}</version>
         </dependency> -->
-        <!-- <dependency>
+        <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
             <version>${cglib.version}</version>
-        </dependency> -->
+        </dependency>
 
         <!-- Provided dependencies -->
         <dependency>
