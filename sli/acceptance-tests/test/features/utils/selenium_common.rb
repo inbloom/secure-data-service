@@ -53,6 +53,10 @@ When /^I wait for "([^"]*)" seconds$/ do |secs|
   sleep secs.to_i
 end
 
+Given /^I ping Simple IDP$/ do
+  @driver.get Property['simpleIDP_login_url']
+end
+
 When /^I was redirected to the "([^"]*)" IDP Login page$/ do |idpType|
   if idpType=="Simple"
     assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "login_button")}

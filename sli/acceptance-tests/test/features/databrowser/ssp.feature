@@ -2,6 +2,7 @@
 Feature: As a user I want to be able to search for entities by their unique IDs, sort on columns, and page new data
 Background:
 Given I have an open web browser
+Given I ping Simple IDP
 And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
 And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
