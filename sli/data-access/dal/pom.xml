@@ -19,6 +19,7 @@
     </properties>
 
     <dependencies>
+        <!-- Project module dependencies -->
         <dependency>
             <groupId>org.slc.sli.common</groupId>
             <artifactId>sli-common</artifactId>
@@ -32,6 +33,7 @@
             <artifactId>domain</artifactId>
         </dependency>
 
+        <!-- 3rd Party dependencies -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -52,7 +54,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
         </dependency>
-
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
@@ -81,15 +82,11 @@
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
         </dependency>
-
-        <!-- Persistence Framework -->
-        <!-- spring data mongodb dependency -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
             <version>${springdata-mongodb-version}</version>
         </dependency>
-
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
@@ -98,6 +95,7 @@
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>

@@ -18,11 +18,13 @@
     </properties>
 
     <dependencies>
+        <!-- Project module dependencies -->
         <dependency>
             <groupId>org.slc.sli.common</groupId>
             <artifactId>sli-common</artifactId>
         </dependency>
 
+        <!-- 3rd party dependencies -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -36,7 +38,6 @@
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -50,14 +51,9 @@
             <artifactId>spring-beans</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
         </dependency>
-
         <dependency>
             <groupId>stax</groupId>
             <artifactId>stax-api</artifactId>
@@ -81,12 +77,21 @@
             <version>${springdata-mongodb-version}</version>
         </dependency>
 
+        <!-- Provided dependencies -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>${google.findbugs.jsr305.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

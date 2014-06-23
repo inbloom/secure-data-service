@@ -7,7 +7,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <prerequisites>
-        <maven>3.1.0</maven>
+        <maven>3.2.0</maven>
     </prerequisites>
 
     <groupId>org.slc.sli</groupId>
