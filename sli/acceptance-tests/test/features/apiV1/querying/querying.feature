@@ -168,19 +168,6 @@ Scenario Outline: Confirm that API blocks regex against no-context endpoints:
   Examples:
       | username       | password         | endpoint                             |    
 
-@wip
-Scenario Outline: Confirm that API inserts context against some endpoints:
-  Given I am logged in using <username> <password> to realm "IL"
-  And format "application/json;charset=utf-8"
-  When parameter "foo" is "bar"
-  And I navigate to GET <endpoint>
-  Then I should receive a return code of 200
-  And the executed path should not equal the requested <endpoint>
-  Examples:
-      | username       | password         | endpoint                             |
-      | "jstevenson"   | "jstevenson1234" | "/v1/studentCompetencyObjectives"    |
-      | "linda.kim"    | "linda.kim1234"  | "/v1/studentCompetencyObjectives"    |
-    
 Scenario Outline: Confirm that entities that block queries dont block 2+ part URIs from querying
   Given I am logged in using <username> <password> to realm "IL"
   And format "application/json;charset=utf-8"
