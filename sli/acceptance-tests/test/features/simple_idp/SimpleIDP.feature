@@ -4,6 +4,7 @@ Feature: User authenticates against the Simple Sandbox IDP
  
  Background: Realm selector is set up to reflect one sandbox tenancies and database has redirect links
 Given I have an open web browser
+Given I ping Simple IDP
 
 Scenario: Use Sandbox IDP to log in as different users
   Given I navigate to databrowser home page

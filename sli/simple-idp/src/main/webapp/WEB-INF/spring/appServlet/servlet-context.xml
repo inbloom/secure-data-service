@@ -17,6 +17,10 @@
       directory -->
     <resources mapping="/resources/**" location="/resources/"/>
 
+    <context:component-scan base-package="org.slc.sli"/>
+
+    <context:annotation-config/>
+
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <beans:property name="prefix" value="/WEB-INF/views/"/>
@@ -27,8 +31,7 @@
     <beans:import resource="classpath:/spring/db.xml"/>
     <beans:import resource="classpath:/spring/validation.xml"/>
 
-    <beans:bean class="org.slc.sli.sandbox.idp.aspect.LoggerCarrierAspect"
-                factory-method="aspectOf">
+    <beans:bean class="org.slc.sli.sandbox.idp.aspect.LoggerCarrierAspect" factory-method="aspectOf">
     </beans:bean>
 
     <beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
@@ -39,6 +42,4 @@
         </beans:property>
     </beans:bean>
 
-    <context:component-scan base-package="org.slc.sli"/>
-    <context:annotation-config/>
 </beans:beans>
