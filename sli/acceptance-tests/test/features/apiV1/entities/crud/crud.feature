@@ -8,14 +8,12 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       And I want to use format "application/vnd.slc+json"
 
 #2014-05-27 DS-1490
-@wip
   Scenario: Search on fields with insufficient rights returns bad request
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     When I navigate to GET "/v1/students/0c2756fd-6a30-4010-af79-488d6ef2735a_id?economicDisadvantaged=false"
     Then I should receive a return code of 400
 
 #2014-05-27 DS-1490
-@wip
   Scenario: Search on inaccessible entities with fields returns access denied
     Given I am logged in using "jvasquez" "jvasquez" to realm "IL"
     When I navigate to GET "/v1/students/414106a9-6156-1023-a477-4bd4dda7e21a_id"
@@ -198,7 +196,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     | "parent"    | "parents"           | "studentParentAssociation" | "parentUniqueStateId" | "ParentID102" |
 
 
-@wip
   Scenario Outline: Get All Entities as School Teacher
 
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
@@ -219,21 +216,21 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
   Examples:
     | Entity Type                  | Entity Resource URI           | Count | Rewrite URI                                                                          |
-    | "assessment"                 | "assessments"                 | 18    | /search/assessments                                                                  |
+    | "assessment"                 | "assessments"                 | 18    | /assessments                                                                  |
     | "attendance"                 | "attendances"                 | 4     | /sections/@ids/studentSectionAssociations/students/attendances                       |
     | "cohort"                     | "cohorts"                     | 4     | /staff/@ids/staffCohortAssociations/cohorts                                          |
-    | "course"                     | "courses"                     | 92    | /search/courses                                                                      |
+    | "course"                     | "courses"                     | 92    | /courses                                                                      |
     | "disciplineAction"           | "disciplineActions"           | 0     | /staff/@ids/disciplineActions                                                        |
     | "disciplineIncident"         | "disciplineIncidents"         | 0     | /staff/@ids/disciplineIncidents                                                      |
-    | "educationOrganization"      | "educationOrganizations"      | 2     | /teachers/@ids/teacherSchoolAssociations/schools                                     |
+#    | "educationOrganization"      | "educationOrganizations"      | 2     | /teachers/@ids/teacherSchoolAssociations/schools                                     |
     | "gradebookEntry"             | "gradebookEntries"            | 3     | /sections/@ids/gradebookEntries                                                      |
-    | "learningObjective"          | "learningObjectives"          | 5     | /search/learningObjectives                                                           |
-    | "learningStandard"           | "learningStandards"           | 14    | /search/learningStandards                                                            |
+    | "learningObjective"          | "learningObjectives"          | 5     | /learningObjectives                                                           |
+    | "learningStandard"           | "learningStandards"           | 14    | /learningStandards                                                            |
     | "parent"                     | "parents"                     | 3     | /sections/@ids/studentSectionAssociations/students/studentParentAssociations/parents |
     | "program"                    | "programs"                    | 1     | /staff/@ids/staffProgramAssociations/programs                                        |
-    | "educationOrganization"      | "schools"                     | 2     | /teachers/@ids/teacherSchoolAssociations/schools                                     |
+#    | "educationOrganization"      | "schools"                     | 2     | /teachers/@ids/teacherSchoolAssociations/schools                                     |
     | "section"                    | "sections"                    | 2     | /teachers/@ids/teacherSectionAssociations/sections                                   |
-    | "session"                    | "sessions"                    | 29    | /search/sessions                                                                     |
+    | "session"                    | "sessions"                    | 29    | /sessions                                                                     |
     | "staff"                      | "staff"                       | 6     | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff           |
     | "student"                    | "students"                    | 25    | /sections/@ids/studentSectionAssociations/students                                   |
     | "studentAcademicRecord"      | "studentAcademicRecords"      | 2     | /sections/@ids/studentSectionAssociations/students/studentAcademicRecords            |
@@ -241,13 +238,13 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     | "teacher"                    | "teachers"                    | 3     | /schools/@ids/teacherSchoolAssociations/teachers                                     |
     | "grade"                      | "grades"                      | 1     | /sections/@ids/studentSectionAssociations/grades                                     |
     | "studentCompetency"          | "studentCompetencies"         | 2     | /sections/@ids/studentSectionAssociations/studentCompetencies                        |
-    | "gradingPeriod"              | "gradingPeriods"              | 3     | /search/gradingPeriods                                                               |
+    | "gradingPeriod"              | "gradingPeriods"              | 3     | /gradingPeriods                                                               |
     | "reportCard"                 | "reportCards"                 | 3     | /sections/@ids/studentSectionAssociations/students/reportCards                       |
 
     #ds-917: list endpoint for public data no longer shows entities from edorgs not directly associated with the user
     #these entities can still be read by accessing them by id.
     #| "studentCompetencyObjective" | "studentCompetencyObjectives" | 1     | /search/studentCompetencyObjectives                                                  |
-@wip
+
   Scenario: Invalid data parsing fails gracefully
     When I navigate to GET "/v1/staffEducationOrgAssignmentAssociations?endDate=blah"
     Then I should receive a return code of 400

@@ -803,7 +803,7 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
   }
   type.should_not be_empty, 'No association type was specified'
 
-  step "I navigate to POST \"/v1/#{assoc_url[type]}\""
+  step %Q{I navigate to POST "/v1/#{assoc_url[type]}"}
   headers = @res.raw_headers
   headers['location'].should_not be_nil, 'There is no location link'
   link = headers['location'][0]
