@@ -49,7 +49,6 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
 #    | teacherSectionAssociations              | 2010-2011    | 1                   | 0                |                                                                                |
     | teachers                                | 2010-2011    | 1                   | 1                | rbraverman                                                                     |
 
-@wip
   Scenario Outline: All data is returned within a specific school year range - teacher
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     And parameter "limit" is "0"
@@ -74,7 +73,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | gradebookEntries                        | 2010-2011    | 3                   | 0                |                                                                                |
     | grades                                  | 2010-2011    | 0                   | 0                |                                                                                |
     | gradingPeriods                          | 2010-2011    | 3                   | 0                |                                                                                |
-    | programs                                | 2010-2011    | 0                   | 0                |                                                                                |
+#    | programs                                | 2010-2011    | 0                   | 0                |                                                                                |
 #    | reportCards                             | 2009-2010    | 1                   | 0                |                                                                                |
 #    | sections                                | 2010-2011    | 4                   | 2                | Science 7A - Sec 5f10,8th Grade English - Sec 6                                |
     | sessions                                | 2010-2011    | 29                   | 8                | <LIST-SESSION-LINDAKIM>                                                        |
