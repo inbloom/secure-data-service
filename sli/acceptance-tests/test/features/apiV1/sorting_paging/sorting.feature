@@ -246,8 +246,7 @@ Scenario: Confirm negative offset is blocked by API
     And I navigate to GET "/v1/schools"
    Then I should receive a return code of 400
 
-@wip
-Scenario: Sorting Collections routed to Elastic Search
+Scenario: Sorting Collections
   Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And format "application/json"
     And parameter "sortBy" is "academicSubject"
