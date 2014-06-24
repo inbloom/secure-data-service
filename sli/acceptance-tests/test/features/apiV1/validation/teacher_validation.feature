@@ -157,7 +157,7 @@ Scenario: Given a known school object, perform a PUT with a base school object t
     When I navigate to GET "/v1/sections/<'Invalid Section' ID>/studentSectionAssociations/students"
     Then I should receive a return code of 404
 
-  @wip @DE1876
+  @DE1876
   Scenario: Given a valid JSON document for a staff, when I POST it multiple times I should only find one record
     Given format "application/json"
     And a valid json document for staff
@@ -167,7 +167,7 @@ Scenario: Given a known school object, perform a PUT with a base school object t
     When I navigate to POST "/v1/staff"
     Then I should receive a return code of 409
 
-  @wip @DE1876
+  @DE1876
   Scenario: Given a valid JSON document for a teacher, when I POST it multiple times I should only find one record
     Given format "application/json"
     And a valid json document for teacher
