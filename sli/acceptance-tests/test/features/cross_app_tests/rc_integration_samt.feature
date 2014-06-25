@@ -6,6 +6,7 @@ Feature:  RC Integration SAMT Tests
     Given I have an open web browser
 
   Scenario: SLC Operator logs into SAMT and creates SEA Administrator for tenant "RCTestTenant". SEA Administrator then completes the user creation flow.
+    Given I ping Simple IDP
     When I navigate to the Portal home page
     When I see the realm selector I authenticate to "inBloom"
     And I was redirected to the "Simple" IDP Login page
