@@ -20,8 +20,8 @@ Feature: Tailored welcome email, user is able to log in
     |LEA Administrator, Ingestion User     |(LEA or SEA) and Ingestion    |
     |SEA Administrator, Realm Administrator|(LEA or SEA) and Realm Admin  |
     |SEA Administrator, Ingestion User     |(LEA or SEA) and Ingestion    |
-    |Ingestion User                        |Ingestion only                |
-    |Realm Administrator                   |Realm Admin only              |
+#    |Ingestion User                        |Ingestion only                |
+#    |Realm Administrator                   |Realm Admin only              |
 
   @sandbox
   Scenario Outline: When I set my password on sandbox account, I get a welcome email and I am able to log in

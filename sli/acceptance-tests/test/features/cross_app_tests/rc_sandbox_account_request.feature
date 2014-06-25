@@ -5,6 +5,7 @@ Feature: User requests for a developer account in sandbox environments
 Background:
   Given I have an open web browser
   And I am running in Sandbox mode
+  And I ping Simple IDP
 
 Scenario: As an app developer I request a sandbox account and  I want to verify my registration email
   Given there is not a user with an email address of "<DEVELOPER_SB_EMAIL>"
