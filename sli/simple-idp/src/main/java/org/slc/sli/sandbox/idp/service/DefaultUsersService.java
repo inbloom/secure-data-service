@@ -56,7 +56,12 @@ public class DefaultUsersService {
     }
 
     @PostConstruct
-    public void initDatasets(){
+    public void postConstruct() {
+        initDatasets();
+        initUserLists();
+    }
+
+    void initDatasets(){
         datasets = new ArrayList<Dataset>();
         if (datasetList != null) {
             String[] values = datasetList.split(",");
@@ -67,8 +72,7 @@ public class DefaultUsersService {
         }
     }
 
-    @PostConstruct
-    public void initUserLists(){
+    void initUserLists(){
         userLists = new HashMap<String, List<DefaultUser>>();
         if (datasetList != null) {
             for (Dataset dataset : datasets) {
