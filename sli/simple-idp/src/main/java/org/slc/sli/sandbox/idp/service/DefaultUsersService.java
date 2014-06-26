@@ -38,7 +38,7 @@ import org.springframework.stereotype.Component;
  * Returns list of the default users
  */
 @Component
-public class DefaultUsersService {
+public class DefaultUsersService { // gah!
     private static final Logger LOG = LoggerFactory.getLogger(DefaultUsersService.class);
 
     @Value("${sli.simple-idp.sandbox.users}")
