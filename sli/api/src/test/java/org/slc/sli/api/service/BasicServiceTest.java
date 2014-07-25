@@ -21,6 +21,7 @@ import junit.framework.Assert;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -1169,4 +1170,11 @@ public class BasicServiceTest {
         SecurityContextHolder.setContext(prevSecurityContext);
     }
 
+    @After
+    public void teardown() {
+        // run this after every test, not just at the end
+        // TODO - may want to eliminate the reset() function (above) entirely.
+        SecurityUtil.setUserContext(prevUserContext);
+        SecurityContextHolder.setContext(prevSecurityContext);
+    }
 }
