@@ -146,7 +146,7 @@ Feature: Use the APi to successfully patch student data while having roles over 
 
     When I navigate to PATCH "<bert.jakeman URI>"
     Then I should receive a return code of 403
-
+  @wip
   Scenario: Staff with restricted write right in one school can patch restricted student data in one school
     Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
     And I change the custom role of "Leader" to remove the "WRITE_GENERAL" right
