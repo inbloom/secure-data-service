@@ -343,7 +343,7 @@ task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinConte
   #runTests("test/features/apiV1/contextual_roles/student_gets.feature")
   #runTests("test/features/apiV1/contextual_roles/student_patch.feature")
   runTests("test/features/apiV1/contextual_roles/student_post.feature")
-  runTests("test/features/apiV1/contextual_roles/student_put.feature")
+  #runTests("test/features/apiV1/contextual_roles/student_put.feature")
   set_fixture 'calendarDate', 'Midgar_data/calendarDate_fixture.json'
   set_fixtures %w(staff educationOrganization)
   set_fixture 'staffEducationOrganizationAssociation',  'staffEducationOrganizationAssociation_fixture_contextual_roles.json'
