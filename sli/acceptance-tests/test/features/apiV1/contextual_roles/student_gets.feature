@@ -46,6 +46,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     | linda.kim   | <nate.dedrick URI>      | should not             |
     | linda.kim   | <mu.mcneill URI>        | should not             |
 
+  @wip
   Scenario: Staff with multiple roles in edOrg hierarchy
     Given the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
