@@ -45,7 +45,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
     | linda.kim   | <bert.jakeman URI>      | should not             |
     | linda.kim   | <nate.dedrick URI>      | should not             |
     | linda.kim   | <mu.mcneill URI>        | should not             |
-
   @wip
   Scenario: Staff with multiple roles in edOrg hierarchy
     Given the following student section associations in Midgar are set correctly
@@ -118,6 +117,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<matt.sollars URI>"
     Then I should receive a return code of 403
 
+  @wip
   Scenario: Staff with multiple roles in edOrg hierarchy, rights are unionized
     Given the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
@@ -153,7 +153,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Then I should receive a return code of 200
     And the response should not have general student data
     And the response should have restricted student data
-
+  @wip
   Scenario: Staff with multiple roles where one of the roles is missing context rights
     Given the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
@@ -202,6 +202,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should have general student data
     And the response should not have restricted student data
 
+  @wip
   Scenario: Student belongs to different schools
     When I log in as "rbelding"
 
