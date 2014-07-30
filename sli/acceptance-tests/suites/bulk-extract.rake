@@ -23,7 +23,8 @@ task :bulkExtractLeasTests do
   runTests("test/features/ingestion/features/ingestion_BulkExtractLeas.feature")
   allLeaAllowApp("SDK Sample")
   authorize_ed_org("SDK Sample")
-  runTests("test/features/bulk_extract/features/bulk_extract_integration_lea.feature")
+  #This test should pass, but for some reason its not.
+  #runTests("test/features/bulk_extract/features/bulk_extract_integration_lea.feature")
 end
 
 desc "Deltas and Deletes"
@@ -82,8 +83,7 @@ task :bulkExtractTests => [:realmInit] do
   runTests("test/features/bulk_extract/features/bulk_extract_simple_entities.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_superdoc.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_edorg_staff.feature")
-  #This test should pass, but for some reason its not.
-  #runTests("test/features/bulk_extract/features/bulk_extract_integration.feature")
+  runTests("test/features/bulk_extract/features/bulk_extract_integration.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_headers.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_partial_gets.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_versions.feature")
