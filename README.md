@@ -3,7 +3,7 @@ Summary
 
 This is the ESDS and databrowser. All of the projects are Maven driven with the exception of admin-tools and databrowser. Those are both Rails applications. This project runs on Java 7 and Maven 3. For Ruby, version 2.0.0 is the recommended version.
 
-*Note - These instructions were written using Ubuntu 12.04 and above.
+*Note - These instructions were written using Ubuntu 12.04 & above.
 
 Prerequisites
 =============
