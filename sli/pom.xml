@@ -144,7 +144,7 @@
         <avro.version>1.6.1</avro.version>
         <commons.beanutils.version>1.8.3</commons.beanutils.version>
         <commons.codec.version>1.6</commons.codec.version>
-        <commons.collections.version>3.2.1</commons.collections.version>
+        <commons.collections.version>3.2.2</commons.collections.version>
         <commons.compression.version>1.8.1</commons.compression.version>
         <commons.cli.version>1.2</commons.cli.version>
         <commons.dbcp.version>20030825.184428</commons.dbcp.version>
