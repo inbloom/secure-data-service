@@ -23,7 +23,7 @@
 	<commons.codec.version>1.6</commons.codec.version>
 	<commons.schema.version>1.4.7</commons.schema.version>
     <commons.beanutils.version>1.8.3</commons.beanutils.version>
-    <commons.collections.version>3.2.1</commons.collections.version>
+    <commons.collections.version>3.2.2</commons.collections.version>
   </properties>
 
 	<repositories>
